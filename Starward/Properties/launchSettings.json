@@ -1,9 +1,6 @@
 ﻿{
   "profiles": {
-    "Starward (Package)": {
-      "commandName": "MsixPackage"
-    },
-    "Starward (Unpackaged)": {
+    "Starward": {
       "commandName": "Project"
     }
   }
