@@ -27,8 +27,6 @@ internal class GameService
     private const string AppLastUserId = "App_LastUserID_h2841727341";
     private const string GraphicsSetting = "GraphicsSettings_Model_h2986158309";
 
-    private const string QueryNameByHash = "SELECT Name FROM GameAccount WHERE SHA256 = @SHA256 LIMIT 1;";
-
 
 
 
@@ -109,6 +107,10 @@ internal class GameService
 
     public static void SaveGameAccount(GameAccount account)
     {
+        if (string.IsNullOrWhiteSpace(account.Name))
+        {
+            return;
+        }
         using var dapper = DatabaseService.Instance.CreateConnection();
         dapper.Execute("INSERT OR REPLACE INTO GameAccount (SHA256, Uid, Name, Server, Value, Time) VALUES (@SHA256, @Uid, @Name, @Server, @Value, @Time);", account);
     }

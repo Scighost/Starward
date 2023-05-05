@@ -229,7 +229,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock>
-                                    <Run Text="{Binding Name, TargetNullValue=???, FallbackValue=???}" />
+                                    <Run Text="{Binding Name}" />
                                     <Run Text="" />
                                     <Run FontSize="12"
                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -290,7 +290,9 @@
                                             Command="{x:Bind SaveGameAccountCommand}"
                                             CornerRadius="20,0,0,20">
                                         <StackPanel Orientation="Horizontal" Spacing="12">
-                                            <FontIcon FontSize="16" Glyph="&#xE105;" />
+                                            <FontIcon Name="FontIcon_SaveGameAccount"
+                                                      FontSize="16"
+                                                      Glyph="&#xE105;" />
                                             <TextBlock Text="Save" />
                                         </StackPanel>
                                     </Button>

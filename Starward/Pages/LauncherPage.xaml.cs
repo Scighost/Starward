@@ -281,7 +281,7 @@ public sealed partial class LauncherPage : Page
 
 
     [RelayCommand]
-    private void SaveGameAccount()
+    private async Task SaveGameAccountAsync()
     {
         try
         {
@@ -289,6 +289,9 @@ public sealed partial class LauncherPage : Page
             {
                 SelectGameAccount.Time = DateTime.Now;
                 GameService.SaveGameAccount(SelectGameAccount);
+                FontIcon_SaveGameAccount.Glyph = "\uE10B";
+                await Task.Delay(3000);
+                FontIcon_SaveGameAccount.Glyph = "\uE105";
             }
         }
         catch (Exception ex)
