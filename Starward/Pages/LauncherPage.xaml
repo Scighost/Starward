@@ -30,13 +30,13 @@
               Width="432"
               Margin="40,240,0,0"
               HorizontalAlignment="Left"
+              IsHitTestVisible="False"
+              Opacity="0"
               RowSpacing="24"
               Visibility="Collapsed">
-            <Grid.Transitions>
-                <TransitionCollection>
-                    <EntranceThemeTransition />
-                </TransitionCollection>
-            </Grid.Transitions>
+            <Grid.OpacityTransition>
+                <ScalarTransition />
+            </Grid.OpacityTransition>
             <Grid.RowDefinitions>
                 <RowDefinition Height="200" />
                 <RowDefinition Height="140" />
@@ -98,32 +98,34 @@
                     <Pivot.ItemTemplate>
                         <DataTemplate>
                             <PivotItem Margin="12,0,12,0">
-                                <ItemsRepeater ItemsSource="{Binding List}">
-                                    <ItemsRepeater.Layout>
-                                        <StackLayout Spacing="8" />
-                                    </ItemsRepeater.Layout>
-                                    <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid ColumnSpacing="16">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock VerticalAlignment="Center" TextTrimming="WordEllipsis">
-                                                    <Hyperlink Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                                               NavigateUri="{Binding Url}"
-                                                               UnderlineStyle="None">
-                                                        <Run Text="{Binding Title}" />
-                                                    </Hyperlink>
-                                                </TextBlock>
-                                                <TextBlock Grid.Column="1"
-                                                           VerticalAlignment="Center"
-                                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                           Text="{Binding ShowTime}" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
+                                    <ItemsRepeater ItemsSource="{Binding List}">
+                                        <ItemsRepeater.Layout>
+                                            <StackLayout Spacing="8" />
+                                        </ItemsRepeater.Layout>
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid ColumnSpacing="16">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock VerticalAlignment="Center" TextTrimming="WordEllipsis">
+                                                        <Hyperlink Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                                                   NavigateUri="{Binding Url}"
+                                                                   UnderlineStyle="None">
+                                                            <Run Text="{Binding Title}" />
+                                                        </Hyperlink>
+                                                    </TextBlock>
+                                                    <TextBlock Grid.Column="1"
+                                                               VerticalAlignment="Center"
+                                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                               Text="{Binding ShowTime}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                </ScrollViewer>
                             </PivotItem>
                         </DataTemplate>
                     </Pivot.ItemTemplate>
@@ -183,6 +185,10 @@
                             <TextBox Text="{x:Bind StartGameArgument, Mode=TwoWay}" />
                             <TextBlock Margin="0,8,0,0" Text="Target FPS" />
                             <NumberBox Value="{x:Bind TargetFPS, Mode=TwoWay}" />
+                            <TextBlock Margin="0,8,0,0" Text="Others" />
+                            <ToggleSwitch IsOn="{x:Bind EnableBannerAndPost, Mode=TwoWay}"
+                                          OffContent="Show Game Announcement"
+                                          OnContent="Show Game Announcement" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>

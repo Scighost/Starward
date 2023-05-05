@@ -96,6 +96,13 @@ internal abstract class AppConfig
     }
 
 
+    public static bool EnableBannerAndPost
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
+
     public static int LastSelectAccountServerIndex
     {
         get => GetValue<int>();

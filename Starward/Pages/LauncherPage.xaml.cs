@@ -101,6 +101,16 @@ public sealed partial class LauncherPage : Page
 
 
     [ObservableProperty]
+    private bool enableBannerAndPost = AppConfig.EnableBannerAndPost;
+    partial void OnEnableBannerAndPostChanged(bool value)
+    {
+        Grid_BannerAndPost.Opacity = value ? 1 : 0;
+        Grid_BannerAndPost.IsHitTestVisible = value;
+        AppConfig.EnableBannerAndPost = value;
+    }
+
+
+    [ObservableProperty]
     private GameAccount? selectGameAccount;
     partial void OnSelectGameAccountChanged(GameAccount? value)
     {
@@ -183,6 +193,11 @@ public sealed partial class LauncherPage : Page
             BannerList = content.Banner;
             LauncherPostGroupList = content.Post.GroupBy(x => x.Type).OrderBy(x => x.Key).Select(x => new LauncherPostGroup(x.Key.ToDescription(), x)).ToList();
             Grid_BannerAndPost.Visibility = Visibility.Visible;
+            if (EnableBannerAndPost)
+            {
+                Grid_BannerAndPost.Opacity = 1;
+                Grid_BannerAndPost.IsHitTestVisible = true;
+            }
 
             var url = content.BackgroundImage?.Background;
             if (!string.IsNullOrWhiteSpace(url))
