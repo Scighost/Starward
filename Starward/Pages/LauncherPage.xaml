@@ -1,0 +1,319 @@
+﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<Page x:Class="Starward.Pages.LauncherPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:av="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      xmlns:local="using:Starward.Pages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:sc="using:Starward.Controls"
+      x:DefaultBindMode="OneWay"
+      Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <ThemeShadow x:Key="ThemeShadow" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+
+        <!--  Banner & Post  -->
+        <Grid Name="Grid_BannerAndPost"
+              Width="432"
+              Margin="40,240,0,0"
+              HorizontalAlignment="Left"
+              RowSpacing="24"
+              Visibility="Collapsed">
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition />
+                </TransitionCollection>
+            </Grid.Transitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200" />
+                <RowDefinition Height="140" />
+            </Grid.RowDefinitions>
+            <!--  Banner  -->
+            <FlipView Name="FlipView_Banner"
+                      CornerRadius="8"
+                      ItemsSource="{x:Bind BannerList}"
+                      PointerEntered="FlipView_Banner_PointerEntered"
+                      PointerExited="FlipView_Banner_PointerExited"
+                      Shadow="{StaticResource ThemeShadow}"
+                      Translation="0,0,8">
+                <FlipView.ItemTemplate>
+                    <DataTemplate>
+                        <sc:CachedImage Name="Image_Banner"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        IsRightTapEnabled="False"
+                                        Source="{Binding Img}"
+                                        Stretch="UniformToFill"
+                                        Tapped="Image_Banner_Tapped"
+                                        ToolTipService.ToolTip="{Binding Url}" />
+                    </DataTemplate>
+                </FlipView.ItemTemplate>
+            </FlipView>
+            <Border Padding="16,4,16,4"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Background="{ThemeResource CustomAcrylicBrush}"
+                    CornerRadius="16,0,8,0">
+                <PipsPager Name="PipsPager_Banner"
+                           NumberOfPages="{x:Bind BannerList.Count}"
+                           SelectedPageIndex="{x:Bind FlipView_Banner.SelectedIndex, Mode=TwoWay}" />
+            </Border>
+
+            <!--  Post  -->
+            <Border Grid.Row="1"
+                    Background="{ThemeResource CustomAcrylicBrush}"
+                    CornerRadius="8"
+                    Shadow="{StaticResource ThemeShadow}"
+                    Translation="0,0,8">
+
+                <Pivot ItemsSource="{x:Bind LauncherPostGroupList}">
+                    <Pivot.Resources>
+                        <Thickness x:Key="PivotItemMargin">0,8,0,0</Thickness>
+                        <Thickness x:Key="PivotHeaderItemMargin">12,0,12,0</Thickness>
+                        <Style BasedOn="{StaticResource DefaultPivotHeaderItemStyle}" TargetType="PivotHeaderItem">
+                            <Setter Property="Height" Value="36" />
+                            <Setter Property="FontSize" Value="16" />
+                        </Style>
+                    </Pivot.Resources>
+                    <Pivot.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontSize="16"
+                                       FontWeight="Bold"
+                                       Text="{Binding Header}" />
+                        </DataTemplate>
+                    </Pivot.HeaderTemplate>
+                    <Pivot.ItemTemplate>
+                        <DataTemplate>
+                            <PivotItem Margin="12,0,12,0">
+                                <ItemsRepeater ItemsSource="{Binding List}">
+                                    <ItemsRepeater.Layout>
+                                        <StackLayout Spacing="8" />
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnSpacing="16">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock VerticalAlignment="Center" TextTrimming="WordEllipsis">
+                                                    <Hyperlink Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                                               NavigateUri="{Binding Url}"
+                                                               UnderlineStyle="None">
+                                                        <Run Text="{Binding Title}" />
+                                                    </Hyperlink>
+                                                </TextBlock>
+                                                <TextBlock Grid.Column="1"
+                                                           VerticalAlignment="Center"
+                                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                           Text="{Binding ShowTime}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </PivotItem>
+                        </DataTemplate>
+                    </Pivot.ItemTemplate>
+                </Pivot>
+            </Border>
+
+        </Grid>
+
+
+        <!--  Start Game  -->
+        <Grid Margin="40"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Bottom"
+              Background="{ThemeResource CustomAcrylicBrush}"
+              CornerRadius="20"
+              Shadow="{StaticResource ThemeShadow}"
+              Translation="0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <!--  Start Game  -->
+            <Button Width="240"
+                    Height="40"
+                    HorizontalAlignment="Stretch"
+                    Command="{x:Bind StartGameCommand}"
+                    Content="Start Game"
+                    CornerRadius="20,0,0,20"
+                    FontSize="16"
+                    FontWeight="SemiBold" />
+            <Button Grid.Column="1"
+                    Height="40"
+                    CornerRadius="0,20,20,0">
+                <Button.Content>
+                    <AnimatedIcon Width="20" Height="20">
+                        <AnimatedIcon.Source>
+                            <av:AnimatedSettingsVisualSource />
+                        </AnimatedIcon.Source>
+                        <AnimatedIcon.FallbackIconSource>
+                            <FontIconSource Glyph="&#xE115;" />
+                        </AnimatedIcon.FallbackIconSource>
+                    </AnimatedIcon>
+                </Button.Content>
+                <Button.Flyout>
+                    <Flyout>
+                        <!--  Game Setting  -->
+                        <StackPanel MinWidth="200" Spacing="4">
+                            <TextBlock FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Text="Game Setting" />
+                            <TextBlock Margin="0,8,0,0" Text="Server" />
+                            <labs:Segmented SelectedIndex="{x:Bind SelectGameServerIndex, Mode=TwoWay}">
+                                <labs:SegmentedItem Width="100" Content="CN" />
+                                <labs:SegmentedItem Width="100" Content="OS" />
+                            </labs:Segmented>
+                            <TextBlock Margin="0,8,0,0" Text="Start Argument" />
+                            <TextBox Text="{x:Bind StartGameArgument, Mode=TwoWay}" />
+                            <TextBlock Margin="0,8,0,0" Text="Target FPS" />
+                            <NumberBox Value="{x:Bind TargetFPS, Mode=TwoWay}" />
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+
+
+        <!--  Account  -->
+        <StackPanel Height="40"
+                    Margin="40"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal"
+                    Spacing="16">
+
+            <Grid Background="{ThemeResource CustomAcrylicBrush}"
+                  CornerRadius="20"
+                  Shadow="{StaticResource ThemeShadow}"
+                  Translation="0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ComboBox Name="ComboBox_GameServer"
+                          Height="40"
+                          MinWidth="80"
+                          CornerRadius="20,0,0,20"
+                          SelectedIndex="{x:Bind SelectAccountServerIndex, Mode=TwoWay}">
+                    <ComboBoxItem Content="CN" />
+                    <ComboBoxItem Content="OS" />
+                </ComboBox>
+                <ComboBox Name="ComboBox_GameAccount"
+                          Grid.Column="1"
+                          Height="40"
+                          MinWidth="200"
+                          CornerRadius="0,20,20,0"
+                          ItemsSource="{x:Bind GameAccountList}"
+                          SelectedItem="{x:Bind SelectGameAccount, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock>
+                                    <Run Text="{Binding Name, TargetNullValue=???, FallbackValue=???}" />
+                                    <Run Text="" />
+                                    <Run FontSize="12"
+                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                         Text="{Binding Uid}" />
+                                </TextBlock>
+                                <FontIcon Grid.Column="1"
+                                          VerticalAlignment="Center"
+                                          FontSize="14"
+                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                          Glyph="&#xE930;"
+                                          ToolTipService.ToolTip="Current Account"
+                                          Visibility="{Binding IsLogin}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+
+
+            <Grid Background="{ThemeResource CustomAcrylicBrush}"
+                  CornerRadius="20"
+                  Shadow="{StaticResource ThemeShadow}"
+                  Translation="0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Height="40"
+                        Command="{x:Bind ChangeGameAccountCommand}"
+                        Content="Change Account"
+                        CornerRadius="20,0,0,20" />
+                <Button Grid.Column="1"
+                        Height="40"
+                        Content="&#xE104;"
+                        CornerRadius="0,20,20,0"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        IsEnabled="{x:Bind SelectGameAccount, Converter={StaticResource ObjectToBoolConverter}}">
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel MinWidth="200" Spacing="4">
+                                <TextBlock FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Text="Account Property" />
+                                <TextBlock Margin="0,8,0,0" Text="Name" />
+                                <TextBox Text="{x:Bind SelectGameAccount.Name, Mode=TwoWay}" />
+                                <TextBlock Margin="0,8,0,0" Text="Uid" />
+                                <TextBox Text="{x:Bind SelectGameAccount.Uid, Mode=TwoWay}" />
+                                <Grid Margin="0,16,0,0"
+                                      HorizontalAlignment="Left"
+                                      Background="{ThemeResource CustomAcrylicBrush}"
+                                      CornerRadius="20">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Width="100"
+                                            Height="40"
+                                            Command="{x:Bind SaveGameAccountCommand}"
+                                            CornerRadius="20,0,0,20">
+                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                            <FontIcon FontSize="16" Glyph="&#xE105;" />
+                                            <TextBlock Text="Save" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Grid.Column="1"
+                                            Width="100"
+                                            Height="40"
+                                            Command="{x:Bind DeleteGameAccountCommand}"
+                                            CornerRadius="0,20,20,0">
+                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                            <TextBlock Text="Delete" />
+                                            <FontIcon FontSize="16" Glyph="&#xE107;" />
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+
+        </StackPanel>
+
+
+
+    </Grid>
+</Page>

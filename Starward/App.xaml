@@ -1,0 +1,33 @@
+﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<Application x:Class="Starward.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:Starward"
+             xmlns:sct="using:Starward.Controls"
+             xmlns:scv="using:Starward.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ConverterResource xmlns="using:Scighost.WinUILib.Converters" />
+
+                <ResourceDictionary Source="Themes/CachedImageStyle.xaml" />
+
+                <!--  Other merged dictionaries here  -->
+            </ResourceDictionary.MergedDictionaries>
+            <!--  Other app resources here  -->
+
+
+            <scv:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
+
+            <AcrylicBrush x:Key="CustomAcrylicBrush"
+                          FallbackColor="{ThemeResource ControlOnImageFillColorDefault}"
+                          TintColor="{ThemeResource ControlOnImageFillColorDefault}"
+                          TintOpacity="0.4" />
+
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
