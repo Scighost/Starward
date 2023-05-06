@@ -55,17 +55,17 @@ public sealed partial class LauncherPage : Page
 
 
     [ObservableProperty]
-    private int selectGameServerIndex = AppConfig.LastSelectGameServerIndex;
-    partial void OnSelectGameServerIndexChanged(int value)
+    private int gameServerIndex = AppConfig.GameServerIndex;
+    partial void OnGameServerIndexChanged(int value)
     {
-        AppConfig.LastSelectGameServerIndex = value;
+        AppConfig.GameServerIndex = value;
+        _ = GetLauncherContentAsync();
     }
 
     [ObservableProperty]
-    private int selectAccountServerIndex = AppConfig.LastSelectAccountServerIndex;
-    partial void OnSelectAccountServerIndexChanged(int value)
+    private int accountServerIndex = AppConfig.GameServerIndex;
+    partial void OnAccountServerIndexChanged(int value)
     {
-        AppConfig.LastSelectAccountServerIndex = value;
         try
         {
             GameAccountList = allGameAccounts.Where(x => x.Server == value).ToList();
@@ -114,15 +114,8 @@ public sealed partial class LauncherPage : Page
     private GameAccount? selectGameAccount;
     partial void OnSelectGameAccountChanged(GameAccount? value)
     {
-        if (value is null)
-        {
-            CanChangeGameAccount = false;
+        CanChangeGameAccount = value is null;
         }
-        else
-        {
-            CanChangeGameAccount = true;
-        }
-    }
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ChangeGameAccountCommand))]
@@ -189,7 +182,7 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-            var content = await _launcherClient.GetLauncherContentAsync(0);
+            var content = await _launcherClient.GetLauncherContentAsync(GameServerIndex);
             BannerList = content.Banner;
             LauncherPostGroupList = content.Post.GroupBy(x => x.Type).OrderBy(x => x.Key).Select(x => new LauncherPostGroup(x.Key.ToDescription(), x)).ToList();
             Grid_BannerAndPost.Visibility = Visibility.Visible;
@@ -227,7 +220,7 @@ public sealed partial class LauncherPage : Page
         try
         {
             allGameAccounts = GameService.GetGameAccounts();
-            GameAccountList = allGameAccounts.Where(x => x.Server == SelectAccountServerIndex).ToList();
+            GameAccountList = allGameAccounts.Where(x => x.Server == AccountServerIndex).ToList();
             SelectGameAccount = GameAccountList.FirstOrDefault(x => x.IsLogin);
             CanChangeGameAccount = false;
         }
@@ -262,7 +255,7 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-            GameService.StartGame(SelectGameServerIndex);
+            GameService.StartGame(GameServerIndex);
         }
         catch (Exception ex)
         {

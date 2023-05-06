@@ -103,13 +103,8 @@ internal abstract class AppConfig
     }
 
 
-    public static int LastSelectAccountServerIndex
-    {
-        get => GetValue<int>();
-        set => SetValue(value);
-    }
 
-    public static int LastSelectGameServerIndex
+    public static int GameServerIndex
     {
         get => GetValue<int>();
         set => SetValue(value);

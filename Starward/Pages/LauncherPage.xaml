@@ -177,7 +177,7 @@
                                        FontWeight="SemiBold"
                                        Text="Game Setting" />
                             <TextBlock Margin="0,8,0,0" Text="Server" />
-                            <labs:Segmented SelectedIndex="{x:Bind SelectGameServerIndex, Mode=TwoWay}">
+                            <labs:Segmented SelectedIndex="{x:Bind GameServerIndex, Mode=TwoWay}">
                                 <labs:SegmentedItem Width="100" Content="CN" />
                                 <labs:SegmentedItem Width="100" Content="OS" />
                             </labs:Segmented>
@@ -216,7 +216,7 @@
                           Height="40"
                           MinWidth="80"
                           CornerRadius="20,0,0,20"
-                          SelectedIndex="{x:Bind SelectAccountServerIndex, Mode=TwoWay}">
+                          SelectedIndex="{x:Bind AccountServerIndex, Mode=TwoWay}">
                     <ComboBoxItem Content="CN" />
                     <ComboBoxItem Content="OS" />
                 </ComboBox>
