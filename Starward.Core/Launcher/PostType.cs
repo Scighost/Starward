@@ -5,13 +5,13 @@ namespace Starward.Core.Launcher;
 public enum PostType
 {
 
-    [Description("活动")]
+    [Description("Activity")]
     POST_TYPE_ACTIVITY,
 
-    [Description("公告")]
+    [Description("Announcement")]
     POST_TYPE_ANNOUNCE,
 
-    [Description("资讯")]
+    [Description("Infomation")]
     POST_TYPE_INFO,
 
 }

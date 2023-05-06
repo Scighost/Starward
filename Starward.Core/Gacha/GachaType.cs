@@ -8,28 +8,28 @@ public enum GachaType
     /// <summary>
     /// 群星跃迁
     /// </summary>
-    [Description("群星跃迁")]
+    [Description("Stellar Warp")]
     StellarWarp = 1,
 
 
     /// <summary>
     /// 始发跃迁
     /// </summary>
-    [Description("始发跃迁")]
+    [Description("Depature Warp")]
     DepartureWarp = 2,
 
 
     /// <summary>
     /// 角色活动跃迁
     /// </summary>
-    [Description("角色跃迁")]
+    [Description("Character Event Warp")]
     CharacterEventWarp = 11,
 
 
     /// <summary>
     /// 光锥活动跃迁
     /// </summary>
-    [Description("光锥跃迁")]
+    [Description("Light Cone Event Warp")]
     LightConeEventWarp = 12,
 
 }
