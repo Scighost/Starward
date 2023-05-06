@@ -34,6 +34,13 @@ public sealed partial class MainPage : Page
     [ObservableProperty]
     private BitmapImage backgroundImage;
 
+    [ObservableProperty]
+    private Uri backgroundImageUri;
+    partial void OnBackgroundImageUriChanged(Uri value)
+    {
+        BackgroundImage = new BitmapImage(value);
+    }
+
 
     private void InitializeBackgroundImage()
     {
@@ -42,7 +49,7 @@ public sealed partial class MainPage : Page
             var file = Path.Join(AppConfig.ConfigDirectory, "bg", AppConfig.BackgroundImage);
             if (File.Exists(file))
             {
-                BackgroundImage = new BitmapImage(new Uri(file));
+                BackgroundImageUri = new Uri(file);
             }
         }
         catch (Exception ex)

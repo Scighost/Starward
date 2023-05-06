@@ -32,8 +32,7 @@
               HorizontalAlignment="Left"
               IsHitTestVisible="False"
               Opacity="0"
-              RowSpacing="24"
-              Visibility="Collapsed">
+              RowSpacing="24">
             <Grid.OpacityTransition>
                 <ScalarTransition />
             </Grid.OpacityTransition>

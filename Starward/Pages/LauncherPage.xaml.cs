@@ -115,7 +115,7 @@ public sealed partial class LauncherPage : Page
     partial void OnSelectGameAccountChanged(GameAccount? value)
     {
         CanChangeGameAccount = value is null;
-        }
+    }
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ChangeGameAccountCommand))]
@@ -131,8 +131,8 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-            await GetLauncherContentAsync();
             GetGameAccount();
+            await GetLauncherContentAsync();
             _timer.Start();
         }
         catch (Exception ex)
@@ -185,7 +185,6 @@ public sealed partial class LauncherPage : Page
             var content = await _launcherClient.GetLauncherContentAsync(GameServerIndex);
             BannerList = content.Banner;
             LauncherPostGroupList = content.Post.GroupBy(x => x.Type).OrderBy(x => x.Key).Select(x => new LauncherPostGroup(x.Key.ToDescription(), x)).ToList();
-            Grid_BannerAndPost.Visibility = Visibility.Visible;
             if (EnableBannerAndPost)
             {
                 Grid_BannerAndPost.Opacity = 1;
@@ -203,9 +202,9 @@ public sealed partial class LauncherPage : Page
                 {
                     var bytes = await new HttpClient().GetByteArrayAsync(url);
                     await File.WriteAllBytesAsync(file, bytes);
-                    MainPage.Current.BackgroundImage = new BitmapImage(new Uri(file));
-                    AppConfig.BackgroundImage = name;
                 }
+                MainPage.Current.BackgroundImageUri = new Uri(file);
+                AppConfig.BackgroundImage = name;
             }
         }
         catch (Exception ex)
