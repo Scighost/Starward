@@ -136,7 +136,7 @@ internal abstract class AppConfig
         {
             return defaultValue;
         }
-        return DatabaseService.Instance.GetValue<T>(key, out _);
+        return DatabaseService.Instance.GetValue(key, out _, defaultValue);
     }
 
 
