@@ -65,7 +65,7 @@
                                     Tag="LauncherPage" />
             </NavigationView.MenuItems>
 
-            <Frame Name="MainPage_Frame" />
+            <Frame Name="MainPage_Frame" Margin="0,48,0,0" />
         </NavigationView>
 
 

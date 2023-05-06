@@ -28,7 +28,7 @@
         <!--  Banner & Post  -->
         <Grid Name="Grid_BannerAndPost"
               Width="432"
-              Margin="40,240,0,0"
+              Margin="40,200,0,0"
               HorizontalAlignment="Left"
               IsHitTestVisible="False"
               Opacity="0"
