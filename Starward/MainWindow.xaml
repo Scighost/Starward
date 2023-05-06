@@ -5,8 +5,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
         xmlns:local="using:Starward"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sh="using:Starward.Helpers"
         xmlns:sp="using:Starward.Pages"
         Closed="MainWindow_Closed"
         mc:Ignorable="d">
@@ -14,5 +16,17 @@
           ActualThemeChanged="RootGrid_ActualThemeChanged"
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <sp:MainPage />
+        <StackPanel MaxWidth="600"
+                    Margin="24,72,24,72"
+                    VerticalAlignment="Bottom">
+            <StackPanel.Transitions>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition />
+                </TransitionCollection>
+            </StackPanel.Transitions>
+            <interactivity:Interaction.Behaviors>
+                <sh:NotificationBehavior x:Name="NotificationQueue" x:FieldModifier="public" />
+            </interactivity:Interaction.Behaviors>
+        </StackPanel>
     </Grid>
 </Window>
