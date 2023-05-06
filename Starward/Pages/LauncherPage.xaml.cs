@@ -114,7 +114,7 @@ public sealed partial class LauncherPage : Page
     private GameAccount? selectGameAccount;
     partial void OnSelectGameAccountChanged(GameAccount? value)
     {
-        CanChangeGameAccount = value is null;
+        CanChangeGameAccount = value is not null;
     }
 
     [ObservableProperty]
