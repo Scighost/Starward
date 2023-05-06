@@ -30,15 +30,6 @@
                Stretch="UniformToFill" />
 
 
-        <Border Grid.Row="0"
-                Background="{ThemeResource CustomAcrylicBrush}"
-                Visibility="Visible">
-            <TextBlock Margin="60,0,0,0"
-                       VerticalAlignment="Center"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="Starward" />
-        </Border>
-
         <Border Name="Border_ContentBackground"
                 Grid.Row="0"
                 Grid.RowSpan="2"
@@ -50,7 +41,17 @@
         </Border>
 
 
-        <NavigationView Grid.RowSpan="2"
+        <Border Grid.Row="0" Background="{ThemeResource CustomAcrylicBrush}">
+            <TextBlock Margin="60,0,0,0"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="Starward" />
+        </Border>
+
+
+
+        <NavigationView Name="MainPage_NavigationView"
+                        Grid.RowSpan="2"
                         IsBackButtonVisible="Collapsed"
                         ItemInvoked="NavigationView_ItemInvoked"
                         PaneDisplayMode="LeftMinimal">

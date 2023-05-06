@@ -42,6 +42,14 @@ public sealed partial class MainPage : Page
     }
 
 
+
+    public bool IsPaneToggleButtonVisible
+    {
+        get => MainPage_NavigationView.IsPaneToggleButtonVisible;
+        set => MainPage_NavigationView.IsPaneToggleButtonVisible = value;
+    }
+
+
     private void InitializeBackgroundImage()
     {
         try

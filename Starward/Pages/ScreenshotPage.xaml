@@ -205,5 +205,45 @@
         </SemanticZoom>
 
 
+
+        <Grid Name="Grid_ImageView"
+              Grid.RowSpan="2"
+              Margin="0,-48,0,0"
+              Background="{ThemeResource CustomAcrylicBrush}"
+              IsHitTestVisible="False"
+              Opacity="0">
+            <Grid.OpacityTransition>
+                <ScalarTransition />
+            </Grid.OpacityTransition>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Button Width="40"
+                    Height="36"
+                    Margin="4"
+                    Padding="0"
+                    Command="{x:Bind CloseViewCommand}"
+                    Content="&#xE112;"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}" />
+            <TextBlock Margin="60,0,0,0"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                <Run Text="{x:Bind SelectIndex}" />
+                <Run Text="/" />
+                <Run Text="{x:Bind ScreenshotItems.Count}" />
+            </TextBlock>
+            <Image x:Name="Image_Large"
+                   Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   PointerWheelChanged="Image_Large_PointerWheelChanged"
+                   Stretch="Uniform" />
+        </Grid>
+
+
+
+
     </Grid>
 </Page>
