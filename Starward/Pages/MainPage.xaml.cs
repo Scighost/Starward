@@ -75,7 +75,8 @@ public sealed partial class MainPage : Page
             {
                 var type = item.Tag switch
                 {
-                    "LauncherPage" => typeof(LauncherPage),
+                    nameof(LauncherPage) => typeof(LauncherPage),
+                    nameof(ScreenshotPage) => typeof(ScreenshotPage),
                     _ => null,
                 };
                 if (type != null)

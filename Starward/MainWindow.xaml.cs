@@ -23,7 +23,7 @@ public sealed partial class MainWindow : Window
 {
 
 
-    public static MainWindow Instance { get; private set; }
+    public static new MainWindow Current { get; private set; }
 
     public IntPtr HWND { get; private set; }
 
@@ -36,7 +36,7 @@ public sealed partial class MainWindow : Window
 
     public MainWindow()
     {
-        Instance = this;
+        Current = this;
         this.InitializeComponent();
         InitializeMainWindow();
     }
