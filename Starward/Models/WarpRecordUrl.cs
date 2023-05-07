@@ -2,16 +2,16 @@
 
 namespace Starward.Models;
 
-public class GachaLogUrl
+public class WarpRecordUrl
 {
 
-    public GachaLogUrl() { }
+    public WarpRecordUrl() { }
 
 
-    public GachaLogUrl(int uid, string gachaUrl)
+    public WarpRecordUrl(int uid, string warpUrl)
     {
         Uid = uid;
-        GachaUrl = gachaUrl;
+        WarpUrl = warpUrl;
         Time = DateTime.Now;
     }
 
@@ -19,7 +19,7 @@ public class GachaLogUrl
     public int Uid { get; set; }
 
 
-    public string GachaUrl { get; set; }
+    public string WarpUrl { get; set; }
 
 
     public DateTime Time { get; set; }

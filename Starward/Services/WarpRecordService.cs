@@ -2,7 +2,7 @@
 using MiniExcelLibs;
 using MiniExcelLibs.OpenXml;
 using Starward.Core;
-using Starward.Core.Gacha;
+using Starward.Core.Warp;
 using Starward.Models;
 using System;
 using System.Collections.Generic;
@@ -10,31 +10,124 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Activation;
 
 namespace Starward.Services;
 
 
-internal class GachaLogService
+public class WarpRecordService
 {
 
 
-    private readonly GachaLogClient _client;
+    private readonly WarpRecordClient _client;
 
 
 
-    private static readonly Lazy<GachaLogService> _lazy = new Lazy<GachaLogService>(() => new GachaLogService());
+    private static readonly Lazy<WarpRecordService> _lazy = new Lazy<WarpRecordService>(() => new WarpRecordService());
 
 
-    public static GachaLogService Instance => _lazy.Value;
+    public static WarpRecordService Instance => _lazy.Value;
 
 
 
-    public GachaLogService()
+    public WarpRecordService()
     {
-        _client = new GachaLogClient();
+        _client = new WarpRecordClient();
     }
 
 
+
+
+    public List<int> GetUids()
+    {
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        return dapper.Query<int>("SELECT DISTINCT Uid FROM WarpRecordItem;").ToList();
+    }
+
+
+
+    public List<WarpRecordItemEx> GetWarpRecordItemEx(int uid)
+    {
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        var list = dapper.Query<WarpRecordItemEx>("SELECT * FROM WarpRecordItem WHERE Uid = @uid;", new { uid }).ToList();
+        foreach (var type in new int[] { 1, 2, 11, 12 })
+        {
+            var l = list.Where(x => x.WarpType == (WarpType)type).ToList();
+            int index = 0;
+            foreach (var item in l)
+            {
+                index++;
+                if (item.RankType == 5)
+                {
+                    index = 0;
+                }
+            }
+        }
+        return list;
+    }
+
+
+
+    public string? GetWarpRecordUrlFromWebCache(string path)
+    {
+        return WarpRecordClient.GetWarpUrlFromWebCache(path);
+    }
+
+
+
+
+    public async Task<int> GetUidFromWarpRecordUrl(string url)
+    {
+        var uid = await _client.GetUidByWarpUrlAsync(url);
+        if (uid > 0)
+        {
+            using var dapper = DatabaseService.Instance.CreateConnection();
+            dapper.Execute("INSERT OR REPLACE INTO WarpRecordUrl (Uid, WarpUrl, Time) VALUES (@Uid, @WarpUrl, @Time);", new WarpRecordUrl(uid, url));
+        }
+        return uid;
+    }
+
+
+
+    public async Task GetWarpRecordAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null)
+    {
+
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        if (string.IsNullOrWhiteSpace(lang))
+        {
+            _client.Language = null;
+        }
+        else
+        {
+            _client.Language = lang;
+        }
+        var uid = await _client.GetUidByWarpUrlAsync(url);
+        if (uid == 0)
+        {
+
+        }
+        else
+        {
+            long endId = 0;
+            if (!all)
+            {
+                endId = dapper.QueryFirstOrDefault<long>("SELECT Id FROM WarpRecordItem WHERE Uid = @Uid ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
+            }
+            var internalProgress = new Progress<(WarpType WarpType, int Page)>((x) => progress?.Report($"Getting {x.Page} page of {x.WarpType.ToDescription()}"));
+            var list = await _client.GetWarpRecordAsync(url, endId, internalProgress);
+            var oldCount = dapper.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @Uid;", new { Uid = uid });
+            using var t = dapper.BeginTransaction();
+            dapper.Execute("""
+                    INSERT OR REPLACE INTO WarpRecordItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, WarpType, WarpId, Count, Lang)
+                    VALUES (@Uid, @Id, @Name, @Time, @ItemId, @ItemType, @RankType, @WarpType, @WarpId, @Count, @Lang);
+                    """, list, t);
+            t.Commit();
+            var newCount = dapper.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @Uid;", new { Uid = uid });
+            progress?.Report($"");
+            progress?.Report($"Got {list.Count} records of uid {uid}, added {newCount - oldCount} records.");
+        }
+    }
 
 
 
@@ -42,24 +135,24 @@ internal class GachaLogService
 
     private List<object> GetStatsSummary(int uid)
     {
-        using var con = DatabaseService.Instance.CreateConnection();
-        var count = con.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM GachaLogItem WHERE Uid = @uid;", new { uid });
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        var count = dapper.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @uid;", new { uid });
         var cols = new List<object> { uid, count };
         foreach (int type in new[] { 1, 2, 11, 12 })
         {
             var obj = new { uid, type };
-            var c = con.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM GachaLogItem WHERE Uid = @uid AND GachaType = @type;", obj);
-            var g_5 = con.QueryFirstOrDefault<int>("""
-                            SELECT COUNT(*) FROM GachaLogItem WHERE Uid = @uid AND GachaType = @type AND
-                            Id > (SELECT IFNULL(MAX(Id), 0) FROM GachaLogItem WHERE Uid = @uid AND GachaType = @type AND RankType = 5);
+            var c = dapper.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @uid AND WarpType = @type;", obj);
+            var g_5 = dapper.QueryFirstOrDefault<int>("""
+                            SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @uid AND WarpType = @type AND
+                            Id > (SELECT IFNULL(MAX(Id), 0) FROM WarpRecordItem WHERE Uid = @uid AND WarpType = @type AND RankType = 5);
                             """, obj);
-            var g_4 = con.QueryFirstOrDefault<int>("""
-                            SELECT COUNT(*) FROM GachaLogItem WHERE Uid = @uid AND GachaType = @type AND
-                            Id > (SELECT IFNULL(MAX(Id), 0) FROM GachaLogItem WHERE Uid = @uid AND GachaType = @type AND RankType = 4);
+            var g_4 = dapper.QueryFirstOrDefault<int>("""
+                            SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @uid AND WarpType = @type AND
+                            Id > (SELECT IFNULL(MAX(Id), 0) FROM WarpRecordItem WHERE Uid = @uid AND WarpType = @type AND RankType = 4);
                             """, obj);
             cols.Add($"{c} ({g_5}-{g_4})");
         }
-        var time = con.QueryFirstOrDefault<DateTime>("SELECT Time FROM GachaLogUrl WHERE Uid = @uid LIMIT 1;", new { uid });
+        var time = dapper.QueryFirstOrDefault<DateTime>("SELECT Time FROM WarpRecordUrl WHERE Uid = @uid LIMIT 1;", new { uid });
         cols.Add(time.ToString("yyyy-MM-dd HH:mm:ss"));
         return cols;
     }
@@ -73,7 +166,7 @@ internal class GachaLogService
 
 
 
-    public void ExportGachaLog(int uid, bool all, string output, string format)
+    public void ExportWarpRecord(int uid, bool all, string output, string format)
     {
         try
         {
@@ -89,7 +182,7 @@ internal class GachaLogService
             using var con = DatabaseService.Instance.CreateConnection();
             if (all)
             {
-                var uids = con.Query<int>("SELECT DISTINCT Uid FROM GachaLogItem;").ToList();
+                var uids = con.Query<int>("SELECT DISTINCT Uid FROM WarpRecordItem;").ToList();
                 if (uids.Count == 0)
                 {
                     //Logger.Warn("没有任何抽卡数据", true);
@@ -121,7 +214,7 @@ internal class GachaLogService
             }
             else
             {
-                var list = con.Query<GachaLogItem>("SELECT * FROM GachaLogItem WHERE Uid = @uid;", new { uid }).ToList();
+                var list = con.Query<WarpRecordItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid;", new { uid }).ToList();
                 if (list.Count == 0)
                 {
                     //Logger.Warn($"Uid {uid} 没有任何抽卡数据", true);
@@ -170,8 +263,8 @@ internal class GachaLogService
     private void ExportAsJson(int uid, string output)
     {
         using var con = DatabaseService.Instance.CreateConnection();
-        var list = con.Query<GachaLogItem>("SELECT * FROM GachaLogItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-        var obj = new GachaLogExportFile(uid, list);
+        var list = con.Query<WarpRecordItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        var obj = new WarpRecordExportFile(uid, list);
         var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
         File.WriteAllText(output, str);
     }
@@ -181,7 +274,7 @@ internal class GachaLogService
     private void ExportAsExcel(int uid, string output)
     {
         using var con = DatabaseService.Instance.CreateConnection();
-        var list = con.Query<GachaLogItem>("SELECT * FROM GachaLogItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        var list = con.Query<WarpRecordItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
 
         var sheets = new DataSet();
         var table1 = new DataTable("原始数据");
@@ -204,8 +297,8 @@ internal class GachaLogService
                             item.Name,
                             item.ItemType,
                             item.RankType.ToString(),
-                            ((int)item.GachaType).ToString(),
-                            item.GachaId.ToString(),
+                            ((int)item.WarpType).ToString(),
+                            item.WarpId.ToString(),
                             item.ItemId.ToString(),
                             item.Lang,
                             item.Count.ToString());
@@ -214,7 +307,7 @@ internal class GachaLogService
 
         foreach (var type in new int[] { 1, 2, 11, 12 })
         {
-            var table = new DataTable(((GachaType)type).ToDescription());
+            var table = new DataTable(((WarpType)type).ToDescription());
             table.Columns.Add("Uid", typeof(string));
             table.Columns.Add("Id", typeof(string));
             table.Columns.Add("时间", typeof(string));
@@ -223,7 +316,7 @@ internal class GachaLogService
             table.Columns.Add("稀有度", typeof(string));
             table.Columns.Add("跃迁类型", typeof(string));
             table.Columns.Add("保底内排序", typeof(string));
-            var l = list.Where(x => x.GachaType == (GachaType)type).ToList();
+            var l = list.Where(x => x.WarpType == (WarpType)type).ToList();
             int index = 0;
             foreach (var item in l)
             {
@@ -234,7 +327,7 @@ internal class GachaLogService
                             item.Name,
                             item.ItemType,
                             item.RankType.ToString(),
-                            ((int)item.GachaType).ToString(),
+                            ((int)item.WarpType).ToString(),
                             index.ToString());
                 if (item.RankType == 5)
                 {
@@ -252,10 +345,6 @@ internal class GachaLogService
 
 
 
-    private class GachaLogItemEx : GachaLogItem
-    {
-        public int Index { get; set; }
-    }
 
 
 
@@ -264,7 +353,7 @@ internal class GachaLogService
         try
         {
             using var con = DatabaseService.Instance.CreateConnection();
-            return con.Query<string>("SELECT Uid FROM GachaLogUrl WHERE Uid LIKE @key;", new { key = uid + "%" });
+            return con.Query<string>("SELECT Uid FROM WarpRecordUrl WHERE Uid LIKE @key;", new { key = uid + "%" });
         }
         catch
         {

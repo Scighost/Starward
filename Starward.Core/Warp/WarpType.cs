@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace Starward.Core.Gacha;
+namespace Starward.Core.Warp;
 
-public enum GachaType
+public enum WarpType
 {
 
     /// <summary>

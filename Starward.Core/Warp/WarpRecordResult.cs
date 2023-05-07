@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.Gacha;
+namespace Starward.Core.Warp;
 
-public class GachaLogResult
+public class WarpRecordResult
 {
 
     [JsonPropertyName("page")]
@@ -16,7 +16,7 @@ public class GachaLogResult
 
 
     [JsonPropertyName("list")]
-    public List<GachaLogItem> List { get; set; }
+    public List<WarpRecordItem> List { get; set; }
 
 
     [JsonPropertyName("region")]

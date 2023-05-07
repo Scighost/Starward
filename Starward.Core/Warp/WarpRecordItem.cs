@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Starward.Core.Gacha;
+namespace Starward.Core.Warp;
 
-public class GachaLogItem
+public class WarpRecordItem
 {
     [JsonPropertyName("uid")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
@@ -11,11 +11,11 @@ public class GachaLogItem
 
     [JsonPropertyName("gacha_id")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int GachaId { get; set; }
+    public int WarpId { get; set; }
 
     [JsonPropertyName("gacha_type")]
-    [JsonConverter(typeof(GachaTypeJsonConverter))]
-    public GachaType GachaType { get; set; }
+    [JsonConverter(typeof(WarpTypeJsonConverter))]
+    public WarpType WarpType { get; set; }
 
     [JsonPropertyName("item_id")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
@@ -72,14 +72,14 @@ internal class DateTimeJsonConverter : JsonConverter<DateTime>
 
 
 
-internal class GachaTypeJsonConverter : JsonConverter<GachaType>
+internal class WarpTypeJsonConverter : JsonConverter<WarpType>
 {
-    public override GachaType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override WarpType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var str = reader.GetString();
         if (int.TryParse(str, out var num))
         {
-            return (GachaType)num;
+            return (WarpType)num;
         }
         else
         {
@@ -87,7 +87,7 @@ internal class GachaTypeJsonConverter : JsonConverter<GachaType>
         }
     }
 
-    public override void Write(Utf8JsonWriter writer, GachaType value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, WarpType value, JsonSerializerOptions options)
     {
         writer.WriteStringValue(((int)value).ToString());
     }

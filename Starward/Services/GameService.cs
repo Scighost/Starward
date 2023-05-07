@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Win32;
-using Starward.Core.Gacha;
+using Starward.Core.Warp;
 using Starward.Models;
 using System;
 using System.Collections.Generic;
@@ -28,6 +28,30 @@ internal class GameService
     private const string GraphicsSetting = "GraphicsSettings_Model_h2986158309";
 
 
+
+
+
+    public static string? GetGameInstallPath(int serverIndex)
+    {
+        var path = serverIndex switch
+        {
+            0 => AppConfig.InstallPath_CN,
+            1 => AppConfig.InstallPath_OS,
+            _ => AppConfig.InstallPath_CN,
+        };
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            path = WarpRecordClient.GetGameInstallPathFromRegistry(serverIndex);
+        }
+        if (Directory.Exists(path))
+        {
+            return path;
+        }
+        else
+        {
+            return null;
+        }
+    }
 
 
 
@@ -174,7 +198,7 @@ internal class GameService
             {
                 throw new Exception("Game process is running.");
             }
-            var folder = GachaLogClient.GetGameInstallPathFromRegistry(serverIndex);
+            var folder = WarpRecordClient.GetGameInstallPathFromRegistry(serverIndex);
             var exe = Path.Join(folder, "StarRail.exe");
             var arg = AppConfig.StartGameArgument?.Trim();
             var info = new ProcessStartInfo

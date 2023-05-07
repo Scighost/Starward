@@ -1,18 +1,18 @@
-﻿using Starward.Core.Gacha;
+﻿using Starward.Core.Warp;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Starward.Models;
 
-internal class GachaLogExportFile
+internal class WarpRecordExportFile
 {
 
 
-    public GachaLogExportFile(int uid, List<GachaLogItem> list)
+    public WarpRecordExportFile(int uid, List<WarpRecordItem> list)
     {
         var time = DateTimeOffset.Now;
-        Info = new GachaLogExportInfo
+        Info = new WarpRecordExportInfo
         {
             Uid = uid.ToString(),
             ExportTime = time.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -24,7 +24,7 @@ internal class GachaLogExportFile
 
 
 
-    public class GachaLogExportInfo
+    public class WarpRecordExportInfo
     {
         [JsonPropertyName("uid")]
         public string Uid { get; set; }
@@ -47,11 +47,11 @@ internal class GachaLogExportFile
 
 
     [JsonPropertyName("info")]
-    public GachaLogExportInfo Info { get; set; }
+    public WarpRecordExportInfo Info { get; set; }
 
 
     [JsonPropertyName("list")]
-    public List<GachaLogItem> List { get; set; }
+    public List<WarpRecordItem> List { get; set; }
 
 
 }

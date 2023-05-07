@@ -205,7 +205,7 @@ internal class DatabaseService
     private const string Structure_v1 = """
         BEGIN TRANSACTION;
 
-        CREATE TABLE IF NOT EXISTS GachaLogItem
+        CREATE TABLE IF NOT EXISTS WarpRecordItem
         (
             Uid       INTEGER NOT NULL,
             Id        INTEGER NOT NULL,
@@ -214,20 +214,20 @@ internal class DatabaseService
             ItemId    INTEGER NOT NULL,
             ItemType  TEXT    NOT NULL,
             RankType  INTEGER NOT NULL,
-            GachaType INTEGER NOT NULL,
-            GachaId   INTEGER NOT NULL,
+            WarpType INTEGER NOT NULL,
+            WarpId   INTEGER NOT NULL,
             Count     INTEGER NOT NULL,
             Lang      TEXT,
             PRIMARY KEY (Uid, Id)
         );
-        CREATE INDEX IF NOT EXISTS IX_GachaLogItem_Id ON GachaLogItem (Id);
-        CREATE INDEX IF NOT EXISTS IX_GachaLogItem_RankType ON GachaLogItem (RankType);
-        CREATE INDEX IF NOT EXISTS IX_GachaLogItem_GachaType ON GachaLogItem (GachaType);
+        CREATE INDEX IF NOT EXISTS IX_WarpRecordItem_Id ON WarpRecordItem (Id);
+        CREATE INDEX IF NOT EXISTS IX_WarpRecordItem_RankType ON WarpRecordItem (RankType);
+        CREATE INDEX IF NOT EXISTS IX_WarpRecordItem_WarpType ON WarpRecordItem (WarpType);
 
-        CREATE TABLE IF NOT EXISTS GachaLogUrl
+        CREATE TABLE IF NOT EXISTS WarpRecordUrl
         (
             Uid      INTEGER NOT NULL PRIMARY KEY,
-            GachaUrl TEXT    NOT NULL,
+            WarpUrl TEXT    NOT NULL,
             Time     TEXT    NOT NULL
         );
 

@@ -8,8 +8,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Scighost.WinUILib.Helpers;
-using Starward.Core.Gacha;
 using Starward.Models;
+using Starward.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -68,7 +68,7 @@ public sealed partial class ScreenshotPage : Page
         {
             if (Watcher == null)
             {
-                var path = GachaLogClient.GetGameInstallPathFromRegistry(ServerIndex);
+                var path = GameService.GetGameInstallPath(ServerIndex);
                 var folder = Path.Join(path, @"StarRail_Data\ScreenShots");
                 if (Directory.Exists(folder))
                 {
@@ -115,7 +115,7 @@ public sealed partial class ScreenshotPage : Page
     {
         try
         {
-            var path = GachaLogClient.GetGameInstallPathFromRegistry(ServerIndex);
+            var path = GameService.GetGameInstallPath(ServerIndex);
             var folder = Path.Join(path, @"StarRail_Data\ScreenShots");
             if (Directory.Exists(folder))
             {

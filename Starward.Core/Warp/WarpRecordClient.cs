@@ -4,9 +4,9 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Starward.Core.Gacha;
+namespace Starward.Core.Warp;
 
-public class GachaLogClient
+public class WarpRecordClient
 {
 
 
@@ -30,7 +30,7 @@ public class GachaLogClient
 
 
 
-    public GachaLogClient(string? lang = null, HttpClient? httpClient = null)
+    public WarpRecordClient(string? lang = null, HttpClient? httpClient = null)
     {
         Language = lang;
         _httpClient = httpClient ?? new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All });
@@ -40,29 +40,29 @@ public class GachaLogClient
 
 
 
-    public async Task<int> GetUidByGachaUrlAsync(string gachaUrl)
+    public async Task<int> GetUidByWarpUrlAsync(string warpUrl)
     {
-        var prefix = GetGachaUrlPrefix(gachaUrl);
-        var param = new GachaLogQueryParam(GachaType.StellarWarp, 1, 1, 0);
-        var list = await GetGachaLogByQueryParamAsync(prefix, param);
+        var prefix = GetWarpUrlPrefix(warpUrl);
+        var param = new WarpRecordQueryParam(WarpType.StellarWarp, 1, 1, 0);
+        var list = await GetWarpRecordByQueryParamAsync(prefix, param);
         if (list.Any())
         {
             return list.First().Uid;
         }
-        param.GachaType = GachaType.CharacterEventWarp;
-        list = await GetGachaLogByQueryParamAsync(prefix, param);
+        param.WarpType = WarpType.CharacterEventWarp;
+        list = await GetWarpRecordByQueryParamAsync(prefix, param);
         if (list.Any())
         {
             return list.First().Uid;
         }
-        param.GachaType = GachaType.LightConeEventWarp;
-        list = await GetGachaLogByQueryParamAsync(prefix, param);
+        param.WarpType = WarpType.LightConeEventWarp;
+        list = await GetWarpRecordByQueryParamAsync(prefix, param);
         if (list.Any())
         {
             return list.First().Uid;
         }
-        param.GachaType = GachaType.DepartureWarp;
-        list = await GetGachaLogByQueryParamAsync(prefix, param);
+        param.WarpType = WarpType.DepartureWarp;
+        list = await GetWarpRecordByQueryParamAsync(prefix, param);
         if (list.Any())
         {
             return list.First().Uid;
@@ -73,26 +73,26 @@ public class GachaLogClient
 
 
 
-    public async Task<List<GachaLogItem>> GetGachaLogAsync(string gachaUrl, long endId = 0, IProgress<(GachaType GachaType, int Page)>? progress = null)
+    public async Task<List<WarpRecordItem>> GetWarpRecordAsync(string warpUrl, long endId = 0, IProgress<(WarpType WarpType, int Page)>? progress = null)
     {
         endId = Math.Clamp(endId, 0, long.MaxValue);
-        var prefix = GetGachaUrlPrefix(gachaUrl);
-        var result = new List<GachaLogItem>();
-        result.AddRange(await GetGachaLogInternelAsync(prefix, GachaType.StellarWarp, endId, progress));
-        result.AddRange(await GetGachaLogInternelAsync(prefix, GachaType.DepartureWarp, endId, progress));
-        result.AddRange(await GetGachaLogInternelAsync(prefix, GachaType.CharacterEventWarp, endId, progress));
-        result.AddRange(await GetGachaLogInternelAsync(prefix, GachaType.LightConeEventWarp, endId, progress));
+        var prefix = GetWarpUrlPrefix(warpUrl);
+        var result = new List<WarpRecordItem>();
+        result.AddRange(await GetWarpRecordAsyncInternal(prefix, WarpType.StellarWarp, endId, progress));
+        result.AddRange(await GetWarpRecordAsyncInternal(prefix, WarpType.DepartureWarp, endId, progress));
+        result.AddRange(await GetWarpRecordAsyncInternal(prefix, WarpType.CharacterEventWarp, endId, progress));
+        result.AddRange(await GetWarpRecordAsyncInternal(prefix, WarpType.LightConeEventWarp, endId, progress));
         return result;
     }
 
 
 
 
-    public async Task<List<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaType gachaType, long endId = 0, IProgress<(GachaType GachaType, int Page)>? progress = null)
+    public async Task<List<WarpRecordItem>> GetWarpRecordAsync(string warpUrl, WarpType warpType, long endId = 0, IProgress<(WarpType WarpType, int Page)>? progress = null)
     {
         endId = Math.Clamp(endId, 0, long.MaxValue);
-        var prefix = GetGachaUrlPrefix(gachaUrl);
-        return await GetGachaLogInternelAsync(prefix, gachaType, endId, progress);
+        var prefix = GetWarpUrlPrefix(warpUrl);
+        return await GetWarpRecordAsyncInternal(prefix, warpType, endId, progress);
     }
 
 
@@ -100,14 +100,14 @@ public class GachaLogClient
 
 
 
-    private async Task<List<GachaLogItem>> GetGachaLogInternelAsync(string prefix, GachaType gachaType, long endId = 0, IProgress<(GachaType GachaType, int Page)>? progress = null)
+    private async Task<List<WarpRecordItem>> GetWarpRecordAsyncInternal(string prefix, WarpType warpType, long endId = 0, IProgress<(WarpType WarpType, int Page)>? progress = null)
     {
-        var param = new GachaLogQueryParam(gachaType, 1, 20, 0);
-        var result = new List<GachaLogItem>();
+        var param = new WarpRecordQueryParam(warpType, 1, 20, 0);
+        var result = new List<WarpRecordItem>();
         while (true)
         {
-            progress?.Report((gachaType, param.Page));
-            var list = await GetGachaLogByQueryParamAsync(prefix, param);
+            progress?.Report((warpType, param.Page));
+            var list = await GetWarpRecordByQueryParamAsync(prefix, param);
             result.AddRange(list);
             if (list.Count == 20 && list.Last().Id > endId)
             {
@@ -126,14 +126,14 @@ public class GachaLogClient
 
 
 
-    private async Task<List<GachaLogItem>> GetGachaLogByQueryParamAsync(string gachaUrlPrefix, GachaLogQueryParam param)
+    private async Task<List<WarpRecordItem>> GetWarpRecordByQueryParamAsync(string warpUrlPrefix, WarpRecordQueryParam param)
     {
         await Task.Delay(Random.Shared.Next(200, 300));
-        var url = $"{gachaUrlPrefix}&{param}";
-        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(MihoyoApiWrapper<GachaLogResult>), GachaLogJsonContext.Default) as MihoyoApiWrapper<GachaLogResult>;
+        var url = $"{warpUrlPrefix}&{param}";
+        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(MihoyoApiWrapper<WarpRecordResult>), WarpRecordJsonContext.Default) as MihoyoApiWrapper<WarpRecordResult>;
         if (wrapper is null)
         {
-            return new List<GachaLogItem>();
+            return new List<WarpRecordItem>();
         }
         else if (wrapper.Retcode != 0)
         {
@@ -148,42 +148,42 @@ public class GachaLogClient
 
 
 
-    private string GetGachaUrlPrefix(string gachaUrl)
+    private string GetWarpUrlPrefix(string warpUrl)
     {
-        var match = Regex.Match(gachaUrl, @"(https://webstatic[!-z]+)");
+        var match = Regex.Match(warpUrl, @"(https://webstatic[!-z]+)");
         if (match.Success)
         {
-            gachaUrl = match.Groups[1].Value;
-            var auth = gachaUrl.Substring(gachaUrl.IndexOf('?'));
-            if (gachaUrl.Contains("webstatic-sea"))
+            warpUrl = match.Groups[1].Value;
+            var auth = warpUrl.Substring(warpUrl.IndexOf('?'));
+            if (warpUrl.Contains("webstatic-sea"))
             {
-                gachaUrl = API_PREFIX_OS + auth;
+                warpUrl = API_PREFIX_OS + auth;
             }
             else
             {
-                gachaUrl = API_PREFIX_CN + auth;
+                warpUrl = API_PREFIX_CN + auth;
             }
             if (!string.IsNullOrWhiteSpace(Language))
             {
-                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={Language}");
+                warpUrl = Regex.Replace(warpUrl, @"&lang=[^&]+", $"&lang={Language}");
             }
-            return gachaUrl;
+            return warpUrl;
         }
-        match = Regex.Match(gachaUrl, @"(https://api[!-z]+)");
+        match = Regex.Match(warpUrl, @"(https://api[!-z]+)");
         if (match.Success)
         {
-            gachaUrl = match.Groups[1].Value;
-            gachaUrl = Regex.Replace(gachaUrl, @"&gacha_type=\d", "");
-            gachaUrl = Regex.Replace(gachaUrl, @"&page=\d", "");
-            gachaUrl = Regex.Replace(gachaUrl, @"&size=\d", "");
-            gachaUrl = Regex.Replace(gachaUrl, @"&end_id=\d", "");
+            warpUrl = match.Groups[1].Value;
+            warpUrl = Regex.Replace(warpUrl, @"&gacha_type=\d", "");
+            warpUrl = Regex.Replace(warpUrl, @"&page=\d", "");
+            warpUrl = Regex.Replace(warpUrl, @"&size=\d", "");
+            warpUrl = Regex.Replace(warpUrl, @"&end_id=\d", "");
             if (!string.IsNullOrWhiteSpace(Language))
             {
-                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={Language}");
+                warpUrl = Regex.Replace(warpUrl, @"&lang=[^&]+", $"&lang={Language}");
             }
-            return gachaUrl;
+            return warpUrl;
         }
-        throw new ArgumentException(nameof(gachaUrl));
+        throw new ArgumentException(nameof(warpUrl));
     }
 
 
@@ -224,7 +224,7 @@ public class GachaLogClient
 
 
 
-    public static string? GetGachaUrlFromWebCache(string installPath)
+    public static string? GetWarpUrlFromWebCache(string installPath)
     {
         var file = Path.Join(installPath, WEB_CACHE_PATH);
         if (File.Exists(file))
