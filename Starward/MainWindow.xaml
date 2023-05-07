@@ -25,7 +25,7 @@
                 </TransitionCollection>
             </StackPanel.Transitions>
             <interactivity:Interaction.Behaviors>
-                <sh:NotificationBehavior x:Name="NotificationQueue" x:FieldModifier="public" />
+                <sh:NotificationBehavior x:Name="NotificationQueue" />
             </interactivity:Interaction.Behaviors>
         </StackPanel>
     </Grid>

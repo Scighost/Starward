@@ -125,6 +125,27 @@ internal abstract class AppConfig
     }
 
 
+    public static int SelectUidInWarpRecordPage
+    {
+        get => GetValue<int>();
+        set => SetValue(value);
+    }
+
+
+    public static bool ShowDepatureWarp
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
+    public static string? WarpLanguage
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
     public static T? GetValue<T>(T? defaultValue = default, [CallerMemberName] string? key = null)
     {
         if (string.IsNullOrWhiteSpace(key))

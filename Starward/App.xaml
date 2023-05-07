@@ -21,6 +21,7 @@
 
 
             <scv:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
+            <scv:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
 
             <AcrylicBrush x:Key="CustomAcrylicBrush"
                           FallbackColor="{ThemeResource ControlOnImageFillColorDefault}"

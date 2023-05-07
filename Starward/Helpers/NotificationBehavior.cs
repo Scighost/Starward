@@ -1,7 +1,6 @@
 ﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Xaml.Interactivity;
 using System;
 using System.Threading.Tasks;
@@ -11,11 +10,16 @@ namespace Starward.Helpers;
 public class NotificationBehavior : Behavior<StackPanel>
 {
 
+
+    public static NotificationBehavior Instance { get; private set; }
+
+
     private readonly DispatcherQueueTimer _dismissTimer;
 
 
     public NotificationBehavior()
     {
+        Instance = this;
         _dismissTimer = DispatcherQueue.CreateTimer();
         _dismissTimer.Interval = TimeSpan.FromSeconds(30);
         _dismissTimer.IsRepeating = true;

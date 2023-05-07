@@ -85,6 +85,7 @@ public sealed partial class MainPage : Page
                 {
                     nameof(LauncherPage) => typeof(LauncherPage),
                     nameof(ScreenshotPage) => typeof(ScreenshotPage),
+                    nameof(WarpRecordPage) => typeof(WarpRecordPage),
                     _ => null,
                 };
                 if (type != null)

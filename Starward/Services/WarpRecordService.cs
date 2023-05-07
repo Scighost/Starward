@@ -50,17 +50,19 @@ public class WarpRecordService
     public List<WarpRecordItemEx> GetWarpRecordItemEx(int uid)
     {
         using var dapper = DatabaseService.Instance.CreateConnection();
-        var list = dapper.Query<WarpRecordItemEx>("SELECT * FROM WarpRecordItem WHERE Uid = @uid;", new { uid }).ToList();
+        var list = dapper.Query<WarpRecordItemEx>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
         foreach (var type in new int[] { 1, 2, 11, 12 })
         {
             var l = list.Where(x => x.WarpType == (WarpType)type).ToList();
             int index = 0;
+            int pity = 0;
             foreach (var item in l)
             {
                 index++;
+                item.Pity = ++pity;
                 if (item.RankType == 5)
                 {
-                    index = 0;
+                    pity = 0;
                 }
             }
         }
@@ -133,28 +135,41 @@ public class WarpRecordService
 
 
 
-    private List<object> GetStatsSummary(int uid)
+    public List<WarpTypeStats> GetWarpTypeStats(int uid)
     {
+        var statsList = new List<WarpTypeStats>();
         using var dapper = DatabaseService.Instance.CreateConnection();
-        var count = dapper.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @uid;", new { uid });
-        var cols = new List<object> { uid, count };
-        foreach (int type in new[] { 1, 2, 11, 12 })
+        var alllist = GetWarpRecordItemEx(uid);
+        if (alllist.Count > 0)
         {
-            var obj = new { uid, type };
-            var c = dapper.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @uid AND WarpType = @type;", obj);
-            var g_5 = dapper.QueryFirstOrDefault<int>("""
-                            SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @uid AND WarpType = @type AND
-                            Id > (SELECT IFNULL(MAX(Id), 0) FROM WarpRecordItem WHERE Uid = @uid AND WarpType = @type AND RankType = 5);
-                            """, obj);
-            var g_4 = dapper.QueryFirstOrDefault<int>("""
-                            SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @uid AND WarpType = @type AND
-                            Id > (SELECT IFNULL(MAX(Id), 0) FROM WarpRecordItem WHERE Uid = @uid AND WarpType = @type AND RankType = 4);
-                            """, obj);
-            cols.Add($"{c} ({g_5}-{g_4})");
+            foreach (int type in new[] { 1, 2, 11, 12 })
+            {
+                var list = alllist.Where(x => x.WarpType == (WarpType)type).ToList();
+                var stats = new WarpTypeStats
+                {
+                    WarpType = (WarpType)type,
+                    Count = list.Count,
+                    Count_5 = list.Count(x => x.RankType == 5),
+                    Count_4 = list.Count(x => x.RankType == 4),
+                    Count_3 = list.Count(x => x.RankType == 3),
+                };
+                if (stats.Count > 0)
+                {
+                    stats.StartTime = list.First().Time;
+                    stats.EndTime = list.Last().Time;
+                    stats.Ratio_5 = (double)stats.Count_5 / stats.Count;
+                    stats.Ratio_4 = (double)stats.Count_4 / stats.Count;
+                    stats.Ratio_3 = (double)stats.Count_3 / stats.Count;
+                    stats.List_5 = list.Where(x => x.RankType == 5).Reverse().ToList();
+                    stats.List_4 = list.Where(x => x.RankType == 4).Reverse().ToList();
+                    stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
+                    stats.Pity_5 = list.Last().Pity;
+                    stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 4);
+                }
+                statsList.Add(stats);
+            }
         }
-        var time = dapper.QueryFirstOrDefault<DateTime>("SELECT Time FROM WarpRecordUrl WHERE Uid = @uid LIMIT 1;", new { uid });
-        cols.Add(time.ToString("yyyy-MM-dd HH:mm:ss"));
-        return cols;
+        return statsList;
     }
 
 
