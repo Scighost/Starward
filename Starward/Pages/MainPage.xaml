@@ -8,6 +8,7 @@
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       x:DefaultBindMode="OneWay"
+      Loaded="Page_Loaded"
       mc:Ignorable="d">
 
 
@@ -45,7 +46,7 @@
             <TextBlock Margin="60,0,0,0"
                        VerticalAlignment="Center"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="Starward" />
+                       Text="Starward (Beta)" />
         </Border>
 
 
@@ -53,6 +54,7 @@
         <NavigationView Name="MainPage_NavigationView"
                         Grid.RowSpan="2"
                         IsBackButtonVisible="Collapsed"
+                        IsSettingsVisible="False"
                         ItemInvoked="NavigationView_ItemInvoked"
                         PaneDisplayMode="LeftMinimal">
             <NavigationView.Resources>

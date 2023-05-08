@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.Xaml.Interactivity;
 using System;
 using System.Threading.Tasks;
@@ -88,6 +89,10 @@ public class NotificationBehavior : Behavior<StackPanel>
                 Severity = severity,
                 IsOpen = true,
             };
+            if (severity == InfoBarSeverity.Informational)
+            {
+                infoBar.Background = Application.Current.Resources["CustomAcrylicBrush"] as Brush;
+            }
             Show(infoBar, duration);
         });
     }

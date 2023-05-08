@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Starward.Helpers;
 using System;
 using System.IO;
 
@@ -104,6 +105,8 @@ public sealed partial class MainPage : Page
         }
     }
 
-
-
+    private void Page_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        NotificationBehavior.Instance.Information(null, "You are using a beta version, the next version will not maintain compatibility with this version.", 10000);
+    }
 }
