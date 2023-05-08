@@ -135,7 +135,8 @@
 
 
         <!--  Start Game  -->
-        <Grid Margin="40"
+        <Grid Width="280"
+              Margin="40"
               HorizontalAlignment="Left"
               VerticalAlignment="Bottom"
               Background="{ThemeResource CustomAcrylicBrush}"
@@ -147,8 +148,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <!--  Start Game  -->
-            <Button Width="240"
-                    Height="40"
+            <Button Height="40"
                     HorizontalAlignment="Stretch"
                     Command="{x:Bind StartGameCommand}"
                     Content="Start Game"
@@ -171,14 +171,14 @@
                 <Button.Flyout>
                     <Flyout>
                         <!--  Game Setting  -->
-                        <StackPanel MinWidth="200" Spacing="4">
+                        <StackPanel MinWidth="200" Spacing="8">
                             <TextBlock FontSize="16"
                                        FontWeight="SemiBold"
                                        Text="Game Setting" />
                             <TextBlock Margin="0,8,0,0" Text="Server" />
-                            <labs:Segmented SelectedIndex="{x:Bind GameServerIndex, Mode=TwoWay}">
-                                <labs:SegmentedItem Width="100" Content="CN" />
-                                <labs:SegmentedItem Width="100" Content="OS" />
+                            <labs:Segmented HorizontalAlignment="Stretch" SelectedIndex="{x:Bind GameServerIndex, Mode=TwoWay}">
+                                <labs:SegmentedItem Content="CN" />
+                                <labs:SegmentedItem Content="OS" />
                             </labs:Segmented>
                             <TextBlock Margin="0,8,0,0" Text="Start Argument" />
                             <TextBox Text="{x:Bind StartGameArgument, Mode=TwoWay}" />
@@ -214,6 +214,7 @@
                 <ComboBox Name="ComboBox_GameServer"
                           Height="40"
                           MinWidth="80"
+                          HorizontalContentAlignment="Center"
                           CornerRadius="20,0,0,20"
                           SelectedIndex="{x:Bind AccountServerIndex, Mode=TwoWay}">
                     <ComboBoxItem Content="CN" />
@@ -233,7 +234,7 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock>
+                                <TextBlock VerticalAlignment="Center">
                                     <Run Text="{Binding Name}" />
                                     <Run Text="" />
                                     <Run FontSize="12"
@@ -241,7 +242,7 @@
                                          Text="{Binding Uid}" />
                                 </TextBlock>
                                 <FontIcon Grid.Column="1"
-                                          VerticalAlignment="Center"
+                                          VerticalAlignment="Bottom"
                                           FontSize="14"
                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                           Glyph="&#xE930;"
@@ -264,7 +265,7 @@
                 </Grid.ColumnDefinitions>
                 <Button Height="40"
                         Command="{x:Bind ChangeGameAccountCommand}"
-                        Content="Change Account"
+                        Content="Switch Account"
                         CornerRadius="20,0,0,20" />
                 <Button Grid.Column="1"
                         Height="40"
@@ -274,7 +275,7 @@
                         IsEnabled="{x:Bind SelectGameAccount, Converter={StaticResource ObjectToBoolConverter}}">
                     <Button.Flyout>
                         <Flyout>
-                            <StackPanel MinWidth="200" Spacing="4">
+                            <StackPanel MinWidth="200" Spacing="8">
                                 <TextBlock FontSize="16"
                                            FontWeight="SemiBold"
                                            Text="Account Property" />

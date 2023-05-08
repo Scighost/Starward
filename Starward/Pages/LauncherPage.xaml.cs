@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -19,7 +20,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Timers;
-using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -35,13 +35,16 @@ public sealed partial class LauncherPage : Page
 
     private readonly LauncherClient _launcherClient = new();
 
-    private Timer _timer = new(5000) { AutoReset = true };
+    private readonly DispatcherQueueTimer _timer;
 
 
     public LauncherPage()
     {
         this.InitializeComponent();
-        _timer.Elapsed += _timer_Elapsed;
+        _timer = DispatcherQueue.CreateTimer();
+        _timer.Interval = TimeSpan.FromSeconds(5);
+        _timer.IsRepeating = true;
+        _timer.Tick += _timer_Tick;
     }
 
 
@@ -160,20 +163,16 @@ public sealed partial class LauncherPage : Page
 
 
 
-    private void _timer_Elapsed(object? sender, ElapsedEventArgs e)
+    private void _timer_Tick(DispatcherQueueTimer sender, object args)
     {
         try
         {
             if (BannerList?.Any() ?? false)
             {
-                DispatcherQueue.TryEnqueue(() =>
-                {
-                    PipsPager_Banner.SelectedPageIndex = (PipsPager_Banner.SelectedPageIndex + 1) % PipsPager_Banner.NumberOfPages;
-                });
+                PipsPager_Banner.SelectedPageIndex = (PipsPager_Banner.SelectedPageIndex + 1) % PipsPager_Banner.NumberOfPages;
             }
         }
         catch { }
-
     }
 
 
@@ -238,7 +237,7 @@ public sealed partial class LauncherPage : Page
         {
             if (sender is FrameworkElement fe && fe.DataContext is LauncherBanner banner)
             {
-                await Launcher.LaunchUriAsync(new Uri(banner.Url));
+                await Windows.System.Launcher.LaunchUriAsync(new Uri(banner.Url));
             }
         }
         catch (Exception ex)
