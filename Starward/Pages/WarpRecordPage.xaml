@@ -39,16 +39,20 @@
                       PlaceholderText="No Warp Records"
                       SelectedItem="{x:Bind SelectUid, Mode=TwoWay}" />
             <!--  Update  -->
-            <SplitButton Command="{x:Bind GetWarpRecordCommand}">
+            <SplitButton Command="{x:Bind UpdateWarpRecordCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon FontSize="14" Glyph="&#xE149;" />
                     <TextBlock Text="Update" />
                 </StackPanel>
                 <SplitButton.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="Update (Cached URL)" />
-                        <MenuFlyoutItem Text="Update (Completely)" />
-                        <MenuFlyoutItem Text="Input URL" />
+                        <MenuFlyoutItem Command="{x:Bind UpdateWarpRecordCommand}"
+                                        CommandParameter="cache"
+                                        Text="Update (Cached URL)" />
+                        <MenuFlyoutItem Command="{x:Bind UpdateWarpRecordCommand}"
+                                        CommandParameter="all"
+                                        Text="Update (Completely)" />
+                        <MenuFlyoutItem Command="{x:Bind InputUrlCommand}" Text="Input URL" />
                     </MenuFlyout>
                 </SplitButton.Flyout>
             </SplitButton>
@@ -76,10 +80,14 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <Button HorizontalAlignment="Stretch"
+                                        Command="{x:Bind ExportWarpRecordCommand}"
+                                        CommandParameter="excel"
                                         Content="Excel"
                                         CornerRadius="4,0,0,4" />
                                 <Button Grid.Column="1"
                                         HorizontalAlignment="Stretch"
+                                        Command="{x:Bind ExportWarpRecordCommand}"
+                                        CommandParameter="json"
                                         Content="Json"
                                         CornerRadius="0,4,4,0" />
                             </Grid>
@@ -87,7 +95,7 @@
                             <ToggleSwitch IsOn="{x:Bind ShowDepatureWarp, Mode=TwoWay}"
                                           OffContent="Show Depature Warp"
                                           OnContent="Show Depature Warp" />
-                            <Button>
+                            <Button Command="{x:Bind DeleteUidCommand}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon FontSize="14"
                                               Foreground="{ThemeResource SystemFillColorCriticalBrush}"

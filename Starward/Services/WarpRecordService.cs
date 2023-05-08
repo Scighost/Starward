@@ -11,7 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Activation;
 
 namespace Starward.Services;
 
@@ -91,10 +90,23 @@ public class WarpRecordService
     }
 
 
-
-    public async Task GetWarpRecordAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null)
+    public string? GetUrlByUid(int uid)
     {
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        return dapper.QueryFirstOrDefault<string>("SELECT WarpUrl FROM WarpRecordUrl WHERE Uid = @uid LIMIT 1;", new { uid });
+    }
 
+
+    /// <summary>
+    /// return uid
+    /// </summary>
+    /// <param name="url"></param>
+    /// <param name="all"></param>
+    /// <param name="lang"></param>
+    /// <param name="progress"></param>
+    /// <returns>uid</returns>
+    public async Task<int> GetWarpRecordAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null)
+    {
         using var dapper = DatabaseService.Instance.CreateConnection();
         if (string.IsNullOrWhiteSpace(lang))
         {
@@ -104,6 +116,7 @@ public class WarpRecordService
         {
             _client.Language = lang;
         }
+        progress?.Report("Getting uid of URL...");
         var uid = await _client.GetUidByWarpUrlAsync(url);
         if (uid == 0)
         {
@@ -116,7 +129,7 @@ public class WarpRecordService
             {
                 endId = dapper.QueryFirstOrDefault<long>("SELECT Id FROM WarpRecordItem WHERE Uid = @Uid ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
             }
-            var internalProgress = new Progress<(WarpType WarpType, int Page)>((x) => progress?.Report($"Getting {x.Page} page of {x.WarpType.ToDescription()}"));
+            var internalProgress = new Progress<(WarpType WarpType, int Page)>((x) => progress?.Report($"Getting {x.WarpType.ToDescription()} page {x.Page}"));
             var list = await _client.GetWarpRecordAsync(url, endId, internalProgress);
             var oldCount = dapper.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @Uid;", new { Uid = uid });
             using var t = dapper.BeginTransaction();
@@ -126,9 +139,9 @@ public class WarpRecordService
                     """, list, t);
             t.Commit();
             var newCount = dapper.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @Uid;", new { Uid = uid });
-            progress?.Report($"");
-            progress?.Report($"Got {list.Count} records of uid {uid}, added {newCount - oldCount} records.");
+            progress?.Report($"Get {list.Count} records, add {newCount - oldCount} new records.");
         }
+        return uid;
     }
 
 
@@ -175,98 +188,42 @@ public class WarpRecordService
 
 
 
-
-
-
-
-
-
-    public void ExportWarpRecord(int uid, bool all, string output, string format)
+    /// <summary>
+    /// return delete count
+    /// </summary>
+    /// <param name="uid"></param>
+    /// <returns>delete count</returns>
+    public int DeleteUid(int uid)
     {
-        try
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        return dapper.Execute("DELETE FROM WarpRecordItem WHERE Uid = @uid;", new { uid });
+    }
+
+
+
+
+
+
+
+
+    public void ExportWarpRecord(int uid, string file, string format)
+    {
+        using var con = DatabaseService.Instance.CreateConnection();
+        var list = con.Query<WarpRecordItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid;", new { uid }).ToList();
+        if (list.Count == 0)
         {
-            var time = DateTime.Now;
-            if (Path.GetExtension(output) == ".json")
+            //Logger.Warn($"Uid {uid} 没有任何抽卡数据", true);
+        }
+        else
+        {
+            if (format is "excel")
             {
-                format = "json";
-            }
-            if (Path.GetExtension(output) == ".xlsx")
-            {
-                format = "excel";
-            }
-            using var con = DatabaseService.Instance.CreateConnection();
-            if (all)
-            {
-                var uids = con.Query<int>("SELECT DISTINCT Uid FROM WarpRecordItem;").ToList();
-                if (uids.Count == 0)
-                {
-                    //Logger.Warn("没有任何抽卡数据", true);
-                }
-                else
-                {
-                    if (string.IsNullOrWhiteSpace(output))
-                    {
-                        output = Path.Combine(AppConfig.ConfigDirectory, "Export");
-                    }
-                    output = Path.GetFullPath(output);
-                    Directory.CreateDirectory(output);
-                    foreach (var u in uids)
-                    {
-                        string file = "";
-                        if (format is "excel")
-                        {
-                            file = Path.Combine(output, $"export_gacha_{u}_{time:yyyyMMddHHmmss}.xlsx");
-                            ExportAsExcel(u, file);
-                        }
-                        else
-                        {
-                            file = Path.Combine(output, $"export_gacha_{u}_{time:yyyyMMddHHmmss}.json");
-                            ExportAsJson(u, file);
-                        }
-                        //Logger.Success($"已导出 uid {u}: {file}");
-                    }
-                }
+                ExportAsExcel(uid, file);
             }
             else
             {
-                var list = con.Query<WarpRecordItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid;", new { uid }).ToList();
-                if (list.Count == 0)
-                {
-                    //Logger.Warn($"Uid {uid} 没有任何抽卡数据", true);
-                }
-                else
-                {
-                    string dir = "./";
-                    if (string.IsNullOrWhiteSpace(output))
-                    {
-                        output = null!;
-                        dir = Path.Combine(AppConfig.ConfigDirectory, "Export");
-                    }
-                    else
-                    {
-                        output = Path.GetFullPath(output);
-                        dir = Path.GetDirectoryName(output)!;
-                    }
-                    Directory.CreateDirectory(dir);
-
-                    string file = "";
-                    if (format is "excel")
-                    {
-                        file = output ?? Path.Combine(dir, $"export_gacha_{uid}_{time:yyyyMMddHHmmss}.xlsx");
-                        ExportAsExcel(uid, file);
-                    }
-                    else
-                    {
-                        file = output ?? Path.Combine(dir, $"export_gacha_{uid}_{time:yyyyMMddHHmmss}.json");
-                        ExportAsJson(uid, file);
-                    }
-                    //Logger.Success($"已导出 uid {uid}: {file}", true);
-                }
+                ExportAsJson(uid, file);
             }
-        }
-        catch (Exception ex)
-        {
-            //Logger.Error(ex.Message);
         }
     }
 
@@ -292,7 +249,7 @@ public class WarpRecordService
         var list = con.Query<WarpRecordItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
 
         var sheets = new DataSet();
-        var table1 = new DataTable("原始数据");
+        var table1 = new DataTable("Raw Data");
         table1.Columns.Add("uid", typeof(string));
         table1.Columns.Add("id", typeof(string));
         table1.Columns.Add("time", typeof(string));
@@ -325,12 +282,12 @@ public class WarpRecordService
             var table = new DataTable(((WarpType)type).ToDescription());
             table.Columns.Add("Uid", typeof(string));
             table.Columns.Add("Id", typeof(string));
-            table.Columns.Add("时间", typeof(string));
-            table.Columns.Add("名称", typeof(string));
-            table.Columns.Add("物品类型", typeof(string));
-            table.Columns.Add("稀有度", typeof(string));
-            table.Columns.Add("跃迁类型", typeof(string));
-            table.Columns.Add("保底内排序", typeof(string));
+            table.Columns.Add("Time", typeof(string));
+            table.Columns.Add("Name", typeof(string));
+            table.Columns.Add("Item Type", typeof(string));
+            table.Columns.Add("Rarity", typeof(string));
+            table.Columns.Add("Warp Type", typeof(string));
+            table.Columns.Add("Pity", typeof(string));
             var l = list.Where(x => x.WarpType == (WarpType)type).ToList();
             int index = 0;
             foreach (var item in l)
@@ -352,7 +309,7 @@ public class WarpRecordService
             sheets.Tables.Add(table);
         }
 
-        MiniExcel.SaveAs(output, sheets, configuration: new OpenXmlConfiguration { TableStyles = TableStyles.None, });
+        MiniExcel.SaveAs(output, sheets, configuration: new OpenXmlConfiguration { TableStyles = TableStyles.None, }, overwriteFile: true);
     }
 
 
@@ -361,19 +318,5 @@ public class WarpRecordService
 
 
 
-
-
-    public IEnumerable<string> GetUidCompletions(string uid)
-    {
-        try
-        {
-            using var con = DatabaseService.Instance.CreateConnection();
-            return con.Query<string>("SELECT Uid FROM WarpRecordUrl WHERE Uid LIKE @key;", new { key = uid + "%" });
-        }
-        catch
-        {
-            return new List<string>();
-        }
-    }
 
 }

@@ -3,8 +3,10 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Models;
@@ -16,6 +18,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Devices.Display.Core;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.System;
+using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -43,7 +50,7 @@ public sealed partial class WarpRecordPage : Page
 
 
     [ObservableProperty]
-    private List<int> uidList;
+    private ObservableCollection<int> uidList;
 
 
     [ObservableProperty]
@@ -51,7 +58,7 @@ public sealed partial class WarpRecordPage : Page
     partial void OnSelectUidChanged(int value)
     {
         AppConfig.SelectUidInWarpRecordPage = value;
-        GetWarpTypeStats();
+        UpdateWarpTypeStats(value);
     }
 
 
@@ -108,7 +115,7 @@ public sealed partial class WarpRecordPage : Page
     {
         try
         {
-            UidList = WarpRecordService.Instance.GetUids();
+            UidList = new(WarpRecordService.Instance.GetUids());
             var lastUid = AppConfig.SelectUidInWarpRecordPage;
             if (UidList.Contains(lastUid))
             {
@@ -126,68 +133,19 @@ public sealed partial class WarpRecordPage : Page
     }
 
 
-    [RelayCommand]
-    private async Task GetWarpRecordAsync()
+
+    private void UpdateWarpTypeStats(int uid)
     {
         try
         {
-            var serverIndex = SelectServerInPage - 1;
-            if (serverIndex < 0)
+            if (uid == 0)
             {
-                serverIndex = AppConfig.GameServerIndex;
-            }
-            var path = GameService.GetGameInstallPath(serverIndex);
-            if (!Directory.Exists(path))
-            {
-                NotificationBehavior.Instance.Error("", $"Cannot find game install path (server: {(serverIndex == 1 ? "OS" : "CN")})");
-                return;
-            }
-            var url = WarpRecordService.Instance.GetWarpRecordUrlFromWebCache(path);
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                NotificationBehavior.Instance.Error("", $"Cannot find URL (server: {(serverIndex == 1 ? "OS" : "CN")})");
-                return;
-            }
-            var infoBar = new InfoBar
-            {
-                Title = "Processing",
-                Message = "Getting uid of URL...",
-                Severity = InfoBarSeverity.Informational,
-            };
-            NotificationBehavior.Instance.Show(infoBar);
-            var uid = await WarpRecordService.Instance.GetUidFromWarpRecordUrl(url);
-            var progress = new Progress<string>((str) => infoBar.Message = str);
-            await WarpRecordService.Instance.GetWarpRecordAsync(url, false, WarpLanguage, progress);
-            infoBar.Title = "Finish";
-            infoBar.Severity = InfoBarSeverity.Success;
-        }
-        catch (MihoyoApiException ex)
-        {
-            if (ex.ReturnCode == -101)
-            {
-                // authkey timeout
-
+                StellarWarp = null;
+                DepartureWarp = null;
+                CharacterEventWarp = null;
+                LightConeEventWarp = null;
             }
             else
-            {
-
-            }
-        }
-        catch (Exception ex)
-        {
-            NotificationBehavior.Instance.Error(ex);
-        }
-    }
-
-
-
-
-    private void GetWarpTypeStats()
-    {
-        try
-        {
-            int uid = SelectUid;
-            if (uid > 0)
             {
                 var stats = WarpRecordService.Instance.GetWarpTypeStats(uid);
                 StellarWarp = stats.FirstOrDefault(x => x.WarpType == Core.Warp.WarpType.StellarWarp);
@@ -205,6 +163,210 @@ public sealed partial class WarpRecordPage : Page
 
 
 
+
+
+    [RelayCommand]
+    private async Task UpdateWarpRecordAsync(string? param = null)
+    {
+        try
+        {
+            string? url = null;
+            if (param is "cache")
+            {
+                if (SelectUid == 0)
+                {
+                    return;
+                }
+                url = WarpRecordService.Instance.GetUrlByUid(SelectUid);
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    NotificationBehavior.Instance.Warning(null, $"Cannot find cached URL of uid {SelectUid}.");
+                    return;
+                }
+            }
+            else
+            {
+                var serverIndex = SelectServerInPage - 1;
+                if (serverIndex < 0)
+                {
+                    serverIndex = AppConfig.GameServerIndex;
+                }
+                var path = GameService.GetGameInstallPath(serverIndex);
+                if (!Directory.Exists(path))
+                {
+                    NotificationBehavior.Instance.Warning("", $"Cannot find game install path (server {(serverIndex == 1 ? "OS" : "CN")})");
+                    return;
+                }
+                url = WarpRecordService.Instance.GetWarpRecordUrlFromWebCache(path);
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    NotificationBehavior.Instance.Warning("", $"Cannot find URL (server {(serverIndex == 1 ? "OS" : "CN")})");
+                    return;
+                }
+            }
+            await UpdateWarpRecordInternalAsync(url, param is "all");
+        }
+        catch (Exception ex)
+        {
+            NotificationBehavior.Instance.Error(ex);
+        }
+    }
+
+
+
+
+    private async Task UpdateWarpRecordInternalAsync(string url, bool all = false)
+    {
+        try
+        {
+            var uid = await WarpRecordService.Instance.GetUidFromWarpRecordUrl(url);
+            var infoBar = new InfoBar
+            {
+                Title = $"Uid {uid}",
+                Severity = InfoBarSeverity.Informational,
+                Background = Application.Current.Resources["CustomAcrylicBrush"] as Brush
+            };
+            NotificationBehavior.Instance.Show(infoBar);
+            var progress = new Progress<string>((str) => infoBar.Message = str);
+            await WarpRecordService.Instance.GetWarpRecordAsync(url, all, WarpLanguage, progress);
+            infoBar.Severity = InfoBarSeverity.Success;
+            if (SelectUid == uid)
+            {
+                UpdateWarpTypeStats(uid);
+            }
+            else
+            {
+                if (!UidList.Contains(uid))
+                {
+                    UidList.Add(uid);
+                }
+                SelectUid = uid;
+            }
+        }
+        catch (MihoyoApiException ex)
+        {
+            if (ex.ReturnCode == -101)
+            {
+                // authkey timeout
+                NotificationBehavior.Instance.Warning("Authkey Timeout", "Please open warp records page in game.");
+            }
+            else
+            {
+                NotificationBehavior.Instance.Warning(null, ex.Message);
+            }
+        }
+    }
+
+
+
+
+    [RelayCommand]
+    private async Task InputUrlAsync()
+    {
+        try
+        {
+            var textbox = new TextBox();
+            var dialog = new ContentDialog
+            {
+                Title = "Input URL",
+                Content = textbox,
+                PrimaryButtonText = "OK",
+                SecondaryButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = MainWindow.Current.Content.XamlRoot,
+            };
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                var url = textbox.Text;
+                if (!string.IsNullOrWhiteSpace(url))
+                {
+                    await UpdateWarpRecordInternalAsync(url);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationBehavior.Instance.Error(ex);
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task DeleteUidAsync()
+    {
+        try
+        {
+            var uid = SelectUid;
+            if (uid == 0)
+            {
+                return;
+            }
+            var dialog = new ContentDialog
+            {
+                Title = "Warning",
+                Content = $"All warp records of the uid {uid} will be deleted soon, and these records will not be recovered.",
+                PrimaryButtonText = "Delete",
+                SecondaryButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Secondary,
+                XamlRoot = MainWindow.Current.Content.XamlRoot,
+            };
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                var count = WarpRecordService.Instance.DeleteUid(uid);
+                NotificationBehavior.Instance.Success(null, $"{count} warp records of uid {uid} have been deleted.");
+                SelectUid = UidList.FirstOrDefault(x => x != uid);
+                UidList.Remove(uid);
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationBehavior.Instance.Error(ex);
+        }
+    }
+
+
+
+
+    [RelayCommand]
+    private async Task ExportWarpRecordAsync(string format)
+    {
+        try
+        {
+            if (SelectUid == 0)
+            {
+                return;
+            }
+            int uid = SelectUid;
+            var ext = format switch
+            {
+                "excel" => ".xlsx",
+                "json" => ".json",
+                _ => ".json"
+            };
+            var picker = new FileSavePicker
+            {
+                SuggestedStartLocation = PickerLocationId.Downloads,
+                SuggestedFileName = $"Stardward_Export_WarpRecords_{uid}_{DateTime.Now:yyyyMMddHHmmss}",
+            };
+            picker.FileTypeChoices.Add(format, new string[] { ext });
+            InitializeWithWindow.Initialize(picker, MainWindow.Current.HWND);
+            var file = await picker.PickSaveFileAsync();
+            if (file is not null)
+            {
+                WarpRecordService.Instance.ExportWarpRecord(uid, file.Path, format);
+                var options = new FolderLauncherOptions();
+                options.ItemsToSelect.Add(file);
+                NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Success, "Export Successfully", file.Name, "Open Folder", async () => await Launcher.LaunchFolderAsync(await file.GetParentAsync(), options));
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationBehavior.Instance.Error(ex);
+        }
+    }
 
 
 

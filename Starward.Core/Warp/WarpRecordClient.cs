@@ -183,7 +183,7 @@ public class WarpRecordClient
             }
             return warpUrl;
         }
-        throw new ArgumentException(nameof(warpUrl));
+        throw new ArgumentException("Cannot parse the warp URL.");
     }
 
 
