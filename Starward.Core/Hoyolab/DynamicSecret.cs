@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace Starward.Core.GameRecord;
+namespace Starward.Core.Hoyolab;
 
 internal abstract class DynamicSecret
 {

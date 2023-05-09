@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.GameRecord.Challenge;
+namespace Starward.Core.Hoyolab.Challenge;
 
 // Root myDeserializedClass = JsonSerializer.Deserialize<Root>(myJsonResponse);
 public class BeginTime

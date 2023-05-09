@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.GameRecord;
+namespace Starward.Core.Hoyolab.StarRail;
 
-public class GameRoleInfo
+public class StarRailRole
 {
 
     [JsonPropertyName("game_biz")]
@@ -45,8 +45,8 @@ public class GameRoleInfo
 
 
 
-internal class GameRoleWrapper
+internal class StarRailRoleWrapper
 {
     [JsonPropertyName("list")]
-    public List<GameRoleInfo> List { get; set; }
+    public List<StarRailRole> List { get; set; }
 }

@@ -1,11 +1,15 @@
-﻿using Starward.Core.GameRecord.Ledger;
+﻿using Starward.Core.Hoyolab.StarRail;
+using Starward.Core.Hoyolab.StarRail.Ledger;
 using System.Text.Json.Serialization;
 
-namespace Starward.Core.GameRecord;
+namespace Starward.Core.Hoyolab;
 
-[JsonSerializable(typeof(MihoyoApiWrapper<GameRoleWrapper>))]
-[JsonSerializable(typeof(GameRoleInfo))]
-[JsonSerializable(typeof(GameRoleInfo[]))]
+
+[JsonSerializable(typeof(MihoyoApiWrapper<HoyolabUserWrapper>))]
+[JsonSerializable(typeof(HoyolabUserWrapper))]
+[JsonSerializable(typeof(MihoyoApiWrapper<StarRailRoleWrapper>))]
+[JsonSerializable(typeof(StarRailRole))]
+[JsonSerializable(typeof(StarRailRole[]))]
 [JsonSerializable(typeof(MihoyoApiWrapper<LedgerSummary>))]
 [JsonSerializable(typeof(LedgerSummary))]
 [JsonSerializable(typeof(LedgerMonthData))]
@@ -16,7 +20,7 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(LedgerDetail))]
 [JsonSerializable(typeof(LedgerDetailItem))]
 [JsonSerializable(typeof(LedgerDetailItem[]))]
-internal partial class GameRecordJsonContext : JsonSerializerContext
+internal partial class HoyolabJsonContext : JsonSerializerContext
 {
 
 }
