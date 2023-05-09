@@ -1,52 +1,59 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Starward.Core.Warp;
+namespace Starward.Core.Gacha;
 
-public class WarpRecordItem
+public class GachaLogItem
 {
+
     [JsonPropertyName("uid")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public int Uid { get; set; }
 
-    [JsonPropertyName("gacha_id")]
+
+    [JsonPropertyName("id")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int WarpId { get; set; }
+    public long Id { get; set; }
+
 
     [JsonPropertyName("gacha_type")]
-    [JsonConverter(typeof(WarpTypeJsonConverter))]
-    public WarpType WarpType { get; set; }
-
-    [JsonPropertyName("item_id")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int ItemId { get; set; }
+    public int GachaType { get; set; }
 
-    [JsonPropertyName("count")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Count { get; set; }
-
-    [JsonPropertyName("time")]
-    [JsonConverter(typeof(DateTimeJsonConverter))]
-    public DateTime Time { get; set; }
 
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
-    [JsonPropertyName("lang")]
-    public string Lang { get; set; }
 
     [JsonPropertyName("item_type")]
     public string ItemType { get; set; }
+
 
     [JsonPropertyName("rank_type")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public int RankType { get; set; }
 
-    [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public long Id { get; set; }
-}
 
+    [JsonPropertyName("time")]
+    [JsonConverter(typeof(DateTimeJsonConverter))]
+    public DateTime Time { get; set; }
+
+
+    [JsonPropertyName("item_id")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public int ItemId { get; set; }
+
+
+    [JsonPropertyName("count")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public int Count { get; set; }
+
+
+    [JsonPropertyName("lang")]
+    public string Lang { get; set; }
+
+
+}
 
 
 internal class DateTimeJsonConverter : JsonConverter<DateTime>
@@ -70,25 +77,3 @@ internal class DateTimeJsonConverter : JsonConverter<DateTime>
     }
 }
 
-
-
-internal class WarpTypeJsonConverter : JsonConverter<WarpType>
-{
-    public override WarpType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var str = reader.GetString();
-        if (int.TryParse(str, out var num))
-        {
-            return (WarpType)num;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    public override void Write(Utf8JsonWriter writer, WarpType value, JsonSerializerOptions options)
-    {
-        writer.WriteStringValue(((int)value).ToString());
-    }
-}

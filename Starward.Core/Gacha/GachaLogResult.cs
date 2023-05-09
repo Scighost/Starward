@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.Warp;
+namespace Starward.Core.Gacha;
 
-public class WarpRecordResult
+internal class GachaLogResult<T> where T: GachaLogItem
 {
 
     [JsonPropertyName("page")]
@@ -16,19 +16,11 @@ public class WarpRecordResult
 
 
     [JsonPropertyName("list")]
-    public List<WarpRecordItem> List { get; set; }
+    public List<T> List { get; set; }
 
 
     [JsonPropertyName("region")]
     public string Region { get; set; }
 
 
-    [JsonPropertyName("region_time_zone")]
-    public int RegionTimeZone { get; set; }
-
-
 }
-
-
-
-
