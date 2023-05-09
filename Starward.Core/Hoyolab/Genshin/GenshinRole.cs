@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hoyolab.StarRail;
+namespace Starward.Core.Hoyolab.Genshin;
 
-public class StarRailRole
+public class GenshinRole
 {
 
     [JsonPropertyName("game_biz")]
@@ -41,13 +41,12 @@ public class StarRailRole
     [JsonIgnore]
     public string? Cookie { get; set; }
 
+
 }
 
 
-
-internal class StarRailRoleWrapper
+internal class GenshinRoleWrapper
 {
     [JsonPropertyName("list")]
-    public List<StarRailRole> List { get; set; }
+    public List<GenshinRole> List { get; set; }
 }
-

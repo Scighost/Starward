@@ -1,4 +1,8 @@
-﻿using Starward.Core.Hoyolab.StarRail;
+﻿using Starward.Core.Hoyolab.Genshin;
+using Starward.Core.Hoyolab.StarRail;
+#if !DEBUG
+using System.Net.Http.Json;
+#endif
 using System.Text.Json;
 
 namespace Starward.Core.Hoyolab;
@@ -30,10 +34,12 @@ public class HoyolabClient
     protected readonly HttpClient _httpClient;
 
 
-    protected StarRailClient _starRailClient;
+    protected HoyolabStarRailClient _starRailClient;
+    public HoyolabStarRailClient StarRailClient => _starRailClient ?? new HoyolabStarRailClient(_httpClient);
 
 
-    public StarRailClient StarRailClient => _starRailClient ?? new StarRailClient(_httpClient);
+    protected HoyolabGenshinClient _genshinClient;
+    public HoyolabGenshinClient GenshinClient => _genshinClient ?? new HoyolabGenshinClient(_httpClient);
 
 
 

@@ -14,6 +14,9 @@ public class LedgerDetailItem
 
     public int Uid { get; set; }
 
+    /// <summary>
+    /// 202304
+    /// </summary>
     public string Month { get; set; }
 
     /// <summary>
