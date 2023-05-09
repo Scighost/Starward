@@ -2,7 +2,7 @@
 
 namespace Starward.Core.Gacha;
 
-internal class GachaLogResult<T> where T: GachaLogItem
+internal class GachaLogResult<T> where T : GachaLogItem
 {
 
     [JsonPropertyName("page")]

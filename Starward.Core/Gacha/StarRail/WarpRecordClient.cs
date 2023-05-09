@@ -19,6 +19,8 @@ public class WarpRecordClient : GachaLogClient
     private const string API_PREFIX_CN = "https://api-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
     private const string API_PREFIX_OS = "https://api-os-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
 
+    private static readonly ReadOnlyMemory<byte> MEMORY_WEB_PREFIX_CN = new(Encoding.UTF8.GetBytes(WEB_PREFIX_CN));
+    private static readonly ReadOnlyMemory<byte> MEMORY_WEB_PREFIX_OS = new(Encoding.UTF8.GetBytes(WEB_PREFIX_OS));
 
 
     protected override IReadOnlyCollection<int> GachaTypes { get; init; } = new int[] { 1, 2, 11, 12 }.AsReadOnly();
@@ -79,36 +81,39 @@ public class WarpRecordClient : GachaLogClient
     public async Task<List<WarpRecordItem>> GetWarpRecordAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(WarpType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
         var progres_internal = new Progress<(int GachaType, int Page)>((x) => progress?.Report(((WarpType)x.GachaType, x.Page)));
-        return await base.GetGachaLogAsync<WarpRecordItem>(gachaUrl, endId, lang, progres_internal, cancellationToken);
+        return await GetGachaLogAsync<WarpRecordItem>(gachaUrl, endId, lang, progres_internal, cancellationToken);
     }
 
 
 
 
-    public async Task<List<WarpRecordItem>> GetWarpRecordAsync(string gachaUrl, WarpType gachaType, long endId = 0, string? lang = null, IProgress<(WarpType WarpType, int Page)>? progress = null, CancellationToken cancellationToken = default)
+    public async Task<List<WarpRecordItem>> GetWarpRecordAsync(string gachaUrl, WarpType gachaType, long endId = 0, string? lang = null, IProgress<(WarpType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
         var progres_internal = new Progress<(int GachaType, int Page)>((x) => progress?.Report(((WarpType)x.GachaType, x.Page)));
-        return await base.GetGachaLogAsync<WarpRecordItem>(gachaUrl, (int)gachaType, endId, lang, progres_internal, cancellationToken);
+        return await GetGachaLogAsync<WarpRecordItem>(gachaUrl, (int)gachaType, endId, lang, progres_internal, cancellationToken);
+    }
+
+
+
+
+    public async Task<List<WarpRecordItem>> GetWarpRecordAsync(string gachaUrl, GachaLogQuery query, string? lang = null, CancellationToken cancellationToken = default)
+    {
+        var prefix = GetGachaUrlPrefix(gachaUrl, lang);
+        return await GetGachaLogAsync<WarpRecordItem>(prefix, query, cancellationToken);
     }
 
 
 
 
 
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="serverIndex">0 CN, 1 OS</param>
-    /// <returns></returns>
     [SupportedOSPlatform("windows")]
-    public static string? GetGameInstallPathFromRegistry(int serverIndex)
+    public override string? GetGameInstallPathFromRegistry(RegionType region)
     {
-        var key = serverIndex switch
+        var key = region switch
         {
-            0 => REG_KEY_CN,
-            1 => REG_KEY_OS,
-            _ => REG_KEY_CN,
+            RegionType.China => REG_KEY_CN,
+            RegionType.Global => REG_KEY_OS,
+            _ => throw new ArgumentOutOfRangeException($"Unknown region ({region})"),
         };
         return GetGameInstallPathFromRegistry(key);
     }
@@ -117,29 +122,10 @@ public class WarpRecordClient : GachaLogClient
 
 
 
-    public static string? GetWarpUrlFromWebCache(string installPath)
+    public override string? GetGachaUrlFromWebCache(string installPath)
     {
         var file = Path.Join(installPath, WEB_CACHE_PATH);
-        if (File.Exists(file))
-        {
-            using var fs = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-            var ms = new MemoryStream();
-            fs.CopyTo(ms);
-            var span = ms.ToArray().AsSpan();
-            var index = span.LastIndexOf("https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha-v2/index.html"u8);
-            if (index >= 0)
-            {
-                var length = span[index..].IndexOf("\0"u8);
-                return Encoding.UTF8.GetString(span.Slice(index, length));
-            }
-            index = span.LastIndexOf("https://webstatic-sea.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html"u8);
-            if (index >= 0)
-            {
-                var length = span[index..].IndexOf("\0"u8);
-                return Encoding.UTF8.GetString(span.Slice(index, length));
-            }
-        }
-        return null;
+        return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_CN, MEMORY_WEB_PREFIX_OS);
     }
 
 

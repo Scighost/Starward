@@ -1,6 +1,6 @@
 ﻿namespace Starward.Core.Gacha;
 
-internal struct QueryParam
+public struct GachaLogQuery
 {
 
     public int GachaType { get; set; }
@@ -13,9 +13,9 @@ internal struct QueryParam
 
 
 
-    public QueryParam(int type, int page, int size, long endId)
+    public GachaLogQuery(int gachaType, int page, int size, long endId)
     {
-        GachaType = type;
+        GachaType = gachaType;
         Page = page;
         Size = size;
         EndId = endId;

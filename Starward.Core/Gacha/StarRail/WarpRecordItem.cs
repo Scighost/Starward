@@ -10,6 +10,7 @@ public class WarpRecordItem : GachaLogItem
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public int GachaId { get; set; }
 
+
     [JsonIgnore]
     public new WarpType GachaType { get => (WarpType)base.GachaType; set => base.GachaType = (int)value; }
 
