@@ -313,6 +313,7 @@ inline int ini_parse(const char* filename, ini_handler handler, void* user)
 class INIReader
 {
 public:
+#pragma warning (disable: 26495)
     // Empty Constructor
     INIReader() {};
 
