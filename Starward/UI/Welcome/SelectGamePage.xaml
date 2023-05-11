@@ -1,0 +1,193 @@
+﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<Page x:Class="Starward.UI.Welcome.SelectGamePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Starward.UI.Welcome"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:sc="using:Starward.Control"
+      xmlns:ui="using:CommunityToolkit.WinUI.UI"
+      x:DefaultBindMode="OneWay"
+      Loading="Page_Loading"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <ui:AttachedDropShadow x:Key="LogoDropShadow"
+                               BlurRadius="16"
+                               CastTo="{x:Bind Border_Logo_Shadow}"
+                               Opacity="1" />
+        <ui:AttachedDropShadow x:Key="DescriptionDropShadow"
+                               BlurRadius="8"
+                               CastTo="{x:Bind Border_Description_Shadow}"
+                               Opacity="1" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+
+        <Grid Name="Grid_GameInfo"
+              Grid.ColumnSpan="2"
+              Opacity="0">
+            <Grid.OpacityTransition>
+                <ScalarTransition />
+            </Grid.OpacityTransition>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Image Name="Image_Poster"
+                   Grid.ColumnSpan="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Stretch="UniformToFill" />
+            <StackPanel Grid.Column="1"
+                        Margin="96,0,48,144"
+                        VerticalAlignment="Bottom"
+                        Spacing="16">
+                <Grid>
+                    <Border Name="Border_Logo_Shadow" />
+                    <Image Name="Image_Logo"
+                           Width="200"
+                           HorizontalAlignment="Right"
+                           ui:Effects.Shadow="{StaticResource LogoDropShadow}" />
+                </Grid>
+                <Grid>
+                    <Border Name="Border_Description_Shadow" />
+                    <TextBlock Name="TextBlock_Description"
+                               ui:Effects.Shadow="{StaticResource DescriptionDropShadow}"
+                               FontSize="16"
+                               LineHeight="24"
+                               TextWrapping="WrapWholeWords" />
+                </Grid>
+
+                <HyperlinkButton Name="HyperlinkButton_HomePage"
+                                 Height="32"
+                                 HorizontalAlignment="Right"
+                                 CornerRadius="16">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon VerticalAlignment="Bottom"
+                                  FontSize="16"
+                                  Glyph="&#xE167;" />
+                        <TextBlock Name="TextBlock_HomePage" VerticalAlignment="Center" />
+                    </StackPanel>
+                </HyperlinkButton>
+            </StackPanel>
+        </Grid>
+
+
+        <Rectangle Name="Rectangle_Mask"
+                   Grid.ColumnSpan="2"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   Fill="{ThemeResource ControlOnImageFillColorDefaultBrush}"
+                   IsHitTestVisible="False"
+                   Opacity="0">
+            <Rectangle.OpacityTransition>
+                <ScalarTransition />
+            </Rectangle.OpacityTransition>
+        </Rectangle>
+
+
+
+        <StackPanel Margin="48,0,0,0"
+                    VerticalAlignment="Center"
+                    Spacing="40">
+
+            <TextBlock FontSize="20"
+                       Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                       Text="快要完成了~"
+                       TextWrapping="Wrap" />
+
+            <TextBlock FontSize="20" TextWrapping="Wrap">
+                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="Starward Launcher" />
+                <Run Text="仅支持部分" />
+                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="miHoYo/HoYoverse" />
+                <Run Text="游戏，请在下方选择你的目标，进入启动器后也可随时更改。" />
+            </TextBlock>
+
+            <StackPanel Orientation="Horizontal" Spacing="16">
+                <ComboBox Name="ComboBox_Game"
+                          Height="32"
+                          MinWidth="180"
+                          Padding="20,0,20,0"
+                          CornerRadius="16"
+                          PlaceholderText="选择游戏"
+                          SelectionChanged="ComboBox_Game_SelectionChanged">
+                    <ComboBoxItem Content="原神" Tag="Genshin" />
+                    <ComboBoxItem Content="崩坏：星穹铁道" Tag="StarRail" />
+                </ComboBox>
+
+                <ComboBox Name="ComboBox_Region"
+                          Height="32"
+                          MinWidth="160"
+                          Padding="20,0,20,0"
+                          CornerRadius="16"
+                          PlaceholderText="选择区域"
+                          SelectionChanged="ComboBox_Region_SelectionChanged" />
+            </StackPanel>
+        </StackPanel>
+
+
+
+
+
+
+
+
+        <!--  Select Directory  -->
+        <Button Name="Button_Preview"
+                Grid.Column="0"
+                Height="40"
+                Margin="48"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Command="{x:Bind PreviewCommand}"
+                CornerRadius="20"
+                IsEnabled="True"
+                Shadow="{ThemeResource ThemeShadow}"
+                Style="{ThemeResource AccentButtonStyle}"
+                Translation="0,0,8">
+            <StackPanel Margin="20,0,20,0"
+                        Orientation="Horizontal"
+                        Spacing="16">
+                <FontIcon VerticalAlignment="Bottom"
+                          FontSize="16"
+                          FontWeight="SemiBold"
+                          Glyph="&#xEC52;" />
+                <TextBlock VerticalAlignment="Center" Text="选择文件夹" />
+            </StackPanel>
+        </Button>
+
+
+        <!--  Finish  -->
+        <Button Name="Button_Next"
+                Grid.Column="1"
+                Height="40"
+                Margin="48"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Command="{x:Bind NextCommand}"
+                CornerRadius="20"
+                IsEnabled="False"
+                Shadow="{ThemeResource ThemeShadow}"
+                Style="{ThemeResource AccentButtonStyle}"
+                Translation="0,0,8">
+            <StackPanel Margin="20,0,20,0"
+                        Orientation="Horizontal"
+                        Spacing="16">
+                <TextBlock VerticalAlignment="Center" Text="进入启动器" />
+                <FontIcon VerticalAlignment="Bottom"
+                          FontSize="16"
+                          FontWeight="SemiBold"
+                          Glyph="&#xEBE7;" />
+            </StackPanel>
+        </Button>
+
+    </Grid>
+</Page>

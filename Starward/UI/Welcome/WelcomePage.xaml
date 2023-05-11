@@ -1,0 +1,20 @@
+﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<Page x:Class="Starward.UI.Welcome.WelcomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Starward.UI"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid>
+        <Image HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Source="C:\Program Files\Collapse Launcher\app-1.70.1\Assets\BG\StartUpBG2.png"
+               Stretch="UniformToFill" />
+        <Frame Name="frame" />
+
+    </Grid>
+</Page>
