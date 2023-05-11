@@ -571,12 +571,14 @@ public abstract class CacheBase<T>
 
         if (_baseFolder == null)
         {
-            _baseFolder = ApplicationData.Current.TemporaryFolder;
+            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
+            Directory.CreateDirectory(folder);
+            _baseFolder = await StorageFolder.GetFolderFromPathAsync(folder);
         }
 
         if (string.IsNullOrWhiteSpace(_cacheFolderName))
         {
-            _cacheFolderName = GetType().Name;
+            _cacheFolderName = "cache";
         }
 
         try

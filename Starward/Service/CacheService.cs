@@ -12,18 +12,8 @@ internal class CacheService : CacheBase<StorageFile>
     private static CacheService _instance;
 
 
-    public static CacheService Instance => _instance ??= InitializeInstance();
+    public static CacheService Instance => _instance ??= new CacheService { CacheDuration = TimeSpan.FromDays(90), RetryCount = 3 };
 
-
-
-    private static CacheService InitializeInstance()
-    {
-        var service = new CacheService { CacheDuration = TimeSpan.FromDays(90), RetryCount = 3 };
-        var folder = Path.Join(AppConfig.ConfigDirectory, "cache");
-        Directory.CreateDirectory(folder);
-        service.Initialize(StorageFolder.GetFolderFromPathAsync(folder).AsTask().ConfigureAwait(false).GetAwaiter().GetResult());
-        return service;
-    }
 
 
     protected override Task<StorageFile> InitializeTypeAsync(Stream stream)
