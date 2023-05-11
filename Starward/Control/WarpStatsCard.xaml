@@ -1,0 +1,140 @@
+﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<UserControl x:Class="Starward.Control.WarpStatsCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cc="using:CommunityToolkit.WinUI.UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Starward.Control"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sm="using:Starward.Model"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="TextTrimming" Value="None" />
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Padding="12,4,12,8"
+          Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+          BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+          BorderThickness="1"
+          CornerRadius="8"
+          RowSpacing="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   FontSize="16"
+                   FontWeight="SemiBold"
+                   Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                   Text="{x:Bind WarpTypeStats.WarpTypeText}" />
+
+        <TextBlock Grid.Row="1"
+                   FontSize="12"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+            <Run Text="{x:Bind WarpTypeStats.StartTime}" />
+            <Run Text="-" />
+            <Run Text="{x:Bind WarpTypeStats.EndTime}" />
+        </TextBlock>
+
+        <MenuFlyoutSeparator Grid.Row="2" />
+
+        <TextBlock Grid.Row="3" Text="4★ Pity" />
+        <TextBlock Grid.Row="3"
+                   HorizontalAlignment="Right"
+                   Text="{x:Bind WarpTypeStats.Pity_4}" />
+
+        <TextBlock Grid.Row="4" Text="5★ Pity" />
+        <TextBlock Grid.Row="4"
+                   HorizontalAlignment="Right"
+                   Text="{x:Bind WarpTypeStats.Pity_5}" />
+
+        <TextBlock Grid.Row="5" Text="5★ Average" />
+        <TextBlock Grid.Row="5"
+                   HorizontalAlignment="Right"
+                   Text="{x:Bind WarpTypeStats.Average_5.ToString('F2', x:Null)}" />
+
+        <MenuFlyoutSeparator Grid.Row="6" />
+
+        <TextBlock Grid.Row="7" Text="Total Pulls" />
+        <TextBlock Grid.Row="7"
+                   HorizontalAlignment="Right"
+                   HorizontalTextAlignment="Left">
+            <Run Text="{x:Bind WarpTypeStats.Count}" />
+        </TextBlock>
+
+        <TextBlock Grid.Row="8" Text="5★ Count" />
+        <TextBlock Grid.Row="8"
+                   HorizontalAlignment="Right"
+                   HorizontalTextAlignment="Left">
+            <Run Text="{x:Bind WarpTypeStats.Count_5}" />
+            <Run Text="[" /><Run Text="{x:Bind WarpTypeStats.Ratio_5.ToString('P2', x:Null)}" /><Run Text="]" />
+        </TextBlock>
+
+        <TextBlock Grid.Row="9" Text="4★ Count" />
+        <TextBlock Grid.Row="9"
+                   HorizontalAlignment="Right"
+                   HorizontalTextAlignment="Left">
+            <Run Text="{x:Bind WarpTypeStats.Count_4}" />
+            <Run Text="[" /><Run Text="{x:Bind WarpTypeStats.Ratio_4.ToString('P2', x:Null)}" /><Run Text="]" />
+        </TextBlock>
+
+        <TextBlock Grid.Row="10" Text="3★ Count" />
+        <TextBlock Grid.Row="10"
+                   HorizontalAlignment="Right"
+                   HorizontalTextAlignment="Left">
+            <Run Text="{x:Bind WarpTypeStats.Count_3}" />
+            <Run Text="[" /><Run Text="{x:Bind WarpTypeStats.Ratio_3.ToString('P2', x:Null)}" /><Run Text="]" />
+        </TextBlock>
+
+        <MenuFlyoutSeparator Grid.Row="11" />
+
+        <ItemsRepeater Grid.Row="12" ItemsSource="{x:Bind WarpTypeStats.List_5}">
+            <ItemsRepeater.Layout>
+                <StackLayout Spacing="4" />
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="sm:WarpRecordItemEx">
+                    <Grid Background="Transparent"
+                          ColumnSpacing="8"
+                          ToolTipService.ToolTip="{x:Bind Time}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="24" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center"
+                                   Text="{x:Bind Name}"
+                                   TextTrimming="WordEllipsis" />
+                        <TextBlock Grid.Column="1"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Text="{x:Bind Pity}" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+
+
+    </Grid>
+
+</UserControl>
