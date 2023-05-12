@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hoyolab;
+namespace Starward.Core.Hyperion;
 
-public class HoyolabUser
+public class HyperionUser
 {
 
     /// <summary>
@@ -58,9 +58,9 @@ public class HoyolabUser
 
 
 
-internal class HoyolabUserWrapper
+internal class HyperionUserWrapper
 {
     [JsonPropertyName("user_info")]
-    public HoyolabUser MiyousheUser { get; set; }
+    public HyperionUser MiyousheUser { get; set; }
 }
 

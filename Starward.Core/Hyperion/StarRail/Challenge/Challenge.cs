@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hoyolab.StarRail.Challenge;
+namespace Starward.Core.Hyperion.StarRail.Challenge;
 
 // Root myDeserializedClass = JsonSerializer.Deserialize<Root>(myJsonResponse);
 public class BeginTime

@@ -1,7 +1,7 @@
 ﻿using Starward.Core.Gacha;
 using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hoyolab.StarRail.Ledger;
+namespace Starward.Core.Hyperion.StarRail.Ledger;
 
 /// <summary>
 /// 开拓月历明细单项

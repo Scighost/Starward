@@ -1,15 +1,15 @@
-﻿using Starward.Core.Hoyolab.Genshin.SpiralAbyss;
+﻿using Starward.Core.Hyperion.Genshin.SpiralAbyss;
 
-namespace Starward.Core.Hoyolab.Genshin;
+namespace Starward.Core.Hyperion.Genshin;
 
-public class HoyolabGenshinClient : HoyolabClient
+public class HyperionGenshinClient : HyperionClient
 {
 
 
 
-    public HoyolabGenshinClient(HttpClient? httpClient = null) : base(httpClient)
+    public HyperionGenshinClient(HttpClient? httpClient = null) : base(httpClient)
     {
-        _genshinClient = this;
+        _genshin = this;
     }
 
 

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hoyolab.Genshin.SpiralAbyss;
+namespace Starward.Core.Hyperion.Genshin.SpiralAbyss;
 
 public class SpiralAbyssTimeJsonConverter : JsonConverter<DateTimeOffset>
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hoyolab.Genshin.SpiralAbyss
+namespace Starward.Core.Hyperion.Genshin.SpiralAbyss
 {
 
     /// <summary>

@@ -1,15 +1,15 @@
-﻿using Starward.Core.Hoyolab.StarRail.Ledger;
+﻿using Starward.Core.Hyperion.StarRail.Ledger;
 
-namespace Starward.Core.Hoyolab.StarRail;
+namespace Starward.Core.Hyperion.StarRail;
 
-public class HoyolabStarRailClient : HoyolabClient
+public class HyperionStarRailClient : HyperionClient
 {
 
 
 
-    public HoyolabStarRailClient(HttpClient? httpClient = null) : base(httpClient)
+    public HyperionStarRailClient(HttpClient? httpClient = null) : base(httpClient)
     {
-        _starRailClient = this;
+        _starRail = this;
     }
 
 
@@ -60,6 +60,8 @@ public class HoyolabStarRailClient : HoyolabClient
     }
 
 
+
+
     /// <summary>
     /// 开拓月历收入详情
     /// </summary>
@@ -85,6 +87,8 @@ public class HoyolabStarRailClient : HoyolabClient
         }
         return data;
     }
+
+
 
 
     /// <summary>

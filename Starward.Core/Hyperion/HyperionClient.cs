@@ -1,13 +1,15 @@
-﻿using Starward.Core.Hoyolab.Genshin;
-using Starward.Core.Hoyolab.StarRail;
+﻿using Starward.Core.Hyperion.Genshin;
+using Starward.Core.Hyperion.Genshin.SpiralAbyss;
+using Starward.Core.Hyperion.StarRail;
+using Starward.Core.Hyperion.StarRail.Ledger;
 #if !DEBUG
 using System.Net.Http.Json;
 #endif
 using System.Text.Json;
 
-namespace Starward.Core.Hoyolab;
+namespace Starward.Core.Hyperion;
 
-public class HoyolabClient
+public class HyperionClient
 {
 
 
@@ -34,16 +36,16 @@ public class HoyolabClient
     protected readonly HttpClient _httpClient;
 
 
-    protected HoyolabStarRailClient _starRailClient;
-    public HoyolabStarRailClient StarRailClient => _starRailClient ?? new HoyolabStarRailClient(_httpClient);
+    protected HyperionStarRailClient _starRail;
+    public HyperionStarRailClient StarRail => _starRail ?? new HyperionStarRailClient(_httpClient);
 
 
-    protected HoyolabGenshinClient _genshinClient;
-    public HoyolabGenshinClient GenshinClient => _genshinClient ?? new HoyolabGenshinClient(_httpClient);
+    protected HyperionGenshinClient _genshin;
+    public HyperionGenshinClient Genshin => _genshin ?? new HyperionGenshinClient(_httpClient);
 
 
 
-    public HoyolabClient(HttpClient? httpClient = null)
+    public HyperionClient(HttpClient? httpClient = null)
     {
         _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All });
     }
@@ -64,9 +66,9 @@ public class HoyolabClient
         response.EnsureSuccessStatusCode();
 #if DEBUG
         var content = await response.Content.ReadAsStringAsync();
-        var responseData = JsonSerializer.Deserialize(content, typeof(MihoyoApiWrapper<T>), HoyolabJsonContext.Default) as MihoyoApiWrapper<T>;
+        var responseData = JsonSerializer.Deserialize(content, typeof(MihoyoApiWrapper<T>), HyperionJsonContext.Default) as MihoyoApiWrapper<T>;
 #else
-        var responseData = await response.Content.ReadFromJsonAsync(typeof(MihoyoApiWrapper<T>), HoyolabJsonContext.Default) as MihoyoApiWrapper<T>;
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(MihoyoApiWrapper<T>), HyperionJsonContext.Default) as MihoyoApiWrapper<T>;
 #endif
         if (responseData is null)
         {
@@ -99,7 +101,7 @@ public class HoyolabClient
     /// <param name="cookie"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">输入的 <c>cookie</c> 为空</exception>
-    public async Task<HoyolabUser> GetHoyolabUserAsync(string cookie, CancellationToken? cancellationToken = null)
+    public async Task<HyperionUser> GetHyperionUserAsync(string cookie, CancellationToken? cancellationToken = null)
     {
         if (string.IsNullOrWhiteSpace(cookie))
         {
@@ -112,14 +114,10 @@ public class HoyolabClient
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_device_id, DeviceId);
         request.Headers.Add(x_rpc_client_type, "5");
-        var data = await CommonSendAsync<HoyolabUserWrapper>(request, cancellationToken);
+        var data = await CommonSendAsync<HyperionUserWrapper>(request, cancellationToken);
         data.MiyousheUser.Cookie = cookie;
         return data.MiyousheUser;
     }
-
-
-
-
 
 
 
