@@ -5,6 +5,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       xmlns:local="using:Starward.UI.Welcome"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Control"
@@ -22,7 +23,19 @@
                                BlurRadius="8"
                                CastTo="{x:Bind Border_Description_Shadow}"
                                Opacity="1" />
+
+        <labs:TransitionHelper x:Key="LogoTransition">
+            <labs:TransitionConfig EasingMode="EaseInOut"
+                                   Id="logo"
+                                   ScaleMode="Scale" />
+        </labs:TransitionHelper>
+        <labs:StartTransitionAction x:Name="logoAction"
+                                    Source="{x:Bind Image_Logo}"
+                                    Target="{x:Bind Image_Logo_Action}"
+                                    Transition="{StaticResource LogoTransition}" />
     </Page.Resources>
+
+
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -30,7 +43,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-
+        <!--  game info  -->
         <Grid Name="Grid_GameInfo"
               Grid.ColumnSpan="2"
               Opacity="0">
@@ -53,9 +66,11 @@
                 <Grid>
                     <Border Name="Border_Logo_Shadow" />
                     <Image Name="Image_Logo"
-                           Width="200"
+                           Width="240"
                            HorizontalAlignment="Right"
-                           ui:Effects.Shadow="{StaticResource LogoDropShadow}" />
+                           labs:TransitionHelper.Id="logo"
+                           ui:Effects.Shadow="{StaticResource LogoDropShadow}"
+                           Stretch="Uniform" />
                 </Grid>
                 <Grid>
                     <Border Name="Border_Description_Shadow" />
@@ -81,6 +96,7 @@
         </Grid>
 
 
+        <!--  mask  -->
         <Rectangle Name="Rectangle_Mask"
                    Grid.ColumnSpan="2"
                    HorizontalAlignment="Stretch"
@@ -95,9 +111,14 @@
 
 
 
-        <StackPanel Margin="48,0,0,0"
+        <!--  select game  -->
+        <StackPanel Name="StackPanel_SelectGame"
+                    Margin="48,0,0,0"
                     VerticalAlignment="Center"
                     Spacing="40">
+            <StackPanel.OpacityTransition>
+                <ScalarTransition />
+            </StackPanel.OpacityTransition>
 
             <TextBlock FontSize="20"
                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
@@ -111,32 +132,49 @@
                 <Run Text="游戏，请在下方选择你的目标，进入启动器后也可随时更改。" />
             </TextBlock>
 
+            <!--  select game  -->
             <StackPanel Orientation="Horizontal" Spacing="16">
-                <ComboBox Name="ComboBox_Game"
+                <ComboBox Name="ComboBox_GameBiz"
                           Height="32"
-                          MinWidth="180"
+                          MinWidth="240"
                           Padding="20,0,20,0"
                           CornerRadius="16"
-                          PlaceholderText="选择游戏"
-                          SelectionChanged="ComboBox_Game_SelectionChanged">
-                    <ComboBoxItem Content="原神" Tag="Genshin" />
-                    <ComboBoxItem Content="崩坏：星穹铁道" Tag="StarRail" />
+                          PlaceholderText="Select Game"
+                          SelectionChanged="ComboBox_GameBiz_SelectionChanged">
+                    <ComboBoxItem Content="Genshin Impact - China" Tag="hk4e_cn" />
+                    <ComboBoxItem Content="Genshin Impact - Global" Tag="hk4e_global" />
+                    <ComboBoxItem Content="Genshin Impact - Cloud" Tag="hk4e_cloud" />
+                    <ComboBoxItem Content="Honkai: Star Rail - China" Tag="hkrpg_cn" />
+                    <ComboBoxItem Content="Honkai: Star Rail - Global" Tag="hkrpg_global" />
                 </ComboBox>
 
-                <ComboBox Name="ComboBox_Region"
-                          Height="32"
-                          MinWidth="160"
-                          Padding="20,0,20,0"
-                          CornerRadius="16"
-                          PlaceholderText="选择区域"
-                          SelectionChanged="ComboBox_Region_SelectionChanged" />
+
             </StackPanel>
         </StackPanel>
 
 
 
-
-
+        <StackPanel Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsHitTestVisible="False"
+                    Spacing="40">
+            <Image Name="Image_Logo_Action"
+                   Width="240"
+                   HorizontalAlignment="Center"
+                   labs:TransitionHelper.Id="logo"
+                   Stretch="Uniform"
+                   Visibility="Collapsed" />
+            <TextBlock Name="TextBlock_Slogan"
+                       HorizontalAlignment="Center"
+                       FontSize="28"
+                       HorizontalTextAlignment="Center"
+                       Opacity="0">
+                <TextBlock.OpacityTransition>
+                    <ScalarTransition Duration="0:0:1.5" />
+                </TextBlock.OpacityTransition>
+            </TextBlock>
+        </StackPanel>
 
 
 
@@ -153,6 +191,9 @@
                 Shadow="{ThemeResource ThemeShadow}"
                 Style="{ThemeResource AccentButtonStyle}"
                 Translation="0,0,8">
+            <Button.OpacityTransition>
+                <ScalarTransition />
+            </Button.OpacityTransition>
             <StackPanel Margin="20,0,20,0"
                         Orientation="Horizontal"
                         Spacing="16">
@@ -178,6 +219,9 @@
                 Shadow="{ThemeResource ThemeShadow}"
                 Style="{ThemeResource AccentButtonStyle}"
                 Translation="0,0,8">
+            <Button.OpacityTransition>
+                <ScalarTransition />
+            </Button.OpacityTransition>
             <StackPanel Margin="20,0,20,0"
                         Orientation="Horizontal"
                         Spacing="16">
@@ -189,5 +233,14 @@
             </StackPanel>
         </Button>
 
+
+
+
+
+
+
+
     </Grid>
+
+
 </Page>

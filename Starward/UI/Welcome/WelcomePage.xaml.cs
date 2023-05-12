@@ -30,6 +30,8 @@ public sealed partial class WelcomePage : Page
 
     public static WelcomePage Current { get; private set; }
 
+    public string ConfigDirecory { get; set; }
+
 
     public WelcomePage()
     {

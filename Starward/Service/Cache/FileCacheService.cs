@@ -1,18 +1,17 @@
-﻿using Starward.Service.Cache;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Starward.Service;
+namespace Starward.Service.Cache;
 
-internal class CacheService : CacheBase<StorageFile>
+internal class FileCacheService : CacheBase<StorageFile>
 {
 
-    private static CacheService _instance;
+    private static FileCacheService _instance;
 
 
-    public static CacheService Instance => _instance ??= new CacheService { CacheDuration = TimeSpan.FromDays(90), RetryCount = 3 };
+    public static FileCacheService Instance => _instance ??= new FileCacheService { CacheDuration = TimeSpan.FromDays(90), RetryCount = 3 };
 
 
 

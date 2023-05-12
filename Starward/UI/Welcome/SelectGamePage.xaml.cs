@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Metadata;
 using Starward.Service;
+using Starward.Service.Cache;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -56,9 +57,7 @@ public sealed partial class SelectGamePage : Page
     private List<GameInfo> games;
 
 
-    private GameType selectGame;
-
-    private RegionType selectRegion;
+    private GameBiz selectBiz;
 
 
     private async void Page_Loading(FrameworkElement sender, object args)
@@ -66,6 +65,11 @@ public sealed partial class SelectGamePage : Page
         try
         {
             games = await _client.GetGameInfoAsync();
+            foreach (var game in games)
+            {
+                _ = ImageCacheService.Instance.PreCacheAsync(new Uri(game.Logo));
+                _ = ImageCacheService.Instance.PreCacheAsync(new Uri(game.Poster));
+            }
         }
         catch (Exception ex)
         {
@@ -86,75 +90,61 @@ public sealed partial class SelectGamePage : Page
 
 
     [RelayCommand]
-    private void Next()
-    {
-        // todo save game and region
-        MainWindow.Current.NavigateTo(typeof(MainPage), null!, new DrillInNavigationTransitionInfo());
-    }
-
-
-
-    private void ComboBox_Game_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async Task NextAsync()
     {
         try
         {
-            source?.Cancel();
-            ComboBox_Region.Items.Clear();
-            if (ComboBox_Game.SelectedItem is ComboBoxItem item)
+            AppConfig.SelectGameBiz = selectBiz;
+            AppConfig.SetConfigDirectory(WelcomePage.Current.ConfigDirecory);
+            if (Grid_GameInfo.Opacity == 1)
             {
-                if (item.Tag is "StarRail")
-                {
-                    selectGame = GameType.StarRail;
-                    _logger.LogInformation("Select StarRail");
-                    ComboBox_Region.Items.Add(new ComboBoxItem { Content = "国服", Tag = "CN" });
-                    ComboBox_Region.Items.Add(new ComboBoxItem { Content = "国际服", Tag = "OS" });
-                }
-                if (item.Tag is "Genshin")
-                {
-                    selectGame = GameType.Genshin;
-                    _logger.LogInformation("Select Genshin");
-                    ComboBox_Region.Items.Add(new ComboBoxItem { Content = "国服", Tag = "CN" });
-                    ComboBox_Region.Items.Add(new ComboBoxItem { Content = "国际服", Tag = "OS" });
-                }
+                logoAction.Execute(this, null!);
+                TextBlock_Slogan.Opacity = 1;
+                Rectangle_Mask.Opacity = 1;
+                Button_Next.Opacity = 0;
+                Button_Preview.Opacity = 0;
+                StackPanel_SelectGame.Opacity = 0;
+                TextBlock_Description.Opacity = 0;
+                HyperlinkButton_HomePage.Opacity = 0;
+                Border_Description_Shadow.Opacity = 0;
+                Border_Logo_Shadow.Opacity = 0;
+                await Task.Delay(3000);
             }
+            MainWindow.Current.NavigateTo(typeof(MainPage), null!, new DrillInNavigationTransitionInfo());
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, null);
         }
     }
 
 
 
 
-    private async void ComboBox_Region_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void ComboBox_GameBiz_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         try
         {
-            source?.Cancel();
-            selectRegion = RegionType.None;
-            if (ComboBox_Region.SelectedItem is ComboBoxItem item)
+            if (ComboBox_GameBiz.SelectedItem is ComboBoxItem item)
             {
-                if (item.Tag is "CN")
+                if (Enum.TryParse(item.Tag as string, out GameBiz biz))
                 {
-                    _logger.LogInformation("Select China Server");
-                    selectRegion = RegionType.China;
+                    selectBiz = biz;
                 }
-                if (item.Tag is "OS")
+                else
                 {
-                    _logger.LogInformation("Select Global Server");
-                    selectRegion = RegionType.Global;
+                    selectBiz = GameBiz.None;
                 }
             }
-            if (selectRegion != RegionType.None)
+            if (selectBiz != GameBiz.None)
             {
                 Button_Next.IsEnabled = true;
-                await ChangeGameInfoAsync();
             }
             else
             {
                 Button_Next.IsEnabled = false;
             }
+            await ChangeGameInfoAsync();
         }
         catch (Exception ex)
         {
@@ -169,35 +159,30 @@ public sealed partial class SelectGamePage : Page
 
     private async Task ChangeGameInfoAsync()
     {
+        if (games is null)
+        {
+            return;
+        }
         var sw = Stopwatch.StartNew();
         try
         {
             source?.Cancel();
             Grid_GameInfo.Opacity = 0;
             Rectangle_Mask.Opacity = 1;
-            var game_info = games.FirstOrDefault(x => x.Game == selectGame && x.Region == selectRegion);
+            var game_info = games.FirstOrDefault(x => x.GameBiz == selectBiz);
             if (game_info != null)
             {
                 source = new();
-                var logo = await CacheService.Instance.GetFileFromCacheAsync(new Uri(game_info.Logo));
-                var poster = await CacheService.Instance.GetFileFromCacheAsync(new Uri(game_info.Poster));
-                if (logo is null || poster is null)
-                {
-                    logo = await CacheService.Instance.GetFromCacheAsync(new Uri(game_info.Logo));
-                    poster = await CacheService.Instance.GetFromCacheAsync(new Uri(game_info.Poster));
-                }
+                var logoTask = ImageCacheService.Instance.GetFromCacheAsync(new Uri(game_info.Logo));
+                var posterTask = ImageCacheService.Instance.GetFromCacheAsync(new Uri(game_info.Poster));
+                await Task.WhenAll(logoTask, posterTask);
+                var logo = logoTask.Result;
+                var poster = posterTask.Result;
                 if (logo is null || poster is null)
                 {
                     Grid_GameInfo.Opacity = 0;
                     return;
                 }
-                using var s_logo = await logo.OpenReadAsync();
-                var bitmap_logo = new BitmapImage();
-                await bitmap_logo.SetSourceAsync(s_logo);
-
-                using var s_poster = await poster.OpenReadAsync();
-                var bitmap_poster = new BitmapImage();
-                await bitmap_poster.SetSourceAsync(s_poster);
 
                 if (sw.ElapsedMilliseconds < 300)
                 {
@@ -209,12 +194,14 @@ public sealed partial class SelectGamePage : Page
                     return;
                 }
 
-                Image_Logo.Source = bitmap_logo;
-                Image_Poster.Source = bitmap_poster;
+                Image_Logo.Source = logo;
+                Image_Poster.Source = poster;
+                Image_Logo_Action.Source = logo;
 
                 TextBlock_Description.Text = game_info.Description;
                 HyperlinkButton_HomePage.NavigateUri = new Uri(game_info.HomePage);
                 TextBlock_HomePage.Text = game_info.HomePage;
+                TextBlock_Slogan.Text = game_info.Slogan;
                 Grid_GameInfo.Opacity = 1;
             }
         }

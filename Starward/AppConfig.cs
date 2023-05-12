@@ -103,10 +103,9 @@ internal abstract class AppConfig
     }
 
 
-
-    public static int GameServerIndex
+    public static GameBiz SelectGameBiz
     {
-        get => GetValue<int>();
+        get => GetValue<GameBiz>();
         set => SetValue(value);
     }
 
