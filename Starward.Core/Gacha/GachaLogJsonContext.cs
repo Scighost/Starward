@@ -6,8 +6,8 @@ namespace Starward.Core.Gacha;
 
 
 [JsonSerializable(typeof(MihoyoApiWrapper<GachaLogResult<GachaLogItem>>))]
-[JsonSerializable(typeof(MihoyoApiWrapper<GachaLogResult<WarpRecordItem>>))]
-[JsonSerializable(typeof(MihoyoApiWrapper<GachaLogResult<WishRecordItem>>))]
+[JsonSerializable(typeof(MihoyoApiWrapper<GachaLogResult<StarRailGachaItem>>))]
+[JsonSerializable(typeof(MihoyoApiWrapper<GachaLogResult<GenshinGachaItem>>))]
 internal partial class GachaLogJsonContext : JsonSerializerContext
 {
 

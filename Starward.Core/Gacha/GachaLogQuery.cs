@@ -3,7 +3,7 @@
 public struct GachaLogQuery
 {
 
-    public int GachaType { get; set; }
+    public GachaType GachaType { get; set; }
 
     public int Page { get; set; }
 
@@ -13,7 +13,7 @@ public struct GachaLogQuery
 
 
 
-    public GachaLogQuery(int gachaType, int page, int size, long endId)
+    public GachaLogQuery(GachaType gachaType, int page, int size, long endId)
     {
         GachaType = gachaType;
         Page = page;
@@ -23,7 +23,7 @@ public struct GachaLogQuery
 
     public override string ToString()
     {
-        return $"gacha_type={GachaType}&page={Page}&size={Size}&end_id={EndId}";
+        return $"gacha_type={(int)GachaType}&page={Page}&size={Size}&end_id={EndId}";
     }
 }
 

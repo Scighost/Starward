@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Starward.Core.Gacha.Genshin;
 
-public class WishRecordClient : GachaLogClient
+public class GenshinGachaClient : GachaLogClient
 {
 
 
@@ -26,11 +26,11 @@ public class WishRecordClient : GachaLogClient
 
 
 
-    protected override IReadOnlyCollection<int> GachaTypes { get; init; } = new int[] { 100, 200, 301, 302 }.AsReadOnly();
+    protected override IReadOnlyCollection<GachaType> GachaTypes { get; init; } = new GachaType[] { (GachaType)100, (GachaType)200, (GachaType)301, (GachaType)302 }.AsReadOnly();
 
 
 
-    public WishRecordClient(HttpClient? httpClient = null) : base(httpClient)
+    public GenshinGachaClient(HttpClient? httpClient = null) : base(httpClient)
     {
 
     }
@@ -78,42 +78,41 @@ public class WishRecordClient : GachaLogClient
 
 
 
-    public async Task<List<WishRecordItem>> GetWishRecordAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(WishType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
+
+    public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
-        var progres_internal = new Progress<(int GachaType, int Page)>((x) => progress?.Report(((WishType)x.GachaType, x.Page)));
-        return await GetGachaLogAsync<WishRecordItem>(gachaUrl, endId, lang, progres_internal, cancellationToken);
+        return await GetGachaLogAsync<GenshinGachaItem>(gachaUrl, endId, lang, progress, cancellationToken);
     }
 
 
 
 
-    public async Task<List<WishRecordItem>> GetWishRecordAsync(string gachaUrl, WishType gachaType, long endId = 0, string? lang = null, IProgress<(WishType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
+    public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaType gachaType, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
-        var progres_internal = new Progress<(int GachaType, int Page)>((x) => progress?.Report(((WishType)x.GachaType, x.Page)));
-        return await GetGachaLogAsync<WishRecordItem>(gachaUrl, (int)gachaType, endId, lang, progres_internal, cancellationToken);
+        return await GetGachaLogAsync<GenshinGachaItem>(gachaUrl, gachaType, endId, lang, progress, cancellationToken);
     }
 
 
 
-    public async Task<List<WishRecordItem>> GetWishRecordAsync(string gachaUrl, GachaLogQuery query, string? lang = null, CancellationToken cancellationToken = default)
-    {
-        var prefix = GetGachaUrlPrefix(gachaUrl, lang);
-        return await GetGachaLogAsync<WishRecordItem>(prefix, query, cancellationToken);
-    }
 
+    public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaLogQuery query, CancellationToken cancellationToken = default)
+    {
+        string prefix = GetGachaUrlPrefix(gachaUrl);
+        return await GetGachaLogByQueryAsync<GenshinGachaItem>(prefix, query, cancellationToken);
+    }
 
 
 
 
     [SupportedOSPlatform("windows")]
-    public override string? GetGameInstallPathFromRegistry(RegionType region)
+    public override string? GetGameInstallPathFromRegistry(GameBiz biz)
     {
-        var key = region switch
+        var key = biz switch
         {
-            RegionType.China => REG_KEY_CN,
-            RegionType.Global => REG_KEY_OS,
-            RegionType.ChinaCloud => REG_KEY_CLOUD_CN,
-            _ => throw new ArgumentOutOfRangeException($"Unknown region ({region})"),
+            GameBiz.hk4e_cn => REG_KEY_CN,
+            GameBiz.hk4e_global => REG_KEY_OS,
+            GameBiz.hk4e_cloud => REG_KEY_CLOUD_CN,
+            _ => throw new ArgumentOutOfRangeException($"Unknown region ({biz})"),
         };
         return GetGameInstallPathFromRegistry(key);
     }
@@ -128,6 +127,8 @@ public class WishRecordClient : GachaLogClient
         var url = FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_CN, MEMORY_WEB_PREFIX_OS);
         return url ?? FindMatchStringFromFile(Path.Join(installPath, WEB_CACHE_PATH_OS), MEMORY_WEB_PREFIX_CN, MEMORY_WEB_PREFIX_OS);
     }
+
+
 
 
 }

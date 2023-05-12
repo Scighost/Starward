@@ -13,7 +13,7 @@ public abstract class GachaLogClient
     protected readonly HttpClient _httpClient;
 
 
-    protected abstract IReadOnlyCollection<int> GachaTypes { get; init; }
+    protected abstract IReadOnlyCollection<GachaType> GachaTypes { get; init; }
 
 
 
@@ -31,7 +31,7 @@ public abstract class GachaLogClient
 
 
 
-    protected abstract string GetGachaUrlPrefix(string gachaUrl, string? lang = null);
+    #region public method
 
 
 
@@ -41,7 +41,7 @@ public abstract class GachaLogClient
         foreach (var gachaType in GachaTypes)
         {
             var param = new GachaLogQuery(gachaType, 1, 1, 0);
-            var list = await GetGachaLogAsync<GachaLogItem>(prefix, param);
+            var list = await GetGachaLogByQueryAsync<GachaLogItem>(prefix, param);
             if (list.Any())
             {
                 return list.First().Uid;
@@ -52,15 +52,44 @@ public abstract class GachaLogClient
 
 
 
+    public abstract Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default);
 
-    protected async Task<List<T>> GetGachaLogAsync<T>(string gachaUrl, long endId = 0, string? lang = null, IProgress<(int GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
+
+    public abstract Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaType gachaType, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default);
+
+
+    public abstract Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaLogQuery query, CancellationToken cancellationToken = default);
+
+
+
+    [SupportedOSPlatform("windows")]
+    public abstract string? GetGameInstallPathFromRegistry(GameBiz biz);
+
+
+    public abstract string? GetGachaUrlFromWebCache(string installPath);
+
+
+
+    #endregion
+
+
+
+
+    #region protected method
+
+
+    protected abstract string GetGachaUrlPrefix(string gachaUrl, string? lang = null);
+
+
+
+    protected async Task<List<T>> GetGachaLogAsync<T>(string gachaUrl, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
     {
         endId = Math.Clamp(endId, 0, long.MaxValue);
         var prefix = GetGachaUrlPrefix(gachaUrl, lang);
         var result = new List<T>();
         foreach (var gachaType in GachaTypes)
         {
-            result.AddRange(await GetGachaLogAsyncInternal<T>(prefix, gachaType, endId, progress, cancellationToken));
+            result.AddRange(await GetGachaLogByTypeAsync<T>(prefix, gachaType, endId, progress, cancellationToken));
         }
         return result;
     }
@@ -68,20 +97,20 @@ public abstract class GachaLogClient
 
 
 
-    protected async Task<List<T>> GetGachaLogAsync<T>(string gachaUrl, int gachaType, long endId = 0, string? lang = null, IProgress<(int GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
+    protected async Task<List<T>> GetGachaLogAsync<T>(string gachaUrl, GachaType gachaType, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
     {
         endId = Math.Clamp(endId, 0, long.MaxValue);
         var prefix = GetGachaUrlPrefix(gachaUrl, lang);
-        return await GetGachaLogAsyncInternal<T>(prefix, gachaType, endId, progress, cancellationToken);
+        return await GetGachaLogByTypeAsync<T>(prefix, gachaType, endId, progress, cancellationToken);
     }
 
 
 
 
-    protected async Task<List<T>> GetGachaLogAsync<T>(string warpUrlPrefix, GachaLogQuery param, CancellationToken cancellationToken = default) where T : GachaLogItem
+    protected async Task<List<T>> GetGachaLogByQueryAsync<T>(string gachaUrlPrefix, GachaLogQuery param, CancellationToken cancellationToken = default) where T : GachaLogItem
     {
         await Task.Delay(Random.Shared.Next(200, 300));
-        var url = $"{warpUrlPrefix}&{param}";
+        var url = $"{gachaUrlPrefix}&{param}";
         var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(MihoyoApiWrapper<GachaLogResult<T>>), GachaLogJsonContext.Default, cancellationToken) as MihoyoApiWrapper<GachaLogResult<T>>;
         if (wrapper is null)
         {
@@ -100,14 +129,14 @@ public abstract class GachaLogClient
 
 
 
-    private async Task<List<T>> GetGachaLogAsyncInternal<T>(string prefix, int gachaType, long endId = 0, IProgress<(int GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
+    private async Task<List<T>> GetGachaLogByTypeAsync<T>(string prefix, GachaType gachaType, long endId = 0, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
     {
         var param = new GachaLogQuery(gachaType, 1, 20, 0);
         var result = new List<T>();
         while (true)
         {
             progress?.Report((gachaType, param.Page));
-            var list = await GetGachaLogAsync<T>(prefix, param, cancellationToken);
+            var list = await GetGachaLogByQueryAsync<T>(prefix, param, cancellationToken);
             result.AddRange(list);
             if (list.Count == 20 && list.Last().Id > endId)
             {
@@ -121,16 +150,6 @@ public abstract class GachaLogClient
         }
         return result;
     }
-
-
-
-
-
-
-    [SupportedOSPlatform("windows")]
-    public abstract string? GetGameInstallPathFromRegistry(RegionType region);
-
-
 
 
     [SupportedOSPlatform("windows")]
@@ -149,12 +168,6 @@ public abstract class GachaLogClient
         }
         return null;
     }
-
-
-
-
-    public abstract string? GetGachaUrlFromWebCache(string installPath);
-
 
 
     protected static string? FindMatchStringFromFile(string path, params ReadOnlyMemory<byte>[] prefixes)
@@ -177,6 +190,17 @@ public abstract class GachaLogClient
         }
         return null;
     }
+
+
+    #endregion
+
+
+
+
+
+
+
+
 
 
 
