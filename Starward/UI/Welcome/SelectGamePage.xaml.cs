@@ -125,9 +125,9 @@ public sealed partial class SelectGamePage : Page
     {
         try
         {
-            if (ComboBox_GameBiz.SelectedItem is ComboBoxItem item)
+            if (ComboBox_GameBiz.SelectedItem is FrameworkElement ele)
             {
-                if (Enum.TryParse(item.Tag as string, out GameBiz biz))
+                if (Enum.TryParse(ele.Tag as string, out GameBiz biz))
                 {
                     selectBiz = biz;
                 }

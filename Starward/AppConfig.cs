@@ -1,6 +1,6 @@
-﻿using Starward.Services;
-using System;
-using System.Diagnostics;
+﻿using Microsoft.Win32;
+using Starward.Core;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -13,13 +13,20 @@ internal abstract class AppConfig
 {
 
 
+    private const string REG_KEY_NAME = @"HKEY_CURRENT_USER\Software\Starward";
+
+
     public static string? AppVersion { get; private set; }
 
 
     public static string ConfigDirectory { get; private set; }
 
 
+
     public static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+
+
+    private static readonly Dictionary<string, object?> cache = new();
 
 
     static AppConfig()
@@ -27,17 +34,28 @@ internal abstract class AppConfig
         try
         {
             AppVersion = typeof(AppConfig).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-            var module = Process.GetCurrentProcess().MainModule?.FileName;
-            if (File.Exists(module) && Path.GetFileNameWithoutExtension(module) != "dotnet")
+            var cd = Registry.GetValue(REG_KEY_NAME, nameof(ConfigDirectory), null) as string;
+            if (Directory.Exists(cd))
             {
-                ConfigDirectory = Path.GetDirectoryName(module)!;
-            }
-            else
-            {
-                ConfigDirectory = AppContext.BaseDirectory;
+                ConfigDirectory = cd;
             }
         }
         catch { }
+    }
+
+
+
+    public static void SetConfigDirectory(string value)
+    {
+        if (Directory.Exists(value))
+        {
+            ConfigDirectory = value;
+            Registry.SetValue(@"HKEY_CURRENT_USER\Software\Starward", nameof(ConfigDirectory), value);
+        }
+        else
+        {
+            throw new DirectoryNotFoundException(value);
+        }
     }
 
 
@@ -75,19 +93,6 @@ internal abstract class AppConfig
     }
 
 
-    public static ulong MainWindowRect
-    {
-        get => GetValue<ulong>();
-        set => SetValue(value);
-    }
-
-
-    public static bool IsMainWindowMaximum
-    {
-        get => GetValue<bool>();
-        set => SetValue(value);
-    }
-
 
     public static string? BackgroundImage
     {
@@ -106,7 +111,7 @@ internal abstract class AppConfig
     public static GameBiz SelectGameBiz
     {
         get => GetValue<GameBiz>();
-        set => SetValue(value);
+        set => SetValue((int)value);
     }
 
 
@@ -124,7 +129,7 @@ internal abstract class AppConfig
     }
 
 
-    public static int SelectUidInWarpRecordPage
+    public static int SelectUidInGachaLogPage
     {
         get => GetValue<int>();
         set => SetValue(value);
@@ -151,7 +156,23 @@ internal abstract class AppConfig
         {
             return defaultValue;
         }
-        return DatabaseService.Instance.GetValue(key, out _, defaultValue);
+        try
+        {
+            if (cache.TryGetValue(key, out var value))
+            {
+                if (value is T)
+                {
+                    return (T)value;
+                }
+            }
+            value = Registry.GetValue(REG_KEY_NAME, key, defaultValue);
+            cache[key] = value;
+            return (T?)(value ?? defaultValue);
+        }
+        catch
+        {
+            return defaultValue;
+        }
     }
 
 
@@ -164,9 +185,14 @@ internal abstract class AppConfig
         }
         try
         {
-            if (value?.ToString() is string str)
+            cache[key] = value;
+            if (value is null)
             {
-                DatabaseService.Instance.SetValue(key, str);
+                Registry.CurrentUser.OpenSubKey(@"Software\Starward", true)?.DeleteValue(key, false);
+            }
+            else
+            {
+                Registry.SetValue(REG_KEY_NAME, key, value);
             }
         }
         catch { }

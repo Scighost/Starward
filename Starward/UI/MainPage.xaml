@@ -9,6 +9,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
+      SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
 
 
@@ -18,21 +19,25 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
+
+        <!--  title bar background image  -->
         <Image Grid.Row="0"
                VerticalAlignment="Top"
                Source="{x:Bind BackgroundImage}"
                Stretch="UniformToFill" />
 
+        <!--  main content background image  -->
         <Image Grid.Row="1"
-               Margin="0,0,-1,0"
+               Margin="0,-1,0,0"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
                Source="{x:Bind BackgroundImage}"
                Stretch="UniformToFill" />
 
 
+        <!--  main content acrylic backgournd  -->
         <Border Name="Border_ContentBackground"
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.RowSpan="2"
                 Background="{ThemeResource CustomAcrylicBrush}"
                 Opacity="0">
@@ -42,11 +47,12 @@
         </Border>
 
 
+        <!--  title bar  -->
         <Border Grid.Row="0" Background="{ThemeResource CustomAcrylicBrush}">
             <TextBlock Margin="60,0,0,0"
                        VerticalAlignment="Center"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="Starward (Beta)" />
+                       Text="Starward" />
         </Border>
 
 
@@ -71,7 +77,7 @@
                         <FontIcon Glyph="&#xE91B;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Warp Records" Tag="WarpRecordPage">
+                <NavigationViewItem Content="Warp Records" Tag="GachaLogPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE81C;" />
                     </NavigationViewItem.Icon>
@@ -80,6 +86,58 @@
 
             <Frame Name="MainPage_Frame" Margin="0,48,0,0" />
         </NavigationView>
+
+
+
+        <!--  change game biz  -->
+        <StackPanel Name="StackPanel_SelectGame"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    SizeChanged="StackPanel_SelectGame_SizeChanged"
+                    Spacing="12">
+            <ComboBox Name="ComboBox_GameBiz"
+                      Height="32"
+                      MinWidth="240"
+                      Padding="20,0,20,0"
+                      CornerRadius="16"
+                      PlaceholderText="Select Game"
+                      SelectionChanged="ComboBox_GameBiz_SelectionChanged">
+                <Grid Tag="hk4e_cn">
+                    <TextBlock Text="Genshin Impact" />
+                    <TextBlock Margin="120,0,0,0" Text="China" />
+                </Grid>
+                <Grid Tag="hk4e_global">
+                    <TextBlock Text="Genshin Impact" />
+                    <TextBlock Margin="120,0,0,0" Text="Global" />
+                </Grid>
+                <Grid Tag="hk4e_cloud">
+                    <TextBlock Text="Genshin Impact" />
+                    <TextBlock Margin="120,0,0,0" Text="Cloud" />
+                </Grid>
+                <Grid Tag="hkrpg_cn">
+                    <TextBlock Text="Honkai: Star Rail" />
+                    <TextBlock Margin="120,0,0,0" Text="China" />
+                </Grid>
+                <Grid Tag="hkrpg_global">
+                    <TextBlock Text="Honkai: Star Rail" />
+                    <TextBlock Margin="120,0,0,0" Text="Global" />
+                </Grid>
+            </ComboBox>
+
+            <Button Name="Button_ChangeGameBiz"
+                    Width="48"
+                    Height="32"
+                    Command="{x:Bind ChangeGameBizCommand}"
+                    CornerRadius="16"
+                    IsEnabled="False"
+                    Style="{ThemeResource AccentButtonStyle}">
+                <FontIcon FontSize="16" Glyph="&#xE14B;" />
+            </Button>
+
+
+        </StackPanel>
+
 
 
 

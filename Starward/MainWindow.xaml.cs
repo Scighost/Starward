@@ -1,11 +1,17 @@
 ﻿// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Animation;
+using Starward.Service;
+using Starward.UI;
+using Starward.UI.Welcome;
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Vanara.PInvoke;
 using Windows.Graphics;
 using Windows.UI;
@@ -31,7 +37,7 @@ public sealed partial class MainWindow : Window
     public double UIScale => User32.GetDpiForWindow(HWND) / 96d;
 
 
-
+    private readonly ILogger<MainWindow> _logger = ServiceProvider.GetLogger<MainWindow>();
 
 
     public MainWindow()
@@ -39,6 +45,16 @@ public sealed partial class MainWindow : Window
         Current = this;
         this.InitializeComponent();
         InitializeMainWindow();
+        if (AppConfig.ConfigDirectory is null)
+        {
+            _logger.LogInformation($"{nameof(AppConfig.ConfigDirectory)} is null, navigate to {nameof(WelcomePage)}");
+            MainWindow_Frame.Content = new WelcomePage();
+        }
+        else
+        {
+            _logger.LogInformation($"{nameof(AppConfig.ConfigDirectory)} is '{AppConfig.ConfigDirectory}'");
+            MainWindow_Frame.Content = new MainPage();
+        }
     }
 
 
@@ -47,37 +63,12 @@ public sealed partial class MainWindow : Window
     private void InitializeMainWindow()
     {
         HWND = WindowNative.GetWindowHandle(this);
-        //if (MicaController.IsSupported())
-        //{
-        //    RootGrid.Background = null;
-        //    this.SystemBackdrop = new MicaBackdrop();
-        //}
         var titleBar = this.AppWindow.TitleBar;
         var len = (int)(48 * UIScale);
         titleBar.ExtendsContentIntoTitleBar = true;
-        titleBar.SetDragRectangles(new RectInt32[] { new RectInt32(len, 0, 100000, len) });
+        titleBar.SetDragRectangles(new RectInt32[] { new RectInt32(0, 0, 100000, len) });
         ChangeTitleBarButtonColor();
-
         ResizeToCertainSize();
-
-        //if (AppConfig.IsMainWindowMaximum)
-        //{
-        //    User32.ShowWindow(HWND, ShowWindowCommand.SW_SHOWMAXIMIZED);
-        //    return;
-        //}
-
-        //var windowRectValue = AppConfig.MainWindowRect;
-        //if (windowRectValue > 0)
-        //{
-        //    var display = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary);
-        //    var workAreaWidth = display.WorkArea.Width;
-        //    var workAreaHeight = display.WorkArea.Height;
-        //    var rect = new WindowRect(windowRectValue);
-        //    if (rect.Left > 0 && rect.Top > 0 && rect.Right < workAreaWidth && rect.Bottom < workAreaHeight)
-        //    {
-        //        AppWindow.MoveAndResize(rect.ToRectInt32());
-        //    }
-        //}
     }
 
 
@@ -99,7 +90,7 @@ public sealed partial class MainWindow : Window
     }
 
 
-
+    // todo change accent color
 
 
     private void RootGrid_ActualThemeChanged(FrameworkElement sender, object args)
@@ -139,73 +130,23 @@ public sealed partial class MainWindow : Window
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
     {
-        //SaveWindowState();
+
     }
 
 
 
-    /// <summary>
-    /// 保存窗口状态
-    /// </summary>
-    private void SaveWindowState()
+    public void SetDragRectangles(params RectInt32[] value)
     {
-        var wpl = new User32.WINDOWPLACEMENT();
-        if (User32.GetWindowPlacement(HWND, ref wpl))
-        {
-            AppConfig.IsMainWindowMaximum = wpl.showCmd == ShowWindowCommand.SW_MAXIMIZE;
-            var p = AppWindow.Position;
-            var s = AppWindow.Size;
-            var rect = new WindowRect(p.X, p.Y, s.Width, s.Height);
-            AppConfig.MainWindowRect = rect.Value;
-        }
+        AppWindow.TitleBar.SetDragRectangles(value);
     }
 
 
 
-
-
-
-
-
-
-    [StructLayout(LayoutKind.Explicit)]
-    private struct WindowRect
+    public void NavigateTo(Type page, object parameter, NavigationTransitionInfo infoOverride)
     {
-        [FieldOffset(0)] public short X;
-        [FieldOffset(2)] public short Y;
-        [FieldOffset(4)] public short Width;
-        [FieldOffset(6)] public short Height;
-        [FieldOffset(0)] public ulong Value;
-
-        public int Left => X;
-        public int Top => Y;
-        public int Right => X + Width;
-        public int Bottom => Y + Height;
-
-        public WindowRect(int x, int y, int width, int height)
-        {
-            Value = 0;
-            X = (short)x;
-            Y = (short)y;
-            Width = (short)width;
-            Height = (short)height;
-        }
-
-        public WindowRect(ulong value)
-        {
-            X = 0;
-            Y = 0;
-            Width = 0;
-            Height = 0;
-            Value = value;
-        }
-
-        public RectInt32 ToRectInt32()
-        {
-            return new RectInt32(X, Y, Width, Height);
-        }
-
+        MainWindow_Frame.Navigate(page, parameter, infoOverride);
     }
+
 
 
 

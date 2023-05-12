@@ -3,11 +3,12 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Launcher;
 using Starward.Model;
@@ -15,11 +16,8 @@ using Starward.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Timers;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -33,18 +31,34 @@ namespace Starward.UI;
 public sealed partial class LauncherPage : Page
 {
 
-    private readonly LauncherClient _launcherClient = new();
+    private readonly ILogger<LauncherPage> _logger;
+
+    private readonly LauncherService _launcherService;
 
     private readonly DispatcherQueueTimer _timer;
 
+    private GameBiz gameBiz;
 
     public LauncherPage()
     {
         this.InitializeComponent();
+        _logger = ServiceProvider.GetLogger<LauncherPage>();
+        _launcherService = ServiceProvider.GetService<LauncherService>();
+
         _timer = DispatcherQueue.CreateTimer();
         _timer.Interval = TimeSpan.FromSeconds(5);
         _timer.IsRepeating = true;
         _timer.Tick += _timer_Tick;
+    }
+
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+        if (e.Parameter is GameBiz biz)
+        {
+            gameBiz = biz;
+        }
     }
 
 
@@ -58,15 +72,14 @@ public sealed partial class LauncherPage : Page
 
 
     [ObservableProperty]
-    private int gameServerIndex = AppConfig.GameServerIndex;
+    private int gameServerIndex;
     partial void OnGameServerIndexChanged(int value)
     {
-        AppConfig.GameServerIndex = value;
         _ = GetLauncherContentAsync();
     }
 
     [ObservableProperty]
-    private int accountServerIndex = AppConfig.GameServerIndex;
+    private int accountServerIndex;
     partial void OnAccountServerIndexChanged(int value)
     {
         try
@@ -181,29 +194,13 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-            var content = await _launcherClient.GetLauncherContentAsync(GameServerIndex);
+            var content = await _launcherService.GetLauncherContentAsync(gameBiz);
             BannerList = content.Banner;
             LauncherPostGroupList = content.Post.GroupBy(x => x.Type).OrderBy(x => x.Key).Select(x => new LauncherPostGroup(x.Key.ToDescription(), x)).ToList();
             if (EnableBannerAndPost)
             {
                 Grid_BannerAndPost.Opacity = 1;
                 Grid_BannerAndPost.IsHitTestVisible = true;
-            }
-
-            var url = content.BackgroundImage?.Background;
-            if (!string.IsNullOrWhiteSpace(url))
-            {
-                var name = Path.GetFileName(url);
-                var folder = Path.Join(AppConfig.ConfigDirectory, "bg");
-                Directory.CreateDirectory(folder);
-                var file = Path.Join(folder, name);
-                if (!File.Exists(file))
-                {
-                    var bytes = await new HttpClient().GetByteArrayAsync(url);
-                    await File.WriteAllBytesAsync(file, bytes);
-                }
-                MainPage.Current.BackgroundImageUri = new Uri(file);
-                AppConfig.BackgroundImage = name;
             }
         }
         catch (Exception ex)
@@ -253,7 +250,7 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-            GameService.StartGame((RegionType)GameServerIndex);
+            GameService.StartGame((GameBiz)GameServerIndex);
         }
         catch (Exception ex)
         {

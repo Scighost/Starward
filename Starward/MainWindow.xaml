@@ -8,14 +8,17 @@
         xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
         xmlns:local="using:Starward"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sh="using:Starward.Helpers"
-        xmlns:sp="using:Starward.Pages"
+        xmlns:sh="using:Starward.Helper"
+        xmlns:sp="using:Starward.UI"
         Closed="MainWindow_Closed"
         mc:Ignorable="d">
+
     <Grid Name="RootGrid"
           ActualThemeChanged="RootGrid_ActualThemeChanged"
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <sp:MainPage />
+
+        <Frame Name="MainWindow_Frame" />
+
         <StackPanel MaxWidth="600"
                     Margin="24,72,24,72"
                     VerticalAlignment="Bottom">
@@ -28,5 +31,7 @@
                 <sh:NotificationBehavior x:Name="NotificationQueue" />
             </interactivity:Interaction.Behaviors>
         </StackPanel>
+
     </Grid>
+
 </Window>

@@ -141,11 +141,26 @@
                           CornerRadius="16"
                           PlaceholderText="Select Game"
                           SelectionChanged="ComboBox_GameBiz_SelectionChanged">
-                    <ComboBoxItem Content="Genshin Impact - China" Tag="hk4e_cn" />
-                    <ComboBoxItem Content="Genshin Impact - Global" Tag="hk4e_global" />
-                    <ComboBoxItem Content="Genshin Impact - Cloud" Tag="hk4e_cloud" />
-                    <ComboBoxItem Content="Honkai: Star Rail - China" Tag="hkrpg_cn" />
-                    <ComboBoxItem Content="Honkai: Star Rail - Global" Tag="hkrpg_global" />
+                    <Grid Tag="hk4e_cn">
+                        <TextBlock Text="Genshin Impact" />
+                        <TextBlock Margin="120,0,0,0" Text="China" />
+                    </Grid>
+                    <Grid Tag="hk4e_global">
+                        <TextBlock Text="Genshin Impact" />
+                        <TextBlock Margin="120,0,0,0" Text="Global" />
+                    </Grid>
+                    <Grid Tag="hk4e_cloud">
+                        <TextBlock Text="Genshin Impact" />
+                        <TextBlock Margin="120,0,0,0" Text="Cloud" />
+                    </Grid>
+                    <Grid Tag="hkrpg_cn">
+                        <TextBlock Text="Honkai: Star Rail" />
+                        <TextBlock Margin="120,0,0,0" Text="China" />
+                    </Grid>
+                    <Grid Tag="hkrpg_global">
+                        <TextBlock Text="Honkai: Star Rail" />
+                        <TextBlock Margin="120,0,0,0" Text="Global" />
+                    </Grid>
                 </ComboBox>
 
 

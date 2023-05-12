@@ -2,10 +2,11 @@
 using Microsoft.Extensions.Logging;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
-using Starward.Core.Hoyolab;
-using Starward.Core.Hoyolab.Genshin;
-using Starward.Core.Hoyolab.StarRail;
+using Starward.Core.Hyperion;
+using Starward.Core.Hyperion.Genshin;
+using Starward.Core.Hyperion.StarRail;
 using Starward.Core.Launcher;
+using Starward.Core.Metadata;
 using System;
 using System.Net.Http;
 
@@ -28,15 +29,20 @@ internal abstract class ServiceProvider
 #endif
         sc.AddLogging(configure => configure.AddSimpleConsole());
 
-        sc.AddSingleton(new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All }));
-        sc.AddSingleton<WishRecordClient>();
-        sc.AddSingleton<WarpRecordClient>();
-        sc.AddSingleton<HoyolabClient>();
-        sc.AddSingleton<HoyolabGenshinClient>();
-        sc.AddSingleton<HoyolabStarRailClient>();
-        sc.AddSingleton<LauncherClient>();
+        sc.AddTransient(_ => new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All }));
 
-        sc.AddSingleton<WarpRecordService>();
+        sc.AddSingleton<GenshinGachaClient>();
+        sc.AddSingleton<StarRailGachaClient>();
+        sc.AddSingleton<HyperionClient>();
+        sc.AddSingleton<HyperionGenshinClient>();
+        sc.AddSingleton<HyperionStarRailClient>();
+        sc.AddSingleton<LauncherClient>();
+        sc.AddSingleton<MetadataClient>();
+
+        sc.AddSingleton<DatabaseService>();
+        sc.AddSingleton<GachaLogService>();
+        sc.AddSingleton<LauncherService>();
+
         _serviceProvider = sc.BuildServiceProvider();
     }
 
