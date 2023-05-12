@@ -7,9 +7,15 @@ public class BackgroundImage
     [JsonPropertyName("background")]
     public string Background { get; set; }
 
+    /// <summary>
+    /// 原神版本热点图标
+    /// </summary>
     [JsonPropertyName("icon")]
     public string Icon { get; set; }
 
+    /// <summary>
+    /// 原神版本热点链接
+    /// </summary>
     [JsonPropertyName("url")]
     public string Url { get; set; }
 
