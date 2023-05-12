@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using MiniExcelLibs;
 using MiniExcelLibs.OpenXml;
 using Starward.Core;
+using Starward.Core.Gacha;
 using Starward.Core.Gacha.StarRail;
 using Starward.Model;
 using System;
@@ -16,17 +17,17 @@ using System.Threading.Tasks;
 namespace Starward.Service;
 
 
-public class WarpRecordService
+public class GachaLogService
 {
 
 
-    private readonly WarpRecordClient _client;
+    private readonly StarRailGachaClient _client;
 
-    private readonly ILogger<WarpRecordService> _logger;
+    private readonly ILogger<GachaLogService> _logger;
 
 
 
-    public WarpRecordService(WarpRecordClient client, ILogger<WarpRecordService> logger)
+    public GachaLogService(StarRailGachaClient client, ILogger<GachaLogService> logger)
     {
         _client = client;
         _logger = logger;
@@ -41,13 +42,13 @@ public class WarpRecordService
 
 
 
-    public List<WarpRecordItemEx> GetWarpRecordItemEx(int uid)
+    public List<GachaLogItemEx> GetWarpRecordItemEx(int uid)
     {
         using var dapper = DatabaseService.Instance.CreateConnection();
-        var list = dapper.Query<WarpRecordItemEx>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        var list = dapper.Query<GachaLogItemEx>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
         foreach (var type in new int[] { 1, 2, 11, 12 })
         {
-            var l = list.Where(x => x.GachaType == (WarpType)type).ToList();
+            var l = list.Where(x => x.GachaType == (GachaType)type).ToList();
             int index = 0;
             int pity = 0;
             foreach (var item in l)
@@ -79,7 +80,7 @@ public class WarpRecordService
         if (uid > 0)
         {
             using var dapper = DatabaseService.Instance.CreateConnection();
-            dapper.Execute("INSERT OR REPLACE INTO WarpRecordUrl (Uid, WarpUrl, Time) VALUES (@Uid, @WarpUrl, @Time);", new WarpRecordUrl(uid, url));
+            dapper.Execute("INSERT OR REPLACE INTO WarpRecordUrl (Uid, WarpUrl, Time) VALUES (@Uid, @WarpUrl, @Time);", new GachaLogUrl(uid, url));
         }
         return uid;
     }
@@ -117,8 +118,8 @@ public class WarpRecordService
                 endId = dapper.QueryFirstOrDefault<long>("SELECT Id FROM WarpRecordItem WHERE Uid = @Uid ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
                 _logger.LogInformation($"Last warp record id of uid {uid} is {endId}");
             }
-            var internalProgress = new Progress<(WarpType WarpType, int Page)>((x) => progress?.Report($"Getting {x.WarpType.ToDescription()} page {x.Page}"));
-            var list = await _client.GetWarpRecordAsync(url, endId, lang, internalProgress);
+            var internalProgress = new Progress<(GachaType WarpType, int Page)>((x) => progress?.Report($"Getting {x.WarpType.ToDescription()} page {x.Page}"));
+            var list = (await _client.GetGachaLogAsync(url, endId, lang, internalProgress)).ToList();
             var oldCount = dapper.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM WarpRecordItem WHERE Uid = @Uid;", new { Uid = uid });
             using var t = dapper.BeginTransaction();
             dapper.Execute("""
@@ -136,19 +137,19 @@ public class WarpRecordService
 
 
 
-    public List<WarpTypeStats> GetWarpTypeStats(int uid)
+    public List<GachaTypeStats> GetWarpTypeStats(int uid)
     {
-        var statsList = new List<WarpTypeStats>();
+        var statsList = new List<GachaTypeStats>();
         using var dapper = DatabaseService.Instance.CreateConnection();
         var alllist = GetWarpRecordItemEx(uid);
         if (alllist.Count > 0)
         {
             foreach (int type in new[] { 1, 2, 11, 12 })
             {
-                var list = alllist.Where(x => x.GachaType == (WarpType)type).ToList();
-                var stats = new WarpTypeStats
+                var list = alllist.Where(x => x.GachaType == (GachaType)type).ToList();
+                var stats = new GachaTypeStats
                 {
-                    WarpType = (WarpType)type,
+                    GachaType = (GachaType)type,
                     Count = list.Count,
                     Count_5 = list.Count(x => x.RankType == 5),
                     Count_4 = list.Count(x => x.RankType == 4),
@@ -197,7 +198,7 @@ public class WarpRecordService
     public void ExportWarpRecord(int uid, string file, string format)
     {
         using var con = DatabaseService.Instance.CreateConnection();
-        var list = con.Query<WarpRecordItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid;", new { uid }).ToList();
+        var list = con.Query<StarRailGachaItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid;", new { uid }).ToList();
         if (list.Count == 0)
         {
             //Logger.Warn($"Uid {uid} 没有任何抽卡数据", true);
@@ -223,8 +224,8 @@ public class WarpRecordService
     private void ExportAsJson(int uid, string output)
     {
         using var con = DatabaseService.Instance.CreateConnection();
-        var list = con.Query<WarpRecordItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-        var obj = new GachaLogExportFile<WarpRecordItem>(uid, list);
+        var list = con.Query<StarRailGachaItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        var obj = new GachaLogExportFile<StarRailGachaItem>(uid, list);
         var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
         File.WriteAllText(output, str);
     }
@@ -234,7 +235,7 @@ public class WarpRecordService
     private void ExportAsExcel(int uid, string output)
     {
         using var con = DatabaseService.Instance.CreateConnection();
-        var list = con.Query<WarpRecordItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        var list = con.Query<StarRailGachaItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
 
         var sheets = new DataSet();
         var table1 = new DataTable("Raw Data");
@@ -267,7 +268,7 @@ public class WarpRecordService
 
         foreach (var type in new int[] { 1, 2, 11, 12 })
         {
-            var table = new DataTable(((WarpType)type).ToDescription());
+            var table = new DataTable(((GachaType)type).ToDescription());
             table.Columns.Add("Uid", typeof(string));
             table.Columns.Add("Id", typeof(string));
             table.Columns.Add("Time", typeof(string));
@@ -276,7 +277,7 @@ public class WarpRecordService
             table.Columns.Add("Rarity", typeof(string));
             table.Columns.Add("Warp Type", typeof(string));
             table.Columns.Add("Pity", typeof(string));
-            var l = list.Where(x => x.GachaType == (WarpType)type).ToList();
+            var l = list.Where(x => x.GachaType == (GachaType)type).ToList();
             int index = 0;
             foreach (var item in l)
             {

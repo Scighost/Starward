@@ -1,16 +1,16 @@
 ﻿using Starward.Core;
-using Starward.Core.Gacha.StarRail;
+using Starward.Core.Gacha;
 using System;
 using System.Collections.Generic;
 
 namespace Starward.Model;
 
-public class WarpTypeStats
+public class GachaTypeStats
 {
 
-    public WarpType WarpType { get; set; }
+    public GachaType GachaType { get; set; }
 
-    public string WarpTypeText => WarpType.ToDescription();
+    public string GachaTypeText => GachaType.ToDescription();
 
     public int Count { get; set; }
 
@@ -36,8 +36,8 @@ public class WarpTypeStats
 
     public double Average_5 { get; set; }
 
-    public List<WarpRecordItemEx> List_5 { get; set; }
+    public List<GachaLogItemEx> List_5 { get; set; }
 
-    public List<WarpRecordItemEx> List_4 { get; set; }
+    public List<GachaLogItemEx> List_4 { get; set; }
 
 }

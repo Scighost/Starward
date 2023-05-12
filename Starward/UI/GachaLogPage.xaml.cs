@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Starward.Core;
+using Starward.Core.Gacha;
 using Starward.Core.Gacha.StarRail;
 using Starward.Helper;
 using Starward.Model;
@@ -34,17 +35,17 @@ namespace Starward.UI;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class WarpRecordPage : Page
+public sealed partial class GachaLogPage : Page
 {
 
 
-    private readonly WarpRecordService _warpRecordService;
+    private readonly GachaLogService _warpRecordService;
 
 
-    public WarpRecordPage()
+    public GachaLogPage()
     {
         this.InitializeComponent();
-        _warpRecordService = ServiceProvider.GetService<WarpRecordService>();
+        _warpRecordService = ServiceProvider.GetService<GachaLogService>();
         if (ShowDepatureWarp)
         {
             Grid_Star5List.ColumnDefinitions.Add(new ColumnDefinition());
@@ -61,7 +62,7 @@ public sealed partial class WarpRecordPage : Page
     private int selectUid;
     partial void OnSelectUidChanged(int value)
     {
-        AppConfig.SelectUidInWarpRecordPage = value;
+        AppConfig.SelectUidInGachaLogPage = value;
         UpdateWarpTypeStats(value);
     }
 
@@ -95,16 +96,16 @@ public sealed partial class WarpRecordPage : Page
 
 
     [ObservableProperty]
-    private WarpTypeStats? stellarWarp;
+    private GachaTypeStats? stellarWarp;
 
     [ObservableProperty]
-    private WarpTypeStats? departureWarp;
+    private GachaTypeStats? departureWarp;
 
     [ObservableProperty]
-    private WarpTypeStats? characterEventWarp;
+    private GachaTypeStats? characterEventWarp;
 
     [ObservableProperty]
-    private WarpTypeStats? lightConeEventWarp;
+    private GachaTypeStats? lightConeEventWarp;
 
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -120,7 +121,7 @@ public sealed partial class WarpRecordPage : Page
         try
         {
             UidList = new(_warpRecordService.GetUids());
-            var lastUid = AppConfig.SelectUidInWarpRecordPage;
+            var lastUid = AppConfig.SelectUidInGachaLogPage;
             if (UidList.Contains(lastUid))
             {
                 SelectUid = lastUid;
@@ -152,10 +153,10 @@ public sealed partial class WarpRecordPage : Page
             else
             {
                 var stats = _warpRecordService.GetWarpTypeStats(uid);
-                StellarWarp = stats.FirstOrDefault(x => x.WarpType == WarpType.Stellar);
-                DepartureWarp = stats.FirstOrDefault(x => x.WarpType == WarpType.Departure);
-                CharacterEventWarp = stats.FirstOrDefault(x => x.WarpType == WarpType.CharacterEvent);
-                LightConeEventWarp = stats.FirstOrDefault(x => x.WarpType == WarpType.LightConeEvent);
+                StellarWarp = stats.FirstOrDefault(x => x.GachaType == GachaType.StellarWarp);
+                DepartureWarp = stats.FirstOrDefault(x => x.GachaType == GachaType.DepartureWarp);
+                CharacterEventWarp = stats.FirstOrDefault(x => x.GachaType == GachaType.CharacterEventWarp);
+                LightConeEventWarp = stats.FirstOrDefault(x => x.GachaType == GachaType.LightConeEventWarp);
             }
         }
         catch (Exception ex)
@@ -193,9 +194,9 @@ public sealed partial class WarpRecordPage : Page
                 var serverIndex = SelectServerInPage - 1;
                 if (serverIndex < 0)
                 {
-                    serverIndex = AppConfig.GameServerIndex;
+                    //serverIndex = AppConfig.GameServerIndex;
                 }
-                var path = GameService.GetGameInstallPath((RegionType)serverIndex);
+                var path = GameService.GetGameInstallPath((GameBiz)serverIndex);
                 if (!Directory.Exists(path))
                 {
                     NotificationBehavior.Instance.Warning("", $"Cannot find game install path (server {(serverIndex == 1 ? "OS" : "CN")})");

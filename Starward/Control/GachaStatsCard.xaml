@@ -1,7 +1,7 @@
 ﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
 <!--  Licensed under the MIT License.  -->
 
-<UserControl x:Class="Starward.Control.WarpStatsCard"
+<UserControl x:Class="Starward.Control.GachaStatsCard"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cc="using:CommunityToolkit.WinUI.UI.Controls"
@@ -47,7 +47,7 @@
                    FontSize="16"
                    FontWeight="SemiBold"
                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                   Text="{x:Bind WarpTypeStats.WarpTypeText}" />
+                   Text="{x:Bind WarpTypeStats.GachaTypeText}" />
 
         <TextBlock Grid.Row="1"
                    FontSize="12"
@@ -114,7 +114,7 @@
                 <StackLayout Spacing="4" />
             </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
-                <DataTemplate x:DataType="sm:WarpRecordItemEx">
+                <DataTemplate x:DataType="sm:GachaLogItemEx">
                     <Grid Background="Transparent"
                           ColumnSpacing="8"
                           ToolTipService.ToolTip="{x:Bind Time}">

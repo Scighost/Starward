@@ -1,13 +1,12 @@
 ﻿using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Starward.Service;
+using Starward.Service.Cache;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 namespace Starward.Control;
 
@@ -20,12 +19,6 @@ public sealed class CachedImage : ImageEx
 
     protected override async Task<ImageSource> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
-        //if (!CacheService.Instance.Initialized)
-        //{
-        //    var folder = Path.Join(AppConfig.ConfigDirectory, "cache");
-        //    Directory.CreateDirectory(folder);
-        //    CacheService.Instance.Initialize(await StorageFolder.GetFolderFromPathAsync(folder));
-        //}
         try
         {
             if (imageUri.Scheme is "ms-appx" or "file")
@@ -41,7 +34,7 @@ public sealed class CachedImage : ImageEx
                 else
                 {
 
-                    var file = await CacheService.Instance.GetFromCacheAsync(imageUri, false, token);
+                    var file = await FileCacheService.Instance.GetFromCacheAsync(imageUri, false, token);
                     if (token.IsCancellationRequested)
                     {
                         throw new TaskCanceledException("Image source has changed.");
@@ -66,7 +59,7 @@ public sealed class CachedImage : ImageEx
         }
         catch (Exception)
         {
-            await CacheService.Instance.RemoveAsync(new[] { imageUri });
+            await FileCacheService.Instance.RemoveAsync(new[] { imageUri });
             throw;
         }
     }

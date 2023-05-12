@@ -10,25 +10,25 @@ using Starward.Model;
 
 namespace Starward.Control;
 
-public sealed partial class WarpStatsCard : UserControl
+public sealed partial class GachaStatsCard : UserControl
 {
 
-    public WarpStatsCard()
+    public GachaStatsCard()
     {
         this.InitializeComponent();
     }
 
 
 
-    public WarpTypeStats WarpTypeStats
+    public GachaTypeStats WarpTypeStats
     {
-        get { return (WarpTypeStats)GetValue(WarpTypeStatsProperty); }
+        get { return (GachaTypeStats)GetValue(WarpTypeStatsProperty); }
         set { SetValue(WarpTypeStatsProperty, value); }
     }
 
     // Using a DependencyProperty as the backing store for WarpTypeStats.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty WarpTypeStatsProperty =
-        DependencyProperty.Register("WarpTypeStats", typeof(WarpTypeStats), typeof(WarpStatsCard), new PropertyMetadata(null));
+        DependencyProperty.Register("WarpTypeStats", typeof(GachaTypeStats), typeof(GachaStatsCard), new PropertyMetadata(null));
 
 
 
