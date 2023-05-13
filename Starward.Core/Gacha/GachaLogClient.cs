@@ -10,6 +10,41 @@ public abstract class GachaLogClient
 {
 
 
+    protected const string REG_KEY_YS_CN = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神";
+    protected const string REG_KEY_YS_OS = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Genshin Impact";
+    protected const string REG_KEY_YS_CLOUD = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\云·原神";
+
+    protected const string WEB_CACHE_PATH_YS_CN = @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2";
+    protected const string WEB_CACHE_PATH_YS_OS = @"GenshinImpact_Data\webCaches\Cache\Cache_Data\data_2";
+
+    protected const string WEB_PREFIX_YS_CN = "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html";
+    protected const string WEB_PREFIX_YS_OS = "https://webstatic-sea.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html";
+
+    protected const string API_PREFIX_YS_CN = "https://hk4e-api.mihoyo.com/event/gacha_info/api/getGachaLog";
+    protected const string API_PREFIX_YS_OS = "https://hk4e-api-os.hoyoverse.com/event/gacha_info/api/getGachaLog";
+
+    protected static readonly ReadOnlyMemory<byte> MEMORY_WEB_PREFIX_YS_CN = new(Encoding.UTF8.GetBytes(WEB_PREFIX_YS_CN));
+    protected static readonly ReadOnlyMemory<byte> MEMORY_WEB_PREFIX_YS_OS = new(Encoding.UTF8.GetBytes(WEB_PREFIX_YS_OS));
+
+
+
+    protected const string REG_KEY_SR_CN = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\崩坏：星穹铁道";
+    protected const string REG_KEY_SR_OS = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Star Rail";
+
+    protected const string WEB_CACHE_SR_PATH = @"StarRail_Data\webCaches\Cache\Cache_Data\data_2";
+
+    protected const string WEB_PREFIX_SR_CN = "https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha-v2/index.html";
+    protected const string WEB_PREFIX_SR_OS = "https://webstatic-sea.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html";
+
+    protected const string API_PREFIX_SR_CN = "https://api-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
+    protected const string API_PREFIX_SR_OS = "https://api-os-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
+
+    protected static readonly ReadOnlyMemory<byte> MEMORY_WEB_PREFIX_SR_CN = new(Encoding.UTF8.GetBytes(WEB_PREFIX_SR_CN));
+    protected static readonly ReadOnlyMemory<byte> MEMORY_WEB_PREFIX_SR_OS = new(Encoding.UTF8.GetBytes(WEB_PREFIX_SR_OS));
+
+
+
+
     protected readonly HttpClient _httpClient;
 
 
@@ -63,10 +98,60 @@ public abstract class GachaLogClient
 
 
     [SupportedOSPlatform("windows")]
-    public abstract string? GetGameInstallPathFromRegistry(GameBiz biz);
+    public static string? GetGameInstallPathFromRegistry(GameBiz biz)
+    {
+        if (biz is GameBiz.hk4e_cloud)
+        {
+            return Registry.GetValue(REG_KEY_YS_CLOUD, "InstallPath", null) as string;
+        }
+        var key = biz switch
+        {
+            GameBiz.hk4e_cn => REG_KEY_YS_CN,
+            GameBiz.hk4e_global => REG_KEY_YS_OS,
+            GameBiz.hkrpg_cn => REG_KEY_SR_CN,
+            GameBiz.hkrpg_global => REG_KEY_SR_OS,
+            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
+        };
+        return GetGameInstallPathFromRegistry(key);
+    }
 
 
-    public abstract string? GetGachaUrlFromWebCache(string installPath);
+    public static string? GetGachaUrlFromWebCache(GameBiz gameBiz, string? installPath = null)
+    {
+        if (gameBiz is GameBiz.hk4e_cloud)
+        {
+            var file = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"GenshinImpactCloudGame\config\logs\MiHoYoSDK.log");
+            if (File.Exists(file))
+            {
+                return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_CN);
+            }
+            return null;
+        }
+        else if (gameBiz is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+        {
+            var file = Path.Join(installPath, WEB_CACHE_PATH_YS_CN);
+            if (File.Exists(file))
+            {
+                return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_CN, MEMORY_WEB_PREFIX_YS_OS);
+            }
+            file = Path.Join(installPath, WEB_CACHE_PATH_YS_OS);
+            if (File.Exists(file))
+            {
+                return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_OS, MEMORY_WEB_PREFIX_YS_CN);
+            }
+            return null;
+        }
+        else if (gameBiz is GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
+        {
+            var file = Path.Join(installPath, WEB_CACHE_SR_PATH);
+            if (File.Exists(file))
+            {
+                return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_SR_CN, MEMORY_WEB_PREFIX_SR_OS);
+            }
+            return null;
+        }
+        throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}");
+    }
 
 
 
@@ -172,20 +257,17 @@ public abstract class GachaLogClient
 
     protected static string? FindMatchStringFromFile(string path, params ReadOnlyMemory<byte>[] prefixes)
     {
-        if (File.Exists(path))
+        using var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+        var ms = new MemoryStream();
+        fs.CopyTo(ms);
+        var span = ms.ToArray().AsSpan();
+        foreach (var prefix in prefixes)
         {
-            using var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-            var ms = new MemoryStream();
-            fs.CopyTo(ms);
-            var span = ms.ToArray().AsSpan();
-            foreach (var prefix in prefixes)
+            var index = span.LastIndexOf(prefix.Span);
+            if (index >= 0)
             {
-                var index = span.LastIndexOf(prefix.Span);
-                if (index >= 0)
-                {
-                    var length = span[index..].IndexOf("\0"u8);
-                    return Encoding.UTF8.GetString(span.Slice(index, length));
-                }
+                var length = span[index..].IndexOfAny("\0\""u8);
+                return Encoding.UTF8.GetString(span.Slice(index, length));
             }
         }
         return null;

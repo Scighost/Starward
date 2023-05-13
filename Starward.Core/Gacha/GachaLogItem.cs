@@ -17,8 +17,8 @@ public class GachaLogItem
 
 
     [JsonPropertyName("gacha_type")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int GachaType { get; set; }
+    [JsonConverter(typeof(GachaTypeJsonConverter))]
+    public GachaType GachaType { get; set; }
 
 
     [JsonPropertyName("name")]
@@ -100,5 +100,28 @@ internal class ItemIdJsonConverter : JsonConverter<int>
     public override void Write(Utf8JsonWriter writer, int value, JsonSerializerOptions options)
     {
         writer.WriteStringValue(value.ToString());
+    }
+}
+
+
+
+internal class GachaTypeJsonConverter : JsonConverter<GachaType>
+{
+    public override GachaType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var str = reader.GetString();
+        if (int.TryParse(str, out int value))
+        {
+            return (GachaType)value;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public override void Write(Utf8JsonWriter writer, GachaType value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(((int)value).ToString());
     }
 }
