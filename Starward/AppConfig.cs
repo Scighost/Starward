@@ -61,18 +61,13 @@ internal abstract class AppConfig
 
 
 
-    public static string? InstallPath_CN
-    {
-        get => GetValue<string>();
-        set => SetValue(value);
-    }
 
 
-    public static string? InstallPath_OS
-    {
-        get => GetValue<string>();
-        set => SetValue(value);
-    }
+
+    #region Static Setting
+
+
+
 
     public static bool EnableAutoBackupDatabase
     {
@@ -80,23 +75,17 @@ internal abstract class AppConfig
         set => SetValue(value);
     }
 
+
     public static int BackupIntervalInDays
     {
         get => GetValue(21);
         set => SetValue(value);
     }
 
+
     public static bool AutoCheckUpdate
     {
         get => GetValue(true);
-        set => SetValue(value);
-    }
-
-
-
-    public static string? BackgroundImage
-    {
-        get => GetValue<string>();
         set => SetValue(value);
     }
 
@@ -108,24 +97,17 @@ internal abstract class AppConfig
     }
 
 
+    public static bool IgnoreRunningGame
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
     public static GameBiz SelectGameBiz
     {
         get => GetValue<GameBiz>();
         set => SetValue((int)value);
-    }
-
-
-    public static string? StartGameArgument
-    {
-        get => GetValue<string>();
-        set => SetValue(value);
-    }
-
-
-    public static int TargetFPS
-    {
-        get => GetValue(60);
-        set => SetValue(value);
     }
 
 
@@ -136,21 +118,88 @@ internal abstract class AppConfig
     }
 
 
-    public static bool ShowDepatureWarp
+    public static bool ShowNoviceGacha
     {
         get => GetValue<bool>();
         set => SetValue(value);
     }
 
 
-    public static string? WarpLanguage
+    public static string? GachaLanguage
     {
         get => GetValue<string>();
         set => SetValue(value);
     }
 
 
-    public static T? GetValue<T>(T? defaultValue = default, [CallerMemberName] string? key = null)
+    #endregion
+
+
+
+
+
+    #region Dynamic Setting
+
+
+    public static string? GetBg(GameBiz biz)
+    {
+        return GetValue<string>(default, $"bg_{biz}");
+    }
+
+    public static void SetBg(GameBiz biz, string? value)
+    {
+        SetValue(value, $"bg_{biz}");
+    }
+
+
+
+    public static bool GetEnableCustomBg(GameBiz biz)
+    {
+        return GetValue<bool>(default, $"enable_custom_bg_{biz}");
+    }
+
+    public static void SetEnableCustomBg(GameBiz biz, bool value)
+    {
+        SetValue(value, $"enable_custom_bg_{biz}");
+    }
+
+
+
+    public static string? GetGameInstallPath(GameBiz biz)
+    {
+        return GetValue<string>(default, $"install_path_{biz}");
+    }
+
+    public static void SetGameInstallPath(GameBiz biz, string? value)
+    {
+        SetValue(value, $"install_path_{biz}");
+    }
+
+
+
+    public static string? GetStartArgument(GameBiz biz)
+    {
+        return GetValue<string>(default, $"start_argument_{biz}");
+    }
+
+    public static void SetStartArgument(GameBiz biz, string? value)
+    {
+        SetValue(value, $"start_argument_{biz}");
+    }
+
+
+
+
+
+
+    #endregion
+
+
+
+
+
+
+    private static T? GetValue<T>(T? defaultValue = default, [CallerMemberName] string? key = null)
     {
         if (string.IsNullOrWhiteSpace(key))
         {
@@ -177,7 +226,7 @@ internal abstract class AppConfig
 
 
 
-    public static void SetValue<T>(T? value, [CallerMemberName] string? key = null)
+    private static void SetValue<T>(T? value, [CallerMemberName] string? key = null)
     {
         if (string.IsNullOrWhiteSpace(key))
         {

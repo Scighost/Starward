@@ -208,6 +208,24 @@ internal class DatabaseService
     private const string Structure_v1 = """
         BEGIN TRANSACTION;
 
+        CREATE TABLE IF NOT EXISTS KVT
+        (
+            Key   TEXT NOT NULL PRIMARY KEY,
+            Value TEXT NOT NULL,
+            Time  TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS GameAccount
+        (
+            SHA256 TEXT    NOT NULL PRIMARY KEY,
+            GameBiz INTEGER NOT NULL,
+            Uid    INTEGER NOT NULL,
+            Name   TEXT    NOT NULL,
+            Value  BLOB    NOT NULL,
+            Time   TEXT    NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS IX_GameAccount_GameBiz ON GameAccount (GameBiz);
+
         CREATE TABLE IF NOT EXISTS WarpRecordItem
         (
             Uid       INTEGER NOT NULL,
@@ -234,12 +252,6 @@ internal class DatabaseService
             Time     TEXT    NOT NULL
         );
 
-        CREATE TABLE IF NOT EXISTS KVT
-        (
-            Key   TEXT NOT NULL PRIMARY KEY,
-            Value TEXT NOT NULL,
-            Time  TEXT NOT NULL
-        );
 
         CREATE TABLE IF NOT EXISTS GameRoleInfo
         (
@@ -283,15 +295,7 @@ internal class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_LedgerDetailItem_Month ON LedgerDetailItem (Month);
         CREATE INDEX IF NOT EXISTS IX_LedgerDetailItem_Type ON LedgerDetailItem (Type);
 
-        CREATE TABLE IF NOT EXISTS GameAccount
-        (
-            SHA256 TEXT    NOT NULL PRIMARY KEY,
-            Uid    INTEGER NOT NULL,
-            Name   TEXT    NOT NULL,
-            Server INTEGER NOT NULL,
-            Value  BLOB    NOT NULL,
-            Time   TEXT    NOT NULL
-        );
+        
 
         PRAGMA USER_VERSION = 1;
         COMMIT TRANSACTION;

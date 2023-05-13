@@ -34,8 +34,14 @@ public class LauncherService
 
     public async Task<LauncherContent> GetLauncherContentAsync(GameBiz gameBiz)
     {
-        var content = MemoryCache.Instance.GetItem<LauncherContent>($"content_{gameBiz}", TimeSpan.FromSeconds(10));
-        return content ?? await _launcherClient.GetLauncherContentAsync(gameBiz);
+        var content = MemoryCache.Instance.GetItem<LauncherContent>($"LauncherContent_{gameBiz}", TimeSpan.FromSeconds(10));
+        if (content != null)
+        {
+            return content;
+        }
+        content = await _launcherClient.GetLauncherContentAsync(gameBiz);
+        MemoryCache.Instance.SetItem($"LauncherContent_{gameBiz}", content);
+        return content;
     }
 
 
@@ -44,7 +50,7 @@ public class LauncherService
 
     public string? GetCachedBackgroundImage(GameBiz gameBiz)
     {
-        var name = AppConfig.GetValue<string>(null, $"bg_{gameBiz}");
+        var name = AppConfig.GetBg(gameBiz);
         var file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
         if (File.Exists(file))
         {
@@ -63,9 +69,9 @@ public class LauncherService
     public async Task<string> GetBackgroundImageAsync(GameBiz gameBiz)
     {
         string? name, file;
-        if (AppConfig.GetValue(false, $"enable_custom_bg_{gameBiz}"))
+        if (AppConfig.GetEnableCustomBg(gameBiz))
         {
-            name = AppConfig.GetValue<string>(null, $"bg_{gameBiz}");
+            name = AppConfig.GetBg(gameBiz);
             file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
             if (File.Exists(file))
             {
@@ -85,7 +91,7 @@ public class LauncherService
         var bytes = await _httpClient.GetByteArrayAsync(url);
         Directory.CreateDirectory(Path.Combine(AppConfig.ConfigDirectory, "bg"));
         await File.WriteAllBytesAsync(file, bytes);
-        AppConfig.SetValue(name, $"bg_{gameBiz}");
+        AppConfig.GetBg(gameBiz);
         return file;
     }
 

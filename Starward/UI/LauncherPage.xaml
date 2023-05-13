@@ -135,7 +135,7 @@
 
 
         <!--  Start Game  -->
-        <Grid Width="280"
+        <Grid Width="240"
               Margin="40"
               HorizontalAlignment="Left"
               VerticalAlignment="Bottom"
@@ -147,17 +147,41 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+
             <!--  Start Game  -->
-            <Button Height="40"
+            <Button Name="Button_StartGame"
+                    Height="40"
                     HorizontalAlignment="Stretch"
                     Command="{x:Bind StartGameCommand}"
-                    Content="Start Game"
                     CornerRadius="20,0,0,20"
                     FontSize="16"
-                    FontWeight="SemiBold" />
+                    IsEnabled="True"
+                    Style="{ThemeResource AccentButtonStyle}">
+                <StackPanel Margin="32,0,0,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <TextBlock Name="TextBlock_StartGame"
+                               VerticalAlignment="Center"
+                               Text="开始游戏" />
+                    <FontIcon Margin="0,2,0,0"
+                              VerticalAlignment="Center"
+                              FontSize="18"
+                              FontWeight="Bold"
+                              Glyph="&#xE76C;" />
+                    <FontIcon Margin="-20,2,0,0"
+                              VerticalAlignment="Center"
+                              FontSize="18"
+                              FontWeight="Bold"
+                              Glyph="&#xE76C;" />
+                </StackPanel>
+            </Button>
+
+            <!--  game setting  -->
             <Button Grid.Column="1"
                     Height="40"
-                    CornerRadius="0,20,20,0">
+                    CornerRadius="0,20,20,0"
+                    IsEnabled="{x:Bind Button_StartGame.IsEnabled}"
+                    Style="{ThemeResource AccentButtonStyle}">
                 <Button.Content>
                     <AnimatedIcon Width="20" Height="20">
                         <AnimatedIcon.Source>
@@ -174,25 +198,35 @@
                         <StackPanel MinWidth="200" Spacing="8">
                             <TextBlock FontSize="16"
                                        FontWeight="SemiBold"
-                                       Text="Game Setting" />
-                            <TextBlock Margin="0,8,0,0" Text="Server" />
-                            <labs:Segmented HorizontalAlignment="Stretch" SelectedIndex="{x:Bind GameServerIndex, Mode=TwoWay}">
-                                <labs:SegmentedItem Content="CN" />
-                                <labs:SegmentedItem Content="OS" />
-                            </labs:Segmented>
-                            <TextBlock Margin="0,8,0,0" Text="Start Argument" />
+                                       Text="游戏设置" />
+                            <Button Width="0"
+                                    Height="0"
+                                    IsHitTestVisible="False" />
+                            <TextBlock Text="启动参数" />
                             <TextBox Text="{x:Bind StartGameArgument, Mode=TwoWay}" />
-                            <TextBlock Margin="0,8,0,0" Text="Target FPS" />
-                            <NumberBox Value="{x:Bind TargetFPS, Mode=TwoWay}" />
-                            <TextBlock Margin="0,8,0,0" Text="Others" />
+                            <TextBlock Margin="0,8,0,0" Text="FPS" />
+                            <NumberBox Name="NumberBox_FPS"
+                                       IsEnabled="True"
+                                       Maximum="320"
+                                       Minimum="60"
+                                       SmallChange="10"
+                                       SpinButtonPlacementMode="Inline"
+                                       Value="{x:Bind TargetFPS, Mode=TwoWay}" />
+                            <TextBlock Margin="0,8,0,0" Text="其他" />
                             <ToggleSwitch IsOn="{x:Bind EnableBannerAndPost, Mode=TwoWay}"
-                                          OffContent="Show Game Announcement"
-                                          OnContent="Show Game Announcement" />
+                                          OffContent="显示游戏公告"
+                                          OnContent="显示游戏公告" />
+                            <ToggleSwitch Margin="0,-8,0,0"
+                                          IsOn="{x:Bind IgnoreRunningGame, Mode=TwoWay}"
+                                          OffContent="忽略正在运行的游戏"
+                                          OnContent="忽略正在运行的游戏" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
             </Button>
         </Grid>
+
+
 
 
         <!--  Account  -->
@@ -203,33 +237,20 @@
                     Orientation="Horizontal"
                     Spacing="16">
 
+            <!--  account list  -->
             <Grid Background="{ThemeResource CustomAcrylicBrush}"
                   CornerRadius="20"
                   Shadow="{StaticResource ThemeShadow}"
                   Translation="0,0,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <ComboBox Name="ComboBox_GameServer"
-                          Height="40"
-                          MinWidth="80"
-                          HorizontalContentAlignment="Center"
-                          CornerRadius="20,0,0,20"
-                          SelectedIndex="{x:Bind AccountServerIndex, Mode=TwoWay}">
-                    <ComboBoxItem Content="CN" />
-                    <ComboBoxItem Content="OS" />
-                </ComboBox>
                 <ComboBox Name="ComboBox_GameAccount"
-                          Grid.Column="1"
                           Height="40"
-                          MinWidth="200"
+                          MinWidth="240"
                           CornerRadius="0,20,20,0"
                           ItemsSource="{x:Bind GameAccountList}"
                           SelectedItem="{x:Bind SelectGameAccount, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid ColumnSpacing="8">
+                            <Grid Padding="8,0,0,0" ColumnSpacing="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
@@ -246,7 +267,7 @@
                                           FontSize="14"
                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                           Glyph="&#xE930;"
-                                          ToolTipService.ToolTip="Current Account"
+                                          ToolTipService.ToolTip="当前登录的账号"
                                           Visibility="{Binding IsLogin}" />
                             </Grid>
                         </DataTemplate>
@@ -254,7 +275,7 @@
                 </ComboBox>
             </Grid>
 
-
+            <!--  change account  -->
             <Grid Background="{ThemeResource CustomAcrylicBrush}"
                   CornerRadius="20"
                   Shadow="{StaticResource ThemeShadow}"
@@ -265,24 +286,30 @@
                 </Grid.ColumnDefinitions>
                 <Button Height="40"
                         Command="{x:Bind ChangeGameAccountCommand}"
-                        Content="Switch Account"
-                        CornerRadius="20,0,0,20" />
+                        CornerRadius="20,0,0,20">
+                    <TextBlock Margin="4,0,0,0" Text="切换账号" />
+                </Button>
                 <Button Grid.Column="1"
                         Height="40"
-                        Content="&#xE104;"
                         CornerRadius="0,20,20,0"
                         FontFamily="{ThemeResource SymbolThemeFontFamily}"
                         IsEnabled="{x:Bind SelectGameAccount, Converter={StaticResource ObjectToBoolConverter}}">
+                    <FontIcon Margin="0,0,4,0"
+                              FontSize="14"
+                              Glyph="&#xE104;" />
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel MinWidth="200" Spacing="8">
                                 <TextBlock FontSize="16"
                                            FontWeight="SemiBold"
-                                           Text="Account Property" />
-                                <TextBlock Margin="0,8,0,0" Text="Name" />
+                                           Text="账号信息" />
+                                <Button Width="0"
+                                        Height="0"
+                                        IsHitTestVisible="False" />
+                                <TextBlock Text="昵称" />
                                 <TextBox Text="{x:Bind SelectGameAccount.Name, Mode=TwoWay}" />
                                 <TextBlock Margin="0,8,0,0" Text="Uid" />
-                                <TextBox Text="{x:Bind SelectGameAccount.Uid, Mode=TwoWay}" />
+                                <NumberBox Minimum="0" Value="{x:Bind SelectGameAccount.Uid, Mode=TwoWay}" />
                                 <Grid Margin="0,16,0,0"
                                       HorizontalAlignment="Left"
                                       Background="{ThemeResource CustomAcrylicBrush}"
@@ -299,7 +326,7 @@
                                             <FontIcon Name="FontIcon_SaveGameAccount"
                                                       FontSize="16"
                                                       Glyph="&#xE105;" />
-                                            <TextBlock Text="Save" />
+                                            <TextBlock Text="保存" />
                                         </StackPanel>
                                     </Button>
                                     <Button Grid.Column="1"
@@ -308,7 +335,7 @@
                                             Command="{x:Bind DeleteGameAccountCommand}"
                                             CornerRadius="0,20,20,0">
                                         <StackPanel Orientation="Horizontal" Spacing="12">
-                                            <TextBlock Text="Delete" />
+                                            <TextBlock Text="删除" />
                                             <FontIcon FontSize="16" Glyph="&#xE107;" />
                                         </StackPanel>
                                     </Button>
@@ -318,6 +345,7 @@
                     </Button.Flyout>
                 </Button>
             </Grid>
+
 
         </StackPanel>
 
