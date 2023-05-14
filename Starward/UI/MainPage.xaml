@@ -72,7 +72,7 @@
                                     Icon="Home"
                                     IsSelected="True"
                                     Tag="LauncherPage" />
-                <NavigationViewItem Content="Screenshots" Tag="ScreenshotPage">
+                <NavigationViewItem Content="游戏截图" Tag="ScreenshotPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE91B;" />
                     </NavigationViewItem.Icon>

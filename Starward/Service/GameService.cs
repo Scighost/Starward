@@ -71,6 +71,37 @@ internal abstract class GameService
 
 
 
+    public static string? GetGameScreenshotPath(GameBiz biz)
+    {
+        string? folder = null;
+        if (biz is GameBiz.hk4e_cloud)
+        {
+            folder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+        }
+        else
+        {
+            folder = GetGameInstallPath(biz);
+        }
+        var relativePath = biz switch
+        {
+            GameBiz.hk4e_cn or GameBiz.hk4e_global => "ScreenShot",
+            GameBiz.hk4e_cloud => "GenshinImpactCloudGame",
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => @"StarRail_Data\ScreenShots",
+            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
+        };
+        var path = Path.Join(folder, relativePath);
+        if (Directory.Exists(path))
+        {
+            return path;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+
+
 
     public static GameAccount? GetGameAccountsFromRegistry(GameBiz biz)
     {

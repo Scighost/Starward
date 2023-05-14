@@ -10,7 +10,6 @@
       xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
       xmlns:cc="using:CommunityToolkit.WinUI.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       xmlns:local="using:Starward.UI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:media="using:Microsoft.Xaml.Interactions.Media"
@@ -19,7 +18,8 @@
       xmlns:ui="using:CommunityToolkit.WinUI.UI"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
-      NavigationCacheMode="Required"
+      SizeChanged="Page_SizeChanged"
+      Unloaded="Page_Unloaded"
       mc:Ignorable="d">
 
     <Page.Resources>
@@ -50,20 +50,14 @@
                    VerticalAlignment="Center"
                    FontSize="20"
                    FontWeight="Bold"
-                   Text="Screenshots" />
+                   Text="游戏截图" />
 
 
-        <StackPanel Margin="0,0,24,0"
+        <StackPanel Margin="0,0,28,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     Spacing="16">
-            <Button Command="{x:Bind OpenScreenshotFolderCommand}" Content="Open Folder" />
-            <labs:Segmented Width="120"
-                            HorizontalAlignment="Stretch"
-                            SelectedIndex="{x:Bind ServerIndex, Mode=TwoWay}">
-                <labs:SegmentedItem Content="CN" />
-                <labs:SegmentedItem Content="OS" />
-            </labs:Segmented>
+            <Button Command="{x:Bind OpenScreenshotFolderCommand}" Content="打开文件夹" />
         </StackPanel>
 
 
@@ -82,7 +76,7 @@
             <SemanticZoom.ZoomedInView>
                 <cc:AdaptiveGridView Name="GridView_Images"
                                      Grid.Row="1"
-                                     Padding="24,0,12,24"
+                                     Padding="24,0,12,12"
                                      DesiredWidth="220"
                                      IsItemClickEnabled="True"
                                      ItemClick="GridView_Images_ItemClick"
@@ -121,6 +115,11 @@
                             <Setter Property="CornerRadius" Value="4" />
                         </Style>
                     </GridView.ItemContainerStyle>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid AreStickyGroupHeadersEnabled="False" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="sm:ScreenshotItem">
                             <Grid Height="120">
@@ -149,6 +148,9 @@
                                       Background="#60000000"
                                       Opacity="0">
                                     <Button Name="Button_CopyImage"
+                                            Height="28"
+                                            MinWidth="32"
+                                            Padding="0"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Top"
                                             Click="Button_CopyImage_Click"

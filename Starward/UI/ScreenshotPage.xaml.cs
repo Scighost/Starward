@@ -7,8 +7,9 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Scighost.WinUILib.Helpers;
+using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
+using Starward.Helper;
 using Starward.Model;
 using Starward.Service;
 using System;
@@ -33,25 +34,25 @@ public sealed partial class ScreenshotPage : Page
 {
 
 
+    private GameBiz gameBiz;
+
+
+
     public ScreenshotPage()
     {
         this.InitializeComponent();
     }
 
 
-
-    [ObservableProperty]
-    private int serverIndex = AppConfig.GameServerIndex;
-    partial void OnServerIndexChanged(int value)
+    protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        Watcher?.Dispose();
-        Watcher = null;
-        Initialize();
+        base.OnNavigatedTo(e);
+        if (e.Parameter is GameBiz biz)
+        {
+            gameBiz = biz;
+        }
     }
 
-
-    [ObservableProperty]
-    private ScreenshotWatcher? watcher;
 
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -63,15 +64,36 @@ public sealed partial class ScreenshotPage : Page
     }
 
 
+
+    private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        Image_Large.Width = this.ActualWidth;
+        Image_Large.Height = this.ActualHeight;
+    }
+
+
+
+    private void Page_Unloaded(object sender, RoutedEventArgs e)
+    {
+        Watcher?.Dispose();
+    }
+
+
+
+
+
+    [ObservableProperty]
+    private ScreenshotWatcher? watcher;
+
+
     private void Initialize()
     {
         try
         {
             if (Watcher == null)
             {
-                var path = GameService.GetGameInstallPath((RegionType)ServerIndex);
-                var folder = Path.Join(path, @"StarRail_Data\ScreenShots");
-                if (Directory.Exists(folder))
+                var folder = GameService.GetGameScreenshotPath(gameBiz);
+                if (folder != null)
                 {
                     Watcher = new ScreenshotWatcher(folder);
                 }
@@ -116,9 +138,8 @@ public sealed partial class ScreenshotPage : Page
     {
         try
         {
-            var path = GameService.GetGameInstallPath((RegionType)ServerIndex);
-            var folder = Path.Join(path, @"StarRail_Data\ScreenShots");
-            if (Directory.Exists(folder))
+            var folder = GameService.GetGameScreenshotPath(gameBiz);
+            if (folder != null)
             {
                 await Launcher.LaunchFolderPathAsync(folder);
             }
@@ -128,6 +149,14 @@ public sealed partial class ScreenshotPage : Page
 
         }
     }
+
+
+
+
+
+    #region Large Image
+
+
 
 
     private ScreenshotItem _selectItem;
@@ -170,17 +199,26 @@ public sealed partial class ScreenshotPage : Page
     {
         try
         {
-            GridView_Images.ScrollIntoView(_selectItem, ScrollIntoViewAlignment.Default);
-            GridView_Images.UpdateLayout();
-            var ani = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardAnimation", Image_Large);
-            ani.Configuration = new BasicConnectedAnimationConfiguration();
-            ani.Completed += (_, _) =>
+            if (Watcher?.ImageList?.Contains(_selectItem) ?? false)
+            {
+                GridView_Images.ScrollIntoView(_selectItem, ScrollIntoViewAlignment.Default);
+                GridView_Images.UpdateLayout();
+                var ani = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardAnimation", Image_Large);
+                ani.Configuration = new BasicConnectedAnimationConfiguration();
+                ani.Completed += (_, _) =>
+                {
+                    MainPage.Current.IsPaneToggleButtonVisible = true;
+                    Grid_ImageView.IsHitTestVisible = false;
+                };
+                Grid_ImageView.Opacity = 0;
+                await GridView_Images.TryStartConnectedAnimationAsync(ani, _selectItem, "Image_Thumb");
+            }
+            else
             {
                 MainPage.Current.IsPaneToggleButtonVisible = true;
                 Grid_ImageView.IsHitTestVisible = false;
-            };
-            Grid_ImageView.Opacity = 0;
-            await GridView_Images.TryStartConnectedAnimationAsync(ani, _selectItem, "Image_Thumb");
+                Grid_ImageView.Opacity = 0;
+            }
         }
         catch (Exception ex)
         {
@@ -225,5 +263,14 @@ public sealed partial class ScreenshotPage : Page
 
         }
     }
+
+
+
+
+
+    #endregion
+
+
+
 
 }
