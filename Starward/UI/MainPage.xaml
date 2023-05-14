@@ -68,7 +68,7 @@
             </NavigationView.Resources>
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Launcher"
+                <NavigationViewItem Content="启动器"
                                     Icon="Home"
                                     IsSelected="True"
                                     Tag="LauncherPage" />

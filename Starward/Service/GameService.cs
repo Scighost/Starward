@@ -168,11 +168,6 @@ internal abstract class GameService
 
     public static void ChangeGameAccount(GameAccount account)
     {
-        using var process = GetGameProcess(account.GameBiz);
-        if (process != null)
-        {
-            throw new Exception("Game process is running.");
-        }
         switch (account.GameBiz)
         {
             case GameBiz.None:
@@ -203,12 +198,6 @@ internal abstract class GameService
 
 
 
-    /// <summary>
-    /// 游戏是否在运行
-    /// </summary>
-    /// <param name="server"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static Process? GetGameProcess(GameBiz biz)
     {
         var name = biz switch

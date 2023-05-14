@@ -17,9 +17,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -102,6 +105,7 @@ public sealed partial class LauncherPage : Page
             OnPropertyChanged(nameof(StartGameArgument));
             if (gameBiz is GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
             {
+                NumberBox_FPS.IsEnabled = true;
                 targetFPS = GameService.GetStarRailFPS(gameBiz);
                 OnPropertyChanged(nameof(TargetFPS));
             }
@@ -224,6 +228,36 @@ public sealed partial class LauncherPage : Page
     #region Start Game
 
 
+    private Timer processTimer;
+
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(StartGameCommand))]
+    private bool canStartGame = true;
+    partial void OnCanStartGameChanged(bool value)
+    {
+        if (value)
+        {
+            Button_GameSetting.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
+        }
+        else
+        {
+            Button_GameSetting.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
+        }
+    }
+
+
+    [ObservableProperty]
+    private string startGameButtonText = "开始游戏";
+
+
+    [ObservableProperty]
+    private string installPath;
+    partial void OnInstallPathChanged(string value)
+    {
+        AppConfig.SetGameInstallPath(gameBiz, value);
+    }
+
 
     [ObservableProperty]
     private Process? gameProcess;
@@ -235,8 +269,8 @@ public sealed partial class LauncherPage : Page
         {
             try
             {
-                Button_StartGame.IsEnabled = false;
-                TextBlock_StartGame.Text = "游戏正在运行";
+                CanStartGame = false;
+                StartGameButtonText = "游戏正在运行";
                 newValue.EnableRaisingEvents = true;
                 newValue.Exited += (_, _) => CheckGameExited();
             }
@@ -248,8 +282,6 @@ public sealed partial class LauncherPage : Page
         }
     }
 
-
-    private Timer processTimer = new(1000);
 
 
 
@@ -282,6 +314,7 @@ public sealed partial class LauncherPage : Page
     partial void OnIgnoreRunningGameChanged(bool value)
     {
         AppConfig.IgnoreRunningGame = value;
+        UpdateGameState();
     }
 
 
@@ -290,11 +323,24 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
+            CanStartGame = true;
+            InstallPath = GameService.GetGameInstallPath(gameBiz) ?? "Not Found";
+            if (!Directory.Exists(InstallPath))
+            {
+                StartGameButtonText = "未安装游戏";
+                CanStartGame = false;
+                return;
+            }
+            StartGameButtonText = "开始游戏";
             if (IgnoreRunningGame)
             {
                 return;
             }
-            processTimer.Elapsed += (_, _) => CheckGameExited();
+            if (processTimer is null)
+            {
+                processTimer = new(1000);
+                processTimer.Elapsed += (_, _) => CheckGameExited();
+            }
             GameProcess = GameService.GetGameProcess(gameBiz);
         }
         catch (Exception ex)
@@ -315,8 +361,8 @@ public sealed partial class LauncherPage : Page
                 {
                     DispatcherQueue.TryEnqueue(() =>
                     {
-                        Button_StartGame.IsEnabled = true;
-                        TextBlock_StartGame.Text = "开始游戏";
+                        CanStartGame = true;
+                        StartGameButtonText = "开始游戏";
                     });
                     GameProcess.Dispose();
                     GameProcess = null;
@@ -331,7 +377,7 @@ public sealed partial class LauncherPage : Page
 
 
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanStartGame))]
     private void StartGame()
     {
         try
@@ -347,6 +393,35 @@ public sealed partial class LauncherPage : Page
                     GameProcess = GameService.StartGame(gameBiz, IgnoreRunningGame);
                 }
             }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task ChangeGameInstallPathAsync()
+    {
+        try
+        {
+            var picker = new FolderPicker
+            {
+                SuggestedStartLocation = PickerLocationId.ComputerFolder,
+            };
+            InitializeWithWindow.Initialize(picker, MainWindow.Current.HWND);
+            var folder = await picker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                InstallPath = folder.Path;
+            }
+            else
+            {
+                InstallPath = null;
+            }
+            UpdateGameState();
         }
         catch (Exception ex)
         {

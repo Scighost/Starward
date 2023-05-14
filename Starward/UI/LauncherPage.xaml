@@ -38,7 +38,7 @@
             </Grid.OpacityTransition>
             <Grid.RowDefinitions>
                 <RowDefinition Height="200" />
-                <RowDefinition Height="140" />
+                <RowDefinition Height="124" />
             </Grid.RowDefinitions>
             <!--  Banner  -->
             <FlipView Name="FlipView_Banner"
@@ -80,7 +80,7 @@
 
                 <Pivot ItemsSource="{x:Bind LauncherPostGroupList}">
                     <Pivot.Resources>
-                        <Thickness x:Key="PivotItemMargin">0,8,0,0</Thickness>
+                        <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
                         <Thickness x:Key="PivotHeaderItemMargin">12,0,12,0</Thickness>
                         <Style BasedOn="{StaticResource DefaultPivotHeaderItemStyle}" TargetType="PivotHeaderItem">
                             <Setter Property="Height" Value="36" />
@@ -98,7 +98,7 @@
                         <DataTemplate>
                             <PivotItem Margin="12,0,12,0">
                                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
-                                    <ItemsRepeater ItemsSource="{Binding List}">
+                                    <ItemsRepeater Margin="0,0,0,8" ItemsSource="{Binding List}">
                                         <ItemsRepeater.Layout>
                                             <StackLayout Spacing="8" />
                                         </ItemsRepeater.Layout>
@@ -155,14 +155,13 @@
                     Command="{x:Bind StartGameCommand}"
                     CornerRadius="20,0,0,20"
                     FontSize="16"
-                    IsEnabled="True"
                     Style="{ThemeResource AccentButtonStyle}">
                 <StackPanel Margin="32,0,0,0"
                             Orientation="Horizontal"
                             Spacing="8">
                     <TextBlock Name="TextBlock_StartGame"
                                VerticalAlignment="Center"
-                               Text="开始游戏" />
+                               Text="{x:Bind StartGameButtonText}" />
                     <FontIcon Margin="0,2,0,0"
                               VerticalAlignment="Center"
                               FontSize="18"
@@ -177,10 +176,10 @@
             </Button>
 
             <!--  game setting  -->
-            <Button Grid.Column="1"
+            <Button Name="Button_GameSetting"
+                    Grid.Column="1"
                     Height="40"
                     CornerRadius="0,20,20,0"
-                    IsEnabled="{x:Bind Button_StartGame.IsEnabled}"
                     Style="{ThemeResource AccentButtonStyle}">
                 <Button.Content>
                     <AnimatedIcon Width="20" Height="20">
@@ -195,18 +194,27 @@
                 <Button.Flyout>
                     <Flyout>
                         <!--  Game Setting  -->
-                        <StackPanel MinWidth="200" Spacing="8">
+                        <StackPanel MinWidth="200"
+                                    MaxWidth="200"
+                                    Spacing="8">
                             <TextBlock FontSize="16"
                                        FontWeight="SemiBold"
                                        Text="游戏设置" />
                             <Button Width="0"
                                     Height="0"
                                     IsHitTestVisible="False" />
-                            <TextBlock Text="启动参数" />
+                            <TextBlock Text="安装位置" />
+                            <TextBlock FontSize="12"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Bind InstallPath}"
+                                       TextTrimming="CharacterEllipsis"
+                                       ToolTipService.ToolTip="{x:Bind InstallPath}" />
+                            <Button Command="{x:Bind ChangeGameInstallPathCommand}" Content="修改" />
+                            <TextBlock Margin="0,8,0,0" Text="启动参数" />
                             <TextBox Text="{x:Bind StartGameArgument, Mode=TwoWay}" />
                             <TextBlock Margin="0,8,0,0" Text="FPS" />
                             <NumberBox Name="NumberBox_FPS"
-                                       IsEnabled="True"
+                                       IsEnabled="False"
                                        Maximum="320"
                                        Minimum="60"
                                        SmallChange="10"
