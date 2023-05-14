@@ -7,12 +7,14 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Core.Gacha.StarRail;
 using Starward.Helper;
 using Starward.Model;
 using Starward.Service;
+using Starward.Service.Gacha;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -39,18 +41,43 @@ public sealed partial class GachaLogPage : Page
 {
 
 
-    private readonly GachaLogService _warpRecordService;
+    private GachaLogService _gachaLogService;
+
+
+    private GameBiz gameBiz;
 
 
     public GachaLogPage()
     {
         this.InitializeComponent();
-        _warpRecordService = ServiceProvider.GetService<GachaLogService>();
-        if (ShowDepatureWarp)
+        if (ShowNoviceGacha)
         {
             Grid_Star5List.ColumnDefinitions.Add(new ColumnDefinition());
         }
     }
+
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+        if (e.Parameter is GameBiz biz)
+        {
+            gameBiz = biz;
+            Title = GachaLogService.GetGachaLogText(biz);
+            if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_cloud)
+            {
+                _gachaLogService = ServiceProvider.GetService<GenshinGachaService>();
+            }
+            if (biz is GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
+            {
+                _gachaLogService = ServiceProvider.GetService<StarRailGachaService>();
+            }
+        }
+    }
+
+
+    [ObservableProperty]
+    private string title;
 
 
 
@@ -67,15 +94,13 @@ public sealed partial class GachaLogPage : Page
     }
 
 
-    [ObservableProperty]
-    private int selectServerInPage;
 
 
     [ObservableProperty]
-    private bool showDepatureWarp = AppConfig.ShowDepatureWarp;
-    partial void OnShowDepatureWarpChanged(bool value)
+    private bool showNoviceGacha = AppConfig.ShowNoviceGacha;
+    partial void OnShowNoviceGachaChanged(bool value)
     {
-        AppConfig.ShowDepatureWarp = value;
+        AppConfig.ShowNoviceGacha = value;
         if (value && Grid_Star5List.ColumnDefinitions.Count == 3)
         {
             Grid_Star5List.ColumnDefinitions.Add(new ColumnDefinition());
@@ -88,24 +113,24 @@ public sealed partial class GachaLogPage : Page
 
 
     [ObservableProperty]
-    private string? warpLanguage = AppConfig.WarpLanguage;
-    partial void OnWarpLanguageChanged(string? value)
+    private string? gachaLanguage = AppConfig.GachaLanguage;
+    partial void OnGachaLanguageChanged(string? value)
     {
-        AppConfig.WarpLanguage = value;
+        AppConfig.GachaLanguage = value;
     }
 
 
     [ObservableProperty]
-    private GachaTypeStats? stellarWarp;
+    private GachaTypeStats? gachaTypeStats1;
 
     [ObservableProperty]
-    private GachaTypeStats? departureWarp;
+    private GachaTypeStats? gachaTypeStats2;
 
     [ObservableProperty]
-    private GachaTypeStats? characterEventWarp;
+    private GachaTypeStats? gachaTypeStats3;
 
     [ObservableProperty]
-    private GachaTypeStats? lightConeEventWarp;
+    private GachaTypeStats? gachaTypeStats4;
 
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -120,7 +145,7 @@ public sealed partial class GachaLogPage : Page
     {
         try
         {
-            UidList = new(_warpRecordService.GetUids());
+            UidList = new(_gachaLogService.GetUids());
             var lastUid = AppConfig.SelectUidInGachaLogPage;
             if (UidList.Contains(lastUid))
             {
@@ -145,18 +170,18 @@ public sealed partial class GachaLogPage : Page
         {
             if (uid == 0)
             {
-                StellarWarp = null;
-                DepartureWarp = null;
-                CharacterEventWarp = null;
-                LightConeEventWarp = null;
+                GachaTypeStats1 = null;
+                GachaTypeStats2 = null;
+                GachaTypeStats3 = null;
+                GachaTypeStats4 = null;
             }
             else
             {
-                var stats = _warpRecordService.GetWarpTypeStats(uid);
-                StellarWarp = stats.FirstOrDefault(x => x.GachaType == GachaType.StellarWarp);
-                DepartureWarp = stats.FirstOrDefault(x => x.GachaType == GachaType.DepartureWarp);
-                CharacterEventWarp = stats.FirstOrDefault(x => x.GachaType == GachaType.CharacterEventWarp);
-                LightConeEventWarp = stats.FirstOrDefault(x => x.GachaType == GachaType.LightConeEventWarp);
+                var stats = _gachaLogService.GetGachaTypeStats(uid);
+                GachaTypeStats1 = stats.ElementAtOrDefault(0);
+                GachaTypeStats2 = stats.ElementAtOrDefault(1);
+                GachaTypeStats3 = stats.ElementAtOrDefault(2);
+                GachaTypeStats4 = stats.ElementAtOrDefault(3);
             }
         }
         catch (Exception ex)
@@ -182,7 +207,7 @@ public sealed partial class GachaLogPage : Page
                 {
                     return;
                 }
-                url = _warpRecordService.GetUrlByUid(SelectUid);
+                url = _gachaLogService.GetUrlByUid(SelectUid);
                 if (string.IsNullOrWhiteSpace(url))
                 {
                     NotificationBehavior.Instance.Warning(null, $"Cannot find cached URL of uid {SelectUid}.");
@@ -191,21 +216,16 @@ public sealed partial class GachaLogPage : Page
             }
             else
             {
-                var serverIndex = SelectServerInPage - 1;
-                if (serverIndex < 0)
-                {
-                    //serverIndex = AppConfig.GameServerIndex;
-                }
-                var path = GameService.GetGameInstallPath((GameBiz)serverIndex);
+                var path = GameService.GetGameInstallPath(gameBiz);
                 if (!Directory.Exists(path))
                 {
-                    NotificationBehavior.Instance.Warning("", $"Cannot find game install path (server {(serverIndex == 1 ? "OS" : "CN")})");
+                    NotificationBehavior.Instance.Warning("", $"Cannot find game install path ");
                     return;
                 }
-                url = _warpRecordService.GetWarpRecordUrlFromWebCache(path);
+                url = _gachaLogService.GetGachaLogUrlFromWebCache(gameBiz, path);
                 if (string.IsNullOrWhiteSpace(url))
                 {
-                    NotificationBehavior.Instance.Warning("", $"Cannot find URL (server {(serverIndex == 1 ? "OS" : "CN")})");
+                    NotificationBehavior.Instance.Warning("", $"Cannot find URL");
                     return;
                 }
             }
@@ -224,7 +244,7 @@ public sealed partial class GachaLogPage : Page
     {
         try
         {
-            var uid = await _warpRecordService.GetUidFromWarpRecordUrl(url);
+            var uid = await _gachaLogService.GetUidFromGachaLogUrl(url);
             var infoBar = new InfoBar
             {
                 Title = $"Uid {uid}",
@@ -233,7 +253,7 @@ public sealed partial class GachaLogPage : Page
             };
             NotificationBehavior.Instance.Show(infoBar);
             var progress = new Progress<string>((str) => infoBar.Message = str);
-            await _warpRecordService.GetWarpRecordAsync(url, all, WarpLanguage, progress);
+            await _gachaLogService.GetWarpRecordAsync(url, all, GachaLanguage, progress);
             infoBar.Severity = InfoBarSeverity.Success;
             if (SelectUid == uid)
             {
@@ -273,10 +293,10 @@ public sealed partial class GachaLogPage : Page
             var textbox = new TextBox();
             var dialog = new ContentDialog
             {
-                Title = "Input URL",
+                Title = "输入 URL",
                 Content = textbox,
-                PrimaryButtonText = "OK",
-                SecondaryButtonText = "Cancel",
+                PrimaryButtonText = "确认",
+                SecondaryButtonText = "取消",
                 DefaultButton = ContentDialogButton.Primary,
                 XamlRoot = MainWindow.Current.Content.XamlRoot,
             };
@@ -310,18 +330,18 @@ public sealed partial class GachaLogPage : Page
             }
             var dialog = new ContentDialog
             {
-                Title = "Warning",
-                Content = $"All warp records of the uid {uid} will be deleted soon, and these records will not be recovered.",
-                PrimaryButtonText = "Delete",
-                SecondaryButtonText = "Cancel",
+                Title = "警告",
+                Content = $"即将删除 Uid {uid} 所有的{Title}，此操作不可恢复。",
+                PrimaryButtonText = "删除",
+                SecondaryButtonText = "取消",
                 DefaultButton = ContentDialogButton.Secondary,
                 XamlRoot = MainWindow.Current.Content.XamlRoot,
             };
             var result = await dialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-                var count = _warpRecordService.DeleteUid(uid);
-                NotificationBehavior.Instance.Success(null, $"{count} warp records of uid {uid} have been deleted.");
+                var count = _gachaLogService.DeleteUid(uid);
+                NotificationBehavior.Instance.Success(null, $"已删除 Uid {uid} 的{Title} {count} 条");
                 SelectUid = UidList.FirstOrDefault(x => x != uid);
                 UidList.Remove(uid);
             }
@@ -361,10 +381,10 @@ public sealed partial class GachaLogPage : Page
             var file = await picker.PickSaveFileAsync();
             if (file is not null)
             {
-                _warpRecordService.ExportWarpRecord(uid, file.Path, format);
+                _gachaLogService.ExportWarpRecord(uid, file.Path, format);
                 var options = new FolderLauncherOptions();
                 options.ItemsToSelect.Add(file);
-                NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Success, "Export Successfully", file.Name, "Open Folder", async () => await Launcher.LaunchFolderAsync(await file.GetParentAsync(), options));
+                NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Success, "成功导出", file.Name, "打开文件夹", async () => await Launcher.LaunchFolderAsync(await file.GetParentAsync(), options));
             }
         }
         catch (Exception ex)

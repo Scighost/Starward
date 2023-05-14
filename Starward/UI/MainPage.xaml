@@ -77,7 +77,7 @@
                         <FontIcon Glyph="&#xE91B;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Warp Records" Tag="GachaLogPage">
+                <NavigationViewItem Name="NavigationViewItem_GachaLog" Tag="GachaLogPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE81C;" />
                     </NavigationViewItem.Icon>

@@ -9,8 +9,9 @@ public class GachaLogUrl
     public GachaLogUrl() { }
 
 
-    public GachaLogUrl(int uid, string url)
+    public GachaLogUrl(GameBiz gameBiz, int uid, string url)
     {
+        GameBiz = gameBiz;
         Uid = uid;
         Url = url;
         Time = DateTime.Now;

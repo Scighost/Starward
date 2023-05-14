@@ -7,6 +7,7 @@ using Starward.Core.Hyperion.Genshin;
 using Starward.Core.Hyperion.StarRail;
 using Starward.Core.Launcher;
 using Starward.Core.Metadata;
+using Starward.Service.Gacha;
 using System;
 using System.Net.Http;
 
@@ -40,8 +41,9 @@ internal abstract class ServiceProvider
         sc.AddSingleton<MetadataClient>();
 
         sc.AddSingleton<DatabaseService>();
-        sc.AddSingleton<GachaLogService>();
         sc.AddSingleton<LauncherService>();
+        sc.AddSingleton<GenshinGachaService>();
+        sc.AddSingleton<StarRailGachaService>();
 
         _serviceProvider = sc.BuildServiceProvider();
     }

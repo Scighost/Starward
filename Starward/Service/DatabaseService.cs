@@ -217,16 +217,25 @@ internal class DatabaseService
 
         CREATE TABLE IF NOT EXISTS GameAccount
         (
-            SHA256 TEXT    NOT NULL PRIMARY KEY,
+            SHA256  TEXT    NOT NULL PRIMARY KEY,
             GameBiz INTEGER NOT NULL,
-            Uid    INTEGER NOT NULL,
-            Name   TEXT    NOT NULL,
-            Value  BLOB    NOT NULL,
-            Time   TEXT    NOT NULL
+            Uid     INTEGER NOT NULL,
+            Name    TEXT    NOT NULL,
+            Value   BLOB    NOT NULL,
+            Time    TEXT    NOT NULL
         );
         CREATE INDEX IF NOT EXISTS IX_GameAccount_GameBiz ON GameAccount (GameBiz);
 
-        CREATE TABLE IF NOT EXISTS WarpRecordItem
+        CREATE TABLE IF NOT EXISTS GachaLogUrl
+        (
+            GameBiz INTEGER NOT NULL,
+            Uid     INTEGER NOT NULL,
+            Url     TEXT    NOT NULL,
+            Time    TEXT    NOT NULL,
+            PRIMARY KEY (GameBiz, Uid)
+        );
+
+        CREATE TABLE IF NOT EXISTS GenshinGachaItem
         (
             Uid       INTEGER NOT NULL,
             Id        INTEGER NOT NULL,
@@ -235,67 +244,33 @@ internal class DatabaseService
             ItemId    INTEGER NOT NULL,
             ItemType  TEXT    NOT NULL,
             RankType  INTEGER NOT NULL,
-            WarpType INTEGER NOT NULL,
-            WarpId   INTEGER NOT NULL,
+            GachaType INTEGER NOT NULL,
             Count     INTEGER NOT NULL,
             Lang      TEXT,
             PRIMARY KEY (Uid, Id)
         );
-        CREATE INDEX IF NOT EXISTS IX_WarpRecordItem_Id ON WarpRecordItem (Id);
-        CREATE INDEX IF NOT EXISTS IX_WarpRecordItem_RankType ON WarpRecordItem (RankType);
-        CREATE INDEX IF NOT EXISTS IX_WarpRecordItem_WarpType ON WarpRecordItem (WarpType);
+        CREATE INDEX IF NOT EXISTS IX_GenshinGachaItem_Id ON GenshinGachaItem (Id);
+        CREATE INDEX IF NOT EXISTS IX_GenshinGachaItem_RankType ON GenshinGachaItem (RankType);
+        CREATE INDEX IF NOT EXISTS IX_GenshinGachaItem_GachaType ON GenshinGachaItem (GachaType);
 
-        CREATE TABLE IF NOT EXISTS WarpRecordUrl
+        CREATE TABLE IF NOT EXISTS StarRailGachaItem
         (
-            Uid      INTEGER NOT NULL PRIMARY KEY,
-            WarpUrl TEXT    NOT NULL,
-            Time     TEXT    NOT NULL
+            Uid       INTEGER NOT NULL,
+            Id        INTEGER NOT NULL,
+            Name      TEXT    NOT NULL,
+            Time      TEXT    NOT NULL,
+            ItemId    INTEGER NOT NULL,
+            ItemType  TEXT    NOT NULL,
+            RankType  INTEGER NOT NULL,
+            GachaType INTEGER NOT NULL,
+            GachaId   INTEGER NOT NULL,
+            Count     INTEGER NOT NULL,
+            Lang      TEXT,
+            PRIMARY KEY (Uid, Id)
         );
-
-
-        CREATE TABLE IF NOT EXISTS GameRoleInfo
-        (
-            Uid        INTEGER NOT NULL PRIMARY KEY,
-            Nickname   TEXT    NOT NULL,
-            GameBiz    TEXT    NOT NULL,
-            Region     TEXT    NOT NULL,
-            RegionName TEXT    NOT NULL,
-            Level      INTEGER NOT NULL,
-            IsChosen   INTEGER NOT NULL,
-            IsOfficial INTEGER NOT NULL,
-            Cookie     TEXT    NOT NULL
-        );
-        
-        CREATE TABLE IF NOT EXISTS LedgerMonthData
-        (
-            Uid              INTEGER NOT NULL,
-            Month            TEXT    NOT NULL,
-            CurrentHcoin     INTEGER NOT NULL,
-            CurrentRailsPass INTEGER NOT NULL,
-            LastHcoin        INTEGER NOT NULL,
-            LastRailsPass    INTEGER NOT NULL,
-            HcoinRate        INTEGER NOT NULL,
-            RailsRate        INTEGER NOT NULL,
-            GroupBy          TEXT    NOT NULL,
-            PRIMARY KEY (Uid, Month)
-        );
-        
-        CREATE TABLE IF NOT EXISTS LedgerDetailItem
-        (
-            Id         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-            Uid        INTEGER NOT NULL,
-            Month      TEXT    NOT NULL,
-            Type       INTEGER NOT NULL,
-            Action     TEXT    NOT NULL,
-            ActionName TEXT    NOT NULL,
-            Time       TEXT    NOT NULL,
-            Number     INTEGER NOT NULL
-        );
-        CREATE INDEX IF NOT EXISTS IX_LedgerDetailItem_Uid ON LedgerDetailItem (Uid);
-        CREATE INDEX IF NOT EXISTS IX_LedgerDetailItem_Month ON LedgerDetailItem (Month);
-        CREATE INDEX IF NOT EXISTS IX_LedgerDetailItem_Type ON LedgerDetailItem (Type);
-
-        
+        CREATE INDEX IF NOT EXISTS IX_StarRailGachaItem_Id ON StarRailGachaItem (Id);
+        CREATE INDEX IF NOT EXISTS IX_StarRailGachaItem_RankType ON StarRailGachaItem (RankType);
+        CREATE INDEX IF NOT EXISTS IX_StarRailGachaItem_GachaType ON StarRailGachaItem (GachaType);
 
         PRAGMA USER_VERSION = 1;
         COMMIT TRANSACTION;

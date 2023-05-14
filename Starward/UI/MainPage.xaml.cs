@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
 using Starward.Service;
+using Starward.Service.Gacha;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -81,8 +82,12 @@ public sealed partial class MainPage : Page
 
     #region Select Game
 
-
-    private GameBiz currentGameBiz = AppConfig.SelectGameBiz;
+    [ObservableProperty]
+    private GameBiz currentGameBiz;
+    partial void OnCurrentGameBizChanged(GameBiz value)
+    {
+        NavigationViewItem_GachaLog.Content = GachaLogService.GetGachaLogText(value);
+    }
 
 
     private GameBiz selectGameBiz = AppConfig.SelectGameBiz;
@@ -90,7 +95,8 @@ public sealed partial class MainPage : Page
 
     private void InitializeSelectGameBiz()
     {
-        var index = currentGameBiz switch
+        CurrentGameBiz = selectGameBiz;
+        var index = CurrentGameBiz switch
         {
             GameBiz.hk4e_cn => 0,
             GameBiz.hk4e_global => 1,
@@ -115,7 +121,7 @@ public sealed partial class MainPage : Page
             {
                 if (Enum.TryParse(ele.Tag as string, out selectGameBiz))
                 {
-                    if (selectGameBiz != currentGameBiz)
+                    if (selectGameBiz != CurrentGameBiz)
                     {
                         Button_ChangeGameBiz.IsEnabled = true;
                     }
@@ -132,8 +138,8 @@ public sealed partial class MainPage : Page
     [RelayCommand(AllowConcurrentExecutions = true)]
     private async Task ChangeGameBizAsync()
     {
-        currentGameBiz = selectGameBiz;
-        AppConfig.SelectGameBiz = currentGameBiz;
+        CurrentGameBiz = selectGameBiz;
+        AppConfig.SelectGameBiz = CurrentGameBiz;
         Button_ChangeGameBiz.IsEnabled = false;
         NavigateTo(MainPage_Frame.SourcePageType);
         await UpdateBackgroundImageAsync();
@@ -195,7 +201,7 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            var file = _launcherService.GetCachedBackgroundImage(currentGameBiz);
+            var file = _launcherService.GetCachedBackgroundImage(CurrentGameBiz);
             if (file != null)
             {
                 BackgroundImage = new BitmapImage(new Uri(file));
@@ -217,7 +223,7 @@ public sealed partial class MainPage : Page
         {
             source?.Cancel();
             source = new();
-            var file = await _launcherService.GetBackgroundImageAsync(currentGameBiz);
+            var file = await _launcherService.GetBackgroundImageAsync(CurrentGameBiz);
             if (file != null)
             {
                 using var fs = File.OpenRead(file);
@@ -289,7 +295,7 @@ public sealed partial class MainPage : Page
     {
         if (page != null)
         {
-            MainPage_Frame.Navigate(page, currentGameBiz, new DrillInNavigationTransitionInfo());
+            MainPage_Frame.Navigate(page, CurrentGameBiz, new DrillInNavigationTransitionInfo());
         }
     }
 

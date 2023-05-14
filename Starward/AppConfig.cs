@@ -120,8 +120,8 @@ internal abstract class AppConfig
 
     public static bool ShowNoviceGacha
     {
-        get => GetValue<bool>();
-        set => SetValue(value);
+        get => GetValue<int>() == 0 ? false : true;
+        set => SetValue(value ? 1 : 0);
     }
 
 
