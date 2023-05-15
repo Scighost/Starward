@@ -36,9 +36,9 @@ namespace Starward.UI;
 public sealed partial class LauncherPage : Page
 {
 
-    private readonly ILogger<LauncherPage> _logger;
+    private readonly ILogger<LauncherPage> _logger = AppConfig.GetLogger<LauncherPage>();
 
-    private readonly LauncherService _launcherService;
+    private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
 
     private readonly DispatcherQueueTimer _timer;
 
@@ -49,8 +49,6 @@ public sealed partial class LauncherPage : Page
     public LauncherPage()
     {
         this.InitializeComponent();
-        _logger = ServiceProvider.GetLogger<LauncherPage>();
-        _launcherService = ServiceProvider.GetService<LauncherService>();
 
         _timer = DispatcherQueue.CreateTimer();
         _timer.Interval = TimeSpan.FromSeconds(5);
@@ -324,7 +322,7 @@ public sealed partial class LauncherPage : Page
         try
         {
             CanStartGame = true;
-            InstallPath = GameService.GetGameInstallPath(gameBiz) ?? "Not Found";
+            InstallPath = GameService.GetGameInstallPath(gameBiz) ?? "---";
             if (!Directory.Exists(InstallPath))
             {
                 StartGameButtonText = "未安装游戏";
@@ -419,7 +417,7 @@ public sealed partial class LauncherPage : Page
             }
             else
             {
-                InstallPath = null;
+                InstallPath = "---";
             }
             UpdateGameState();
         }

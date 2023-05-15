@@ -195,15 +195,12 @@
                     <Flyout>
                         <!--  Game Setting  -->
                         <StackPanel MinWidth="200"
-                                    MaxWidth="200"
+                                    MaxWidth="400"
                                     Spacing="8">
                             <TextBlock FontSize="16"
                                        FontWeight="SemiBold"
                                        Text="游戏设置" />
-                            <Button Width="0"
-                                    Height="0"
-                                    IsHitTestVisible="False" />
-                            <TextBlock Text="安装位置" />
+                            <TextBlock Margin="0,8,0,0" Text="安装位置" />
                             <TextBlock FontSize="12"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        Text="{x:Bind InstallPath}"

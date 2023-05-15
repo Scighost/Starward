@@ -37,7 +37,7 @@ public sealed partial class MainWindow : Window
     public double UIScale => User32.GetDpiForWindow(HWND) / 96d;
 
 
-    private readonly ILogger<MainWindow> _logger = ServiceProvider.GetLogger<MainWindow>();
+    private readonly ILogger<MainWindow> _logger = AppConfig.GetLogger<MainWindow>();
 
 
     public MainWindow()

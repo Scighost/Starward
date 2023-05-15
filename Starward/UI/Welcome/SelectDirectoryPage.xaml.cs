@@ -41,14 +41,13 @@ public sealed partial class SelectDirectoryPage : Page
 
 
 
-    private readonly ILogger<SelectDirectoryPage> _logger;
+    private readonly ILogger<SelectDirectoryPage> _logger = AppConfig.GetLogger<SelectDirectoryPage>();
 
 
 
     public SelectDirectoryPage()
     {
         this.InitializeComponent();
-        _logger = ServiceProvider.GetLogger<SelectDirectoryPage>();
     }
 
 

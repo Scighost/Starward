@@ -57,7 +57,7 @@ internal class DatabaseService
 
     private void InitializeDatabase()
     {
-        var logger=ServiceProvider.GetLogger<DatabaseService>();
+        var logger = AppConfig.GetLogger<DatabaseService>();
         using var con = CreateConnection();
         var version = con.QueryFirstOrDefault<int>("PRAGMA USER_VERSION;");
         logger.LogInformation($"Database version is {version}, target version is {StructureSqls.Count}.");

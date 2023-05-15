@@ -41,16 +41,14 @@ namespace Starward.UI.Welcome;
 public sealed partial class SelectGamePage : Page
 {
 
-    private readonly ILogger<SelectGamePage> _logger;
+    private readonly ILogger<SelectGamePage> _logger = AppConfig.GetLogger<SelectGamePage>();
 
-    private readonly MetadataClient _client;
+    private readonly MetadataClient _client = AppConfig.GetService<MetadataClient>();
 
 
     public SelectGamePage()
     {
         this.InitializeComponent();
-        _logger = ServiceProvider.GetLogger<SelectGamePage>();
-        _client = ServiceProvider.GetService<MetadataClient>();
     }
 
 

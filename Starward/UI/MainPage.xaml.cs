@@ -34,10 +34,10 @@ public sealed partial class MainPage : Page
     public static MainPage Current { get; private set; }
 
 
-    private readonly ILogger<MainPage> _logger;
+    private readonly ILogger<MainPage> _logger = AppConfig.GetLogger<MainPage>();
 
 
-    private readonly LauncherService _launcherService;
+    private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
 
 
 
@@ -46,9 +46,6 @@ public sealed partial class MainPage : Page
     {
         Current = this;
         this.InitializeComponent();
-
-        _logger = ServiceProvider.GetLogger<MainPage>();
-        _launcherService = ServiceProvider.GetService<LauncherService>();
 
         InitializeBackgroundImage();
         InitializeSelectGameBiz();

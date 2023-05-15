@@ -60,11 +60,11 @@ public sealed partial class GachaLogPage : Page
             Title = GachaLogService.GetGachaLogText(biz);
             if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_cloud)
             {
-                _gachaLogService = ServiceProvider.GetService<GenshinGachaService>();
+                _gachaLogService = AppConfig.GetService<GenshinGachaService>();
             }
             if (biz is GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
             {
-                _gachaLogService = ServiceProvider.GetService<StarRailGachaService>();
+                _gachaLogService = AppConfig.GetService<StarRailGachaService>();
             }
         }
     }
@@ -190,7 +190,7 @@ public sealed partial class GachaLogPage : Page
 
 
     [RelayCommand]
-    private async Task UpdateWarpRecordAsync(string? param = null)
+    private async Task UpdateGachaLogAsync(string? param = null)
     {
         try
         {
@@ -223,7 +223,7 @@ public sealed partial class GachaLogPage : Page
                     return;
                 }
             }
-            await UpdateWarpRecordInternalAsync(url, param is "all");
+            await UpdateGachaLogInternalAsync(url, param is "all");
         }
         catch (Exception ex)
         {
@@ -234,7 +234,7 @@ public sealed partial class GachaLogPage : Page
 
 
 
-    private async Task UpdateWarpRecordInternalAsync(string url, bool all = false)
+    private async Task UpdateGachaLogInternalAsync(string url, bool all = false)
     {
         try
         {
@@ -300,7 +300,7 @@ public sealed partial class GachaLogPage : Page
                 var url = textbox.Text;
                 if (!string.IsNullOrWhiteSpace(url))
                 {
-                    await UpdateWarpRecordInternalAsync(url);
+                    await UpdateGachaLogInternalAsync(url);
                 }
             }
         }

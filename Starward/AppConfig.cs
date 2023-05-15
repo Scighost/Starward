@@ -1,7 +1,20 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 using Starward.Core;
+using Starward.Core.Gacha.Genshin;
+using Starward.Core.Gacha.StarRail;
+using Starward.Core.Hyperion;
+using Starward.Core.Hyperion.Genshin;
+using Starward.Core.Hyperion.StarRail;
+using Starward.Core.Launcher;
+using Starward.Core.Metadata;
+using Starward.Service;
+using Starward.Service.Gacha;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Encodings.Web;
@@ -23,10 +36,15 @@ internal abstract class AppConfig
 
 
 
+
     public static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
 
 
     private static readonly Dictionary<string, object?> cache = new();
+
+
+    public static IServiceProvider _serviceProvider;
+
 
 
     static AppConfig()
@@ -59,6 +77,58 @@ internal abstract class AppConfig
     }
 
 
+
+
+    #region Service Provider
+
+
+    private static void BuildServiceProvider()
+    {
+        if (_serviceProvider == null)
+        {
+            var sc = new ServiceCollection();
+#if DEBUG
+            sc.AddLogging(configure => configure.AddDebug());
+#endif
+            sc.AddLogging(configure => configure.AddSimpleConsole());
+
+            sc.AddTransient(_ => new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All }));
+
+            sc.AddSingleton<GenshinGachaClient>();
+            sc.AddSingleton<StarRailGachaClient>();
+            sc.AddSingleton<HyperionClient>();
+            sc.AddSingleton<HyperionGenshinClient>();
+            sc.AddSingleton<HyperionStarRailClient>();
+            sc.AddSingleton<LauncherClient>();
+            sc.AddSingleton<MetadataClient>();
+
+            sc.AddSingleton<DatabaseService>();
+            sc.AddSingleton<LauncherService>();
+            sc.AddSingleton<GenshinGachaService>();
+            sc.AddSingleton<StarRailGachaService>();
+
+            _serviceProvider = sc.BuildServiceProvider();
+        }
+    }
+
+
+    public static T GetService<T>()
+    {
+        BuildServiceProvider();
+        return _serviceProvider.GetService<T>()!;
+    }
+
+
+    public static ILogger<T> GetLogger<T>()
+    {
+        BuildServiceProvider();
+        return _serviceProvider.GetService<ILogger<T>>()!;
+    }
+
+
+
+
+    #endregion
 
 
 
@@ -197,6 +267,9 @@ internal abstract class AppConfig
 
 
 
+    #region Setting Method
+
+
 
 
     private static T? GetValue<T>(T? defaultValue = default, [CallerMemberName] string? key = null)
@@ -246,6 +319,9 @@ internal abstract class AppConfig
         }
         catch { }
     }
+
+
+    #endregion
 
 
 }

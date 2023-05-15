@@ -41,14 +41,10 @@ internal abstract class GameService
     private const string SR_GraphicsSetting = "GraphicsSettings_Model_h2986158309";
 
 
-    private static readonly ILogger<GameService> _logger;
+    private static readonly ILogger<GameService> _logger = AppConfig.GetLogger<GameService>();
 
 
 
-    static GameService()
-    {
-        _logger = ServiceProvider.GetLogger<GameService>();
-    }
 
 
 
