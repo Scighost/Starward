@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -34,6 +35,9 @@ namespace Starward.UI;
 public sealed partial class GachaLogPage : Page
 {
 
+    private readonly ILogger<GachaLogPage> _logger = AppConfig.GetLogger<GachaLogPage>();
+
+    private readonly GameService _gameService = AppConfig.GetService<GameService>();
 
     private GachaLogService _gachaLogService;
 
@@ -210,7 +214,7 @@ public sealed partial class GachaLogPage : Page
             }
             else
             {
-                var path = GameService.GetGameInstallPath(gameBiz);
+                var path = _gameService.GetGameInstallPath(gameBiz);
                 if (!Directory.Exists(path))
                 {
                     NotificationBehavior.Instance.Warning("", $"Cannot find game install path ");

@@ -17,7 +17,7 @@ using System.Text.Json.Nodes;
 
 namespace Starward.Service;
 
-internal abstract class GameService
+internal class GameService
 {
 
 
@@ -41,14 +41,21 @@ internal abstract class GameService
     private const string SR_GraphicsSetting = "GraphicsSettings_Model_h2986158309";
 
 
-    private static readonly ILogger<GameService> _logger = AppConfig.GetLogger<GameService>();
+    private readonly ILogger<GameService> _logger;
+
+
+    private readonly DatabaseService _database;
+
+    public GameService(ILogger<GameService> logger, DatabaseService database)
+    {
+        _logger = logger;
+        _database = database;
+    }
 
 
 
 
-
-
-    public static string? GetGameInstallPath(GameBiz biz)
+    public string? GetGameInstallPath(GameBiz biz)
     {
         var path = AppConfig.GetGameInstallPath(biz);
         if (string.IsNullOrWhiteSpace(path))
@@ -67,7 +74,7 @@ internal abstract class GameService
 
 
 
-    public static string? GetGameScreenshotPath(GameBiz biz)
+    public string? GetGameScreenshotPath(GameBiz biz)
     {
         string? folder = null;
         if (biz is GameBiz.hk4e_cloud)
@@ -99,7 +106,7 @@ internal abstract class GameService
 
 
 
-    public static GameAccount? GetGameAccountsFromRegistry(GameBiz biz)
+    public GameAccount? GetGameAccountsFromRegistry(GameBiz biz)
     {
         var key = biz switch
         {
@@ -140,15 +147,15 @@ internal abstract class GameService
 
 
 
-    public static IEnumerable<GameAccount> GetGameAccountsFromDatabase(GameBiz biz)
+    public IEnumerable<GameAccount> GetGameAccountsFromDatabase(GameBiz biz)
     {
-        using var dapper = DatabaseService.Instance.CreateConnection();
+        using var dapper = _database.CreateConnection();
         return dapper.Query<GameAccount>("SELECT * FROM GameAccount WHERE GameBiz = @biz;", new { biz });
     }
 
 
 
-    public static List<GameAccount> GetGameAccounts(GameBiz biz)
+    public List<GameAccount> GetGameAccounts(GameBiz biz)
     {
         var databaseAccounts = GetGameAccountsFromDatabase(biz).ToList();
         var regAccount = GetGameAccountsFromRegistry(biz);
@@ -172,28 +179,28 @@ internal abstract class GameService
 
 
 
-    public static void SaveGameAccount(GameAccount account)
+    public void SaveGameAccount(GameAccount account)
     {
         if (string.IsNullOrWhiteSpace(account.Name))
         {
             return;
         }
-        using var dapper = DatabaseService.Instance.CreateConnection();
+        using var dapper = _database.CreateConnection();
         dapper.Execute("INSERT OR REPLACE INTO GameAccount (SHA256, GameBiz, Uid, Name, Value, Time) VALUES (@SHA256, @GameBiz, @Uid, @Name, @Value, @Time);", account);
     }
 
 
 
-    public static void DeleteGameAccount(GameAccount account)
+    public void DeleteGameAccount(GameAccount account)
     {
-        using var dapper = DatabaseService.Instance.CreateConnection();
+        using var dapper = _database.CreateConnection();
         dapper.Execute("DELETE FROM GameAccount WHERE SHA256=@SHA256;", account);
     }
 
 
 
 
-    public static void ChangeGameAccount(GameAccount account)
+    public void ChangeGameAccount(GameAccount account)
     {
         switch (account.GameBiz)
         {
@@ -225,7 +232,7 @@ internal abstract class GameService
 
 
 
-    public static Process? GetGameProcess(GameBiz biz)
+    public Process? GetGameProcess(GameBiz biz)
     {
         var name = biz switch
         {
@@ -246,7 +253,7 @@ internal abstract class GameService
     /// 启动游戏
     /// </summary>
     /// <returns></returns>
-    public static Process? StartGame(GameBiz biz, bool ignoreRunningGame = false)
+    public Process? StartGame(GameBiz biz, bool ignoreRunningGame = false)
     {
         try
         {
@@ -289,7 +296,7 @@ internal abstract class GameService
 
 
 
-    public static int GetStarRailFPS(GameBiz biz)
+    public int GetStarRailFPS(GameBiz biz)
     {
         var key = biz switch
         {
@@ -313,7 +320,7 @@ internal abstract class GameService
 
 
 
-    public static void SetStarRailFPS(GameBiz biz, int fps)
+    public void SetStarRailFPS(GameBiz biz, int fps)
     {
         var key = biz switch
         {

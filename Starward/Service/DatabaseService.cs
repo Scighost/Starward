@@ -12,23 +12,20 @@ namespace Starward.Service;
 internal class DatabaseService
 {
 
-    private static readonly Lazy<DatabaseService> _lazy = new Lazy<DatabaseService>(() => new DatabaseService());
-
-
-    public static DatabaseService Instance => _lazy.Value;
-
+    private readonly ILogger<DatabaseService> _logger;
 
 
     private readonly string _databasePath;
+
 
     private readonly string _connectionString;
 
 
 
 
-
-    public DatabaseService(string? databasePath = null)
+    public DatabaseService(ILogger<DatabaseService> logger, string? databasePath = null)
     {
+        _logger = logger;
         if (string.IsNullOrWhiteSpace(databasePath))
         {
             _databasePath = Path.Combine(AppConfig.ConfigDirectory, "StarwardDatabase.db");
@@ -37,6 +34,7 @@ internal class DatabaseService
         {
             _databasePath = Path.GetFullPath(databasePath);
         }
+        _logger.LogInformation($"Database path is '{_databasePath}'");
         _connectionString = $"DataSource={_databasePath};";
         InitializeDatabase();
     }
@@ -57,10 +55,9 @@ internal class DatabaseService
 
     private void InitializeDatabase()
     {
-        var logger = AppConfig.GetLogger<DatabaseService>();
         using var con = CreateConnection();
         var version = con.QueryFirstOrDefault<int>("PRAGMA USER_VERSION;");
-        logger.LogInformation($"Database version is {version}, target version is {StructureSqls.Count}.");
+        _logger.LogInformation($"Database version is {version}, target version is {StructureSqls.Count}.");
         if (version == 0)
         {
             con.Execute("PRAGMA JOURNAL_MODE = WAL;");

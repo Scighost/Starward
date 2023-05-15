@@ -22,7 +22,7 @@ internal class GenshinGachaService : GachaLogService
 
 
 
-    public GenshinGachaService(ILogger<GenshinGachaService> logger, GenshinGachaClient client) : base(logger, client)
+    public GenshinGachaService(ILogger<GenshinGachaService> logger, DatabaseService database, GenshinGachaClient client) : base(logger, database, client)
     {
 
     }
@@ -42,7 +42,7 @@ internal class GenshinGachaService : GachaLogService
 
     protected override int InsertGachaLogItems(List<GachaLogItem> items)
     {
-        using var dapper = DatabaseService.Instance.CreateConnection();
+        using var dapper = _database.CreateConnection();
         using var t = dapper.BeginTransaction();
         var affect = dapper.Execute("""
             INSERT OR REPLACE INTO GenshinGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, Count, Lang)

@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -32,6 +33,12 @@ namespace Starward.UI;
 [INotifyPropertyChanged]
 public sealed partial class ScreenshotPage : Page
 {
+
+
+    private readonly ILogger<ScreenshotPage> _logger = AppConfig.GetLogger<ScreenshotPage>();
+
+
+    private readonly GameService _gameService = AppConfig.GetService<GameService>();
 
 
     private GameBiz gameBiz;
@@ -92,7 +99,7 @@ public sealed partial class ScreenshotPage : Page
         {
             if (Watcher == null)
             {
-                var folder = GameService.GetGameScreenshotPath(gameBiz);
+                var folder = _gameService.GetGameScreenshotPath(gameBiz);
                 if (folder != null)
                 {
                     Watcher = new ScreenshotWatcher(folder);
@@ -138,7 +145,7 @@ public sealed partial class ScreenshotPage : Page
     {
         try
         {
-            var folder = GameService.GetGameScreenshotPath(gameBiz);
+            var folder = _gameService.GetGameScreenshotPath(gameBiz);
             if (folder != null)
             {
                 await Launcher.LaunchFolderPathAsync(folder);

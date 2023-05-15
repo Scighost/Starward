@@ -103,6 +103,7 @@ internal abstract class AppConfig
             sc.AddSingleton<MetadataClient>();
 
             sc.AddSingleton<DatabaseService>();
+            sc.AddSingleton<GameService>();
             sc.AddSingleton<LauncherService>();
             sc.AddSingleton<GenshinGachaService>();
             sc.AddSingleton<StarRailGachaService>();

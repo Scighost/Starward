@@ -38,6 +38,8 @@ public sealed partial class LauncherPage : Page
 
     private readonly ILogger<LauncherPage> _logger = AppConfig.GetLogger<LauncherPage>();
 
+    private readonly GameService _gameService = AppConfig.GetService<GameService>();
+
     private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
 
     private readonly DispatcherQueueTimer _timer;
@@ -104,7 +106,7 @@ public sealed partial class LauncherPage : Page
             if (gameBiz is GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
             {
                 NumberBox_FPS.IsEnabled = true;
-                targetFPS = GameService.GetStarRailFPS(gameBiz);
+                targetFPS = _gameService.GetStarRailFPS(gameBiz);
                 OnPropertyChanged(nameof(TargetFPS));
             }
 #pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
@@ -298,7 +300,7 @@ public sealed partial class LauncherPage : Page
         try
         {
             value = Math.Clamp(value, 60, 320);
-            GameService.SetStarRailFPS(gameBiz, value);
+            _gameService.SetStarRailFPS(gameBiz, value);
         }
         catch (Exception ex)
         {
@@ -322,7 +324,7 @@ public sealed partial class LauncherPage : Page
         try
         {
             CanStartGame = true;
-            InstallPath = GameService.GetGameInstallPath(gameBiz) ?? "---";
+            InstallPath = _gameService.GetGameInstallPath(gameBiz) ?? "---";
             if (!Directory.Exists(InstallPath))
             {
                 StartGameButtonText = "未安装游戏";
@@ -339,7 +341,7 @@ public sealed partial class LauncherPage : Page
                 processTimer = new(1000);
                 processTimer.Elapsed += (_, _) => CheckGameExited();
             }
-            GameProcess = GameService.GetGameProcess(gameBiz);
+            GameProcess = _gameService.GetGameProcess(gameBiz);
         }
         catch (Exception ex)
         {
@@ -382,13 +384,13 @@ public sealed partial class LauncherPage : Page
         {
             if (IgnoreRunningGame)
             {
-                GameService.StartGame(gameBiz, IgnoreRunningGame);
+                _gameService.StartGame(gameBiz, IgnoreRunningGame);
             }
             else
             {
                 if (GameProcess?.HasExited ?? true)
                 {
-                    GameProcess = GameService.StartGame(gameBiz, IgnoreRunningGame);
+                    GameProcess = _gameService.StartGame(gameBiz, IgnoreRunningGame);
                 }
             }
         }
@@ -461,7 +463,7 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-            GameAccountList = GameService.GetGameAccounts(gameBiz).ToList();
+            GameAccountList = _gameService.GetGameAccounts(gameBiz).ToList();
             SelectGameAccount = GameAccountList.FirstOrDefault(x => x.IsLogin);
             CanChangeGameAccount = false;
         }
@@ -481,7 +483,7 @@ public sealed partial class LauncherPage : Page
         {
             if (SelectGameAccount is not null)
             {
-                GameService.ChangeGameAccount(SelectGameAccount);
+                _gameService.ChangeGameAccount(SelectGameAccount);
                 foreach (var item in GameAccountList)
                 {
                     item.IsLogin = false;
@@ -505,7 +507,7 @@ public sealed partial class LauncherPage : Page
             if (SelectGameAccount is not null)
             {
                 SelectGameAccount.Time = DateTime.Now;
-                GameService.SaveGameAccount(SelectGameAccount);
+                _gameService.SaveGameAccount(SelectGameAccount);
                 FontIcon_SaveGameAccount.Glyph = "\uE10B";
                 await Task.Delay(3000);
                 FontIcon_SaveGameAccount.Glyph = "\uE105";
@@ -525,7 +527,7 @@ public sealed partial class LauncherPage : Page
         {
             if (SelectGameAccount is not null)
             {
-                GameService.DeleteGameAccount(SelectGameAccount);
+                _gameService.DeleteGameAccount(SelectGameAccount);
                 GetGameAccount();
             }
         }

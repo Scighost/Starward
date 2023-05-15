@@ -20,7 +20,7 @@ internal class StarRailGachaService : GachaLogService
     protected override IReadOnlyCollection<int> GachaTypes { get; } = new int[] { 1, 11, 12, 2 }.AsReadOnly();
 
 
-    public StarRailGachaService(ILogger<StarRailGachaService> logger, StarRailGachaClient client) : base(logger, client)
+    public StarRailGachaService(ILogger<StarRailGachaService> logger, DatabaseService database, StarRailGachaClient client) : base(logger, database, client)
     {
 
     }
@@ -39,7 +39,7 @@ internal class StarRailGachaService : GachaLogService
 
     protected override int InsertGachaLogItems(List<GachaLogItem> items)
     {
-        using var dapper = DatabaseService.Instance.CreateConnection();
+        using var dapper = _database.CreateConnection();
         using var t = dapper.BeginTransaction();
         var affeted = dapper.Execute("""
             INSERT OR REPLACE INTO StarRailGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, GachaId, Count, Lang)
