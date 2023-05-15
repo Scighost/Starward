@@ -1,0 +1,25 @@
+
+name: Upload Metadata
+
+on:
+  push:
+    branches: [ "metadata" ]
+
+jobs:
+
+  upload metadata:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup OssUtil
+      run: |
+        curl https://gosspublic.alicdn.com/ossutil/install.sh | sudo bash
+        ossutil config -e ${{ secrets.OSS_ENDPOINT }} -i ${{ secrets.ACCESS_KEY_ID }} -k ${{ secrets.ACCESS_KEY_SECRET }}
+
+    - name: Upload to OSS
+      run: |
+        ossutil cp -rf ./ oss://starward/metadata/
