@@ -3,27 +3,21 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
-using Starward.Core.Gacha;
-using Starward.Core.Gacha.StarRail;
 using Starward.Helper;
 using Starward.Model;
 using Starward.Service;
 using Starward.Service.Gacha;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Devices.Display.Core;
-using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
 using WinRT.Interop;
@@ -207,7 +201,7 @@ public sealed partial class GachaLogPage : Page
                 {
                     return;
                 }
-                url = _gachaLogService.GetUrlByUid(SelectUid);
+                url = _gachaLogService.GetGachaLogUrlByUid(SelectUid);
                 if (string.IsNullOrWhiteSpace(url))
                 {
                     NotificationBehavior.Instance.Warning(null, $"Cannot find cached URL of uid {SelectUid}.");
@@ -247,13 +241,13 @@ public sealed partial class GachaLogPage : Page
             var uid = await _gachaLogService.GetUidFromGachaLogUrl(url);
             var infoBar = new InfoBar
             {
-                Title = $"Uid {uid}",
                 Severity = InfoBarSeverity.Informational,
                 Background = Application.Current.Resources["CustomAcrylicBrush"] as Brush
             };
             NotificationBehavior.Instance.Show(infoBar);
             var progress = new Progress<string>((str) => infoBar.Message = str);
-            await _gachaLogService.GetWarpRecordAsync(url, all, GachaLanguage, progress);
+            var newUid = await _gachaLogService.GetGachaLogAsync(url, all, GachaLanguage, progress);
+            infoBar.Title = $"Uid {newUid}";
             infoBar.Severity = InfoBarSeverity.Success;
             if (SelectUid == uid)
             {
@@ -273,7 +267,7 @@ public sealed partial class GachaLogPage : Page
             if (ex.ReturnCode == -101)
             {
                 // authkey timeout
-                NotificationBehavior.Instance.Warning("Authkey Timeout", "Please open warp records page in game.");
+                NotificationBehavior.Instance.Warning("Authkey Timeout", $"请在游戏中打开{Title}页面后再重试");
             }
             else
             {
@@ -381,7 +375,7 @@ public sealed partial class GachaLogPage : Page
             var file = await picker.PickSaveFileAsync();
             if (file is not null)
             {
-                _gachaLogService.ExportWarpRecord(uid, file.Path, format);
+                _gachaLogService.ExportGachaLog(uid, file.Path, format);
                 var options = new FolderLauncherOptions();
                 options.ItemsToSelect.Add(file);
                 NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Success, "成功导出", file.Name, "打开文件夹", async () => await Launcher.LaunchFolderAsync(await file.GetParentAsync(), options));

@@ -51,7 +51,7 @@
         <TextBlock Grid.Row="0"
                    FontSize="16"
                    FontWeight="SemiBold"
-                   Foreground="{ThemeResource TextFillColorPrimaryBrush}">
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}">
             <Run Text="{x:Bind WarpTypeStats.GachaTypeText}" />
             <Run Text="" />
             <Run Text="{x:Bind WarpTypeStats.Count}" />

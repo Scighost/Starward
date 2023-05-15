@@ -48,7 +48,7 @@
                     <MenuFlyout>
                         <MenuFlyoutItem Command="{x:Bind UpdateWarpRecordCommand}"
                                         CommandParameter="cache"
-                                        Text="更新 (缓存的 URL)" />
+                                        Text="更新 (保存的 URL)" />
                         <MenuFlyoutItem Command="{x:Bind UpdateWarpRecordCommand}"
                                         CommandParameter="all"
                                         Text="更新 (全部)" />
@@ -65,7 +65,7 @@
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel MinWidth="200" Spacing="8">
-                            <TextBlock Margin="0,8,0,0" Text="语言" />
+                            <!--<TextBlock Margin="0,8,0,0" Text="语言" />
                             <TextBox Text="{x:Bind GachaLanguage, Mode=TwoWay}" />
                             <TextBlock Margin="0,8,0,0" Text="导出为" />
                             <Grid>
@@ -84,7 +84,7 @@
                                         CommandParameter="json"
                                         Content="Json"
                                         CornerRadius="0,4,4,0" />
-                            </Grid>
+                            </Grid>-->
                             <ToggleSwitch IsOn="{x:Bind ShowNoviceGacha, Mode=TwoWay}"
                                           OffContent="显示新手卡池"
                                           OnContent="显示新手卡池" />

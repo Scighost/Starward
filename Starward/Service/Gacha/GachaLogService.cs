@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Logging;
 using MiniExcelLibs;
 using MiniExcelLibs.OpenXml;
 using Starward.Core;
@@ -21,20 +22,28 @@ public abstract class GachaLogService
 {
 
 
-    //private readonly ILogger<GachaLogService> _logger;
+    private readonly ILogger<GachaLogService> _logger;
 
-    //private readonly GenshinGachaClient _genshinClient;
+    private readonly GachaLogClient _client;
 
-    //private readonly StarRailGachaClient _starRailClient;
 
-    //protected abstract IReadOnlyCollection<GachaType> GachaTypes { get; }
+    protected GachaLogService(ILogger<GachaLogService> logger, GachaLogClient client)
+    {
+        _logger = logger;
+        _client = client;
+    }
 
-    //public GachaLogService(ILogger<GachaLogService> logger, GenshinGachaClient genshinClient, StarRailGachaClient starRailClient)
-    //{
-    //    _logger = logger;
-    //    _genshinClient = genshinClient;
-    //    _starRailClient = starRailClient;
-    //}
+
+
+    protected abstract GameBiz GameBiz { get; }
+
+    protected abstract string GachaTableName { get; }
+
+    protected abstract IReadOnlyCollection<int> GachaTypes { get; }
+
+
+    protected abstract List<GachaLogItemEx> GetGroupGachaLogItems(IEnumerable<GachaLogItemEx> items, GachaType type);
+
 
 
     public static string GetGachaLogText(GameBiz biz)
@@ -49,57 +58,163 @@ public abstract class GachaLogService
 
 
 
-    public abstract List<int> GetUids();
+    public virtual List<int> GetUids()
+    {
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        return dapper.Query<int>($"SELECT DISTINCT Uid FROM {GachaTableName};").ToList();
+    }
 
 
 
-    public abstract List<GachaLogItemEx> GetGachaLogItemEx(int uid);
+    public virtual List<GachaLogItemEx> GetGachaLogItemEx(int uid)
+    {
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        var list = dapper.Query<GachaLogItemEx>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        foreach (var type in GachaTypes)
+        {
+            var l = GetGroupGachaLogItems(list, (GachaType)type);
+            int index = 0;
+            int pity = 0;
+            foreach (var item in l)
+            {
+                index++;
+                item.Pity = ++pity;
+                if (item.RankType == 5)
+                {
+                    pity = 0;
+                }
+            }
+        }
+        return list;
+    }
 
 
 
-    public abstract string? GetGachaLogUrlFromWebCache(GameBiz gameBiz, string path);
-
-
-
-
-    public abstract Task<int> GetUidFromGachaLogUrl(string url);
-
-
-
-    public abstract string? GetUrlByUid(int uid);
-
-
-
-    public abstract Task<int> GetWarpRecordAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null, CancellationToken cancellationToken = default);
-
-
-
-
-
-
-    public abstract List<GachaTypeStats> GetGachaTypeStats(int uid);
-
-
-
-
-
-    public abstract int DeleteUid(int uid);
-
-
-
-
-
+    public virtual string? GetGachaLogUrlFromWebCache(GameBiz gameBiz, string path)
+    {
+        return GachaLogClient.GetGachaUrlFromWebCache(gameBiz, path);
+    }
 
 
 
 
-    public void ExportWarpRecord(int uid, string file, string format)
+    public virtual async Task<int> GetUidFromGachaLogUrl(string url)
+    {
+        var uid = await _client.GetUidByGachaUrlAsync(url);
+        if (uid > 0)
+        {
+            using var dapper = DatabaseService.Instance.CreateConnection();
+            dapper.Execute("INSERT OR REPLACE INTO GachaLogUrl (GameBiz, Uid, Url, Time) VALUES (@GameBiz, @Uid, @Url, @Time);", new GachaLogUrl(GameBiz, uid, url));
+        }
+        return uid;
+    }
+
+
+
+    public virtual string? GetGachaLogUrlByUid(int uid)
+    {
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        return dapper.QueryFirstOrDefault<string>("SELECT Url FROM GachaLogUrl WHERE Uid = @uid AND GameBiz = @GameBiz LIMIT 1;", new { uid, GameBiz });
+    }
+
+
+
+    protected abstract int InsertGachaLogItems(List<GachaLogItem> items);
+
+
+
+    public virtual async Task<int> GetGachaLogAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
+    {
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        progress?.Report("正在获取 uid");
+        var uid = await _client.GetUidByGachaUrlAsync(url);
+        if (uid == 0)
+        {
+            progress?.Report($"该账户最近6个月没有抽卡记录");
+        }
+        else
+        {
+            long endId = 0;
+            if (!all)
+            {
+                endId = dapper.QueryFirstOrDefault<long>($"SELECT Id FROM {GachaTableName} WHERE Uid = @Uid ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
+                _logger.LogInformation($"Last gacha log id of uid {uid} is {endId}");
+            }
+            var internalProgress = new Progress<(GachaType GachaType, int Page)>((x) => progress?.Report($"正在获取 {x.GachaType.ToDescription()} 第 {x.Page} 页"));
+            var list = (await _client.GetGachaLogAsync(url, endId, lang, internalProgress)).ToList();
+            var oldCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
+            InsertGachaLogItems(list);
+            var newCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
+            progress?.Report($"获取 {list.Count} 条记录，新增 {newCount - oldCount} 条记录");
+        }
+        return uid;
+    }
+
+
+
+
+
+
+    public virtual List<GachaTypeStats> GetGachaTypeStats(int uid)
+    {
+        var statsList = new List<GachaTypeStats>();
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        var alllist = GetGachaLogItemEx(uid);
+        if (alllist.Count > 0)
+        {
+            foreach (int type in GachaTypes)
+            {
+                var list = GetGroupGachaLogItems(alllist, (GachaType)type);
+                var stats = new GachaTypeStats
+                {
+                    GachaType = (GachaType)type,
+                    Count = list.Count,
+                    Count_5 = list.Count(x => x.RankType == 5),
+                    Count_4 = list.Count(x => x.RankType == 4),
+                    Count_3 = list.Count(x => x.RankType == 3),
+                };
+                if (stats.Count > 0)
+                {
+                    stats.StartTime = list.First().Time;
+                    stats.EndTime = list.Last().Time;
+                    stats.Ratio_5 = (double)stats.Count_5 / stats.Count;
+                    stats.Ratio_4 = (double)stats.Count_4 / stats.Count;
+                    stats.Ratio_3 = (double)stats.Count_3 / stats.Count;
+                    stats.List_5 = list.Where(x => x.RankType == 5).Reverse().ToList();
+                    stats.List_4 = list.Where(x => x.RankType == 4).Reverse().ToList();
+                    stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
+                    stats.Pity_5 = list.Last().Pity;
+                    stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 4);
+                }
+                statsList.Add(stats);
+            }
+        }
+        return statsList;
+    }
+
+
+
+
+
+
+    public virtual int DeleteUid(int uid)
+    {
+        using var dapper = DatabaseService.Instance.CreateConnection();
+        return dapper.Execute($"DELETE FROM {GachaTableName} WHERE Uid = @uid;", new { uid });
+    }
+
+
+
+
+
+
+    public void ExportGachaLog(int uid, string file, string format)
     {
         using var con = DatabaseService.Instance.CreateConnection();
-        var list = con.Query<StarRailGachaItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid;", new { uid }).ToList();
+        var list = con.Query<StarRailGachaItem>($"SELECT * FROM WarpRecordItem WHERE Uid = @uid;", new { uid }).ToList();
         if (list.Count == 0)
         {
-            //Logger.Warn($"Uid {uid} 没有任何抽卡数据", true);
+
         }
         else
         {

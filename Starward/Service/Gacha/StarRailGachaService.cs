@@ -4,11 +4,8 @@ using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Core.Gacha.StarRail;
 using Starward.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Starward.Service.Gacha;
 
@@ -16,167 +13,41 @@ internal class StarRailGachaService : GachaLogService
 {
 
 
-    private readonly ILogger<StarRailGachaService> _logger;
+    protected override GameBiz GameBiz { get; } = GameBiz.StarRail;
+
+    protected override string GachaTableName { get; } = "StarRailGachaItem";
+
+    protected override IReadOnlyCollection<int> GachaTypes { get; } = new int[] { 1, 11, 12, 2 }.AsReadOnly();
 
 
-    private readonly StarRailGachaClient _client;
-
-    public StarRailGachaService(ILogger<StarRailGachaService> logger, StarRailGachaClient client)
+    public StarRailGachaService(ILogger<StarRailGachaService> logger, StarRailGachaClient client) : base(logger, client)
     {
-        _logger = logger;
-        _client = client;
+
     }
 
 
 
-
-    public override List<int> GetUids()
+    protected override List<GachaLogItemEx> GetGroupGachaLogItems(IEnumerable<GachaLogItemEx> items, GachaType type)
     {
-        using var dapper = DatabaseService.Instance.CreateConnection();
-        return dapper.Query<int>($"SELECT DISTINCT Uid FROM StarRailGachaItem;").ToList();
-    }
-
-
-
-    public override List<GachaLogItemEx> GetGachaLogItemEx(int uid)
-    {
-        using var dapper = DatabaseService.Instance.CreateConnection();
-        var list = dapper.Query<GachaLogItemEx>("SELECT * FROM StarRailGachaItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-        foreach (var type in new int[] { 1, 2, 11, 12 })
+        return type switch
         {
-
-            var l = type switch
-            {
-                _ => list.Where(x => x.GachaType == (GachaType)type).ToList(),
-            };
-            int index = 0;
-            int pity = 0;
-            foreach (var item in l)
-            {
-                index++;
-                item.Pity = ++pity;
-                if (item.RankType == 5)
-                {
-                    pity = 0;
-                }
-            }
-        }
-        return list;
+            _ => items.Where(x => x.GachaType == type).ToList(),
+        };
     }
 
 
 
-    public override string? GetGachaLogUrlFromWebCache(GameBiz gameBiz, string path)
-    {
-        return GachaLogClient.GetGachaUrlFromWebCache(gameBiz, path);
-    }
-
-
-
-    public override async Task<int> GetUidFromGachaLogUrl(string url)
-    {
-        var uid = await _client.GetUidByGachaUrlAsync(url);
-        if (uid > 0)
-        {
-            using var dapper = DatabaseService.Instance.CreateConnection();
-            dapper.Execute("INSERT OR REPLACE INTO GachaLogUrl (Uid, GameBiz, Url, Time) VALUES (@Uid, @GameBiz, @Url, @Time);", new GachaLogUrl(GameBiz.StarRail, uid, url));
-        }
-        return uid;
-    }
-
-
-
-    public override string? GetUrlByUid(int uid)
+    protected override int InsertGachaLogItems(List<GachaLogItem> items)
     {
         using var dapper = DatabaseService.Instance.CreateConnection();
-        return dapper.QueryFirstOrDefault<string>("SELECT Url FROM GachaLogUrl WHERE Uid = @uid AND GameBiz = @biz LIMIT 1;", new { uid, biz = GameBiz.StarRail });
+        using var t = dapper.BeginTransaction();
+        var affeted = dapper.Execute("""
+            INSERT OR REPLACE INTO StarRailGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, GachaId, Count, Lang)
+            VALUES (@Uid, @Id, @Name, @Time, @ItemId, @ItemType, @RankType, @GachaType, @GachaId, @Count, @Lang);
+            """, items, t);
+        t.Commit();
+        return affeted;
     }
-
-
-
-    public override async Task<int> GetWarpRecordAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
-    {
-        using var dapper = DatabaseService.Instance.CreateConnection();
-        progress?.Report("Getting uid of URL...");
-        var uid = await _client.GetUidByGachaUrlAsync(url);
-        if (uid == 0)
-        {
-
-        }
-        else
-        {
-            long endId = 0;
-            if (!all)
-            {
-                endId = dapper.QueryFirstOrDefault<long>("SELECT Id FROM StarRailGachaItem WHERE Uid = @Uid ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
-                _logger.LogInformation($"Last wish record id of uid {uid} is {endId}");
-            }
-            var internalProgress = new Progress<(GachaType GachaType, int Page)>((x) => progress?.Report($"Getting {x.GachaType.ToDescription()} page {x.Page}"));
-            var list = (await _client.GetGachaLogAsync(url, endId, lang, internalProgress)).ToList();
-            var oldCount = dapper.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM StarRailGachaItem WHERE Uid = @Uid;", new { Uid = uid });
-            using var t = dapper.BeginTransaction();
-            dapper.Execute("""
-                    INSERT OR REPLACE INTO StarRailGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, GachaId, Count, Lang)
-                    VALUES (@Uid, @Id, @Name, @Time, @ItemId, @ItemType, @RankType, @GachaType, @GachaId, @Count, @Lang);
-                    """, list, t);
-            t.Commit();
-            var newCount = dapper.QueryFirstOrDefault<int>("SELECT COUNT(*) FROM StarRailGachaItem WHERE Uid = @Uid;", new { Uid = uid });
-            progress?.Report($"Get {list.Count} records, add {newCount - oldCount} new records.");
-        }
-        return uid;
-    }
-
-
-
-    public override List<GachaTypeStats> GetGachaTypeStats(int uid)
-    {
-        var statsList = new List<GachaTypeStats>();
-        using var dapper = DatabaseService.Instance.CreateConnection();
-        var alllist = GetGachaLogItemEx(uid);
-        if (alllist.Count > 0)
-        {
-            foreach (int type in new[] { 1, 11, 12, 2 })
-            {
-                var list = type switch
-                {
-                    _ => alllist.Where(x => x.GachaType == (GachaType)type).ToList(),
-                };
-                var stats = new GachaTypeStats
-                {
-                    GachaType = (GachaType)type,
-                    Count = list.Count,
-                    Count_5 = list.Count(x => x.RankType == 5),
-                    Count_4 = list.Count(x => x.RankType == 4),
-                    Count_3 = list.Count(x => x.RankType == 3),
-                };
-                if (stats.Count > 0)
-                {
-                    stats.StartTime = list.First().Time;
-                    stats.EndTime = list.Last().Time;
-                    stats.Ratio_5 = (double)stats.Count_5 / stats.Count;
-                    stats.Ratio_4 = (double)stats.Count_4 / stats.Count;
-                    stats.Ratio_3 = (double)stats.Count_3 / stats.Count;
-                    stats.List_5 = list.Where(x => x.RankType == 5).Reverse().ToList();
-                    stats.List_4 = list.Where(x => x.RankType == 4).Reverse().ToList();
-                    stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
-                    stats.Pity_5 = list.Last().Pity;
-                    stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 4);
-                }
-                statsList.Add(stats);
-            }
-        }
-        return statsList;
-    }
-
-
-
-    public override int DeleteUid(int uid)
-    {
-        using var dapper = DatabaseService.Instance.CreateConnection();
-        return dapper.Execute("DELETE FROM StarRailGachaItem WHERE Uid = @uid;", new { uid });
-    }
-
-
 
 
 

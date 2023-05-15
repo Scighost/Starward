@@ -3,10 +3,10 @@
 public enum GameBiz
 {
 
-    none = 0,
+    None = 0,
 
     /// <summary>
-    /// not use
+    /// Genshin Impact
     /// </summary>
     GenshinImpact = 10,
 
@@ -26,7 +26,7 @@ public enum GameBiz
     hk4e_cloud = 13,
 
     /// <summary>
-    /// not use
+    /// Star Rail
     /// </summary>
     StarRail = 20,
 
