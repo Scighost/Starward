@@ -20,6 +20,10 @@ jobs:
         curl https://gosspublic.alicdn.com/ossutil/install.sh | sudo bash
         ossutil config -e ${{ secrets.OSS_ENDPOINT }} -i ${{ secrets.ACCESS_KEY_ID }} -k ${{ secrets.ACCESS_KEY_SECRET }}
 
+    - name: Delete useless files
+      run: |
+        rm -rf ./.git ./.github
+
     - name: Upload to OSS
       run: |
         ossutil cp -rf ./ oss://starward/metadata/
