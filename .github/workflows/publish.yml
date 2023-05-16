@@ -1,0 +1,101 @@
+
+name: Publish
+
+on:
+  push:
+    tags: ["*"]
+
+permissions:
+  pull-requests: write
+  contents: write
+
+
+jobs:
+
+  version:
+    runs-on: windows-latest
+    outputs: 
+      version: ${{ github.ref_name }}
+
+
+  build:
+    runs-on: windows-latest
+    needs: version
+    outputs:
+      version: ${{ needs.version.outputs.version }}
+    strategy:
+      matrix:
+        platform: [x64, arm64]
+    env:
+      Platform: ${{ matrix.platform }}
+      Version: ${{ needs.version.outputs.version }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.3.1
+
+    - name: Build
+      run: ./build.ps1 -Architecture $env:Platform -Version $env:Version
+
+    - name: Metadata
+      run: ./metadata.ps1 -Architecture $env:Platform -Version $env:Version
+
+    - name: Setup OssUtil
+      run: |
+        Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/1.7.15/ossutil-v1.7.15-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
+        Expand-Archive -Path ${{runner.temp}}/ossutil.zip -DestinationPath ${{runner.temp}}
+        Move-Item -Path ${{runner.temp}}/ossutil-v1.7.15-windows-amd64/ossutil64.exe -Destination C:/Windows/System32/ossutil.exe -Force
+        ossutil config -e ${{ secrets.OSS_ENDPOINT }} -i ${{ secrets.ACCESS_KEY_ID }} -k ${{ secrets.ACCESS_KEY_SECRET }}
+
+    - name: Upload to OSS
+      run: ossutil cp -rf ./build/release/ oss://starward/release/
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: metadata_${{ matrix.platform }}
+        path: build/metadata/
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        draft: true
+        prerelease: true
+        files: ./build/release/package/*
+
+
+  metadata:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+    - name: Checkout Metadata
+      uses: actions/checkout@v3
+      with:
+        ref: metadata
+
+    - name: Download Artifact x64
+      uses: actions/download-artifact@v3.0.2
+      with:
+        name: metadata_x64
+
+    - name: Download Artifact arm64
+      uses: actions/download-artifact@v3.0.2
+      with:
+        name: metadata_arm64
+
+    - name: Create Metadata Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        branch: update-metadata/dev
+        title: update metadata ${{ needs.build.outputs.version }}
+        commit-message: update metadata ${{ needs.build.outputs.version }}
+

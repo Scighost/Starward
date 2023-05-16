@@ -7,6 +7,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Starward.UI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:s="using:Starward"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
       SizeChanged="Page_SizeChanged"
@@ -49,10 +50,16 @@
 
         <!--  title bar  -->
         <Border Grid.Row="0" Background="{ThemeResource CustomAcrylicBrush}">
-            <TextBlock Margin="60,0,0,0"
-                       VerticalAlignment="Center"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="Starward" />
+            <StackPanel Margin="60,0,0,0"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                <TextBlock VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="Starward" />
+                <TextBlock VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind s:AppConfig.AppVersion}" />
+            </StackPanel>
         </Border>
 
 

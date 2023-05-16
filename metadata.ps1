@@ -8,20 +8,24 @@ $ErrorActionPreference = "Stop";
 
 $build = "build";
 $starward = "$build/Starward";
-$package = "$build/release/package";
-$separate = "$build/release/separate_files";
 if ($Dev) {
     $metadata = "$build/metadata/dev";
+    $package = "$build/release/package/dev";
+    $separate = "$build/release/separate_files/dev";
 }
 else {
     $metadata = "$build/metadata/v1";
+    $package = "$build/release/package";
+    $separate = "$build/release/separate_files";
 }
 
 $null = New-Item -Path $package -ItemType Directory -Force;
 $null = New-Item -Path $separate -ItemType Directory -Force;
 $null = New-Item -Path $metadata -ItemType Directory -Force;
 
-Install-Module -Name 7Zip4Powershell -AcceptLicense;
+if (!(Get-Module -Name 7Zip4Powershell -ListAvailable)) {
+    Install-Module -Name 7Zip4Powershell -Force;
+}
 
 $portableName = "Starward_$($Version)_$($Architecture).7z";
 $portableFile = "$package/$portableName";
@@ -37,7 +41,7 @@ $release = @{
     Install      = ""
     InstallSize  = 0
     InstallHash  = ""
-    Portable     = "https://starward.scighost.com/release/package/$portableName"
+    Portable     = "https://starward.scighost.com/release/package/dev/$portableName"
     PortableSize = (Get-Item $portableFile).Length
     PortableHash = (Get-FileHash $portableFile).Hash
 };

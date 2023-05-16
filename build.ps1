@@ -1,11 +1,17 @@
-param(
+﻿param(
     [string] $Architecture = $null,
-    [string] $Version = $null
+    [string] $Version = $null,
+    [switch] $Dev
 )
 
 $ErrorActionPreference = "Stop";
 
-dotnet publish Starward -c Release -r "win10-$Architecture" -o "build/Starward/app_$Version" -p:Platform=$Architecture -p:PublishTrimmed=true -p:TrimMode=partial -p:Version=$Version;
+if ($Dev) {
+    dotnet publish Starward -c Release -r "win10-$Architecture" -o "build/Starward/app_$Version" -p:Platform=$Architecture -p:PublishReadyToRun=false -p:PublishTrimmed=false -p:TrimMode=partial -p:Version=$Version;
+}
+else {
+    dotnet publish Starward -c Release -r "win10-$Architecture" -o "build/Starward/app_$Version" -p:Platform=$Architecture -p:PublishReadyToRun=true -p:PublishTrimmed=true -p:TrimMode=partial -p:Version=$Version;
+}
 
 msbuild Starward.Launcher "-property:Configuration=Release;Platform=$Architecture;OutDir=$(Resolve-Path "build/Starward/")";
 

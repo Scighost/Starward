@@ -59,6 +59,7 @@ public sealed partial class MainWindow : Window
 
     private void InitializeMainWindow()
     {
+        Title = "Starward";
         HWND = WindowNative.GetWindowHandle(this);
         var titleBar = this.AppWindow.TitleBar;
         var len = (int)(48 * UIScale);
