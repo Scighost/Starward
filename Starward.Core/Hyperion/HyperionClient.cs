@@ -1,7 +1,5 @@
 ﻿using Starward.Core.Hyperion.Genshin;
-using Starward.Core.Hyperion.Genshin.SpiralAbyss;
 using Starward.Core.Hyperion.StarRail;
-using Starward.Core.Hyperion.StarRail.Ledger;
 #if !DEBUG
 using System.Net.Http.Json;
 #endif
