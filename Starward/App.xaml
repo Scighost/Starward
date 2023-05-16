@@ -11,7 +11,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <ConverterResource xmlns="using:Scighost.WinUILib.Converters" />
 
                 <ResourceDictionary Source="Theme/CachedImageStyle.xaml" />
 
@@ -28,10 +27,28 @@
             <AcrylicBrush x:Key="CustomAcrylicBrush"
                           FallbackColor="{ThemeResource ControlOnImageFillColorDefault}"
                           TintColor="{ThemeResource ControlOnImageFillColorDefault}"
-                          TintOpacity="0.7" />
+                          TintOpacity="0.5" />
 
 
             <ThemeShadow x:Key="ThemeShadow" />
+
+            <!--<ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <Color x:Key="SystemAccentColor">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorDark1">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorDark2">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorDark3">#ffd52a</Color>
+                    <SolidColorBrush x:Key="AccentColor" Color="{ThemeResource SystemAccentColor}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <Color x:Key="SystemAccentColor">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorLight1">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorLight2">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorLight3">#ffd52a</Color>
+                    <SolidColorBrush x:Key="AccentColor" Color="{ThemeResource SystemAccentColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>-->
+
 
         </ResourceDictionary>
     </Application.Resources>
