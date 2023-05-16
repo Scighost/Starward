@@ -16,6 +16,9 @@ jobs:
     runs-on: windows-latest
     outputs: 
       version: ${{ github.ref_name }}
+    steps:
+    - name: Version
+      run: Write-Host "publish version is ${{ github.ref_name }}" -Foreground Green
 
 
   build:
@@ -95,7 +98,8 @@ jobs:
     - name: Create Metadata Pull Request
       uses: peter-evans/create-pull-request@v5
       with:
-        branch: update-metadata/dev
+        branch: update-metadata/v1
+        delete-branch: true
         title: update metadata ${{ needs.build.outputs.version }}
         commit-message: update metadata ${{ needs.build.outputs.version }}
 

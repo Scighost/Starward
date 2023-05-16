@@ -96,6 +96,7 @@ jobs:
       uses: peter-evans/create-pull-request@v5
       with:
         branch: update-metadata/dev
+        delete-branch: true
         title: update metadata ${{ needs.build.outputs.version }}
         commit-message: update metadata ${{ needs.build.outputs.version }}
 
