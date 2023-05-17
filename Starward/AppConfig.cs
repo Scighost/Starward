@@ -14,6 +14,7 @@ using Starward.Service.Gacha;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -92,7 +93,7 @@ internal abstract class AppConfig
 #endif
             sc.AddLogging(configure => configure.AddSimpleConsole());
 
-            sc.AddTransient(_ => new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All }));
+            sc.AddTransient(_ => new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 });
 
             sc.AddSingleton<GenshinGachaClient>();
             sc.AddSingleton<StarRailGachaClient>();

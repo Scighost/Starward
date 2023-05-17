@@ -1,5 +1,6 @@
 ﻿using Starward.Core.Hyperion.Genshin;
 using Starward.Core.Hyperion.StarRail;
+using System.Net;
 #if !DEBUG
 using System.Net.Http.Json;
 #endif
@@ -45,7 +46,7 @@ public class HyperionClient
 
     public HyperionClient(HttpClient? httpClient = null)
     {
-        _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All });
+        _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
     }
 
 
@@ -58,6 +59,7 @@ public class HyperionClient
 
     protected async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken? cancellationToken = null) where T : class
     {
+        request.Version = HttpVersion.Version20;
         request.Headers.Add(Accept, Application_Json);
         request.Headers.Add(UserAgent, UAContent);
         var response = await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None);

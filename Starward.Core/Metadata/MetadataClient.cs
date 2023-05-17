@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using System.Runtime.InteropServices;
 
 namespace Starward.Core.Metadata;
@@ -29,7 +30,7 @@ public class MetadataClient
     public MetadataClient(int apiIndex = 0, HttpClient? httpClient = null)
     {
         SetApiPrefix(apiIndex);
-        _httpClient = httpClient ?? new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All });
+        _httpClient = httpClient ?? new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
     }
 
 
