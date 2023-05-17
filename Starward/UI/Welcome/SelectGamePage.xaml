@@ -113,7 +113,7 @@
 
         <!--  select game  -->
         <StackPanel Name="StackPanel_SelectGame"
-                    Margin="48,0,0,0"
+                    Margin="48,48,48,96"
                     VerticalAlignment="Center"
                     Spacing="40">
             <StackPanel.OpacityTransition>
@@ -126,7 +126,7 @@
                        TextWrapping="Wrap" />
 
             <TextBlock FontSize="20" TextWrapping="Wrap">
-                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="Starward Launcher" />
+                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="Starward" />
                 <Run Text="仅支持部分" />
                 <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="miHoYo/HoYoverse" />
                 <Run Text="游戏，请在下方选择你的目标，进入启动器后也可随时更改。" />
@@ -135,10 +135,10 @@
             <!--  select game  -->
             <StackPanel Orientation="Horizontal" Spacing="16">
                 <ComboBox Name="ComboBox_GameBiz"
-                          Height="32"
+                          Height="36"
                           MinWidth="240"
                           Padding="20,0,20,0"
-                          CornerRadius="16"
+                          CornerRadius="18"
                           PlaceholderText="Select Game"
                           SelectionChanged="ComboBox_GameBiz_SelectionChanged">
                     <Grid Tag="hk4e_cn">
@@ -200,6 +200,7 @@
                 Margin="48"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
+                BorderThickness="0"
                 Command="{x:Bind PreviewCommand}"
                 CornerRadius="20"
                 IsEnabled="True"
@@ -228,6 +229,7 @@
                 Margin="48"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
+                BorderThickness="0"
                 Command="{x:Bind NextCommand}"
                 CornerRadius="20"
                 IsEnabled="False"

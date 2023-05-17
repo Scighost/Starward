@@ -12,7 +12,7 @@
     <Grid>
         <Image HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="C:\Program Files\Collapse Launcher\app-1.70.1\Assets\BG\StartUpBG2.png"
+               Source="ms-appx:///Assets/Image/StartUpBG2.png"
                Stretch="UniformToFill" />
         <Frame Name="frame" />
 

@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -26,7 +27,21 @@ public sealed partial class WelcomePage : Page
         Current = this;
         this.InitializeComponent();
         frame.Content = new SelectDirectoryPage();
-        // todo 多语言页面
+    }
+
+
+    public WelcomePage(bool first)
+    {
+        Current = this;
+        this.InitializeComponent();
+        if (first)
+        {
+            frame.Content = new SelectLaunguagePage();
+        }
+        else
+        {
+            frame.Content = new SelectDirectoryPage();
+        }
     }
 
 

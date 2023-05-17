@@ -46,7 +46,7 @@ public sealed partial class MainWindow : Window
         if (AppConfig.ConfigDirectory is null)
         {
             _logger.LogInformation($"{nameof(AppConfig.ConfigDirectory)} is null, navigate to {nameof(WelcomePage)}");
-            MainWindow_Frame.Content = new WelcomePage();
+            MainWindow_Frame.Content = new WelcomePage(true);
         }
         else
         {

@@ -20,7 +20,7 @@
 
 
         <StackPanel Grid.Column="1"
-                    Margin="0,0,48,0"
+                    Margin="0,48,96,96"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Spacing="40">
@@ -29,12 +29,13 @@
                        Text="很高兴遇见你~" />
             <TextBlock FontSize="20" TextWrapping="Wrap">
                 <Run Text="这似乎是你第一次使用" />
-                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="Starward Launcher" />
+                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="Starward" />
                 <Run Text="，在开始之前，请选择一个文件夹保存应用数据。" />
             </TextBlock>
-            <Button Height="32"
+            <Button Height="36"
+                    BorderThickness="0"
                     Command="{x:Bind SelectDirectoryCommand}"
-                    CornerRadius="16"
+                    CornerRadius="18"
                     Style="{ThemeResource AccentButtonStyle}">
                 <StackPanel Margin="8,0,8,0"
                             Orientation="Horizontal"
@@ -62,6 +63,7 @@
                 Margin="48"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
+                BorderThickness="0"
                 Command="{x:Bind PreviewCommand}"
                 CornerRadius="20"
                 IsEnabled="True"
@@ -88,6 +90,7 @@
                 Margin="48"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
+                BorderThickness="0"
                 Command="{x:Bind NextCommand}"
                 CornerRadius="20"
                 IsEnabled="False"
