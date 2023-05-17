@@ -23,17 +23,10 @@ internal class DatabaseService
 
 
 
-    public DatabaseService(ILogger<DatabaseService> logger, string? databasePath = null)
+    public DatabaseService(ILogger<DatabaseService> logger, string databaseFolder)
     {
         _logger = logger;
-        if (string.IsNullOrWhiteSpace(databasePath))
-        {
-            _databasePath = Path.Combine(AppConfig.ConfigDirectory, "StarwardDatabase.db");
-        }
-        else
-        {
-            _databasePath = Path.GetFullPath(databasePath);
-        }
+        _databasePath = Path.Combine(databaseFolder, "StarwardDatabase.db");
         _logger.LogInformation($"Database path is '{_databasePath}'");
         _connectionString = $"DataSource={_databasePath};";
         InitializeDatabase();

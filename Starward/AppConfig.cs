@@ -44,7 +44,7 @@ internal abstract class AppConfig
     private static readonly Dictionary<string, object?> cache = new();
 
 
-    public static IServiceProvider _serviceProvider;
+    private static IServiceProvider _serviceProvider;
 
 
 
@@ -83,6 +83,13 @@ internal abstract class AppConfig
     #region Service Provider
 
 
+    public static void ResetServiceProvider()
+    {
+        cache.Clear();
+        _serviceProvider = null!;
+    }
+
+
     private static void BuildServiceProvider()
     {
         if (_serviceProvider == null)
@@ -103,7 +110,7 @@ internal abstract class AppConfig
             sc.AddSingleton<LauncherClient>();
             sc.AddSingleton(p => new MetadataClient(ApCDNIndex, p.GetService<HttpClient>()));
 
-            sc.AddSingleton<DatabaseService>();
+            sc.AddSingleton(p => new DatabaseService(p.GetService<ILogger<DatabaseService>>()!, ConfigDirectory));
             sc.AddSingleton<GameService>();
             sc.AddSingleton<LauncherService>();
             sc.AddSingleton<GenshinGachaService>();

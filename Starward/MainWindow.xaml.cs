@@ -35,8 +35,6 @@ public sealed partial class MainWindow : Window
     public double UIScale => User32.GetDpiForWindow(HWND) / 96d;
 
 
-    private readonly ILogger<MainWindow> _logger = AppConfig.GetLogger<MainWindow>();
-
 
     public MainWindow()
     {
@@ -45,12 +43,10 @@ public sealed partial class MainWindow : Window
         InitializeMainWindow();
         if (AppConfig.ConfigDirectory is null)
         {
-            _logger.LogInformation($"{nameof(AppConfig.ConfigDirectory)} is null, navigate to {nameof(WelcomePage)}");
             MainWindow_Frame.Content = new WelcomePage(true);
         }
         else
         {
-            _logger.LogInformation($"{nameof(AppConfig.ConfigDirectory)} is '{AppConfig.ConfigDirectory}'");
             MainWindow_Frame.Content = new MainPage();
         }
     }
@@ -141,9 +137,9 @@ public sealed partial class MainWindow : Window
 
 
 
-    public void NavigateTo(Type page, object parameter, NavigationTransitionInfo infoOverride)
+    public void NavigateTo(Type page, object? parameter, NavigationTransitionInfo infoOverride)
     {
-        MainWindow_Frame.Navigate(page, parameter, infoOverride);
+        MainWindow_Frame.Navigate(page, parameter!, infoOverride);
     }
 
 

@@ -7,12 +7,15 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.Metadata;
+using Starward.UI.Welcome;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -49,8 +52,7 @@ public sealed partial class SettingPage : Page
             EnableCustomBg = AppConfig.GetEnableCustomBg(biz);
             CustomBg = AppConfig.GetCustomBg(biz);
         }
-        var apiIndex = AppConfig.ApCDNIndex;
-        switch (apiIndex)
+        switch (AppConfig.ApCDNIndex)
         {
             case 1: RadioButton_GH.IsChecked = true; break;
             case 2: RadioButton_JD.IsChecked = true; break;
@@ -215,6 +217,40 @@ public sealed partial class SettingPage : Page
 
 
     #endregion
+
+
+
+    #region File Manager
+
+
+
+    [RelayCommand]
+    private async Task OpenDataFolderAsync()
+    {
+        await Launcher.LaunchFolderPathAsync(AppConfig.ConfigDirectory);
+    }
+
+
+    [RelayCommand]
+    private void ChangeDataFolder()
+    {
+        try
+        {
+            AppConfig.ResetServiceProvider();
+            MainWindow.Current.NavigateTo(typeof(WelcomePage), null, new Microsoft.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo());
+            Registry.CurrentUser.OpenSubKey(@"Software\Starward", true)?.DeleteValue("ConfigDirectory", false);
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+    #endregion
+
+
+
 
 
 }

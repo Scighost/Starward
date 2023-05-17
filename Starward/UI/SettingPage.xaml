@@ -34,7 +34,7 @@
                 <TextBlock Margin="0,16,0,0"
                            FontSize="20"
                            FontWeight="SemiBold"
-                           Text="仓库 CDN" />
+                           Text="CDN" />
                 <RadioButtons>
                     <RadioButton Name="RadioButton_CF"
                                  Click="RadioButton_CDN_Click"
@@ -85,22 +85,21 @@
                         </StackPanel>
                     </RadioButton>
                 </RadioButtons>
-                <StackPanel Orientation="Horizontal" Spacing="16">
-                    <Button Height="40"
-                            Margin="-48,0,0,0"
-                            Padding="48,0,16,0"
-                            BorderThickness="0"
-                            Command="{x:Bind TestCDNCommand}"
-                            CornerRadius="0,20,20,0"
-                            Style="{ThemeResource AccentButtonStyle}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xF6FA;" />
-                            <TextBlock Text="网络测试" />
-                        </StackPanel>
-                    </Button>
-                    <TextBlock VerticalAlignment="Center" Text="{x:Bind CustomBg}" />
-                </StackPanel>
-                <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="增量更新时需要 CloudFlare 连接正常" />
+                <Button Height="40"
+                        Margin="-48,0,0,0"
+                        Padding="48,0,16,0"
+                        BorderThickness="0"
+                        Command="{x:Bind TestCDNCommand}"
+                        CornerRadius="0,20,20,0"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xF6FA;" />
+                        <TextBlock Text="网络测试" />
+                    </StackPanel>
+                </Button>
+                <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                           Text="本应用将从 CloudFlare 下载所需的资源，请确保它可以正常连接。"
+                           TextWrapping="Wrap" />
 
                 <!--  bg  -->
                 <TextBlock Margin="0,16,0,0"
@@ -172,6 +171,7 @@
                         Margin="-48,0,0,0"
                         Padding="48,0,16,0"
                         BorderThickness="0"
+                        Command="{x:Bind OpenDataFolderCommand}"
                         CornerRadius="0,20,20,0"
                         Style="{ThemeResource AccentButtonStyle}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
@@ -183,6 +183,7 @@
                         Margin="-48,0,0,0"
                         Padding="48,0,16,0"
                         BorderThickness="0"
+                        Command="{x:Bind ChangeDataFolderCommand}"
                         CornerRadius="0,20,20,0"
                         Style="{ThemeResource AccentButtonStyle}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
@@ -195,7 +196,8 @@
                         Padding="48,0,16,0"
                         BorderThickness="0"
                         CornerRadius="0,20,20,0"
-                        Style="{ThemeResource AccentButtonStyle}">
+                        Style="{ThemeResource AccentButtonStyle}"
+                        Visibility="Collapsed">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <FontIcon Glyph="&#xEA99;" />
                         <TextBlock Text="清除缓存文件" />
