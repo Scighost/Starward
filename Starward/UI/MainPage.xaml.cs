@@ -318,6 +318,7 @@ public sealed partial class MainPage : Page
                     nameof(LauncherPage) => typeof(LauncherPage),
                     nameof(ScreenshotPage) => typeof(ScreenshotPage),
                     nameof(GachaLogPage) => typeof(GachaLogPage),
+                    nameof(SettingPage) => typeof(SettingPage),
                     _ => null,
                 };
                 if (type != null)

@@ -151,16 +151,21 @@ public sealed partial class MainWindow : Window
 
     public void ChangeAccentColor(Color? color = null)
     {
-        var colors = new Color[4];
+        var colors = new Color[7];
         if (color != null)
         {
-            Func<byte, double, byte> mix = (byte input, double percent) => (byte)(input * percent + 255 * (1 - percent));
+            Func<byte, byte, double, byte> mix = (byte input, byte blend, double percent) => (byte)(input * percent + blend * (1 - percent));
             var primaryColor = color.Value;
             colors[0] = primaryColor;
             for (int i = 1; i < 4; i++)
             {
                 double percent = 1 - 0.2 * i;
-                colors[i] = Color.FromArgb(mix(primaryColor.A, percent), mix(primaryColor.R, percent), mix(primaryColor.G, percent), mix(primaryColor.B, percent));
+                colors[i] = Color.FromArgb(255, mix(primaryColor.R, 255, percent), mix(primaryColor.G, 255, percent), mix(primaryColor.B, 255, percent));
+            }
+            for (int i = 4; i < 7; i++)
+            {
+                double percent = 1 - 0.2 * (i - 3);
+                colors[i] = Color.FromArgb(255, mix(primaryColor.R, 0, percent), mix(primaryColor.G, 0, percent), mix(primaryColor.B, 0, percent));
             }
             AppConfig.AccentColor = primaryColor.ToHex();
         }
@@ -171,11 +176,17 @@ public sealed partial class MainWindow : Window
             colors[1] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentLight1);
             colors[2] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentLight2);
             colors[3] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentLight3);
+            colors[4] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentDark1);
+            colors[5] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentDark2);
+            colors[6] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentDark3);
         }
         Application.Current.Resources["SystemAccentColor"] = colors[0];
         Application.Current.Resources["SystemAccentColorLight1"] = colors[1];
         Application.Current.Resources["SystemAccentColorLight2"] = colors[2];
         Application.Current.Resources["SystemAccentColorLight3"] = colors[3];
+        Application.Current.Resources["SystemAccentColorDark1"] = colors[4];
+        Application.Current.Resources["SystemAccentColorDark2"] = colors[5];
+        Application.Current.Resources["SystemAccentColorDark3"] = colors[6];
         RootGrid.RequestedTheme = ElementTheme.Light;
         RootGrid.RequestedTheme = ElementTheme.Default;
     }

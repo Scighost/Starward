@@ -100,7 +100,7 @@ internal abstract class AppConfig
             sc.AddSingleton<HyperionGenshinClient>();
             sc.AddSingleton<HyperionStarRailClient>();
             sc.AddSingleton<LauncherClient>();
-            sc.AddSingleton<MetadataClient>();
+            sc.AddSingleton(p => new MetadataClient(ApCDNIndex, p.GetService<HttpClient>()));
 
             sc.AddSingleton<DatabaseService>();
             sc.AddSingleton<GameService>();
@@ -138,6 +138,18 @@ internal abstract class AppConfig
     #region Static Setting
 
 
+    public static bool EnableConsole
+    {
+        get => GetValue<int>() == 0 ? false : true;
+        set => SetValue(value ? 1 : 0);
+    }
+
+
+    public static int ApCDNIndex
+    {
+        get => GetValue<int>();
+        set => SetValue(value);
+    }
 
 
     public static bool EnableAutoBackupDatabase
@@ -233,6 +245,18 @@ internal abstract class AppConfig
     public static void SetBg(GameBiz biz, string? value)
     {
         SetValue(value, $"bg_{biz}");
+    }
+
+
+
+    public static string? GetCustomBg(GameBiz biz)
+    {
+        return GetValue<string>(default, $"custom_bg_{biz}");
+    }
+
+    public static void SetCustomBg(GameBiz biz, string? value)
+    {
+        SetValue(value, $"custom_bg_{biz}");
     }
 
 

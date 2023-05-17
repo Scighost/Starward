@@ -91,6 +91,12 @@
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 
+            <NavigationView.FooterMenuItems>
+                <NavigationViewItem Content="应用设置"
+                                    Icon="Setting"
+                                    Tag="SettingPage" />
+            </NavigationView.FooterMenuItems>
+
             <Frame Name="MainPage_Frame" Margin="0,48,0,0" />
         </NavigationView>
 

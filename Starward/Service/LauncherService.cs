@@ -50,16 +50,23 @@ public class LauncherService
 
     public string? GetCachedBackgroundImage(GameBiz gameBiz)
     {
-        var name = AppConfig.GetBg(gameBiz);
-        var file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
+        string? name = null, file = null;
+        if (AppConfig.GetEnableCustomBg(gameBiz))
+        {
+            name = AppConfig.GetCustomBg(gameBiz);
+            file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
+            if (File.Exists(file))
+            {
+                return file;
+            }
+        }
+        name = AppConfig.GetBg(gameBiz);
+        file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
         if (File.Exists(file))
         {
             return file;
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
 

@@ -35,6 +35,9 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <Color x:Key="SystemAccentColor">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorLight1">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorLight2">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorLight3">#ffd52a</Color>
                     <Color x:Key="SystemAccentColorDark1">#ffd52a</Color>
                     <Color x:Key="SystemAccentColorDark2">#ffd52a</Color>
                     <Color x:Key="SystemAccentColorDark3">#ffd52a</Color>
@@ -44,6 +47,9 @@
                     <Color x:Key="SystemAccentColorLight1">#ffd52a</Color>
                     <Color x:Key="SystemAccentColorLight2">#ffd52a</Color>
                     <Color x:Key="SystemAccentColorLight3">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorDark1">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorDark2">#ffd52a</Color>
+                    <Color x:Key="SystemAccentColorDark3">#ffd52a</Color>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 

@@ -1,0 +1,209 @@
+﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<Page x:Class="Starward.UI.SettingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:av="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Starward.UI"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:s="using:Starward"
+      x:DefaultBindMode="OneWay"
+      Loaded="Page_Loaded"
+      mc:Ignorable="d">
+
+    <Grid>
+
+        <ScrollViewer>
+            <StackPanel Margin="48,24,48,24" Spacing="12">
+                <TextBlock FontSize="36"
+                           FontWeight="Bold"
+                           Text="应用设置" />
+
+                <!--  log  -->
+                <TextBlock Margin="0,16,0,0"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Text="日志" />
+                <ToggleSwitch IsOn="{x:Bind EnableConsole, Mode=TwoWay}"
+                              OffContent="显示控制台"
+                              OnContent="显示控制台" />
+
+                <!--  cdn  -->
+                <TextBlock Margin="0,16,0,0"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Text="仓库 CDN" />
+                <RadioButtons>
+                    <RadioButton Name="RadioButton_CF"
+                                 Click="RadioButton_CDN_Click"
+                                 Tag="cf">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock MinWidth="80" Text="CloudFlare" />
+                            <ProgressRing Name="ProgressRing_TestCND_CF"
+                                          Width="20"
+                                          Height="20"
+                                          Margin="16,0,0,0"
+                                          Visibility="Collapsed" />
+                            <TextBlock Name="TextBlock_TestCND_CF"
+                                       Margin="16,0,0,0"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Name="RadioButton_GH"
+                                 Click="RadioButton_CDN_Click"
+                                 Tag="gh">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock MinWidth="80" Text="GitHub" />
+                            <ProgressRing Name="ProgressRing_TestCND_GH"
+                                          Width="20"
+                                          Height="20"
+                                          Margin="16,0,0,0"
+                                          Visibility="Collapsed" />
+                            <TextBlock Name="TextBlock_TestCDN_GH"
+                                       Margin="16,0,0,0"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Name="RadioButton_JD"
+                                 Click="RadioButton_CDN_Click"
+                                 Tag="jd">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock MinWidth="80" Text="jsDelivr" />
+                            <ProgressRing Name="ProgressRing_TestCND_JD"
+                                          Width="20"
+                                          Height="20"
+                                          Margin="16,0,0,0"
+                                          Visibility="Collapsed" />
+                            <TextBlock Name="TextBlock_TestCDN_JD"
+                                       Margin="16,0,0,0"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                    </RadioButton>
+                </RadioButtons>
+                <StackPanel Orientation="Horizontal" Spacing="16">
+                    <Button Height="40"
+                            Margin="-48,0,0,0"
+                            Padding="48,0,16,0"
+                            BorderThickness="0"
+                            Command="{x:Bind TestCDNCommand}"
+                            CornerRadius="0,20,20,0"
+                            Style="{ThemeResource AccentButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xF6FA;" />
+                            <TextBlock Text="网络测试" />
+                        </StackPanel>
+                    </Button>
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind CustomBg}" />
+                </StackPanel>
+                <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="增量更新时需要 CloudFlare 连接正常" />
+
+                <!--  bg  -->
+                <TextBlock Margin="0,16,0,0"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Text="应用背景" />
+                <ToggleSwitch IsOn="{x:Bind EnableCustomBg, Mode=TwoWay}"
+                              OffContent="自定义背景"
+                              OnContent="自定义背景" />
+                <StackPanel Orientation="Horizontal" Spacing="16">
+                    <Button Height="40"
+                            Margin="-48,0,0,0"
+                            Padding="48,0,16,0"
+                            BorderThickness="0"
+                            CornerRadius="0,20,20,0"
+                            IsEnabled="{x:Bind EnableCustomBg}"
+                            Style="{ThemeResource AccentButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE91B;" />
+                            <TextBlock Text="选择" />
+                        </StackPanel>
+                    </Button>
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind CustomBg}" />
+                </StackPanel>
+
+                <!--  update  -->
+                <TextBlock Margin="0,16,0,0"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Text="检查更新" />
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <TextBlock Text="当前版本：" />
+                    <TextBlock FontWeight="SemiBold"
+                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                               Text="{x:Bind s:AppConfig.AppVersion}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Height="40"
+                            Margin="-48,0,0,0"
+                            Padding="48,0,16,0"
+                            BorderThickness="0"
+                            Command="{x:Bind CheckUpdateCommand}"
+                            CornerRadius="0,20,20,0"
+                            Style="{ThemeResource AccentButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE752;" />
+                            <TextBlock Text="检查更新" />
+                        </StackPanel>
+                    </Button>
+                    <Grid Width="40"
+                          Height="40"
+                          Margin="16,0,0,0">
+                        <FontIcon FontSize="20"
+                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                  Glyph="&#xF78C;"
+                                  Visibility="{x:Bind IsUpdated}" />
+                        <ProgressRing Width="28"
+                                      Height="28"
+                                      IsIndeterminate="{x:Bind CheckUpdateCommand.IsRunning}" />
+                    </Grid>
+                </StackPanel>
+
+                <!--  file  -->
+                <TextBlock Margin="0,16,0,0"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Text="文件管理" />
+                <Button Height="40"
+                        Margin="-48,0,0,0"
+                        Padding="48,0,16,0"
+                        BorderThickness="0"
+                        CornerRadius="0,20,20,0"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE838;" />
+                        <TextBlock Text="打开数据文件夹" />
+                    </StackPanel>
+                </Button>
+                <Button Height="40"
+                        Margin="-48,0,0,0"
+                        Padding="48,0,16,0"
+                        BorderThickness="0"
+                        CornerRadius="0,20,20,0"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE19C;" />
+                        <TextBlock Text="重新选择数据文件夹" />
+                    </StackPanel>
+                </Button>
+                <Button Height="40"
+                        Margin="-48,0,0,0"
+                        Padding="48,0,16,0"
+                        BorderThickness="0"
+                        CornerRadius="0,20,20,0"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xEA99;" />
+                        <TextBlock Text="清除缓存文件" />
+                    </StackPanel>
+                </Button>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Page>
