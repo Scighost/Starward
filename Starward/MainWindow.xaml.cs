@@ -148,5 +148,37 @@ public sealed partial class MainWindow : Window
 
 
 
+    public void ChangeAccentColor(Color? color = null)
+    {
+        var colors = new Color[4];
+        if (color != null)
+        {
+            Func<byte, double, byte> mix = (byte input, double percent) => (byte)(input * percent + 255 * (1 - percent));
+            var primaryColor = color.Value;
+            colors[0] = primaryColor;
+            for (int i = 1; i < 4; i++)
+            {
+                double percent = 1 - 0.2 * i;
+                colors[i] = Color.FromArgb(mix(primaryColor.A, percent), mix(primaryColor.R, percent), mix(primaryColor.G, percent), mix(primaryColor.B, percent));
+            }
+        }
+        else
+        {
+            var setting = new Windows.UI.ViewManagement.UISettings();
+            colors[0] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.Accent);
+            colors[1] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentLight1);
+            colors[2] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentLight2);
+            colors[3] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentLight3);
+        }
+        Application.Current.Resources["SystemAccentColor"] = colors[0];
+        Application.Current.Resources["SystemAccentColorLight1"] = colors[1];
+        Application.Current.Resources["SystemAccentColorLight2"] = colors[2];
+        Application.Current.Resources["SystemAccentColorLight3"] = colors[3];
+        RootGrid.RequestedTheme = ElementTheme.Light;
+        RootGrid.RequestedTheme = ElementTheme.Default;
+    }
+
+
+
 
 }

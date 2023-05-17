@@ -13,10 +13,14 @@ using Starward.Service;
 using Starward.Service.Gacha;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics;
+using Windows.Graphics.Imaging;
+using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -187,7 +191,7 @@ public sealed partial class MainPage : Page
 
 
     [ObservableProperty]
-    private BitmapImage backgroundImage;
+    private BitmapSource backgroundImage;
 
 
 
@@ -223,12 +227,22 @@ public sealed partial class MainPage : Page
             if (file != null)
             {
                 using var fs = File.OpenRead(file);
-                var bitmap = new BitmapImage();
+                var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
+                var bitmap = new WriteableBitmap((int)decoder.PixelWidth, (int)decoder.PixelHeight);
+                fs.Position = 0;
                 await bitmap.SetSourceAsync(fs.AsRandomAccessStream());
+                var bytes = new byte[bitmap.PixelBuffer.Length];
+                var ms = new MemoryStream(bytes);
+                await bitmap.PixelBuffer.AsStream().CopyToAsync(ms);
+                var sw = Stopwatch.StartNew();
+                var color = GetPrimaryColor(bytes);
+                sw.Stop();
+                _logger.LogInformation(sw.ElapsedMilliseconds.ToString());
                 if (source.IsCancellationRequested)
                 {
                     return;
                 }
+                MainWindow.Current.ChangeAccentColor(color);
                 BackgroundImage = bitmap;
             }
         }
@@ -236,6 +250,25 @@ public sealed partial class MainPage : Page
         {
 
         }
+    }
+
+
+
+    private Color? GetPrimaryColor(byte[] bytes)
+    {
+        if (bytes.Length % 4 == 0)
+        {
+            long b = 0, g = 0, r = 0, a = 0;
+            for (int i = 0; i < bytes.Length; i += 4)
+            {
+                b += bytes[i];
+                g += bytes[i + 1];
+                r += bytes[i + 2];
+                a += bytes[i + 3];
+            }
+            return Color.FromArgb((byte)(a * 4 / bytes.Length), (byte)(r * 4 / bytes.Length), (byte)(g * 4 / bytes.Length), (byte)(b * 4 / bytes.Length));
+        }
+        return null;
     }
 
 
