@@ -203,6 +203,19 @@ internal abstract class AppConfig
     }
 
 
+    public static bool EnableDynamicAccentColor
+    {
+        get => GetValue<int>(1) == 0 ? false : true;
+        set => SetValue(value ? 1 : 0);
+    }
+
+    public static string? AccentColor
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
     #endregion
 
 

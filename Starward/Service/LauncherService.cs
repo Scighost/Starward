@@ -83,15 +83,13 @@ public class LauncherService
         string url = content.BackgroundImage.Background;
         name = Path.GetFileName(url);
         file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
-        if (File.Exists(file))
+        if (!File.Exists(file))
         {
-            return file;
+            var bytes = await _httpClient.GetByteArrayAsync(url);
+            Directory.CreateDirectory(Path.Combine(AppConfig.ConfigDirectory, "bg"));
+            await File.WriteAllBytesAsync(file, bytes);
         }
-
-        var bytes = await _httpClient.GetByteArrayAsync(url);
-        Directory.CreateDirectory(Path.Combine(AppConfig.ConfigDirectory, "bg"));
-        await File.WriteAllBytesAsync(file, bytes);
-        AppConfig.GetBg(gameBiz);
+        AppConfig.SetBg(gameBiz, name);
         return file;
     }
 

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -161,6 +162,7 @@ public sealed partial class MainWindow : Window
                 double percent = 1 - 0.2 * i;
                 colors[i] = Color.FromArgb(mix(primaryColor.A, percent), mix(primaryColor.R, percent), mix(primaryColor.G, percent), mix(primaryColor.B, percent));
             }
+            AppConfig.AccentColor = primaryColor.ToHex();
         }
         else
         {

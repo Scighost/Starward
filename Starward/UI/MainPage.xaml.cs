@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -50,8 +51,8 @@ public sealed partial class MainPage : Page
         Current = this;
         this.InitializeComponent();
 
-        InitializeBackgroundImage();
         InitializeSelectGameBiz();
+        InitializeBackgroundImage();
         NavigateTo(typeof(LauncherPage));
     }
 
@@ -205,6 +206,20 @@ public sealed partial class MainPage : Page
             if (file != null)
             {
                 BackgroundImage = new BitmapImage(new Uri(file));
+                Color? color = null;
+                if (AppConfig.EnableDynamicAccentColor)
+                {
+                    var hex = AppConfig.AccentColor;
+                    if (!string.IsNullOrWhiteSpace(hex))
+                    {
+                        try
+                        {
+                            color = ColorHelper.ToColor(hex);
+                        }
+                        catch { }
+                    }
+                }
+                MainWindow.Current.ChangeAccentColor(color);
             }
         }
         catch (Exception ex)
@@ -242,7 +257,10 @@ public sealed partial class MainPage : Page
                 {
                     return;
                 }
-                MainWindow.Current.ChangeAccentColor(color);
+                if (AppConfig.EnableDynamicAccentColor)
+                {
+                    MainWindow.Current.ChangeAccentColor(color);
+                }
                 BackgroundImage = bitmap;
             }
         }
