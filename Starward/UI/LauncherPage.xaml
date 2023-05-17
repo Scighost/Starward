@@ -47,7 +47,7 @@
                       PointerEntered="FlipView_Banner_PointerEntered"
                       PointerExited="FlipView_Banner_PointerExited"
                       Shadow="{StaticResource ThemeShadow}"
-                      Translation="0,0,8">
+                      Translation="0,0,16">
                 <FlipView.ItemTemplate>
                     <DataTemplate>
                         <sc:CachedImage Name="Image_Banner"
@@ -76,7 +76,7 @@
                     Background="{ThemeResource CustomAcrylicBrush}"
                     CornerRadius="8"
                     Shadow="{StaticResource ThemeShadow}"
-                    Translation="0,0,8">
+                    Translation="0,0,16">
 
                 <Pivot ItemsSource="{x:Bind LauncherPostGroupList}">
                     <Pivot.Resources>
@@ -142,7 +142,7 @@
               Background="{ThemeResource CustomAcrylicBrush}"
               CornerRadius="20"
               Shadow="{StaticResource ThemeShadow}"
-              Translation="0,0,8">
+              Translation="0,0,16">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -152,11 +152,12 @@
             <Button Name="Button_StartGame"
                     Height="40"
                     HorizontalAlignment="Stretch"
+                    BorderThickness="0"
                     Command="{x:Bind StartGameCommand}"
                     CornerRadius="20,0,0,20"
-                    FontSize="16"
+                    FontSize="14"
                     Style="{ThemeResource AccentButtonStyle}">
-                <StackPanel Margin="32,0,0,0"
+                <StackPanel Margin="0,0,-40,0"
                             Orientation="Horizontal"
                             Spacing="8">
                     <TextBlock Name="TextBlock_StartGame"
@@ -167,7 +168,7 @@
                               FontSize="18"
                               FontWeight="Bold"
                               Glyph="&#xE76C;" />
-                    <FontIcon Margin="-20,2,0,0"
+                    <FontIcon Margin="-22,2,0,0"
                               VerticalAlignment="Center"
                               FontSize="18"
                               FontWeight="Bold"
@@ -179,10 +180,13 @@
             <Button Name="Button_GameSetting"
                     Grid.Column="1"
                     Height="40"
+                    BorderThickness="0"
                     CornerRadius="0,20,20,0"
                     Style="{ThemeResource AccentButtonStyle}">
                 <Button.Content>
-                    <AnimatedIcon Width="20" Height="20">
+                    <AnimatedIcon Width="20"
+                                  Height="20"
+                                  Margin="0,2,4,0">
                         <AnimatedIcon.Source>
                             <av:AnimatedSettingsVisualSource />
                         </AnimatedIcon.Source>
@@ -246,10 +250,11 @@
             <Grid Background="{ThemeResource CustomAcrylicBrush}"
                   CornerRadius="20"
                   Shadow="{StaticResource ThemeShadow}"
-                  Translation="0,0,8">
+                  Translation="0,0,16">
                 <ComboBox Name="ComboBox_GameAccount"
                           Height="40"
                           MinWidth="240"
+                          BorderThickness="0"
                           CornerRadius="0,20,20,0"
                           ItemsSource="{x:Bind GameAccountList}"
                           SelectedItem="{x:Bind SelectGameAccount, Mode=TwoWay}">
@@ -284,18 +289,20 @@
             <Grid Background="{ThemeResource CustomAcrylicBrush}"
                   CornerRadius="20"
                   Shadow="{StaticResource ThemeShadow}"
-                  Translation="0,0,8">
+                  Translation="0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Button Height="40"
+                        BorderThickness="0"
                         Command="{x:Bind ChangeGameAccountCommand}"
                         CornerRadius="20,0,0,20">
                     <TextBlock Margin="4,0,0,0" Text="切换账号" />
                 </Button>
                 <Button Grid.Column="1"
                         Height="40"
+                        BorderThickness="0"
                         CornerRadius="0,20,20,0"
                         FontFamily="{ThemeResource SymbolThemeFontFamily}"
                         IsEnabled="{x:Bind SelectGameAccount, Converter={StaticResource ObjectToBoolConverter}}">

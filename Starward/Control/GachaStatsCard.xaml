@@ -32,7 +32,7 @@
           CornerRadius="8"
           RowSpacing="4"
           Shadow="{ThemeResource ThemeShadow}"
-          Translation="0,0,8">
+          Translation="0,0,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
