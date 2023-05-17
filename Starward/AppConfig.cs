@@ -148,7 +148,7 @@ internal abstract class AppConfig
 
     public static bool EnableConsole
     {
-        get => GetValue<int>() == 0 ? false : true;
+        get => GetValue<int>() != 0;
         set => SetValue(value ? 1 : 0);
     }
 
@@ -211,7 +211,7 @@ internal abstract class AppConfig
 
     public static bool ShowNoviceGacha
     {
-        get => GetValue<int>() == 0 ? false : true;
+        get => GetValue<int>() != 0;
         set => SetValue(value ? 1 : 0);
     }
 
@@ -225,7 +225,7 @@ internal abstract class AppConfig
 
     public static bool EnableDynamicAccentColor
     {
-        get => GetValue<int>(1) == 0 ? false : true;
+        get => GetValue<int>(1) != 0;
         set => SetValue(value ? 1 : 0);
     }
 
@@ -271,12 +271,12 @@ internal abstract class AppConfig
 
     public static bool GetEnableCustomBg(GameBiz biz)
     {
-        return GetValue<bool>(default, $"enable_custom_bg_{biz}");
+        return GetValue<int>(default, $"enable_custom_bg_{biz}") != 0;
     }
 
     public static void SetEnableCustomBg(GameBiz biz, bool value)
     {
-        SetValue(value, $"enable_custom_bg_{biz}");
+        SetValue(value ? 1 : 0, $"enable_custom_bg_{biz}");
     }
 
 

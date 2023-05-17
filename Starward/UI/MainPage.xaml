@@ -35,10 +35,14 @@
                Source="{x:Bind BackgroundImage}"
                Stretch="UniformToFill" />
 
+        <!--  title bar acrylic backgroud  -->
+        <Border Name="Border_TitleBarBackground"
+                Grid.Row="0"
+                Background="{ThemeResource CustomAcrylicBrush}" />
 
         <!--  main content acrylic backgournd  -->
         <Border Name="Border_ContentBackground"
-                Grid.Row="1"
+                Grid.Row="0"
                 Grid.RowSpan="2"
                 Background="{ThemeResource CustomAcrylicBrush}"
                 Opacity="0">
@@ -49,7 +53,7 @@
 
 
         <!--  title bar  -->
-        <Border Grid.Row="0" Background="{ThemeResource CustomAcrylicBrush}">
+        <Border Grid.Row="0">
             <StackPanel Margin="60,0,0,0"
                         Orientation="Horizontal"
                         Spacing="8">

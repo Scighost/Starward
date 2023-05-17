@@ -232,7 +232,7 @@ public sealed partial class MainPage : Page
     private CancellationTokenSource? source;
 
 
-    private async Task UpdateBackgroundImageAsync()
+    public async Task UpdateBackgroundImageAsync()
     {
         try
         {

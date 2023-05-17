@@ -78,7 +78,7 @@ public class LauncherService
         string? name, file;
         if (AppConfig.GetEnableCustomBg(gameBiz))
         {
-            name = AppConfig.GetBg(gameBiz);
+            name = AppConfig.GetCustomBg(gameBiz);
             file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
             if (File.Exists(file))
             {

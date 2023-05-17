@@ -13,9 +13,14 @@ using Starward.Core.Metadata;
 using Starward.UI.Welcome;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Pickers;
 using Windows.System;
+using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -49,7 +54,10 @@ public sealed partial class SettingPage : Page
         if (e.Parameter is GameBiz biz)
         {
             gameBiz = biz;
-            EnableCustomBg = AppConfig.GetEnableCustomBg(biz);
+#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
+            enableCustomBg = AppConfig.GetEnableCustomBg(biz);
+#pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
+            OnPropertyChanged(nameof(EnableCustomBg));
             CustomBg = AppConfig.GetCustomBg(biz);
         }
         switch (AppConfig.ApCDNIndex)
@@ -79,13 +87,7 @@ public sealed partial class SettingPage : Page
 
 
 
-    [ObservableProperty]
-    private bool enableCustomBg;
 
-
-
-    [ObservableProperty]
-    private string? customBg;
 
 
     [ObservableProperty]
@@ -112,6 +114,8 @@ public sealed partial class SettingPage : Page
 
 
     #endregion
+
+
 
 
     #region CDN
@@ -214,6 +218,98 @@ public sealed partial class SettingPage : Page
     }
 
 
+
+
+    #endregion
+
+
+
+    #region Background
+
+
+    [ObservableProperty]
+    private bool enableCustomBg;
+    partial void OnEnableCustomBgChanged(bool value)
+    {
+        AppConfig.SetEnableCustomBg(gameBiz, value);
+        _ = MainPage.Current.UpdateBackgroundImageAsync();
+    }
+
+
+    [ObservableProperty]
+    private string? customBg;
+
+
+    [RelayCommand]
+    private async Task ChangeCustomBgAsync()
+    {
+        try
+        {
+            var picker = new FileOpenPicker
+            {
+                SuggestedStartLocation = PickerLocationId.ComputerFolder,
+            };
+            picker.FileTypeFilter.Add(".bmp");
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".png");
+            picker.FileTypeFilter.Add(".tif");
+            picker.FileTypeFilter.Add(".avif");
+            picker.FileTypeFilter.Add(".heic");
+            picker.FileTypeFilter.Add(".webp");
+            InitializeWithWindow.Initialize(picker, MainWindow.Current.HWND);
+            var file = await picker.PickSingleFileAsync();
+            if (file != null)
+            {
+                using var fs = await file.OpenReadAsync();
+                var decoder = await BitmapDecoder.CreateAsync(fs);
+                var name = Path.GetFileName(file.Path);
+                var dest = Path.Combine(AppConfig.ConfigDirectory, "bg", name);
+                if (file.Path != dest)
+                {
+                    File.Copy(file.Path, dest, true);
+                }
+                CustomBg = name;
+                AppConfig.SetCustomBg(gameBiz, name);
+                _ = MainPage.Current.UpdateBackgroundImageAsync();
+            }
+        }
+        catch(COMException ex)
+        {
+            // 0x88982F50
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task OpenCustomBgAsync()
+    {
+        try
+        {
+            var file = Path.Join(AppConfig.ConfigDirectory, "bg", customBg);
+            if (File.Exists(file))
+            {
+                await Launcher.LaunchUriAsync(new Uri(file));
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+    [RelayCommand]
+    private void DeleteCustomBg()
+    {
+        AppConfig.SetCustomBg(gameBiz, null);
+        CustomBg = null;
+        _ = MainPage.Current.UpdateBackgroundImageAsync();
+    }
 
 
     #endregion
