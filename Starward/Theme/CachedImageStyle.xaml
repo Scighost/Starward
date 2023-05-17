@@ -5,7 +5,7 @@
     <Style TargetType="sc:CachedImage">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
-        <Setter Property="IsCacheEnabled" Value="True" />
+        <Setter Property="IsCacheEnabled" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="LazyLoadingThreshold" Value="600" />
         <Setter Property="Template">

@@ -42,6 +42,7 @@
             </Grid.RowDefinitions>
             <!--  Banner  -->
             <FlipView Name="FlipView_Banner"
+                      Background="{ThemeResource CustomAcrylicBrush}"
                       CornerRadius="8"
                       ItemsSource="{x:Bind BannerList}"
                       PointerEntered="FlipView_Banner_PointerEntered"
@@ -212,7 +213,7 @@
                                        ToolTipService.ToolTip="{x:Bind InstallPath}" />
                             <Button Command="{x:Bind ChangeGameInstallPathCommand}" Content="修改" />
                             <TextBlock Margin="0,8,0,0" Text="启动参数" />
-                            <TextBox Text="{x:Bind StartGameArgument, Mode=TwoWay}" />
+                            <TextBox IsSpellCheckEnabled="False" Text="{x:Bind StartGameArgument, Mode=TwoWay}" />
                             <TextBlock Margin="0,8,0,0" Text="FPS" />
                             <NumberBox Name="NumberBox_FPS"
                                        IsEnabled="False"
@@ -319,7 +320,7 @@
                                         Height="0"
                                         IsHitTestVisible="False" />
                                 <TextBlock Text="昵称" />
-                                <TextBox Text="{x:Bind SelectGameAccount.Name, Mode=TwoWay}" />
+                                <TextBox IsSpellCheckEnabled="False" Text="{x:Bind SelectGameAccount.Name, Mode=TwoWay}" />
                                 <TextBlock Margin="0,8,0,0" Text="Uid" />
                                 <NumberBox Minimum="0" Value="{x:Bind SelectGameAccount.Uid, Mode=TwoWay}" />
                                 <Grid Margin="0,16,0,0"
