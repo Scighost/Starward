@@ -57,7 +57,7 @@
             </TextBlock>
             <TextBlock>
                 <Run Text="编译时间：" />
-                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind NewVersion.BuildTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', {x:Null})}" />
+                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind NewVersion.BuildTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
             </TextBlock>
             <StackPanel Orientation="Horizontal" Spacing="4">
                 <TextBlock VerticalAlignment="Center" Text="相关链接：" />
