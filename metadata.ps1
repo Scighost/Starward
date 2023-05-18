@@ -1,6 +1,6 @@
-param(
-    [string] $Architecture = $null,
-    [string] $Version = $null,
+﻿param(
+    [string] $Architecture = "x64",
+    [string] $Version = "1.0.0",
     [switch] $Dev
 )
 
@@ -27,7 +27,7 @@ if (!(Get-Module -Name 7Zip4Powershell -ListAvailable)) {
     Install-Module -Name 7Zip4Powershell -Force;
 }
 
-$portableName = "Starward_$($Version)_$($Architecture).7z";
+$portableName = "Starward_Portable_$($Version)_$($Architecture).7z";
 $portableFile = "$package/$portableName";
 
 if (!(Test-Path $portableFile)) {
@@ -38,9 +38,9 @@ $release = @{
     Version      = $Version
     Architecture = $Architecture
     BuildTime    = Get-Date
-    Install      = ""
+    Install      = $null
     InstallSize  = 0
-    InstallHash  = ""
+    InstallHash  = $null
     Portable     = "https://starward.scighost.com/release/package/dev/$portableName"
     PortableSize = (Get-Item $portableFile).Length
     PortableHash = (Get-FileHash $portableFile).Hash

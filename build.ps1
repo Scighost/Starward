@@ -1,6 +1,6 @@
 ﻿param(
-    [string] $Architecture = $null,
-    [string] $Version = $null,
+    [string] $Architecture = "x64",
+    [string] $Version = "1.0.0",
     [switch] $Dev
 )
 
