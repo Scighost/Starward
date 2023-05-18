@@ -19,6 +19,8 @@
 
         <Frame Name="MainWindow_Frame" />
 
+        <Frame Name="Frame_Overlay" Visibility="Collapsed" />
+
         <StackPanel MaxWidth="600"
                     Margin="24,72,24,72"
                     VerticalAlignment="Bottom">

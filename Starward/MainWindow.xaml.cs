@@ -61,7 +61,7 @@ public sealed partial class MainWindow : Window
         var titleBar = this.AppWindow.TitleBar;
         var len = (int)(48 * UIScale);
         titleBar.ExtendsContentIntoTitleBar = true;
-        titleBar.SetDragRectangles(new RectInt32[] { new RectInt32(0, 0, 100000, len) });
+        SetDragRectangles(new RectInt32(0, 0, 100000, len));
         ChangeTitleBarButtonColor();
         ResizeToCertainSize();
     }
@@ -140,6 +140,24 @@ public sealed partial class MainWindow : Window
     public void NavigateTo(Type page, object? parameter, NavigationTransitionInfo infoOverride)
     {
         MainWindow_Frame.Navigate(page, parameter!, infoOverride);
+    }
+
+
+
+    public void OverlayFrameNavigateTo(Type page, object? parameter, NavigationTransitionInfo infoOverride)
+    {
+        Frame_Overlay.Visibility = Visibility.Visible;
+        Frame_Overlay.Navigate(page, parameter!, infoOverride);
+        var len = (int)(48 * UIScale);
+        SetDragRectangles(new RectInt32[] { new RectInt32(0, 0, 100000, len) });
+    }
+
+
+    public void CloseOverlayPage()
+    {
+        Frame_Overlay.Visibility = Visibility.Collapsed;
+        Frame_Overlay.Content = null;
+        MainPage.Current?.UpdateDragRectangles();
     }
 
 

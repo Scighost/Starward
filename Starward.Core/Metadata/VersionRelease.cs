@@ -1,4 +1,6 @@
-﻿namespace Starward.Core.Metadata;
+﻿using System.Text.Json.Serialization;
+
+namespace Starward.Core.Metadata;
 
 public class ReleaseVersion
 {
@@ -10,6 +12,9 @@ public class ReleaseVersion
 
 
     public DateTimeOffset BuildTime { get; set; }
+
+
+    public bool DisableAutoUpdate { get; set; }
 
 
     public string Install { get; set; }
@@ -33,6 +38,10 @@ public class ReleaseVersion
     public List<ReleaseFile> SeparateFiles { get; set; }
 
 
+    [JsonIgnore]
+    public string ReleasePage => $"https://github.com/Scighost/Starward/releases/tag/{Version}";
+
+
 }
 
 
@@ -47,5 +56,12 @@ public class ReleaseFile
 
 
     public string Hash { get; set; }
+
+    [JsonIgnore]
+#if DEBUG
+    public string Url => $"https://starward.scighost.com/release/separate_files/dev/{Hash}";
+#else
+    public string Url => $"https://starward.scighost.com/release/separate_files/{Hash}";
+#endif
 
 }

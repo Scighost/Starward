@@ -167,6 +167,9 @@
                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                Text="{x:Bind s:AppConfig.AppVersion}" />
                 </StackPanel>
+                <ToggleSwitch IsOn="{x:Bind EnablePreviewRelease, Mode=TwoWay}"
+                              OffContent="加入预览版通道"
+                              OnContent="加入预览版通道" />
                 <StackPanel Orientation="Horizontal">
                     <Button Height="40"
                             Margin="-48,0,0,0"

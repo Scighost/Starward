@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -77,7 +78,7 @@ public abstract class CacheBase<T>
     /// <summary>
     /// Gets instance of <see cref="HttpClient"/>
     /// </summary>
-    protected HttpClient HttpClient => _httpClient ??= new HttpClient();
+    protected HttpClient HttpClient => _httpClient ??= new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
 
 
     /// <summary>

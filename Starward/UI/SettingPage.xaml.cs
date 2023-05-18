@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.Metadata;
+using Starward.Service;
 using Starward.UI.Welcome;
 using System;
 using System.Diagnostics;
@@ -40,6 +41,8 @@ public sealed partial class SettingPage : Page
 
     private readonly HttpClient _httpClient = AppConfig.GetService<HttpClient>();
 
+    private readonly UpdateService _updateService = AppConfig.GetService<UpdateService>();
+
     private GameBiz gameBiz;
 
     public SettingPage()
@@ -60,7 +63,7 @@ public sealed partial class SettingPage : Page
             OnPropertyChanged(nameof(EnableCustomBg));
             CustomBg = AppConfig.GetCustomBg(biz);
         }
-        switch (AppConfig.ApCDNIndex)
+        switch (AppConfig.ApiCDNIndex)
         {
             case 1: RadioButton_GH.IsChecked = true; break;
             case 2: RadioButton_JD.IsChecked = true; break;
@@ -90,17 +93,7 @@ public sealed partial class SettingPage : Page
 
 
 
-    [ObservableProperty]
-    private bool isUpdated;
 
-
-    [RelayCommand]
-    private async Task CheckUpdateAsync()
-    {
-        IsUpdated = false;
-        await Task.Delay(3000);
-        IsUpdated = true;
-    }
 
 
 
@@ -213,7 +206,7 @@ public sealed partial class SettingPage : Page
                 _ => 0,
             };
             _metadataClient.SetApiPrefix(index);
-            AppConfig.ApCDNIndex = index;
+            AppConfig.ApiCDNIndex = index;
         }
     }
 
@@ -273,7 +266,7 @@ public sealed partial class SettingPage : Page
                 _ = MainPage.Current.UpdateBackgroundImageAsync();
             }
         }
-        catch(COMException ex)
+        catch (COMException ex)
         {
             // 0x88982F50
 
@@ -313,6 +306,50 @@ public sealed partial class SettingPage : Page
 
 
     #endregion
+
+
+
+
+    #region Update
+
+    [ObservableProperty]
+    private bool enablePreviewRelease = AppConfig.EnablePreviewRelease;
+    partial void OnEnablePreviewReleaseChanged(bool value)
+    {
+        AppConfig.EnablePreviewRelease = value;
+    }
+
+
+    [ObservableProperty]
+    private bool isUpdated;
+
+
+    [RelayCommand]
+    private async Task CheckUpdateAsync()
+    {
+        try
+        {
+            IsUpdated = false;
+            var release = await _updateService.CheckUpdateAsync(true);
+            if (release != null)
+            {
+                MainWindow.Current.OverlayFrameNavigateTo(typeof(UpdatePage), release, new Microsoft.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo());
+            }
+            else
+            {
+                IsUpdated = true;
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+
+
+    #endregion
+
 
 
 

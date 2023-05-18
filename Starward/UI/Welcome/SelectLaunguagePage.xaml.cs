@@ -35,7 +35,7 @@ public sealed partial class SelectLaunguagePage : Page
     {
         this.InitializeComponent();
 
-        switch (AppConfig.ApCDNIndex)
+        switch (AppConfig.ApiCDNIndex)
         {
             case 1: RadioButton_GH.IsChecked = true; break;
             case 2: RadioButton_JD.IsChecked = true; break;
@@ -152,7 +152,7 @@ public sealed partial class SelectLaunguagePage : Page
                 _ => 0,
             };
             _metadataClient.SetApiPrefix(index);
-            AppConfig.ApCDNIndex = index;
+            AppConfig.ApiCDNIndex = index;
         }
     }
 

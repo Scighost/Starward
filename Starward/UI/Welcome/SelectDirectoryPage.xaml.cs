@@ -73,6 +73,7 @@ public sealed partial class SelectDirectoryPage : Page
         {
             _logger.LogError(ex, null);
             Button_Next.IsEnabled = false;
+            TargetDictionary = ex.Message;
         }
     }
 

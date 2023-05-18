@@ -108,10 +108,11 @@ internal abstract class AppConfig
             sc.AddSingleton<HyperionGenshinClient>();
             sc.AddSingleton<HyperionStarRailClient>();
             sc.AddSingleton<LauncherClient>();
-            sc.AddSingleton(p => new MetadataClient(ApCDNIndex, p.GetService<HttpClient>()));
+            sc.AddSingleton(p => new MetadataClient(ApiCDNIndex, p.GetService<HttpClient>()));
 
             sc.AddSingleton(p => new DatabaseService(p.GetService<ILogger<DatabaseService>>()!, ConfigDirectory));
             sc.AddSingleton<GameService>();
+            sc.AddSingleton<UpdateService>();
             sc.AddSingleton<LauncherService>();
             sc.AddSingleton<GenshinGachaService>();
             sc.AddSingleton<StarRailGachaService>();
@@ -153,17 +154,31 @@ internal abstract class AppConfig
     }
 
 
-    public static int ApCDNIndex
+    public static int ApiCDNIndex
     {
         get => GetValue<int>();
         set => SetValue(value);
     }
 
 
+    public static bool EnablePreviewRelease
+    {
+        get => GetValue<int>() != 0;
+        set => SetValue(value ? 1 : 0);
+    }
+
+
+    public static string? IgnoreVersion
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
     public static bool EnableAutoBackupDatabase
     {
-        get => GetValue(true);
-        set => SetValue(value);
+        get => GetValue<int>(1) != 0;
+        set => SetValue(value ? 1 : 0);
     }
 
 
@@ -174,24 +189,17 @@ internal abstract class AppConfig
     }
 
 
-    public static bool AutoCheckUpdate
-    {
-        get => GetValue(true);
-        set => SetValue(value);
-    }
-
-
     public static bool EnableBannerAndPost
     {
-        get => GetValue(true);
-        set => SetValue(value);
+        get => GetValue<int>(1) != 0;
+        set => SetValue(value ? 1 : 0);
     }
 
 
     public static bool IgnoreRunningGame
     {
-        get => GetValue<bool>();
-        set => SetValue(value);
+        get => GetValue<int>() != 0;
+        set => SetValue(value ? 1 : 0);
     }
 
 

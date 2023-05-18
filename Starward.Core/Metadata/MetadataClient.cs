@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Starward.Core.Metadata.Github;
+using System.Net;
 using System.Net.Http.Json;
 using System.Runtime.InteropServices;
 
@@ -31,6 +32,7 @@ public class MetadataClient
     {
         SetApiPrefix(apiIndex);
         _httpClient = httpClient ?? new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", "Scighost/Starward");
     }
 
 
@@ -115,6 +117,39 @@ public class MetadataClient
     }
 
 
+
+
+    #region Github
+
+
+
+    public async Task<GithubRelease?> GetGithubLatestReleaseAsync(CancellationToken cancellationToken = default)
+    {
+        const string url = "https://api.github.com/repos/Scighost/Starward/releases?page=1&per_page=1";
+        var list = await CommonGetAsync<List<GithubRelease>>(url, cancellationToken);
+        return list?.FirstOrDefault();
+    }
+
+
+
+    public async Task<List<GithubRelease>> GetGithubReleaseAsync(int page, int perPage, CancellationToken cancellationToken = default)
+    {
+        string url = $"https://api.github.com/repos/Scighost/Starward/releases?page={page}&per_page={perPage}";
+        var list = await CommonGetAsync<List<GithubRelease>>(url, cancellationToken);
+        return list ?? new List<GithubRelease>();
+    }
+
+
+
+    public async Task<GithubRelease?> GetGithubReleaseAsync(string tag, CancellationToken cancellationToken = default)
+    {
+        string url = $"https://api.github.com/repos/Scighost/Starward/releases/tags/{tag}";
+        return await CommonGetAsync<GithubRelease>(url, cancellationToken);
+    }
+
+
+
+    #endregion
 
 
 

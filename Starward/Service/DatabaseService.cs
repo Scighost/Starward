@@ -67,7 +67,7 @@ internal class DatabaseService
     {
         try
         {
-            if (AppConfig.AutoCheckUpdate)
+            if (AppConfig.EnableAutoBackupDatabase)
             {
                 var interval = Math.Clamp(AppConfig.BackupIntervalInDays, 1, int.MaxValue);
                 GetValue<string>("AutoBackupDatabase", out var lastTime);

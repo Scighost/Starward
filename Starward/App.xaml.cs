@@ -31,7 +31,7 @@ public partial class App : Application
         var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward", "crash");
         Directory.CreateDirectory(folder);
         var file = Path.Combine(folder, $"crash_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
-        File.WriteAllText(file, e.ToString());
+        File.WriteAllText(file, e.Exception.ToString());
     }
 
     /// <summary>

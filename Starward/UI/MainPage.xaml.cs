@@ -44,8 +44,10 @@ public sealed partial class MainPage : Page
     private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
 
 
+    private readonly UpdateService _updateService = AppConfig.GetService<UpdateService>();
 
-    // todo game and region 切换
+
+
     public MainPage()
     {
         Current = this;
@@ -74,9 +76,27 @@ public sealed partial class MainPage : Page
         {
             await UpdateBackgroundImageAsync();
         }
+        await CheckUpdateAsync();
     }
 
 
+
+
+    private async Task CheckUpdateAsync()
+    {
+        try
+        {
+            var release = await _updateService.CheckUpdateAsync(false);
+            if (release != null)
+            {
+                MainWindow.Current.OverlayFrameNavigateTo(typeof(UpdatePage), release, new DrillInNavigationTransitionInfo());
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
 
 
 
@@ -161,7 +181,7 @@ public sealed partial class MainPage : Page
 
 
 
-    private void UpdateDragRectangles()
+    public void UpdateDragRectangles()
     {
         try
         {
@@ -339,11 +359,11 @@ public sealed partial class MainPage : Page
 
 
 
-    public void NavigateTo(Type page)
+    public void NavigateTo(Type page, object? param = null)
     {
         if (page != null)
         {
-            MainPage_Frame.Navigate(page, CurrentGameBiz, new DrillInNavigationTransitionInfo());
+            MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());
         }
     }
 
