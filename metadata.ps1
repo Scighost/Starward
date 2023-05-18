@@ -35,15 +35,16 @@ if (!(Test-Path $portableFile)) {
 }
 
 $release = @{
-    Version      = $Version
-    Architecture = $Architecture
-    BuildTime    = Get-Date
-    Install      = $null
-    InstallSize  = 0
-    InstallHash  = $null
-    Portable     = "https://starward.scighost.com/release/package/dev/$portableName"
-    PortableSize = (Get-Item $portableFile).Length
-    PortableHash = (Get-FileHash $portableFile).Hash
+    Version           = $Version
+    Architecture      = $Architecture
+    BuildTime         = Get-Date
+    DisableAutoUpdate = $false
+    Install           = $null
+    InstallSize       = 0
+    InstallHash       = $null
+    Portable          = "https://starward.scighost.com/release/package/dev/$portableName"
+    PortableSize      = (Get-Item $portableFile).Length
+    PortableHash      = (Get-FileHash $portableFile).Hash
 };
 
 Out-File -Path "$metadata/version_preview_$Architecture.json" -InputObject (ConvertTo-Json $release);
