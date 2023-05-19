@@ -95,11 +95,7 @@ internal abstract class AppConfig
         if (_serviceProvider == null)
         {
             var sc = new ServiceCollection();
-#if DEBUG
-            sc.AddLogging(configure => configure.AddDebug());
-#endif
-            sc.AddLogging(configure => configure.AddSimpleConsole());
-
+            sc.AddLogging(c => c.AddSimpleConsole(c => c.TimestampFormat = "HH:mm:ss.fff\r\n"));
             sc.AddTransient(_ => new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 });
 
             sc.AddSingleton<GenshinGachaClient>();

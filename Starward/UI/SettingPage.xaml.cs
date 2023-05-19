@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.Metadata;
+using Starward.Helper;
 using Starward.Service;
 using Starward.UI.Welcome;
 using System;
@@ -74,22 +75,8 @@ public sealed partial class SettingPage : Page
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        try
-        {
 
-        }
-        catch (Exception ex)
-        {
-
-        }
     }
-
-
-
-
-
-
-
 
 
 
@@ -103,6 +90,18 @@ public sealed partial class SettingPage : Page
 
     [ObservableProperty]
     private bool enableConsole = AppConfig.EnableConsole;
+    partial void OnEnableConsoleChanged(bool value)
+    {
+        AppConfig.EnableConsole = value;
+        if (value)
+        {
+            ConsoleHelper.Show();
+        }
+        else
+        {
+            ConsoleHelper.Hide();
+        }
+    }
 
 
 
@@ -141,9 +140,9 @@ public sealed partial class SettingPage : Page
                     await _httpClient.GetByteArrayAsync(url_cf);
                     TextBlock_TestCND_CF.Text = $"{sw.ElapsedMilliseconds} ms";
                 }
-                catch (Exception ex)
+                catch (HttpRequestException)
                 {
-                    TextBlock_TestCND_CF.Text = ex.Message;
+                    TextBlock_TestCND_CF.Text = "网络异常";
                 }
                 finally
                 {
@@ -158,9 +157,9 @@ public sealed partial class SettingPage : Page
                     await _httpClient.GetByteArrayAsync(url_gh);
                     TextBlock_TestCDN_GH.Text = $"{sw.ElapsedMilliseconds} ms";
                 }
-                catch (Exception ex)
+                catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_GH.Text = ex.Message;
+                    TextBlock_TestCDN_GH.Text = "网络异常";
                 }
                 finally
                 {
@@ -175,9 +174,9 @@ public sealed partial class SettingPage : Page
                     await _httpClient.GetByteArrayAsync(url_jd);
                     TextBlock_TestCDN_JD.Text = $"{sw.ElapsedMilliseconds} ms";
                 }
-                catch (Exception ex)
+                catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_JD.Text = ex.Message;
+                    TextBlock_TestCDN_JD.Text = "网络异常";
                 }
                 finally
                 {
@@ -189,7 +188,7 @@ public sealed partial class SettingPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Test CDN");
         }
     }
 
@@ -253,6 +252,7 @@ public sealed partial class SettingPage : Page
             var file = await picker.PickSingleFileAsync();
             if (file != null)
             {
+                _logger.LogInformation("Background file is '{file}'", file.Path);
                 using var fs = await file.OpenReadAsync();
                 var decoder = await BitmapDecoder.CreateAsync(fs);
                 var name = Path.GetFileName(file.Path);
@@ -260,6 +260,7 @@ public sealed partial class SettingPage : Page
                 if (file.Path != dest)
                 {
                     File.Copy(file.Path, dest, true);
+                    _logger.LogInformation("File copied to '{dest}'", dest);
                 }
                 CustomBg = name;
                 AppConfig.SetCustomBg(gameBiz, name);
@@ -269,11 +270,11 @@ public sealed partial class SettingPage : Page
         catch (COMException ex)
         {
             // 0x88982F50
-
+            _logger.LogError(ex, "Decode error or others");
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Change custom background");
         }
     }
 
@@ -283,15 +284,16 @@ public sealed partial class SettingPage : Page
     {
         try
         {
-            var file = Path.Join(AppConfig.ConfigDirectory, "bg", customBg);
+            var file = Path.Join(AppConfig.ConfigDirectory, "bg", CustomBg);
             if (File.Exists(file))
             {
+                _logger.LogError("Open image file '{file}'", file);
                 await Launcher.LaunchUriAsync(new Uri(file));
             }
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Open custom background");
         }
     }
 
@@ -324,12 +326,17 @@ public sealed partial class SettingPage : Page
     private bool isUpdated;
 
 
+    [ObservableProperty]
+    private string? updateErrorText;
+
+
     [RelayCommand]
     private async Task CheckUpdateAsync()
     {
         try
         {
             IsUpdated = false;
+            UpdateErrorText = null;
             var release = await _updateService.CheckUpdateAsync(true);
             if (release != null)
             {
@@ -342,9 +349,9 @@ public sealed partial class SettingPage : Page
         }
         catch (Exception ex)
         {
-
+            UpdateErrorText = ex.Message;
+            _logger.LogError(ex, "Check update");
         }
-
     }
 
 
@@ -360,7 +367,12 @@ public sealed partial class SettingPage : Page
     [RelayCommand]
     private async Task OpenDataFolderAsync()
     {
-        await Launcher.LaunchFolderPathAsync(AppConfig.ConfigDirectory);
+        try
+        {
+            _logger.LogInformation("Open folder '{folder}'", AppConfig.ConfigDirectory);
+            await Launcher.LaunchFolderPathAsync(AppConfig.ConfigDirectory);
+        }
+        catch { }
     }
 
 
@@ -375,7 +387,7 @@ public sealed partial class SettingPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Change data folder");
         }
     }
 

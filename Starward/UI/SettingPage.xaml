@@ -4,7 +4,6 @@
 <Page x:Class="Starward.UI.SettingPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:av="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Starward.UI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -29,6 +28,10 @@
                 <ToggleSwitch IsOn="{x:Bind EnableConsole, Mode=TwoWay}"
                               OffContent="显示控制台"
                               OnContent="显示控制台" />
+                <TextBlock Margin="0,-8,0,0"
+                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                           Text="下次启动时生效"
+                           TextWrapping="Wrap" />
 
                 <!--  cdn  -->
                 <TextBlock Margin="0,16,0,0"
@@ -168,8 +171,8 @@
                                Text="{x:Bind s:AppConfig.AppVersion}" />
                 </StackPanel>
                 <ToggleSwitch IsOn="{x:Bind EnablePreviewRelease, Mode=TwoWay}"
-                              OffContent="加入预览版通道"
-                              OnContent="加入预览版通道" />
+                              OffContent="加入预览版更新渠道"
+                              OnContent="加入预览版更新渠道" />
                 <StackPanel Orientation="Horizontal">
                     <Button Height="40"
                             Margin="-48,0,0,0"
@@ -194,6 +197,10 @@
                                       Height="28"
                                       IsIndeterminate="{x:Bind CheckUpdateCommand.IsRunning}" />
                     </Grid>
+                    <TextBlock Margin="16,0,0,0"
+                               VerticalAlignment="Center"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind UpdateErrorText}" />
                 </StackPanel>
 
                 <!--  file  -->

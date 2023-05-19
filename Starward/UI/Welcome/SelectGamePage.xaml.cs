@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -57,9 +58,13 @@ public sealed partial class SelectGamePage : Page
                 _ = ImageCacheService.Instance.PreCacheAsync(new Uri(game.Poster));
             }
         }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogWarning("Cannot get game info: {Exception}", ex.Message);
+        }
         catch (Exception ex)
         {
-            _logger.LogError(ex, null);
+            _logger.LogError(ex, "Get game info");
         }
     }
 
@@ -81,7 +86,7 @@ public sealed partial class SelectGamePage : Page
         try
         {
             AppConfig.SelectGameBiz = selectBiz;
-            AppConfig.SetConfigDirectory(WelcomePage.Current.ConfigDirecory);
+            AppConfig.SetConfigDirectory(WelcomePage.Current.ConfigDirectory);
             if (Grid_GameInfo.Opacity == 1)
             {
                 logoAction.Execute(this, null!);
@@ -100,7 +105,7 @@ public sealed partial class SelectGamePage : Page
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, null);
+            _logger.LogError(ex, "Navigate to MainPage");
         }
     }
 
@@ -134,7 +139,7 @@ public sealed partial class SelectGamePage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Select game changed");
         }
     }
 
@@ -156,44 +161,48 @@ public sealed partial class SelectGamePage : Page
             Grid_GameInfo.Opacity = 0;
             Rectangle_Mask.Opacity = 1;
             var game_info = games.FirstOrDefault(x => x.GameBiz == selectBiz);
-            if (game_info != null)
+            if (game_info is null)
             {
-                source = new();
-                var logoTask = ImageCacheService.Instance.GetFromCacheAsync(new Uri(game_info.Logo));
-                var posterTask = ImageCacheService.Instance.GetFromCacheAsync(new Uri(game_info.Poster));
-                await Task.WhenAll(logoTask, posterTask);
-                var logo = logoTask.Result;
-                var poster = posterTask.Result;
-                if (logo is null || poster is null)
-                {
-                    Grid_GameInfo.Opacity = 0;
-                    return;
-                }
-
-                if (sw.ElapsedMilliseconds < 300)
-                {
-                    await Task.Delay(300 - (int)sw.ElapsedMilliseconds);
-                }
-
-                if (source.IsCancellationRequested)
-                {
-                    return;
-                }
-
-                Image_Logo.Source = logo;
-                Image_Poster.Source = poster;
-                Image_Logo_Action.Source = logo;
-
-                TextBlock_Description.Text = game_info.Description;
-                HyperlinkButton_HomePage.NavigateUri = new Uri(game_info.HomePage);
-                TextBlock_HomePage.Text = game_info.HomePage;
-                TextBlock_Slogan.Text = game_info.Slogan;
-                Grid_GameInfo.Opacity = 1;
+                _logger.LogInformation("Game info of {GameBiz} is NULL.", selectBiz);
+                return;
             }
+
+            source = new();
+            var logoTask = ImageCacheService.Instance.GetFromCacheAsync(new Uri(game_info.Logo));
+            var posterTask = ImageCacheService.Instance.GetFromCacheAsync(new Uri(game_info.Poster));
+            await Task.WhenAll(logoTask, posterTask);
+            var logo = logoTask.Result;
+            var poster = posterTask.Result;
+            if (logo is null || poster is null)
+            {
+                _logger.LogInformation("Logo and poster of {GameBiz} download failed.", game_info.Name);
+                Grid_GameInfo.Opacity = 0;
+                return;
+            }
+
+            if (sw.ElapsedMilliseconds < 300)
+            {
+                await Task.Delay(300 - (int)sw.ElapsedMilliseconds);
+            }
+
+            if (source.IsCancellationRequested)
+            {
+                return;
+            }
+
+            Image_Logo.Source = logo;
+            Image_Poster.Source = poster;
+            Image_Logo_Action.Source = logo;
+
+            TextBlock_Description.Text = game_info.Description;
+            HyperlinkButton_HomePage.NavigateUri = new Uri(game_info.HomePage);
+            TextBlock_HomePage.Text = game_info.HomePage;
+            TextBlock_Slogan.Text = game_info.Slogan;
+            Grid_GameInfo.Opacity = 1;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, null);
+            _logger.LogError(ex, "Change game logo and poster");
             if (sw.ElapsedMilliseconds < 300)
             {
                 await Task.Delay(300 - (int)sw.ElapsedMilliseconds);

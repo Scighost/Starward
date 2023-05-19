@@ -34,12 +34,14 @@
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(Configuration) == 'Debug'">
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+	<ItemGroup>
+		<ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
+	  <Content Update="Assets\**">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 </Project>

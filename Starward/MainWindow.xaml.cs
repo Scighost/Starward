@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.Helpers;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -31,7 +30,6 @@ public sealed partial class MainWindow : Window
 
     public IntPtr HWND { get; private set; }
 
-
     public double UIScale => User32.GetDpiForWindow(HWND) / 96d;
 
 
@@ -43,10 +41,12 @@ public sealed partial class MainWindow : Window
         InitializeMainWindow();
         if (AppConfig.ConfigDirectory is null)
         {
+            Console.WriteLine($"Config Directory is NULL");
             MainWindow_Frame.Content = new WelcomePage(true);
         }
         else
         {
+            Console.WriteLine($"Config Directory is '{AppConfig.ConfigDirectory}'");
             MainWindow_Frame.Content = new MainPage();
         }
     }
@@ -85,7 +85,6 @@ public sealed partial class MainWindow : Window
     }
 
 
-    // todo change accent color
 
 
     private void RootGrid_ActualThemeChanged(FrameworkElement sender, object args)

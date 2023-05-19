@@ -14,8 +14,9 @@ using Starward.Service;
 using Starward.Service.Gacha;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
@@ -92,9 +93,13 @@ public sealed partial class MainPage : Page
                 MainWindow.Current.OverlayFrameNavigateTo(typeof(UpdatePage), release, new DrillInNavigationTransitionInfo());
             }
         }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogWarning("Check update: {exception}", ex.Message);
+        }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Check update");
         }
     }
 
@@ -117,6 +122,7 @@ public sealed partial class MainPage : Page
     private void InitializeSelectGameBiz()
     {
         CurrentGameBiz = selectGameBiz;
+        _logger.LogInformation("Select game region is {gamebiz}", selectGameBiz);
         var index = CurrentGameBiz switch
         {
             GameBiz.hk4e_cn => 0,
@@ -149,16 +155,14 @@ public sealed partial class MainPage : Page
                 }
             }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
     [RelayCommand(AllowConcurrentExecutions = true)]
     private async Task ChangeGameBizAsync()
     {
+        _logger.LogInformation("Change game region to {gamebiz}", selectGameBiz);
         CurrentGameBiz = selectGameBiz;
         AppConfig.SelectGameBiz = CurrentGameBiz;
         Button_ChangeGameBiz.IsEnabled = false;
@@ -194,10 +198,7 @@ public sealed partial class MainPage : Page
             var rect2 = new RectInt32((int)((point.X + width) * scale), 0, 100000, len);
             MainWindow.Current.SetDragRectangles(rect1, rect2);
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -244,7 +245,7 @@ public sealed partial class MainPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Initialize background image");
         }
     }
 
@@ -269,10 +270,7 @@ public sealed partial class MainPage : Page
                 var bytes = new byte[bitmap.PixelBuffer.Length];
                 var ms = new MemoryStream(bytes);
                 await bitmap.PixelBuffer.AsStream().CopyToAsync(ms);
-                var sw = Stopwatch.StartNew();
                 var color = GetPrimaryColor(bytes);
-                sw.Stop();
-                _logger.LogInformation(sw.ElapsedMilliseconds.ToString());
                 if (source.IsCancellationRequested)
                 {
                     return;
@@ -284,9 +282,13 @@ public sealed partial class MainPage : Page
                 BackgroundImage = bitmap;
             }
         }
+        catch (COMException ex)
+        {
+            _logger.LogWarning(ex, "Update background image");
+        }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Update background image");
         }
     }
 
@@ -363,6 +365,7 @@ public sealed partial class MainPage : Page
     {
         if (page != null)
         {
+            _logger.LogInformation("Navigate to {page} with param {param}", page.Name, param);
             MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());
         }
     }

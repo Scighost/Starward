@@ -183,10 +183,12 @@ internal class GameService
     {
         if (string.IsNullOrWhiteSpace(account.Name))
         {
+            _logger.LogWarning("Account name is null, cannot be saved.");
             return;
         }
         using var dapper = _database.CreateConnection();
         dapper.Execute("INSERT OR REPLACE INTO GameAccount (SHA256, GameBiz, Uid, Name, Value, Time) VALUES (@SHA256, @GameBiz, @Uid, @Name, @Value, @Time);", account);
+        _logger.LogInformation("Save account {name} ({biz}) successfully!", account.Name, account.GameBiz);
     }
 
 
@@ -195,6 +197,7 @@ internal class GameService
     {
         using var dapper = _database.CreateConnection();
         dapper.Execute("DELETE FROM GameAccount WHERE SHA256=@SHA256;", account);
+        _logger.LogInformation("Delete account {name} ({biz}) successfully!", account.Name, account.GameBiz);
     }
 
 
@@ -226,6 +229,7 @@ internal class GameService
             default:
                 break;
         }
+        _logger.LogInformation("Change account {name} ({biz}) successfully!", account.Name, account.GameBiz);
     }
 
 
@@ -276,6 +280,7 @@ internal class GameService
             };
             var exe = Path.Join(folder, name);
             var arg = AppConfig.GetStartArgument(biz)?.Trim();
+            _logger.LogInformation("Start game ({biz})\r\npath: {exe}\r\nargu: {argu}", biz, exe, arg);
             var info = new ProcessStartInfo
             {
                 FileName = exe,
@@ -289,6 +294,7 @@ internal class GameService
         catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
         {
             // Operation canceled
+            _logger.LogInformation("Start game operation canceled.");
             return null;
         }
     }

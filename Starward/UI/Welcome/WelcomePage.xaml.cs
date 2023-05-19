@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.UI.Xaml.Navigation;
 using System;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -19,7 +18,7 @@ public sealed partial class WelcomePage : Page
 
     public static WelcomePage Current { get; private set; }
 
-    public string ConfigDirecory { get; set; }
+    public string ConfigDirectory { get; set; }
 
 
     public WelcomePage()
@@ -36,7 +35,7 @@ public sealed partial class WelcomePage : Page
         this.InitializeComponent();
         if (first)
         {
-            frame.Content = new SelectLaunguagePage();
+            frame.Content = new SelectLanguagePage();
         }
         else
         {

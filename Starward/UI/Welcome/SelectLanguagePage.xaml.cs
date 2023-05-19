@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -22,16 +23,17 @@ namespace Starward.UI.Welcome;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class SelectLaunguagePage : Page
+public sealed partial class SelectLanguagePage : Page
 {
 
+    private readonly ILogger<SelectLanguagePage> _logger = AppConfig.GetLogger<SelectLanguagePage>();
 
     private readonly HttpClient _httpClient = AppConfig.GetService<HttpClient>();
 
     private readonly MetadataClient _metadataClient = AppConfig.GetService<MetadataClient>();
 
 
-    public SelectLaunguagePage()
+    public SelectLanguagePage()
     {
         this.InitializeComponent();
 
@@ -87,9 +89,9 @@ public sealed partial class SelectLaunguagePage : Page
                     await _httpClient.GetByteArrayAsync(url_cf);
                     TextBlock_TestCND_CF.Text = $"{sw.ElapsedMilliseconds} ms";
                 }
-                catch (Exception ex)
+                catch (HttpRequestException)
                 {
-                    TextBlock_TestCND_CF.Text = ex.Message;
+                    TextBlock_TestCND_CF.Text = "网络异常";
                 }
                 finally
                 {
@@ -104,9 +106,9 @@ public sealed partial class SelectLaunguagePage : Page
                     await _httpClient.GetByteArrayAsync(url_gh);
                     TextBlock_TestCDN_GH.Text = $"{sw.ElapsedMilliseconds} ms";
                 }
-                catch (Exception ex)
+                catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_GH.Text = ex.Message;
+                    TextBlock_TestCDN_GH.Text = "网络异常";
                 }
                 finally
                 {
@@ -121,9 +123,9 @@ public sealed partial class SelectLaunguagePage : Page
                     await _httpClient.GetByteArrayAsync(url_jd);
                     TextBlock_TestCDN_JD.Text = $"{sw.ElapsedMilliseconds} ms";
                 }
-                catch (Exception ex)
+                catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_JD.Text = ex.Message;
+                    TextBlock_TestCDN_JD.Text = "网络异常";
                 }
                 finally
                 {
@@ -135,7 +137,7 @@ public sealed partial class SelectLaunguagePage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Test CDN");
         }
     }
 

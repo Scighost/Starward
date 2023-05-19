@@ -168,10 +168,7 @@ public class NotificationBehavior : Behavior<StackPanel>
                 {
                     buttonAction();
                 }
-                catch (Exception ex)
-                {
-
-                }
+                catch { }
             };
         }
         var infoBar = new InfoBar
@@ -190,10 +187,7 @@ public class NotificationBehavior : Behavior<StackPanel>
                 {
                     closedAction();
                 }
-                catch (Exception ex)
-                {
-
-                }
+                catch { }
             };
         }
         return infoBar;

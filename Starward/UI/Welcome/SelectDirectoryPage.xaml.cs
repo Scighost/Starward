@@ -55,10 +55,11 @@ public sealed partial class SelectDirectoryPage : Page
             var folder = await picker.PickSingleFolderAsync();
             if (folder != null)
             {
+                _logger.LogInformation("Select directory is '{Path}'", folder.Path);
                 var file = Path.Combine(folder.Path, Random.Shared.Next(int.MaxValue).ToString());
                 await File.WriteAllTextAsync(file, "");
                 File.Delete(file);
-                WelcomePage.Current.ConfigDirecory = folder.Path;
+                WelcomePage.Current.ConfigDirectory = folder.Path;
                 TargetDictionary = folder.Path;
                 Button_Next.IsEnabled = true;
             }
@@ -71,7 +72,7 @@ public sealed partial class SelectDirectoryPage : Page
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, null);
+            _logger.LogError(ex, "Select config directory");
             Button_Next.IsEnabled = false;
             TargetDictionary = ex.Message;
         }

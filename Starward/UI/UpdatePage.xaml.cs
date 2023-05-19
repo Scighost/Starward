@@ -13,6 +13,7 @@ using Starward.Service;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.System;
@@ -111,16 +112,20 @@ public sealed partial class UpdatePage : Page
                     GRid_Markdown.Visibility = Visibility.Visible;
                 }
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-
+                _logger.LogWarning("Cannot get github release: {error}", ex.Message);
             }
             newRelease = await _metadataClient.GetReleaseAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.OSArchitecture);
             NewVersion ??= newRelease;
         }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogWarning("Cannot get latest release: {error}", ex.Message);
+        }
         catch (Exception ex)
         {
-
+            _logger.LogWarning(ex, "Get release");
         }
     }
 
@@ -139,16 +144,14 @@ public sealed partial class UpdatePage : Page
                     "portable" => NewVersion.Portable,
                     _ => null,
                 };
+                _logger.LogInformation("Open url: {url}", url);
                 if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out var uri))
                 {
                     await Launcher.LaunchUriAsync(uri);
                 }
             }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -156,15 +159,13 @@ public sealed partial class UpdatePage : Page
     {
         try
         {
+            _logger.LogInformation("Open url: {url}", e.Link);
             if (Uri.TryCreate(e.Link, UriKind.RelativeOrAbsolute, out var uri))
             {
                 await Launcher.LaunchUriAsync(uri);
             }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -229,6 +230,7 @@ public sealed partial class UpdatePage : Page
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Update now");
             Button_Update.IsEnabled = true;
             Button_RemindLatter.IsEnabled = true;
             Button_IgnoreVersion.IsEnabled = true;
@@ -302,7 +304,7 @@ public sealed partial class UpdatePage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Update progress");
         }
     }
 
@@ -328,6 +330,7 @@ public sealed partial class UpdatePage : Page
         }
         catch (Exception ex)
         {
+            _logger.LogWarning(ex, "Restart");
             ErrorMessage = ex.Message;
         }
         finally

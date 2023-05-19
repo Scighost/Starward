@@ -59,6 +59,7 @@ public class LauncherService
             {
                 return file;
             }
+            _logger.LogWarning("Image file not found '{file}'", file);
         }
         name = AppConfig.GetBg(gameBiz);
         file = Path.Join(AppConfig.ConfigDirectory, "bg", name);

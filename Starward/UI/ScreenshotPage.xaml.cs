@@ -102,13 +102,18 @@ public sealed partial class ScreenshotPage : Page
                 var folder = _gameService.GetGameScreenshotPath(gameBiz);
                 if (folder != null)
                 {
+                    _logger.LogInformation("Screenshot folder is {folder}", folder);
                     Watcher = new ScreenshotWatcher(folder);
+                }
+                else
+                {
+                    _logger.LogWarning("Cannot find screenshot folder");
                 }
             }
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Initialize");
         }
     }
 
@@ -122,6 +127,7 @@ public sealed partial class ScreenshotPage : Page
             {
                 try
                 {
+                    _logger.LogInformation("Copy image: {file}", item.FullName);
                     var file = await StorageFile.GetFileFromPathAsync(item.FullName);
                     ClipboardHelper.SetBitmap(file);
                     button.Content = new FontIcon { Glyph = "\uE10B", FontSize = 16 };
@@ -130,7 +136,7 @@ public sealed partial class ScreenshotPage : Page
                 }
                 catch (Exception ex)
                 {
-
+                    _logger.LogError(ex, "Copy image");
                 }
             }
         }
@@ -148,13 +154,11 @@ public sealed partial class ScreenshotPage : Page
             var folder = _gameService.GetGameScreenshotPath(gameBiz);
             if (folder != null)
             {
+                _logger.LogInformation("Open folder: {folder}", folder);
                 await Launcher.LaunchFolderPathAsync(folder);
             }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -193,10 +197,7 @@ public sealed partial class ScreenshotPage : Page
                 ani.TryStart(Image_Large);
             }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -227,10 +228,7 @@ public sealed partial class ScreenshotPage : Page
                 Grid_ImageView.Opacity = 0;
             }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -265,10 +263,7 @@ public sealed partial class ScreenshotPage : Page
             }
             Image_Large.Source = bitmap;
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;
 using System;
 using System.Collections.ObjectModel;
@@ -9,6 +10,8 @@ namespace Starward.Model;
 
 public class ScreenshotWatcher : ObservableObject, IDisposable
 {
+
+    private readonly ILogger<ScreenshotWatcher> _logger = AppConfig.GetLogger<ScreenshotWatcher>();
 
 
     private FileSystemWatcher _watcher;
@@ -70,6 +73,7 @@ public class ScreenshotWatcher : ObservableObject, IDisposable
         {
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
+                _logger.LogInformation("File created: {file}", e.FullPath);
                 var fileInfo = new FileInfo(e.FullPath);
                 if (fileInfo.Exists)
                 {
@@ -88,10 +92,7 @@ public class ScreenshotWatcher : ObservableObject, IDisposable
                 }
             }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -102,6 +103,7 @@ public class ScreenshotWatcher : ObservableObject, IDisposable
         {
             if (e.ChangeType == WatcherChangeTypes.Deleted)
             {
+                _logger.LogInformation("File deleted: {file}", e.FullPath);
                 var path = Path.GetFullPath(e.FullPath);
                 var dq = MainWindow.Current.DispatcherQueue;
                 dq.TryEnqueue(() =>
@@ -128,9 +130,7 @@ public class ScreenshotWatcher : ObservableObject, IDisposable
                 });
             }
         }
-        catch (Exception ex)
-        {
-        }
+        catch { }
     }
 
 

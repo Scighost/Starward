@@ -19,6 +19,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Timers;
 using Windows.Storage.Pickers;
@@ -75,16 +76,13 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-            InitializeBameBiz();
+            InitializeGameBiz();
             UpdateGameState();
             GetGameAccount();
             await GetLauncherContentAsync();
             _timer.Start();
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -96,7 +94,7 @@ public sealed partial class LauncherPage : Page
 
 
 
-    private void InitializeBameBiz()
+    private void InitializeGameBiz()
     {
         try
         {
@@ -111,10 +109,7 @@ public sealed partial class LauncherPage : Page
             }
 #pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -158,9 +153,13 @@ public sealed partial class LauncherPage : Page
                 Grid_BannerAndPost.IsHitTestVisible = true;
             }
         }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogWarning("Cannot get game launcher content ({gamebiz}): {error}", gameBiz, ex.Message);
+        }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Get game launcher content ({gamebiz})", gameBiz);
         }
     }
 
@@ -197,13 +196,11 @@ public sealed partial class LauncherPage : Page
         {
             if (sender is FrameworkElement fe && fe.DataContext is LauncherBanner banner)
             {
+                _logger.LogInformation("Open banner {title}: {url}", banner.Name, banner.Url);
                 await Windows.System.Launcher.LaunchUriAsync(new Uri(banner.Url));
             }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -256,6 +253,7 @@ public sealed partial class LauncherPage : Page
     partial void OnInstallPathChanged(string value)
     {
         AppConfig.SetGameInstallPath(gameBiz, value);
+        _logger.LogInformation("Game install path {biz}: {path}", gameBiz, value);
     }
 
 
@@ -304,7 +302,7 @@ public sealed partial class LauncherPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Set StarRail FPS");
         }
     }
 
@@ -327,6 +325,7 @@ public sealed partial class LauncherPage : Page
             InstallPath = _gameService.GetGameInstallPath(gameBiz) ?? "---";
             if (!Directory.Exists(InstallPath))
             {
+                _logger.LogWarning("Game uninstalled ({biz})", gameBiz);
                 StartGameButtonText = "未安装游戏";
                 CanStartGame = false;
                 return;
@@ -342,11 +341,12 @@ public sealed partial class LauncherPage : Page
                 processTimer.Elapsed += (_, _) => CheckGameExited();
             }
             GameProcess = _gameService.GetGameProcess(gameBiz);
+            if (GameProcess != null)
+            {
+                _logger.LogInformation("Game is running ({name}, {pid})", GameProcess.ProcessName, GameProcess.Id);
+            }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -369,10 +369,7 @@ public sealed partial class LauncherPage : Page
                 }
             }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
@@ -384,19 +381,27 @@ public sealed partial class LauncherPage : Page
         {
             if (IgnoreRunningGame)
             {
-                _gameService.StartGame(gameBiz, IgnoreRunningGame);
+                var process = _gameService.StartGame(gameBiz, IgnoreRunningGame);
+                if (process != null)
+                {
+                    _logger.LogInformation("Game started ({name}, {pid})", process.ProcessName, process.Id);
+                }
             }
             else
             {
                 if (GameProcess?.HasExited ?? true)
                 {
                     GameProcess = _gameService.StartGame(gameBiz, IgnoreRunningGame);
+                    if (GameProcess != null)
+                    {
+                        _logger.LogInformation("Game started ({name}, {pid})", GameProcess.ProcessName, GameProcess.Id);
+                    }
                 }
             }
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Start game");
         }
     }
 
@@ -425,7 +430,7 @@ public sealed partial class LauncherPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Change game install path ({biz})", gameBiz);
         }
     }
 
@@ -469,7 +474,7 @@ public sealed partial class LauncherPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Cannot get game account ({biz})", gameBiz);
         }
     }
 
@@ -494,7 +499,7 @@ public sealed partial class LauncherPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Cannot change game {biz} account to {name}", gameBiz, SelectGameAccount?.Name);
         }
     }
 
@@ -515,7 +520,7 @@ public sealed partial class LauncherPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Save game account");
         }
     }
 
@@ -533,7 +538,7 @@ public sealed partial class LauncherPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Delete game account");
         }
     }
 
@@ -541,18 +546,6 @@ public sealed partial class LauncherPage : Page
 
 
     #endregion
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

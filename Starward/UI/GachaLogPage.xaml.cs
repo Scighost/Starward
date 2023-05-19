@@ -88,7 +88,7 @@ public sealed partial class GachaLogPage : Page
     partial void OnSelectUidChanged(int value)
     {
         AppConfig.SelectUidInGachaLogPage = value;
-        UpdateWarpTypeStats(value);
+        UpdateGachaTypeStats(value);
     }
 
 
@@ -156,13 +156,13 @@ public sealed partial class GachaLogPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Initialize");
         }
     }
 
 
 
-    private void UpdateWarpTypeStats(int uid)
+    private void UpdateGachaTypeStats(int uid)
     {
         try
         {
@@ -184,7 +184,7 @@ public sealed partial class GachaLogPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "UpdateGachaTypeStats");
         }
     }
 
@@ -231,6 +231,7 @@ public sealed partial class GachaLogPage : Page
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Update gacha log");
             NotificationBehavior.Instance.Error(ex);
         }
     }
@@ -255,7 +256,7 @@ public sealed partial class GachaLogPage : Page
             infoBar.Severity = InfoBarSeverity.Success;
             if (SelectUid == uid)
             {
-                UpdateWarpTypeStats(uid);
+                UpdateGachaTypeStats(uid);
             }
             else
             {
@@ -268,6 +269,7 @@ public sealed partial class GachaLogPage : Page
         }
         catch (MihoyoApiException ex)
         {
+            _logger.LogWarning("Request mihoyo api error: {error}", ex.Message);
             if (ex.ReturnCode == -101)
             {
                 // authkey timeout
@@ -310,6 +312,7 @@ public sealed partial class GachaLogPage : Page
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Input url");
             NotificationBehavior.Instance.Error(ex);
         }
     }
@@ -346,6 +349,7 @@ public sealed partial class GachaLogPage : Page
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Delete uid");
             NotificationBehavior.Instance.Error(ex);
         }
     }
@@ -356,6 +360,7 @@ public sealed partial class GachaLogPage : Page
     [RelayCommand]
     private async Task ExportWarpRecordAsync(string format)
     {
+        // todo
         try
         {
             if (SelectUid == 0)
@@ -387,6 +392,7 @@ public sealed partial class GachaLogPage : Page
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Export gacha log");
             NotificationBehavior.Instance.Error(ex);
         }
     }

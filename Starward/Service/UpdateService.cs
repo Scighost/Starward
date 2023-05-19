@@ -35,11 +35,12 @@ internal class UpdateService
 
     public async Task<ReleaseVersion?> CheckUpdateAsync(bool disableIgnore = false)
     {
-
+        _logger.LogInformation("Start to check update (Preview: {preview}, Arch: {arch})", AppConfig.EnablePreviewRelease, RuntimeInformation.OSArchitecture);
         NuGetVersion.TryParse(AppConfig.AppVersion, out var currentVersion);
         NuGetVersion.TryParse(AppConfig.IgnoreVersion, out var ignoreVersion);
         var release = await _metadataClient.GetVersionAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.OSArchitecture);
-        NuGetVersion.TryParse(release.Version, out var newVersion);
+        _logger.LogInformation("Current version: {0}, latest version: {1}, ignore version: {2}", AppConfig.AppVersion, release?.Version, ignoreVersion);
+        NuGetVersion.TryParse(release?.Version, out var newVersion);
         if (newVersion > currentVersion)
         {
             if (disableIgnore || newVersion > ignoreVersion)
@@ -260,6 +261,7 @@ internal class UpdateService
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Update failed");
             State = UpdateState.Stop;
             ErrorMessage = ex.Message;
         }
@@ -327,6 +329,7 @@ internal class UpdateService
             }
             catch (Exception ex)
             {
+                _logger.LogWarning("Download failed: {error}\r\n{url}", ex.Message, releaseFile.Url);
                 Interlocked.Add(ref progress_BytesDownloaded, -readLength);
             }
         }
