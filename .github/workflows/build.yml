@@ -64,7 +64,7 @@ jobs:
         ossutil config -e ${{ secrets.OSS_ENDPOINT }} -i ${{ secrets.ACCESS_KEY_ID }} -k ${{ secrets.ACCESS_KEY_SECRET }}
 
     - name: Upload to OSS
-      run: ossutil cp -rf ./build/release/ oss://starward/release/
+      run: ossutil cp -rf ./build/release/ oss://starward/release/ --meta Content-Type:multipart/mixed
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3.1.2
