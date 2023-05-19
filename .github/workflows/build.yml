@@ -2,6 +2,7 @@
 name: Build
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
 
@@ -95,8 +96,16 @@ jobs:
     - name: Push Metadata
       shell: pwsh
       run: |
-        $shortSha = "${{ github.event.head_commit.message }}".Substring(0, 7)
+        $shortSha = "${{ github.sha }}".Substring(0, 7)
         git config --global user.name '${{ github.actor }}'
         git config --global user.email '${{ github.actor }}@users.noreply.github.com'
         git commit -am "update metadata ${{ needs.build.outputs.version }} ($shortSha)"
         git push
+
+    - name: Upload to OSS
+      run: |
+        rm -rf ./.git ./.github
+        curl https://gosspublic.alicdn.com/ossutil/install.sh | sudo bash
+        ossutil config -e ${{ secrets.OSS_ENDPOINT }} -i ${{ secrets.ACCESS_KEY_ID }} -k ${{ secrets.ACCESS_KEY_SECRET }}
+        ossutil cp -rf ./ oss://starward/metadata/        
+        
