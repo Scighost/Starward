@@ -22,6 +22,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Timers;
+using Vanara.PInvoke;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 
@@ -384,6 +385,7 @@ public sealed partial class LauncherPage : Page
                 var process = _gameService.StartGame(gameBiz, IgnoreRunningGame);
                 if (process != null)
                 {
+                    User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
                     _logger.LogInformation("Game started ({name}, {pid})", process.ProcessName, process.Id);
                 }
             }
@@ -394,6 +396,7 @@ public sealed partial class LauncherPage : Page
                     GameProcess = _gameService.StartGame(gameBiz, IgnoreRunningGame);
                     if (GameProcess != null)
                     {
+                        User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
                         _logger.LogInformation("Game started ({name}, {pid})", GameProcess.ProcessName, GameProcess.Id);
                     }
                 }
