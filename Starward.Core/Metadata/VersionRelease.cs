@@ -58,7 +58,7 @@ public class ReleaseFile
     public string Hash { get; set; }
 
     [JsonIgnore]
-#if DEBUG
+#if DEBUG || DEV
     public string Url => $"https://starward.scighost.com/release/separate_files/dev/{Hash}";
 #else
     public string Url => $"https://starward.scighost.com/release/separate_files/{Hash}";

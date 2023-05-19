@@ -18,7 +18,7 @@ public class MetadataClient
 
     private string API_PREFIX = API_PREFIX_CLOUDFLARE;
 
-#if DEBUG
+#if DEBUG || DEV
     private const string API_VERSION = "dev";
 #else
     private const string API_VERSION = "v1";
@@ -82,7 +82,7 @@ public class MetadataClient
 
     public async Task<ReleaseVersion> GetVersionAsync(bool isPrerelease, Architecture architecture, CancellationToken cancellationToken = default)
     {
-#if DEBUG
+#if DEBUG || DEV
         isPrerelease = true;
 #endif
         var name = (isPrerelease, architecture) switch
@@ -101,7 +101,7 @@ public class MetadataClient
 
     public async Task<ReleaseVersion> GetReleaseAsync(bool isPrerelease, Architecture architecture, CancellationToken cancellationToken = default)
     {
-#if DEBUG
+#if DEBUG || DEV
         isPrerelease = true;
 #endif
         var name = (isPrerelease, architecture) switch
