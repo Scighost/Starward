@@ -144,7 +144,11 @@ internal abstract class GachaLogService
                 _logger.LogInformation($"Last gacha log id of uid {uid} is {endId}");
             }
             var internalProgress = new Progress<(GachaType GachaType, int Page)>((x) => progress?.Report($"正在获取 {x.GachaType.ToDescription()} 第 {x.Page} 页"));
-            var list = (await _client.GetGachaLogAsync(url, endId, lang, internalProgress)).ToList();
+            var list = (await _client.GetGachaLogAsync(url, endId, lang, internalProgress, cancellationToken)).ToList();
+            if (cancellationToken.IsCancellationRequested)
+            {
+                throw new TaskCanceledException();
+            }
             var oldCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
             InsertGachaLogItems(list);
             var newCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });

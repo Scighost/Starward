@@ -65,9 +65,9 @@
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel MinWidth="200" Spacing="8">
-                            <!--<TextBlock Margin="0,8,0,0" Text="语言" />
+                            <TextBlock Margin="0,8,0,0" Text="语言" />
                             <TextBox Text="{x:Bind GachaLanguage, Mode=TwoWay}" />
-                            <TextBlock Margin="0,8,0,0" Text="导出为" />
+                            <!--<TextBlock Margin="0,8,0,0" Text="导出为" />
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />

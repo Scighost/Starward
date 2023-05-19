@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
 using Windows.System;
@@ -244,14 +245,26 @@ public sealed partial class GachaLogPage : Page
         try
         {
             var uid = await _gachaLogService.GetUidFromGachaLogUrl(url);
+            var cancelSource = new CancellationTokenSource();
+            var button = new Button
+            {
+                Content = "取消",
+                HorizontalAlignment = HorizontalAlignment.Right,
+            };
             var infoBar = new InfoBar
             {
                 Severity = InfoBarSeverity.Informational,
-                Background = Application.Current.Resources["CustomAcrylicBrush"] as Brush
+                Background = Application.Current.Resources["CustomAcrylicBrush"] as Brush,
+                ActionButton = button,
+            };
+            button.Click += (_, _) =>
+            {
+                cancelSource.Cancel();
+                infoBar.Message = "操作已取消";
             };
             NotificationBehavior.Instance.Show(infoBar);
             var progress = new Progress<string>((str) => infoBar.Message = str);
-            var newUid = await _gachaLogService.GetGachaLogAsync(url, all, GachaLanguage, progress);
+            var newUid = await _gachaLogService.GetGachaLogAsync(url, all, GachaLanguage, progress, cancelSource.Token);
             infoBar.Title = $"Uid {newUid}";
             infoBar.Severity = InfoBarSeverity.Success;
             if (SelectUid == uid)
@@ -266,6 +279,10 @@ public sealed partial class GachaLogPage : Page
                 }
                 SelectUid = uid;
             }
+        }
+        catch (TaskCanceledException)
+        {
+            _logger.LogInformation("Get gacha log canceled");
         }
         catch (MihoyoApiException ex)
         {
