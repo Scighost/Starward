@@ -2,7 +2,6 @@
 name: Build
 
 on:
-  workflow_dispatch:
   push:
     branches: [ "main" ]
 
@@ -74,7 +73,7 @@ jobs:
 
 
   metadata:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
 
     steps:
@@ -93,11 +92,11 @@ jobs:
       with:
         name: metadata_arm64
 
-    - name: Create Metadata Pull Request
-      uses: peter-evans/create-pull-request@v5
-      with:
-        branch: update-metadata/dev
-        delete-branch: true
-        title: update metadata ${{ needs.build.outputs.version }}
-        commit-message: update metadata ${{ needs.build.outputs.version }}
-
+    - name: Push Metadata
+      shell: pwsh
+      run: |
+        $shortSha = "${{ github.event.head_commit.message }}".Substring(0, 7)
+        git config --global user.name '${{ github.actor }}'
+        git config --global user.email '${{ github.actor }}@users.noreply.github.com'
+        git commit -am "update metadata ${{ needs.build.outputs.version }} ($shortSha)"
+        git push
