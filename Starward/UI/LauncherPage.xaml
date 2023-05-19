@@ -214,7 +214,11 @@
                             <Button Command="{x:Bind ChangeGameInstallPathCommand}" Content="修改" />
                             <TextBlock Margin="0,8,0,0" Text="启动参数" />
                             <TextBox IsSpellCheckEnabled="False" Text="{x:Bind StartGameArgument, Mode=TwoWay}" />
-                            <TextBlock Margin="0,8,0,0" Text="FPS" />
+                            <TextBlock Margin="0,8,0,0">
+                                <Run Text="FPS" />
+                                <Run Text="" />
+                                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="仅支持星穹铁道" />
+                            </TextBlock>
                             <NumberBox Name="NumberBox_FPS"
                                        IsEnabled="False"
                                        Maximum="320"

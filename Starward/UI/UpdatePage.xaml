@@ -52,7 +52,7 @@
                 <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind NewVersion.Architecture}" />
             </TextBlock>
             <TextBlock>
-                <Run Text="更新通道：" />
+                <Run Text="更新渠道：" />
                 <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind ChannelText}" />
             </TextBlock>
             <TextBlock>
