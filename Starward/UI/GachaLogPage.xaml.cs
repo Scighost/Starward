@@ -261,12 +261,14 @@ public sealed partial class GachaLogPage : Page
             {
                 cancelSource.Cancel();
                 infoBar.Message = "操作已取消";
+                infoBar.ActionButton = null;
             };
             NotificationBehavior.Instance.Show(infoBar);
             var progress = new Progress<string>((str) => infoBar.Message = str);
             var newUid = await _gachaLogService.GetGachaLogAsync(url, all, GachaLanguage, progress, cancelSource.Token);
             infoBar.Title = $"Uid {newUid}";
             infoBar.Severity = InfoBarSeverity.Success;
+            infoBar.ActionButton = null;
             if (SelectUid == uid)
             {
                 UpdateGachaTypeStats(uid);
