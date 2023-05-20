@@ -2,41 +2,24 @@
 name: Build
 
 on:
-  workflow_dispatch:
   push:
     branches: [ "main" ]
-
-permissions:
-  pull-requests: write
-  contents: write
+  pull_request:
+    branches: [ "main" ]
 
 
 jobs:
 
-  version:
-    runs-on: windows-latest
-    outputs: 
-      version: ${{ steps.generate_version.outputs.version }}
-    steps:
-    - name: Generate Version
-      id: generate_version
-      run: |
-        $id = (Get-Date).ToString('yyMMddHHmm')
-        $version = "0.0.1-dev.$id"
-        echo "version=$version" >> $env:GITHUB_OUTPUT
-
-
   build:
     runs-on: windows-latest
-    needs: version
-    outputs:
-      version: ${{ needs.version.outputs.version }}
     strategy:
       matrix:
+        configuration: [Debug, Release]
         platform: [x64, arm64]
+
     env:
+      Configuration: ${{ matrix.configuration }}
       Platform: ${{ matrix.platform }}
-      Version: ${{ needs.version.outputs.version }}
 
     steps:
     - name: Checkout
@@ -50,62 +33,11 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.3.1
 
+    - name: Restore
+      run: dotnet restore Starward
+
     - name: Build
-      run: ./build.ps1 -Architecture $env:Platform -Version $env:Version -Dev
-
-    - name: Metadata
-      run: ./metadata.ps1 -Architecture $env:Platform -Version $env:Version -Dev
-
-    - name: Setup OssUtil
       run: |
-        Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/1.7.15/ossutil-v1.7.15-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
-        Expand-Archive -Path ${{runner.temp}}/ossutil.zip -DestinationPath ${{runner.temp}}
-        Move-Item -Path ${{runner.temp}}/ossutil-v1.7.15-windows-amd64/ossutil64.exe -Destination C:/Windows/System32/ossutil.exe -Force
-        ossutil config -e ${{ secrets.OSS_ENDPOINT }} -i ${{ secrets.ACCESS_KEY_ID }} -k ${{ secrets.ACCESS_KEY_SECRET }}
+        msbuild Starward.Launcher "-property:Configuration=$env:Configuration;Platform=$env:Platform"
+        dotnet build Starward -c $env:Configuration -p:Platform=$env:Platform
 
-    - name: Upload to OSS
-      run: ossutil cp -rf ./build/release/ oss://starward/release/ --meta Content-Type:multipart/mixed
-
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v3.1.2
-      with:
-        name: metadata_${{ matrix.platform }}
-        path: build/metadata/
-
-
-  metadata:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-    - name: Checkout Metadata
-      uses: actions/checkout@v3
-      with:
-        ref: metadata
-
-    - name: Download Artifact x64
-      uses: actions/download-artifact@v3.0.2
-      with:
-        name: metadata_x64
-
-    - name: Download Artifact arm64
-      uses: actions/download-artifact@v3.0.2
-      with:
-        name: metadata_arm64
-
-    - name: Push Metadata
-      shell: pwsh
-      run: |
-        $shortSha = "${{ github.sha }}".Substring(0, 7)
-        git config --global user.name '${{ github.actor }}'
-        git config --global user.email '${{ github.actor }}@users.noreply.github.com'
-        git commit -am "update metadata ${{ needs.build.outputs.version }} ($shortSha)"
-        git push
-
-    - name: Upload to OSS
-      run: |
-        rm -rf ./.git ./.github
-        curl https://gosspublic.alicdn.com/ossutil/install.sh | sudo bash
-        ossutil config -e ${{ secrets.OSS_ENDPOINT }} -i ${{ secrets.ACCESS_KEY_ID }} -k ${{ secrets.ACCESS_KEY_SECRET }}
-        ossutil cp -rf ./ oss://starward/metadata/        
-        

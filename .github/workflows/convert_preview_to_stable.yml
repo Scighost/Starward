@@ -1,5 +1,5 @@
 
-name: Publish Stable
+name: Convert Preview to Stable
 
 on:
   workflow_dispatch:
