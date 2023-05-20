@@ -18,11 +18,13 @@ jobs:
 
     - name: Copy Files
       shell: pwsh
+      env:
+        V: v1
       run: |
-        Copy-Item dev/release_preview_arm64.json dev/release_stable_arm64.json -Force
-        Copy-Item dev/release_preview_x64.json dev/release_stable_x64.json -Force
-        Copy-Item dev/version_preview_x64.json dev/version_stable_x64.json -Force
-        Copy-Item dev/version_preview_x64.json dev/version_stable_x64.json -Force
+        Copy-Item $env:V/release_preview_arm64.json $env:V/release_stable_arm64.json -Force
+        Copy-Item $env:V/release_preview_x64.json $env:V/release_stable_x64.json -Force
+        Copy-Item $env:V/version_preview_arm64.json $env:V/version_stable_arm64.json -Force
+        Copy-Item $env:V/version_preview_x64.json $env:V/version_stable_x64.json -Force
 
     - name: Push Metadata
       run: |
