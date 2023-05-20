@@ -1,0 +1,39 @@
+
+name: Publish Stable
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  upload:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Metadata
+      uses: actions/checkout@v3
+      with:
+        ref: metadata
+
+    - name: Copy Files
+      shell: pwsh
+      run: |
+        Copy-Item dev/release_preview_arm64.json dev/release_stable_arm64.json -Force
+        Copy-Item dev/release_preview_x64.json dev/release_stable_x64.json -Force
+        Copy-Item dev/version_preview_x64.json dev/version_stable_x64.json -Force
+        Copy-Item dev/version_preview_x64.json dev/version_stable_x64.json -Force
+
+    - name: Push Metadata
+      run: |
+        git config --global user.name '${{ github.actor }}'
+        git config --global user.email '${{ github.actor }}@users.noreply.github.com'
+        git commit -am "publish stable version"
+        git push
+
+    - name: Upload to OSS
+      run: |
+        rm -rf ./.git ./.github
+        curl https://gosspublic.alicdn.com/ossutil/install.sh | sudo bash
+        ossutil config -e ${{ secrets.OSS_ENDPOINT }} -i ${{ secrets.ACCESS_KEY_ID }} -k ${{ secrets.ACCESS_KEY_SECRET }}
+        ossutil cp -rf ./ oss://starward/metadata/    
