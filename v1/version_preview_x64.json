@@ -1,7 +1,7 @@
 {
   "InstallSize": 0,
   "DisableAutoUpdate": false,
-  "Portable": "https://starward.scighost.com/release/package/dev/Starward_Portable_0.2.0_x64.7z",
+  "Portable": "https://starward.scighost.com/release/package/Starward_Portable_0.2.0_x64.7z",
   "PortableSize": 31262748,
   "Version": "0.2.0",
   "PortableHash": "07653EFB079D781EAD9179E52A58527A260DF7BE19C8A97D2D1498672D266EFE",

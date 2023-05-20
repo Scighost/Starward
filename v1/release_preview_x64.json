@@ -1,7 +1,7 @@
 {
   "InstallSize": 0,
   "DisableAutoUpdate": false,
-  "Portable": "https://starward.scighost.com/release/package/dev/Starward_Portable_0.2.0_x64.7z",
+  "Portable": "https://starward.scighost.com/release/package/Starward_Portable_0.2.0_x64.7z",
   "SeparateFiles": [
     {
       "Path": "config.ini",
