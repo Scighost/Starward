@@ -130,12 +130,10 @@
         <MenuFlyoutSeparator Grid.Row="10" />
 
         <ItemsRepeater Grid.Row="11" ItemsSource="{x:Bind WarpTypeStats.List_5}">
-            <ItemsRepeater.Layout>
-                <StackLayout Spacing="4" />
-            </ItemsRepeater.Layout>
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="sm:GachaLogItemEx">
                     <Grid Name="Grid_Rarity5Item"
+                          Height="24"
                           Background="Transparent"
                           ColumnSpacing="8"
                           PointerEntered="Grid_Rarity5Item_PointerEntered"
