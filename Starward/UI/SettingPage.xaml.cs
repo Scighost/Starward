@@ -380,6 +380,40 @@ public sealed partial class SettingPage : Page
     }
 
 
+    [RelayCommand]
+    private async Task DeleteAllSettingAsync()
+    {
+        try
+        {
+            var dialog = new ContentDialog
+            {
+                Title = "删除所有设置",
+                Content = "删除完成后，会自动重启应用程序。",
+                PrimaryButtonText = "删除",
+                SecondaryButtonText = "取消",
+                DefaultButton = ContentDialogButton.Secondary,
+                XamlRoot = this.XamlRoot,
+            };
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                Registry.CurrentUser.OpenSubKey(@"Software", true)?.DeleteSubKeyTree("Starward");
+                var exe = Process.GetCurrentProcess().MainModule?.FileName;
+                if (File.Exists(exe))
+                {
+                    Process.Start(exe);
+                    Environment.Exit(0);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Delete all setting");
+        }
+
+    }
+
+
     #endregion
 
 

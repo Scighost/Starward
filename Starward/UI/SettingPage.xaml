@@ -236,6 +236,18 @@
                         Margin="-48,0,0,0"
                         Padding="48,0,16,0"
                         BorderThickness="0"
+                        Command="{x:Bind DeleteAllSettingCommand}"
+                        CornerRadius="0,20,20,0"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE107;" />
+                        <TextBlock Text="删除所有设置" />
+                    </StackPanel>
+                </Button>
+                <Button Height="40"
+                        Margin="-48,0,0,0"
+                        Padding="48,0,16,0"
+                        BorderThickness="0"
                         CornerRadius="0,20,20,0"
                         Style="{ThemeResource AccentButtonStyle}"
                         Visibility="Collapsed">
