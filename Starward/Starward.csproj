@@ -15,6 +15,9 @@
 		<WindowsPackageType>None</WindowsPackageType>
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+		<Deterministic>true</Deterministic>
+		<TieredCompilationQuickJitForLoops>true</TieredCompilationQuickJitForLoops>
+		<TieredPGO>true</TieredPGO>
 	</PropertyGroup>
 
 	<ItemGroup>

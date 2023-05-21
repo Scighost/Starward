@@ -250,7 +250,7 @@ public sealed partial class LauncherPage : Page
 
     [ObservableProperty]
     private string? installPath;
-    partial void OnInstallPathChanged(string value)
+    partial void OnInstallPathChanged(string? value)
     {
         AppConfig.SetGameInstallPath(gameBiz, value);
         _logger.LogInformation("Game install path {biz}: {path}", gameBiz, value);

@@ -309,6 +309,16 @@ internal abstract class AppConfig
 
 
 
+    public static string? GetLastUidInGachaLogPage(GameBiz biz)
+    {
+        return GetValue<string>(default, $"last_gacha_uid_{biz}");
+    }
+
+    public static void SetLastUidInGachaLogPage(GameBiz biz, int value)
+    {
+        SetValue(value, $"last_gacha_uid_{biz}");
+    }
+
 
 
 
