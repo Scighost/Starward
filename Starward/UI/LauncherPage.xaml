@@ -208,7 +208,7 @@
                             <TextBlock Margin="0,8,0,0" Text="安装位置" />
                             <TextBlock FontSize="12"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       Text="{x:Bind InstallPath}"
+                                       Text="{x:Bind InstallPath, TargetNullValue=---}"
                                        TextTrimming="CharacterEllipsis"
                                        ToolTipService.ToolTip="{x:Bind InstallPath}" />
                             <Button Command="{x:Bind ChangeGameInstallPathCommand}" Content="修改" />

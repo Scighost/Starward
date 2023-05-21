@@ -73,10 +73,7 @@ public sealed partial class MainPage : Page
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        if (BackgroundImage is null)
-        {
-            await UpdateBackgroundImageAsync();
-        }
+        await UpdateBackgroundImageAsync();
         await CheckUpdateAsync();
     }
 

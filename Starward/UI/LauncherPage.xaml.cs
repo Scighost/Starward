@@ -249,7 +249,7 @@ public sealed partial class LauncherPage : Page
 
 
     [ObservableProperty]
-    private string installPath;
+    private string? installPath;
     partial void OnInstallPathChanged(string value)
     {
         AppConfig.SetGameInstallPath(gameBiz, value);
@@ -322,7 +322,7 @@ public sealed partial class LauncherPage : Page
         try
         {
             CanStartGame = true;
-            InstallPath = _gameService.GetGameInstallPath(gameBiz) ?? "---";
+            InstallPath = _gameService.GetGameInstallPath(gameBiz);
             if (!Directory.Exists(InstallPath))
             {
                 _logger.LogWarning("Game uninstalled ({biz})", gameBiz);
@@ -421,7 +421,7 @@ public sealed partial class LauncherPage : Page
             }
             else
             {
-                InstallPath = "---";
+                InstallPath = null;
             }
             UpdateGameState();
         }
