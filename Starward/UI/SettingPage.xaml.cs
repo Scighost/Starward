@@ -14,15 +14,14 @@ using Starward.Helper;
 using Starward.Service;
 using Starward.UI.Welcome;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
-using Windows.Storage.Pickers;
 using Windows.System;
-using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -237,29 +236,18 @@ public sealed partial class SettingPage : Page
     {
         try
         {
-            var picker = new FileOpenPicker
+            var filter = new List<(string, string)> { ("Image", "*.bmp;*.jpeg;*.jpg;*.png;*.tif;*.tiff;*.avif;*.heic;*.webp") };
+            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.HWND, filter);
+            if (File.Exists(file))
             {
-                SuggestedStartLocation = PickerLocationId.ComputerFolder,
-            };
-            picker.FileTypeFilter.Add(".bmp");
-            picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".png");
-            picker.FileTypeFilter.Add(".tif");
-            picker.FileTypeFilter.Add(".avif");
-            picker.FileTypeFilter.Add(".heic");
-            picker.FileTypeFilter.Add(".webp");
-            InitializeWithWindow.Initialize(picker, MainWindow.Current.HWND);
-            var file = await picker.PickSingleFileAsync();
-            if (file != null)
-            {
-                _logger.LogInformation("Background file is '{file}'", file.Path);
-                using var fs = await file.OpenReadAsync();
-                var decoder = await BitmapDecoder.CreateAsync(fs);
-                var name = Path.GetFileName(file.Path);
+                _logger.LogInformation("Background file is '{file}'", file);
+                using var fs = File.OpenRead(file);
+                var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
+                var name = Path.GetFileName(file);
                 var dest = Path.Combine(AppConfig.ConfigDirectory, "bg", name);
-                if (file.Path != dest)
+                if (file != dest)
                 {
-                    File.Copy(file.Path, dest, true);
+                    File.Copy(file, dest, true);
                     _logger.LogInformation("File copied to '{dest}'", dest);
                 }
                 CustomBg = name;

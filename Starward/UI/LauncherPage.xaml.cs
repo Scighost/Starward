@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Launcher;
+using Starward.Helper;
 using Starward.Model;
 using Starward.Service;
 using System;
@@ -23,8 +24,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Timers;
 using Vanara.PInvoke;
-using Windows.Storage.Pickers;
-using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -415,15 +414,10 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-            var picker = new FolderPicker
+            var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+            if (Directory.Exists(folder))
             {
-                SuggestedStartLocation = PickerLocationId.ComputerFolder,
-            };
-            InitializeWithWindow.Initialize(picker, MainWindow.Current.HWND);
-            var folder = await picker.PickSingleFolderAsync();
-            if (folder != null)
-            {
-                InstallPath = folder.Path;
+                InstallPath = folder;
             }
             else
             {

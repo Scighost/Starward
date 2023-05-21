@@ -20,9 +20,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage.Pickers;
+using Windows.Storage;
 using Windows.System;
-using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -389,24 +388,19 @@ public sealed partial class GachaLogPage : Page
             int uid = SelectUid;
             var ext = format switch
             {
-                "excel" => ".xlsx",
-                "json" => ".json",
-                _ => ".json"
+                "excel" => "xlsx",
+                "json" => "json",
+                _ => "json"
             };
-            var picker = new FileSavePicker
-            {
-                SuggestedStartLocation = PickerLocationId.Downloads,
-                SuggestedFileName = $"Stardward_Export_WarpRecords_{uid}_{DateTime.Now:yyyyMMddHHmmss}",
-            };
-            picker.FileTypeChoices.Add(format, new string[] { ext });
-            InitializeWithWindow.Initialize(picker, MainWindow.Current.HWND);
-            var file = await picker.PickSaveFileAsync();
+            var suggetName = $"Stardward_Export_GachaLog_{uid}_{DateTime.Now:yyyyMMddHHmmss}";
+            var file = await FileDialogHelper.OpenSaveFileDialogAsync(MainWindow.Current.HWND, suggetName, true, new (string, string)[] { (ext, $"*.{ext}") });
             if (file is not null)
             {
-                _gachaLogService.ExportGachaLog(uid, file.Path, format);
+                _gachaLogService.ExportGachaLog(uid, file, format);
+                var storageFile = await StorageFile.GetFileFromPathAsync(file);
                 var options = new FolderLauncherOptions();
-                options.ItemsToSelect.Add(file);
-                NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Success, "成功导出", file.Name, "打开文件夹", async () => await Launcher.LaunchFolderAsync(await file.GetParentAsync(), options));
+                options.ItemsToSelect.Add(storageFile);
+                NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Success, "成功导出", suggetName, "打开文件夹", async () => await Launcher.LaunchFolderAsync(await storageFile.GetParentAsync(), options));
             }
         }
         catch (Exception ex)

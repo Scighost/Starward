@@ -6,11 +6,10 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using Starward.Helper;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.Storage.Pickers;
-using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -47,20 +46,15 @@ public sealed partial class SelectDirectoryPage : Page
     {
         try
         {
-            var picker = new FolderPicker
+            var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+            if (Directory.Exists(folder))
             {
-                SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
-            };
-            InitializeWithWindow.Initialize(picker, MainWindow.Current.HWND);
-            var folder = await picker.PickSingleFolderAsync();
-            if (folder != null)
-            {
-                _logger.LogInformation("Select directory is '{Path}'", folder.Path);
-                var file = Path.Combine(folder.Path, Random.Shared.Next(int.MaxValue).ToString());
+                _logger.LogInformation("Select directory is '{Path}'", folder);
+                var file = Path.Combine(folder, Random.Shared.Next(int.MaxValue).ToString());
                 await File.WriteAllTextAsync(file, "");
                 File.Delete(file);
-                WelcomePage.Current.ConfigDirectory = folder.Path;
-                TargetDictionary = folder.Path;
+                WelcomePage.Current.ConfigDirectory = folder;
+                TargetDictionary = folder;
                 Button_Next.IsEnabled = true;
             }
         }
