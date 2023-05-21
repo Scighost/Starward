@@ -4,6 +4,9 @@ name: Convert Preview to Stable
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
 
   upload:
@@ -30,7 +33,7 @@ jobs:
       run: |
         git config --global user.name '${{ github.actor }}'
         git config --global user.email '${{ github.actor }}@users.noreply.github.com'
-        git commit -am "publish stable version"
+        git commit -am "convert preview to stable"
         git push
 
     - name: Upload to OSS
