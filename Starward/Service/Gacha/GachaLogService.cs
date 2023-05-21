@@ -189,8 +189,8 @@ internal abstract class GachaLogService
                     stats.Ratio_3 = (double)stats.Count_3 / stats.Count;
                     stats.List_5 = list.Where(x => x.RankType == 5).Reverse().ToList();
                     stats.List_4 = list.Where(x => x.RankType == 4).Reverse().ToList();
-                    stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
                     stats.Pity_5 = list.Last().Pity;
+                    stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
                     stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 4);
                 }
                 statsList.Add(stats);
