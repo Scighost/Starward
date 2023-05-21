@@ -18,20 +18,39 @@
             </ResourceDictionary.MergedDictionaries>
             <!--  Other app resources here  -->
 
+            <ThemeShadow x:Key="ThemeShadow" />
 
+            <!--  Converter  -->
             <scv:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
             <scv:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
             <scv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <scv:BoolToVisibilityReversedConverter x:Key="BoolToVisibilityReversedConverter" />
 
+            <!--  Custom Acrylic  -->
             <AcrylicBrush x:Key="CustomAcrylicBrush"
                           FallbackColor="{ThemeResource ControlOnImageFillColorDefault}"
                           TintColor="{ThemeResource ControlOnImageFillColorDefault}"
                           TintOpacity="0.5" />
 
+            <Thickness x:Key="NavigationViewBorderThickness">0</Thickness>
+            <StaticResource x:Key="ComboBoxDropDownBackground" ResourceKey="CustomAcrylicBrush" />
+            <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="CustomAcrylicBrush" />
+            <StaticResource x:Key="ContentDialogTopOverlay" ResourceKey="ControlFillColorTransparentBrush" />
 
-            <ThemeShadow x:Key="ThemeShadow" />
+            <Style BasedOn="{StaticResource DefaultContentDialogStyle}" TargetType="ContentDialog">
+                <Setter Property="Background" Value="{ThemeResource CustomAcrylicBrush}" />
+            </Style>
 
+            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                <Setter Property="Background" Value="{ThemeResource CustomAcrylicBrush}" />
+            </Style>
+
+            <Style BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}" TargetType="MenuFlyoutPresenter">
+                <Setter Property="Background" Value="{ThemeResource CustomAcrylicBrush}" />
+            </Style>
+
+
+            <!--  Accent Color  -->
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <Color x:Key="SystemAccentColor">#ffd52a</Color>
