@@ -25,8 +25,8 @@ public sealed partial class WelcomePage : Page
     {
         Current = this;
         this.InitializeComponent();
-        frame.Content = new SelectDirectoryPage();
         MainWindow.Current.ChangeAccentColor(null);
+        frame.Content = new SelectDirectoryPage();
     }
 
 
@@ -34,6 +34,7 @@ public sealed partial class WelcomePage : Page
     {
         Current = this;
         this.InitializeComponent();
+        MainWindow.Current.ChangeAccentColor(null);
         if (first)
         {
             frame.Content = new SelectLanguagePage();

@@ -242,6 +242,11 @@ public sealed partial class MainPage : Page
                 }
                 MainWindow.Current.ChangeAccentColor(color);
             }
+            else
+            {
+                BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
+                MainWindow.Current.ChangeAccentColor(null);
+            }
         }
         catch (Exception ex)
         {
