@@ -5,14 +5,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:Starward"
-             xmlns:sct="using:Starward.Control"
-             xmlns:scv="using:Starward.Converter">
+             xmlns:sct="using:Starward.Controls"
+             xmlns:scv="using:Starward.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
-                <ResourceDictionary Source="Theme/CachedImageStyle.xaml" />
+                <ResourceDictionary Source="Themes/CachedImageStyle.xaml" />
 
                 <!--  Other merged dictionaries here  -->
             </ResourceDictionary.MergedDictionaries>

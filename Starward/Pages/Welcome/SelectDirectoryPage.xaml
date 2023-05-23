@@ -1,0 +1,111 @@
+﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<Page x:Class="Starward.Pages.Welcome.SelectDirectoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Starward.Pages.Welcome"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      x:DefaultBindMode="OneWay"
+      mc:Ignorable="d">
+
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel Grid.Column="1"
+                    Margin="0,48,96,96"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Spacing="40">
+            <TextBlock FontSize="20"
+                       Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                       Text="很高兴遇见你~" />
+            <TextBlock FontSize="20" TextWrapping="Wrap">
+                <Run Text="这似乎是你第一次使用" />
+                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="Starward" />
+                <Run Text="，在开始之前，请选择一个文件夹保存应用数据。" />
+            </TextBlock>
+            <Button Height="36"
+                    BorderThickness="0"
+                    Command="{x:Bind SelectDirectoryCommand}"
+                    CornerRadius="18"
+                    Style="{ThemeResource AccentButtonStyle}">
+                <StackPanel Margin="8,0,8,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <FontIcon VerticalAlignment="Center"
+                              FontSize="16"
+                              Glyph="&#xE838;" />
+                    <TextBlock VerticalAlignment="Center" Text="选择文件夹" />
+                </StackPanel>
+            </Button>
+
+            <TextBlock Margin="0,-24,0,0"
+                       Text="{x:Bind TargetDictionary}"
+                       TextWrapping="Wrap" />
+
+        </StackPanel>
+
+
+
+
+        <!--  Select Language  -->
+        <Button Name="Button_Preview"
+                Grid.Column="0"
+                Height="40"
+                Margin="48"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                BorderThickness="0"
+                Command="{x:Bind PreviewCommand}"
+                CornerRadius="20"
+                IsEnabled="True"
+                Shadow="{ThemeResource ThemeShadow}"
+                Style="{ThemeResource AccentButtonStyle}"
+                Translation="0,0,8"
+                Visibility="Collapsed">
+            <StackPanel Margin="20,0,20,0"
+                        Orientation="Horizontal"
+                        Spacing="16">
+                <FontIcon VerticalAlignment="Bottom"
+                          FontSize="16"
+                          FontWeight="SemiBold"
+                          Glyph="&#xEC52;" />
+                <TextBlock VerticalAlignment="Center" Text="选择语言" />
+            </StackPanel>
+        </Button>
+
+
+        <!--  Select Game  -->
+        <Button Name="Button_Next"
+                Grid.Column="1"
+                Height="40"
+                Margin="48"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                BorderThickness="0"
+                Command="{x:Bind NextCommand}"
+                CornerRadius="20"
+                IsEnabled="False"
+                Shadow="{ThemeResource ThemeShadow}"
+                Style="{ThemeResource AccentButtonStyle}"
+                Translation="0,0,8">
+            <StackPanel Margin="20,0,20,0"
+                        Orientation="Horizontal"
+                        Spacing="16">
+                <TextBlock VerticalAlignment="Center" Text="选择游戏" />
+                <FontIcon VerticalAlignment="Bottom"
+                          FontSize="16"
+                          FontWeight="SemiBold"
+                          Glyph="&#xEBE7;" />
+            </StackPanel>
+        </Button>
+    </Grid>
+</Page>

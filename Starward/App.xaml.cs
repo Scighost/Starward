@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
-using Starward.Helper;
+using Starward.Helpers;
 using System;
 using System.IO;
 using System.Threading.Tasks;

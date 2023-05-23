@@ -8,8 +8,8 @@
         xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
         xmlns:local="using:Starward"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sh="using:Starward.Helper"
-        xmlns:sp="using:Starward.UI"
+        xmlns:sh="using:Starward.Helpers"
+        xmlns:sp="using:Starward.Pages"
         Closed="MainWindow_Closed"
         mc:Ignorable="d">
 
