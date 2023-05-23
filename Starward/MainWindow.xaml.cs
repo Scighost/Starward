@@ -30,6 +30,8 @@ public sealed partial class MainWindow : Window
 
     public IntPtr HWND { get; private set; }
 
+    public AppWindow AppWindow { get; private set; }
+
     public double UIScale => User32.GetDpiForWindow(HWND) / 96d;
 
 
@@ -58,7 +60,9 @@ public sealed partial class MainWindow : Window
     {
         Title = "Starward";
         HWND = WindowNative.GetWindowHandle(this);
-        var titleBar = this.AppWindow.TitleBar;
+        var id = Win32Interop.GetWindowIdFromWindow(HWND);
+        AppWindow = AppWindow.GetFromWindowId(id);
+        var titleBar = AppWindow.TitleBar;
         var len = (int)(48 * UIScale);
         titleBar.ExtendsContentIntoTitleBar = true;
         SetDragRectangles(new RectInt32(0, 0, 100000, len));
