@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 
 namespace Starward.Services;
 
@@ -79,23 +80,29 @@ internal class GameService
         string? folder = null;
         if (biz is GameBiz.hk4e_cloud)
         {
-            folder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            var config = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"GenshinImpactCloudGame\config\config.ini");
+            if (File.Exists(config))
+            {
+                var str = File.ReadAllText(config);
+                var escape = Regex.Match(str, @"save_game_screenshot_directory=(.+)").Groups[1].Value.Trim();
+                folder = Regex.Unescape(escape.Replace(@"\x", @"\u"));
+            }
         }
         else
         {
             folder = GetGameInstallPath(biz);
+            var relativePath = biz switch
+            {
+                GameBiz.hk4e_cn or GameBiz.hk4e_global => "ScreenShot",
+                GameBiz.hk4e_cloud => "GenshinImpactCloudGame",
+                GameBiz.hkrpg_cn or GameBiz.hkrpg_global => @"StarRail_Data\ScreenShots",
+                _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
+            };
+            folder = Path.Join(folder, relativePath);
         }
-        var relativePath = biz switch
+        if (Directory.Exists(folder))
         {
-            GameBiz.hk4e_cn or GameBiz.hk4e_global => "ScreenShot",
-            GameBiz.hk4e_cloud => "GenshinImpactCloudGame",
-            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => @"StarRail_Data\ScreenShots",
-            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
-        };
-        var path = Path.Join(folder, relativePath);
-        if (Directory.Exists(path))
-        {
-            return path;
+            return Path.GetFullPath(folder);
         }
         else
         {
