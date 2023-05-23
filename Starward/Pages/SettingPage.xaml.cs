@@ -11,8 +11,8 @@ using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.Metadata;
 using Starward.Helpers;
-using Starward.Services;
 using Starward.Pages.Welcome;
+using Starward.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,6 +21,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Windows.Storage;
 using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -84,7 +85,7 @@ public sealed partial class SettingPage : Page
 
 
 
-    #region Console
+    #region Log
 
 
     [ObservableProperty]
@@ -99,6 +100,30 @@ public sealed partial class SettingPage : Page
         else
         {
             ConsoleHelper.Hide();
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task OpenLogFolderAsync()
+    {
+        try
+        {
+            if (File.Exists(AppConfig.LogFile))
+            {
+                var item = await StorageFile.GetFileFromPathAsync(AppConfig.LogFile);
+                var options = new FolderLauncherOptions();
+                options.ItemsToSelect.Add(item);
+                await Launcher.LaunchFolderPathAsync(Path.GetDirectoryName(AppConfig.LogFile), options);
+            }
+            else
+            {
+                await Launcher.LaunchFolderPathAsync(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log"));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open log folder");
         }
     }
 

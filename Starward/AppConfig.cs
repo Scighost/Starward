@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
+using Serilog;
 using Starward.Core;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
@@ -36,6 +37,7 @@ internal abstract class AppConfig
     public static string ConfigDirectory { get; private set; }
 
 
+    public static string LogFile { get; private set; }
 
 
     public static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
@@ -94,8 +96,17 @@ internal abstract class AppConfig
     {
         if (_serviceProvider == null)
         {
+            var logFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log");
+            Directory.CreateDirectory(logFolder);
+            LogFile = Path.Combine(logFolder, $"Starward_{DateTime.Now:yyMMdd_HHmmss}.log");
+            Log.Logger = new LoggerConfiguration().WriteTo.File(path: LogFile, outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u4}]{NewLine}{Message}{NewLine}{Exception}{NewLine}")
+                                                  .Enrich.FromLogContext()
+                                                  .CreateLogger();
+            Log.Information($"Welcome to Starward v{AppVersion}\r\nSystem: {Environment.OSVersion}\r\nCommand Line: {Environment.CommandLine}");
+
             var sc = new ServiceCollection();
             sc.AddLogging(c => c.AddSimpleConsole(c => c.TimestampFormat = "HH:mm:ss.fff\r\n"));
+            sc.AddLogging(c => c.AddSerilog(Log.Logger));
             sc.AddTransient(_ => new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 });
 
             sc.AddSingleton<GenshinGachaClient>();

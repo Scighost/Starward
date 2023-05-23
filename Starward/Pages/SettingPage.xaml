@@ -32,6 +32,18 @@
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                            Text="下次启动时生效"
                            TextWrapping="Wrap" />
+                <Button Height="40"
+                        Margin="-48,0,0,0"
+                        Padding="48,0,16,0"
+                        BorderThickness="0"
+                        Command="{x:Bind OpenLogFolderCommand}"
+                        CornerRadius="0,20,20,0"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE838;" />
+                        <TextBlock Text="打开日志文件夹" />
+                    </StackPanel>
+                </Button>
 
                 <!--  cdn  -->
                 <TextBlock Margin="0,16,0,0"
