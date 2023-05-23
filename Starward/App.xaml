@@ -25,6 +25,7 @@
             <scv:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
             <scv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <scv:BoolToVisibilityReversedConverter x:Key="BoolToVisibilityReversedConverter" />
+            <scv:ByteLengthToStringConverter x:Key="ByteLengthToStringConverter" />
 
             <!--  Custom Acrylic  -->
             <AcrylicBrush x:Key="CustomAcrylicBrush"

@@ -102,6 +102,7 @@ internal class UpdateService
         ErrorMessage = string.Empty;
         updateFiles.Clear();
         releaseVersion = release;
+        State = UpdateState.Preparing;
         var baseFolder = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
         if (baseFolder == null)
         {
@@ -124,6 +125,11 @@ internal class UpdateService
             GetExistFiles();
             GetDownloadFiles();
         });
+        progress_BytesDownloaded = 0;
+        progress_FileCountDownloaded = 0;
+        Progress_BytesToDownload = downloadFiles.Sum(x => x.Size);
+        Progress_FileCountToDownload = downloadFiles.Count;
+        State = UpdateState.Pending;
     }
 
 
@@ -224,6 +230,11 @@ internal class UpdateService
     public void Stop()
     {
         source?.Cancel();
+        State = UpdateState.Stop;
+        progress_BytesDownloaded = 0;
+        progress_FileCountDownloaded = 0;
+        Progress_BytesToDownload = 0;
+        Progress_FileCountToDownload = 0;
     }
 
 
@@ -245,7 +256,7 @@ internal class UpdateService
             var check = CheckDownloadFiles();
             if (!check)
             {
-                throw new Exception();
+                throw new Exception("File verification failed");
             }
             if (source.IsCancellationRequested)
             {
@@ -262,7 +273,7 @@ internal class UpdateService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Update failed");
-            State = UpdateState.Stop;
+            State = UpdateState.Error;
             ErrorMessage = ex.Message;
         }
 
@@ -303,6 +314,7 @@ internal class UpdateService
         {
             try
             {
+                readLength = 0;
                 var file = Path.Combine(updateFolder, releaseFile.Hash);
                 if (!File.Exists(file))
                 {
@@ -327,10 +339,14 @@ internal class UpdateService
                 Interlocked.Add(ref progress_BytesDownloaded, -readLength);
                 break;
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
                 _logger.LogWarning("Download failed: {error}\r\n{url}", ex.Message, releaseFile.Url);
                 Interlocked.Add(ref progress_BytesDownloaded, -readLength);
+                if (i == 2)
+                {
+                    throw;
+                }
             }
         }
     }
@@ -382,6 +398,8 @@ internal class UpdateService
     {
         Stop,
 
+        Preparing,
+
         Pending,
 
         Downloading,
@@ -391,6 +409,8 @@ internal class UpdateService
         Checking,
 
         Finish,
+
+        Error,
     }
 
 

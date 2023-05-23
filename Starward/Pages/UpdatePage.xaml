@@ -59,20 +59,38 @@
                 <Run Text="编译时间：" />
                 <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind NewVersion.BuildTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
             </TextBlock>
-            <StackPanel Orientation="Horizontal" Spacing="4">
-                <TextBlock VerticalAlignment="Center" Text="相关链接：" />
-                <HyperlinkButton Click="HyperlinkButton_Click"
-                                 Content="发布页面"
-                                 Tag="release" />
-                <HyperlinkButton Click="HyperlinkButton_Click"
-                                 Content="安装包下载"
-                                 Tag="install"
-                                 Visibility="{x:Bind NewVersion.Install, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                <HyperlinkButton Click="HyperlinkButton_Click"
-                                 Content="便携版下载"
-                                 Tag="portable"
-                                 Visibility="{x:Bind NewVersion.Portable, Converter={StaticResource ObjectToVisibilityConverter}}" />
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="0,6,0,0"
+                           VerticalAlignment="Top"
+                           Text="相关链接：" />
+                <StackPanel Grid.Column="1" Spacing="4">
+                    <HyperlinkButton Click="HyperlinkButton_Click"
+                                     Content="发布页面"
+                                     Tag="release" />
+                    <HyperlinkButton Click="HyperlinkButton_Click"
+                                     Tag="install"
+                                     Visibility="{x:Bind NewVersion.Install, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <TextBlock>
+                            <Run Text="安装包下载" />
+                            <Run Text="" />
+                            <Run Text="(" /><Run Text="{x:Bind NewVersion.InstallSize, Converter={StaticResource ByteLengthToStringConverter}}" /><Run Text=")" />
+                        </TextBlock>
+                    </HyperlinkButton>
+                    <HyperlinkButton Click="HyperlinkButton_Click"
+                                     Tag="portable"
+                                     Visibility="{x:Bind NewVersion.Portable, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <TextBlock>
+                            <Run Text="便携版下载" />
+                            <Run Text="" />
+                            <Run Text="(" /><Run Text="{x:Bind NewVersion.PortableSize, Converter={StaticResource ByteLengthToStringConverter}}" /><Run Text=")" />
+                        </TextBlock>
+                    </HyperlinkButton>
+                </StackPanel>
+            </Grid>
         </StackPanel>
 
 
