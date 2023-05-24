@@ -13,66 +13,79 @@ using namespace std::filesystem;
 
 int wmain(int argc, wchar_t* argv[])
 {
-	std::wstring exe, arg = std::wstring(GetCommandLine()).substr(std::wstring(argv[0]).length() + 2);
+	std::wstring run_exe, arg = std::wstring(GetCommandLine()).substr(std::wstring(argv[0]).length() + 2);
 
-	auto folder = path(argv[0]).parent_path();
-	auto config = path(folder).append("config.ini");
+	auto base_folder = path(argv[0]).parent_path();
+	auto config = path(base_folder).append("config.ini");
 	if (exists(config))
 	{
 		INIReader ini(config.string());
 		if (ini.ParseError() == 0)
 		{
 			auto app_folder = ini.Get("", "app_folder", "");
-			auto exe_name = ini.Get("", "exe_name", "Starward.exe");
-			auto _exe = path(folder).append(app_folder).append(exe_name);
-			if (exists(_exe))
+			if (app_folder.length())
 			{
-				exe = _exe.wstring();
+				auto exe_name = ini.Get("", "exe_name", "Starward.exe");
+				auto target_exe = path(base_folder).append(app_folder).append(exe_name);
+				if (exists(target_exe))
+				{
+					run_exe = target_exe.wstring();
+				}
 			}
 		}
 	}
 
-	if (!exe.length())
+	if (!run_exe.length())
 	{
-		path _exe;
-		file_time_type time;
-		for (auto d : directory_iterator(folder))
+		path target_exe;
+		file_time_type last_time;
+		for (auto folder : directory_iterator(base_folder))
 		{
-			if (d.is_directory())
+			if (folder.is_directory())
 			{
-				auto _time = d.last_write_time();
-				if (_time > time)
+				auto exe = path(folder).append(L"Starward.exe");
+				if (exists(exe))
 				{
-					auto __exe = path(d).append(L"Starward.exe");
-					if (exists(__exe))
+					auto time = last_write_time(exe);
+					if (time > last_time)
 					{
-						_exe = __exe;
-						time = _time;
+						target_exe = exe;
+						last_time = time;
 					}
 				}
 			}
 		}
-		if (exists(_exe))
+		if (exists(target_exe))
 		{
-			exe = _exe;
+			run_exe = target_exe.wstring();
 		}
 	}
 
-	if (exists(exe))
+	if (exists(run_exe))
 	{
 		STARTUPINFO si;
 		PROCESS_INFORMATION pi;
 		ZeroMemory(&si, sizeof(si));
 		si.cb = sizeof(si);
 		ZeroMemory(&pi, sizeof(pi));
-		CreateProcess(exe.c_str(), (LPWSTR)arg.c_str(), NULL, NULL, false, 0, NULL, NULL, &si, &pi);
+		CreateProcess(run_exe.c_str(), (LPWSTR)arg.c_str(), NULL, NULL, false, 0, NULL, NULL, &si, &pi);
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
+
+		auto base_name = path(run_exe).parent_path().filename().wstring();
+		for (auto folder : directory_iterator(base_folder))
+		{
+			auto folder_name = folder.path().filename().wstring();
+			if (folder.is_directory() && folder_name.starts_with(L"app-") && folder_name.compare(base_name))
+			{
+				remove_all(folder);
+			}
+		}
 	}
 	else
 	{
 		SetProcessDPIAware();
-		auto ok = MessageBox(NULL, L"Cannot run the app because some files not found.\r\nWould you like to download it now?\r\nhttps://github.com/Scighost/Starward", L"Starward", MB_ICONWARNING | MB_OKCANCEL);
+		auto ok = MessageBox(NULL, L"Starward files not found.\r\nWould you like to download it now?\r\nhttps://github.com/Scighost/Starward", L"Starward", MB_ICONWARNING | MB_OKCANCEL);
 		if (ok == IDOK)
 		{
 			ShellExecute(NULL, NULL, L"https://github.com/Scighost/Starward", NULL, NULL, SW_SHOWNORMAL);
