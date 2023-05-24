@@ -261,8 +261,19 @@ public sealed partial class SettingPage : Page
     {
         try
         {
-            var filter = new List<(string, string)> { ("Image", "*.bmp;*.jpeg;*.jpg;*.png;*.tif;*.tiff;*.avif;*.heic;*.webp") };
-            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.HWND, filter);
+            var filter = new List<(string, string)> 
+            {
+                ("bmp", ".bmp"),
+                ("jpeg", ".jpeg"),
+                ("jpg", ".jpg"),
+                ("png", ".png"),
+                ("tif", ".tif"),
+                ("tiff", ".tiff"),
+                ("avif", ".avif"),
+                ("heic", ".heic"),
+                ("webp", ".webp"),
+            };
+            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.HWND, filter.ToArray());
             if (File.Exists(file))
             {
                 _logger.LogInformation("Background file is '{file}'", file);

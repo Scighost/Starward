@@ -392,8 +392,8 @@ public sealed partial class GachaLogPage : Page
                 "json" => "json",
                 _ => "json"
             };
-            var suggetName = $"Stardward_Export_GachaLog_{uid}_{DateTime.Now:yyyyMMddHHmmss}";
-            var file = await FileDialogHelper.OpenSaveFileDialogAsync(MainWindow.Current.HWND, suggetName, true, new (string, string)[] { (ext, $"*.{ext}") });
+            var suggetName = $"Stardward_Export_GachaLog_{uid}_{DateTime.Now:yyyyMMddHHmmss}.{ext}";
+            var file = await FileDialogHelper.OpenSaveFileDialogAsync(MainWindow.Current.HWND, suggetName, $".{ext}");
             if (file is not null)
             {
                 _gachaLogService.ExportGachaLog(uid, file, format);
