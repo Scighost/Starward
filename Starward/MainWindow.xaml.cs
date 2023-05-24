@@ -183,7 +183,7 @@ public sealed partial class MainWindow : Window
             {
                 double percent = 1 - 0.2 * (i - 3);
                 colors[i] = Color.FromArgb(255, mix(primaryColor.R, 0, percent), mix(primaryColor.G, 0, percent), mix(primaryColor.B, 0, percent));
-            }
+            }   
             AppConfig.AccentColor = primaryColor.ToHex();
         }
         else

@@ -91,11 +91,10 @@ internal class GameService
         else
         {
             folder = GetGameInstallPath(biz);
-            var relativePath = biz switch
+            var relativePath = biz.ToGame() switch
             {
-                GameBiz.hk4e_cn or GameBiz.hk4e_global => "ScreenShot",
-                GameBiz.hk4e_cloud => "GenshinImpactCloudGame",
-                GameBiz.hkrpg_cn or GameBiz.hkrpg_global => @"StarRail_Data\ScreenShots",
+                GameBiz.GenshinImpact => "ScreenShot",
+                GameBiz.StarRail => @"StarRail_Data\ScreenShots",
                 _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
             };
             folder = Path.Join(folder, relativePath);

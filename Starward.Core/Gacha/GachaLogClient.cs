@@ -127,7 +127,7 @@ public abstract class GachaLogClient
             }
             return null;
         }
-        else if (gameBiz is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+        else if (gameBiz.ToGame() is GameBiz.GenshinImpact)
         {
             var file = Path.Join(installPath, WEB_CACHE_PATH_YS_CN);
             if (File.Exists(file))
@@ -141,7 +141,7 @@ public abstract class GachaLogClient
             }
             return null;
         }
-        else if (gameBiz is GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
+        else if (gameBiz.ToGame() is GameBiz.StarRail)
         {
             var file = Path.Join(installPath, WEB_CACHE_SR_PATH);
             if (File.Exists(file))

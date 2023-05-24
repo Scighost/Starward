@@ -22,5 +22,16 @@ public static class EnumExtension
     }
 
 
+    public static GameBiz ToGame(this GameBiz biz)
+    {
+        return biz switch
+        {
+            GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_cloud => GameBiz.GenshinImpact,
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => GameBiz.StarRail,
+            _ => GameBiz.None,
+        };
+    }
+
+
 
 }

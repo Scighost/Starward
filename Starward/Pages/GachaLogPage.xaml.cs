@@ -62,11 +62,11 @@ public sealed partial class GachaLogPage : Page
         {
             gameBiz = biz;
             Title = GachaLogService.GetGachaLogText(biz);
-            if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_cloud)
+            if (biz.ToGame() is GameBiz.GenshinImpact)
             {
                 _gachaLogService = AppConfig.GetService<GenshinGachaService>();
             }
-            if (biz is GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
+            if (biz.ToGame() is GameBiz.StarRail)
             {
                 _gachaLogService = AppConfig.GetService<StarRailGachaService>();
             }
