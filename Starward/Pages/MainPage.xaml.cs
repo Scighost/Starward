@@ -5,8 +5,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
@@ -16,6 +18,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
@@ -48,15 +51,17 @@ public sealed partial class MainPage : Page
     private readonly UpdateService _updateService = AppConfig.GetService<UpdateService>();
 
 
+    private readonly Compositor compositor;
+
 
     public MainPage()
     {
         Current = this;
         this.InitializeComponent();
+        compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
         InitializeSelectGameBiz();
         InitializeBackgroundImage();
-        NavigateTo(typeof(LauncherPage));
     }
 
 
@@ -73,6 +78,7 @@ public sealed partial class MainPage : Page
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        UpdateButtonEffect();
         await UpdateBackgroundImageAsync();
         await CheckUpdateAsync();
     }
@@ -110,63 +116,182 @@ public sealed partial class MainPage : Page
     partial void OnCurrentGameBizChanged(GameBiz value)
     {
         NavigationViewItem_GachaLog.Content = GachaLogService.GetGachaLogText(value);
+        CurrentGameBizText = value switch
+        {
+            GameBiz.hk4e_cn or GameBiz.hkrpg_cn => "China",
+            GameBiz.hk4e_global or GameBiz.hkrpg_global => "Global",
+            GameBiz.hk4e_cloud => "Cloud",
+            _ => ""
+        };
     }
 
 
-    private GameBiz selectGameBiz = AppConfig.SelectGameBiz;
+    [ObservableProperty]
+    private string currentGameBizText;
 
 
     private void InitializeSelectGameBiz()
     {
-        CurrentGameBiz = selectGameBiz;
-        _logger.LogInformation("Select game region is {gamebiz}", selectGameBiz);
-        var index = CurrentGameBiz switch
+        CurrentGameBiz = AppConfig.SelectGameBiz;
+        _logger.LogInformation("Select game region is {gamebiz}", CurrentGameBiz);
+        if (CurrentGameBiz.ToGame() != GameBiz.None)
         {
-            GameBiz.hk4e_cn => 0,
-            GameBiz.hk4e_global => 1,
-            GameBiz.hk4e_cloud => 2,
-            GameBiz.hkrpg_cn => 3,
-            GameBiz.hkrpg_global => 4,
-            _ => -1,
-        };
-        if (index >= 0)
-        {
-            ComboBox_GameBiz.SelectedIndex = index;
+            NavigateTo(typeof(LauncherPage));
         }
     }
 
-
-    private void ComboBox_GameBiz_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        try
-        {
-            Button_ChangeGameBiz.IsEnabled = false;
-            if (ComboBox_GameBiz.SelectedItem is FrameworkElement ele)
-            {
-                if (Enum.TryParse(ele.Tag as string, out selectGameBiz))
-                {
-                    if (selectGameBiz != CurrentGameBiz)
-                    {
-                        Button_ChangeGameBiz.IsEnabled = true;
-                    }
-                }
-            }
-        }
-        catch { }
-    }
 
 
     [RelayCommand(AllowConcurrentExecutions = true)]
-    private async Task ChangeGameBizAsync()
+    private async Task ChangeGameBizAsync(string bizStr)
     {
-        _logger.LogInformation("Change game region to {gamebiz}", selectGameBiz);
-        CurrentGameBiz = selectGameBiz;
-        AppConfig.SelectGameBiz = CurrentGameBiz;
-        Button_ChangeGameBiz.IsEnabled = false;
-        NavigateTo(MainPage_Frame.SourcePageType);
-        await UpdateBackgroundImageAsync();
+        if (Enum.TryParse<GameBiz>(bizStr, out var biz))
+        {
+            _logger.LogInformation("Change game region to {gamebiz}", CurrentGameBiz);
+            CurrentGameBiz = biz;
+            AppConfig.SelectGameBiz = CurrentGameBiz;
+            AppConfig.SetLastRegionOfGame(biz.ToGame(), biz);
+            UpdateButtonEffect();
+            NavigateTo(MainPage_Frame.SourcePageType);
+            await UpdateBackgroundImageAsync();
+        }
     }
 
+
+    private void UpdateButtonEffect()
+    {
+        isSelectYS = false;
+        isSelectSR = false;
+        if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
+        {
+            UpdateButtonCornerRadius(Button_YS, true);
+            UpdateButtonCornerRadius(Button_SR, false);
+            Border_Mask_YS.Opacity = 0;
+            Border_Mask_SR.Opacity = 1;
+            isSelectYS = true;
+            return;
+        }
+        if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
+        {
+            UpdateButtonCornerRadius(Button_YS, false);
+            UpdateButtonCornerRadius(Button_SR, true);
+            Border_Mask_YS.Opacity = 1;
+            Border_Mask_SR.Opacity = 0;
+            isSelectSR = true;
+            return;
+        }
+        UpdateButtonCornerRadius(Button_YS, false);
+        UpdateButtonCornerRadius(Button_SR, false);
+        Border_Mask_YS.Opacity = 1;
+        Border_Mask_SR.Opacity = 1;
+    }
+
+
+    private void Button_Game_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Button button)
+        {
+            UpdateButtonCornerRadius(button, true);
+        }
+    }
+
+
+    private void Button_Game_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Button button)
+        {
+            UpdateButtonCornerRadius(button, false);
+        }
+    }
+
+
+    private bool isSelectYS;
+    private bool isSelectSR;
+
+    private async void Button_YS_Click(object sender, RoutedEventArgs e)
+    {
+        var biz = AppConfig.GetLastRegionOfGame(GameBiz.GenshinImpact) switch
+        {
+            GameBiz.hk4e_cn => GameBiz.hk4e_cn,
+            GameBiz.hk4e_global => GameBiz.hk4e_global,
+            GameBiz.hk4e_cloud => GameBiz.hk4e_cloud,
+            _ => GameBiz.hk4e_cn,
+        };
+        if (biz != CurrentGameBiz)
+        {
+            await ChangeGameBizAsync(biz.ToString());
+        }
+    }
+
+    private void Button_YS_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+    {
+        isSelectYS = true;
+    }
+
+    private async void Button_SR_Click(object sender, RoutedEventArgs e)
+    {
+        var biz = AppConfig.GetLastRegionOfGame(GameBiz.StarRail) switch
+        {
+            GameBiz.hkrpg_cn => GameBiz.hkrpg_cn,
+            GameBiz.hkrpg_global => GameBiz.hkrpg_global,
+            _ => GameBiz.hkrpg_cn,
+        };
+        if (biz != CurrentGameBiz)
+        {
+            await ChangeGameBizAsync(biz.ToString());
+        }
+    }
+
+    private void Button_SR_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+    {
+        isSelectSR = true;
+    }
+
+    private void MenuFlyout_Game_Closed(object sender, object e)
+    {
+        isSelectYS = false;
+        isSelectSR = false;
+        UpdateButtonEffect();
+    }
+
+    private void UpdateButtonCornerRadius(Button button, bool isSelect)
+    {
+        var visual = ElementCompositionPreview.GetElementVisual(button);
+        CompositionRoundedRectangleGeometry geometry;
+        if (visual.Clip is CompositionGeometricClip clip && clip.Geometry is CompositionRoundedRectangleGeometry geo)
+        {
+            geometry = geo;
+        }
+        else
+        {
+            geometry = compositor.CreateRoundedRectangleGeometry();
+            geometry.Size = new Vector2((float)button.ActualWidth, (float)button.ActualHeight);
+            geometry.CornerRadius = Vector2.Zero;
+            clip = compositor.CreateGeometricClip(geometry);
+            visual.Clip = clip;
+        }
+
+        if (button.Tag is "ys" && isSelectYS)
+        {
+            return;
+        }
+        if (button.Tag is "sr" && isSelectSR)
+        {
+            return;
+        }
+
+        var animation = compositor.CreateVector2KeyFrameAnimation();
+        animation.Duration = TimeSpan.FromSeconds(0.3);
+        if (isSelect)
+        {
+            animation.InsertKeyFrame(1, new Vector2(8, 8));
+        }
+        else
+        {
+            animation.InsertKeyFrame(1, new Vector2(18, 18));
+        }
+        geometry.StartAnimation(nameof(CompositionRoundedRectangleGeometry.CornerRadius), animation);
+    }
 
 
     private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -175,7 +300,7 @@ public sealed partial class MainPage : Page
     }
 
 
-    private void StackPanel_SelectGame_SizeChanged(object sender, SizeChangedEventArgs e)
+    private void Grid_SelectGame_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         UpdateDragRectangles();
     }
@@ -187,9 +312,9 @@ public sealed partial class MainPage : Page
         try
         {
             var scale = MainWindow.Current.UIScale;
-            var point = StackPanel_SelectGame.TransformToVisual(this).TransformPoint(new Windows.Foundation.Point());
-            var width = StackPanel_SelectGame.ActualWidth;
-            var height = StackPanel_SelectGame.ActualHeight;
+            var point = Grid_SelectGame.TransformToVisual(this).TransformPoint(new Windows.Foundation.Point());
+            var width = Grid_SelectGame.ActualWidth;
+            var height = Grid_SelectGame.ActualHeight;
             int len = (int)(48 * scale);
             var rect1 = new RectInt32(len, 0, (int)((point.X - 48) * scale), len);
             var rect2 = new RectInt32((int)((point.X + width) * scale), 0, 100000, len);
@@ -345,37 +470,39 @@ public sealed partial class MainPage : Page
                     nameof(SettingPage) => typeof(SettingPage),
                     _ => null,
                 };
-                if (type != null)
-                {
-                    NavigateTo(type);
-                    if (type.Name is "LauncherPage")
-                    {
-                        Border_ContentBackground.Opacity = 0;
-                    }
-                    else
-                    {
-                        Border_ContentBackground.Opacity = 1;
-                    }
-                }
+                NavigateTo(type);
             }
         }
     }
 
 
 
-    public void NavigateTo(Type page, object? param = null)
+    public void NavigateTo(Type? page, object? param = null)
     {
-        if (page != null)
+        page ??= typeof(LauncherPage);
+        _logger.LogInformation("Navigate to {page} with param {param}", page.Name, param);
+        MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());
+        if (page.Name is "LauncherPage")
         {
-            _logger.LogInformation("Navigate to {page} with param {param}", page.Name, param);
-            MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());
+            Border_ContentBackground.Opacity = 0;
+        }
+        else
+        {
+            Border_ContentBackground.Opacity = 1;
         }
     }
 
 
 
-    #endregion
 
+
+
+
+
+
+
+
+    #endregion
 
 
 }

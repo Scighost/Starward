@@ -7,6 +7,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
       xmlns:s="using:Starward"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
@@ -107,53 +108,118 @@
 
 
         <!--  change game biz  -->
-        <StackPanel Name="StackPanel_SelectGame"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal"
-                    SizeChanged="StackPanel_SelectGame_SizeChanged"
-                    Spacing="12">
-            <ComboBox Name="ComboBox_GameBiz"
-                      Height="32"
-                      MinWidth="240"
-                      Padding="20,0,20,0"
-                      CornerRadius="16"
-                      PlaceholderText="Select Game"
-                      SelectionChanged="ComboBox_GameBiz_SelectionChanged">
-                <Grid Tag="hk4e_cn">
-                    <TextBlock Text="Genshin Impact" />
-                    <TextBlock Margin="120,0,0,0" Text="China" />
-                </Grid>
-                <Grid Tag="hk4e_global">
-                    <TextBlock Text="Genshin Impact" />
-                    <TextBlock Margin="120,0,0,0" Text="Global" />
-                </Grid>
-                <Grid Tag="hk4e_cloud">
-                    <TextBlock Text="Genshin Impact" />
-                    <TextBlock Margin="120,0,0,0" Text="Cloud" />
-                </Grid>
-                <Grid Tag="hkrpg_cn">
-                    <TextBlock Text="Honkai: Star Rail" />
-                    <TextBlock Margin="120,0,0,0" Text="China" />
-                </Grid>
-                <Grid Tag="hkrpg_global">
-                    <TextBlock Text="Honkai: Star Rail" />
-                    <TextBlock Margin="120,0,0,0" Text="Global" />
-                </Grid>
-            </ComboBox>
+        <Grid Name="Grid_SelectGame"
+              HorizontalAlignment="Center"
+              SizeChanged="Grid_SelectGame_SizeChanged">
 
-            <Button Name="Button_ChangeGameBiz"
-                    Width="48"
-                    Height="32"
-                    Command="{x:Bind ChangeGameBizCommand}"
-                    CornerRadius="16"
-                    IsEnabled="False"
-                    Style="{ThemeResource AccentButtonStyle}">
-                <FontIcon FontSize="16" Glyph="&#xE14B;" />
-            </Button>
+            <StackPanel Margin="12,0,12,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+
+                <Button Name="Button_YS"
+                        Width="36"
+                        Height="36"
+                        Padding="0"
+                        BorderThickness="0"
+                        Click="Button_YS_Click"
+                        CornerRadius="8"
+                        PointerEntered="Button_Game_PointerEntered"
+                        PointerExited="Button_Game_PointerExited"
+                        RightTapped="Button_YS_RightTapped"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="ys">
+                    <Grid>
+                        <Image Source="ms-appx:///Assets/Image/icon_ys.jpg" />
+                        <Border Name="Border_Mask_YS">
+                            <Border.Background>
+                                <media:BackdropSaturationBrush Saturation="0" />
+                            </Border.Background>
+                            <Border.OpacityTransition>
+                                <ScalarTransition />
+                            </Border.OpacityTransition>
+                        </Border>
+                    </Grid>
+                    <Button.ContextFlyout>
+                        <MenuFlyout Closed="MenuFlyout_Game_Closed">
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="hk4e_cn"
+                                            Text="China" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="hk4e_global"
+                                            Text="Global" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="hk4e_cloud"
+                                            Text="Cloud" />
+                        </MenuFlyout>
+                    </Button.ContextFlyout>
+                </Button>
+                <Button Name="Button_SR"
+                        Width="36"
+                        Height="36"
+                        Padding="0"
+                        BorderThickness="0"
+                        Click="Button_SR_Click"
+                        CornerRadius="8"
+                        PointerEntered="Button_Game_PointerEntered"
+                        PointerExited="Button_Game_PointerExited"
+                        RightTapped="Button_SR_RightTapped"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="sr">
+                    <Grid>
+                        <Image Source="ms-appx:///Assets/Image/icon_sr.jpg" />
+                        <Border Name="Border_Mask_SR">
+                            <Border.Background>
+                                <media:BackdropSaturationBrush Saturation="0" />
+                            </Border.Background>
+                            <Border.OpacityTransition>
+                                <ScalarTransition />
+                            </Border.OpacityTransition>
+                        </Border>
+                    </Grid>
+                    <Button.ContextFlyout>
+                        <MenuFlyout Closed="MenuFlyout_Game_Closed">
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="hkrpg_cn"
+                                            Text="China" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="hkrpg_global"
+                                            Text="Global" />
+                        </MenuFlyout>
+                    </Button.ContextFlyout>
+                </Button>
+
+                <Border Width="80"
+                        Height="32"
+                        Background="{ThemeResource DateTimePickerFlyoutButtonBackgroundPointerOver}"
+                        CornerRadius="16">
+                    <Button Width="80"
+                            Height="32"
+                            Padding="0"
+                            BorderThickness="0"
+                            CornerRadius="16"
+                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind CurrentGameBizText}" />
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel MaxWidth="220" Spacing="4">
+                                    <TextBlock FontWeight="SemiBold" Text="如何切换游戏服务器？" />
+                                    <TextBlock FontSize="12"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               Text="在左侧的游戏图标上点击鼠标左键切换为最近选择的服务器，点击鼠标右键在弹出的菜单中选择更多服务器。"
+                                               TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </Border>
 
 
-        </StackPanel>
+            </StackPanel>
+
+
+        </Grid>
 
 
 

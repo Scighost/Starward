@@ -331,6 +331,17 @@ internal abstract class AppConfig
     }
 
 
+    public static GameBiz GetLastRegionOfGame(GameBiz game)
+    {
+        return GetValue<GameBiz>(default, $"last_region_of_{game}");
+    }
+
+    public static void SetLastRegionOfGame(GameBiz game, GameBiz value)
+    {
+        SetValue((int)value, $"last_region_of_{game}");
+    }
+
+
 
 
     #endregion
@@ -378,6 +389,13 @@ internal abstract class AppConfig
         }
         try
         {
+            if (cache.TryGetValue(key, out var cacheValue))
+            {
+                if (cacheValue is T t && t.Equals(value))
+                {
+                    return;
+                }
+            }
             cache[key] = value;
             if (value is null)
             {
