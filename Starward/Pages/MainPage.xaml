@@ -22,19 +22,17 @@
         </Grid.RowDefinitions>
 
 
-        <!--  title bar background image  -->
-        <Image Grid.Row="0"
-               VerticalAlignment="Top"
-               Source="{x:Bind BackgroundImage}"
-               Stretch="UniformToFill" />
+        <!--  title bar background brush  -->
+        <Border Name="Border_TitleBar" Grid.Row="0" />
 
         <!--  main content background image  -->
-        <Image Grid.Row="1"
-               Margin="0,-1,0,0"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Source="{x:Bind BackgroundImage}"
-               Stretch="UniformToFill" />
+        <Border Name="Border_ContentImage" Grid.Row="1">
+            <Image Name="Image_Content"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Source="{x:Bind BackgroundImage}"
+                   Stretch="UniformToFill" />
+        </Border>
 
         <!--  title bar acrylic backgroud  -->
         <Border Name="Border_TitleBarBackground"

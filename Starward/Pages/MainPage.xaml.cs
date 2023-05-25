@@ -85,6 +85,30 @@ public sealed partial class MainPage : Page
 
 
 
+    private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        InitializeTitleBarBackground();
+        UpdateDragRectangles();
+    }
+
+
+
+
+    private void InitializeTitleBarBackground()
+    {
+        var surface = compositor.CreateVisualSurface();
+        surface.SourceOffset = Vector2.Zero;
+        surface.SourceVisual = ElementCompositionPreview.GetElementVisual(Border_ContentImage);
+        surface.SourceSize = new Vector2((float)Border_TitleBar.ActualWidth, 12);
+        var visual = compositor.CreateSpriteVisual();
+        visual.Size = new Vector2((float)Border_TitleBar.ActualWidth, (float)Border_TitleBar.ActualHeight);
+        var brush = compositor.CreateSurfaceBrush(surface);
+        brush.Stretch = CompositionStretch.Fill;
+        visual.Brush = brush;
+        ElementCompositionPreview.SetElementChildVisual(Border_TitleBar, visual);
+    }
+
+
 
     private async Task CheckUpdateAsync()
     {
@@ -294,10 +318,6 @@ public sealed partial class MainPage : Page
     }
 
 
-    private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        UpdateDragRectangles();
-    }
 
 
     private void Grid_SelectGame_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -491,6 +511,7 @@ public sealed partial class MainPage : Page
             Border_ContentBackground.Opacity = 1;
         }
     }
+
 
 
 
