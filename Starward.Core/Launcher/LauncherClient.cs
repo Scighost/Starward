@@ -23,6 +23,7 @@ public class LauncherClient
 
     private async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken? cancellationToken = null) where T : class
     {
+        request.Version = HttpVersion.Version20;
         var response = await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None);
         response.EnsureSuccessStatusCode();
         var responseData = await response.Content.ReadFromJsonAsync(typeof(MihoyoApiWrapper<T>), LauncherJsonContext.Default) as MihoyoApiWrapper<T>;
@@ -56,6 +57,20 @@ public class LauncherClient
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         return await CommonSendAsync<LauncherContent>(request);
+    }
+
+
+
+    public async Task<CloudGameBackground> GetCloudGameBackgroundAsync(GameBiz biz)
+    {
+        var url = biz switch
+        {
+            GameBiz.hk4e_cloud => "https://api-cloudgame.mihoyo.com/hk4e_cg_cn/gamer/api/getUIConfig",
+            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
+        };
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        var wrapper = await CommonSendAsync<CloudGameBackgroundWrapper>(request);
+        return wrapper.BgImage;
     }
 
 

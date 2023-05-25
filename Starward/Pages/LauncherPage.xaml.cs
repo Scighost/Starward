@@ -113,6 +113,10 @@ public sealed partial class LauncherPage : Page
                 targetFPS = _gameService.GetStarRailFPS(gameBiz);
                 OnPropertyChanged(nameof(TargetFPS));
             }
+            if (gameBiz is GameBiz.hk4e_cloud)
+            {
+                Grid_BannerAndPost.HorizontalAlignment = HorizontalAlignment.Right;
+            }
 #pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
         }
         catch { }

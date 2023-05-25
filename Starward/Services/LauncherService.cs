@@ -87,8 +87,17 @@ public class LauncherService
             }
         }
 
-        var content = await GetLauncherContentAsync(gameBiz);
-        string url = content.BackgroundImage.Background;
+        string url;
+        if (gameBiz is GameBiz.hk4e_cloud)
+        {
+            var image = await _launcherClient.GetCloudGameBackgroundAsync(gameBiz);
+            url = image.Url;
+        }
+        else
+        {
+            var content = await GetLauncherContentAsync(gameBiz);
+            url = content.BackgroundImage.Background;
+        }
         name = Path.GetFileName(url);
         file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
         if (!File.Exists(file))
