@@ -1,6 +1,7 @@
 ﻿// https://referencesource.microsoft.com/#system.windows.forms/winforms/Managed/System/WinForms/FileDialog_Vista_Interop.cs
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -51,7 +52,10 @@ internal static class FileDialogHelper
                     {
                         dialog.Show(parentWindow).ThrowIfFailed();
                     }
-                    catch (Win32Exception ex) when (ex.ErrorCode == 1223) { }
+                    catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
+                    {
+                        return null;
+                    }
 
 
                     shell = dialog.GetResult();
@@ -68,7 +72,7 @@ internal static class FileDialogHelper
 
 
 
-    public static async Task<string?> OpenSaveFileDialogAsync(nint parentWindow, string? fileName = null, string? defaultExtension = null)
+    public static async Task<string?> OpenSaveFileDialogAsync(nint parentWindow, string? fileName = null, params (string Name, string Extension)[] fileTypeFilter)
     {
         try
         {
@@ -80,9 +84,9 @@ internal static class FileDialogHelper
             {
                 picker.SuggestedFileName = fileName;
             }
-            if (!string.IsNullOrWhiteSpace(defaultExtension))
+            foreach (var filter in fileTypeFilter)
             {
-                picker.DefaultFileExtension = defaultExtension;
+                picker.FileTypeChoices.Add(filter.Name, new List<string> { filter.Extension });
             }
             InitializeWithWindow.Initialize(picker, parentWindow);
             var file = await picker.PickSaveFileAsync();
@@ -98,26 +102,33 @@ internal static class FileDialogHelper
                 try
                 {
                     dialog = new IFileSaveDialog();
-                    dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_NOREADONLYRETURN | FILEOPENDIALOGOPTIONS.FOS_DONTADDTORECENT);
+                    dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_NOREADONLYRETURN | FILEOPENDIALOGOPTIONS.FOS_DONTADDTORECENT | FILEOPENDIALOGOPTIONS.FOS_OVERWRITEPROMPT);
 
                     if (!string.IsNullOrWhiteSpace(fileName))
                     {
-                        var folder = Path.GetDirectoryName(fileName);
+                        dialog.SetFileName(fileName);
                     }
 
-                    if (!string.IsNullOrWhiteSpace(defaultExtension))
-                    {
-                        SetFileTypeFilter(dialog, ("", $"*{defaultExtension}"));
-                    }
+                    var types = SetFileTypeFilter(dialog, fileTypeFilter);
 
                     try
                     {
                         dialog.Show(parentWindow).ThrowIfFailed();
                     }
-                    catch (Win32Exception ex) when (ex.ErrorCode == 1223) { }
+                    catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
+                    {
+                        return null;
+                    }
 
                     shell = dialog.GetResult();
-                    return shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
+                    var name = shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
+                    var index = dialog.GetFileTypeIndex();
+                    var extension = Path.GetExtension(types[index - 1].pszSpec);
+                    if (!name.EndsWith(extension))
+                    {
+                        name += extension;
+                    }
+                    return name;
                 }
                 finally
                 {
@@ -130,7 +141,7 @@ internal static class FileDialogHelper
 
 
 
-    private static void SetFileTypeFilter(in IFileDialog dialog, params (string Name, string Spec)[] fileTypeFilter)
+    private static COMDLG_FILTERSPEC[] SetFileTypeFilter(in IFileDialog dialog, params (string Name, string Spec)[] fileTypeFilter)
     {
         uint count = (uint)fileTypeFilter.Length;
         COMDLG_FILTERSPEC[] types;
@@ -152,6 +163,7 @@ internal static class FileDialogHelper
             fileTypeFilter.Select(x => new COMDLG_FILTERSPEC { pszName = x.Name, pszSpec = x.Spec }).ToArray().CopyTo(types, 1);
         }
         dialog.SetFileTypes(count, types);
+        return types;
     }
 
 
@@ -184,7 +196,10 @@ internal static class FileDialogHelper
                     {
                         dialog.Show(parentWindow).ThrowIfFailed();
                     }
-                    catch (Win32Exception ex) when (ex.ErrorCode == 1223) { }
+                    catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
+                    {
+                        return null;
+                    }
 
                     shell = dialog.GetResult();
                     return shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
