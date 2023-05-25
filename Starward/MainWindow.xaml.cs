@@ -11,7 +11,6 @@ using Starward.Pages.Welcome;
 using System;
 using Vanara.PInvoke;
 using Windows.Graphics;
-using Windows.Management.Deployment;
 using Windows.UI;
 using WinRT.Interop;
 
@@ -73,12 +72,21 @@ public sealed partial class MainWindow : Window
 
 
 
-    private void ResizeToCertainSize()
+    public void ResizeToCertainSize()
     {
         var display = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary);
         var scale = UIScale;
-        var width = (int)(1280 * scale);
-        var height = (int)(768 * scale);
+        int width, height;
+        if (AppConfig.WindowSizeMode == 0)
+        {
+            width = (int)(1280 * scale);
+            height = (int)(768 * scale);
+        }
+        else
+        {
+            width = (int)(1064 * scale);
+            height = (int)(648 * scale);
+        }
         var x = (display.WorkArea.Width - width) / 2;
         var y = (display.WorkArea.Height - height) / 2;
         AppWindow.MoveAndResize(new RectInt32(x, y, width, height));

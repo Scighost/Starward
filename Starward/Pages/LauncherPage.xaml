@@ -19,16 +19,14 @@
     </Page.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-        </Grid.RowDefinitions>
 
 
         <!--  Banner & Post  -->
         <Grid Name="Grid_BannerAndPost"
               Width="432"
-              Margin="40,200,40,0"
+              Margin="40,40,40,0"
               HorizontalAlignment="Left"
+              VerticalAlignment="Center"
               IsHitTestVisible="False"
               Opacity="0"
               RowSpacing="24">
@@ -36,7 +34,7 @@
                 <ScalarTransition />
             </Grid.OpacityTransition>
             <Grid.RowDefinitions>
-                <RowDefinition Height="200" />
+                <RowDefinition x:Name="RowDefinition_BannerAndPost" Height="200" />
                 <RowDefinition Height="124" />
             </Grid.RowDefinitions>
             <!--  Banner  -->

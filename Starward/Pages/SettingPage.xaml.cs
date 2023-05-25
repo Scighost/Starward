@@ -64,21 +64,24 @@ public sealed partial class SettingPage : Page
             OnPropertyChanged(nameof(EnableCustomBg));
             CustomBg = AppConfig.GetCustomBg(biz);
         }
+    }
+
+
+
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
         switch (AppConfig.ApiCDNIndex)
         {
             case 1: RadioButton_GH.IsChecked = true; break;
             case 2: RadioButton_JD.IsChecked = true; break;
             default: RadioButton_CF.IsChecked = true; break;
         }
+        switch (AppConfig.WindowSizeMode)
+        {
+            case 1: RadioButton_WindowSize_Small.IsChecked = true; break;
+            default: RadioButton_WindowSize_Normal.IsChecked = true; break;
+        }
     }
-
-
-    private void Page_Loaded(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-
 
 
 
@@ -131,6 +134,34 @@ public sealed partial class SettingPage : Page
 
     #endregion
 
+
+
+    #region Window Size
+
+
+
+    private void RadioButton_WindowSize_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement fe)
+            {
+                var index = fe.Tag switch
+                {
+                    "small" => 1,
+                    _ => 0,
+                };
+                AppConfig.WindowSizeMode = index;
+                MainWindow.Current.ResizeToCertainSize();
+            }
+        }
+        catch { }
+    }
+
+
+
+
+    #endregion
 
 
 
@@ -261,7 +292,7 @@ public sealed partial class SettingPage : Page
     {
         try
         {
-            var filter = new List<(string, string)> 
+            var filter = new List<(string, string)>
             {
                 ("bmp", ".bmp"),
                 ("jpeg", ".jpeg"),
@@ -450,10 +481,11 @@ public sealed partial class SettingPage : Page
     }
 
 
+
+
+
+
     #endregion
-
-
-
 
 
 }

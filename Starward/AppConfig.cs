@@ -162,6 +162,13 @@ internal abstract class AppConfig
     }
 
 
+    public static int WindowSizeMode
+    {
+        get => GetValue<int>();
+        set => SetValue(value);
+    }
+
+
     public static int ApiCDNIndex
     {
         get => GetValue<int>();

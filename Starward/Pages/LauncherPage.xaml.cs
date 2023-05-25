@@ -57,6 +57,12 @@ public sealed partial class LauncherPage : Page
     {
         this.InitializeComponent();
 
+        if (AppConfig.WindowSizeMode > 0)
+        {
+            Grid_BannerAndPost.Width = 364;
+            RowDefinition_BannerAndPost.Height = new GridLength(168);
+        }
+
         _timer = DispatcherQueue.CreateTimer();
         _timer.Interval = TimeSpan.FromSeconds(5);
         _timer.IsRepeating = true;
