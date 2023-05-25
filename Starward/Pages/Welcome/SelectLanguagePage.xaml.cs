@@ -43,6 +43,11 @@ public sealed partial class SelectLanguagePage : Page
             case 2: RadioButton_JD.IsChecked = true; break;
             default: RadioButton_CF.IsChecked = true; break;
         }
+        switch (AppConfig.WindowSizeMode)
+        {
+            case 1: RadioButton_WindowSize_Small.IsChecked = true; break;
+            default: RadioButton_WindowSize_Normal.IsChecked = true; break;
+        }
     }
 
 
@@ -60,6 +65,25 @@ public sealed partial class SelectLanguagePage : Page
         WelcomePage.Current.NavigateTo(typeof(SelectDirectoryPage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
     }
 
+
+
+    private void RadioButton_WindowSize_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement fe)
+            {
+                var index = fe.Tag switch
+                {
+                    "small" => 1,
+                    _ => 0,
+                };
+                AppConfig.WindowSizeMode = index;
+                MainWindow.Current.ResizeToCertainSize();
+            }
+        }
+        catch { }
+    }
 
 
 

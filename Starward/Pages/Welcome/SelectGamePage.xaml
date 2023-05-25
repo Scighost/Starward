@@ -60,7 +60,7 @@
                    VerticalAlignment="Center"
                    Stretch="UniformToFill" />
             <StackPanel Grid.Column="1"
-                        Margin="96,0,48,144"
+                        Margin="48,0,48,120"
                         VerticalAlignment="Bottom"
                         Spacing="16">
                 <Grid>
