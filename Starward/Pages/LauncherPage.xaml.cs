@@ -43,6 +43,10 @@ public sealed partial class LauncherPage : Page
 
     private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
 
+    private readonly PlayTimeService _playTimeService = AppConfig.GetService<PlayTimeService>();
+
+    private readonly DatabaseService _databaseService = AppConfig.GetService<DatabaseService>();
+
     private readonly DispatcherQueueTimer _timer;
 
     private GameBiz gameBiz;
@@ -76,7 +80,9 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
+            await Task.Delay(16);
             InitializeGameBiz();
+            InitializePlayTime();
             UpdateGameState();
             GetGameAccount();
             await GetLauncherContentAsync();
@@ -386,6 +392,7 @@ public sealed partial class LauncherPage : Page
                 {
                     User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
                     _logger.LogInformation("Game started ({name}, {pid})", process.ProcessName, process.Id);
+                    _playTimeService.StartProcessToLog(gameBiz, process);
                 }
             }
             else
@@ -397,6 +404,7 @@ public sealed partial class LauncherPage : Page
                     {
                         User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
                         _logger.LogInformation("Game started ({name}, {pid})", GameProcess.ProcessName, GameProcess.Id);
+                        _playTimeService.StartProcessToLog(gameBiz, GameProcess);
                     }
                 }
             }
@@ -431,6 +439,71 @@ public sealed partial class LauncherPage : Page
         }
     }
 
+
+
+    [ObservableProperty]
+    private TimeSpan playTimeTotal;
+
+
+    [ObservableProperty]
+    private TimeSpan playTimeMonth;
+
+
+    [ObservableProperty]
+    private TimeSpan playTimeWeek;
+
+
+    [ObservableProperty]
+    private TimeSpan playTimeLast;
+
+
+    [ObservableProperty]
+    private string lastPlayTimeText;
+
+
+    private void InitializePlayTime()
+    {
+        try
+        {
+            PlayTimeTotal = _databaseService.GetValue<TimeSpan>($"playtime_total_{gameBiz}", out _);
+            PlayTimeMonth = _databaseService.GetValue<TimeSpan>($"playtime_month_{gameBiz}", out _);
+            PlayTimeWeek = _databaseService.GetValue<TimeSpan>($"playtime_week_{gameBiz}", out _);
+            (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(gameBiz);
+            if (time > DateTimeOffset.MinValue)
+            {
+                LastPlayTimeText = time.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Initialize play time");
+        }
+    }
+
+
+
+    [RelayCommand]
+    private void UpdatePlayTime()
+    {
+        try
+        {
+            PlayTimeTotal = _playTimeService.GetPlayTimeTotal(gameBiz);
+            PlayTimeMonth = _playTimeService.GetPlayCurrentMonth(gameBiz);
+            PlayTimeWeek = _playTimeService.GetPlayCurrentWeek(gameBiz);
+            (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(gameBiz);
+            if (time > DateTimeOffset.MinValue)
+            {
+                LastPlayTimeText = time.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            _databaseService.SetValue($"playtime_total_{gameBiz}", PlayTimeTotal);
+            _databaseService.SetValue($"playtime_month_{gameBiz}", PlayTimeMonth);
+            _databaseService.SetValue($"playtime_week_{gameBiz}", PlayTimeWeek);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update play time");
+        }
+    }
 
 
 

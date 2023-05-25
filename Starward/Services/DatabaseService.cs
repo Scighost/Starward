@@ -50,12 +50,12 @@ internal class DatabaseService
     {
         using var con = CreateConnection();
         var version = con.QueryFirstOrDefault<int>("PRAGMA USER_VERSION;");
-        _logger.LogInformation($"Database version is {version}, target version is {StructureSqls.Count}.");
+        _logger.LogInformation($"Database version is {version}, target version is {DatabaseSqls.Count}.");
         if (version == 0)
         {
             con.Execute("PRAGMA JOURNAL_MODE = WAL;");
         }
-        foreach (var sql in StructureSqls.Skip(version))
+        foreach (var sql in DatabaseSqls.Skip(version))
         {
             con.Execute(sql);
         }
@@ -192,10 +192,10 @@ internal class DatabaseService
 
 
 
-    private static List<string> StructureSqls = new() { Structure_v1 };
+    private static List<string> DatabaseSqls = new() { Sql_v1, Sql_v2 };
 
 
-    private const string Structure_v1 = """
+    private const string Sql_v1 = """
         BEGIN TRANSACTION;
 
         CREATE TABLE IF NOT EXISTS KVT
@@ -266,7 +266,25 @@ internal class DatabaseService
         COMMIT TRANSACTION;
         """;
 
+    private const string Sql_v2 = """
+        BEGIN TRANSACTION;
 
+        CREATE TABLE IF NOT EXISTS PlayTimeItem
+        (
+            TimeStamp INTEGER PRIMARY KEY,
+            GameBiz   INTEGER NOT NULL,
+            Pid       INTEGER NOT NULL,
+            State     INTEGER NOT NULL,
+            CursorPos INTEGER NOT NULL,
+            Message   TEXT
+        );
+        CREATE INDEX IF NOT EXISTS IX_PlayTimeItem_GameBiz ON PlayTimeItem(GameBiz);
+        CREATE INDEX IF NOT EXISTS IX_PlayTimeItem_Pid ON PlayTimeItem(Pid);
+        CREATE INDEX IF NOT EXISTS IX_PlayTimeItem_State ON PlayTimeItem(State);
+
+        PRAGMA USER_VERSION = 2;
+        COMMIT TRANSACTION;
+        """;
 
 
 }

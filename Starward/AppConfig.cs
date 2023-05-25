@@ -123,6 +123,7 @@ internal abstract class AppConfig
             sc.AddSingleton<LauncherService>();
             sc.AddSingleton<GenshinGachaService>();
             sc.AddSingleton<StarRailGachaService>();
+            sc.AddSingleton<PlayTimeService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }
