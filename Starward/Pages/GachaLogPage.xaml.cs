@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
+using Starward.Core.Gacha;
 using Starward.Helpers;
 using Starward.Models;
 using Starward.Services;
@@ -338,6 +339,28 @@ public sealed partial class GachaLogPage : Page
 
 
     [RelayCommand]
+    private async Task CopyUrlAsync()
+    {
+        try
+        {
+            var url = _gachaLogService.GetGachaLogUrlByUid(SelectUid);
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                ClipboardHelper.SetText(url);
+                FontIcon_CopyUrl.Glyph = "\xE10B"; // accept
+                await Task.Delay(1000);
+                FontIcon_CopyUrl.Glyph = "\xE16F";  // copy
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Copy url");
+        }
+    }
+
+
+
+    [RelayCommand]
     private async Task DeleteUidAsync()
     {
         try
@@ -369,6 +392,35 @@ public sealed partial class GachaLogPage : Page
         {
             _logger.LogError(ex, "Delete uid");
             NotificationBehavior.Instance.Error(ex);
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task DeleteGachaCacheFileAsync()
+    {
+        try
+        {
+            var installPath = _gameService.GetGameInstallPath(gameBiz);
+            if (Directory.Exists(installPath))
+            {
+                var path = GachaLogClient.GetGachaCacheFilePath(gameBiz, installPath);
+                if (File.Exists(path))
+                {
+                    var file = await StorageFile.GetFileFromPathAsync(path);
+                    if (file != null)
+                    {
+                        var option = new FolderLauncherOptions();
+                        option.ItemsToSelect.Add(file);
+                        await Launcher.LaunchFolderAsync(await file.GetParentAsync(), option);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Delete gacha cache file");
         }
     }
 

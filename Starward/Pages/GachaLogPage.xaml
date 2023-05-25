@@ -64,6 +64,24 @@
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel MinWidth="200" Spacing="8">
+                            <TextBlock FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Text="其他设置" />
+                            <Button Margin="0,8,0,0" Command="{x:Bind CopyUrlCommand}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Name="FontIcon_CopyUrl"
+                                              FontSize="16"
+                                              Glyph="&#xE16F;" />
+                                    <TextBlock Text="复制 URL" />
+                                </StackPanel>
+                            </Button>
+                            <TextBlock Margin="0,8,0,0" Text="总是出现 Authkey Timeout？" />
+                            <Button Command="{x:Bind DeleteGachaCacheFileCommand}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon FontSize="16" Glyph="&#xEA99;" />
+                                    <TextBlock Text="清除 URL 缓存文件" />
+                                </StackPanel>
+                            </Button>
                             <TextBlock Margin="0,8,0,0" Text="语言" />
                             <TextBox Text="{x:Bind GachaLanguage, Mode=TwoWay}" />
                             <!--<TextBlock Margin="0,8,0,0" Text="导出为" />

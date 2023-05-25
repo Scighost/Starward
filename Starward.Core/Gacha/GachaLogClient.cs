@@ -120,7 +120,7 @@ public abstract class GachaLogClient
     {
         if (gameBiz is GameBiz.hk4e_cloud)
         {
-            var file = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"GenshinImpactCloudGame\config\logs\MiHoYoSDK.log");
+            var file = GetGachaCacheFilePath(gameBiz, installPath);
             if (File.Exists(file))
             {
                 return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_CN);
@@ -129,21 +129,16 @@ public abstract class GachaLogClient
         }
         else if (gameBiz.ToGame() is GameBiz.GenshinImpact)
         {
-            var file = Path.Join(installPath, WEB_CACHE_PATH_YS_CN);
+            var file = GetGachaCacheFilePath(gameBiz, installPath);
             if (File.Exists(file))
             {
                 return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_CN, MEMORY_WEB_PREFIX_YS_OS);
-            }
-            file = Path.Join(installPath, WEB_CACHE_PATH_YS_OS);
-            if (File.Exists(file))
-            {
-                return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_OS, MEMORY_WEB_PREFIX_YS_CN);
             }
             return null;
         }
         else if (gameBiz.ToGame() is GameBiz.StarRail)
         {
-            var file = Path.Join(installPath, WEB_CACHE_SR_PATH);
+            var file = GetGachaCacheFilePath(gameBiz, installPath);
             if (File.Exists(file))
             {
                 return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_SR_CN, MEMORY_WEB_PREFIX_SR_OS);
@@ -151,6 +146,20 @@ public abstract class GachaLogClient
             return null;
         }
         throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}");
+    }
+
+
+
+    public static string GetGachaCacheFilePath(GameBiz gameBiz, string? installPath)
+    {
+        return gameBiz switch
+        {
+            GameBiz.hk4e_cn => Path.Join(installPath, WEB_CACHE_PATH_YS_CN),
+            GameBiz.hk4e_global => Path.Join(installPath, WEB_CACHE_PATH_YS_OS),
+            GameBiz.hk4e_cloud => Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"GenshinImpactCloudGame\config\logs\MiHoYoSDK.log"),
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => Path.Join(installPath, WEB_CACHE_SR_PATH),
+            _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
+        };
     }
 
 
