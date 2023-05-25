@@ -9,9 +9,7 @@ using Starward.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -80,7 +78,7 @@ internal abstract class GachaLogService
             int pity = 0;
             foreach (var item in l)
             {
-                index++;
+                item.Index = ++index;
                 item.Pity = ++pity;
                 if (item.RankType == 5)
                 {
@@ -215,115 +213,12 @@ internal abstract class GachaLogService
 
 
 
-    public void ExportGachaLog(int uid, string file, string format)
-    {
-        using var con = _database.CreateConnection();
-        var list = con.Query<StarRailGachaItem>($"SELECT * FROM WarpRecordItem WHERE Uid = @uid;", new { uid }).ToList();
-        if (list.Count == 0)
-        {
-
-        }
-        else
-        {
-            if (format is "excel")
-            {
-                ExportAsExcel(uid, file);
-            }
-            else
-            {
-                ExportAsJson(uid, file);
-            }
-        }
-    }
+    public abstract Task ExportGachaLogAsync(int uid, string file, string format);
 
 
 
 
-
-
-    private void ExportAsJson(int uid, string output)
-    {
-        using var con = _database.CreateConnection();
-        var list = con.Query<StarRailGachaItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-        var obj = new GachaLogExportFile<StarRailGachaItem>(uid, list);
-        var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
-        File.WriteAllText(output, str);
-    }
-
-
-
-    private void ExportAsExcel(int uid, string output)
-    {
-        using var con = _database.CreateConnection();
-        var list = con.Query<StarRailGachaItem>("SELECT * FROM WarpRecordItem WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-
-        var sheets = new DataSet();
-        var table1 = new DataTable("Raw Data");
-        table1.Columns.Add("uid", typeof(string));
-        table1.Columns.Add("id", typeof(string));
-        table1.Columns.Add("time", typeof(string));
-        table1.Columns.Add("name", typeof(string));
-        table1.Columns.Add("item_type", typeof(string));
-        table1.Columns.Add("rank_type", typeof(string));
-        table1.Columns.Add("gacha_type", typeof(string));
-        table1.Columns.Add("gacha_id", typeof(string));
-        table1.Columns.Add("item_id", typeof(string));
-        table1.Columns.Add("lang", typeof(string));
-        table1.Columns.Add("count", typeof(string));
-        foreach (var item in list)
-        {
-            table1.Rows.Add(item.Uid.ToString(),
-                            item.Id.ToString(),
-                            item.Time.ToString("yyyy-MM-dd HH:mm:ss"),
-                            item.Name,
-                            item.ItemType,
-                            item.RankType.ToString(),
-                            ((int)item.GachaType).ToString(),
-                            item.GachaId.ToString(),
-                            item.ItemId.ToString(),
-                            item.Lang,
-                            item.Count.ToString());
-        }
-        sheets.Tables.Add(table1);
-
-        foreach (var type in new int[] { 1, 2, 11, 12 })
-        {
-            var table = new DataTable(((GachaType)type).ToDescription());
-            table.Columns.Add("Uid", typeof(string));
-            table.Columns.Add("Id", typeof(string));
-            table.Columns.Add("Time", typeof(string));
-            table.Columns.Add("Name", typeof(string));
-            table.Columns.Add("Item Type", typeof(string));
-            table.Columns.Add("Rarity", typeof(string));
-            table.Columns.Add("Warp Type", typeof(string));
-            table.Columns.Add("Pity", typeof(string));
-            var l = list.Where(x => x.GachaType == (GachaType)type).ToList();
-            int index = 0;
-            foreach (var item in l)
-            {
-                index++;
-                table.Rows.Add(item.Uid.ToString(),
-                            item.Id.ToString(),
-                            item.Time.ToString("yyyy-MM-dd HH:mm:ss"),
-                            item.Name,
-                            item.ItemType,
-                            item.RankType.ToString(),
-                            ((int)item.GachaType).ToString(),
-                            index.ToString());
-                if (item.RankType == 5)
-                {
-                    index = 0;
-                }
-            }
-            sheets.Tables.Add(table);
-        }
-
-        MiniExcel.SaveAs(output, sheets, configuration: new OpenXmlConfiguration { TableStyles = TableStyles.None, }, overwriteFile: true);
-    }
-
-
-
-
+    public abstract int ImportGachaLog(string file);
 
 
 

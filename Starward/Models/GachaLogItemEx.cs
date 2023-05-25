@@ -8,6 +8,8 @@ namespace Starward.Models;
 public partial class GachaLogItemEx : GachaLogItem
 {
 
+    public string IdText => Id.ToString();
+
     public int Index { get; set; }
 
 

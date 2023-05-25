@@ -428,7 +428,7 @@ public sealed partial class GachaLogPage : Page
 
 
     [RelayCommand]
-    private async Task ExportWarpRecordAsync(string format)
+    private async Task ExportGachaLogAsync(string format)
     {
         // todo
         try
@@ -444,20 +444,54 @@ public sealed partial class GachaLogPage : Page
                 "json" => "json",
                 _ => "json"
             };
-            var suggetName = $"Stardward_Export_GachaLog_{uid}_{DateTime.Now:yyyyMMddHHmmss}.{ext}";
-            var file = await FileDialogHelper.OpenSaveFileDialogAsync(MainWindow.Current.HWND, suggetName, $".{ext}");
+            var suggestName = $"Stardward_Export_{gameBiz.ToGame()}_{uid}_{DateTime.Now:yyyyMMddHHmmss}.{ext}";
+            var file = await FileDialogHelper.OpenSaveFileDialogAsync(MainWindow.Current.HWND, suggestName, (ext, $".{ext}"));
             if (file is not null)
             {
-                _gachaLogService.ExportGachaLog(uid, file, format);
+                await _gachaLogService.ExportGachaLogAsync(uid, file, format);
                 var storageFile = await StorageFile.GetFileFromPathAsync(file);
                 var options = new FolderLauncherOptions();
                 options.ItemsToSelect.Add(storageFile);
-                NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Success, "成功导出", suggetName, "打开文件夹", async () => await Launcher.LaunchFolderAsync(await storageFile.GetParentAsync(), options));
+                await Launcher.LaunchFolderAsync(await storageFile.GetParentAsync(), options);
             }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Export gacha log");
+            NotificationBehavior.Instance.Error(ex);
+        }
+    }
+
+
+
+
+    [RelayCommand]
+    private async Task ImportGachaLogAsync()
+    {
+        try
+        {
+            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.HWND, ("Json", ".json"));
+            if (File.Exists(file))
+            {
+                var uid = _gachaLogService.ImportGachaLog(file);
+                if (uid == SelectUid)
+                {
+                    UpdateGachaTypeStats(uid);
+                }
+                else if (UidList.Contains(uid))
+                {
+                    SelectUid = uid;
+                }
+                else
+                {
+                    UidList.Add(uid);
+                    SelectUid = uid;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Import gacha log");
             NotificationBehavior.Instance.Error(ex);
         }
     }
