@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
-using static Vanara.PInvoke.Shell32;
+using static Starward.Helpers.FileDialogNative;
 
 namespace Starward.Helpers;
 
@@ -43,14 +43,14 @@ internal static class FileDialogHelper
 
                 try
                 {
-                    dialog = new IFileOpenDialog();
-                    dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_NOREADONLYRETURN | FILEOPENDIALOGOPTIONS.FOS_DONTADDTORECENT);
+                    dialog = new NativeFileOpenDialog();
+                    dialog.SetOptions(FOS.FOS_NOREADONLYRETURN | FOS.FOS_DONTADDTORECENT);
 
                     SetFileTypeFilter(dialog, fileTypeFilter);
 
                     try
                     {
-                        dialog.Show(parentWindow).ThrowIfFailed();
+                        ((HRESULT)dialog.Show(parentWindow)).ThrowIfFailed();
                     }
                     catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
                     {
@@ -58,8 +58,9 @@ internal static class FileDialogHelper
                     }
 
 
-                    shell = dialog.GetResult();
-                    return shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
+                    dialog.GetResult(out shell);
+                    shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var name);
+                    return name;
                 }
                 finally
                 {
@@ -101,8 +102,8 @@ internal static class FileDialogHelper
 
                 try
                 {
-                    dialog = new IFileSaveDialog();
-                    dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_NOREADONLYRETURN | FILEOPENDIALOGOPTIONS.FOS_DONTADDTORECENT | FILEOPENDIALOGOPTIONS.FOS_OVERWRITEPROMPT);
+                    dialog = new NativeFileSaveDialog();
+                    dialog.SetOptions(FOS.FOS_NOREADONLYRETURN | FOS.FOS_DONTADDTORECENT | FOS.FOS_OVERWRITEPROMPT);
 
                     if (!string.IsNullOrWhiteSpace(fileName))
                     {
@@ -113,16 +114,16 @@ internal static class FileDialogHelper
 
                     try
                     {
-                        dialog.Show(parentWindow).ThrowIfFailed();
+                        ((HRESULT)dialog.Show(parentWindow)).ThrowIfFailed();
                     }
                     catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
                     {
                         return null;
                     }
 
-                    shell = dialog.GetResult();
-                    var name = shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
-                    var index = dialog.GetFileTypeIndex();
+                    dialog.GetResult(out shell);
+                    shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var name);
+                    dialog.GetFileTypeIndex(out uint index);
                     var extension = Path.GetExtension(types[index - 1].pszSpec);
                     if (!name.EndsWith(extension))
                     {
@@ -189,20 +190,21 @@ internal static class FileDialogHelper
 
                 try
                 {
-                    dialog = new IFileOpenDialog();
-                    dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_NOREADONLYRETURN | FILEOPENDIALOGOPTIONS.FOS_DONTADDTORECENT | FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+                    dialog = new NativeFileOpenDialog();
+                    dialog.SetOptions(FOS.FOS_NOREADONLYRETURN | FOS.FOS_DONTADDTORECENT | FOS.FOS_PICKFOLDERS);
 
                     try
                     {
-                        dialog.Show(parentWindow).ThrowIfFailed();
+                        ((HRESULT)dialog.Show(parentWindow)).ThrowIfFailed();
                     }
                     catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
                     {
                         return null;
                     }
 
-                    shell = dialog.GetResult();
-                    return shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
+                    dialog.GetResult(out shell);
+                    shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var name);
+                    return name;
                 }
                 finally
                 {
