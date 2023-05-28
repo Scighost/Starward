@@ -138,7 +138,7 @@ internal class PlayTimeService
     {
         using var dapper = _database.CreateConnection();
         var now = DateTimeOffset.Now;
-        var month = now.Add(-now.TimeOfDay).AddDays(-now.Day);
+        var month = now.Add(-now.TimeOfDay).AddDays(1 - now.Day);
         long month_ts = month.ToUnixTimeMilliseconds();
         var items = dapper.Query<PlayTimeItem>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND TimeStamp >= @month_ts ORDER BY TimeStamp;", new { biz, month_ts }).ToList();
         long ts = 0;
@@ -201,7 +201,7 @@ internal class PlayTimeService
     {
         using var dapper = _database.CreateConnection();
         var now = DateTimeOffset.Now;
-        var week = now.Add(-now.TimeOfDay).AddDays(-(((int)now.DayOfWeek + 1) % 7));
+        var week = now.Add(-now.TimeOfDay).AddDays(-(((int)now.DayOfWeek + 6) % 7));
         long week_ts = week.ToUnixTimeMilliseconds();
         var items = dapper.Query<PlayTimeItem>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND TimeStamp >= @week_ts ORDER BY TimeStamp;", new { biz, week_ts }).ToList();
         long ts = 0;
