@@ -7,7 +7,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
       xmlns:s="using:Starward"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
@@ -116,6 +115,50 @@
                         Orientation="Horizontal"
                         Spacing="8">
 
+                <Button Name="Button_BH3"
+                        Width="36"
+                        Height="36"
+                        Padding="0"
+                        BorderThickness="0"
+                        Click="Button_BH3_Click"
+                        CornerRadius="8"
+                        PointerEntered="Button_Game_PointerEntered"
+                        PointerExited="Button_Game_PointerExited"
+                        RightTapped="Button_BH3_RightTapped"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="bh3"
+                        Visibility="Collapsed">
+                    <Grid>
+                        <Image Source="ms-appx:///Assets/Image/icon_bh3.jpg" />
+                        <Border Name="Border_Mask_BH3" Background="#50000000">
+                            <Border.OpacityTransition>
+                                <ScalarTransition />
+                            </Border.OpacityTransition>
+                        </Border>
+                    </Grid>
+                    <Button.ContextFlyout>
+                        <MenuFlyout Closed="MenuFlyout_Game_Closed">
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_cn"
+                                            Text="China" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_global"
+                                            Text="Global" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_jp"
+                                            Text="Japan" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_kr"
+                                            Text="Korea" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_overseas"
+                                            Text="Southeast Asia" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_tw"
+                                            Text="TW/HK/MO" />
+                        </MenuFlyout>
+                    </Button.ContextFlyout>
+                </Button>
                 <Button Name="Button_YS"
                         Width="36"
                         Height="36"
@@ -130,10 +173,7 @@
                         Tag="ys">
                     <Grid>
                         <Image Source="ms-appx:///Assets/Image/icon_ys.jpg" />
-                        <Border Name="Border_Mask_YS">
-                            <Border.Background>
-                                <media:BackdropSaturationBrush Saturation="0" />
-                            </Border.Background>
+                        <Border Name="Border_Mask_YS" Background="#50000000">
                             <Border.OpacityTransition>
                                 <ScalarTransition />
                             </Border.OpacityTransition>
@@ -167,10 +207,7 @@
                         Tag="sr">
                     <Grid>
                         <Image Source="ms-appx:///Assets/Image/icon_sr.jpg" />
-                        <Border Name="Border_Mask_SR">
-                            <Border.Background>
-                                <media:BackdropSaturationBrush Saturation="0" />
-                            </Border.Background>
+                        <Border Name="Border_Mask_SR" Background="#50000000">
                             <Border.OpacityTransition>
                                 <ScalarTransition />
                             </Border.OpacityTransition>

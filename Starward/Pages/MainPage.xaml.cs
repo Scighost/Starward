@@ -184,30 +184,44 @@ public sealed partial class MainPage : Page
 
     private void UpdateButtonEffect()
     {
+        const double OPACITY = 1;
+        isSelectBH3 = false;
         isSelectYS = false;
         isSelectSR = false;
+        Border_Mask_BH3.Opacity = OPACITY;
+        Border_Mask_YS.Opacity = OPACITY;
+        Border_Mask_SR.Opacity = OPACITY;
+        if (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd)
+        {
+            UpdateButtonCornerRadius(Button_BH3, true);
+            UpdateButtonCornerRadius(Button_YS, false);
+            UpdateButtonCornerRadius(Button_SR, false);
+            Border_Mask_BH3.Opacity = 0;
+            isSelectBH3 = true;
+            return;
+        }
         if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
         {
+            UpdateButtonCornerRadius(Button_BH3, false);
             UpdateButtonCornerRadius(Button_YS, true);
             UpdateButtonCornerRadius(Button_SR, false);
             Border_Mask_YS.Opacity = 0;
-            Border_Mask_SR.Opacity = 1;
             isSelectYS = true;
             return;
         }
         if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
         {
+            UpdateButtonCornerRadius(Button_BH3, false);
             UpdateButtonCornerRadius(Button_YS, false);
             UpdateButtonCornerRadius(Button_SR, true);
-            Border_Mask_YS.Opacity = 1;
             Border_Mask_SR.Opacity = 0;
             isSelectSR = true;
             return;
         }
+        UpdateButtonCornerRadius(Button_BH3, false);
         UpdateButtonCornerRadius(Button_YS, false);
         UpdateButtonCornerRadius(Button_SR, false);
-        Border_Mask_YS.Opacity = 1;
-        Border_Mask_SR.Opacity = 1;
+        
     }
 
 
@@ -228,9 +242,32 @@ public sealed partial class MainPage : Page
         }
     }
 
-
+    private bool isSelectBH3;
     private bool isSelectYS;
     private bool isSelectSR;
+
+    private async void Button_BH3_Click(object sender, RoutedEventArgs e)
+    {
+        var biz = AppConfig.GetLastRegionOfGame(GameBiz.Honkai3rd) switch
+        {
+            GameBiz.bh3_cn => GameBiz.bh3_cn,
+            GameBiz.bh3_global => GameBiz.bh3_global,
+            GameBiz.bh3_jp => GameBiz.bh3_jp,
+            GameBiz.bh3_kr => GameBiz.bh3_kr,
+            GameBiz.bh3_overseas => GameBiz.bh3_overseas,
+            GameBiz.bh3_tw => GameBiz.bh3_tw,
+            _ => GameBiz.bh3_cn,
+        };
+        if (biz != CurrentGameBiz)
+        {
+            await ChangeGameBizAsync(biz.ToString());
+        }
+    }
+
+    private void Button_BH3_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+    {
+        isSelectBH3 = true;
+    }
 
     private async void Button_YS_Click(object sender, RoutedEventArgs e)
     {
@@ -273,6 +310,7 @@ public sealed partial class MainPage : Page
 
     private void MenuFlyout_Game_Closed(object sender, object e)
     {
+        isSelectBH3 = false;
         isSelectYS = false;
         isSelectSR = false;
         UpdateButtonEffect();
@@ -295,6 +333,10 @@ public sealed partial class MainPage : Page
             visual.Clip = clip;
         }
 
+        if (button.Tag is "bh3" && isSelectBH3)
+        {
+            return;
+        }
         if (button.Tag is "ys" && isSelectYS)
         {
             return;
@@ -453,7 +495,10 @@ public sealed partial class MainPage : Page
                 r += bytes[i + 2];
                 a += bytes[i + 3];
             }
-            return Color.FromArgb((byte)(a * 4 / bytes.Length), (byte)(r * 4 / bytes.Length), (byte)(g * 4 / bytes.Length), (byte)(b * 4 / bytes.Length));
+            var color = Color.FromArgb((byte)(a * 4 / bytes.Length), (byte)(r * 4 / bytes.Length), (byte)(g * 4 / bytes.Length), (byte)(b * 4 / bytes.Length));
+            var hsv = color.ToHsv();
+            return ColorHelper.FromHsv(hsv.H, 0.5, hsv.V);
+
         }
         return null;
     }
