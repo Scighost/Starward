@@ -24,10 +24,11 @@ public static class EnumExtension
 
     public static GameBiz ToGame(this GameBiz biz)
     {
-        return biz switch
+        return (int)biz switch
         {
-            GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_cloud => GameBiz.GenshinImpact,
-            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => GameBiz.StarRail,
+            11 or 12 or 13 => GameBiz.GenshinImpact,
+            21 or 22 => GameBiz.StarRail,
+            >= 31 and <= 36 => GameBiz.Honkai3rd,
             _ => GameBiz.None,
         };
     }
