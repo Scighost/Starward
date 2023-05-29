@@ -174,6 +174,7 @@
                         </Button>
                         <Grid Height="40"
                               MaxWidth="480"
+                              Background="{ThemeResource CustomAcrylicBrush}"
                               CornerRadius="20"
                               Visibility="{x:Bind CustomBg, Converter={StaticResource ObjectToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
@@ -336,6 +337,13 @@
                             <Run FontWeight="Bold"
                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                  Text="反馈问题" />
+                        </Hyperlink>
+                    </TextBlock>
+                    <TextBlock Margin="0,8,0,0">
+                        <Hyperlink NavigateUri="https://github.com/Scighost/Starward/releases" UnderlineStyle="None">
+                            <Run FontWeight="Bold"
+                                 Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                 Text="更新记录" />
                         </Hyperlink>
                     </TextBlock>
                 </StackPanel>
