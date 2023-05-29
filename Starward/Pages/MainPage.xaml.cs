@@ -439,15 +439,16 @@ public sealed partial class MainPage : Page
     }
 
 
-    private CancellationTokenSource? source;
+    private CancellationTokenSource? cancelSource;
 
 
     public async Task UpdateBackgroundImageAsync()
     {
         try
         {
-            source?.Cancel();
-            source = new();
+            cancelSource?.Cancel();
+            cancelSource = new();
+            var source = cancelSource;
             var file = await _launcherService.GetBackgroundImageAsync(CurrentGameBiz);
             if (file != null)
             {

@@ -241,6 +241,7 @@ public sealed partial class ScreenshotPage : Page
         {
             _tokenSource?.Cancel();
             _tokenSource = new CancellationTokenSource();
+            var source = _tokenSource;
             int index = 0;
             if (e.GetCurrentPoint(this).Properties.MouseWheelDelta < 0)
             {
@@ -257,7 +258,7 @@ public sealed partial class ScreenshotPage : Page
             var bitmap = new BitmapImage();
             using var fs = File.OpenRead(_selectItem.FullName);
             await bitmap.SetSourceAsync(fs.AsRandomAccessStream());
-            if (_tokenSource.IsCancellationRequested)
+            if (source.IsCancellationRequested)
             {
                 return;
             }

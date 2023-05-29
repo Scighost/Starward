@@ -145,7 +145,7 @@ public sealed partial class SelectGamePage : Page
 
 
 
-    private CancellationTokenSource? source;
+    private CancellationTokenSource? cancelSource;
 
 
     private async Task ChangeGameInfoAsync()
@@ -157,7 +157,7 @@ public sealed partial class SelectGamePage : Page
         var sw = Stopwatch.StartNew();
         try
         {
-            source?.Cancel();
+            cancelSource?.Cancel();
             Grid_GameInfo.Opacity = 0;
             Rectangle_Mask.Opacity = 1;
             var game_info = games.FirstOrDefault(x => x.GameBiz == selectBiz);
@@ -167,7 +167,8 @@ public sealed partial class SelectGamePage : Page
                 return;
             }
 
-            source = new();
+            cancelSource = new();
+            var source = cancelSource;
             var logoTask = ImageCacheService.Instance.GetFromCacheAsync(new Uri(game_info.Logo));
             var posterTask = ImageCacheService.Instance.GetFromCacheAsync(new Uri(game_info.Poster));
             await Task.WhenAll(logoTask, posterTask);
