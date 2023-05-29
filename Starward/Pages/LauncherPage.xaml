@@ -6,6 +6,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:av="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
@@ -15,7 +16,19 @@
       mc:Ignorable="d">
 
     <Page.Resources>
-        <ThemeShadow x:Key="ThemeShadow" />
+        <labs:TransitionHelper x:Key="GameSettingTransition">
+            <labs:TransitionConfig EasingMode="EaseInOut"
+                                   Id="gamesetting"
+                                   ScaleMode="Scale" />
+        </labs:TransitionHelper>
+        <labs:StartTransitionAction x:Name="gameSettingOpenAction"
+                                    Source="{x:Bind StackPanel_GameSetting}"
+                                    Target="{x:Bind Grid_GameSetting}"
+                                    Transition="{StaticResource GameSettingTransition}" />
+        <labs:StartTransitionAction x:Name="gameSettingCloseAction"
+                                    Source="{x:Bind Grid_GameSetting}"
+                                    Target="{x:Bind StackPanel_GameSetting}"
+                                    Transition="{StaticResource GameSettingTransition}" />
     </Page.Resources>
 
     <Grid>
@@ -198,21 +211,35 @@
                         </AnimatedIcon>
                     </Button.Content>
                     <Button.Flyout>
-                        <Flyout>
-                            <!--  Game Setting  -->
-                            <StackPanel MinWidth="200"
-                                        MaxWidth="400"
+                        <!--  Game Setting  -->
+                        <Flyout x:Name="Flyout_GameSetting">
+                            <StackPanel Name="StackPanel_GameSetting"
+                                        Width="240"
+                                        labs:TransitionHelper.Id="gamesetting"
                                         Spacing="8">
-                                <TextBlock FontSize="16"
-                                           FontWeight="SemiBold"
-                                           Text="游戏设置" />
-                                <TextBlock Margin="0,8,0,0" Text="安装位置" />
+                                <Grid>
+                                    <TextBlock FontSize="16"
+                                               FontWeight="SemiBold"
+                                               Text="游戏设置" />
+                                    <Button Name="Button_OpenGameSetting"
+                                            Width="32"
+                                            Height="32"
+                                            Padding="0"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Command="{x:Bind OpenGameSettingCommand}"
+                                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                        <FontIcon FontSize="16"
+                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                  Glyph="&#xE1D9;" />
+                                    </Button>
+                                </Grid>
+                                <TextBlock Text="安装位置" />
                                 <TextBlock FontSize="12"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                            Text="{x:Bind InstallPath, TargetNullValue=---}"
                                            TextTrimming="CharacterEllipsis"
                                            ToolTipService.ToolTip="{x:Bind InstallPath}" />
-                                <Button Command="{x:Bind ChangeGameInstallPathCommand}" Content="修改" />
                                 <TextBlock Margin="0,8,0,0" Text="启动参数" />
                                 <TextBox IsSpellCheckEnabled="False" Text="{x:Bind StartGameArgument, Mode=TwoWay}" />
                                 <TextBlock Margin="0,8,0,0">
@@ -220,14 +247,13 @@
                                     <Run Text="" />
                                     <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="仅支持星穹铁道" />
                                 </TextBlock>
-                                <NumberBox Name="NumberBox_FPS"
+                                <NumberBox Name="NumberBox_FPS_1"
                                            IsEnabled="False"
                                            Maximum="320"
                                            Minimum="60"
                                            SmallChange="10"
                                            SpinButtonPlacementMode="Inline"
                                            Value="{x:Bind TargetFPS, Mode=TwoWay}" />
-                                <TextBlock Margin="0,8,0,0" Text="其他" />
                                 <ToggleSwitch IsOn="{x:Bind EnableBannerAndPost, Mode=TwoWay}"
                                               OffContent="显示游戏公告"
                                               OnContent="显示游戏公告" />
@@ -433,6 +459,185 @@
 
 
         </StackPanel>
+
+
+
+        <!--  Game Setting  -->
+        <Grid Name="Grid_GameSetting"
+              Margin="40"
+              labs:TransitionHelper.Id="gamesetting"
+              Background="{ThemeResource CustomAcrylicBrush}"
+              CornerRadius="8"
+              Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid Margin="24,24,24,0">
+                <TextBlock FontSize="20"
+                           FontWeight="SemiBold"
+                           Text="游戏设置" />
+                <Button Name="Button_CloseGameSetting"
+                        Width="36"
+                        Height="36"
+                        Padding="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Command="{x:Bind CloseGameSettingCommand}"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                    <FontIcon FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="&#xE1D8;" />
+                </Button>
+            </Grid>
+            <ScrollViewer Grid.Row="1">
+                <StackPanel Margin="24,0,24,24" Spacing="8">
+
+                    <!--  Game Install Path  -->
+                    <TextBlock Text="安装位置" />
+                    <StackPanel Margin="0,4,0,0"
+                                Orientation="Horizontal"
+                                Spacing="12">
+                        <Button Height="36"
+                                Margin="-40,0,0,0"
+                                Padding="40,0,16,0"
+                                BorderThickness="0"
+                                Command="{x:Bind ChangeGameInstallPathCommand}"
+                                CornerRadius="0,18,18,0"
+                                Style="{ThemeResource AccentButtonStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE838;" />
+                                <TextBlock Text="修改" />
+                            </StackPanel>
+                        </Button>
+                        <Grid Height="36"
+                              MaxWidth="800"
+                              Background="{ThemeResource CustomAcrylicBrush}"
+                              CornerRadius="18"
+                              Visibility="{x:Bind InstallPath, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button Height="36"
+                                    BorderThickness="0"
+                                    Command="{x:Bind OpenGameInstallFolderCommand}"
+                                    CornerRadius="0">
+                                <TextBlock Margin="8,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="{x:Bind InstallPath}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </Button>
+                            <Button Grid.Column="1"
+                                    Height="36"
+                                    BorderThickness="0"
+                                    Command="{x:Bind DeleteGameInstallPathCommand}"
+                                    CornerRadius="0">
+                                <FontIcon Margin="0,2,4,0"
+                                          FontSize="16"
+                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                          Glyph="&#xE10A;" />
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+
+                    <!--  Third Party Tool  -->
+                    <ToggleSwitch Margin="0,8,0,0"
+                                  FontSize="14"
+                                  IsOn="{x:Bind EnableThirdPartyTool, Mode=TwoWay}"
+                                  OffContent="自定义启动程序"
+                                  OnContent="自定义启动程序" />
+                    <TextBlock Margin="0,-8,0,4"
+                               FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="使用第三方插件代替启动，启用后无法记录游戏时间。"
+                               TextTrimming="CharacterEllipsis" />
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Button Height="36"
+                                Margin="-40,0,0,0"
+                                Padding="40,0,16,0"
+                                BorderThickness="0"
+                                Command="{x:Bind ChangeThirdPartyPathCommand}"
+                                CornerRadius="0,18,18,0"
+                                IsEnabled="{x:Bind EnableThirdPartyTool}"
+                                Style="{ThemeResource AccentButtonStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE7FC;" />
+                                <TextBlock Text="选择" />
+                            </StackPanel>
+                        </Button>
+                        <Grid Height="36"
+                              MaxWidth="800"
+                              Background="{ThemeResource CustomAcrylicBrush}"
+                              CornerRadius="18"
+                              Visibility="{x:Bind ThirdPartyToolPath, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button Height="36"
+                                    BorderThickness="0"
+                                    Command="{x:Bind OpenThirdPartyToolFolderCommand}"
+                                    CornerRadius="0">
+                                <TextBlock Margin="8,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="{x:Bind ThirdPartyToolPath}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </Button>
+                            <Button Grid.Column="1"
+                                    Height="36"
+                                    BorderThickness="0"
+                                    Command="{x:Bind DeleteThirdPartyToolPathCommand}"
+                                    CornerRadius="0">
+                                <FontIcon Margin="0,2,4,0"
+                                          FontSize="16"
+                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                          Glyph="&#xE10A;" />
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+
+                    <Button Width="0"
+                            Height="0"
+                            IsHitTestVisible="False" />
+
+                    <!--  Start Argument  -->
+                    <TextBlock Margin="0,4,0,0" Text="启动参数" />
+                    <TextBox MinWidth="200"
+                             HorizontalAlignment="Left"
+                             IsSpellCheckEnabled="False"
+                             Text="{x:Bind StartGameArgument, Mode=TwoWay}" />
+
+                    <!--  FPS  -->
+                    <TextBlock Margin="0,12,0,0">
+                        <Run Text="FPS" />
+                        <Run Text="" />
+                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="仅支持星穹铁道" />
+                    </TextBlock>
+                    <NumberBox Name="NumberBox_FPS_2"
+                               MinWidth="200"
+                               HorizontalAlignment="Left"
+                               IsEnabled="False"
+                               Maximum="120"
+                               Minimum="60"
+                               SmallChange="10"
+                               SpinButtonPlacementMode="Inline"
+                               Value="{x:Bind TargetFPS, Mode=TwoWay}" />
+
+                    <!--  Others  -->
+                    <ToggleSwitch Margin="0,8,0,0"
+                                  IsOn="{x:Bind EnableBannerAndPost, Mode=TwoWay}"
+                                  OffContent="显示游戏公告"
+                                  OnContent="显示游戏公告" />
+                    <ToggleSwitch Margin="0,-8,0,0"
+                                  IsOn="{x:Bind IgnoreRunningGame, Mode=TwoWay}"
+                                  OffContent="忽略正在运行的游戏"
+                                  OnContent="忽略正在运行的游戏" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
 
 
 

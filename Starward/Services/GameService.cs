@@ -74,6 +74,19 @@ internal class GameService
     }
 
 
+    public string GetGameExeName(GameBiz biz)
+    {
+        return biz switch
+        {
+            GameBiz.hk4e_cn => "YuanShen.exe",
+            GameBiz.hk4e_global => "GenshinImpact.exe",
+            GameBiz.hk4e_cloud => "Genshin Impact Cloud Game.exe",
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => "StarRail.exe",
+            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
+        };
+    }
+
+
 
     public string? GetGameScreenshotPath(GameBiz biz)
     {
@@ -275,15 +288,28 @@ internal class GameService
                     throw new Exception("Game process is running.");
                 }
             }
-            var folder = GetGameInstallPath(biz);
-            var name = biz switch
+            if (AppConfig.GetEnableThirdPartyTool(biz))
             {
-                GameBiz.hk4e_cn => "YuanShen.exe",
-                GameBiz.hk4e_global => "GenshinImpact.exe",
-                GameBiz.hk4e_cloud => "Genshin Impact Cloud Game.exe",
-                GameBiz.hkrpg_cn or GameBiz.hkrpg_global => "StarRail.exe",
-                _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
-            };
+                var thirdPath = AppConfig.GetThirdPartyToolPath(biz);
+                if (File.Exists(thirdPath))
+                {
+                    _logger.LogInformation("Start game ({biz})\r\npath: {exe}", biz, thirdPath);
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = thirdPath,
+                        UseShellExecute = true,
+                        Verb = Path.GetExtension(thirdPath) is ".exe" or ".bat" ? "runas" : "",
+                        WorkingDirectory = Path.GetDirectoryName(thirdPath),
+                    });
+                    return null;
+                }
+                else
+                {
+                    AppConfig.SetThirdPartyToolPath(biz, null);
+                }
+            }
+            var folder = GetGameInstallPath(biz);
+            var name = GetGameExeName(biz);
             var exe = Path.Join(folder, name);
             var arg = AppConfig.GetStartArgument(biz)?.Trim();
             _logger.LogInformation("Start game ({biz})\r\npath: {exe}\r\nargu: {argu}", biz, exe, arg);
@@ -301,8 +327,8 @@ internal class GameService
         {
             // Operation canceled
             _logger.LogInformation("Start game operation canceled.");
-            return null;
         }
+        return null;
     }
 
 

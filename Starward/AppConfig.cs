@@ -316,6 +316,30 @@ internal abstract class AppConfig
 
 
 
+    public static bool GetEnableThirdPartyTool(GameBiz biz)
+    {
+        return GetValue<int>(default, $"enable_third_party_tool_{biz}") != 0;
+    }
+
+    public static void SetEnableThirdPartyTool(GameBiz biz, bool value)
+    {
+        SetValue(value ? 1 : 0, $"enable_third_party_tool_{biz}");
+    }
+
+
+
+    public static string? GetThirdPartyToolPath(GameBiz biz)
+    {
+        return GetValue<string>(default, $"third_party_tool_path_{biz}");
+    }
+
+    public static void SetThirdPartyToolPath(GameBiz biz, string? value)
+    {
+        SetValue(value, $"third_party_tool_path_{biz}");
+    }
+
+
+
     public static string? GetStartArgument(GameBiz biz)
     {
         return GetValue<string>(default, $"start_argument_{biz}");

@@ -24,6 +24,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Timers;
 using Vanara.PInvoke;
+using Windows.Storage;
+using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -47,7 +49,7 @@ public sealed partial class LauncherPage : Page
 
     private readonly DatabaseService _databaseService = AppConfig.GetService<DatabaseService>();
 
-    private readonly DispatcherQueueTimer _timer;
+    private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _timer;
 
     private GameBiz gameBiz;
 
@@ -110,20 +112,22 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
-            startGameArgument = AppConfig.GetStartArgument(gameBiz);
-            OnPropertyChanged(nameof(StartGameArgument));
+            StartGameArgument = AppConfig.GetStartArgument(gameBiz);
+            EnableThirdPartyTool = AppConfig.GetEnableThirdPartyTool(gameBiz);
+            ThirdPartyToolPath = AppConfig.GetThirdPartyToolPath(gameBiz);
             if (gameBiz is GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
             {
-                NumberBox_FPS.IsEnabled = true;
+                NumberBox_FPS_1.IsEnabled = true;
+                NumberBox_FPS_2.IsEnabled = true;
+#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
                 targetFPS = _gameService.GetStarRailFPS(gameBiz);
+#pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
                 OnPropertyChanged(nameof(TargetFPS));
             }
             if (gameBiz is GameBiz.hk4e_cloud)
             {
                 Grid_BannerAndPost.HorizontalAlignment = HorizontalAlignment.Right;
             }
-#pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
         }
         catch { }
     }
@@ -193,7 +197,7 @@ public sealed partial class LauncherPage : Page
 
 
 
-    private void _timer_Tick(DispatcherQueueTimer sender, object args)
+    private void _timer_Tick(Microsoft.UI.Dispatching.DispatcherQueueTimer sender, object args)
     {
         try
         {
@@ -241,6 +245,8 @@ public sealed partial class LauncherPage : Page
     #region Start Game
 
 
+
+
     private Timer processTimer;
 
 
@@ -270,6 +276,22 @@ public sealed partial class LauncherPage : Page
     {
         AppConfig.SetGameInstallPath(gameBiz, value);
         _logger.LogInformation("Game install path {biz}: {path}", gameBiz, value);
+    }
+
+
+    [ObservableProperty]
+    private bool enableThirdPartyTool;
+    partial void OnEnableThirdPartyToolChanged(bool value)
+    {
+        AppConfig.SetEnableThirdPartyTool(gameBiz, value);
+    }
+
+
+    [ObservableProperty]
+    private string? thirdPartyToolPath;
+    partial void OnThirdPartyToolPathChanged(string? value)
+    {
+        AppConfig.SetThirdPartyToolPath(gameBiz, value);
     }
 
 
@@ -338,14 +360,18 @@ public sealed partial class LauncherPage : Page
         try
         {
             CanStartGame = true;
-            InstallPath = _gameService.GetGameInstallPath(gameBiz);
-            if (!Directory.Exists(InstallPath))
+            var install = _gameService.GetGameInstallPath(gameBiz);
+            var exeName = _gameService.GetGameExeName(gameBiz);
+            var exePath = Path.Join(install, exeName);
+            if (!File.Exists(exePath))
             {
                 _logger.LogWarning("Game uninstalled ({biz})", gameBiz);
                 StartGameButtonText = "未安装游戏";
                 CanStartGame = false;
+                AppConfig.SetGameInstallPath(gameBiz, null);
                 return;
             }
+            InstallPath = install;
             StartGameButtonText = "开始游戏";
             if (IgnoreRunningGame)
             {
@@ -451,6 +477,78 @@ public sealed partial class LauncherPage : Page
 
 
 
+    [RelayCommand]
+    private async Task ChangeThirdPartyPathAsync()
+    {
+        try
+        {
+            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.HWND);
+            if (File.Exists(file))
+            {
+                ThirdPartyToolPath = file;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Change third party tool path ({biz})", gameBiz);
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task OpenGameInstallFolderAsync()
+    {
+        try
+        {
+            if (Directory.Exists(InstallPath))
+            {
+                await Launcher.LaunchFolderPathAsync(InstallPath);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open game install folder {folder}", InstallPath);
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task OpenThirdPartyToolFolderAsync()
+    {
+        try
+        {
+            if (File.Exists(ThirdPartyToolPath))
+            {
+                var folder = Path.GetDirectoryName(ThirdPartyToolPath);
+                var file = await StorageFile.GetFileFromPathAsync(ThirdPartyToolPath);
+                var option = new FolderLauncherOptions();
+                option.ItemsToSelect.Add(file);
+                await Launcher.LaunchFolderPathAsync(folder, option);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open third party tool folder {folder}", ThirdPartyToolPath);
+        }
+    }
+
+
+    [RelayCommand]
+    private void DeleteGameInstallPath()
+    {
+        InstallPath = null;
+    }
+
+
+    [RelayCommand]
+    private void DeleteThirdPartyToolPath()
+    {
+        ThirdPartyToolPath = null;
+    }
+
+
+
     [ObservableProperty]
     private TimeSpan playTimeTotal;
 
@@ -515,6 +613,23 @@ public sealed partial class LauncherPage : Page
         }
     }
 
+
+    [RelayCommand]
+    private void OpenGameSetting()
+    {
+        gameSettingOpenAction.Execute(this, null!);
+        Flyout_GameSetting.Hide();
+    }
+
+
+
+    [RelayCommand]
+    private void CloseGameSetting()
+    {
+        StackPanel_GameSetting.Visibility = Visibility.Visible;
+        Flyout_GameSetting.ShowAt(Button_GameSetting);
+        gameSettingCloseAction.Execute(this, null!);
+    }
 
 
     #endregion
@@ -625,11 +740,13 @@ public sealed partial class LauncherPage : Page
 
 
 
+
+
+
+
+
     #endregion
 
-
-
-
-
+   
 
 }
