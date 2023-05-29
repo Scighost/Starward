@@ -77,11 +77,14 @@
             </NavigationView.Resources>
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="启动器"
+                <NavigationViewItem Name="NavigationViewItem_Launcher"
+                                    Content="启动器"
                                     Icon="Home"
                                     IsSelected="True"
                                     Tag="LauncherPage" />
-                <NavigationViewItem Content="游戏截图" Tag="ScreenshotPage">
+                <NavigationViewItem Name="NavigationViewItem_Screenshot"
+                                    Content="游戏截图"
+                                    Tag="ScreenshotPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE91B;" />
                     </NavigationViewItem.Icon>

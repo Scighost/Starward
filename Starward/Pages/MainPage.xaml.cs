@@ -14,7 +14,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Services;
-using Starward.Services.Gacha;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -136,11 +135,14 @@ public sealed partial class MainPage : Page
 
     #region Select Game
 
+
+
     [ObservableProperty]
-    private GameBiz currentGameBiz;
+    private GameBiz currentGameBiz = (GameBiz)int.MaxValue;
     partial void OnCurrentGameBizChanged(GameBiz value)
     {
-        NavigationViewItem_GachaLog.Content = GachaLogService.GetGachaLogText(value);
+        AppConfig.SelectGameBiz = value;
+        UpdateNavigationViewItems();
         CurrentGameBizText = value switch
         {
             GameBiz.hk4e_cn or GameBiz.hkrpg_cn => "China",
@@ -159,9 +161,9 @@ public sealed partial class MainPage : Page
     {
         CurrentGameBiz = AppConfig.SelectGameBiz;
         _logger.LogInformation("Select game region is {gamebiz}", CurrentGameBiz);
-        if (CurrentGameBiz.ToGame() != GameBiz.None)
+        if (CurrentGameBiz.ToGame() == GameBiz.None)
         {
-            NavigateTo(typeof(LauncherPage));
+            MainPage_Frame.Content = new BlankPage();
         }
     }
 
@@ -174,7 +176,6 @@ public sealed partial class MainPage : Page
         {
             _logger.LogInformation("Change game region to {gamebiz}", CurrentGameBiz);
             CurrentGameBiz = biz;
-            AppConfig.SelectGameBiz = CurrentGameBiz;
             AppConfig.SetLastRegionOfGame(biz.ToGame(), biz);
             UpdateButtonEffect();
             NavigateTo(MainPage_Frame.SourcePageType);
@@ -534,9 +535,35 @@ public sealed partial class MainPage : Page
 
 
 
+
+    private void UpdateNavigationViewItems()
+    {
+        if (CurrentGameBiz.ToGame() is GameBiz.None or GameBiz.Honkai3rd)
+        {
+            NavigationViewItem_Launcher.Visibility = Visibility.Collapsed;
+            NavigationViewItem_Screenshot.Visibility = Visibility.Collapsed;
+            NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            NavigationViewItem_Launcher.Visibility = Visibility.Visible;
+            NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
+            NavigationViewItem_GachaLog.Visibility = Visibility.Visible;
+        }
+        if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
+        {
+            NavigationViewItem_GachaLog.Content = "祈愿记录";
+        }
+        if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
+        {
+            NavigationViewItem_GachaLog.Content = "跃迁记录";
+        }
+    }
+
+
     private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
-        if (args.InvokedItemContainer.IsSelected)
+        if (args.InvokedItemContainer?.IsSelected ?? false)
         {
             return;
         }
@@ -565,10 +592,13 @@ public sealed partial class MainPage : Page
 
     public void NavigateTo(Type? page, object? param = null)
     {
-        page ??= typeof(LauncherPage);
+        if (page is null || page?.Name is nameof(BlankPage))
+        {
+            page = typeof(LauncherPage);
+        }
         _logger.LogInformation("Navigate to {page} with param {param}", page.Name, param);
         MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());
-        if (page.Name is "LauncherPage")
+        if (page.Name is nameof(BlankPage) or nameof(LauncherPage))
         {
             Border_ContentBackground.Opacity = 0;
         }
