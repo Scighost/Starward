@@ -48,16 +48,16 @@
                 <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind NewVersion.Version}" />
             </StackPanel>
             <TextBlock>
-                <Run Text="架构：" />
-                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind NewVersion.Architecture}" />
+                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="架构：" />
+                <Run Text="{x:Bind NewVersion.Architecture}" />
             </TextBlock>
             <TextBlock>
-                <Run Text="更新渠道：" />
-                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind ChannelText}" />
+                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="更新渠道：" />
+                <Run Text="{x:Bind ChannelText}" />
             </TextBlock>
             <TextBlock>
-                <Run Text="编译时间：" />
-                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind NewVersion.BuildTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="编译时间：" />
+                <Run Text="{x:Bind NewVersion.BuildTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
             </TextBlock>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -178,9 +178,10 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Margin="20,0,0,0"
-                       FontSize="20"
-                       Text="版本说明" />
+            <TextBlock Name="TextBlock_NewVersionTitle"
+                       Margin="28,0,0,0"
+                       FontSize="28"
+                       FontWeight="Bold" />
             <ScrollViewer Grid.Row="1"
                           CornerRadius="8"
                           HorizontalScrollMode="Disabled">

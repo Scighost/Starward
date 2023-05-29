@@ -98,7 +98,7 @@ internal class UpdateService
 
     public async Task PrepareForUpdateAsync(ReleaseVersion release)
     {
-        source?.Cancel();
+        cancelSource?.Cancel();
         ErrorMessage = string.Empty;
         updateFiles.Clear();
         releaseVersion = release;
@@ -106,12 +106,16 @@ internal class UpdateService
         var baseFolder = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
         if (baseFolder == null)
         {
-            throw new NotSupportedException();
+            ErrorMessage = "安装目录不符合要求，无法自动更新";
+            State = UpdateState.NotSupport;
+            return;
         }
         var exe = Path.Join(baseFolder, "Starward.exe");
         if (!File.Exists(exe))
         {
-            throw new NotSupportedException();
+            ErrorMessage = "安装目录不符合要求，无法自动更新";
+            State = UpdateState.NotSupport;
+            return;
         }
         foreach (var file in release.SeparateFiles)
         {
@@ -216,7 +220,7 @@ internal class UpdateService
 
 
 
-    private CancellationTokenSource? source;
+    private CancellationTokenSource? cancelSource;
 
 
 
@@ -229,7 +233,7 @@ internal class UpdateService
 
     public void Stop()
     {
-        source?.Cancel();
+        cancelSource?.Cancel();
         State = UpdateState.Stop;
         progress_BytesDownloaded = 0;
         progress_FileCountDownloaded = 0;
@@ -245,8 +249,9 @@ internal class UpdateService
     {
         try
         {
-            source?.Cancel();
-            source = new();
+            cancelSource?.Cancel();
+            cancelSource = new();
+            var source = cancelSource;
             State = UpdateState.Downloading;
             await DownloadFilesAsync(source.Token);
             if (source.IsCancellationRequested)
@@ -411,6 +416,8 @@ internal class UpdateService
         Finish,
 
         Error,
+
+        NotSupport,
     }
 
 

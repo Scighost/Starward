@@ -113,6 +113,7 @@ public sealed partial class UpdatePage : Page
                 if (githubRelease != null)
                 {
                     markdown.Text = githubRelease.Body;
+                    TextBlock_NewVersionTitle.Text = githubRelease.Name;
                     GRid_Markdown.Visibility = Visibility.Visible;
                 }
             }
@@ -127,14 +128,6 @@ public sealed partial class UpdatePage : Page
             await _updateService.PrepareForUpdateAsync(newRelease);
             UpdateProgressState();
             _timer.Stop();
-        }
-        catch (NotSupportedException)
-        {
-            IsProgressBarVisible = false;
-            ErrorMessage = "安装目录不符合要求，无法自动更新";
-            Button_Update.IsEnabled = false;
-            Button_RemindLatter.IsEnabled = true;
-            Button_IgnoreVersion.IsEnabled = true;
         }
         catch (HttpRequestException ex)
         {
@@ -240,17 +233,12 @@ public sealed partial class UpdatePage : Page
                 {
                     await _updateService.PrepareForUpdateAsync(newRelease);
                 }
-                _updateService.Start();
+                if (_updateService.State is UpdateService.UpdateState.Pending)
+                {
+                    _updateService.Start();
+                }
                 _timer.Start();
             }
-        }
-        catch (NotSupportedException)
-        {
-            IsProgressBarVisible = false;
-            ErrorMessage = "安装目录不符合要求，无法自动更新";
-            Button_Update.IsEnabled = false;
-            Button_RemindLatter.IsEnabled = true;
-            Button_IgnoreVersion.IsEnabled = true;
         }
         catch (Exception ex)
         {
@@ -335,6 +323,15 @@ public sealed partial class UpdatePage : Page
             Button_RemindLatter.IsEnabled = true;
             Button_IgnoreVersion.IsEnabled = true;
         }
+        if (_updateService.State is UpdateService.UpdateState.NotSupport)
+        {
+            IsProgressTextVisible = false;
+            IsProgressBarVisible = false;
+            ErrorMessage = _updateService.ErrorMessage;
+            Button_Update.IsEnabled = false;
+            Button_RemindLatter.IsEnabled = true;
+            Button_IgnoreVersion.IsEnabled = true;
+        }
     }
 
 
@@ -362,7 +359,7 @@ public sealed partial class UpdatePage : Page
                 _timer.Stop();
                 Restart();
             }
-            if (_updateService.State is UpdateService.UpdateState.Stop or UpdateService.UpdateState.Error)
+            if (_updateService.State is UpdateService.UpdateState.Stop or UpdateService.UpdateState.Error or UpdateService.UpdateState.NotSupport)
             {
                 _timer.Stop();
             }
