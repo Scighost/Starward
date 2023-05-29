@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
+using Starward.Helpers;
 using Starward.Services;
 using Starward.Services.Gacha;
 using System;
@@ -221,7 +222,7 @@ public sealed partial class MainPage : Page
         UpdateButtonCornerRadius(Button_BH3, false);
         UpdateButtonCornerRadius(Button_YS, false);
         UpdateButtonCornerRadius(Button_SR, false);
-        
+
     }
 
 
@@ -411,7 +412,7 @@ public sealed partial class MainPage : Page
             if (file != null)
             {
                 BackgroundImage = new BitmapImage(new Uri(file));
-                Color? color = null;
+                Color? back = null, fore = null;
                 if (AppConfig.EnableDynamicAccentColor)
                 {
                     var hex = AppConfig.AccentColor;
@@ -419,17 +420,18 @@ public sealed partial class MainPage : Page
                     {
                         try
                         {
-                            color = ColorHelper.ToColor(hex);
+                            back = ColorHelper.ToColor(hex[0..9]);
+                            fore = ColorHelper.ToColor(hex[9..18]);
                         }
                         catch { }
                     }
                 }
-                MainWindow.Current.ChangeAccentColor(color);
+                MainWindow.Current.ChangeAccentColor(back, fore);
             }
             else
             {
                 BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
-                MainWindow.Current.ChangeAccentColor(null);
+                MainWindow.Current.ChangeAccentColor(null, null);
             }
         }
         catch (Exception ex)
@@ -460,14 +462,14 @@ public sealed partial class MainPage : Page
                 var bytes = new byte[bitmap.PixelBuffer.Length];
                 var ms = new MemoryStream(bytes);
                 await bitmap.PixelBuffer.AsStream().CopyToAsync(ms);
-                var color = GetPrimaryColor(bytes);
+                (Color? back, Color? fore) = GetPrimaryColor(bytes, (int)decoder.PixelWidth, (int)decoder.PixelHeight);
                 if (source.IsCancellationRequested)
                 {
                     return;
                 }
                 if (AppConfig.EnableDynamicAccentColor)
                 {
-                    MainWindow.Current.ChangeAccentColor(color);
+                    MainWindow.Current.ChangeAccentColor(back, fore);
                 }
                 BackgroundImage = bitmap;
             }
@@ -484,24 +486,42 @@ public sealed partial class MainPage : Page
 
 
 
-    private Color? GetPrimaryColor(byte[] bytes)
+    private (Color? Back, Color? Fore) GetPrimaryColor(byte[] bytes, int width, int height)
     {
         if (bytes.Length % 4 == 0)
         {
-            long b = 0, g = 0, r = 0, a = 0;
-            for (int i = 0; i < bytes.Length; i += 4)
+            var averageColor = AccentColorHelper.GetAverageColor(bytes);
+            var hueCircle = AccentColorHelper.GetHueColorCircle(bytes, width, height);
+            var hsv = averageColor.ToHsv();
+
+            int maxHueStart = 0;
+            int maxHueCount = 0;
+            for (int i = ((int)hsv.H) + 30; i < ((int)hsv.H) + 300; i++)
             {
-                b += bytes[i];
-                g += bytes[i + 1];
-                r += bytes[i + 2];
-                a += bytes[i + 3];
+                int count = 0;
+                for (int j = i; j < i + 30; j++)
+                {
+                    int h = j % 360;
+                    count += hueCircle[h];
+                }
+                if (count > maxHueCount)
+                {
+                    maxHueStart = i;
+                    maxHueCount = count;
+                }
             }
-            var color = Color.FromArgb((byte)(a * 4 / bytes.Length), (byte)(r * 4 / bytes.Length), (byte)(g * 4 / bytes.Length), (byte)(b * 4 / bytes.Length));
-            var hsv = color.ToHsv();
-            return ColorHelper.FromHsv(hsv.H, 0.5, hsv.V);
+
+            long sum = 0;
+            for (int i = maxHueStart; i < maxHueStart + 30; i++)
+            {
+                int h = i % 360;
+                sum += h * hueCircle[h];
+            }
+
+            return (ColorHelper.FromHsv(hsv.H, 0.4, hsv.V), ColorHelper.FromHsv((double)sum / maxHueCount, 0.9, 0.9));
 
         }
-        return null;
+        return (null, null);
     }
 
 

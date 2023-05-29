@@ -62,6 +62,9 @@
                     <Color x:Key="SystemAccentColorDark1">#ffd52a</Color>
                     <Color x:Key="SystemAccentColorDark2">#ffd52a</Color>
                     <Color x:Key="SystemAccentColorDark3">#ffd52a</Color>
+                    <SolidColorBrush x:Key="AccentTextFillColorPrimaryBrush" Color="{ThemeResource SystemAccentColorDark2}" />
+                    <SolidColorBrush x:Key="AccentTextFillColorSecondaryBrush" Color="{ThemeResource SystemAccentColorDark3}" />
+                    <SolidColorBrush x:Key="AccentTextFillColorTertiaryBrush" Color="{ThemeResource SystemAccentColorDark1}" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <Color x:Key="SystemAccentColor">#ffd52a</Color>
@@ -71,6 +74,9 @@
                     <Color x:Key="SystemAccentColorDark1">#ffd52a</Color>
                     <Color x:Key="SystemAccentColorDark2">#ffd52a</Color>
                     <Color x:Key="SystemAccentColorDark3">#ffd52a</Color>
+                    <SolidColorBrush x:Key="AccentTextFillColorPrimaryBrush" Color="{ThemeResource SystemAccentColorLight3}" />
+                    <SolidColorBrush x:Key="AccentTextFillColorSecondaryBrush" Color="{ThemeResource SystemAccentColorLight3}" />
+                    <SolidColorBrush x:Key="AccentTextFillColorTertiaryBrush" Color="{ThemeResource SystemAccentColorLight2}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 

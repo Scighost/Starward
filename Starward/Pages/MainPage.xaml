@@ -130,7 +130,7 @@
                         Visibility="Collapsed">
                     <Grid>
                         <Image Source="ms-appx:///Assets/Image/icon_bh3.jpg" />
-                        <Border Name="Border_Mask_BH3" Background="#50000000">
+                        <Border Name="Border_Mask_BH3" Background="#60000000">
                             <Border.OpacityTransition>
                                 <ScalarTransition />
                             </Border.OpacityTransition>
@@ -173,7 +173,7 @@
                         Tag="ys">
                     <Grid>
                         <Image Source="ms-appx:///Assets/Image/icon_ys.jpg" />
-                        <Border Name="Border_Mask_YS" Background="#50000000">
+                        <Border Name="Border_Mask_YS" Background="#60000000">
                             <Border.OpacityTransition>
                                 <ScalarTransition />
                             </Border.OpacityTransition>
@@ -207,7 +207,7 @@
                         Tag="sr">
                     <Grid>
                         <Image Source="ms-appx:///Assets/Image/icon_sr.jpg" />
-                        <Border Name="Border_Mask_SR" Background="#50000000">
+                        <Border Name="Border_Mask_SR" Background="#60000000">
                             <Border.OpacityTransition>
                                 <ScalarTransition />
                             </Border.OpacityTransition>

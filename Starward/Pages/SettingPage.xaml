@@ -326,12 +326,16 @@
                     <TextBlock Text="Developed by Scighost, all rights reserved." />
                     <TextBlock Margin="0,16,0,0">
                         <Hyperlink NavigateUri="https://github.com/Scighost/Starward" UnderlineStyle="None">
-                            <Run FontWeight="Bold" Text="项目主页" />
+                            <Run FontWeight="Bold"
+                                 Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                 Text="项目主页" />
                         </Hyperlink>
                     </TextBlock>
                     <TextBlock Margin="0,8,0,0">
                         <Hyperlink NavigateUri="https://github.com/Scighost/Starward/issues" UnderlineStyle="None">
-                            <Run FontWeight="Bold" Text="反馈问题" />
+                            <Run FontWeight="Bold"
+                                 Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                 Text="反馈问题" />
                         </Hyperlink>
                     </TextBlock>
                 </StackPanel>

@@ -5,6 +5,7 @@ using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Pages;
 using Starward.Pages.Welcome;
@@ -175,27 +176,44 @@ public sealed partial class MainWindow : Window
 
 
 
-    public void ChangeAccentColor(Color? color = null)
+    public void ChangeAccentColor(Color? backColor = null, Color? foreColor = null)
     {
         try
         {
-            var colors = new Color[7];
-            if (color != null)
+            var colors = new Color[14];
+            if (backColor != null && foreColor != null)
             {
-                Func<byte, byte, double, byte> mix = (byte input, byte blend, double percent) => (byte)(input * percent + blend * (1 - percent));
-                var primaryColor = color.Value;
-                colors[0] = primaryColor;
+                Func<Color, Color, double, Color> mix = (Color input, Color blend, double percent) =>
+                    Color.FromArgb(255,
+                                   (byte)(input.R * percent + blend.R * (1 - percent)),
+                                   (byte)(input.G * percent + blend.G * (1 - percent)),
+                                   (byte)(input.B * percent + blend.B * (1 - percent)));
+
+                colors[0] = backColor.Value;
                 for (int i = 1; i < 4; i++)
                 {
                     double percent = 1 - 0.2 * i;
-                    colors[i] = Color.FromArgb(255, mix(primaryColor.R, 255, percent), mix(primaryColor.G, 255, percent), mix(primaryColor.B, 255, percent));
+                    colors[i] = mix(backColor.Value, Colors.White, percent);
                 }
                 for (int i = 4; i < 7; i++)
                 {
                     double percent = 1 - 0.2 * (i - 3);
-                    colors[i] = Color.FromArgb(255, mix(primaryColor.R, 0, percent), mix(primaryColor.G, 0, percent), mix(primaryColor.B, 0, percent));
+                    colors[i] = mix(backColor.Value, Colors.Black, percent);
                 }
-                AppConfig.AccentColor = primaryColor.ToHex();
+
+                colors[7] = foreColor.Value;
+                for (int i = 8; i < 11; i++)
+                {
+                    double percent = 1 - 0.2 * (i - 7);
+                    colors[i] = mix(foreColor.Value, Colors.White, percent);
+                }
+                for (int i = 11; i < 14; i++)
+                {
+                    double percent = 1 - 0.2 * (i - 10);
+                    colors[i] = mix(foreColor.Value, Colors.Black, percent);
+                }
+
+                AppConfig.AccentColor = backColor.Value.ToHex() + foreColor.Value.ToHex();
             }
             else
             {
@@ -207,16 +225,38 @@ public sealed partial class MainWindow : Window
                 colors[4] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentDark1);
                 colors[5] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentDark2);
                 colors[6] = setting.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentDark3);
+                colors[7] = colors[0];
+                colors[8] = colors[1];
+                colors[9] = colors[2];
+                colors[10] = colors[3];
+                colors[11] = colors[4];
+                colors[12] = colors[5];
+                colors[13] = colors[6];
             }
-            Application.Current.Resources["SystemAccentColor"] = colors[0];
-            Application.Current.Resources["SystemAccentColorLight1"] = colors[1];
-            Application.Current.Resources["SystemAccentColorLight2"] = colors[2];
-            Application.Current.Resources["SystemAccentColorLight3"] = colors[3];
-            Application.Current.Resources["SystemAccentColorDark1"] = colors[4];
-            Application.Current.Resources["SystemAccentColorDark2"] = colors[5];
-            Application.Current.Resources["SystemAccentColorDark3"] = colors[6];
-            RootGrid.RequestedTheme = ElementTheme.Light;
-            RootGrid.RequestedTheme = ElementTheme.Default;
+            if (RootGrid.ActualTheme is ElementTheme.Dark)
+            {
+                Application.Current.Resources["SystemAccentColor"] = colors[0];
+                Application.Current.Resources["SystemAccentColorLight1"] = colors[1];
+                Application.Current.Resources["SystemAccentColorLight2"] = colors[2];
+                Application.Current.Resources["SystemAccentColorLight3"] = colors[3];
+                Application.Current.Resources["AccentTextFillColorPrimaryBrush"] = new SolidColorBrush(colors[10]);
+                Application.Current.Resources["AccentTextFillColorSecondaryBrush"] = new SolidColorBrush(colors[10]);
+                Application.Current.Resources["AccentTextFillColorTertiaryBrush"] = new SolidColorBrush(colors[9]);
+                RootGrid.RequestedTheme = ElementTheme.Light;
+                RootGrid.RequestedTheme = ElementTheme.Default;
+            }
+            if (RootGrid.ActualTheme is ElementTheme.Light)
+            {
+                Application.Current.Resources["SystemAccentColor"] = colors[0];
+                Application.Current.Resources["SystemAccentColorDark1"] = colors[4];
+                Application.Current.Resources["SystemAccentColorDark2"] = colors[5];
+                Application.Current.Resources["SystemAccentColorDark3"] = colors[6];
+                Application.Current.Resources["AccentTextFillColorPrimaryBrush"] = new SolidColorBrush(colors[12]);
+                Application.Current.Resources["AccentTextFillColorSecondaryBrush"] = new SolidColorBrush(colors[13]);
+                Application.Current.Resources["AccentTextFillColorTertiaryBrush"] = new SolidColorBrush(colors[11]);
+                RootGrid.RequestedTheme = ElementTheme.Dark;
+                RootGrid.RequestedTheme = ElementTheme.Default;
+            }
         }
         catch (Exception ex)
         {
