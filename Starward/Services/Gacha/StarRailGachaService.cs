@@ -103,11 +103,16 @@ internal class StarRailGachaService : GachaLogService
         if (obj != null)
         {
             var lang = obj.info.lang ?? "";
+            int uid = obj.info.uid;
             foreach (var item in obj.list)
             {
                 if (item.Lang is null)
                 {
                     item.Lang = lang;
+                }
+                if (item.Uid == 0)
+                {
+                    item.Uid = uid;
                 }
             }
             var count = InsertGachaLogItems(obj.list.ToList<GachaLogItem>());
