@@ -287,6 +287,15 @@ public sealed partial class SettingPage : Page
     private string? customBg;
 
 
+    [ObservableProperty]
+    private bool enableDynamicAccentColor = AppConfig.EnableDynamicAccentColor;
+    partial void OnEnableDynamicAccentColorChanged(bool value)
+    {
+        AppConfig.EnableDynamicAccentColor = value;
+        _ = MainPage.Current.UpdateBackgroundImageAsync();
+    }
+
+
     [RelayCommand]
     private async Task ChangeCustomBgAsync()
     {

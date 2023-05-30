@@ -165,6 +165,10 @@ public sealed partial class MainPage : Page
         {
             MainPage_Frame.Content = new BlankPage();
         }
+        else
+        {
+            NavigateTo(typeof(LauncherPage));
+        }
     }
 
 
@@ -463,14 +467,18 @@ public sealed partial class MainPage : Page
                 var bytes = new byte[bitmap.PixelBuffer.Length];
                 var ms = new MemoryStream(bytes);
                 await bitmap.PixelBuffer.AsStream().CopyToAsync(ms);
-                (Color? back, Color? fore) = GetPrimaryColor(bytes, (int)decoder.PixelWidth, (int)decoder.PixelHeight);
+                if (AppConfig.EnableDynamicAccentColor)
+                {
+                    (Color? back, Color? fore) = GetPrimaryColor(bytes, (int)decoder.PixelWidth, (int)decoder.PixelHeight);
+                    MainWindow.Current.ChangeAccentColor(back, fore);
+                }
+                else
+                {
+                    MainWindow.Current.ChangeAccentColor(null, null);
+                }
                 if (source.IsCancellationRequested)
                 {
                     return;
-                }
-                if (AppConfig.EnableDynamicAccentColor)
-                {
-                    MainWindow.Current.ChangeAccentColor(back, fore);
                 }
                 BackgroundImage = bitmap;
             }
@@ -596,7 +604,7 @@ public sealed partial class MainPage : Page
         {
             page = typeof(LauncherPage);
         }
-        _logger.LogInformation("Navigate to {page} with param {param}", page.Name, param);
+        _logger.LogInformation("Navigate to {page} with param {param}", page!.Name, param);
         MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());
         if (page.Name is nameof(BlankPage) or nameof(LauncherPage))
         {

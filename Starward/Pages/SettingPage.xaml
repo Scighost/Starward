@@ -74,7 +74,7 @@
                                      Tag="small">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon FontSize="16" Glyph="&#xE1D8;" />
-                                <TextBlock Text="小" />
+                                <TextBlock Text="较小" />
                             </StackPanel>
                         </RadioButton>
                     </StackPanel>
@@ -147,7 +147,7 @@
                         </StackPanel>
                     </Button>
                     <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                               Text="本应用将从 CloudFlare 下载所需的资源，请确保它可以正常连接。"
+                               Text="应用将从 CloudFlare 下载所需的资源，请确保它可以正常连接。"
                                TextWrapping="Wrap" />
 
                     <!--  bg  -->
@@ -205,6 +205,13 @@
                     </StackPanel>
                     <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                Text="请选择像素大小与应用窗口相匹配的图片，较大的图片会降低性能。"
+                               TextWrapping="Wrap" />
+                    <ToggleSwitch Margin="0,0,0,-8"
+                                  IsOn="{x:Bind EnableDynamicAccentColor, Mode=TwoWay}"
+                                  OffContent="动态主题色"
+                                  OnContent="动态主题色" />
+                    <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                               Text="根据背景图片自动计算主题颜色，关闭后使用系统主题色。"
                                TextWrapping="Wrap" />
 
                     <!--  update  -->
