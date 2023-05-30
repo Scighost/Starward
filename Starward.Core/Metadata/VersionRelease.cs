@@ -2,7 +2,7 @@
 
 namespace Starward.Core.Metadata;
 
-public class ReleaseVersion
+public class ReleaseVersion : IJsonOnDeserialized
 {
 
     public string Version { get; set; }
@@ -35,12 +35,43 @@ public class ReleaseVersion
     public string PortableHash { get; set; }
 
 
+    public string SeparatePrefix { get; set; }
+
+
     public List<ReleaseFile> SeparateFiles { get; set; }
 
 
     [JsonIgnore]
     public string ReleasePage => $"https://github.com/Scighost/Starward/releases/tag/{Version}";
 
+
+    public void OnDeserialized()
+    {
+        if (SeparateFiles is not null)
+        {
+            string prefix;
+            if (string.IsNullOrWhiteSpace(SeparatePrefix))
+            {
+#if DEBUG || DEV
+                prefix = $"https://starward.scighost.com/release/separate_files/dev/";
+#else
+                prefix = $"https://starward.scighost.com/release/separate_files/";
+#endif
+            }
+            else
+            {
+                prefix = SeparatePrefix;
+            }
+            foreach (var file in SeparateFiles)
+            {
+                if (string.IsNullOrWhiteSpace(file.Url))
+                {
+                    file.Url = Path.Combine(prefix, file.Hash);
+                }
+            }
+
+        }
+    }
 
 }
 
@@ -57,11 +88,7 @@ public class ReleaseFile
 
     public string Hash { get; set; }
 
-    [JsonIgnore]
-#if DEBUG || DEV
-    public string Url => $"https://starward.scighost.com/release/separate_files/dev/{Hash}";
-#else
-    public string Url => $"https://starward.scighost.com/release/separate_files/{Hash}";
-#endif
+
+    public string Url { get; set; }
 
 }

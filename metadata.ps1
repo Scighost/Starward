@@ -45,10 +45,12 @@ $release = @{
     Portable          = "https://starward.scighost.com/release/package/$portableName"
     PortableSize      = (Get-Item $portableFile).Length
     PortableHash      = (Get-FileHash $portableFile).Hash
+    SeparatePrefix    = "https://starward.scighost.com/release/separate_files/"
 };
 
 if ($Dev) {
     $release.Portable = "https://starward.scighost.com/release/package/dev/$portableName";
+    $release.SeparatePrefix = "https://starward.scighost.com/release/separate_files/dev/";
 }
 
 Out-File -Path "$metadata/version_preview_$Architecture.json" -InputObject (ConvertTo-Json $release);
