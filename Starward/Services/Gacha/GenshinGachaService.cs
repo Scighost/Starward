@@ -79,7 +79,7 @@ internal class GenshinGachaService : GachaLogService
     {
         using var dapper = _database.CreateConnection();
         var list = dapper.Query<UIAFItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-        var obj = new UIAFInfo(uid, list);
+        var obj = new UIAFObj(uid, list);
         var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
         await File.WriteAllTextAsync(output, str);
     }
