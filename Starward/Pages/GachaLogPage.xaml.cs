@@ -88,7 +88,7 @@ public sealed partial class GachaLogPage : Page
     private int selectUid;
     partial void OnSelectUidChanged(int value)
     {
-        AppConfig.SelectUidInGachaLogPage = value;
+        AppConfig.SetLastUidInGachaLogPage(gameBiz.ToGame(), value);
         UpdateGachaTypeStats(value);
     }
 
@@ -145,7 +145,7 @@ public sealed partial class GachaLogPage : Page
         try
         {
             UidList = new(_gachaLogService.GetUids());
-            var lastUid = AppConfig.SelectUidInGachaLogPage;
+            var lastUid = AppConfig.GetLastUidInGachaLogPage(gameBiz.ToGame());
             if (UidList.Contains(lastUid))
             {
                 SelectUid = lastUid;

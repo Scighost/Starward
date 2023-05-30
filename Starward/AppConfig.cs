@@ -225,13 +225,6 @@ internal abstract class AppConfig
     }
 
 
-    public static int SelectUidInGachaLogPage
-    {
-        get => GetValue<int>();
-        set => SetValue(value);
-    }
-
-
     public static bool ShowNoviceGacha
     {
         get => GetValue<int>() != 0;
@@ -352,9 +345,9 @@ internal abstract class AppConfig
 
 
 
-    public static string? GetLastUidInGachaLogPage(GameBiz biz)
+    public static int GetLastUidInGachaLogPage(GameBiz biz)
     {
-        return GetValue<string>(default, $"last_gacha_uid_{biz}");
+        return GetValue<int>(default, $"last_gacha_uid_{biz}");
     }
 
     public static void SetLastUidInGachaLogPage(GameBiz biz, int value)
