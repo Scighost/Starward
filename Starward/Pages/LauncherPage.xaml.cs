@@ -94,7 +94,6 @@ public sealed partial class LauncherPage : Page
             UpdateGameState();
             GetGameAccount();
             await GetLauncherContentAsync();
-            _timer.Start();
         }
         catch { }
     }
@@ -153,9 +152,17 @@ public sealed partial class LauncherPage : Page
     private bool enableBannerAndPost = AppConfig.EnableBannerAndPost;
     partial void OnEnableBannerAndPostChanged(bool value)
     {
+        AppConfig.EnableBannerAndPost = value;
         Grid_BannerAndPost.Opacity = value ? 1 : 0;
         Grid_BannerAndPost.IsHitTestVisible = value;
-        AppConfig.EnableBannerAndPost = value;
+        if (value)
+        {
+            _timer.Start();
+        }
+        else
+        {
+            _timer.Stop();
+        }
     }
 
 
@@ -171,6 +178,7 @@ public sealed partial class LauncherPage : Page
             {
                 Grid_BannerAndPost.Opacity = 1;
                 Grid_BannerAndPost.IsHitTestVisible = true;
+                _timer.Start();
             }
         }
         catch (HttpRequestException ex)

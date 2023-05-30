@@ -491,7 +491,7 @@
                 </Button>
             </Grid>
             <ScrollViewer Grid.Row="1">
-                <StackPanel Margin="24,0,24,24" Spacing="8">
+                <StackPanel Margin="24,12,24,24" Spacing="8">
 
                     <!--  Game Install Path  -->
                     <TextBlock Text="安装位置" />
@@ -553,7 +553,9 @@
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                Text="使用第三方插件代替启动，启用后无法记录游戏时间。"
                                TextTrimming="CharacterEllipsis" />
-                    <StackPanel Orientation="Horizontal" Spacing="12">
+                    <StackPanel Margin="0,4,0,0"
+                                Orientation="Horizontal"
+                                Spacing="12">
                         <Button Height="36"
                                 Margin="-40,0,0,0"
                                 Padding="40,0,16,0"
