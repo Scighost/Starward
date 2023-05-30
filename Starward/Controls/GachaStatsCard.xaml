@@ -4,7 +4,6 @@
 <UserControl x:Class="Starward.Controls.GachaStatsCard"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:cc="using:CommunityToolkit.WinUI.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="using:Starward.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,8 +13,8 @@
 
     <UserControl.Resources>
         <SolidColorBrush x:Key="Rarity5ForegroundBrush">#FFA500</SolidColorBrush>
-        <SolidColorBrush x:Key="Rarity4ForegroundBrush">#A256E1</SolidColorBrush>
-        <SolidColorBrush x:Key="Rarity3ForegroundBrush">#6495ED</SolidColorBrush>
+        <SolidColorBrush x:Key="Rarity4ForegroundBrush">#C864E0</SolidColorBrush>
+        <SolidColorBrush x:Key="Rarity3ForegroundBrush">#5EAAED</SolidColorBrush>
         <SolidColorBrush x:Key="Rarity2ForegroundBrush">#3BA272</SolidColorBrush>
 
         <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
