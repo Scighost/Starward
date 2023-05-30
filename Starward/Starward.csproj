@@ -27,7 +27,6 @@
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Core" Version="7.1.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2" />
-		<PackageReference Include="ComputeSharp" Version="2.0.3" />
 		<PackageReference Include="Dapper" Version="2.0.123" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.5" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />

@@ -461,15 +461,45 @@ public sealed partial class MainPage : Page
             {
                 using var fs = File.OpenRead(file);
                 var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
-                var bitmap = new WriteableBitmap((int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                fs.Position = 0;
-                await bitmap.SetSourceAsync(fs.AsRandomAccessStream());
-                var bytes = new byte[bitmap.PixelBuffer.Length];
-                var ms = new MemoryStream(bytes);
-                await bitmap.PixelBuffer.AsStream().CopyToAsync(ms);
+
+                WriteableBitmap bitmap;
+                double scale = MainWindow.Current.UIScale;
+                int decodeWidth = 0, decodeHeight = 0;
+                double windowWidth = ActualWidth * scale, windowHeight = ActualHeight * scale;
+
+                if (decoder.PixelWidth <= windowWidth || decoder.PixelHeight <= windowHeight)
+                {
+                    decodeWidth = (int)decoder.PixelWidth;
+                    decodeHeight = (int)decoder.PixelHeight;
+                    bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
+                    fs.Position = 0;
+                    await bitmap.SetSourceAsync(fs.AsRandomAccessStream());
+                }
+                else
+                {
+                    if (windowWidth * decoder.PixelHeight > windowHeight * decoder.PixelWidth)
+                    {
+                        decodeWidth = (int)windowWidth;
+                        decodeHeight = (int)(windowWidth * decoder.PixelHeight / decoder.PixelWidth);
+                    }
+                    else
+                    {
+                        decodeHeight = (int)windowHeight;
+                        decodeWidth = (int)(windowHeight * decoder.PixelWidth / decoder.PixelHeight);
+                    }
+                    var data = await decoder.GetPixelDataAsync(decoder.BitmapPixelFormat,
+                                                               decoder.BitmapAlphaMode,
+                                                               new BitmapTransform { ScaledWidth = (uint)decodeWidth, ScaledHeight = (uint)decodeHeight },
+                                                               ExifOrientationMode.IgnoreExifOrientation,
+                                                               ColorManagementMode.DoNotColorManage);
+                    var bytes = data.DetachPixelData();
+                    bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
+                    await bitmap.PixelBuffer.AsStream().WriteAsync(bytes);
+                }
+
                 if (AppConfig.EnableDynamicAccentColor)
                 {
-                    (Color? back, Color? fore) = GetPrimaryColor(bytes, (int)decoder.PixelWidth, (int)decoder.PixelHeight);
+                    (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
                     MainWindow.Current.ChangeAccentColor(back, fore);
                 }
                 else
@@ -493,45 +523,6 @@ public sealed partial class MainPage : Page
         }
     }
 
-
-
-    private (Color? Back, Color? Fore) GetPrimaryColor(byte[] bytes, int width, int height)
-    {
-        if (bytes.Length % 4 == 0)
-        {
-            var averageColor = AccentColorHelper.GetAverageColor(bytes);
-            var hueCircle = AccentColorHelper.GetHueColorCircle(bytes, width, height);
-            var hsv = averageColor.ToHsv();
-
-            int maxHueStart = 0;
-            int maxHueCount = 0;
-            for (int i = ((int)hsv.H) + 30; i < ((int)hsv.H) + 300; i++)
-            {
-                int count = 0;
-                for (int j = i; j < i + 30; j++)
-                {
-                    int h = j % 360;
-                    count += hueCircle[h];
-                }
-                if (count > maxHueCount)
-                {
-                    maxHueStart = i;
-                    maxHueCount = count;
-                }
-            }
-
-            long sum = 0;
-            for (int i = maxHueStart; i < maxHueStart + 30; i++)
-            {
-                int h = i % 360;
-                sum += h * hueCircle[h];
-            }
-
-            return (ColorHelper.FromHsv(hsv.H, 0.4, hsv.V), ColorHelper.FromHsv((double)sum / maxHueCount, 0.9, 0.9));
-
-        }
-        return (null, null);
-    }
 
 
 
