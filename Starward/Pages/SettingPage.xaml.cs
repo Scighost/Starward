@@ -312,10 +312,12 @@ public sealed partial class SettingPage : Page
 
 
     [ObservableProperty]
-    private bool doNotSwitchBgWithGame = AppConfig.DoNotSwitchBgWithGame;
-    partial void OnDoNotSwitchBgWithGameChanged(bool value)
+    private bool useOneBg = AppConfig.UseOneBg;
+    partial void OnUseOneBgChanged(bool value)
     {
-        AppConfig.DoNotSwitchBgWithGame = value;
+        AppConfig.UseOneBg = value;
+        AppConfig.SetCustomBg(gameBiz, CustomBg);
+        AppConfig.SetEnableCustomBg(gameBiz, EnableCustomBg);
     }
 
 

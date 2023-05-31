@@ -267,7 +267,7 @@ internal abstract class AppConfig
     }
 
 
-    public static bool DoNotSwitchBgWithGame
+    public static bool UseOneBg
     {
         get => GetValue<int>() != 0;
         set => SetValue(value ? 1 : 0);
@@ -297,24 +297,24 @@ internal abstract class AppConfig
 
     public static string? GetCustomBg(GameBiz biz)
     {
-        return GetValue<string>(default, $"custom_bg_{biz}");
+        return GetValue<string>(default, UseOneBg ? $"custom_bg_{GameBiz.All}" : $"custom_bg_{biz}");
     }
 
     public static void SetCustomBg(GameBiz biz, string? value)
     {
-        SetValue(value, $"custom_bg_{biz}");
+        SetValue(value, UseOneBg ? $"custom_bg_{GameBiz.All}" : $"custom_bg_{biz}");
     }
 
 
 
     public static bool GetEnableCustomBg(GameBiz biz)
     {
-        return GetValue<int>(default, $"enable_custom_bg_{biz}") != 0;
+        return GetValue<int>(default, UseOneBg ? $"enable_custom_bg_{GameBiz.All}" : $"enable_custom_bg_{biz}") != 0;
     }
 
     public static void SetEnableCustomBg(GameBiz biz, bool value)
     {
-        SetValue(value ? 1 : 0, $"enable_custom_bg_{biz}");
+        SetValue(value ? 1 : 0, UseOneBg ? $"enable_custom_bg_{GameBiz.All}" : $"enable_custom_bg_{biz}");
     }
 
 

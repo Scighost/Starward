@@ -5,6 +5,8 @@ public enum GameBiz
 
     None = 0,
 
+    All = 1,
+
     /// <summary>
     /// Genshin Impact
     /// </summary>

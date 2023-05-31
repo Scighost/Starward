@@ -673,9 +673,9 @@
                                Text="请选择像素大小与应用窗口相匹配的图片，较大的图片会降低性能。"
                                TextWrapping="Wrap" />
 
-                    <ToggleSwitch IsOn="{x:Bind DoNotSwitchBgWithGame, Mode=TwoWay}"
-                                  OffContent="切换游戏时不切换背景"
-                                  OnContent="切换游戏时不切换背景" />
+                    <ToggleSwitch IsOn="{x:Bind UseOneBg, Mode=TwoWay}"
+                                  OffContent="所有游戏使用相同的背景"
+                                  OnContent="所有游戏使用相同的背景" />
 
 
                     <ToggleSwitch Margin="0,-4,0,0"

@@ -56,7 +56,7 @@ public class LauncherService
     {
         return Path.GetExtension(name) switch
         {
-            ".flv" or ".mkv" or ".mov" or ".mp4" => name,
+            ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm" => name,
             _ => Path.Join(AppConfig.ConfigDirectory, "bg", name),
         };
     }
@@ -143,12 +143,13 @@ public class LauncherService
                 ("Video", ".mkv"),
                 ("Video", ".mov"),
                 ("Video", ".mp4"),
+                ("Video", ".webm"),
             };
             var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.HWND, filter.ToArray());
             if (File.Exists(file))
             {
                 _logger.LogInformation("Background file is '{file}'", file);
-                if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4")
+                if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm")
                 {
                     return file;
                 }

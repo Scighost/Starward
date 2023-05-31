@@ -452,7 +452,7 @@ public sealed partial class MainPage : Page
             var file = _launcherService.GetCachedBackgroundImage(CurrentGameBiz);
             if (file != null)
             {
-                if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4")
+                if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm")
                 {
                     IsPlayingVideo = true;
                     BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
@@ -496,7 +496,7 @@ public sealed partial class MainPage : Page
 
     public async Task UpdateBackgroundImageAsync(bool force = false)
     {
-        if (AppConfig.DoNotSwitchBgWithGame && !force)
+        if (AppConfig.UseOneBg && !force)
         {
             return;
         }
@@ -515,7 +515,7 @@ public sealed partial class MainPage : Page
             var file = await _launcherService.GetBackgroundImageAsync(CurrentGameBiz);
             if (file != null)
             {
-                if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4")
+                if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm")
                 {
                     mediaPlayer = new MediaPlayer();
                     mediaPlayer.IsLoopingEnabled = true;
@@ -607,8 +607,8 @@ public sealed partial class MainPage : Page
                     int width = (int)sender.PlaybackSession.NaturalVideoWidth;
                     int height = (int)sender.PlaybackSession.NaturalVideoHeight;
                     sender.SystemMediaTransportControls.IsEnabled = false;
-                    softwareBitmap = new SoftwareBitmap(BitmapPixelFormat.Bgra8, width, height, BitmapAlphaMode.Ignore);
-                    videoSource = new CanvasImageSource(CanvasDevice.GetSharedDevice(), width, height, User32.GetDpiForWindow(MainWindow.Current.HWND));
+                    softwareBitmap = new SoftwareBitmap(BitmapPixelFormat.Bgra8, width, height, BitmapAlphaMode.Premultiplied);
+                    videoSource = new CanvasImageSource(CanvasDevice.GetSharedDevice(), width, height, 96);
                     BackgroundImage = videoSource;
                 }
                 using var canvas = CanvasBitmap.CreateFromSoftwareBitmap(CanvasDevice.GetSharedDevice(), softwareBitmap);
