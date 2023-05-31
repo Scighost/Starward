@@ -149,13 +149,17 @@ public sealed partial class MainPage : Page
 
 
 
+    private GameBiz lastGameBiz;
+
+
     [ObservableProperty]
     private GameBiz currentGameBiz = (GameBiz)int.MaxValue;
-    partial void OnCurrentGameBizChanged(GameBiz value)
+    partial void OnCurrentGameBizChanged(GameBiz oldValue, GameBiz newValue)
     {
-        AppConfig.SelectGameBiz = value;
+        lastGameBiz = oldValue;
+        AppConfig.SelectGameBiz = newValue;
         UpdateNavigationViewItems();
-        CurrentGameBizText = value switch
+        CurrentGameBizText = newValue switch
         {
             GameBiz.hk4e_cn or GameBiz.hkrpg_cn => "China",
             GameBiz.hk4e_global or GameBiz.hkrpg_global => "Global",
@@ -702,7 +706,7 @@ public sealed partial class MainPage : Page
             page = typeof(LauncherPage);
         }
         _logger.LogInformation("Navigate to {page} with param {param}", page!.Name, param);
-        MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());
+        MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, GetNavigationTransitionInfo(MainPage_Frame.SourcePageType, page));
         if (page.Name is nameof(BlankPage) or nameof(LauncherPage))
         {
             PlayVideo();
@@ -720,7 +724,32 @@ public sealed partial class MainPage : Page
 
 
 
-
+    private NavigationTransitionInfo GetNavigationTransitionInfo(Type? sourcePage, Type targetPage)
+    {
+        if (sourcePage == targetPage)
+        {
+            if (lastGameBiz.ToGame() == CurrentGameBiz.ToGame())
+            {
+                return new DrillInNavigationTransitionInfo();
+            }
+            else
+            {
+                return (lastGameBiz.ToGame(), CurrentGameBiz.ToGame()) switch
+                {
+                    (GameBiz.None, _) => new DrillInNavigationTransitionInfo(),
+                    (_, GameBiz.Honkai3rd) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft },
+                    (GameBiz.Honkai3rd, GameBiz.GenshinImpact) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight },
+                    (GameBiz.StarRail, GameBiz.GenshinImpact) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft },
+                    (_, GameBiz.StarRail) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight },
+                    _ => new DrillInNavigationTransitionInfo(),
+                };
+            }
+        }
+        else
+        {
+            return new DrillInNavigationTransitionInfo();
+        }
+    }
 
 
 
