@@ -43,5 +43,59 @@
     "HomePage": "https://hsr.hoyoverse.com/en-us/home",
     "Logo": "https://starward.scighost.com/resource/img/game_info/logo_starrail_en.png",
     "Poster": "https://starward.scighost.com/resource/img/game_info/poster_starrail.png"
+  },
+  {
+    "Name": "崩坏3",
+    "GameBiz": "hk3_cn",
+    "Slogan": "为世界上所有的美好而战",
+    "Description": "在被崩坏侵蚀的世界中，勇敢的少女组成的女武神部队，为守护世界而展开了战斗。",
+    "HomePage": "https://www.bh3.com/",
+    "Logo": "https://starward.scighost.com/resource/img/game_info/logo_bh3_cn.png",
+    "Poster": "https://starward.scighost.com/resource/img/game_info/poster_honkai.png"
+  },
+  {
+    "Name": "Honkai Impact 3rd",
+    "GameBiz": "hk3_global",
+    "Slogan": "Fight for All That's Beautiful in the World!",
+    "Description": "In this Honkai-corrupted world, the Valkyries, brave girls with Honkai resistance, have been fighting for all that is beautiful in the world.",
+    "HomePage": "https://honkaiimpact3.hoyoverse.com/global/en-us/fab",
+    "Logo": "https://starward.scighost.com/resource/img/game_info/logo_bh3_en.png",
+    "Poster": "https://starward.scighost.com/resource/img/game_info/poster_honkai.png"
+  },
+  {
+    "Name": "崩壊3rd",
+    "GameBiz": "hk3_jp",
+    "Slogan": "立ち上がれ！美しい世界を守るために",
+    "Description": "In this Honkai-corrupted world, the Valkyries, brave girls with Honkai resistance, have been fighting for all that is beautiful in the world.",
+    "HomePage": "https://www.houkai3rd.com/home?utm_source=fab",
+    "Logo": "https://starward.scighost.com/resource/img/game_info/logo_bh3_cn.png",
+    "Poster": "https://starward.scighost.com/resource/img/game_info/poster_honkai.png"
+  },
+  {
+    "Name": "붕괴3rd",
+    "GameBiz": "hk3_kr",
+    "Slogan": "세상의 모든 아름다운 것들을 위하여",
+    "Description": "붕괴에 침식된 세계, 그곳에서 용감한 소녀들로 이뤄진 발키리 부대가 세상을 지키기 위해 싸운다。",
+    "HomePage": "https://honkaiimpact3.hoyoverse.com/kr/ko-kr/home",
+    "Logo": "https://starward.scighost.com/resource/img/game_info/logo_bh3_en.png",
+    "Poster": "https://starward.scighost.com/resource/img/game_info/poster_honkai.png"
+  },
+  {
+    "Name": "Honkai Impact 3",
+    "GameBiz": "bh3_overseas",
+    "Slogan": "Fight for All That's Beautiful in the World!",
+    "Description": "In this Honkai-corrupted world, the Valkyries, brave girls with Honkai resistance, have been fighting for all that is beautiful in the world.",
+    "HomePage": "https://honkaiimpact3.hoyoverse.com/asia/en-us/fab",
+    "Logo": "https://starward.scighost.com/resource/img/game_info/logo_bh3_en.png",
+    "Poster": "https://starward.scighost.com/resource/img/game_info/poster_honkai.png"
+  },
+  {
+    "Name": "崩壞3rd",
+    "GameBiz": "bh3_tw",
+    "Slogan": "為世界上所有的美好而戰",
+    "Description": "在被崩壞侵蝕的世界中，勇敢的少女組成的女武神部隊，為守護世界而展開了戰鬥。",
+    "HomePage": "https://honkaiimpact3.hoyoverse.com/tw/zh-tw/home",
+    "Logo": "https://starward.scighost.com/resource/img/game_info/logo_bh3_cn.png",
+    "Poster": "https://starward.scighost.com/resource/img/game_info/poster_honkai.png"
   }
 ]
