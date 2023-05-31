@@ -282,6 +282,10 @@ internal class PlayTimeService
     {
         try
         {
+            if (biz.ToGame() is GameBiz.Honkai3rd)
+            {
+                return;
+            }
             var exe = Process.GetCurrentProcess().MainModule?.FileName ?? Path.Combine(AppContext.BaseDirectory, "Starward.exe");
             if (File.Exists(exe))
             {

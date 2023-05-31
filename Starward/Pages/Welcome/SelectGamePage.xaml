@@ -75,8 +75,10 @@
                 <Grid>
                     <Border Name="Border_Description_Shadow" />
                     <TextBlock Name="TextBlock_Description"
+                               HorizontalAlignment="Right"
                                ui:Effects.Shadow="{StaticResource DescriptionDropShadow}"
                                FontSize="16"
+                               HorizontalTextAlignment="Left"
                                LineHeight="24"
                                TextWrapping="WrapWholeWords" />
                 </Grid>
@@ -132,39 +134,135 @@
                 <Run Text="游戏，请在下方选择你的目标，进入启动器后也可随时更改。" />
             </TextBlock>
 
+
             <!--  select game  -->
-            <StackPanel Orientation="Horizontal" Spacing="16">
-                <ComboBox Name="ComboBox_GameBiz"
-                          Height="36"
-                          MinWidth="240"
-                          Padding="20,0,20,0"
-                          CornerRadius="18"
-                          PlaceholderText="Select Game"
-                          SelectionChanged="ComboBox_GameBiz_SelectionChanged">
-                    <Grid Tag="hk4e_cn">
-                        <TextBlock Text="Genshin Impact" />
-                        <TextBlock Margin="120,0,0,0" Text="China" />
+            <StackPanel HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="16">
+
+                <Button Name="Button_BH3"
+                        Width="48"
+                        Height="48"
+                        Padding="0"
+                        BorderThickness="0"
+                        Click="Button_BH3_Click"
+                        CornerRadius="8"
+                        PointerEntered="Button_Game_PointerEntered"
+                        PointerExited="Button_Game_PointerExited"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="bh3">
+                    <Grid>
+                        <Image Source="ms-appx:///Assets/Image/icon_bh3.jpg" />
+                        <Border Name="Border_Mask_BH3" Background="#60000000">
+                            <Border.OpacityTransition>
+                                <ScalarTransition />
+                            </Border.OpacityTransition>
+                        </Border>
                     </Grid>
-                    <Grid Tag="hk4e_global">
-                        <TextBlock Text="Genshin Impact" />
-                        <TextBlock Margin="120,0,0,0" Text="Global" />
+                    <Button.Flyout>
+                        <MenuFlyout Closed="MenuFlyout_Game_Closed">
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_cn"
+                                            Text="China" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_global"
+                                            Text="Global" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_jp"
+                                            Text="Japan" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_kr"
+                                            Text="Korea" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_overseas"
+                                            Text="Southeast Asia" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="bh3_tw"
+                                            Text="TW/HK/MO" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+                <Button Name="Button_YS"
+                        Width="48"
+                        Height="48"
+                        Padding="0"
+                        BorderThickness="0"
+                        Click="Button_YS_Click"
+                        CornerRadius="8"
+                        PointerEntered="Button_Game_PointerEntered"
+                        PointerExited="Button_Game_PointerExited"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="ys">
+                    <Grid>
+                        <Image Source="ms-appx:///Assets/Image/icon_ys.jpg" />
+                        <Border Name="Border_Mask_YS" Background="#60000000">
+                            <Border.OpacityTransition>
+                                <ScalarTransition />
+                            </Border.OpacityTransition>
+                        </Border>
                     </Grid>
-                    <Grid Tag="hk4e_cloud">
-                        <TextBlock Text="Genshin Impact" />
-                        <TextBlock Margin="120,0,0,0" Text="Cloud" />
+                    <Button.Flyout>
+                        <MenuFlyout Closed="MenuFlyout_Game_Closed">
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="hk4e_cn"
+                                            Text="China" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="hk4e_global"
+                                            Text="Global" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="hk4e_cloud"
+                                            Text="Cloud" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+                <Button Name="Button_SR"
+                        Width="48"
+                        Height="48"
+                        Padding="0"
+                        BorderThickness="0"
+                        Click="Button_SR_Click"
+                        CornerRadius="8"
+                        PointerEntered="Button_Game_PointerEntered"
+                        PointerExited="Button_Game_PointerExited"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="sr">
+                    <Grid>
+                        <Image Source="ms-appx:///Assets/Image/icon_sr.jpg" />
+                        <Border Name="Border_Mask_SR" Background="#60000000">
+                            <Border.OpacityTransition>
+                                <ScalarTransition />
+                            </Border.OpacityTransition>
+                        </Border>
                     </Grid>
-                    <Grid Tag="hkrpg_cn">
-                        <TextBlock Text="Honkai: Star Rail" />
-                        <TextBlock Margin="120,0,0,0" Text="China" />
-                    </Grid>
-                    <Grid Tag="hkrpg_global">
-                        <TextBlock Text="Honkai: Star Rail" />
-                        <TextBlock Margin="120,0,0,0" Text="Global" />
-                    </Grid>
-                </ComboBox>
+                    <Button.Flyout>
+                        <MenuFlyout Closed="MenuFlyout_Game_Closed">
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="hkrpg_cn"
+                                            Text="China" />
+                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
+                                            CommandParameter="hkrpg_global"
+                                            Text="Global" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+
+                <Border Height="40"
+                        MinWidth="100"
+                        Background="{ThemeResource DateTimePickerFlyoutButtonBackgroundPointerOver}"
+                        CornerRadius="20">
+                    <TextBlock Margin="24,0,24,0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind CurrentGameBizText}" />
+                </Border>
 
 
             </StackPanel>
+
+
         </StackPanel>
 
 

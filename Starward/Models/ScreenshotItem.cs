@@ -28,6 +28,7 @@ public class ScreenshotItem
                 var time = DateTimeOffset.FromUnixTimeSeconds(ts);
                 CreationTime = time.LocalDateTime;
                 Title = CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
+                return;
             }
         }
         if (name.StartsWith("GenshinlmpactPhoto 2023_02_27 16_35_33"))
@@ -37,12 +38,20 @@ public class ScreenshotItem
             {
                 CreationTime = time1;
                 Title = CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
+                return;
             }
         }
         if (DateTime.TryParseExact(name, "yyyyMMddHHmmss", null, DateTimeStyles.None, out var time2))
         {
             CreationTime = time2;
             Title = CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
+            return;
+        }
+        if (DateTime.TryParseExact(name[..Math.Min(19, name.Length)], "yyyy-MM-dd-HH-mm-ss", null, DateTimeStyles.None, out var time3))
+        {
+            CreationTime = time3;
+            Title = CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
+            return;
         }
         if (string.IsNullOrWhiteSpace(Title))
         {

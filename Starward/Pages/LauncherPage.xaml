@@ -285,7 +285,8 @@
             </Grid>
 
             <!--  Game Time  -->
-            <Border Height="40"
+            <Border Name="Border_Playtime"
+                    Height="40"
                     Background="{ThemeResource CustomAcrylicBrush}"
                     CornerRadius="20"
                     Shadow="{StaticResource ThemeShadow}"
@@ -355,7 +356,8 @@
 
 
         <!--  Account  -->
-        <StackPanel Height="40"
+        <StackPanel Name="StackPanel_Account"
+                    Height="40"
                     Margin="40"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"

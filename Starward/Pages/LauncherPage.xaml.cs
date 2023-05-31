@@ -131,6 +131,12 @@ public sealed partial class LauncherPage : Page
             {
                 Grid_BannerAndPost.HorizontalAlignment = HorizontalAlignment.Right;
             }
+
+            if (gameBiz.ToGame() is GameBiz.Honkai3rd)
+            {
+                Border_Playtime.Visibility = Visibility.Collapsed;
+                StackPanel_Account.Visibility = Visibility.Collapsed;
+            }
 #pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
         }
         catch { }
@@ -179,7 +185,7 @@ public sealed partial class LauncherPage : Page
             var content = await _launcherService.GetLauncherContentAsync(gameBiz);
             BannerList = content.Banner;
             LauncherPostGroupList = content.Post.GroupBy(x => x.Type).OrderBy(x => x.Key).Select(x => new LauncherPostGroup(PostTypeToString(x.Key), x)).ToList();
-            if (EnableBannerAndPost)
+            if (EnableBannerAndPost && BannerList.Any() && LauncherPostGroupList.Any())
             {
                 Grid_BannerAndPost.Opacity = 1;
                 Grid_BannerAndPost.IsHitTestVisible = true;

@@ -130,8 +130,7 @@
                         PointerExited="Button_Game_PointerExited"
                         RightTapped="Button_BH3_RightTapped"
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                        Tag="bh3"
-                        Visibility="Collapsed">
+                        Tag="bh3">
                     <Grid>
                         <Image Source="ms-appx:///Assets/Image/icon_bh3.jpg" />
                         <Border Name="Border_Mask_BH3" Background="#60000000">
@@ -229,17 +228,18 @@
                     </Button.ContextFlyout>
                 </Button>
 
-                <Border Width="80"
-                        Height="32"
+                <Border Height="32"
                         Background="{ThemeResource DateTimePickerFlyoutButtonBackgroundPointerOver}"
                         CornerRadius="16">
-                    <Button Width="80"
-                            Height="32"
+                    <Button Height="32"
+                            MinWidth="68"
                             Padding="0"
                             BorderThickness="0"
                             CornerRadius="16"
                             Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind CurrentGameBizText}" />
+                        <TextBlock Margin="12,0,12,0"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind CurrentGameBizText}" />
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel MaxWidth="220" Spacing="4">

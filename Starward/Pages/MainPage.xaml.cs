@@ -20,13 +20,13 @@ using Starward.Services;
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
-using Vanara.PInvoke;
 using Windows.Graphics;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
@@ -161,9 +161,13 @@ public sealed partial class MainPage : Page
         UpdateNavigationViewItems();
         CurrentGameBizText = newValue switch
         {
-            GameBiz.hk4e_cn or GameBiz.hkrpg_cn => "China",
-            GameBiz.hk4e_global or GameBiz.hkrpg_global => "Global",
+            GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn => "China",
+            GameBiz.hk4e_global or GameBiz.hkrpg_global or GameBiz.bh3_global => "Global",
             GameBiz.hk4e_cloud => "Cloud",
+            GameBiz.bh3_tw => "TW/HK/MO",
+            GameBiz.bh3_jp => "Japan",
+            GameBiz.bh3_kr => "Korea",
+            GameBiz.bh3_overseas => "Southeast Asia",
             _ => ""
         };
     }
@@ -194,11 +198,11 @@ public sealed partial class MainPage : Page
     {
         if (Enum.TryParse<GameBiz>(bizStr, out var biz))
         {
-            _logger.LogInformation("Change game region to {gamebiz}", CurrentGameBiz);
+            _logger.LogInformation("Change game region to {gamebiz}", biz);
             CurrentGameBiz = biz;
             AppConfig.SetLastRegionOfGame(biz.ToGame(), biz);
             UpdateButtonEffect();
-            NavigateTo(MainPage_Frame.SourcePageType);
+            NavigateTo(MainPage_Frame.SourcePageType, changeGameBiz: true);
             await UpdateBackgroundImageAsync();
         }
     }
@@ -647,10 +651,16 @@ public sealed partial class MainPage : Page
 
     private void UpdateNavigationViewItems()
     {
-        if (CurrentGameBiz.ToGame() is GameBiz.None or GameBiz.Honkai3rd)
+        if (CurrentGameBiz.ToGame() is GameBiz.None)
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Collapsed;
             NavigationViewItem_Screenshot.Visibility = Visibility.Collapsed;
+            NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
+        }
+        else if (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd)
+        {
+            NavigationViewItem_Launcher.Visibility = Visibility.Visible;
+            NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
             NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
         }
         else
@@ -699,14 +709,15 @@ public sealed partial class MainPage : Page
 
 
 
-    public void NavigateTo(Type? page, object? param = null)
+    public void NavigateTo(Type? page, object? param = null, bool changeGameBiz = false)
     {
-        if (page is null || page?.Name is nameof(BlankPage))
+        if (page is null || page?.Name is nameof(BlankPage) || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && page?.Name is nameof(GachaLogPage)))
         {
             page = typeof(LauncherPage);
+            MainPage_NavigationView.SelectedItem = MainPage_NavigationView.MenuItems.FirstOrDefault();
         }
         _logger.LogInformation("Navigate to {page} with param {param}", page!.Name, param);
-        MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, GetNavigationTransitionInfo(MainPage_Frame.SourcePageType, page));
+        MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, GetNavigationTransitionInfo(changeGameBiz));
         if (page.Name is nameof(BlankPage) or nameof(LauncherPage))
         {
             PlayVideo();
@@ -724,26 +735,20 @@ public sealed partial class MainPage : Page
 
 
 
-    private NavigationTransitionInfo GetNavigationTransitionInfo(Type? sourcePage, Type targetPage)
+    private NavigationTransitionInfo GetNavigationTransitionInfo(bool changeGameBiz)
     {
-        if (sourcePage == targetPage)
+        GameBiz lastGame = lastGameBiz.ToGame(), currentGame = CurrentGameBiz.ToGame();
+        if (changeGameBiz && lastGame != GameBiz.None && lastGame != currentGame)
         {
-            if (lastGameBiz.ToGame() == CurrentGameBiz.ToGame())
+            return (lastGameBiz.ToGame(), CurrentGameBiz.ToGame()) switch
             {
-                return new DrillInNavigationTransitionInfo();
-            }
-            else
-            {
-                return (lastGameBiz.ToGame(), CurrentGameBiz.ToGame()) switch
-                {
-                    (GameBiz.None, _) => new DrillInNavigationTransitionInfo(),
-                    (_, GameBiz.Honkai3rd) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft },
-                    (GameBiz.Honkai3rd, GameBiz.GenshinImpact) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight },
-                    (GameBiz.StarRail, GameBiz.GenshinImpact) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft },
-                    (_, GameBiz.StarRail) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight },
-                    _ => new DrillInNavigationTransitionInfo(),
-                };
-            }
+                (GameBiz.None, _) => new DrillInNavigationTransitionInfo(),
+                (_, GameBiz.Honkai3rd) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft },
+                (GameBiz.Honkai3rd, GameBiz.GenshinImpact) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight },
+                (GameBiz.StarRail, GameBiz.GenshinImpact) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft },
+                (_, GameBiz.StarRail) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight },
+                _ => new DrillInNavigationTransitionInfo(),
+            };
         }
         else
         {

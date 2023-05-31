@@ -4,8 +4,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Core;
 using Starward.Core.Metadata;
@@ -15,6 +17,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,23 +37,27 @@ public sealed partial class SelectGamePage : Page
 
     private readonly MetadataClient _client = AppConfig.GetService<MetadataClient>();
 
+    private readonly Compositor compositor;
+
 
     public SelectGamePage()
     {
         this.InitializeComponent();
+        compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
     }
 
 
     private List<GameInfo> games;
 
 
-    private GameBiz selectBiz;
 
 
     private async void Page_Loading(FrameworkElement sender, object args)
     {
         try
         {
+            await Task.Delay(16);
+            UpdateButtonEffect();
             games = await _client.GetGameInfoAsync();
             foreach (var game in games)
             {
@@ -85,7 +92,7 @@ public sealed partial class SelectGamePage : Page
     {
         try
         {
-            AppConfig.SelectGameBiz = selectBiz;
+            AppConfig.SelectGameBiz = SelectBiz;
             AppConfig.SetConfigDirectory(WelcomePage.Current.ConfigDirectory);
             if (Grid_GameInfo.Opacity == 1)
             {
@@ -112,22 +119,46 @@ public sealed partial class SelectGamePage : Page
 
 
 
-    private async void ComboBox_GameBiz_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+
+    #region Select Game
+
+
+
+    [ObservableProperty]
+    private GameBiz selectBiz;
+    partial void OnSelectBizChanged(GameBiz value)
     {
-        try
+        CurrentGameBizText = value switch
         {
-            if (ComboBox_GameBiz.SelectedItem is FrameworkElement ele)
-            {
-                if (Enum.TryParse(ele.Tag as string, out GameBiz biz))
-                {
-                    selectBiz = biz;
-                }
-                else
-                {
-                    selectBiz = GameBiz.None;
-                }
-            }
-            if (selectBiz != GameBiz.None)
+            GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn => "China",
+            GameBiz.hk4e_global or GameBiz.hkrpg_global or GameBiz.bh3_global => "Global",
+            GameBiz.hk4e_cloud => "Cloud",
+            GameBiz.bh3_tw => "TW/HK/MO",
+            GameBiz.bh3_jp => "Japan",
+            GameBiz.bh3_kr => "Korea",
+            GameBiz.bh3_overseas => "Southeast Asia",
+            _ => ""
+        };
+    }
+
+
+
+
+    [ObservableProperty]
+    private string currentGameBizText;
+
+
+    [RelayCommand(AllowConcurrentExecutions = true)]
+    private async Task ChangeGameBizAsync(string bizStr)
+    {
+        if (Enum.TryParse<GameBiz>(bizStr, out var biz))
+        {
+            _logger.LogInformation("Change game region to {gamebiz}", biz);
+            SelectBiz = biz;
+            AppConfig.SetLastRegionOfGame(biz.ToGame(), biz);
+            UpdateButtonEffect();
+            if (SelectBiz != GameBiz.None)
             {
                 Button_Next.IsEnabled = true;
             }
@@ -137,11 +168,147 @@ public sealed partial class SelectGamePage : Page
             }
             await ChangeGameInfoAsync();
         }
-        catch (Exception ex)
+    }
+
+
+    private void UpdateButtonEffect()
+    {
+        const double OPACITY = 1;
+        isSelectBH3 = false;
+        isSelectYS = false;
+        isSelectSR = false;
+        Border_Mask_BH3.Opacity = OPACITY;
+        Border_Mask_YS.Opacity = OPACITY;
+        Border_Mask_SR.Opacity = OPACITY;
+        if (SelectBiz.ToGame() is GameBiz.Honkai3rd)
         {
-            _logger.LogError(ex, "Select game changed");
+            UpdateButtonCornerRadius(Button_BH3, true);
+            UpdateButtonCornerRadius(Button_YS, false);
+            UpdateButtonCornerRadius(Button_SR, false);
+            Border_Mask_BH3.Opacity = 0;
+            isSelectBH3 = true;
+            return;
+        }
+        if (SelectBiz.ToGame() is GameBiz.GenshinImpact)
+        {
+            UpdateButtonCornerRadius(Button_BH3, false);
+            UpdateButtonCornerRadius(Button_YS, true);
+            UpdateButtonCornerRadius(Button_SR, false);
+            Border_Mask_YS.Opacity = 0;
+            isSelectYS = true;
+            return;
+        }
+        if (SelectBiz.ToGame() is GameBiz.StarRail)
+        {
+            UpdateButtonCornerRadius(Button_BH3, false);
+            UpdateButtonCornerRadius(Button_YS, false);
+            UpdateButtonCornerRadius(Button_SR, true);
+            Border_Mask_SR.Opacity = 0;
+            isSelectSR = true;
+            return;
+        }
+        UpdateButtonCornerRadius(Button_BH3, false);
+        UpdateButtonCornerRadius(Button_YS, false);
+        UpdateButtonCornerRadius(Button_SR, false);
+
+    }
+
+
+    private void Button_Game_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Button button)
+        {
+            UpdateButtonCornerRadius(button, true);
         }
     }
+
+
+    private void Button_Game_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Button button)
+        {
+            UpdateButtonCornerRadius(button, false);
+        }
+    }
+
+    private bool isSelectBH3;
+    private bool isSelectYS;
+    private bool isSelectSR;
+
+    private void Button_BH3_Click(object sender, RoutedEventArgs e)
+    {
+        isSelectBH3 = true;
+    }
+
+
+    private void Button_YS_Click(object sender, RoutedEventArgs e)
+    {
+        isSelectYS = true;
+    }
+
+
+    private void Button_SR_Click(object sender, RoutedEventArgs e)
+    {
+        isSelectSR = true;
+    }
+
+
+    private void MenuFlyout_Game_Closed(object sender, object e)
+    {
+        isSelectBH3 = false;
+        isSelectYS = false;
+        isSelectSR = false;
+        UpdateButtonEffect();
+    }
+
+    private void UpdateButtonCornerRadius(Button button, bool isSelect)
+    {
+        var visual = ElementCompositionPreview.GetElementVisual(button);
+        CompositionRoundedRectangleGeometry geometry;
+        if (visual.Clip is CompositionGeometricClip clip && clip.Geometry is CompositionRoundedRectangleGeometry geo)
+        {
+            geometry = geo;
+        }
+        else
+        {
+            geometry = compositor.CreateRoundedRectangleGeometry();
+            geometry.Size = new Vector2((float)button.ActualWidth, (float)button.ActualHeight);
+            geometry.CornerRadius = Vector2.Zero;
+            clip = compositor.CreateGeometricClip(geometry);
+            visual.Clip = clip;
+        }
+
+        if (button.Tag is "bh3" && isSelectBH3)
+        {
+            return;
+        }
+        if (button.Tag is "ys" && isSelectYS)
+        {
+            return;
+        }
+        if (button.Tag is "sr" && isSelectSR)
+        {
+            return;
+        }
+
+        var animation = compositor.CreateVector2KeyFrameAnimation();
+        animation.Duration = TimeSpan.FromSeconds(0.3);
+        if (isSelect)
+        {
+            animation.InsertKeyFrame(1, new Vector2(8, 8));
+        }
+        else
+        {
+            animation.InsertKeyFrame(1, new Vector2(24, 24));
+        }
+        geometry.StartAnimation(nameof(CompositionRoundedRectangleGeometry.CornerRadius), animation);
+    }
+
+
+
+
+    #endregion
+
 
 
 
@@ -160,10 +327,10 @@ public sealed partial class SelectGamePage : Page
             cancelSource?.Cancel();
             Grid_GameInfo.Opacity = 0;
             Rectangle_Mask.Opacity = 1;
-            var game_info = games.FirstOrDefault(x => x.GameBiz == selectBiz);
+            var game_info = games.FirstOrDefault(x => x.GameBiz == SelectBiz);
             if (game_info is null)
             {
-                _logger.LogInformation("Game info of {GameBiz} is NULL.", selectBiz);
+                _logger.LogInformation("Game info of {GameBiz} is NULL.", SelectBiz);
                 return;
             }
 

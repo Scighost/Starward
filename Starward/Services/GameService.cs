@@ -81,8 +81,12 @@ internal class GameService
             GameBiz.hk4e_cn => "YuanShen.exe",
             GameBiz.hk4e_global => "GenshinImpact.exe",
             GameBiz.hk4e_cloud => "Genshin Impact Cloud Game.exe",
-            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => "StarRail.exe",
-            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
+            _ => biz.ToGame() switch
+            {
+                GameBiz.StarRail => "StarRail.exe",
+                GameBiz.Honkai3rd => "BH3.exe",
+                _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
+            },
         };
     }
 
@@ -108,6 +112,7 @@ internal class GameService
             {
                 GameBiz.GenshinImpact => "ScreenShot",
                 GameBiz.StarRail => @"StarRail_Data\ScreenShots",
+                GameBiz.Honkai3rd => @"ScreenShot",
                 _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
             };
             folder = Path.Join(folder, relativePath);
@@ -262,8 +267,12 @@ internal class GameService
             GameBiz.hk4e_cn => "YuanShen",
             GameBiz.hk4e_global => "GenshinImpact",
             GameBiz.hk4e_cloud => "Genshin Impact Cloud Game",
-            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => "StarRail",
-            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
+            _ => biz.ToGame() switch
+            {
+                GameBiz.StarRail => "StarRail",
+                GameBiz.Honkai3rd => "BH3",
+                _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
+            },
         };
         return Process.GetProcessesByName(name).FirstOrDefault();
     }

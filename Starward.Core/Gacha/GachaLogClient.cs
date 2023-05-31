@@ -44,6 +44,15 @@ public abstract class GachaLogClient
 
 
 
+    protected const string REG_KEY_BH3_CN = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\崩坏3";
+    protected const string REG_KEY_BH3_OS = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Honkai Impact 3";
+    protected const string REG_KEY_BH3_GL = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Honkai Impact 3rd";
+    protected const string REG_KEY_BH3_TW = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\崩壊3rd";
+    protected const string REG_KEY_BH3_KR = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\붕괴3rd";
+    protected const string REG_KEY_BH3_JP = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\崩壊3rd";
+
+
+
 
     protected readonly HttpClient _httpClient;
 
@@ -110,6 +119,12 @@ public abstract class GachaLogClient
             GameBiz.hk4e_global => REG_KEY_YS_OS,
             GameBiz.hkrpg_cn => REG_KEY_SR_CN,
             GameBiz.hkrpg_global => REG_KEY_SR_OS,
+            GameBiz.bh3_cn => REG_KEY_BH3_CN,
+            GameBiz.bh3_global => REG_KEY_BH3_GL,
+            GameBiz.bh3_overseas => REG_KEY_BH3_OS,
+            GameBiz.bh3_tw => REG_KEY_BH3_TW,
+            GameBiz.bh3_kr => REG_KEY_BH3_KR,
+            GameBiz.bh3_jp => REG_KEY_BH3_JP,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         return GetGameInstallPathFromRegistry(key);
