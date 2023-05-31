@@ -156,8 +156,8 @@
                                FontWeight="SemiBold"
                                Text="应用背景" />
                     <ToggleSwitch IsOn="{x:Bind EnableCustomBg, Mode=TwoWay}"
-                                  OffContent="自定义背景"
-                                  OnContent="自定义背景" />
+                                  OffContent="自定义背景（支持视频）"
+                                  OnContent="自定义背景（支持视频）" />
                     <StackPanel Orientation="Horizontal" Spacing="16">
                         <Button Height="40"
                                 Margin="-48,0,0,0"
@@ -213,6 +213,13 @@
                     <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                Text="根据背景图片自动计算主题颜色，关闭后使用系统主题色。"
                                TextWrapping="Wrap" />
+                    <ToggleSwitch IsOn="{x:Bind DoNotSwitchBgWithGame, Mode=TwoWay}"
+                                  OffContent="切换游戏时不切换背景"
+                                  OnContent="切换游戏时不切换背景" />
+                    <ToggleSwitch Margin="0,-4,0,0"
+                                  IsOn="{x:Bind PauseVideoWhenChangeToOtherPage, Mode=TwoWay}"
+                                  OffContent="切换到其他页面时暂停视频"
+                                  OnContent="切换到其他页面时暂停视频" />
 
                     <!--  update  -->
                     <TextBlock Margin="0,16,0,0"

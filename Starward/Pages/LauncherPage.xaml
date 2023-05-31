@@ -261,6 +261,23 @@
                                               IsOn="{x:Bind IgnoreRunningGame, Mode=TwoWay}"
                                               OffContent="忽略正在运行的游戏"
                                               OnContent="忽略正在运行的游戏" />
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Width="32"
+                                            Height="32"
+                                            Padding="0"
+                                            Command="{x:Bind MuteCommand}"
+                                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                        <FontIcon FontSize="16" Glyph="{x:Bind VideoBgVolumeButtonIcon}" />
+                                    </Button>
+                                    <Slider Grid.Column="1"
+                                            Maximum="100"
+                                            Minimum="0"
+                                            Value="{x:Bind VideoBgVolume, Mode=TwoWay}" />
+                                </Grid>
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
@@ -476,7 +493,7 @@
             <Grid Margin="24,24,24,0">
                 <TextBlock FontSize="20"
                            FontWeight="SemiBold"
-                           Text="游戏设置" />
+                           Text="更多设置" />
                 <Button Name="Button_CloseGameSetting"
                         Width="36"
                         Height="36"
@@ -601,42 +618,92 @@
                         </Grid>
                     </StackPanel>
 
-                    <Button Width="0"
-                            Height="0"
-                            IsHitTestVisible="False" />
+                    <!--  Custom Bg  -->
+                    <ToggleSwitch IsOn="{x:Bind EnableCustomBg, Mode=TwoWay}"
+                                  OffContent="自定义背景（支持视频）"
+                                  OnContent="自定义背景（支持视频）" />
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <Button Height="36"
+                                Margin="-40,0,0,0"
+                                Padding="40,0,16,0"
+                                BorderThickness="0"
+                                Command="{x:Bind ChangeCustomBgCommand}"
+                                CornerRadius="0,18,18,0"
+                                IsEnabled="{x:Bind EnableCustomBg}"
+                                Style="{ThemeResource AccentButtonStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE91B;" />
+                                <TextBlock Text="选择" />
+                            </StackPanel>
+                        </Button>
+                        <Grid Height="36"
+                              MaxWidth="480"
+                              Background="{ThemeResource CustomAcrylicBrush}"
+                              CornerRadius="18"
+                              Visibility="{x:Bind CustomBg, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button Height="36"
+                                    BorderThickness="0"
+                                    Command="{x:Bind OpenCustomBgCommand}"
+                                    CornerRadius="0">
+                                <TextBlock Margin="8,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="{x:Bind CustomBg}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </Button>
+                            <Button Grid.Column="1"
+                                    Height="36"
+                                    BorderThickness="0"
+                                    Command="{x:Bind DeleteCustomBgCommand}"
+                                    CornerRadius="0">
+                                <FontIcon Margin="0,2,4,0"
+                                          FontSize="16"
+                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                          Glyph="&#xE10A;" />
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                    <TextBlock Margin="0,4,0,0"
+                               FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="请选择像素大小与应用窗口相匹配的图片，较大的图片会降低性能。"
+                               TextWrapping="Wrap" />
 
-                    <!--  Start Argument  -->
-                    <TextBlock Margin="0,4,0,0" Text="启动参数" />
-                    <TextBox MinWidth="200"
-                             HorizontalAlignment="Left"
-                             IsSpellCheckEnabled="False"
-                             Text="{x:Bind StartGameArgument, Mode=TwoWay}" />
+                    <ToggleSwitch IsOn="{x:Bind DoNotSwitchBgWithGame, Mode=TwoWay}"
+                                  OffContent="切换游戏时不切换背景"
+                                  OnContent="切换游戏时不切换背景" />
 
-                    <!--  FPS  -->
-                    <TextBlock Margin="0,12,0,0">
-                        <Run Text="FPS" />
-                        <Run Text="" />
-                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="仅支持星穹铁道" />
-                    </TextBlock>
-                    <NumberBox Name="NumberBox_FPS_2"
-                               MinWidth="200"
-                               HorizontalAlignment="Left"
-                               IsEnabled="False"
-                               Maximum="120"
-                               Minimum="60"
-                               SmallChange="10"
-                               SpinButtonPlacementMode="Inline"
-                               Value="{x:Bind TargetFPS, Mode=TwoWay}" />
 
-                    <!--  Others  -->
-                    <ToggleSwitch Margin="0,8,0,0"
-                                  IsOn="{x:Bind EnableBannerAndPost, Mode=TwoWay}"
-                                  OffContent="显示游戏公告"
-                                  OnContent="显示游戏公告" />
-                    <ToggleSwitch Margin="0,-8,0,0"
-                                  IsOn="{x:Bind IgnoreRunningGame, Mode=TwoWay}"
-                                  OffContent="忽略正在运行的游戏"
-                                  OnContent="忽略正在运行的游戏" />
+                    <ToggleSwitch Margin="0,-4,0,0"
+                                  IsOn="{x:Bind PauseVideoWhenChangeToOtherPage, Mode=TwoWay}"
+                                  OffContent="切换到其他页面时暂停视频"
+                                  OnContent="切换到其他页面时暂停视频" />
+
+                    <!--  volume  -->
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Width="32"
+                                Height="32"
+                                Padding="0"
+                                Command="{x:Bind MuteCommand}"
+                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                            <FontIcon FontSize="16" Glyph="{x:Bind VideoBgVolumeButtonIcon}" />
+                        </Button>
+                        <Slider Grid.Column="1"
+                                Width="200"
+                                HorizontalAlignment="Left"
+                                Maximum="100"
+                                Minimum="0"
+                                Value="{x:Bind VideoBgVolume, Mode=TwoWay}" />
+                    </Grid>
+
                 </StackPanel>
             </ScrollViewer>
         </Grid>

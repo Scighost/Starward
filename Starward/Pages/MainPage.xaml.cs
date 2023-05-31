@@ -5,10 +5,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
@@ -23,8 +26,11 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.Graphics;
 using Windows.Graphics.Imaging;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -79,7 +85,7 @@ public sealed partial class MainPage : Page
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         UpdateButtonEffect();
-        await UpdateBackgroundImageAsync();
+        await UpdateBackgroundImageAsync(true);
         await CheckUpdateAsync();
     }
 
@@ -91,6 +97,12 @@ public sealed partial class MainPage : Page
         UpdateDragRectangles();
     }
 
+
+    private void Page_Unloaded(object sender, RoutedEventArgs e)
+    {
+        mediaPlayer?.Dispose();
+        softwareBitmap?.Dispose();
+    }
 
 
 
@@ -403,9 +415,29 @@ public sealed partial class MainPage : Page
 
 
     [ObservableProperty]
-    private BitmapSource backgroundImage;
+    private ImageSource backgroundImage;
 
 
+    [ObservableProperty]
+    private int videoBgVolume = AppConfig.VideoBgVolume;
+    partial void OnVideoBgVolumeChanged(int value)
+    {
+        AppConfig.VideoBgVolume = value;
+        if (mediaPlayer is not null)
+        {
+            mediaPlayer.Volume = value / 100d;
+        }
+    }
+
+
+    private SoftwareBitmap? softwareBitmap;
+
+    private CanvasImageSource? videoSource;
+
+    private MediaPlayer? mediaPlayer;
+
+
+    public bool IsPlayingVideo { get; private set; }
 
 
 
@@ -416,22 +448,31 @@ public sealed partial class MainPage : Page
             var file = _launcherService.GetCachedBackgroundImage(CurrentGameBiz);
             if (file != null)
             {
-                BackgroundImage = new BitmapImage(new Uri(file));
-                Color? back = null, fore = null;
-                if (AppConfig.EnableDynamicAccentColor)
+                if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4")
                 {
-                    var hex = AppConfig.AccentColor;
-                    if (!string.IsNullOrWhiteSpace(hex))
-                    {
-                        try
-                        {
-                            back = ColorHelper.ToColor(hex[0..9]);
-                            fore = ColorHelper.ToColor(hex[9..18]);
-                        }
-                        catch { }
-                    }
+                    IsPlayingVideo = true;
+                    BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
+                    MainWindow.Current.ChangeAccentColor(null, null);
                 }
-                MainWindow.Current.ChangeAccentColor(back, fore);
+                else
+                {
+                    BackgroundImage = new BitmapImage(new Uri(file));
+                    Color? back = null, fore = null;
+                    if (AppConfig.EnableDynamicAccentColor)
+                    {
+                        var hex = AppConfig.AccentColor;
+                        if (!string.IsNullOrWhiteSpace(hex))
+                        {
+                            try
+                            {
+                                back = ColorHelper.ToColor(hex[0..9]);
+                                fore = ColorHelper.ToColor(hex[9..18]);
+                            }
+                            catch { }
+                        }
+                    }
+                    MainWindow.Current.ChangeAccentColor(back, fore);
+                }
             }
             else
             {
@@ -449,68 +490,94 @@ public sealed partial class MainPage : Page
     private CancellationTokenSource? cancelSource;
 
 
-    public async Task UpdateBackgroundImageAsync()
+    public async Task UpdateBackgroundImageAsync(bool force = false)
     {
+        if (AppConfig.DoNotSwitchBgWithGame && !force)
+        {
+            return;
+        }
         try
         {
+            mediaPlayer?.Dispose();
+            mediaPlayer = null;
+            videoSource = null;
+            softwareBitmap?.Dispose();
+            softwareBitmap = null;
+
             cancelSource?.Cancel();
             cancelSource = new();
             var source = cancelSource;
+
             var file = await _launcherService.GetBackgroundImageAsync(CurrentGameBiz);
             if (file != null)
             {
-                using var fs = File.OpenRead(file);
-                var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
-
-                WriteableBitmap bitmap;
-                double scale = MainWindow.Current.UIScale;
-                int decodeWidth = 0, decodeHeight = 0;
-                double windowWidth = ActualWidth * scale, windowHeight = ActualHeight * scale;
-
-                if (decoder.PixelWidth <= windowWidth || decoder.PixelHeight <= windowHeight)
+                if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4")
                 {
-                    decodeWidth = (int)decoder.PixelWidth;
-                    decodeHeight = (int)decoder.PixelHeight;
-                    bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
-                    fs.Position = 0;
-                    await bitmap.SetSourceAsync(fs.AsRandomAccessStream());
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.IsLoopingEnabled = true;
+                    mediaPlayer.Volume = VideoBgVolume / 100d;
+                    mediaPlayer.IsVideoFrameServerEnabled = true;
+                    mediaPlayer.Source = MediaSource.CreateFromUri(new Uri(file));
+                    mediaPlayer.VideoFrameAvailable += MediaPlayer_VideoFrameAvailable;
+                    mediaPlayer.Play();
+                    IsPlayingVideo = true;
                 }
                 else
                 {
-                    if (windowWidth * decoder.PixelHeight > windowHeight * decoder.PixelWidth)
+                    IsPlayingVideo = false;
+                    using var fs = File.OpenRead(file);
+                    var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
+
+                    WriteableBitmap bitmap;
+                    double scale = MainWindow.Current.UIScale;
+                    int decodeWidth = 0, decodeHeight = 0;
+                    double windowWidth = ActualWidth * scale, windowHeight = ActualHeight * scale;
+
+                    if (decoder.PixelWidth <= windowWidth || decoder.PixelHeight <= windowHeight)
                     {
-                        decodeWidth = (int)windowWidth;
-                        decodeHeight = (int)(windowWidth * decoder.PixelHeight / decoder.PixelWidth);
+                        decodeWidth = (int)decoder.PixelWidth;
+                        decodeHeight = (int)decoder.PixelHeight;
+                        bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
+                        fs.Position = 0;
+                        await bitmap.SetSourceAsync(fs.AsRandomAccessStream());
                     }
                     else
                     {
-                        decodeHeight = (int)windowHeight;
-                        decodeWidth = (int)(windowHeight * decoder.PixelWidth / decoder.PixelHeight);
+                        if (windowWidth * decoder.PixelHeight > windowHeight * decoder.PixelWidth)
+                        {
+                            decodeWidth = (int)windowWidth;
+                            decodeHeight = (int)(windowWidth * decoder.PixelHeight / decoder.PixelWidth);
+                        }
+                        else
+                        {
+                            decodeHeight = (int)windowHeight;
+                            decodeWidth = (int)(windowHeight * decoder.PixelWidth / decoder.PixelHeight);
+                        }
+                        var data = await decoder.GetPixelDataAsync(decoder.BitmapPixelFormat,
+                                                                   decoder.BitmapAlphaMode,
+                                                                   new BitmapTransform { ScaledWidth = (uint)decodeWidth, ScaledHeight = (uint)decodeHeight },
+                                                                   ExifOrientationMode.IgnoreExifOrientation,
+                                                                   ColorManagementMode.DoNotColorManage);
+                        var bytes = data.DetachPixelData();
+                        bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
+                        await bitmap.PixelBuffer.AsStream().WriteAsync(bytes);
                     }
-                    var data = await decoder.GetPixelDataAsync(decoder.BitmapPixelFormat,
-                                                               decoder.BitmapAlphaMode,
-                                                               new BitmapTransform { ScaledWidth = (uint)decodeWidth, ScaledHeight = (uint)decodeHeight },
-                                                               ExifOrientationMode.IgnoreExifOrientation,
-                                                               ColorManagementMode.DoNotColorManage);
-                    var bytes = data.DetachPixelData();
-                    bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
-                    await bitmap.PixelBuffer.AsStream().WriteAsync(bytes);
-                }
 
-                if (AppConfig.EnableDynamicAccentColor)
-                {
-                    (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
-                    MainWindow.Current.ChangeAccentColor(back, fore);
+                    if (AppConfig.EnableDynamicAccentColor)
+                    {
+                        (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
+                        MainWindow.Current.ChangeAccentColor(back, fore);
+                    }
+                    else
+                    {
+                        MainWindow.Current.ChangeAccentColor(null, null);
+                    }
+                    if (source.IsCancellationRequested)
+                    {
+                        return;
+                    }
+                    BackgroundImage = bitmap;
                 }
-                else
-                {
-                    MainWindow.Current.ChangeAccentColor(null, null);
-                }
-                if (source.IsCancellationRequested)
-                {
-                    return;
-                }
-                BackgroundImage = bitmap;
             }
         }
         catch (COMException ex)
@@ -521,6 +588,45 @@ public sealed partial class MainPage : Page
         {
             _logger.LogError(ex, "Update background image");
         }
+    }
+
+
+
+    private void MediaPlayer_VideoFrameAvailable(MediaPlayer sender, object args)
+    {
+        DispatcherQueue?.TryEnqueue(() =>
+        {
+            try
+            {
+                if (softwareBitmap is null || videoSource is null)
+                {
+                    int width = (int)sender.PlaybackSession.NaturalVideoWidth;
+                    int height = (int)sender.PlaybackSession.NaturalVideoHeight;
+                    sender.SystemMediaTransportControls.IsEnabled = false;
+                    softwareBitmap = new SoftwareBitmap(BitmapPixelFormat.Bgra8, width, height, BitmapAlphaMode.Ignore);
+                    videoSource = new CanvasImageSource(CanvasDevice.GetSharedDevice(), width, height, User32.GetDpiForWindow(MainWindow.Current.HWND));
+                    BackgroundImage = videoSource;
+                }
+                using var canvas = CanvasBitmap.CreateFromSoftwareBitmap(CanvasDevice.GetSharedDevice(), softwareBitmap);
+                sender.CopyFrameToVideoSurface(canvas);
+                using var ds = videoSource.CreateDrawingSession(Microsoft.UI.Colors.Transparent);
+                ds.DrawImage(canvas);
+            }
+            catch { }
+        });
+    }
+
+
+
+    public void PlayVideo()
+    {
+        mediaPlayer?.Play();
+    }
+
+
+    public void PauseVideo()
+    {
+        mediaPlayer?.Pause();
     }
 
 
@@ -599,10 +705,15 @@ public sealed partial class MainPage : Page
         MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());
         if (page.Name is nameof(BlankPage) or nameof(LauncherPage))
         {
+            PlayVideo();
             Border_ContentBackground.Opacity = 0;
         }
         else
         {
+            if (AppConfig.PauseVideoWhenChangeToOtherPage)
+            {
+                PauseVideo();
+            }
             Border_ContentBackground.Opacity = 1;
         }
     }

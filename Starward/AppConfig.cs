@@ -245,10 +245,32 @@ internal abstract class AppConfig
         set => SetValue(value ? 1 : 0);
     }
 
+
     public static string? AccentColor
     {
         get => GetValue<string>();
         set => SetValue(value);
+    }
+
+
+    public static int VideoBgVolume
+    {
+        get => Math.Clamp(GetValue(100), 0, 100);
+        set => SetValue(value);
+    }
+
+
+    public static bool PauseVideoWhenChangeToOtherPage
+    {
+        get => GetValue<int>() != 0;
+        set => SetValue(value ? 1 : 0);
+    }
+
+
+    public static bool DoNotSwitchBgWithGame
+    {
+        get => GetValue<int>() != 0;
+        set => SetValue(value ? 1 : 0);
     }
 
 

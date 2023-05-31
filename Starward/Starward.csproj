@@ -31,6 +31,7 @@
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.5" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.2" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230313.1" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />

@@ -14,13 +14,10 @@ using Starward.Helpers;
 using Starward.Pages.Welcome;
 using Starward.Services;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.System;
 
@@ -43,6 +40,8 @@ public sealed partial class SettingPage : Page
     private readonly HttpClient _httpClient = AppConfig.GetService<HttpClient>();
 
     private readonly UpdateService _updateService = AppConfig.GetService<UpdateService>();
+
+    private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
 
     private GameBiz gameBiz;
 
@@ -279,7 +278,7 @@ public sealed partial class SettingPage : Page
     partial void OnEnableCustomBgChanged(bool value)
     {
         AppConfig.SetEnableCustomBg(gameBiz, value);
-        _ = MainPage.Current.UpdateBackgroundImageAsync();
+        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
     }
 
 
@@ -296,49 +295,39 @@ public sealed partial class SettingPage : Page
     }
 
 
+    [ObservableProperty]
+    private bool pauseVideoWhenChangeToOtherPage = AppConfig.PauseVideoWhenChangeToOtherPage;
+    partial void OnPauseVideoWhenChangeToOtherPageChanged(bool value)
+    {
+        AppConfig.PauseVideoWhenChangeToOtherPage = value;
+        if (value)
+        {
+            MainPage.Current.PauseVideo();
+        }
+        else
+        {
+            MainPage.Current.PlayVideo();
+        }
+    }
+
+
+    [ObservableProperty]
+    private bool doNotSwitchBgWithGame = AppConfig.DoNotSwitchBgWithGame;
+    partial void OnDoNotSwitchBgWithGameChanged(bool value)
+    {
+        AppConfig.DoNotSwitchBgWithGame = value;
+    }
+
+
     [RelayCommand]
     private async Task ChangeCustomBgAsync()
     {
-        try
+        var file = await _launcherService.ChangeCustomBgAsync();
+        if (file is not null)
         {
-            var filter = new List<(string, string)>
-            {
-                ("bmp", ".bmp"),
-                ("jpeg", ".jpeg"),
-                ("jpg", ".jpg"),
-                ("png", ".png"),
-                ("tif", ".tif"),
-                ("tiff", ".tiff"),
-                ("avif", ".avif"),
-                ("heic", ".heic"),
-                ("webp", ".webp"),
-            };
-            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.HWND, filter.ToArray());
-            if (File.Exists(file))
-            {
-                _logger.LogInformation("Background file is '{file}'", file);
-                using var fs = File.OpenRead(file);
-                var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
-                var name = Path.GetFileName(file);
-                var dest = Path.Combine(AppConfig.ConfigDirectory, "bg", name);
-                if (file != dest)
-                {
-                    File.Copy(file, dest, true);
-                    _logger.LogInformation("File copied to '{dest}'", dest);
-                }
-                CustomBg = name;
-                AppConfig.SetCustomBg(gameBiz, name);
-                _ = MainPage.Current.UpdateBackgroundImageAsync();
-            }
-        }
-        catch (COMException ex)
-        {
-            // 0x88982F50
-            _logger.LogError(ex, "Decode error or others");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Change custom background");
+            CustomBg = file;
+            AppConfig.SetCustomBg(gameBiz, file);
+            _ = MainPage.Current.UpdateBackgroundImageAsync(true);
         }
     }
 
@@ -346,19 +335,7 @@ public sealed partial class SettingPage : Page
     [RelayCommand]
     private async Task OpenCustomBgAsync()
     {
-        try
-        {
-            var file = Path.Join(AppConfig.ConfigDirectory, "bg", CustomBg);
-            if (File.Exists(file))
-            {
-                _logger.LogError("Open image file '{file}'", file);
-                await Launcher.LaunchUriAsync(new Uri(file));
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Open custom background");
-        }
+        await _launcherService.OpenCustomBgAsync(CustomBg);
     }
 
 
@@ -367,7 +344,7 @@ public sealed partial class SettingPage : Page
     {
         AppConfig.SetCustomBg(gameBiz, null);
         CustomBg = null;
-        _ = MainPage.Current.UpdateBackgroundImageAsync();
+        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
     }
 
 

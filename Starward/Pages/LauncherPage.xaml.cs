@@ -88,6 +88,7 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
+            UpdateStartGameButtonStyle();
             await Task.Delay(16);
             InitializeGameBiz();
             InitializePlayTime();
@@ -109,24 +110,28 @@ public sealed partial class LauncherPage : Page
 
     private void InitializeGameBiz()
     {
+#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
         try
         {
             StartGameArgument = AppConfig.GetStartArgument(gameBiz);
             EnableThirdPartyTool = AppConfig.GetEnableThirdPartyTool(gameBiz);
             ThirdPartyToolPath = AppConfig.GetThirdPartyToolPath(gameBiz);
+            enableCustomBg = AppConfig.GetEnableCustomBg(gameBiz);
+            OnPropertyChanged(nameof(EnableCustomBg));
+            CustomBg = AppConfig.GetCustomBg(gameBiz);
+
             if (gameBiz is GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
             {
                 NumberBox_FPS_1.IsEnabled = true;
-                NumberBox_FPS_2.IsEnabled = true;
-#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
                 targetFPS = _gameService.GetStarRailFPS(gameBiz);
-#pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
                 OnPropertyChanged(nameof(TargetFPS));
             }
+
             if (gameBiz is GameBiz.hk4e_cloud)
             {
                 Grid_BannerAndPost.HorizontalAlignment = HorizontalAlignment.Right;
             }
+#pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
         }
         catch { }
     }
@@ -263,13 +268,29 @@ public sealed partial class LauncherPage : Page
     private bool canStartGame = true;
     partial void OnCanStartGameChanged(bool value)
     {
-        if (value)
+        UpdateStartGameButtonStyle();
+    }
+
+
+
+    private void UpdateStartGameButtonStyle()
+    {
+        if (MainPage.Current.IsPlayingVideo)
         {
-            Button_GameSetting.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
+            Button_StartGame.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
+            Button_GameSetting.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
         }
         else
         {
-            Button_GameSetting.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
+            Button_StartGame.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
+            if (CanStartGame)
+            {
+                Button_GameSetting.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
+            }
+            else
+            {
+                Button_GameSetting.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
+            }
         }
     }
 
@@ -434,6 +455,7 @@ public sealed partial class LauncherPage : Page
                 var process = _gameService.StartGame(gameBiz, IgnoreRunningGame);
                 if (process != null)
                 {
+                    MainPage.Current.PauseVideo();
                     User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
                     _logger.LogInformation("Game started ({name}, {pid})", process.ProcessName, process.Id);
                     _playTimeService.StartProcessToLog(gameBiz, process);
@@ -446,6 +468,7 @@ public sealed partial class LauncherPage : Page
                     GameProcess = _gameService.StartGame(gameBiz, IgnoreRunningGame);
                     if (GameProcess != null)
                     {
+                        MainPage.Current.PauseVideo();
                         User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
                         _logger.LogInformation("Game started ({name}, {pid})", GameProcess.ProcessName, GameProcess.Id);
                         _playTimeService.StartProcessToLog(gameBiz, GameProcess);
@@ -755,6 +778,126 @@ public sealed partial class LauncherPage : Page
 
     #endregion
 
-   
+
+
+
+    #region Background
+
+
+
+    [ObservableProperty]
+    private bool pauseVideoWhenChangeToOtherPage = AppConfig.PauseVideoWhenChangeToOtherPage;
+    partial void OnPauseVideoWhenChangeToOtherPageChanged(bool value)
+    {
+        AppConfig.PauseVideoWhenChangeToOtherPage = value;
+    }
+
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VideoBgVolumeButtonIcon))]
+    private int videoBgVolume = AppConfig.VideoBgVolume;
+    partial void OnVideoBgVolumeChanged(int value)
+    {
+        if (MainPage.Current is not null)
+        {
+            MainPage.Current.VideoBgVolume = value;
+        }
+    }
+
+
+    [ObservableProperty]
+    private bool doNotSwitchBgWithGame = AppConfig.DoNotSwitchBgWithGame;
+    partial void OnDoNotSwitchBgWithGameChanged(bool value)
+    {
+        AppConfig.DoNotSwitchBgWithGame = value;
+    }
+
+
+    public string VideoBgVolumeButtonIcon => VideoBgVolume switch
+    {
+        > 66 => "\xE995",
+        > 33 => "\xE994",
+        > 1 => "\xE993",
+        _ => "\xE992",
+    };
+
+
+    private int notMuteVolume = 100;
+
+    [RelayCommand]
+    private void Mute()
+    {
+        if (VideoBgVolume > 0)
+        {
+            notMuteVolume = VideoBgVolume;
+            VideoBgVolume = 0;
+        }
+        else
+        {
+            VideoBgVolume = notMuteVolume;
+        }
+    }
+
+
+    [ObservableProperty]
+    private bool enableCustomBg;
+    partial void OnEnableCustomBgChanged(bool value)
+    {
+        AppConfig.SetEnableCustomBg(gameBiz, value);
+        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
+        UpdateStartGameButtonStyle();
+    }
+
+
+    [ObservableProperty]
+    private string? customBg;
+
+
+    [ObservableProperty]
+    private bool enableDynamicAccentColor = AppConfig.EnableDynamicAccentColor;
+    partial void OnEnableDynamicAccentColorChanged(bool value)
+    {
+        AppConfig.EnableDynamicAccentColor = value;
+        _ = MainPage.Current.UpdateBackgroundImageAsync();
+    }
+
+
+    [RelayCommand]
+    private async Task ChangeCustomBgAsync()
+    {
+        var file = await _launcherService.ChangeCustomBgAsync();
+        if (file is not null)
+        {
+            CustomBg = file;
+            AppConfig.SetCustomBg(gameBiz, file);
+            _ = MainPage.Current.UpdateBackgroundImageAsync(true);
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task OpenCustomBgAsync()
+    {
+        await _launcherService.OpenCustomBgAsync(CustomBg);
+    }
+
+
+    [RelayCommand]
+    private void DeleteCustomBg()
+    {
+        AppConfig.SetCustomBg(gameBiz, null);
+        CustomBg = null;
+        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
+    }
+
+
+
+
+    #endregion
+
+
+
+
+
 
 }

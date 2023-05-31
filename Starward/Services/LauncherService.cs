@@ -1,11 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.Launcher;
+using Starward.Helpers;
 using Starward.Services.Cache;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Windows.Graphics.Imaging;
+using Windows.System;
 
 namespace Starward.Services;
 
@@ -47,14 +52,23 @@ public class LauncherService
 
 
 
+    public static string? GetBackgroundFilePath(string? name)
+    {
+        return Path.GetExtension(name) switch
+        {
+            ".flv" or ".mkv" or ".mov" or ".mp4" => name,
+            _ => Path.Join(AppConfig.ConfigDirectory, "bg", name),
+        };
+    }
+
+
 
     public string? GetCachedBackgroundImage(GameBiz gameBiz)
     {
         string? name = null, file = null;
         if (AppConfig.GetEnableCustomBg(gameBiz))
         {
-            name = AppConfig.GetCustomBg(gameBiz);
-            file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
+            file = GetBackgroundFilePath(AppConfig.GetCustomBg(gameBiz));
             if (File.Exists(file))
             {
                 return file;
@@ -79,8 +93,7 @@ public class LauncherService
         string? name, file;
         if (AppConfig.GetEnableCustomBg(gameBiz))
         {
-            name = AppConfig.GetCustomBg(gameBiz);
-            file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
+            file = GetBackgroundFilePath(AppConfig.GetCustomBg(gameBiz));
             if (File.Exists(file))
             {
                 return file;
@@ -112,6 +125,79 @@ public class LauncherService
 
 
 
+
+
+    public async Task<string?> ChangeCustomBgAsync()
+    {
+        try
+        {
+            var filter = new List<(string, string)>
+            {
+                ("Image", ".bmp"),
+                ("Image", ".jpg"),
+                ("Image", ".png"),
+                ("Image", ".avif"),
+                ("Image", ".heic"),
+                ("Image", ".webp"),
+                ("Video", ".flv"),
+                ("Video", ".mkv"),
+                ("Video", ".mov"),
+                ("Video", ".mp4"),
+            };
+            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.HWND, filter.ToArray());
+            if (File.Exists(file))
+            {
+                _logger.LogInformation("Background file is '{file}'", file);
+                if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4")
+                {
+                    return file;
+                }
+                else
+                {
+                    using var fs = File.OpenRead(file);
+                    var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
+                    var name = Path.GetFileName(file);
+                    var dest = Path.Combine(AppConfig.ConfigDirectory, "bg", name);
+                    if (file != dest)
+                    {
+                        File.Copy(file, dest, true);
+                        _logger.LogInformation("File copied to '{dest}'", dest);
+                    }
+                    return name;
+                }
+            }
+        }
+        catch (COMException ex)
+        {
+            // 0x88982F50
+            _logger.LogError(ex, "Decode error or others");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Change custom background");
+        }
+        return null;
+    }
+
+
+
+
+    public async Task OpenCustomBgAsync(string? name)
+    {
+        try
+        {
+            var file = GetBackgroundFilePath(name);
+            if (File.Exists(file))
+            {
+                _logger.LogError("Open image or video file '{file}'", file);
+                await Launcher.LaunchUriAsync(new Uri(file));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open custom background");
+        }
+    }
 
 
 

@@ -14,72 +14,96 @@ internal static class AccentColorHelper
 
 
 
+    public unsafe static (Color? Back, Color? Fore) GetAccentColor(byte[] bgra, int width, int height)
+    {
+        if (bgra.Length % 4 == 0)
+        {
+            fixed (byte* ptr = bgra)
+            {
+                return GetAccentColorInternal(ptr, width, height);
+            }
+        }
+        return (null, null);
+    }
+
+
+
+
     public unsafe static (Color? Back, Color? Fore) GetAccentColor(IBuffer buffer, int width, int height)
+    {
+        int length = (int)buffer.Length;
+        if (length > 0 && length % 4 == 0)
+        {
+            if (buffer.As<IBufferByteAccess>().Buffer(out nint ptr) == 0)
+            {
+                return GetAccentColorInternal((void*)ptr, width, height);
+            }
+        }
+        return (null, null);
+    }
+
+
+
+
+    private unsafe static (Color? Back, Color? Fore) GetAccentColorInternal(void* bgra, int width, int height)
     {
         try
         {
-            int length = (int)buffer.Length;
-            if (length > 0 && length % 4 == 0)
+            uint* p = (uint*)bgra;
+            long b = 0, g = 0, r = 0;
+            int[] hueCircle = new int[360];
+            for (int y = 0; y < height; y += 2)
             {
-                if (buffer.As<IBufferByteAccess>().Buffer(out nint ptr) == 0)
+                for (int x = 0; x < width; x += 2)
                 {
-                    uint* p = (uint*)ptr;
-                    long b = 0, g = 0, r = 0;
-                    int[] hueCircle = new int[360];
-                    for (int y = 0; y < height; y += 2)
+                    Bgra32 pixel = Unsafe.AsRef<Bgra32>(p);
+                    b += pixel.B;
+                    g += pixel.G;
+                    r += pixel.R;
+                    int hue = Bgra32ToHue(pixel);
+                    // ignore white black gray
+                    if (hue >= 0)
                     {
-                        for (int x = 0; x < width; x += 2)
-                        {
-                            Bgra32 pixel = Unsafe.AsRef<Bgra32>(p);
-                            b += pixel.B;
-                            g += pixel.G;
-                            r += pixel.R;
-                            int hue = Bgra32ToHue(pixel);
-                            // ignore white black gray
-                            if (hue >= 0)
-                            {
-                                hueCircle[hue]++;
-                            }
-                            p += 2;
-                        }
-                        p += width + width % 2;
+                        hueCircle[hue]++;
                     }
+                    p += 2;
+                }
+                p += width + width % 2;
+            }
 
-                    int c = (width / 2) * (height / 2);
-                    Unsafe.SkipInit(out Color color);
-                    color.B = (byte)(b / c);
-                    color.G = (byte)(g / c);
-                    color.R = (byte)(r / c);
-                    color.A = 255;
-                    HsvColor hsv = color.ToHsv();
+            int c = (width / 2) * (height / 2);
+            Unsafe.SkipInit(out Color color);
+            color.B = (byte)(b / c);
+            color.G = (byte)(g / c);
+            color.R = (byte)(r / c);
+            color.A = 255;
+            HsvColor hsv = color.ToHsv();
 
-                    int maxHueStart = 0;
-                    int maxHueCount = 0;
-                    for (int i = ((int)hsv.H) + 30; i < ((int)hsv.H) + 300; i++)
-                    {
-                        int count = 0;
-                        for (int j = i; j < i + 30; j++)
-                        {
-                            int h = j % 360;
-                            count += hueCircle[h];
-                        }
-                        if (count > maxHueCount)
-                        {
-                            maxHueStart = i;
-                            maxHueCount = count;
-                        }
-                    }
-
-                    long sum = 0;
-                    for (int i = maxHueStart; i < maxHueStart + 30; i++)
-                    {
-                        int h = i % 360;
-                        sum += h * hueCircle[h];
-                    }
-
-                    return (ColorHelper.FromHsv(hsv.H, 0.4, hsv.V), ColorHelper.FromHsv((double)sum / maxHueCount, 0.9, 0.9));
+            int maxHueStart = 0;
+            int maxHueCount = 0;
+            for (int i = ((int)hsv.H) + 30; i < ((int)hsv.H) + 300; i++)
+            {
+                int count = 0;
+                for (int j = i; j < i + 30; j++)
+                {
+                    int h = j % 360;
+                    count += hueCircle[h];
+                }
+                if (count > maxHueCount)
+                {
+                    maxHueStart = i;
+                    maxHueCount = count;
                 }
             }
+
+            long sum = 0;
+            for (int i = maxHueStart; i < maxHueStart + 30; i++)
+            {
+                int h = i % 360;
+                sum += h * hueCircle[h];
+            }
+
+            return (ColorHelper.FromHsv(hsv.H, 0.4, hsv.V), ColorHelper.FromHsv((double)sum / maxHueCount, 0.9, 0.9));
         }
         catch { }
         return (null, null);
@@ -110,7 +134,7 @@ internal static class AccentColorHelper
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private unsafe static int Bgra32ToHue(in Bgra32 bgra)
+    private static int Bgra32ToHue(in Bgra32 bgra)
     {
         byte max = Math.Max(Math.Max(bgra.R, bgra.G), bgra.B);
         byte min = Math.Min(Math.Min(bgra.R, bgra.G), bgra.B);

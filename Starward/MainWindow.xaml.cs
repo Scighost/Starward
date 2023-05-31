@@ -159,6 +159,7 @@ public sealed partial class MainWindow : Window
 
     public void OverlayFrameNavigateTo(Type page, object? parameter, NavigationTransitionInfo infoOverride)
     {
+        MainPage.Current?.PauseVideo();
         Frame_Overlay.Visibility = Visibility.Visible;
         Frame_Overlay.Navigate(page, parameter!, infoOverride);
         var len = (int)(48 * UIScale);
@@ -168,6 +169,7 @@ public sealed partial class MainWindow : Window
 
     public void CloseOverlayPage()
     {
+        MainPage.Current?.PlayVideo();
         Frame_Overlay.Visibility = Visibility.Collapsed;
         Frame_Overlay.Content = null;
         MainPage.Current?.UpdateDragRectangles();
