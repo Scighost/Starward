@@ -563,7 +563,7 @@ public sealed partial class MainPage : Page
                         }
                         var data = await decoder.GetPixelDataAsync(decoder.BitmapPixelFormat,
                                                                    decoder.BitmapAlphaMode,
-                                                                   new BitmapTransform { ScaledWidth = (uint)decodeWidth, ScaledHeight = (uint)decodeHeight },
+                                                                   new BitmapTransform { ScaledWidth = (uint)decodeWidth, ScaledHeight = (uint)decodeHeight, InterpolationMode = BitmapInterpolationMode.Fant },
                                                                    ExifOrientationMode.IgnoreExifOrientation,
                                                                    ColorManagementMode.DoNotColorManage);
                         var bytes = data.DetachPixelData();
