@@ -420,13 +420,32 @@ public sealed partial class SettingPage : Page
 
 
     [RelayCommand]
-    private void ChangeDataFolder()
+    private async void ChangeDataFolder()
     {
         try
         {
-            AppConfig.ResetServiceProvider();
-            MainWindow.Current.NavigateTo(typeof(WelcomePage), null, new Microsoft.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo());
-            Registry.CurrentUser.OpenSubKey(@"Software\Starward", true)?.DeleteValue("ConfigDirectory", false);
+            var dialog = new ContentDialog
+            {
+                Title = "重新选择数据文件夹",
+                Content = $"""
+                当前数据文件夹的位置是：
+
+                {AppConfig.ConfigDirectory}
+
+                想要重新选择吗？（你需要在选择前手动迁移数据文件）
+                """,
+                PrimaryButtonText = "是的",
+                SecondaryButtonText = "取消",
+                DefaultButton = ContentDialogButton.Secondary,
+                XamlRoot = this.XamlRoot,
+            };
+            var result = await dialog.ShowAsync();
+            if (result is ContentDialogResult.Primary)
+            {
+                AppConfig.ResetServiceProvider();
+                MainWindow.Current.NavigateTo(typeof(WelcomePage), null, new Microsoft.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo());
+                Registry.CurrentUser.OpenSubKey(@"Software\Starward", true)?.DeleteValue("ConfigDirectory", false);
+            }
         }
         catch (Exception ex)
         {
