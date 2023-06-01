@@ -46,16 +46,64 @@ public sealed partial class SelectDirectoryPage : Page
     {
         try
         {
-            var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
-            if (Directory.Exists(folder))
+            var parentFolder = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('/', '\\'));
+            var exe = Path.Join(parentFolder, "Starward.exe");
+            string? selectFolder = null;
+
+            if (File.Exists(exe))
             {
-                _logger.LogInformation("Select directory is '{Path}'", folder);
-                var file = Path.Combine(folder, Random.Shared.Next(int.MaxValue).ToString());
-                await File.WriteAllTextAsync(file, "");
-                File.Delete(file);
-                WelcomePage.Current.ConfigDirectory = folder;
-                TargetDictionary = folder;
-                Button_Next.IsEnabled = true;
+                var dialog = new ContentDialog
+                {
+                    Title = "选择文件夹",
+                    Content = $"""
+                    应用数据默认保存在软件安装的文件夹中：
+
+                    {parentFolder}
+
+                    是否选择此文件夹？
+                    """,
+                    DefaultButton = ContentDialogButton.Primary,
+                    PrimaryButtonText = "好的",
+                    SecondaryButtonText = "自己选",
+                    CloseButtonText = "不想选",
+                    XamlRoot = this.XamlRoot
+                };
+                var result = await dialog.ShowAsync();
+                if (result is ContentDialogResult.Primary)
+                {
+                    selectFolder = parentFolder;
+                }
+                if (result is ContentDialogResult.Secondary)
+                {
+                    selectFolder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+                }
+                if (result is ContentDialogResult.None)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                selectFolder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+            }
+
+            if (Directory.Exists(selectFolder))
+            {
+                _logger.LogInformation("Select directory is '{Path}'", selectFolder);
+                if (Path.GetFullPath(selectFolder.TrimEnd('/', '\\')) == Path.GetFullPath(AppContext.BaseDirectory.TrimEnd('/', '\\')))
+                {
+                    TargetDictionary = "此文件夹将在软件更新后被自动删除";
+                    Button_Next.IsEnabled = false;
+                }
+                else
+                {
+                    var file = Path.Combine(selectFolder, Random.Shared.Next(int.MaxValue).ToString());
+                    await File.WriteAllTextAsync(file, "");
+                    File.Delete(file);
+                    WelcomePage.Current.ConfigDirectory = selectFolder;
+                    TargetDictionary = selectFolder;
+                    Button_Next.IsEnabled = true;
+                }
             }
         }
         catch (UnauthorizedAccessException ex)
