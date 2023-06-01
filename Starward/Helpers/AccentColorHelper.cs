@@ -68,7 +68,7 @@ internal static class AccentColorHelper
                     }
                     p += 2;
                 }
-                p += width + width % 2;
+                p += width - width % 2;
             }
 
             int c = (width / 2) * (height / 2);
