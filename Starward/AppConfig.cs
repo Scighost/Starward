@@ -107,7 +107,12 @@ internal abstract class AppConfig
             var sc = new ServiceCollection();
             sc.AddLogging(c => c.AddSimpleConsole(c => c.TimestampFormat = "HH:mm:ss.fff\r\n"));
             sc.AddLogging(c => c.AddSerilog(Log.Logger));
-            sc.AddTransient(_ => new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 });
+            sc.AddTransient(_ =>
+            {
+                var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
+                client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppVersion}");
+                return client;
+            });
 
             sc.AddSingleton<GenshinGachaClient>();
             sc.AddSingleton<StarRailGachaClient>();
