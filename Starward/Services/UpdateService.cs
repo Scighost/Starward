@@ -296,7 +296,11 @@ internal class UpdateService
         progress_FileCountDownloaded = 0;
         Progress_BytesToDownload = downloadFiles.Sum(x => x.Size);
         Progress_FileCountToDownload = downloadFiles.Count;
-        await Parallel.ForEachAsync(downloadFiles, cancellationToken, async (releaseFile, token) =>
+        await Parallel.ForEachAsync(downloadFiles, new ParallelOptions
+        {
+            MaxDegreeOfParallelism = Environment.ProcessorCount * 2,
+            CancellationToken = cancellationToken
+        }, async (releaseFile, token) =>
         {
             await DownloadFileAsync(releaseFile, token);
         });
