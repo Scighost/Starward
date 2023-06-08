@@ -630,6 +630,7 @@ public sealed partial class LauncherPage : Page
     private void DeleteGameInstallPath()
     {
         InstallPath = null;
+        UpdateGameVersion();
     }
 
 
@@ -1005,28 +1006,31 @@ public sealed partial class LauncherPage : Page
 
             if (Directory.Exists(InstallPath))
             {
-                var folderDialog = new ContentDialog
+                if (LocalVersion is null)
                 {
-                    Title = "选择安装文件夹",
-                    Content = $"以下文件夹中有尚未完成的下载任务\r\n{InstallPath}",
-                    PrimaryButtonText = "继续",
-                    SecondaryButtonText = "重新选择",
-                    CloseButtonText = "取消",
-                    DefaultButton = ContentDialogButton.Primary,
-                    XamlRoot = this.XamlRoot,
-                };
-                var result = await folderDialog.ShowAsync();
-                if (result is ContentDialogResult.Secondary)
-                {
-                    var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
-                    if (Directory.Exists(folder))
+                    var folderDialog = new ContentDialog
                     {
-                        InstallPath = folder;
+                        Title = "选择安装文件夹",
+                        Content = $"以下文件夹中有尚未完成的下载任务\r\n{InstallPath}",
+                        PrimaryButtonText = "继续",
+                        SecondaryButtonText = "重新选择",
+                        CloseButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Primary,
+                        XamlRoot = this.XamlRoot,
+                    };
+                    var result = await folderDialog.ShowAsync();
+                    if (result is ContentDialogResult.Secondary)
+                    {
+                        var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+                        if (Directory.Exists(folder))
+                        {
+                            InstallPath = folder;
+                        }
                     }
-                }
-                if (result is ContentDialogResult.None)
-                {
-                    return;
+                    if (result is ContentDialogResult.None)
+                    {
+                        return;
+                    }
                 }
             }
             else
@@ -1034,7 +1038,7 @@ public sealed partial class LauncherPage : Page
                 var folderDialog = new ContentDialog
                 {
                     Title = "选择安装文件夹",
-                    Content = "请选择一个空文件夹用于安装游戏",
+                    Content = "请选择一个空文件夹用于安装游戏，或者选择已安装游戏的文件夹。",
                     PrimaryButtonText = "选择",
                     SecondaryButtonText = "取消",
                     DefaultButton = ContentDialogButton.Primary,
@@ -1065,6 +1069,7 @@ public sealed partial class LauncherPage : Page
                     PrimaryButtonText = "确定",
                     XamlRoot = this.XamlRoot,
                 };
+                UpdateGameVersion();
                 await versionDialog.ShowAsync();
                 return;
             }
