@@ -329,7 +329,7 @@ internal class UpdateService
                 {
                     using var stream = await _httpClient.GetStreamAsync(releaseFile.Url, cancellationToken);
                     var ms = new MemoryStream();
-                    var buffer = new byte[1 << 13];
+                    var buffer = new byte[1 << 16];
                     int length;
                     while ((length = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
                     {

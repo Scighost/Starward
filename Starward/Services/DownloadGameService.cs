@@ -225,7 +225,21 @@ internal partial class DownloadGameService
             }
             else
             {
-                downloadGameResource.Game = CheckDownloadPackage(gameResource.Latest, installPath);
+                if (string.IsNullOrWhiteSpace(gameResource.Latest.Path))
+                {
+                    var state = new DownloadPackageState
+                    {
+                        PackageSize = gameResource.Latest.PackageSize,
+                        DecompressedSize = gameResource.Latest.Size,
+                    };
+                    var size = gameResource.Latest.Segments.Sum(x => CheckDownloadPackage(Path.GetFileName(x.Path), installPath));
+                    state.DownloadedSize = size;
+                    downloadGameResource.Game = state;
+                }
+                else
+                {
+                    downloadGameResource.Game = CheckDownloadPackage(gameResource.Latest, installPath);
+                }
                 foreach (var pack in gameResource.Latest.VoicePacks)
                 {
                     var state = CheckDownloadPackage(pack, installPath);
@@ -264,6 +278,22 @@ internal partial class DownloadGameService
             state.DownloadedSize = files.Select(x => new FileInfo(x).Length).Sum();
         }
         return state;
+    }
+
+
+
+    private long CheckDownloadPackage(string name, string installPath)
+    {
+        var file = Path.Join(installPath, name);
+        if (File.Exists(file))
+        {
+            return new FileInfo(file).Length;
+        }
+        else
+        {
+            var files = Directory.GetFiles(installPath, $"{name}.slice.*");
+            return files.Select(x => new FileInfo(x).Length).Sum();
+        }
     }
 
 
@@ -522,7 +552,7 @@ internal partial class DownloadGameService
                         response.EnsureSuccessStatusCode();
                         using var hs = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 
-                        var buffer = new byte[1 << 13];
+                        var buffer = new byte[1 << 16];
                         int length;
                         while ((length = await hs.ReadAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false)) != 0)
                         {
