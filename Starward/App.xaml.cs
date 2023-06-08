@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
 using Starward.Helpers;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -41,13 +43,36 @@ public partial class App : Application
     /// Invoked when the application is launched.
     /// </summary>
     /// <param name="args">Details about the launch request and process.</param>
-    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs _)
     {
+        instance = AppInstance.GetCurrent();
+        instance.Activated += AppInstance_Activated;
+        var args = Environment.GetCommandLineArgs();
+        if (args.Length > 1)
+        {
+            if (args[1].ToLower() is "download")
+            {
+                m_window = new MainWindow("download");
+                m_window.Activate();
+                return;
+            }
+        }
         m_window = new MainWindow();
         m_window.Activate();
     }
 
+
+
+    private AppInstance instance;
+
     private Window m_window;
+
+
+    private void AppInstance_Activated(object? sender, AppActivationArguments e)
+    {
+        User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWNORMAL);
+        User32.SetForegroundWindow(MainWindow.Current.HWND);
+    }
 
 
 

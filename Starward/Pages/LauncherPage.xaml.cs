@@ -9,6 +9,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Windows.AppLifecycle;
+using Starward.Controls;
 using Starward.Core;
 using Starward.Core.Launcher;
 using Starward.Helpers;
@@ -48,6 +50,8 @@ public sealed partial class LauncherPage : Page
     private readonly PlayTimeService _playTimeService = AppConfig.GetService<PlayTimeService>();
 
     private readonly DatabaseService _databaseService = AppConfig.GetService<DatabaseService>();
+
+    private readonly DownloadGameService _downloadGameService = AppConfig.GetService<DownloadGameService>();
 
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _timer;
 
@@ -91,6 +95,7 @@ public sealed partial class LauncherPage : Page
             UpdateStartGameButtonStyle();
             await Task.Delay(16);
             InitializeGameBiz();
+            UpdateGameVersion();
             InitializePlayTime();
             UpdateGameState();
             GetGameAccount();
@@ -270,7 +275,6 @@ public sealed partial class LauncherPage : Page
 
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(StartGameCommand))]
     private bool canStartGame = true;
     partial void OnCanStartGameChanged(bool value)
     {
@@ -303,6 +307,39 @@ public sealed partial class LauncherPage : Page
 
     [ObservableProperty]
     private string startGameButtonText = "开始游戏";
+
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsStartGameEnable))]
+    [NotifyPropertyChangedFor(nameof(IsDownloadGameEnable))]
+    [NotifyPropertyChangedFor(nameof(IsUpdateGameEnable))]
+    [NotifyPropertyChangedFor(nameof(IsPreDownloadEnable))]
+    private Version? localVersion;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsStartGameEnable))]
+    [NotifyPropertyChangedFor(nameof(IsUpdateGameEnable))]
+    private Version? currentVersion;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsPreDownloadEnable))]
+    private Version? preVersion;
+
+
+
+    public bool IsStartGameEnable => LocalVersion != null && LocalVersion >= CurrentVersion;
+
+
+    public bool IsDownloadGameEnable => LocalVersion == null;
+
+
+    public bool IsUpdateGameEnable => LocalVersion != null && CurrentVersion > LocalVersion;
+
+
+    public bool IsPreDownloadEnable => LocalVersion != null && PreVersion != null;
+
+    [ObservableProperty]
+    private bool isPreDownloadOK;
 
 
     [ObservableProperty]
@@ -390,23 +427,40 @@ public sealed partial class LauncherPage : Page
 
 
 
+
+    private async void UpdateGameVersion()
+    {
+        try
+        {
+            InstallPath = _gameService.GetGameInstallPath(gameBiz);
+            if (gameBiz == GameBiz.hk4e_cloud)
+            {
+                if (Directory.Exists(InstallPath))
+                {
+                    LocalVersion = new Version();
+                }
+                return;
+            }
+            LocalVersion = await _downloadGameService.GetLocalGameVersionAsync(gameBiz);
+            (CurrentVersion, PreVersion) = await _downloadGameService.GetGameVersionAsync(gameBiz);
+            if (IsPreDownloadEnable)
+            {
+                IsPreDownloadOK = await _downloadGameService.CheckPreDownloadIsOKAsync(gameBiz, InstallPath);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Check game version");
+        }
+    }
+
+
+
     private void UpdateGameState()
     {
         try
         {
             CanStartGame = true;
-            var install = _gameService.GetGameInstallPath(gameBiz);
-            var exeName = _gameService.GetGameExeName(gameBiz);
-            var exePath = Path.Join(install, exeName);
-            if (!File.Exists(exePath))
-            {
-                _logger.LogWarning("Game uninstalled ({biz})", gameBiz);
-                StartGameButtonText = "未安装游戏";
-                CanStartGame = false;
-                AppConfig.SetGameInstallPath(gameBiz, null);
-                return;
-            }
-            InstallPath = install;
             StartGameButtonText = "开始游戏";
             if (IgnoreRunningGame)
             {
@@ -451,7 +505,7 @@ public sealed partial class LauncherPage : Page
 
 
 
-    [RelayCommand(CanExecute = nameof(CanStartGame))]
+    [RelayCommand]
     private void StartGame()
     {
         try
@@ -504,6 +558,7 @@ public sealed partial class LauncherPage : Page
             {
                 InstallPath = null;
             }
+            UpdateGameVersion();
             UpdateGameState();
         }
         catch (Exception ex)
@@ -905,6 +960,213 @@ public sealed partial class LauncherPage : Page
     #endregion
 
 
+
+
+
+    #region Download Game
+
+
+
+
+    private async Task<bool> CheckRedirectInstanceAsync()
+    {
+        var instance = AppInstance.FindOrRegisterForKey($"download_game_{gameBiz}");
+        if (!instance.IsCurrent)
+        {
+            await instance.RedirectActivationToAsync(instance.GetActivatedEventArgs());
+            return true;
+        }
+        else
+        {
+            instance.UnregisterKey();
+            return false;
+        }
+    }
+
+
+
+
+    [RelayCommand]
+    private async Task DownloadGameAsync()
+    {
+        try
+        {
+            if (gameBiz is GameBiz.hk4e_cloud)
+            {
+                await Launcher.LaunchUriAsync(new Uri("https://mhyy.mihoyo.com/"));
+                return;
+            }
+
+            if (await CheckRedirectInstanceAsync())
+            {
+                return;
+            }
+
+
+            if (Directory.Exists(InstallPath))
+            {
+                var folderDialog = new ContentDialog
+                {
+                    Title = "选择安装文件夹",
+                    Content = $"以下文件夹中有尚未完成的下载任务\r\n{InstallPath}",
+                    PrimaryButtonText = "继续",
+                    SecondaryButtonText = "重新选择",
+                    CloseButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = this.XamlRoot,
+                };
+                var result = await folderDialog.ShowAsync();
+                if (result is ContentDialogResult.Secondary)
+                {
+                    var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+                    if (Directory.Exists(folder))
+                    {
+                        InstallPath = folder;
+                    }
+                }
+                if (result is ContentDialogResult.None)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                var folderDialog = new ContentDialog
+                {
+                    Title = "选择安装文件夹",
+                    Content = "请选择一个空文件夹用于安装游戏",
+                    PrimaryButtonText = "选择",
+                    SecondaryButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = this.XamlRoot,
+                };
+                if (await folderDialog.ShowAsync() is ContentDialogResult.Primary)
+                {
+                    var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+                    if (Directory.Exists(folder))
+                    {
+                        InstallPath = folder;
+                    }
+                }
+            }
+
+            if (!Directory.Exists(InstallPath))
+            {
+                return;
+            }
+
+            var downloadResource = await _downloadGameService.CheckDownloadGameResourceAsync(gameBiz, InstallPath);
+            if (downloadResource is null)
+            {
+                var versionDialog = new ContentDialog
+                {
+                    Title = "已是最新版本",
+                    Content = "如果不是最新版本请修改游戏安装目录中的 config.ini 文件",
+                    PrimaryButtonText = "确定",
+                    XamlRoot = this.XamlRoot,
+                };
+                await versionDialog.ShowAsync();
+                return;
+            }
+            var lang = await _downloadGameService.GetVoiceLanguageAsync(gameBiz, InstallPath);
+            if (lang is VoiceLanguage.None)
+            {
+                lang = VoiceLanguage.All;
+            }
+
+            var content = new DownloadGameDialog { LanguageType = lang, GameResource = downloadResource };
+            var dialog = new ContentDialog
+            {
+                Title = IsUpdateGameEnable ? "更新游戏" : (IsPreDownloadEnable ? "预下载" : "安装游戏"),
+                Content = content,
+                PrimaryButtonText = "开始",
+                SecondaryButtonText = "取消",
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = this.XamlRoot,
+            };
+
+            if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+            {
+                lang = content.LanguageType;
+                var exe = Process.GetCurrentProcess().MainModule?.FileName;
+                if (!File.Exists(exe))
+                {
+                    exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+                }
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = exe,
+                    UseShellExecute = true,
+                    Arguments = $"""download --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
+                    Verb = "runas",
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Start to download game");
+        }
+    }
+
+
+
+
+
+
+    [RelayCommand]
+    private async Task PreDownloadGameAsync()
+    {
+        try
+        {
+            if (await CheckRedirectInstanceAsync())
+            {
+                return;
+            }
+            if (IsPreDownloadOK)
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = "预下载",
+                    Content = "预下载已完成，是否校验文件？",
+                    PrimaryButtonText = "开始校验",
+                    SecondaryButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Secondary,
+                    XamlRoot = this.XamlRoot,
+                };
+                if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+                {
+                    var lang = await _downloadGameService.GetVoiceLanguageAsync(gameBiz, InstallPath);
+                    var exe = Process.GetCurrentProcess().MainModule?.FileName;
+                    if (!File.Exists(exe))
+                    {
+                        exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+                    }
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = exe,
+                        UseShellExecute = true,
+                        Arguments = $"""download --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
+                        Verb = "runas",
+                    });
+                }
+            }
+            else
+            {
+                await DownloadGameAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Pre download game");
+        }
+    }
+
+
+
+
+
+
+    #endregion
 
 
 

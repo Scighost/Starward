@@ -63,10 +63,10 @@ public class LauncherService
 
 
 
-    public string? GetCachedBackgroundImage(GameBiz gameBiz)
+    public string? GetCachedBackgroundImage(GameBiz gameBiz, bool disableCustom = false)
     {
         string? name = null, file = null;
-        if (AppConfig.GetEnableCustomBg(gameBiz))
+        if (AppConfig.GetEnableCustomBg(gameBiz) && !disableCustom)
         {
             file = GetBackgroundFilePath(AppConfig.GetCustomBg(gameBiz));
             if (File.Exists(file))
@@ -88,10 +88,10 @@ public class LauncherService
 
 
 
-    public async Task<string> GetBackgroundImageAsync(GameBiz gameBiz)
+    public async Task<string> GetBackgroundImageAsync(GameBiz gameBiz, bool disableCustom = false)
     {
         string? name, file;
-        if (AppConfig.GetEnableCustomBg(gameBiz))
+        if (AppConfig.GetEnableCustomBg(gameBiz) && !disableCustom)
         {
             file = GetBackgroundFilePath(AppConfig.GetCustomBg(gameBiz));
             if (File.Exists(file))

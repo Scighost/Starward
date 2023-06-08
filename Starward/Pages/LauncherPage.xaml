@@ -149,11 +149,11 @@
         <StackPanel Margin="40"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
-                    Orientation="Horizontal"
-                    Spacing="16">
+                    Orientation="Horizontal">
 
             <!--  Start Game  -->
             <Grid Width="240"
+                  Margin="0,0,16,0"
                   Background="{ThemeResource CustomAcrylicBrush}"
                   CornerRadius="20"
                   Shadow="{StaticResource ThemeShadow}"
@@ -171,7 +171,9 @@
                         Command="{x:Bind StartGameCommand}"
                         CornerRadius="20,0,0,20"
                         FontSize="14"
-                        Style="{ThemeResource AccentButtonStyle}">
+                        IsEnabled="{x:Bind CanStartGame}"
+                        Style="{ThemeResource AccentButtonStyle}"
+                        Visibility="{x:Bind IsStartGameEnable}">
                     <StackPanel Margin="0,0,-40,0"
                                 Orientation="Horizontal"
                                 Spacing="8">
@@ -188,6 +190,48 @@
                                   FontSize="18"
                                   FontWeight="Bold"
                                   Glyph="&#xE76C;" />
+                    </StackPanel>
+                </Button>
+
+                <!--  Download Game  -->
+                <Button Name="Button_DownloadGame"
+                        Height="40"
+                        HorizontalAlignment="Stretch"
+                        BorderThickness="0"
+                        Command="{x:Bind DownloadGameCommand}"
+                        CornerRadius="20,0,0,20"
+                        FontSize="14"
+                        Style="{ThemeResource AccentButtonStyle}"
+                        Visibility="{x:Bind IsDownloadGameEnable}">
+                    <StackPanel Margin="0,0,-40,0"
+                                Orientation="Horizontal"
+                                Spacing="8">
+                        <FontIcon Margin="0,2,0,0"
+                                  VerticalAlignment="Center"
+                                  FontSize="20"
+                                  Glyph="&#xEBD3;" />
+                        <TextBlock VerticalAlignment="Center" Text="安装游戏" />
+                    </StackPanel>
+                </Button>
+
+                <!--  Update Game  -->
+                <Button Name="Button_UpdateGame"
+                        Height="40"
+                        HorizontalAlignment="Stretch"
+                        BorderThickness="0"
+                        Command="{x:Bind DownloadGameCommand}"
+                        CornerRadius="20,0,0,20"
+                        FontSize="14"
+                        Style="{ThemeResource AccentButtonStyle}"
+                        Visibility="{x:Bind IsUpdateGameEnable}">
+                    <StackPanel Margin="0,0,-40,0"
+                                Orientation="Horizontal"
+                                Spacing="8">
+                        <FontIcon Margin="0,2,0,0"
+                                  VerticalAlignment="Center"
+                                  FontSize="18"
+                                  Glyph="&#xE752;" />
+                        <TextBlock VerticalAlignment="Center" Text="更新游戏" />
                     </StackPanel>
                 </Button>
 
@@ -284,9 +328,12 @@
                 </Button>
             </Grid>
 
+
+
             <!--  Game Time  -->
             <Border Name="Border_Playtime"
                     Height="40"
+                    Margin="0,0,16,0"
                     Background="{ThemeResource CustomAcrylicBrush}"
                     CornerRadius="20"
                     Shadow="{StaticResource ThemeShadow}"
@@ -347,6 +394,37 @@
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
+                </Button>
+            </Border>
+
+
+            <!--  predownload  -->
+            <Border Height="40"
+                    Margin="0,0,16,0"
+                    Background="{ThemeResource CustomAcrylicBrush}"
+                    CornerRadius="20"
+                    Shadow="{StaticResource ThemeShadow}"
+                    Translation="0,0,16"
+                    Visibility="{x:Bind IsPreDownloadEnable}">
+                <Button Name="Button_PreDownloadGame"
+                        Height="40"
+                        BorderThickness="0"
+                        Command="{x:Bind PreDownloadGameCommand}"
+                        CornerRadius="20"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Margin="4,0,4,0" Orientation="Horizontal">
+                        <FontIcon Margin="0,2,0,0"
+                                  FontSize="20"
+                                  Glyph="&#xEBD3;"
+                                  Visibility="{x:Bind IsPreDownloadOK, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                        <FontIcon Margin="0,2,0,0"
+                                  FontSize="20"
+                                  Glyph="&#xE930;"
+                                  Visibility="{x:Bind IsPreDownloadOK}" />
+                        <TextBlock Margin="8,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Text="预下载" />
+                    </StackPanel>
                 </Button>
             </Border>
 

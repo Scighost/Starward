@@ -30,6 +30,7 @@
 		<PackageReference Include="Dapper" Version="2.0.123" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.5" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.2" />
@@ -45,6 +46,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
+		<ProjectReference Include="..\Starward.SevenZip\Starward.SevenZip.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -56,10 +56,19 @@ public sealed partial class MainWindow : Window
 
 
 
-
-    private void InitializeMainWindow()
+    public MainWindow(string action)
     {
-        Title = "Starward";
+        Current = this;
+        this.InitializeComponent();
+        InitializeMainWindow(action);
+        MainWindow_Frame.Content = new DownloadGamePage();
+    }
+
+
+
+
+    private void InitializeMainWindow(string? action = null)
+    {
         HWND = WindowNative.GetWindowHandle(this);
         var id = Win32Interop.GetWindowIdFromWindow(HWND);
         AppWindow = AppWindow.GetFromWindowId(id);
@@ -68,25 +77,40 @@ public sealed partial class MainWindow : Window
         titleBar.ExtendsContentIntoTitleBar = true;
         SetDragRectangles(new RectInt32(0, 0, 100000, len));
         ChangeTitleBarButtonColor();
+        if (action is "download")
+        {
+            Title = "Starward - Download Game";
+            ResizeToCertainSize(720, 410);
+            return;
+        }
+        Title = "Starward";
         ResizeToCertainSize();
     }
 
 
 
-    public void ResizeToCertainSize()
+    public void ResizeToCertainSize(int width = 0, int height = 0)
     {
         var display = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary);
         var scale = UIScale;
-        int width, height;
-        if (AppConfig.WindowSizeMode == 0)
+        if (width * height == 0)
         {
-            width = (int)(1280 * scale);
-            height = (int)(768 * scale);
+            if (AppConfig.WindowSizeMode == 0)
+            {
+                width = (int)(1280 * scale);
+                height = (int)(768 * scale);
+            }
+            else
+            {
+                width = (int)(1064 * scale);
+                height = (int)(648 * scale);
+            }
         }
         else
         {
-            width = (int)(1064 * scale);
-            height = (int)(648 * scale);
+            width = (int)(width * scale);
+            height = (int)(height * scale);
+
         }
         var x = (display.WorkArea.Width - width) / 2;
         var y = (display.WorkArea.Height - height) / 2;

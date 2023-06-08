@@ -129,6 +129,7 @@ internal abstract class AppConfig
             sc.AddSingleton<GenshinGachaService>();
             sc.AddSingleton<StarRailGachaService>();
             sc.AddSingleton<PlayTimeService>();
+            sc.AddSingleton<DownloadGameService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="Starward.Controls.DownloadGameDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Starward.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:DefaultBindMode="OneWay"
+             Loaded="UserControl_Loaded"
+             mc:Ignorable="d">
+
+    <StackPanel Spacing="8">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock MinWidth="120" Text="资源包大小：" />
+            <TextBlock Text="{x:Bind PackageSizeText}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock MinWidth="120" Text="已下载：" />
+            <TextBlock Text="{x:Bind DownloadSizeText}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock MinWidth="120" Text="解压占用空间：" />
+            <TextBlock Text="{x:Bind DecompressedSizeText}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock MinWidth="120" Text="剩余空间：" />
+            <TextBlock Text="{x:Bind FreeSpaceText}" />
+        </StackPanel>
+        <StackPanel Name="StackPanel_Voice"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed">
+            <TextBlock MinWidth="120" Text="语音包：" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <CheckBox Grid.Row="0"
+                          Grid.Column="0"
+                          Content="Chinese"
+                          IsChecked="{x:Bind IsChineseChecked, Mode=TwoWay}" />
+                <CheckBox Grid.Row="0"
+                          Grid.Column="1"
+                          Content="English"
+                          IsChecked="{x:Bind IsEnglishChecked, Mode=TwoWay}" />
+                <CheckBox Grid.Row="1"
+                          Grid.Column="0"
+                          Content="Japanese"
+                          IsChecked="{x:Bind IsJapaneseChecked, Mode=TwoWay}" />
+                <CheckBox Grid.Row="1"
+                          Grid.Column="1"
+                          Content="Korean"
+                          IsChecked="{x:Bind IsKoreanChecked, Mode=TwoWay}" />
+            </Grid>
+        </StackPanel>
+    </StackPanel>
+
+</UserControl>

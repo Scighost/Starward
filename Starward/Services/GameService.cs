@@ -69,6 +69,8 @@ internal class GameService
         }
         else
         {
+            _logger.LogWarning("Game uninstalled ({biz})", biz);
+            AppConfig.SetGameInstallPath(biz, null);
             return null;
         }
     }

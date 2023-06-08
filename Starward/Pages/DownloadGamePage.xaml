@@ -1,0 +1,113 @@
+﻿<Page x:Class="Starward.Pages.DownloadGamePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Starward.Pages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:sc="using:Starward.Controls"
+      x:DefaultBindMode="OneWay"
+      Loaded="Page_Loaded"
+      mc:Ignorable="d">
+
+
+    <Grid>
+        <Image HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Source="ms-appx:///Assets/Image/StartUpBG2.png"
+               Stretch="UniformToFill" />
+        <sc:CachedImage HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{x:Bind BackgroundImage}"
+                        Stretch="UniformToFill" />
+        <Rectangle HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   Fill="#60000000" />
+
+
+
+        <StackPanel Margin="40,24,40,100"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Spacing="8"
+                    Visibility="{x:Bind IsProgressStateVisible}">
+            <TextBlock Margin="0,0,8,0" Text="{x:Bind StateText}" />
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xF16A;"
+                          Visibility="{x:Bind ProgressBytesText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                <TextBlock Text="{x:Bind ProgressBytesText}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xEC4A;"
+                          Visibility="{x:Bind SpeedText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                <TextBlock Text="{x:Bind SpeedText}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE121;"
+                          Visibility="{x:Bind RemainTimeText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                <TextBlock Text="{x:Bind RemainTimeText}" />
+            </StackPanel>
+        </StackPanel>
+
+
+        <Grid Margin="40"
+              VerticalAlignment="Bottom"
+              ColumnSpacing="40"
+              Visibility="{x:Bind IsContentVisible}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <ProgressBar MinHeight="20"
+                         Background="#40101010"
+                         CornerRadius="4"
+                         Value="{x:Bind ProgressValue}">
+                <ProgressBar.Resources>
+                    <x:Double x:Key="ProgressBarTrackHeight">20</x:Double>
+                </ProgressBar.Resources>
+            </ProgressBar>
+            <TextBlock Margin="0,0,8,0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       FontSize="12"
+                       FontWeight="SemiBold"
+                       Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                       Text="{x:Bind ProgressText}"
+                       Visibility="{x:Bind IsProgressStateVisible}" />
+
+            <Border Name="Button_Action"
+                    Grid.Column="1"
+                    VerticalAlignment="Bottom"
+                    Background="{ThemeResource CustomAcrylicBrush}"
+                    CornerRadius="18">
+                <Button Height="36"
+                        MinWidth="100"
+                        BorderThickness="0"
+                        Command="{x:Bind ClickActionButtonCommand}"
+                        CornerRadius="18"
+                        IsEnabled="{x:Bind IsActionButtonEnable}"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Margin="8,0,8,0"
+                                Orientation="Horizontal"
+                                Spacing="8">
+                        <FontIcon Margin="0,2,0,0"
+                                  FontSize="16"
+                                  Glyph="{x:Bind ActionButtonIcon}" />
+                        <TextBlock VerticalAlignment="Center" Text="{x:Bind ActionButtonText}" />
+                    </StackPanel>
+                </Button>
+            </Border>
+        </Grid>
+
+
+    </Grid>
+
+
+
+</Page>
