@@ -18,6 +18,18 @@
         </Grid.ColumnDefinitions>
 
 
+        <Image Grid.ColumnSpan="2"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Source="ms-appx:///Assets/Image/SevenDaysVersionBG.png"
+               Stretch="UniformToFill" />
+
+        <Image Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               Source="ms-appx:///Assets/Image/SevenDaysLieDH.png"
+               Stretch="Uniform" />
+
+
         <Grid Grid.Column="1"
               Margin="0,48,96,96"
               Padding="24,12,24,12"

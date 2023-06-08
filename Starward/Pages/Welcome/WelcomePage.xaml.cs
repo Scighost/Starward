@@ -26,7 +26,7 @@ public sealed partial class WelcomePage : Page
         Current = this;
         this.InitializeComponent();
         MainWindow.Current.ChangeAccentColor(null);
-        frame.Content = new SelectDirectoryPage();
+        frame.Navigate(typeof(SelectDirectoryPage));
     }
 
 
@@ -37,11 +37,11 @@ public sealed partial class WelcomePage : Page
         MainWindow.Current.ChangeAccentColor(null);
         if (first)
         {
-            frame.Content = new SelectLanguagePage();
+            frame.Navigate(typeof(SelectLanguagePage));
         }
         else
         {
-            frame.Content = new SelectDirectoryPage();
+            frame.Navigate(typeof(SelectDirectoryPage));
         }
     }
 
