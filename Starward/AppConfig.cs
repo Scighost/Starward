@@ -456,7 +456,11 @@ internal abstract class AppConfig
             cache[key] = value;
             if (value is null)
             {
+#if (DEBUG || DEV) && !DISABLE_DEV
+                Registry.CurrentUser.OpenSubKey(@"Software\Starward_Dev", true)?.DeleteValue(key, false);
+#else
                 Registry.CurrentUser.OpenSubKey(@"Software\Starward", true)?.DeleteValue(key, false);
+#endif
             }
             else
             {

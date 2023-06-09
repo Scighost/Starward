@@ -444,7 +444,11 @@ public sealed partial class SettingPage : Page
             {
                 AppConfig.ResetServiceProvider();
                 MainWindow.Current.NavigateTo(typeof(WelcomePage), null, new Microsoft.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo());
+#if (DEBUG || DEV) && !DISABLE_DEV
+                Registry.CurrentUser.OpenSubKey(@"Software\Starward_Dev", true)?.DeleteValue("ConfigDirectory", false);
+#else
                 Registry.CurrentUser.OpenSubKey(@"Software\Starward", true)?.DeleteValue("ConfigDirectory", false);
+#endif
             }
         }
         catch (Exception ex)
