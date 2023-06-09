@@ -51,6 +51,7 @@ public sealed partial class DownloadGamePage : Page
     public DownloadGamePage()
     {
         this.InitializeComponent();
+        MainWindow.Current.ChangeAccentColor(null, null);
         MainWindow.Current.AppWindow.Closing += AppWindow_Closing;
         _timer = DispatcherQueue.CreateTimer();
         _timer.Interval = TimeSpan.FromMilliseconds(100);
@@ -118,7 +119,7 @@ public sealed partial class DownloadGamePage : Page
         {
             await Task.Delay(16);
             await CheckInstanceAsync();
-            await GetBgAsync();
+            _ = GetBgAsync();
             IsContentVisible = true;
             _ = PrepareForDownloadAsync();
         }
@@ -192,7 +193,11 @@ public sealed partial class DownloadGamePage : Page
     {
         try
         {
-            var file = await _launcherService.GetBackgroundImageAsync(gameBiz, true);
+            var file = _launcherService.GetCachedBackgroundImage(gameBiz, true);
+            if (!File.Exists(file))
+            {
+                file = await _launcherService.GetBackgroundImageAsync(gameBiz, true);
+            }
             using var fs = File.OpenRead(file);
             var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
             int decodeWidth = (int)decoder.PixelWidth;
