@@ -98,42 +98,50 @@ internal class UpdateService
 
     public async Task PrepareForUpdateAsync(ReleaseVersion release)
     {
-        cancelSource?.Cancel();
-        ErrorMessage = string.Empty;
-        updateFiles.Clear();
-        releaseVersion = release;
-        State = UpdateState.Preparing;
-        var baseFolder = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
-        if (baseFolder == null)
+        try
         {
-            ErrorMessage = "安装目录不符合要求，无法自动更新";
-            State = UpdateState.NotSupport;
-            return;
+            cancelSource?.Cancel();
+            ErrorMessage = string.Empty;
+            updateFiles.Clear();
+            releaseVersion = release;
+            State = UpdateState.Preparing;
+            var baseFolder = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
+            if (baseFolder == null)
+            {
+                ErrorMessage = "安装目录不符合要求，无法自动更新";
+                State = UpdateState.NotSupport;
+                return;
+            }
+            var exe = Path.Join(baseFolder, "Starward.exe");
+            if (!File.Exists(exe))
+            {
+                ErrorMessage = "安装目录不符合要求，无法自动更新";
+                State = UpdateState.NotSupport;
+                return;
+            }
+            foreach (var file in release.SeparateFiles)
+            {
+                file.Path = Path.GetFullPath(file.Path, baseFolder);
+            }
+            updateFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward\\update");
+            Directory.CreateDirectory(updateFolder);
+            await Task.Run(() =>
+            {
+                GetLocalFilesHash();
+                GetExistFiles();
+                GetDownloadFiles();
+            });
+            progress_BytesDownloaded = 0;
+            progress_FileCountDownloaded = 0;
+            Progress_BytesToDownload = downloadFiles.Sum(x => x.Size);
+            Progress_FileCountToDownload = downloadFiles.Count;
+            State = UpdateState.Pending;
         }
-        var exe = Path.Join(baseFolder, "Starward.exe");
-        if (!File.Exists(exe))
+        catch (Exception ex)
         {
-            ErrorMessage = "安装目录不符合要求，无法自动更新";
-            State = UpdateState.NotSupport;
-            return;
+            _logger.LogError(ex, "Prepare for update");
+            State = UpdateState.Stop;
         }
-        foreach (var file in release.SeparateFiles)
-        {
-            file.Path = Path.GetFullPath(file.Path, baseFolder);
-        }
-        updateFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward\\update");
-        Directory.CreateDirectory(updateFolder);
-        await Task.Run(() =>
-        {
-            GetLocalFilesHash();
-            GetExistFiles();
-            GetDownloadFiles();
-        });
-        progress_BytesDownloaded = 0;
-        progress_FileCountDownloaded = 0;
-        Progress_BytesToDownload = downloadFiles.Sum(x => x.Size);
-        Progress_FileCountToDownload = downloadFiles.Count;
-        State = UpdateState.Pending;
     }
 
 
@@ -146,7 +154,7 @@ internal class UpdateService
             var releaseFiles = new List<ReleaseFile>(files.Length);
             foreach (var file in files)
             {
-                using var fs = File.OpenRead(file);
+                using var fs = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
                 var len = (int)fs.Length;
                 var bytes = ArrayPool<byte>.Shared.Rent(len);
                 fs.Read(bytes, 0, len);

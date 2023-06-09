@@ -220,20 +220,6 @@ public sealed partial class UpdatePage : Page
     }
 
 
-    private async void markdown_LinkClicked(object sender, CommunityToolkit.WinUI.UI.Controls.LinkClickedEventArgs e)
-    {
-        try
-        {
-            _logger.LogInformation("Open url: {url}", e.Link);
-            if (Uri.TryCreate(e.Link, UriKind.RelativeOrAbsolute, out var uri))
-            {
-                await Launcher.LaunchUriAsync(uri);
-            }
-        }
-        catch { }
-    }
-
-
 
 
     [RelayCommand]
