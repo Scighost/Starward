@@ -28,7 +28,7 @@ internal abstract class AppConfig
 {
 
 
-#if DEBUG || DEV
+#if (DEBUG || DEV) && !DISABLE_DEV
     private const string REG_KEY_NAME = @"HKEY_CURRENT_USER\Software\Starward_Dev";
 #else
     private const string REG_KEY_NAME = @"HKEY_CURRENT_USER\Software\Starward";

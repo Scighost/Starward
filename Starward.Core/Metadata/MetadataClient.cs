@@ -18,7 +18,7 @@ public class MetadataClient
 
     private string API_PREFIX = API_PREFIX_CLOUDFLARE;
 
-#if DEBUG || DEV
+#if (DEBUG || DEV) && !DISABLE_DEV
     private const string API_VERSION = "dev";
 #else
     private const string API_VERSION = "v1";
@@ -82,7 +82,7 @@ public class MetadataClient
 
     public async Task<ReleaseVersion> GetVersionAsync(bool isPrerelease, Architecture architecture, CancellationToken cancellationToken = default)
     {
-#if DEBUG || DEV
+#if (DEBUG || DEV) && !DISABLE_DEV
         isPrerelease = true;
 #endif
         var name = (isPrerelease, architecture) switch
@@ -101,7 +101,7 @@ public class MetadataClient
 
     public async Task<ReleaseVersion> GetReleaseAsync(bool isPrerelease, Architecture architecture, CancellationToken cancellationToken = default)
     {
-#if DEBUG || DEV
+#if (DEBUG || DEV) && !DISABLE_DEV
         isPrerelease = true;
 #endif
         var name = (isPrerelease, architecture) switch
@@ -145,6 +145,15 @@ public class MetadataClient
     {
         string url = $"https://api.github.com/repos/Scighost/Starward/releases/tags/{tag}";
         return await CommonGetAsync<GithubRelease>(url, cancellationToken);
+    }
+
+
+    public async Task<string> RenderGithubMarkdownAsync(string markdown, CancellationToken cancellationToken = default)
+    {
+        const string url = "https://api.github.com/markdown";
+        var response = await _httpClient.PostAsync(url, JsonContent.Create(new { text = markdown, mode = "gfm", context = "Scighost/Starward" }), cancellationToken);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStringAsync();
     }
 
 

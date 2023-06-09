@@ -78,7 +78,7 @@ public sealed partial class UpdatePage : Page
 
     private bool isPreview = AppConfig.EnablePreviewRelease;
 
-#if DEBUG||DEV
+#if (DEBUG || DEV) && !DISABLE_DEV
     public string ChannelText => "开发版";
 #else
     public string ChannelText => AppConfig.EnablePreviewRelease ? "预览版" : "正式版";
