@@ -28,7 +28,11 @@ internal abstract class AppConfig
 {
 
 
+#if DEBUG || DEV
+    private const string REG_KEY_NAME = @"HKEY_CURRENT_USER\Software\Starward_Dev";
+#else
     private const string REG_KEY_NAME = @"HKEY_CURRENT_USER\Software\Starward";
+#endif
 
 
     public static string? AppVersion { get; private set; }
@@ -71,7 +75,7 @@ internal abstract class AppConfig
         if (Directory.Exists(value))
         {
             ConfigDirectory = value;
-            Registry.SetValue(@"HKEY_CURRENT_USER\Software\Starward", nameof(ConfigDirectory), value);
+            Registry.SetValue(REG_KEY_NAME, nameof(ConfigDirectory), value);
         }
         else
         {
