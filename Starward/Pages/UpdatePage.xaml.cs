@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core.Metadata;
+using Starward.Core.Metadata.Github;
 using Starward.Services;
 using System;
 using System.Diagnostics;
@@ -112,9 +113,7 @@ public sealed partial class UpdatePage : Page
                 var githubRelease = await _metadataClient.GetGithubReleaseAsync(NewVersion.Version);
                 if (githubRelease != null)
                 {
-                    markdown.Text = githubRelease.Body;
-                    TextBlock_NewVersionTitle.Text = githubRelease.Name;
-                    GRid_Markdown.Visibility = Visibility.Visible;
+                    await ShowGithubReleaseAsync(githubRelease);
                 }
             }
             catch (HttpRequestException ex)
@@ -137,6 +136,62 @@ public sealed partial class UpdatePage : Page
         {
             _logger.LogWarning(ex, "Get release");
         }
+    }
+
+
+
+    private async Task ShowGithubReleaseAsync(GithubRelease release)
+    {
+        string markdown = $"""
+            # {release.Name}
+
+            > Update at {release.PublishedAt.LocalDateTime:yyyy-MM-dd HH:mm:ss}
+
+            {release.Body}
+
+            """;
+        string html = "", css = "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.min.css";
+        try
+        {
+            html = await _metadataClient.RenderGithubMarkdownAsync(markdown);
+        }
+        catch (Exception ex)
+        {
+            html = Markdig.Markdown.ToHtml(markdown);
+        }
+        var cssFile = Path.Combine(AppContext.BaseDirectory, @"Assets\CSS\github-markdown-dark.css");
+        if (File.Exists(cssFile))
+        {
+            css = await File.ReadAllTextAsync(cssFile);
+        }
+        html = $$"""
+                <!DOCTYPE html>
+                <html>
+                <head>
+                <base target="_blank">
+                <meta name="color-scheme" content="light dark">
+                <style>
+                body::-webkit-scrollbar {display: none;}
+                {{css}}
+                </style>
+                </head>
+                <body style="background-color: transparent;">
+                <br>
+                <article class="markdown-body" style="background-color: transparent;">
+                {{html}}
+                </article>
+                <br>
+                </body>
+                </html>
+                """;
+        var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\webview");
+        Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", folder, EnvironmentVariableTarget.Process);
+        await webview.EnsureCoreWebView2Async();
+        webview.CoreWebView2.Settings.AreDevToolsEnabled = false;
+        webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+        webview.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
+        webview.NavigateToString(html);
+        Border_Markdown.Visibility = Visibility.Visible;
     }
 
 
