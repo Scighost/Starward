@@ -30,7 +30,7 @@
                     VerticalAlignment="Bottom"
                     Spacing="8"
                     Visibility="{x:Bind IsProgressStateVisible}">
-            <TextBlock Margin="0,0,8,0" Text="{x:Bind StateText}" />
+            <TextBlock Margin="0,0,0,4" Text="{x:Bind StateText}" />
             <StackPanel Orientation="Horizontal" Spacing="12">
                 <FontIcon FontSize="16"
                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"

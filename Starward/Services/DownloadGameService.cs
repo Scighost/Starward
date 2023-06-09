@@ -611,41 +611,43 @@ internal partial class DownloadGameService
             State = DownloadGameState.Verifying;
             TotalBytes = packageTasks.Sum(x => x.Size);
             progressBytes = 0;
-            byte[] buffer = new byte[1 << 20];
-            var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(10));
-            foreach (var item in packageTasks)
+
+            await Task.Run(async () =>
             {
-                IEnumerable<string> files;
-                var file = Path.Combine(installPath, item.FileName);
-                if (File.Exists(file))
+                byte[] buffer = new byte[1 << 20];
+                foreach (var item in packageTasks)
                 {
-                    files = new string[] { file };
-                }
-                else
-                {
-                    files = Directory.GetFiles(installPath, $"{item.FileName}.slice.*");
-                    if (!files.Any())
+                    IEnumerable<string> files;
+                    var file = Path.Combine(installPath, item.FileName);
+                    if (File.Exists(file))
                     {
-                        throw new FileNotFoundException($"File '{item.FileName}' not found.");
+                        files = new string[] { file };
+                    }
+                    else
+                    {
+                        files = Directory.GetFiles(installPath, $"{item.FileName}.slice.*");
+                        if (!files.Any())
+                        {
+                            throw new FileNotFoundException($"File '{item.FileName}' not found.");
+                        }
+                    }
+                    using var fs = new SliceStream(files);
+                    int length = 0;
+                    var hashProvider = MD5.Create();
+                    while ((length = await fs.ReadAsync(buffer, cancellationToken)) != 0)
+                    {
+                        hashProvider.TransformBlock(buffer, 0, length, buffer, 0);
+                        progressBytes += length;
+                    }
+                    hashProvider.TransformFinalBlock(buffer, 0, length);
+                    var hash = hashProvider.Hash;
+                    if (!(hash?.SequenceEqual(Convert.FromHexString(item.MD5)) ?? false))
+                    {
+                        list.Add(item.FileName);
+                        _logger.LogWarning("File checksum failure: {name}", item.FileName);
                     }
                 }
-                using var fs = new SliceStream(files);
-                int length = 0;
-                var hashProvider = MD5.Create();
-                while ((length = await fs.ReadAsync(buffer, 0, buffer.Length)) != 0)
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    hashProvider.TransformBlock(buffer, 0, length, buffer, 0);
-                    progressBytes += length;
-                }
-                hashProvider.TransformFinalBlock(buffer, 0, length);
-                var hash = hashProvider.Hash;
-                if (!(hash?.SequenceEqual(Convert.FromHexString(item.MD5)) ?? false))
-                {
-                    list.Add(item.FileName);
-                    _logger.LogWarning("File checksum failure: {name}", item.FileName);
-                }
-            }
+            }, cancellationToken);
 
             if (list.Any())
             {
@@ -799,6 +801,7 @@ internal partial class DownloadGameService
                         else
                         {
                             var target = Path.Combine(installPath, item.FullName);
+                            Directory.CreateDirectory(Path.GetDirectoryName(target)!);
                             item.ExtractToFile(target, true);
                             progressBytes += item.CompressedLength;
                             sum += item.CompressedLength;
