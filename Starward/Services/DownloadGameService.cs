@@ -340,6 +340,7 @@ internal partial class DownloadGameService
 
     private async Task<long?> GetContentLengthAsync(string url)
     {
+        _logger.LogInformation("Request head: {url}", url);
         var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
         response.EnsureSuccessStatusCode();
         return response.Content.Headers.ContentLength;
@@ -772,7 +773,7 @@ internal partial class DownloadGameService
             {
                 await Task.Run(() =>
                 {
-                    using var extra = new ArchiveFile(fs, SevenZipFormat.Zip);
+                    using var extra = new ArchiveFile(fs);
                     double ratio = (double)fs.Length / extra.Entries.Sum(x => (long)x.Size);
                     long sum = 0;
                     extra.ExtractProgress += (_, e) =>
