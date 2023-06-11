@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.Launcher;
 using Starward.Models;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -177,11 +179,67 @@ internal partial class DownloadGameService
         {
             var lines = await File.ReadAllLinesAsync(file);
             if (lines.Any(x => x.Contains("Chinese"))) { flag |= VoiceLanguage.Chinese; }
-            if (lines.Any(x => x.Contains("English"))) { flag |= VoiceLanguage.English; }
+            if (lines.Any(x => x.Contains("English(US)"))) { flag |= VoiceLanguage.English; }
             if (lines.Any(x => x.Contains("Japanese"))) { flag |= VoiceLanguage.Japanese; }
             if (lines.Any(x => x.Contains("Korean"))) { flag |= VoiceLanguage.Korean; }
         }
         return flag;
+    }
+
+
+
+    public async Task SetVoiceLanguageAsync(GameBiz biz, string installPath, VoiceLanguage lang)
+    {
+        if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+        {
+            var file = biz switch
+            {
+                GameBiz.hk4e_cn => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
+                GameBiz.hk4e_global => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),
+                _ => ""
+            };
+            Directory.CreateDirectory(Path.GetDirectoryName(file)!);
+            var lines = new List<string>(4);
+            if (lang.HasFlag(VoiceLanguage.Chinese)) { lines.Add("Chinese"); }
+            if (lang.HasFlag(VoiceLanguage.English)) { lines.Add("English(US)"); }
+            if (lang.HasFlag(VoiceLanguage.Japanese)) { lines.Add("Japanese"); }
+            if (lang.HasFlag(VoiceLanguage.Korean)) { lines.Add("Korean"); }
+            await File.AppendAllLinesAsync(file, lines);
+            if (File.Exists(file))
+            {
+                var key = biz switch
+                {
+                    GameBiz.hk4e_cn => GameRegistry.GamePath_hk4e_cn,
+                    GameBiz.hk4e_global => GameRegistry.GamePath_hk4e_global,
+                    _ => "HKEY_CURRENT_USER",
+                };
+                var value = Registry.GetValue(key, GameRegistry.GENERAL_DATA_h2389025596, null) as byte[];
+                if (value is null)
+                {
+                    int? id = null;
+                    if (lang.HasFlag(VoiceLanguage.Chinese))
+                    {
+                        id = 0;
+                    }
+                    else if (lang.HasFlag(VoiceLanguage.English))
+                    {
+                        id = 1;
+                    }
+                    else if (lang.HasFlag(VoiceLanguage.Japanese))
+                    {
+                        id = 2;
+                    }
+                    else if (lang.HasFlag(VoiceLanguage.Korean))
+                    {
+                        id = 3;
+                    }
+                    if (id != null)
+                    {
+                        Registry.SetValue(key, GameRegistry.GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes($"{{\"deviceVoiceLanguageType\": {id}}}\0"));
+                    }
+                }
+            }
+        }
     }
 
 
@@ -413,10 +471,9 @@ internal partial class DownloadGameService
                 {
                     list_package.Add(new DownloadTask { FileName = Path.GetFileName(gameResource.Latest.Path), Url = gameResource.Latest.Path, Size = gameResource.Latest.PackageSize, MD5 = gameResource.Latest.Md5 });
                 }
-                var flag = await GetVoiceLanguageAsync(biz, installPath).ConfigureAwait(false);
                 foreach (var lang in Enum.GetValues<VoiceLanguage>())
                 {
-                    if (flag.HasFlag(lang))
+                    if (language.HasFlag(lang))
                     {
                         if (gameResource.Latest.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
                         {
@@ -425,6 +482,8 @@ internal partial class DownloadGameService
                     }
                 }
             }
+
+            await SetVoiceLanguageAsync(biz, installPath, language);
 
             await Parallel.ForEachAsync(list_package, async (x, _) =>
             {
@@ -555,9 +614,9 @@ internal partial class DownloadGameService
 
                         var buffer = new byte[1 << 16];
                         int length;
-                        while ((length = await hs.ReadAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false)) != 0)
+                        while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {
-                            await fs.WriteAsync(buffer, 0, length).ConfigureAwait(false);
+                            await fs.WriteAsync(buffer, 0, length, token).ConfigureAwait(false);
                             Interlocked.Add(ref progressBytes, length);
                         }
                     }
@@ -718,7 +777,7 @@ internal partial class DownloadGameService
                     }
                     else
                     {
-                        var files = Directory.GetFiles(installPath, $"{package.FileName}.*");
+                        var files = Directory.GetFiles(installPath, $"{package.FileName}.slice.*");
                         await DecompressAsync(files, package.FileName.Contains(".7z", StringComparison.OrdinalIgnoreCase)).ConfigureAwait(false);
                     }
                 }
