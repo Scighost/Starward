@@ -475,7 +475,11 @@ public sealed partial class SettingPage : Page
             var result = await dialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
+#if (DEBUG || DEV) && !DISABLE_DEV
+                Registry.CurrentUser.OpenSubKey(@"Software", true)?.DeleteSubKeyTree("Starward_Dev");
+#else
                 Registry.CurrentUser.OpenSubKey(@"Software", true)?.DeleteSubKeyTree("Starward");
+#endif
                 var exe = Process.GetCurrentProcess().MainModule?.FileName;
                 if (File.Exists(exe))
                 {
