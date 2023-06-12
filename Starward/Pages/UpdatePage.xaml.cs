@@ -150,12 +150,12 @@ public sealed partial class UpdatePage : Page
             {release.Body}
 
             """;
-        string html = "", css = "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.min.css";
+        string html = "", css = "";
         try
         {
             html = await _metadataClient.RenderGithubMarkdownAsync(markdown);
         }
-        catch (Exception ex)
+        catch
         {
             html = Markdig.Markdown.ToHtml(markdown);
         }
@@ -170,6 +170,7 @@ public sealed partial class UpdatePage : Page
                 <head>
                 <base target="_blank">
                 <meta name="color-scheme" content="light dark">
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.min.css" type="text/css" rel="stylesheet" />
                 <style>
                 body::-webkit-scrollbar {display: none;}
                 {{css}}
