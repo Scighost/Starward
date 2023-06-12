@@ -1079,7 +1079,7 @@ public sealed partial class LauncherPage : Page
                 lang = VoiceLanguage.All;
             }
 
-            var content = new DownloadGameDialog { LanguageType = lang, GameResource = downloadResource };
+            var content = new DownloadGameDialog { GameBiz = gameBiz, LanguageType = lang, GameResource = downloadResource, IsPreDownload = IsPreDownloadEnable };
             var dialog = new ContentDialog
             {
                 Title = IsUpdateGameEnable ? "更新游戏" : (IsPreDownloadEnable ? "预下载" : "安装游戏"),

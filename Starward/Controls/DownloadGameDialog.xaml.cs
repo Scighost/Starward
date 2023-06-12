@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Models;
 using System;
@@ -15,11 +16,17 @@ namespace Starward.Controls;
 public sealed partial class DownloadGameDialog : UserControl
 {
 
+    public GameBiz GameBiz { get; set; }
+
 
     public VoiceLanguage LanguageType { get; set; }
 
 
     public DownloadGameResource GameResource { get; set; }
+
+
+    public bool IsPreDownload { get; set; }
+
 
 
     public DownloadGameDialog()
@@ -41,6 +48,17 @@ public sealed partial class DownloadGameDialog : UserControl
 
     [ObservableProperty]
     private string freeSpaceText;
+
+
+    [ObservableProperty]
+    private string freeSpaceCautionText;
+
+    [ObservableProperty]
+    private bool enableRepairMode;
+    partial void OnEnableRepairModeChanged(bool value)
+    {
+        UpdateSizeText();
+    }
 
 
     public bool IsChineseChecked
@@ -119,6 +137,10 @@ public sealed partial class DownloadGameDialog : UserControl
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
+        if (GameBiz.ToGame() is GameBiz.GenshinImpact && !IsPreDownload)
+        {
+            StackPanel_RepairMode.Visibility = Visibility.Visible;
+        }
         if (GameResource.Voices.Any())
         {
             StackPanel_Voice.Visibility = Visibility.Visible;
@@ -152,10 +174,33 @@ public sealed partial class DownloadGameDialog : UserControl
             }
 
             const double GB = 1 << 30;
-            PackageSizeText = $"{package / GB:F2} GB";
-            DownloadSizeText = $"{download / GB:F2} GB";
-            DecompressedSizeText = $"{decompress / GB:F2} GB";
+
             FreeSpaceText = $"{GameResource.FreeSpace / GB:F2} GB";
+            long delta = 0;
+            if (EnableRepairMode)
+            {
+                PackageSizeText = $"{(decompress - package) / GB:F2} GB";
+                DownloadSizeText = $"-";
+                DecompressedSizeText = $"{(decompress - package) / GB:F2} GB";
+                delta = GameResource.FreeSpace + package - decompress;
+            }
+            else
+            {
+                PackageSizeText = $"{package / GB:F2} GB";
+                DownloadSizeText = $"{download / GB:F2} GB";
+                DecompressedSizeText = $"{decompress / GB:F2} GB";
+                delta = GameResource.FreeSpace + download - decompress;
+            }
+            if (delta < 0)
+            {
+                FreeSpaceCautionText = "剩余空间可能不足";
+                TextBlock_FreeSpaceCaution.Foreground = Application.Current.Resources["SystemFillColorCautionBrush"] as Brush;
+            }
+            else
+            {
+                FreeSpaceCautionText = "";
+                TextBlock_FreeSpaceCaution.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
+            }
         }
         catch { }
     }

@@ -24,6 +24,9 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock MinWidth="120" Text="剩余空间：" />
             <TextBlock Text="{x:Bind FreeSpaceText}" />
+            <TextBlock Name="TextBlock_FreeSpaceCaution"
+                       Margin="8,0,0,0"
+                       Text="{x:Bind FreeSpaceCautionText}" />
         </StackPanel>
         <StackPanel Name="StackPanel_Voice"
                     Orientation="Horizontal"
@@ -56,8 +59,18 @@
                           IsChecked="{x:Bind IsKoreanChecked, Mode=TwoWay}" />
             </Grid>
         </StackPanel>
-        <TextBlock Margin="0,8,0,0"
-                   Foreground="{ThemeResource SystemFillColorCautionBrush}"
+        <StackPanel Name="StackPanel_RepairMode"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed">
+            <TextBlock MinWidth="120"
+                       VerticalAlignment="Center"
+                       Text="修复模式：" />
+            <ToggleSwitch Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          IsOn="{x:Bind EnableRepairMode, Mode=TwoWay}"
+                          OffContent="直接下载游戏文件"
+                          OnContent="直接下载游戏文件" />
+        </StackPanel>
+        <TextBlock Foreground="{ThemeResource SystemFillColorCautionBrush}"
                    Text="此功能处于测试阶段，如出现游戏文件损坏请使用官方启动器修复。"
                    TextWrapping="Wrap" />
     </StackPanel>
