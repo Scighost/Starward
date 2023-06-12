@@ -235,7 +235,7 @@ internal partial class DownloadGameService
                     }
                     if (id != null)
                     {
-                        Registry.SetValue(key, GameRegistry.GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes($"{{\"deviceVoiceLanguageType\": {id}}}\0"));
+                        Registry.SetValue(key, GameRegistry.GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes($"{{\"deviceVoiceLanguageType\":{id}}}\0"));
                     }
                 }
             }
@@ -379,11 +379,19 @@ internal partial class DownloadGameService
 
     private LauncherResource launcherResource;
 
+    private string sperateUrl;
+
 
     public long TotalBytes { get; private set; }
 
     private long progressBytes;
     public long ProgressBytes => progressBytes;
+
+
+    public int TotalCount { get; set; }
+
+    private int progressCount;
+    public int ProgressCount => progressCount;
 
 
     public DownloadGameState State { get; private set; }
@@ -577,6 +585,84 @@ internal partial class DownloadGameService
 
 
 
+    public async Task PrepareForRepairAsync(GameBiz biz, string installPath, VoiceLanguage language)
+    {
+        try
+        {
+            State = DownloadGameState.Preparing;
+            TotalBytes = 0;
+            progressBytes = 0;
+
+            launcherResource = await GetLauncherResourceAsync(biz).ConfigureAwait(false);
+            GameResource gameResource = launcherResource.Game;
+
+            this.installPath = installPath;
+            this.gameBiz = biz;
+
+            sperateUrl = gameResource.Latest.DecompressedPath.TrimEnd('/');
+
+            var list = new List<DownloadTask>();
+
+            list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/pkg_version"));
+
+            if (language.HasFlag(VoiceLanguage.Chinese))
+            {
+                list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_Chinese_pkg_version"));
+            }
+            if (language.HasFlag(VoiceLanguage.English))
+            {
+                list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_English(US)_pkg_version"));
+            }
+            if (language.HasFlag(VoiceLanguage.Japanese))
+            {
+                list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_Japanese_pkg_version"));
+            }
+            if (language.HasFlag(VoiceLanguage.Korean))
+            {
+                list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_Korean_pkg_version"));
+            }
+
+            packageTasks = list;
+
+            await SetVoiceLanguageAsync(biz, installPath, language);
+
+            await CopyAudioAssetsFromPersistentToStreamAssetsAsync();
+
+            State = DownloadGameState.Prepared;
+        }
+        catch (Exception ex)
+        {
+            ErrorType = ex.GetType().Name;
+            ErrorMessage = ex.Message;
+            State = DownloadGameState.Error;
+            _logger.LogError(ex, "Prepare for repair");
+        }
+    }
+
+
+
+    private async Task<List<DownloadTask>> GetPkgVersionsAsync(string url)
+    {
+        var list = new List<DownloadTask>();
+        var str = await _httpClient.GetStringAsync(url);
+        var lines = str.Split('\n');
+        foreach (var line in lines)
+        {
+            if (!string.IsNullOrWhiteSpace(line))
+            {
+                var node = JsonNode.Parse(line.Trim());
+                list.Add(new DownloadTask
+                {
+                    FileName = node?["remoteName"]?.ToString()!,
+                    MD5 = node?["md5"]?.ToString()!,
+                    Size = (long)(node?["fileSize"] ?? 0),
+                });
+            }
+        }
+        return list;
+    }
+
+
 
     public async Task DownloadAsync(CancellationToken cancellationToken)
     {
@@ -606,7 +692,8 @@ internal partial class DownloadGameService
                         {
                             return;
                         }
-                        var request = new HttpRequestMessage(HttpMethod.Get, slice.Url) { Version = HttpVersion.Version20, };
+                        _logger.LogInformation("Download Slice: FileName {name}, Url {url}", slice.FileName, slice.Url);
+                        var request = new HttpRequestMessage(HttpMethod.Get, slice.Url) { Version = HttpVersion.Version30, };
                         request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(slice.Range.Start + fs.Position, slice.Range.End - 1);
                         using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
                         response.EnsureSuccessStatusCode();
@@ -660,6 +747,106 @@ internal partial class DownloadGameService
         }
     }
 
+
+
+    public async Task DownloadSeparateFilesAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            State = DownloadGameState.Downloading;
+
+            int count = 0;
+            while (true)
+            {
+                if (++count > 3)
+                {
+                    throw new HttpRequestException("Too many retries.");
+                }
+
+                await Parallel.ForEachAsync(sliceTasks, new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = Environment.ProcessorCount * 2,
+                    CancellationToken = cancellationToken
+                }, async (item, token) =>
+                {
+                    try
+                    {
+                        var file = Path.Combine(installPath, item.FileName);
+                        Directory.CreateDirectory(Path.GetDirectoryName(file)!);
+                        using var fs = File.Open(file, FileMode.Append, FileAccess.Write);
+                        if (fs.Length == item.Size)
+                        {
+                            return;
+                        }
+                        var url = $"{sperateUrl}/{item.FileName.TrimStart('/')}";
+                        _logger.LogInformation("Download file: FileName {name}, Url {url}", item.FileName, url);
+                        var request = new HttpRequestMessage(HttpMethod.Get, url) { Version = HttpVersion.Version30, };
+                        request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(fs.Position, null);
+                        using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+                        response.EnsureSuccessStatusCode();
+                        using var hs = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+
+                        var buffer = new byte[1 << 16];
+                        int length;
+                        while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
+                        {
+                            await fs.WriteAsync(buffer, 0, length, token).ConfigureAwait(false);
+                            Interlocked.Add(ref progressBytes, length);
+                        }
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        var url = $"{sperateUrl}/{item.FileName.TrimStart('/')}";
+                        _logger.LogError(ex, "Download Slice: FileName {name}, Url {url}", item.FileName, url);
+                    }
+                }).ConfigureAwait(false);
+
+                foreach (var item in sliceTasks)
+                {
+                    var file = Path.Combine(installPath, item.FileName);
+                    if (!File.Exists(file))
+                    {
+                        continue;
+                    }
+                    if (new FileInfo(file).Length != item.Size)
+                    {
+                        continue;
+                    }
+                }
+                break;
+            }
+
+            await ClearDeprecatedFilesAsync();
+
+            var config = $"""
+                [General]
+                channel=1
+                cps=
+                game_version={launcherResource.Game.Latest.Version}
+                sub_channel=1
+                sdk_version=
+                """;
+            _logger.LogInformation("Write config.ini (game_version={version})", launcherResource.Game.Latest.Version);
+            await File.WriteAllTextAsync(Path.Combine(installPath, "config.ini"), config);
+
+            State = DownloadGameState.Downloaded;
+        }
+        catch (TaskCanceledException)
+        {
+            State = DownloadGameState.Verified;
+        }
+        catch (OperationCanceledException)
+        {
+            State = DownloadGameState.Verified;
+        }
+        catch (Exception ex)
+        {
+            ErrorType = ex.GetType().Name;
+            ErrorMessage = ex.Message;
+            State = DownloadGameState.Error;
+            _logger.LogError(ex, "Download Slice");
+        }
+    }
 
 
 
@@ -739,6 +926,88 @@ internal partial class DownloadGameService
         return list;
     }
 
+
+
+    public async Task VerifySeparateFilesAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            State = DownloadGameState.Verifying;
+            TotalCount = packageTasks.Count;
+            progressCount = 0;
+            progressBytes = 0;
+
+            var list = new List<DownloadTask>();
+
+            await Parallel.ForEachAsync(packageTasks, cancellationToken, async (item, token) =>
+            {
+                byte[] buffer = new byte[1 << 18];
+                var file = Path.Combine(installPath, item.FileName);
+                bool needDownload = false;
+                if (File.Exists(file))
+                {
+                    using var fs = File.OpenRead(file);
+                    if (fs.Length != item.Size)
+                    {
+                        needDownload = true;
+                    }
+                    else
+                    {
+                        var hashProvider = MD5.Create();
+                        int read = 0;
+                        while ((read = await fs.ReadAsync(buffer, cancellationToken)) != 0)
+                        {
+                            hashProvider.TransformBlock(buffer, 0, read, buffer, 0);
+                            Interlocked.Add(ref progressBytes, read);
+                        }
+                        hashProvider.TransformFinalBlock(buffer, 0, read);
+                        var hash = hashProvider.Hash;
+                        if (!(hash?.SequenceEqual(Convert.FromHexString(item.MD5)) ?? false))
+                        {
+                            needDownload = true;
+                        }
+                    }
+                }
+                else
+                {
+                    needDownload = true;
+                }
+                Interlocked.Increment(ref progressCount);
+                if (needDownload)
+                {
+                    _logger.LogInformation("Need to download: {file}", item.FileName);
+                    if (File.Exists(file))
+                    {
+                        File.Delete(file);
+                    }
+                    lock (list)
+                    {
+                        list.Add(item);
+                    }
+                }
+            });
+
+            sliceTasks = list;
+            TotalBytes = sliceTasks.Sum(x => x.Size);
+            progressBytes = 0;
+            State = DownloadGameState.Verified;
+        }
+        catch (TaskCanceledException)
+        {
+            State = DownloadGameState.Verified;
+        }
+        catch (OperationCanceledException)
+        {
+            State = DownloadGameState.Verified;
+        }
+        catch (Exception ex)
+        {
+            ErrorType = ex.GetType().Name;
+            ErrorMessage = ex.Message;
+            State = DownloadGameState.Error;
+            _logger.LogError(ex, "Verify separate files");
+        }
+    }
 
 
 

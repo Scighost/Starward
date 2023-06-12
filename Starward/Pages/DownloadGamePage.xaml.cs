@@ -85,7 +85,8 @@ public sealed partial class DownloadGamePage : Page
 
     private void InitializeGameBiz()
     {
-        var config = new ConfigurationBuilder().AddCommandLine(Environment.GetCommandLineArgs()).Build();
+        var args = Environment.GetCommandLineArgs();
+        var config = new ConfigurationBuilder().AddCommandLine(args).Build();
         var str_biz = config["biz"];
         var str_loc = config["loc"];
         var str_lang = config["lang"];
@@ -94,10 +95,14 @@ public sealed partial class DownloadGamePage : Page
         gameBiz = biz;
         gameFolder = str_loc!;
         voiceLanguage = (VoiceLanguage)lang;
-
+        if (args[1].ToLower() is "repair")
+        {
+            repairMode = true;
+        }
     }
 
 
+    private bool repairMode;
 
 
     private GameBiz gameBiz;
@@ -148,7 +153,7 @@ public sealed partial class DownloadGamePage : Page
             await instance.RedirectActivationToAsync(AppInstance.GetCurrent().GetActivatedEventArgs());
             Environment.Exit(0);
         }
-        if (gameBiz.ToGame() is GameBiz.None || gameBiz is GameBiz.hk4e_cloud || !Directory.Exists(gameFolder))
+        if (gameBiz.ToGame() is GameBiz.None || gameBiz is GameBiz.hk4e_cloud || (repairMode && gameBiz.ToGame() != GameBiz.GenshinImpact) || !Directory.Exists(gameFolder))
         {
             instance.UnregisterKey();
             var dialog = new ContentDialog
@@ -281,10 +286,18 @@ public sealed partial class DownloadGamePage : Page
             if (state is DownloadGameService.DownloadGameState.Preparing)
             {
                 StateText = "准备中";
+                return;
             }
             if (state is DownloadGameService.DownloadGameState.Prepared)
             {
-                _ = DownloadAsync();
+                if (repairMode)
+                {
+                    _ = VerifyAsync();
+                }
+                else
+                {
+                    _ = DownloadAsync();
+                }
             }
             if (state is DownloadGameService.DownloadGameState.Downloading)
             {
@@ -292,7 +305,15 @@ public sealed partial class DownloadGamePage : Page
             }
             if (state is DownloadGameService.DownloadGameState.Downloaded)
             {
-                _ = VerifyAsync();
+                if (repairMode)
+                {
+                    FinishTask();
+                    return;
+                }
+                else
+                {
+                    _ = VerifyAsync();
+                }
             }
             if (state is DownloadGameService.DownloadGameState.Verifying)
             {
@@ -300,14 +321,21 @@ public sealed partial class DownloadGamePage : Page
             }
             if (state is DownloadGameService.DownloadGameState.Verified)
             {
-                if (decompress)
+                if (repairMode)
                 {
-                    _ = DecompressAsync();
+                    _ = DownloadAsync();
                 }
                 else
                 {
-                    FinishTask();
-                    return;
+                    if (decompress)
+                    {
+                        _ = DecompressAsync();
+                    }
+                    else
+                    {
+                        FinishTask();
+                        return;
+                    }
                 }
             }
             if (state is DownloadGameService.DownloadGameState.Decompressing)
@@ -383,17 +411,39 @@ public sealed partial class DownloadGamePage : Page
         const double GB = 1 << 30;
         long thisProgressBytes = _downloadGameService.ProgressBytes;
         long thisMilliseconds = _stopwatch.ElapsedMilliseconds;
-        ProgressBytesText = $"{thisProgressBytes / GB:F2}/{_downloadGameService.TotalBytes / GB:F2} GB";
-        var progress = (double)thisProgressBytes / _downloadGameService.TotalBytes;
+        double progress = 0;
+        if (repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
+        {
+            progress = (double)_downloadGameService.ProgressCount / _downloadGameService.TotalCount;
+            ProgressBytesText = $"{_downloadGameService.ProgressCount}/{_downloadGameService.TotalCount}";
+            RemainTimeText = null;
+        }
+        else
+        {
+            progress = (double)thisProgressBytes / _downloadGameService.TotalBytes;
+            ProgressBytesText = $"{thisProgressBytes / GB:F2}/{_downloadGameService.TotalBytes / GB:F2} GB";
+        }
         progress = double.IsNormal(progress) ? progress : 0;
         ProgressValue = progress * 100;
         ProgressText = progress.ToString("P1");
+
+
         if (thisMilliseconds - lastMilliseconds > 1000)
         {
             double speed = (double)(thisProgressBytes - lastProgressBytes) / (thisMilliseconds - lastMilliseconds) * 1000;
-            SpeedText = $"{speed / (1 << 20):F2} MB/s";
-            var remainTime = TimeSpan.FromSeconds((_downloadGameService.TotalBytes - thisProgressBytes) / speed);
-            RemainTimeText = $"{remainTime.Days * 24 + remainTime.Hours}h {remainTime.Minutes}m {remainTime.Seconds}s";
+            if (speed > 0)
+            {
+                SpeedText = $"{speed / (1 << 20):F2} MB/s";
+                if (repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
+                {
+                    RemainTimeText = null;
+                }
+                else
+                {
+                    var remainTime = TimeSpan.FromSeconds((_downloadGameService.TotalBytes - thisProgressBytes) / speed);
+                    RemainTimeText = $"{remainTime.Days * 24 + remainTime.Hours}h {remainTime.Minutes}m {remainTime.Seconds}s";
+                }
+            }
             lastProgressBytes = thisProgressBytes;
             lastMilliseconds = thisMilliseconds;
         }
@@ -420,8 +470,15 @@ public sealed partial class DownloadGamePage : Page
         _timer.Start();
         IsActionButtonEnable = false;
         lastMilliseconds = _stopwatch.ElapsedMilliseconds;
-        lastProgressBytes = _downloadGameService.ProgressBytes;
-        decompress = await _downloadGameService.PrepareForDownloadAsync(gameBiz, gameFolder, voiceLanguage);
+        if (repairMode)
+        {
+            await _downloadGameService.PrepareForRepairAsync(gameBiz, gameFolder, voiceLanguage);
+        }
+        else
+        {
+            lastProgressBytes = _downloadGameService.ProgressBytes;
+            decompress = await _downloadGameService.PrepareForDownloadAsync(gameBiz, gameFolder, voiceLanguage);
+        }
     }
 
 
@@ -435,7 +492,14 @@ public sealed partial class DownloadGamePage : Page
         lastMilliseconds = _stopwatch.ElapsedMilliseconds;
         lastProgressBytes = _downloadGameService.ProgressBytes;
         tokenSource = new CancellationTokenSource();
-        await _downloadGameService.DownloadAsync(tokenSource.Token);
+        if (repairMode)
+        {
+            await _downloadGameService.DownloadSeparateFilesAsync(tokenSource.Token);
+        }
+        else
+        {
+            await _downloadGameService.DownloadAsync(tokenSource.Token);
+        }
     }
 
 
@@ -444,39 +508,51 @@ public sealed partial class DownloadGamePage : Page
         try
         {
             _timer.Start();
-            IsActionButtonEnable = true;
-            ActionButtonIcon = NextIcon;
-            ActionButtonText = "跳过";
 
-            lastMilliseconds = _stopwatch.ElapsedMilliseconds;
-            lastProgressBytes = 0;
-            tokenSource = new CancellationTokenSource();
-            var list = await _downloadGameService.VerifyPackageAsync(tokenSource.Token);
-            if (list.Any())
+            if (repairMode)
             {
-                var dialog = new ContentDialog
+                IsActionButtonEnable = false;
+                ActionButtonIcon = PauseIcon;
+                ActionButtonText = "校验中";
+                tokenSource = new CancellationTokenSource();
+                await _downloadGameService.VerifySeparateFilesAsync(tokenSource.Token);
+            }
+            else
+            {
+                IsActionButtonEnable = true;
+                ActionButtonIcon = NextIcon;
+                ActionButtonText = "跳过";
+
+                lastMilliseconds = _stopwatch.ElapsedMilliseconds;
+                lastProgressBytes = 0;
+                tokenSource = new CancellationTokenSource();
+                var list = await _downloadGameService.VerifyPackageAsync(tokenSource.Token);
+                if (list.Any())
                 {
-                    Title = "校验失败",
-                    Content = $"""
+                    var dialog = new ContentDialog
+                    {
+                        Title = "校验失败",
+                        Content = $"""
                     以下文件校验失败：
                     {string.Join("\r\n", list)}
                     """,
-                    PrimaryButtonText = "重新下载",
-                    SecondaryButtonText = "忽略",
-                    DefaultButton = ContentDialogButton.Primary,
-                    XamlRoot = this.XamlRoot,
-                };
-                if (await dialog.ShowAsync() is ContentDialogResult.Primary)
-                {
-                    foreach (var name in list)
+                        PrimaryButtonText = "重新下载",
+                        SecondaryButtonText = "忽略",
+                        DefaultButton = ContentDialogButton.Primary,
+                        XamlRoot = this.XamlRoot,
+                    };
+                    if (await dialog.ShowAsync() is ContentDialogResult.Primary)
                     {
-                        var files = Directory.GetFiles(gameFolder, $"{name}.*");
-                        foreach (var file in files)
+                        foreach (var name in list)
                         {
-                            File.Delete(file);
+                            var files = Directory.GetFiles(gameFolder, $"{name}.*");
+                            foreach (var file in files)
+                            {
+                                File.Delete(file);
+                            }
                         }
+                        _ = DownloadAsync();
                     }
-                    _ = DownloadAsync();
                 }
             }
         }
@@ -512,6 +588,10 @@ public sealed partial class DownloadGamePage : Page
             var state = _downloadGameService.State;
             if (state is DownloadGameService.DownloadGameState.Verifying)
             {
+                if (repairMode)
+                {
+                    return;
+                }
                 var dialog = new ContentDialog
                 {
                     Title = "跳过校验",
@@ -537,6 +617,10 @@ public sealed partial class DownloadGamePage : Page
                 RemainTimeText = null;
             }
             if (state is DownloadGameService.DownloadGameState.Prepared)
+            {
+                _ = DownloadAsync();
+            }
+            if (state is DownloadGameService.DownloadGameState.Verified && repairMode)
             {
                 _ = DownloadAsync();
             }

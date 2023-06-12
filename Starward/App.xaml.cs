@@ -50,7 +50,7 @@ public partial class App : Application
         var args = Environment.GetCommandLineArgs();
         if (args.Length > 1)
         {
-            if (args[1].ToLower() is "download")
+            if (args[1].ToLower() is "download" or "repair")
             {
                 m_window = new MainWindow("download");
                 m_window.Activate();

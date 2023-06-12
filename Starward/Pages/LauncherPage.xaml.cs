@@ -314,6 +314,7 @@ public sealed partial class LauncherPage : Page
     [NotifyPropertyChangedFor(nameof(IsDownloadGameEnable))]
     [NotifyPropertyChangedFor(nameof(IsUpdateGameEnable))]
     [NotifyPropertyChangedFor(nameof(IsPreDownloadEnable))]
+    [NotifyPropertyChangedFor(nameof(IsRepairGameEnable))]
     private Version? localVersion;
 
     [ObservableProperty]
@@ -337,6 +338,10 @@ public sealed partial class LauncherPage : Page
 
 
     public bool IsPreDownloadEnable => LocalVersion != null && PreVersion != null;
+
+
+    public bool IsRepairGameEnable => (gameBiz is GameBiz.hk4e_cn or GameBiz.hk4e_global) && LocalVersion != null;
+
 
     [ObservableProperty]
     private bool isPreDownloadOK;
@@ -1102,7 +1107,7 @@ public sealed partial class LauncherPage : Page
                 {
                     FileName = exe,
                     UseShellExecute = true,
-                    Arguments = $"""download --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
+                    Arguments = $"""{(content.EnableRepairMode ? "repair" : "download")} --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
                     Verb = "runas",
                 });
             }
@@ -1168,6 +1173,31 @@ public sealed partial class LauncherPage : Page
 
 
 
+
+    [RelayCommand]
+    private async Task RepairGameAsync()
+    {
+        try
+        {
+            var lang = await _downloadGameService.GetVoiceLanguageAsync(gameBiz, InstallPath);
+            var exe = Process.GetCurrentProcess().MainModule?.FileName;
+            if (!File.Exists(exe))
+            {
+                exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+            }
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = exe,
+                UseShellExecute = true,
+                Arguments = $"""repair --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
+                Verb = "runas",
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Start repair game");
+        }
+    }
 
 
 

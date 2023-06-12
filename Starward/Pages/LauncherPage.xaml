@@ -639,9 +639,23 @@
                         </Grid>
                     </StackPanel>
 
+                    <!--  repair game  -->
+                    <Button Height="36"
+                            Margin="-40,8,0,8"
+                            Padding="40,0,16,0"
+                            BorderThickness="0"
+                            Command="{x:Bind RepairGameCommand}"
+                            CornerRadius="0,18,18,0"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsRepairGameEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE15E;" />
+                            <TextBlock Text="一键修复" />
+                        </StackPanel>
+                    </Button>
+
                     <!--  Third Party Tool  -->
-                    <ToggleSwitch Margin="0,8,0,0"
-                                  FontSize="14"
+                    <ToggleSwitch FontSize="14"
                                   IsOn="{x:Bind EnableThirdPartyTool, Mode=TwoWay}"
                                   OffContent="自定义启动程序"
                                   OnContent="自定义启动程序" />
