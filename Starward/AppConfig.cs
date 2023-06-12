@@ -113,7 +113,7 @@ internal abstract class AppConfig
             sc.AddLogging(c => c.AddSerilog(Log.Logger));
             sc.AddTransient(_ =>
             {
-                var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
+                var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version30 };
                 client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppVersion}");
                 return client;
             });
