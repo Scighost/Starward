@@ -677,6 +677,7 @@ internal partial class DownloadGameService
                 byte[] buffer = new byte[1 << 20];
                 foreach (var item in packageTasks)
                 {
+                    _logger.LogInformation("Verify file {file}", item.FileName);
                     IEnumerable<string> files;
                     var file = Path.Combine(installPath, item.FileName);
                     if (File.Exists(file))
@@ -760,9 +761,12 @@ internal partial class DownloadGameService
                 throw new FileNotFoundException($"File not found: {hpatch}");
             }
 
+            await CopyAudioAssetsFromPersistentToStreamAssetsAsync();
+
+
             foreach (var package in packageTasks)
             {
-                _logger.LogInformation("Start to decompress {file}", package.FileName);
+                _logger.LogInformation("Decompress {file}", package.FileName);
                 var file = Path.Combine(installPath, package.FileName);
                 if (File.Exists(file) && new FileInfo(file).Length == package.Size)
                 {
@@ -783,22 +787,9 @@ internal partial class DownloadGameService
                 }
             }
 
-            foreach (var item in launcherResource.DeprecatedFiles)
-            {
-                var file = Path.Combine(installPath, item.Name);
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
-            foreach (var item in launcherResource.DeprecatedPackages)
-            {
-                var file = Path.Combine(installPath, item.Name);
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
+
+            await ClearDeprecatedFilesAsync();
+
 
             var config = $"""
                 [General]
@@ -808,6 +799,7 @@ internal partial class DownloadGameService
                 sub_channel=1
                 sdk_version=
                 """;
+            _logger.LogInformation("Write config.ini (game_version={version})", launcherResource.Game.Latest.Version);
             await File.WriteAllTextAsync(Path.Combine(installPath, "config.ini"), config);
 
             State = DownloadGameState.Decompressed;
@@ -821,6 +813,40 @@ internal partial class DownloadGameService
         }
     }
 
+
+
+    private async Task CopyAudioAssetsFromPersistentToStreamAssetsAsync()
+    {
+        if (gameBiz is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+        {
+            await Task.Run(() =>
+            {
+                string dataName = gameBiz switch
+                {
+                    GameBiz.hk4e_cn => "YuanShen_Data",
+                    GameBiz.hk4e_global => "GenshinImpact_Data",
+                    _ => "",
+                };
+                if (!string.IsNullOrWhiteSpace(dataName))
+                {
+                    var source = Path.Combine(installPath, $@"{dataName}\Persistent\AudioAssets");
+                    var target = Path.Combine(installPath, $@"{dataName}\StreamingAssets\AudioAssets");
+                    if (Directory.Exists(source))
+                    {
+                        _logger.LogInformation("Move audio assets.");
+                        var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
+                        foreach (var file in files)
+                        {
+                            var relative = Path.GetRelativePath(source, file);
+                            var dest = Path.Combine(target, relative);
+                            Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
+                            File.Move(file, dest);
+                        }
+                    }
+                }
+            });
+        }
+    }
 
 
     private async Task DecompressAsync(IEnumerable<string> files, bool use7zip)
@@ -923,7 +949,29 @@ internal partial class DownloadGameService
     }
 
 
-
+    private async Task ClearDeprecatedFilesAsync()
+    {
+        _logger.LogInformation("Clear deprecated files.");
+        await Task.Run(() =>
+        {
+            foreach (var item in launcherResource.DeprecatedFiles)
+            {
+                var file = Path.Combine(installPath, item.Name);
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+            foreach (var item in launcherResource.DeprecatedPackages)
+            {
+                var file = Path.Combine(installPath, item.Name);
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+        });
+    }
 
 
 
