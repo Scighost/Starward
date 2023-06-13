@@ -498,5 +498,18 @@ public sealed partial class GachaLogPage : Page
 
 
 
+    private void ComboBox_Uid_DropDownOpened(object sender, object e)
+    {
+        MainWindow.Current.SetDragRectangles();
+    }
+
+
+
+    private void ComboBox_Uid_DropDownClosed(object sender, object e)
+    {
+        MainPage.Current.UpdateDragRectangles();
+    }
+
+
 
 }

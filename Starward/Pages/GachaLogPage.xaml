@@ -32,8 +32,11 @@
                     Orientation="Horizontal"
                     Spacing="16">
             <!--  Uid List  -->
-            <ComboBox MinWidth="160"
+            <ComboBox Name="ComboBox_Uid"
+                      MinWidth="160"
                       VerticalAlignment="Center"
+                      DropDownClosed="ComboBox_Uid_DropDownClosed"
+                      DropDownOpened="ComboBox_Uid_DropDownOpened"
                       ItemsSource="{x:Bind UidList}"
                       PlaceholderText="没有抽卡记录"
                       SelectedItem="{x:Bind SelectUid, Mode=TwoWay}" />
