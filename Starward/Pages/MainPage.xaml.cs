@@ -697,6 +697,7 @@ public sealed partial class MainPage : Page
                 var type = item.Tag switch
                 {
                     nameof(LauncherPage) => typeof(LauncherPage),
+                    nameof(GameSettingPage) => typeof(GameSettingPage),
                     nameof(ScreenshotPage) => typeof(ScreenshotPage),
                     nameof(GachaLogPage) => typeof(GachaLogPage),
                     nameof(SettingPage) => typeof(SettingPage),

@@ -134,6 +134,7 @@ internal abstract class AppConfig
             sc.AddSingleton<StarRailGachaService>();
             sc.AddSingleton<PlayTimeService>();
             sc.AddSingleton<DownloadGameService>();
+            sc.AddSingleton<GameSettingService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

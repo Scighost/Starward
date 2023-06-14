@@ -34,5 +34,46 @@ public static class EnumExtension
     }
 
 
+    public static string GetLauncherRegistryKey(this GameBiz biz)
+    {
+        return biz switch
+        {
+            GameBiz.hk4e_cn => GameRegistry.LauncherPath_hk4e_cn,
+            GameBiz.hk4e_global => GameRegistry.LauncherPath_hk4e_global,
+            GameBiz.hk4e_cloud => GameRegistry.LauncherPath_hk4e_cloud,
+            GameBiz.hkrpg_cn => GameRegistry.LauncherPath_hkrpg_cn,
+            GameBiz.hkrpg_global => GameRegistry.LauncherPath_hkrpg_global,
+            GameBiz.bh3_cn => GameRegistry.LauncherPath_bh3_cn,
+            GameBiz.bh3_global => GameRegistry.LauncherPath_bh3_global,
+            GameBiz.bh3_jp => GameRegistry.LauncherPath_bh3_jp,
+            GameBiz.bh3_kr => GameRegistry.LauncherPath_bh3_kr,
+            GameBiz.bh3_overseas => GameRegistry.LauncherPath_bh3_overseas,
+            GameBiz.bh3_tw => GameRegistry.LauncherPath_bh3_tw,
+            _ => "HKEY_LOCAL_MACHINE",
+        };
+    }
+
+
+
+    public static string GetGameRegistryKey(this GameBiz biz)
+    {
+        return biz switch
+        {
+            GameBiz.hk4e_cn => GameRegistry.GamePath_hk4e_cn,
+            GameBiz.hk4e_global => GameRegistry.GamePath_hk4e_global,
+            GameBiz.hk4e_cloud => GameRegistry.GamePath_hk4e_cloud,
+            GameBiz.hkrpg_cn => GameRegistry.GamePath_hkrpg_cn,
+            GameBiz.hkrpg_global => GameRegistry.GamePath_hkrpg_global,
+            GameBiz.bh3_cn => GameRegistry.GamePath_bh3_cn,
+            GameBiz.bh3_global => GameRegistry.GamePath_bh3_global,
+            GameBiz.bh3_jp => GameRegistry.GamePath_bh3_jp,
+            GameBiz.bh3_kr => GameRegistry.GamePath_bh3_kr,
+            GameBiz.bh3_overseas => GameRegistry.GamePath_bh3_overseas,
+            GameBiz.bh3_tw => GameRegistry.GamePath_bh3_tw,
+            _ => "HKEY_CURRENT_USER",
+        };
+    }
+
+
 
 }

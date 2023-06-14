@@ -83,6 +83,13 @@
                                     Icon="Home"
                                     IsSelected="True"
                                     Tag="LauncherPage" />
+                <NavigationViewItem Name="NavigationViewItem_GameSetting"
+                                    Content="游戏设置"
+                                    Tag="GameSettingPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7FC;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem Name="NavigationViewItem_Screenshot"
                                     Content="游戏截图"
                                     Tag="ScreenshotPage">
