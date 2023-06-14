@@ -678,6 +678,14 @@ internal partial class DownloadGameService
                     throw new HttpRequestException("Too many retries.");
                 }
 
+                var FileStreamOptions = new FileStreamOptions
+                {
+                    Access = FileAccess.Write,
+                    BufferSize = 1 << 16,
+                    Mode = FileMode.Append,
+                    Options = FileOptions.Asynchronous
+                };
+
                 await Parallel.ForEachAsync(sliceTasks, new ParallelOptions
                 {
                     MaxDegreeOfParallelism = Environment.ProcessorCount,
@@ -687,7 +695,7 @@ internal partial class DownloadGameService
                     try
                     {
                         var file = Path.Combine(installPath, slice.FileName);
-                        using var fs = File.Open(file, FileMode.Append, FileAccess.Write);
+                        using var fs = File.Open(file, FileStreamOptions);
                         if (fs.Length == slice.Size)
                         {
                             return;
@@ -703,7 +711,7 @@ internal partial class DownloadGameService
                         int length;
                         while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {
-                            await fs.WriteAsync(buffer, 0, length, token).ConfigureAwait(false);
+                            await fs.WriteAsync(buffer.AsMemory(0, length), token).ConfigureAwait(false);
                             Interlocked.Add(ref progressBytes, length);
                         }
                     }
@@ -763,6 +771,14 @@ internal partial class DownloadGameService
                     throw new HttpRequestException("Too many retries.");
                 }
 
+                var FileStreamOptions = new FileStreamOptions
+                {
+                    Access = FileAccess.Write,
+                    BufferSize = 1 << 16,
+                    Mode = FileMode.Append,
+                    Options = FileOptions.Asynchronous
+                };
+
                 await Parallel.ForEachAsync(sliceTasks, new ParallelOptions
                 {
                     MaxDegreeOfParallelism = Environment.ProcessorCount * 2,
@@ -773,7 +789,7 @@ internal partial class DownloadGameService
                     {
                         var file = Path.Combine(installPath, item.FileName);
                         Directory.CreateDirectory(Path.GetDirectoryName(file)!);
-                        using var fs = File.Open(file, FileMode.Append, FileAccess.Write);
+                        using var fs = File.Open(file, FileStreamOptions);
                         if (fs.Length == item.Size)
                         {
                             return;
@@ -790,7 +806,7 @@ internal partial class DownloadGameService
                         int length;
                         while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {
-                            await fs.WriteAsync(buffer, 0, length, token).ConfigureAwait(false);
+                            await fs.WriteAsync(buffer.AsMemory(0, length), token).ConfigureAwait(false);
                             Interlocked.Add(ref progressBytes, length);
                         }
                     }
