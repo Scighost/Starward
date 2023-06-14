@@ -8,6 +8,7 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Windows.AppLifecycle;
 using Starward.Controls;
@@ -124,13 +125,6 @@ public sealed partial class LauncherPage : Page
             enableCustomBg = AppConfig.GetEnableCustomBg(gameBiz);
             OnPropertyChanged(nameof(EnableCustomBg));
             CustomBg = AppConfig.GetCustomBg(gameBiz);
-
-            if (gameBiz is GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
-            {
-                NumberBox_FPS_1.IsEnabled = true;
-                targetFPS = _gameService.GetStarRailFPS(gameBiz);
-                OnPropertyChanged(nameof(TargetFPS));
-            }
 
             if (gameBiz is GameBiz.hk4e_cloud)
             {
@@ -288,19 +282,12 @@ public sealed partial class LauncherPage : Page
         if (MainPage.Current.IsPlayingVideo)
         {
             Button_StartGame.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
-            Button_GameSetting.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
+            AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
         }
         else
         {
             Button_StartGame.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
-            if (CanStartGame)
-            {
-                Button_GameSetting.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
-            }
-            else
-            {
-                Button_GameSetting.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
-            }
+            AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextOnAccentFillColorPrimaryBrush"] as Brush;
         }
     }
 
@@ -715,18 +702,17 @@ public sealed partial class LauncherPage : Page
     [RelayCommand]
     private void OpenGameSetting()
     {
-        gameSettingOpenAction.Execute(this, null!);
-        Flyout_GameSetting.Hide();
+        SplitView_Content.IsPaneOpen = true;
     }
 
 
 
-    [RelayCommand]
-    private void CloseGameSetting()
+    private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
     {
-        StackPanel_GameSetting.Visibility = Visibility.Visible;
-        Flyout_GameSetting.ShowAt(Button_GameSetting);
-        gameSettingCloseAction.Execute(this, null!);
+        if (sender.FontSize == 14 && sender.IsTextTrimmed)
+        {
+            sender.FontSize = 12;
+        }
     }
 
 
