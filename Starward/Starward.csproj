@@ -26,18 +26,18 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Core" Version="7.1.2" />
-		<PackageReference Include="Dapper" Version="2.0.123" />
+		<PackageReference Include="Dapper" Version="2.0.138" />
 		<PackageReference Include="Markdig" Version="0.31.0" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.5" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.7" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
-		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.2" />
+		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
+		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.3" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230313.1" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-		<PackageReference Include="MiniExcel" Version="1.30.3" />
-		<PackageReference Include="NuGet.Versioning" Version="6.6.0" />
+		<PackageReference Include="MiniExcel" Version="1.31.0" />
+		<PackageReference Include="NuGet.Versioning" Version="6.6.1" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Starward.Assets" Version="0.2.1" />
