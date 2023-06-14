@@ -126,7 +126,7 @@
 
 
 
-        <Grid Margin="24,0,24,60"
+        <Grid Margin="24,0,24,72"
               VerticalAlignment="Bottom"
               RowSpacing="4">
             <Grid.RowDefinitions>
