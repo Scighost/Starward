@@ -236,12 +236,12 @@ public sealed partial class DownloadGamePage : Page
     private string? actionButtonIcon = StartIcon;
 
 
-    private const string StartIcon = "\xE102";
-    private const string PauseIcon = "\xE103";
-    private const string NextIcon = "\xE101";
-    private const string StopIcon = "\xE15B";
-    private const string ErrorIcon = "\xEA39";
-    private const string FinishIcon = "\xE930";
+    private const string StartIcon = "\uE768";
+    private const string PauseIcon = "\uE769";
+    private const string NextIcon = "\uE893";
+    private const string StopIcon = "\uE71A";
+    private const string ErrorIcon = "\uEA39";
+    private const string FinishIcon = "\uE930";
 
 
     [ObservableProperty]

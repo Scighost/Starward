@@ -45,7 +45,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon Margin="0,2,0,0"
                               FontSize="14"
-                              Glyph="&#xE149;" />
+                              Glyph="&#xE72C;" />
                     <TextBlock Text="更新记录" />
                 </StackPanel>
                 <SplitButton.Flyout>
@@ -65,7 +65,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon Margin="0,2,0,0"
                               FontSize="14"
-                              Glyph="&#xE115;" />
+                              Glyph="&#xE713;" />
                     <TextBlock Text="设置" />
                 </StackPanel>
                 <Button.Flyout>
@@ -78,7 +78,7 @@
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon Name="FontIcon_CopyUrl"
                                               FontSize="16"
-                                              Glyph="&#xE16F;" />
+                                              Glyph="&#xE8C8;" />
                                     <TextBlock Text="复制 URL" />
                                 </StackPanel>
                             </Button>
@@ -130,7 +130,7 @@
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon FontSize="14"
                                               Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                                              Glyph="&#xE107;" />
+                                              Glyph="&#xE74D;" />
                                     <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="删除记录" />
                                 </StackPanel>
                             </Button>

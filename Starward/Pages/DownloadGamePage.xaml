@@ -48,7 +48,7 @@
             <StackPanel Orientation="Horizontal" Spacing="12">
                 <FontIcon FontSize="16"
                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xE121;"
+                          Glyph="&#xE823;"
                           Visibility="{x:Bind RemainTimeText, Converter={StaticResource ObjectToVisibilityConverter}}" />
                 <TextBlock Text="{x:Bind RemainTimeText}" />
             </StackPanel>

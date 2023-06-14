@@ -250,7 +250,7 @@
                                 <av:AnimatedSettingsVisualSource />
                             </AnimatedIcon.Source>
                             <AnimatedIcon.FallbackIconSource>
-                                <FontIconSource Glyph="&#xE115;" />
+                                <FontIconSource Glyph="&#xE713;" />
                             </AnimatedIcon.FallbackIconSource>
                         </AnimatedIcon>
                     </Button.Content>
@@ -275,7 +275,7 @@
                                             Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                                         <FontIcon FontSize="16"
                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                  Glyph="&#xE1D9;" />
+                                                  Glyph="&#xE740;" />
                                     </Button>
                                 </Grid>
                                 <TextBlock Text="安装位置" />
@@ -346,7 +346,7 @@
                                 Spacing="8">
                         <FontIcon FontSize="20"
                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                  Glyph="&#xE121;" />
+                                  Glyph="&#xE823;" />
                         <TextBlock FontWeight="SemiBold"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="{x:Bind PlayTimeTotal, Converter={StaticResource TimeSpanToStringConverter}}" />
@@ -386,7 +386,7 @@
                                         <StackPanel Margin="12,0,12,0"
                                                     Orientation="Horizontal"
                                                     Spacing="8">
-                                            <FontIcon FontSize="14" Glyph="&#xE149;" />
+                                            <FontIcon FontSize="14" Glyph="&#xE72C;" />
                                             <TextBlock Text="刷新" />
                                         </StackPanel>
                                     </Button>
@@ -504,7 +504,7 @@
                         IsEnabled="{x:Bind SelectGameAccount, Converter={StaticResource ObjectToBoolConverter}}">
                     <FontIcon Margin="0,0,4,0"
                               FontSize="14"
-                              Glyph="&#xE104;" />
+                              Glyph="&#xE70F;" />
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel MinWidth="200" Spacing="8">
@@ -533,7 +533,7 @@
                                         <StackPanel Orientation="Horizontal" Spacing="12">
                                             <FontIcon Name="FontIcon_SaveGameAccount"
                                                       FontSize="16"
-                                                      Glyph="&#xE105;" />
+                                                      Glyph="&#xE74E;" />
                                             <TextBlock Text="保存" />
                                         </StackPanel>
                                     </Button>
@@ -544,7 +544,7 @@
                                             CornerRadius="0,20,20,0">
                                         <StackPanel Orientation="Horizontal" Spacing="12">
                                             <TextBlock Text="删除" />
-                                            <FontIcon FontSize="16" Glyph="&#xE107;" />
+                                            <FontIcon FontSize="16" Glyph="&#xE74D;" />
                                         </StackPanel>
                                     </Button>
                                 </Grid>
@@ -584,7 +584,7 @@
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                     <FontIcon FontSize="16"
                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                              Glyph="&#xE1D8;" />
+                              Glyph="&#xE73F;" />
                 </Button>
             </Grid>
             <ScrollViewer Grid.Row="1">
@@ -634,7 +634,7 @@
                                 <FontIcon Margin="0,2,4,0"
                                           FontSize="16"
                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                          Glyph="&#xE10A;" />
+                                          Glyph="&#xE711;" />
                             </Button>
                         </Grid>
                     </StackPanel>
@@ -649,7 +649,7 @@
                             Style="{ThemeResource AccentButtonStyle}"
                             Visibility="{x:Bind IsRepairGameEnable}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE15E;" />
+                            <FontIcon Glyph="&#xE90F;" />
                             <TextBlock Text="一键修复" />
                         </StackPanel>
                     </Button>
@@ -707,7 +707,7 @@
                                 <FontIcon Margin="0,2,4,0"
                                           FontSize="16"
                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                          Glyph="&#xE10A;" />
+                                          Glyph="&#xE711;" />
                             </Button>
                         </Grid>
                     </StackPanel>
@@ -757,7 +757,7 @@
                                 <FontIcon Margin="0,2,4,0"
                                           FontSize="16"
                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                          Glyph="&#xE10A;" />
+                                          Glyph="&#xE711;" />
                             </Button>
                         </Grid>
                     </StackPanel>

@@ -59,7 +59,7 @@
                                  GroupName="WindowSize"
                                  Tag="normal">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE1D9;" />
+                            <FontIcon FontSize="16" Glyph="&#xE740;" />
                             <TextBlock Text="Normal" />
                         </StackPanel>
                     </RadioButton>
@@ -68,7 +68,7 @@
                                  GroupName="WindowSize"
                                  Tag="small">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE1D8;" />
+                            <FontIcon FontSize="16" Glyph="&#xE73F;" />
                             <TextBlock Text="Small" />
                         </StackPanel>
                     </RadioButton>

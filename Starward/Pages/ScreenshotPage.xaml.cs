@@ -130,9 +130,9 @@ public sealed partial class ScreenshotPage : Page
                     _logger.LogInformation("Copy image: {file}", item.FullName);
                     var file = await StorageFile.GetFileFromPathAsync(item.FullName);
                     ClipboardHelper.SetBitmap(file);
-                    button.Content = new FontIcon { Glyph = "\uE10B", FontSize = 16 };
+                    button.Content = new FontIcon { Glyph = "\uE8FB", FontSize = 16 };
                     await Task.Delay(3000);
-                    button.Content = new FontIcon { Glyph = "\uE16F", FontSize = 16 };
+                    button.Content = new FontIcon { Glyph = "\uE8C8", FontSize = 16 };
                 }
                 catch (Exception ex)
                 {

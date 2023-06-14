@@ -162,7 +162,7 @@
                                                 <ContentThemeTransition />
                                             </TransitionCollection>
                                         </Button.ContentTransitions>
-                                        <FontIcon FontSize="16" Glyph="&#xE16F;" />
+                                        <FontIcon FontSize="16" Glyph="&#xE8C8;" />
                                     </Button>
                                     <TextBlock Margin="8,0,8,4"
                                                HorizontalAlignment="Center"
@@ -226,7 +226,7 @@
                     Margin="4"
                     Padding="0"
                     Command="{x:Bind CloseViewCommand}"
-                    Content="&#xE112;"
+                    Content="&#xE72B;"
                     FontFamily="{ThemeResource SymbolThemeFontFamily}"
                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}" />
             <TextBlock Margin="60,0,0,0"

@@ -64,7 +64,7 @@
                                      GroupName="WindowSize"
                                      Tag="normal">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon FontSize="16" Glyph="&#xE1D9;" />
+                                <FontIcon FontSize="16" Glyph="&#xE740;" />
                                 <TextBlock Text="标准" />
                             </StackPanel>
                         </RadioButton>
@@ -73,7 +73,7 @@
                                      GroupName="WindowSize"
                                      Tag="small">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon FontSize="16" Glyph="&#xE1D8;" />
+                                <FontIcon FontSize="16" Glyph="&#xE73F;" />
                                 <TextBlock Text="较小" />
                             </StackPanel>
                         </RadioButton>
@@ -199,7 +199,7 @@
                                 <FontIcon Margin="0,2,4,0"
                                           FontSize="16"
                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                          Glyph="&#xE10A;" />
+                                          Glyph="&#xE711;" />
                             </Button>
                         </Grid>
                     </StackPanel>
@@ -290,7 +290,7 @@
                             CornerRadius="0,20,20,0"
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE19C;" />
+                            <FontIcon Glyph="&#xE8DE;" />
                             <TextBlock Text="重新选择数据文件夹" />
                         </StackPanel>
                     </Button>
@@ -302,7 +302,7 @@
                             CornerRadius="0,20,20,0"
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE107;" />
+                            <FontIcon Glyph="&#xE74D;" />
                             <TextBlock Text="删除所有设置" />
                         </StackPanel>
                     </Button>

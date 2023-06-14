@@ -251,6 +251,8 @@
 
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"
+                   FontSize="20"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                    Text="游戏未安装"
                    Visibility="{x:Bind IsBaseSettingEnable, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
 

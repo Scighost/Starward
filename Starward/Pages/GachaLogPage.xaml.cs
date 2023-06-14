@@ -347,9 +347,9 @@ public sealed partial class GachaLogPage : Page
             if (!string.IsNullOrWhiteSpace(url))
             {
                 ClipboardHelper.SetText(url);
-                FontIcon_CopyUrl.Glyph = "\xE10B"; // accept
+                FontIcon_CopyUrl.Glyph = "\uE8FB"; // accept
                 await Task.Delay(1000);
-                FontIcon_CopyUrl.Glyph = "\xE16F";  // copy
+                FontIcon_CopyUrl.Glyph = "\uE8C8";  // copy
             }
         }
         catch (Exception ex)

@@ -806,9 +806,9 @@ public sealed partial class LauncherPage : Page
             {
                 SelectGameAccount.Time = DateTime.Now;
                 _gameService.SaveGameAccount(SelectGameAccount);
-                FontIcon_SaveGameAccount.Glyph = "\uE10B";
+                FontIcon_SaveGameAccount.Glyph = "\uE8FB";
                 await Task.Delay(3000);
-                FontIcon_SaveGameAccount.Glyph = "\uE105";
+                FontIcon_SaveGameAccount.Glyph = "\uE74E";
             }
         }
         catch (Exception ex)
@@ -885,10 +885,10 @@ public sealed partial class LauncherPage : Page
 
     public string VideoBgVolumeButtonIcon => VideoBgVolume switch
     {
-        > 66 => "\xE995",
-        > 33 => "\xE994",
-        > 1 => "\xE993",
-        _ => "\xE992",
+        > 66 => "\uE995",
+        > 33 => "\uE994",
+        > 1 => "\uE993",
+        _ => "\uE992",
     };
 
 

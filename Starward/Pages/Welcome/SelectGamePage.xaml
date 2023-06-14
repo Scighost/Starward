@@ -90,7 +90,7 @@
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <FontIcon VerticalAlignment="Bottom"
                                   FontSize="16"
-                                  Glyph="&#xE167;" />
+                                  Glyph="&#xE71B;" />
                         <TextBlock Name="TextBlock_HomePage" VerticalAlignment="Center" />
                     </StackPanel>
                 </HyperlinkButton>
