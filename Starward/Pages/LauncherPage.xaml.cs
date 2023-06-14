@@ -94,6 +94,7 @@ public sealed partial class LauncherPage : Page
         try
         {
             UpdateStartGameButtonStyle();
+            InitializeCommandTrigger();
             await Task.Delay(16);
             InitializeGameBiz();
             UpdateGameVersion();
@@ -286,9 +287,23 @@ public sealed partial class LauncherPage : Page
         }
         else
         {
+            if (CanStartGame && Button_DownloadGame.IsEnabled && Button_UpdateGame.IsEnabled)
+            {
+                AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextOnAccentFillColorPrimaryBrush"] as Brush;
+            }
+            else
+            {
+                AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
+            }
             Button_StartGame.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
-            AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextOnAccentFillColorPrimaryBrush"] as Brush;
         }
+    }
+
+
+    private void InitializeCommandTrigger()
+    {
+        StartGameCommand.CanExecuteChanged += (_, _) => UpdateStartGameButtonStyle();
+        DownloadGameCommand.CanExecuteChanged += (_, _) => UpdateStartGameButtonStyle();
     }
 
 
