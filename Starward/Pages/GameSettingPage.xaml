@@ -2,6 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       x:DefaultBindMode="OneWay"
@@ -25,28 +26,30 @@
                         IsHitTestVisible="False" />
 
                 <StackPanel Grid.ColumnSpan="1" Visibility="{x:Bind IsBaseSettingEnable}">
+                    <!--  启动参数  -->
                     <TextBlock FontSize="20"
                                FontWeight="Bold"
-                               Text="启动参数" />
+                               Text="{x:Bind lang:Lang.GameSettingPage_StartArguments}" />
                     <TextBox Margin="0,12,0,0"
                              HorizontalAlignment="Stretch"
                              IsSpellCheckEnabled="False"
                              Text="{x:Bind StartArgument, Mode=TwoWay}" />
-                    <TextBlock Margin="0,8,0,0" TextWrapping="Wrap">
-                        <Run Text="关于启动参数的信息请查看" />
-                        <Hyperlink NavigateUri="https://docs.unity3d.com/Manual/PlayerCommandLineArguments.html" UnderlineStyle="None">
-                            <Run Text="Unity Standalone Player Command Line Arguments" />
-                        </Hyperlink>
-                    </TextBlock>
+                    <!--  关于启动参数的信息请查看 {nity Standalone Player Command Line Arguments}  -->
+                    <TextBlock Name="TextBlock_StartArgumentDesc"
+                               Margin="0,8,0,0"
+                               TextWrapping="Wrap" />
 
+                    <!--  分辨率  -->
                     <TextBlock Margin="0,20,0,0"
                                FontSize="20"
                                FontWeight="Bold"
-                               Text="分辨率" />
+                               Text="{x:Bind lang:Lang.GameSettingPage_Resolution}" />
+                    <!--  全屏  -->
                     <CheckBox Margin="0,8,0,0"
-                              Content="全屏"
+                              Content="{x:Bind lang:Lang.GameSettingPage_FullScreen}"
                               IsChecked="{x:Bind EnableFullScreen, Mode=TwoWay}" />
-                    <CheckBox Content="自定义分辨率" IsChecked="{x:Bind EnableCustomResolution, Mode=TwoWay}" />
+                    <!--  自定义分辨率  -->
+                    <CheckBox Content="{x:Bind lang:Lang.GameSettingPage_CustomResolution}" IsChecked="{x:Bind EnableCustomResolution, Mode=TwoWay}" />
                     <ComboBox Name="ComboBox_Resolution"
                               Width="160"
                               Margin="0,8,0,0"
@@ -69,23 +72,26 @@
                                    Value="{x:Bind ResolutionHeight, Mode=TwoWay}" />
                     </StackPanel>
 
+                    <!--  语音  -->
                     <TextBlock Margin="0,20,0,0"
                                FontSize="20"
                                FontWeight="Bold"
-                               Text="语音"
+                               Text="{x:Bind lang:Lang.GameSettingPage_VoiceLanguage}"
                                Visibility="{x:Bind IsLanguageSettingEnable}" />
+                    <!--  首次启动游戏前设置此值可以避免下载部分语音资源  -->
                     <TextBlock Margin="0,12,0,0"
-                               Text="首次启动游戏前设置此值可以避免下载部分语音资源"
+                               Text="{x:Bind lang:Lang.GameSettingPage_VoiceLanguageDescription}"
                                TextWrapping="Wrap"
                                Visibility="{x:Bind IsLanguageSettingEnable}" />
                     <ComboBox Width="160"
                               Margin="0,8,0,0"
                               SelectedIndex="{x:Bind LanguageIndex, Mode=TwoWay}"
                               Visibility="{x:Bind IsLanguageSettingEnable}">
-                        <ComboBoxItem Content="汉语" />
-                        <ComboBoxItem Content="英语" />
-                        <ComboBoxItem Content="日语" />
-                        <ComboBoxItem Content="韩语" />
+                        <!--  汉英日韩  -->
+                        <ComboBoxItem Content="{x:Bind lang:Lang.Language_Chinese}" />
+                        <ComboBoxItem Content="{x:Bind lang:Lang.Language_English}" />
+                        <ComboBoxItem Content="{x:Bind lang:Lang.Language_Japanese}" />
+                        <ComboBoxItem Content="{x:Bind lang:Lang.Language_Korean}" />
                     </ComboBox>
                 </StackPanel>
 
@@ -93,32 +99,35 @@
                 <StackPanel Grid.Row="1"
                             Grid.Column="1"
                             Visibility="{x:Bind IsGraphicsSettingEnable}">
+                    <!--  图形设置  -->
                     <TextBlock FontSize="20"
                                FontWeight="Bold"
-                               Text="图形设置" />
+                               Text="{x:Bind lang:Lang.GameSettingPage_GraphicsSetting}" />
+                    <!--  图像质量预设  -->
                     <TextBlock Margin="0,12,0,0"
                                VerticalAlignment="Center"
                                FontWeight="Bold"
-                               Text="图像质量预设" />
+                               Text="{x:Bind lang:Lang.GameSettingPage_GraphicsQualityPreset}" />
                     <ComboBox Width="120"
                               Margin="0,8,0,0"
                               SelectedIndex="{x:Bind GraphicsQualityIndex, Mode=TwoWay}">
-                        <ComboBoxItem Content="自定义" />
-                        <ComboBoxItem Content="非常低" />
-                        <ComboBoxItem Content="低" />
-                        <ComboBoxItem Content="中" />
-                        <ComboBoxItem Content="高" />
-                        <ComboBoxItem Content="非常高" />
+                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Custom}" />
+                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryLow}" />
+                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
+                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
+                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
+                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryHigh}" />
                     </ComboBox>
                     <VariableSizedWrapGrid Margin="0,8,0,0"
                                            ItemHeight="36"
                                            ItemWidth="164"
                                            MaximumRowsOrColumns="3"
                                            Orientation="Horizontal">
+                        <!--  渲染精度  -->
                         <TextBlock Margin="0,0,0,8"
                                    VerticalAlignment="Bottom"
                                    FontWeight="Bold"
-                                   Text="渲染精度"
+                                   Text="{x:Bind lang:Lang.GameSettingPage_RenderScale}"
                                    VariableSizedWrapGrid.ColumnSpan="2" />
                         <TextBlock Margin="0,0,40,8"
                                    HorizontalAlignment="Right"
@@ -136,9 +145,10 @@
                                 VariableSizedWrapGrid.ColumnSpan="3"
                                 Value="{x:Bind RenderScale, Mode=TwoWay}" />
                         <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                            <!--  帧率  -->
                             <TextBlock VerticalAlignment="Bottom"
                                        FontWeight="Bold"
-                                       Text="帧率" />
+                                       Text="{x:Bind lang:Lang.GameSettingPage_FPS}" />
                             <Button Margin="8,0,0,0"
                                     Padding="1"
                                     VerticalAlignment="Bottom"
@@ -148,96 +158,107 @@
                                           Glyph="&#xE9CE;" />
                                 <Button.Flyout>
                                     <Flyout>
-                                        <TextBlock Text="帧率设置为 120 后将导致游戏内图形设置无法使用" TextWrapping="Wrap" />
+                                        <!--  帧率设置为 120 后将导致游戏内图形设置无法使用  -->
+                                        <TextBlock MaxWidth="360"
+                                                   Text="{x:Bind lang:Lang.GameSettingPage_FPSWarning}"
+                                                   TextWrapping="Wrap" />
                                     </Flyout>
                                 </Button.Flyout>
                             </Button>
                         </StackPanel>
+                        <!--  垂直同步  -->
                         <TextBlock Margin="0,0,0,8"
                                    VerticalAlignment="Bottom"
                                    FontWeight="Bold"
-                                   Text="垂直同步" />
+                                   Text="{x:Bind lang:Lang.GameSettingPage_VSync}" />
+                        <!--  抗锯齿  -->
                         <TextBlock Margin="0,0,0,8"
                                    VerticalAlignment="Bottom"
                                    FontWeight="Bold"
-                                   Text="抗锯齿" />
+                                   Text="{x:Bind lang:Lang.GameSettingPage_AntiAliasing}" />
                         <ComboBox Width="120" SelectedIndex="{x:Bind FpsIndex, Mode=TwoWay}">
                             <ComboBoxItem Content="30" />
                             <ComboBoxItem Content="60" />
                             <ComboBoxItem Content="120" />
                         </ComboBox>
                         <ComboBox Width="120" SelectedIndex="{x:Bind VSyncIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="关" />
-                            <ComboBoxItem Content="开" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Off}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_On}" />
                         </ComboBox>
                         <ComboBox Width="120" SelectedIndex="{x:Bind AAModeIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="关" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Off}" />
                             <ComboBoxItem Content="TAA" />
                             <ComboBoxItem Content="FXAA" />
                         </ComboBox>
+                        <!--  阴影质量  -->
                         <TextBlock Margin="0,0,0,8"
                                    VerticalAlignment="Bottom"
                                    FontWeight="Bold"
-                                   Text="阴影质量" />
+                                   Text="{x:Bind lang:Lang.GameSettingPage_ShadowQuality}" />
+                        <!--  反射质量  -->
                         <TextBlock Margin="0,0,0,8"
                                    VerticalAlignment="Bottom"
                                    FontWeight="Bold"
-                                   Text="反射质量" />
+                                   Text="{x:Bind lang:Lang.GameSettingPage_ReflectionQuality}" />
+                        <!--  角色质量  -->
                         <TextBlock Margin="0,0,0,8"
                                    VerticalAlignment="Bottom"
                                    FontWeight="Bold"
-                                   Text="角色质量" />
+                                   Text="{x:Bind lang:Lang.GameSettingPage_CharacterQuality}" />
                         <ComboBox Width="120" SelectedIndex="{x:Bind ShadowQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="关" />
-                            <ComboBoxItem Content="低" />
-                            <ComboBoxItem Content="中" />
-                            <ComboBoxItem Content="高" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Off}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
                         </ComboBox>
                         <ComboBox Width="120" SelectedIndex="{x:Bind ReflectionQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="非常低" />
-                            <ComboBoxItem Content="低" />
-                            <ComboBoxItem Content="中" />
-                            <ComboBoxItem Content="高" />
-                            <ComboBoxItem Content="非常高" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryLow}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryHigh}" />
                         </ComboBox>
                         <ComboBox Width="120" SelectedIndex="{x:Bind CharacterQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="低" />
-                            <ComboBoxItem Content="中" />
-                            <ComboBoxItem Content="高" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
                         </ComboBox>
+                        <!--  场景细节  -->
                         <TextBlock Margin="0,0,0,8"
                                    VerticalAlignment="Bottom"
                                    FontWeight="Bold"
-                                   Text="场景细节" />
+                                   Text="{x:Bind lang:Lang.GameSettingPage_EnvironmentDetail}" />
+                        <!--  泛光效果  -->
                         <TextBlock Margin="0,0,0,8"
                                    VerticalAlignment="Bottom"
                                    FontWeight="Bold"
-                                   Text="泛光效果" />
+                                   Text="{x:Bind lang:Lang.GameSettingPage_BloomEffect}" />
+                        <!--  光照质量  -->
                         <TextBlock Margin="0,0,0,8"
                                    VerticalAlignment="Bottom"
                                    FontWeight="Bold"
-                                   Text="光照质量" />
+                                   Text="{x:Bind lang:Lang.GameSettingPage_LightQuality}" />
                         <ComboBox Width="120" SelectedIndex="{x:Bind EnvDetailQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="非常低" />
-                            <ComboBoxItem Content="低" />
-                            <ComboBoxItem Content="中" />
-                            <ComboBoxItem Content="高" />
-                            <ComboBoxItem Content="非常高" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryLow}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryHigh}" />
                         </ComboBox>
                         <ComboBox Width="120" SelectedIndex="{x:Bind BloomQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="关" />
-                            <ComboBoxItem Content="非常低" />
-                            <ComboBoxItem Content="低" />
-                            <ComboBoxItem Content="中" />
-                            <ComboBoxItem Content="高" />
-                            <ComboBoxItem Content="非常高" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Off}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryLow}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryHigh}" />
                         </ComboBox>
                         <ComboBox Width="120" SelectedIndex="{x:Bind LightQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="非常低" />
-                            <ComboBoxItem Content="低" />
-                            <ComboBoxItem Content="中" />
-                            <ComboBoxItem Content="高" />
-                            <ComboBoxItem Content="非常高" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryLow}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
+                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryHigh}" />
                         </ComboBox>
 
 
@@ -248,12 +269,12 @@
             </Grid>
         </ScrollViewer>
 
-
+        <!--  游戏未安装  -->
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    FontSize="20"
                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                   Text="游戏未安装"
+                   Text="{x:Bind lang:Lang.GameSettingPage_GameNotInstalled}"
                    Visibility="{x:Bind IsBaseSettingEnable, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
 
 
@@ -276,7 +297,8 @@
                         <FontIcon VerticalAlignment="Center"
                                   FontSize="16"
                                   Glyph="&#xE8FB;" />
-                        <TextBlock VerticalAlignment="Center" Text="应用" />
+                        <!--  应用  -->
+                        <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.Common_Apply}" />
                     </StackPanel>
                 </Button>
                 <TextBlock Margin="24,0,0,0"

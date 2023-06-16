@@ -62,7 +62,7 @@ public sealed partial class GachaLogPage : Page
         if (e.Parameter is GameBiz biz)
         {
             gameBiz = biz;
-            Title = GachaLogService.GetGachaLogText(biz);
+            GachaTypeText = GachaLogService.GetGachaLogText(biz);
             if (biz.ToGame() is GameBiz.GenshinImpact)
             {
                 _gachaLogService = AppConfig.GetService<GenshinGachaService>();
@@ -76,7 +76,7 @@ public sealed partial class GachaLogPage : Page
 
 
     [ObservableProperty]
-    private string title;
+    private string gachaTypeText;
 
 
 
@@ -209,7 +209,8 @@ public sealed partial class GachaLogPage : Page
                 url = _gachaLogService.GetGachaLogUrlByUid(SelectUid);
                 if (string.IsNullOrWhiteSpace(url))
                 {
-                    NotificationBehavior.Instance.Warning(null, $"Cannot find cached URL of uid {SelectUid}.");
+                    // 无法找到 uid {uid} 的已缓存 URL
+                    NotificationBehavior.Instance.Warning(null, string.Format(Lang.GachaLogPage_CannotFindSavedURLOfUid, SelectUid));
                     return;
                 }
             }
@@ -218,13 +219,15 @@ public sealed partial class GachaLogPage : Page
                 var path = _gameService.GetGameInstallPath(gameBiz);
                 if (!Directory.Exists(path))
                 {
-                    NotificationBehavior.Instance.Warning("", $"Cannot find game install path ");
+                    // 游戏未安装
+                    NotificationBehavior.Instance.Warning(null, Lang.GachaLogPage_GameNotInstalled);
                     return;
                 }
                 url = _gachaLogService.GetGachaLogUrlFromWebCache(gameBiz, path);
                 if (string.IsNullOrWhiteSpace(url))
                 {
-                    NotificationBehavior.Instance.Warning("", $"Cannot find URL");
+                    // 无法找到 URL，请在游戏中打开抽卡记录页面
+                    NotificationBehavior.Instance.Warning(null, Lang.GachaLogPage_CannotFindURL);
                     return;
                 }
             }
@@ -248,7 +251,8 @@ public sealed partial class GachaLogPage : Page
             var cancelSource = new CancellationTokenSource();
             var button = new Button
             {
-                Content = "取消",
+                // 取消
+                Content = Lang.Common_Cancel,
                 HorizontalAlignment = HorizontalAlignment.Right,
             };
             var infoBar = new InfoBar
@@ -260,7 +264,8 @@ public sealed partial class GachaLogPage : Page
             button.Click += (_, _) =>
             {
                 cancelSource.Cancel();
-                infoBar.Message = "操作已取消";
+                // 操作已取消
+                infoBar.Message = Lang.GachaLogPage_OperationCanceled;
                 infoBar.ActionButton = null;
             };
             NotificationBehavior.Instance.Show(infoBar);
@@ -292,7 +297,8 @@ public sealed partial class GachaLogPage : Page
             if (ex.ReturnCode == -101)
             {
                 // authkey timeout
-                NotificationBehavior.Instance.Warning("Authkey Timeout", $"请在游戏中打开{Title}页面后再重试");
+                // 请在游戏中打开抽卡记录页面后再重试
+                NotificationBehavior.Instance.Warning("Authkey Timeout", Lang.GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain);
             }
             else
             {
@@ -312,10 +318,13 @@ public sealed partial class GachaLogPage : Page
             var textbox = new TextBox();
             var dialog = new ContentDialog
             {
-                Title = "输入 URL",
+                // 输入 URL
+                Title = Lang.GachaLogPage_InputURL,
                 Content = textbox,
-                PrimaryButtonText = "确认",
-                SecondaryButtonText = "取消",
+                // 确认
+                PrimaryButtonText = Lang.Common_Confirm,
+                // 取消
+                SecondaryButtonText = Lang.Common_Cancel,
                 DefaultButton = ContentDialogButton.Primary,
                 XamlRoot = MainWindow.Current.Content.XamlRoot,
             };
@@ -372,10 +381,14 @@ public sealed partial class GachaLogPage : Page
             }
             var dialog = new ContentDialog
             {
-                Title = "警告",
-                Content = $"即将删除 Uid {uid} 所有的{Title}，此操作不可恢复。",
-                PrimaryButtonText = "删除",
-                SecondaryButtonText = "取消",
+                // 警告
+                Title = Lang.Common_Warning,
+                // 即将删除 Uid {uid} 的所有抽卡记录，此操作不可恢复。
+                Content = string.Format(Lang.GachaLogPage_DeleteGachaRecordsWarning, uid),
+                // 删除
+                PrimaryButtonText = Lang.Common_Delete,
+                // 取消
+                SecondaryButtonText = Lang.Common_Cancel,
                 DefaultButton = ContentDialogButton.Secondary,
                 XamlRoot = MainWindow.Current.Content.XamlRoot,
             };
@@ -383,7 +396,8 @@ public sealed partial class GachaLogPage : Page
             if (result == ContentDialogResult.Primary)
             {
                 var count = _gachaLogService.DeleteUid(uid);
-                NotificationBehavior.Instance.Success(null, $"已删除 Uid {uid} 的{Title} {count} 条");
+                // 已删除 Uid {uid} 的抽卡记录 {count} 条
+                NotificationBehavior.Instance.Success(null, string.Format(Lang.GachaLogPage_DeletedGachaRecordsOfUid, count, uid));
                 SelectUid = UidList.FirstOrDefault(x => x != uid);
                 UidList.Remove(uid);
             }

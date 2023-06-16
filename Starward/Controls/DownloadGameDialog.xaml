@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              x:DefaultBindMode="OneWay"
@@ -9,29 +10,35 @@
              mc:Ignorable="d">
 
     <StackPanel Spacing="8">
-        <StackPanel Orientation="Horizontal">
-            <TextBlock MinWidth="120" Text="资源包大小：" />
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <!--  资源包大小  -->
+            <TextBlock MinWidth="120" Text="{x:Bind lang:Lang.DownloadGameDialog_PackageSize}" />
             <TextBlock Text="{x:Bind PackageSizeText}" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock MinWidth="120" Text="已下载：" />
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <!--  已下载  -->
+            <TextBlock MinWidth="120" Text="{x:Bind lang:Lang.DownloadGameDialog_Downloaded}" />
             <TextBlock Text="{x:Bind DownloadSizeText}" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock MinWidth="120" Text="解压占用空间：" />
-            <TextBlock Text="{x:Bind DecompressedSizeText}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock MinWidth="120" Text="剩余空间：" />
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <!--  剩余空间  -->
+            <TextBlock MinWidth="120" Text="{x:Bind lang:Lang.DownloadGameDialog_FreeSpace}" />
             <TextBlock Text="{x:Bind FreeSpaceText}" />
             <TextBlock Name="TextBlock_FreeSpaceCaution"
                        Margin="8,0,0,0"
                        Text="{x:Bind FreeSpaceCautionText}" />
         </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <!--  解压占用空间  -->
+            <TextBlock MinWidth="120" Text="{x:Bind lang:Lang.DownloadGameDialog_RequiredSpaceForUnzipping}" />
+            <TextBlock Text="{x:Bind DecompressedSizeText}" />
+        </StackPanel>
         <StackPanel Name="StackPanel_Voice"
                     Orientation="Horizontal"
+                    Spacing="8"
                     Visibility="Collapsed">
-            <TextBlock MinWidth="120" Text="语音包：" />
+            <!--  语音包  -->
+            <TextBlock MinWidth="120" Text="{x:Bind lang:Lang.DownloadGameDialog_VoiceLanguage}" />
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -41,37 +48,44 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                <!--  汉语  -->
                 <CheckBox Grid.Row="0"
                           Grid.Column="0"
-                          Content="Chinese"
+                          Content="{x:Bind lang:Lang.Language_Chinese}"
                           IsChecked="{x:Bind IsChineseChecked, Mode=TwoWay}" />
+                <!--  英语  -->
                 <CheckBox Grid.Row="0"
                           Grid.Column="1"
-                          Content="English"
+                          Content="{x:Bind lang:Lang.Language_English}"
                           IsChecked="{x:Bind IsEnglishChecked, Mode=TwoWay}" />
+                <!--  日语  -->
                 <CheckBox Grid.Row="1"
                           Grid.Column="0"
-                          Content="Japanese"
+                          Content="{x:Bind lang:Lang.Language_Japanese}"
                           IsChecked="{x:Bind IsJapaneseChecked, Mode=TwoWay}" />
+                <!--  韩语  -->
                 <CheckBox Grid.Row="1"
                           Grid.Column="1"
-                          Content="Korean"
+                          Content="{x:Bind lang:Lang.Language_Korean}"
                           IsChecked="{x:Bind IsKoreanChecked, Mode=TwoWay}" />
             </Grid>
         </StackPanel>
         <StackPanel Name="StackPanel_RepairMode"
                     Orientation="Horizontal"
+                    Spacing="8"
                     Visibility="Collapsed">
+            <!--  修复模式  -->
             <TextBlock MinWidth="120"
                        VerticalAlignment="Center"
-                       Text="修复模式：" />
+                       Text="{x:Bind lang:Lang.DownloadGameDialog_RepairMode}" />
             <ToggleSwitch Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                           IsOn="{x:Bind EnableRepairMode, Mode=TwoWay}"
-                          OffContent="直接下载游戏文件"
-                          OnContent="直接下载游戏文件" />
+                          OffContent="{x:Bind lang:Lang.DownloadGameDialog_DownloadGameFilesDirectly}"
+                          OnContent="{x:Bind lang:Lang.DownloadGameDialog_DownloadGameFilesDirectly}" />
         </StackPanel>
+        <!--  此功能处于测试阶段，如出现游戏文件损坏请使用官方启动器修复。  -->
         <TextBlock Foreground="{ThemeResource SystemFillColorCautionBrush}"
-                   Text="此功能处于测试阶段，如出现游戏文件损坏请使用官方启动器修复。"
+                   Text="{x:Bind lang:Lang.DownloadGameDialog_TestWarning}"
                    TextWrapping="Wrap" />
     </StackPanel>
 

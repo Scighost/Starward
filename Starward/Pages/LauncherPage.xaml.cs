@@ -184,7 +184,7 @@ public sealed partial class LauncherPage : Page
         {
             var content = await _launcherService.GetLauncherContentAsync(gameBiz);
             BannerList = content.Banner;
-            LauncherPostGroupList = content.Post.GroupBy(x => x.Type).OrderBy(x => x.Key).Select(x => new LauncherPostGroup(PostTypeToString(x.Key), x)).ToList();
+            LauncherPostGroupList = content.Post.GroupBy(x => x.Type).OrderBy(x => x.Key).Select(x => new LauncherPostGroup(x.Key.ToLocalization(), x)).ToList();
             if (EnableBannerAndPost && BannerList.Any() && LauncherPostGroupList.Any())
             {
                 Grid_BannerAndPost.Opacity = 1;
@@ -200,18 +200,6 @@ public sealed partial class LauncherPage : Page
         {
             _logger.LogError(ex, "Get game launcher content ({gamebiz})", gameBiz);
         }
-    }
-
-
-    private string PostTypeToString(PostType type)
-    {
-        return type switch
-        {
-            PostType.POST_TYPE_ACTIVITY => "活动",
-            PostType.POST_TYPE_ANNOUNCE => "公告",
-            PostType.POST_TYPE_INFO => "资讯",
-            _ => "",
-        };
     }
 
 
@@ -308,7 +296,7 @@ public sealed partial class LauncherPage : Page
 
 
     [ObservableProperty]
-    private string startGameButtonText = "开始游戏";
+    private string startGameButtonText = Lang.LauncherPage_StartGame;
 
 
     [ObservableProperty]
@@ -385,7 +373,7 @@ public sealed partial class LauncherPage : Page
             try
             {
                 CanStartGame = false;
-                StartGameButtonText = "游戏正在运行";
+                StartGameButtonText = Lang.LauncherPage_GameIsRunning;
                 newValue.EnableRaisingEvents = true;
                 newValue.Exited += (_, _) => CheckGameExited();
             }
@@ -468,7 +456,7 @@ public sealed partial class LauncherPage : Page
         try
         {
             CanStartGame = true;
-            StartGameButtonText = "开始游戏";
+            StartGameButtonText = Lang.LauncherPage_StartGame;
             if (IgnoreRunningGame)
             {
                 return;
@@ -500,7 +488,7 @@ public sealed partial class LauncherPage : Page
                     DispatcherQueue.TryEnqueue(() =>
                     {
                         CanStartGame = true;
-                        StartGameButtonText = "开始游戏";
+                        StartGameButtonText = Lang.LauncherPage_StartGame;
                     });
                     GameProcess.Dispose();
                     GameProcess = null;
@@ -1016,11 +1004,16 @@ public sealed partial class LauncherPage : Page
                 {
                     var folderDialog = new ContentDialog
                     {
-                        Title = "选择安装文件夹",
-                        Content = $"以下文件夹中有尚未完成的下载任务\r\n{InstallPath}",
-                        PrimaryButtonText = "继续",
-                        SecondaryButtonText = "重新选择",
-                        CloseButtonText = "取消",
+                        Title = Lang.LauncherPage_SelectInstallFolder,
+                        // 以下文件夹中有尚未完成的下载任务
+                        Content = $"""
+                        {Lang.LauncherPage_TheFollowingFolderContainsUnfinishedDownloadTasks}
+
+                        {InstallPath}
+                        """,
+                        PrimaryButtonText = Lang.Common_Continue,
+                        SecondaryButtonText = Lang.LauncherPage_Reselect,
+                        CloseButtonText = Lang.Common_Cancel,
                         DefaultButton = ContentDialogButton.Primary,
                         XamlRoot = this.XamlRoot,
                     };
@@ -1043,10 +1036,11 @@ public sealed partial class LauncherPage : Page
             {
                 var folderDialog = new ContentDialog
                 {
-                    Title = "选择安装文件夹",
-                    Content = "请选择一个空文件夹用于安装游戏，或者选择已安装游戏的文件夹。",
-                    PrimaryButtonText = "选择",
-                    SecondaryButtonText = "取消",
+                    Title = Lang.LauncherPage_SelectInstallFolder,
+                    // 请选择一个空文件夹用于安装游戏，或者定位已安装游戏的文件夹。
+                    Content = Lang.LauncherPage_SelectInstallFolderDesc,
+                    PrimaryButtonText = Lang.Common_Select,
+                    SecondaryButtonText = Lang.Common_Cancel,
                     DefaultButton = ContentDialogButton.Primary,
                     XamlRoot = this.XamlRoot,
                 };
@@ -1070,9 +1064,10 @@ public sealed partial class LauncherPage : Page
             {
                 var versionDialog = new ContentDialog
                 {
-                    Title = "已是最新版本",
-                    Content = "如果不是最新版本请修改游戏安装目录中的 config.ini 文件",
-                    PrimaryButtonText = "确定",
+                    Title = Lang.DownloadGameService_AlreadyTheLatestVersion,
+                    // 如果不是最新版本请修改游戏安装目录中的 config.ini 文件
+                    Content = Lang.LauncherPage_AlreadyTheLatestVersionDesc,
+                    PrimaryButtonText = Lang.Common_Confirm,
                     XamlRoot = this.XamlRoot,
                 };
                 UpdateGameVersion();
@@ -1088,10 +1083,10 @@ public sealed partial class LauncherPage : Page
             var content = new DownloadGameDialog { GameBiz = gameBiz, LanguageType = lang, GameResource = downloadResource, IsPreDownload = IsPreDownloadEnable };
             var dialog = new ContentDialog
             {
-                Title = IsUpdateGameEnable ? "更新游戏" : (IsPreDownloadEnable ? "预下载" : "安装游戏"),
+                Title = IsUpdateGameEnable ? Lang.LauncherPage_UpdateGame : (IsPreDownloadEnable ? Lang.LauncherPage_PreInstall : Lang.LauncherPage_InstallGame),
                 Content = content,
-                PrimaryButtonText = "开始",
-                SecondaryButtonText = "取消",
+                PrimaryButtonText = Lang.Common_Start,
+                SecondaryButtonText = Lang.Common_Cancel,
                 DefaultButton = ContentDialogButton.Primary,
                 XamlRoot = this.XamlRoot,
             };
@@ -1137,10 +1132,11 @@ public sealed partial class LauncherPage : Page
             {
                 var dialog = new ContentDialog
                 {
-                    Title = "预下载",
-                    Content = "预下载已完成，是否校验文件？",
-                    PrimaryButtonText = "开始校验",
-                    SecondaryButtonText = "取消",
+                    Title = Lang.LauncherPage_PreInstall,
+                    // 预下载已完成，是否校验文件？
+                    Content = Lang.LauncherPage_WouldYouLikeToVerifyTheFiles,
+                    PrimaryButtonText = Lang.LauncherPage_StartVerification,
+                    SecondaryButtonText = Lang.Common_Cancel,
                     DefaultButton = ContentDialogButton.Secondary,
                     XamlRoot = this.XamlRoot,
                 };

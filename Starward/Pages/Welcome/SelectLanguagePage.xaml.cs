@@ -11,6 +11,7 @@ using Starward.Core.Metadata;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -36,7 +37,8 @@ public sealed partial class SelectLanguagePage : Page
     public SelectLanguagePage()
     {
         this.InitializeComponent();
-
+        AppConfig.Language = null;
+        CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
         switch (AppConfig.ApiCDNIndex)
         {
             case 1: RadioButton_GH.IsChecked = true; break;
@@ -115,7 +117,7 @@ public sealed partial class SelectLanguagePage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCND_CF.Text = "网络异常";
+                    TextBlock_TestCND_CF.Text = "Network Error";
                 }
                 finally
                 {
@@ -132,7 +134,7 @@ public sealed partial class SelectLanguagePage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_GH.Text = "网络异常";
+                    TextBlock_TestCDN_GH.Text = "Network Error";
                 }
                 finally
                 {
@@ -149,7 +151,7 @@ public sealed partial class SelectLanguagePage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_JD.Text = "网络异常";
+                    TextBlock_TestCDN_JD.Text = "Network Error";
                 }
                 finally
                 {
@@ -179,6 +181,39 @@ public sealed partial class SelectLanguagePage : Page
             };
             _metadataClient.SetApiPrefix(index);
             AppConfig.ApiCDNIndex = index;
+        }
+    }
+
+
+
+    private void ComboBox_Language_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        try
+        {
+            if (ComboBox_Language.SelectedItem is ComboBoxItem item)
+            {
+                var lang = item.Tag as string;
+                _logger.LogInformation("Language change to {lang}", lang);
+                AppConfig.Language = lang;
+                if (string.IsNullOrWhiteSpace(lang))
+                {
+                    CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+                }
+                else
+                {
+                    CultureInfo.CurrentUICulture = new CultureInfo(lang);
+                }
+                MainPage.Current.ReloadTextForLanguage();
+                MainPage.Current.NavigateTo(typeof(SettingPage), infoOverride: new Microsoft.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
+            }
+        }
+        catch (CultureNotFoundException)
+        {
+            CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Change Language");
         }
     }
 

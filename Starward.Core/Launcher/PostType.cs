@@ -11,7 +11,7 @@ public enum PostType
     [Description("Announcement")]
     POST_TYPE_ANNOUNCE,
 
-    [Description("Infomation")]
+    [Description("Information")]
     POST_TYPE_INFO,
 
 }

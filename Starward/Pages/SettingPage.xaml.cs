@@ -15,6 +15,7 @@ using Starward.Pages.Welcome;
 using Starward.Services;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -69,6 +70,7 @@ public sealed partial class SettingPage : Page
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        InitializeLanguage();
         switch (AppConfig.ApiCDNIndex)
         {
             case 1: RadioButton_GH.IsChecked = true; break;
@@ -83,6 +85,72 @@ public sealed partial class SettingPage : Page
     }
 
 
+
+
+
+    #region Language
+
+
+
+
+    private void InitializeLanguage()
+    {
+        try
+        {
+            var lang = AppConfig.Language;
+            foreach (ComboBoxItem item in ComboBox_Language.Items)
+            {
+                if (item.Tag as string == lang)
+                {
+                    ComboBox_Language.SelectedItem = item;
+                    return;
+                }
+            }
+            ComboBox_Language.SelectedIndex = 0;
+        }
+        catch { }
+        finally
+        {
+            ComboBox_Language.SelectionChanged += ComboBox_Language_SelectionChanged;
+        }
+    }
+
+
+
+    private void ComboBox_Language_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        try
+        {
+            if (ComboBox_Language.SelectedItem is ComboBoxItem item)
+            {
+                var lang = item.Tag as string;
+                _logger.LogInformation("Language change to {lang}", lang);
+                AppConfig.Language = lang;
+                if (string.IsNullOrWhiteSpace(lang))
+                {
+                    CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+                }
+                else
+                {
+                    CultureInfo.CurrentUICulture = new CultureInfo(lang);
+                }
+                MainPage.Current.ReloadTextForLanguage();
+                MainPage.Current.NavigateTo(typeof(SettingPage), infoOverride: new Microsoft.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
+            }
+        }
+        catch (CultureNotFoundException)
+        {
+            CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Change Language");
+        }
+    }
+
+
+
+    #endregion
 
 
 
@@ -196,7 +264,7 @@ public sealed partial class SettingPage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCND_CF.Text = "网络异常";
+                    TextBlock_TestCND_CF.Text = Lang.SettingPage_TestCDNAsync_NetworkError;
                 }
                 finally
                 {
@@ -213,7 +281,7 @@ public sealed partial class SettingPage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_GH.Text = "网络异常";
+                    TextBlock_TestCDN_GH.Text = Lang.SettingPage_TestCDNAsync_NetworkError;
                 }
                 finally
                 {
@@ -230,7 +298,7 @@ public sealed partial class SettingPage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_JD.Text = "网络异常";
+                    TextBlock_TestCDN_JD.Text = Lang.SettingPage_TestCDNAsync_NetworkError;
                 }
                 finally
                 {
@@ -426,16 +494,18 @@ public sealed partial class SettingPage : Page
         {
             var dialog = new ContentDialog
             {
-                Title = "重新选择数据文件夹",
+                Title = Lang.SettingPage_ReselectDataFolder,
+                // 当前数据文件夹的位置是：
+                // 想要重新选择吗？（你需要在选择前手动迁移数据文件）
                 Content = $"""
-                当前数据文件夹的位置是：
+                {Lang.SettingPage_TheCurrentLocationOfTheDataFolderIs}
 
                 {AppConfig.ConfigDirectory}
 
-                想要重新选择吗？（你需要在选择前手动迁移数据文件）
+                {Lang.SettingPage_WouldLikeToReselectDataFolder}
                 """,
-                PrimaryButtonText = "是的",
-                SecondaryButtonText = "取消",
+                PrimaryButtonText = Lang.Common_Yes,
+                SecondaryButtonText = Lang.Common_Cancel,
                 DefaultButton = ContentDialogButton.Secondary,
                 XamlRoot = this.XamlRoot,
             };
@@ -465,10 +535,11 @@ public sealed partial class SettingPage : Page
         {
             var dialog = new ContentDialog
             {
-                Title = "删除所有设置",
-                Content = "删除完成后，会自动重启应用程序。",
-                PrimaryButtonText = "删除",
-                SecondaryButtonText = "取消",
+                Title = Lang.SettingPage_DeleteAllSettings,
+                // 删除完成后，将自动重启软件。
+                Content = Lang.SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically,
+                PrimaryButtonText = Lang.Common_Delete,
+                SecondaryButtonText = Lang.Common_Cancel,
                 DefaultButton = ContentDialogButton.Secondary,
                 XamlRoot = this.XamlRoot,
             };
@@ -494,6 +565,7 @@ public sealed partial class SettingPage : Page
         }
 
     }
+
 
 
 

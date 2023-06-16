@@ -108,14 +108,16 @@ internal class UpdateService
             var baseFolder = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
             if (baseFolder == null)
             {
-                ErrorMessage = "安装目录不符合要求，无法自动更新";
+                // 无法自动更新
+                ErrorMessage = Lang.UpdateService_CannotUpdateAutomatically;
                 State = UpdateState.NotSupport;
                 return;
             }
             var exe = Path.Join(baseFolder, "Starward.exe");
             if (!File.Exists(exe))
             {
-                ErrorMessage = "安装目录不符合要求，无法自动更新";
+                // 无法自动更新
+                ErrorMessage = Lang.UpdateService_CannotUpdateAutomatically;
                 State = UpdateState.NotSupport;
                 return;
             }
@@ -339,7 +341,7 @@ internal class UpdateService
                     var ms = new MemoryStream();
                     var buffer = new byte[1 << 16];
                     int length;
-                    while ((length = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+                    while ((length = await stream.ReadAsync(buffer, cancellationToken)) != 0)
                     {
                         ms.Write(buffer, 0, length);
                         readLength += length;

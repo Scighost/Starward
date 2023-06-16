@@ -144,6 +144,28 @@ public sealed partial class MainPage : Page
 
 
 
+    public void ReloadTextForLanguage()
+    {
+        NavigationViewItem_Launcher.Content = Lang.MainPage_Launcer;
+        NavigationViewItem_GameSetting.Content = Lang.LauncherPage_GameSetting;
+        NavigationViewItem_Screenshot.Content = Lang.MainPage_GameScreenshot;
+        NavigationViewItem_Setting.Content = Lang.SettingPage_AppSettings;
+        if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
+        {
+            NavigationViewItem_GachaLog.Content = Lang.GachaLogService_WishRecords;
+        }
+        if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
+        {
+            NavigationViewItem_GachaLog.Content = Lang.GachaLogService_WarpRecords;
+        }
+
+        TextBlock_SwitchRegionTitle.Text = Lang.MainPage_HowToSwitchGameRegion;
+        TextBlock_SwitchRegionContent.Text = Lang.MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft;
+    }
+
+
+
+
 
     #region Select Game
 
@@ -671,11 +693,13 @@ public sealed partial class MainPage : Page
         }
         if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
         {
-            NavigationViewItem_GachaLog.Content = "祈愿记录";
+            // 祈愿记录
+            NavigationViewItem_GachaLog.Content = Lang.GachaLogService_WishRecords;
         }
         if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
         {
-            NavigationViewItem_GachaLog.Content = "跃迁记录";
+            // 跃迁记录
+            NavigationViewItem_GachaLog.Content = Lang.GachaLogService_WarpRecords;
         }
     }
 
@@ -710,7 +734,7 @@ public sealed partial class MainPage : Page
 
 
 
-    public void NavigateTo(Type? page, object? param = null, bool changeGameBiz = false)
+    public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null, bool changeGameBiz = false)
     {
         if (page is null || page?.Name is nameof(BlankPage) || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && page?.Name is nameof(GachaLogPage)))
         {
@@ -718,7 +742,8 @@ public sealed partial class MainPage : Page
             MainPage_NavigationView.SelectedItem = MainPage_NavigationView.MenuItems.FirstOrDefault();
         }
         _logger.LogInformation("Navigate to {page} with param {param}", page!.Name, param);
-        MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, GetNavigationTransitionInfo(changeGameBiz));
+        infoOverride ??= GetNavigationTransitionInfo(changeGameBiz);
+        MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, infoOverride);
         if (page.Name is nameof(BlankPage) or nameof(LauncherPage))
         {
             PlayVideo();

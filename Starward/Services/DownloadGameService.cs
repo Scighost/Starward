@@ -446,7 +446,8 @@ internal partial class DownloadGameService
 
             if (gameResource == null)
             {
-                throw new Exception("Already the latest version.");
+                // 已是最新版本
+                throw new Exception(Lang.DownloadGameService_AlreadyTheLatestVersion);
             }
 
             this.installPath = installPath;
@@ -675,7 +676,8 @@ internal partial class DownloadGameService
             {
                 if (++count > 3)
                 {
-                    throw new HttpRequestException("Too many retries.");
+                    // 重试次数过多
+                    throw new HttpRequestException(Lang.DownloadGameService_TooManyRetries);
                 }
 
                 var FileStreamOptions = new FileStreamOptions
@@ -768,7 +770,8 @@ internal partial class DownloadGameService
             {
                 if (++count > 3)
                 {
-                    throw new HttpRequestException("Too many retries.");
+                    // 重试次数过多
+                    throw new HttpRequestException(Lang.DownloadGameService_TooManyRetries);
                 }
 
                 var FileStreamOptions = new FileStreamOptions

@@ -6,6 +6,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages.Welcome"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
@@ -117,26 +118,24 @@
         <StackPanel Name="StackPanel_SelectGame"
                     Margin="48,48,48,96"
                     VerticalAlignment="Center"
-                    Spacing="40">
+                    Spacing="20">
             <StackPanel.OpacityTransition>
                 <ScalarTransition />
             </StackPanel.OpacityTransition>
-
-            <TextBlock FontSize="20"
+            <!--  最后一步了  -->
+            <TextBlock FontSize="24"
                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                       Text="快要完成了~"
+                       Text="{x:Bind lang:Lang.SelectGamePage_TheLastStep}"
                        TextWrapping="Wrap" />
-
-            <TextBlock FontSize="20" TextWrapping="Wrap">
-                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="Starward" />
-                <Run Text="仅支持部分" />
-                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="miHoYo/HoYoverse" />
-                <Run Text="游戏，请在下方选择你的目标，进入启动器后也可随时更改。" />
-            </TextBlock>
+            <!--  仅支持部分游戏  -->
+            <TextBlock Name="TextBlock_SomeGame"
+                       FontSize="20"
+                       TextWrapping="Wrap" />
 
 
             <!--  select game  -->
-            <StackPanel HorizontalAlignment="Left"
+            <StackPanel Margin="0,20,0,0"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Orientation="Horizontal"
                         Spacing="16">
@@ -315,7 +314,8 @@
                           FontSize="16"
                           FontWeight="SemiBold"
                           Glyph="&#xEC52;" />
-                <TextBlock VerticalAlignment="Center" Text="选择文件夹" />
+                <!--  选择文件夹  -->
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.SelectGamePage_SelectFolder}" />
             </StackPanel>
         </Button>
 
@@ -340,7 +340,8 @@
             <StackPanel Margin="20,0,20,0"
                         Orientation="Horizontal"
                         Spacing="16">
-                <TextBlock VerticalAlignment="Center" Text="进入启动器" />
+                <!--  进入启动器  -->
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.SelectGamePage_GoToLauncher}" />
                 <FontIcon VerticalAlignment="Bottom"
                           FontSize="16"
                           FontWeight="SemiBold"

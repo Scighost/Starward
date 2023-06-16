@@ -10,6 +10,7 @@
       xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
       xmlns:cc="using:CommunityToolkit.WinUI.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:media="using:Microsoft.Xaml.Interactions.Media"
@@ -50,14 +51,14 @@
                    VerticalAlignment="Center"
                    FontSize="20"
                    FontWeight="Bold"
-                   Text="游戏截图" />
+                   Text="{x:Bind lang:Lang.ScreenshotPage_GameScreenshot}" />
 
 
         <StackPanel Margin="0,0,28,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     Spacing="16">
-            <Button Command="{x:Bind OpenScreenshotFolderCommand}" Content="打开文件夹" />
+            <Button Command="{x:Bind OpenScreenshotFolderCommand}" Content="{x:Bind lang:Lang.ScreenshotPage_OpenFolder}" />
         </StackPanel>
 
 

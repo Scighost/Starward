@@ -5,6 +5,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:s="using:Starward"
@@ -22,7 +23,7 @@
 
     <Grid ColumnSpacing="24">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" MinWidth="360" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
@@ -34,7 +35,7 @@
 
 
         <StackPanel Margin="24" Spacing="8">
-            <TextBlock FontSize="36" Text="新版本！" />
+            <TextBlock FontSize="32" Text="{x:Bind lang:Lang.UpdatePage_NewVersion}" />
             <StackPanel Margin="0,16,0,0"
                         Orientation="Horizontal"
                         Spacing="12">
@@ -45,35 +46,62 @@
                           Glyph="&#xEBE7;" />
                 <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind NewVersion.Version}" />
             </StackPanel>
-            <TextBlock>
-                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="架构：" />
-                <Run Text="{x:Bind NewVersion.Architecture}" />
-            </TextBlock>
-            <TextBlock>
-                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="更新渠道：" />
-                <Run Text="{x:Bind ChannelText}" />
-            </TextBlock>
-            <TextBlock>
-                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="编译时间：" />
-                <Run Text="{x:Bind NewVersion.BuildTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
-            </TextBlock>
-            <Grid>
+            <Grid Margin="0,8,0,0"
+                  ColumnSpacing="12"
+                  RowSpacing="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+                <!--  架构：  -->
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind lang:Lang.UpdatePage_Architecture}" />
+                <TextBlock Grid.Row="0"
+                           Grid.Column="1"
+                           Text="{x:Bind NewVersion.Architecture}" />
+                <!--  发布渠道  -->
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind lang:Lang.UpdatePage_ReleaseChannel}" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           Text="{x:Bind ChannelText}" />
+                <!--  编译时间：  -->
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind lang:Lang.UpdatePage_BuiltTime}" />
+                <TextBlock Grid.Row="2"
+                           Grid.Column="1"
+                           Text="{x:Bind NewVersion.BuildTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+            </Grid>
+            <Grid Margin="0,4,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <!--  相关链接  -->
                 <TextBlock Margin="0,6,0,0"
                            VerticalAlignment="Top"
-                           Text="相关链接：" />
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind lang:Lang.UpdatePage_Links}" />
                 <StackPanel Grid.Column="1" Spacing="4">
                     <HyperlinkButton Click="HyperlinkButton_Click"
-                                     Content="发布页面"
+                                     Content="{x:Bind lang:Lang.UpdatePage_ReleasePage}"
                                      Tag="release" />
                     <HyperlinkButton Click="HyperlinkButton_Click"
                                      Tag="install"
                                      Visibility="{x:Bind NewVersion.Install, Converter={StaticResource ObjectToVisibilityConverter}}">
                         <TextBlock>
-                            <Run Text="安装包下载" />
+                            <Run Text="{x:Bind lang:Lang.UpdatePage_DownloadInstaller}" />
                             <Run Text="" />
                             <Run Text="(" /><Run Text="{x:Bind NewVersion.InstallSize, Converter={StaticResource ByteLengthToStringConverter}}" /><Run Text=")" />
                         </TextBlock>
@@ -82,7 +110,7 @@
                                      Tag="portable"
                                      Visibility="{x:Bind NewVersion.Portable, Converter={StaticResource ObjectToVisibilityConverter}}">
                         <TextBlock>
-                            <Run Text="便携版下载" />
+                            <Run Text="{x:Bind lang:Lang.UpdatePage_DownloadPortable}" />
                             <Run Text="" />
                             <Run Text="(" /><Run Text="{x:Bind NewVersion.PortableSize, Converter={StaticResource ByteLengthToStringConverter}}" /><Run Text=")" />
                         </TextBlock>
@@ -92,11 +120,12 @@
         </StackPanel>
 
 
-
-        <StackPanel Margin="24"
+        <StackPanel Margin="24,0,24,24"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
                     Orientation="Horizontal"
-                    Spacing="16">
+                    Spacing="24">
+
             <Button Name="Button_Update"
                     Height="36"
                     BorderThickness="0"
@@ -109,24 +138,34 @@
                             Orientation="Horizontal"
                             Spacing="8">
                     <FontIcon FontSize="16" Glyph="&#xE752;" />
-                    <TextBlock Text="现在更新" />
+                    <TextBlock Text="{x:Bind lang:Lang.UpdatePage_UpdateNow}" />
                 </StackPanel>
             </Button>
-            <Button Name="Button_RemindLatter"
-                    Command="{x:Bind RemindMeLatterCommand}"
-                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="下次提醒我" />
-            </Button>
-            <Button Name="Button_IgnoreVersion"
-                    Command="{x:Bind IgnoreThisVersionCommand}"
-                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="忽略此版本" />
-            </Button>
+
+            <SplitButton Name="Button_RemindLatter"
+                         Height="36"
+                         BorderThickness="0"
+                         Command="{x:Bind RemindMeLatterCommand}"
+                         CornerRadius="18">
+                <TextBlock Margin="4,0,0,0"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind lang:Lang.UpdatePage_RemindLatter}" />
+                <SplitButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind RemindMeLatterCommand}"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Text="{x:Bind lang:Lang.UpdatePage_RemindLatter}" />
+                        <MenuFlyoutItem Command="{x:Bind IgnoreThisVersionCommand}"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Text="{x:Bind lang:Lang.UpdatePage_IgnoreThisVersion}" />
+                    </MenuFlyout>
+                </SplitButton.Flyout>
+            </SplitButton>
         </StackPanel>
 
 
 
-        <Grid Margin="24,0,24,72"
+        <Grid Margin="24,0,24,80"
               VerticalAlignment="Bottom"
               RowSpacing="4">
             <Grid.RowDefinitions>

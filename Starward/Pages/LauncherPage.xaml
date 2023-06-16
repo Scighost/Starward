@@ -6,6 +6,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:av="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
@@ -18,7 +19,7 @@
 
     <SplitView Name="SplitView_Content"
                BorderThickness="0"
-               CornerRadius="0,0,0,16"
+               CornerRadius="12,0,0,12"
                DisplayMode="Overlay"
                OpenPaneLength="600"
                PaneBackground="{ThemeResource CustomAcrylicBrush}"
@@ -145,7 +146,7 @@
 
                 <!--  Start Game  -->
                 <Grid Width="240"
-                      Margin="0,0,16,0"
+                      Margin="0,0,20,0"
                       Background="{ThemeResource CustomAcrylicBrush}"
                       CornerRadius="20"
                       Shadow="{StaticResource ThemeShadow}"
@@ -198,7 +199,7 @@
                                       VerticalAlignment="Center"
                                       FontSize="20"
                                       Glyph="&#xEBD3;" />
-                            <TextBlock VerticalAlignment="Center" Text="安装游戏" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_InstallGame}" />
                         </StackPanel>
                     </Button>
 
@@ -217,31 +218,29 @@
                                       VerticalAlignment="Center"
                                       FontSize="18"
                                       Glyph="&#xE752;" />
-                            <TextBlock VerticalAlignment="Center" Text="更新游戏" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_UpdateGame}" />
                         </StackPanel>
                     </Button>
 
-                    <!--  game setting  -->
+                    <!--  Game Setting  -->
                     <Button Width="44"
                             Height="40"
                             Padding="0"
                             HorizontalAlignment="Right"
+                            Background="Transparent"
                             BorderThickness="0"
                             Command="{x:Bind OpenGameSettingCommand}"
-                            CornerRadius="20"
-                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                        <Button.Content>
-                            <AnimatedIcon Name="AnimatedIcon_GameSetting"
-                                          Width="20"
-                                          Height="20">
-                                <AnimatedIcon.Source>
-                                    <av:AnimatedSettingsVisualSource />
-                                </AnimatedIcon.Source>
-                                <AnimatedIcon.FallbackIconSource>
-                                    <FontIconSource Glyph="&#xE713;" />
-                                </AnimatedIcon.FallbackIconSource>
-                            </AnimatedIcon>
-                        </Button.Content>
+                            CornerRadius="20">
+                        <AnimatedIcon Name="AnimatedIcon_GameSetting"
+                                      Width="20"
+                                      Height="20">
+                            <AnimatedIcon.Source>
+                                <av:AnimatedSettingsVisualSource />
+                            </AnimatedIcon.Source>
+                            <AnimatedIcon.FallbackIconSource>
+                                <FontIconSource Glyph="&#xE713;" />
+                            </AnimatedIcon.FallbackIconSource>
+                        </AnimatedIcon>
                     </Button>
                 </Grid>
 
@@ -273,16 +272,16 @@
                                 <StackPanel MinWidth="180" Spacing="8">
                                     <TextBlock FontSize="16"
                                                FontWeight="SemiBold"
-                                               Text="游戏时间" />
+                                               Text="{x:Bind lang:Lang.LauncherPage_PlayTime}" />
                                     <Grid ColumnSpacing="16">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0" Spacing="8">
-                                            <TextBlock Text="本周" />
-                                            <TextBlock Text="本月" />
-                                            <TextBlock Text="上次" />
+                                            <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisWeek}" />
+                                            <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisMonth}" />
+                                            <TextBlock Text="{x:Bind lang:Lang.LauncherPage_LastTime}" />
                                         </StackPanel>
                                         <StackPanel Grid.Column="1" Spacing="8">
                                             <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind PlayTimeWeek, Converter={StaticResource TimeSpanToStringConverter}}" />
@@ -304,7 +303,7 @@
                                                         Orientation="Horizontal"
                                                         Spacing="8">
                                                 <FontIcon FontSize="14" Glyph="&#xE72C;" />
-                                                <TextBlock Text="刷新" />
+                                                <TextBlock Text="{x:Bind lang:Lang.Common_Refresh}" />
                                             </StackPanel>
                                         </Button>
                                     </Border>
@@ -340,7 +339,7 @@
                                       Visibility="{x:Bind IsPreDownloadOK}" />
                             <TextBlock Margin="8,0,0,0"
                                        VerticalAlignment="Center"
-                                       Text="预下载" />
+                                       Text="{x:Bind lang:Lang.LauncherPage_PreInstall}" />
                         </StackPanel>
                     </Button>
                 </Border>
@@ -388,7 +387,7 @@
                                               FontSize="14"
                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                               Glyph="&#xE930;"
-                                              ToolTipService.ToolTip="当前登录的账号"
+                                              ToolTipService.ToolTip="{x:Bind lang:Lang.LauncherPage_CurrentAccount}"
                                               Visibility="{Binding IsLogin}" />
                                 </Grid>
                             </DataTemplate>
@@ -409,7 +408,7 @@
                             BorderThickness="0"
                             Command="{x:Bind ChangeGameAccountCommand}"
                             CornerRadius="20,0,0,20">
-                        <TextBlock Margin="4,0,0,0" Text="切换账号" />
+                        <TextBlock Margin="8,0,0,0" Text="{x:Bind lang:Lang.LauncherPage_SwitchAccount}" />
                     </Button>
                     <Button Grid.Column="1"
                             Height="40"
@@ -425,11 +424,11 @@
                                 <StackPanel MinWidth="200" Spacing="8">
                                     <TextBlock FontSize="16"
                                                FontWeight="SemiBold"
-                                               Text="账号信息" />
+                                               Text="{x:Bind lang:Lang.LauncherPage_AccountInformation}" />
                                     <Button Width="0"
                                             Height="0"
                                             IsHitTestVisible="False" />
-                                    <TextBlock Text="昵称" />
+                                    <TextBlock Text="{x:Bind lang:Lang.LauncherPage_Nickname}" />
                                     <TextBox IsSpellCheckEnabled="False" Text="{x:Bind SelectGameAccount.Name, Mode=TwoWay}" />
                                     <TextBlock Margin="0,8,0,0" Text="Uid" />
                                     <NumberBox Minimum="0" Value="{x:Bind SelectGameAccount.Uid, Mode=TwoWay}" />
@@ -449,7 +448,7 @@
                                                 <FontIcon Name="FontIcon_SaveGameAccount"
                                                           FontSize="16"
                                                           Glyph="&#xE74E;" />
-                                                <TextBlock Text="保存" />
+                                                <TextBlock Text="{x:Bind lang:Lang.Common_Save}" />
                                             </StackPanel>
                                         </Button>
                                         <Button Grid.Column="1"
@@ -458,7 +457,7 @@
                                                 Command="{x:Bind DeleteGameAccountCommand}"
                                                 CornerRadius="0,20,20,0">
                                             <StackPanel Orientation="Horizontal" Spacing="12">
-                                                <TextBlock Text="删除" />
+                                                <TextBlock Text="{x:Bind lang:Lang.Common_Delete}" />
                                                 <FontIcon FontSize="16" Glyph="&#xE74D;" />
                                             </StackPanel>
                                         </Button>
@@ -485,14 +484,16 @@
                 <StackPanel Margin="24,12,24,12">
                     <TextBlock FontSize="20"
                                FontWeight="Bold"
-                               Text="游戏设置" />
+                               Text="{x:Bind lang:Lang.LauncherPage_GameSetting}" />
                     <!--  Game Install Path  -->
                     <TextBlock Margin="0,12,0,0"
                                FontWeight="SemiBold"
-                               Text="安装位置" />
-                    <StackPanel Margin="-24,8,0,0"
-                                Orientation="Horizontal"
-                                Spacing="12">
+                               Text="{x:Bind lang:Lang.LauncherPage_InstallFolder}" />
+                    <Grid Margin="-24,8,0,0" ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
                         <Button Height="36"
                                 Padding="24,0,16,0"
                                 BorderThickness="0"
@@ -501,11 +502,12 @@
                                 Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon Glyph="&#xE838;" />
-                                <TextBlock Text="修改" />
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_Locate}" />
                             </StackPanel>
                         </Button>
-                        <Grid Height="36"
-                              MaxWidth="460"
+                        <Grid Grid.Column="1"
+                              Height="36"
+                              HorizontalAlignment="Left"
                               Background="{ThemeResource CustomAcrylicBrush}"
                               CornerRadius="18"
                               Visibility="{x:Bind InstallPath, Converter={StaticResource ObjectToVisibilityConverter}}">
@@ -536,7 +538,7 @@
                                           Glyph="&#xE711;" />
                             </Button>
                         </Grid>
-                    </StackPanel>
+                    </Grid>
 
                     <!--  repair game  -->
                     <Button Height="36"
@@ -549,14 +551,17 @@
                             Visibility="{x:Bind IsRepairGameEnable}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xE90F;" />
-                            <TextBlock Text="一键修复" />
+                            <TextBlock Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
                         </StackPanel>
                     </Button>
 
+                    <Button Width="0"
+                            Height="0"
+                            IsHitTestVisible="False" />
 
                     <TextBlock Margin="0,12,0,0"
                                FontWeight="SemiBold"
-                               Text="启动参数" />
+                               Text="{x:Bind lang:Lang.GameSettingPage_StartArguments}" />
                     <TextBox MinWidth="320"
                              Margin="0,8,0,0"
                              HorizontalAlignment="Left"
@@ -569,15 +574,18 @@
                                   FontSize="14"
                                   FontWeight="SemiBold"
                                   IsOn="{x:Bind EnableThirdPartyTool, Mode=TwoWay}"
-                                  OffContent="自定义启动程序"
-                                  OnContent="自定义启动程序" />
+                                  OffContent="{x:Bind lang:Lang.LauncherPage_CustomStartExecutable}"
+                                  OnContent="{x:Bind lang:Lang.LauncherPage_CustomStartExecutable}" />
+                    <!--  使用第三方插件代替启动，启用后无法记录游戏时间。  -->
                     <TextBlock FontSize="12"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="使用第三方插件代替启动，启用后无法记录游戏时间。"
+                               Text="{x:Bind lang:Lang.LauncherPage_ThirdPartyToolDesc}"
                                TextTrimming="CharacterEllipsis" />
-                    <StackPanel Margin="-24,8,0,0"
-                                Orientation="Horizontal"
-                                Spacing="12">
+                    <Grid Margin="-24,8,0,0" ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
                         <Button Height="36"
                                 Padding="24,0,16,0"
                                 BorderThickness="0"
@@ -587,11 +595,12 @@
                                 Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon Glyph="&#xE7FC;" />
-                                <TextBlock Text="选择" />
+                                <TextBlock Text="{x:Bind lang:Lang.Common_Select}" />
                             </StackPanel>
                         </Button>
-                        <Grid Height="36"
-                              MaxWidth="460"
+                        <Grid Grid.Column="1"
+                              Height="36"
+                              HorizontalAlignment="Left"
                               Background="{ThemeResource CustomAcrylicBrush}"
                               CornerRadius="18"
                               Visibility="{x:Bind ThirdPartyToolPath, Converter={StaticResource ObjectToVisibilityConverter}}">
@@ -622,36 +631,41 @@
                                           Glyph="&#xE711;" />
                             </Button>
                         </Grid>
-                    </StackPanel>
+                    </Grid>
 
+                    <!--  显示游戏公告  -->
                     <ToggleSwitch Margin="0,8,0,0"
                                   IsOn="{x:Bind EnableBannerAndPost, Mode=TwoWay}"
-                                  OffContent="显示游戏公告"
-                                  OnContent="显示游戏公告" />
+                                  OffContent="{x:Bind lang:Lang.LauncherPage_ShowGameAnnouncement}"
+                                  OnContent="{x:Bind lang:Lang.LauncherPage_ShowGameAnnouncement}" />
+                    <!--  忽略正在运行的游戏进程  -->
                     <ToggleSwitch Margin="0,-4,0,0"
                                   IsOn="{x:Bind IgnoreRunningGame, Mode=TwoWay}"
-                                  OffContent="忽略正在运行的游戏"
-                                  OnContent="忽略正在运行的游戏" />
+                                  OffContent="{x:Bind lang:Lang.LauncherPage_IgnoreRunningGameProcess}"
+                                  OnContent="{x:Bind lang:Lang.LauncherPage_IgnoreRunningGameProcess}" />
 
 
                     <TextBlock Margin="0,20,0,0"
                                FontSize="20"
                                FontWeight="Bold"
-                               Text="背景设置" />
+                               Text="{x:Bind lang:Lang.LauncherPage_BackgroundSetting}" />
 
                     <!--  Custom Bg  -->
                     <ToggleSwitch Margin="0,8,0,0"
                                   FontWeight="SemiBold"
                                   IsOn="{x:Bind EnableCustomBg, Mode=TwoWay}"
-                                  OffContent="自定义背景（支持视频）"
-                                  OnContent="自定义背景（支持视频）" />
+                                  OffContent="{x:Bind lang:Lang.SettingPage_CustomBackgroundSupportVideo}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_CustomBackgroundSupportVideo}" />
+                    <!--  请选择像素大小与应用窗口相匹配的图片，较大的图片会降低性能。  -->
                     <TextBlock FontSize="12"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="请选择像素大小与应用窗口相匹配的图片，较大的图片会降低性能。"
+                               Text="{x:Bind lang:Lang.SettingPage_BgSizeTip}"
                                TextWrapping="Wrap" />
-                    <StackPanel Margin="-24,8,0,0"
-                                Orientation="Horizontal"
-                                Spacing="16">
+                    <Grid Margin="-24,8,0,0" ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
                         <Button Height="36"
                                 Padding="24,0,16,0"
                                 BorderThickness="0"
@@ -661,11 +675,12 @@
                                 Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon Glyph="&#xE91B;" />
-                                <TextBlock Text="选择" />
+                                <TextBlock Text="{x:Bind lang:Lang.Common_Select}" />
                             </StackPanel>
                         </Button>
-                        <Grid Height="36"
-                              MaxWidth="460"
+                        <Grid Grid.Column="1"
+                              Height="36"
+                              HorizontalAlignment="Left"
                               Background="{ThemeResource CustomAcrylicBrush}"
                               CornerRadius="18"
                               Visibility="{x:Bind CustomBg, Converter={StaticResource ObjectToVisibilityConverter}}">
@@ -696,18 +711,19 @@
                                           Glyph="&#xE711;" />
                             </Button>
                         </Grid>
-                    </StackPanel>
+                    </Grid>
 
-
+                    <!--  所有游戏使用相同的背景  -->
                     <ToggleSwitch Margin="0,8,0,0"
                                   IsOn="{x:Bind UseOneBg, Mode=TwoWay}"
-                                  OffContent="所有游戏使用相同的背景"
-                                  OnContent="所有游戏使用相同的背景" />
+                                  OffContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}" />
 
+                    <!--  切换到其他页面时暂停视频  -->
                     <ToggleSwitch Margin="0,-4,0,0"
                                   IsOn="{x:Bind PauseVideoWhenChangeToOtherPage, Mode=TwoWay}"
-                                  OffContent="切换到其他页面时暂停视频"
-                                  OnContent="切换到其他页面时暂停视频" />
+                                  OffContent="{x:Bind lang:Lang.SettingPage_PauseVideoWhenSwitchingToOtherPages}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_PauseVideoWhenSwitchingToOtherPages}" />
 
                     <!--  volume  -->
                     <Grid ColumnSpacing="12">

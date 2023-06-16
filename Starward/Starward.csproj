@@ -47,6 +47,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
+		<ProjectReference Include="..\Starward.Language\Starward.Language.csproj" />
 		<ProjectReference Include="..\Starward.SevenZip\Starward.SevenZip.csproj" />
 	</ItemGroup>
 

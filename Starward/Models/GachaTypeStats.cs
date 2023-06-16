@@ -10,7 +10,7 @@ public class GachaTypeStats
 
     public GachaType GachaType { get; set; }
 
-    public string GachaTypeText => GachaType.ToDescription();
+    public string GachaTypeText => GachaType.ToLocalization();
 
     public int Count { get; set; }
 

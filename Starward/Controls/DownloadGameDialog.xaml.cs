@@ -193,7 +193,8 @@ public sealed partial class DownloadGameDialog : UserControl
             }
             if (delta < 0)
             {
-                FreeSpaceCautionText = "剩余空间可能不足";
+                // 剩余空间可能不足
+                FreeSpaceCautionText = Lang.DownloadGameDialog_FreeSpaceMayBeNotEnough;
                 TextBlock_FreeSpaceCaution.Foreground = Application.Current.Resources["SystemFillColorCautionBrush"] as Brush;
             }
             else

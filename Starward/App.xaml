@@ -33,7 +33,7 @@
             <AcrylicBrush x:Key="CustomAcrylicBrush"
                           FallbackColor="{ThemeResource ControlOnImageFillColorDefault}"
                           TintColor="{ThemeResource ControlOnImageFillColorDefault}"
-                          TintOpacity="0.5" />
+                          TintOpacity="0.6" />
 
             <Thickness x:Key="NavigationViewBorderThickness">0</Thickness>
             <StaticResource x:Key="ComboBoxDropDownBackground" ResourceKey="CustomAcrylicBrush" />

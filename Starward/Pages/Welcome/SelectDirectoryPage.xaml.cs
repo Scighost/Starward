@@ -32,6 +32,14 @@ public sealed partial class SelectDirectoryPage : Page
     public SelectDirectoryPage()
     {
         this.InitializeComponent();
+        InitializeFirstUse();
+    }
+
+
+
+    private void InitializeFirstUse()
+    {
+        TextBlockHelper.Inlines(TextBlock_FirstUse.Inlines, Lang.SelectDirectoryPage_FirstUse, ("{Starward}", null));
     }
 
 
@@ -54,18 +62,24 @@ public sealed partial class SelectDirectoryPage : Page
             {
                 var dialog = new ContentDialog
                 {
-                    Title = "选择文件夹",
+                    // 选择文件夹
+                    Title = Lang.SelectDirectoryPage_SelectFolder,
+                    // 推荐您将数据保存在软件所在的文件夹中：
+                    // 是否选择此文件夹？
                     Content = $"""
-                    应用数据默认保存在软件安装的文件夹中：
-
+                    {Lang.SelectDirectoryPage_RecommendFolder}
+                    
                     {parentFolder}
 
-                    是否选择此文件夹？
+                    {Lang.SelectDirectoryPage_WouldYouLikeToChooseThisFolder}
                     """,
                     DefaultButton = ContentDialogButton.Primary,
-                    PrimaryButtonText = "好的",
-                    SecondaryButtonText = "自己选",
-                    CloseButtonText = "不想选",
+                    // 好的
+                    PrimaryButtonText = Lang.SelectDirectoryPage_OK,
+                    // 自己选
+                    SecondaryButtonText = Lang.SelectDirectoryPage_ChooseAnother,
+                    // 不想选
+                    CloseButtonText = Lang.SelectDirectoryPage_Cancel,
                     XamlRoot = this.XamlRoot
                 };
                 var result = await dialog.ShowAsync();
@@ -90,9 +104,10 @@ public sealed partial class SelectDirectoryPage : Page
             if (Directory.Exists(selectFolder))
             {
                 _logger.LogInformation("Select directory is '{Path}'", selectFolder);
-                if (Path.GetFullPath(selectFolder.TrimEnd('/', '\\')) == Path.GetFullPath(AppContext.BaseDirectory.TrimEnd('/', '\\')))
+                if (Path.GetFullPath(selectFolder) == Path.GetFullPath(AppContext.BaseDirectory.TrimEnd('/', '\\')))
                 {
-                    TargetDictionary = "此文件夹将在软件更新后被自动删除";
+                    // 此文件夹将在软件更新后被自动删除
+                    TargetDictionary = Lang.SelectDirectoryPage_AutoDeleteAfterUpdate;
                     Button_Next.IsEnabled = false;
                 }
                 else
@@ -109,7 +124,8 @@ public sealed partial class SelectDirectoryPage : Page
         catch (UnauthorizedAccessException ex)
         {
             _logger.LogWarning(ex, "No write permission.");
-            TargetDictionary = "选择的文件夹没有写入权限";
+            // 没有写入权限
+            TargetDictionary = Lang.SelectDirectoryPage_NoWritePermission;
             Button_Next.IsEnabled = false;
         }
         catch (Exception ex)

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
+using Starward.Helpers;
 using Starward.Models.GameSetting;
 using Starward.Services;
 using System;
@@ -36,6 +37,11 @@ public sealed partial class GameSettingPage : Page
     public GameSettingPage()
     {
         this.InitializeComponent();
+        TextBlockHelper.Inlines(
+            TextBlock_StartArgumentDesc.Inlines,
+            // 关于启动参数的信息请查看 {Unity Standalone Player Command Line Arguments}
+            Lang.GameSettingPage_StartArgumentDesc,
+            ("{Unity Standalone Player Command Line Arguments}", "https://docs.unity3d.com/Manual/PlayerCommandLineArguments.html"));
     }
 
 
@@ -73,7 +79,7 @@ public sealed partial class GameSettingPage : Page
     private bool isApplyButtonEnable;
 
     [ObservableProperty]
-    private string errorMessage = "游戏运行时应用的设置无法生效";
+    private string errorMessage = Lang.GameSettingPage_SettingNotEffect; // 游戏运行时应用的设置无法生效
 
 
     [ObservableProperty]
@@ -524,9 +530,10 @@ public sealed partial class GameSettingPage : Page
         {
             if (IsBaseSettingEnable)
             {
-                if (ResolutionWidth * ResolutionHeight == 0)
+                if (ResolutionWidth <= 0 || ResolutionHeight <= 0)
                 {
-                    ErrorMessage = "分辨率必须大于0";
+                    // 分辨率必须大于0
+                    ErrorMessage = Lang.GameSettingPage_ResolutionMustBeGreaterThan0;
                     return;
                 }
                 var model = new GraphicsSettings_PCResolution_h431323223
@@ -554,7 +561,8 @@ public sealed partial class GameSettingPage : Page
                     _gameSettingService.SetGraphicsSettingModel(gameBiz, null);
                 }
             }
-            ErrorMessage = "游戏运行时应用的设置无法生效";
+            // 游戏运行时应用的设置无法生效
+            ErrorMessage = Lang.GameSettingPage_SettingNotEffect;
             IsApplyButtonEnable = false;
         }
         catch (Exception ex)

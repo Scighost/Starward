@@ -166,6 +166,13 @@ internal abstract class AppConfig
     #region Static Setting
 
 
+    public static string? Language
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
     public static bool EnableConsole
     {
         get => GetValue<int>() != 0;

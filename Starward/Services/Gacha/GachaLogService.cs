@@ -49,8 +49,8 @@ internal abstract class GachaLogService
     {
         return biz switch
         {
-            GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_cloud => "祈愿记录",
-            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => "跃迁记录",
+            GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_cloud => Lang.GachaLogService_WishRecords,
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => Lang.GachaLogService_WarpRecords,
             _ => ""
         };
     }
@@ -125,11 +125,13 @@ internal abstract class GachaLogService
     public virtual async Task<int> GetGachaLogAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
     {
         using var dapper = _database.CreateConnection();
-        progress?.Report("正在获取 uid");
+        // 正在获取 uid
+        progress?.Report(Lang.GachaLogService_GettingUid);
         var uid = await _client.GetUidByGachaUrlAsync(url);
         if (uid == 0)
         {
-            progress?.Report($"该账户最近6个月没有抽卡记录");
+            // 该账号最近6个月没有抽卡记录
+            progress?.Report(Lang.GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months);
         }
         else
         {
@@ -139,7 +141,8 @@ internal abstract class GachaLogService
                 endId = dapper.QueryFirstOrDefault<long>($"SELECT Id FROM {GachaTableName} WHERE Uid = @Uid ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
                 _logger.LogInformation($"Last gacha log id of uid {uid} is {endId}");
             }
-            var internalProgress = new Progress<(GachaType GachaType, int Page)>((x) => progress?.Report($"正在获取 {x.GachaType.ToDescription()} 第 {x.Page} 页"));
+
+            var internalProgress = new Progress<(GachaType GachaType, int Page)>((x) => progress?.Report(string.Format(Lang.GachaLogService_GetGachaProgressText, x.GachaType.ToLocalization(), x.Page)));
             var list = (await _client.GetGachaLogAsync(url, endId, lang, internalProgress, cancellationToken)).ToList();
             if (cancellationToken.IsCancellationRequested)
             {
@@ -148,7 +151,8 @@ internal abstract class GachaLogService
             var oldCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
             InsertGachaLogItems(list);
             var newCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
-            progress?.Report($"获取 {list.Count} 条记录，新增 {newCount - oldCount} 条记录");
+            // 获取 {list.Count} 条记录，新增 {newCount - oldCount} 条记录
+            progress?.Report(string.Format(Lang.GachaLogService_GetGachaResult, list.Count, newCount - oldCount));
         }
         return uid;
     }

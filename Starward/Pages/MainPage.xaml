@@ -5,6 +5,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:s="using:Starward"
@@ -79,19 +80,19 @@
 
             <NavigationView.MenuItems>
                 <NavigationViewItem Name="NavigationViewItem_Launcher"
-                                    Content="启动器"
+                                    Content="{x:Bind lang:Lang.MainPage_Launcer}"
                                     Icon="Home"
                                     IsSelected="True"
                                     Tag="LauncherPage" />
                 <NavigationViewItem Name="NavigationViewItem_GameSetting"
-                                    Content="游戏设置"
+                                    Content="{x:Bind lang:Lang.LauncherPage_GameSetting}"
                                     Tag="GameSettingPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7FC;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Name="NavigationViewItem_Screenshot"
-                                    Content="游戏截图"
+                                    Content="{x:Bind lang:Lang.MainPage_GameScreenshot}"
                                     Tag="ScreenshotPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE91B;" />
@@ -105,7 +106,8 @@
             </NavigationView.MenuItems>
 
             <NavigationView.FooterMenuItems>
-                <NavigationViewItem Content="应用设置"
+                <NavigationViewItem Name="NavigationViewItem_Setting"
+                                    Content="{x:Bind lang:Lang.SettingPage_AppSettings}"
                                     Icon="Setting"
                                     Tag="SettingPage" />
             </NavigationView.FooterMenuItems>
@@ -250,10 +252,14 @@
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel MaxWidth="220" Spacing="4">
-                                    <TextBlock FontWeight="SemiBold" Text="如何切换游戏服务器？" />
-                                    <TextBlock FontSize="12"
+                                    <!--  如何切换游戏服务器？  -->
+                                    <TextBlock Name="TextBlock_SwitchRegionTitle"
+                                               FontWeight="SemiBold"
+                                               Text="{x:Bind lang:Lang.MainPage_HowToSwitchGameRegion}" />
+                                    <TextBlock Name="TextBlock_SwitchRegionContent"
+                                               FontSize="12"
                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="在左侧的游戏图标上点击鼠标左键切换为最近选择的服务器，点击鼠标右键在弹出的菜单中选择更多服务器。"
+                                               Text="{x:Bind lang:Lang.MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft}"
                                                TextWrapping="Wrap" />
                                 </StackPanel>
                             </Flyout>

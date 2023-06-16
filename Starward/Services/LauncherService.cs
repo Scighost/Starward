@@ -5,6 +5,7 @@ using Starward.Helpers;
 using Starward.Services.Cache;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
@@ -39,13 +40,14 @@ public class LauncherService
 
     public async Task<LauncherContent> GetLauncherContentAsync(GameBiz gameBiz)
     {
-        var content = MemoryCache.Instance.GetItem<LauncherContent>($"LauncherContent_{gameBiz}", TimeSpan.FromSeconds(10));
+        string lang = CultureInfo.CurrentUICulture.Name;
+        var content = MemoryCache.Instance.GetItem<LauncherContent>($"LauncherContent_{gameBiz}_{lang}", TimeSpan.FromSeconds(10));
         if (content != null)
         {
             return content;
         }
-        content = await _launcherClient.GetLauncherContentAsync(gameBiz);
-        MemoryCache.Instance.SetItem($"LauncherContent_{gameBiz}", content);
+        content = await _launcherClient.GetLauncherContentAsync(gameBiz, lang);
+        MemoryCache.Instance.SetItem($"LauncherContent_{gameBiz}_{lang}", content);
         return content;
     }
 

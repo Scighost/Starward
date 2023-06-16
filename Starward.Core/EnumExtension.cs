@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using Starward.Core.Gacha;
+using Starward.Core.Launcher;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace Starward.Core;
@@ -71,6 +73,37 @@ public static class EnumExtension
             GameBiz.bh3_overseas => GameRegistry.GamePath_bh3_overseas,
             GameBiz.bh3_tw => GameRegistry.GamePath_bh3_tw,
             _ => "HKEY_CURRENT_USER",
+        };
+    }
+
+
+    public static string ToLocalization(this GachaType gachaType)
+    {
+        return gachaType switch
+        {
+            GachaType.StellarWarp => Lang.GachaType_StellarWarp,
+            GachaType.DepartureWarp => Lang.GachaType_DepartureWarp,
+            GachaType.CharacterEventWarp => Lang.GachaType_CharacterEventWarp,
+            GachaType.LightConeEventWarp => Lang.GachaType_LightConeEventWarp,
+            GachaType.NoviceWish => Lang.GachaType_NoviceWish,
+            GachaType.PermanentWish => Lang.GachaType_PermanentWish,
+            GachaType.CharacterEventWish => Lang.GachaType_CharacterEventWish,
+            GachaType.CharacterEventWish_2 => Lang.GachaType_CharacterEventWish_2,
+            GachaType.WeaponEventWish => Lang.GachaType_WeaponEventWish,
+            _ => "",
+        };
+    }
+
+
+
+    public static string ToLocalization(this PostType postType)
+    {
+        return postType switch
+        {
+            PostType.POST_TYPE_ACTIVITY => Lang.PostType_Activity,
+            PostType.POST_TYPE_ANNOUNCE => Lang.PostType_Announcement,
+            PostType.POST_TYPE_INFO => Lang.PostType_Information,
+            _ => "",
         };
     }
 

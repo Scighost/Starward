@@ -58,7 +58,8 @@ public sealed partial class UpdatePage : Page
             if (NewVersion.DisableAutoUpdate)
             {
                 Button_Update.IsEnabled = false;
-                ErrorMessage = "新旧版本不兼容，需要重新下载完整文件";
+                // 你需要手动下载新版安装包
+                ErrorMessage = Lang.UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage;
             }
         }
     }
@@ -80,9 +81,9 @@ public sealed partial class UpdatePage : Page
     private bool isPreview = AppConfig.EnablePreviewRelease;
 
 #if (DEBUG || DEV) && !DISABLE_DEV
-    public string ChannelText => "开发版";
+    public string ChannelText => Lang.UpdatePage_DevChannel;
 #else
-    public string ChannelText => AppConfig.EnablePreviewRelease ? "预览版" : "正式版";
+    public string ChannelText => AppConfig.EnablePreviewRelease ? Lang.UpdatePage_PreviewChannel : Lang.UpdatePage_StableChannel;
 #endif
 
 
@@ -105,7 +106,7 @@ public sealed partial class UpdatePage : Page
                 if (NewVersion.DisableAutoUpdate)
                 {
                     Button_Update.IsEnabled = false;
-                    ErrorMessage = "新旧版本不兼容，需要重新下载完整文件";
+                    ErrorMessage = Lang.UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage;
                 }
             }
             try
@@ -249,7 +250,6 @@ public sealed partial class UpdatePage : Page
             ErrorMessage = null;
             Button_Update.IsEnabled = false;
             Button_RemindLatter.IsEnabled = false;
-            Button_IgnoreVersion.IsEnabled = false;
 
             if (newRelease is null)
             {
@@ -258,9 +258,8 @@ public sealed partial class UpdatePage : Page
                 {
                     IsProgressBarVisible = false;
                     Button_Update.IsEnabled = false;
-                    ErrorMessage = "新旧版本不兼容，需要重新下载完整文件";
+                    ErrorMessage = Lang.UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage;
                     Button_RemindLatter.IsEnabled = true;
-                    Button_IgnoreVersion.IsEnabled = true;
                     return;
                 }
             }
@@ -287,7 +286,6 @@ public sealed partial class UpdatePage : Page
             _logger.LogError(ex, "Update now");
             Button_Update.IsEnabled = true;
             Button_RemindLatter.IsEnabled = true;
-            Button_IgnoreVersion.IsEnabled = true;
         }
     }
 
@@ -335,7 +333,6 @@ public sealed partial class UpdatePage : Page
         {
             Button_Update.IsEnabled = false;
             Button_RemindLatter.IsEnabled = false;
-            Button_IgnoreVersion.IsEnabled = false;
             IsProgressBarVisible = true;
             IsProgressTextVisible = true;
             ProgresBar_Update.IsIndeterminate = false;
@@ -354,7 +351,6 @@ public sealed partial class UpdatePage : Page
             ErrorMessage = null;
             Button_Update.IsEnabled = true;
             Button_RemindLatter.IsEnabled = true;
-            Button_IgnoreVersion.IsEnabled = true;
         }
         if (_updateService.State is UpdateService.UpdateState.Error)
         {
@@ -363,7 +359,6 @@ public sealed partial class UpdatePage : Page
             ErrorMessage = _updateService.ErrorMessage;
             Button_Update.IsEnabled = true;
             Button_RemindLatter.IsEnabled = true;
-            Button_IgnoreVersion.IsEnabled = true;
         }
         if (_updateService.State is UpdateService.UpdateState.NotSupport)
         {
@@ -372,7 +367,6 @@ public sealed partial class UpdatePage : Page
             ErrorMessage = _updateService.ErrorMessage;
             Button_Update.IsEnabled = false;
             Button_RemindLatter.IsEnabled = true;
-            Button_IgnoreVersion.IsEnabled = true;
         }
     }
 
@@ -441,7 +435,6 @@ public sealed partial class UpdatePage : Page
         {
             Button_Update.IsEnabled = true;
             Button_RemindLatter.IsEnabled = true;
-            Button_IgnoreVersion.IsEnabled = true;
         }
     }
 

@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Core;
 using Starward.Core.Metadata;
+using Starward.Helpers;
 using Starward.Services.Cache;
 using System;
 using System.Collections.Generic;
@@ -43,8 +44,19 @@ public sealed partial class SelectGamePage : Page
     public SelectGamePage()
     {
         this.InitializeComponent();
+        InitializeSomeGame();
         compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
     }
+
+
+
+
+    private void InitializeSomeGame()
+    {
+        TextBlockHelper.Inlines(TextBlock_SomeGame.Inlines, Lang.SelectGamePage_SomeGame, ("{Starward}", null), ("{miHoYo/HoYoverse}", null));
+    }
+
+
 
 
     private List<GameInfo> games;

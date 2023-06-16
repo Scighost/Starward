@@ -5,6 +5,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages.Welcome"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       x:DefaultBindMode="OneWay"
@@ -23,16 +24,21 @@
                     Margin="0,48,96,96"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Spacing="40">
-            <TextBlock FontSize="20"
+                    Spacing="20">
+            <!--  很高兴遇见你~  -->
+            <TextBlock FontSize="24"
                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                       Text="很高兴遇见你~" />
-            <TextBlock FontSize="20" TextWrapping="Wrap">
-                <Run Text="这似乎是你第一次使用" />
-                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="Starward" />
-                <Run Text="，在开始之前，请选择一个文件夹保存应用数据。" />
-            </TextBlock>
+                       Text="{x:Bind lang:Lang.SelectDirectoryPage_NiceToMeetYou}" />
+            <!--  这似乎是你第一次使用 Starward，在开始之前，请选择一个文件夹保存应用数据。  -->
+            <TextBlock Name="TextBlock_FirstUse"
+                       FontSize="20"
+                       TextWrapping="Wrap" />
+            <TextBlock Margin="0,-20,0,0"
+                       FontSize="20"
+                       Text="{x:Bind lang:Lang.SelectDirectoryPage_ToStart}"
+                       TextWrapping="Wrap" />
             <Button Height="36"
+                    Margin="0,20,0,0"
                     BorderThickness="0"
                     Command="{x:Bind SelectDirectoryCommand}"
                     CornerRadius="18"
@@ -43,13 +49,12 @@
                     <FontIcon VerticalAlignment="Center"
                               FontSize="16"
                               Glyph="&#xE838;" />
-                    <TextBlock VerticalAlignment="Center" Text="选择文件夹" />
+                    <!--  选择文件夹  -->
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.SelectDirectoryPage_SelectFolder}" />
                 </StackPanel>
             </Button>
 
-            <TextBlock Margin="0,-24,0,0"
-                       Text="{x:Bind TargetDictionary}"
-                       TextWrapping="Wrap" />
+            <TextBlock Text="{x:Bind TargetDictionary}" TextWrapping="Wrap" />
 
         </StackPanel>
 
@@ -78,7 +83,8 @@
                           FontSize="16"
                           FontWeight="SemiBold"
                           Glyph="&#xEC52;" />
-                <TextBlock VerticalAlignment="Center" Text="选择语言" />
+                <!--  选择语言  -->
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.SelectDirectoryPage_SelectLanguage}" />
             </StackPanel>
         </Button>
 
@@ -100,7 +106,8 @@
             <StackPanel Margin="20,0,20,0"
                         Orientation="Horizontal"
                         Spacing="16">
-                <TextBlock VerticalAlignment="Center" Text="选择游戏" />
+                <!--  选择游戏  -->
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.SelectDirectoryPage_SelectGame}" />
                 <FontIcon VerticalAlignment="Bottom"
                           FontSize="16"
                           FontWeight="SemiBold"

@@ -31,7 +31,7 @@
 
 
         <Grid Grid.Column="1"
-              Margin="0,48,96,96"
+              Margin="0,48,48,96"
               Padding="24,12,24,12"
               HorizontalAlignment="Left"
               VerticalAlignment="Center"
@@ -43,16 +43,21 @@
                 <TextBlock FontSize="20"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                           Text="Select your language" />
-                <ComboBox MinWidth="200" PlaceholderText="Select your language">
-                    <ComboBoxItem Content="简体中文 (zh-CN)" />
+                           Text="Language" />
+                <ComboBox Name="ComboBox_Language"
+                          MinWidth="300"
+                          SelectedIndex="0"
+                          SelectionChanged="ComboBox_Language_SelectionChanged">
+                    <ComboBoxItem Content="Follow System (Fallback to English)" Tag="" />
+                    <ComboBoxItem Content="简体中文 (zh-CN, @Scighost)" Tag="zh-CN" />
+                    <ComboBoxItem Content="English (en-US, @Scighost)" Tag="en-US" />
                 </ComboBox>
 
                 <TextBlock Margin="0,8,0,0"
                            FontSize="20"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                           Text="Select your preferred window size" />
+                           Text="Windows Size" />
                 <StackPanel Orientation="Horizontal" Spacing="16">
                     <RadioButton Name="RadioButton_WindowSize_Normal"
                                  Click="RadioButton_WindowSize_Click"
@@ -78,11 +83,14 @@
                            FontSize="20"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                           Text="Select your preferred CDN" />
-                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="The application will download required resources from CloudFlare, please ensure it can be connected."
-                           TextWrapping="Wrap" />
-                <RadioButtons>
+                           Text="CDN" />
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap">
+                    <Run Text="For users in mainland China:" />
+                    <LineBreak />
+                    <Run Text="本应用将从 CloudFlare 下载所需的资源，请确保它可以正常连接。" />
+                </TextBlock>
+
+                <RadioButtons Margin="0,-8,0,0">
                     <RadioButton Name="RadioButton_CF"
                                  Click="RadioButton_CDN_Click"
                                  Tag="cf">

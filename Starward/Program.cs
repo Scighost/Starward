@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿global using Starward.Language;
+using Microsoft.Extensions.Configuration;
 using Starward.Core;
 using Starward.Services;
 using System;

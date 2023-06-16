@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Starward.Helpers;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -29,6 +30,7 @@ public partial class App : Application
         RequestedTheme = ApplicationTheme.Dark;
         UnhandledException += App_UnhandledException;
         InitializeConsoleOutput();
+        InitializeLanguage();
     }
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -92,6 +94,22 @@ public partial class App : Application
             Console.WriteLine();
             Console.ResetColor();
         });
+    }
+
+
+
+    private void InitializeLanguage()
+    {
+        try
+        {
+            var lang = AppConfig.Language;
+            Console.WriteLine($"Language is {lang}");
+            if (!string.IsNullOrWhiteSpace(lang))
+            {
+                CultureInfo.CurrentUICulture = new CultureInfo(lang);
+            }
+        }
+        catch { }
     }
 
 

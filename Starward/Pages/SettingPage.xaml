@@ -5,6 +5,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:s="using:Starward"
@@ -22,26 +23,52 @@
                     <ColumnDefinition Width="360" />
                 </Grid.ColumnDefinitions>
 
-                <!--  setting  -->
-                <StackPanel Spacing="12">
-                    <TextBlock FontSize="36"
+                <!--  Setting  -->
+                <StackPanel>
+                    <TextBlock FontSize="32"
                                FontWeight="Bold"
-                               Text="应用设置" />
+                               Text="{x:Bind lang:Lang.SettingPage_AppSettings}" />
 
-                    <!--  log  -->
-                    <TextBlock Margin="0,16,0,0"
+                    <!--  Language  -->
+                    <TextBlock Margin="0,20,0,0"
                                FontSize="20"
                                FontWeight="SemiBold"
-                               Text="日志" />
-                    <ToggleSwitch IsOn="{x:Bind EnableConsole, Mode=TwoWay}"
-                                  OffContent="显示控制台"
-                                  OnContent="显示控制台" />
-                    <TextBlock Margin="0,-8,0,0"
+                               Text="{x:Bind lang:Lang.SettingPage_Language}" />
+                    <Border Height="36"
+                            Margin="0,12,0,0"
+                            HorizontalAlignment="Left"
+                            Background="{ThemeResource CustomAcrylicBrush}"
+                            CornerRadius="18">
+                        <ComboBox Name="ComboBox_Language"
+                                  Height="36"
+                                  MinWidth="260"
+                                  Padding="18.5,0,0,0"
+                                  BorderThickness="0"
+                                  CornerRadius="18">
+                            <ComboBoxItem Content="{x:Bind lang:Lang.SettingPage_FollowSystem}" Tag="" />
+                            <ComboBoxItem Content="简体中文 (zh-CN, @Scighost)" Tag="zh-CN" />
+                            <ComboBoxItem Content="English (en-US, @Scighost)" Tag="en-US" />
+                        </ComboBox>
+                    </Border>
+
+
+                    <!--  Log  -->
+                    <TextBlock Margin="0,20,0,0"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Text="{x:Bind lang:Lang.SettingPage_Log}" />
+                    <!--  显示控制台  -->
+                    <ToggleSwitch Margin="0,8,0,0"
+                                  IsOn="{x:Bind EnableConsole, Mode=TwoWay}"
+                                  OffContent="{x:Bind lang:Lang.SettingPage_ShowConsole}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_ShowConsole}" />
+                    <!--  下次启动时生效  -->
+                    <TextBlock Margin="0,0,0,0"
                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                               Text="下次启动时生效"
+                               Text="{x:Bind lang:Lang.SettingPage_EffectiveAtNextStartup}"
                                TextWrapping="Wrap" />
                     <Button Height="40"
-                            Margin="-48,0,0,0"
+                            Margin="-48,12,0,0"
                             Padding="48,0,16,0"
                             BorderThickness="0"
                             Command="{x:Bind OpenLogFolderCommand}"
@@ -49,23 +76,25 @@
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xE838;" />
-                            <TextBlock Text="打开日志文件夹" />
+                            <TextBlock Text="{x:Bind lang:Lang.SettingPage_OpenLogFolder}" />
                         </StackPanel>
                     </Button>
 
-                    <!--  windows size  -->
-                    <TextBlock Margin="0,16,0,0"
+                    <!--  Window Size  -->
+                    <TextBlock Margin="0,20,0,0"
                                FontSize="20"
                                FontWeight="SemiBold"
-                               Text="窗口大小" />
-                    <StackPanel Orientation="Horizontal" Spacing="16">
+                               Text="{x:Bind lang:Lang.SettingPage_WindowsSize}" />
+                    <StackPanel Margin="0,12,0,0"
+                                Orientation="Horizontal"
+                                Spacing="16">
                         <RadioButton Name="RadioButton_WindowSize_Normal"
                                      Click="RadioButton_WindowSize_Click"
                                      GroupName="WindowSize"
                                      Tag="normal">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon FontSize="16" Glyph="&#xE740;" />
-                                <TextBlock Text="标准" />
+                                <TextBlock Text="{x:Bind lang:Lang.SettingPage_Normal}" />
                             </StackPanel>
                         </RadioButton>
                         <RadioButton Name="RadioButton_WindowSize_Small"
@@ -74,17 +103,17 @@
                                      Tag="small">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon FontSize="16" Glyph="&#xE73F;" />
-                                <TextBlock Text="较小" />
+                                <TextBlock Text="{x:Bind lang:Lang.SettingPage_Small}" />
                             </StackPanel>
                         </RadioButton>
                     </StackPanel>
 
-                    <!--  cdn  -->
-                    <TextBlock Margin="0,16,0,0"
+                    <!--  CDN  -->
+                    <TextBlock Margin="0,20,0,0"
                                FontSize="20"
                                FontWeight="SemiBold"
                                Text="CDN" />
-                    <RadioButtons>
+                    <RadioButtons Margin="0,4,0,0">
                         <RadioButton Name="RadioButton_CF"
                                      Click="RadioButton_CDN_Click"
                                      Tag="cf">
@@ -135,7 +164,7 @@
                         </RadioButton>
                     </RadioButtons>
                     <Button Height="40"
-                            Margin="-48,0,0,0"
+                            Margin="-48,12,0,0"
                             Padding="48,0,16,0"
                             BorderThickness="0"
                             Command="{x:Bind TestCDNCommand}"
@@ -143,24 +172,30 @@
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xF6FA;" />
-                            <TextBlock Text="网络测试" />
+                            <TextBlock Text="{x:Bind lang:Lang.SettingPage_TestNetwork}" />
                         </StackPanel>
                     </Button>
-                    <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                               Text="应用将从 CloudFlare 下载所需的资源，请确保它可以正常连接。"
+                    <!--  应用将从 CloudFlare 下载所需的资源，请确保它可以正常连接。  -->
+                    <TextBlock Margin="0,8,0,0"
+                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                               Text="{x:Bind lang:Lang.SettingPage_CloudFlareConnectProperly}"
                                TextWrapping="Wrap" />
 
                     <!--  bg  -->
-                    <TextBlock Margin="0,16,0,0"
+                    <TextBlock Margin="0,20,0,0"
                                FontSize="20"
                                FontWeight="SemiBold"
-                               Text="应用背景" />
-                    <ToggleSwitch IsOn="{x:Bind EnableCustomBg, Mode=TwoWay}"
-                                  OffContent="自定义背景（支持视频）"
-                                  OnContent="自定义背景（支持视频）" />
-                    <StackPanel Orientation="Horizontal" Spacing="16">
+                               Text="{x:Bind lang:Lang.SettingPage_AppBackground}" />
+                    <ToggleSwitch Margin="0,8,0,0"
+                                  IsOn="{x:Bind EnableCustomBg, Mode=TwoWay}"
+                                  OffContent="{x:Bind lang:Lang.SettingPage_CustomBackgroundSupportVideo}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_CustomBackgroundSupportVideo}" />
+                    <Grid Margin="-48,8,0,0" ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
                         <Button Height="40"
-                                Margin="-48,0,0,0"
                                 Padding="48,0,16,0"
                                 BorderThickness="0"
                                 Command="{x:Bind ChangeCustomBgCommand}"
@@ -169,11 +204,12 @@
                                 Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon Glyph="&#xE91B;" />
-                                <TextBlock Text="选择" />
+                                <TextBlock Text="{x:Bind lang:Lang.Common_Select}" />
                             </StackPanel>
                         </Button>
-                        <Grid Height="40"
-                              MaxWidth="480"
+                        <Grid Grid.Column="1"
+                              Height="40"
+                              HorizontalAlignment="Left"
                               Background="{ThemeResource CustomAcrylicBrush}"
                               CornerRadius="20"
                               Visibility="{x:Bind CustomBg, Converter={StaticResource ObjectToVisibilityConverter}}">
@@ -202,40 +238,52 @@
                                           Glyph="&#xE711;" />
                             </Button>
                         </Grid>
-                    </StackPanel>
-                    <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                               Text="请选择像素大小与应用窗口相匹配的图片，较大的图片会降低性能。"
+                    </Grid>
+                    <!--  请选择像素大小与应用窗口相匹配的图片，过大的图片会降低性能。  -->
+                    <TextBlock Margin="0,8,0,0"
+                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                               Text="{x:Bind lang:Lang.SettingPage_BgSizeTip}"
                                TextWrapping="Wrap" />
-                    <ToggleSwitch Margin="0,0,0,-8"
+                    <!--  动态主题色  -->
+                    <ToggleSwitch Margin="0,8,0,0"
                                   IsOn="{x:Bind EnableDynamicAccentColor, Mode=TwoWay}"
-                                  OffContent="动态主题色"
-                                  OnContent="动态主题色" />
-                    <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                               Text="根据背景图片自动计算主题颜色，关闭后使用系统主题色。"
+                                  OffContent="{x:Bind lang:Lang.SettingPage_DynamicThemeColor}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_DynamicThemeColor}" />
+                    <!--  根据背景图片自动计算主题颜色，关闭后使用系统主题色。  -->
+                    <TextBlock Margin="0,-4,0,0"
+                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                               Text="{x:Bind lang:Lang.SettingPage_ThemeColorDesc}"
                                TextWrapping="Wrap" />
-                    <ToggleSwitch IsOn="{x:Bind UseOneBg, Mode=TwoWay}"
-                                  OffContent="所有游戏使用相同的背景"
-                                  OnContent="所有游戏使用相同的背景" />
-                    <ToggleSwitch Margin="0,-4,0,0"
+                    <!--  所有游戏使用相同的背景  -->
+                    <ToggleSwitch Margin="0,8,0,0"
+                                  IsOn="{x:Bind UseOneBg, Mode=TwoWay}"
+                                  OffContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}" />
+                    <!--  切换到其他页面时暂停视频  -->
+                    <ToggleSwitch Margin="0,0,0,0"
                                   IsOn="{x:Bind PauseVideoWhenChangeToOtherPage, Mode=TwoWay}"
-                                  OffContent="切换到其他页面时暂停视频"
-                                  OnContent="切换到其他页面时暂停视频" />
+                                  OffContent="{x:Bind lang:Lang.SettingPage_PauseVideoWhenSwitchingToOtherPages}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_PauseVideoWhenSwitchingToOtherPages}" />
 
-                    <!--  update  -->
-                    <TextBlock Margin="0,16,0,0"
+                    <!--  Update  -->
+                    <TextBlock Margin="0,20,0,0"
                                FontSize="20"
                                FontWeight="SemiBold"
-                               Text="检查更新" />
-                    <StackPanel Orientation="Horizontal" Spacing="4">
-                        <TextBlock Text="当前版本：" />
+                               Text="{x:Bind lang:Lang.SettingPage_Update}" />
+                    <StackPanel Margin="0,12,0,0"
+                                Orientation="Horizontal"
+                                Spacing="4">
+                        <TextBlock Text="{x:Bind lang:Lang.SettingPage_CurrentVersion}" />
                         <TextBlock FontWeight="SemiBold"
                                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                    Text="{x:Bind s:AppConfig.AppVersion}" />
                     </StackPanel>
-                    <ToggleSwitch IsOn="{x:Bind EnablePreviewRelease, Mode=TwoWay}"
-                                  OffContent="加入预览版更新渠道"
-                                  OnContent="加入预览版更新渠道" />
-                    <StackPanel Orientation="Horizontal">
+                    <!--  加入预览版更新渠道  -->
+                    <ToggleSwitch Margin="0,8,0,0"
+                                  IsOn="{x:Bind EnablePreviewRelease, Mode=TwoWay}"
+                                  OffContent="{x:Bind lang:Lang.SettingPage_JoinPreviewReleaseChannel}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_JoinPreviewReleaseChannel}" />
+                    <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
                         <Button Height="40"
                                 Margin="-48,0,0,0"
                                 Padding="48,0,16,0"
@@ -245,7 +293,7 @@
                                 Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon Glyph="&#xE752;" />
-                                <TextBlock Text="检查更新" />
+                                <TextBlock Text="{x:Bind lang:Lang.SettingPage_CheckForUpdate}" />
                             </StackPanel>
                         </Button>
                         <Grid Width="40"
@@ -265,13 +313,13 @@
                                    Text="{x:Bind UpdateErrorText}" />
                     </StackPanel>
 
-                    <!--  file  -->
-                    <TextBlock Margin="0,16,0,0"
+                    <!--  File Manager  -->
+                    <TextBlock Margin="0,20,0,0"
                                FontSize="20"
                                FontWeight="SemiBold"
-                               Text="文件管理" />
+                               Text="{x:Bind lang:Lang.SettingPage_FileManager}" />
                     <Button Height="40"
-                            Margin="-48,0,0,0"
+                            Margin="-48,12,0,0"
                             Padding="48,0,16,0"
                             BorderThickness="0"
                             Command="{x:Bind OpenDataFolderCommand}"
@@ -279,11 +327,11 @@
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xE838;" />
-                            <TextBlock Text="打开数据文件夹" />
+                            <TextBlock Text="{x:Bind lang:Lang.SettingPage_OpenDataFolder}" />
                         </StackPanel>
                     </Button>
                     <Button Height="40"
-                            Margin="-48,0,0,0"
+                            Margin="-48,12,0,0"
                             Padding="48,0,16,0"
                             BorderThickness="0"
                             Command="{x:Bind ChangeDataFolderCommand}"
@@ -291,11 +339,11 @@
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xE8DE;" />
-                            <TextBlock Text="重新选择数据文件夹" />
+                            <TextBlock Text="{x:Bind lang:Lang.SettingPage_ReselectDataFolder}" />
                         </StackPanel>
                     </Button>
                     <Button Height="40"
-                            Margin="-48,0,0,0"
+                            Margin="-48,12,0,0"
                             Padding="48,0,16,0"
                             BorderThickness="0"
                             Command="{x:Bind DeleteAllSettingCommand}"
@@ -303,7 +351,7 @@
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xE74D;" />
-                            <TextBlock Text="删除所有设置" />
+                            <TextBlock Text="{x:Bind lang:Lang.SettingPage_DeleteAllSettings}" />
                         </StackPanel>
                     </Button>
                     <Button Height="40"
@@ -315,25 +363,25 @@
                             Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xEA99;" />
-                            <TextBlock Text="清除缓存文件" />
+                            <TextBlock Text="{x:Bind lang:Lang.SettingPage_ClearCachedFiles}" />
                         </StackPanel>
                     </Button>
 
                 </StackPanel>
 
 
-                <!--  about  -->
+                <!--  About  -->
                 <StackPanel Grid.Column="1">
                     <Border Height="160">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="假装这里有个 logo" />
+                                   Text="{x:Bind lang:Lang.SettingPage_ThisIsALogo}" />
                     </Border>
                     <TextBlock FontSize="20"
                                FontWeight="Bold"
-                               Text="关于" />
+                               Text="{x:Bind lang:Lang.SettingPage_About}" />
                     <TextBlock Margin="0,8,0,0">
                         <Run Text="Starward" />
                         <Run Text="{x:Bind s:AppConfig.AppVersion}" />
@@ -343,21 +391,21 @@
                         <Hyperlink NavigateUri="https://github.com/Scighost/Starward" UnderlineStyle="None">
                             <Run FontWeight="Bold"
                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                 Text="项目主页" />
+                                 Text="{x:Bind lang:Lang.SettingPage_ProjectHomepage}" />
                         </Hyperlink>
                     </TextBlock>
                     <TextBlock Margin="0,8,0,0">
                         <Hyperlink NavigateUri="https://github.com/Scighost/Starward/issues" UnderlineStyle="None">
                             <Run FontWeight="Bold"
                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                 Text="反馈问题" />
+                                 Text="{x:Bind lang:Lang.SettingPage_ReportIssue}" />
                         </Hyperlink>
                     </TextBlock>
                     <TextBlock Margin="0,8,0,0">
                         <Hyperlink NavigateUri="https://github.com/Scighost/Starward/releases" UnderlineStyle="None">
                             <Run FontWeight="Bold"
                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                 Text="更新记录" />
+                                 Text="{x:Bind lang:Lang.SettingPage_ReleaseHistroy}" />
                         </Hyperlink>
                     </TextBlock>
                 </StackPanel>

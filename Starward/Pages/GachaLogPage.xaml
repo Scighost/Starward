@@ -5,6 +5,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
@@ -24,7 +25,7 @@
                    VerticalAlignment="Center"
                    FontSize="20"
                    FontWeight="Bold"
-                   Text="{x:Bind Title}" />
+                   Text="{x:Bind GachaTypeText}" />
 
 
         <StackPanel Margin="0,0,24,0"
@@ -32,13 +33,14 @@
                     Orientation="Horizontal"
                     Spacing="16">
             <!--  Uid List  -->
+            <!--  没有抽卡记录  -->
             <ComboBox Name="ComboBox_Uid"
                       MinWidth="160"
                       VerticalAlignment="Center"
                       DropDownClosed="ComboBox_Uid_DropDownClosed"
                       DropDownOpened="ComboBox_Uid_DropDownOpened"
                       ItemsSource="{x:Bind UidList}"
-                      PlaceholderText="没有抽卡记录"
+                      PlaceholderText="{x:Bind lang:Lang.GachaLogPage_NoGachaRecords}"
                       SelectedItem="{x:Bind SelectUid, Mode=TwoWay}" />
             <!--  Update  -->
             <SplitButton Height="32" Command="{x:Bind UpdateGachaLogCommand}">
@@ -46,17 +48,21 @@
                     <FontIcon Margin="0,2,0,0"
                               FontSize="14"
                               Glyph="&#xE72C;" />
-                    <TextBlock Text="更新记录" />
+                    <!--  更新记录  -->
+                    <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_UpdateRecords}" />
                 </StackPanel>
                 <SplitButton.Flyout>
                     <MenuFlyout>
+                        <!--  更新 保存的 URL  -->
                         <MenuFlyoutItem Command="{x:Bind UpdateGachaLogCommand}"
                                         CommandParameter="cache"
-                                        Text="更新 (保存的 URL)" />
+                                        Text="{x:Bind lang:Lang.GachaLogPage_UpdateSavedURL}" />
+                        <!--  更新 全部  -->
                         <MenuFlyoutItem Command="{x:Bind UpdateGachaLogCommand}"
                                         CommandParameter="all"
-                                        Text="更新 (全部)" />
-                        <MenuFlyoutItem Command="{x:Bind InputUrlCommand}" Text="输入 URL" />
+                                        Text="{x:Bind lang:Lang.GachaLogPage_UpdateAll}" />
+                        <!--  输入 URL  -->
+                        <MenuFlyoutItem Command="{x:Bind InputUrlCommand}" Text="{x:Bind lang:Lang.GachaLogPage_InputURL}" />
                     </MenuFlyout>
                 </SplitButton.Flyout>
             </SplitButton>
@@ -66,38 +72,57 @@
                     <FontIcon Margin="0,2,0,0"
                               FontSize="14"
                               Glyph="&#xE713;" />
-                    <TextBlock Text="设置" />
+                    <!--  设置  -->
+                    <TextBlock Text="{x:Bind lang:Lang.Common_Setting}" />
                 </StackPanel>
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel MinWidth="200" Spacing="8">
+                            <!--  其他设置  -->
                             <TextBlock FontSize="16"
                                        FontWeight="SemiBold"
-                                       Text="其他设置" />
+                                       Text="{x:Bind lang:Lang.GachaLogPage_OtherSettings}" />
                             <Button Margin="0,8,0,0" Command="{x:Bind CopyUrlCommand}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon Name="FontIcon_CopyUrl"
                                               FontSize="16"
                                               Glyph="&#xE8C8;" />
-                                    <TextBlock Text="复制 URL" />
+                                    <!--  复制 URL  -->
+                                    <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_CopyURL}" />
                                 </StackPanel>
                             </Button>
+                            <!--  总是出现 Authkey Timeout  -->
                             <TextBlock Margin="0,8,0,0"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       Text="总是出现 Authkey Timeout？" />
+                                       Text="{x:Bind lang:Lang.GachaLogPage_AuthkeyTimeoutAlwaysOccurs}" />
                             <Button Command="{x:Bind DeleteGachaCacheFileCommand}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon FontSize="16" Glyph="&#xEA99;" />
-                                    <TextBlock Text="清除 URL 缓存文件" />
+                                    <!--  清除 URL 缓存文件  -->
+                                    <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_ClearURLCacheFiles}" />
                                 </StackPanel>
                             </Button>
-                            <TextBlock Margin="0,8,0,0"
-                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       Text="语言" />
+                            <!--  语言  -->
+                            <StackPanel Margin="0,4,0,0"
+                                        Orientation="Horizontal"
+                                        Spacing="8">
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.GachaLogPage_Language}" />
+                                <Button Padding="1"
+                                        VerticalAlignment="Bottom"
+                                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                    <FontIcon FontSize="12" Glyph="&#xE9CE;" />
+                                    <Button.Flyout>
+                                        <Flyout>
+                                            <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_GachaLanguageDesc}" />
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
                             <TextBox Text="{x:Bind GachaLanguage, Mode=TwoWay}" />
+                            <!--  导出为  -->
                             <TextBlock Margin="0,8,0,0"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       Text="导出为" />
+                                       Text="{x:Bind lang:Lang.GachaLogPage_ExportAs}" />
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
@@ -120,18 +145,21 @@
                                     <FontIcon Margin="0,2,0,0"
                                               FontSize="16"
                                               Glyph="&#xEA52;" />
-                                    <TextBlock Text="从 Json 导入" />
+                                    <!--  从 Json 导入  -->
+                                    <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_ImportFromJson}" />
                                 </StackPanel>
                             </Button>
+                            <!--  显示新手卡池  -->
                             <ToggleSwitch IsOn="{x:Bind ShowNoviceGacha, Mode=TwoWay}"
-                                          OffContent="显示新手卡池"
-                                          OnContent="显示新手卡池" />
+                                          OffContent="{x:Bind lang:Lang.GachaLogPage_ShowNoviceGachaType}"
+                                          OnContent="{x:Bind lang:Lang.GachaLogPage_ShowNoviceGachaType}" />
                             <Button Command="{x:Bind DeleteUidCommand}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon FontSize="14"
                                               Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                               Glyph="&#xE74D;" />
-                                    <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="删除记录" />
+                                    <!--  删除记录  -->
+                                    <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{x:Bind lang:Lang.GachaLogPage_DeleteRecords}" />
                                 </StackPanel>
                             </Button>
                         </StackPanel>

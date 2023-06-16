@@ -70,10 +70,14 @@ public sealed partial class DownloadGamePage : Page
         }
         var dialog = new ContentDialog
         {
-            Title = "关闭程序",
-            Content = "下次启动后可恢复下载；\r\n解压过程中关闭程序会造成游戏文件损坏。",
-            PrimaryButtonText = "关闭",
-            SecondaryButtonText = "取消",
+            // 关闭软件
+            Title = Lang.DownloadGamePage_CloseSoftware,
+            // 下次启动后可恢复下载；\r\n解压过程中关闭程序会造成游戏文件损坏。
+            Content = Lang.DownloadGamePage_CloseSoftwareContent,
+            // 关闭
+            PrimaryButtonText = Lang.DownloadGamePage_Close,
+            // 取消
+            SecondaryButtonText = Lang.Common_Cancel,
             DefaultButton = ContentDialogButton.Secondary,
             XamlRoot = this.XamlRoot,
         };
@@ -144,9 +148,12 @@ public sealed partial class DownloadGamePage : Page
         {
             var dialog = new ContentDialog
             {
-                Title = "重复启动",
-                Content = "程序即将退出",
-                PrimaryButtonText = "确定",
+                // 重复启动
+                Title = Lang.DownloadGamePage_RepeatStart,
+                // 程序即将退出
+                Content = Lang.DownloadGamePage_SoftwareWillBeExitedSoon,
+                // 确定
+                PrimaryButtonText = Lang.Common_Confirm,
                 XamlRoot = this.XamlRoot
             };
             await dialog.ShowAsync();
@@ -158,9 +165,12 @@ public sealed partial class DownloadGamePage : Page
             instance.UnregisterKey();
             var dialog = new ContentDialog
             {
-                Title = "参数错误",
-                Content = "程序即将退出",
-                PrimaryButtonText = "确定",
+                // 参数错误
+                Title = Lang.DownloadGamePage_ParameterError,
+                // 程序即将退出
+                Content = Lang.DownloadGamePage_SoftwareWillBeExitedSoon,
+                // 确定
+                PrimaryButtonText = Lang.Common_Confirm,
                 XamlRoot = this.XamlRoot
             };
             await dialog.ShowAsync();
@@ -172,9 +182,12 @@ public sealed partial class DownloadGamePage : Page
         {
             var dialog = new ContentDialog
             {
-                Title = "权限不足",
-                Content = "请使用管理员模式启动",
-                PrimaryButtonText = "确定",
+                // 权限不足
+                Title = Lang.DownloadGamePage_NoPermission,
+                // 请使用管理员身份启动
+                Content = Lang.DownloadGamePage_PleaseStartAsAdministrator,
+                // 确定
+                PrimaryButtonText = Lang.Common_Confirm,
                 XamlRoot = this.XamlRoot
             };
             await dialog.ShowAsync();
@@ -245,7 +258,7 @@ public sealed partial class DownloadGamePage : Page
 
 
     [ObservableProperty]
-    private string? actionButtonText = "开始";
+    private string? actionButtonText = Lang.DownloadGamePage_Start; // 开始
 
 
     [ObservableProperty]
@@ -285,7 +298,8 @@ public sealed partial class DownloadGamePage : Page
             }
             if (state is DownloadGameService.DownloadGameState.Preparing)
             {
-                StateText = "准备中";
+                // 准备中
+                StateText = Lang.DownloadGamePage_Preparing;
                 return;
             }
             if (state is DownloadGameService.DownloadGameState.Prepared)
@@ -301,7 +315,8 @@ public sealed partial class DownloadGamePage : Page
             }
             if (state is DownloadGameService.DownloadGameState.Downloading)
             {
-                StateText = "下载中";
+                // 下载中
+                StateText = Lang.DownloadGamePage_Downloading;
             }
             if (state is DownloadGameService.DownloadGameState.Downloaded)
             {
@@ -317,7 +332,8 @@ public sealed partial class DownloadGamePage : Page
             }
             if (state is DownloadGameService.DownloadGameState.Verifying)
             {
-                StateText = "校验中";
+                // 校验中
+                StateText = Lang.DownloadGamePage_Verifying;
             }
             if (state is DownloadGameService.DownloadGameState.Verified)
             {
@@ -340,7 +356,8 @@ public sealed partial class DownloadGamePage : Page
             }
             if (state is DownloadGameService.DownloadGameState.Decompressing)
             {
-                StateText = "解压中";
+                // 解压中
+                StateText = Lang.DownloadGamePage_Decompressing;
             }
             if (state is DownloadGameService.DownloadGameState.Decompressed)
             {
@@ -369,28 +386,34 @@ public sealed partial class DownloadGamePage : Page
         try
         {
             _timer.Stop();
-            StateText = "出错了";
+            // 出错了
+            StateText = Lang.DownloadGamePage_SomethingError;
             SpeedText = null;
             RemainTimeText = null;
             IsActionButtonEnable = true;
             ActionButtonIcon = StartIcon;
-            ActionButtonText = "重试";
+            // 重试
+            ActionButtonText = Lang.DownloadGamePage_Retry;
 
             var dialog = new ContentDialog()
             {
-                PrimaryButtonText = "打开日志",
-                SecondaryButtonText = "取消",
+                // 打开日志
+                PrimaryButtonText = Lang.DownloadGamePage_OpenLog,
+                // 取消
+                SecondaryButtonText = Lang.Common_Cancel,
                 DefaultButton = ContentDialogButton.Secondary,
                 XamlRoot = this.XamlRoot,
             };
             if (_downloadGameService.ErrorType is nameof(HttpRequestException))
             {
-                dialog.Title = "网络错误";
+                // 网络错误
+                dialog.Title = Lang.DownloadGamePage_NetworkError;
                 dialog.Content = _downloadGameService.ErrorMessage;
             }
             else
             {
-                dialog.Title = "未知错误";
+                // 未知错误
+                dialog.Title = Lang.DownloadGamePage_UnknownError;
                 dialog.Content = _downloadGameService.ErrorMessage;
             }
             if (await dialog.ShowAsync() is ContentDialogResult.Primary)
@@ -457,7 +480,8 @@ public sealed partial class DownloadGamePage : Page
         isFinish = true;
         IsActionButtonEnable = true;
         ActionButtonIcon = FinishIcon;
-        ActionButtonText = "完成";
+        // 已完成
+        ActionButtonText = Lang.DownloadGamePage_Finished;
         IsProgressStateVisible = false;
         ProgressValue = 100;
     }
@@ -487,7 +511,8 @@ public sealed partial class DownloadGamePage : Page
         _timer.Start();
         IsActionButtonEnable = true;
         ActionButtonIcon = PauseIcon;
-        ActionButtonText = "暂停";
+        // 暂停
+        ActionButtonText = Lang.DownloadGamePage_Pause;
 
         lastMilliseconds = _stopwatch.ElapsedMilliseconds;
         lastProgressBytes = _downloadGameService.ProgressBytes;
@@ -513,7 +538,8 @@ public sealed partial class DownloadGamePage : Page
             {
                 IsActionButtonEnable = false;
                 ActionButtonIcon = PauseIcon;
-                ActionButtonText = "校验中";
+                // 校验中
+                ActionButtonText = Lang.DownloadGamePage_Verifying;
                 tokenSource = new CancellationTokenSource();
                 await _downloadGameService.VerifySeparateFilesAsync(tokenSource.Token);
             }
@@ -521,7 +547,8 @@ public sealed partial class DownloadGamePage : Page
             {
                 IsActionButtonEnable = true;
                 ActionButtonIcon = NextIcon;
-                ActionButtonText = "跳过";
+                // 跳过
+                ActionButtonText = Lang.DownloadGamePage_Skip;
 
                 lastMilliseconds = _stopwatch.ElapsedMilliseconds;
                 lastProgressBytes = 0;
@@ -531,13 +558,17 @@ public sealed partial class DownloadGamePage : Page
                 {
                     var dialog = new ContentDialog
                     {
-                        Title = "校验失败",
+                        // 校验失败
+                        Title = Lang.DownloadGamePage_VerifyFailed,
+                        // 以下文件校验失败
                         Content = $"""
-                    以下文件校验失败：
-                    {string.Join("\r\n", list)}
-                    """,
-                        PrimaryButtonText = "重新下载",
-                        SecondaryButtonText = "忽略",
+                        Lang.DownloadGamePage_TheFollowingFileVerifyFailed
+                        {string.Join("\r\n", list)}
+                        """,
+                        // 重新下载
+                        PrimaryButtonText = Lang.DownloadGamePage_Redownload,
+                        // 忽略
+                        SecondaryButtonText = Lang.DownloadGamePage_Ignore,
                         DefaultButton = ContentDialogButton.Primary,
                         XamlRoot = this.XamlRoot,
                     };
@@ -566,7 +597,8 @@ public sealed partial class DownloadGamePage : Page
         _timer.Start();
         IsActionButtonEnable = false;
         ActionButtonIcon = ErrorIcon;
-        ActionButtonText = "不可中断";
+        // 终止
+        ActionButtonText = Lang.DownloadGamePage_Stop;
 
         lastMilliseconds = _stopwatch.ElapsedMilliseconds;
         lastProgressBytes = 0;
@@ -594,10 +626,14 @@ public sealed partial class DownloadGamePage : Page
                 }
                 var dialog = new ContentDialog
                 {
-                    Title = "跳过校验",
-                    Content = "解压未校验的文件可能会导致游戏文件损坏",
-                    PrimaryButtonText = "跳过",
-                    SecondaryButtonText = "取消",
+                    // 跳过校验
+                    Title = Lang.DownloadGamePage_SkipVerification,
+                    // 解压未校验的文件可能会导致游戏文件损坏
+                    Content = Lang.DownloadGamePage_SkipVerificationContent,
+                    // 跳过
+                    PrimaryButtonText = Lang.DownloadGamePage_Skip,
+                    // 取消
+                    SecondaryButtonText = Lang.Common_Cancel,
                     DefaultButton = ContentDialogButton.Secondary,
                     XamlRoot = this.XamlRoot,
                 };
@@ -611,8 +647,10 @@ public sealed partial class DownloadGamePage : Page
                 tokenSource?.Cancel();
                 _timer.Stop();
                 ActionButtonIcon = StartIcon;
-                ActionButtonText = "继续";
-                StateText = "下载已暂停";
+                // 继续
+                ActionButtonText = Lang.DownloadGamePage_Pause;
+                // 下载已暂停
+                StateText = Lang.DownloadGamePage_DownloadPaused;
                 SpeedText = null;
                 RemainTimeText = null;
             }
