@@ -37,4 +37,7 @@ public class GameAccount : ObservableObject
     }
 
 
+    public static string LoginAccountText => Lang.LauncherPage_CurrentAccount;
+
+
 }

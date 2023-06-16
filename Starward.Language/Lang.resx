@@ -575,7 +575,7 @@
     <value>Pre-Install</value>
   </data>
   <data name="LauncherPage_CurrentAccount" xml:space="preserve">
-    <value>Current Account</value>
+    <value>Current Login Account</value>
   </data>
   <data name="LauncherPage_SwitchAccount" xml:space="preserve">
     <value>Switch Account</value>

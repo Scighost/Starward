@@ -387,7 +387,7 @@
                                               FontSize="14"
                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                               Glyph="&#xE930;"
-                                              ToolTipService.ToolTip="{x:Bind lang:Lang.LauncherPage_CurrentAccount}"
+                                              ToolTipService.ToolTip="{Binding LoginAccountText}"
                                               Visibility="{Binding IsLogin}" />
                                 </Grid>
                             </DataTemplate>
