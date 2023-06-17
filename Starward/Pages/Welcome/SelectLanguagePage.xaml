@@ -48,7 +48,7 @@
                           MinWidth="300"
                           SelectedIndex="0"
                           SelectionChanged="ComboBox_Language_SelectionChanged">
-                    <ComboBoxItem Content="Follow System (Fallback to English)" Tag="" />
+                    <ComboBoxItem Content="Follow System" Tag="" />
                     <ComboBoxItem Content="简体中文 (zh-CN, @Scighost)" Tag="zh-CN" />
                     <ComboBoxItem Content="English (en-US, @Scighost)" Tag="en-US" />
                 </ComboBox>

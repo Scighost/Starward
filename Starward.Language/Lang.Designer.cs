@@ -1852,7 +1852,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Follow System (Fallback to English) 的本地化字符串。
+        ///   查找类似 Follow System 的本地化字符串。
         /// </summary>
         public static string SettingPage_FollowSystem {
             get {
