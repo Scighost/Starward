@@ -1,42 +1,68 @@
+English | [简体中文](./README.zh-CN.md)
+
+
 # What is Starward?
 
-**Starward** 出自星穹铁道开服前的宣传语———愿此行，终抵群星 (May This Journey Lead Us **Starward**)，虽然这不是一个正确的英文单词，但是很适合拿来用作应用名。本项目的灵感来自 [neon-nyan](https://github.com/neon-nyan) 大佬的米家启动器 [Collapse](https://github.com/neon-nyan/Collapse)，在此基础上我加入了自己需要但是 Collapse [不会实现的功能](https://github.com/neon-nyan/Collapse/blob/main/CONTRIBUTING.md#restrictions-for-new-features)。我要特别感谢 neon-nyan 和 Collapse，有此珠玉在前，我的开发过程顺利了很多。
+**Starward** comes from the slogan of Star Rail: May This Journey Lead Us **Starward**, witch is very suitable to be used as an app name. Starward is a game launcher that supports all desktop games of miHoYo. The goal of this project is to replace the official launcher completely, and then add some extended features.
 
-Starward 是一个米家游戏启动器，它除了提供了统一的启动游戏的入口外，还包含以下功能：
+In addition to the download and installation of the game, the following features are included:
 
-- 切换已登录的游戏账号
-- 浏览游戏截图
-- 保存抽卡记录
+- Record game time
+- Switching game accounts
+- View game screenshots
+- Save gacha records
 
-这些功能支持的游戏有：
+More features are being planned...
 
-- 原神（国服，国际服，云原神）
-- 崩坏：星穹铁道（国服，国际服）
+> Starward will not achieve features that require developers to continually update game data and resources, such as gacha item images.
 
-更多的功能和游戏支持正在开发中。。。
 
-> Starward 不会加入需要开发者持续更新游戏数据和资源的功能，比如给抽卡记录加上物品图片。
+## Download
 
-# 下载 & 更新
+> Only Windows 10 1809 (17763) and above are supported
 
-> 仅支持 Windows 10 1809 (17763) 及以上的版本
+You can download the latest release from the [Release](https://github.com/Scighost/Starward/releases) page. The app uses incremental updates, both easy and convenient.
 
-你可在 [Release](https://github.com/Scighost/Starward/releases) 页面下载最新发布的版本，应用使用增量更新的方式，既简单又便捷。
 
-你还可以在[这里](https://github.com/Scighost/Starward/tree/metadata/dev)找到每次提交代码后自动生成的版本，但是不能保证稳定性和兼容性。
+## Localization
 
-# 开发环境
+[![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress.1.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-CN)
+[![en-US translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress.0.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/en-US)
 
-在本地生成应用，你需要安装 Visual Studio 2022 并选择以下负载：
+Starward uses [Crowdin](https://crowdin.com/project/starward) for localization work, providing machine-turned English text as the original. You can help us translate and proofread the local language. If you would like to add a new translation language, please create an issue.
 
-- .NET 桌面开发
-- 使用 C++ 的桌面开发
-- 通用 Windows 平台开发
 
-单个组件中还需要勾选：
+## Development
 
-- Windows 应用 SDK C# 模板
-- Windows 11 SDK (10.0.22621.0)
-- MSVC v143 - VS 2022 C++ x64/x86 生成工具
-- MSVC v143 - VS 2022 C++ ARM64 生成工具 (可选)
+To compile the application locally, you need to install Visual Studio 2022 and select the following loads:
 
+- .NET Desktop Development
+- C++ Desktop Development
+- Universal Windows Platform Development
+
+
+## Thanks
+
+First of all, I'd like to thank [neon-nyan](https://github.com/neon-nyan) specially, whose project [Collapse](https://github.com/neon-nyan/Collapse) inspired this project. Starward not only used some resources he created, but also imitated the user interface design. I learned a lot from Collapse's code, and it made my development process much smoother.
+
+Then, thanks to CloudFlare for providing free CDN.
+
+<img alt="cloudflare" style="max-width: 300px;" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
+
+And the third-party libraries used in this project include:
+
+- [Dapper](https://github.com/DapperLib/Dapper)
+- [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
+- [HDiffPatch](https://github.com/sisong/HDiffPatch)
+- [Markdig](https://github.com/xoofx/markdig)
+- [MiniExcel](https://github.com/mini-software/MiniExcel)
+- [Serilog](https://github.com/serilog/serilog)
+- [SevenZipExtractor](https://github.com/adoconnection/SevenZipExtractor)
+- [Vanara PInvoke](https://github.com/dahall/Vanara)
+- [WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
+- [WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
+
+
+## Screenshot
+
+![screenshot](https://user-images.githubusercontent.com/61003590/246605666-56adfd7f-0e5f-471b-beeb-f6ec4430f89b.png)
