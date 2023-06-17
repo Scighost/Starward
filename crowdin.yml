@@ -1,0 +1,3 @@
+files:
+  - source: /Starward.Language/Lang.resx
+    translation: /Starward.Language/Lang.%locale%.resx
