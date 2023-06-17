@@ -833,7 +833,7 @@
     <value>Language</value>
   </data>
   <data name="SettingPage_FollowSystem" xml:space="preserve">
-    <value>Follow System (Fallback to English)</value>
+    <value>Follow System</value>
   </data>
   <data name="SelectDirectoryPage_ToStart" xml:space="preserve">
     <value>To start, please select a folder to save your app data.</value>
