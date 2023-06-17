@@ -833,8 +833,7 @@
     <value>语言</value>
   </data>
   <data name="SettingPage_FollowSystem" xml:space="preserve">
-    <value>跟随系统</value>
-    <comment>'(Fallback to English)' does not require translation</comment>
+    <value>Follow System</value>
   </data>
   <data name="SelectDirectoryPage_ToStart" xml:space="preserve">
     <value>在开始之前，请选择一个文件夹保存应用数据。</value>
