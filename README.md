@@ -65,4 +65,4 @@ And the third-party libraries used in this project include:
 
 ## Screenshot
 
-![screenshot](https://user-images.githubusercontent.com/61003590/246605666-56adfd7f-0e5f-471b-beeb-f6ec4430f89b.png)
+![screenshot](https://github.com/Scighost/Starward/assets/61003590/22dad10c-bc42-44a7-b47f-5a608dfc5b08)
