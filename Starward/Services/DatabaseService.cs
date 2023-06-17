@@ -192,7 +192,7 @@ internal class DatabaseService
 
 
 
-    private static List<string> DatabaseSqls = new() { Sql_v1, Sql_v2 };
+    private static readonly List<string> DatabaseSqls = new() { Sql_v1, Sql_v2, Sql_v3 };
 
 
     private const string Sql_v1 = """
@@ -283,6 +283,32 @@ internal class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_PlayTimeItem_State ON PlayTimeItem(State);
 
         PRAGMA USER_VERSION = 2;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v3 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS GameAccount_dg_tmp
+        (
+            SHA256  TEXT    NOT NULL,
+            GameBiz INTEGER NOT NULL,
+            Uid     INTEGER NOT NULL,
+            Name    TEXT    NOT NULL,
+            Value   BLOB    NOT NULL,
+            Time    TEXT    NOT NULL,
+            PRIMARY KEY (SHA256, GameBiz)
+        );
+
+        INSERT INTO GameAccount_dg_tmp(SHA256, GameBiz, Uid, Name, Value, Time)
+        SELECT SHA256, GameBiz, Uid, Name, Value, Time
+        FROM GameAccount;
+
+        DROP TABLE IF EXISTS GameAccount;
+        ALTER TABLE GameAccount_dg_tmp RENAME TO GameAccount;
+        CREATE INDEX IF NOT EXISTS IX_GameAccount_GameBiz ON GameAccount (GameBiz);
+
+        PRAGMA USER_VERSION = 3;
         COMMIT TRANSACTION;
         """;
 
