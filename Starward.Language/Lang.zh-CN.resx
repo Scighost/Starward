@@ -503,7 +503,7 @@
     <value>渲染精度</value>
   </data>
   <data name="GameSettingPage_FPS" xml:space="preserve">
-    <value>FPS</value>
+    <value>帧率</value>
   </data>
   <data name="GameSettingPage_VSync" xml:space="preserve">
     <value>垂直同步</value>
