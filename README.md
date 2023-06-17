@@ -47,7 +47,7 @@ First of all, I'd like to thank [neon-nyan](https://github.com/neon-nyan) specia
 
 Then, thanks to CloudFlare for providing free CDN.
 
-<img alt="cloudflare" style="max-width: 300px;" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
+<img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
 And the third-party libraries used in this project include:
 

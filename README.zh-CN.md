@@ -47,7 +47,7 @@ Starward 使用 [Crowdin](https://crowdin.com/project/starward) 进行本地化�
 
 其次，感谢 CloudFlare 提供的免费 CDN。
 
-<img alt="cloudflare" style="max-width: 300px;" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
+<img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
 本项目中使用到的第三方库包括：
 
