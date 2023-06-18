@@ -286,7 +286,8 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Downloading can be resumed after the next startup;\nclosing the program during decompression will cause game file corruption. 的本地化字符串。
+        ///   查找类似 Downloading can be resumed after the next startup;
+        ///closing the program during decompression will cause game file corruption. 的本地化字符串。
         /// </summary>
         public static string DownloadGamePage_CloseSoftwareContent {
             get {

@@ -259,7 +259,8 @@
     <value>Close Software</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
-    <value>Downloading can be resumed after the next startup;\nclosing the program during decompression will cause game file corruption.</value>
+    <value>Downloading can be resumed after the next startup;
+closing the program during decompression will cause game file corruption.</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
     <value>Close</value>
