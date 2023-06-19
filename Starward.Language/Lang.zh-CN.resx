@@ -199,7 +199,7 @@
     <value>剩余空间可能不足</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
-    <value>统计</value>
+    <value>保底</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
     <value>平均</value>
@@ -259,7 +259,8 @@
     <value>关闭程序</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
-    <value>下次启动后可恢复下载；\n解压过程中关闭程序会造成游戏文件损坏。</value>
+    <value>下次启动后可恢复下载；
+解压过程中关闭程序会造成游戏文件损坏。</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
     <value>关闭</value>
