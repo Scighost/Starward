@@ -16,14 +16,14 @@ public class LauncherClient
     /// <param name="httpClient"></param>
     public LauncherClient(HttpClient? httpClient = null)
     {
-        _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version30 };
+        _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
     }
 
 
 
     private async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken? cancellationToken = null) where T : class
     {
-        request.Version = HttpVersion.Version30;
+        request.Version = HttpVersion.Version20;
         var response = await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None);
         response.EnsureSuccessStatusCode();
         var responseData = await response.Content.ReadFromJsonAsync(typeof(MihoyoApiWrapper<T>), LauncherJsonContext.Default) as MihoyoApiWrapper<T>;

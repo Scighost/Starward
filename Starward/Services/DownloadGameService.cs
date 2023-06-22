@@ -703,7 +703,7 @@ internal partial class DownloadGameService
                             return;
                         }
                         _logger.LogInformation("Download Slice: FileName {name}, Url {url}", slice.FileName, slice.Url);
-                        var request = new HttpRequestMessage(HttpMethod.Get, slice.Url) { Version = HttpVersion.Version30, };
+                        var request = new HttpRequestMessage(HttpMethod.Get, slice.Url) { Version = HttpVersion.Version20, };
                         request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(slice.Range.Start + fs.Position, slice.Range.End - 1);
                         using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
                         response.EnsureSuccessStatusCode();
@@ -799,7 +799,7 @@ internal partial class DownloadGameService
                         }
                         var url = $"{sperateUrl}/{item.FileName.TrimStart('/')}";
                         _logger.LogInformation("Download file: FileName {name}, Url {url}", item.FileName, url);
-                        var request = new HttpRequestMessage(HttpMethod.Get, url) { Version = HttpVersion.Version30, };
+                        var request = new HttpRequestMessage(HttpMethod.Get, url) { Version = HttpVersion.Version20, };
                         request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(fs.Position, null);
                         using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
                         response.EnsureSuccessStatusCode();
