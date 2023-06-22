@@ -80,20 +80,21 @@ public partial class App : Application
 
     private void InitializeConsoleOutput()
     {
-        _ = Task.Run(() =>
+        try
         {
             if (AppConfig.EnableConsole)
             {
                 ConsoleHelper.Alloc();
                 ConsoleHelper.Show();
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.WriteLine($"Welcome to Starward v{AppConfig.AppVersion}");
+                Console.WriteLine(DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                Console.WriteLine(Environment.CommandLine);
+                Console.WriteLine();
+                Console.ResetColor();
             }
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine($"Welcome to Starward v{AppConfig.AppVersion}");
-            Console.WriteLine(DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            Console.WriteLine(Environment.CommandLine);
-            Console.WriteLine();
-            Console.ResetColor();
-        });
+        }
+        catch { }
     }
 
 
