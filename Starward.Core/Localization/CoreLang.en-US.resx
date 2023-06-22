@@ -118,45 +118,45 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>角色活动跃迁</value>
+    <value>Character Event Warp</value>
   </data>
   <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>角色活动祈愿</value>
+    <value>Character Event Wish</value>
   </data>
   <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>角色活动祈愿-2</value>
+    <value>Character Event Wish - 2</value>
   </data>
   <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>始发跃迁</value>
+    <value>Departure Warp</value>
   </data>
   <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>光锥活动跃迁</value>
+    <value>Light Cone Event Warp</value>
   </data>
   <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>新手祈愿</value>
+    <value>Novice Wish</value>
   </data>
   <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>常驻祈愿</value>
+    <value>Permanent Wish</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>群星跃迁</value>
+    <value>Stellar Warp</value>
   </data>
   <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>武器活动祈愿</value>
+    <value>Weapon Event Wish</value>
   </data>
   <data name="Gacha_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>无法解析跃迁记录的 URL</value>
+    <value>Cannot parse the warp record URL.</value>
   </data>
   <data name="Gacha_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>无法解析祈愿记录的 URL</value>
+    <value>Cannot parse the wish record URL.</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
-    <value>活动</value>
+    <value>Events</value>
   </data>
   <data name="PostType_Announcement" xml:space="preserve">
-    <value>公告</value>
+    <value>Notices</value>
   </data>
   <data name="PostType_Information" xml:space="preserve">
-    <value>资讯</value>
+    <value>Info</value>
   </data>
 </root>
