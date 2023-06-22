@@ -55,7 +55,7 @@ public class GenshinGachaClient : GachaLogClient
             }
             return gachaUrl;
         }
-        throw new ArgumentException(Lang.Core_CannotParseTheWishRecordURL);
+        throw new ArgumentException(CoreLang.Gacha_CannotParseTheWishRecordURL);
     }
 
 

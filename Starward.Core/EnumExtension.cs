@@ -81,15 +81,15 @@ public static class EnumExtension
     {
         return gachaType switch
         {
-            GachaType.StellarWarp => Lang.GachaType_StellarWarp,
-            GachaType.DepartureWarp => Lang.GachaType_DepartureWarp,
-            GachaType.CharacterEventWarp => Lang.GachaType_CharacterEventWarp,
-            GachaType.LightConeEventWarp => Lang.GachaType_LightConeEventWarp,
-            GachaType.NoviceWish => Lang.GachaType_NoviceWish,
-            GachaType.PermanentWish => Lang.GachaType_PermanentWish,
-            GachaType.CharacterEventWish => Lang.GachaType_CharacterEventWish,
-            GachaType.CharacterEventWish_2 => Lang.GachaType_CharacterEventWish_2,
-            GachaType.WeaponEventWish => Lang.GachaType_WeaponEventWish,
+            GachaType.StellarWarp => CoreLang.GachaType_StellarWarp,
+            GachaType.DepartureWarp => CoreLang.GachaType_DepartureWarp,
+            GachaType.CharacterEventWarp => CoreLang.GachaType_CharacterEventWarp,
+            GachaType.LightConeEventWarp => CoreLang.GachaType_LightConeEventWarp,
+            GachaType.NoviceWish => CoreLang.GachaType_NoviceWish,
+            GachaType.PermanentWish => CoreLang.GachaType_PermanentWish,
+            GachaType.CharacterEventWish => CoreLang.GachaType_CharacterEventWish,
+            GachaType.CharacterEventWish_2 => CoreLang.GachaType_CharacterEventWish_2,
+            GachaType.WeaponEventWish => CoreLang.GachaType_WeaponEventWish,
             _ => "",
         };
     }
@@ -100,9 +100,9 @@ public static class EnumExtension
     {
         return postType switch
         {
-            PostType.POST_TYPE_ACTIVITY => Lang.PostType_Activity,
-            PostType.POST_TYPE_ANNOUNCE => Lang.PostType_Announcement,
-            PostType.POST_TYPE_INFO => Lang.PostType_Information,
+            PostType.POST_TYPE_ACTIVITY => CoreLang.PostType_Activity,
+            PostType.POST_TYPE_ANNOUNCE => CoreLang.PostType_Announcement,
+            PostType.POST_TYPE_INFO => CoreLang.PostType_Information,
             _ => "",
         };
     }

@@ -55,7 +55,7 @@ public class StarRailGachaClient : GachaLogClient
             }
             return gachaUrl;
         }
-        throw new ArgumentException(Lang.Core_CannotParseTheWarpRecordURL);
+        throw new ArgumentException(CoreLang.Gacha_CannotParseTheWarpRecordURL);
     }
 
 

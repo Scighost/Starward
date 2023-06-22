@@ -1,1 +1,1 @@
-﻿global using Starward.Language;
+﻿global using Starward.Core.Localization;
