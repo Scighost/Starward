@@ -202,6 +202,7 @@ public sealed partial class MainPage : Page
     private void InitializeSelectGameBiz()
     {
         CurrentGameBiz = AppConfig.SelectGameBiz;
+        AppConfig.SetLastRegionOfGame(CurrentGameBiz.ToGame(), CurrentGameBiz);
         _logger.LogInformation("Select game region is {gamebiz}", CurrentGameBiz);
         if (CurrentGameBiz.ToGame() == GameBiz.None)
         {

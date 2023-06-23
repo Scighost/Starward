@@ -42,14 +42,14 @@ public sealed partial class MainWindow : Window
         Current = this;
         this.InitializeComponent();
         InitializeMainWindow();
-        if (AppConfig.ConfigDirectory is null)
+        if (AppConfig.UserDataFolder is null)
         {
             Console.WriteLine($"Config Directory is NULL");
             MainWindow_Frame.Content = new WelcomePage(true);
         }
         else
         {
-            Console.WriteLine($"Config Directory is '{AppConfig.ConfigDirectory}'");
+            Console.WriteLine($"Config Directory is '{AppConfig.UserDataFolder}'");
             MainWindow_Frame.Content = new MainPage();
         }
     }

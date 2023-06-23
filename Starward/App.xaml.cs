@@ -7,7 +7,6 @@ using Starward.Helpers;
 using System;
 using System.Globalization;
 using System.IO;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 
 // To learn more about WinUI, the WinUI project structure,

@@ -90,15 +90,9 @@ public sealed partial class DownloadGamePage : Page
     private void InitializeGameBiz()
     {
         var args = Environment.GetCommandLineArgs();
-        var config = new ConfigurationBuilder().AddCommandLine(args).Build();
-        var str_biz = config["biz"];
-        var str_loc = config["loc"];
-        var str_lang = config["lang"];
-        Enum.TryParse(str_biz, out GameBiz biz);
-        int.TryParse(str_lang, out int lang);
-        gameBiz = biz;
-        gameFolder = str_loc!;
-        voiceLanguage = (VoiceLanguage)lang;
+        gameBiz = AppConfig.Configuration.GetValue<GameBiz>("biz");
+        gameFolder = AppConfig.Configuration.GetValue<string>("loc")!;
+        voiceLanguage = AppConfig.Configuration.GetValue<VoiceLanguage>("lang");
         if (args[1].ToLower() is "repair")
         {
             repairMode = true;

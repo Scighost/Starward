@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Serilog;
@@ -14,7 +16,9 @@ using Starward.Services;
 using Starward.Services.Gacha;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -24,7 +28,7 @@ using System.Text.Json;
 
 namespace Starward;
 
-internal abstract class AppConfig
+internal static class AppConfig
 {
 
 
@@ -38,7 +42,7 @@ internal abstract class AppConfig
     public static string? AppVersion { get; private set; }
 
 
-    public static string ConfigDirectory { get; private set; }
+    public static IConfigurationRoot Configuration { get; private set; }
 
 
     public static string LogFile { get; private set; }
@@ -47,22 +51,115 @@ internal abstract class AppConfig
     public static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
 
 
-    private static readonly Dictionary<string, object?> cache = new();
-
-
     private static IServiceProvider _serviceProvider;
 
+
+    private static bool reg;
 
 
     static AppConfig()
     {
+        LoadConfiguration();
+    }
+
+
+
+
+    #region UserData
+
+
+    private static bool enableConsole;
+    public static bool EnableConsole
+    {
+        get => enableConsole;
+        set
+        {
+            enableConsole = value;
+            SaveConfiguration();
+        }
+    }
+
+    private static string userDataFolder;
+    public static string UserDataFolder
+    {
+        get => userDataFolder;
+        set
+        {
+            userDataFolder = value;
+            SaveConfiguration();
+        }
+    }
+
+
+
+    private static void LoadConfiguration()
+    {
         try
         {
             AppVersion = typeof(AppConfig).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-            var cd = Registry.GetValue(REG_KEY_NAME, nameof(ConfigDirectory), null) as string;
-            if (Directory.Exists(cd))
+            string? baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'));
+            string exe = Path.Join(baseDir, "Starward.exe");
+            var builder = new ConfigurationBuilder();
+            if (File.Exists(exe))
             {
-                ConfigDirectory = cd;
+                string ini = Path.Join(baseDir, "config.ini");
+                if (File.Exists(ini))
+                {
+                    builder.AddIniFile(ini);
+                }
+                Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
+                enableConsole = Configuration.GetValue<bool>(nameof(EnableConsole));
+                string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
+                if (!string.IsNullOrWhiteSpace(dir))
+                {
+                    var folder = Path.Join(baseDir, dir);
+                    if (Directory.Exists(folder))
+                    {
+                        userDataFolder = Path.GetFullPath(folder);
+                    }
+                }
+            }
+            else
+            {
+                reg = true;
+                Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
+                enableConsole = Registry.GetValue(REG_KEY_NAME, nameof(EnableConsole), null) is 1;
+                string? dir = Registry.GetValue(REG_KEY_NAME, nameof(UserDataFolder), null) as string;
+                if (Directory.Exists(dir))
+                {
+                    userDataFolder = Path.GetFullPath(dir);
+                }
+            }
+        }
+        catch
+        {
+            Configuration ??= new ConfigurationBuilder().AddCommandLine(Environment.GetCommandLineArgs()).Build();
+        }
+    }
+
+
+
+    private static void SaveConfiguration()
+    {
+        try
+        {
+            if (reg)
+            {
+                Registry.SetValue(REG_KEY_NAME, nameof(EnableConsole), EnableConsole ? 1 : 0);
+                Registry.SetValue(REG_KEY_NAME, nameof(UserDataFolder), UserDataFolder);
+            }
+            else
+            {
+                string dataFolder = UserDataFolder;
+                string baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'))!;
+                if (dataFolder?.StartsWith(baseDir) ?? false)
+                {
+                    dataFolder = Path.GetRelativePath(baseDir, dataFolder);
+                }
+                File.WriteAllText(Path.Combine(baseDir, "config.ini"), $"""
+                 {nameof(EnableConsole)}={EnableConsole}
+                 {nameof(UserDataFolder)}={dataFolder}
+                 """);
             }
         }
         catch { }
@@ -70,18 +167,8 @@ internal abstract class AppConfig
 
 
 
-    public static void SetConfigDirectory(string value)
-    {
-        if (Directory.Exists(value))
-        {
-            ConfigDirectory = value;
-            Registry.SetValue(REG_KEY_NAME, nameof(ConfigDirectory), value);
-        }
-        else
-        {
-            throw new DirectoryNotFoundException(value);
-        }
-    }
+
+    #endregion
 
 
 
@@ -126,7 +213,7 @@ internal abstract class AppConfig
             sc.AddSingleton<LauncherClient>();
             sc.AddSingleton(p => new MetadataClient(ApiCDNIndex, p.GetService<HttpClient>()));
 
-            sc.AddSingleton(p => new DatabaseService(p.GetService<ILogger<DatabaseService>>()!, ConfigDirectory));
+            sc.AddSingleton(p => new DatabaseService(p.GetService<ILogger<DatabaseService>>()!, UserDataFolder));
             sc.AddSingleton<GameService>();
             sc.AddSingleton<UpdateService>();
             sc.AddSingleton<LauncherService>();
@@ -173,13 +260,6 @@ internal abstract class AppConfig
     }
 
 
-    public static bool EnableConsole
-    {
-        get => GetValue<int>() != 0;
-        set => SetValue(value ? 1 : 0);
-    }
-
-
     public static int WindowSizeMode
     {
         get => GetValue<int>();
@@ -196,8 +276,8 @@ internal abstract class AppConfig
 
     public static bool EnablePreviewRelease
     {
-        get => GetValue<int>() != 0;
-        set => SetValue(value ? 1 : 0);
+        get => GetValue<bool>();
+        set => SetValue(value);
     }
 
 
@@ -210,8 +290,8 @@ internal abstract class AppConfig
 
     public static bool EnableAutoBackupDatabase
     {
-        get => GetValue<int>(1) != 0;
-        set => SetValue(value ? 1 : 0);
+        get => GetValue(true);
+        set => SetValue(value);
     }
 
 
@@ -224,15 +304,15 @@ internal abstract class AppConfig
 
     public static bool EnableBannerAndPost
     {
-        get => GetValue<int>(1) != 0;
-        set => SetValue(value ? 1 : 0);
+        get => GetValue(true);
+        set => SetValue(value);
     }
 
 
     public static bool IgnoreRunningGame
     {
-        get => GetValue<int>() != 0;
-        set => SetValue(value ? 1 : 0);
+        get => GetValue<bool>();
+        set => SetValue(value);
     }
 
 
@@ -245,8 +325,8 @@ internal abstract class AppConfig
 
     public static bool ShowNoviceGacha
     {
-        get => GetValue<int>() != 0;
-        set => SetValue(value ? 1 : 0);
+        get => GetValue<bool>();
+        set => SetValue(value);
     }
 
 
@@ -259,8 +339,8 @@ internal abstract class AppConfig
 
     public static bool EnableDynamicAccentColor
     {
-        get => GetValue<int>(1) != 0;
-        set => SetValue(value ? 1 : 0);
+        get => GetValue(true);
+        set => SetValue(value);
     }
 
 
@@ -280,15 +360,15 @@ internal abstract class AppConfig
 
     public static bool PauseVideoWhenChangeToOtherPage
     {
-        get => GetValue<int>() != 0;
-        set => SetValue(value ? 1 : 0);
+        get => GetValue<bool>();
+        set => SetValue(value);
     }
 
 
     public static bool UseOneBg
     {
-        get => GetValue<int>() != 0;
-        set => SetValue(value ? 1 : 0);
+        get => GetValue<bool>();
+        set => SetValue(value);
     }
 
 
@@ -327,12 +407,12 @@ internal abstract class AppConfig
 
     public static bool GetEnableCustomBg(GameBiz biz)
     {
-        return GetValue<int>(default, UseOneBg ? $"enable_custom_bg_{GameBiz.All}" : $"enable_custom_bg_{biz}") != 0;
+        return GetValue<bool>(default, UseOneBg ? $"enable_custom_bg_{GameBiz.All}" : $"enable_custom_bg_{biz}");
     }
 
     public static void SetEnableCustomBg(GameBiz biz, bool value)
     {
-        SetValue(value ? 1 : 0, UseOneBg ? $"enable_custom_bg_{GameBiz.All}" : $"enable_custom_bg_{biz}");
+        SetValue(value, UseOneBg ? $"enable_custom_bg_{GameBiz.All}" : $"enable_custom_bg_{biz}");
     }
 
 
@@ -351,12 +431,12 @@ internal abstract class AppConfig
 
     public static bool GetEnableThirdPartyTool(GameBiz biz)
     {
-        return GetValue<int>(default, $"enable_third_party_tool_{biz}") != 0;
+        return GetValue<bool>(default, $"enable_third_party_tool_{biz}");
     }
 
     public static void SetEnableThirdPartyTool(GameBiz biz, bool value)
     {
-        SetValue(value ? 1 : 0, $"enable_third_party_tool_{biz}");
+        SetValue(value, $"enable_third_party_tool_{biz}");
     }
 
 
@@ -418,6 +498,33 @@ internal abstract class AppConfig
 
 
 
+    private static DatabaseService DatabaseService;
+
+    private static Dictionary<string, string?> cache;
+
+
+    private static void InitializeSettingProvider()
+    {
+        try
+        {
+            DatabaseService ??= GetService<DatabaseService>();
+            if (cache is null)
+            {
+                if (reg)
+                {
+                    cache = new();
+                }
+                else
+                {
+                    using var dapper = DatabaseService.CreateConnection();
+                    cache = dapper.Query<(string Key, string? Value)>("SELECT Key, Value FROM Setting;").ToDictionary(x => x.Key, x => x.Value);
+                }
+            }
+        }
+        catch { }
+    }
+
+
 
     private static T? GetValue<T>(T? defaultValue = default, [CallerMemberName] string? key = null)
     {
@@ -425,18 +532,28 @@ internal abstract class AppConfig
         {
             return defaultValue;
         }
+        if (string.IsNullOrWhiteSpace(UserDataFolder))
+        {
+            return defaultValue;
+        }
+        InitializeSettingProvider();
         try
         {
-            if (cache.TryGetValue(key, out var value))
+            if (cache.TryGetValue(key, out string? value))
             {
-                if (value is T)
-                {
-                    return (T)value;
-                }
+                return ConvertFromString(value, defaultValue);
             }
-            value = Registry.GetValue(REG_KEY_NAME, key, defaultValue);
+            if (reg)
+            {
+                value = Registry.GetValue(REG_KEY_NAME, key, null) as string;
+            }
+            else
+            {
+                using var dapper = DatabaseService.CreateConnection();
+                value = dapper.QueryFirstOrDefault<string>("SELECT Value FROM Setting WHERE Key=@key LIMIT 1;", new { key });
+            }
             cache[key] = value;
-            return (T?)(value ?? defaultValue);
+            return ConvertFromString(value, defaultValue);
         }
         catch
         {
@@ -445,6 +562,20 @@ internal abstract class AppConfig
     }
 
 
+    private static T? ConvertFromString<T>(string? value, T? defaultValue = default)
+    {
+        if (value is null)
+        {
+            return defaultValue;
+        }
+        var converter = TypeDescriptor.GetConverter(typeof(T));
+        if (converter == null)
+        {
+            return defaultValue;
+        }
+        return (T?)converter.ConvertFromString(value);
+    }
+
 
     private static void SetValue<T>(T? value, [CallerMemberName] string? key = null)
     {
@@ -452,30 +583,63 @@ internal abstract class AppConfig
         {
             return;
         }
+        if (string.IsNullOrWhiteSpace(UserDataFolder))
+        {
+            return;
+        }
+        InitializeSettingProvider();
         try
         {
-            if (cache.TryGetValue(key, out var cacheValue))
+            string? val = value?.ToString();
+            if (cache.TryGetValue(key, out string? cacheValue))
             {
-                if (cacheValue is T t && t.Equals(value))
+                if (cacheValue == val)
                 {
                     return;
                 }
             }
-            cache[key] = value;
-            if (value is null)
+            cache[key] = val;
+            if (reg)
             {
+                if (val is null)
+                {
 #if (DEBUG || DEV) && !DISABLE_DEV
-                Registry.CurrentUser.OpenSubKey(@"Software\Starward_Dev", true)?.DeleteValue(key, false);
+                    Registry.CurrentUser.OpenSubKey(@"Software\Starward_Dev", true)?.DeleteValue(key, false);
 #else
-                Registry.CurrentUser.OpenSubKey(@"Software\Starward", true)?.DeleteValue(key, false);
+                    Registry.CurrentUser.OpenSubKey(@"Software\Starward", true)?.DeleteValue(key, false);
 #endif
+                }
+                else
+                {
+                    Registry.SetValue(REG_KEY_NAME, key, val);
+                }
             }
             else
             {
-                Registry.SetValue(REG_KEY_NAME, key, value);
+                using var dapper = DatabaseService.CreateConnection();
+                dapper.Execute("INSERT OR REPLACE INTO Setting (Key, Value) VALUES (@key, @val);", new { key, val });
             }
         }
         catch { }
+    }
+
+
+
+    public static void DeleteAllSettings()
+    {
+        if (reg)
+        {
+#if (DEBUG || DEV) && !DISABLE_DEV
+            Registry.CurrentUser.OpenSubKey(@"Software", true)?.DeleteSubKeyTree("Starward_Dev");
+#else
+            Registry.CurrentUser.OpenSubKey(@"Software", true)?.DeleteSubKeyTree("Starward");
+#endif
+        }
+        else
+        {
+            using var dapper = DatabaseService.CreateConnection();
+            dapper.Execute("DELETE FROM Setting WHERE TRUE;");
+        }
     }
 
 

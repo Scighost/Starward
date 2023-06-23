@@ -104,8 +104,8 @@ public sealed partial class SelectGamePage : Page
     {
         try
         {
+            WelcomePage.Current.ApplySetting();
             AppConfig.SelectGameBiz = SelectBiz;
-            AppConfig.SetConfigDirectory(WelcomePage.Current.ConfigDirectory);
             if (Grid_GameInfo.Opacity == 1)
             {
                 logoAction.Execute(this, null!);
@@ -168,7 +168,6 @@ public sealed partial class SelectGamePage : Page
         {
             _logger.LogInformation("Change game region to {gamebiz}", biz);
             SelectBiz = biz;
-            AppConfig.SetLastRegionOfGame(biz.ToGame(), biz);
             UpdateButtonEffect();
             if (SelectBiz != GameBiz.None)
             {

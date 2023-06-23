@@ -115,7 +115,7 @@ public sealed partial class SelectDirectoryPage : Page
                     var file = Path.Combine(selectFolder, Random.Shared.Next(int.MaxValue).ToString());
                     await File.WriteAllTextAsync(file, "");
                     File.Delete(file);
-                    WelcomePage.Current.ConfigDirectory = selectFolder;
+                    WelcomePage.Current.UserDataFolder = selectFolder;
                     TargetDictionary = selectFolder;
                     Button_Next.IsEnabled = true;
                 }

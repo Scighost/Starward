@@ -16,10 +16,10 @@ int wmain(int argc, wchar_t* argv[])
 	std::wstring run_exe, arg = std::wstring(GetCommandLine()).substr(std::wstring(argv[0]).length() + 2);
 
 	auto base_folder = path(argv[0]).parent_path();
-	auto config = path(base_folder).append("config.ini");
-	if (exists(config))
+	auto version = path(base_folder).append("version.ini");
+	if (exists(version))
 	{
-		INIReader ini(config.string());
+		INIReader ini(version.string());
 		if (ini.ParseError() == 0)
 		{
 			auto app_folder = ini.Get("", "app_folder", "");

@@ -59,7 +59,7 @@ public class LauncherService
         return Path.GetExtension(name) switch
         {
             ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm" => name,
-            _ => Path.Join(AppConfig.ConfigDirectory, "bg", name),
+            _ => Path.Join(AppConfig.UserDataFolder, "bg", name),
         };
     }
 
@@ -78,7 +78,7 @@ public class LauncherService
             _logger.LogWarning("Image file not found '{file}'", file);
         }
         name = AppConfig.GetBg(gameBiz);
-        file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
+        file = Path.Join(AppConfig.UserDataFolder, "bg", name);
         if (File.Exists(file))
         {
             return file;
@@ -114,11 +114,11 @@ public class LauncherService
             url = content.BackgroundImage.Background;
         }
         name = Path.GetFileName(url);
-        file = Path.Join(AppConfig.ConfigDirectory, "bg", name);
+        file = Path.Join(AppConfig.UserDataFolder, "bg", name);
         if (!File.Exists(file))
         {
             var bytes = await _httpClient.GetByteArrayAsync(url);
-            Directory.CreateDirectory(Path.Combine(AppConfig.ConfigDirectory, "bg"));
+            Directory.CreateDirectory(Path.Combine(AppConfig.UserDataFolder, "bg"));
             await File.WriteAllBytesAsync(file, bytes);
         }
         AppConfig.SetBg(gameBiz, name);
@@ -160,7 +160,7 @@ public class LauncherService
                     using var fs = File.OpenRead(file);
                     var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
                     var name = Path.GetFileName(file);
-                    var dest = Path.Combine(AppConfig.ConfigDirectory, "bg", name);
+                    var dest = Path.Combine(AppConfig.UserDataFolder, "bg", name);
                     if (file != dest)
                     {
                         File.Copy(file, dest, true);

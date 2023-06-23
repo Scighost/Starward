@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Starward.Core;
 using Starward.Services;
-using System;
 
 namespace Starward;
 
@@ -24,13 +23,10 @@ public static class Program
 
         if (args.Length > 0)
         {
-            var config = new ConfigurationBuilder().AddCommandLine(args).Build();
             if (args[0].ToLower() is "playtime")
             {
-                var str_biz = config["biz"];
-                var str_pid = config["pid"];
-                int.TryParse(str_pid, out int pid);
-                Enum.TryParse(str_biz, out GameBiz biz);
+                int pid = AppConfig.Configuration.GetValue<int>("pid");
+                GameBiz biz = AppConfig.Configuration.GetValue<GameBiz>("biz");
                 if (pid > 0 && biz > 0)
                 {
                     var playtime = AppConfig.GetService<PlayTimeService>();

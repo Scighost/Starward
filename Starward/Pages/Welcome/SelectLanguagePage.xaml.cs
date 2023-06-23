@@ -37,7 +37,7 @@ public sealed partial class SelectLanguagePage : Page
     public SelectLanguagePage()
     {
         this.InitializeComponent();
-        AppConfig.Language = null;
+        WelcomePage.Current.TextLanguage = null!;
         CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
         switch (AppConfig.ApiCDNIndex)
         {
@@ -75,13 +75,17 @@ public sealed partial class SelectLanguagePage : Page
         {
             if (sender is FrameworkElement fe)
             {
-                var index = fe.Tag switch
+                switch (fe.Tag)
                 {
-                    "small" => 1,
-                    _ => 0,
-                };
-                AppConfig.WindowSizeMode = index;
-                MainWindow.Current.ResizeToCertainSize();
+                    case "small":
+                        WelcomePage.Current.WindowSizeMode = 1;
+                        MainWindow.Current.ResizeToCertainSize(1064, 648);
+                        break;
+                    default:
+                        WelcomePage.Current.WindowSizeMode = 0;
+                        MainWindow.Current.ResizeToCertainSize(1280, 768);
+                        break;
+                }
             }
         }
         catch { }
@@ -180,7 +184,7 @@ public sealed partial class SelectLanguagePage : Page
                 _ => 0,
             };
             _metadataClient.SetApiPrefix(index);
-            AppConfig.ApiCDNIndex = index;
+            WelcomePage.Current.ApiCDNIndex = index;
         }
     }
 
@@ -194,7 +198,7 @@ public sealed partial class SelectLanguagePage : Page
             {
                 var lang = item.Tag as string;
                 _logger.LogInformation("Language change to {lang}", lang);
-                AppConfig.Language = lang;
+                WelcomePage.Current.TextLanguage = lang!;
                 if (string.IsNullOrWhiteSpace(lang))
                 {
                     CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
@@ -203,8 +207,6 @@ public sealed partial class SelectLanguagePage : Page
                 {
                     CultureInfo.CurrentUICulture = new CultureInfo(lang);
                 }
-                MainPage.Current.ReloadTextForLanguage();
-                MainPage.Current.NavigateTo(typeof(SettingPage), infoOverride: new Microsoft.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
             }
         }
         catch (CultureNotFoundException)

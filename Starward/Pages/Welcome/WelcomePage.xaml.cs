@@ -18,7 +18,14 @@ public sealed partial class WelcomePage : Page
 
     public static WelcomePage Current { get; private set; }
 
-    public string ConfigDirectory { get; set; }
+
+    public string TextLanguage { get; set; }
+
+    public int WindowSizeMode { get; set; }
+
+    public int ApiCDNIndex { get; set; }
+
+    public string UserDataFolder { get; set; }
 
 
     public WelcomePage()
@@ -49,6 +56,15 @@ public sealed partial class WelcomePage : Page
     public void NavigateTo(Type page, object parameter, NavigationTransitionInfo infoOverride)
     {
         frame.Navigate(page, parameter, infoOverride);
+    }
+
+
+    public void ApplySetting()
+    {
+        AppConfig.UserDataFolder = UserDataFolder;
+        AppConfig.Language = TextLanguage;
+        AppConfig.WindowSizeMode = WindowSizeMode;
+        AppConfig.ApiCDNIndex = ApiCDNIndex;
     }
 
 

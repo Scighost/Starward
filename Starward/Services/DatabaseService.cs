@@ -73,7 +73,7 @@ internal class DatabaseService
                 GetValue<string>("AutoBackupDatabase", out var lastTime);
                 if ((DateTime.Now - lastTime).TotalDays > interval)
                 {
-                    var dir = Path.Combine(AppConfig.ConfigDirectory, "Backup");
+                    var dir = Path.Combine(AppConfig.UserDataFolder, "Backup");
                     Directory.CreateDirectory(dir);
                     var file = Path.Combine(dir, $"Database_{DateTime.Now:yyyyMMdd}.db");
                     using var backupCon = new SqliteConnection($"DataSource={file};");
@@ -192,7 +192,7 @@ internal class DatabaseService
 
 
 
-    private static readonly List<string> DatabaseSqls = new() { Sql_v1, Sql_v2, Sql_v3 };
+    private static readonly List<string> DatabaseSqls = new() { Sql_v1, Sql_v2, Sql_v3, Sql_v4 };
 
 
     private const string Sql_v1 = """
@@ -309,6 +309,19 @@ internal class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_GameAccount_GameBiz ON GameAccount (GameBiz);
 
         PRAGMA USER_VERSION = 3;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v4 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS Setting
+        (
+            Key   TEXT PRIMARY KEY,
+            Value TEXT
+        );
+
+        PRAGMA USER_VERSION = 4;
         COMMIT TRANSACTION;
         """;
 

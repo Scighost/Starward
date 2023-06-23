@@ -17,6 +17,6 @@ $env:Path += ';C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\C
 
 msbuild Starward.Launcher "-property:Configuration=Release;Platform=$Architecture;OutDir=$(Resolve-Path "build/Starward/")";
 
-Add-Content "build/Starward/config.ini" -Value "app_folder=app-$Version`r`nexe_name=Starward.exe";
+Add-Content "build/Starward/version.ini" -Value "app_folder=app-$Version`r`nexe_name=Starward.exe";
 
 Remove-Item "build/Starward/Starward.pdb" -Force;

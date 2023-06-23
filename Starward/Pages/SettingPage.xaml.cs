@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.Metadata;
 using Starward.Helpers;
@@ -480,8 +479,8 @@ public sealed partial class SettingPage : Page
     {
         try
         {
-            _logger.LogInformation("Open folder '{folder}'", AppConfig.ConfigDirectory);
-            await Launcher.LaunchFolderPathAsync(AppConfig.ConfigDirectory);
+            _logger.LogInformation("Open folder '{folder}'", AppConfig.UserDataFolder);
+            await Launcher.LaunchFolderPathAsync(AppConfig.UserDataFolder);
         }
         catch { }
     }
@@ -500,7 +499,7 @@ public sealed partial class SettingPage : Page
                 Content = $"""
                 {Lang.SettingPage_TheCurrentLocationOfTheDataFolderIs}
 
-                {AppConfig.ConfigDirectory}
+                {AppConfig.UserDataFolder}
 
                 {Lang.SettingPage_WouldLikeToReselectDataFolder}
                 """,
@@ -512,13 +511,9 @@ public sealed partial class SettingPage : Page
             var result = await dialog.ShowAsync();
             if (result is ContentDialogResult.Primary)
             {
+                AppConfig.UserDataFolder = null!;
                 AppConfig.ResetServiceProvider();
                 MainWindow.Current.NavigateTo(typeof(WelcomePage), null, new Microsoft.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo());
-#if (DEBUG || DEV) && !DISABLE_DEV
-                Registry.CurrentUser.OpenSubKey(@"Software\Starward_Dev", true)?.DeleteValue("ConfigDirectory", false);
-#else
-                Registry.CurrentUser.OpenSubKey(@"Software\Starward", true)?.DeleteValue("ConfigDirectory", false);
-#endif
             }
         }
         catch (Exception ex)
@@ -546,11 +541,7 @@ public sealed partial class SettingPage : Page
             var result = await dialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-#if (DEBUG || DEV) && !DISABLE_DEV
-                Registry.CurrentUser.OpenSubKey(@"Software", true)?.DeleteSubKeyTree("Starward_Dev");
-#else
-                Registry.CurrentUser.OpenSubKey(@"Software", true)?.DeleteSubKeyTree("Starward");
-#endif
+                AppConfig.DeleteAllSettings();
                 var exe = Process.GetCurrentProcess().MainModule?.FileName;
                 if (File.Exists(exe))
                 {
