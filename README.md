@@ -1,5 +1,4 @@
-English | [简体中文](./README.zh-CN.md)
-
+English | [简体中文](./README.zh-CN.md) | [Tiếng Việt](./README.vi-VN.md)
 
 # What is Starward?
 
@@ -7,15 +6,14 @@ English | [简体中文](./README.zh-CN.md)
 
 In addition to the download and installation of the game, the following features are included:
 
-- Record game time
-- Switch game accounts
-- View game screenshots
-- Save gacha records
+-  Record game time
+-  Switch game accounts
+-  View game screenshots
+-  Save gacha records
 
 More features are being planned...
 
 > Starward will not achieve features that require developers to continually update game data and resources, such as gacha item images.
-
 
 ## Download
 
@@ -23,24 +21,21 @@ More features are being planned...
 
 You can download the latest release from the [Release](https://github.com/Scighost/Starward/releases) page. The app uses incremental updates, both easy and convenient.
 
-
 ## Localization
 
-[![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-CN)
-[![en-US translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en-US%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/en-US)
-[![vi-VN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/en-US)
+[![zh-CN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/zh-CN)
+[![en-US translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en-US%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/en-US)
+[![vi-VN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/en-US)
 
 Starward uses [Crowdin](https://crowdin.com/project/starward) for localization work, providing machine translated English text as the original. You can help us translate and proofread the local language, and we look forward to having more people participate. If you would like to add a new translation language, please create an issue.
-
 
 ## Development
 
 To compile the project locally, you need to install Visual Studio 2022 and select the following workloads:
 
-- .NET Desktop Development
-- C++ Desktop Development
-- Universal Windows Platform Development
-
+-  .NET Desktop Development
+-  C++ Desktop Development
+-  Universal Windows Platform Development
 
 ## Thanks
 
@@ -52,17 +47,16 @@ Then, thanks to CloudFlare for providing free CDN.
 
 And the third-party libraries used in this project include:
 
-- [Dapper](https://github.com/DapperLib/Dapper)
-- [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
-- [HDiffPatch](https://github.com/sisong/HDiffPatch)
-- [Markdig](https://github.com/xoofx/markdig)
-- [MiniExcel](https://github.com/mini-software/MiniExcel)
-- [Serilog](https://github.com/serilog/serilog)
-- [SevenZipExtractor](https://github.com/adoconnection/SevenZipExtractor)
-- [Vanara PInvoke](https://github.com/dahall/Vanara)
-- [WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
-- [WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
-
+-  [Dapper](https://github.com/DapperLib/Dapper)
+-  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
+-  [HDiffPatch](https://github.com/sisong/HDiffPatch)
+-  [Markdig](https://github.com/xoofx/markdig)
+-  [MiniExcel](https://github.com/mini-software/MiniExcel)
+-  [Serilog](https://github.com/serilog/serilog)
+-  [SevenZipExtractor](https://github.com/adoconnection/SevenZipExtractor)
+-  [Vanara PInvoke](https://github.com/dahall/Vanara)
+-  [WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
+-  [WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
 
 ## Screenshot
 
