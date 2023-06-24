@@ -752,7 +752,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Report Issue</value>
   </data>
   <data name="SettingPage_ReleaseHistroy" xml:space="preserve">
-    <value>Release Histroy</value>
+    <value>Release History</value>
   </data>
   <data name="SettingPage_ThisIsALogo" xml:space="preserve">
     <value>This is a Logo</value>
@@ -797,7 +797,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Download Portable</value>
   </data>
   <data name="UpdatePage_RemindLatter" xml:space="preserve">
-    <value>Remind me Latter</value>
+    <value>Remind me Later</value>
   </data>
   <data name="UpdatePage_IgnoreThisVersion" xml:space="preserve">
     <value>Ignore this Version</value>
