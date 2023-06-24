@@ -15,7 +15,7 @@ public class StarRailRole
 
     [JsonPropertyName("game_uid")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Uid { get; set; }
+    public long Uid { get; set; }
 
 
     [JsonPropertyName("nickname")]

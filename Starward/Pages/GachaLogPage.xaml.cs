@@ -81,12 +81,12 @@ public sealed partial class GachaLogPage : Page
 
 
     [ObservableProperty]
-    private ObservableCollection<int> uidList;
+    private ObservableCollection<long> uidList;
 
 
     [ObservableProperty]
-    private int selectUid;
-    partial void OnSelectUidChanged(int value)
+    private long selectUid;
+    partial void OnSelectUidChanged(long value)
     {
         AppConfig.SetLastUidInGachaLogPage(gameBiz.ToGame(), value);
         UpdateGachaTypeStats(value);
@@ -163,7 +163,7 @@ public sealed partial class GachaLogPage : Page
 
 
 
-    private void UpdateGachaTypeStats(int uid)
+    private void UpdateGachaTypeStats(long uid)
     {
         try
         {
@@ -451,7 +451,7 @@ public sealed partial class GachaLogPage : Page
             {
                 return;
             }
-            int uid = SelectUid;
+            long uid = SelectUid;
             var ext = format switch
             {
                 "excel" => "xlsx",

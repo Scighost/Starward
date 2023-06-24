@@ -9,7 +9,7 @@ public class GachaLogUrl
     public GachaLogUrl() { }
 
 
-    public GachaLogUrl(GameBiz gameBiz, int uid, string url)
+    public GachaLogUrl(GameBiz gameBiz, long uid, string url)
     {
         GameBiz = gameBiz;
         Uid = uid;
@@ -21,7 +21,7 @@ public class GachaLogUrl
     public GameBiz GameBiz { get; set; }
 
 
-    public int Uid { get; set; }
+    public long Uid { get; set; }
 
 
     public string Url { get; set; }

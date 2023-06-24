@@ -9,7 +9,7 @@ public class LedgerMonthData
 {
 
     [JsonIgnore]
-    public int Uid { get; set; }
+    public long Uid { get; set; }
 
 
     [JsonIgnore]

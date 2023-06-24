@@ -61,7 +61,7 @@ internal class GenshinGachaService : GachaLogService
 
 
 
-    public override async Task ExportGachaLogAsync(int uid, string file, string format)
+    public override async Task ExportGachaLogAsync(long uid, string file, string format)
     {
         if (format is "excel")
         {
@@ -75,7 +75,7 @@ internal class GenshinGachaService : GachaLogService
 
 
 
-    private async Task ExportAsJsonAsync(int uid, string output)
+    private async Task ExportAsJsonAsync(long uid, string output)
     {
         using var dapper = _database.CreateConnection();
         var list = dapper.Query<UIAFItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
@@ -85,7 +85,7 @@ internal class GenshinGachaService : GachaLogService
     }
 
 
-    private async Task ExportAsExcelAsync(int uid, string output)
+    private async Task ExportAsExcelAsync(long uid, string output)
     {
         using var dapper = _database.CreateConnection();
         var list = GetGachaLogItemEx(uid);
@@ -98,14 +98,14 @@ internal class GenshinGachaService : GachaLogService
 
 
 
-    public override int ImportGachaLog(string file)
+    public override long ImportGachaLog(string file)
     {
         var str = File.ReadAllText(file);
         var obj = JsonSerializer.Deserialize<UIAFObj>(str);
         if (obj != null)
         {
-            var lang = obj.info.lang ?? "";
-            int uid = obj.info.uid;
+            string lang = obj.info.lang ?? "";
+            long uid = obj.info.uid;
             foreach (var item in obj.list)
             {
                 if (item.Lang is null)
@@ -131,7 +131,7 @@ internal class GenshinGachaService : GachaLogService
     {
         public UIAFObj() { }
 
-        public UIAFObj(int uid, List<UIAFItem> list)
+        public UIAFObj(long uid, List<UIAFItem> list)
         {
             this.info = new UIAFInfo(uid, list);
             foreach (var item in list)
@@ -155,7 +155,7 @@ internal class GenshinGachaService : GachaLogService
     private class UIAFInfo
     {
         [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-        public int uid { get; set; }
+        public long uid { get; set; }
 
         public string lang { get; set; }
 
@@ -172,7 +172,7 @@ internal class GenshinGachaService : GachaLogService
 
         public UIAFInfo() { }
 
-        public UIAFInfo(int uid, List<UIAFItem> list)
+        public UIAFInfo(long uid, List<UIAFItem> list)
         {
             this.uid = uid;
             lang = list.FirstOrDefault()?.Lang ?? "";

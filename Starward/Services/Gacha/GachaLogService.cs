@@ -57,15 +57,15 @@ internal abstract class GachaLogService
 
 
 
-    public virtual List<int> GetUids()
+    public virtual List<long> GetUids()
     {
         using var dapper = _database.CreateConnection();
-        return dapper.Query<int>($"SELECT DISTINCT Uid FROM {GachaTableName};").ToList();
+        return dapper.Query<long>($"SELECT DISTINCT Uid FROM {GachaTableName};").ToList();
     }
 
 
 
-    public virtual List<GachaLogItemEx> GetGachaLogItemEx(int uid)
+    public virtual List<GachaLogItemEx> GetGachaLogItemEx(long uid)
     {
         using var dapper = _database.CreateConnection();
         var list = dapper.Query<GachaLogItemEx>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
@@ -97,9 +97,9 @@ internal abstract class GachaLogService
 
 
 
-    public virtual async Task<int> GetUidFromGachaLogUrl(string url)
+    public virtual async Task<long> GetUidFromGachaLogUrl(string url)
     {
-        var uid = await _client.GetUidByGachaUrlAsync(url);
+        long uid = await _client.GetUidByGachaUrlAsync(url);
         if (uid > 0)
         {
             using var dapper = _database.CreateConnection();
@@ -110,7 +110,7 @@ internal abstract class GachaLogService
 
 
 
-    public virtual string? GetGachaLogUrlByUid(int uid)
+    public virtual string? GetGachaLogUrlByUid(long uid)
     {
         using var dapper = _database.CreateConnection();
         return dapper.QueryFirstOrDefault<string>("SELECT Url FROM GachaLogUrl WHERE Uid = @uid AND GameBiz = @GameBiz LIMIT 1;", new { uid, GameBiz });
@@ -122,7 +122,7 @@ internal abstract class GachaLogService
 
 
 
-    public virtual async Task<int> GetGachaLogAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
+    public virtual async Task<long> GetGachaLogAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
     {
         using var dapper = _database.CreateConnection();
         // 正在获取 uid
@@ -162,7 +162,7 @@ internal abstract class GachaLogService
 
 
 
-    public virtual List<GachaTypeStats> GetGachaTypeStats(int uid)
+    public virtual List<GachaTypeStats> GetGachaTypeStats(long uid)
     {
         var statsList = new List<GachaTypeStats>();
         using var dapper = _database.CreateConnection();
@@ -208,7 +208,7 @@ internal abstract class GachaLogService
 
 
 
-    public virtual int DeleteUid(int uid)
+    public virtual int DeleteUid(long uid)
     {
         using var dapper = _database.CreateConnection();
         return dapper.Execute($"DELETE FROM {GachaTableName} WHERE Uid = @uid;", new { uid });
@@ -219,12 +219,12 @@ internal abstract class GachaLogService
 
 
 
-    public abstract Task ExportGachaLogAsync(int uid, string file, string format);
+    public abstract Task ExportGachaLogAsync(long uid, string file, string format);
 
 
 
 
-    public abstract int ImportGachaLog(string file);
+    public abstract long ImportGachaLog(string file);
 
 
 

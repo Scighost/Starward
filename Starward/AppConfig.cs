@@ -465,12 +465,12 @@ internal static class AppConfig
 
 
 
-    public static int GetLastUidInGachaLogPage(GameBiz biz)
+    public static long GetLastUidInGachaLogPage(GameBiz biz)
     {
-        return GetValue<int>(default, $"last_gacha_uid_{biz}");
+        return GetValue<long>(default, $"last_gacha_uid_{biz}");
     }
 
-    public static void SetLastUidInGachaLogPage(GameBiz biz, int value)
+    public static void SetLastUidInGachaLogPage(GameBiz biz, long value)
     {
         SetValue(value, $"last_gacha_uid_{biz}");
     }

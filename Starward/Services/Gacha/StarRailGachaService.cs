@@ -58,7 +58,7 @@ internal class StarRailGachaService : GachaLogService
 
 
 
-    public override async Task ExportGachaLogAsync(int uid, string file, string format)
+    public override async Task ExportGachaLogAsync(long uid, string file, string format)
     {
         if (format is "excel")
         {
@@ -72,7 +72,7 @@ internal class StarRailGachaService : GachaLogService
 
 
 
-    private async Task ExportAsJsonAsync(int uid, string output)
+    private async Task ExportAsJsonAsync(long uid, string output)
     {
         using var dapper = _database.CreateConnection();
         var list = dapper.Query<StarRailGachaItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
@@ -82,7 +82,7 @@ internal class StarRailGachaService : GachaLogService
     }
 
 
-    private async Task ExportAsExcelAsync(int uid, string output)
+    private async Task ExportAsExcelAsync(long uid, string output)
     {
         using var dapper = _database.CreateConnection();
         var list = GetGachaLogItemEx(uid);
@@ -96,14 +96,14 @@ internal class StarRailGachaService : GachaLogService
 
 
 
-    public override int ImportGachaLog(string file)
+    public override long ImportGachaLog(string file)
     {
         var str = File.ReadAllText(file);
         var obj = JsonSerializer.Deserialize<SRGFObj>(str);
         if (obj != null)
         {
             var lang = obj.info.lang ?? "";
-            int uid = obj.info.uid;
+            long uid = obj.info.uid;
             foreach (var item in obj.list)
             {
                 if (item.Lang is null)
@@ -117,7 +117,7 @@ internal class StarRailGachaService : GachaLogService
             }
             var count = InsertGachaLogItems(obj.list.ToList<GachaLogItem>());
             // 成功导入跃迁记录 {count} 条
-            NotificationBehavior.Instance.Success($"Uid {obj.info.uid}", string.Format(Lang.StarRailGachaService_ImportWarpRecordsSuccessfully), 5000);
+            NotificationBehavior.Instance.Success($"Uid {obj.info.uid}", string.Format(Lang.StarRailGachaService_ImportWarpRecordsSuccessfully, count), 5000);
             return obj.info.uid;
         }
         return 0;
@@ -130,7 +130,7 @@ internal class StarRailGachaService : GachaLogService
     {
         public SRGFObj() { }
 
-        public SRGFObj(int uid, List<StarRailGachaItem> list)
+        public SRGFObj(long uid, List<StarRailGachaItem> list)
         {
             this.info = new SRGFInfo(uid, list);
             this.list = list;
@@ -145,7 +145,7 @@ internal class StarRailGachaService : GachaLogService
     private class SRGFInfo
     {
         [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-        public int uid { get; set; }
+        public long uid { get; set; }
 
         public string lang { get; set; }
 
@@ -162,7 +162,7 @@ internal class StarRailGachaService : GachaLogService
 
         public SRGFInfo() { }
 
-        public SRGFInfo(int uid, List<StarRailGachaItem> list)
+        public SRGFInfo(long uid, List<StarRailGachaItem> list)
         {
             this.uid = uid;
             lang = list.FirstOrDefault()?.Lang ?? "";

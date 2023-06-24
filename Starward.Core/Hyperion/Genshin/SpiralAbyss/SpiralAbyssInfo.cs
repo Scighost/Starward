@@ -8,7 +8,7 @@ public class SpiralAbyssInfo
     [JsonIgnore]
     public int Id { get; set; }
 
-    public int Uid { get; set; }
+    public long Uid { get; set; }
 
     [JsonPropertyName("schedule_id")]
     public int ScheduleId { get; set; }

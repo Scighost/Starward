@@ -12,7 +12,7 @@ public class LedgerDetailItem
     [JsonIgnore]
     public int Id { get; set; }
 
-    public int Uid { get; set; }
+    public long Uid { get; set; }
 
     /// <summary>
     /// 202304

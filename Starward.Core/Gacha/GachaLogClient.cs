@@ -79,7 +79,7 @@ public abstract class GachaLogClient
 
 
 
-    public async Task<int> GetUidByGachaUrlAsync(string gachaUrl)
+    public async Task<long> GetUidByGachaUrlAsync(string gachaUrl)
     {
         var prefix = GetGachaUrlPrefix(gachaUrl);
         foreach (var gachaType in GachaTypes)
