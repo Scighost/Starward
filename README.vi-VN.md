@@ -60,4 +60,4 @@ Và các thư viện bên thứ ba được sử dụng trong dự án này bao 
 
 ## Ảnh chụp màn hình
 
-![screenshot](https://github.com/Scighost/Starward/assets/88989555/df61f32e-1327-422a-9219-c3ccee56f8ef)
+![screenshot](https://github.com/Scighost/Starward/assets/88989555/d02d1448-e2cb-4836-8d4c-a6e3962808f3)
