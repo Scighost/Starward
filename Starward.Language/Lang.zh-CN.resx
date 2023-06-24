@@ -441,7 +441,7 @@
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>成功导入祈愿记录 {0} 条.</value>
+    <value>成功导入祈愿记录 {0} 条</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
     <value>成功导入跃迁记录 {0} 条</value>
