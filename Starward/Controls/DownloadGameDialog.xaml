@@ -12,17 +12,23 @@
     <StackPanel Spacing="8">
         <StackPanel Orientation="Horizontal" Spacing="8">
             <!--  资源包大小  -->
-            <TextBlock MinWidth="120" Text="{x:Bind lang:Lang.DownloadGameDialog_PackageSize}" />
+            <TextBlock MinWidth="120"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.DownloadGameDialog_PackageSize}" />
             <TextBlock Text="{x:Bind PackageSizeText}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="8">
             <!--  已下载  -->
-            <TextBlock MinWidth="120" Text="{x:Bind lang:Lang.DownloadGameDialog_Downloaded}" />
+            <TextBlock MinWidth="120"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.DownloadGameDialog_Downloaded}" />
             <TextBlock Text="{x:Bind DownloadSizeText}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="8">
             <!--  剩余空间  -->
-            <TextBlock MinWidth="120" Text="{x:Bind lang:Lang.DownloadGameDialog_FreeSpace}" />
+            <TextBlock MinWidth="120"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.DownloadGameDialog_FreeSpace}" />
             <TextBlock Text="{x:Bind FreeSpaceText}" />
             <TextBlock Name="TextBlock_FreeSpaceCaution"
                        Margin="8,0,0,0"
@@ -30,7 +36,9 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="8">
             <!--  解压占用空间  -->
-            <TextBlock MinWidth="120" Text="{x:Bind lang:Lang.DownloadGameDialog_RequiredSpaceForUnzipping}" />
+            <TextBlock MinWidth="120"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.DownloadGameDialog_RequiredSpaceForUnzipping}" />
             <TextBlock Text="{x:Bind DecompressedSizeText}" />
         </StackPanel>
         <StackPanel Name="StackPanel_Voice"
@@ -38,8 +46,10 @@
                     Spacing="8"
                     Visibility="Collapsed">
             <!--  语音包  -->
-            <TextBlock MinWidth="120" Text="{x:Bind lang:Lang.DownloadGameDialog_VoiceLanguage}" />
-            <Grid>
+            <TextBlock MinWidth="120"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.DownloadGameDialog_VoiceLanguage}" />
+            <Grid ColumnSpacing="12">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
@@ -77,9 +87,9 @@
             <!--  修复模式  -->
             <TextBlock MinWidth="120"
                        VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.DownloadGameDialog_RepairMode}" />
-            <ToggleSwitch Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          IsOn="{x:Bind EnableRepairMode, Mode=TwoWay}"
+            <ToggleSwitch IsOn="{x:Bind EnableRepairMode, Mode=TwoWay}"
                           OffContent="{x:Bind lang:Lang.DownloadGameDialog_DownloadGameFilesDirectly}"
                           OnContent="{x:Bind lang:Lang.DownloadGameDialog_DownloadGameFilesDirectly}" />
         </StackPanel>

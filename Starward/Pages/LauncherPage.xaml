@@ -580,7 +580,7 @@
                     <TextBlock FontSize="12"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                Text="{x:Bind lang:Lang.LauncherPage_ThirdPartyToolDesc}"
-                               TextTrimming="CharacterEllipsis" />
+                               TextWrapping="Wrap" />
                     <Grid Margin="-24,8,0,0" ColumnSpacing="12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />

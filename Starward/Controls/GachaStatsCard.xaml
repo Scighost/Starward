@@ -48,14 +48,24 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0"
-                   FontSize="16"
-                   FontWeight="SemiBold"
-                   Foreground="{ThemeResource TextFillColorSecondaryBrush}">
-            <Run Text="{x:Bind WarpTypeStats.GachaTypeText}" />
-            <Run Text="" />
-            <Run Text="{x:Bind WarpTypeStats.Count}" />
-        </TextBlock>
+        <Grid Grid.Row="0" ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="TextBlock_GachaTypeText"
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextTrimmedChanged="TextBlock_GachaTypeText_IsTextTrimmedChanged"
+                       Text="{x:Bind WarpTypeStats.GachaTypeText}"
+                       TextTrimming="CharacterEllipsis" />
+            <TextBlock Grid.Column="1"
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind WarpTypeStats.Count}" />
+        </Grid>
 
 
         <TextBlock Grid.Row="1"
@@ -159,7 +169,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock VerticalAlignment="Center"
                                    Text="{x:Bind Name}"
-                                   TextTrimming="WordEllipsis"
+                                   TextTrimming="CharacterEllipsis"
                                    Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
                         <TextBlock Grid.Column="1"
                                    HorizontalAlignment="Right"
@@ -170,7 +180,7 @@
                                    FontWeight="SemiBold"
                                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                    Text="{x:Bind Name}"
-                                   TextTrimming="WordEllipsis"
+                                   TextTrimming="CharacterEllipsis"
                                    Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityConverter}}" />
                         <TextBlock Grid.Column="1"
                                    HorizontalAlignment="Right"

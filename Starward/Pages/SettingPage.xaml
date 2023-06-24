@@ -48,6 +48,7 @@
                             <ComboBoxItem Content="{x:Bind lang:Lang.SettingPage_FollowSystem}" Tag="" />
                             <ComboBoxItem Content="简体中文 (zh-CN, @Scighost)" Tag="zh-CN" />
                             <ComboBoxItem Content="English (en-US, @Scighost)" Tag="en-US" />
+                            <ComboBoxItem Content="Tiếng Việt (vi-VN, @phucho0237)" Tag="vi-VN" />
                         </ComboBox>
                     </Border>
 

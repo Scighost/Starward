@@ -178,7 +178,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Cannot parse the wish record URL 的本地化字符串。
+        ///   查找类似 Cannot parse the wish record URL. 的本地化字符串。
         /// </summary>
         public static string Core_CannotParseTheWishRecordURL {
             get {
@@ -205,7 +205,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Avaliable Space: 的本地化字符串。
+        ///   查找类似 Available Space: 的本地化字符串。
         /// </summary>
         public static string DownloadGameDialog_FreeSpace {
             get {
@@ -214,7 +214,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Avaliable space may be not enough 的本地化字符串。
+        ///   查找类似 Available space may be not enough 的本地化字符串。
         /// </summary>
         public static string DownloadGameDialog_FreeSpaceMayBeNotEnough {
             get {
@@ -602,7 +602,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 All gacha records of Uid {0} will be deleted, and this operation is irreversible. 的本地化字符串。
+        ///   查找类似 All gacha records of uid {0} will be deleted, and this operation is irreversible. 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_DeleteGachaRecordsWarning {
             get {
@@ -755,7 +755,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Got {0} records, added {1} records 的本地化字符串。
+        ///   查找类似 Got {0} records, added {1} records. 的本地化字符串。
         /// </summary>
         public static string GachaLogService_GetGachaResult {
             get {
@@ -773,7 +773,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 This account has no gacha records in the last 6 months 的本地化字符串。
+        ///   查找类似 This account has no gacha records in the last 6 months. 的本地化字符串。
         /// </summary>
         public static string GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months {
             get {
@@ -1187,7 +1187,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Import {0} wish records successfully 的本地化字符串。
+        ///   查找类似 Import {0} wish records successfully. 的本地化字符串。
         /// </summary>
         public static string GenshinGachaService_ImportWishRecordsSuccessfully {
             get {
@@ -1520,7 +1520,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Launcer 的本地化字符串。
+        ///   查找类似 Launcher 的本地化字符串。
         /// </summary>
         public static string MainPage_Launcer {
             get {
@@ -1682,7 +1682,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Would you like to choose this folder？ 的本地化字符串。
+        ///   查找类似 Would you like to choose this folder? 的本地化字符串。
         /// </summary>
         public static string SelectDirectoryPage_WouldYouLikeToChooseThisFolder {
             get {
@@ -1934,7 +1934,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Release Histroy 的本地化字符串。
+        ///   查找类似 Release History 的本地化字符串。
         /// </summary>
         public static string SettingPage_ReleaseHistroy {
             get {
@@ -2060,7 +2060,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Import {0} warp records successfully 的本地化字符串。
+        ///   查找类似 Import {0} warp records successfully. 的本地化字符串。
         /// </summary>
         public static string StarRailGachaService_ImportWarpRecordsSuccessfully {
             get {
@@ -2168,7 +2168,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Remind me Latter 的本地化字符串。
+        ///   查找类似 Remind me Later 的本地化字符串。
         /// </summary>
         public static string UpdatePage_RemindLatter {
             get {

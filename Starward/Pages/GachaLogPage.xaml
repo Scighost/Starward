@@ -181,10 +181,17 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <sc:GachaStatsCard Grid.Column="0" WarpTypeStats="{x:Bind GachaTypeStats1}" />
-                <sc:GachaStatsCard Grid.Column="1" WarpTypeStats="{x:Bind GachaTypeStats2}" />
-                <sc:GachaStatsCard Grid.Column="2" WarpTypeStats="{x:Bind GachaTypeStats3}" />
-                <sc:GachaStatsCard Grid.Column="3"
+                <sc:GachaStatsCard x:Name="GachaStatsCard_1"
+                                   Grid.Column="0"
+                                   WarpTypeStats="{x:Bind GachaTypeStats1}" />
+                <sc:GachaStatsCard x:Name="GachaStatsCard_2"
+                                   Grid.Column="1"
+                                   WarpTypeStats="{x:Bind GachaTypeStats2}" />
+                <sc:GachaStatsCard x:Name="GachaStatsCard_3"
+                                   Grid.Column="2"
+                                   WarpTypeStats="{x:Bind GachaTypeStats3}" />
+                <sc:GachaStatsCard x:Name="GachaStatsCard_4"
+                                   Grid.Column="3"
                                    Visibility="{x:Bind ShowNoviceGacha}"
                                    WarpTypeStats="{x:Bind GachaTypeStats4}" />
 

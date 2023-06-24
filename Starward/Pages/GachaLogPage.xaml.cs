@@ -108,6 +108,10 @@ public sealed partial class GachaLogPage : Page
         {
             Grid_Star5List.ColumnDefinitions.RemoveAt(3);
         }
+        GachaStatsCard_1.ResetGachaTypeTextFontSize();
+        GachaStatsCard_2.ResetGachaTypeTextFontSize();
+        GachaStatsCard_3.ResetGachaTypeTextFontSize();
+        GachaStatsCard_4.ResetGachaTypeTextFontSize();
     }
 
 
