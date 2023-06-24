@@ -118,729 +118,729 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Core_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Cannot parse the wish record URL.</value>
+    <value>Không thể phân tích URL bản ghi cầu nguyện.</value>
   </data>
   <data name="Core_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Cannot parse the warp record URL.</value>
+    <value>Không thể phân tích URL bản ghi bước nhảy</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>Stellar Warp</value>
+    <value>Bước Nhảy Chòm Sao</value>
   </data>
   <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>Departure Warp</value>
+    <value>Bước Nhảy Đầu Tiên</value>
   </data>
   <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>Character Event Warp</value>
+    <value>Bước Nhảy Sự Kiện Nhân Vật</value>
   </data>
   <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>Light Cone Event Warp</value>
+    <value>Bước Nhảy Sự Kiện Nón Ánh Sáng</value>
   </data>
   <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>Novice Wish</value>
+    <value>Cầu Nguyện Người Mới</value>
   </data>
   <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>Permanent Wish</value>
+    <value>Cầu Nguyện Vĩnh Viễn</value>
   </data>
   <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>Character Event Wish</value>
+    <value>Sự Kiện Cầu Nguyện Nhân Vật</value>
   </data>
   <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>Weapon Event Wish</value>
+    <value>Sự Kiện Cầu Nguyện Vũ Khí</value>
   </data>
   <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>Character Event Wish - 2</value>
+    <value>Sự Kiện Cầu Nguyện Nhân Vật - 2</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
-    <value>Events</value>
+    <value>Sự kiện</value>
   </data>
   <data name="PostType_Announcement" xml:space="preserve">
-    <value>Notices</value>
+    <value>Thông báo</value>
   </data>
   <data name="PostType_Information" xml:space="preserve">
-    <value>Info</value>
+    <value>Thông tin</value>
   </data>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
-    <value>Package Size:</value>
+    <value>Kích thước gói:</value>
   </data>
   <data name="DownloadGameDialog_Downloaded" xml:space="preserve">
-    <value>Downloaded:</value>
+    <value>Đã tải xuống:</value>
   </data>
   <data name="DownloadGameDialog_FreeSpace" xml:space="preserve">
-    <value>Available Space:</value>
+    <value>Dung lượng có sẵn:</value>
   </data>
   <data name="DownloadGameDialog_RequiredSpaceForUnzipping" xml:space="preserve">
-    <value>Required Space for Unzipping:</value>
+    <value>Dung lượng yêu cầu để giải nén:</value>
   </data>
   <data name="DownloadGameDialog_RepairMode" xml:space="preserve">
-    <value>Repair Mode:</value>
+    <value>Chế độ sửa chữa:</value>
   </data>
   <data name="DownloadGameDialog_VoiceLanguage" xml:space="preserve">
-    <value>Voice Language:</value>
+    <value>Ngôn ngữ lồng tiếng:</value>
   </data>
   <data name="Language_Chinese" xml:space="preserve">
-    <value>Chinese</value>
+    <value>Tiếng Trung Quốc</value>
   </data>
   <data name="Language_English" xml:space="preserve">
-    <value>English</value>
+    <value>Tiếng Anh</value>
   </data>
   <data name="Language_Japanese" xml:space="preserve">
-    <value>Japanese</value>
+    <value>Tiếng Nhật</value>
   </data>
   <data name="Language_Korean" xml:space="preserve">
-    <value>Korean</value>
+    <value>Tiếng Hàn</value>
   </data>
   <data name="DownloadGameDialog_DownloadGameFilesDirectly" xml:space="preserve">
-    <value>Download game files directly</value>
+    <value>Tải tập tin trò chơi trực tiếp</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>This feature is in the testing stage. If there is any game file damage, please use the official launcher to repair it.</value>
+    <value>Tính năng này đang ở trong giai đoạn thử nghiệm, Nếu có bất kì tập tin trò chơi nào bị hỏng, vui lòng sử dụng launcher chính thức để sửa nó.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
-    <value>Available space may be not enough</value>
+    <value>Dung lượng có sẵn có lẽ là không đủ</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
     <value>Pity</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
-    <value>Average</value>
+    <value>Trung bình</value>
   </data>
   <data name="GachaStatsCard_Stats" xml:space="preserve">
-    <value>Stats</value>
+    <value>Chỉ số</value>
   </data>
   <data name="SelectDirectoryPage_NiceToMeetYou" xml:space="preserve">
-    <value>Nice to Meet You ~</value>
+    <value>Rất vui được gặp bạn ~</value>
   </data>
   <data name="SelectDirectoryPage_SelectFolder" xml:space="preserve">
-    <value>Select Folder</value>
+    <value>Chọn Thư mục</value>
   </data>
   <data name="SelectDirectoryPage_SelectLanguage" xml:space="preserve">
-    <value>Select Language</value>
+    <value>Chọn Ngôn ngữ</value>
   </data>
   <data name="SelectDirectoryPage_SelectGame" xml:space="preserve">
-    <value>Select Game</value>
+    <value>Chọn Trò chơi</value>
   </data>
   <data name="SelectDirectoryPage_RecommendFolder" xml:space="preserve">
-    <value>The app data will be saved at following folder by default:</value>
+    <value>Dữ liệu của ứng dụng sẽ được lưu tại thư mục sau đây theo mặc định:</value>
   </data>
   <data name="SelectDirectoryPage_WouldYouLikeToChooseThisFolder" xml:space="preserve">
-    <value>Would you like to choose this folder?</value>
+    <value>Bạn có muốn chọn thư mục này?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>This folder will be automatically deleted after the software update</value>
+    <value>Thư mục này sẽ tự động xoá sau khi phần mềm cập nhật</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
-    <value>No write permission</value>
+    <value>Không có quyền ghi</value>
   </data>
   <data name="SelectDirectoryPage_OK" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>Choose Another</value>
+    <value>Chọn Thư mục khác</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Huỷ</value>
   </data>
   <data name="SelectDirectoryPage_FirstUse" xml:space="preserve">
-    <value>It seems to be your first time using {Starward}.</value>
+    <value>Có vẻ đây là lần đầu tiên bạn sử dụng {Starward}.</value>
   </data>
   <data name="SelectGamePage_GoToLauncher" xml:space="preserve">
-    <value>Go to Launcher</value>
+    <value>Đi đến Launcher</value>
   </data>
   <data name="SelectGamePage_SelectFolder" xml:space="preserve">
-    <value>Select Folder</value>
+    <value>Chọn Thư mục</value>
   </data>
   <data name="SelectGamePage_SomeGame" xml:space="preserve">
-    <value>{Starward} supports some {miHoYo/HoYoverse} games, please select your target below, you can also change it at any time after entering the launcher.</value>
+    <value>{Starward} hỗ trợ một số trò chơi {miHoYo/HoYoverse}, vui lòng chọn trò chơi của bạn ở dưới, bạn cũng có thể thay đổi nó bất kì lúc nào sau khi vào launcher.</value>
   </data>
   <data name="SelectGamePage_TheLastStep" xml:space="preserve">
-    <value>The last step ~</value>
+    <value>Bước cuối cùng ~</value>
   </data>
   <data name="DownloadGamePage_CloseSoftware" xml:space="preserve">
-    <value>Close Software</value>
+    <value>Đóng phần mềm</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
-    <value>Downloading can be resumed after the next startup;
-closing the program during decompression will cause game file corruption.</value>
+    <value>Tải xuống có thể được tiếp tục sau lần khởi động tiếp theo;
+đóng phần mềm trong khi giải nén sẽ gây ra hư hỏng tập tin.</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Đóng</value>
   </data>
   <data name="Common_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Huỷ</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>Software will be exited soon</value>
+    <value>Phần mềm sẽ được thoát sớm</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
-    <value>Repeat Start</value>
+    <value>Bắt đầu lặp lại</value>
   </data>
   <data name="Common_Confirm" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Đồng ý</value>
   </data>
   <data name="DownloadGamePage_ParameterError" xml:space="preserve">
-    <value>Parameter Error</value>
+    <value>Lỗi tham số</value>
   </data>
   <data name="DownloadGamePage_NoPermission" xml:space="preserve">
-    <value>No Permission</value>
+    <value>Không có quyền hạn</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Please start as administrator</value>
+    <value>Vui lòng khởi động bằng quyền Administrator</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Bắt đầu</value>
   </data>
   <data name="DownloadGamePage_Preparing" xml:space="preserve">
-    <value>Preparing</value>
+    <value>Đang chuẩn bị</value>
   </data>
   <data name="DownloadGamePage_Downloading" xml:space="preserve">
-    <value>Downloading</value>
+    <value>Đang tải xuống</value>
   </data>
   <data name="DownloadGamePage_Verifying" xml:space="preserve">
-    <value>Verifying</value>
+    <value>Đang xác minh</value>
   </data>
   <data name="DownloadGamePage_Decompressing" xml:space="preserve">
-    <value>Decompressing</value>
+    <value>Đang giải nén</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>Something Error</value>
+    <value>Có lỗi gì đó</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
-    <value>Retry</value>
+    <value>Thử lại</value>
   </data>
   <data name="DownloadGamePage_OpenLog" xml:space="preserve">
-    <value>Open Log</value>
+    <value>Mở Log</value>
   </data>
   <data name="DownloadGamePage_NetworkError" xml:space="preserve">
-    <value>Network Error</value>
+    <value>Lỗi mạng</value>
   </data>
   <data name="DownloadGamePage_UnknownError" xml:space="preserve">
-    <value>Unknown Error</value>
+    <value>Lỗi không xác định</value>
   </data>
   <data name="DownloadGamePage_Finished" xml:space="preserve">
-    <value>Finished</value>
+    <value>Đã hoàn thành</value>
   </data>
   <data name="DownloadGamePage_Pause" xml:space="preserve">
-    <value>Pause</value>
+    <value>Tạm dừng</value>
   </data>
   <data name="DownloadGamePage_Skip" xml:space="preserve">
-    <value>Skip</value>
+    <value>Bỏ qua</value>
   </data>
   <data name="DownloadGamePage_VerifyFailed" xml:space="preserve">
-    <value>Verify Failed</value>
+    <value>Xác minh thất bại</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>The following file verify failed:</value>
+    <value>Xác minh những tập tin sau thất bại:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
-    <value>Redownload</value>
+    <value>Tải lại</value>
   </data>
   <data name="DownloadGamePage_Ignore" xml:space="preserve">
-    <value>Ignore</value>
+    <value>Bỏ qua</value>
   </data>
   <data name="DownloadGamePage_Stop" xml:space="preserve">
-    <value>Stop</value>
+    <value>Dừng</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Decompressing unchecked files may result in corrupted game files</value>
+    <value>Giải nén các tập tin không được kiểm tra có thể dẫn đến tập tin game bị hỏng</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
-    <value>Skip Verification</value>
+    <value>Bỏ qua xác minh</value>
   </data>
   <data name="DownloadGamePage_DownloadPaused" xml:space="preserve">
-    <value>Download Paused</value>
+    <value>Tải xuống đã tạm dừng</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
-    <value>No Gacha Records</value>
+    <value>Không có bản ghi Gacha</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
-    <value>Update Records</value>
+    <value>Cập nhật Bản ghi</value>
   </data>
   <data name="GachaLogPage_UpdateSavedURL" xml:space="preserve">
-    <value>Update (Saved URL)</value>
+    <value>Cập nhật (URL đã lưu)</value>
   </data>
   <data name="GachaLogPage_UpdateAll" xml:space="preserve">
-    <value>Update (All)</value>
+    <value>Cập nhật (Tất cả)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
-    <value>Input URL</value>
+    <value>Nhập URL</value>
   </data>
   <data name="Common_Setting" xml:space="preserve">
-    <value>Setting</value>
+    <value>Cài đặt</value>
   </data>
   <data name="GachaLogPage_OtherSettings" xml:space="preserve">
-    <value>Other Settings</value>
+    <value>Cài đặt khác</value>
   </data>
   <data name="GachaLogPage_CopyURL" xml:space="preserve">
-    <value>Copy URL</value>
+    <value>Sao chép URL</value>
   </data>
   <data name="GachaLogPage_AuthkeyTimeoutAlwaysOccurs" xml:space="preserve">
-    <value>Authkey Timeout always occurs?</value>
+    <value>Authkey Timeout luôn xảy ra?</value>
   </data>
   <data name="GachaLogPage_ClearURLCacheFiles" xml:space="preserve">
-    <value>Clear URL Cache Files</value>
+    <value>Dọn tập tin cache URL</value>
   </data>
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
-    <value>Export as</value>
+    <value>Xuất như</value>
   </data>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>Import from Json</value>
+    <value>Nhập từ Json</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
-    <value>Show Novice Gacha Type</value>
+    <value>Hiện thị loại Gacha người mới</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>Delete Records</value>
+    <value>Xoá bản ghi</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Ngôn ngữ</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>Cannot find saved URL of uid {0}.</value>
+    <value>Không thể tìm thấy URL đã lưu của uid {0}.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
-    <value>Game not installed</value>
+    <value>Trò chơi chưa được cài đặt</value>
   </data>
   <data name="GachaLogPage_CannotFindURL" xml:space="preserve">
-    <value>Cannot find URL, please open the gacha records history page in game.</value>
+    <value>Không thể tìm thấy URL, vui lòng hãy mở trang bản ghi lịch sử gacha ở trong game.</value>
   </data>
   <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
-    <value>Operation canceled</value>
+    <value>Thao tác bị huỷ</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
-    <value>Please open the gacha records page in game and try again.</value>
+    <value>Vui lòng hãy mở trang bản ghi gacha ở trong game và thử lại.</value>
   </data>
   <data name="Common_Warning" xml:space="preserve">
-    <value>Warning</value>
+    <value>Cảnh báo</value>
   </data>
   <data name="Common_Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Xoá</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>Deleted {0} gacha records of Uid {1}.</value>
+    <value>Đã xoá {0} bản ghi gacha của Uid {1}.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>All gacha records of uid {0} will be deleted, and this operation is irreversible.</value>
+    <value>Tất cả bản ghi gacha của uid {0} sẽ bị xoá, và hành động này là không thể hoàn tác.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
-    <value>Wish Records</value>
+    <value>Bản ghi cầu nguyện</value>
   </data>
   <data name="GachaLogService_WarpRecords" xml:space="preserve">
-    <value>Warp Records</value>
+    <value>Bản ghi bước nhảy</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>Getting uid</value>
+    <value>Đang nhận uid</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>This account has no gacha records in the last 6 months.</value>
+    <value>Tài khoản này không có bản ghi gacha trong 6 tháng gần nhất.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>Got {0} records, added {1} records.</value>
+    <value>Nhận {0} bản ghi, đã thêm {1} bản ghi.</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} wish records successfully.</value>
+    <value>Nhập {0} bản ghi cầu nguyện thành công.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} warp records successfully.</value>
+    <value>Nhập {0} bản ghi bước nhảy thành công.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
-    <value>Already the latest version</value>
+    <value>Đã là phiên bản mới nhất</value>
   </data>
   <data name="DownloadGameService_TooManyRetries" xml:space="preserve">
-    <value>Too many retries</value>
+    <value>Quá nhiều lần thử lại</value>
   </data>
   <data name="UpdateService_CannotUpdateAutomatically" xml:space="preserve">
-    <value>Cannot update automatically</value>
+    <value>Không thể cập nhật tự động</value>
   </data>
   <data name="GameSettingPage_Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Tuỳ biến</value>
   </data>
   <data name="GameSettingPage_VeryLow" xml:space="preserve">
-    <value>Very Low</value>
+    <value>Rất thấp</value>
   </data>
   <data name="GameSettingPage_Low" xml:space="preserve">
-    <value>Low</value>
+    <value>Thấp</value>
   </data>
   <data name="GameSettingPage_Medium" xml:space="preserve">
-    <value>Medium</value>
+    <value>Trung bình</value>
   </data>
   <data name="GameSettingPage_High" xml:space="preserve">
-    <value>High</value>
+    <value>Cao</value>
   </data>
   <data name="GameSettingPage_VeryHigh" xml:space="preserve">
-    <value>Very High</value>
+    <value>Rất cao</value>
   </data>
   <data name="GameSettingPage_Off" xml:space="preserve">
-    <value>Off</value>
+    <value>Tắt</value>
   </data>
   <data name="GameSettingPage_StartArguments" xml:space="preserve">
-    <value>Start Arguments</value>
+    <value>Đối số khởi động</value>
   </data>
   <data name="GameSettingPage_Resolution" xml:space="preserve">
-    <value>Resolution</value>
+    <value>Độ phân giải</value>
   </data>
   <data name="GameSettingPage_FullScreen" xml:space="preserve">
-    <value>Full Screen</value>
+    <value>Toàn màn hình</value>
   </data>
   <data name="GameSettingPage_CustomResolution" xml:space="preserve">
-    <value>Custom Resolution</value>
+    <value>Độ phân giải tuỳ chọn</value>
   </data>
   <data name="GameSettingPage_VoiceLanguage" xml:space="preserve">
-    <value>Voice Language</value>
+    <value>Ngôn ngữ lồng tiếng</value>
   </data>
   <data name="GameSettingPage_VoiceLanguageDescription" xml:space="preserve">
-    <value>Set this value before starting the game for the first time to avoid downloading some voice resources</value>
+    <value>Đặt giá trị này trước khi bắt đầu game lần đầu tiên đễ tránh tải xuống một số tài nguyên âm thanh</value>
   </data>
   <data name="GameSettingPage_GraphicsSetting" xml:space="preserve">
-    <value>Graphics Setting</value>
+    <value>Cài đặt đồ hoạ</value>
   </data>
   <data name="GameSettingPage_GraphicsQualityPreset" xml:space="preserve">
-    <value>Graphics Quality Preset</value>
+    <value>Cài đặt đồ hoạ có sẵn</value>
   </data>
   <data name="GameSettingPage_RenderScale" xml:space="preserve">
-    <value>Render Scale</value>
+    <value>Tỷ lệ kết xuất</value>
   </data>
   <data name="GameSettingPage_FPS" xml:space="preserve">
     <value>FPS</value>
   </data>
   <data name="GameSettingPage_VSync" xml:space="preserve">
-    <value>V-Sync</value>
+    <value>Đồng bộ dọc</value>
   </data>
   <data name="GameSettingPage_AntiAliasing" xml:space="preserve">
-    <value>Anti-Aliasing</value>
+    <value>Khử răng cưa</value>
   </data>
   <data name="GameSettingPage_ShadowQuality" xml:space="preserve">
-    <value>Shadow Quality</value>
+    <value>Chất lượng bóng</value>
   </data>
   <data name="GameSettingPage_ReflectionQuality" xml:space="preserve">
-    <value>Reflection Quality</value>
+    <value>Chất lượng phản chiếu</value>
   </data>
   <data name="GameSettingPage_CharacterQuality" xml:space="preserve">
-    <value>Character Quality</value>
+    <value>Chất lượng nhân vật</value>
   </data>
   <data name="GameSettingPage_EnvironmentDetail" xml:space="preserve">
-    <value>Environment Detail</value>
+    <value>Chi tiết môi trường</value>
   </data>
   <data name="GameSettingPage_BloomEffect" xml:space="preserve">
-    <value>Bloom Effect</value>
+    <value>Hiệu ứng toả sáng</value>
   </data>
   <data name="GameSettingPage_LightQuality" xml:space="preserve">
-    <value>Light Quality</value>
+    <value>Chất lượng ánh sáng</value>
   </data>
   <data name="Common_Apply" xml:space="preserve">
-    <value>Apply</value>
+    <value>Áp dụng</value>
   </data>
   <data name="GameSettingPage_GameNotInstalled" xml:space="preserve">
-    <value>Game not Installed</value>
+    <value>Trò chơi chưa được cài đặt</value>
   </data>
   <data name="GameSettingPage_FPSWarning" xml:space="preserve">
-    <value>Setting the FPS to 120 will make the in-game graphics settings unusable</value>
+    <value>Thiết đặt FPS lên 120 sẽ làm cho cài đặt đồ hoạ trong trò chơi không sử dụng được</value>
   </data>
   <data name="GameSettingPage_SettingNotEffect" xml:space="preserve">
-    <value>The settings applied while the game is running do not take effect</value>
+    <value>Cài đặt áp dụng khi trò chơi đang chạy sẽ không có hiệu lực</value>
   </data>
   <data name="GameSettingPage_ResolutionMustBeGreaterThan0" xml:space="preserve">
-    <value>Resolution must be greater than 0</value>
+    <value>Độ phân giải phải lớn hơn 0</value>
   </data>
   <data name="GameSettingPage_StartArgumentDesc" xml:space="preserve">
-    <value>For information on startup parameters see {Unity Standalone Player Command Line Arguments}</value>
+    <value>Để biết thông tin về tham số khởi động hãy xem {Unity Standalone Player Command Line Arguments}</value>
   </data>
   <data name="GameSettingPage_On" xml:space="preserve">
-    <value>On</value>
+    <value>Bật</value>
   </data>
   <data name="LauncherPage_InstallGame" xml:space="preserve">
-    <value>Install Game</value>
+    <value>Cài đặt trò chơi</value>
   </data>
   <data name="LauncherPage_UpdateGame" xml:space="preserve">
-    <value>Update Game</value>
+    <value>Cập nhật trò chơi</value>
   </data>
   <data name="LauncherPage_PlayTime" xml:space="preserve">
-    <value>Play Time</value>
+    <value>Thời gian chơi</value>
   </data>
   <data name="Common_Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Làm mới</value>
   </data>
   <data name="LauncherPage_ThisWeek" xml:space="preserve">
-    <value>This Week</value>
+    <value>Tuần này</value>
   </data>
   <data name="LauncherPage_ThisMonth" xml:space="preserve">
-    <value>This Month</value>
+    <value>Tháng này</value>
   </data>
   <data name="LauncherPage_LastTime" xml:space="preserve">
-    <value>Last Time</value>
+    <value>Lần gần nhất</value>
   </data>
   <data name="LauncherPage_PreInstall" xml:space="preserve">
-    <value>Pre-Install</value>
+    <value>Cài đặt trước</value>
   </data>
   <data name="LauncherPage_CurrentAccount" xml:space="preserve">
-    <value>Current Login Account</value>
+    <value>Tài khoản đăng nhập hiện tại</value>
   </data>
   <data name="LauncherPage_SwitchAccount" xml:space="preserve">
-    <value>Switch Account</value>
+    <value>Chuyển đổi tài khoản</value>
   </data>
   <data name="LauncherPage_AccountInformation" xml:space="preserve">
-    <value>Account Information</value>
+    <value>Thông tin tài khoản</value>
   </data>
   <data name="LauncherPage_Nickname" xml:space="preserve">
-    <value>Nickname</value>
+    <value>Biệt danh</value>
   </data>
   <data name="Common_Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Lưu</value>
   </data>
   <data name="LauncherPage_GameSetting" xml:space="preserve">
-    <value>Game Setting</value>
+    <value>Cài đặt game</value>
   </data>
   <data name="LauncherPage_InstallFolder" xml:space="preserve">
-    <value>Installation Folder</value>
+    <value>Thư mục cài đặt</value>
   </data>
   <data name="LauncherPage_Locate" xml:space="preserve">
-    <value>Locate</value>
+    <value>Chọn đường dẫn</value>
   </data>
   <data name="LauncherPage_RepairGame" xml:space="preserve">
-    <value>Repair Game</value>
+    <value>Sửa chữa trò chơi</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
     <value>Custom Start Executable</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
-    <value>Select</value>
+    <value>Chọn</value>
   </data>
   <data name="LauncherPage_ShowGameAnnouncement" xml:space="preserve">
-    <value>Show Game Announcement</value>
+    <value>Hiện thị thông báo trò chơi</value>
   </data>
   <data name="LauncherPage_IgnoreRunningGameProcess" xml:space="preserve">
-    <value>Ignore Running Game Process</value>
+    <value>Bỏ qua tiến trình trò chơi đang hoạt động</value>
   </data>
   <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
-    <value>Background Setting</value>
+    <value>Cài đặt hình nền</value>
   </data>
   <data name="SettingPage_PauseVideoWhenSwitchingToOtherPages" xml:space="preserve">
-    <value>Pause video when switching to other pages</value>
+    <value>Tạm dừng video khi chuyển qua trang khác</value>
   </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
-    <value>Use same background in all game region</value>
+    <value>Sử dụng chung hình nền ở tất cả khu vực trò chơi</value>
   </data>
   <data name="SettingPage_BgSizeTip" xml:space="preserve">
-    <value>Please select an image with a pixel size matches the application window; oversized images will reduce performance.</value>
+    <value>Vui lòng chọn bức ảnh với kích thước pixel trùng với cửa số ứng dụng; ảnh quá cỡ sẽ giảm hiệu năng.</value>
   </data>
   <data name="LauncherPage_StartGame" xml:space="preserve">
-    <value>Start Game</value>
+    <value>Bắt đầu trò chơi</value>
   </data>
   <data name="LauncherPage_GameIsRunning" xml:space="preserve">
-    <value>Game is Running</value>
+    <value>Trò chơi đang chạy</value>
   </data>
   <data name="Common_Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Bắt đầu</value>
   </data>
   <data name="LauncherPage_SelectInstallFolder" xml:space="preserve">
-    <value>Select Installation Folder</value>
+    <value>Lựa chọn thư mục cài đặt</value>
   </data>
   <data name="Common_Continue" xml:space="preserve">
-    <value>Continue</value>
+    <value>Tiếp tục</value>
   </data>
   <data name="LauncherPage_Reselect" xml:space="preserve">
-    <value>Reselect</value>
+    <value>Chọn lại</value>
   </data>
   <data name="LauncherPage_TheFollowingFolderContainsUnfinishedDownloadTasks" xml:space="preserve">
-    <value>The following folder contains unfinished download tasks:</value>
+    <value>Thư mục sau chứa những tác vụ tải xuống chưa hoàn thành:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Please select an empty folder for installing the game, or locate the folder where the game is already installed.</value>
+    <value>Vui lòng chọn một thư mục trống để cài đặt game, hoặc chọn đường dẫn nơi mà trò chơi đã được cài đặt.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
-    <value>If it is not the latest version, please modify the config.ini file in the game installation directory.</value>
+    <value>Nếu nó không phải là phiên bản mới nhất, vui lòng sửa đổi tập tin config.ini ở thư mục cài đặt game.</value>
   </data>
   <data name="LauncherPage_StartVerification" xml:space="preserve">
-    <value>Start to Verify</value>
+    <value>Bắt đầu xác minh</value>
   </data>
   <data name="LauncherPage_WouldYouLikeToVerifyTheFiles" xml:space="preserve">
-    <value>Pre-install completed, would you like to verify the files?</value>
+    <value>Cài đặt trước hoàn thành, bạn có muốn xác minh các tập tin không?</value>
   </data>
   <data name="MainPage_HowToSwitchGameRegion" xml:space="preserve">
-    <value>How to switch game region?</value>
+    <value>Làm thế nào để chuyển đổi vùng?</value>
   </data>
   <data name="MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft" xml:space="preserve">
-    <value>Click the right mouse button on the game icon on the left</value>
+    <value>Nhấn chuột phải trên biểu tượng trò chơi ở bên trái</value>
   </data>
   <data name="MainPage_Launcer" xml:space="preserve">
     <value>Launcher</value>
   </data>
   <data name="MainPage_GameScreenshot" xml:space="preserve">
-    <value>Screenshot</value>
+    <value>Ảnh chụp màn hình</value>
   </data>
   <data name="ScreenshotPage_GameScreenshot" xml:space="preserve">
-    <value>Screenshot</value>
+    <value>Ảnh chụp màn hình</value>
   </data>
   <data name="ScreenshotPage_OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
+    <value>Mở thư mục</value>
   </data>
   <data name="SettingPage_Log" xml:space="preserve">
     <value>Log</value>
   </data>
   <data name="SettingPage_ShowConsole" xml:space="preserve">
-    <value>Show Console</value>
+    <value>Hiện thị console</value>
   </data>
   <data name="SettingPage_AppSettings" xml:space="preserve">
-    <value>App Settings</value>
+    <value>Cài đặt ứng dụng</value>
   </data>
   <data name="SettingPage_EffectiveAtNextStartup" xml:space="preserve">
-    <value>Effective at next startup</value>
+    <value>Hiệu quả ở lần khởi động tiếp theo</value>
   </data>
   <data name="SettingPage_OpenLogFolder" xml:space="preserve">
-    <value>Open Log Folder</value>
+    <value>Mở thư mục Log</value>
   </data>
   <data name="SettingPage_WindowsSize" xml:space="preserve">
-    <value>Windows Size</value>
+    <value>Kích cỡ cửa sổ</value>
   </data>
   <data name="SettingPage_Normal" xml:space="preserve">
-    <value>Normal</value>
+    <value>Bình thường</value>
     <comment>Window Size Normal</comment>
   </data>
   <data name="SettingPage_Small" xml:space="preserve">
-    <value>Small</value>
+    <value>Nhỏ</value>
     <comment>Window Size Small</comment>
   </data>
   <data name="SettingPage_TestNetwork" xml:space="preserve">
-    <value>Test Network</value>
+    <value>Kiểm tra mạng</value>
   </data>
   <data name="SettingPage_AppBackground" xml:space="preserve">
-    <value>App Background</value>
+    <value>Hình nền ứng dụng</value>
   </data>
   <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
-    <value>Custom Background (Support Video)</value>
+    <value>Hình nền tuỳ biến (Hỗ trợ video)</value>
   </data>
   <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
-    <value>Dynamic Theme Color</value>
+    <value>Màu chủ đề động</value>
   </data>
   <data name="SettingPage_CloudFlareConnectProperly" xml:space="preserve">
-    <value>The app will download the required resources from CloudFlare, so make sure it can connect properly.</value>
+    <value>Ứng dụng sẽ tải xuống tài nguyên yêu cầu từ CloudFlare, vì thế hãy bảo đảm rằng nó có thể kết nối đúng cách.</value>
   </data>
   <data name="SettingPage_CheckForUpdate" xml:space="preserve">
-    <value>Check for Update</value>
+    <value>Kiểm tra cập nhật</value>
   </data>
   <data name="SettingPage_CurrentVersion" xml:space="preserve">
-    <value>Current Version:</value>
+    <value>Phiên bản hiện tại:</value>
   </data>
   <data name="SettingPage_JoinPreviewReleaseChannel" xml:space="preserve">
-    <value>Join Preview Release Channel</value>
+    <value>Tham gia kênh xem trước phát hành</value>
   </data>
   <data name="SettingPage_FileManager" xml:space="preserve">
-    <value>File Manager</value>
+    <value>Quản lí tập tin</value>
   </data>
   <data name="SettingPage_OpenDataFolder" xml:space="preserve">
-    <value>Open Data Folder</value>
+    <value>Mở thư mục Data</value>
   </data>
   <data name="SettingPage_ReselectDataFolder" xml:space="preserve">
-    <value>Reselect Data Folder</value>
+    <value>Chọn lại thư mục Data</value>
   </data>
   <data name="SettingPage_DeleteAllSettings" xml:space="preserve">
-    <value>Delete All Settings</value>
+    <value>Xoá tất cả cài đặt</value>
   </data>
   <data name="SettingPage_ClearCachedFiles" xml:space="preserve">
-    <value>Clear Cached Files</value>
+    <value>Xoá tập tin cache</value>
   </data>
   <data name="SettingPage_About" xml:space="preserve">
-    <value>About</value>
+    <value>Về chúng tôi</value>
   </data>
   <data name="SettingPage_ProjectHomepage" xml:space="preserve">
-    <value>Homepage</value>
+    <value>Trang chủ</value>
   </data>
   <data name="SettingPage_ReportIssue" xml:space="preserve">
-    <value>Report Issue</value>
+    <value>Báo lỗi</value>
   </data>
   <data name="SettingPage_ReleaseHistroy" xml:space="preserve">
-    <value>Release History</value>
+    <value>Lịch sử phát hành</value>
   </data>
   <data name="SettingPage_ThisIsALogo" xml:space="preserve">
-    <value>This is a Logo</value>
+    <value>Đây là Logo</value>
   </data>
   <data name="SettingPage_Update" xml:space="preserve">
-    <value>Update</value>
+    <value>Cập nhật</value>
   </data>
   <data name="SettingPage_TestCDNAsync_NetworkError" xml:space="preserve">
-    <value>Network Error</value>
+    <value>Lỗi mạng</value>
   </data>
   <data name="SettingPage_TheCurrentLocationOfTheDataFolderIs" xml:space="preserve">
-    <value>The current location of the data folder is:</value>
+    <value>Vị trí hiện tại của thư mục chứa dữ liệu là:</value>
   </data>
   <data name="SettingPage_WouldLikeToReselectDataFolder" xml:space="preserve">
-    <value>Would like to reselect? (You need to migrate the data files manually before selecting)</value>
+    <value>Bạn có muốn chọn lại? (Bạn cần chuyển dữ liệu thủ công trước khi chọn)</value>
   </data>
   <data name="Common_Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>Có</value>
   </data>
   <data name="SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically" xml:space="preserve">
-    <value>After deleting, the software will be restarted automatically.</value>
+    <value>Sau khi xoá, phần mềm sẽ tự động khởi động lại.</value>
   </data>
   <data name="UpdatePage_NewVersion" xml:space="preserve">
-    <value>New Version!</value>
+    <value>Phiên bản mới!</value>
   </data>
   <data name="UpdatePage_Links" xml:space="preserve">
-    <value>Links:</value>
+    <value>Đường dẫn:</value>
   </data>
   <data name="UpdatePage_BuiltTime" xml:space="preserve">
-    <value>Built Time:</value>
+    <value>Thời gian xây dựng:</value>
   </data>
   <data name="UpdatePage_ReleaseChannel" xml:space="preserve">
-    <value>Release Channel:</value>
+    <value>Kênh phát hành:</value>
   </data>
   <data name="UpdatePage_Architecture" xml:space="preserve">
-    <value>Architecture:</value>
+    <value>Kiến trúc:</value>
   </data>
   <data name="UpdatePage_DownloadInstaller" xml:space="preserve">
-    <value>Download Installer</value>
+    <value>Tải trình cài đặt</value>
   </data>
   <data name="UpdatePage_DownloadPortable" xml:space="preserve">
-    <value>Download Portable</value>
+    <value>Tải Portable</value>
   </data>
   <data name="UpdatePage_RemindLatter" xml:space="preserve">
-    <value>Remind me Later</value>
+    <value>Nhắc tôi sau</value>
   </data>
   <data name="UpdatePage_IgnoreThisVersion" xml:space="preserve">
-    <value>Ignore this Version</value>
+    <value>Bỏ qua phiên bản này</value>
   </data>
   <data name="UpdatePage_UpdateNow" xml:space="preserve">
-    <value>Update Now</value>
+    <value>Cập nhật ngay</value>
   </data>
   <data name="UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage" xml:space="preserve">
-    <value>You need to manually download the new version package</value>
+    <value>Bạn cần phải tải xuống gói phiên bản mới thủ công</value>
   </data>
   <data name="UpdatePage_PreviewChannel" xml:space="preserve">
-    <value>Preview Channel</value>
+    <value>Kênh xem trước</value>
   </data>
   <data name="UpdatePage_StableChannel" xml:space="preserve">
-    <value>Stable Channel</value>
+    <value>Kênh ổn định</value>
   </data>
   <data name="UpdatePage_DevChannel" xml:space="preserve">
-    <value>Dev Channel</value>
+    <value>Kênh phát triển</value>
   </data>
   <data name="SettingPage_ThemeColorDesc" xml:space="preserve">
-    <value>Automatically calculate the theme color based on the background image, and use the system theme color by default.</value>
+    <value>Tự động tính toán màu chủ đề dựa trên màu của hình nền, và sử dụng màu chủ đề hệ thống theo mặc định.</value>
   </data>
   <data name="UpdatePage_ReleasePage" xml:space="preserve">
-    <value>Release Page</value>
+    <value>Trang phát hành</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>Use a third-party plugin to start instead, and game time cannot be recorded when enabled.</value>
+    <value>Thay vào đó, sử dụng plugin bên thứ ba để bắt đầu, và thời gian chơi có thể không được ghi lại khi được bật.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Specify the language of gacha records, such as en-US.</value>
+    <value>Chỉ định ngôn ngữ của bản ghi gacha, như là vi_VN.</value>
     <comment>Replace en-US with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Ngôn ngữ</value>
   </data>
   <data name="SettingPage_FollowSystem" xml:space="preserve">
-    <value>Follow System</value>
+    <value>Theo hệ thống</value>
   </data>
   <data name="SelectDirectoryPage_ToStart" xml:space="preserve">
-    <value>To start, please select a folder to save your app data.</value>
+    <value>Để bắt đầu, vui lòng chọn thư mục để lưu dữ liệu ứng dụng.</value>
   </data>
   <data name="GachaLogService_GetGachaProgressText" xml:space="preserve">
-    <value>Getting {0} with page {1}</value>
+    <value>Nhận {0} với trang {1}</value>
     <comment>{0} = {gachaType} ,  {1} = {page}</comment>
   </data>
 </root>
