@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core.Metadata;
-using Starward.Core.Metadata.Github;
 using Starward.Services;
 using System;
 using System.Diagnostics;
@@ -109,18 +108,8 @@ public sealed partial class UpdatePage : Page
                     ErrorMessage = Lang.UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage;
                 }
             }
-            try
-            {
-                var githubRelease = await _metadataClient.GetGithubReleaseAsync(NewVersion.Version);
-                if (githubRelease != null)
-                {
-                    await ShowGithubReleaseAsync(githubRelease);
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                _logger.LogWarning("Cannot get github release: {error}", ex.Message);
-            }
+            await ShowGithubReleaseAsync(NewVersion.Version);
+
             newRelease = await _metadataClient.GetReleaseAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.OSArchitecture);
             NewVersion ??= newRelease;
 
@@ -141,59 +130,73 @@ public sealed partial class UpdatePage : Page
 
 
 
-    private async Task ShowGithubReleaseAsync(GithubRelease release)
+    private async Task ShowGithubReleaseAsync(string tag)
     {
-        string markdown = $"""
-            # {release.Name}
-
-            > Update at {release.PublishedAt.LocalDateTime:yyyy-MM-dd HH:mm:ss}
-
-            {release.Body}
-
-            """;
-        string html = "", css = "";
         try
         {
-            html = await _metadataClient.RenderGithubMarkdownAsync(markdown);
+            var release = await _metadataClient.GetGithubReleaseAsync(tag);
+            if (release != null)
+            {
+                string markdown = $"""
+                    # {release.Name}
+
+                    > Update at {release.PublishedAt.LocalDateTime:yyyy-MM-dd HH:mm:ss}
+
+                    {release.Body}
+
+                    """;
+                string html = "", css = "";
+                try
+                {
+                    html = await _metadataClient.RenderGithubMarkdownAsync(markdown);
+                }
+                catch
+                {
+                    html = Markdig.Markdown.ToHtml(markdown);
+                }
+                var cssFile = Path.Combine(AppContext.BaseDirectory, @"Assets\CSS\github-markdown-dark.css");
+                if (File.Exists(cssFile))
+                {
+                    css = await File.ReadAllTextAsync(cssFile);
+                }
+                html = $$"""
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                    <base target="_blank">
+                    <meta name="color-scheme" content="dark">
+                    {{(string.IsNullOrWhiteSpace(css) ? """<link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.min.css" type="text/css" rel="stylesheet" />""" : "")}}
+                    <style>
+                    body::-webkit-scrollbar {display: none;}
+                    {{css}}
+                    </style>
+                    </head>
+                    <body style="background-color: #303030; margin: 24px;">
+                    <article class="markdown-body" style="background-color: #303030;">
+                    {{html}}
+                    </article>
+                    </body>
+                    </html>
+                    """;
+                await webview.EnsureCoreWebView2Async();
+                webview.NavigateToString(html);
+                Border_Markdown.Visibility = Visibility.Visible;
+                webview.CoreWebView2.Settings.AreDevToolsEnabled = false;
+                webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+                webview.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
+            }
         }
-        catch
+        catch (Exception ex)
         {
-            html = Markdig.Markdown.ToHtml(markdown);
+            _logger.LogWarning("Cannot get github release: {error}", ex.Message);
+            if (!tag.Contains("dev"))
+            {
+                webview.Source = new Uri($"https://github.com/Scighost/Starward/releases/tag/{tag}");
+                Border_Markdown.Visibility = Visibility.Visible;
+                await webview.EnsureCoreWebView2Async();
+                webview.CoreWebView2.Profile.PreferredColorScheme = Microsoft.Web.WebView2.Core.CoreWebView2PreferredColorScheme.Dark;
+            }
         }
-        var cssFile = Path.Combine(AppContext.BaseDirectory, @"Assets\CSS\github-markdown-dark.css");
-        if (File.Exists(cssFile))
-        {
-            css = await File.ReadAllTextAsync(cssFile);
-        }
-        html = $$"""
-                <!DOCTYPE html>
-                <html>
-                <head>
-                <base target="_blank">
-                <meta name="color-scheme" content="light dark">
-                <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.min.css" type="text/css" rel="stylesheet" />
-                <style>
-                body::-webkit-scrollbar {display: none;}
-                {{css}}
-                </style>
-                </head>
-                <body style="background-color: transparent;">
-                <br>
-                <article class="markdown-body" style="background-color: transparent;">
-                {{html}}
-                </article>
-                <br>
-                </body>
-                </html>
-                """;
-        var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\webview");
-        Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", folder, EnvironmentVariableTarget.Process);
-        await webview.EnsureCoreWebView2Async();
-        webview.CoreWebView2.Settings.AreDevToolsEnabled = false;
-        webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
-        webview.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
-        webview.NavigateToString(html);
-        Border_Markdown.Visibility = Visibility.Visible;
     }
 
 
@@ -436,6 +439,18 @@ public sealed partial class UpdatePage : Page
             Button_Update.IsEnabled = true;
             Button_RemindLatter.IsEnabled = true;
         }
+    }
+
+
+
+    private void Button_RemindLatter_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        Button_RemindLatter.Opacity = 1;
+    }
+
+    private void Button_RemindLatter_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        Button_RemindLatter.Opacity = 0;
     }
 
 

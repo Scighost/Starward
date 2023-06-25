@@ -21,7 +21,7 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid ColumnSpacing="24">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="360" />
             <ColumnDefinition />
@@ -33,7 +33,7 @@
                Source="ms-appx:///Assets/Image/StartUpBG2.png"
                Stretch="UniformToFill" />
 
-
+        <!--  Release Info  -->
         <StackPanel Margin="24" Spacing="8">
             <TextBlock FontSize="32" Text="{x:Bind lang:Lang.UpdatePage_NewVersion}" />
             <StackPanel Margin="0,16,0,0"
@@ -120,6 +120,7 @@
         </StackPanel>
 
 
+        <!--  Operation Button  -->
         <StackPanel Margin="24,0,24,24"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
@@ -142,29 +143,40 @@
                 </StackPanel>
             </Button>
 
-            <SplitButton Name="Button_RemindLatter"
-                         Height="36"
-                         BorderThickness="0"
-                         Command="{x:Bind RemindMeLatterCommand}"
-                         CornerRadius="18">
-                <TextBlock Margin="4,0,0,0"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+            <Grid>
+                <SplitButton Name="Button_RemindLatter"
+                             Height="36"
+                             BorderThickness="0"
+                             Command="{x:Bind RemindMeLatterCommand}"
+                             CornerRadius="18"
+                             Opacity="0"
+                             PointerEntered="Button_RemindLatter_PointerEntered"
+                             PointerExited="Button_RemindLatter_PointerExited">
+                    <SplitButton.OpacityTransition>
+                        <ScalarTransition Duration="0:0:0.16" />
+                    </SplitButton.OpacityTransition>
+                    <TextBlock Margin="4,0,0,0"
+                               Foreground="Transparent"
+                               Text="{x:Bind lang:Lang.UpdatePage_RemindLatter}" />
+                    <SplitButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Command="{x:Bind IgnoreThisVersionCommand}"
+                                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                            Text="{x:Bind lang:Lang.UpdatePage_IgnoreThisVersion}" />
+                        </MenuFlyout>
+                    </SplitButton.Flyout>
+                </SplitButton>
+                <TextBlock Margin="16,0,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                           IsHitTestVisible="False"
                            Text="{x:Bind lang:Lang.UpdatePage_RemindLatter}" />
-                <SplitButton.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem Command="{x:Bind RemindMeLatterCommand}"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Text="{x:Bind lang:Lang.UpdatePage_RemindLatter}" />
-                        <MenuFlyoutItem Command="{x:Bind IgnoreThisVersionCommand}"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Text="{x:Bind lang:Lang.UpdatePage_IgnoreThisVersion}" />
-                    </MenuFlyout>
-                </SplitButton.Flyout>
-            </SplitButton>
+            </Grid>
         </StackPanel>
 
 
-
+        <!--  Download Progress  -->
         <Grid Margin="24,0,24,80"
               VerticalAlignment="Bottom"
               RowSpacing="4">
@@ -211,12 +223,14 @@
         <Border Name="Border_Markdown"
                 Grid.Column="1"
                 Margin="0,48,0,0"
-                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                Background="#303030"
                 CornerRadius="8,0,0,0"
                 Visibility="Collapsed">
-            <WebView2 Name="webview"
-                      Margin="24,0,24,0"
-                      DefaultBackgroundColor="Transparent" />
+            <WebView2 Name="webview" DefaultBackgroundColor="#303030">
+                <WebView2.Resources>
+                    <SolidColorBrush x:Key="BrushForThemeBackgroundColor" Color="#303030" />
+                </WebView2.Resources>
+            </WebView2>
         </Border>
 
 
