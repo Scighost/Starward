@@ -9,7 +9,7 @@ Ngoài việc tải xuống và cài đặt trò chơi, nó còn bao gồm nhữ
 -  Ghi lại thời gian chơi
 -  Chuyển đổi tài khoản
 -  Xem ảnh chụp màn hình trò chơi
--  Lưu bản ghi gacha
+-  Lưu lịch sử gacha
 
 Và nhiều tính năng khác đang được lên kế hoạch...
 
