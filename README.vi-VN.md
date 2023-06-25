@@ -9,7 +9,7 @@ Ngoài việc tải xuống và cài đặt trò chơi, nó còn bao gồm nhữ
 -  Ghi lại thời gian chơi
 -  Chuyển đổi tài khoản
 -  Xem ảnh chụp màn hình trò chơi
--  Lưu bản ghi gacha
+-  Lưu lịch sử gacha
 
 Và nhiều tính năng khác đang được lên kế hoạch...
 
@@ -27,7 +27,7 @@ Bạn có thể tải xuống bản phát hành mới nhất từ trang [Release
 [![en-US translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress.0.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/en-US)
 [![vi-VN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress.1.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/vi-VN)
 
-Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho việc bản địa hoá, cung cấp bản dịch máy tiếng Anh như bản gốc. Bạn có thể giúp chúng tôi dịch and sửa lỗi ngôn ngữ địa phương, và chúng tôi mong muốn có nhiều người tham gia hơn. Nếu bạn muốn tạo thêm ngôn ngữ dịch mới, vui lòng tạo issue.
+Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho việc bản địa hoá, cung cấp bản dịch máy tiếng Anh như bản gốc. Bạn có thể giúp chúng tôi dịch và sửa lỗi ngôn ngữ địa phương, và chúng tôi mong muốn có nhiều người tham gia hơn. Nếu bạn muốn tạo thêm ngôn ngữ dịch mới, vui lòng tạo issue.
 
 ## Phát triển
 
