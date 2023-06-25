@@ -10,7 +10,7 @@ public class HyperionUser
     /// </summary>
     [JsonPropertyName("uid")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Uid { get; set; }
+    public long Uid { get; set; }
 
     /// <summary>
     /// 昵称
@@ -61,6 +61,6 @@ public class HyperionUser
 internal class HyperionUserWrapper
 {
     [JsonPropertyName("user_info")]
-    public HyperionUser MiyousheUser { get; set; }
+    public HyperionUser HyperionUser { get; set; }
 }
 

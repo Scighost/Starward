@@ -1,4 +1,6 @@
-﻿using Starward.Core.Hyperion.StarRail.Ledger;
+﻿using Starward.Core.Hyperion.StarRail.ForgottenHall;
+using Starward.Core.Hyperion.StarRail.SimulatedUniverse;
+using Starward.Core.Hyperion.StarRail.TrailblazeCalendar;
 
 namespace Starward.Core.Hyperion.StarRail;
 
@@ -20,7 +22,7 @@ public class HyperionStarRailClient : HyperionClient
     /// <param name="cookie"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">输入的 <c>cookie</c> 为空</exception>
-    public async Task<List<StarRailRole>> GetStarRailRolesAsync(string cookie, CancellationToken? cancellationToken = null)
+    public async Task<List<HyperionGameRole>> GetStarRailGameRolesAsync(string cookie, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(cookie))
         {
@@ -33,10 +35,10 @@ public class HyperionStarRailClient : HyperionClient
         request.Headers.Add(X_Reuqest_With, com_mihoyo_hyperion);
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_client_type, "5");
-        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/app/community-game-records/rpg/index.html?mhy_presentation_style=fullscreen&game_id=6&utm_source=bbs&utm_medium=mys&utm_campaign=icon");
-        var data = await CommonSendAsync<StarRailRoleWrapper>(request, cancellationToken);
+        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
+        var data = await CommonSendAsync<HyperionGameRoleWrapper>(request, cancellationToken);
         data.List?.ForEach(x => x.Cookie = cookie);
-        return data.List ?? new List<StarRailRole>();
+        return data.List ?? new List<HyperionGameRole>();
     }
 
 
@@ -49,14 +51,14 @@ public class HyperionStarRailClient : HyperionClient
     /// <param name="month">还不清楚规律，可能是 202304</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<LedgerSummary> GetLedgerSummaryAsync(StarRailRole role, string month = "", CancellationToken? cancellationToken = null)
+    public async Task<TrailblazeCalendarSummary> GetTrailblazeCalendarSummaryAsync(HyperionGameRole role, string month = "", CancellationToken cancellationToken = default)
     {
         var url = $"https://api-takumi.mihoyo.com/event/srledger/month_info?uid={role.Uid}&region={role.Region}&month={month}";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
-        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/sr/event/rpg-srledger/index.html?mhy_game_role_required=hkrpg_cn&mhy_presentation_style=fullscreen&utm_source=bbs&utm_medium=mys&utm_campaign=icon");
+        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
         request.Headers.Add(X_Reuqest_With, com_mihoyo_hyperion);
-        return await CommonSendAsync<LedgerSummary>(request, cancellationToken);
+        return await CommonSendAsync<TrailblazeCalendarSummary>(request, cancellationToken);
     }
 
 
@@ -72,15 +74,15 @@ public class HyperionStarRailClient : HyperionClient
     /// <param name="page_size">最大100</param>
     /// <param name="cancellationToken"></param>
     /// <returns>返回一页收入记录</returns>
-    private async Task<LedgerDetail> GetLedgerDetailByPageAsync(StarRailRole role, string month, int type, int page, int page_size = 100, CancellationToken? cancellationToken = null)
+    private async Task<TrailblazeCalendarDetail> GetTrailblazeCalendarDetailByPageAsync(HyperionGameRole role, string month, int type, int page, int page_size = 100, CancellationToken cancellationToken = default)
     {
         // 
         var url = $"https://api-takumi.mihoyo.com/event/srledger/month_detail?uid={role.Uid}&region={role.Region}&month={month}&type={type}&current_page={page}&page_size={page_size}&total=0";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
-        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/sr/event/rpg-srledger/index.html?mhy_game_role_required=hkrpg_cn&mhy_presentation_style=fullscreen&utm_source=bbs&utm_medium=mys&utm_campaign=icon");
+        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
         request.Headers.Add(X_Reuqest_With, com_mihoyo_hyperion);
-        var data = await CommonSendAsync<LedgerDetail>(request);
+        var data = await CommonSendAsync<TrailblazeCalendarDetail>(request, cancellationToken);
         foreach (var item in data.List)
         {
             item.Type = type;
@@ -100,17 +102,17 @@ public class HyperionStarRailClient : HyperionClient
     /// <param name="page_size">最大100</param>
     /// <param name="cancellationToken"></param>
     /// <returns>返回该月所有收入记录</returns>
-    public async Task<LedgerDetail> GetLedgerDetailAsync(StarRailRole role, string month, int type, int page_size = 100, CancellationToken? cancellationToken = null)
+    public async Task<TrailblazeCalendarDetail> GetTrailblazeCalendarDetailAsync(HyperionGameRole role, string month, int type, int page_size = 100, CancellationToken cancellationToken = default)
     {
         page_size = Math.Clamp(page_size, 20, 100);
-        var data = await GetLedgerDetailByPageAsync(role, month, type, 1, page_size);
+        var data = await GetTrailblazeCalendarDetailByPageAsync(role, month, type, 1, page_size, cancellationToken);
         if (data.List.Count < page_size)
         {
             return data;
         }
         for (int i = 2; ; i++)
         {
-            var addData = await GetLedgerDetailByPageAsync(role, month, type, i, page_size);
+            var addData = await GetTrailblazeCalendarDetailByPageAsync(role, month, type, i, page_size, cancellationToken);
             data.List.AddRange(addData.List);
             if (addData.List.Count < page_size)
             {
@@ -128,22 +130,43 @@ public class HyperionStarRailClient : HyperionClient
     /// <param name="schedule">1当期，2上期</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [Obsolete("还没玩到这", true)]
-    public async Task<object> GetForgottenHallAsync(StarRailRole role, int schedule, CancellationToken? cancellationToken = null)
+    public async Task<ForgottenHallInfo> GetForgottenHallInfoAsync(HyperionGameRole role, int schedule, CancellationToken cancellationToken = default)
     {
         var url = $"https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/challenge?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(DS, DynamicSecret.CreateSecret2(url));
-        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/app/community-game-records/rpg/index.html?mhy_presentation_style=fullscreen&game_id=6&utm_source=bbs&utm_medium=mys&utm_campaign=icon\r\n");
+        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_client_type, "5");
         request.Headers.Add(X_Reuqest_With, com_mihoyo_hyperion);
-        var data = await CommonSendAsync<object>(request);
-        //data.Uid = role.Uid;
+        var data = await CommonSendAsync<ForgottenHallInfo>(request, cancellationToken);
+        data.Uid = role.Uid;
         return data;
     }
 
+
+
+
+    /// <summary>
+    /// 模拟宇宙
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<SimulatedUniverseInfo> GetSimulatedUniverseInfoAsync(HyperionGameRole role, CancellationToken cancellationToken = default)
+    {
+        var url = $"https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/rogue?role_id={role.Uid}&server={role.Region}&schedule_type=3&need_detail=true";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, DynamicSecret.CreateSecret2(url));
+        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(X_Reuqest_With, com_mihoyo_hyperion);
+        var data = await CommonSendAsync<SimulatedUniverseInfo>(request, cancellationToken);
+        return data;
+    }
 
 
 

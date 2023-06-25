@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hyperion.StarRail.Ledger;
+namespace Starward.Core.Hyperion.StarRail.TrailblazeCalendar;
 
 /// <summary>
 /// 开拓月历-每日数据
 /// </summary>
-public class LedgerDayData
+public class TrailblazeCalendarDayData
 {
     /// <summary>
     /// 今天的星琼

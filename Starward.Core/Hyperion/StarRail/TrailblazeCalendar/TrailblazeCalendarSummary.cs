@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hyperion.StarRail.Ledger;
+namespace Starward.Core.Hyperion.StarRail.TrailblazeCalendar;
 
 /// <summary>
 /// 开拓月历总结
 /// </summary>
-public class LedgerSummary : IJsonOnDeserialized
+public class TrailblazeCalendarSummary : IJsonOnDeserialized
 {
 
     [JsonPropertyName("uid")]
@@ -27,13 +27,13 @@ public class LedgerSummary : IJsonOnDeserialized
     public List<string> OptionalMonth { get; set; }
 
     /// <summary>
-    /// 202304
+    /// 发出请求时的月份 202306
     /// </summary>
     [JsonPropertyName("month")]
     public string Month { get; set; }
 
     /// <summary>
-    /// 202304
+    /// 返回数据的月份 202304
     /// </summary>
     [JsonPropertyName("data_month")]
     public string DataMonth { get; set; }
@@ -42,15 +42,17 @@ public class LedgerSummary : IJsonOnDeserialized
     /// 月数据
     /// </summary>
     [JsonPropertyName("month_data")]
-    public LedgerMonthData MonthData { get; set; }
+    public TrailblazeCalendarMonthData MonthData { get; set; }
 
     /// <summary>
     /// 日数据
     /// </summary>
     [JsonPropertyName("day_data")]
-    public LedgerDayData DayData { get; set; }
+    public TrailblazeCalendarDayData DayData { get; set; }
 
-
+    /// <summary>
+    /// 发出请求时的游戏版本
+    /// </summary>
     [JsonPropertyName("version")]
     public string Version { get; set; }
 

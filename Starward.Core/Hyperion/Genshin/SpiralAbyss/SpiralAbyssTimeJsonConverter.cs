@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Starward.Core.Hyperion.Genshin.SpiralAbyss;
 
-public class SpiralAbyssTimeJsonConverter : JsonConverter<DateTimeOffset>
+internal class SpiralAbyssTimeJsonConverter : JsonConverter<DateTimeOffset>
 {
     public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

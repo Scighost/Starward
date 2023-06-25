@@ -36,6 +36,26 @@ public static class EnumExtension
     }
 
 
+    public static bool IsChinaServer(this GameBiz biz)
+    {
+        return (int)biz switch
+        {
+            11 or 13 or 21 or 32 => true,
+            _ => false,
+        };
+    }
+
+
+    public static bool IsGlobalServer(this GameBiz biz)
+    {
+        return (int)biz switch
+        {
+            12 or 22 or (>= 32 and <= 36) => true,
+            _ => false,
+        };
+    }
+
+
     public static string GetLauncherRegistryKey(this GameBiz biz)
     {
         return biz switch

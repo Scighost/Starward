@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hyperion.StarRail.Ledger;
+namespace Starward.Core.Hyperion.StarRail.TrailblazeCalendar;
 
 /// <summary>
 /// 开拓月历明细
 /// </summary>
-public class LedgerDetail : IJsonOnDeserialized
+public class TrailblazeCalendarDetail : IJsonOnDeserialized
 {
 
     [JsonPropertyName("uid")]
@@ -27,7 +27,7 @@ public class LedgerDetail : IJsonOnDeserialized
 
 
     [JsonPropertyName("list")]
-    public List<LedgerDetailItem> List { get; set; }
+    public List<TrailblazeCalendarDetailItem> List { get; set; }
 
 
     [JsonPropertyName("total")]

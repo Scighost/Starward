@@ -1,17 +1,19 @@
 ﻿using Starward.Core.Gacha;
 using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hyperion.StarRail.Ledger;
+namespace Starward.Core.Hyperion.StarRail.TrailblazeCalendar;
 
 /// <summary>
 /// 开拓月历明细单项
 /// </summary>
-public class LedgerDetailItem
+public class TrailblazeCalendarDetailItem
 {
 
     [JsonIgnore]
     public int Id { get; set; }
 
+    [JsonPropertyName("uid")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public long Uid { get; set; }
 
     /// <summary>

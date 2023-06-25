@@ -5,9 +5,6 @@ namespace Starward.Core.Hyperion.Genshin.SpiralAbyss;
 public class SpiralAbyssInfo
 {
 
-    [JsonIgnore]
-    public int Id { get; set; }
-
     public long Uid { get; set; }
 
     [JsonPropertyName("schedule_id")]

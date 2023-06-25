@@ -8,10 +8,6 @@ namespace Starward.Core.Hyperion.Genshin.SpiralAbyss
     public class SpiralAbyssAvatar
     {
 
-        [JsonIgnore]
-        public int Id { get; set; }
-
-
         [JsonPropertyName("id")]
         public int AvatarId { get; set; }
 

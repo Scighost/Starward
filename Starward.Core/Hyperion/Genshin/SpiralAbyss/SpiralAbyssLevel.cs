@@ -8,10 +8,6 @@ namespace Starward.Core.Hyperion.Genshin.SpiralAbyss
     public class SpiralAbyssLevel
     {
 
-        [JsonIgnore]
-        public int Id { get; set; }
-
-
         [JsonPropertyName("index")]
         public int Index { get; set; }
 

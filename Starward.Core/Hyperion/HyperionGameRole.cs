@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hyperion.Genshin;
+namespace Starward.Core.Hyperion;
 
-public class GenshinRole
+public class HyperionGameRole
 {
 
     [JsonPropertyName("game_biz")]
@@ -45,8 +45,8 @@ public class GenshinRole
 }
 
 
-internal class GenshinRoleWrapper
+internal class HyperionGameRoleWrapper
 {
     [JsonPropertyName("list")]
-    public List<GenshinRole> List { get; set; }
+    public List<HyperionGameRole> List { get; set; }
 }

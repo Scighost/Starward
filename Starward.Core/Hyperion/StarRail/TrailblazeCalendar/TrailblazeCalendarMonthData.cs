@@ -1,18 +1,18 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.Core.Hyperion.StarRail.Ledger;
+namespace Starward.Core.Hyperion.StarRail.TrailblazeCalendar;
 
 /// <summary>
 /// 开拓月历-每月数据
 /// </summary>
-public class LedgerMonthData
+public class TrailblazeCalendarMonthData
 {
 
-    [JsonIgnore]
+    [JsonPropertyName("uid")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public long Uid { get; set; }
 
-
-    [JsonIgnore]
+    [JsonPropertyName("month")]
     public string Month { get; set; }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class LedgerMonthData
     /// 分组统计
     /// </summary>
     [JsonPropertyName("group_by")]
-    public List<LedgerMonthDataGroupBy> GroupBy { get; set; }
+    public List<TrailblazeCalendarMonthDataGroupBy> GroupBy { get; set; }
 }
 
 

@@ -8,9 +8,6 @@ namespace Starward.Core.Hyperion.Genshin.SpiralAbyss
     public class SpiralAbyssRank
     {
 
-        [JsonIgnore]
-        public int Id { get; set; }
-
 
         [JsonPropertyName("avatar_id")]
         public int AvatarId { get; set; }

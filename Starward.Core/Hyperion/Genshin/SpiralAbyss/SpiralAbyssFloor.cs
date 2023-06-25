@@ -7,9 +7,6 @@ namespace Starward.Core.Hyperion.Genshin.SpiralAbyss
     /// </summary>
     public class SpiralAbyssFloor
     {
-        [JsonIgnore]
-        public int Id { get; set; }
-
 
         [JsonPropertyName("index")]
         public int Index { get; set; }

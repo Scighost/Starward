@@ -26,7 +26,7 @@ public class HyperionClient
     protected const string x_rpc_device_id = "x-rpc-device_id";
     protected const string x_rpc_client_type = "x-rpc-client_type";
     protected const string UAContent = $"Mozilla/5.0 miHoYoBBS/{AppVersion}";
-    protected const string AppVersion = "2.49.1";
+    protected const string AppVersion = "2.53.1";
     protected static readonly string DeviceId = Guid.NewGuid().ToString("D");
 
     #endregion
@@ -57,18 +57,18 @@ public class HyperionClient
 
 
 
-    protected async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken? cancellationToken = null) where T : class
+    protected async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken = default) where T : class
     {
         request.Version = HttpVersion.Version20;
         request.Headers.Add(Accept, Application_Json);
         request.Headers.Add(UserAgent, UAContent);
-        var response = await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None);
+        var response = await _httpClient.SendAsync(request, cancellationToken);
         response.EnsureSuccessStatusCode();
 #if DEBUG
-        var content = await response.Content.ReadAsStringAsync();
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
         var responseData = JsonSerializer.Deserialize(content, typeof(MihoyoApiWrapper<T>), HyperionJsonContext.Default) as MihoyoApiWrapper<T>;
 #else
-        var responseData = await response.Content.ReadFromJsonAsync(typeof(MihoyoApiWrapper<T>), HyperionJsonContext.Default) as MihoyoApiWrapper<T>;
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(MihoyoApiWrapper<T>), HyperionJsonContext.Default, cancellationToken) as MihoyoApiWrapper<T>;
 #endif
         if (responseData is null)
         {
@@ -83,10 +83,9 @@ public class HyperionClient
 
 
 
-    protected async Task CommonSendAsync(HttpRequestMessage request, CancellationToken? cancellationToken = null)
+    protected async Task CommonSendAsync(HttpRequestMessage request, CancellationToken cancellationToken = default)
     {
-        await CommonSendAsync<object>(request, cancellationToken ?? CancellationToken.None);
-        return;
+        _ = await CommonSendAsync<object>(request, cancellationToken);
     }
 
 
@@ -101,22 +100,22 @@ public class HyperionClient
     /// <param name="cookie"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">输入的 <c>cookie</c> 为空</exception>
-    public async Task<HyperionUser> GetHyperionUserAsync(string cookie, CancellationToken? cancellationToken = null)
+    public async Task<HyperionUser> GetHyperionUserAsync(string cookie, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(cookie))
         {
             throw new ArgumentNullException(nameof(cookie));
         }
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://bbs-api.mihoyo.com/user/wapi/getUserFullInfo?gids=2");
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://bbs-api.miyoushe.com/user/wapi/getUserFullInfo");
         request.Headers.Add(Cookie, cookie);
-        request.Headers.Add(Referer, "https://bbs.mihoyo.com/");
+        request.Headers.Add(Referer, "https://www.miyoushe.com/");
         request.Headers.Add(DS, DynamicSecret.CreateSecret());
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_device_id, DeviceId);
         request.Headers.Add(x_rpc_client_type, "5");
         var data = await CommonSendAsync<HyperionUserWrapper>(request, cancellationToken);
-        data.MiyousheUser.Cookie = cookie;
-        return data.MiyousheUser;
+        data.HyperionUser.Cookie = cookie;
+        return data.HyperionUser;
     }
 
 
