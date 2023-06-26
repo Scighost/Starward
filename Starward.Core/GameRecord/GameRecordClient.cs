@@ -131,7 +131,7 @@ public abstract class GameRecordClient
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
         var responseData = JsonSerializer.Deserialize(content, typeof(miHoYoApiWrapper<T>), GameRecordJsonContext.Default) as miHoYoApiWrapper<T>;
 #else
-        var responseData = await response.Content.ReadFromJsonAsync(typeof(MihoyoApiWrapper<T>), GameRecordJsonContext.Default, cancellationToken) as MihoyoApiWrapper<T>;
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), GameRecordJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;
 #endif
         if (responseData is null)
         {
