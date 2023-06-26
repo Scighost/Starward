@@ -12,6 +12,9 @@ public class GameRecordUser
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public long Uid { get; set; }
 
+    [JsonPropertyName("is_hoyolab")]
+    public bool IsHoyolab { get; set; }
+
     /// <summary>
     /// 昵称
     /// </summary>

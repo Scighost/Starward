@@ -63,6 +63,7 @@ public class HoyolabClient : GameRecordClient
         request.Headers.Add(x_rpc_device_id, DeviceId);
         request.Headers.Add(x_rpc_client_type, "5");
         var data = await CommonSendAsync<GameRecordUserWrapper>(request, cancellationToken);
+        data.User.IsHoyolab = true;
         data.User.Cookie = cookie;
         return data.User;
     }

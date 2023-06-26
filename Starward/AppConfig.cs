@@ -7,9 +7,7 @@ using Serilog;
 using Starward.Core;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
-using Starward.Core.Hyperion;
-using Starward.Core.Hyperion.Genshin;
-using Starward.Core.Hyperion.StarRail;
+using Starward.Core.GameRecord;
 using Starward.Core.Launcher;
 using Starward.Core.Metadata;
 using Starward.Services;
@@ -211,8 +209,8 @@ internal static class AppConfig
             sc.AddSingleton<GenshinGachaClient>();
             sc.AddSingleton<StarRailGachaClient>();
             sc.AddSingleton<HyperionClient>();
-            sc.AddSingleton<HyperionGenshinClient>();
-            sc.AddSingleton<HyperionStarRailClient>();
+            sc.AddSingleton<HyperionClient>();
+            sc.AddSingleton<HoyolabClient>();
             sc.AddSingleton<LauncherClient>();
             sc.AddSingleton(p => new MetadataClient(ApiCDNIndex, p.GetService<HttpClient>()));
 

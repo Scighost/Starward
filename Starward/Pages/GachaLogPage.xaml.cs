@@ -295,7 +295,7 @@ public sealed partial class GachaLogPage : Page
         {
             _logger.LogInformation("Get gacha log canceled");
         }
-        catch (MihoyoApiException ex)
+        catch (miHoYoApiException ex)
         {
             _logger.LogWarning("Request mihoyo api error: {error}", ex.Message);
             if (ex.ReturnCode == -101)
@@ -448,7 +448,6 @@ public sealed partial class GachaLogPage : Page
     [RelayCommand]
     private async Task ExportGachaLogAsync(string format)
     {
-        // todo
         try
         {
             if (SelectUid == 0)

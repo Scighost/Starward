@@ -317,9 +317,140 @@ internal class DatabaseService
 
         CREATE TABLE IF NOT EXISTS Setting
         (
-            Key   TEXT PRIMARY KEY,
+            Key   TEXT NOT NULL PRIMARY KEY,
             Value TEXT
         );
+
+        CREATE TABLE IF NOT EXISTS GameRecordUser
+        (
+            Uid       INTEGER NOT NULL,
+            IsHoyolab INTEGER NOT NULL,
+            Nickname  TEXT,
+            Avatar    TEXT,
+            Introduce TEXT,
+            Gender    INTEGER NOT NULL,
+            AvatarUrl TEXT,
+            Pendant   TEXT,
+            Cookie    TEXT,
+            PRIMARY KEY (Uid, IsHoyolab)
+        );
+
+        CREATE TABLE IF NOT EXISTS GameRecordRole
+        (
+            Uid        INTEGER NOT NULL,
+            GameBiz    TEXT    NOT NULL,
+            Nickname   TEXT,
+            Level      INTEGER NOT NULL,
+            Region     TEXT    NOT NULL,
+            RegionName TEXT,
+            Cookie     TEXT,
+            PRIMARY KEY (Uid, GameBiz)
+        );
+        CREATE INDEX IF NOT EXISTS IX_GameRecordRole_GameBiz ON GameRecordRole (GameBiz);
+
+        CREATE TABLE IF NOT EXISTS SpiralAbyssInfo
+        (
+            Uid              INTEGER NOT NULL,
+            ScheduleId       INTEGER NOT NULL,
+            StartTime        TEXT    NOT NULL,
+            EndTime          TEXT    NOT NULL,
+            TotalBattleCount INTEGER NOT NULL,
+            TotalWinCount    INTEGER NOT NULL,
+            MaxFloor         TEXT,
+            TotalStar        INTEGER NOT NULL,
+            Value            TEXT    NOT NULL,
+            PRIMARY KEY (Uid, ScheduleId)
+        );
+        CREATE INDEX IF NOT EXISTS IX_SpiralAbyssInfo_ScheduleId ON SpiralAbyssInfo (ScheduleId);
+
+        CREATE TABLE IF NOT EXISTS TravelNotesMonthData
+        (
+            Uid                   INTEGER NOT NULL,
+            Year                  INTEGER NOT NULL,
+            Month                 INTEGER NOT NULL,
+            CurrentPrimogems      INTEGER NOT NULL,
+            CurrentMora           INTEGER NOT NULL,
+            LastPrimogems         INTEGER NOT NULL,
+            LastMora              INTEGER NOT NULL,
+            CurrentPrimogemsLevel INTEGER NOT NULL,
+            PrimogemsChangeRate   INTEGER NOT NULL,
+            MoraChangeRate        INTEGER NOT NULL,
+            PrimogemsGroupBy      TEXT    NOT NULL,
+            PRIMARY KEY (Uid, Year, Month)
+        );
+
+        CREATE TABLE IF NOT EXISTS TravelersDiaryAwardItem
+        (
+            Id         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            Uid        INTEGER NOT NULL,
+            Year       INTEGER NOT NULL,
+            Month      INTEGER NOT NULL,
+            Type       INTEGER NOT NULL,
+            ActionId   INTEGER NOT NULL,
+            ActionName TEXT,
+            Time       TEXT    NOT NULL,
+            Number     INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS IX_TravelersDiaryAwardItem_Uid_Year_Month ON TravelersDiaryAwardItem (Uid, Year, Month);
+        CREATE INDEX IF NOT EXISTS IX_TravelersDiaryAwardItem_Type ON TravelersDiaryAwardItem (Type);
+        CREATE INDEX IF NOT EXISTS IX_TravelersDiaryAwardItem_Time ON TravelersDiaryAwardItem (Time);
+
+        CREATE TABLE IF NOT EXISTS ForgottenHallInfo
+        (
+            Uid        INTEGER NOT NULL,
+            ScheduleId INTEGER NOT NULL,
+            BeginTime  TEXT    NOT NULL,
+            EndTime    TEXT    NOT NULL,
+            StarNum    INTEGER NOT NULL,
+            MaxFloor   TEXT,
+            BattleNum  INTEGER NOT NULL,
+            HasData    INTEGER NOT NULL,
+            Value      TEXT    NOT NULL,
+            PRIMARY KEY (Uid, ScheduleId)
+        );
+        CREATE INDEX IF NOT EXISTS IX_ForgottenHallInfo_ScheduleId ON ForgottenHallInfo (ScheduleId);
+
+        CREATE TABLE IF NOT EXISTS SimulatedUniverseRecord
+        (
+            Uid           INTEGER NOT NULL,
+            ScheduleId    INTEGER NOT NULL,
+            FinishCount   INTEGER NOT NULL,
+            ScheduleBegin TEXT    NOT NULL,
+            ScheduleEnd   TEXT    NOT NULL,
+            HasData       INTEGER NOT NULL,
+            Value         TEXT    NOT NULL,
+            PRIMARY KEY (Uid, ScheduleId)
+        );
+        CREATE INDEX IF NOT EXISTS IX_SimulatedUniverseRecord_ScheduleId ON SimulatedUniverseRecord (ScheduleId);
+
+        CREATE TABLE IF NOT EXISTS TrailblazeCalendarMonthData
+        (
+            Uid              INTEGER NOT NULL,
+            Month            TEXT    NOT NULL,
+            CurrentHcoin     INTEGER NOT NULL,
+            CurrentRailsPass INTEGER NOT NULL,
+            LastHcoin        INTEGER NOT NULL,
+            LastRailsPass    INTEGER NOT NULL,
+            HcoinRate        INTEGER NOT NULL,
+            RailsRate        INTEGER NOT NULL,
+            GroupBy          TEXT    NOT NULL,
+            PRIMARY KEY (Uid, Month)
+        );
+
+        CREATE TABLE IF NOT EXISTS TrailblazeCalendarDetailItem
+        (
+            Id         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            Uid        INTEGER NOT NULL,
+            Month      TEXT    NOT NULL,
+            Type       INTEGER NOT NULL,
+            Action     TEXT    NOT NULL,
+            ActionName TEXT    NOT NULL,
+            Time       TEXT    NOT NULL,
+            Number     INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS IX_TrailblazeCalendarDetailItem_Uid_Month ON TrailblazeCalendarDetailItem (Uid, Month);
+        CREATE INDEX IF NOT EXISTS IX_TrailblazeCalendarDetailItem_Type ON TrailblazeCalendarDetailItem (Type);
+        CREATE INDEX IF NOT EXISTS IX_TrailblazeCalendarDetailItem_Time ON TrailblazeCalendarDetailItem (Time);
 
         PRAGMA USER_VERSION = 4;
         COMMIT TRANSACTION;
