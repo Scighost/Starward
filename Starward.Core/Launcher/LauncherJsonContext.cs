@@ -2,9 +2,9 @@
 
 namespace Starward.Core.Launcher;
 
-[JsonSerializable(typeof(MihoyoApiWrapper<LauncherContent>))]
-[JsonSerializable(typeof(MihoyoApiWrapper<LauncherResource>))]
-[JsonSerializable(typeof(MihoyoApiWrapper<CloudGameBackgroundWrapper>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<LauncherContent>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<LauncherResource>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<CloudGameBackgroundWrapper>))]
 internal partial class LauncherJsonContext : JsonSerializerContext
 {
 

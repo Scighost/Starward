@@ -1,12 +1,12 @@
 ﻿namespace Starward.Core;
 
-public class MihoyoApiException : Exception
+public class miHoYoApiException : Exception
 {
 
     public int ReturnCode { get; init; }
 
 
-    public MihoyoApiException(int returnCode, string? message) : base($"{message} ({returnCode})")
+    public miHoYoApiException(int returnCode, string? message) : base($"{message} ({returnCode})")
     {
         ReturnCode = returnCode;
     }

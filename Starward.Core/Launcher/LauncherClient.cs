@@ -26,58 +26,23 @@ public class LauncherClient
         request.Version = HttpVersion.Version20;
         var response = await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None);
         response.EnsureSuccessStatusCode();
-        var responseData = await response.Content.ReadFromJsonAsync(typeof(MihoyoApiWrapper<T>), LauncherJsonContext.Default) as MihoyoApiWrapper<T>;
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), LauncherJsonContext.Default) as miHoYoApiWrapper<T>;
         if (responseData is null)
         {
-            throw new MihoyoApiException(-1, "Can not parse the response body.");
+            throw new miHoYoApiException(-1, "Can not parse the response body.");
         }
         if (responseData.Retcode != 0)
         {
-            throw new MihoyoApiException(responseData.Retcode, responseData.Message);
+            throw new miHoYoApiException(responseData.Retcode, responseData.Message);
         }
         return responseData.Data;
     }
 
 
 
-
-    private static string FilterLanguage(string? lang)
-    {
-        // zh-cn,zh-tw,en-us,de-de,es-es,fr-fr,id-id,it-it,ja-jp,ko-kr,pt-pt,ru-ru,th-th,tr-tr,vi-vn
-        var low = lang?.ToLower() ?? "";
-        if (low.Length < 2)
-        {
-            low = "..";
-        }
-        return low switch
-        {
-            "zh-hk" or "zh-mo" or "zh-tw" => "zh-tw",
-            "zh-cn" or "zh-sg" => "zh-cn",
-            _ => low[..2] switch
-            {
-                "de" => "de-de",
-                "es" => "es-es",
-                "fr" => "fr-fr",
-                "id" => "id-id",
-                "it" => "it-it",
-                "ja" => "ja-jp",
-                "ko" => "ko-kr",
-                "pt" => "pt-pt",
-                "ru" => "ru-ru",
-                "th" => "th-th",
-                "tr" => "tr-tr",
-                "vi" => "vi-vn",
-                _ => "en-us",
-            }
-        };
-    }
-
-
-
-
     public async Task<LauncherContent> GetLauncherContentAsync(GameBiz biz, string? lang = null)
     {
-        lang = FilterLanguage(lang);
+        lang = Util.FilterLanguage(lang);
         var url = biz switch
         {
             GameBiz.hk4e_cn or GameBiz.hk4e_cloud => "https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?filter_adv=false&key=eYd89JmJ&language=zh-cn&launcher_id=18",

@@ -2,7 +2,7 @@
 
 namespace Starward.Core;
 
-internal class MihoyoApiWrapper<T>
+internal class miHoYoApiWrapper<T>
 {
 
     [JsonPropertyName("retcode")]

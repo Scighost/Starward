@@ -220,14 +220,14 @@ public abstract class GachaLogClient
     {
         await Task.Delay(Random.Shared.Next(200, 300));
         var url = $"{gachaUrlPrefix}&{param}";
-        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(MihoyoApiWrapper<GachaLogResult<T>>), GachaLogJsonContext.Default, cancellationToken) as MihoyoApiWrapper<GachaLogResult<T>>;
+        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<GachaLogResult<T>>), GachaLogJsonContext.Default, cancellationToken) as miHoYoApiWrapper<GachaLogResult<T>>;
         if (wrapper is null)
         {
             return new List<T>();
         }
         else if (wrapper.Retcode != 0)
         {
-            throw new MihoyoApiException(wrapper.Retcode, wrapper.Message);
+            throw new miHoYoApiException(wrapper.Retcode, wrapper.Message);
         }
         else
         {
