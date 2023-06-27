@@ -12,7 +12,8 @@
       mc:Ignorable="d">
 
     <Grid>
-        <NavigationView IsBackButtonVisible="Collapsed"
+        <NavigationView Name="NavigationView_Toolbox"
+                        IsBackButtonVisible="Collapsed"
                         IsPaneToggleButtonVisible="False"
                         IsSettingsVisible="False"
                         OpenPaneLength="260"
@@ -22,26 +23,56 @@
             </NavigationView.Resources>
 
             <NavigationView.PaneCustomContent>
-                <Grid Padding="12,4,16,4"
+                <Grid Height="56"
                       HorizontalAlignment="Stretch"
-                      ColumnSpacing="12">
+                      ColumnSpacing="8">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="64" />
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <!--  头像  -->
-                    <Grid Width="56" Height="56">
-                        <sc:CachedImage Margin="6"
+                    <Grid Name="Grid_Avatar_1"
+                          Width="56"
+                          Height="56"
+                          Margin="8,0,0,0"
+                          Background="Transparent"
+                          Tapped="Grid_Avatar_1_Tapped">
+                        <sc:CachedImage Name="Image_Avatar_1"
+                                        Margin="6"
+                                        Background="{ThemeResource AccentFillColorDefaultBrush}"
                                         CornerRadius="100"
                                         IsCacheEnabled="True"
                                         Source="{x:Bind AvatarUrl}" />
-                        <sc:CachedImage IsCacheEnabled="True" Source="{x:Bind CurrentUser.Pendant, FallbackValue={x:Null}}" />
+                        <sc:CachedImage Name="Image_Pendant"
+                                        IsCacheEnabled="True"
+                                        Source="{x:Bind CurrentUser.Pendant, FallbackValue={x:Null}}"
+                                        Visibility="Visible" />
                     </Grid>
+
+                    <!--  窄边框头像  -->
+                    <Border Name="Border_Avatar_2"
+                            Width="48"
+                            Height="48"
+                            Margin="0,2,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Background="Transparent"
+                            Tapped="Border_Avatar_2_Tapped"
+                            Visibility="Collapsed">
+                        <sc:CachedImage Name="Image_Avatar_2"
+                                        Width="40"
+                                        Height="40"
+                                        Margin="2,0,0,0"
+                                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                                        CornerRadius="100"
+                                        IsCacheEnabled="True"
+                                        Source="{x:Bind AvatarUrl}" />
+                    </Border>
 
                     <!--  角色信息  -->
                     <StackPanel Grid.Column="1"
@@ -59,6 +90,7 @@
                     <!--  登录  -->
                     <Button Grid.Column="1"
                             Grid.ColumnSpan="2"
+                            Margin="0,0,12,0"
                             BorderThickness="0"
                             Content="Log in"
                             Style="{ThemeResource AccentButtonStyle}"
@@ -77,6 +109,7 @@
                     <Button Grid.Column="2"
                             Width="28"
                             Height="44"
+                            Margin="0,0,12,0"
                             Padding="0"
                             Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                             Visibility="{x:Bind CurrentRole, Converter={StaticResource ObjectToVisibilityConverter}}">
@@ -205,10 +238,96 @@
 
             <NavigationView.MenuItems>
                 <NavigationViewItemSeparator />
-                <NavigationViewItem Icon="Admin" />
+                <!--  深境螺旋  -->
+                <NavigationViewItem Name="NavigationViewItem_SpiralAbyss"
+                                    Tag="SpiralAbyssPage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/UI_MapIcon_Abyss.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="Spiral Abyss"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                <!--  旅行者札记  -->
+                <NavigationViewItem Name="NavigationViewItem_TravelersDiary"
+                                    Tag="TravelersDiaryPage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/4bb2f9e21b6c64201692c4ea76a2faca_7020708978085976578.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="Traveler's Diary"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                <!--  模拟宇宙  -->
+                <NavigationViewItem Name="NavigationViewItem_SimulatedUniverse"
+                                    Tag="SimulatedUniversePage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/RougeAchievementIcon_s.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="Simulated Universe"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                <!--  忘却之庭  -->
+                <NavigationViewItem Name="NavigationViewItem_ForgottenHall"
+                                    Tag="ForgottenHallPage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/AbyssIcon01.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="Forgotten Hall"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                <!--  开拓月历  -->
+                <NavigationViewItem Name="NavigationViewItem_TrailblazeMonthlyCalendar"
+                                    Tag="TrailblazeCalendarPage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/097aa51ae0b4bc0c9c9e6aca6dab0744_10826781894277788.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="Trailblaze Monthly Calendar"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+
             </NavigationView.MenuItems>
 
             <Frame Name="frame" />
+
         </NavigationView>
 
     </Grid>

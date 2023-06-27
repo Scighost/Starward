@@ -56,6 +56,7 @@ public sealed partial class HoyolabToolboxPage : Page
                 _ => biz
             };
             _gameRecordService.IsHoyolab = gameBiz.IsGlobalServer();
+            InitializeNavigationViewItemVisibility();
         }
     }
 
@@ -79,6 +80,63 @@ public sealed partial class HoyolabToolboxPage : Page
 
 
 
+    #region Navigation Style
+
+
+    [ObservableProperty]
+    private Thickness navigationViewItemContentMargin = new Thickness(-2, 0, 0, 0);
+
+
+    // Close pane
+    private void Grid_Avatar_1_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    {
+        NavigationViewItemContentMargin = new Thickness(2, 0, 0, 0);
+        NavigationView_Toolbox.IsPaneOpen = false;
+        Grid_Avatar_1.Visibility = Visibility.Collapsed;
+        Border_Avatar_2.Visibility = Visibility.Visible;
+    }
+
+
+    // Open pane
+    private void Border_Avatar_2_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    {
+        NavigationViewItemContentMargin = new Thickness(-2, 0, 0, 0);
+        NavigationView_Toolbox.IsPaneOpen = true;
+        Grid_Avatar_1.Visibility = Visibility.Visible;
+        Border_Avatar_2.Visibility = Visibility.Collapsed;
+    }
+
+
+
+
+    private void InitializeNavigationViewItemVisibility()
+    {
+        if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+        {
+            NavigationViewItem_SpiralAbyss.Visibility = Visibility.Visible;
+            NavigationViewItem_TravelersDiary.Visibility = Visibility.Visible;
+        }
+        if (gameBiz.ToGame() is GameBiz.StarRail)
+        {
+            if (gameBiz is GameBiz.hkrpg_cn)
+            {
+                NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
+            }
+            NavigationViewItem_ForgottenHall.Visibility = Visibility.Visible;
+            NavigationViewItem_TrailblazeMonthlyCalendar.Visibility = Visibility.Visible;
+        }
+    }
+
+
+
+
+    #endregion
+
+
+
+
+    #region Game Role Info
+
 
 
     [ObservableProperty]
@@ -95,8 +153,6 @@ public sealed partial class HoyolabToolboxPage : Page
 
 
     public string AvatarUrl => CurrentUser?.AvatarUrl ?? $"ms-appx:///Assets/Image/icon_{(gameBiz.IsGlobalServer() ? "hoyolab" : "hyperion")}.png";
-
-
 
 
 
@@ -126,14 +182,6 @@ public sealed partial class HoyolabToolboxPage : Page
     {
         LoadGameRoles(e);
     }
-
-
-
-    private void NavigateTo(Type page)
-    {
-        frame.Navigate(page, gameBiz);
-    }
-
 
 
 
@@ -212,6 +260,32 @@ public sealed partial class HoyolabToolboxPage : Page
             _logger.LogError(ex, "Delete game role ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
         }
     }
+
+
+    #endregion
+
+
+
+
+    #region Navigate
+
+
+
+    private void NavigateTo(Type? page)
+    {
+        if (page is null)
+        {
+            return;
+        }
+        frame.Navigate(page, gameBiz);
+    }
+
+
+
+
+
+
+    #endregion
 
 
 }
