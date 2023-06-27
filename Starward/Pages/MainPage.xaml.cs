@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
 using Starward.Helpers;
+using Starward.Pages.HoyolabToolbox;
 using Starward.Services;
 using System;
 using System.ComponentModel;
@@ -146,6 +147,7 @@ public sealed partial class MainPage : Page
 
     public void ReloadTextForLanguage()
     {
+        // navigation items
         NavigationViewItem_Launcher.Content = Lang.MainPage_Launcer;
         NavigationViewItem_GameSetting.Content = Lang.LauncherPage_GameSetting;
         NavigationViewItem_Screenshot.Content = Lang.MainPage_GameScreenshot;
@@ -158,7 +160,16 @@ public sealed partial class MainPage : Page
         {
             NavigationViewItem_GachaLog.Content = Lang.GachaLogService_WarpRecords;
         }
+        if (CurrentGameBiz.IsChinaServer())
+        {
+            NavigationViewItem_HoyolabToolbox.Content = "Hyperion Toolbox";
+        }
+        if (CurrentGameBiz.IsGlobalServer())
+        {
+            NavigationViewItem_HoyolabToolbox.Content = "HoYoLAB Toolbox";
+        }
 
+        // switch region
         TextBlock_SwitchRegionTitle.Text = Lang.MainPage_HowToSwitchGameRegion;
         TextBlock_SwitchRegionContent.Text = Lang.MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft;
     }
@@ -677,20 +688,26 @@ public sealed partial class MainPage : Page
         if (CurrentGameBiz.ToGame() is GameBiz.None)
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Collapsed;
+            NavigationViewItem_GameSetting.Visibility = Visibility.Collapsed;
             NavigationViewItem_Screenshot.Visibility = Visibility.Collapsed;
             NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
+            NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
         }
         else if (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd)
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Visible;
+            NavigationViewItem_GameSetting.Visibility = Visibility.Visible;
             NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
             NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
+            NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
         }
         else
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Visible;
+            NavigationViewItem_GameSetting.Visibility = Visibility.Visible;
             NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
             NavigationViewItem_GachaLog.Visibility = Visibility.Visible;
+            NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Visible;
         }
         if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
         {
@@ -701,6 +718,14 @@ public sealed partial class MainPage : Page
         {
             // 跃迁记录
             NavigationViewItem_GachaLog.Content = Lang.GachaLogService_WarpRecords;
+        }
+        if (CurrentGameBiz.IsChinaServer())
+        {
+            NavigationViewItem_HoyolabToolbox.Content = "Hyperion Toolbox";
+        }
+        if (CurrentGameBiz.IsGlobalServer())
+        {
+            NavigationViewItem_HoyolabToolbox.Content = "HoYoLAB Toolbox";
         }
     }
 
@@ -725,6 +750,7 @@ public sealed partial class MainPage : Page
                     nameof(GameSettingPage) => typeof(GameSettingPage),
                     nameof(ScreenshotPage) => typeof(ScreenshotPage),
                     nameof(GachaLogPage) => typeof(GachaLogPage),
+                    nameof(HoyolabToolboxPage) => typeof(HoyolabToolboxPage),
                     nameof(SettingPage) => typeof(SettingPage),
                     _ => null,
                 };
@@ -737,7 +763,9 @@ public sealed partial class MainPage : Page
 
     public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null, bool changeGameBiz = false)
     {
-        if (page is null || page?.Name is nameof(BlankPage) || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && page?.Name is nameof(GachaLogPage)))
+        if (page is null
+            || page?.Name is nameof(BlankPage)
+            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && page?.Name is nameof(GachaLogPage) or nameof(HoyolabToolboxPage)))
         {
             page = typeof(LauncherPage);
             MainPage_NavigationView.SelectedItem = MainPage_NavigationView.MenuItems.FirstOrDefault();

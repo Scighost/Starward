@@ -40,7 +40,7 @@ public static class EnumExtension
     {
         return (int)biz switch
         {
-            11 or 13 or 21 or 32 => true,
+            11 or 13 or 21 or 31 => true,
             _ => false,
         };
     }

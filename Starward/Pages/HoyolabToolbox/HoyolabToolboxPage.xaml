@@ -1,0 +1,216 @@
+﻿<Page x:Class="Starward.Pages.HoyolabToolbox.HoyolabToolboxPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Starward.Pages.HoyolabToolbox"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:sc="using:Starward.Controls"
+      xmlns:scg="using:Starward.Core.GameRecord"
+      x:DefaultBindMode="OneWay"
+      Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded"
+      mc:Ignorable="d">
+
+    <Grid>
+        <NavigationView IsBackButtonVisible="Collapsed"
+                        IsPaneToggleButtonVisible="False"
+                        IsSettingsVisible="False"
+                        OpenPaneLength="260"
+                        PaneDisplayMode="Left">
+            <NavigationView.Resources>
+                <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+            </NavigationView.Resources>
+
+            <NavigationView.PaneCustomContent>
+                <Grid Padding="12,4,16,4"
+                      HorizontalAlignment="Stretch"
+                      ColumnSpacing="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  头像  -->
+                    <Grid Width="56" Height="56">
+                        <sc:CachedImage Margin="6"
+                                        CornerRadius="100"
+                                        IsCacheEnabled="True"
+                                        Source="{x:Bind AvatarUrl}" />
+                        <sc:CachedImage IsCacheEnabled="True" Source="{x:Bind CurrentUser.Pendant, FallbackValue={x:Null}}" />
+                    </Grid>
+
+                    <!--  角色信息  -->
+                    <StackPanel Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Spacing="2"
+                                Visibility="{x:Bind CurrentRole, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <TextBlock Text="{x:Bind CurrentRole.Nickname}" TextTrimming="CharacterEllipsis" />
+                        <TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                            <Run Text="{x:Bind CurrentRole.RegionName}" />
+                            <Run Text="" />
+                            <Run Text="Lv." /><Run Text="{x:Bind CurrentRole.Level}" />
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!--  登录  -->
+                    <Button Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            BorderThickness="0"
+                            Content="Log in"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind CurrentRole, Converter={StaticResource ObjectToVisibilityReversedConverter}}">
+                        <Button.Flyout>
+                            <MenuFlyout x:Name="Flyout_LoginMenu_1" Placement="BottomEdgeAlignedLeft">
+                                <MenuFlyoutItem Command="{x:Bind WebLoginCommand}"
+                                                Icon="Globe"
+                                                Text="Web Login" />
+                                <MenuFlyoutItem Icon="Edit" Text="Input Cookie" />
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+
+                    <!--  角色列表  -->
+                    <Button Grid.Column="2"
+                            Width="28"
+                            Height="44"
+                            Padding="0"
+                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                            Visibility="{x:Bind CurrentRole, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <StackPanel Spacing="-6">
+                            <FontIcon FontSize="16"
+                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                      Glyph="&#xE70E;" />
+                            <FontIcon FontSize="16"
+                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                      Glyph="&#xE70D;" />
+                        </StackPanel>
+                        <Button.Flyout>
+                            <Flyout x:Name="Flyout_GameRoles" Placement="BottomEdgeAlignedRight">
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                        <Setter Property="Background" Value="{ThemeResource CustomAcrylicBrush}" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="Padding" Value="4" />
+                                    </Style>
+                                </Flyout.FlyoutPresenterStyle>
+                                <Grid MinWidth="252"
+                                      Padding="0,8,0,8"
+                                      RowSpacing="4">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--  全部刷新  -->
+                                    <Button Grid.Column="0"
+                                            Margin="4,0,4,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Left"
+                                            Command="{x:Bind RefreshGameRoleInfoCommand}"
+                                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                            <FontIcon FontSize="16" Glyph="&#xE72C;" />
+                                            <TextBlock VerticalAlignment="Center" Text="Refresh Info" />
+                                        </StackPanel>
+                                    </Button>
+
+                                    <!--  添加账号  -->
+                                    <Button Grid.Column="1"
+                                            Margin="4,0,4,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Left"
+                                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                            <FontIcon FontSize="16" Glyph="&#xE710;" />
+                                            <TextBlock VerticalAlignment="Center" Text="Log in" />
+                                        </StackPanel>
+                                        <Button.Flyout>
+                                            <MenuFlyout x:Name="Flyout_LoginMenu_2" Placement="RightEdgeAlignedTop">
+                                                <MenuFlyoutItem Command="{x:Bind WebLoginCommand}"
+                                                                Icon="Globe"
+                                                                Text="Web Login" />
+                                                <MenuFlyoutItem Icon="Edit" Text="Input Cookie" />
+                                            </MenuFlyout>
+                                        </Button.Flyout>
+                                    </Button>
+
+
+                                    <MenuFlyoutSeparator Grid.Row="1" Grid.ColumnSpan="2" />
+
+                                    <ListView Name="ListView_GameRoles"
+                                              Grid.Row="2"
+                                              Grid.ColumnSpan="2"
+                                              ItemsSource="{x:Bind GameRoleList}"
+                                              SelectionChanged="ListView_GameRoles_SelectionChanged"
+                                              SelectionMode="Single">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="scg:GameRecordRole">
+                                                <Grid Padding="0,6,0,6">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel VerticalAlignment="Center" Spacing="2">
+                                                        <TextBlock Text="{x:Bind Nickname}" TextTrimming="CharacterEllipsis" />
+                                                        <TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                                            <Run Text="{x:Bind RegionName}" />
+                                                            <Run Text="" />
+                                                            <Run Text="Lv." /><Run Text="{x:Bind Level}" />
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                    <Button Grid.Column="1"
+                                                            Width="36"
+                                                            Height="28"
+                                                            Padding="0"
+                                                            VerticalAlignment="Stretch"
+                                                            Content="&#xE712;"
+                                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                                        <Button.Flyout>
+                                                            <MenuFlyout Placement="RightEdgeAlignedTop">
+                                                                <MenuFlyoutItem Name="MenuFlyoutItem_CopyCookie"
+                                                                                Click="MenuFlyoutItem_CopyCookie_Click"
+                                                                                Icon="Copy"
+                                                                                Tag="{x:Bind}"
+                                                                                Text="Copy Cookie" />
+                                                                <MenuFlyoutItem Name="MenuFlyoutItem_DeleteGameRole"
+                                                                                Click="MenuFlyoutItem_DeleteGameRole_Click"
+                                                                                Icon="Delete"
+                                                                                Tag="{x:Bind}"
+                                                                                Text="Delete Game Role" />
+                                                            </MenuFlyout>
+                                                        </Button.Flyout>
+                                                    </Button>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </Grid>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+
+                </Grid>
+            </NavigationView.PaneCustomContent>
+
+            <NavigationView.MenuItems>
+                <NavigationViewItemSeparator />
+                <NavigationViewItem Icon="Admin" />
+            </NavigationView.MenuItems>
+
+            <Frame Name="frame" />
+        </NavigationView>
+
+    </Grid>
+
+</Page>

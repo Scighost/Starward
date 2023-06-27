@@ -17,3 +17,18 @@ public class ObjectToVisibilityConverter : IValueConverter
     }
 
 }
+
+
+public class ObjectToVisibilityReversedConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        return value is not null ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        throw new NotImplementedException();
+    }
+
+}

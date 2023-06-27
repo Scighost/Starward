@@ -25,6 +25,7 @@
             <scv:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
             <scv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <scv:BoolToVisibilityReversedConverter x:Key="BoolToVisibilityReversedConverter" />
+            <scv:ObjectToVisibilityReversedConverter x:Key="ObjectToVisibilityReversedConverter" />
             <scv:ByteLengthToStringConverter x:Key="ByteLengthToStringConverter" />
             <scv:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
             <scv:BoolReversedConverter x:Key="BoolReversedConverter" />

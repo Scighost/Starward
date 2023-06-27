@@ -103,6 +103,11 @@
                         <FontIcon Glyph="&#xE81C;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Name="NavigationViewItem_HoyolabToolbox" Tag="HoyolabToolboxPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xF133;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
 
             <NavigationView.FooterMenuItems>
