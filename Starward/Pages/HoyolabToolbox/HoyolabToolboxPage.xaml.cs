@@ -67,6 +67,7 @@ public sealed partial class HoyolabToolboxPage : Page
     {
         _gameRecordService.GameRecordRoleChanged += _gameRecordService_GameRecordRoleChanged;
         await Task.Delay(16);
+        NavigateTo(typeof(BlankPage));
         LoadGameRoles();
     }
 
@@ -181,6 +182,7 @@ public sealed partial class HoyolabToolboxPage : Page
     private void _gameRecordService_GameRecordRoleChanged(object? sender, GameRecordRole? e)
     {
         LoadGameRoles(e);
+        NavigateTo(frame.SourcePageType);
     }
 
 
@@ -188,7 +190,7 @@ public sealed partial class HoyolabToolboxPage : Page
     [RelayCommand]
     private void WebLogin()
     {
-        NavigateTo(typeof(LoginPage));
+        NavigateTo(typeof(LoginPage), gameBiz);
     }
 
 
@@ -271,16 +273,40 @@ public sealed partial class HoyolabToolboxPage : Page
 
 
 
-    private void NavigateTo(Type? page)
+    private void NavigateTo(Type? page, object? parameter = null)
     {
         if (page is null)
         {
             return;
         }
-        frame.Navigate(page, gameBiz);
+        frame.Navigate(page, parameter ?? CurrentRole);
     }
 
 
+
+    private void NavigationView_Toolbox_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+    {
+        if (args.InvokedItemContainer?.IsSelected ?? false)
+        {
+            return;
+        }
+        if (args.IsSettingsInvoked)
+        {
+        }
+        else
+        {
+            var item = args.InvokedItemContainer as NavigationViewItem;
+            if (item != null)
+            {
+                var type = item.Tag switch
+                {
+                    nameof(SpiralAbyssPage) => typeof(SpiralAbyssPage),
+                    _ => null,
+                };
+                NavigateTo(type);
+            }
+        }
+    }
 
 
 

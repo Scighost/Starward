@@ -5,6 +5,8 @@ namespace Starward.Core.GameRecord.Genshin.SpiralAbyss;
 public class SpiralAbyssInfo
 {
 
+    [JsonPropertyName("uid")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public long Uid { get; set; }
 
     [JsonPropertyName("schedule_id")]

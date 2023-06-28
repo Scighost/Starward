@@ -29,12 +29,17 @@
             <scv:ByteLengthToStringConverter x:Key="ByteLengthToStringConverter" />
             <scv:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
             <scv:BoolReversedConverter x:Key="BoolReversedConverter" />
+            <scv:RarityToGIBgConverter x:Key="RarityToGIBgConverter" />
 
             <!--  Custom Acrylic  -->
             <AcrylicBrush x:Key="CustomAcrylicBrush"
                           FallbackColor="{ThemeResource ControlOnImageFillColorDefault}"
                           TintColor="{ThemeResource ControlOnImageFillColorDefault}"
                           TintOpacity="0.6" />
+            <AcrylicBrush x:Key="CustomOverlayAcrylicBrush"
+                          FallbackColor="{ThemeResource ControlOnImageFillColorDefault}"
+                          TintColor="{ThemeResource ControlOnImageFillColorDefault}"
+                          TintOpacity="0.4" />
 
             <Thickness x:Key="NavigationViewBorderThickness">0</Thickness>
             <StaticResource x:Key="ComboBoxDropDownBackground" ResourceKey="CustomAcrylicBrush" />

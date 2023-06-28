@@ -69,6 +69,11 @@ internal class GameRecordService
 
 
 
+
+    #region Game Role
+
+
+
     public async Task<GameRecordUser> AddRecordUserAsync(string cookie, CancellationToken cancellationToken = default)
     {
         var user = await _gameRecordClient.GetGameRecordUserAsync(cookie, cancellationToken);
@@ -188,8 +193,19 @@ internal class GameRecordService
 
 
 
+    #endregion
 
-    public async Task<SpiralAbyssInfo> GetSpiralAbyssInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+
+
+
+    /// <summary>
+    /// 深境螺旋
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="schedule">1当期，2上期</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<SpiralAbyssInfo> RefreshSpiralAbyssInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
     {
         var info = await _gameRecordClient.GetSpiralAbyssInfoAsync(role, schedule);
         var obj = new
@@ -215,6 +231,33 @@ internal class GameRecordService
 
 
 
+    public List<SpiralAbyssInfo> GetSpiralAbyssInfoList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<SpiralAbyssInfo>();
+        }
+        using var dapper = _databaseService.CreateConnection();
+        var list = dapper.Query<SpiralAbyssInfo>("""
+            SELECT Uid, ScheduleId, StartTime, EndTime, TotalBattleCount, TotalWinCount, MaxFloor, TotalStar FROM SpiralAbyssInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
+            """, new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public SpiralAbyssInfo? GetSpiralAbyssInfo(GameRecordRole role, int scheduleId)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        var value = dapper.QueryFirstOrDefault<string>("""
+            SELECT Value FROM SpiralAbyssInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
+            """, new { role.Uid, scheduleId });
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+        return JsonSerializer.Deserialize<SpiralAbyssInfo>(value);
+    }
 
 
 

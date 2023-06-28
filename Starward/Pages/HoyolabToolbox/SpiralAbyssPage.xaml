@@ -1,0 +1,353 @@
+﻿<Page x:Class="Starward.Pages.HoyolabToolbox.SpiralAbyssPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:abyss="using:Starward.Core.GameRecord.Genshin.SpiralAbyss"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Starward.Pages.HoyolabToolbox"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:sc="using:Starward.Controls"
+      x:DefaultBindMode="OneWay"
+      Loaded="Page_Loaded"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <BitmapImage x:Key="AbyssIcon" UriSource="ms-appx:///Assets/Image/UI_Icon_Tower_Star.png" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel Margin="0,24,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Spacing="12">
+            <Button Height="36"
+                    BorderThickness="0"
+                    Command="{x:Bind RefreshDataCommand}"
+                    CornerRadius="0,18,18,0"
+                    Shadow="{ThemeResource ThemeShadow}"
+                    Style="{ThemeResource AccentButtonStyle}"
+                    Translation="0,0,16">
+                <StackPanel Margin="4,0,4,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <FontIcon FontSize="16" Glyph="&#xE72C;" />
+                    <TextBlock Text="Refresh" />
+                </StackPanel>
+            </Button>
+            <Button Height="36"
+                    BorderThickness="0"
+                    CornerRadius="0,18,18,0"
+                    Shadow="{ThemeResource ThemeShadow}"
+                    Style="{ThemeResource AccentButtonStyle}"
+                    Translation="0,0,16"
+                    Visibility="Collapsed">
+                <StackPanel Margin="4,0,4,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <FontIcon FontSize="16" Glyph="&#xE9D9;" />
+                    <TextBlock Text="Summary" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <ListView Name="ListView_AbyssList"
+                  Grid.Row="1"
+                  Padding="12,0,0,0"
+                  ItemsSource="{x:Bind AbyssList}"
+                  SelectionChanged="ListView_AbyssList_SelectionChanged"
+                  SelectionMode="Single"
+                  Visibility="{x:Bind HasData}">
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="0,4,0,4" />
+                    <Setter Property="Padding" Value="4,0,4,0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="abyss:SpiralAbyssInfo">
+                    <Grid Padding="12,8,12,8"
+                          Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                          CornerRadius="4"
+                          RowSpacing="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{x:Bind StartTime.LocalDateTime.ToShortDateString()}" />
+                        <Image Grid.Row="1"
+                               Width="20"
+                               Height="20"
+                               HorizontalAlignment="Left"
+                               Source="{StaticResource AbyssIcon}" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="24,0,0,2"
+                                   VerticalAlignment="Center"
+                                   Text="{x:Bind TotalStar}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+
+        <ScrollViewer Grid.RowSpan="2"
+                      Grid.Column="1"
+                      Visibility="{x:Bind CurrentAbyss, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <StackPanel Margin="24" Spacing="8">
+                <Grid>
+                    <!--  Schedule Id  -->
+                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                        <Run Text="Lunar Phase" />
+                        <Run Text="" />
+                        <Run Text="{x:Bind CurrentAbyss.ScheduleId}" />
+                    </TextBlock>
+                    <!--  时间  -->
+                    <TextBlock HorizontalAlignment="Right" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                        <Run Text="{x:Bind CurrentAbyss.StartTime.LocalDateTime.ToShortDateString()}" />
+                        <Run Text=" - " />
+                        <Run Text="{x:Bind CurrentAbyss.EndTime.LocalDateTime.ToShortDateString()}" />
+                    </TextBlock>
+                </Grid>
+                <!--  出战统计  -->
+                <Grid Margin="0,-4,0,0"
+                      Padding="8"
+                      Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                      CornerRadius="8"
+                      Shadow="{ThemeResource ThemeShadow}"
+                      Translation="0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!--  Total Star  -->
+                    <StackPanel HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Spacing="8">
+                        <Image Width="24"
+                               Height="24"
+                               VerticalAlignment="Center"
+                               Source="{StaticResource AbyssIcon}" />
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Text="{x:Bind CurrentAbyss.TotalStar}" />
+                    </StackPanel>
+                    <!--  最深抵达  -->
+                    <TextBlock Grid.Column="1"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="16">
+                        <Run Text="Deepest Descent" />
+                        <Run Text="" />
+                        <Run Text="{x:Bind CurrentAbyss.MaxFloor}" />
+                    </TextBlock>
+                    <!--  战斗次数  -->
+                    <TextBlock Grid.Column="2"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="16">
+                        <Run Text="Battles Fought" />
+                        <Run Text="" />
+                        <Run Text="{x:Bind CurrentAbyss.TotalBattleCount}" />
+                    </TextBlock>
+                </Grid>
+
+                <!--  出战次数  -->
+                <TextBlock Margin="0,8,0,0"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="Picked" />
+                <Grid Padding="12"
+                      Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                      CornerRadius="8"
+                      Shadow="{ThemeResource ThemeShadow}"
+                      Translation="0,0,16">
+                    <ItemsControl HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  ItemsSource="{x:Bind RevealRankInternalStar}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel VerticalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Spacing="104" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Path Width="12"
+                                      Height="12"
+                                      Data="M512 1024A723.431253 723.431253 0 0 0 0 512 723.431253 723.431253 0 0 0 512 0a723.431253 723.431253 0 0 0 512 512 723.431253 723.431253 0 0 0-512 512z"
+                                      Fill="#E4C891"
+                                      Stretch="Uniform" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl HorizontalAlignment="Center" ItemsSource="{x:Bind CurrentAbyss.RevealRank}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel VerticalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Spacing="36" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="abyss:SpiralAbyssRank">
+                                <Grid Width="80" Height="97">
+                                    <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
+                                    <sc:CachedImage Height="80"
+                                                    VerticalAlignment="Top"
+                                                    CornerRadius="0,0,16,0"
+                                                    IsCacheEnabled="True"
+                                                    Source="{x:Bind AvatarIcon}" />
+                                    <TextBlock Margin="0,0,0,1"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Bottom"
+                                               FontSize="12"
+                                               FontWeight="SemiBold"
+                                               Foreground="#84603D">
+                                        <Run Text="{x:Bind Value}" />
+                                        <Run Text="次" />
+                                    </TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+
+                <!--  战斗数据榜  -->
+                <TextBlock Margin="0,8,0,0"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="Combat Stats" />
+                <Grid Padding="24,0,24,0"
+                      Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                      CornerRadius="8"
+                      Shadow="{ThemeResource ThemeShadow}"
+                      Translation="0,0,16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Row="1"
+                            Grid.ColumnSpan="3"
+                            Margin="-24,0,-24,0"
+                            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}" />
+                    <Border Grid.Row="3"
+                            Grid.ColumnSpan="3"
+                            Margin="-24,0,-24,0"
+                            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}" />
+                    <!--  最多击破数  -->
+                    <TextBlock Grid.Row="0"
+                               VerticalAlignment="Center"
+                               Text="Most Defeats" />
+                    <!--  最强一击  -->
+                    <TextBlock Grid.Row="1"
+                               VerticalAlignment="Center"
+                               Text="Strongest Single Strike" />
+                    <!--  承受最多伤害  -->
+                    <TextBlock Grid.Row="2"
+                               VerticalAlignment="Center"
+                               Text="Most Damage Taken" />
+                    <!--  元素战技施放数  -->
+                    <TextBlock Grid.Row="3"
+                               VerticalAlignment="Center"
+                               Text="Elemental Skills Unleashed" />
+                    <!--  元素爆发次数  -->
+                    <TextBlock Grid.Row="4"
+                               VerticalAlignment="Center"
+                               Text="Elemental Brusts Unleashed" />
+
+                    <sc:CachedImage Grid.Row="0"
+                                    Grid.Column="1"
+                                    Width="44"
+                                    Height="36"
+                                    Margin="0,-2,0,2"
+                                    VerticalAlignment="Bottom"
+                                    IsCacheEnabled="True"
+                                    Source="{x:Bind CurrentAbyss.DefeatRank[0].AvatarIcon, FallbackValue={x:Null}}"
+                                    Stretch="UniformToFill" />
+                    <sc:CachedImage Grid.Row="1"
+                                    Grid.Column="1"
+                                    Width="44"
+                                    Height="36"
+                                    Margin="0,-2,0,2"
+                                    VerticalAlignment="Bottom"
+                                    IsCacheEnabled="True"
+                                    Source="{x:Bind CurrentAbyss.DamageRank[0].AvatarIcon, FallbackValue={x:Null}}"
+                                    Stretch="UniformToFill" />
+                    <sc:CachedImage Grid.Row="2"
+                                    Grid.Column="1"
+                                    Width="44"
+                                    Height="36"
+                                    Margin="0,-2,0,2"
+                                    VerticalAlignment="Bottom"
+                                    IsCacheEnabled="True"
+                                    Source="{x:Bind CurrentAbyss.TakeDamageRank[0].AvatarIcon, FallbackValue={x:Null}}"
+                                    Stretch="UniformToFill" />
+                    <sc:CachedImage Grid.Row="3"
+                                    Grid.Column="1"
+                                    Width="44"
+                                    Height="36"
+                                    Margin="0,-2,0,2"
+                                    VerticalAlignment="Bottom"
+                                    IsCacheEnabled="True"
+                                    Source="{x:Bind CurrentAbyss.NormalSkillRank[0].AvatarIcon, FallbackValue={x:Null}}"
+                                    Stretch="UniformToFill" />
+                    <sc:CachedImage Grid.Row="4"
+                                    Grid.Column="1"
+                                    Width="44"
+                                    Height="36"
+                                    Margin="0,-2,0,2"
+                                    VerticalAlignment="Bottom"
+                                    IsCacheEnabled="True"
+                                    Source="{x:Bind CurrentAbyss.EnergySkillRank[0].AvatarIcon, FallbackValue={x:Null}}"
+                                    Stretch="UniformToFill" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="2"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind CurrentAbyss.DefeatRank[0].Value, FallbackValue={x:Null}}" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="2"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind CurrentAbyss.DamageRank[0].Value, FallbackValue={x:Null}}" />
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="2"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind CurrentAbyss.TakeDamageRank[0].Value, FallbackValue={x:Null}}" />
+                    <TextBlock Grid.Row="3"
+                               Grid.Column="2"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind CurrentAbyss.NormalSkillRank[0].Value, FallbackValue={x:Null}}" />
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="2"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind CurrentAbyss.EnergySkillRank[0].Value, FallbackValue={x:Null}}" />
+                </Grid>
+
+
+            </StackPanel>
+        </ScrollViewer>
+
+
+    </Grid>
+
+</Page>

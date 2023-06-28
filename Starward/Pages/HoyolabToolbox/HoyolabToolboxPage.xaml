@@ -16,6 +16,7 @@
                         IsBackButtonVisible="Collapsed"
                         IsPaneToggleButtonVisible="False"
                         IsSettingsVisible="False"
+                        ItemInvoked="NavigationView_Toolbox_ItemInvoked"
                         OpenPaneLength="260"
                         PaneDisplayMode="Left">
             <NavigationView.Resources>
