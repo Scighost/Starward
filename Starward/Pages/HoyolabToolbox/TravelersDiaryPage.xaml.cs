@@ -1,0 +1,206 @@
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
+using Starward.Controls;
+using Starward.Core.GameRecord;
+using Starward.Core.GameRecord.Genshin.TravelersDiary;
+using Starward.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.UI;
+
+// To learn more about WinUI, the WinUI project structure,
+// and more about our project templates, see: http://aka.ms/winui-project-info.
+
+namespace Starward.Pages.HoyolabToolbox;
+
+/// <summary>
+/// An empty page that can be used on its own or navigated to within a Frame.
+/// </summary>
+[INotifyPropertyChanged]
+public sealed partial class TravelersDiaryPage : Page
+{
+
+
+    private readonly ILogger<TravelersDiaryPage> _logger = AppConfig.GetLogger<TravelersDiaryPage>();
+
+
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
+
+
+
+    public TravelersDiaryPage()
+    {
+        this.InitializeComponent();
+    }
+
+
+
+    private GameRecordRole gameRole;
+
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+        if (e.Parameter is GameRecordRole role)
+        {
+            gameRole = role;
+        }
+    }
+
+    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        await Task.Delay(16);
+        await InitializeDataAsync();
+    }
+
+
+
+
+    [ObservableProperty]
+    private bool hasData;
+
+
+    [ObservableProperty]
+    private TravelersDiarySummary currentSummary;
+
+
+    [ObservableProperty]
+    private TravelersDiaryMonthData selectMonthData;
+
+
+    [ObservableProperty]
+    private List<TravelersDiaryMonthData> monthDataList;
+
+
+    [ObservableProperty]
+    private List<ColorRectChart.ChartLegend>? currentSeries;
+
+
+    [ObservableProperty]
+    private List<ColorRectChart.ChartLegend>? selectSeries;
+
+
+
+    private static readonly Dictionary<int, Color> actionColorMap = new Dictionary<int, Color>()
+    {
+        [0] = Color.FromArgb(0xFF, 0x72, 0xA7, 0xC6),
+        [1] = Color.FromArgb(0xFF, 0xD4, 0x64, 0x63),
+        [2] = Color.FromArgb(0xFF, 0x6F, 0xB0, 0xB2),
+        [3] = Color.FromArgb(0xFF, 0xBC, 0x99, 0x59),
+        [4] = Color.FromArgb(0xFF, 0x72, 0x98, 0x6F),
+        [5] = Color.FromArgb(0xFF, 0x79, 0x6B, 0xA6),
+        [6] = Color.FromArgb(0xFF, 0x59, 0x7D, 0x9F),
+    };
+
+
+
+    [RelayCommand]
+    private async Task InitializeDataAsync()
+    {
+        await Task.Delay(16);
+        await GetCurrentSummaryAsync();
+        GetMonthDataList();
+    }
+
+
+
+
+    private async Task GetCurrentSummaryAsync()
+    {
+        try
+        {
+            if (gameRole is null)
+            {
+                return;
+            }
+            HasData = true;
+            CurrentSummary = await _gameRecordService.GetTravelersDiarySummaryAsync(gameRole);
+            MenuFlyout_GetDetails.Items.Clear();
+            foreach (int month in CurrentSummary.OptionalMonth)
+            {
+                MenuFlyout_GetDetails.Items.Add(new MenuFlyoutItem
+                {
+                    Text = new DateTime(2023, month, 1).ToString("MMM"),
+                    Command = GetDataDetailsCommand,
+                    CommandParameter = month,
+                });
+            }
+            CurrentSeries = CurrentSummary.MonthData.PrimogemsGroupBy.Select(x => new ColorRectChart.ChartLegend(x.ActionName, x.Percent, actionColorMap.GetValueOrDefault(x.ActionId))).ToList();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
+    private void GetMonthDataList()
+    {
+        try
+        {
+            MonthDataList = _gameRecordService.GetTravelersDiaryMonthDataList(gameRole);
+            if (MonthDataList.Any())
+            {
+                HasData = true;
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
+
+
+    [RelayCommand]
+    private async Task GetDataDetailsAsync(int month)
+    {
+        try
+        {
+            if (gameRole is null)
+            {
+                return;
+            }
+            await _gameRecordService.GetTravelersDiarySummaryAsync(gameRole, month);
+            await _gameRecordService.GetTravelersDiaryDetailAsync(gameRole, month, 1);
+            await _gameRecordService.GetTravelersDiaryDetailAsync(gameRole, month, 2);
+            GetMonthDataList();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
+
+
+    private void ListView_MonthDataList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        try
+        {
+            if (e.AddedItems.FirstOrDefault() is TravelersDiaryMonthData data)
+            {
+                SelectMonthData = data;
+                SelectSeries = SelectMonthData.PrimogemsGroupBy.Select(x => new ColorRectChart.ChartLegend(x.ActionName, x.Percent, actionColorMap.GetValueOrDefault(x.ActionId))).ToList();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Selection changed ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+        }
+    }
+
+
+
+}

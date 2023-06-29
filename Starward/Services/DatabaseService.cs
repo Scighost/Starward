@@ -374,7 +374,7 @@ internal class DatabaseService
         );
         CREATE INDEX IF NOT EXISTS IX_SpiralAbyssInfo_ScheduleId ON SpiralAbyssInfo (ScheduleId);
 
-        CREATE TABLE IF NOT EXISTS TravelNotesMonthData
+        CREATE TABLE IF NOT EXISTS TravelersDiaryMonthData
         (
             Uid                   INTEGER NOT NULL,
             Year                  INTEGER NOT NULL,
@@ -512,7 +512,7 @@ internal class DatabaseService
                 {
                     if (!string.IsNullOrWhiteSpace(str))
                     {
-                        return JsonSerializer.Deserialize<List<TravelersDiaryPrimogemsMonthGroupStats>>(str)!;
+                        return JsonSerializer.Deserialize<List<TravelersDiaryPrimogemsMonthGroupStats>>(str, JsonSerializerOptions)!;
                     }
                 }
                 return new();
@@ -520,7 +520,7 @@ internal class DatabaseService
 
             public override void SetValue(IDbDataParameter parameter, List<TravelersDiaryPrimogemsMonthGroupStats> value)
             {
-                parameter.Value = JsonSerializer.Serialize(value);
+                parameter.Value = JsonSerializer.Serialize(value, JsonSerializerOptions);
             }
         }
 

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
+using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -198,6 +199,9 @@ internal class GameRecordService
 
 
 
+    #region Spiral Abyss
+
+
     /// <summary>
     /// 深境螺旋
     /// </summary>
@@ -260,6 +264,78 @@ internal class GameRecordService
     }
 
 
+    #endregion
+
+
+
+
+
+
+    #region Traveler's Diary
+
+
+
+    public async Task<TravelersDiarySummary> GetTravelersDiarySummaryAsync(GameRecordRole role, int month = 0)
+    {
+        var summary = await _gameRecordClient.GetTravelsDiarySummaryAsync(role, month);
+        if (summary.MonthData is null)
+        {
+            return summary;
+        }
+        using var dapper = _databaseService.CreateConnection();
+        dapper.Execute("""
+            INSERT OR REPLACE INTO TravelersDiaryMonthData
+            (Uid, Year, Month, CurrentPrimogems, CurrentMora, LastPrimogems, LastMora, CurrentPrimogemsLevel, PrimogemsChangeRate, MoraChangeRate, PrimogemsGroupBy)
+            VALUES (@Uid, @Year, @Month, @CurrentPrimogems, @CurrentMora, @LastPrimogems, @LastMora, @CurrentPrimogemsLevel, @PrimogemsChangeRate, @MoraChangeRate, @PrimogemsGroupBy);
+            """, summary.MonthData);
+        return summary;
+    }
+
+
+    public List<TravelersDiaryMonthData> GetTravelersDiaryMonthDataList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<TravelersDiaryMonthData>();
+        }
+        using var dapper = _databaseService.CreateConnection();
+        var list = dapper.Query<TravelersDiaryMonthData>("SELECT * FROM TravelersDiaryMonthData WHERE Uid = @Uid ORDER BY Year, Month DESC;", new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public async Task<int> GetTravelersDiaryDetailAsync(GameRecordRole role, int month, int type, int limit = 100)
+    {
+        var detail = await _gameRecordClient.GetTravelsDiaryDetailAsync(role, month, type, limit);
+        if (detail.List is null || !detail.List.Any())
+        {
+            return 0;
+        }
+        var list = detail.List;
+        using var dapper = _databaseService.CreateConnection();
+        var existCount = dapper.QuerySingleOrDefault<int>("SELECT COUNT(*) FROM TravelersDiaryAwardItem WHERE Uid=@Uid AND Year=@Year AND Month=@Month AND Type=@Type;", list.FirstOrDefault());
+        if (existCount == list.Count)
+        {
+            return 0;
+        }
+        using var t = dapper.BeginTransaction();
+        dapper.Execute($"DELETE FROM TravelersDiaryAwardItem WHERE Uid=@Uid AND Year=@Year AND Month=@Month AND Type=@Type;", list.FirstOrDefault(), t);
+        dapper.Execute("""
+                INSERT INTO TravelersDiaryAwardItem (Uid, Year, Month, Type, ActionId, ActionName, Time, Number)
+                VALUES (@Uid, @Year, @Month, @Type, @ActionId, @ActionName, @Time, @Number);
+                """, list, t);
+        t.Commit();
+        return list.Count - existCount;
+    }
+
+
+
+
+
+
+
+    #endregion
 
 
 

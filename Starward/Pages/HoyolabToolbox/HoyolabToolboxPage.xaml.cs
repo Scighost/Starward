@@ -301,6 +301,7 @@ public sealed partial class HoyolabToolboxPage : Page
                 var type = item.Tag switch
                 {
                     nameof(SpiralAbyssPage) => typeof(SpiralAbyssPage),
+                    nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
                     _ => null,
                 };
                 NavigateTo(type);

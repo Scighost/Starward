@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="Starward.Controls.ColorRectChart"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Starward.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <Border CornerRadius="{x:Bind CornerRadius}">
+        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Rectangle.Fill>
+                <LinearGradientBrush x:Name="FillBrush" StartPoint="0,0" EndPoint="1,0" />
+            </Rectangle.Fill>
+        </Rectangle>
+    </Border>
+
+</UserControl>
