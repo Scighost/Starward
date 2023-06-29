@@ -76,7 +76,7 @@ public sealed partial class SpiralAbyssPage : Page
     private SpiralAbyssInfo? currentAbyss;
 
 
-    public List<int> RevealRankInternalStar => Enumerable.Range(0, (CurrentAbyss?.RevealRank?.Count ?? 1) - 1).ToList();
+    public List<int> RevealRankInternalStar => Enumerable.Range(0, Math.Clamp((CurrentAbyss?.RevealRank?.Count ?? 1) - 1, 0, int.MaxValue)).ToList();
 
 
     private void InitializeAbyssData()
@@ -125,6 +125,7 @@ public sealed partial class SpiralAbyssPage : Page
             if (e.AddedItems.FirstOrDefault() is SpiralAbyssInfo info)
             {
                 CurrentAbyss = _gameRecordService.GetSpiralAbyssInfo(gameRole, info.ScheduleId);
+                HasData = CurrentAbyss?.TotalBattleCount > 0;
             }
         }
         catch (Exception ex)

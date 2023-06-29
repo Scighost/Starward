@@ -71,8 +71,7 @@
                   Padding="12,0,0,0"
                   ItemsSource="{x:Bind AbyssList}"
                   SelectionChanged="ListView_AbyssList_SelectionChanged"
-                  SelectionMode="Single"
-                  Visibility="{x:Bind HasData}">
+                  SelectionMode="Single">
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                     <Setter Property="Margin" Value="0,4,0,4" />
@@ -173,12 +172,14 @@
                            FontSize="16"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="{x:Bind lang:Lang.SpiralAbyssPage_Picked}" />
+                           Text="{x:Bind lang:Lang.SpiralAbyssPage_Picked}"
+                           Visibility="{x:Bind HasData}" />
                 <Grid Padding="12"
                       Background="{ThemeResource CustomOverlayAcrylicBrush}"
                       CornerRadius="8"
                       Shadow="{ThemeResource ThemeShadow}"
-                      Translation="0,0,16">
+                      Translation="0,0,16"
+                      Visibility="{x:Bind HasData}">
                     <ItemsControl HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   ItemsSource="{x:Bind RevealRankInternalStar}">
@@ -236,12 +237,14 @@
                            FontSize="16"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="{x:Bind lang:Lang.SpiralAbyssPage_CombatStats}" />
+                           Text="{x:Bind lang:Lang.SpiralAbyssPage_CombatStats}"
+                           Visibility="{x:Bind HasData}" />
                 <Grid Padding="24,0,24,0"
                       Background="{ThemeResource CustomOverlayAcrylicBrush}"
                       CornerRadius="8"
                       Shadow="{ThemeResource ThemeShadow}"
-                      Translation="0,0,16">
+                      Translation="0,0,16"
+                      Visibility="{x:Bind HasData}">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
@@ -290,7 +293,7 @@
                                     Margin="0,-2,0,2"
                                     VerticalAlignment="Bottom"
                                     IsCacheEnabled="True"
-                                    Source="{x:Bind CurrentAbyss.DefeatRank[0].AvatarIcon, FallbackValue={x:Null}}"
+                                    Source="{x:Bind CurrentAbyss.FirstDefeatRank.AvatarIcon, FallbackValue={x:Null}}"
                                     Stretch="UniformToFill" />
                     <sc:CachedImage Grid.Row="1"
                                     Grid.Column="1"
@@ -299,7 +302,7 @@
                                     Margin="0,-2,0,2"
                                     VerticalAlignment="Bottom"
                                     IsCacheEnabled="True"
-                                    Source="{x:Bind CurrentAbyss.DamageRank[0].AvatarIcon, FallbackValue={x:Null}}"
+                                    Source="{x:Bind CurrentAbyss.FirstDamageRank.AvatarIcon, FallbackValue={x:Null}}"
                                     Stretch="UniformToFill" />
                     <sc:CachedImage Grid.Row="2"
                                     Grid.Column="1"
@@ -308,7 +311,7 @@
                                     Margin="0,-2,0,2"
                                     VerticalAlignment="Bottom"
                                     IsCacheEnabled="True"
-                                    Source="{x:Bind CurrentAbyss.TakeDamageRank[0].AvatarIcon, FallbackValue={x:Null}}"
+                                    Source="{x:Bind CurrentAbyss.FirstTakeDamageRank.AvatarIcon, FallbackValue={x:Null}}"
                                     Stretch="UniformToFill" />
                     <sc:CachedImage Grid.Row="3"
                                     Grid.Column="1"
@@ -317,7 +320,7 @@
                                     Margin="0,-2,0,2"
                                     VerticalAlignment="Bottom"
                                     IsCacheEnabled="True"
-                                    Source="{x:Bind CurrentAbyss.NormalSkillRank[0].AvatarIcon, FallbackValue={x:Null}}"
+                                    Source="{x:Bind CurrentAbyss.FirstNormalSkillRank.AvatarIcon, FallbackValue={x:Null}}"
                                     Stretch="UniformToFill" />
                     <sc:CachedImage Grid.Row="4"
                                     Grid.Column="1"
@@ -326,28 +329,28 @@
                                     Margin="0,-2,0,2"
                                     VerticalAlignment="Bottom"
                                     IsCacheEnabled="True"
-                                    Source="{x:Bind CurrentAbyss.EnergySkillRank[0].AvatarIcon, FallbackValue={x:Null}}"
+                                    Source="{x:Bind CurrentAbyss.FirstEnergySkillRank.AvatarIcon, FallbackValue={x:Null}}"
                                     Stretch="UniformToFill" />
                     <TextBlock Grid.Row="0"
                                Grid.Column="2"
                                VerticalAlignment="Center"
-                               Text="{x:Bind CurrentAbyss.DefeatRank[0].Value, FallbackValue={x:Null}}" />
+                               Text="{x:Bind CurrentAbyss.FirstDefeatRank.Value, FallbackValue={x:Null}}" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="2"
                                VerticalAlignment="Center"
-                               Text="{x:Bind CurrentAbyss.DamageRank[0].Value, FallbackValue={x:Null}}" />
+                               Text="{x:Bind CurrentAbyss.FirstDamageRank.Value, FallbackValue={x:Null}}" />
                     <TextBlock Grid.Row="2"
                                Grid.Column="2"
                                VerticalAlignment="Center"
-                               Text="{x:Bind CurrentAbyss.TakeDamageRank[0].Value, FallbackValue={x:Null}}" />
+                               Text="{x:Bind CurrentAbyss.FirstTakeDamageRank.Value, FallbackValue={x:Null}}" />
                     <TextBlock Grid.Row="3"
                                Grid.Column="2"
                                VerticalAlignment="Center"
-                               Text="{x:Bind CurrentAbyss.NormalSkillRank[0].Value, FallbackValue={x:Null}}" />
+                               Text="{x:Bind CurrentAbyss.FirstNormalSkillRank.Value, FallbackValue={x:Null}}" />
                     <TextBlock Grid.Row="4"
                                Grid.Column="2"
                                VerticalAlignment="Center"
-                               Text="{x:Bind CurrentAbyss.EnergySkillRank[0].Value, FallbackValue={x:Null}}" />
+                               Text="{x:Bind CurrentAbyss.FirstEnergySkillRank.Value, FallbackValue={x:Null}}" />
                 </Grid>
 
 
