@@ -57,6 +57,7 @@ public sealed partial class HoyolabToolboxPage : Page
                 _ => biz
             };
             _gameRecordService.IsHoyolab = gameBiz.IsGlobalServer();
+            _gameRecordService.Language = System.Globalization.CultureInfo.CurrentUICulture.Name;
             InitializeNavigationViewItemVisibility();
         }
     }
@@ -165,10 +166,10 @@ public sealed partial class HoyolabToolboxPage : Page
         }
         if (gameBiz.ToGame() is GameBiz.StarRail)
         {
-            if (gameBiz is GameBiz.hkrpg_cn)
-            {
-                NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
-            }
+            //if (gameBiz is GameBiz.hkrpg_cn)
+            //{
+            //    NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
+            //}
             NavigationViewItem_ForgottenHall.Visibility = Visibility.Visible;
             NavigationViewItem_TrailblazeMonthlyCalendar.Visibility = Visibility.Visible;
         }
@@ -228,7 +229,6 @@ public sealed partial class HoyolabToolboxPage : Page
     private void _gameRecordService_GameRecordRoleChanged(object? sender, GameRecordRole? e)
     {
         LoadGameRoles(e);
-        NavigateTo(frame.SourcePageType);
     }
 
 
@@ -270,6 +270,7 @@ public sealed partial class HoyolabToolboxPage : Page
         if (e.AddedItems.FirstOrDefault() is GameRecordRole role)
         {
             CurrentRole = role;
+            NavigateTo(frame.SourcePageType);
         }
     }
 
@@ -348,6 +349,7 @@ public sealed partial class HoyolabToolboxPage : Page
                 {
                     nameof(SpiralAbyssPage) => typeof(SpiralAbyssPage),
                     nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
+                    nameof(ForgottenHallPage) => typeof(ForgottenHallPage),
                     nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
                     _ => null,
                 };

@@ -967,4 +967,14 @@ Do you accept the risk and continue to use it?</value>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
     <value>Stellar Jade Sources</value>
   </data>
+  <data name="ForgottenHallPage_Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
+    <value>Cycles used:</value>
+  </data>
+  <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
+    <value>Team Setup</value>
+    <comment>example: forgotten hall team setup 1</comment>
+  </data>
 </root>

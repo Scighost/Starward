@@ -4,6 +4,7 @@ using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
+using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,9 @@ internal class GameRecordService
 
 
     public event EventHandler<GameRecordRole?> GameRecordRoleChanged;
+
+
+    public string Language { get => _hoyolabClient.Language; set => _hoyolabClient.Language = value; }
 
 
     private bool isHoyolab;
@@ -331,6 +335,71 @@ internal class GameRecordService
 
 
 
+
+
+
+    #endregion
+
+
+
+
+
+    #region Forgotten Hall
+
+
+
+    public async Task<ForgottenHallInfo> RefreshForgottenHallInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    {
+        var info = await _gameRecordClient.GetForgottenHallInfoAsync(role, schedule);
+        var obj = new
+        {
+            info.Uid,
+            info.ScheduleId,
+            info.BeginTime,
+            info.EndTime,
+            info.StarNum,
+            info.MaxFloor,
+            info.BattleNum,
+            info.HasData,
+            Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+        };
+        using var dapper = _databaseService.CreateConnection();
+        dapper.Execute("""
+            INSERT OR REPLACE INTO ForgottenHallInfo (Uid, ScheduleId, BeginTime, EndTime, StarNum, MaxFloor, BattleNum, HasData, Value)
+            VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @StarNum, @MaxFloor, @BattleNum, @HasData, @Value);
+            """, obj);
+        return info;
+    }
+
+
+
+    public List<ForgottenHallInfo> GetForgottenHallInfoList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<ForgottenHallInfo>();
+        }
+        using var dapper = _databaseService.CreateConnection();
+        var list = dapper.Query<ForgottenHallInfo>("""
+            SELECT Uid, ScheduleId, BeginTime, EndTime, StarNum, MaxFloor, BattleNum, HasData FROM ForgottenHallInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
+            """, new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public ForgottenHallInfo? GetForgottenHallInfo(GameRecordRole role, int scheduleId)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        var value = dapper.QueryFirstOrDefault<string>("""
+            SELECT Value FROM ForgottenHallInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
+            """, new { role.Uid, scheduleId });
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+        return JsonSerializer.Deserialize<ForgottenHallInfo>(value);
+    }
 
 
 

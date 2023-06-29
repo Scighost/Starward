@@ -960,4 +960,13 @@
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
     <value>星琼收入组成</value>
   </data>
+  <data name="ForgottenHallPage_Period" xml:space="preserve">
+    <value>统计周期</value>
+  </data>
+  <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
+    <value>使用轮：</value>
+  </data>
+  <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
+    <value>节点</value>
+  </data>
 </root>

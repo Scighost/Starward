@@ -584,6 +584,33 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Cycles used: 的本地化字符串。
+        /// </summary>
+        public static string ForgottenHallPage_CyclesUsed {
+            get {
+                return ResourceManager.GetString("ForgottenHallPage_CyclesUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Period 的本地化字符串。
+        /// </summary>
+        public static string ForgottenHallPage_Period {
+            get {
+                return ResourceManager.GetString("ForgottenHallPage_Period", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Team Setup 的本地化字符串。
+        /// </summary>
+        public static string ForgottenHallPage_TeamSetup {
+            get {
+                return ResourceManager.GetString("ForgottenHallPage_TeamSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Authkey Timeout always occurs? 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_AuthkeyTimeoutAlwaysOccurs {
