@@ -2360,6 +2360,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Stellar Jade Sources 的本地化字符串。
+        /// </summary>
+        public static string TrailblazeCalendarPage_StellarJadeSources {
+            get {
+                return ResourceManager.GetString("TrailblazeCalendarPage_StellarJadeSources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Acquired this day 的本地化字符串。
         /// </summary>
         public static string TravelersDiaryPage_AcquiredThisDay {

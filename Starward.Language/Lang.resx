@@ -964,4 +964,7 @@ closing the program during decompression will cause game file corruption.</value
                     
 Do you accept the risk and continue to use it?</value>
   </data>
+  <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
+    <value>Stellar Jade Sources</value>
+  </data>
 </root>

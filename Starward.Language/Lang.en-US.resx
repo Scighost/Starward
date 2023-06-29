@@ -934,4 +934,7 @@ closing the program during decompression will cause game file corruption.</value
   <data name="TravelersDiaryPage_RealTimeData" xml:space="preserve">
     <value>Real-Time Data</value>
   </data>
+  <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
+    <value>Stellar Jade Sources</value>
+  </data>
 </root>

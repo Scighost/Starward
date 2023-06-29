@@ -348,6 +348,7 @@ public sealed partial class HoyolabToolboxPage : Page
                 {
                     nameof(SpiralAbyssPage) => typeof(SpiralAbyssPage),
                     nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
+                    nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
                     _ => null,
                 };
                 NavigateTo(type);

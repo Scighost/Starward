@@ -2,6 +2,7 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
+using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,6 +30,7 @@ internal class DatabaseService
     {
         SqlMapper.AddTypeHandler(new DapperSqlMapper.DateTimeOffsetHandler());
         SqlMapper.AddTypeHandler(new DapperSqlMapper.TravelersDiaryPrimogemsMonthGroupStatsListHandler());
+        SqlMapper.AddTypeHandler(new DapperSqlMapper.TrailblazeCalendarMonthDataGroupByListHandler());
         SqlMapper.AddTypeHandler(new DapperSqlMapper.StringListHandler());
     }
 
@@ -519,6 +521,27 @@ internal class DatabaseService
             }
 
             public override void SetValue(IDbDataParameter parameter, List<TravelersDiaryPrimogemsMonthGroupStats> value)
+            {
+                parameter.Value = JsonSerializer.Serialize(value, JsonSerializerOptions);
+            }
+        }
+
+
+        public class TrailblazeCalendarMonthDataGroupByListHandler : SqlMapper.TypeHandler<List<TrailblazeCalendarMonthDataGroupBy>>
+        {
+            public override List<TrailblazeCalendarMonthDataGroupBy> Parse(object value)
+            {
+                if (value is string str)
+                {
+                    if (!string.IsNullOrWhiteSpace(str))
+                    {
+                        return JsonSerializer.Deserialize<List<TrailblazeCalendarMonthDataGroupBy>>(str, JsonSerializerOptions)!;
+                    }
+                }
+                return new();
+            }
+
+            public override void SetValue(IDbDataParameter parameter, List<TrailblazeCalendarMonthDataGroupBy> value)
             {
                 parameter.Value = JsonSerializer.Serialize(value, JsonSerializerOptions);
             }

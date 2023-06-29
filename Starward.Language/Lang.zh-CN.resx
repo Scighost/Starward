@@ -957,4 +957,7 @@
   <data name="Common_Reject" xml:space="preserve">
     <value>拒绝</value>
   </data>
+  <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
+    <value>星琼收入组成</value>
+  </data>
 </root>
