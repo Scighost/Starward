@@ -40,7 +40,6 @@
                       DropDownClosed="ComboBox_Uid_DropDownClosed"
                       DropDownOpened="ComboBox_Uid_DropDownOpened"
                       ItemsSource="{x:Bind UidList}"
-                      PlaceholderText="{x:Bind lang:Lang.GachaLogPage_NoGachaRecords}"
                       SelectedItem="{x:Bind SelectUid, Mode=TwoWay}" />
             <!--  Update  -->
             <SplitButton Height="32" Command="{x:Bind UpdateGachaLogCommand}">
@@ -167,6 +166,14 @@
                 </Button.Flyout>
             </Button>
         </StackPanel>
+
+
+        <Image Grid.Row="1"
+               Width="160"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Source="{StaticResource PamuRead}"
+               Visibility="{x:Bind GachaTypeStats1, Converter={StaticResource ObjectToVisibilityReversedConverter}}" />
 
 
         <ScrollViewer Grid.Row="1" Visibility="{x:Bind GachaTypeStats1, Converter={StaticResource ObjectToVisibilityConverter}}">

@@ -18,6 +18,10 @@
             </ResourceDictionary.MergedDictionaries>
             <!--  Other app resources here  -->
 
+            <!--  Image  -->
+            <BitmapImage x:Key="PamuRead" UriSource="ms-appx:///Assets/Image/emoji_pamu_read.png" />
+
+            <!--  Shadow  -->
             <ThemeShadow x:Key="ThemeShadow" />
 
             <!--  Converter  -->

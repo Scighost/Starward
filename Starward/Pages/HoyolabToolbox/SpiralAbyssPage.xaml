@@ -25,6 +25,14 @@
         </Grid.ColumnDefinitions>
 
 
+        <Image Grid.RowSpan="2"
+               Grid.ColumnSpan="2"
+               Width="160"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Source="{StaticResource PamuRead}"
+               Visibility="{x:Bind HasData, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+
         <StackPanel Margin="0,24,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
@@ -33,9 +41,7 @@
                     BorderThickness="0"
                     Command="{x:Bind RefreshDataCommand}"
                     CornerRadius="0,18,18,0"
-                    Shadow="{ThemeResource ThemeShadow}"
-                    Style="{ThemeResource AccentButtonStyle}"
-                    Translation="0,0,16">
+                    Style="{ThemeResource AccentButtonStyle}">
                 <StackPanel Margin="4,0,4,0"
                             Orientation="Horizontal"
                             Spacing="8">
