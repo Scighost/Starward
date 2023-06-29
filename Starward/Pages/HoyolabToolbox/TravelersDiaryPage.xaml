@@ -1,6 +1,7 @@
 ﻿<Page x:Class="Starward.Pages.HoyolabToolbox.TravelersDiaryPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:cc="using:CommunityToolkit.WinUI.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:diary="using:Starward.Core.GameRecord.Genshin.TravelersDiary"
       xmlns:local="using:Starward.Pages.HoyolabToolbox"
@@ -200,18 +201,18 @@
                                        Series="{x:Bind CurrentSeries}" />
                     <ItemsControl Grid.Row="4"
                                   Grid.ColumnSpan="3"
-                                  Margin="0,8,-12,0"
+                                  Margin="0,8,-4,0"
                                   ItemsSource="{x:Bind CurrentSeries}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ItemsWrapGrid Orientation="Horizontal" />
+                                <cc:WrapPanel HorizontalSpacing="12"
+                                              Orientation="Horizontal"
+                                              VerticalSpacing="4" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="0,0,12,4"
-                                            Orientation="Horizontal"
-                                            Spacing="4">
+                                <StackPanel Orientation="Horizontal" Spacing="4">
                                     <Border Width="16"
                                             Height="16"
                                             Background="{Binding Color, Converter={StaticResource ColorToSolidColorBrushConverter}}"
@@ -286,18 +287,18 @@
                                        Series="{x:Bind SelectSeries}" />
                     <ItemsControl Grid.Row="4"
                                   Grid.ColumnSpan="3"
-                                  Margin="0,8,-12,0"
+                                  Margin="0,8,-4,0"
                                   ItemsSource="{x:Bind SelectSeries}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ItemsWrapGrid Orientation="Horizontal" />
+                                <cc:WrapPanel HorizontalSpacing="12"
+                                              Orientation="Horizontal"
+                                              VerticalSpacing="4" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="0,0,12,4"
-                                            Orientation="Horizontal"
-                                            Spacing="4">
+                                <StackPanel Orientation="Horizontal" Spacing="4">
                                     <Border Width="16"
                                             Height="16"
                                             Background="{Binding Color, Converter={StaticResource ColorToSolidColorBrushConverter}}"

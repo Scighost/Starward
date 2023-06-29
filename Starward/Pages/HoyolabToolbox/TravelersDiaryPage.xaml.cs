@@ -71,7 +71,7 @@ public sealed partial class TravelersDiaryPage : Page
 
 
     [ObservableProperty]
-    private TravelersDiaryMonthData selectMonthData;
+    private TravelersDiaryMonthData? selectMonthData;
 
 
     [ObservableProperty]
@@ -145,6 +145,7 @@ public sealed partial class TravelersDiaryPage : Page
     {
         try
         {
+            SelectMonthData = null;
             MonthDataList = _gameRecordService.GetTravelersDiaryMonthDataList(gameRole);
             if (MonthDataList.Any())
             {

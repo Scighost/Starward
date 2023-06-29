@@ -33,16 +33,26 @@ public class TravelersDiarySummary : TravelersDiaryBase, IJsonOnDeserialized
 
     public void OnDeserialized()
     {
-        var year = DataMonth > Date.Month ? Date.Year - 1 : Date.Year;
+        var year = DataMonth > CurrentMonth ? Date.Year - 1 : Date.Year;
+        if (year < 2000)
+        {
+            var now = DateTime.Now;
+            if (now.Month == CurrentMonth)
+            {
+                year = DataMonth > CurrentMonth ? now.Year - 1 : now.Year;
+            }
+            if (now.Month > CurrentMonth)
+            {
+                year = now.Year - 1;
+            }
+            if (now.Month < CurrentMonth)
+            {
+                year = DataMonth > CurrentMonth ? now.Year : now.Year + 1;
+            }
+        }
         MonthData.Uid = Uid;
         MonthData.Year = year;
         MonthData.Month = DataMonth;
-        foreach (var item in MonthData.PrimogemsGroupBy)
-        {
-            item.Uid = Uid;
-            item.Year = year;
-            item.Month = DataMonth;
-        }
     }
 
 }

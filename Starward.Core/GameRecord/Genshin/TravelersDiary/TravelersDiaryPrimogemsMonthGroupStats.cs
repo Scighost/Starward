@@ -8,16 +8,6 @@ namespace Starward.Core.GameRecord.Genshin.TravelersDiary;
 public class TravelersDiaryPrimogemsMonthGroupStats
 {
 
-    [JsonIgnore]
-    public int Id { get; set; }
-
-    public long Uid { get; set; }
-
-    public int Year { get; set; }
-
-    public int Month { get; set; }
-
-
     [JsonPropertyName("action_id")]
     public int ActionId { get; set; }
 
