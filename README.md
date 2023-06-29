@@ -25,7 +25,7 @@ You can download the latest release from the [Release](https://github.com/Scigho
 
 [![zh-CN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/zh-CN)
 [![en-US translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en-US%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/en-US)
-[![vi-VN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/en-US)
+[![vi-VN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/vi)
 
 Starward uses [Crowdin](https://crowdin.com/project/starward) for localization work, providing machine translated English text as the original. You can help us translate and proofread the local language, and we look forward to having more people participate. If you would like to add a new translation language, please create an issue.
 
