@@ -256,7 +256,7 @@ public sealed partial class LoginPage : Page
             var user = await _gameRecordService.AddRecordUserAsync(cookieString);
             var roles = await _gameRecordService.AddGameRolesAsync(cookieString);
             _gameRecordService.InvokeGameRecordRoleChanged(roles.FirstOrDefault(x => x.GameBiz == gameBiz.ToString()));
-            TextBlock_Tip.Text = string.Format("Already added {0} game roles:\r\n{1}", roles.Count, string.Join("\r\n", roles.Select(x => $"{x.Nickname}  {x.Uid}")));
+            TextBlock_Tip.Text = string.Format(Lang.LoginPage_AlreadyAddedGameRoles, roles.Count, string.Join("\r\n", roles.Select(x => $"{x.Nickname}  {x.Uid}")));
         }
         catch (Exception ex)
         {

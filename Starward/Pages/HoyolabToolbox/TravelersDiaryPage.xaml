@@ -4,8 +4,8 @@
       xmlns:cc="using:CommunityToolkit.WinUI.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:diary="using:Starward.Core.GameRecord.Genshin.TravelersDiary"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages.HoyolabToolbox"
-      xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
       x:DefaultBindMode="OneWay"
@@ -53,7 +53,7 @@
                                   Glyph="&#xE72C;"
                                   Visibility="{x:Bind InitializeDataCommand.IsRunning, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
                     </Grid>
-                    <TextBlock Text="Refresh" />
+                    <TextBlock Text="{x:Bind lang:Lang.Common_Refresh}" />
                 </StackPanel>
             </Button>
             <Button Height="36"
@@ -72,7 +72,7 @@
                                   Glyph="&#xEA37;"
                                   Visibility="{x:Bind GetDataDetailsCommand.IsRunning, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
                     </Grid>
-                    <TextBlock Text="Get Details" />
+                    <TextBlock Text="{x:Bind lang:Lang.TravelersDiaryPage_GetDetails}" />
                 </StackPanel>
                 <Button.Flyout>
                     <MenuFlyout x:Name="MenuFlyout_GetDetails" Placement="RightEdgeAlignedTop" />
@@ -127,11 +127,8 @@
                 <TextBlock FontSize="16"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Visibility="{x:Bind CurrentSummary, Converter={StaticResource ObjectToVisibilityConverter}}">
-                    <Run Text="Real-Time Data" />
-                    <Run Text="" />
-                    <Run Text="{x:Bind CurrentSummary.Date.ToShortDateString()}" />
-                </TextBlock>
+                           Text="{x:Bind lang:Lang.TravelersDiaryPage_RealTimeData}"
+                           Visibility="{x:Bind CurrentSummary, Converter={StaticResource ObjectToVisibilityConverter}}" />
                 <Grid Padding="24,8,24,8"
                       Background="{ThemeResource CustomOverlayAcrylicBrush}"
                       CornerRadius="8"
@@ -154,7 +151,7 @@
                     <TextBlock Grid.Row="0"
                                Grid.Column="0"
                                VerticalAlignment="Center"
-                               Text="Acquired this day" />
+                               Text="{x:Bind lang:Lang.TravelersDiaryPage_AcquiredThisDay}" />
                     <StackPanel Grid.Row="0"
                                 Grid.Column="1"
                                 Orientation="Horizontal"
@@ -173,7 +170,7 @@
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
                                VerticalAlignment="Center"
-                               Text="Acquired this month" />
+                               Text="{x:Bind lang:Lang.TravelersDiaryPage_AcquiredThisMonth}" />
                     <StackPanel Grid.Row="1"
                                 Grid.Column="1"
                                 Orientation="Horizontal"
@@ -191,7 +188,8 @@
 
                     <TextBlock Grid.Row="2"
                                Margin="0,8,0,0"
-                               Text="Primogems obtained" />
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.TravelersDiaryPage_PrimogemsObtained}" />
                     <sc:ColorRectChart Grid.Row="3"
                                        Grid.ColumnSpan="3"
                                        Height="20"
@@ -233,7 +231,7 @@
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Visibility="{x:Bind SelectMonthData, Converter={StaticResource ObjectToVisibilityConverter}}">
-                    <Run Text="Historical Data" />
+                    <Run Text="{x:Bind lang:Lang.TravelersDiaryPage_HistoricalData}" />
                     <Run Text="" />
                     <Run Text="{x:Bind SelectMonthData.Year}" /><Run Text="/" /><Run Text="{x:Bind SelectMonthData.Month}" />
                 </TextBlock>
@@ -259,7 +257,7 @@
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
                                VerticalAlignment="Center"
-                               Text="Acquired this month" />
+                               Text="{x:Bind lang:Lang.TravelersDiaryPage_AcquiredThisMonth}" />
                     <StackPanel Grid.Row="1"
                                 Grid.Column="1"
                                 Orientation="Horizontal"
@@ -277,7 +275,8 @@
 
                     <TextBlock Grid.Row="2"
                                Margin="0,8,0,0"
-                               Text="Primogems obtained" />
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.TravelersDiaryPage_PrimogemsObtained}" />
                     <sc:ColorRectChart Grid.Row="3"
                                        Grid.ColumnSpan="3"
                                        Height="20"

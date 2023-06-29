@@ -61,6 +61,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Accept 的本地化字符串。
+        /// </summary>
+        public static string Common_Accept {
+            get {
+                return ResourceManager.GetString("Common_Accept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Apply 的本地化字符串。
         /// </summary>
         public static string Common_Apply {
@@ -106,11 +115,29 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Disclaimer 的本地化字符串。
+        /// </summary>
+        public static string Common_Disclaimer {
+            get {
+                return ResourceManager.GetString("Common_Disclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Refresh 的本地化字符串。
         /// </summary>
         public static string Common_Refresh {
             get {
                 return ResourceManager.GetString("Common_Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Reject 的本地化字符串。
+        /// </summary>
+        public static string Common_Reject {
+            get {
+                return ResourceManager.GetString("Common_Reject", resourceCulture);
             }
         }
         
@@ -147,6 +174,15 @@ namespace Starward.Language {
         public static string Common_Start {
             get {
                 return ResourceManager.GetString("Common_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Summary 的本地化字符串。
+        /// </summary>
+        public static string Common_Summary {
+            get {
+                return ResourceManager.GetString("Common_Summary", resourceCulture);
             }
         }
         
@@ -1196,6 +1232,143 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 HoYoLAB Toolbox 的本地化字符串。
+        /// </summary>
+        public static string HoYoLABToolbox {
+            get {
+                return ResourceManager.GetString("HoYoLABToolbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy Cookie 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_CopyCookie {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_CopyCookie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete Game Role 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_DeleteGameRole {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_DeleteGameRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The features of this page requires you to log in to your Hyperion/HoYoLAB account, and Starward will save your login credentials (Cookie) and impersonate you to send requests to miHoYo&apos;s server. This method is risky and we are not responsible if your account is abnormal or banned as a result.
+        ///                    
+        ///Do you accept the risk and continue to use it? 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_DisclaimerContent {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_DisclaimerContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Forgotten Hall 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_ForgottenHall {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_ForgottenHall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Input Cookie 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_InputCookie {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_InputCookie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Log in 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_LogIn {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_LogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Refresh Info 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_RefreshInfo {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_RefreshInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Simulated Universe 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_SimulatedUniverse {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_SimulatedUniverse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Spiral Abyss 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_SpiralAbyss {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_SpiralAbyss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Trailblaze Monthly Calendar 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_TrailblazeMonthlyCalendar {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_TrailblazeMonthlyCalendar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Traveler&apos;s Diary 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_TravelersDiary {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_TravelersDiary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Warning Again 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_WarningAgain {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_WarningAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Web Login 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_WebLogin {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_WebLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hyperion Toolbox 的本地化字符串。
+        /// </summary>
+        public static string HyperionToolbox {
+            get {
+                return ResourceManager.GetString("HyperionToolbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Chinese 的本地化字符串。
         /// </summary>
         public static string Language_Chinese {
@@ -1489,6 +1662,25 @@ namespace Starward.Language {
         public static string LauncherPage_WouldYouLikeToVerifyTheFiles {
             get {
                 return ResourceManager.GetString("LauncherPage_WouldYouLikeToVerifyTheFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Already added {0} game roles:
+        ///{1} 的本地化字符串。
+        /// </summary>
+        public static string LoginPage_AlreadyAddedGameRoles {
+            get {
+                return ResourceManager.GetString("LoginPage_AlreadyAddedGameRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Click this button after logging in. 的本地化字符串。
+        /// </summary>
+        public static string LoginPage_ClickThisButtonAfterLoggingIn {
+            get {
+                return ResourceManager.GetString("LoginPage_ClickThisButtonAfterLoggingIn", resourceCulture);
             }
         }
         
@@ -2060,11 +2252,164 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Battles Fought 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_BattlesFought {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_BattlesFought", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Combat Stats 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_CombatStats {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_CombatStats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Deepest Descent 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_DeepestDescent {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_DeepestDescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Elemental Brusts Unleashed 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_ElementalBrustsUnleashed {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_ElementalBrustsUnleashed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Elemental Skills Unleashed 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_ElementalSkillsUnleashed {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_ElementalSkillsUnleashed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Lunar Phase 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_LunarPhase {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_LunarPhase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Most Damage Taken 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_MostDamageTaken {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_MostDamageTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Most Defeats 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_MostDefeats {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_MostDefeats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Picked 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_Picked {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_Picked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Strongest Single Strike 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_StrongestSingleStrike {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_StrongestSingleStrike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 times 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_Times {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_Times", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Import {0} warp records successfully. 的本地化字符串。
         /// </summary>
         public static string StarRailGachaService_ImportWarpRecordsSuccessfully {
             get {
                 return ResourceManager.GetString("StarRailGachaService_ImportWarpRecordsSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Acquired this day 的本地化字符串。
+        /// </summary>
+        public static string TravelersDiaryPage_AcquiredThisDay {
+            get {
+                return ResourceManager.GetString("TravelersDiaryPage_AcquiredThisDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Acquired this month 的本地化字符串。
+        /// </summary>
+        public static string TravelersDiaryPage_AcquiredThisMonth {
+            get {
+                return ResourceManager.GetString("TravelersDiaryPage_AcquiredThisMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Get Details 的本地化字符串。
+        /// </summary>
+        public static string TravelersDiaryPage_GetDetails {
+            get {
+                return ResourceManager.GetString("TravelersDiaryPage_GetDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Historical Data 的本地化字符串。
+        /// </summary>
+        public static string TravelersDiaryPage_HistoricalData {
+            get {
+                return ResourceManager.GetString("TravelersDiaryPage_HistoricalData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Primogems obtained 的本地化字符串。
+        /// </summary>
+        public static string TravelersDiaryPage_PrimogemsObtained {
+            get {
+                return ResourceManager.GetString("TravelersDiaryPage_PrimogemsObtained", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Real-Time Data 的本地化字符串。
+        /// </summary>
+        public static string TravelersDiaryPage_RealTimeData {
+            get {
+                return ResourceManager.GetString("TravelersDiaryPage_RealTimeData", resourceCulture);
             }
         }
         

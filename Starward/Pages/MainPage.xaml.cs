@@ -162,11 +162,11 @@ public sealed partial class MainPage : Page
         }
         if (CurrentGameBiz.IsChinaServer())
         {
-            NavigationViewItem_HoyolabToolbox.Content = "Hyperion Toolbox";
+            NavigationViewItem_HoyolabToolbox.Content = Lang.HyperionToolbox;
         }
         if (CurrentGameBiz.IsGlobalServer())
         {
-            NavigationViewItem_HoyolabToolbox.Content = "HoYoLAB Toolbox";
+            NavigationViewItem_HoyolabToolbox.Content = Lang.HoYoLABToolbox;
         }
 
         // switch region
@@ -721,11 +721,11 @@ public sealed partial class MainPage : Page
         }
         if (CurrentGameBiz.IsChinaServer())
         {
-            NavigationViewItem_HoyolabToolbox.Content = "Hyperion Toolbox";
+            NavigationViewItem_HoyolabToolbox.Content = Lang.HyperionToolbox;
         }
         if (CurrentGameBiz.IsGlobalServer())
         {
-            NavigationViewItem_HoyolabToolbox.Content = "HoYoLAB Toolbox";
+            NavigationViewItem_HoyolabToolbox.Content = Lang.HoYoLABToolbox;
         }
     }
 

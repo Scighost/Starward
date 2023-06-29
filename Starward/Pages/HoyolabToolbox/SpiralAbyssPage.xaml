@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:abyss="using:Starward.Core.GameRecord.Genshin.SpiralAbyss"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages.HoyolabToolbox"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
@@ -46,7 +47,7 @@
                             Orientation="Horizontal"
                             Spacing="8">
                     <FontIcon FontSize="16" Glyph="&#xE72C;" />
-                    <TextBlock Text="Refresh" />
+                    <TextBlock Text="{x:Bind lang:Lang.Common_Refresh}" />
                 </StackPanel>
             </Button>
             <Button Height="36"
@@ -60,7 +61,7 @@
                             Orientation="Horizontal"
                             Spacing="8">
                     <FontIcon FontSize="16" Glyph="&#xE9D9;" />
-                    <TextBlock Text="Summary" />
+                    <TextBlock Text="{x:Bind lang:Lang.Common_Summary}" />
                 </StackPanel>
             </Button>
         </StackPanel>
@@ -112,7 +113,7 @@
                 <Grid>
                     <!--  Schedule Id  -->
                     <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
-                        <Run Text="Lunar Phase" />
+                        <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_LunarPhase}" />
                         <Run Text="" />
                         <Run Text="{x:Bind CurrentAbyss.ScheduleId}" />
                     </TextBlock>
@@ -152,7 +153,7 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontSize="16">
-                        <Run Text="Deepest Descent" />
+                        <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_DeepestDescent}" />
                         <Run Text="" />
                         <Run Text="{x:Bind CurrentAbyss.MaxFloor}" />
                     </TextBlock>
@@ -161,7 +162,7 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                FontSize="16">
-                        <Run Text="Battles Fought" />
+                        <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_BattlesFought}" />
                         <Run Text="" />
                         <Run Text="{x:Bind CurrentAbyss.TotalBattleCount}" />
                     </TextBlock>
@@ -172,7 +173,7 @@
                            FontSize="16"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="Picked" />
+                           Text="{x:Bind lang:Lang.SpiralAbyssPage_Picked}" />
                 <Grid Padding="12"
                       Background="{ThemeResource CustomOverlayAcrylicBrush}"
                       CornerRadius="8"
@@ -222,7 +223,7 @@
                                                FontWeight="SemiBold"
                                                Foreground="#84603D">
                                         <Run Text="{x:Bind Value}" />
-                                        <Run Text="次" />
+                                        <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_Times}" />
                                     </TextBlock>
                                 </Grid>
                             </DataTemplate>
@@ -235,7 +236,7 @@
                            FontSize="16"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="Combat Stats" />
+                           Text="{x:Bind lang:Lang.SpiralAbyssPage_CombatStats}" />
                 <Grid Padding="24,0,24,0"
                       Background="{ThemeResource CustomOverlayAcrylicBrush}"
                       CornerRadius="8"
@@ -264,23 +265,23 @@
                     <!--  最多击破数  -->
                     <TextBlock Grid.Row="0"
                                VerticalAlignment="Center"
-                               Text="Most Defeats" />
+                               Text="{x:Bind lang:Lang.SpiralAbyssPage_MostDefeats}" />
                     <!--  最强一击  -->
                     <TextBlock Grid.Row="1"
                                VerticalAlignment="Center"
-                               Text="Strongest Single Strike" />
+                               Text="{x:Bind lang:Lang.SpiralAbyssPage_StrongestSingleStrike}" />
                     <!--  承受最多伤害  -->
                     <TextBlock Grid.Row="2"
                                VerticalAlignment="Center"
-                               Text="Most Damage Taken" />
+                               Text="{x:Bind lang:Lang.SpiralAbyssPage_MostDamageTaken}" />
                     <!--  元素战技施放数  -->
                     <TextBlock Grid.Row="3"
                                VerticalAlignment="Center"
-                               Text="Elemental Skills Unleashed" />
+                               Text="{x:Bind lang:Lang.SpiralAbyssPage_ElementalSkillsUnleashed}" />
                     <!--  元素爆发次数  -->
                     <TextBlock Grid.Row="4"
                                VerticalAlignment="Center"
-                               Text="Elemental Brusts Unleashed" />
+                               Text="{x:Bind lang:Lang.SpiralAbyssPage_ElementalBrustsUnleashed}" />
 
                     <sc:CachedImage Grid.Row="0"
                                     Grid.Column="1"

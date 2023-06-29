@@ -556,7 +556,7 @@ public sealed partial class DownloadGamePage : Page
                         Title = Lang.DownloadGamePage_VerifyFailed,
                         // 以下文件校验失败
                         Content = $"""
-                        Lang.DownloadGamePage_TheFollowingFileVerifyFailed
+                        {Lang.DownloadGamePage_TheFollowingFileVerifyFailed}
                         {string.Join("\r\n", list)}
                         """,
                         // 重新下载
