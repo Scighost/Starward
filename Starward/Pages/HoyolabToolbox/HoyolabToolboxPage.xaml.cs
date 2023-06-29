@@ -270,7 +270,10 @@ public sealed partial class HoyolabToolboxPage : Page
         if (e.AddedItems.FirstOrDefault() is GameRecordRole role)
         {
             CurrentRole = role;
-            NavigateTo(frame.SourcePageType);
+            if (frame.SourcePageType?.Name is not nameof(LoginPage))
+            {
+                NavigateTo(frame.SourcePageType);
+            }
         }
     }
 
@@ -309,6 +312,48 @@ public sealed partial class HoyolabToolboxPage : Page
             _logger.LogError(ex, "Delete game role ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
         }
     }
+
+
+
+    [RelayCommand]
+    private async Task InputCookieAsync()
+    {
+        try
+        {
+            var textbox = new TextBox
+            {
+                IsSpellCheckEnabled = false,
+            };
+            var dialog = new ContentDialog
+            {
+                Title = Lang.HoyolabToolboxPage_InputCookie,
+                Content = textbox,
+                PrimaryButtonText = Lang.Common_Confirm,
+                SecondaryButtonText = Lang.Common_Cancel,
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = this.XamlRoot,
+            };
+            var result = await dialog.ShowAsync();
+            if (result is ContentDialogResult.Primary)
+            {
+                var cookie = textbox.Text;
+                if (string.IsNullOrWhiteSpace(cookie))
+                {
+                    _logger.LogInformation("Input cookie is null or white space.");
+                    return;
+                }
+                var user = await _gameRecordService.AddRecordUserAsync(cookie);
+                var roles = await _gameRecordService.AddGameRolesAsync(cookie);
+                NotificationBehavior.Instance.Success(null, string.Format(Lang.LoginPage_AlreadyAddedGameRoles, roles.Count, string.Join("\r\n", roles.Select(x => $"{x.Nickname}  {x.Uid}"))), 5000);
+                LoadGameRoles(roles.FirstOrDefault(x => x.GameBiz == gameBiz.ToString()));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Input cookie");
+        }
+    }
+
 
 
     #endregion
