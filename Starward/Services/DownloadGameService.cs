@@ -112,15 +112,21 @@ internal partial class DownloadGameService
 
     public async Task<bool> CheckPreDownloadIsOKAsync(GameBiz biz, string? installPath)
     {
+        if (!Directory.Exists(installPath))
+        {
+            return false;
+        }
         var resource = await GetLauncherResourceAsync(biz);
         if (resource.PreDownloadGame != null)
         {
             var localVersion = await GetLocalGameVersionAsync(biz);
             if (resource.PreDownloadGame.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
             {
-                if (!File.Exists(Path.Join(installPath, Path.GetFileName(diff.Path))))
+                var package = CheckDownloadPackage(diff, installPath);
+                if (package.DownloadedSize != package.PackageSize)
                 {
-                    return false;
+                    long? length = await GetContentLengthAsync(package.Url);
+                    return package.DownloadedSize == length;
                 }
                 var flag = await GetVoiceLanguageAsync(biz, installPath);
                 foreach (var lang in Enum.GetValues<VoiceLanguage>())
@@ -129,9 +135,11 @@ internal partial class DownloadGameService
                     {
                         if (diff.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
                         {
-                            if (!File.Exists(Path.Join(installPath, Path.GetFileName(pack.Path))))
+                            var voicePackage = CheckDownloadPackage(pack, installPath);
+                            if (voicePackage.DownloadedSize != voicePackage.PackageSize)
                             {
-                                return false;
+                                long? length = await GetContentLengthAsync(voicePackage.Url);
+                                return voicePackage.DownloadedSize == length;
                             }
                         }
                     }
@@ -140,9 +148,11 @@ internal partial class DownloadGameService
             }
             else
             {
-                if (!File.Exists(Path.Join(installPath, Path.GetFileName(resource.PreDownloadGame.Latest.Path))))
+                var package = CheckDownloadPackage(resource.PreDownloadGame.Latest, installPath);
+                if (package.DownloadedSize != package.PackageSize)
                 {
-                    return false;
+                    long? length = await GetContentLengthAsync(package.Url);
+                    return package.DownloadedSize == length;
                 }
                 var flag = await GetVoiceLanguageAsync(biz, installPath);
                 foreach (var lang in Enum.GetValues<VoiceLanguage>())
@@ -151,9 +161,11 @@ internal partial class DownloadGameService
                     {
                         if (resource.PreDownloadGame.Latest.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
                         {
-                            if (!File.Exists(Path.Join(installPath, Path.GetFileName(pack.Path))))
+                            var voicePackage = CheckDownloadPackage(pack, installPath);
+                            if (voicePackage.DownloadedSize != voicePackage.PackageSize)
                             {
-                                return false;
+                                long? length = await GetContentLengthAsync(voicePackage.Url);
+                                return voicePackage.DownloadedSize == length;
                             }
                         }
                     }
@@ -407,7 +419,8 @@ internal partial class DownloadGameService
     private async Task<long?> GetContentLengthAsync(string url)
     {
         _logger.LogInformation("Request head: {url}", url);
-        var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+        var request = new HttpRequestMessage(HttpMethod.Head, url);
+        var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
         response.EnsureSuccessStatusCode();
         return response.Content.Headers.ContentLength;
     }
