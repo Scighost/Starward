@@ -844,53 +844,53 @@
     <comment>{0} = {gachaType} ,  {1} = {page}</comment>
   </data>
   <data name="HyperionToolbox" xml:space="preserve">
-    <value>Hyperion Toolbox</value>
+    <value>Hộp công cụ Hyperion</value>
   </data>
   <data name="HoYoLABToolbox" xml:space="preserve">
-    <value>HoYoLAB Toolbox</value>
+    <value>Hộp công cụ HoYoLAB</value>
   </data>
   <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
-    <value>Log in</value>
+    <value>Đăng nhập</value>
   </data>
   <data name="HoyolabToolboxPage_WebLogin" xml:space="preserve">
-    <value>Web Login</value>
+    <value>Đăng nhập web</value>
   </data>
   <data name="HoyolabToolboxPage_InputCookie" xml:space="preserve">
-    <value>Input Cookie</value>
+    <value>Nhập cookie</value>
   </data>
   <data name="HoyolabToolboxPage_RefreshInfo" xml:space="preserve">
-    <value>Refresh Info</value>
+    <value>Làm mới thông tin</value>
   </data>
   <data name="HoyolabToolboxPage_CopyCookie" xml:space="preserve">
-    <value>Copy Cookie</value>
+    <value>Sao chép cookie</value>
   </data>
   <data name="HoyolabToolboxPage_DeleteGameRole" xml:space="preserve">
-    <value>Delete Game Role</value>
+    <value>Xoá vai trò trò chơi</value>
   </data>
   <data name="HoyolabToolboxPage_SpiralAbyss" xml:space="preserve">
-    <value>Spiral Abyss</value>
+    <value>La hoàn thâm cảnh</value>
   </data>
   <data name="HoyolabToolboxPage_TravelersDiary" xml:space="preserve">
-    <value>Traveler's Diary</value>
+    <value>Nhật kí nhà lữ hành</value>
   </data>
   <data name="HoyolabToolboxPage_SimulatedUniverse" xml:space="preserve">
-    <value>Simulated Universe</value>
+    <value>Vũ trụ mô phỏng</value>
   </data>
   <data name="HoyolabToolboxPage_ForgottenHall" xml:space="preserve">
-    <value>Forgotten Hall</value>
+    <value>Sãnh đường lãng quên</value>
   </data>
   <data name="HoyolabToolboxPage_TrailblazeMonthlyCalendar" xml:space="preserve">
-    <value>Trailblaze Monthly Calendar</value>
+    <value>Lịch tháng khai phá</value>
   </data>
   <data name="LoginPage_ClickThisButtonAfterLoggingIn" xml:space="preserve">
-    <value>Click this button after logging in.</value>
+    <value>Nhấn vào nút này sau khi đăng nhập.</value>
   </data>
   <data name="LoginPage_AlreadyAddedGameRoles" xml:space="preserve">
-    <value>Already added {0} game roles:
+    <value>Đã thêm {0} vai trò trò chơi:
 {1}</value>
   </data>
   <data name="Common_Summary" xml:space="preserve">
-    <value>Summary</value>
+    <value>Tổng quan</value>
   </data>
   <data name="SpiralAbyssPage_LunarPhase" xml:space="preserve">
     <value>Lunar Phase</value>
@@ -904,7 +904,7 @@
     <value>Combat Stats</value>
   </data>
   <data name="SpiralAbyssPage_MostDefeats" xml:space="preserve">
-    <value>Most Defeats</value>
+    <value>Hạ nhiều nhất</value>
   </data>
   <data name="SpiralAbyssPage_StrongestSingleStrike" xml:space="preserve">
     <value>Strongest Single Strike</value>
@@ -923,7 +923,7 @@
     <comment>get primogems and mora details</comment>
   </data>
   <data name="TravelersDiaryPage_RealTimeData" xml:space="preserve">
-    <value>Real-Time Data</value>
+    <value>Dữ liệu thời gian thực</value>
   </data>
   <data name="TravelersDiaryPage_HistoricalData" xml:space="preserve">
     <value>Historical Data</value>
@@ -948,10 +948,10 @@
     <comment>battle count 12 times</comment>
   </data>
   <data name="Common_Accept" xml:space="preserve">
-    <value>Accept</value>
+    <value>Chấp nhận</value>
   </data>
   <data name="Common_Reject" xml:space="preserve">
-    <value>Reject</value>
+    <value>Từ chối</value>
   </data>
   <data name="HoyolabToolboxPage_WarningAgain" xml:space="preserve">
     <value>Warning Again</value>
@@ -960,8 +960,21 @@
     <value>Disclaimer</value>
   </data>
   <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
-    <value>The features of this page requires you to log in to your Hyperion/HoYoLAB account, and Starward will save your login credentials (Cookie) and impersonate you to send requests to miHoYo's server. This method is risky and we are not responsible if your account is abnormal or banned as a result.
+    <value>Tính năng trên trang này yêu cầu bạn phải đăng nhập vào tài khoản Hyperion/HoYoLAB, và Starward sẽ lưu thông tin đăng nhập (Cookie) và thay bạn gửi yêu cầu đến máy chủ miHoYo. Phương pháp này có rủi ro và chúng tôi sẽ không chịu trách nhiệm nếu tài khoản của bạn có dấu hiệu bất thường và bị cấm.
                     
-Do you accept the risk and continue to use it?</value>
+Bạn có chấp nhận rủi ro và tiếp tục?</value>
+  </data>
+  <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
+    <value>Stellar Jade Sources</value>
+  </data>
+  <data name="ForgottenHallPage_Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
+    <value>Cycles used:</value>
+  </data>
+  <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
+    <value>Team Setup</value>
+    <comment>example: forgotten hall team setup 1</comment>
   </data>
 </root>
