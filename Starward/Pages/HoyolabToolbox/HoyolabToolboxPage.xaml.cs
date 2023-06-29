@@ -10,6 +10,7 @@ using Starward.Helpers;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -68,6 +69,7 @@ public sealed partial class HoyolabToolboxPage : Page
         _gameRecordService.GameRecordRoleChanged += _gameRecordService_GameRecordRoleChanged;
         await Task.Delay(16);
         NavigateTo(typeof(BlankPage));
+        await CheckAgreementAsync();
         LoadGameRoles();
     }
 
@@ -76,6 +78,50 @@ public sealed partial class HoyolabToolboxPage : Page
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
         _gameRecordService.GameRecordRoleChanged -= _gameRecordService_GameRecordRoleChanged;
+    }
+
+
+
+
+    private async Task CheckAgreementAsync()
+    {
+        try
+        {
+            if (!AppConfig.AcceptHoyolabToolboxAgreement)
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = Lang.Common_Disclaimer,
+                    Content = Lang.HoyolabToolboxPage_DisclaimerContent,
+                    PrimaryButtonText = Lang.Common_Accept,
+                    SecondaryButtonText = Lang.Common_Reject,
+                    XamlRoot = this.XamlRoot,
+                };
+                var sw = Stopwatch.StartNew();
+                var result = await dialog.ShowAsync();
+                sw.Stop();
+                if (result is ContentDialogResult.Secondary)
+                {
+                    MainPage.Current.NavigateTo(typeof(LauncherPage));
+                    return;
+                }
+                if (sw.ElapsedMilliseconds < 5000)
+                {
+                    dialog.Title = Lang.HoyolabToolboxPage_WarningAgain;
+                    result = await dialog.ShowAsync();
+                    if (result is ContentDialogResult.Secondary)
+                    {
+                        MainPage.Current.NavigateTo(typeof(LauncherPage));
+                        return;
+                    }
+                }
+                AppConfig.AcceptHoyolabToolboxAgreement = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Check agreement.");
+        }
     }
 
 

@@ -374,6 +374,13 @@ internal static class AppConfig
     }
 
 
+    public static bool AcceptHoyolabToolboxAgreement
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
     #endregion
 
 
