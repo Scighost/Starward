@@ -897,7 +897,7 @@
     <comment>Abyss schedule id</comment>
   </data>
   <data name="SpiralAbyssPage_Picked" xml:space="preserve">
-    <value>Picked</value>
+    <value>Tổng số uyên tinh</value>
     <comment>avatar battle count stats</comment>
   </data>
   <data name="SpiralAbyssPage_CombatStats" xml:space="preserve">
@@ -907,44 +907,44 @@
     <value>Hạ nhiều nhất</value>
   </data>
   <data name="SpiralAbyssPage_StrongestSingleStrike" xml:space="preserve">
-    <value>Strongest Single Strike</value>
+    <value>Một kích mạnh nhất</value>
   </data>
   <data name="SpiralAbyssPage_MostDamageTaken" xml:space="preserve">
-    <value>Most Damage Taken</value>
+    <value>Chịu sát thương tối đa</value>
   </data>
   <data name="SpiralAbyssPage_ElementalSkillsUnleashed" xml:space="preserve">
-    <value>Elemental Skills Unleashed</value>
+    <value>Số lần thi triển kĩ năng nguyên tố</value>
   </data>
   <data name="SpiralAbyssPage_ElementalBrustsUnleashed" xml:space="preserve">
-    <value>Elemental Brusts Unleashed</value>
+    <value>Số lần thi triển kĩ năng nộ</value>
   </data>
   <data name="TravelersDiaryPage_GetDetails" xml:space="preserve">
-    <value>Get Details</value>
+    <value>Nhận chi tiết</value>
     <comment>get primogems and mora details</comment>
   </data>
   <data name="TravelersDiaryPage_RealTimeData" xml:space="preserve">
     <value>Dữ liệu thời gian thực</value>
   </data>
   <data name="TravelersDiaryPage_HistoricalData" xml:space="preserve">
-    <value>Historical Data</value>
+    <value>Lịch sử dữ liệu</value>
   </data>
   <data name="TravelersDiaryPage_AcquiredThisMonth" xml:space="preserve">
-    <value>Acquired this month</value>
+    <value>Đã nhận tháng này</value>
   </data>
   <data name="TravelersDiaryPage_AcquiredThisDay" xml:space="preserve">
-    <value>Acquired this day</value>
+    <value>Đã nhận hôm nay</value>
   </data>
   <data name="TravelersDiaryPage_PrimogemsObtained" xml:space="preserve">
-    <value>Primogems obtained</value>
+    <value>Nguyên thạch nhận được</value>
   </data>
   <data name="SpiralAbyssPage_DeepestDescent" xml:space="preserve">
-    <value>Deepest Descent</value>
+    <value>Đến nơi sâu nhất</value>
   </data>
   <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
     <value>Battles Fought</value>
   </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
-    <value>times</value>
+    <value>lần</value>
     <comment>battle count 12 times</comment>
   </data>
   <data name="Common_Accept" xml:space="preserve">
@@ -954,10 +954,10 @@
     <value>Từ chối</value>
   </data>
   <data name="HoyolabToolboxPage_WarningAgain" xml:space="preserve">
-    <value>Warning Again</value>
+    <value>Cảnh báo lần nữa</value>
   </data>
   <data name="Common_Disclaimer" xml:space="preserve">
-    <value>Disclaimer</value>
+    <value>Từ chối trách nhiệm</value>
   </data>
   <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
     <value>Tính năng trên trang này yêu cầu bạn phải đăng nhập vào tài khoản Hyperion/HoYoLAB, và Starward sẽ lưu thông tin đăng nhập (Cookie) và thay bạn gửi yêu cầu đến máy chủ miHoYo. Phương pháp này có rủi ro và chúng tôi sẽ không chịu trách nhiệm nếu tài khoản của bạn có dấu hiệu bất thường và bị cấm.
@@ -965,10 +965,10 @@
 Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
-    <value>Stellar Jade Sources</value>
+    <value>Nguồn ngọc ánh sao</value>
   </data>
   <data name="ForgottenHallPage_Period" xml:space="preserve">
-    <value>Period</value>
+    <value>Chu kỳ</value>
   </data>
   <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
     <value>Cycles used:</value>
