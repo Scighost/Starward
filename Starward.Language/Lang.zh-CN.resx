@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -843,11 +843,23 @@
     <value>正在获取 {0} 第 {1} 页</value>
     <comment>{0} = {gachaType} ,  {1} = {page}</comment>
   </data>
-  <data name="Common_Summary" xml:space="preserve">
-    <value>总览</value>
+  <data name="HyperionToolbox" xml:space="preserve">
+    <value>米游社工具箱</value>
   </data>
   <data name="HoYoLABToolbox" xml:space="preserve">
     <value>HoYoLAB 工具箱</value>
+  </data>
+  <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="HoyolabToolboxPage_WebLogin" xml:space="preserve">
+    <value>网页登录</value>
+  </data>
+  <data name="HoyolabToolboxPage_InputCookie" xml:space="preserve">
+    <value>输入 Cookie</value>
+  </data>
+  <data name="HoyolabToolboxPage_RefreshInfo" xml:space="preserve">
+    <value>刷新信息</value>
   </data>
   <data name="HoyolabToolboxPage_CopyCookie" xml:space="preserve">
     <value>复制 Cookie</value>
@@ -855,95 +867,91 @@
   <data name="HoyolabToolboxPage_DeleteGameRole" xml:space="preserve">
     <value>删除游戏角色</value>
   </data>
-  <data name="HoyolabToolboxPage_ForgottenHall" xml:space="preserve">
-    <value>忘却之庭</value>
-  </data>
-  <data name="HoyolabToolboxPage_InputCookie" xml:space="preserve">
-    <value>输入 Cookie</value>
-  </data>
-  <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
-    <value>登录</value>
-  </data>
-  <data name="HoyolabToolboxPage_RefreshInfo" xml:space="preserve">
-    <value>刷新信息</value>
-  </data>
-  <data name="HoyolabToolboxPage_SimulatedUniverse" xml:space="preserve">
-    <value>模拟宇宙</value>
-  </data>
   <data name="HoyolabToolboxPage_SpiralAbyss" xml:space="preserve">
     <value>深境螺旋</value>
-  </data>
-  <data name="HoyolabToolboxPage_TrailblazeMonthlyCalendar" xml:space="preserve">
-    <value>开拓月历</value>
   </data>
   <data name="HoyolabToolboxPage_TravelersDiary" xml:space="preserve">
     <value>旅行者札记</value>
   </data>
-  <data name="HoyolabToolboxPage_WebLogin" xml:space="preserve">
-    <value>网页登录</value>
+  <data name="HoyolabToolboxPage_SimulatedUniverse" xml:space="preserve">
+    <value>模拟宇宙</value>
   </data>
-  <data name="HyperionToolbox" xml:space="preserve">
-    <value>米游社工具箱</value>
+  <data name="HoyolabToolboxPage_ForgottenHall" xml:space="preserve">
+    <value>忘却之庭</value>
+  </data>
+  <data name="HoyolabToolboxPage_TrailblazeMonthlyCalendar" xml:space="preserve">
+    <value>开拓月历</value>
+  </data>
+  <data name="LoginPage_ClickThisButtonAfterLoggingIn" xml:space="preserve">
+    <value>登录后请点击此按钮</value>
   </data>
   <data name="LoginPage_AlreadyAddedGameRoles" xml:space="preserve">
     <value>已经添加了{0}个游戏角色：
 {1}</value>
   </data>
-  <data name="LoginPage_ClickThisButtonAfterLoggingIn" xml:space="preserve">
-    <value>登录后点击此按钮</value>
+  <data name="Common_Summary" xml:space="preserve">
+    <value>总览</value>
+  </data>
+  <data name="SpiralAbyssPage_LunarPhase" xml:space="preserve">
+    <value>Lunar Phase</value>
+    <comment>Abyss schedule id</comment>
+  </data>
+  <data name="SpiralAbyssPage_Picked" xml:space="preserve">
+    <value>出战次数</value>
+    <comment>avatar battle count stats</comment>
   </data>
   <data name="SpiralAbyssPage_CombatStats" xml:space="preserve">
     <value>战斗数据榜</value>
   </data>
-  <data name="SpiralAbyssPage_ElementalBrustsUnleashed" xml:space="preserve">
-    <value>元素爆发次数</value>
-  </data>
-  <data name="SpiralAbyssPage_ElementalSkillsUnleashed" xml:space="preserve">
-    <value>元素战技释放次数</value>
-  </data>
-  <data name="SpiralAbyssPage_MostDamageTaken" xml:space="preserve">
-    <value>承受最多伤害</value>
-  </data>
   <data name="SpiralAbyssPage_MostDefeats" xml:space="preserve">
     <value>最多击破数</value>
-  </data>
-  <data name="SpiralAbyssPage_Picked" xml:space="preserve">
-    <value>出战次数</value>
   </data>
   <data name="SpiralAbyssPage_StrongestSingleStrike" xml:space="preserve">
     <value>最强一击</value>
   </data>
-  <data name="TravelersDiaryPage_AcquiredThisDay" xml:space="preserve">
-    <value>今日共获取</value>
+  <data name="SpiralAbyssPage_MostDamageTaken" xml:space="preserve">
+    <value>承受最多伤害</value>
   </data>
-  <data name="TravelersDiaryPage_AcquiredThisMonth" xml:space="preserve">
-    <value>当月共获取</value>
+  <data name="SpiralAbyssPage_ElementalSkillsUnleashed" xml:space="preserve">
+    <value>元素战技释放次数</value>
+  </data>
+  <data name="SpiralAbyssPage_ElementalBrustsUnleashed" xml:space="preserve">
+    <value>元素爆发次数</value>
   </data>
   <data name="TravelersDiaryPage_GetDetails" xml:space="preserve">
     <value>获取明细</value>
-  </data>
-  <data name="TravelersDiaryPage_HistoricalData" xml:space="preserve">
-    <value>历史数据</value>
+    <comment>get primogems and mora details</comment>
   </data>
   <data name="TravelersDiaryPage_RealTimeData" xml:space="preserve">
     <value>实时数据</value>
   </data>
+  <data name="TravelersDiaryPage_HistoricalData" xml:space="preserve">
+    <value>历史数据</value>
+  </data>
+  <data name="TravelersDiaryPage_AcquiredThisMonth" xml:space="preserve">
+    <value>当月共获取</value>
+  </data>
+  <data name="TravelersDiaryPage_AcquiredThisDay" xml:space="preserve">
+    <value>今日共获取</value>
+  </data>
   <data name="TravelersDiaryPage_PrimogemsObtained" xml:space="preserve">
     <value>原石收入组成</value>
-  </data>
-  <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
-    <value>出战次数</value>
   </data>
   <data name="SpiralAbyssPage_DeepestDescent" xml:space="preserve">
     <value>最深抵达</value>
   </data>
+  <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
+    <value>出战次数</value>
+  </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
     <value>次</value>
+    <comment>battle count 12 times</comment>
   </data>
-  <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
-    <value>本页面的功能需要您登录 米游社/HoYoLAB 账号，Starward 将会保存您的登录凭证（Cookie）并模仿您本人对 miHoYo 的服务器发送请求。这种方法具有一定的风险，如果因此造成了您的账号异常或被封禁，本应用概不负责。
-
-您是否接受此风险并继续使用？</value>
+  <data name="Common_Accept" xml:space="preserve">
+    <value>接受</value>
+  </data>
+  <data name="Common_Reject" xml:space="preserve">
+    <value>拒绝</value>
   </data>
   <data name="HoyolabToolboxPage_WarningAgain" xml:space="preserve">
     <value>再次警告</value>
@@ -951,11 +959,10 @@
   <data name="Common_Disclaimer" xml:space="preserve">
     <value>免责声明</value>
   </data>
-  <data name="Common_Accept" xml:space="preserve">
-    <value>接受</value>
-  </data>
-  <data name="Common_Reject" xml:space="preserve">
-    <value>拒绝</value>
+  <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
+    <value>本页面的功能需要您登录 米游社/HoYoLAB 账号，Starward 将会保存您的登录凭证（Cookie）并模仿您本人对 miHoYo 的服务器发送请求。这种方法具有一定的风险，如果因此造成了您的账号异常或被封禁，本应用概不负责。
+
+您是否接受此风险并继续使用？</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
     <value>星琼收入组成</value>
@@ -968,5 +975,12 @@
   </data>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
     <value>节点</value>
+    <comment>example: forgotten hall team setup 1</comment>
+  </data>
+  <data name="Common_AccountError" xml:space="preserve">
+    <value>账号异常</value>
+  </data>
+  <data name="Common_NetworkError" xml:space="preserve">
+    <value>网络异常</value>
   </data>
 </root>

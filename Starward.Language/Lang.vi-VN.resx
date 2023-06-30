@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Core_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Không thể phân tích URL bản ghi cầu nguyện.</value>
+    <value>Không thể phân tích URL lịch sử cầu nguyện.</value>
   </data>
   <data name="Core_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Không thể phân tích URL bản ghi bước nhảy</value>
+    <value>Không thể phân tích URL lịch sử bước nhảy</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
     <value>Bước Nhảy Chòm Sao</value>
@@ -178,7 +178,7 @@
     <value>Ngôn ngữ lồng tiếng:</value>
   </data>
   <data name="Language_Chinese" xml:space="preserve">
-    <value>Tiếng Trung Quốc</value>
+    <value>Tiếng Trung</value>
   </data>
   <data name="Language_English" xml:space="preserve">
     <value>Tiếng Anh</value>
@@ -193,7 +193,7 @@
     <value>Tải tập tin trò chơi trực tiếp</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>Tính năng này đang ở trong giai đoạn thử nghiệm, Nếu có bất kì tập tin trò chơi nào bị hỏng, vui lòng sử dụng launcher chính thức để sửa nó.</value>
+    <value>Tính năng này đang ở trong giai đoạn thử nghiệm, Nếu có bất kì tệp trò chơi nào bị hỏng, vui lòng sử dụng trình khởi chạy chính thức để sửa nó.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
     <value>Dung lượng có sẵn có lẽ là không đủ</value>
@@ -211,13 +211,13 @@
     <value>Rất vui được gặp bạn ~</value>
   </data>
   <data name="SelectDirectoryPage_SelectFolder" xml:space="preserve">
-    <value>Chọn Thư mục</value>
+    <value>Chọn thư mục</value>
   </data>
   <data name="SelectDirectoryPage_SelectLanguage" xml:space="preserve">
-    <value>Chọn Ngôn ngữ</value>
+    <value>Chọn ngôn ngữ</value>
   </data>
   <data name="SelectDirectoryPage_SelectGame" xml:space="preserve">
-    <value>Chọn Trò chơi</value>
+    <value>Chọn trò chơi</value>
   </data>
   <data name="SelectDirectoryPage_RecommendFolder" xml:space="preserve">
     <value>Dữ liệu của ứng dụng sẽ được lưu tại thư mục sau đây theo mặc định:</value>
@@ -235,7 +235,7 @@
     <value>OK</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>Chọn Thư mục khác</value>
+    <value>Chọn thư mục khác</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
     <value>Huỷ</value>
@@ -244,13 +244,13 @@
     <value>Có vẻ đây là lần đầu tiên bạn sử dụng {Starward}.</value>
   </data>
   <data name="SelectGamePage_GoToLauncher" xml:space="preserve">
-    <value>Đi đến Launcher</value>
+    <value>Đi đến trình khởi chạy</value>
   </data>
   <data name="SelectGamePage_SelectFolder" xml:space="preserve">
-    <value>Chọn Thư mục</value>
+    <value>Chọn thư mục</value>
   </data>
   <data name="SelectGamePage_SomeGame" xml:space="preserve">
-    <value>{Starward} hỗ trợ một số trò chơi {miHoYo/HoYoverse}, vui lòng chọn trò chơi của bạn ở dưới, bạn cũng có thể thay đổi nó bất kì lúc nào sau khi vào launcher.</value>
+    <value>{Starward} hỗ trợ một số trò chơi {miHoYo/HoYoverse}, vui lòng chọn trò chơi của bạn ở dưới, bạn cũng có thể thay đổi nó bất kì lúc nào sau khi vào trình khởi chạy.</value>
   </data>
   <data name="SelectGamePage_TheLastStep" xml:space="preserve">
     <value>Bước cuối cùng ~</value>
@@ -308,7 +308,7 @@
     <value>Thử lại</value>
   </data>
   <data name="DownloadGamePage_OpenLog" xml:space="preserve">
-    <value>Mở Log</value>
+    <value>Mở bản ghi nhật kí</value>
   </data>
   <data name="DownloadGamePage_NetworkError" xml:space="preserve">
     <value>Lỗi mạng</value>
@@ -341,7 +341,7 @@
     <value>Dừng</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Giải nén các tập tin không được kiểm tra có thể dẫn đến tập tin game bị hỏng</value>
+    <value>Giải nén các tập tin không được kiểm tra có thể dẫn đến tập tin trò chơi bị hỏng</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>Bỏ qua xác minh</value>
@@ -350,10 +350,10 @@
     <value>Tải xuống đã tạm dừng</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
-    <value>Không có bản ghi Gacha</value>
+    <value>Không có lịch sử Gacha</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
-    <value>Cập nhật Bản ghi</value>
+    <value>Cập nhật lịch sử</value>
   </data>
   <data name="GachaLogPage_UpdateSavedURL" xml:space="preserve">
     <value>Cập nhật (URL đã lưu)</value>
@@ -389,7 +389,7 @@
     <value>Hiện thị loại Gacha người mới</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>Xoá bản ghi</value>
+    <value>Xoá lịch sử</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
     <value>Ngôn ngữ</value>
@@ -402,13 +402,13 @@
     <value>Trò chơi chưa được cài đặt</value>
   </data>
   <data name="GachaLogPage_CannotFindURL" xml:space="preserve">
-    <value>Không thể tìm thấy URL, vui lòng hãy mở trang bản ghi lịch sử gacha ở trong game.</value>
+    <value>Không thể tìm thấy URL, vui lòng hãy mở trang bản ghi lịch sử gacha ở trong trò chơi.</value>
   </data>
   <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
     <value>Thao tác bị huỷ</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
-    <value>Vui lòng hãy mở trang bản ghi gacha ở trong game và thử lại.</value>
+    <value>Vui lòng hãy mở trang bản ghi gacha ở trong trò chơi và thử lại.</value>
   </data>
   <data name="Common_Warning" xml:space="preserve">
     <value>Cảnh báo</value>
@@ -417,31 +417,31 @@
     <value>Xoá</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>Đã xoá {0} bản ghi gacha của Uid {1}.</value>
+    <value>Đã xoá {0} lịch sử gacha của Uid {1}.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>Tất cả bản ghi gacha của uid {0} sẽ bị xoá, và hành động này là không thể hoàn tác.</value>
+    <value>Tất cả lịch sử gacha của uid {0} sẽ bị xoá, và hành động này là không thể hoàn tác.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
-    <value>Bản ghi cầu nguyện</value>
+    <value>Lịch sử cầu nguyện</value>
   </data>
   <data name="GachaLogService_WarpRecords" xml:space="preserve">
-    <value>Bản ghi bước nhảy</value>
+    <value>Lịch sử bước nhảy</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
     <value>Đang nhận uid</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>Tài khoản này không có bản ghi gacha trong 6 tháng gần nhất.</value>
+    <value>Tài khoản này không có lịch sử gacha trong 6 tháng gần nhất.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
     <value>Nhận {0} bản ghi, đã thêm {1} bản ghi.</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>Nhập {0} bản ghi cầu nguyện thành công.</value>
+    <value>Nhập {0} lịch sử cầu nguyện thành công.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
     <value>Nhập {0} bản ghi bước nhảy thành công.</value>
@@ -456,7 +456,7 @@
     <value>Không thể cập nhật tự động</value>
   </data>
   <data name="GameSettingPage_Custom" xml:space="preserve">
-    <value>Tuỳ biến</value>
+    <value>Tuỳ chọn</value>
   </data>
   <data name="GameSettingPage_VeryLow" xml:space="preserve">
     <value>Rất thấp</value>
@@ -492,7 +492,7 @@
     <value>Ngôn ngữ lồng tiếng</value>
   </data>
   <data name="GameSettingPage_VoiceLanguageDescription" xml:space="preserve">
-    <value>Đặt giá trị này trước khi bắt đầu game lần đầu tiên đễ tránh tải xuống một số tài nguyên âm thanh</value>
+    <value>Đặt giá trị này trước khi bắt đầu trò chơi lần đầu tiên đễ tránh tải xuống một số tài nguyên âm thanh</value>
   </data>
   <data name="GameSettingPage_GraphicsSetting" xml:space="preserve">
     <value>Cài đặt đồ hoạ</value>
@@ -591,7 +591,7 @@
     <value>Lưu</value>
   </data>
   <data name="LauncherPage_GameSetting" xml:space="preserve">
-    <value>Cài đặt game</value>
+    <value>Cài đặt trò chơi</value>
   </data>
   <data name="LauncherPage_InstallFolder" xml:space="preserve">
     <value>Thư mục cài đặt</value>
@@ -603,7 +603,7 @@
     <value>Sửa chữa trò chơi</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>Custom Start Executable</value>
+    <value>Thực thi khởi động tuỳ chọn</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>Chọn</value>
@@ -666,7 +666,7 @@
     <value>Nhấn chuột phải trên biểu tượng trò chơi ở bên trái</value>
   </data>
   <data name="MainPage_Launcer" xml:space="preserve">
-    <value>Launcher</value>
+    <value>Trình khởi chạy</value>
   </data>
   <data name="MainPage_GameScreenshot" xml:space="preserve">
     <value>Ảnh chụp màn hình</value>
@@ -678,7 +678,7 @@
     <value>Mở thư mục</value>
   </data>
   <data name="SettingPage_Log" xml:space="preserve">
-    <value>Log</value>
+    <value>Nhật kí</value>
   </data>
   <data name="SettingPage_ShowConsole" xml:space="preserve">
     <value>Hiện thị console</value>
@@ -690,7 +690,7 @@
     <value>Hiệu quả ở lần khởi động tiếp theo</value>
   </data>
   <data name="SettingPage_OpenLogFolder" xml:space="preserve">
-    <value>Mở thư mục Log</value>
+    <value>Mở thư mục nhật kí</value>
   </data>
   <data name="SettingPage_WindowsSize" xml:space="preserve">
     <value>Kích cỡ cửa sổ</value>
@@ -710,7 +710,7 @@
     <value>Hình nền ứng dụng</value>
   </data>
   <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
-    <value>Hình nền tuỳ biến (Hỗ trợ video)</value>
+    <value>Hình nền tuỳ chọn (Hỗ trợ video)</value>
   </data>
   <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
     <value>Màu chủ đề động</value>
@@ -731,10 +731,10 @@
     <value>Quản lí tập tin</value>
   </data>
   <data name="SettingPage_OpenDataFolder" xml:space="preserve">
-    <value>Mở thư mục Data</value>
+    <value>Mở thư mục dữ liệu</value>
   </data>
   <data name="SettingPage_ReselectDataFolder" xml:space="preserve">
-    <value>Chọn lại thư mục Data</value>
+    <value>Chọn lại thư mục dữ liệu</value>
   </data>
   <data name="SettingPage_DeleteAllSettings" xml:space="preserve">
     <value>Xoá tất cả cài đặt</value>
@@ -815,7 +815,7 @@
     <value>Kênh ổn định</value>
   </data>
   <data name="UpdatePage_DevChannel" xml:space="preserve">
-    <value>Kênh phát triển</value>
+    <value>Kênh nhà phát triển</value>
   </data>
   <data name="SettingPage_ThemeColorDesc" xml:space="preserve">
     <value>Tự động tính toán màu chủ đề dựa trên màu của hình nền, và sử dụng màu chủ đề hệ thống theo mặc định.</value>
@@ -827,7 +827,7 @@
     <value>Thay vào đó, sử dụng plugin bên thứ ba để bắt đầu, và thời gian chơi có thể không được ghi lại khi được bật.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Chỉ định ngôn ngữ của bản ghi gacha, như là vi_VN.</value>
+    <value>Chỉ định ngôn ngữ của lịch sử gacha, như là vi_VN.</value>
     <comment>Replace en-US with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
@@ -842,5 +842,145 @@
   <data name="GachaLogService_GetGachaProgressText" xml:space="preserve">
     <value>Nhận {0} với trang {1}</value>
     <comment>{0} = {gachaType} ,  {1} = {page}</comment>
+  </data>
+  <data name="HyperionToolbox" xml:space="preserve">
+    <value>Hộp công cụ Hyperion</value>
+  </data>
+  <data name="HoYoLABToolbox" xml:space="preserve">
+    <value>Hộp công cụ HoYoLAB</value>
+  </data>
+  <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="HoyolabToolboxPage_WebLogin" xml:space="preserve">
+    <value>Đăng nhập web</value>
+  </data>
+  <data name="HoyolabToolboxPage_InputCookie" xml:space="preserve">
+    <value>Nhập cookie</value>
+  </data>
+  <data name="HoyolabToolboxPage_RefreshInfo" xml:space="preserve">
+    <value>Làm mới thông tin</value>
+  </data>
+  <data name="HoyolabToolboxPage_CopyCookie" xml:space="preserve">
+    <value>Sao chép cookie</value>
+  </data>
+  <data name="HoyolabToolboxPage_DeleteGameRole" xml:space="preserve">
+    <value>Xoá vai trò trò chơi</value>
+  </data>
+  <data name="HoyolabToolboxPage_SpiralAbyss" xml:space="preserve">
+    <value>La hoàn thâm cảnh</value>
+  </data>
+  <data name="HoyolabToolboxPage_TravelersDiary" xml:space="preserve">
+    <value>Nhật kí nhà lữ hành</value>
+  </data>
+  <data name="HoyolabToolboxPage_SimulatedUniverse" xml:space="preserve">
+    <value>Vũ trụ mô phỏng</value>
+  </data>
+  <data name="HoyolabToolboxPage_ForgottenHall" xml:space="preserve">
+    <value>Sãnh đường lãng quên</value>
+  </data>
+  <data name="HoyolabToolboxPage_TrailblazeMonthlyCalendar" xml:space="preserve">
+    <value>Lịch tháng khai phá</value>
+  </data>
+  <data name="LoginPage_ClickThisButtonAfterLoggingIn" xml:space="preserve">
+    <value>Nhấn vào nút này sau khi đăng nhập.</value>
+  </data>
+  <data name="LoginPage_AlreadyAddedGameRoles" xml:space="preserve">
+    <value>Đã thêm {0} vai trò trò chơi:
+{1}</value>
+  </data>
+  <data name="Common_Summary" xml:space="preserve">
+    <value>Tổng quan</value>
+  </data>
+  <data name="SpiralAbyssPage_LunarPhase" xml:space="preserve">
+    <value>Lunar Phase</value>
+    <comment>Abyss schedule id</comment>
+  </data>
+  <data name="SpiralAbyssPage_Picked" xml:space="preserve">
+    <value>Tổng số uyên tinh</value>
+    <comment>avatar battle count stats</comment>
+  </data>
+  <data name="SpiralAbyssPage_CombatStats" xml:space="preserve">
+    <value>Bảng Số Liệu Chiến Đấu</value>
+  </data>
+  <data name="SpiralAbyssPage_MostDefeats" xml:space="preserve">
+    <value>Hạ nhiều nhất</value>
+  </data>
+  <data name="SpiralAbyssPage_StrongestSingleStrike" xml:space="preserve">
+    <value>Một kích mạnh nhất</value>
+  </data>
+  <data name="SpiralAbyssPage_MostDamageTaken" xml:space="preserve">
+    <value>Chịu sát thương tối đa</value>
+  </data>
+  <data name="SpiralAbyssPage_ElementalSkillsUnleashed" xml:space="preserve">
+    <value>Số lần thi triển kĩ năng nguyên tố</value>
+  </data>
+  <data name="SpiralAbyssPage_ElementalBrustsUnleashed" xml:space="preserve">
+    <value>Số lần thi triển kĩ năng nộ</value>
+  </data>
+  <data name="TravelersDiaryPage_GetDetails" xml:space="preserve">
+    <value>Nhận chi tiết</value>
+    <comment>get primogems and mora details</comment>
+  </data>
+  <data name="TravelersDiaryPage_RealTimeData" xml:space="preserve">
+    <value>Dữ liệu thời gian thực</value>
+  </data>
+  <data name="TravelersDiaryPage_HistoricalData" xml:space="preserve">
+    <value>Lịch sử dữ liệu</value>
+  </data>
+  <data name="TravelersDiaryPage_AcquiredThisMonth" xml:space="preserve">
+    <value>Đã nhận tháng này</value>
+  </data>
+  <data name="TravelersDiaryPage_AcquiredThisDay" xml:space="preserve">
+    <value>Đã nhận hôm nay</value>
+  </data>
+  <data name="TravelersDiaryPage_PrimogemsObtained" xml:space="preserve">
+    <value>Nguyên thạch nhận được</value>
+  </data>
+  <data name="SpiralAbyssPage_DeepestDescent" xml:space="preserve">
+    <value>Đến nơi sâu nhất</value>
+  </data>
+  <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
+    <value>Số lần khiêu chiến</value>
+  </data>
+  <data name="SpiralAbyssPage_Times" xml:space="preserve">
+    <value>lần</value>
+    <comment>battle count 12 times</comment>
+  </data>
+  <data name="Common_Accept" xml:space="preserve">
+    <value>Chấp nhận</value>
+  </data>
+  <data name="Common_Reject" xml:space="preserve">
+    <value>Từ chối</value>
+  </data>
+  <data name="HoyolabToolboxPage_WarningAgain" xml:space="preserve">
+    <value>Cảnh báo lần nữa</value>
+  </data>
+  <data name="Common_Disclaimer" xml:space="preserve">
+    <value>Từ chối trách nhiệm</value>
+  </data>
+  <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
+    <value>The features of this page requires you to log in to your Hyperion/HoYoLAB account, and Starward will save your login credentials (Cookie) and impersonate you to send requests to miHoYo's server. This method is risky and we are not responsible if your account is abnormal or banned as a result.
+                    
+Do you accept the risk and continue to use it?</value>
+  </data>
+  <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
+    <value>Nguồn ngọc ánh sao</value>
+  </data>
+  <data name="ForgottenHallPage_Period" xml:space="preserve">
+    <value>Chu kỳ</value>
+  </data>
+  <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
+    <value>Vòng sử dụng:</value>
+  </data>
+  <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
+    <value>Lập Đội</value>
+    <comment>example: forgotten hall team setup 1</comment>
+  </data>
+  <data name="Common_AccountError" xml:space="preserve">
+    <value>Tài khoản bất thường</value>
+  </data>
+  <data name="Common_NetworkError" xml:space="preserve">
+    <value>Lỗi mạng</value>
   </data>
 </root>
