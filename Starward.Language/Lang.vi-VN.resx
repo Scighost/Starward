@@ -374,7 +374,7 @@
     <value>Sao chép URL</value>
   </data>
   <data name="GachaLogPage_AuthkeyTimeoutAlwaysOccurs" xml:space="preserve">
-    <value>Authkey hết hạn luôn xảy ra?</value>
+    <value>Authkey Timeout luôn xảy ra?</value>
   </data>
   <data name="GachaLogPage_ClearURLCacheFiles" xml:space="preserve">
     <value>Dọn tập tin cache URL</value>
@@ -901,7 +901,7 @@
     <comment>avatar battle count stats</comment>
   </data>
   <data name="SpiralAbyssPage_CombatStats" xml:space="preserve">
-    <value>Combat Stats</value>
+    <value>Bảng Số Liệu Chiến Đấu</value>
   </data>
   <data name="SpiralAbyssPage_MostDefeats" xml:space="preserve">
     <value>Hạ nhiều nhất</value>
@@ -941,7 +941,7 @@
     <value>Đến nơi sâu nhất</value>
   </data>
   <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
-    <value>Battles Fought</value>
+    <value>Số lần khiêu chiến</value>
   </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
     <value>lần</value>
@@ -960,9 +960,9 @@
     <value>Từ chối trách nhiệm</value>
   </data>
   <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
-    <value>Tính năng trên trang này yêu cầu bạn phải đăng nhập vào tài khoản Hyperion/HoYoLAB, và Starward sẽ lưu thông tin đăng nhập (Cookie) và thay bạn gửi yêu cầu đến máy chủ miHoYo. Phương pháp này có rủi ro và chúng tôi sẽ không chịu trách nhiệm nếu tài khoản của bạn có dấu hiệu bất thường và bị cấm.
+    <value>The features of this page requires you to log in to your Hyperion/HoYoLAB account, and Starward will save your login credentials (Cookie) and impersonate you to send requests to miHoYo's server. This method is risky and we are not responsible if your account is abnormal or banned as a result.
                     
-Bạn có chấp nhận rủi ro và tiếp tục?</value>
+Do you accept the risk and continue to use it?</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
     <value>Nguồn ngọc ánh sao</value>
@@ -971,10 +971,16 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Chu kỳ</value>
   </data>
   <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
-    <value>Cycles used:</value>
+    <value>Vòng sử dụng:</value>
   </data>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
-    <value>Team Setup</value>
+    <value>Lập Đội</value>
     <comment>example: forgotten hall team setup 1</comment>
+  </data>
+  <data name="Common_AccountError" xml:space="preserve">
+    <value>Tài khoản bất thường</value>
+  </data>
+  <data name="Common_NetworkError" xml:space="preserve">
+    <value>Lỗi mạng</value>
   </data>
 </root>
