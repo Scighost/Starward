@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Controls;
 using Starward.Core;
 using Starward.Core.GameRecord;
-using Starward.Core.GameRecord.Genshin.TravelersDiary;
+using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using Starward.Helpers;
 using Starward.Services;
 using System;
@@ -26,25 +26,24 @@ namespace Starward.Pages.HoyolabToolbox;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class TravelersDiaryPage : Page
+public sealed partial class TrailblazeCalendarPage : Page
 {
 
 
-    private readonly ILogger<TravelersDiaryPage> _logger = AppConfig.GetLogger<TravelersDiaryPage>();
+    private readonly ILogger<TrailblazeCalendarPage> _logger = AppConfig.GetLogger<TrailblazeCalendarPage>();
 
 
     private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
-
-    public TravelersDiaryPage()
+    public TrailblazeCalendarPage()
     {
         this.InitializeComponent();
     }
 
 
-
     private GameRecordRole gameRole;
+
 
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -56,6 +55,7 @@ public sealed partial class TravelersDiaryPage : Page
         }
     }
 
+
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         await Task.Delay(16);
@@ -64,21 +64,20 @@ public sealed partial class TravelersDiaryPage : Page
 
 
 
-
     [ObservableProperty]
     private bool hasData;
 
 
     [ObservableProperty]
-    private TravelersDiarySummary currentSummary;
+    private TrailblazeCalendarSummary currentSummary;
 
 
     [ObservableProperty]
-    private TravelersDiaryMonthData? selectMonthData;
+    private TrailblazeCalendarMonthData? selectMonthData;
 
 
     [ObservableProperty]
-    private List<TravelersDiaryMonthData> monthDataList;
+    private List<TrailblazeCalendarMonthData> monthDataList;
 
 
     [ObservableProperty]
@@ -90,15 +89,15 @@ public sealed partial class TravelersDiaryPage : Page
 
 
 
-    private static readonly Dictionary<int, Color> actionColorMap = new Dictionary<int, Color>()
+    private static readonly Dictionary<string, Color> actionColorMap = new Dictionary<string, Color>()
     {
-        [0] = Color.FromArgb(0xFF, 0x72, 0xA7, 0xC6),
-        [1] = Color.FromArgb(0xFF, 0xD4, 0x64, 0x63),
-        [2] = Color.FromArgb(0xFF, 0x6F, 0xB0, 0xB2),
-        [3] = Color.FromArgb(0xFF, 0xBC, 0x99, 0x59),
-        [4] = Color.FromArgb(0xFF, 0x72, 0x98, 0x6F),
-        [5] = Color.FromArgb(0xFF, 0x79, 0x6B, 0xA6),
-        [6] = Color.FromArgb(0xFF, 0x59, 0x7D, 0x9F),
+        ["daily_reward"] = Color.FromArgb(0xFF, 0xFE, 0xC6, 0x6F),
+        ["space_reward"] = Color.FromArgb(0xFF, 0x44, 0xDD, 0x9C),
+        ["event_reward"] = Color.FromArgb(0xFF, 0x47, 0xC6, 0xFD),
+        ["adventure_reward"] = Color.FromArgb(0xFF, 0x88, 0x7F, 0xFE),
+        ["abyss_reward"] = Color.FromArgb(0xFF, 0xDF, 0x53, 0xFE),
+        ["mail_reward"] = Color.FromArgb(0xFF, 0xF8, 0x4E, 0x35),
+        ["other"] = Color.FromArgb(0xFF, 0xFD, 0xEA, 0x60),
     };
 
 
@@ -123,32 +122,44 @@ public sealed partial class TravelersDiaryPage : Page
                 return;
             }
             HasData = true;
-            CurrentSummary = await _gameRecordService.GetTravelersDiarySummaryAsync(gameRole);
+            CurrentSummary = await _gameRecordService.GetTrailblazeCalendarSummaryAsync(gameRole);
             MenuFlyout_GetDetails.Items.Clear();
-            foreach (int month in CurrentSummary.OptionalMonth)
+            foreach (string monthStr in CurrentSummary.OptionalMonth)
             {
-                MenuFlyout_GetDetails.Items.Add(new MenuFlyoutItem
+                if (DateTime.TryParseExact(monthStr, "yyyyMM", null, System.Globalization.DateTimeStyles.None, out DateTime time))
                 {
-                    Text = new DateTime(2023, month, 1).ToString("MMM"),
-                    Command = GetDataDetailsCommand,
-                    CommandParameter = month,
-                });
+                    MenuFlyout_GetDetails.Items.Add(new MenuFlyoutItem
+                    {
+                        Text = time.ToString("MMM"),
+                        Command = GetDataDetailsCommand,
+                        CommandParameter = monthStr,
+                    });
+                }
+                else
+                {
+                    MenuFlyout_GetDetails.Items.Add(new MenuFlyoutItem
+                    {
+                        Text = monthStr,
+                        Command = GetDataDetailsCommand,
+                        CommandParameter = monthStr,
+                    });
+                }
             }
-            CurrentSeries = CurrentSummary.MonthData.PrimogemsGroupBy.Select(x => new ColorRectChart.ChartLegend(x.ActionName, x.Percent, actionColorMap.GetValueOrDefault(x.ActionId))).ToList();
+            CurrentSeries = CurrentSummary.MonthData.GroupBy.Select(x => new ColorRectChart.ChartLegend(x.ActionName, x.Percent, actionColorMap.GetValueOrDefault(x.Action))).ToList();
         }
         catch (miHoYoApiException ex)
         {
-            _logger.LogError(ex, "Get realtime traveler's diary data details ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Get realtime trailblaze calendar data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
             NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
         }
         catch (HttpRequestException ex)
         {
-            _logger.LogError(ex, "Get realtime traveler's diary data details ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Get realtime trailblaze calendar data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
             NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Get realtime traveler's diary data details ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Get realtime trailblaze calendar data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
             NotificationBehavior.Instance.Error(ex);
         }
     }
@@ -160,7 +171,7 @@ public sealed partial class TravelersDiaryPage : Page
         try
         {
             SelectMonthData = null;
-            MonthDataList = _gameRecordService.GetTravelersDiaryMonthDataList(gameRole);
+            MonthDataList = _gameRecordService.GetTrailblazeCalendarMonthDataList(gameRole);
             if (MonthDataList.Any())
             {
                 HasData = true;
@@ -168,7 +179,7 @@ public sealed partial class TravelersDiaryPage : Page
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Load traveler's diary month data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Load trailblaze calendar month data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
         }
     }
 
@@ -177,7 +188,7 @@ public sealed partial class TravelersDiaryPage : Page
 
 
     [RelayCommand]
-    private async Task GetDataDetailsAsync(int month)
+    private async Task GetDataDetailsAsync(string month)
     {
         try
         {
@@ -185,24 +196,24 @@ public sealed partial class TravelersDiaryPage : Page
             {
                 return;
             }
-            await _gameRecordService.GetTravelersDiarySummaryAsync(gameRole, month);
-            await _gameRecordService.GetTravelersDiaryDetailAsync(gameRole, month, 1);
-            await _gameRecordService.GetTravelersDiaryDetailAsync(gameRole, month, 2);
+            await _gameRecordService.GetTrailblazeCalendarSummaryAsync(gameRole, month);
+            await _gameRecordService.GetTrailblazeCalendarDetailAsync(gameRole, month, 1);
+            await _gameRecordService.GetTrailblazeCalendarDetailAsync(gameRole, month, 2);
             GetMonthDataList();
         }
         catch (miHoYoApiException ex)
         {
-            _logger.LogError(ex, "Get traveler's diary data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
+            _logger.LogError(ex, "Get trailblaze calendar data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
             NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
         }
         catch (HttpRequestException ex)
         {
-            _logger.LogError(ex, "Get traveler's diary data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
+            _logger.LogError(ex, "Get trailblaze calendar data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
             NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Get traveler's diary data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
+            _logger.LogError(ex, "Get trailblaze calendar data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
             NotificationBehavior.Instance.Error(ex);
         }
     }
@@ -215,10 +226,10 @@ public sealed partial class TravelersDiaryPage : Page
     {
         try
         {
-            if (e.AddedItems.FirstOrDefault() is TravelersDiaryMonthData data)
+            if (e.AddedItems.FirstOrDefault() is TrailblazeCalendarMonthData data)
             {
                 SelectMonthData = data;
-                SelectSeries = SelectMonthData.PrimogemsGroupBy.Select(x => new ColorRectChart.ChartLegend(x.ActionName, x.Percent, actionColorMap.GetValueOrDefault(x.ActionId))).ToList();
+                SelectSeries = SelectMonthData.GroupBy.Select(x => new ColorRectChart.ChartLegend(x.ActionName, x.Percent, actionColorMap.GetValueOrDefault(x.Action))).ToList();
             }
         }
         catch (Exception ex)

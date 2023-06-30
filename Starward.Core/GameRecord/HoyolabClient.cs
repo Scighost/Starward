@@ -165,7 +165,7 @@ public class HoyolabClient : GameRecordClient
     /// <param name="limit">最大100</param>
     /// <param name="cancellationToken"></param>
     /// <returns>返回一页收入记录</returns>
-    protected override async Task<TravelersDiaryDetail> GetTravelsDiaryDetailByPageAsync(GameRecordRole role, int month, int type, int page, int limit = 100, CancellationToken cancellationToken = default)
+    public override async Task<TravelersDiaryDetail> GetTravelsDiaryDetailByPageAsync(GameRecordRole role, int month, int type, int page, int limit = 100, CancellationToken cancellationToken = default)
     {
         var url = $"https://sg-hk4e-api.hoyolab.com/event/ysledgeros/month_detail?month={month}&current_page={page}&type={type}&region={role.Region}&uid={role.Uid}&lang={Language}";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -318,7 +318,7 @@ public class HoyolabClient : GameRecordClient
     /// <param name="page_size">最大100</param>
     /// <param name="cancellationToken"></param>
     /// <returns>返回一页收入记录</returns>
-    protected override async Task<TrailblazeCalendarDetail> GetTrailblazeCalendarDetailByPageAsync(GameRecordRole role, string month, int type, int page, int page_size = 100, CancellationToken cancellationToken = default)
+    public override async Task<TrailblazeCalendarDetail> GetTrailblazeCalendarDetailByPageAsync(GameRecordRole role, string month, int type, int page, int page_size = 100, CancellationToken cancellationToken = default)
     {
         var url = $"https://sg-public-api.hoyolab.com/event/srledger/month_detail?lang={Language}&uid={role.Uid}&region={role.Region}&month={month}&type={type}&current_page={page}&page_size={page_size}&total=0 ";
         var request = new HttpRequestMessage(HttpMethod.Get, url);

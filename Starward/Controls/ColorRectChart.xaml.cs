@@ -56,9 +56,23 @@ public sealed partial class ColorRectChart : UserControl
             FillBrush.GradientStops.Clear();
             if (newValue is null)
             {
+                FillBrush.GradientStops.Add(new GradientStop
+                {
+                    Color = Color.FromArgb(0x60, 0, 0, 0),
+                    Offset = 0,
+                });
                 return;
             }
             double sum = newValue.Sum(x => x.Percent);
+            if (sum == 0)
+            {
+                FillBrush.GradientStops.Add(new GradientStop
+                {
+                    Color = Color.FromArgb(0x60, 0, 0, 0),
+                    Offset = 0,
+                });
+                return;
+            }
             double offset = 0;
             foreach (var item in newValue)
             {

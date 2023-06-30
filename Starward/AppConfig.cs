@@ -321,7 +321,7 @@ internal static class AppConfig
     public static GameBiz SelectGameBiz
     {
         get => GetValue<GameBiz>();
-        set => SetValue((int)value);
+        set => SetValue(value);
     }
 
 
@@ -492,7 +492,7 @@ internal static class AppConfig
 
     public static void SetLastRegionOfGame(GameBiz game, GameBiz value)
     {
-        SetValue((int)value, $"last_region_of_{game}");
+        SetValue(value, $"last_region_of_{game}");
     }
 
 

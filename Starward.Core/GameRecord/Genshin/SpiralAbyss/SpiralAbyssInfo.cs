@@ -82,4 +82,41 @@ public class SpiralAbyssInfo
     [JsonPropertyName("is_unlock")]
     public bool IsUnlock { get; set; }
 
+
+    /// <summary>
+    /// 出战最多
+    /// </summary>
+    [JsonIgnore]
+    public SpiralAbyssRank? FirstRevealRank => RevealRank?.FirstOrDefault();
+
+    /// <summary>
+    /// 击破最多
+    /// </summary>
+    [JsonIgnore]
+    public SpiralAbyssRank? FirstDefeatRank => DefeatRank?.FirstOrDefault();
+
+    /// <summary>
+    /// 伤害最高
+    /// </summary>
+    [JsonIgnore]
+    public SpiralAbyssRank? FirstDamageRank => DamageRank?.FirstOrDefault();
+
+    /// <summary>
+    /// 承伤最高
+    /// </summary>
+    [JsonIgnore]
+    public SpiralAbyssRank? FirstTakeDamageRank => TakeDamageRank?.FirstOrDefault();
+
+    /// <summary>
+    /// 元素战技最多
+    /// </summary>
+    [JsonIgnore]
+    public SpiralAbyssRank? FirstNormalSkillRank => NormalSkillRank?.FirstOrDefault();
+
+    /// <summary>
+    /// 元素爆发最多
+    /// </summary>
+    [JsonIgnore]
+    public SpiralAbyssRank? FirstEnergySkillRank => EnergySkillRank?.FirstOrDefault();
+
 }

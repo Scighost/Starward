@@ -223,7 +223,7 @@ public abstract class GameRecordClient
     /// <param name="limit">最大100</param>
     /// <param name="cancellationToken"></param>
     /// <returns>返回一页收入记录</returns>
-    protected abstract Task<TravelersDiaryDetail> GetTravelsDiaryDetailByPageAsync(GameRecordRole role, int month, int type, int page, int limit = 100, CancellationToken cancellationToken = default);
+    public abstract Task<TravelersDiaryDetail> GetTravelsDiaryDetailByPageAsync(GameRecordRole role, int month, int type, int page, int limit = 100, CancellationToken cancellationToken = default);
 
 
     /// <summary>
@@ -294,7 +294,7 @@ public abstract class GameRecordClient
     /// <param name="page_size">最大100</param>
     /// <param name="cancellationToken"></param>
     /// <returns>返回一页收入记录</returns>
-    protected abstract Task<TrailblazeCalendarDetail> GetTrailblazeCalendarDetailByPageAsync(GameRecordRole role, string month, int type, int page, int page_size = 100, CancellationToken cancellationToken = default);
+    public abstract Task<TrailblazeCalendarDetail> GetTrailblazeCalendarDetailByPageAsync(GameRecordRole role, string month, int type, int page, int page_size = 100, CancellationToken cancellationToken = default);
 
 
     /// <summary>

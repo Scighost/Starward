@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -976,5 +976,17 @@
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
     <value>节点</value>
     <comment>example: forgotten hall team setup 1</comment>
+  </data>
+  <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
+    <value>星琼收入组成</value>
+  </data>
+  <data name="ForgottenHallPage_Period" xml:space="preserve">
+    <value>统计周期</value>
+  </data>
+  <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
+    <value>使用轮：</value>
+  </data>
+  <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
+    <value>节点</value>
   </data>
 </root>

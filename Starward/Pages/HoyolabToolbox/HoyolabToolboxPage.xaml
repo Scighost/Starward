@@ -102,7 +102,9 @@
                                 <MenuFlyoutItem Command="{x:Bind WebLoginCommand}"
                                                 Icon="Globe"
                                                 Text="{x:Bind lang:Lang.HoyolabToolboxPage_WebLogin}" />
-                                <MenuFlyoutItem Icon="Edit" Text="{x:Bind lang:Lang.HoyolabToolboxPage_InputCookie}" />
+                                <MenuFlyoutItem Command="{x:Bind InputCookieCommand}"
+                                                Icon="Edit"
+                                                Text="{x:Bind lang:Lang.HoyolabToolboxPage_InputCookie}" />
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
@@ -173,7 +175,9 @@
                                                 <MenuFlyoutItem Command="{x:Bind WebLoginCommand}"
                                                                 Icon="Globe"
                                                                 Text="{x:Bind lang:Lang.HoyolabToolboxPage_WebLogin}" />
-                                                <MenuFlyoutItem Icon="Edit" Text="{x:Bind lang:Lang.HoyolabToolboxPage_InputCookie}" />
+                                                <MenuFlyoutItem Command="{x:Bind InputCookieCommand}"
+                                                                Icon="Edit"
+                                                                Text="{x:Bind lang:Lang.HoyolabToolboxPage_InputCookie}" />
                                             </MenuFlyout>
                                         </Button.Flyout>
                                     </Button>

@@ -70,6 +70,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Account Error 的本地化字符串。
+        /// </summary>
+        public static string Common_AccountError {
+            get {
+                return ResourceManager.GetString("Common_AccountError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Apply 的本地化字符串。
         /// </summary>
         public static string Common_Apply {
@@ -120,6 +129,15 @@ namespace Starward.Language {
         public static string Common_Disclaimer {
             get {
                 return ResourceManager.GetString("Common_Disclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Network Error 的本地化字符串。
+        /// </summary>
+        public static string Common_NetworkError {
+            get {
+                return ResourceManager.GetString("Common_NetworkError", resourceCulture);
             }
         }
         
@@ -580,6 +598,33 @@ namespace Starward.Language {
         public static string DownloadGameService_TooManyRetries {
             get {
                 return ResourceManager.GetString("DownloadGameService_TooManyRetries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cycles used: 的本地化字符串。
+        /// </summary>
+        public static string ForgottenHallPage_CyclesUsed {
+            get {
+                return ResourceManager.GetString("ForgottenHallPage_CyclesUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Period 的本地化字符串。
+        /// </summary>
+        public static string ForgottenHallPage_Period {
+            get {
+                return ResourceManager.GetString("ForgottenHallPage_Period", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Team Setup 的本地化字符串。
+        /// </summary>
+        public static string ForgottenHallPage_TeamSetup {
+            get {
+                return ResourceManager.GetString("ForgottenHallPage_TeamSetup", resourceCulture);
             }
         }
         
@@ -2356,6 +2401,15 @@ namespace Starward.Language {
         public static string StarRailGachaService_ImportWarpRecordsSuccessfully {
             get {
                 return ResourceManager.GetString("StarRailGachaService_ImportWarpRecordsSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Stellar Jade Sources 的本地化字符串。
+        /// </summary>
+        public static string TrailblazeCalendarPage_StellarJadeSources {
+            get {
+                return ResourceManager.GetString("TrailblazeCalendarPage_StellarJadeSources", resourceCulture);
             }
         }
         

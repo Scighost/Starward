@@ -92,20 +92,58 @@ public sealed partial class SettingPage : Page
 
 
 
+    private void InitializeLanguageComboBox()
+    {
+        try
+        {
+            ComboBox_Language.Items.Clear();
+            ComboBox_Language.Items.Add(new ComboBoxItem
+            {
+                Content = Lang.SettingPage_FollowSystem,
+                Tag = "",
+            });
+            foreach (var item in Localization.LanguageList)
+            {
+                ComboBox_Language.Items.Add(new ComboBoxItem
+                {
+                    Content = item.Title,
+                    Tag = item.LangCode,
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
     private void InitializeLanguage()
     {
         try
         {
             var lang = AppConfig.Language;
-            foreach (ComboBoxItem item in ComboBox_Language.Items)
+            ComboBox_Language.Items.Clear();
+            ComboBox_Language.Items.Add(new ComboBoxItem
             {
-                if (item.Tag as string == lang)
+                Content = Lang.SettingPage_FollowSystem,
+                Tag = "",
+            });
+            ComboBox_Language.SelectedIndex = 0;
+            foreach (var (Title, LangCode) in Localization.LanguageList)
+            {
+                var box = new ComboBoxItem
                 {
-                    ComboBox_Language.SelectedItem = item;
-                    return;
+                    Content = Title,
+                    Tag = LangCode,
+                };
+                ComboBox_Language.Items.Add(box);
+                if (LangCode == lang)
+                {
+                    ComboBox_Language.SelectedItem = box;
                 }
             }
-            ComboBox_Language.SelectedIndex = 0;
         }
         catch { }
         finally

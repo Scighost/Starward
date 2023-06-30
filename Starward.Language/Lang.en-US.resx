@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -976,5 +976,8 @@ Do you accept the risk and continue to use it?</value>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
     <value>Team Setup</value>
     <comment>example: forgotten hall team setup 1</comment>
+  </data>
+  <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
+    <value>Stellar Jade Sources</value>
   </data>
 </root>

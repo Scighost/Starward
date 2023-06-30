@@ -4,6 +4,8 @@ using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
+using Starward.Core.GameRecord.StarRail.ForgottenHall;
+using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +31,9 @@ internal class GameRecordService
 
 
     public event EventHandler<GameRecordRole?> GameRecordRoleChanged;
+
+
+    public string Language { get => _hoyolabClient.Language; set => _hoyolabClient.Language = value; }
 
 
     private bool isHoyolab;
@@ -269,8 +274,6 @@ internal class GameRecordService
 
 
 
-
-
     #region Traveler's Diary
 
 
@@ -299,7 +302,7 @@ internal class GameRecordService
             return new List<TravelersDiaryMonthData>();
         }
         using var dapper = _databaseService.CreateConnection();
-        var list = dapper.Query<TravelersDiaryMonthData>("SELECT * FROM TravelersDiaryMonthData WHERE Uid = @Uid ORDER BY Year, Month DESC;", new { role.Uid });
+        var list = dapper.Query<TravelersDiaryMonthData>("SELECT * FROM TravelersDiaryMonthData WHERE Uid = @Uid ORDER BY Year DESC, Month DESC;", new { role.Uid });
         return list.ToList();
     }
 
@@ -336,6 +339,141 @@ internal class GameRecordService
 
 
     #endregion
+
+
+
+
+
+    #region Forgotten Hall
+
+
+
+    public async Task<ForgottenHallInfo> RefreshForgottenHallInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    {
+        var info = await _gameRecordClient.GetForgottenHallInfoAsync(role, schedule);
+        var obj = new
+        {
+            info.Uid,
+            info.ScheduleId,
+            info.BeginTime,
+            info.EndTime,
+            info.StarNum,
+            info.MaxFloor,
+            info.BattleNum,
+            info.HasData,
+            Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+        };
+        using var dapper = _databaseService.CreateConnection();
+        dapper.Execute("""
+            INSERT OR REPLACE INTO ForgottenHallInfo (Uid, ScheduleId, BeginTime, EndTime, StarNum, MaxFloor, BattleNum, HasData, Value)
+            VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @StarNum, @MaxFloor, @BattleNum, @HasData, @Value);
+            """, obj);
+        return info;
+    }
+
+
+
+    public List<ForgottenHallInfo> GetForgottenHallInfoList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<ForgottenHallInfo>();
+        }
+        using var dapper = _databaseService.CreateConnection();
+        var list = dapper.Query<ForgottenHallInfo>("""
+            SELECT Uid, ScheduleId, BeginTime, EndTime, StarNum, MaxFloor, BattleNum, HasData FROM ForgottenHallInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
+            """, new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public ForgottenHallInfo? GetForgottenHallInfo(GameRecordRole role, int scheduleId)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        var value = dapper.QueryFirstOrDefault<string>("""
+            SELECT Value FROM ForgottenHallInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
+            """, new { role.Uid, scheduleId });
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+        return JsonSerializer.Deserialize<ForgottenHallInfo>(value);
+    }
+
+
+
+    #endregion
+
+
+
+
+    #region Trailblaze Calendar
+
+
+
+    public async Task<TrailblazeCalendarSummary> GetTrailblazeCalendarSummaryAsync(GameRecordRole role, string month = "")
+    {
+        var summary = await _gameRecordClient.GetTrailblazeCalendarSummaryAsync(role, month);
+        if (summary.MonthData is null)
+        {
+            return summary;
+        }
+        using var dapper = _databaseService.CreateConnection();
+        dapper.Execute("""
+            INSERT OR REPLACE INTO TrailblazeCalendarMonthData (Uid, Month, CurrentHcoin, CurrentRailsPass, LastHcoin, LastRailsPass, HcoinRate, RailsRate, GroupBy)
+            VALUES (@Uid, @Month, @CurrentHcoin, @CurrentRailsPass, @LastHcoin, @LastRailsPass, @HcoinRate, @RailsRate, @GroupBy);
+            """, summary.MonthData);
+        return summary;
+    }
+
+
+    public List<TrailblazeCalendarMonthData> GetTrailblazeCalendarMonthDataList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<TrailblazeCalendarMonthData>();
+        }
+        using var dapper = _databaseService.CreateConnection();
+        var list = dapper.Query<TrailblazeCalendarMonthData>("SELECT * FROM TrailblazeCalendarMonthData WHERE Uid = @Uid ORDER BY Month DESC;", new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public async Task<int> GetTrailblazeCalendarDetailAsync(GameRecordRole role, string month, int type)
+    {
+        int total = (await _gameRecordClient.GetTrailblazeCalendarDetailByPageAsync(role, month, type, 1, 1)).Total;
+        if (total == 0)
+        {
+            return 0;
+        }
+        using var dapper = _databaseService.CreateConnection();
+        var existCount = dapper.QuerySingleOrDefault<int>("SELECT COUNT(*) FROM TrailblazeCalendarDetailItem WHERE Uid = @Uid AND Month = @month AND Type = @type;", new { role.Uid, month, type });
+        if (existCount == total)
+        {
+            return 0;
+        }
+        var detail = await _gameRecordClient.GetTrailblazeCalendarDetailAsync(role, month, type);
+        var list = detail.List;
+        using var t = dapper.BeginTransaction();
+        dapper.Execute($"DELETE FROM TrailblazeCalendarDetailItem WHERE Uid = @Uid AND Month = @Month AND Type = @Type;", list.FirstOrDefault(), t);
+        dapper.Execute("""
+                INSERT INTO TrailblazeCalendarDetailItem (Uid, Month, Type, Action, ActionName, Time, Number)
+                VALUES (@Uid, @Month, @Type, @Action, @ActionName, @Time, @Number);
+                """, list, t);
+        t.Commit();
+        return total - existCount;
+    }
+
+
+
+
+
+
+
+    #endregion
+
 
 
 

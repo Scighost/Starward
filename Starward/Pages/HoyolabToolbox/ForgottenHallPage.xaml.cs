@@ -6,12 +6,11 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.GameRecord;
-using Starward.Core.GameRecord.Genshin.SpiralAbyss;
+using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Helpers;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -25,20 +24,21 @@ namespace Starward.Pages.HoyolabToolbox;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class SpiralAbyssPage : Page
+public sealed partial class ForgottenHallPage : Page
 {
 
 
-    private readonly ILogger<SpiralAbyssPage> _logger = AppConfig.GetLogger<SpiralAbyssPage>();
+    private readonly ILogger<ForgottenHallPage> _logger = AppConfig.GetLogger<ForgottenHallPage>();
 
     private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
 
-    public SpiralAbyssPage()
+    public ForgottenHallPage()
     {
         this.InitializeComponent();
     }
+
 
 
     private GameRecordRole gameRole;
@@ -58,10 +58,8 @@ public sealed partial class SpiralAbyssPage : Page
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         await Task.Delay(16);
-        InitializeAbyssData();
+        InitializeForgottenHallData();
     }
-
-
 
 
 
@@ -69,34 +67,30 @@ public sealed partial class SpiralAbyssPage : Page
     private bool hasData;
 
 
+    [ObservableProperty]
+    private List<ForgottenHallInfo> forgottenHallList;
+
 
     [ObservableProperty]
-    private List<SpiralAbyssInfo> abyssList;
+    private ForgottenHallInfo? currentForgottenHall;
 
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(RevealRankInternalStar))]
-    private SpiralAbyssInfo? currentAbyss;
 
-
-    public List<int> RevealRankInternalStar => Enumerable.Range(0, Math.Clamp((CurrentAbyss?.RevealRank?.Count ?? 1) - 1, 0, int.MaxValue)).ToList();
-
-
-    private void InitializeAbyssData()
+    private void InitializeForgottenHallData()
     {
         try
         {
-            CurrentAbyss = null;
-            var list = _gameRecordService.GetSpiralAbyssInfoList(gameRole);
+            CurrentForgottenHall = null;
+            var list = _gameRecordService.GetForgottenHallInfoList(gameRole);
             if (list.Any())
             {
                 HasData = true;
-                AbyssList = list;
+                ForgottenHallList = list;
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Init abyss data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Init forgotten hall data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
         }
     }
 
@@ -108,38 +102,37 @@ public sealed partial class SpiralAbyssPage : Page
     {
         try
         {
-            await _gameRecordService.RefreshSpiralAbyssInfoAsync(gameRole, 1);
-            await _gameRecordService.RefreshSpiralAbyssInfoAsync(gameRole, 2);
-            InitializeAbyssData();
+            await _gameRecordService.RefreshForgottenHallInfoAsync(gameRole, 1);
+            await _gameRecordService.RefreshForgottenHallInfoAsync(gameRole, 2);
+            InitializeForgottenHallData();
         }
         catch (miHoYoApiException ex)
         {
-            _logger.LogError(ex, "Refresh abyss data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Refresh forgotten hall data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
             NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
         }
         catch (HttpRequestException ex)
         {
-            _logger.LogError(ex, "Refresh abyss data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Refresh forgotten hall data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
             NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Refresh abyss data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Refresh forgotten hall data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
             NotificationBehavior.Instance.Error(ex);
         }
     }
 
 
 
-
-    private void ListView_AbyssList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void ListView_ForgottenHall_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         try
         {
-            if (e.AddedItems.FirstOrDefault() is SpiralAbyssInfo info)
+            if (e.AddedItems.FirstOrDefault() is ForgottenHallInfo info)
             {
-                CurrentAbyss = _gameRecordService.GetSpiralAbyssInfo(gameRole, info.ScheduleId);
-                HasData = CurrentAbyss?.TotalBattleCount > 0;
+                CurrentForgottenHall = _gameRecordService.GetForgottenHallInfo(gameRole, info.ScheduleId);
+                HasData = CurrentForgottenHall?.HasData ?? false;
             }
         }
         catch (Exception ex)

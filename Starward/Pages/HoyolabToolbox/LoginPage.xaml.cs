@@ -9,6 +9,7 @@ using Starward.Core;
 using Starward.Services;
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -109,7 +110,7 @@ public sealed partial class LoginPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Initialize webview");
         }
     }
 
@@ -258,10 +259,21 @@ public sealed partial class LoginPage : Page
             _gameRecordService.InvokeGameRecordRoleChanged(roles.FirstOrDefault(x => x.GameBiz == gameBiz.ToString()));
             TextBlock_Tip.Text = string.Format(Lang.LoginPage_AlreadyAddedGameRoles, roles.Count, string.Join("\r\n", roles.Select(x => $"{x.Nickname}  {x.Uid}")));
         }
-        catch (Exception ex)
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogError(ex, "Log in (web mode)");
+            TextBlock_Tip.Text = $"{Lang.Common_AccountError}\r\n{ex.Message}";
+        }
+        catch (HttpRequestException ex)
         {
             _logger.LogError(ex, "Log in (web mode)");
             TextBlock_Tip.Text = ex.Message;
+            TextBlock_Tip.Text = $"{Lang.Common_NetworkError}\r\n{ex.Message}";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Log in (web mode)");
+            TextBlock_Tip.Text = $"{ex.GetType().Name}\r\n{ex.Message}";
         }
         finally
         {

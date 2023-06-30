@@ -33,6 +33,7 @@
             <scv:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
             <scv:BoolReversedConverter x:Key="BoolReversedConverter" />
             <scv:RarityToGIBgConverter x:Key="RarityToGIBgConverter" />
+            <scv:RarityToSRBgConverter x:Key="RarityToSRBgConverter" />
             <scv:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
 
             <!--  Custom Acrylic  -->

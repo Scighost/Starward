@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -57,6 +58,7 @@ public sealed partial class HoyolabToolboxPage : Page
                 _ => biz
             };
             _gameRecordService.IsHoyolab = gameBiz.IsGlobalServer();
+            _gameRecordService.Language = System.Globalization.CultureInfo.CurrentUICulture.Name;
             InitializeNavigationViewItemVisibility();
         }
     }
@@ -165,10 +167,10 @@ public sealed partial class HoyolabToolboxPage : Page
         }
         if (gameBiz.ToGame() is GameBiz.StarRail)
         {
-            if (gameBiz is GameBiz.hkrpg_cn)
-            {
-                NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
-            }
+            //if (gameBiz is GameBiz.hkrpg_cn)
+            //{
+            //    NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
+            //}
             NavigationViewItem_ForgottenHall.Visibility = Visibility.Visible;
             NavigationViewItem_TrailblazeMonthlyCalendar.Visibility = Visibility.Visible;
         }
@@ -228,7 +230,6 @@ public sealed partial class HoyolabToolboxPage : Page
     private void _gameRecordService_GameRecordRoleChanged(object? sender, GameRecordRole? e)
     {
         LoadGameRoles(e);
-        NavigateTo(frame.SourcePageType);
     }
 
 
@@ -257,9 +258,20 @@ public sealed partial class HoyolabToolboxPage : Page
             }
             LoadGameRoles();
         }
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogError(ex, "Refresh game role info ({gameBiz}, {uid}).", CurrentRole?.GameBiz, CurrentRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Refresh game role info ({gameBiz}, {uid}).", CurrentRole?.GameBiz, CurrentRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Refresh game role info ({gameBiz}, {uid}).", CurrentRole?.GameBiz, CurrentRole?.Uid);
+            NotificationBehavior.Instance.Error(ex);
         }
     }
 
@@ -270,6 +282,10 @@ public sealed partial class HoyolabToolboxPage : Page
         if (e.AddedItems.FirstOrDefault() is GameRecordRole role)
         {
             CurrentRole = role;
+            if (frame.SourcePageType?.Name is not nameof(LoginPage))
+            {
+                NavigateTo(frame.SourcePageType);
+            }
         }
     }
 
@@ -310,6 +326,59 @@ public sealed partial class HoyolabToolboxPage : Page
     }
 
 
+
+    [RelayCommand]
+    private async Task InputCookieAsync()
+    {
+        try
+        {
+            var textbox = new TextBox
+            {
+                IsSpellCheckEnabled = false,
+            };
+            var dialog = new ContentDialog
+            {
+                Title = Lang.HoyolabToolboxPage_InputCookie,
+                Content = textbox,
+                PrimaryButtonText = Lang.Common_Confirm,
+                SecondaryButtonText = Lang.Common_Cancel,
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = this.XamlRoot,
+            };
+            var result = await dialog.ShowAsync();
+            if (result is ContentDialogResult.Primary)
+            {
+                var cookie = textbox.Text;
+                if (string.IsNullOrWhiteSpace(cookie))
+                {
+                    _logger.LogInformation("Input cookie is null or white space.");
+                    return;
+                }
+                var user = await _gameRecordService.AddRecordUserAsync(cookie);
+                var roles = await _gameRecordService.AddGameRolesAsync(cookie);
+                NotificationBehavior.Instance.Success(null, string.Format(Lang.LoginPage_AlreadyAddedGameRoles, roles.Count, string.Join("\r\n", roles.Select(x => $"{x.Nickname}  {x.Uid}"))), 5000);
+                LoadGameRoles(roles.FirstOrDefault(x => x.GameBiz == gameBiz.ToString()));
+            }
+        }
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogError(ex, "Input cookie");
+            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Input cookie");
+            NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Input cookie");
+            NotificationBehavior.Instance.Error(ex);
+        }
+    }
+
+
+
     #endregion
 
 
@@ -348,6 +417,8 @@ public sealed partial class HoyolabToolboxPage : Page
                 {
                     nameof(SpiralAbyssPage) => typeof(SpiralAbyssPage),
                     nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
+                    nameof(ForgottenHallPage) => typeof(ForgottenHallPage),
+                    nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
                     _ => null,
                 };
                 NavigateTo(type);
