@@ -883,7 +883,7 @@
     <value>开拓月历</value>
   </data>
   <data name="LoginPage_ClickThisButtonAfterLoggingIn" xml:space="preserve">
-    <value>登录后点击此按钮</value>
+    <value>登录后请点击此按钮</value>
   </data>
   <data name="LoginPage_AlreadyAddedGameRoles" xml:space="preserve">
     <value>已经添加了{0}个游戏角色：
