@@ -39,6 +39,7 @@ public sealed partial class SelectLanguagePage : Page
         this.InitializeComponent();
         WelcomePage.Current.TextLanguage = null!;
         CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+        InitializeLanguageComboBox();
         switch (AppConfig.ApiCDNIndex)
         {
             case 1: RadioButton_GH.IsChecked = true; break;
@@ -57,6 +58,31 @@ public sealed partial class SelectLanguagePage : Page
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
         TestCDNCommand.Execute(null);
+    }
+
+
+
+    private void InitializeLanguageComboBox()
+    {
+        try
+        {
+            ComboBox_Language.Items.Clear();
+            ComboBox_Language.Items.Add(new ComboBoxItem
+            {
+                Content = Lang.SettingPage_FollowSystem,
+                Tag = "",
+            });
+            ComboBox_Language.SelectedIndex = 0;
+            foreach (var (Title, LangCode) in Localization.LanguageList)
+            {
+                ComboBox_Language.Items.Add(new ComboBoxItem
+                {
+                    Content = Title,
+                    Tag = LangCode,
+                });
+            }
+        }
+        catch { }
     }
 
 
