@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -961,7 +961,7 @@ closing the program during decompression will cause game file corruption.</value
   </data>
   <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
     <value>The features of this page requires you to log in to your Hyperion/HoYoLAB account, and Starward will save your login credentials (Cookie) and impersonate you to send requests to miHoYo's server. This method is risky and we are not responsible if your account is abnormal or banned as a result.
-
+                    
 Do you accept the risk and continue to use it?</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
@@ -977,7 +977,10 @@ Do you accept the risk and continue to use it?</value>
     <value>Team Setup</value>
     <comment>example: forgotten hall team setup 1</comment>
   </data>
-  <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
-    <value>Stellar Jade Sources</value>
+  <data name="Common_AccountError" xml:space="preserve">
+    <value>Account Error</value>
+  </data>
+  <data name="Common_NetworkError" xml:space="preserve">
+    <value>Network Error</value>
   </data>
 </root>
