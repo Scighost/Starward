@@ -5,12 +5,15 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Controls;
+using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
+using Starward.Helpers;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.UI;
 
@@ -133,9 +136,20 @@ public sealed partial class TravelersDiaryPage : Page
             }
             CurrentSeries = CurrentSummary.MonthData.PrimogemsGroupBy.Select(x => new ColorRectChart.ChartLegend(x.ActionName, x.Percent, actionColorMap.GetValueOrDefault(x.ActionId))).ToList();
         }
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogError(ex, "Get realtime traveler's diary data details ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Get realtime traveler's diary data details ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
+        }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Get realtime traveler's diary data details ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Error(ex);
         }
     }
 
@@ -154,7 +168,7 @@ public sealed partial class TravelersDiaryPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Load traveler's diary month data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
         }
     }
 
@@ -176,9 +190,20 @@ public sealed partial class TravelersDiaryPage : Page
             await _gameRecordService.GetTravelersDiaryDetailAsync(gameRole, month, 2);
             GetMonthDataList();
         }
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogError(ex, "Get traveler's diary data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
+            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Get traveler's diary data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
+            NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
+        }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Get traveler's diary data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
+            NotificationBehavior.Instance.Error(ex);
         }
     }
 

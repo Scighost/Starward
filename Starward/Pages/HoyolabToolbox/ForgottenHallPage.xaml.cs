@@ -4,12 +4,15 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
+using Starward.Helpers;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -103,9 +106,20 @@ public sealed partial class ForgottenHallPage : Page
             await _gameRecordService.RefreshForgottenHallInfoAsync(gameRole, 2);
             InitializeForgottenHallData();
         }
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogError(ex, "Refresh forgotten hall data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Refresh forgotten hall data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Refresh forgotten hall data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Error(ex);
         }
     }
 

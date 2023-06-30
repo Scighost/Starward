@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -257,9 +258,20 @@ public sealed partial class HoyolabToolboxPage : Page
             }
             LoadGameRoles();
         }
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogError(ex, "Refresh game role info ({gameBiz}, {uid}).", CurrentRole?.GameBiz, CurrentRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Refresh game role info ({gameBiz}, {uid}).", CurrentRole?.GameBiz, CurrentRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Refresh game role info ({gameBiz}, {uid}).", CurrentRole?.GameBiz, CurrentRole?.Uid);
+            NotificationBehavior.Instance.Error(ex);
         }
     }
 
@@ -348,9 +360,20 @@ public sealed partial class HoyolabToolboxPage : Page
                 LoadGameRoles(roles.FirstOrDefault(x => x.GameBiz == gameBiz.ToString()));
             }
         }
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogError(ex, "Input cookie");
+            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Input cookie");
+            NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Input cookie");
+            NotificationBehavior.Instance.Error(ex);
         }
     }
 

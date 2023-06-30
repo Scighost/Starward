@@ -5,12 +5,15 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Controls;
+using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
+using Starward.Helpers;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.UI;
 
@@ -144,9 +147,20 @@ public sealed partial class TrailblazeCalendarPage : Page
             }
             CurrentSeries = CurrentSummary.MonthData.GroupBy.Select(x => new ColorRectChart.ChartLegend(x.ActionName, x.Percent, actionColorMap.GetValueOrDefault(x.Action))).ToList();
         }
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogError(ex, "Get realtime trailblaze calendar data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Get realtime trailblaze calendar data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
+        }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Get realtime trailblaze calendar data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Error(ex);
         }
     }
 
@@ -165,7 +179,7 @@ public sealed partial class TrailblazeCalendarPage : Page
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Load trailblaze calendar month data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
         }
     }
 
@@ -187,9 +201,20 @@ public sealed partial class TrailblazeCalendarPage : Page
             await _gameRecordService.GetTrailblazeCalendarDetailAsync(gameRole, month, 2);
             GetMonthDataList();
         }
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogError(ex, "Get trailblaze calendar data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
+            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Get trailblaze calendar data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
+            NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
+        }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Get trailblaze calendar data details ({gameBiz}, {uid}, {month}).", gameRole?.GameBiz, gameRole?.Uid, month);
+            NotificationBehavior.Instance.Error(ex);
         }
     }
 

@@ -70,6 +70,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Account Error 的本地化字符串。
+        /// </summary>
+        public static string Common_AccountError {
+            get {
+                return ResourceManager.GetString("Common_AccountError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Apply 的本地化字符串。
         /// </summary>
         public static string Common_Apply {
@@ -120,6 +129,15 @@ namespace Starward.Language {
         public static string Common_Disclaimer {
             get {
                 return ResourceManager.GetString("Common_Disclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Network Error 的本地化字符串。
+        /// </summary>
+        public static string Common_NetworkError {
+            get {
+                return ResourceManager.GetString("Common_NetworkError", resourceCulture);
             }
         }
         

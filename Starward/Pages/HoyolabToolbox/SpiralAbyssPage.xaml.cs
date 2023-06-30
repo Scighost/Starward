@@ -4,13 +4,16 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
+using Starward.Helpers;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -109,9 +112,20 @@ public sealed partial class SpiralAbyssPage : Page
             await _gameRecordService.RefreshSpiralAbyssInfoAsync(gameRole, 2);
             InitializeAbyssData();
         }
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogError(ex, "Refresh abyss data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Refresh abyss data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Refresh abyss data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            NotificationBehavior.Instance.Error(ex);
         }
     }
 
