@@ -35,7 +35,7 @@ Lưu ý: Tập tin `config.ini` phải nằm trong thư mục gốc của ứng 
 
 Tất cả các mục cài đặt ngoại trừ hai mục trên đều được lưu trữ trong cơ sở dữ liệu `StarwardDatabase.db` ở trong thư mục người dùng. Tập tin này là SQLite database, mà bạn có thể chỉnh sửa với [DB Browser cho SQLite](https://sqlitebrowser.org/) hoặc các phần mềm khác.
 
-Sẽ có một bản tên là `Setting` ở database chứa những mục cài đặt ứng dụng, và nó có cấu trúc như sau,với keys và values được biểu thị dưới dạng văn bản.
+Sẽ có một bảng tên là `Setting` ở database chứa những mục cài đặt ứng dụng, và nó có cấu trúc như sau, với keys và values được biểu thị dưới dạng văn bản.
 
 ```sql
 CREATE TABLE Setting
