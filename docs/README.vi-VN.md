@@ -10,6 +10,7 @@ Ngoài việc tải xuống và cài đặt trò chơi, nó còn bao gồm nhữ
 -  Chuyển đổi tài khoản
 -  Xem ảnh chụp màn hình trò chơi
 -  Lưu lịch sử gacha
+-  Hộp công cụ HoYoLAB
 
 Và nhiều tính năng khác đang được lên kế hoạch...
 
@@ -17,9 +18,11 @@ Và nhiều tính năng khác đang được lên kế hoạch...
 
 ## Tải xuống
 
-> Chỉ Windows 10 1809 (17763) và trở đi được hỗ trợ
+> Bạn cần sử dụng Windows 10 1809 (17763) và trở đi với [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) cài đặt.
 
 Bạn có thể tải xuống bản phát hành mới nhất từ trang [Release](https://github.com/Scighost/Starward/releases). Ứng dụng sử dụng các bản cập nhật gia tăng, vừa dễ dàng vừa thuận tiện.
+
+Ứng dụng có thể gặp lỗi crash khi chạy trên một số thiết bị. Nếu bạn gặp lỗi này, vui lòng tạo tập tin `config.ini` ở thư mục `Starward` và dán những dòng sau đây vào. Để biết thêm thông tin về `config.ini` vui lòng đọc [docs/Configuration.md](./docs/Configuration.vi-VN.md).
 
 ## Bản địa hoá
 
