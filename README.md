@@ -10,6 +10,7 @@ In addition to the download and installation of the game, the following features
 -  Switch game accounts
 -  View game screenshots
 -  Save gacha records
+-  HoYoLAB Toolbox
 
 More features are being planned...
 
@@ -17,9 +18,17 @@ More features are being planned...
 
 ## Download
 
-> Only Windows 10 1809 (17763) and above are supported
+> You need to use Windows 10 1809 (17763) and above with [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) installed.
 
-You can download the latest release from the [Release](https://github.com/Scighost/Starward/releases) page. The app uses incremental updates, both easy and convenient.
+You can download the latest release from the [GitHub Release](https://github.com/Scighost/Starward/releases) page. The app uses incremental updates, both easy and convenient.
+
+There may be an issue with crashing after running on some devices. If you encounter this issue, please create a `config.ini` file in the `Starward` folder and paste the following into it. For more information about `config.ini` please read [docs/Configuration.md](./docs/Configuration.md).
+
+``` ini
+EnableConsole=False
+UserDataFolder=.
+```
+
 
 ## Localization
 

@@ -21,8 +21,10 @@ Don't worry, files downloaded from GitHub Release will definitely satisfy this c
 The `config.ini` file contains only two setting items:
 
 ```ini
-EnableConsole=False # Whether to enable console output logging, True/False
-UserDataFolder=.  # The location of the user folder
+# Whether to enable console output logging, True/False
+EnableConsole=False
+# The location of the user folder
+UserDataFolder=.
 ```
 
 `UserDataFolder` is the folder of the user's data. If this value does not exist or the set folder does not exist, the application displays the welcome page at startup. If `UserDataFolder` is set to the folder itself or a subfolder where the `config.ini` file is located, you can use **relative paths**, e.g. one of the dots `.` represents the current folder. In other cases, you **must** use an absolute path. In addition, both slash `/` and backslash `\` can be used.

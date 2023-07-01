@@ -10,6 +10,7 @@
 -  切换游戏账号
 -  浏览游戏截图
 -  保存抽卡记录
+-  米游社工具箱
 
 更多功能正在计划中。。。
 
@@ -17,9 +18,17 @@
 
 ## 下载
 
-> 仅支持 Windows 10 1809 (17763) 及以上的版本
+> 你需要使用 Windows 10 1809 (17763) 及以上的版本的操作系统，并安装 [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) 。
 
-你可在 [Release](https://github.com/Scighost/Starward/releases) 页面下载最新发布的版本，应用使用增量更新的方式，既简单又便捷。
+你可以在 [GitHub Release](https://github.com/Scighost/Starward/releases) 页面下载最新发布的版本，应用使用增量更新的方式，既简单又便捷。
+
+部分设备上可能出现运行后崩溃的问题，如果遇到了此问题，请在 `Starward` 文件夹中创建 `config.ini` 文件，并把以下内容粘贴到此文件中。有关 `config.ini` 的更多信息请参考 [docs/Configuration.md](./Configuration.zh-CN.md) 。
+
+``` ini
+EnableConsole=False
+UserDataFolder=.
+```
+
 
 ## 本地化
 

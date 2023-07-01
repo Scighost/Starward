@@ -21,8 +21,10 @@
 `config.ini` 文件中仅包含两个设置项：
 
 ```ini
-EnableConsole=False  # 是否启用控制台输出日志，True/False
-UserDataFolder=.  # 用户数据文件夹的位置
+# 是否启用控制台输出日志，True/False
+EnableConsole=False
+# 用户数据文件夹的位置
+UserDataFolder=.
 ```
 
 `UserDataFolder` 是用户数据文件夹的位置，如果此值不存在或设置的文件夹不存在，应用在启动时显示欢迎页面。如果用户文件夹设置为 `config.ini` 文件所在的文件夹本身或子文件夹，则可以使用**相对路径**，例如上文中的一个点 `.` 就代表当前文件夹。而其他的情况则**必须**使用绝对路径。此外，正斜杠 `/` 和反斜杠 `\` 都可以使用。
