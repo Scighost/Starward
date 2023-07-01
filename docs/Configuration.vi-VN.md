@@ -21,8 +21,10 @@ Kể từ phiên bản 0.8.0, Starward sẽ không còn sử dụng registry đ�
 Tập tin `config.ini` chỉ chứa hai mục cài đặt:
 
 ```ini
-EnableConsole=False # Có bật ghi nhật ký đầu ra của console hay không, Đúng/Sai
-UserDataFolder=.  # Vị trí thư mục người dùng
+# Có bật ghi nhật ký đầu ra của console hay không, True/False
+EnableConsole=False
+# Vị trí thư mục người dùng
+UserDataFolder=.
 ```
 
 `UserDataFolder` là thư mục chứa dữ liệu người dùng. Nếu giá trị này không tồn tại hoặc thư mục đã đặt không tồn tại, ứng dụng sẽ hiển thị trang chào mừng khi khởi động. Nếu `UserDataFolder` được đặt thành chính thư mục hoặc thư mục con chứa tập tin `config.ini`, bạn có thể sử dụng **đường dẫn tương đối**, ví dụ: dấu chấm `.` đại diện cho thư mục hiện tại. Trong các trường hợp khác, bạn **phải** sử dụng một đường dẫn tuyệt đối. Ngoài ra, cả dấu gạch chéo `/` và dấu gạch chéo ngược `\` đều có thể được sử dụng.
