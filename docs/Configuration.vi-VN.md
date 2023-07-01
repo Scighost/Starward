@@ -21,7 +21,7 @@ Kể từ phiên bản 0.8.0, Starward sẽ không còn sử dụng registry đ�
 Tập tin `config.ini` chỉ chứa hai mục cài đặt:
 
 ```ini
-EnableConsole=False # Có bật ghi nhật ký đầu ra của console hay không, Đúng/Sai
+EnableConsole=False # Có bật ghi nhật ký đầu ra của console hay không, True/False
 UserDataFolder=.  # Vị trí thư mục người dùng
 ```
 
