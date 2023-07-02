@@ -1,0 +1,21 @@
+name: Feature Request or Enhancement
+description: Suggest a feature or improvement
+title: "[Feature] "
+labels: ["triage"]
+body:
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What feature do you think should be added or improved.
+    validations:
+      required: true
+
+  - type: textarea
+    id: detail
+    attributes:
+      label: Solution or Design
+      description: How to implement the feature? If about UI/UX, please provide a simple design diagram.
+    validations:
+      required: true

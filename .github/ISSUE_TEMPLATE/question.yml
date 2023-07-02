@@ -1,0 +1,42 @@
+name: Question
+description: I have a question
+title: "[Question] "
+labels: ["triage"]
+body:
+
+  - type: textarea
+    id: bug
+    attributes:
+      label: Description
+      description: Describe your question.
+    validations:
+      required: true
+
+  - type: input
+    id: win_ver
+    attributes:
+      label: Windows Version
+      placeholder:
+    validations:
+      required: true
+
+  - type: input
+    id: starward_ver
+    attributes:
+      label: Starward Version
+      placeholder: "Example: 22621.1928"
+    validations:
+      required: true
+
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: Please copy and paste any relevant log output.
+      render: shell
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Enter any other applicable info here.
