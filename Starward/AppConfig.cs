@@ -113,7 +113,15 @@ internal static class AppConfig
                 string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
                 if (!string.IsNullOrWhiteSpace(dir))
                 {
-                    var folder = Path.Join(baseDir, dir);
+                    string folder;
+                    if (Path.IsPathFullyQualified(dir))
+                    {
+                        folder = dir;
+                    }
+                    else
+                    {
+                        folder = Path.Join(baseDir, dir);
+                    }
                     if (Directory.Exists(folder))
                     {
                         userDataFolder = Path.GetFullPath(folder);
