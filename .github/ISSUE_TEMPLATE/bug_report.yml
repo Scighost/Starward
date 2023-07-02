@@ -33,17 +33,17 @@ body:
       description: If applicable, add screenshots here to help explain your problem.
 
   - type: input
-    id: win_ver
+    id: starward_ver
     attributes:
-      label: Windows Version
+      label: Starward Version
       placeholder:
     validations:
       required: true
 
   - type: input
-    id: starward_ver
+    id: win_ver
     attributes:
-      label: Starward Version
+      label: Windows Version
       placeholder: "Example: 22621.1928"
     validations:
       required: true
