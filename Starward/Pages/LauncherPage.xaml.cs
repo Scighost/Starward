@@ -275,7 +275,7 @@ public sealed partial class LauncherPage : Page
         }
         else
         {
-            if (CanStartGame && Button_DownloadGame.IsEnabled && Button_UpdateGame.IsEnabled)
+            if (CanStartGame || IsDownloadGameEnable || IsUpdateGameEnable)
             {
                 AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextOnAccentFillColorPrimaryBrush"] as Brush;
             }

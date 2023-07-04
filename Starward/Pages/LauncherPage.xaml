@@ -142,6 +142,7 @@
             <StackPanel Margin="40"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
+                        Canvas.ZIndex="1"
                         Orientation="Horizontal">
 
                 <!--  Start Game  -->
@@ -363,7 +364,7 @@
                       Translation="0,0,16">
                     <ComboBox Name="ComboBox_GameAccount"
                               Height="40"
-                              MinWidth="240"
+                              MinWidth="220"
                               BorderThickness="0"
                               CornerRadius="0,20,20,0"
                               ItemsSource="{x:Bind GameAccountList}"
