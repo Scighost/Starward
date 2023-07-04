@@ -189,6 +189,7 @@ internal static class AppConfig
     {
         cache.Clear();
         _serviceProvider = null!;
+        DatabaseService = null!;
     }
 
 
