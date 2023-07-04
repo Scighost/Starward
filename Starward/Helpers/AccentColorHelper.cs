@@ -103,7 +103,7 @@ internal static class AccentColorHelper
                 sum += h * hueCircle[h];
             }
 
-            return (ColorHelper.FromHsv(hsv.H, 0.4, hsv.V), ColorHelper.FromHsv((double)sum / maxHueCount, 0.9, 0.9));
+            return (ColorHelper.FromHsv(hsv.H, 0.6, hsv.V), ColorHelper.FromHsv((double)sum / maxHueCount, 0.9, 0.9));
         }
         catch { }
         return (null, null);
@@ -141,7 +141,7 @@ internal static class AccentColorHelper
         float chroma = max - min;
         float h;
 
-        if (chroma == 0)
+        if (chroma <= 8)
         {
             // ignore white black gray
             h = -1;
