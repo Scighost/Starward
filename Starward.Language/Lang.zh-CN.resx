@@ -893,7 +893,7 @@
     <value>总览</value>
   </data>
   <data name="SpiralAbyssPage_LunarPhase" xml:space="preserve">
-    <value>Lunar Phase</value>
+    <value>月相</value>
     <comment>Abyss schedule id</comment>
   </data>
   <data name="SpiralAbyssPage_Picked" xml:space="preserve">
@@ -982,5 +982,8 @@
   </data>
   <data name="Common_NetworkError" xml:space="preserve">
     <value>网络异常</value>
+  </data>
+  <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
+    <value>校验账号</value>
   </data>
 </root>

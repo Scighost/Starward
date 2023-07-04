@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Core_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Không thể phân tích URL lịch sử cầu nguyện.</value>
+    <value>Không thể phân tích URL bản ghi cầu nguyện.</value>
   </data>
   <data name="Core_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Không thể phân tích URL lịch sử bước nhảy</value>
+    <value>Không thể phân tích URL bản ghi bước nhảy</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
     <value>Bước Nhảy Chòm Sao</value>
@@ -395,7 +395,7 @@
     <value>Ngôn ngữ</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>Không thể tìm thấy URL đã lưu của uid {0}.</value>
+    <value>Không thể tìm thấy URL đã lưu của UID {0}.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
@@ -417,11 +417,11 @@
     <value>Xoá</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>Đã xoá {0} lịch sử gacha của Uid {1}.</value>
+    <value>Đã xoá {0} lịch sử gacha của UID {1}.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>Tất cả lịch sử gacha của uid {0} sẽ bị xoá, và hành động này là không thể hoàn tác.</value>
+    <value>Tất cả lịch sử gacha của UID {0} sẽ bị xoá, và hành động này là không thể hoàn tác.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
@@ -431,7 +431,7 @@
     <value>Lịch sử bước nhảy</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>Đang nhận uid</value>
+    <value>Đang nhận UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
     <value>Tài khoản này không có lịch sử gacha trong 6 tháng gần nhất.</value>
@@ -477,7 +477,7 @@
     <value>Tắt</value>
   </data>
   <data name="GameSettingPage_StartArguments" xml:space="preserve">
-    <value>Đối số khởi động</value>
+    <value>Tham số khởi động</value>
   </data>
   <data name="GameSettingPage_Resolution" xml:space="preserve">
     <value>Độ phân giải</value>
@@ -974,7 +974,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Vòng sử dụng:</value>
   </data>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
-    <value>Lập Đội</value>
+    <value>Lập đội</value>
     <comment>example: forgotten hall team setup 1</comment>
   </data>
   <data name="Common_AccountError" xml:space="preserve">
@@ -982,5 +982,8 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="Common_NetworkError" xml:space="preserve">
     <value>Lỗi mạng</value>
+  </data>
+  <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
+    <value>Xác minh tài khoản</value>
   </data>
 </root>
