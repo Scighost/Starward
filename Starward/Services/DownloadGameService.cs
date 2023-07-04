@@ -216,7 +216,7 @@ internal partial class DownloadGameService
             if (lang.HasFlag(VoiceLanguage.English)) { lines.Add("English(US)"); }
             if (lang.HasFlag(VoiceLanguage.Japanese)) { lines.Add("Japanese"); }
             if (lang.HasFlag(VoiceLanguage.Korean)) { lines.Add("Korean"); }
-            await File.AppendAllLinesAsync(file, lines);
+            await File.WriteAllLinesAsync(file, lines);
             if (File.Exists(file))
             {
                 var key = biz switch
@@ -716,6 +716,7 @@ internal partial class DownloadGameService
                             return;
                         }
                         _logger.LogInformation("Download Slice: FileName {name}, Url {url}", slice.FileName, slice.Url);
+                        long ts = Stopwatch.GetTimestamp();
                         var request = new HttpRequestMessage(HttpMethod.Get, slice.Url) { Version = HttpVersion.Version20, };
                         request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(slice.Range.Start + fs.Position, slice.Range.End - 1);
                         using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
@@ -729,6 +730,7 @@ internal partial class DownloadGameService
                             await fs.WriteAsync(buffer.AsMemory(0, length), token).ConfigureAwait(false);
                             Interlocked.Add(ref progressBytes, length);
                         }
+                        _logger.LogInformation("Download Successfully: FileName {name}, Elapsed {time}", slice.FileName, Stopwatch.GetElapsedTime(ts));
                     }
                     catch (HttpRequestException ex)
                     {
@@ -736,18 +738,25 @@ internal partial class DownloadGameService
                     }
                 }).ConfigureAwait(false);
 
+                bool failed = false;
                 foreach (var item in sliceTasks)
                 {
                     var file = Path.Combine(installPath, item.FileName);
                     if (!File.Exists(file))
                     {
-                        continue;
+                        failed = true;
+                        break;
                     }
                     if (new FileInfo(file).Length != item.Size)
                     {
-                        continue;
+                        failed = true;
+                        break;
                     }
                 }
+                if (failed)
+                {
+                        continue;
+                    }
                 break;
             }
 
@@ -908,7 +917,9 @@ internal partial class DownloadGameService
                         files = Directory.GetFiles(installPath, $"{item.FileName}.slice.*");
                         if (!files.Any())
                         {
-                            throw new FileNotFoundException($"File '{item.FileName}' not found.");
+                            list.Add(item.FileName);
+                            _logger.LogWarning("File not found: {name}", item.FileName);
+                            continue;
                         }
                     }
                     using var fs = new SliceStream(files);
@@ -932,7 +943,7 @@ internal partial class DownloadGameService
             if (list.Any())
             {
                 ErrorMessage = "File checksum failure";
-                State = DownloadGameState.Error;
+                State = DownloadGameState.None;
             }
             else
             {

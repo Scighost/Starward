@@ -445,7 +445,7 @@ public sealed partial class DownloadGamePage : Page
         ProgressText = progress.ToString("P1");
 
 
-        if (thisMilliseconds - lastMilliseconds > 1000)
+        if (thisMilliseconds - lastMilliseconds > 980)
         {
             double speed = (double)(thisProgressBytes - lastProgressBytes) / (thisMilliseconds - lastMilliseconds) * 1000;
             if (speed > 0)
@@ -577,6 +577,17 @@ public sealed partial class DownloadGamePage : Page
                             }
                         }
                         _ = PrepareForDownloadAsync();
+                    }
+                    else
+                    {
+                        if (decompress)
+                        {
+                            _ = DecompressAsync();
+                        }
+                        else
+                        {
+                            FinishTask();
+                        }
                     }
                 }
             }
