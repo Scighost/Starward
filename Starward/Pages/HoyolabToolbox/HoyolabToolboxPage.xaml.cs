@@ -69,6 +69,7 @@ public sealed partial class HoyolabToolboxPage : Page
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         _gameRecordService.GameRecordRoleChanged += _gameRecordService_GameRecordRoleChanged;
+        _gameRecordService.NavigateChanged += _gameRecordService_NavigateChanged;
         await Task.Delay(16);
         NavigateTo(typeof(BlankPage));
         await CheckAgreementAsync();
@@ -80,6 +81,7 @@ public sealed partial class HoyolabToolboxPage : Page
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
         _gameRecordService.GameRecordRoleChanged -= _gameRecordService_GameRecordRoleChanged;
+        _gameRecordService.NavigateChanged -= _gameRecordService_NavigateChanged;
     }
 
 
@@ -426,6 +428,11 @@ public sealed partial class HoyolabToolboxPage : Page
         }
     }
 
+
+    private void _gameRecordService_NavigateChanged(object? sender, (Type Page, object? Parameter) e)
+    {
+        NavigateTo(e.Page, e.Parameter);
+    }
 
 
 

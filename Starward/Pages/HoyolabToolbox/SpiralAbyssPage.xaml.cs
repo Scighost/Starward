@@ -92,6 +92,7 @@ public sealed partial class SpiralAbyssPage : Page
             {
                 HasData = true;
                 AbyssList = list;
+                ListView_AbyssList.SelectedIndex = 0;
             }
         }
         catch (Exception ex)
@@ -115,7 +116,21 @@ public sealed partial class SpiralAbyssPage : Page
         catch (miHoYoApiException ex)
         {
             _logger.LogError(ex, "Refresh abyss data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
-            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+            if (ex.ReturnCode == 1034)
+            {
+                NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Warning, Lang.Common_AccountError, ex.Message, Lang.HoyolabToolboxPage_VerifyAccount, () =>
+                {
+                    _gameRecordService.InvokeNavigateChanged(typeof(HyperionWebBridgePage), new HyperionWebBridgePage.PageParameter
+                    {
+                        GameRole = gameRole!,
+                        TargetUrl = "https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/deep?role_id={role_id}&server={server}",
+                    });
+                });
+            }
+            else
+            {
+                NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+            }
         }
         catch (HttpRequestException ex)
         {

@@ -1387,6 +1387,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Verify Account 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_VerifyAccount {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_VerifyAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Warning Again 的本地化字符串。
         /// </summary>
         public static string HoyolabToolboxPage_WarningAgain {

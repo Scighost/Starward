@@ -32,6 +32,8 @@ internal class GameRecordService
 
     public event EventHandler<GameRecordRole?> GameRecordRoleChanged;
 
+    public event EventHandler<(Type Page, object? Parameter)> NavigateChanged;
+
 
     public string Language { get => _hoyolabClient.Language; set => _hoyolabClient.Language = value; }
 
@@ -71,6 +73,11 @@ internal class GameRecordService
     public void InvokeGameRecordRoleChanged(GameRecordRole? role)
     {
         GameRecordRoleChanged?.Invoke(this, role);
+    }
+
+    public void InvokeNavigateChanged(Type Page, object? Parameter = null)
+    {
+        NavigateChanged?.Invoke(this, (Page, Parameter));
     }
 
 
