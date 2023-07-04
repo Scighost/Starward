@@ -31,8 +31,6 @@ public sealed partial class MainWindow : Window
 
     public IntPtr HWND { get; private set; }
 
-    public AppWindow AppWindow { get; private set; }
-
     public double UIScale => User32.GetDpiForWindow(HWND) / 96d;
 
 
@@ -70,8 +68,6 @@ public sealed partial class MainWindow : Window
     private void InitializeMainWindow(string? action = null)
     {
         HWND = WindowNative.GetWindowHandle(this);
-        var id = Win32Interop.GetWindowIdFromWindow(HWND);
-        AppWindow = AppWindow.GetFromWindowId(id);
         var titleBar = AppWindow.TitleBar;
         var len = (int)(48 * UIScale);
         titleBar.ExtendsContentIntoTitleBar = true;
