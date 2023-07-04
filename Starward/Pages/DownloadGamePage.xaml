@@ -5,9 +5,22 @@
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
+      xmlns:ui="using:CommunityToolkit.WinUI.UI"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded"
       mc:Ignorable="d">
+
+    <Page.Resources>
+        <ui:AttachedDropShadow x:Key="TextDropShadow"
+                               BlurRadius="8"
+                               CastTo="{x:Bind Rectangle_ShadowCaster}"
+                               Opacity="1" />
+        <ui:AttachedDropShadow x:Key="ProgressTextDropShadow"
+                               BlurRadius="4"
+                               CastTo="{x:Bind Border_ProgressTextShadowCaster}"
+                               Opacity="1" />
+    </Page.Resources>
 
 
     <Grid>
@@ -19,38 +32,47 @@
                         VerticalAlignment="Center"
                         Source="{x:Bind BackgroundImage}"
                         Stretch="UniformToFill" />
-        <Rectangle HorizontalAlignment="Stretch"
+        <Rectangle Name="Rectangle_ShadowCaster"
+                   HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
-                   Fill="#60000000" />
+                   Fill="#40000000" />
 
 
-
+        <TextBlock Margin="40,0,0,80"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   ui:Effects.Shadow="{StaticResource TextDropShadow}"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Text="{x:Bind ActionType}" />
         <StackPanel Margin="40,24,40,100"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
                     Spacing="8"
                     Visibility="{x:Bind IsProgressStateVisible}">
-            <TextBlock Margin="0,0,0,4" Text="{x:Bind StateText}" />
+            <TextBlock Margin="0,0,0,4"
+                       ui:Effects.Shadow="{StaticResource TextDropShadow}"
+                       Text="{x:Bind StateText}" />
             <StackPanel Orientation="Horizontal" Spacing="12">
                 <FontIcon FontSize="16"
                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                           Glyph="&#xF16A;"
                           Visibility="{x:Bind ProgressBytesText, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                <TextBlock Text="{x:Bind ProgressBytesText}" />
+                <TextBlock ui:Effects.Shadow="{StaticResource TextDropShadow}" Text="{x:Bind ProgressBytesText}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="12">
                 <FontIcon FontSize="16"
                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                           Glyph="&#xEC4A;"
                           Visibility="{x:Bind SpeedText, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                <TextBlock Text="{x:Bind SpeedText}" />
+                <TextBlock ui:Effects.Shadow="{StaticResource TextDropShadow}" Text="{x:Bind SpeedText}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="12">
                 <FontIcon FontSize="16"
                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                           Glyph="&#xE823;"
                           Visibility="{x:Bind RemainTimeText, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                <TextBlock Text="{x:Bind RemainTimeText}" />
+                <TextBlock ui:Effects.Shadow="{StaticResource TextDropShadow}" Text="{x:Bind RemainTimeText}" />
             </StackPanel>
         </StackPanel>
 
@@ -72,9 +94,11 @@
                     <x:Double x:Key="ProgressBarTrackHeight">20</x:Double>
                 </ProgressBar.Resources>
             </ProgressBar>
-            <TextBlock Margin="0,0,8,0"
+            <Border Name="Border_ProgressTextShadowCaster" IsHitTestVisible="False" />
+            <TextBlock Margin="8,0,8,0"
                        HorizontalAlignment="Right"
                        VerticalAlignment="Center"
+                       ui:Effects.Shadow="{StaticResource ProgressTextDropShadow}"
                        FontSize="12"
                        FontWeight="SemiBold"
                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"

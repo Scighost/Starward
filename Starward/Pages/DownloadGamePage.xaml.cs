@@ -134,6 +134,13 @@ public sealed partial class DownloadGamePage : Page
 
 
 
+    private void Page_Unloaded(object sender, RoutedEventArgs e)
+    {
+        _timer.Stop();
+        tokenSource?.Cancel();
+    }
+
+
 
     private async Task CheckInstanceAsync()
     {
@@ -254,6 +261,8 @@ public sealed partial class DownloadGamePage : Page
     [ObservableProperty]
     private string? actionButtonText = Lang.DownloadGamePage_Start; // 开始
 
+    [ObservableProperty]
+    private string actionType;
 
     [ObservableProperty]
     private bool isProgressStateVisible = true;
@@ -497,6 +506,7 @@ public sealed partial class DownloadGamePage : Page
             lastProgressBytes = _downloadGameService.ProgressBytes;
             decompress = await _downloadGameService.PrepareForDownloadAsync(gameBiz, gameFolder, voiceLanguage);
         }
+        ActionType = _downloadGameService.ActionType;
     }
 
 

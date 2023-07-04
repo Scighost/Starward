@@ -408,6 +408,7 @@ internal partial class DownloadGameService
 
     public DownloadGameState State { get; private set; }
 
+    public string ActionType { get; private set; }
 
     public string ErrorType { get; private set; }
 
@@ -445,15 +446,18 @@ internal partial class DownloadGameService
             {
                 gameResource = launcherResource.Game;
                 decompress = true;
+                ActionType = Lang.LauncherPage_InstallGame;
             }
             else if (preDownloadVersion != null)
             {
                 gameResource = launcherResource.PreDownloadGame;
+                ActionType = Lang.LauncherPage_PreInstall;
             }
             else if (latestVersion > localVersion)
             {
                 gameResource = launcherResource.Game;
                 decompress = true;
+                ActionType = Lang.LauncherPage_UpdateGame;
             }
 
 
@@ -606,6 +610,7 @@ internal partial class DownloadGameService
             State = DownloadGameState.Preparing;
             TotalBytes = 0;
             progressBytes = 0;
+            ActionType = Lang.DownloadGameDialog_RepairMode;
 
             launcherResource = await GetLauncherResourceAsync(biz).ConfigureAwait(false);
             GameResource gameResource = launcherResource.Game;
@@ -755,8 +760,8 @@ internal partial class DownloadGameService
                 }
                 if (failed)
                 {
-                        continue;
-                    }
+                    continue;
+                }
                 break;
             }
 
