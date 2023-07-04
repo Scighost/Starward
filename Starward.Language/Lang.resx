@@ -983,7 +983,4 @@ Do you accept the risk and continue to use it?</value>
   <data name="Common_NetworkError" xml:space="preserve">
     <value>Network Error</value>
   </data>
-  <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
-    <value>Verify Account</value>
-  </data>
 </root>
