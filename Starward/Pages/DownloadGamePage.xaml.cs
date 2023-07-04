@@ -576,7 +576,7 @@ public sealed partial class DownloadGamePage : Page
                                 File.Delete(file);
                             }
                         }
-                        _ = DownloadAsync();
+                        _ = PrepareForDownloadAsync();
                     }
                 }
             }
