@@ -6,6 +6,7 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -337,7 +338,10 @@ internal class UpdateService
                 var file = Path.Combine(updateFolder, releaseFile.Hash);
                 if (!File.Exists(file))
                 {
-                    using var stream = await _httpClient.GetStreamAsync(releaseFile.Url, cancellationToken);
+                    var request = new HttpRequestMessage(HttpMethod.Get, releaseFile.Url) { Version = HttpVersion.Version11 };
+                    var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                    response.EnsureSuccessStatusCode();
+                    using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
                     var ms = new MemoryStream();
                     var buffer = new byte[1 << 16];
                     int length;

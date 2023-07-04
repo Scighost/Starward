@@ -722,7 +722,7 @@ internal partial class DownloadGameService
                         }
                         _logger.LogInformation("Download Slice: FileName {name}, Url {url}", slice.FileName, slice.Url);
                         long ts = Stopwatch.GetTimestamp();
-                        var request = new HttpRequestMessage(HttpMethod.Get, slice.Url) { Version = HttpVersion.Version20, };
+                        var request = new HttpRequestMessage(HttpMethod.Get, slice.Url) { Version = HttpVersion.Version11 };
                         request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(slice.Range.Start + fs.Position, slice.Range.End - 1);
                         using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
                         response.EnsureSuccessStatusCode();
