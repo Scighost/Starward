@@ -85,11 +85,9 @@
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                            Text="CDN" />
-                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap">
-                    <Run Text="For users in mainland China:" />
-                    <LineBreak />
-                    <Run Text="本应用将从 CloudFlare 下载所需的资源，请确保它可以正常连接。" />
-                </TextBlock>
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind CDNTipContent}"
+                           TextWrapping="Wrap" />
 
                 <RadioButtons Margin="0,-8,0,0">
                     <RadioButton Name="RadioButton_CF"

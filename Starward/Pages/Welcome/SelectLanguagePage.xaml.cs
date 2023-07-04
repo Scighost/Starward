@@ -55,8 +55,16 @@ public sealed partial class SelectLanguagePage : Page
 
 
 
-    private void Page_Loaded(object sender, RoutedEventArgs e)
+
+    [ObservableProperty]
+    private string _CDNTipContent;
+
+
+
+    private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        await Task.Delay(100);
+        CDNTipContent = Lang.SettingPage_CloudFlareConnectProperly;
         TestCDNCommand.Execute(null);
     }
 
@@ -233,6 +241,7 @@ public sealed partial class SelectLanguagePage : Page
                 {
                     CultureInfo.CurrentUICulture = new CultureInfo(lang);
                 }
+                CDNTipContent = Lang.SettingPage_CloudFlareConnectProperly;
             }
         }
         catch (CultureNotFoundException)

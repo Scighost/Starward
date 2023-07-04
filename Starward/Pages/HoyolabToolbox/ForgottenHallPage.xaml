@@ -114,7 +114,7 @@
             <StackPanel Margin="24" Spacing="8">
 
                 <Grid>
-                    <!--  Schedule Id  -->
+                    <!--  统计周期  -->
                     <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
                         <Run Text="{x:Bind lang:Lang.ForgottenHallPage_Period}" />
                         <Run Text="" />

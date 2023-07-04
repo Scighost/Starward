@@ -110,14 +110,10 @@
                       Visibility="{x:Bind CurrentAbyss, Converter={StaticResource ObjectToVisibilityConverter}}">
             <StackPanel Margin="24" Spacing="8">
                 <Grid>
-                    <!--  Schedule Id  -->
+                    <!--  统计周期  -->
                     <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
-                        <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_LunarPhase}" />
+                        <Run Text="{x:Bind lang:Lang.ForgottenHallPage_Period}" />
                         <Run Text="" />
-                        <Run Text="{x:Bind CurrentAbyss.ScheduleId}" />
-                    </TextBlock>
-                    <!--  时间  -->
-                    <TextBlock HorizontalAlignment="Right" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
                         <Run Text="{x:Bind CurrentAbyss.StartTime.LocalDateTime.ToShortDateString()}" />
                         <Run Text=" - " />
                         <Run Text="{x:Bind CurrentAbyss.EndTime.LocalDateTime.ToShortDateString()}" />
