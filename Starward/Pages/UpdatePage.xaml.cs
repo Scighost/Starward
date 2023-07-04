@@ -171,8 +171,8 @@ public sealed partial class UpdatePage : Page
                     {{css}}
                     </style>
                     </head>
-                    <body style="background-color: #303030; margin: 24px;">
-                    <article class="markdown-body" style="background-color: #303030;">
+                    <body style="background-color: #404040; margin: 24px;">
+                    <article class="markdown-body" style="background-color: #404040;">
                     {{html}}
                     </article>
                     </body>
@@ -184,6 +184,15 @@ public sealed partial class UpdatePage : Page
                 webview.CoreWebView2.Settings.AreDevToolsEnabled = false;
                 webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
                 webview.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
+                webview.CoreWebView2.NewWindowRequested += async (s, e) =>
+                {
+                    try
+                    {
+                        e.Handled = true;
+                        await Launcher.LaunchUriAsync(new Uri(e.Uri));
+                    }
+                    catch { }
+                };
             }
         }
         catch (Exception ex)
@@ -195,6 +204,15 @@ public sealed partial class UpdatePage : Page
                 Border_Markdown.Visibility = Visibility.Visible;
                 await webview.EnsureCoreWebView2Async();
                 webview.CoreWebView2.Profile.PreferredColorScheme = Microsoft.Web.WebView2.Core.CoreWebView2PreferredColorScheme.Dark;
+                webview.CoreWebView2.NewWindowRequested += async (s, e) =>
+                {
+                    try
+                    {
+                        e.Handled = true;
+                        await Launcher.LaunchUriAsync(new Uri(e.Uri));
+                    }
+                    catch { }
+                };
             }
         }
     }

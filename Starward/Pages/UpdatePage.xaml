@@ -152,9 +152,6 @@
                              Opacity="0"
                              PointerEntered="Button_RemindLatter_PointerEntered"
                              PointerExited="Button_RemindLatter_PointerExited">
-                    <SplitButton.OpacityTransition>
-                        <ScalarTransition Duration="0:0:0.16" />
-                    </SplitButton.OpacityTransition>
                     <TextBlock Margin="4,0,0,0"
                                Foreground="Transparent"
                                Text="{x:Bind lang:Lang.UpdatePage_RemindLatter}" />
@@ -223,12 +220,12 @@
         <Border Name="Border_Markdown"
                 Grid.Column="1"
                 Margin="0,48,0,0"
-                Background="#303030"
+                Background="#404040"
                 CornerRadius="8,0,0,0"
                 Visibility="Collapsed">
-            <WebView2 Name="webview" DefaultBackgroundColor="#303030">
+            <WebView2 Name="webview" DefaultBackgroundColor="#404040">
                 <WebView2.Resources>
-                    <SolidColorBrush x:Key="BrushForThemeBackgroundColor" Color="#303030" />
+                    <SolidColorBrush x:Key="BrushForThemeBackgroundColor" Color="#404040" />
                 </WebView2.Resources>
             </WebView2>
         </Border>
