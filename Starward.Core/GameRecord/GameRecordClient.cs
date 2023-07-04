@@ -30,6 +30,7 @@ public abstract class GameRecordClient
     protected const string com_mihoyo_hoyolab = "com.mihoyo.hoyolab";
     protected const string x_rpc_app_version = "x-rpc-app_version";
     protected const string x_rpc_device_id = "x-rpc-device_id";
+    protected const string x_rpc_device_fp = "x-rpc-device_fp";
     protected const string x_rpc_client_type = "x-rpc-client_type";
     protected const string x_rpc_language = "X-Rpc-Language";
     protected static readonly string DeviceId = Guid.NewGuid().ToString("D");
