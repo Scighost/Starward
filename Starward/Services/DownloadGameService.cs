@@ -1026,6 +1026,7 @@ internal partial class DownloadGameService
                     _logger.LogInformation("Need to download: {file}", item.FileName);
                     if (File.Exists(file))
                     {
+                        File.SetAttributes(file, FileAttributes.Archive);
                         File.Delete(file);
                     }
                     lock (list)
@@ -1150,14 +1151,22 @@ internal partial class DownloadGameService
                     var target = Path.Combine(installPath, $@"{dataName}\StreamingAssets\AudioAssets");
                     if (Directory.Exists(source))
                     {
-                        _logger.LogInformation("Move audio assets.");
                         var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
+                        _logger.LogInformation("Move audio assets: {count} files.", files.Length);
                         foreach (var file in files)
                         {
                             var relative = Path.GetRelativePath(source, file);
                             var dest = Path.Combine(target, relative);
+                            if (File.Exists(dest))
+                            {
+                                File.SetAttributes(dest, FileAttributes.Archive);
+                            }
                             Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
-                            File.Move(file, dest);
+                            File.Move(file, dest, true);
+                            if (File.Exists(dest))
+                            {
+                                File.SetAttributes(dest, FileAttributes.Archive);
+                            }
                         }
                     }
                 }
@@ -1248,6 +1257,7 @@ internal partial class DownloadGameService
                     var diff = $"{target}.hdiff";
                     if (File.Exists(target) && File.Exists(diff))
                     {
+                        File.SetAttributes(target, FileAttributes.Archive);
                         using var process = Process.Start(new ProcessStartInfo
                         {
                             FileName = hpatch,
@@ -1276,6 +1286,7 @@ internal partial class DownloadGameService
                 var file = Path.Combine(installPath, item.Name);
                 if (File.Exists(file))
                 {
+                    File.SetAttributes(file, FileAttributes.Normal);
                     File.Delete(file);
                 }
             }
@@ -1284,8 +1295,21 @@ internal partial class DownloadGameService
                 var file = Path.Combine(installPath, item.Name);
                 if (File.Exists(file))
                 {
+                    File.SetAttributes(file, FileAttributes.Normal);
                     File.Delete(file);
                 }
+            }
+            foreach (var file in Directory.GetFiles(installPath, "*.slice.*", SearchOption.AllDirectories))
+            {
+                _logger.LogInformation("Delete file: {file}", file);
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+            foreach (var file in Directory.GetFiles(installPath, "*_tmp", SearchOption.AllDirectories))
+            {
+                _logger.LogInformation("Delete file: {file}", file);
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
             }
         });
     }
