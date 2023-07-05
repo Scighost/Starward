@@ -14,8 +14,8 @@ public abstract class GachaLogClient
     protected const string REG_KEY_YS_OS = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Genshin Impact";
     protected const string REG_KEY_YS_CLOUD = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\云·原神";
 
-    protected const string WEB_CACHE_PATH_YS_CN = @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2";
-    protected const string WEB_CACHE_PATH_YS_OS = @"GenshinImpact_Data\webCaches\Cache\Cache_Data\data_2";
+    protected const string WEB_CACHE_PATH_YS_CN = @"YuanShen_Data\webCaches\2.13.0.1\Cache\Cache_Data\data_2";
+    protected const string WEB_CACHE_PATH_YS_OS = @"GenshinImpact_Data\webCaches\2.13.0.1\Cache\Cache_Data\data_2";
 
     protected const string WEB_PREFIX_YS_CN = "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html";
     protected const string WEB_PREFIX_YS_OS = "https://webstatic-sea.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html";
