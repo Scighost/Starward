@@ -121,7 +121,7 @@
     <value>Cannot parse the wish record URL.</value>
   </data>
   <data name="Core_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Cannot parse the warp record URL</value>
+    <value>Cannot parse the warp record URL.</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
     <value>Stellar Warp</value>
@@ -169,7 +169,7 @@
     <value>Available Space:</value>
   </data>
   <data name="DownloadGameDialog_RequiredSpaceForUnzipping" xml:space="preserve">
-    <value>Required Space for Unzipping:</value>
+    <value>Required Space:</value>
   </data>
   <data name="DownloadGameDialog_RepairMode" xml:space="preserve">
     <value>Repair Mode:</value>
@@ -663,7 +663,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>How to switch game region?</value>
   </data>
   <data name="MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft" xml:space="preserve">
-    <value>Click the right mouse button on the game icon on the left</value>
+    <value>Click the right mouse button on the game icon on the left.</value>
   </data>
   <data name="MainPage_Launcer" xml:space="preserve">
     <value>Launcher</value>
@@ -985,5 +985,11 @@ Do you accept the risk and continue to use it?</value>
   </data>
   <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
     <value>Verify Account</value>
+  </data>
+  <data name="DownloadGameService_RepairMode" xml:space="preserve">
+    <value>Repair Mode</value>
+  </data>
+  <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
+    <value>It takes additional disk space when unzip.</value>
   </data>
 </root>

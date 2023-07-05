@@ -223,7 +223,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Cannot parse the warp record URL 的本地化字符串。
+        ///   查找类似 Cannot parse the warp record URL. 的本地化字符串。
         /// </summary>
         public static string Core_CannotParseTheWarpRecordURL {
             get {
@@ -277,6 +277,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 It takes additional disk space when unzip. 的本地化字符串。
+        /// </summary>
+        public static string DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip {
+            get {
+                return ResourceManager.GetString("DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Package Size: 的本地化字符串。
         /// </summary>
         public static string DownloadGameDialog_PackageSize {
@@ -295,7 +304,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Required Space for Unzipping: 的本地化字符串。
+        ///   查找类似 Required Space: 的本地化字符串。
         /// </summary>
         public static string DownloadGameDialog_RequiredSpaceForUnzipping {
             get {
@@ -589,6 +598,15 @@ namespace Starward.Language {
         public static string DownloadGameService_AlreadyTheLatestVersion {
             get {
                 return ResourceManager.GetString("DownloadGameService_AlreadyTheLatestVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Repair Mode 的本地化字符串。
+        /// </summary>
+        public static string DownloadGameService_RepairMode {
+            get {
+                return ResourceManager.GetString("DownloadGameService_RepairMode", resourceCulture);
             }
         }
         
@@ -1739,7 +1757,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Click the right mouse button on the game icon on the left 的本地化字符串。
+        ///   查找类似 Click the right mouse button on the game icon on the left. 的本地化字符串。
         /// </summary>
         public static string MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft {
             get {

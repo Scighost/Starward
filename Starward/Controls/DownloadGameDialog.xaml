@@ -25,6 +25,27 @@
             <TextBlock Text="{x:Bind DownloadSizeText}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="8">
+            <!--  解压占用空间  -->
+            <TextBlock MinWidth="120"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.DownloadGameDialog_RequiredSpaceForUnzipping}" />
+            <TextBlock VerticalAlignment="Center" Text="{x:Bind DecompressedSizeText}" />
+            <Button Margin="8,2,0,0"
+                    Padding="2"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind lang:Lang.DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip}">
+                <FontIcon FontSize="14"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE946;" />
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock Text="{x:Bind lang:Lang.DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip}" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="8">
             <!--  剩余空间  -->
             <TextBlock MinWidth="120"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -33,13 +54,6 @@
             <TextBlock Name="TextBlock_FreeSpaceCaution"
                        Margin="8,0,0,0"
                        Text="{x:Bind FreeSpaceCautionText}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="8">
-            <!--  解压占用空间  -->
-            <TextBlock MinWidth="120"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="{x:Bind lang:Lang.DownloadGameDialog_RequiredSpaceForUnzipping}" />
-            <TextBlock Text="{x:Bind DecompressedSizeText}" />
         </StackPanel>
         <StackPanel Name="StackPanel_Voice"
                     Orientation="Horizontal"

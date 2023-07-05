@@ -610,7 +610,7 @@ internal partial class DownloadGameService
             State = DownloadGameState.Preparing;
             TotalBytes = 0;
             progressBytes = 0;
-            ActionType = Lang.DownloadGameDialog_RepairMode;
+            ActionType = Lang.DownloadGameService_RepairMode;
 
             launcherResource = await GetLauncherResourceAsync(biz).ConfigureAwait(false);
             GameResource gameResource = launcherResource.Game;
