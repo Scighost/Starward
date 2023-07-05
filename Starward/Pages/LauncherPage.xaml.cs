@@ -433,10 +433,12 @@ public sealed partial class LauncherPage : Page
                 if (Directory.Exists(InstallPath))
                 {
                     LocalVersion = new Version();
+                    UpdateStartGameButtonStyle();
                 }
                 return;
             }
             LocalVersion = await _downloadGameService.GetLocalGameVersionAsync(gameBiz);
+            UpdateStartGameButtonStyle();
             (CurrentVersion, PreVersion) = await _downloadGameService.GetGameVersionAsync(gameBiz);
             if (IsPreDownloadEnable)
             {

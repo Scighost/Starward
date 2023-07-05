@@ -27,7 +27,7 @@
     </UserControl.Resources>
 
     <Grid Padding="12,8,12,8"
-          Background="{ThemeResource CustomAcrylicBrush}"
+          Background="{ThemeResource CustomOverlayAcrylicBrush}"
           BorderThickness="1"
           CornerRadius="8"
           RowSpacing="4"
