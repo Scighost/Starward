@@ -383,7 +383,7 @@
     <value>导出为</value>
   </data>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>从 Json 导入</value>
+    <value>从 JSON 导入</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>显示新手卡池</value>
@@ -434,7 +434,7 @@
     <value>正在获取 uid</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>该账号最近6个月没有抽卡记录</value>
+    <value>该账号最近 6 个月没有抽卡记录</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
     <value>获取 {0} 条记录，新增 {1} 条记录</value>
@@ -716,7 +716,7 @@
     <value>动态主题色</value>
   </data>
   <data name="SettingPage_CloudFlareConnectProperly" xml:space="preserve">
-    <value>应用将从 CloudFlare 下载所需的资源，请确保它可以正常连接。</value>
+    <value>应用将从 CloudFlare 下载所需的资源，请确保网络连接正常。</value>
   </data>
   <data name="SettingPage_CheckForUpdate" xml:space="preserve">
     <value>检查更新</value>
