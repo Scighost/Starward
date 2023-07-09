@@ -383,7 +383,7 @@
     <value>Xuất như</value>
   </data>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>Nhập từ Json</value>
+    <value>Nhập từ JSON</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Hiện thị loại Gacha người mới</value>
