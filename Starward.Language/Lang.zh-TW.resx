@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Core_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>無法解析躍遷記錄的URL</value>
+    <value>無法解析祈願記錄的URL</value>
   </data>
   <data name="Core_CannotParseTheWarpRecordURL" xml:space="preserve">
     <value>無法解析躍遷記錄的URL</value>
@@ -193,7 +193,7 @@
     <value>直接下載遊戲檔案</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>此功能處於測試階段，如出現遊戲文件損壞請使用官方啟動器修復。</value>
+    <value>此功能處於測試階段。如果出現遊戲檔案損毀，請使用官方啟動器修復。</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
     <value>剩餘空間可能不足</value>
@@ -220,7 +220,7 @@
     <value>選擇遊戲</value>
   </data>
   <data name="SelectDirectoryPage_RecommendFolder" xml:space="preserve">
-    <value>程式資料將存在以下資料夾中：</value>
+    <value>應用程式資料預設將會儲存在以下資料夾內：</value>
   </data>
   <data name="SelectDirectoryPage_WouldYouLikeToChooseThisFolder" xml:space="preserve">
     <value>是否選擇此資料夾？</value>
@@ -241,7 +241,7 @@
     <value>不想選</value>
   </data>
   <data name="SelectDirectoryPage_FirstUse" xml:space="preserve">
-    <value>這似乎是你第一次使用 {Starward}.</value>
+    <value>這似乎是您第一次使用 {Starward}。</value>
   </data>
   <data name="SelectGamePage_GoToLauncher" xml:space="preserve">
     <value>進入啟動器</value>
@@ -250,7 +250,7 @@
     <value>選擇資料夾</value>
   </data>
   <data name="SelectGamePage_SomeGame" xml:space="preserve">
-    <value>{Starward} 支援部分 {miHoYo/HoYoverse} 遊戲，請在下方選擇你的目標，進入啟動器後也可隨時更改。</value>
+    <value>{Starward} 支援部分 {miHoYo/HoYoverse} 遊戲，請在下方選擇您的目標，進入啟動器後也可隨時變更。</value>
   </data>
   <data name="SelectGamePage_TheLastStep" xml:space="preserve">
     <value>最後一步了~</value>
@@ -260,7 +260,7 @@
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
     <value>下次啟動後可恢復下載；
-解壓過程中關閉程序會造成遊戲文件損壞。</value>
+解壓縮過程中關閉本應用程式會造成遊戲檔案損毀。</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
     <value>關閉</value>
@@ -308,7 +308,7 @@
     <value>重試</value>
   </data>
   <data name="DownloadGamePage_OpenLog" xml:space="preserve">
-    <value>開啟Log</value>
+    <value>開啟日誌</value>
   </data>
   <data name="DownloadGamePage_NetworkError" xml:space="preserve">
     <value>網路錯誤</value>
@@ -371,19 +371,19 @@
     <value>其他設定</value>
   </data>
   <data name="GachaLogPage_CopyURL" xml:space="preserve">
-    <value>複製URL</value>
+    <value>複製 URL</value>
   </data>
   <data name="GachaLogPage_AuthkeyTimeoutAlwaysOccurs" xml:space="preserve">
     <value>總是出現 Authkey Timeout？</value>
   </data>
   <data name="GachaLogPage_ClearURLCacheFiles" xml:space="preserve">
-    <value>清除URL快取檔案</value>
+    <value>清除 URL 快取檔案</value>
   </data>
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>導出為</value>
   </data>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>從Json匯入</value>
+    <value>從 JSON 匯入</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>顯示新手卡池</value>
@@ -431,10 +431,10 @@
     <value>躍遷記錄</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>獲取UID</value>
+    <value>獲取 UID 中</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>該賬號最近6個月沒有抽卡記錄</value>
+    <value>該賬號最近 6 個月沒有抽卡記錄</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
     <value>獲取 {0} 條記錄，新增 {1} 條記錄</value>
@@ -537,7 +537,7 @@
     <value>遊戲未安裝</value>
   </data>
   <data name="GameSettingPage_FPSWarning" xml:space="preserve">
-    <value>幀率設為120後將導致遊戲內圖形設定無法使用</value>
+    <value>幀率設為 120 後將導致遊戲內圖形設定無法使用</value>
   </data>
   <data name="GameSettingPage_SettingNotEffect" xml:space="preserve">
     <value>遊戲運行時更改的設定無法生效</value>
@@ -710,13 +710,13 @@
     <value>程式背景</value>
   </data>
   <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
-    <value>自定背景(支援影片)</value>
+    <value>自訂背景 (支援影片)</value>
   </data>
   <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
     <value>動態主題色</value>
   </data>
   <data name="SettingPage_CloudFlareConnectProperly" xml:space="preserve">
-    <value>程式將從CloudFlare下載所需的資源，請確保它可以正常連接。</value>
+    <value>程式將從 CloudFlare 下載所需資源，請確保網路連接正常。</value>
   </data>
   <data name="SettingPage_CheckForUpdate" xml:space="preserve">
     <value>檢查更新</value>
@@ -755,7 +755,7 @@
     <value>更新紀錄</value>
   </data>
   <data name="SettingPage_ThisIsALogo" xml:space="preserve">
-    <value>國王的Logo</value>
+    <value>國王的圖示</value>
   </data>
   <data name="SettingPage_Update" xml:space="preserve">
     <value>檢查更新</value>
@@ -862,7 +862,7 @@
     <value>重新整理</value>
   </data>
   <data name="HoyolabToolboxPage_CopyCookie" xml:space="preserve">
-    <value>複製Cookie</value>
+    <value>複製 Cookie</value>
   </data>
   <data name="HoyolabToolboxPage_DeleteGameRole" xml:space="preserve">
     <value>刪除遊戲角色</value>
