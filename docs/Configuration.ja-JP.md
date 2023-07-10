@@ -1,8 +1,8 @@
-English | [简体中文](./Configuration.zh-CN.md) | [Tiếng Việt](./Configuration.vi-VN.md)
+﻿English | [简体中文](./Configuration.zh-CN.md) | [Tiếng Việt](./Configuration.vi-VN.md)
 
-# Application Configuration
+# アプリケーションの構成
 
-Starting with version 0.8.0, Starward no longer uses the registry to store configuration, but instead uses file and database, making it easier to migrate the overall application between devices. However, the registry will still be used when the file structure does not meet the following conditions:
+バージョン 0.8.0から、Starward は設定の保存にレジストリを使用しなくなりました。その代わりにファイルとデータベースを使用するようになり、デバイス間でのアプリケーション全体の移行が容易になりました。ファイル構成が以下の条件になっていない場合は、レジストリを使用します。
 
 ```
 │ config.ini
@@ -14,24 +14,24 @@ Starting with version 0.8.0, Starward no longer uses the registry to store confi
    ...
 ```
 
-Don't worry, files downloaded from GitHub Release will definitely satisfy this condition, only when you pull the code and debug it locally will you use the registry to store the configuration.
+大丈夫です、心配はしないで。GitHub のリリースからダウンロードをしたファイルは間違いなくこの条件を満たしています。コードを引っ張ってローカル上でデバッグをするときのみ、レジストリを使用して構成を保存します。
 
 ## config.ini
 
-The `config.ini` file contains only two setting items:
+`config.ini` ファイルは 2 つの設定項目のみになります:
 
 ```ini
-# Whether to enable console output logging, True/False
+# コンソール出力ロギングを有効化するかどうか True/False
 EnableConsole=False
-# The location of the user folder
+# ユーザーフォルダーの場所
 UserDataFolder=.
 ```
 
-`UserDataFolder` is the folder of the user's data. If this value does not exist or the set folder does not exist, the application displays the welcome page at startup. If `UserDataFolder` is set to the folder itself or a subfolder where the `config.ini` file is located, you can use **relative paths**, e.g. one of the dots `.` represents the current folder. In other cases, you **must** use an absolute path. In addition, both slash `/` and backslash `\` can be used.
+`UserDataFolder` はユーザーデータのフォルダーです。この値が存在しない場合は、アプリケーションは起動時にようこそページを表示します。`UserDataFolder` がフォルダー自体、または `config.ini` がサブフォルダーに設定されている場合に**相対パス**を使用する事ができます。 例えば `.` (ドット 1 つ)は現在のフォルダーを指します。それ以外の場合は、**絶対パス**を使用してください。また、 `/` (スラッシュ) と `\` (バックスラッシュ)を使用する事が可能です。
 
-Note: The `config.ini` file must be at the application root folder.
+注意: `config.ini` ファイルはアプリケーションフォルダーの直下に配置しなければなりません
 
-## Database
+## データベース
 
 All setting items except for the two above are stored in the database `StarwardDatabase.db` in the user data folder. This file is a SQLite database, which you can edit with [DB Browser for SQLite](https://sqlitebrowser.org/) or other software.
 
@@ -47,7 +47,7 @@ CREATE TABLE Setting
 
 There are two types of setting items within the application, static setting items using Pascal nomenclature `ASettingKey`, and dynamic setting items using Pascal nomenclature `a_setting_key`, which represent the existence of a corresponding value for each game region.
 
-## Game Regions
+## ゲームのリージョン
 
 Starward uses `enum GameBiz` to define different game regions, where the full name of the game such as `StarRail` will be specified in the comments when used.
 
@@ -93,7 +93,7 @@ The data type `Type` in the following table uses the expression in C#, and `-` r
 | UseOneBg                        | bool    | -             | Use the same background for all game regions, usually enabled when using video background.                                                                       |
 | AcceptHoyolabToolboxAgreement   | bool    | -             | Accept the disclaimer of the HoYoLAB toolbox page.                                                                                                               |
 
-## Dynamic Settings
+## ダイナミック設定
 
 Dynamic setting items have different values in each game region, and their setting keys will have the game region appended to the end, for example, the setting item `custom_bg`, whose key of Genshin Impact (Global) is `custom_gb_hk4e_global`.
 
