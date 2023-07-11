@@ -1,4 +1,4 @@
-[English](./Configuration.md) | 简体中文 | [Tiếng Việt](./Configuration.vi-VN.md)
+[English](./Configuration.md) | 简体中文 | [Tiếng Việt](./Configuration.vi-VN.md) | [日本語](./Configuration.ja-JP.md)
 
 # 应用配置
 
