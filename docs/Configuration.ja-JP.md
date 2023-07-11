@@ -84,14 +84,14 @@ Starward は `enum GameBiz` を使用しゲームのリージョンを定義し�
 | EnableBannerAndPost             | bool    | -             | ランチャーページにゲームのお知らせを表示します。                                                                                                                    |
 | IgnoreRunningGame               | bool    | -             | 実行中のゲームを無視にすると `ゲームを実行中` の表示がされなくなります。                                                                     |
 | SelectGameBiz                   | GameBiz | -             | 最後に選択されたゲームのリージョン。                                                                                                                                   |
-| ShowNoviceGacha                 | bool    | -             | 初心者ガチャの状態を表示する。                                                                                                                                         |
+| ShowNoviceGacha                 | bool    | -             | 初心者ガチャの状態を表示します。                                                                                                                                         |
 | GachaLanguage                   | string? | -             | ガチャの記録に使用する言語を取得します。デフォルトではゲーム内の言語になります。                                                                                    |
 | EnableDynamicAccentColor        | bool    | -             | ダイナミックテーマカラーは背景画像から計算された色になります。オフの場合は、システムテーマカラーが使用されます。                                       |
-| AccentColor                     | string? | -             | The cached dynamic theme color, used to reduce the amount of calculations at startup, `#ARBG#ARBG`: the former is background color and the latter is text color/ |
-| VideoBgVolume                   | int     | 100           | The volume of the video background, `0 - 100`.                                                                                                                   |
-| PauseVideoWhenChangeToOtherPage | bool    | -             | Pause the video when switch to a not launcher page.                                                                                                              |
-| UseOneBg                        | bool    | -             | Use the same background for all game regions, usually enabled when using video background.                                                                       |
-| AcceptHoyolabToolboxAgreement   | bool    | -             | Accept the disclaimer of the HoYoLAB toolbox page.                                                                                                               |
+| AccentColor                     | string? | -             | 起動時の計算量を減らすためにキャッシュをされたダイナミックテーマカラーを使用します。 `#ARBG#ARBG`: 前者は背景色、後者はテキスト色になります。 |
+| VideoBgVolume                   | int     | 100           | 背景の動画の音量。 `(0 - 100)`                                                                                                                   |
+| PauseVideoWhenChangeToOtherPage | bool    | -             | 非ランチャーページを切り替えたときに動画を一時停止します。                                                                                                             |
+| UseOneBg                        | bool    | -             | すべてのゲームのリージョンで同じ背景を使用します。通常では、動画背景を使用するとき有効化されます。                                                                       |
+| AcceptHoyolabToolboxAgreement   | bool    | -             | HoYoLAB ツールボックスページの免責事項に同意をします。                                                                                                               |
 
 ## 動的設定
 
@@ -99,13 +99,13 @@ Starward は `enum GameBiz` を使用しゲームのリージョンを定義し�
 
 | キー                          | 種類    | デフォルト値 | コメント                                                                                                                            |
 | ---------------------------- | ------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| bg                           | string? | -             | The official background image file name, the file is in the `bg` subfolder of the user data folder.                                |
-| custom_bg                    | string? | -             | The custom background image, the image is the file name and the video is the full path.                                            |
-| enable_custom_bg             | bool    | -             | Whether to enable custom background.                                                                                               |
-| install_path                 | string? | -             | The folder where the game is installed, not the official launcher folder.                                                          |
-| enable_third_party_tool      | bool    | -             | Whether to enable third-party tool to start game instead.                                                                          |
-| third_party_tool_path        | string? | -             | The path to the file of third-party tool.                                                                                          |
-| start_argument               | string? | -             | The game start argument                                                                                                            |
-| last_gacha_uid               | long    | -             | The last selected uid in gacha records page.                                                                                       |
-| last_region_of               | GameBiz | -             | The last selected game region, used for quick switching at the top of the app, with the full name of the game appended at the end. |
-| last_select_game_record_role | long    | -             | The last selected uid of game role in HoYoLAB toolbox page.                                                                        |
+| bg                           | string? | -             | 公式の背景画像のファイル名でユーザーデータフォルダーの`bg`のサブフォルダーに格納されています。                                |
+| custom_bg                    | string? | -             | カスタム背景画像は、画像はファイル名、動画はフルパスになります。                                            |
+| enable_custom_bg             | bool    | -             | カスタム背景を有効化するかどうか。                                                                                               |
+| install_path                 | string? | -             | 公式ランチャーのフォルダーではなく、ゲームがインストールされているフォルダー。                                                          |
+| enable_third_party_tool      | bool    | -             | サードパーティ製ツールを有効化にして代わりにゲームを開始するかどうかを設定します。                                                                          |
+| third_party_tool_path        | string? | -             | サードパーティツールのファイルのパス。                                                                                          |
+| start_argument               | string? | -             | ゲーム開始時の引数。                                                                                                            |
+| last_gacha_uid               | long    | -             | ガチャの記録ページで最後に選択をされたUID。                                                                                       |
+| last_region_of               | GameBiz | -             | 最後に選択をされたリージョン。アプリ上部のクイック切り替えに使用され、最後にゲームのフルネームを付加します。 |
+| last_select_game_record_role | long    | -             | HoYoLABツールボックスのページでゲームロールの最後に選択をされたUID。                                                                        |
