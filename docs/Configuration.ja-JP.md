@@ -33,9 +33,9 @@ UserDataFolder=.
 
 ## データベース
 
-All setting items except for the two above are stored in the database `StarwardDatabase.db` in the user data folder. This file is a SQLite database, which you can edit with [DB Browser for SQLite](https://sqlitebrowser.org/) or other software.
+上記の 2つを除くすべての設定項目は、ユーザーデータフォルダー内のデータベース `StarwardDatabase.db` に保存されます。このファイルは SQLite データベースなので [DB Browser for SQLite](https://sqlitebrowser.org/) などのツールで編集が可能です。
 
-There is a table named `Setting` in the database that holds the application's setting items, and it has the following structure, with the keys and values represented as text.
+データベースにはアプリケーションの設定項目を保持する `Setting` という名前のテーブルがあり、以下のキーと値のテキストの構造になっています。
 
 ```sql
 CREATE TABLE Setting
@@ -45,59 +45,59 @@ CREATE TABLE Setting
 ).
 ```
 
-There are two types of setting items within the application, static setting items using Pascal nomenclature `ASettingKey`, and dynamic setting items using Pascal nomenclature `a_setting_key`, which represent the existence of a corresponding value for each game region.
+アプリケーション内の設定項目には `ASettingKey` というパスカルケースの命名規則を用いた静的設定項目と `a_setting_key` というパスカルケースの命名規則を用いた静的設定項目があり、各ゲームのリージョンに対応する値を示しています。
 
 ## ゲームのリージョン
 
-Starward uses `enum GameBiz` to define different game regions, where the full name of the game such as `StarRail` will be specified in the comments when used.
+Starward は `enum GameBiz` を使用しゲームのリージョンを定義します。 `StarRail` のような完全なゲーム名を使用する場合はコメントで指定を行ないます。
 
-| Key               | Value | Comment                                 |
+| キー               | 値 | コメント                                 |
 | ----------------- | ----- | --------------------------------------- |
-| None              | 0     | Default value                           |
-| All               | 1     | All                                     |
-| **GenshinImpact** | 10    | Genshin Impact                          |
-| hk4e_cn           | 11    | Genshin Impact (Mainland China)         |
-| hk4e_global       | 12    | Original Gods (Global)                  |
-| hk4e_cloud        | 13    | Genshin Impact · Cloud (Mainland China) |
-| **StarRail**      | 20    | Honkai: Star Rail                       |
-| hkrpg_cn          | 21    | Star Rail (Mainland China)              |
-| hkrpg_global      | 22    | Star Rail (Global)                      |
-| **Honkai3rd**     | 30    | Honkai 3rd                              |
-| bh3_cn            | 31    | Honkai 3rd (Mainland China)             |
-| bh3_global        | 32    | Honkai 3rd (Global)                     |
-| bh3_jp            | 33    | Honkai 3rd (Japan)                      |
-| bh3_kr            | 34    | Honkai 3rd (Korea)                      |
-| bh3_overseas      | 35    | Honkai 3rd (Southeast Aisa)             |
-| bh3_tw            | 36    | Honkai 3rd (TW/HK/MO)                   |
+| None              | 0     | デフォルト値                           |
+| All               | 1     | すべて                                     |
+| **GenshinImpact** | 10    | 原神                          |
+| hk4e_cn           | 11    | 原神 (中国)         |
+| hk4e_global       | 12    | 原神 (グローバル)                  |
+| hk4e_cloud        | 13    | 原神 - クラウド版 (中国) |
+| **StarRail**      | 20    | 崩壊:スターレイル                      |
+| hkrpg_cn          | 21    | 崩壊:スターレイル (中国)             |
+| hkrpg_global      | 22    | 崩壊:スターレイル (グローバル)                      |
+| **Honkai3rd**     | 30    | 崩壊3rd                              |
+| bh3_cn            | 31    | 崩壊3rd (中国)             |
+| bh3_global        | 32    | 崩壊3rd (グローバル)                     |
+| bh3_jp            | 33    | 崩壊3rd (日本)                      |
+| bh3_kr            | 34    | 崩壊3rd (韓国)                      |
+| bh3_overseas      | 35    | 崩壊3rd (東南アジア)             |
+| bh3_tw            | 36    | 崩壊3rd (台湾/香港/マカオ)                   |
 
-## Static Settings
+## 静的設定
 
-The data type `Type` in the following table uses the expression in C#, and `-` represents the default value of this type.
+以下の表のデータ型の `種類` は C# の式を使用しており、 `-` はデフォルト値にします。
 
-| Key                             | Type    | Default Value | Comment                                                                                                                                                          |
+| キー                             | 種類    | デフォルト値 | コメント                                                                                                                                                          |
 | ------------------------------- | ------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Language                        | string? | -             | The language of the application interface, such as `zh-CN` `en-US`, which follows the system setting if empty.                                                   |
-| WindowSizeMode                  | int     | -             | The application window size, 0 - standard, 1 - smaller                                                                                                           |
-| ApiCDNIndex                     | int     | -             | Api CDN options, 0 - CloudFlare, 1 - GitHub, 2 - jsDelivr                                                                                                        |
-| EnablePreviewRelease            | bool    | -             | Whether to join the preview release channel.                                                                                                                     |
-| IgnoreVersion                   | string? | -             | Ignore the version of the update alert, newer versions will continue to be alerted only if they are greater than this value.                                     |
-| EnableBannerAndPost             | bool    | -             | Show game announcements in the launcher page.                                                                                                                    |
-| IgnoreRunningGame               | bool    | -             | Ignore running games, the launcher page will no longer show `Game is Running` when enabled.                                                                      |
-| SelectGameBiz                   | GameBiz | -             | The last selected game region.                                                                                                                                   |
-| ShowNoviceGacha                 | bool    | -             | Show novice gacha stats.                                                                                                                                         |
-| GachaLanguage                   | string? | -             | Get the language used for gacha records, the default is the in-game language.                                                                                    |
-| EnableDynamicAccentColor        | bool    | -             | The dynamic theme color is calculated from the background image, and the system theme color is used when it is turned off.                                       |
+| Language                        | string? | -             | アプリケーションの言語を設定します。(`zh-CN` `en-US` など)空欄の場合はシステムの設定に従うようにします。                                                   |
+| WindowSizeMode                  | int     | -             | アプリのウィンドウサイズを指定します。 0 - 標準 1 - 最小                                                                                                           |
+| ApiCDNIndex                     | int     | -             | API CDN オプションを指定します。 0 - CloudFlare、 1 - GitHub、 2 - jsDelivr                                                                                                        |
+| EnablePreviewRelease            | bool    | -             | プレビューリリースチャンネルに参加するかどうか。                                                                                                                     |
+| IgnoreVersion                   | string? | -             | アップデートのバージョン通知を無視します。新しいバージョンは、この値より大きい場合のみ通知を継続します。                                     |
+| EnableBannerAndPost             | bool    | -             | ランチャーページにゲームのお知らせを表示します。                                                                                                                    |
+| IgnoreRunningGame               | bool    | -             | 実行中のゲームを無視にすると `ゲームを実行中` の表示がされなくなります。                                                                     |
+| SelectGameBiz                   | GameBiz | -             | 最後に選択されたゲームのリージョン。                                                                                                                                   |
+| ShowNoviceGacha                 | bool    | -             | 初心者ガチャの状態を表示する。                                                                                                                                         |
+| GachaLanguage                   | string? | -             | ガチャの記録に使用する言語を取得します。デフォルトではゲーム内の言語になります。                                                                                    |
+| EnableDynamicAccentColor        | bool    | -             | ダイナミックテーマカラーは背景画像から計算された色になります。オフの場合は、システムテーマカラーが使用されます。                                       |
 | AccentColor                     | string? | -             | The cached dynamic theme color, used to reduce the amount of calculations at startup, `#ARBG#ARBG`: the former is background color and the latter is text color/ |
 | VideoBgVolume                   | int     | 100           | The volume of the video background, `0 - 100`.                                                                                                                   |
 | PauseVideoWhenChangeToOtherPage | bool    | -             | Pause the video when switch to a not launcher page.                                                                                                              |
 | UseOneBg                        | bool    | -             | Use the same background for all game regions, usually enabled when using video background.                                                                       |
 | AcceptHoyolabToolboxAgreement   | bool    | -             | Accept the disclaimer of the HoYoLAB toolbox page.                                                                                                               |
 
-## ダイナミック設定
+## 動的設定
 
-Dynamic setting items have different values in each game region, and their setting keys will have the game region appended to the end, for example, the setting item `custom_bg`, whose key of Genshin Impact (Global) is `custom_gb_hk4e_global`.
+動的設定はゲームのリージョンごとに設定値が事なります。設定キーの末尾にゲームのリージョンが付加されます。例えば設定項目の `custom_bg` は グローバル版原神になると `custom_gb_hk4e_global` となります。
 
-| Key                          | Type    | Default Value | Comment                                                                                                                            |
+| キー                          | 種類    | デフォルト値 | コメント                                                                                                                            |
 | ---------------------------- | ------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | bg                           | string? | -             | The official background image file name, the file is in the `bg` subfolder of the user data folder.                                |
 | custom_bg                    | string? | -             | The custom background image, the image is the file name and the video is the full path.                                            |
