@@ -43,9 +43,9 @@ Starward はローカライズに[Crowdin](https://crowdin.com/project/starward)
 
 プロジェクトをローカルでコンパイルするには、Visual Studio 2022をインストールして以下のワークロードを選択する必要があります:
 
--  .NET Desktop Development
--  C++ Desktop Development
--  Universal Windows Platform Development
+-  .NET デスクトップ開発
+-  C++ によるデスクトップ開発
+-  ユニバーサル Windows プラットフォーム開発
 
 ## 謝辞
 
