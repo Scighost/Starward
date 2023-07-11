@@ -1,4 +1,4 @@
-﻿English | [简体中文](./Configuration.zh-CN.md) | [Tiếng Việt](./Configuration.vi-VN.md)
+﻿English | [简体中文](./Configuration.zh-CN.md) | [Tiếng Việt](./Configuration.vi-VN.md) | [日本語](./Configuration.ja-JP.md)
 
 # アプリケーションの構成
 
