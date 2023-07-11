@@ -434,7 +434,7 @@
     <value>獲取 UID 中</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>該賬號最近 6 個月沒有抽卡記錄</value>
+    <value>該帳戶最近 6 個月沒有抽卡記錄</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
     <value>獲取 {0} 條記錄，新增 {1} 條記錄</value>
@@ -456,7 +456,7 @@
     <value>無法自動更新</value>
   </data>
   <data name="GameSettingPage_Custom" xml:space="preserve">
-    <value>自定</value>
+    <value>自訂</value>
   </data>
   <data name="GameSettingPage_VeryLow" xml:space="preserve">
     <value>非常低</value>
@@ -486,7 +486,7 @@
     <value>全螢幕</value>
   </data>
   <data name="GameSettingPage_CustomResolution" xml:space="preserve">
-    <value>自定分辨率</value>
+    <value>自訂分辨率</value>
   </data>
   <data name="GameSettingPage_VoiceLanguage" xml:space="preserve">
     <value>語音</value>
@@ -546,7 +546,7 @@
     <value>分辨率必須大於 0</value>
   </data>
   <data name="GameSettingPage_StartArgumentDesc" xml:space="preserve">
-    <value>關於啟動參數的信息請查看 {Unity Standalone Player Command Line Arguments}</value>
+    <value>關於啟動參數的資訊，請參閲 {Unity Standalone Player Command Line Arguments}</value>
   </data>
   <data name="GameSettingPage_On" xml:space="preserve">
     <value>開</value>
@@ -576,13 +576,13 @@
     <value>預下載</value>
   </data>
   <data name="LauncherPage_CurrentAccount" xml:space="preserve">
-    <value>當前登錄的賬號</value>
+    <value>當前登入的帳戶</value>
   </data>
   <data name="LauncherPage_SwitchAccount" xml:space="preserve">
-    <value>切換賬號</value>
+    <value>切換帳戶</value>
   </data>
   <data name="LauncherPage_AccountInformation" xml:space="preserve">
-    <value>賬號信息</value>
+    <value>帳戶資訊</value>
   </data>
   <data name="LauncherPage_Nickname" xml:space="preserve">
     <value>暱稱</value>
@@ -603,7 +603,7 @@
     <value>一鍵修復</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>自定啟動程式</value>
+    <value>自訂啟動程式</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>選擇</value>
@@ -960,9 +960,9 @@
     <value>免責聲明</value>
   </data>
   <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
-    <value>本頁面的功能需要您登錄 米遊社/HoYoLAB 賬號，Starward 將會保存您的登錄憑證 (Cookie) 並模仿您本人對 miHoYo 的服務器發送請求。這種方法具有一定的風險，如果因此造成了您的賬號異常或被封禁，本應用概不負責。
+    <value>本頁面的功能需要您登入 米遊社/HoYoLAB 帳戶，Starward 將會保存您的登入憑證 (Cookie) 並模仿您本人向 miHoYo 的伺服器發送請求。這種方法十分危險，如果因此造成了您的帳戶異常或被封禁，本應用概不負責。
 
-您是否接受此風險並繼續使用？</value>
+您是否願意承擔風險並繼續使用？</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
     <value>星瓊收入組成</value>
@@ -978,13 +978,13 @@
     <comment>example: forgotten hall team setup 1</comment>
   </data>
   <data name="Common_AccountError" xml:space="preserve">
-    <value>賬號異常</value>
+    <value>帳戶異常</value>
   </data>
   <data name="Common_NetworkError" xml:space="preserve">
     <value>網路異常</value>
   </data>
   <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
-    <value>驗證帳號</value>
+    <value>驗證帳戶</value>
   </data>
   <data name="DownloadGameService_RepairMode" xml:space="preserve">
     <value>修復模式</value>
