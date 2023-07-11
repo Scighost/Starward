@@ -49,7 +49,7 @@ Starward はローカライズに[Crowdin](https://crowdin.com/project/starward)
 
 ## 謝辞
 
- まず最初に、『崩壊』でこのプロジェクトにインスピレーションを与えてくれた [neon-nyan](https://github.com/neon-nyan) に感謝をする。Starward は彼が作ったリソースだけでなく、「ユーザーインターフェースのデザインも真似た物」も作りました。  [Collapse](https://github.com/neon-nyan/Collapse) のコードから多くの事を学び、私の開発プロセスをよりスムーズにしてくれました。
+ まず最初に、『崩壊』でこのプロジェクトにインスピレーションを与えてくれた [neon-nyan](https://github.com/neon-nyan) に感謝をします。Starward は彼が作ったリソースだけでなく、「ユーザーインターフェースのデザインを似せた物」も作りました。  [Collapse](https://github.com/neon-nyan/Collapse) のコードから多くの事を学び、私の開発プロセスをよりスムーズにしてくれました。
 
 それから、無料の CDN を提供してくれた CloudFlare に感謝をします。
 
