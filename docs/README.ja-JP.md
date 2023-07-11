@@ -1,4 +1,4 @@
-﻿English | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/README.vi-VN.md) | 日本語
+[English](../README.md) | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/README.vi-VN.md) | 日本語
 
 # Starward って何ですか?
 
