@@ -22,7 +22,7 @@ Và nhiều tính năng khác đang được lên kế hoạch...
 
 Bạn có thể tải xuống bản phát hành mới nhất từ trang [Release](https://github.com/Scighost/Starward/releases). Ứng dụng sử dụng các bản cập nhật gia tăng, vừa dễ dàng vừa thuận tiện.
 
-Ứng dụng có thể gặp lỗi crash khi chạy trên một số thiết bị. Nếu bạn gặp lỗi này, vui lòng tạo tập tin `config.ini` ở thư mục `Starward` và dán những dòng sau đây vào. Để biết thêm thông tin về `config.ini` vui lòng đọc [docs/Configuration.md](./docs/Configuration.vi-VN.md).
+Ứng dụng có thể gặp lỗi crash khi chạy trên một số thiết bị. Nếu bạn gặp lỗi này, vui lòng tạo tập tin `config.ini` ở thư mục `Starward` và dán những dòng sau đây vào. Để biết thêm thông tin về `config.ini`, vui lòng đọc [Configuration.vi-VN.md](./Configuration.vi-VN.md).
 
 ## Bản địa hoá
 
