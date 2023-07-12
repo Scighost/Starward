@@ -250,7 +250,7 @@
     <value>Chọn thư mục</value>
   </data>
   <data name="SelectGamePage_SomeGame" xml:space="preserve">
-    <value>{Starward} hỗ trợ một số trò chơi {miHoYo/HoYoverse}, vui lòng chọn trò chơi của bạn ở dưới, bạn cũng có thể thay đổi nó bất kì lúc nào sau khi vào trình khởi chạy.</value>
+    <value>{Starward} hỗ trợ một số trò chơi {miHoYo/HoYoverse}, vui lòng chọn trò chơi của bạn ở bên dưới, bạn cũng có thể thay đổi nó bất kì lúc nào sau khi vào trình khởi chạy.</value>
   </data>
   <data name="SelectGamePage_TheLastStep" xml:space="preserve">
     <value>Bước cuối cùng ~</value>
@@ -990,6 +990,6 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Chế độ sửa chữa</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
-    <value>It takes additional disk space when unzip.</value>
+    <value>Nó sẽ chiếm thêm dung lượng khi giải nén.</value>
   </data>
 </root>
