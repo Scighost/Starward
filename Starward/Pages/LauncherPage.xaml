@@ -48,28 +48,32 @@
                           Background="{ThemeResource CustomAcrylicBrush}"
                           CornerRadius="8"
                           ItemsSource="{x:Bind BannerList}"
+                          Loaded="FlipView_Banner_Loaded"
                           PointerEntered="FlipView_Banner_PointerEntered"
                           PointerExited="FlipView_Banner_PointerExited"
                           Shadow="{StaticResource ThemeShadow}"
                           Translation="0,0,16">
                     <FlipView.ItemTemplate>
                         <DataTemplate>
-                            <sc:CachedImage Name="Image_Banner"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            IsRightTapEnabled="False"
-                                            Source="{Binding Img}"
-                                            Stretch="UniformToFill"
-                                            Tapped="Image_Banner_Tapped"
-                                            ToolTipService.ToolTip="{Binding Url}" />
+                            <sc:HandCursorGrid>
+                                <sc:CachedImage Name="Image_Banner"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                IsRightTapEnabled="False"
+                                                Source="{Binding Img}"
+                                                Stretch="UniformToFill"
+                                                Tapped="Image_Banner_Tapped" />
+                            </sc:HandCursorGrid>
                         </DataTemplate>
                     </FlipView.ItemTemplate>
                 </FlipView>
-                <Border Padding="8,0,8,0"
+                <Border Name="Border_PipsPager"
+                        Padding="8,0,8,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Background="{ThemeResource CustomAcrylicBrush}"
-                        CornerRadius="12,0,8,0">
+                        CornerRadius="12,0,8,0"
+                        Visibility="Collapsed">
                     <PipsPager Name="PipsPager_Banner"
                                NumberOfPages="{x:Bind BannerList.Count}"
                                SelectedPageIndex="{x:Bind FlipView_Banner.SelectedIndex, Mode=TwoWay}" />
@@ -101,8 +105,10 @@
                         <Pivot.ItemTemplate>
                             <DataTemplate>
                                 <PivotItem Margin="12,0,12,0">
-                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
-                                        <ItemsRepeater Margin="0,0,0,8" ItemsSource="{Binding List}">
+                                    <ScrollViewer Margin="0,0,-12,0"
+                                                  HorizontalScrollBarVisibility="Disabled"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <ItemsRepeater Margin="0,0,16,8" ItemsSource="{Binding List}">
                                             <ItemsRepeater.Layout>
                                                 <StackLayout Spacing="8" />
                                             </ItemsRepeater.Layout>
@@ -146,16 +152,12 @@
                         Orientation="Horizontal">
 
                 <!--  Start Game  -->
-                <Grid Width="240"
+                <Grid MinWidth="240"
                       Margin="0,0,20,0"
                       Background="{ThemeResource CustomAcrylicBrush}"
                       CornerRadius="20"
                       Shadow="{StaticResource ThemeShadow}"
                       Translation="0,0,16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
 
                     <!--  Start Game  -->
                     <Button Name="Button_StartGame"

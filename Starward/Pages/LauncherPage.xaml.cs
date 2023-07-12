@@ -231,15 +231,41 @@ public sealed partial class LauncherPage : Page
     }
 
 
+    private void FlipView_Banner_Loaded(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var grid = VisualTreeHelper.GetChild(FlipView_Banner, 0);
+            if (grid != null)
+            {
+                var count = VisualTreeHelper.GetChildrenCount(grid);
+                if (count > 0)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        var child = VisualTreeHelper.GetChild(grid, i);
+                        if (child is Button button)
+                        {
+                            button.IsHitTestVisible = false;
+                            button.Opacity = 0;
+                        }
+                    }
+                }
+            }
+        }
+        catch { }
+    }
 
     private void FlipView_Banner_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
         _timer.Stop();
+        Border_PipsPager.Visibility = Visibility.Visible;
     }
 
     private void FlipView_Banner_PointerExited(object sender, PointerRoutedEventArgs e)
     {
         _timer.Start();
+        Border_PipsPager.Visibility = Visibility.Collapsed;
     }
 
 
