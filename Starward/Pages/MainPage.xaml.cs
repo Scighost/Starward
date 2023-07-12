@@ -149,7 +149,7 @@ public sealed partial class MainPage : Page
     {
         this.Bindings.Update();
         UpdateNavigationViewItems();
-        }
+    }
 
 
 
@@ -572,7 +572,7 @@ public sealed partial class MainPage : Page
                             decodeHeight = (int)windowHeight;
                             decodeWidth = (int)(windowHeight * decoder.PixelWidth / decoder.PixelHeight);
                         }
-                        var data = await decoder.GetPixelDataAsync(decoder.BitmapPixelFormat,
+                        var data = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8,
                                                                    decoder.BitmapAlphaMode,
                                                                    new BitmapTransform { ScaledWidth = (uint)decodeWidth, ScaledHeight = (uint)decodeHeight, InterpolationMode = BitmapInterpolationMode.Fant },
                                                                    ExifOrientationMode.IgnoreExifOrientation,
