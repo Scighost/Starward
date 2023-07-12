@@ -615,7 +615,7 @@
     <value>実行中のゲームプロセスを無視</value>
   </data>
   <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
-    <value>バックグラウンドの設定</value>
+    <value>背景の設定</value>
   </data>
   <data name="SettingPage_PauseVideoWhenSwitchingToOtherPages" xml:space="preserve">
     <value>他のページに切り替えるときに動画を一時停止する</value>
@@ -868,10 +868,10 @@
     <value>ゲームロールを削除</value>
   </data>
   <data name="HoyolabToolboxPage_SpiralAbyss" xml:space="preserve">
-    <value>スパイラルアビス</value>
+    <value>深境螺旋</value>
   </data>
   <data name="HoyolabToolboxPage_TravelersDiary" xml:space="preserve">
-    <value>旅人の日記</value>
+    <value>旅人手帳</value>
   </data>
   <data name="HoyolabToolboxPage_SimulatedUniverse" xml:space="preserve">
     <value>模擬宇宙</value>
@@ -903,19 +903,19 @@
     <value>戦闘ステータス</value>
   </data>
   <data name="SpiralAbyssPage_MostDefeats" xml:space="preserve">
-    <value>最多の敗北数</value>
+    <value>最多撃破数</value>
   </data>
   <data name="SpiralAbyssPage_StrongestSingleStrike" xml:space="preserve">
-    <value>最強の一撃</value>
+    <value>最大ダメージ</value>
   </data>
   <data name="SpiralAbyssPage_MostDamageTaken" xml:space="preserve">
-    <value>最多の被ダメージ</value>
+    <value>受けた最大ダメージ</value>
   </data>
   <data name="SpiralAbyssPage_ElementalSkillsUnleashed" xml:space="preserve">
-    <value>元素スキルの解放</value>
+    <value>元素スキル使用回数</value>
   </data>
   <data name="SpiralAbyssPage_ElementalBrustsUnleashed" xml:space="preserve">
-    <value>元素スキルの解放</value>
+    <value>元素爆発使用回数</value>
   </data>
   <data name="TravelersDiaryPage_GetDetails" xml:space="preserve">
     <value>詳細を取得</value>
@@ -937,10 +937,10 @@
     <value>原石収入の構成</value>
   </data>
   <data name="SpiralAbyssPage_DeepestDescent" xml:space="preserve">
-    <value>最深到着</value>
+    <value>最高記録</value>
   </data>
   <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
-    <value>試合数</value>
+    <value>挑戦回数</value>
   </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
     <value>時間</value>
@@ -964,7 +964,7 @@
 リスクを受け入れたうえで使用を続行しますか?</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
-    <value>Stellar Jadeのソース</value>
+    <value>星玉の獲得元</value>
   </data>
   <data name="ForgottenHallPage_Period" xml:space="preserve">
     <value>期間</value>
