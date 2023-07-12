@@ -22,7 +22,7 @@
 
 最新版のリリースは、[GitHub のリリース](https://github.com/Scighost/Starward/releases) ページからダウンロードできます。このアプリケーションはインクリメンタルアップデートを採用していますので、簡単で便利になっています。
 
-一部のデバイスで実行後にクラッシュをする問題が発生する可能性があります。この問題が発生した場合は、`Starward` のフォルダーに `config.ini` ファイルを作成し、以下を貼り付けてください。`config.ini` の詳細は、[docs/Configuration.ja-JP.md](./docs/Configuration.ja-JP.md) を参照してください。
+一部のデバイスで実行後にクラッシュをする問題が発生する可能性があります。この問題が発生した場合は、`Starward` のフォルダーに `config.ini` ファイルを作成し、以下を貼り付けてください。`config.ini` の詳細は、[./Configuration.ja-JP.md](./docs/Configuration.ja-JP.md) を参照してください。
 
 ``` ini
 EnableConsole=False
