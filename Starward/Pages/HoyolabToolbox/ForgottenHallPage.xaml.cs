@@ -156,6 +156,12 @@ public sealed partial class ForgottenHallPage : Page
         }
     }
 
-
+    private void TextBlock_Deepest_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
+    {
+        TextBlock_Deepest.SetValue(Grid.ColumnSpanProperty, 2);
+        TextBlock_Battles.SetValue(Grid.RowProperty, 1);
+        TextBlock_Battles.SetValue(Grid.ColumnProperty, 1);
+        TextBlock_Battles.SetValue(Grid.ColumnSpanProperty, 2);
+    }
 
 }

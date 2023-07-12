@@ -68,7 +68,7 @@
 
         <ListView Name="ListView_AbyssList"
                   Grid.Row="1"
-                  Padding="12,0,0,0"
+                  Padding="12,0,12,0"
                   ItemsSource="{x:Bind AbyssList}"
                   SelectionChanged="ListView_AbyssList_SelectionChanged"
                   SelectionMode="Single">
@@ -88,7 +88,7 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Bind StartTime.LocalDateTime.ToShortDateString()}" />
+                        <TextBlock Text="{x:Bind StartTime.LocalDateTime.ToString('yyyy-MM-dd', x:Null)}" />
                         <Image Grid.Row="1"
                                Width="20"
                                Height="20"
@@ -114,9 +114,9 @@
                     <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
                         <Run Text="{x:Bind lang:Lang.ForgottenHallPage_Period}" />
                         <Run Text="" />
-                        <Run Text="{x:Bind CurrentAbyss.StartTime.LocalDateTime.ToShortDateString()}" />
+                        <Run Text="{x:Bind CurrentAbyss.StartTime.LocalDateTime.ToString('yyyy/MM/dd', x:Null)}" />
                         <Run Text=" - " />
-                        <Run Text="{x:Bind CurrentAbyss.EndTime.LocalDateTime.ToShortDateString()}" />
+                        <Run Text="{x:Bind CurrentAbyss.EndTime.LocalDateTime.ToString('yyyy/MM/dd', x:Null)}" />
                     </TextBlock>
                 </Grid>
                 <!--  出战统计  -->

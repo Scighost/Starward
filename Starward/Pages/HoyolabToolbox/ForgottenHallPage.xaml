@@ -70,7 +70,7 @@
 
         <ListView Name="ListView_ForgottenHall"
                   Grid.Row="1"
-                  Padding="12,0,0,0"
+                  Padding="12,0,12,0"
                   ItemsSource="{x:Bind ForgottenHallList}"
                   SelectionChanged="ListView_ForgottenHall_SelectionChanged"
                   SelectionMode="Single"
@@ -91,7 +91,7 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock Text="{x:Bind BeginTime.ToShortDateString()}" />
+                        <TextBlock Text="{x:Bind BeginTime.ToString('yyyy-MM-dd', x:Null)}" />
                         <Image Grid.Row="1"
                                Width="20"
                                Height="20"
@@ -118,9 +118,9 @@
                     <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
                         <Run Text="{x:Bind lang:Lang.ForgottenHallPage_Period}" />
                         <Run Text="" />
-                        <Run Text="{x:Bind CurrentForgottenHall.BeginTime.ToShortDateString()}" />
+                        <Run Text="{x:Bind CurrentForgottenHall.BeginTime.ToString('yyyy/MM/dd', x:Null)}" />
                         <Run Text=" - " />
-                        <Run Text="{x:Bind CurrentForgottenHall.EndTime.ToShortDateString()}" />
+                        <Run Text="{x:Bind CurrentForgottenHall.EndTime.ToString('yyyy/MM/dd', x:Null)}" />
                     </TextBlock>
                 </Grid>
 
@@ -133,11 +133,12 @@
                       Translation="0,0,16">
                     <Grid.RowDefinitions>
                         <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <!--  Total Star  -->
                     <StackPanel Grid.RowSpan="2"
@@ -153,20 +154,22 @@
                                    Text="{x:Bind CurrentForgottenHall.StarNum}" />
                     </StackPanel>
                     <!--  最深抵达  -->
-                    <TextBlock Grid.Column="1"
+                    <TextBlock Name="TextBlock_Deepest"
+                               Grid.Column="1"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
+                               IsTextTrimmedChanged="TextBlock_Deepest_IsTextTrimmedChanged"
                                TextTrimming="CharacterEllipsis">
-                        <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_DeepestDescent}" />
+                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.SpiralAbyssPage_DeepestDescent}" />
                         <Run Text="" />
                         <Run Text="{x:Bind CurrentForgottenHall.MaxFloor}" />
                     </TextBlock>
                     <!--  战斗次数  -->
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="1"
+                    <TextBlock Name="TextBlock_Battles"
+                               Grid.Column="2"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center">
-                        <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_BattlesFought}" />
+                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.SpiralAbyssPage_BattlesFought}" />
                         <Run Text="" />
                         <Run Text="{x:Bind CurrentForgottenHall.BattleNum}" />
                     </TextBlock>
