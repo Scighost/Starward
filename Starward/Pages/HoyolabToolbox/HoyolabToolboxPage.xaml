@@ -99,12 +99,16 @@
                             Visibility="{x:Bind CurrentRole, Converter={StaticResource ObjectToVisibilityReversedConverter}}">
                         <Button.Flyout>
                             <MenuFlyout x:Name="Flyout_LoginMenu_1" Placement="BottomEdgeAlignedLeft">
-                                <MenuFlyoutItem Command="{x:Bind WebLoginCommand}"
-                                                Icon="Globe"
-                                                Text="{x:Bind lang:Lang.HoyolabToolboxPage_WebLogin}" />
-                                <MenuFlyoutItem Command="{x:Bind InputCookieCommand}"
-                                                Icon="Edit"
-                                                Text="{x:Bind lang:Lang.HoyolabToolboxPage_InputCookie}" />
+                                <MenuFlyoutItem Command="{x:Bind WebLoginCommand}" Text="{x:Bind lang:Lang.HoyolabToolboxPage_WebLogin}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE774;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{x:Bind InputCookieCommand}" Text="{x:Bind lang:Lang.HoyolabToolboxPage_InputCookie}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE70F;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
@@ -172,12 +176,16 @@
                                         </StackPanel>
                                         <Button.Flyout>
                                             <MenuFlyout x:Name="Flyout_LoginMenu_2" Placement="RightEdgeAlignedTop">
-                                                <MenuFlyoutItem Command="{x:Bind WebLoginCommand}"
-                                                                Icon="Globe"
-                                                                Text="{x:Bind lang:Lang.HoyolabToolboxPage_WebLogin}" />
-                                                <MenuFlyoutItem Command="{x:Bind InputCookieCommand}"
-                                                                Icon="Edit"
-                                                                Text="{x:Bind lang:Lang.HoyolabToolboxPage_InputCookie}" />
+                                                <MenuFlyoutItem Command="{x:Bind WebLoginCommand}" Text="{x:Bind lang:Lang.HoyolabToolboxPage_WebLogin}">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE774;" />
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
+                                                <MenuFlyoutItem Command="{x:Bind InputCookieCommand}" Text="{x:Bind lang:Lang.HoyolabToolboxPage_InputCookie}">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE70F;" />
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
                                             </MenuFlyout>
                                         </Button.Flyout>
                                     </Button>
@@ -219,14 +227,20 @@
                                                             <MenuFlyout Placement="RightEdgeAlignedTop">
                                                                 <MenuFlyoutItem Name="MenuFlyoutItem_CopyCookie"
                                                                                 Click="MenuFlyoutItem_CopyCookie_Click"
-                                                                                Icon="Copy"
                                                                                 Tag="{x:Bind}"
-                                                                                Text="{x:Bind lang:Lang.HoyolabToolboxPage_CopyCookie}" />
+                                                                                Text="{x:Bind lang:Lang.HoyolabToolboxPage_CopyCookie}">
+                                                                    <MenuFlyoutItem.Icon>
+                                                                        <FontIcon Glyph="&#xE8C8;" />
+                                                                    </MenuFlyoutItem.Icon>
+                                                                </MenuFlyoutItem>
                                                                 <MenuFlyoutItem Name="MenuFlyoutItem_DeleteGameRole"
                                                                                 Click="MenuFlyoutItem_DeleteGameRole_Click"
-                                                                                Icon="Delete"
                                                                                 Tag="{x:Bind}"
-                                                                                Text="{x:Bind lang:Lang.HoyolabToolboxPage_DeleteGameRole}" />
+                                                                                Text="{x:Bind lang:Lang.HoyolabToolboxPage_DeleteGameRole}">
+                                                                    <MenuFlyoutItem.Icon>
+                                                                        <FontIcon Glyph="&#xE74D;" />
+                                                                    </MenuFlyoutItem.Icon>
+                                                                </MenuFlyoutItem>
                                                             </MenuFlyout>
                                                         </Button.Flyout>
                                                     </Button>

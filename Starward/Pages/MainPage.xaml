@@ -81,9 +81,12 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem Name="NavigationViewItem_Launcher"
                                     Content="{x:Bind lang:Lang.MainPage_Launcer}"
-                                    Icon="Home"
                                     IsSelected="True"
-                                    Tag="LauncherPage" />
+                                    Tag="LauncherPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE80F;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem Name="NavigationViewItem_GameSetting"
                                     Content="{x:Bind lang:Lang.LauncherPage_GameSetting}"
                                     Tag="GameSettingPage">
@@ -113,8 +116,11 @@
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem Name="NavigationViewItem_Setting"
                                     Content="{x:Bind lang:Lang.SettingPage_AppSettings}"
-                                    Icon="Setting"
-                                    Tag="SettingPage" />
+                                    Tag="SettingPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE713;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.FooterMenuItems>
 
             <Frame Name="MainPage_Frame" Margin="0,46,0,0" />
