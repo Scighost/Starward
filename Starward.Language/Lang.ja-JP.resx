@@ -118,173 +118,173 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Core_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>無法解析祈願記錄的URL</value>
+    <value>祈願の記録のURLを解析できません。</value>
   </data>
   <data name="Core_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>無法解析躍遷記錄的URL</value>
+    <value>跳躍の記録のURLを解析できません。</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>群星躍遷</value>
+    <value>群星跳躍</value>
   </data>
   <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>始發躍遷</value>
+    <value>始発跳躍</value>
   </data>
   <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>角色活動躍遷</value>
+    <value>イベント跳躍 (キャラクター)</value>
   </data>
   <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>光錐活動躍遷</value>
+    <value>イベント跳躍 (光円錐)</value>
   </data>
   <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>新手祈願</value>
+    <value>初心者応援祈願</value>
   </data>
   <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>常駐祈願</value>
+    <value>恒常祈願</value>
   </data>
   <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>角色活動祈願</value>
+    <value>イベント祈願 (キャラクター)</value>
   </data>
   <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>武器活動祈願</value>
+    <value>イベント祈願 (武器)</value>
   </data>
   <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>武器活動祈願-2</value>
+    <value>イベント祈願 (キャラクター 2)</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
-    <value>活動</value>
+    <value>イベント</value>
   </data>
   <data name="PostType_Announcement" xml:space="preserve">
-    <value>公告</value>
+    <value>お知らせ</value>
   </data>
   <data name="PostType_Information" xml:space="preserve">
-    <value>資訊</value>
+    <value>インフォメーション</value>
   </data>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
-    <value>資源包大小：</value>
+    <value>パッケージのサイズ:</value>
   </data>
   <data name="DownloadGameDialog_Downloaded" xml:space="preserve">
-    <value>已下載：</value>
+    <value>ダウンロード済み:</value>
   </data>
   <data name="DownloadGameDialog_FreeSpace" xml:space="preserve">
-    <value>剩餘空間：</value>
+    <value>空き容量:</value>
   </data>
   <data name="DownloadGameDialog_RequiredSpaceForUnzipping" xml:space="preserve">
-    <value>佔用空間：</value>
+    <value>必要な容量:</value>
   </data>
   <data name="DownloadGameDialog_RepairMode" xml:space="preserve">
-    <value>修復模式</value>
+    <value>修復モード:</value>
   </data>
   <data name="DownloadGameDialog_VoiceLanguage" xml:space="preserve">
-    <value>語音包：</value>
+    <value>ボイスの言語:</value>
   </data>
   <data name="Language_Chinese" xml:space="preserve">
-    <value>華語</value>
+    <value>中国語</value>
   </data>
   <data name="Language_English" xml:space="preserve">
     <value>英語</value>
   </data>
   <data name="Language_Japanese" xml:space="preserve">
-    <value>日語</value>
+    <value>日本語</value>
   </data>
   <data name="Language_Korean" xml:space="preserve">
-    <value>韓語</value>
+    <value>韓国語</value>
   </data>
   <data name="DownloadGameDialog_DownloadGameFilesDirectly" xml:space="preserve">
-    <value>直接下載遊戲檔案</value>
+    <value>ゲームファイルを直接ダウンロード</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>此功能處於測試階段。如果出現遊戲檔案損毀，請使用官方啟動器修復。</value>
+    <value>この機能はテスト段階です。もしもゲームファイルの破損が起きた場合は、公式のランチャーを使用して修復を行なってください。</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
-    <value>剩餘空間可能不足</value>
+    <value>使用可能な空き容量が不足している可能性があります</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
-    <value>保底</value>
+    <value>最低限度</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
     <value>平均</value>
   </data>
   <data name="GachaStatsCard_Stats" xml:space="preserve">
-    <value>統計</value>
+    <value>状態</value>
   </data>
   <data name="SelectDirectoryPage_NiceToMeetYou" xml:space="preserve">
-    <value>很高興遇見你~</value>
+    <value>はじめまして〜</value>
   </data>
   <data name="SelectDirectoryPage_SelectFolder" xml:space="preserve">
-    <value>選擇資料夾</value>
+    <value>フォルダーを選択</value>
   </data>
   <data name="SelectDirectoryPage_SelectLanguage" xml:space="preserve">
-    <value>選擇語言</value>
+    <value>言語を選択</value>
   </data>
   <data name="SelectDirectoryPage_SelectGame" xml:space="preserve">
-    <value>選擇遊戲</value>
+    <value>ゲームを選択</value>
   </data>
   <data name="SelectDirectoryPage_RecommendFolder" xml:space="preserve">
-    <value>應用程式資料預設將會儲存在以下資料夾內：</value>
+    <value>アプリのデータはデフォルトで以下のフォルダーに保存されます:</value>
   </data>
   <data name="SelectDirectoryPage_WouldYouLikeToChooseThisFolder" xml:space="preserve">
-    <value>是否選擇此資料夾？</value>
+    <value>このフォルダーを選択しますか?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>此資料夾將在程式更新後被自動刪除</value>
+    <value>このフォルダーはソフトウェアのアップデート後に自動的に削除されます。</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
-    <value>沒有寫入權限</value>
+    <value>書き込み権限がありません</value>
   </data>
   <data name="SelectDirectoryPage_OK" xml:space="preserve">
-    <value>好的</value>
+    <value>OK</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>自己選</value>
+    <value>別の物を選択</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
-    <value>不想選</value>
+    <value>キャンセル</value>
   </data>
   <data name="SelectDirectoryPage_FirstUse" xml:space="preserve">
-    <value>這似乎是您第一次使用 {Starward}。</value>
+    <value>{Starward}を使うのは初めてのようですね。</value>
   </data>
   <data name="SelectGamePage_GoToLauncher" xml:space="preserve">
-    <value>進入啟動器</value>
+    <value>ランチャーに移動</value>
   </data>
   <data name="SelectGamePage_SelectFolder" xml:space="preserve">
-    <value>選擇資料夾</value>
+    <value>フォルダーを選択</value>
   </data>
   <data name="SelectGamePage_SomeGame" xml:space="preserve">
-    <value>{Starward} 支援部分 {miHoYo/HoYoverse} 遊戲，請在下方選擇您的目標，進入啟動器後也可隨時變更。</value>
+    <value>{Starward}は、いくつかの「miHoYo/HoYoverse」のゲームをサポートしています。</value>
   </data>
   <data name="SelectGamePage_TheLastStep" xml:space="preserve">
-    <value>最後一步了~</value>
+    <value>最後のステップ～</value>
   </data>
   <data name="DownloadGamePage_CloseSoftware" xml:space="preserve">
-    <value>關閉程式</value>
+    <value>ソフトウェアを閉じる</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
-    <value>下次啟動後可恢復下載；
-解壓縮過程中關閉本應用程式會造成遊戲檔案損毀。</value>
+    <value>ダウンロードは次回の起動後に再開できます。
+解凍中にプログラムを終了するとゲームファイルが破損します。</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
-    <value>關閉</value>
+    <value>閉じる</value>
   </data>
   <data name="Common_Cancel" xml:space="preserve">
-    <value>取消</value>
+    <value>キャンセル</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>程式即將退出</value>
+    <value>ソフトウェアは間もなく終了します</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
-    <value>重複啟動</value>
+    <value>リピートを開始</value>
   </data>
   <data name="Common_Confirm" xml:space="preserve">
-    <value>確定</value>
+    <value>確認</value>
   </data>
   <data name="DownloadGamePage_ParameterError" xml:space="preserve">
-    <value>參數錯誤</value>
+    <value>パラメーターエラー</value>
   </data>
   <data name="DownloadGamePage_NoPermission" xml:space="preserve">
-    <value>權限不足</value>
+    <value>権限がありません</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>請使用管理員身份啟動</value>
+    <value>管理者として実行してください</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
     <value>開始</value>
@@ -293,173 +293,173 @@
     <value>準備中</value>
   </data>
   <data name="DownloadGamePage_Downloading" xml:space="preserve">
-    <value>下載中</value>
+    <value>ダウンロード中</value>
   </data>
   <data name="DownloadGamePage_Verifying" xml:space="preserve">
-    <value>驗證中</value>
+    <value>検証中</value>
   </data>
   <data name="DownloadGamePage_Decompressing" xml:space="preserve">
-    <value>解壓中</value>
+    <value>解凍中</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>出錯了</value>
+    <value>何らかのエラーが発生しました</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
-    <value>重試</value>
+    <value>再試行</value>
   </data>
   <data name="DownloadGamePage_OpenLog" xml:space="preserve">
-    <value>開啟日誌</value>
+    <value>ログを開く</value>
   </data>
   <data name="DownloadGamePage_NetworkError" xml:space="preserve">
-    <value>網路錯誤</value>
+    <value>ネットワークエラー</value>
   </data>
   <data name="DownloadGamePage_UnknownError" xml:space="preserve">
-    <value>未知錯誤</value>
+    <value>不明なエラー</value>
   </data>
   <data name="DownloadGamePage_Finished" xml:space="preserve">
-    <value>已完成</value>
+    <value>完了</value>
   </data>
   <data name="DownloadGamePage_Pause" xml:space="preserve">
-    <value>暫停</value>
+    <value>一時停止</value>
   </data>
   <data name="DownloadGamePage_Skip" xml:space="preserve">
-    <value>跳過</value>
+    <value>スキップ</value>
   </data>
   <data name="DownloadGamePage_VerifyFailed" xml:space="preserve">
-    <value>驗證失敗</value>
+    <value>検証に失敗しました</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>以下檔案驗證失敗：</value>
+    <value>次のファイルの検証に失敗しました:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
-    <value>重新下載</value>
+    <value>再ダウンロード</value>
   </data>
   <data name="DownloadGamePage_Ignore" xml:space="preserve">
-    <value>忽略</value>
+    <value>無視</value>
   </data>
   <data name="DownloadGamePage_Stop" xml:space="preserve">
     <value>停止</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>解壓未驗證的檔案可能會導致遊戲檔案損壞</value>
+    <value>未チェックのファイルを解凍するとゲームファイルが破損する可能性があります。</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
-    <value>跳過驗證</value>
+    <value>検証をスキップする</value>
   </data>
   <data name="DownloadGamePage_DownloadPaused" xml:space="preserve">
-    <value>下載已暫停</value>
+    <value>ダウンロードを一時停止</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
-    <value>沒有抽卡記錄</value>
+    <value>ガチャの記録がありません</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
-    <value>更新記錄</value>
+    <value>記録を更新</value>
   </data>
   <data name="GachaLogPage_UpdateSavedURL" xml:space="preserve">
-    <value>更新 (保存的 URL)</value>
+    <value>更新 (保存済みのURL)</value>
   </data>
   <data name="GachaLogPage_UpdateAll" xml:space="preserve">
-    <value>更新 (全部)</value>
+    <value>更新 (すべて)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
-    <value>輸入URL</value>
+    <value>URLを入力</value>
   </data>
   <data name="Common_Setting" xml:space="preserve">
     <value>設定</value>
   </data>
   <data name="GachaLogPage_OtherSettings" xml:space="preserve">
-    <value>其他設定</value>
+    <value>その他の設定</value>
   </data>
   <data name="GachaLogPage_CopyURL" xml:space="preserve">
-    <value>複製 URL</value>
+    <value>URLをコピー</value>
   </data>
   <data name="GachaLogPage_AuthkeyTimeoutAlwaysOccurs" xml:space="preserve">
-    <value>總是出現 Authkey Timeout？</value>
+    <value>認証キーのタイムアウトが常に発生しますか?</value>
   </data>
   <data name="GachaLogPage_ClearURLCacheFiles" xml:space="preserve">
-    <value>清除 URL 快取檔案</value>
+    <value>URLキャッシュファイルをクリア</value>
   </data>
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
-    <value>導出為</value>
+    <value>エクスポート</value>
   </data>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>從 JSON 匯入</value>
+    <value>JSONからインポート</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
-    <value>顯示新手卡池</value>
+    <value>初心者向けガチャの種類を表示</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>刪除紀錄</value>
+    <value>記録を削除</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
-    <value>語言</value>
+    <value>言語</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>無法找到 Uid {0} 的已保存的抽卡記錄。</value>
+    <value>UID {0} の保存URLが見つかりません。</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
-    <value>遊戲未安裝</value>
+    <value>ゲームがインストールされていません</value>
   </data>
   <data name="GachaLogPage_CannotFindURL" xml:space="preserve">
-    <value>無法找到 URL，請在遊戲中打開抽卡記錄頁面。</value>
+    <value>URLが見つかりません。ゲーム内のガチャ記録の履歴ページを開いてください。</value>
   </data>
   <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
-    <value>操作已取消</value>
+    <value>操作をキャンセルしました</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
-    <value>請在遊戲中打開抽卡記錄頁面後再重試。</value>
+    <value>ゲーム内のガチャ記録のページを開き、再度お試しください。</value>
   </data>
   <data name="Common_Warning" xml:space="preserve">
     <value>警告</value>
   </data>
   <data name="Common_Delete" xml:space="preserve">
-    <value>刪除</value>
+    <value>削除</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>已刪除 Uid {1} 的抽卡記錄 {0} 條。</value>
+    <value>UID {1} の{0}のガチャの記録を削除しました。</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>即將刪除 Uid {0} 的所有抽卡記錄，此操作不可恢復</value>
+    <value>UID {0} のガチャ記録が削除され、この操作は元に戻せません。</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
-    <value>祈願記錄</value>
+    <value>祈願の記録</value>
   </data>
   <data name="GachaLogService_WarpRecords" xml:space="preserve">
-    <value>躍遷記錄</value>
+    <value>跳躍の記録</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>獲取 UID 中</value>
+    <value>UIDを取得</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>該帳戶最近 6 個月沒有抽卡記錄</value>
+    <value>このアカウントは過去6ヶ月間のガチャの記録がありません</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>獲取 {0} 條記錄，新增 {1} 條記錄</value>
+    <value>{0}の記録を獲得し、{1}件の記録を追加しました。</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>成功導入祈願記錄 {0} 條</value>
+    <value>{0} の祈願の記録を正常にインポートしました。</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>成功導入躍遷記錄 {0} 條</value>
+    <value>{0} の跳躍の記録を正常にインポートしました。</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
-    <value>已是最新版本</value>
+    <value>最新バージョンです</value>
   </data>
   <data name="DownloadGameService_TooManyRetries" xml:space="preserve">
-    <value>重試次數過多</value>
+    <value>リトライの回数が多すぎます</value>
   </data>
   <data name="UpdateService_CannotUpdateAutomatically" xml:space="preserve">
-    <value>無法自動更新</value>
+    <value>自動的にアップデートできません</value>
   </data>
   <data name="GameSettingPage_Custom" xml:space="preserve">
-    <value>自訂</value>
+    <value>カスタム</value>
   </data>
   <data name="GameSettingPage_VeryLow" xml:space="preserve">
-    <value>非常低</value>
+    <value>最低</value>
   </data>
   <data name="GameSettingPage_Low" xml:space="preserve">
     <value>低</value>
@@ -471,525 +471,524 @@
     <value>高</value>
   </data>
   <data name="GameSettingPage_VeryHigh" xml:space="preserve">
-    <value>非常高</value>
+    <value>最高</value>
   </data>
   <data name="GameSettingPage_Off" xml:space="preserve">
-    <value>關</value>
+    <value>オフ</value>
   </data>
   <data name="GameSettingPage_StartArguments" xml:space="preserve">
-    <value>啟動參數</value>
+    <value>ゲーム開始時の引数</value>
   </data>
   <data name="GameSettingPage_Resolution" xml:space="preserve">
-    <value>分辨率</value>
+    <value>解像度</value>
   </data>
   <data name="GameSettingPage_FullScreen" xml:space="preserve">
-    <value>全螢幕</value>
+    <value>フルスクリーン</value>
   </data>
   <data name="GameSettingPage_CustomResolution" xml:space="preserve">
-    <value>自訂分辨率</value>
+    <value>解像度のカスタマイズ</value>
   </data>
   <data name="GameSettingPage_VoiceLanguage" xml:space="preserve">
-    <value>語音</value>
+    <value>ボイスの言語</value>
   </data>
   <data name="GameSettingPage_VoiceLanguageDescription" xml:space="preserve">
-    <value>首次啟動遊戲前設定此值可以避免下載部分語音資源</value>
+    <value>音声リソースのダウンロードを避ける為に、初めてゲームを開始する前にこの値を設定してください</value>
   </data>
   <data name="GameSettingPage_GraphicsSetting" xml:space="preserve">
-    <value>圖形設定</value>
+    <value>グラフィックの設定</value>
   </data>
   <data name="GameSettingPage_GraphicsQualityPreset" xml:space="preserve">
-    <value>圖像品質預設</value>
+    <value>グラフィック品質のプリセット</value>
   </data>
   <data name="GameSettingPage_RenderScale" xml:space="preserve">
-    <value>渲染精度</value>
+    <value>レンダラーのスケール</value>
   </data>
   <data name="GameSettingPage_FPS" xml:space="preserve">
     <value>FPS</value>
   </data>
   <data name="GameSettingPage_VSync" xml:space="preserve">
-    <value>垂直同步</value>
+    <value>V-Sync</value>
   </data>
   <data name="GameSettingPage_AntiAliasing" xml:space="preserve">
-    <value>抗鋸齒</value>
+    <value>アンチエイリアス</value>
   </data>
   <data name="GameSettingPage_ShadowQuality" xml:space="preserve">
-    <value>陰影品質</value>
+    <value>シャドウの品質</value>
   </data>
   <data name="GameSettingPage_ReflectionQuality" xml:space="preserve">
-    <value>反射品質</value>
+    <value>リフレクションの品質</value>
   </data>
   <data name="GameSettingPage_CharacterQuality" xml:space="preserve">
-    <value>角色品質</value>
+    <value>キャラクターの品質</value>
   </data>
   <data name="GameSettingPage_EnvironmentDetail" xml:space="preserve">
-    <value>場景細節</value>
+    <value>環境の詳細</value>
   </data>
   <data name="GameSettingPage_BloomEffect" xml:space="preserve">
-    <value>泛光效果</value>
+    <value>Bloom効果</value>
   </data>
   <data name="GameSettingPage_LightQuality" xml:space="preserve">
-    <value>光照品質</value>
+    <value>明るさの品質</value>
   </data>
   <data name="Common_Apply" xml:space="preserve">
-    <value>套用</value>
+    <value>適用</value>
   </data>
   <data name="GameSettingPage_GameNotInstalled" xml:space="preserve">
-    <value>遊戲未安裝</value>
+    <value>ゲームがインストールされていません</value>
   </data>
   <data name="GameSettingPage_FPSWarning" xml:space="preserve">
-    <value>幀率設為 120 後將導致遊戲內圖形設定無法使用</value>
+    <value>FPSを120に設定するとゲーム内のグラフィック設定が使用できなくなります</value>
   </data>
   <data name="GameSettingPage_SettingNotEffect" xml:space="preserve">
-    <value>遊戲運行時更改的設定無法生效</value>
+    <value>ゲームの実行中は適用された設定が反映されません</value>
   </data>
   <data name="GameSettingPage_ResolutionMustBeGreaterThan0" xml:space="preserve">
-    <value>分辨率必須大於 0</value>
+    <value>解像度は0より大きくなければなりません</value>
   </data>
   <data name="GameSettingPage_StartArgumentDesc" xml:space="preserve">
-    <value>關於啟動參數的資訊，請參閲 {Unity Standalone Player Command Line Arguments}</value>
+    <value>開始のパラメータについては、{Unity Standalone Player Command Line Arguments}を参照してください。</value>
   </data>
   <data name="GameSettingPage_On" xml:space="preserve">
-    <value>開</value>
+    <value>オン</value>
   </data>
   <data name="LauncherPage_InstallGame" xml:space="preserve">
-    <value>安裝遊戲</value>
+    <value>ゲームをインストール</value>
   </data>
   <data name="LauncherPage_UpdateGame" xml:space="preserve">
-    <value>更新遊戲</value>
+    <value>ゲームをアップデート</value>
   </data>
   <data name="LauncherPage_PlayTime" xml:space="preserve">
-    <value>遊戲時間</value>
+    <value>プレイ時間</value>
   </data>
   <data name="Common_Refresh" xml:space="preserve">
-    <value>重新整理</value>
+    <value>更新</value>
   </data>
   <data name="LauncherPage_ThisWeek" xml:space="preserve">
-    <value>本週</value>
+    <value>今週</value>
   </data>
   <data name="LauncherPage_ThisMonth" xml:space="preserve">
-    <value>本月</value>
+    <value>今月</value>
   </data>
   <data name="LauncherPage_LastTime" xml:space="preserve">
-    <value>上次</value>
+    <value>最終時刻</value>
   </data>
   <data name="LauncherPage_PreInstall" xml:space="preserve">
-    <value>預下載</value>
+    <value>事前インストール</value>
   </data>
   <data name="LauncherPage_CurrentAccount" xml:space="preserve">
-    <value>當前登入的帳戶</value>
+    <value>現在のログインアカウント</value>
   </data>
   <data name="LauncherPage_SwitchAccount" xml:space="preserve">
-    <value>切換帳戶</value>
+    <value>アカウントを切り替え</value>
   </data>
   <data name="LauncherPage_AccountInformation" xml:space="preserve">
-    <value>帳戶資訊</value>
+    <value>アカウント情報</value>
   </data>
   <data name="LauncherPage_Nickname" xml:space="preserve">
-    <value>暱稱</value>
+    <value>ニックネーム</value>
   </data>
   <data name="Common_Save" xml:space="preserve">
-    <value>儲存</value>
+    <value>保存</value>
   </data>
   <data name="LauncherPage_GameSetting" xml:space="preserve">
-    <value>遊戲設定</value>
+    <value>ゲームの設定</value>
   </data>
   <data name="LauncherPage_InstallFolder" xml:space="preserve">
-    <value>安裝位置</value>
+    <value>インストール先のフォルダー</value>
   </data>
   <data name="LauncherPage_Locate" xml:space="preserve">
-    <value>定位</value>
+    <value>参照</value>
   </data>
   <data name="LauncherPage_RepairGame" xml:space="preserve">
-    <value>一鍵修復</value>
+    <value>ゲームを修復する</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>自訂啟動程式</value>
+    <value>カスタムをした状態でゲームを開始</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
-    <value>選擇</value>
+    <value>選択</value>
   </data>
   <data name="LauncherPage_ShowGameAnnouncement" xml:space="preserve">
-    <value>顯示遊戲公告</value>
+    <value>ゲームのお知らせを表示</value>
   </data>
   <data name="LauncherPage_IgnoreRunningGameProcess" xml:space="preserve">
-    <value>忽略正在運行的遊戲</value>
+    <value>実行中のゲームプロセスを無視</value>
   </data>
   <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
-    <value>背景設定</value>
+    <value>背景の設定</value>
   </data>
   <data name="SettingPage_PauseVideoWhenSwitchingToOtherPages" xml:space="preserve">
-    <value>切換到其他頁面時暫停影片</value>
+    <value>他のページに切り替えるときに動画を一時停止する</value>
   </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
-    <value>所有遊戲使用相同的背景</value>
+    <value>すべてのゲームリージョンで同じ背景を使用する</value>
   </data>
   <data name="SettingPage_BgSizeTip" xml:space="preserve">
-    <value>請選擇像素大小與應用窗口相匹配的圖片，過大的圖片會降低性能。</value>
+    <value>ピクセルサイズがアプリのウィンドウに合うサイズの画像を選択してください。サイズを超える画像はパフォーマンスが低下します。</value>
   </data>
   <data name="LauncherPage_StartGame" xml:space="preserve">
-    <value>啟動遊戲</value>
+    <value>ゲーム開始</value>
   </data>
   <data name="LauncherPage_GameIsRunning" xml:space="preserve">
-    <value>遊戲正在運行</value>
+    <value>ゲームは実行中です</value>
   </data>
   <data name="Common_Start" xml:space="preserve">
     <value>開始</value>
   </data>
   <data name="LauncherPage_SelectInstallFolder" xml:space="preserve">
-    <value>選擇安裝資料夾</value>
+    <value>インストール先のフォルダーを選択</value>
   </data>
   <data name="Common_Continue" xml:space="preserve">
-    <value>繼續</value>
+    <value>続行</value>
   </data>
   <data name="LauncherPage_Reselect" xml:space="preserve">
-    <value>重新選擇</value>
+    <value>再選択をする</value>
   </data>
   <data name="LauncherPage_TheFollowingFolderContainsUnfinishedDownloadTasks" xml:space="preserve">
-    <value>以下資料夾中有尚未完成的下載任務:</value>
+    <value>次のフォルダーは未完成のダウンロードタスクが含まれています:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>請選擇一個空資料夾用於安裝遊戲，或者定位已安裝遊戲的資料夾。</value>
+    <value>ゲームをインストールするには空のフォルダーを選択するか、またはゲームが既にインストールされているフォルダーを選択してください。</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
-    <value>如果不是最新版本請修改遊戲安裝目錄中的config.ini文件。</value>
+    <value>最新バージョンではない場合は、ゲームのインストールディレクトリにある「config.ini」ファイルを変更してください。</value>
   </data>
   <data name="LauncherPage_StartVerification" xml:space="preserve">
-    <value>開始驗證</value>
+    <value>検証を開始</value>
   </data>
   <data name="LauncherPage_WouldYouLikeToVerifyTheFiles" xml:space="preserve">
-    <value>預下載已經完成，是否校驗文件？</value>
+    <value>事前インストールが完了しました。ファイルを検証しますか?</value>
   </data>
   <data name="MainPage_HowToSwitchGameRegion" xml:space="preserve">
-    <value>如何切換遊戲服務器？</value>
+    <value>ゲームのリージョンを切り替えるには?</value>
   </data>
   <data name="MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft" xml:space="preserve">
-    <value>在左側的遊戲圖標上點擊滑鼠右鍵</value>
+    <value>ゲームアイコンをマウスの右クリックでメニューが表示されます。</value>
   </data>
   <data name="MainPage_Launcer" xml:space="preserve">
-    <value>啟動器</value>
+    <value>ランチャー</value>
   </data>
   <data name="MainPage_GameScreenshot" xml:space="preserve">
-    <value>遊戲截圖</value>
+    <value>スクリーンショット</value>
   </data>
   <data name="ScreenshotPage_GameScreenshot" xml:space="preserve">
-    <value>遊戲截圖</value>
+    <value>スクリーンショット</value>
   </data>
   <data name="ScreenshotPage_OpenFolder" xml:space="preserve">
-    <value>開啟資料夾</value>
+    <value>フォルダーを開く</value>
   </data>
   <data name="SettingPage_Log" xml:space="preserve">
-    <value>日誌</value>
+    <value>ログ</value>
   </data>
   <data name="SettingPage_ShowConsole" xml:space="preserve">
-    <value>顯示控制台</value>
+    <value>コンソールを表示</value>
   </data>
   <data name="SettingPage_AppSettings" xml:space="preserve">
-    <value>設定</value>
+    <value>アプリの設定</value>
   </data>
   <data name="SettingPage_EffectiveAtNextStartup" xml:space="preserve">
-    <value>下次啟動時生效</value>
+    <value>次回の起動時に有効</value>
   </data>
   <data name="SettingPage_OpenLogFolder" xml:space="preserve">
-    <value>開啟日誌資料夾</value>
+    <value>ログフォルダーを開く</value>
   </data>
   <data name="SettingPage_WindowsSize" xml:space="preserve">
-    <value>窗口大小</value>
+    <value>ウィンドウのサイズ</value>
   </data>
   <data name="SettingPage_Normal" xml:space="preserve">
     <value>標準</value>
     <comment>Window Size Normal</comment>
   </data>
   <data name="SettingPage_Small" xml:space="preserve">
-    <value>較小</value>
+    <value>小</value>
     <comment>Window Size Small</comment>
   </data>
   <data name="SettingPage_TestNetwork" xml:space="preserve">
-    <value>網路測試</value>
+    <value>ネットワークのテスト</value>
   </data>
   <data name="SettingPage_AppBackground" xml:space="preserve">
-    <value>程式背景</value>
+    <value>アプリの背景</value>
   </data>
   <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
-    <value>自訂背景 (支援影片)</value>
+    <value>カスタム背景 (動画をサポートしています)</value>
   </data>
   <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
-    <value>動態主題色</value>
+    <value>ダイナミックテーマカラー</value>
   </data>
   <data name="SettingPage_CloudFlareConnectProperly" xml:space="preserve">
-    <value>程式將從 CloudFlare 下載所需資源，請確保網路連接正常。</value>
+    <value>アプリはCloudFlareから必要なリソースをダウンロードするため、正しく接続できることを確認してください。</value>
   </data>
   <data name="SettingPage_CheckForUpdate" xml:space="preserve">
-    <value>檢查更新</value>
+    <value>アップデートを確認</value>
   </data>
   <data name="SettingPage_CurrentVersion" xml:space="preserve">
-    <value>目前版本：</value>
+    <value>現在のバージョン:</value>
   </data>
   <data name="SettingPage_JoinPreviewReleaseChannel" xml:space="preserve">
-    <value>加入預覽版更新通道</value>
+    <value>プレビューリリースチャンネルに参加</value>
   </data>
   <data name="SettingPage_FileManager" xml:space="preserve">
-    <value>檔案管理</value>
+    <value>ファイルの管理</value>
   </data>
   <data name="SettingPage_OpenDataFolder" xml:space="preserve">
-    <value>開啟數據資料夾</value>
+    <value>データフォルダーを開く</value>
   </data>
   <data name="SettingPage_ReselectDataFolder" xml:space="preserve">
-    <value>重新選擇數據資料夾</value>
+    <value>データフォルダーを再選択</value>
   </data>
   <data name="SettingPage_DeleteAllSettings" xml:space="preserve">
-    <value>恢復初始設定</value>
+    <value>すべての設定を削除</value>
   </data>
   <data name="SettingPage_ClearCachedFiles" xml:space="preserve">
-    <value>清除快取</value>
+    <value>キャッシュされたファイルをクリア</value>
   </data>
   <data name="SettingPage_About" xml:space="preserve">
-    <value>關於</value>
+    <value>バージョン情報</value>
   </data>
   <data name="SettingPage_ProjectHomepage" xml:space="preserve">
-    <value>項目主頁</value>
+    <value>ホームページ</value>
   </data>
   <data name="SettingPage_ReportIssue" xml:space="preserve">
-    <value>反饋問題</value>
+    <value>問題を報告</value>
   </data>
   <data name="SettingPage_ReleaseHistroy" xml:space="preserve">
-    <value>更新紀錄</value>
+    <value>リリース履歴</value>
   </data>
   <data name="SettingPage_ThisIsALogo" xml:space="preserve">
-    <value>國王的圖示</value>
+    <value>これはロゴです</value>
   </data>
   <data name="SettingPage_Update" xml:space="preserve">
-    <value>檢查更新</value>
+    <value>アップデート</value>
   </data>
   <data name="SettingPage_TestCDNAsync_NetworkError" xml:space="preserve">
-    <value>網路異常</value>
+    <value>ネットワークエラー</value>
   </data>
   <data name="SettingPage_TheCurrentLocationOfTheDataFolderIs" xml:space="preserve">
-    <value>當前數據資料夾的位置是：</value>
+    <value>データフォルダーの現在の場所:</value>
   </data>
   <data name="SettingPage_WouldLikeToReselectDataFolder" xml:space="preserve">
-    <value>想要重新選擇嗎？ (你需要在選擇前手動遷移資料)</value>
+    <value>再選択をしますか? (選択する前に手動でデータファイルを移行する必要があります)</value>
   </data>
   <data name="Common_Yes" xml:space="preserve">
-    <value>是的</value>
+    <value>はい</value>
   </data>
   <data name="SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically" xml:space="preserve">
-    <value>刪除完成後，將自動重啟</value>
+    <value>削除後にソフトウェアは自動的に再起動されます。</value>
   </data>
   <data name="UpdatePage_NewVersion" xml:space="preserve">
-    <value>新版本！</value>
+    <value>新しいバージョンです!</value>
   </data>
   <data name="UpdatePage_Links" xml:space="preserve">
-    <value>相關連結：</value>
+    <value>リンク:</value>
   </data>
   <data name="UpdatePage_BuiltTime" xml:space="preserve">
-    <value>編譯時間：</value>
+    <value>ビルド日時:</value>
   </data>
   <data name="UpdatePage_ReleaseChannel" xml:space="preserve">
-    <value>更新通道：</value>
+    <value>リリースチャンネル:</value>
   </data>
   <data name="UpdatePage_Architecture" xml:space="preserve">
-    <value>架構：</value>
+    <value>アーキテクチャ:</value>
   </data>
   <data name="UpdatePage_DownloadInstaller" xml:space="preserve">
-    <value>安裝版下載</value>
+    <value>インストーラーをダウンロード</value>
   </data>
   <data name="UpdatePage_DownloadPortable" xml:space="preserve">
-    <value>免安裝版下載</value>
+    <value>ポータブルをダウンロード</value>
   </data>
   <data name="UpdatePage_RemindLatter" xml:space="preserve">
-    <value>下次提醒我</value>
+    <value>後で通知</value>
   </data>
   <data name="UpdatePage_IgnoreThisVersion" xml:space="preserve">
-    <value>忽略此版本</value>
+    <value>このバージョンを無視</value>
   </data>
   <data name="UpdatePage_UpdateNow" xml:space="preserve">
-    <value>現在更新</value>
+    <value>今すぐアップデート</value>
   </data>
   <data name="UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage" xml:space="preserve">
-    <value>你需要手動下載新版本安裝包</value>
+    <value>新しいバージョンのパッケージを手動でダウンロードする必要があります</value>
   </data>
   <data name="UpdatePage_PreviewChannel" xml:space="preserve">
-    <value>預覽版</value>
+    <value>プレビューチャンネル</value>
   </data>
   <data name="UpdatePage_StableChannel" xml:space="preserve">
-    <value>穩定版</value>
+    <value>安定版のチャンネル</value>
   </data>
   <data name="UpdatePage_DevChannel" xml:space="preserve">
-    <value>開發版</value>
+    <value>Devチャンネル</value>
   </data>
   <data name="SettingPage_ThemeColorDesc" xml:space="preserve">
-    <value>根據背景圖片自動計算主題顏色，關閉後使用系統主題色。</value>
+    <value>背景画像に基づいてテーマカラーを自動的に計算し、デフォルトのシステムカラーとして使用します。</value>
   </data>
   <data name="UpdatePage_ReleasePage" xml:space="preserve">
-    <value>發布頁面</value>
+    <value>リリースページ</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>使用第三方插件代替啟動，啟用後無法記錄遊戲時間。</value>
+    <value>代わりにサードパーティーのプラグインを使用してゲームを開始をしてください。有効化するとゲームの時間を記録する事ができません。</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>指定抽卡記錄的語言，比如 zh-TW 。</value>
+    <value>en-USなど言語ごとのガチャの記録を指定します。</value>
     <comment>Replace en-US with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
-    <value>語言</value>
+    <value>言語</value>
   </data>
   <data name="SettingPage_FollowSystem" xml:space="preserve">
-    <value>跟隨系統</value>
+    <value>システムに従う</value>
   </data>
   <data name="SelectDirectoryPage_ToStart" xml:space="preserve">
-    <value>在開始之前，請選擇一個資料夾保存程式數據。</value>
+    <value>始めにアプリのデータを保存するフォルダーを選択してください。</value>
   </data>
   <data name="GachaLogService_GetGachaProgressText" xml:space="preserve">
-    <value>正在獲取 {0} 第 {1} 頁</value>
+    <value>{1} ページで {0} を取得</value>
     <comment>{0} = {gachaType} ,  {1} = {page}</comment>
   </data>
   <data name="HyperionToolbox" xml:space="preserve">
-    <value>米遊社工具箱</value>
+    <value>Hyperionツールボックス</value>
   </data>
   <data name="HoYoLABToolbox" xml:space="preserve">
-    <value>HoYoLAB工具箱</value>
+    <value>HoYoLABツールボックス</value>
   </data>
   <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
-    <value>登入</value>
+    <value>ログイン</value>
   </data>
   <data name="HoyolabToolboxPage_WebLogin" xml:space="preserve">
-    <value>網頁登入</value>
+    <value>Webログイン</value>
   </data>
   <data name="HoyolabToolboxPage_InputCookie" xml:space="preserve">
-    <value>輸入Cookie</value>
+    <value>Cookieを入力</value>
   </data>
   <data name="HoyolabToolboxPage_RefreshInfo" xml:space="preserve">
-    <value>重新整理</value>
+    <value>情報を更新</value>
   </data>
   <data name="HoyolabToolboxPage_CopyCookie" xml:space="preserve">
-    <value>複製 Cookie</value>
+    <value>Cookieをコピー</value>
   </data>
   <data name="HoyolabToolboxPage_DeleteGameRole" xml:space="preserve">
-    <value>刪除遊戲角色</value>
+    <value>ゲームロールを削除</value>
   </data>
   <data name="HoyolabToolboxPage_SpiralAbyss" xml:space="preserve">
     <value>深境螺旋</value>
   </data>
   <data name="HoyolabToolboxPage_TravelersDiary" xml:space="preserve">
-    <value>旅行者札記</value>
+    <value>旅人手帳</value>
   </data>
   <data name="HoyolabToolboxPage_SimulatedUniverse" xml:space="preserve">
     <value>模擬宇宙</value>
   </data>
   <data name="HoyolabToolboxPage_ForgottenHall" xml:space="preserve">
-    <value>忘卻之庭</value>
+    <value>忘却の庭</value>
   </data>
   <data name="HoyolabToolboxPage_TrailblazeMonthlyCalendar" xml:space="preserve">
-    <value>開拓月曆</value>
+    <value>開拓カレンダー</value>
   </data>
   <data name="LoginPage_ClickThisButtonAfterLoggingIn" xml:space="preserve">
-    <value>登入後請點擊此按鈕</value>
+    <value>ログイン後にこのボタンをクリックしてください。</value>
   </data>
   <data name="LoginPage_AlreadyAddedGameRoles" xml:space="preserve">
-    <value>已經添加了{0} 個遊戲角色：
-{1}</value>
+    <value>{0}つのゲームロールを追加しました:{1}</value>
   </data>
   <data name="Common_Summary" xml:space="preserve">
-    <value>總覽</value>
+    <value>サマリー</value>
   </data>
   <data name="SpiralAbyssPage_LunarPhase" xml:space="preserve">
     <value>月相</value>
     <comment>Abyss schedule id</comment>
   </data>
   <data name="SpiralAbyssPage_Picked" xml:space="preserve">
-    <value>出戰次數</value>
+    <value>試合数</value>
     <comment>avatar battle count stats</comment>
   </data>
   <data name="SpiralAbyssPage_CombatStats" xml:space="preserve">
-    <value>戰鬥資料</value>
+    <value>戦闘ステータス</value>
   </data>
   <data name="SpiralAbyssPage_MostDefeats" xml:space="preserve">
-    <value>最多擊破數</value>
+    <value>最多撃破数</value>
   </data>
   <data name="SpiralAbyssPage_StrongestSingleStrike" xml:space="preserve">
-    <value>最強一擊</value>
+    <value>最大ダメージ</value>
   </data>
   <data name="SpiralAbyssPage_MostDamageTaken" xml:space="preserve">
-    <value>承受最多傷害</value>
+    <value>受けた最大ダメージ</value>
   </data>
   <data name="SpiralAbyssPage_ElementalSkillsUnleashed" xml:space="preserve">
-    <value>元素戰技釋放次數</value>
+    <value>元素スキル使用回数</value>
   </data>
   <data name="SpiralAbyssPage_ElementalBrustsUnleashed" xml:space="preserve">
-    <value>元素爆發次數</value>
+    <value>元素爆発使用回数</value>
   </data>
   <data name="TravelersDiaryPage_GetDetails" xml:space="preserve">
-    <value>獲取明細</value>
+    <value>詳細を取得</value>
     <comment>get primogems and mora details</comment>
   </data>
   <data name="TravelersDiaryPage_RealTimeData" xml:space="preserve">
-    <value>實時資料</value>
+    <value>リアルタイムデータ</value>
   </data>
   <data name="TravelersDiaryPage_HistoricalData" xml:space="preserve">
-    <value>歷史資料</value>
+    <value>過去のデータ</value>
   </data>
   <data name="TravelersDiaryPage_AcquiredThisMonth" xml:space="preserve">
-    <value>當月共獲取</value>
+    <value>今月に入手した物</value>
   </data>
   <data name="TravelersDiaryPage_AcquiredThisDay" xml:space="preserve">
-    <value>今日共獲取</value>
+    <value>この日に入手した物</value>
   </data>
   <data name="TravelersDiaryPage_PrimogemsObtained" xml:space="preserve">
-    <value>原石收入組成</value>
+    <value>原石収入の構成</value>
   </data>
   <data name="SpiralAbyssPage_DeepestDescent" xml:space="preserve">
-    <value>最深抵達</value>
+    <value>最高記録</value>
   </data>
   <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
-    <value>出戰次數</value>
+    <value>挑戦回数</value>
   </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
-    <value>次</value>
+    <value>時間</value>
     <comment>battle count 12 times</comment>
   </data>
   <data name="Common_Accept" xml:space="preserve">
-    <value>接受</value>
+    <value>同意する</value>
   </data>
   <data name="Common_Reject" xml:space="preserve">
-    <value>拒絕</value>
+    <value>同意しない</value>
   </data>
   <data name="HoyolabToolboxPage_WarningAgain" xml:space="preserve">
-    <value>再次警告</value>
+    <value>再度警告をする</value>
   </data>
   <data name="Common_Disclaimer" xml:space="preserve">
-    <value>免責聲明</value>
+    <value>免責事項</value>
   </data>
   <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
-    <value>本頁面的功能需要您登入 米遊社/HoYoLAB 帳戶，Starward 將會保存您的登入憑證 (Cookie) 並模仿您本人向 miHoYo 的伺服器發送請求。這種方法十分危險，如果因此造成了您的帳戶異常或被封禁，本應用概不負責。
+    <value>このページの機能は、HyperionまたはHoYoLABアカウントにログインをする必要があります。Starwardはログイン認証情報(Cookie)を保存し、あなたになりすましてmiHoYoのサーバーにリクエストを送信します。この方法は危険であり、あなたのアカウントが異常な事になったり、またはアカウントがBANされたとしても責任は一切負いません。
 
-您是否願意承擔風險並繼續使用？</value>
+リスクを受け入れたうえで使用を続行しますか?</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
-    <value>星瓊收入組成</value>
+    <value>星玉の獲得元</value>
   </data>
   <data name="ForgottenHallPage_Period" xml:space="preserve">
-    <value>統計週期</value>
+    <value>期間</value>
   </data>
   <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
-    <value>使用輪：</value>
+    <value>使用サイクル:</value>
   </data>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
-    <value>節點</value>
+    <value>チームのセットアップ</value>
     <comment>example: forgotten hall team setup 1</comment>
   </data>
   <data name="Common_AccountError" xml:space="preserve">
-    <value>帳戶異常</value>
+    <value>アカウントエラー</value>
   </data>
   <data name="Common_NetworkError" xml:space="preserve">
-    <value>網路異常</value>
+    <value>ネットワークエラー</value>
   </data>
   <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
-    <value>驗證帳戶</value>
+    <value>アカウントの検証</value>
   </data>
   <data name="DownloadGameService_RepairMode" xml:space="preserve">
-    <value>修復模式</value>
+    <value>修復モード</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
-    <value>解壓時會佔用額外的硬碟空間</value>
+    <value>解凍をすると追加の空き容量を必要とします。</value>
   </data>
 </root>
