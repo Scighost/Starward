@@ -5,6 +5,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
       xmlns:local="using:Starward.Pages.Welcome"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       x:DefaultBindMode="OneWay"
@@ -86,7 +87,7 @@
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                            Text="CDN" />
                 <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="{x:Bind CDNTipContent}"
+                           Text="{x:Bind lang:Lang.SettingPage_CloudFlareConnectProperly}"
                            TextWrapping="Wrap" />
 
                 <RadioButtons Margin="0,-8,0,0">

@@ -56,15 +56,10 @@ public sealed partial class SelectLanguagePage : Page
 
 
 
-    [ObservableProperty]
-    private string _CDNTipContent;
-
-
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         await Task.Delay(100);
-        CDNTipContent = Lang.SettingPage_CloudFlareConnectProperly;
         TestCDNCommand.Execute(null);
     }
 
@@ -230,18 +225,21 @@ public sealed partial class SelectLanguagePage : Page
         {
             if (ComboBox_Language.SelectedItem is ComboBoxItem item)
             {
-                var lang = item.Tag as string;
-                _logger.LogInformation("Language change to {lang}", lang);
-                WelcomePage.Current.TextLanguage = lang!;
-                if (string.IsNullOrWhiteSpace(lang))
+                if (this.IsLoaded)
                 {
-                    CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+                    var lang = item.Tag as string;
+                    _logger.LogInformation("Language change to {lang}", lang);
+                    WelcomePage.Current.TextLanguage = lang!;
+                    if (string.IsNullOrWhiteSpace(lang))
+                    {
+                        CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+                    }
+                    else
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo(lang);
+                    }
+                    this.Bindings.Update();
                 }
-                else
-                {
-                    CultureInfo.CurrentUICulture = new CultureInfo(lang);
-                }
-                CDNTipContent = Lang.SettingPage_CloudFlareConnectProperly;
             }
         }
         catch (CultureNotFoundException)
