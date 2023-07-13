@@ -137,6 +137,7 @@ public class LauncherService
             {
                 ("Image", ".bmp"),
                 ("Image", ".jpg"),
+                ("Image", ".jxl"),
                 ("Image", ".png"),
                 ("Image", ".avif"),
                 ("Image", ".heic"),

@@ -746,7 +746,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Import from Json 的本地化字符串。
+        ///   查找类似 Import from JSON 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_ImportFromJson {
             get {
@@ -1323,7 +1323,7 @@ namespace Starward.Language {
         
         /// <summary>
         ///   查找类似 The features of this page requires you to log in to your Hyperion/HoYoLAB account, and Starward will save your login credentials (Cookie) and impersonate you to send requests to miHoYo&apos;s server. This method is risky and we are not responsible if your account is abnormal or banned as a result.
-        ///                    
+        ///
         ///Do you accept the risk and continue to use it? 的本地化字符串。
         /// </summary>
         public static string HoyolabToolboxPage_DisclaimerContent {
@@ -2365,15 +2365,6 @@ namespace Starward.Language {
         public static string SpiralAbyssPage_ElementalSkillsUnleashed {
             get {
                 return ResourceManager.GetString("SpiralAbyssPage_ElementalSkillsUnleashed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Lunar Phase 的本地化字符串。
-        /// </summary>
-        public static string SpiralAbyssPage_LunarPhase {
-            get {
-                return ResourceManager.GetString("SpiralAbyssPage_LunarPhase", resourceCulture);
             }
         }
         

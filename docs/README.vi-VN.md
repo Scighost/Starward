@@ -1,4 +1,4 @@
-[English](../README.md) | [简体中文](./README.zh-CN.md) | Tiếng Việt
+[English](../README.md) | [简体中文](./README.zh-CN.md) | Tiếng Việt | [日本語](./README.ja-JP.md)
 
 # Starward là gì?
 
@@ -22,11 +22,12 @@ Và nhiều tính năng khác đang được lên kế hoạch...
 
 Bạn có thể tải xuống bản phát hành mới nhất từ trang [Release](https://github.com/Scighost/Starward/releases). Ứng dụng sử dụng các bản cập nhật gia tăng, vừa dễ dàng vừa thuận tiện.
 
-Ứng dụng có thể gặp lỗi crash khi chạy trên một số thiết bị. Nếu bạn gặp lỗi này, vui lòng tạo tập tin `config.ini` ở thư mục `Starward` và dán những dòng sau đây vào. Để biết thêm thông tin về `config.ini` vui lòng đọc [docs/Configuration.md](./docs/Configuration.vi-VN.md).
+Ứng dụng có thể gặp lỗi crash khi chạy trên một số thiết bị. Nếu bạn gặp lỗi này, vui lòng tạo tập tin `config.ini` ở thư mục `Starward` và dán những dòng sau đây vào. Để biết thêm thông tin về `config.ini`, vui lòng đọc [Configuration.vi-VN.md](./Configuration.vi-VN.md).
 
 ## Bản địa hoá
 
 [![en-US translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en-US%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/en-US)
+[![ja-JP translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja-JP&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ja)
 [![vi-VN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/vi)
 [![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-CN)
 [![zh-TW translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-TW)

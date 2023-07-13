@@ -92,33 +92,6 @@ public sealed partial class SettingPage : Page
 
 
 
-    private void InitializeLanguageComboBox()
-    {
-        try
-        {
-            ComboBox_Language.Items.Clear();
-            ComboBox_Language.Items.Add(new ComboBoxItem
-            {
-                Content = Lang.SettingPage_FollowSystem,
-                Tag = "",
-            });
-            foreach (var item in Localization.LanguageList)
-            {
-                ComboBox_Language.Items.Add(new ComboBoxItem
-                {
-                    Content = item.Title,
-                    Tag = item.LangCode,
-                });
-            }
-        }
-        catch (Exception ex)
-        {
-
-        }
-    }
-
-
-
     private void InitializeLanguage()
     {
         try
@@ -127,7 +100,7 @@ public sealed partial class SettingPage : Page
             ComboBox_Language.Items.Clear();
             ComboBox_Language.Items.Add(new ComboBoxItem
             {
-                Content = Lang.SettingPage_FollowSystem,
+                Content = Lang.ResourceManager.GetString(nameof(Lang.SettingPage_FollowSystem), CultureInfo.InstalledUICulture),
                 Tag = "",
             });
             ComboBox_Language.SelectedIndex = 0;
@@ -146,10 +119,6 @@ public sealed partial class SettingPage : Page
             }
         }
         catch { }
-        finally
-        {
-            ComboBox_Language.SelectionChanged += ComboBox_Language_SelectionChanged;
-        }
     }
 
 
@@ -160,19 +129,22 @@ public sealed partial class SettingPage : Page
         {
             if (ComboBox_Language.SelectedItem is ComboBoxItem item)
             {
-                var lang = item.Tag as string;
-                _logger.LogInformation("Language change to {lang}", lang);
-                AppConfig.Language = lang;
-                if (string.IsNullOrWhiteSpace(lang))
+                if (this.IsLoaded)
                 {
-                    CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+                    var lang = item.Tag as string;
+                    _logger.LogInformation("Language change to {lang}", lang);
+                    AppConfig.Language = lang;
+                    if (string.IsNullOrWhiteSpace(lang))
+                    {
+                        CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+                    }
+                    else
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo(lang);
+                    }
+                    MainPage.Current.ReloadTextForLanguage();
+                    this.Bindings.Update();
                 }
-                else
-                {
-                    CultureInfo.CurrentUICulture = new CultureInfo(lang);
-                }
-                MainPage.Current.ReloadTextForLanguage();
-                MainPage.Current.NavigateTo(typeof(SettingPage), infoOverride: new Microsoft.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
             }
         }
         catch (CultureNotFoundException)

@@ -147,31 +147,8 @@ public sealed partial class MainPage : Page
 
     public void ReloadTextForLanguage()
     {
-        // navigation items
-        NavigationViewItem_Launcher.Content = Lang.MainPage_Launcer;
-        NavigationViewItem_GameSetting.Content = Lang.LauncherPage_GameSetting;
-        NavigationViewItem_Screenshot.Content = Lang.MainPage_GameScreenshot;
-        NavigationViewItem_Setting.Content = Lang.SettingPage_AppSettings;
-        if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
-        {
-            NavigationViewItem_GachaLog.Content = Lang.GachaLogService_WishRecords;
-        }
-        if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
-        {
-            NavigationViewItem_GachaLog.Content = Lang.GachaLogService_WarpRecords;
-        }
-        if (CurrentGameBiz.IsChinaServer())
-        {
-            NavigationViewItem_HoyolabToolbox.Content = Lang.HyperionToolbox;
-        }
-        if (CurrentGameBiz.IsGlobalServer())
-        {
-            NavigationViewItem_HoyolabToolbox.Content = Lang.HoYoLABToolbox;
-        }
-
-        // switch region
-        TextBlock_SwitchRegionTitle.Text = Lang.MainPage_HowToSwitchGameRegion;
-        TextBlock_SwitchRegionContent.Text = Lang.MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft;
+        this.Bindings.Update();
+        UpdateNavigationViewItems();
     }
 
 
@@ -595,7 +572,7 @@ public sealed partial class MainPage : Page
                             decodeHeight = (int)windowHeight;
                             decodeWidth = (int)(windowHeight * decoder.PixelWidth / decoder.PixelHeight);
                         }
-                        var data = await decoder.GetPixelDataAsync(decoder.BitmapPixelFormat,
+                        var data = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8,
                                                                    decoder.BitmapAlphaMode,
                                                                    new BitmapTransform { ScaledWidth = (uint)decodeWidth, ScaledHeight = (uint)decodeHeight, InterpolationMode = BitmapInterpolationMode.Fant },
                                                                    ExifOrientationMode.IgnoreExifOrientation,

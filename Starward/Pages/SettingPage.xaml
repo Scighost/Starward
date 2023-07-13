@@ -44,7 +44,8 @@
                                   MinWidth="260"
                                   Padding="18.5,0,0,0"
                                   BorderThickness="0"
-                                  CornerRadius="18">
+                                  CornerRadius="18"
+                                  SelectionChanged="ComboBox_Language_SelectionChanged">
                             <ComboBoxItem Content="{x:Bind lang:Lang.SettingPage_FollowSystem}" Tag="" />
                             <ComboBoxItem Content="简体中文 (zh-CN, @Scighost)" Tag="zh-CN" />
                             <ComboBoxItem Content="English (en-US, @Scighost)" Tag="en-US" />

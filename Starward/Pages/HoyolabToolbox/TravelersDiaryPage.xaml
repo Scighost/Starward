@@ -84,7 +84,7 @@
         <ListView Name="ListView_MonthDataList"
                   Grid.Row="1"
                   Margin="0,12,0,0"
-                  Padding="12,0,0,0"
+                  Padding="12,0,12,0"
                   ItemsSource="{x:Bind MonthDataList}"
                   SelectionChanged="ListView_MonthDataList_SelectionChanged"
                   SelectionMode="Single"
@@ -106,9 +106,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <TextBlock>
-                            <Run Text="{x:Bind Year}" />
-                            <Run Text="-" />
-                            <Run Text="{x:Bind Month.ToString('D2', x:Null)}" />
+                            <Run Text="{x:Bind Year}" /><Run Text="-" /><Run Text="{x:Bind Month.ToString('D2', x:Null)}" />
                         </TextBlock>
                     </Grid>
                 </DataTemplate>
@@ -233,7 +231,7 @@
                            Visibility="{x:Bind SelectMonthData, Converter={StaticResource ObjectToVisibilityConverter}}">
                     <Run Text="{x:Bind lang:Lang.TravelersDiaryPage_HistoricalData}" />
                     <Run Text="" />
-                    <Run Text="{x:Bind SelectMonthData.Year}" /><Run Text="/" /><Run Text="{x:Bind SelectMonthData.Month}" />
+                    <Run Text="{x:Bind SelectMonthData.Year}" /><Run Text="-" /><Run Text="{x:Bind SelectMonthData.Month.ToString('D2', x:Null)}" />
                 </TextBlock>
                 <Grid Padding="24,8,24,8"
                       Background="{ThemeResource CustomOverlayAcrylicBrush}"
