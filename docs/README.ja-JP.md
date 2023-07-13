@@ -71,4 +71,5 @@ Starward はローカライズに[Crowdin](https://crowdin.com/project/starward)
 
 ## スクリーンショット
 
-![screenshot](https://github.com/Scighost/Starward/assets/61003590/22dad10c-bc42-44a7-b47f-5a608dfc5b08)
+![screenshot](https://github.com/reindex-ot/Starward/assets/32851879/ded2c30f-a6bd-4ed8-8e2f-5a44fc03b094)
+
