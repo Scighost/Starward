@@ -43,7 +43,12 @@
                           Height="56"
                           Margin="8,0,0,0"
                           Background="Transparent"
+                          PointerEntered="Grid_Avatar_1_PointerEntered"
+                          PointerExited="Grid_Avatar_1_PointerExited"
                           Tapped="Grid_Avatar_1_Tapped">
+                        <Grid.ScaleTransition>
+                            <Vector3Transition Duration="0:0:0.1" />
+                        </Grid.ScaleTransition>
                         <sc:CachedImage Name="Image_Avatar_1"
                                         Margin="6"
                                         Background="{ThemeResource AccentFillColorDefaultBrush}"
@@ -64,8 +69,13 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Background="Transparent"
+                            PointerEntered="Border_Avatar_2_PointerEntered"
+                            PointerExited="Border_Avatar_2_PointerExited"
                             Tapped="Border_Avatar_2_Tapped"
                             Visibility="Collapsed">
+                        <Border.ScaleTransition>
+                            <Vector3Transition Duration="0:0:0.1" />
+                        </Border.ScaleTransition>
                         <sc:CachedImage Name="Image_Avatar_2"
                                         Width="40"
                                         Height="40"
