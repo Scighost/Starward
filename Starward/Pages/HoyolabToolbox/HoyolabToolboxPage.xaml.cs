@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Numerics;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -147,6 +148,23 @@ public sealed partial class HoyolabToolboxPage : Page
         Border_Avatar_2.Visibility = Visibility.Visible;
     }
 
+    private void Grid_Avatar_1_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is FrameworkElement fe)
+        {
+            fe.CenterPoint = new Vector3(fe.ActualSize, 0) / 2;
+            fe.Scale = new Vector3(0.95f);
+        }
+    }
+
+    private void Grid_Avatar_1_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is FrameworkElement fe)
+        {
+            fe.Scale = Vector3.One;
+        }
+    }
+
 
     // Open pane
     private void Border_Avatar_2_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -157,6 +175,22 @@ public sealed partial class HoyolabToolboxPage : Page
         Border_Avatar_2.Visibility = Visibility.Collapsed;
     }
 
+    private void Border_Avatar_2_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is FrameworkElement fe)
+        {
+            fe.CenterPoint = new Vector3(fe.ActualSize, 0) / 2;
+            fe.Scale = new Vector3(0.95f);
+        }
+    }
+
+    private void Border_Avatar_2_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is FrameworkElement fe)
+        {
+            fe.Scale = Vector3.One;
+        }
+    }
 
 
 
