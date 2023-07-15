@@ -8,6 +8,7 @@
       xmlns:local="using:Starward.Pages.HoyolabToolbox"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
+      xmlns:sp="using:ScottPlot.WinUI"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
       mc:Ignorable="d">
@@ -105,9 +106,18 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock>
+                        <TextBlock FontSize="16">
                             <Run Text="{x:Bind Year}" /><Run Text="-" /><Run Text="{x:Bind Month.ToString('D2', x:Null)}" />
                         </TextBlock>
+                        <Image Grid.Row="1"
+                               Width="20"
+                               Height="20"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/Image/UI_ItemIcon_201.png" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="24,0,0,0"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind CurrentPrimogems}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -309,6 +319,47 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Grid>
+
+                <!--  Daily Data  -->
+                <StackPanel Margin="0,8,0,0"
+                            Orientation="Horizontal"
+                            Visibility="{x:Bind SelectMonthData, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    <TextBlock FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                        <Run Text="Daily Data" />
+                        <Run Text="" />
+                        <Run Text="{x:Bind SelectMonthData.Year}" /><Run Text="-" /><Run Text="{x:Bind SelectMonthData.Month.ToString('D2', x:Null)}" />
+                    </TextBlock>
+                    <Border Width="16"
+                            Height="16"
+                            Margin="12,0,0,0"
+                            VerticalAlignment="Center"
+                            Background="#FF66BCF2"
+                            CornerRadius="4" />
+                    <TextBlock Margin="4,0,0,0"
+                               VerticalAlignment="Center"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="Primogems" />
+                    <Border Width="16"
+                            Height="16"
+                            Margin="12,0,0,0"
+                            VerticalAlignment="Center"
+                            Background="#FFF2DE77"
+                            CornerRadius="4" />
+                    <TextBlock Margin="4,0,0,0"
+                               VerticalAlignment="Center"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="Mora" />
+                </StackPanel>
+                <Border Padding="4,8,4,4"
+                        Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                        CornerRadius="8"
+                        Shadow="{ThemeResource ThemeShadow}"
+                        Translation="0,0,16"
+                        Visibility="{x:Bind SelectMonthData, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    <sp:WinUIPlot Name="WinUiPlot_Historical" Height="240" />
+                </Border>
 
 
             </StackPanel>

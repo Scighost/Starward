@@ -341,6 +341,12 @@ internal class GameRecordService
 
 
 
+    public List<TravelersDiaryAwardItem> GetTravelersDiaryDetailItems(long uid, int year, int month, int type)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        return dapper.Query<TravelersDiaryAwardItem>("SELECT * FROM TravelersDiaryAwardItem WHERE Uid=@uid AND Year=@year AND Month=@month AND Type=@type ORDER BY Time;", new { uid, year, month, type }).ToList();
+    }
+
 
 
 
@@ -475,6 +481,11 @@ internal class GameRecordService
 
 
 
+    public List<TrailblazeCalendarDetailItem> GetTrailblazeCalendarDetailItems(long uid, string month, int type)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        return dapper.Query<TrailblazeCalendarDetailItem>("SELECT * FROM TrailblazeCalendarDetailItem WHERE Uid=@uid AND Month=@month AND Type=@type ORDER BY Time;", new { uid, month, type }).ToList();
+    }
 
 
 
