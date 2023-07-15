@@ -327,7 +327,7 @@
                     <TextBlock FontSize="16"
                                FontWeight="SemiBold"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}">
-                        <Run Text="Daily Data" />
+                        <Run Text="{x:Bind lang:Lang.HoyolabToolboxPage_DailyData}" />
                         <Run Text="" />
                         <Run Text="{x:Bind SelectMonthData.Year}" /><Run Text="-" /><Run Text="{x:Bind SelectMonthData.Month.ToString('D2', x:Null)}" />
                     </TextBlock>
@@ -340,7 +340,7 @@
                     <TextBlock Margin="4,0,0,0"
                                VerticalAlignment="Center"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="Primogems" />
+                               Text="{x:Bind lang:Lang.TravelersDiaryPage_Primogems}" />
                     <Border Width="16"
                             Height="16"
                             Margin="12,0,0,0"
@@ -350,7 +350,7 @@
                     <TextBlock Margin="4,0,0,0"
                                VerticalAlignment="Center"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="Mora" />
+                               Text="{x:Bind lang:Lang.TravelersDiaryPage_Mora}" />
                 </StackPanel>
                 <Border Padding="4,8,4,4"
                         Background="{ThemeResource CustomOverlayAcrylicBrush}"

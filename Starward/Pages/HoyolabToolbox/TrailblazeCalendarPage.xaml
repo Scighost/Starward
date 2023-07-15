@@ -357,7 +357,7 @@
                     <TextBlock FontSize="16"
                                FontWeight="SemiBold"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}">
-                        <Run Text="Daily Data" />
+                        <Run Text="{x:Bind lang:Lang.HoyolabToolboxPage_DailyData}" />
                         <Run Text="" />
                         <Run Text="{x:Bind SelectMonthData.Month}" />
                     </TextBlock>
@@ -370,7 +370,7 @@
                     <TextBlock Margin="4,0,0,0"
                                VerticalAlignment="Center"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="Stellar Jade" />
+                               Text="{x:Bind lang:Lang.TrailblazeCalendarPage_StellarJade}" />
                     <Border Width="16"
                             Height="16"
                             Margin="12,0,0,0"
@@ -380,7 +380,7 @@
                     <TextBlock Margin="4,0,0,0"
                                VerticalAlignment="Center"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="Pass &amp; Special Pass" />
+                               Text="{x:Bind lang:Lang.TrailblazeCalendarPage_PassAndSpecialPass}" />
                 </StackPanel>
                 <Border Padding="4,8,4,4"
                         Background="{ThemeResource CustomOverlayAcrylicBrush}"

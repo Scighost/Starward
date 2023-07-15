@@ -1313,6 +1313,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Daily Data 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_DailyData {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_DailyData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Delete Game Role 的本地化字符串。
         /// </summary>
         public static string HoyolabToolboxPage_DeleteGameRole {
@@ -2324,6 +2333,96 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Ability Tree Buffs Activated 的本地化字符串。
+        /// </summary>
+        public static string SimulatedUniversePage_AbilityTreeBuffsActivated {
+            get {
+                return ResourceManager.GetString("SimulatedUniversePage_AbilityTreeBuffsActivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Blessings Obtained 的本地化字符串。
+        /// </summary>
+        public static string SimulatedUniversePage_BlessingsObtained {
+            get {
+                return ResourceManager.GetString("SimulatedUniversePage_BlessingsObtained", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cached Characters 的本地化字符串。
+        /// </summary>
+        public static string SimulatedUniversePage_CachedCharacters {
+            get {
+                return ResourceManager.GetString("SimulatedUniversePage_CachedCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Challenged On 的本地化字符串。
+        /// </summary>
+        public static string SimulatedUniversePage_ChallengedOn {
+            get {
+                return ResourceManager.GetString("SimulatedUniversePage_ChallengedOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Characters Used 的本地化字符串。
+        /// </summary>
+        public static string SimulatedUniversePage_CharactersUsed {
+            get {
+                return ResourceManager.GetString("SimulatedUniversePage_CharactersUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Curios Obtained 的本地化字符串。
+        /// </summary>
+        public static string SimulatedUniversePage_CuriosObtained {
+            get {
+                return ResourceManager.GetString("SimulatedUniversePage_CuriosObtained", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Highest Score 的本地化字符串。
+        /// </summary>
+        public static string SimulatedUniversePage_HighestScore {
+            get {
+                return ResourceManager.GetString("SimulatedUniversePage_HighestScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Number of Clears 的本地化字符串。
+        /// </summary>
+        public static string SimulatedUniversePage_NumberOfClears {
+            get {
+                return ResourceManager.GetString("SimulatedUniversePage_NumberOfClears", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlocked Blessings 的本地化字符串。
+        /// </summary>
+        public static string SimulatedUniversePage_UnlockedBlessings {
+            get {
+                return ResourceManager.GetString("SimulatedUniversePage_UnlockedBlessings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlocked Curios 的本地化字符串。
+        /// </summary>
+        public static string SimulatedUniversePage_UnlockedCurios {
+            get {
+                return ResourceManager.GetString("SimulatedUniversePage_UnlockedCurios", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Battles Fought 的本地化字符串。
         /// </summary>
         public static string SpiralAbyssPage_BattlesFought {
@@ -2423,6 +2522,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Pass &amp; Special Pass 的本地化字符串。
+        /// </summary>
+        public static string TrailblazeCalendarPage_PassAndSpecialPass {
+            get {
+                return ResourceManager.GetString("TrailblazeCalendarPage_PassAndSpecialPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Stellar Jade 的本地化字符串。
+        /// </summary>
+        public static string TrailblazeCalendarPage_StellarJade {
+            get {
+                return ResourceManager.GetString("TrailblazeCalendarPage_StellarJade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Stellar Jade Sources 的本地化字符串。
         /// </summary>
         public static string TrailblazeCalendarPage_StellarJadeSources {
@@ -2464,6 +2581,24 @@ namespace Starward.Language {
         public static string TravelersDiaryPage_HistoricalData {
             get {
                 return ResourceManager.GetString("TravelersDiaryPage_HistoricalData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mora 的本地化字符串。
+        /// </summary>
+        public static string TravelersDiaryPage_Mora {
+            get {
+                return ResourceManager.GetString("TravelersDiaryPage_Mora", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Primogems 的本地化字符串。
+        /// </summary>
+        public static string TravelersDiaryPage_Primogems {
+            get {
+                return ResourceManager.GetString("TravelersDiaryPage_Primogems", resourceCulture);
             }
         }
         

@@ -104,11 +104,12 @@
 
 
         <ScrollViewer Grid.RowSpan="2" Grid.Column="1">
-            <StackPanel Margin="24" Spacing="8">
+            <StackPanel Margin="24">
 
 
                 <!--  数据总览  -->
-                <Grid Padding="8"
+                <Grid Margin="0,0,0,16"
+                      Padding="8"
                       Background="{ThemeResource CustomOverlayAcrylicBrush}"
                       CornerRadius="8"
                       Shadow="{ThemeResource ThemeShadow}"
@@ -127,7 +128,7 @@
                     <TextBlock Grid.Column="0"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center">
-                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="Ability Tree Buffs Activated" />
+                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.SimulatedUniversePage_AbilityTreeBuffsActivated}" />
                         <Run Text="" />
                         <Run Text="{x:Bind BasicInfo.UnlockedSkillPoints}" />
                     </TextBlock>
@@ -135,7 +136,7 @@
                     <TextBlock Grid.Column="1"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center">
-                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="Unlocked Curios" />
+                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.SimulatedUniversePage_UnlockedCurios}" />
                         <Run Text="" />
                         <Run Text="{x:Bind BasicInfo.UnlockedMiracleNum}" />
                     </TextBlock>
@@ -143,14 +144,11 @@
                     <TextBlock Grid.Column="2"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center">
-                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="Unlocked Blessings" />
+                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.SimulatedUniversePage_UnlockedBlessings}" />
                         <Run Text="" />
                         <Run Text="{x:Bind BasicInfo.UnlockedBuffNum}" />
                     </TextBlock>
                 </Grid>
-
-                <MenuFlyoutSeparator Margin="8,0,8,0" />
-
 
 
                 <Grid Padding="8"
@@ -161,7 +159,7 @@
                       Visibility="{x:Bind CurrentRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
                     <!--  本期通关次数  -->
                     <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="Number of Clears" />
+                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.SimulatedUniversePage_NumberOfClears}" />
                         <Run Text="" />
                         <Run Text="{x:Bind CurrentRecord.Basic.FinishCount}" />
                     </TextBlock>
@@ -179,7 +177,7 @@
                 </Grid>
 
 
-                <ItemsRepeater Margin="0,8,0,0"
+                <ItemsRepeater Margin="0,16,0,0"
                                ItemsSource="{x:Bind CurrentRecord.Records}"
                                Visibility="{x:Bind CurrentRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
                     <ItemsRepeater.Layout>
@@ -214,13 +212,11 @@
                                                     <TextBlock Margin="16,0,0,0"
                                                                VerticalAlignment="Center"
                                                                FontSize="16"
-                                                               FontWeight="SemiBold"
                                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                                Text="{x:Bind Name}" />
                                                     <TextBlock Margin="4,0,0,0"
                                                                VerticalAlignment="Center"
                                                                FontSize="16"
-                                                               FontWeight="SemiBold"
                                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                                Text="{x:Bind Difficulty, Converter={StaticResource SimulatedUniverseRomanNumberConverter}}" />
                                                 </StackPanel>
@@ -228,7 +224,8 @@
                                                 <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
                                                     <TextBlock HorizontalAlignment="Center"
                                                                FontSize="12"
-                                                               Text="Highest Score" />
+                                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                               Text="{x:Bind lang:Lang.SimulatedUniversePage_HighestScore}" />
                                                     <TextBlock HorizontalAlignment="Center"
                                                                FontSize="16"
                                                                Text="{x:Bind Score}" />
@@ -237,15 +234,16 @@
                                             <!--  挑战时间  -->
                                             <TextBlock HorizontalAlignment="Left"
                                                        VerticalAlignment="Center"
-                                                       FontSize="12">
-                                                <Run Text="Challenged On" />
+                                                       FontSize="12"
+                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                                <Run Text="{x:Bind lang:Lang.SimulatedUniversePage_ChallengedOn}" />
                                                 <Run Text="" />
-                                                <Run Text="{x:Bind FinishTime}" />
+                                                <Run Text="{x:Bind FinishTime.ToString('yyyy/MM/dd HH:mm:ss', x:Null)}" />
                                             </TextBlock>
                                             <MenuFlyoutSeparator />
 
                                             <!--  通关角色  -->
-                                            <TextBlock Text="Characters Used" />
+                                            <TextBlock Text="{x:Bind lang:Lang.SimulatedUniversePage_CharactersUsed}" />
                                             <ItemsRepeater ItemsSource="{x:Bind FinalLineup}">
                                                 <ItemsRepeater.Layout>
                                                     <StackLayout Orientation="Horizontal" Spacing="20" />
@@ -311,7 +309,7 @@
                                         <StackPanel HorizontalAlignment="Stretch">
                                             <!--  缓存的角色  -->
                                             <TextBlock HorizontalAlignment="Left"
-                                                       Text="Cached Characters"
+                                                       Text="{x:Bind lang:Lang.SimulatedUniversePage_CachedCharacters}"
                                                        Visibility="{x:Bind CachedAvatars, Converter={StaticResource CollectionToVisibilityConverter}}" />
                                             <ItemsRepeater Margin="0,8,0,0"
                                                            ItemsSource="{x:Bind CachedAvatars}"
@@ -333,13 +331,15 @@
                                             <!--  获得祝福  -->
                                             <TextBlock Margin="0,12,0,0"
                                                        HorizontalAlignment="Left"
-                                                       Text="Blessings Obtained" />
-                                            <ItemsRepeater Margin="0,8,0,0" ItemsSource="{x:Bind Buffs}">
-                                                <ItemsRepeater.Layout>
-                                                    <StackLayout Spacing="8" />
-                                                </ItemsRepeater.Layout>
-                                                <ItemsRepeater.ItemTemplate>
-                                                    <DataTemplate x:DataType="su:SimulatedUniverseBuff">
+                                                       Text="{x:Bind lang:Lang.SimulatedUniversePage_BlessingsObtained}" />
+                                            <ItemsControl Margin="0,8,0,0" ItemsSource="{x:Bind Buffs}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Spacing="8" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="su:SimulatedUniverseBuff" x:DefaultBindMode="OneWay">
                                                         <Grid RowSpacing="4">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto" />
@@ -363,10 +363,9 @@
                                                                                    VerticalSpacing="4" />
                                                                 </ItemsRepeater.Layout>
                                                                 <ItemsRepeater.ItemTemplate>
-                                                                    <DataTemplate x:DataType="su:SimulatedUniverseBuffItem">
+                                                                    <DataTemplate x:DataType="su:SimulatedUniverseBuffItem" x:DefaultBindMode="OneWay">
                                                                         <Grid Padding="8,4,8,4"
                                                                               Background="{x:Bind Rank, Converter={StaticResource SimulatedUniverseBuffBgConverter}}"
-                                                                              ColumnSpacing="4"
                                                                               CornerRadius="4">
                                                                             <Grid.ColumnDefinitions>
                                                                                 <ColumnDefinition />
@@ -376,6 +375,7 @@
                                                                                        FontSize="12"
                                                                                        Text="{x:Bind Name}" />
                                                                             <FontIcon Grid.Column="1"
+                                                                                      Margin="4,0,0,0"
                                                                                       FontSize="12"
                                                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                                                       Glyph="&#xEB11;"
@@ -386,12 +386,12 @@
                                                             </ItemsRepeater>
                                                         </Grid>
                                                     </DataTemplate>
-                                                </ItemsRepeater.ItemTemplate>
-                                            </ItemsRepeater>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
                                             <!--  获得奇物  -->
                                             <TextBlock Margin="0,12,0,0"
                                                        HorizontalAlignment="Left"
-                                                       Text="Curios Obtained" />
+                                                       Text="{x:Bind lang:Lang.SimulatedUniversePage_CuriosObtained}" />
                                             <ItemsRepeater Margin="0,8,0,0" ItemsSource="{x:Bind Miracles}">
                                                 <ItemsRepeater.Layout>
                                                     <UniformGridLayout MinColumnSpacing="8" MinRowSpacing="8" />

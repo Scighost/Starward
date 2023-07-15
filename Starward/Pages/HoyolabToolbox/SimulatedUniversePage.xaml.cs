@@ -85,7 +85,6 @@ public sealed partial class SimulatedUniversePage : Page
     private async Task InitializeDataAsync()
     {
         await Task.Delay(16);
-        await GetSimulatedUniverseInfoBasicAsync();
         InitializeSimulatedUniverseRecord();
     }
 
@@ -151,6 +150,10 @@ public sealed partial class SimulatedUniversePage : Page
     {
         try
         {
+            if (gameRole is null)
+            {
+                return;
+            }
             CurrentRecord = null;
             var list = _gameRecordService.GetSimulatedUniverseRecordBasics(gameRole);
             if (list.Any())
