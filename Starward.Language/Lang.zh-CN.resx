@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -988,17 +988,20 @@
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
     <value>解压时会占用额外的磁盘空间</value>
   </data>
-  <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
-    <value>每日数据</value>
-  </data>
   <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
     <value>技能树已激活</value>
   </data>
-  <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
-    <value>获得祝福</value>
+  <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
+    <value>已解锁奇物</value>
   </data>
-  <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
-    <value>缓存角色</value>
+  <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
+    <value>已解锁祝福</value>
+  </data>
+  <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
+    <value>本期通关次数</value>
+  </data>
+  <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
+    <value>当前最高积分</value>
   </data>
   <data name="SimulatedUniversePage_ChallengedOn" xml:space="preserve">
     <value>挑战时间</value>
@@ -1006,31 +1009,28 @@
   <data name="SimulatedUniversePage_CharactersUsed" xml:space="preserve">
     <value>通关使用角色</value>
   </data>
+  <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
+    <value>缓存角色</value>
+  </data>
   <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
     <value>获得奇物</value>
   </data>
-  <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
-    <value>当前最高积分</value>
+  <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
+    <value>获得祝福</value>
   </data>
-  <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
-    <value>本期通关次数</value>
-  </data>
-  <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
-    <value>已解锁祝福</value>
-  </data>
-  <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
-    <value>已解锁奇物</value>
-  </data>
-  <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
-    <value>星轨通票 &amp; 星轨专票</value>
+  <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
+    <value>每日数据</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJade" xml:space="preserve">
     <value>星琼</value>
   </data>
-  <data name="TravelersDiaryPage_Mora" xml:space="preserve">
-    <value>摩拉</value>
+  <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
+    <value>星轨通票 &amp; 星轨专票</value>
   </data>
   <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
     <value>原石</value>
+  </data>
+  <data name="TravelersDiaryPage_Mora" xml:space="preserve">
+    <value>摩拉</value>
   </data>
 </root>

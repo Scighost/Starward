@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -199,13 +199,13 @@
     <value>使用可能な空き容量が不足している可能性があります</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
-    <value>最低限度</value>
+    <value>天井カウント</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
     <value>平均</value>
   </data>
   <data name="GachaStatsCard_Stats" xml:space="preserve">
-    <value>状態</value>
+    <value>獲得回数</value>
   </data>
   <data name="SelectDirectoryPage_NiceToMeetYou" xml:space="preserve">
     <value>はじめまして〜</value>
@@ -235,7 +235,7 @@
     <value>OK</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>別の物を選択</value>
+    <value>別の場所を選択</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
     <value>キャンセル</value>
@@ -437,7 +437,7 @@
     <value>このアカウントは過去6ヶ月間のガチャの記録がありません</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>{0}の記録を獲得し、{1}件の記録を追加しました。</value>
+    <value>{0}件の記録を取得し、{1}件の記録を追加しました。</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
@@ -495,40 +495,40 @@
     <value>音声リソースのダウンロードを避ける為に、初めてゲームを開始する前にこの値を設定してください</value>
   </data>
   <data name="GameSettingPage_GraphicsSetting" xml:space="preserve">
-    <value>グラフィックの設定</value>
+    <value>画面設定</value>
   </data>
   <data name="GameSettingPage_GraphicsQualityPreset" xml:space="preserve">
-    <value>グラフィック品質のプリセット</value>
+    <value>画質のプリセット</value>
   </data>
   <data name="GameSettingPage_RenderScale" xml:space="preserve">
-    <value>レンダラーのスケール</value>
+    <value>レンダリング精度</value>
   </data>
   <data name="GameSettingPage_FPS" xml:space="preserve">
     <value>FPS</value>
   </data>
   <data name="GameSettingPage_VSync" xml:space="preserve">
-    <value>V-Sync</value>
+    <value>垂直同期</value>
   </data>
   <data name="GameSettingPage_AntiAliasing" xml:space="preserve">
     <value>アンチエイリアス</value>
   </data>
   <data name="GameSettingPage_ShadowQuality" xml:space="preserve">
-    <value>シャドウの品質</value>
+    <value>シャドウ品質</value>
   </data>
   <data name="GameSettingPage_ReflectionQuality" xml:space="preserve">
-    <value>リフレクションの品質</value>
+    <value>反射品質</value>
   </data>
   <data name="GameSettingPage_CharacterQuality" xml:space="preserve">
-    <value>キャラクターの品質</value>
+    <value>キャラ品質</value>
   </data>
   <data name="GameSettingPage_EnvironmentDetail" xml:space="preserve">
-    <value>環境の詳細</value>
+    <value>シーン細部</value>
   </data>
   <data name="GameSettingPage_BloomEffect" xml:space="preserve">
-    <value>Bloom効果</value>
+    <value>ブルーム効果</value>
   </data>
   <data name="GameSettingPage_LightQuality" xml:space="preserve">
-    <value>明るさの品質</value>
+    <value>照明効果</value>
   </data>
   <data name="Common_Apply" xml:space="preserve">
     <value>適用</value>
@@ -537,7 +537,7 @@
     <value>ゲームがインストールされていません</value>
   </data>
   <data name="GameSettingPage_FPSWarning" xml:space="preserve">
-    <value>FPSを120に設定するとゲーム内のグラフィック設定が使用できなくなります</value>
+    <value>FPSを120に設定するとゲーム内の画面設定が使用できなくなります</value>
   </data>
   <data name="GameSettingPage_SettingNotEffect" xml:space="preserve">
     <value>ゲームの実行中は適用された設定が反映されません</value>
@@ -630,7 +630,7 @@
     <value>ゲーム開始</value>
   </data>
   <data name="LauncherPage_GameIsRunning" xml:space="preserve">
-    <value>ゲームは実行中です</value>
+    <value>ゲームを実行中です</value>
   </data>
   <data name="Common_Start" xml:space="preserve">
     <value>開始</value>
@@ -840,7 +840,7 @@
     <value>始めにアプリのデータを保存するフォルダーを選択してください。</value>
   </data>
   <data name="GachaLogService_GetGachaProgressText" xml:space="preserve">
-    <value>{1} ページで {0} を取得</value>
+    <value>{1} ページ目で {0} の記録を取得</value>
     <comment>{0} = {gachaType} ,  {1} = {page}</comment>
   </data>
   <data name="HyperionToolbox" xml:space="preserve">
@@ -939,7 +939,7 @@
     <value>挑戦回数</value>
   </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
-    <value>時間</value>
+    <value>回</value>
     <comment>battle count 12 times</comment>
   </data>
   <data name="Common_Accept" xml:space="preserve">
@@ -986,5 +986,50 @@
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
     <value>解凍をすると追加の空き容量を必要とします。</value>
+  </data>
+  <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
+    <value>Ability Tree Buffs Activated</value>
+  </data>
+  <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
+    <value>Unlocked Curios</value>
+  </data>
+  <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
+    <value>Unlocked Blessings</value>
+  </data>
+  <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
+    <value>Number of Clears</value>
+  </data>
+  <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
+    <value>Highest Score</value>
+  </data>
+  <data name="SimulatedUniversePage_ChallengedOn" xml:space="preserve">
+    <value>Challenged On</value>
+  </data>
+  <data name="SimulatedUniversePage_CharactersUsed" xml:space="preserve">
+    <value>Characters Used</value>
+  </data>
+  <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
+    <value>Cached Characters</value>
+  </data>
+  <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
+    <value>Curios Obtained</value>
+  </data>
+  <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
+    <value>Blessings Obtained</value>
+  </data>
+  <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
+    <value>Daily Data</value>
+  </data>
+  <data name="TrailblazeCalendarPage_StellarJade" xml:space="preserve">
+    <value>Stellar Jade</value>
+  </data>
+  <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
+    <value>Pass &amp; Special Pass</value>
+  </data>
+  <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
+    <value>Primogems</value>
+  </data>
+  <data name="TravelersDiaryPage_Mora" xml:space="preserve">
+    <value>Mora</value>
   </data>
 </root>
