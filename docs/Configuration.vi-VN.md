@@ -33,7 +33,7 @@ Lưu ý: Tập tin `config.ini` phải nằm trong thư mục gốc của ứng 
 
 ## Database
 
-Tất cả các mục cài đặt ngoại trừ hai mục trên đều được lưu trữ trong cơ sở dữ liệu `StarwardDatabase.db` ở thư mục người dùng. Tập tin này là tập tin cơ sở dữ liệu SQLite, mà bạn có thể chỉnh sửa bằng [DB Browser cho SQLite](https://sqlitebrowser.org/) hoặc các phần mềm khác.
+Tất cả các mục cài đặt ngoại trừ hai mục trên đều được lưu trữ trong cơ sở dữ liệu `StarwardDatabase.db` ở thư mục người dùng. Tập tin này là tập tin cơ sở dữ liệu SQLite, mà bạn có thể chỉnh sửa bằng [DB Browser for SQLite](https://sqlitebrowser.org/) hoặc các phần mềm khác.
 
 Sẽ có một bảng tên là `Setting` ở database chứa những mục cài đặt ứng dụng, và nó có cấu trúc như sau, với các key và value được biểu thị dưới dạng văn bản.
 
@@ -57,7 +57,7 @@ Starward sử dụng `enum GameBiz` để xác định các khu vực trò chơi
 | All               | 1     | Tất cả                                      |
 | **GenshinImpact** | 10    | Genshin Impact                              |
 | hk4e_cn           | 11    | Genshin Impact (Trung Quốc Đại Lục)         |
-| hk4e_global       | 12    | Original Gods (Toàn Cầu)                    |
+| hk4e_global       | 12    | Genshin Impact (Toàn Cầu)                   |
 | hk4e_cloud        | 13    | Genshin Impact · Cloud (Trung Quốc Đại Lục) |
 | **StarRail**      | 20    | Honkai: Star Rail                           |
 | hkrpg_cn          | 21    | Star Rail (Trung Quốc Đại Lục)              |
