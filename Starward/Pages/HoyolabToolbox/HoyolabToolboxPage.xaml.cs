@@ -434,14 +434,7 @@ public sealed partial class HoyolabToolboxPage : Page
 
     private void NavigationView_Toolbox_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
-        if (args.InvokedItemContainer?.IsSelected ?? false)
-        {
-            return;
-        }
-        if (args.IsSettingsInvoked)
-        {
-        }
-        else
+        try
         {
             var item = args.InvokedItemContainer as NavigationViewItem;
             if (item != null)
@@ -458,6 +451,7 @@ public sealed partial class HoyolabToolboxPage : Page
                 NavigateTo(type);
             }
         }
+        catch { }
     }
 
 

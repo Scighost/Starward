@@ -112,7 +112,7 @@ public sealed partial class SimulatedUniversePage : Page
                     _gameRecordService.InvokeNavigateChanged(typeof(HyperionWebBridgePage), new HyperionWebBridgePage.PageParameter
                     {
                         GameRole = gameRole!,
-                        TargetUrl = "https://webstatic.mihoyo.com/app/community-game-records/rpg/index.html?bbs_presentation_style=fullscreen#/rpg/oblivious?role_id={role_id}&server={server}",
+                        TargetUrl = "https://webstatic.mihoyo.com/app/community-game-records/rpg/index.html?bbs_presentation_style=fullscreen#/rpg/rogue?role_id={role_id}&server={server}",
                     });
                 });
             }

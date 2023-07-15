@@ -747,7 +747,7 @@ public sealed partial class MainPage : Page
             page = typeof(LauncherPage);
             MainPage_NavigationView.SelectedItem = MainPage_NavigationView.MenuItems.FirstOrDefault();
         }
-        _logger.LogInformation("Navigate to {page} with param {param}", page!.Name, param);
+        _logger.LogInformation("Navigate to {page} with param {param}", page!.Name, param ?? CurrentGameBiz);
         infoOverride ??= GetNavigationTransitionInfo(changeGameBiz);
         MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, infoOverride);
         if (page.Name is nameof(BlankPage) or nameof(LauncherPage))
