@@ -203,10 +203,7 @@ public sealed partial class HoyolabToolboxPage : Page
         }
         if (gameBiz.ToGame() is GameBiz.StarRail)
         {
-            //if (gameBiz is GameBiz.hkrpg_cn)
-            //{
-            //    NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
-            //}
+            NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
             NavigationViewItem_ForgottenHall.Visibility = Visibility.Visible;
             NavigationViewItem_TrailblazeMonthlyCalendar.Visibility = Visibility.Visible;
         }
@@ -453,6 +450,7 @@ public sealed partial class HoyolabToolboxPage : Page
                 {
                     nameof(SpiralAbyssPage) => typeof(SpiralAbyssPage),
                     nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
+                    nameof(SimulatedUniversePage) => typeof(SimulatedUniversePage),
                     nameof(ForgottenHallPage) => typeof(ForgottenHallPage),
                     nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
                     _ => null,

@@ -272,7 +272,7 @@ public abstract class GameRecordClient
     /// <param name="role"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public abstract Task<SimulatedUniverseInfo> GetSimulatedUniverseInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default);
+    public abstract Task<SimulatedUniverseInfo> GetSimulatedUniverseInfoAsync(GameRecordRole role, bool detail = false, CancellationToken cancellationToken = default);
 
 
     /// <summary>

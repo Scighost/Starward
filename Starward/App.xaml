@@ -35,6 +35,7 @@
             <scv:RarityToGIBgConverter x:Key="RarityToGIBgConverter" />
             <scv:RarityToSRBgConverter x:Key="RarityToSRBgConverter" />
             <scv:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
+            <scv:CollectionToVisibilityConverter x:Key="CollectionToVisibilityConverter" />
 
             <!--  Custom Acrylic  -->
             <AcrylicBrush x:Key="CustomAcrylicBrush"
