@@ -358,7 +358,9 @@
                         Shadow="{ThemeResource ThemeShadow}"
                         Translation="0,0,16"
                         Visibility="{x:Bind SelectMonthData, Converter={StaticResource ObjectToVisibilityConverter}}">
-                    <sp:WinUIPlot Name="WinUiPlot_Historical" Height="240" />
+                    <sp:WinUIPlot Name="WinUiPlot_Historical"
+                                  Height="240"
+                                  PointerWheelChanged="WinUiPlot_Historical_PointerWheelChanged" />
                 </Border>
 
 

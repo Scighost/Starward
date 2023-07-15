@@ -309,4 +309,10 @@ public sealed partial class TrailblazeCalendarPage : Page
     }
 
 
+    private void WinUiPlot_Historical_PointerWheelChanged(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        e.Handled = true;
+    }
+
+
 }
