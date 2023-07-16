@@ -253,4 +253,15 @@ public sealed partial class SelectLanguagePage : Page
     }
 
 
+    private void ComboBox_Language_DropDownOpened(object sender, object e)
+    {
+        MainWindow.Current.SetDragRectangles();
+    }
+
+    private void ComboBox_Language_DropDownClosed(object sender, object e)
+    {
+        var len = (int)(48 * MainWindow.Current.UIScale);
+        MainWindow.Current.SetDragRectangles(new Windows.Graphics.RectInt32(0, 0, 100000, len));
+    }
+
 }

@@ -47,13 +47,10 @@
                            Text="Language" />
                 <ComboBox Name="ComboBox_Language"
                           MinWidth="300"
+                          DropDownClosed="ComboBox_Language_DropDownClosed"
+                          DropDownOpened="ComboBox_Language_DropDownOpened"
                           SelectedIndex="0"
-                          SelectionChanged="ComboBox_Language_SelectionChanged">
-                    <ComboBoxItem Content="Follow System" Tag="" />
-                    <ComboBoxItem Content="简体中文 (zh-CN, @Scighost)" Tag="zh-CN" />
-                    <ComboBoxItem Content="English (en-US, @Scighost)" Tag="en-US" />
-                    <ComboBoxItem Content="Tiếng Việt (vi-VN, @phucho0237)" Tag="vi-VN" />
-                </ComboBox>
+                          SelectionChanged="ComboBox_Language_SelectionChanged" />
 
                 <TextBlock Margin="0,8,0,0"
                            FontSize="20"
