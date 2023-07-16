@@ -1033,12 +1033,4 @@ Do you accept the risk and continue to use it?</value>
   <data name="TravelersDiaryPage_Mora" xml:space="preserve">
     <value>Mora</value>
   </data>
-  <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
-    <value>Floor {X}</value>
-    <comment>Spiral Abyss Floor {X}</comment>
-  </data>
-  <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
-    <value>Chamber {X}</value>
-    <comment>Spiral Abyss Chamber {X}</comment>
-  </data>
 </root>
