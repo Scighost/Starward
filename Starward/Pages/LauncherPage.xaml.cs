@@ -256,13 +256,13 @@ public sealed partial class LauncherPage : Page
         catch { }
     }
 
-    private void FlipView_Banner_PointerEntered(object sender, PointerRoutedEventArgs e)
+    private void Grid_BannerContainer_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
         _timer.Stop();
         Border_PipsPager.Visibility = Visibility.Visible;
     }
 
-    private void FlipView_Banner_PointerExited(object sender, PointerRoutedEventArgs e)
+    private void Grid_BannerContainer_PointerExited(object sender, PointerRoutedEventArgs e)
     {
         _timer.Start();
         Border_PipsPager.Visibility = Visibility.Collapsed;
@@ -1228,7 +1228,7 @@ public sealed partial class LauncherPage : Page
 
     #endregion
 
-
+    
 
 
 }
