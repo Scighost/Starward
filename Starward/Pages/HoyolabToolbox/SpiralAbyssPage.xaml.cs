@@ -57,7 +57,7 @@ public sealed partial class SpiralAbyssPage : Page
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        await Task.Delay(16);
+        await Task.Delay(60);
         InitializeAbyssData();
     }
 
@@ -164,5 +164,31 @@ public sealed partial class SpiralAbyssPage : Page
     }
 
 
+    private void UserControl_AbyssLevel_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (e.NewSize.Width > 720)
+        {
+            VisualStateManager.GoToState((Control)sender, "WideState", false);
+        }
+        else
+        {
+            VisualStateManager.GoToState((Control)sender, "NarrowState", false);
+        }
+    }
 
+
+
+    public static string FloorX(int x)
+    {
+        return Lang.SpiralAbyssPage_FloorX.Replace("{X}", x.ToString());
+    }
+
+
+
+    public static string LevelX(int x)
+    {
+        return Lang.SpiralAbyssPage_ChamberX.Replace("{X}", x.ToString());
+    }
+
+   
 }

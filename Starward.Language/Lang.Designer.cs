@@ -2432,6 +2432,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Chamber {X} 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_ChamberX {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_ChamberX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Combat Stats 的本地化字符串。
         /// </summary>
         public static string SpiralAbyssPage_CombatStats {
@@ -2464,6 +2473,15 @@ namespace Starward.Language {
         public static string SpiralAbyssPage_ElementalSkillsUnleashed {
             get {
                 return ResourceManager.GetString("SpiralAbyssPage_ElementalSkillsUnleashed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Floor {X} 的本地化字符串。
+        /// </summary>
+        public static string SpiralAbyssPage_FloorX {
+            get {
+                return ResourceManager.GetString("SpiralAbyssPage_FloorX", resourceCulture);
             }
         }
         

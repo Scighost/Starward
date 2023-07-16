@@ -273,7 +273,12 @@ internal class GameRecordService
         {
             return null;
         }
-        return JsonSerializer.Deserialize<SpiralAbyssInfo>(value);
+        var info = JsonSerializer.Deserialize<SpiralAbyssInfo>(value);
+        if (info != null)
+        {
+            info.Floors = info.Floors.Where(x => x.Index > 8).OrderByDescending(x => x.Index).ToList();
+        }
+        return info;
     }
 
 
