@@ -190,6 +190,7 @@
                             <Grid Width="400"
                                   Height="300"
                                   Padding="24,0,24,0"
+                                  Background="{ThemeResource CustomOverlayAcrylicBrush}"
                                   CornerRadius="8,28,8,8"
                                   Shadow="{ThemeResource ThemeShadow}"
                                   Translation="0,0,16">
@@ -205,17 +206,17 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <!--  背景图  -->
-                                <Grid.Background>
+                                <!--<Grid.Background>
                                     <ImageBrush ImageSource="ms-appx:///Assets/Image/oblivious_chaos_memory_bg@2x.69565376.png" Stretch="UniformToFill" />
-                                </Grid.Background>
+                                </Grid.Background>-->
                                 <!--  不透明遮罩  -->
-                                <Border Grid.RowSpan="5"
+                                <!--<Border Grid.RowSpan="5"
                                         Grid.ColumnSpan="2"
                                         Margin="-24,0,-24,0"
-                                        Background="#40000000" />
+                                        Background="#40000000" />-->
                                 <Border Grid.ColumnSpan="2"
                                         Margin="-24,0,-24,0"
-                                        Background="#A0000000" />
+                                        Background="{ThemeResource ControlOnImageFillColorDefaultBrush}" />
                                 <!--  名称，回合数  -->
                                 <StackPanel VerticalAlignment="Center" Spacing="2">
                                     <TextBlock FontWeight="Bold"
