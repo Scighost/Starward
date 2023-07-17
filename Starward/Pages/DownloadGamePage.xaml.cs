@@ -641,6 +641,7 @@ public sealed partial class DownloadGamePage : Page
         {
             if (isFinish)
             {
+                MainWindow.Current.Close();
                 return;
             }
             var state = _downloadGameService.State;
