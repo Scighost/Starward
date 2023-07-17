@@ -69,6 +69,14 @@ public sealed partial class HoyolabToolboxPage : Page
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        if (AppConfig.HoyolabToolboxPaneOpen)
+        {
+            OpenNavigationViewPane();
+        }
+        else
+        {
+            CloseNavigationViewPane();
+        }
         _gameRecordService.GameRecordRoleChanged += _gameRecordService_GameRecordRoleChanged;
         _gameRecordService.NavigateChanged += _gameRecordService_NavigateChanged;
         await Task.Delay(16);
@@ -142,10 +150,7 @@ public sealed partial class HoyolabToolboxPage : Page
     // Close pane
     private void Grid_Avatar_1_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
-        NavigationViewItemContentMargin = new Thickness(2, 0, 0, 0);
-        NavigationView_Toolbox.IsPaneOpen = false;
-        Grid_Avatar_1.Visibility = Visibility.Collapsed;
-        Border_Avatar_2.Visibility = Visibility.Visible;
+        CloseNavigationViewPane();
     }
 
     private void Grid_Avatar_1_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -169,10 +174,7 @@ public sealed partial class HoyolabToolboxPage : Page
     // Open pane
     private void Border_Avatar_2_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
-        NavigationViewItemContentMargin = new Thickness(-2, 0, 0, 0);
-        NavigationView_Toolbox.IsPaneOpen = true;
-        Grid_Avatar_1.Visibility = Visibility.Visible;
-        Border_Avatar_2.Visibility = Visibility.Collapsed;
+        OpenNavigationViewPane();
     }
 
     private void Border_Avatar_2_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -192,6 +194,25 @@ public sealed partial class HoyolabToolboxPage : Page
         }
     }
 
+
+    private void OpenNavigationViewPane()
+    {
+        NavigationViewItemContentMargin = new Thickness(-2, 0, 0, 0);
+        NavigationView_Toolbox.IsPaneOpen = true;
+        Grid_Avatar_1.Visibility = Visibility.Visible;
+        Border_Avatar_2.Visibility = Visibility.Collapsed;
+        AppConfig.HoyolabToolboxPaneOpen = true;
+    }
+
+
+    private void CloseNavigationViewPane()
+    {
+        NavigationViewItemContentMargin = new Thickness(2, 0, 0, 0);
+        NavigationView_Toolbox.IsPaneOpen = false;
+        Grid_Avatar_1.Visibility = Visibility.Collapsed;
+        Border_Avatar_2.Visibility = Visibility.Visible;
+        AppConfig.HoyolabToolboxPaneOpen = false;
+    }
 
 
     private void InitializeNavigationViewItemVisibility()

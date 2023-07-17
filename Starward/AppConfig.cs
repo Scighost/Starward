@@ -397,6 +397,11 @@ internal static class AppConfig
     }
 
 
+    public static bool HoyolabToolboxPaneOpen
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
 
 
     #endregion
