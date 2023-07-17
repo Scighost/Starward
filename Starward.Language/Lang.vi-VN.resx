@@ -1033,4 +1033,15 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="TravelersDiaryPage_Mora" xml:space="preserve">
     <value>Mora</value>
   </data>
+  <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
+    <value>Tầng {X}</value>
+    <comment>Spiral Abyss Floor {X}</comment>
+  </data>
+  <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
+    <value>Phòng {X}</value>
+    <comment>Spiral Abyss Chamber {X}</comment>
+  </data>
+  <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
+    <value>Screenshot folder does not exist</value>
+  </data>
 </root>

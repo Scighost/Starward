@@ -988,48 +988,59 @@
     <value>解凍をすると追加の空き容量を必要とします。</value>
   </data>
   <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
-    <value>Ability Tree Buffs Activated</value>
+    <value>覚醒したアビリティ</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
-    <value>Unlocked Curios</value>
+    <value>解放した奇物</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
-    <value>Unlocked Blessings</value>
+    <value>解放した祝福</value>
   </data>
   <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
-    <value>Number of Clears</value>
+    <value>今期のクリア回数</value>
   </data>
   <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
-    <value>Highest Score</value>
+    <value>最高ポイント</value>
   </data>
   <data name="SimulatedUniversePage_ChallengedOn" xml:space="preserve">
-    <value>Challenged On</value>
+    <value>挑戦時間</value>
   </data>
   <data name="SimulatedUniversePage_CharactersUsed" xml:space="preserve">
-    <value>Characters Used</value>
+    <value>クリア時の使用キャラクター</value>
   </data>
   <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
-    <value>Cached Characters</value>
+    <value>キャラダウンロード</value>
   </data>
   <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
-    <value>Curios Obtained</value>
+    <value>獲得した奇物</value>
   </data>
   <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
-    <value>Blessings Obtained</value>
+    <value>獲得した祝福</value>
   </data>
   <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
-    <value>Daily Data</value>
+    <value>デイリーデータ</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJade" xml:space="preserve">
-    <value>Stellar Jade</value>
+    <value>星玉</value>
   </data>
   <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
-    <value>Pass &amp; Special Pass</value>
+    <value>星軌チケット＆星軌専用チケット</value>
   </data>
   <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
-    <value>Primogems</value>
+    <value>原石</value>
   </data>
   <data name="TravelersDiaryPage_Mora" xml:space="preserve">
-    <value>Mora</value>
+    <value>モラ</value>
+  </data>
+  <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
+    <value>第 {X} 層</value>
+    <comment>Spiral Abyss Floor {X}</comment>
+  </data>
+  <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
+    <value>第 {X} 間</value>
+    <comment>Spiral Abyss Chamber {X}</comment>
+  </data>
+  <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
+    <value>スクリーンショットフォルダが見つかりません</value>
   </data>
 </root>
