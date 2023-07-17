@@ -103,6 +103,10 @@ public sealed partial class ForgottenHallPage : Page
     {
         try
         {
+            if (gameRole is null)
+            {
+                return;
+            }
             await _gameRecordService.RefreshForgottenHallInfoAsync(gameRole, 1);
             await _gameRecordService.RefreshForgottenHallInfoAsync(gameRole, 2);
             InitializeForgottenHallData();

@@ -112,6 +112,10 @@ public sealed partial class SpiralAbyssPage : Page
     {
         try
         {
+            if (gameRole is null)
+            {
+                return;
+            }
             await _gameRecordService.RefreshSpiralAbyssInfoAsync(gameRole, 1);
             await _gameRecordService.RefreshSpiralAbyssInfoAsync(gameRole, 2);
             InitializeAbyssData();

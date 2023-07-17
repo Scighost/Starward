@@ -92,6 +92,7 @@ public sealed partial class SimulatedUniversePage : Page
         {
             if (gameRole is null)
             {
+                Image_Emoji.Visibility = Visibility.Visible;
                 return;
             }
             CurrentRecord = null;
