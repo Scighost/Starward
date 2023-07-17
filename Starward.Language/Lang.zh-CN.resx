@@ -1041,4 +1041,7 @@
     <value>第 {X} 间</value>
     <comment>Spiral Abyss Chamber {X}</comment>
   </data>
+  <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
+    <value>截图文件夹不存在</value>
+  </data>
 </root>
