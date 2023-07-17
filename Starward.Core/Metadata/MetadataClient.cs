@@ -1,7 +1,9 @@
 ﻿using Starward.Core.Metadata.Github;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 
 namespace Starward.Core.Metadata;
 
@@ -150,7 +152,14 @@ public class MetadataClient
     public async Task<string> RenderGithubMarkdownAsync(string markdown, CancellationToken cancellationToken = default)
     {
         const string url = "https://api.github.com/markdown";
-        var response = await _httpClient.PostAsync(url, JsonContent.Create(new { text = markdown, mode = "gfm", context = "Scighost/Starward" }), cancellationToken);
+        var request = new GithubMarkdownRequest
+        {
+            Text = markdown,
+            Mode = "gfm",
+            Context = "Scighost/Starward",
+        };
+        var content = new StringContent(JsonSerializer.Serialize(request, typeof(GithubMarkdownRequest), MetadataJsonContext.Default), new MediaTypeHeaderValue("application/json"));
+        var response = await _httpClient.PostAsync(url, content, cancellationToken);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsStringAsync();
     }

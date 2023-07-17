@@ -79,11 +79,30 @@ public abstract class GameRecordClient
     }
 
 
-    protected string CreateSecret2(string url, object? postBody = null)
+    protected string CreateSecret2(string url)
     {
         int t = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         string r = Random.Shared.Next(100000, 200000).ToString();
-        string b = postBody is null ? "" : JsonSerializer.Serialize(postBody);
+        string b = "";
+        string q = "";
+        string[] urls = url.Split('?');
+        if (urls.Length == 2)
+        {
+            string[] queryParams = urls[1].Split('&').OrderBy(x => x).ToArray();
+            q = string.Join("&", queryParams);
+        }
+        var bytes = MD5.HashData(Encoding.UTF8.GetBytes($"salt={ApiSalt2}&t={t}&r={r}&b={b}&q={q}"));
+        var check = Convert.ToHexString(bytes).ToLower();
+        string result = $"{t},{r},{check}";
+        return result;
+    }
+
+
+    protected string CreateSecret2<T>(string url, T postBody)
+    {
+        int t = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        string r = Random.Shared.Next(100000, 200000).ToString();
+        string b = JsonSerializer.Serialize(postBody, typeof(T), GameRecordJsonContext.Default);
         string q = "";
         string[] urls = url.Split('?');
         if (urls.Length == 2)
