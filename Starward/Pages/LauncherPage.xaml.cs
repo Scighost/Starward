@@ -135,7 +135,6 @@ public sealed partial class LauncherPage : Page
             if (gameBiz.ToGame() is GameBiz.Honkai3rd)
             {
                 Border_Playtime.Visibility = Visibility.Collapsed;
-                StackPanel_Account.Visibility = Visibility.Collapsed;
             }
 #pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
         }
