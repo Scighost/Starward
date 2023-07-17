@@ -624,28 +624,33 @@ internal partial class DownloadGameService
 
             list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/pkg_version"));
 
-            if (language.HasFlag(VoiceLanguage.Chinese))
+            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
             {
-                list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_Chinese_pkg_version"));
-            }
-            if (language.HasFlag(VoiceLanguage.English))
-            {
-                list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_English(US)_pkg_version"));
-            }
-            if (language.HasFlag(VoiceLanguage.Japanese))
-            {
-                list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_Japanese_pkg_version"));
-            }
-            if (language.HasFlag(VoiceLanguage.Korean))
-            {
-                list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_Korean_pkg_version"));
+                if (language.HasFlag(VoiceLanguage.Chinese))
+                {
+                    list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_Chinese_pkg_version"));
+                }
+                if (language.HasFlag(VoiceLanguage.English))
+                {
+                    list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_English(US)_pkg_version"));
+                }
+                if (language.HasFlag(VoiceLanguage.Japanese))
+                {
+                    list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_Japanese_pkg_version"));
+                }
+                if (language.HasFlag(VoiceLanguage.Korean))
+                {
+                    list.AddRange(await GetPkgVersionsAsync($"{sperateUrl}/Audio_Korean_pkg_version"));
+                }
             }
 
             packageTasks = list;
 
-            await SetVoiceLanguageAsync(biz, installPath, language);
-
-            await CopyAudioAssetsFromPersistentToStreamAssetsAsync();
+            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            {
+                await SetVoiceLanguageAsync(biz, installPath, language);
+                await CopyAudioAssetsFromPersistentToStreamAssetsAsync();
+            }
 
             State = DownloadGameState.Prepared;
         }
@@ -1035,6 +1040,24 @@ internal partial class DownloadGameService
                     }
                 }
             });
+
+            if (gameBiz.ToGame() is GameBiz.Honkai3rd)
+            {
+                string BH3Base = Path.Combine(installPath, "BH3Base.dll");
+                if (File.Exists(BH3Base))
+                {
+                    File.Delete(BH3Base);
+                }
+                string bugtrace = Path.Combine(installPath, "bugtrace.dll");
+                if (File.Exists(bugtrace))
+                {
+                    File.Delete(bugtrace);
+                }
+                long? length = await GetContentLengthAsync($"{sperateUrl}/BH3Base.dll");
+                list.Add(new DownloadTask { FileName = "BH3Base.dll", MD5 = "", Size = length ?? 0 });
+                length = await GetContentLengthAsync($"{sperateUrl}/bugtrace.dll");
+                list.Add(new DownloadTask { FileName = "bugtrace.dll", MD5 = "", Size = length ?? 0 });
+            }
 
             sliceTasks = list;
             TotalBytes = sliceTasks.Sum(x => x.Size);

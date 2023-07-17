@@ -161,7 +161,10 @@ public sealed partial class DownloadGamePage : Page
             await instance.RedirectActivationToAsync(AppInstance.GetCurrent().GetActivatedEventArgs());
             Environment.Exit(0);
         }
-        if (gameBiz.ToGame() is GameBiz.None || gameBiz is GameBiz.hk4e_cloud || (repairMode && gameBiz.ToGame() != GameBiz.GenshinImpact) || !Directory.Exists(gameFolder))
+        if (gameBiz.ToGame() is GameBiz.None
+            || gameBiz is GameBiz.hk4e_cloud
+            || (repairMode && (gameBiz.ToGame() is not GameBiz.GenshinImpact and not GameBiz.Honkai3rd))
+            || !Directory.Exists(gameFolder))
         {
             instance.UnregisterKey();
             var dialog = new ContentDialog
@@ -364,7 +367,15 @@ public sealed partial class DownloadGamePage : Page
             }
             if (state is DownloadGameService.DownloadGameState.Decompressed)
             {
-                FinishTask();
+                if (gameBiz.ToGame() is GameBiz.Honkai3rd)
+                {
+                    repairMode = true;
+                    _ = PrepareForDownloadAsync();
+                }
+                else
+                {
+                    FinishTask();
+                }
                 return;
             }
             if (state is DownloadGameService.DownloadGameState.Error)

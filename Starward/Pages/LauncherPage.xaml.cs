@@ -355,7 +355,7 @@ public sealed partial class LauncherPage : Page
     public bool IsPreDownloadEnable => LocalVersion != null && PreVersion != null;
 
 
-    public bool IsRepairGameEnable => (gameBiz is GameBiz.hk4e_cn or GameBiz.hk4e_global) && LocalVersion != null;
+    public bool IsRepairGameEnable => (gameBiz is GameBiz.hk4e_cn or GameBiz.hk4e_global || gameBiz.ToGame() is GameBiz.Honkai3rd) && LocalVersion != null;
 
 
     [ObservableProperty]
@@ -1219,7 +1219,7 @@ public sealed partial class LauncherPage : Page
 
     #endregion
 
-    
+
 
 
 }
