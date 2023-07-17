@@ -1034,11 +1034,14 @@
     <value>摩拉</value>
   </data>
   <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
-    <value>Floor {X}</value>
+    <value>第 {X} 层</value>
     <comment>Spiral Abyss Floor {X}</comment>
   </data>
   <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
-    <value>Chamber {X}</value>
+    <value>第 {X} 間</value>
     <comment>Spiral Abyss Chamber {X}</comment>
+  </data>
+  <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
+    <value>Screenshot folder does not exist</value>
   </data>
 </root>
