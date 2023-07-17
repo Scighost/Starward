@@ -1039,4 +1039,7 @@
   <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
     <value>第 {X} 层</value>
   </data>
+  <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
+    <value>截图文件夹不存在</value>
+  </data>
 </root>

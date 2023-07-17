@@ -63,9 +63,6 @@ public sealed partial class ForgottenHallPage : Page
 
 
 
-    [ObservableProperty]
-    private bool hasData;
-
 
     [ObservableProperty]
     private List<ForgottenHallInfo> forgottenHallList;
@@ -84,9 +81,12 @@ public sealed partial class ForgottenHallPage : Page
             var list = _gameRecordService.GetForgottenHallInfoList(gameRole);
             if (list.Any())
             {
-                HasData = true;
                 ForgottenHallList = list;
                 ListView_ForgottenHall.SelectedIndex = 0;
+            }
+            else
+            {
+                Image_Emoji.Visibility = Visibility.Visible;
             }
         }
         catch (Exception ex)
@@ -147,7 +147,7 @@ public sealed partial class ForgottenHallPage : Page
             if (e.AddedItems.FirstOrDefault() is ForgottenHallInfo info)
             {
                 CurrentForgottenHall = _gameRecordService.GetForgottenHallInfo(gameRole, info.ScheduleId);
-                HasData = CurrentForgottenHall?.HasData ?? false;
+                Image_Emoji.Visibility = (CurrentForgottenHall?.HasData ?? false) ? Visibility.Collapsed : Visibility.Visible;
             }
         }
         catch (Exception ex)

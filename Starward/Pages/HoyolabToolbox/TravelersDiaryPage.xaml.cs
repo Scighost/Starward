@@ -67,10 +67,6 @@ public sealed partial class TravelersDiaryPage : Page
 
 
     [ObservableProperty]
-    private bool hasData;
-
-
-    [ObservableProperty]
     private TravelersDiarySummary currentSummary;
 
 
@@ -123,7 +119,6 @@ public sealed partial class TravelersDiaryPage : Page
             {
                 return;
             }
-            HasData = true;
             CurrentSummary = await _gameRecordService.GetTravelersDiarySummaryAsync(gameRole);
             MenuFlyout_GetDetails.Items.Clear();
             foreach (int month in CurrentSummary.OptionalMonth)
@@ -162,10 +157,7 @@ public sealed partial class TravelersDiaryPage : Page
         {
             SelectMonthData = null;
             MonthDataList = _gameRecordService.GetTravelersDiaryMonthDataList(gameRole);
-            if (MonthDataList.Any())
-            {
-                HasData = true;
-            }
+            Image_Emoji.Visibility = MonthDataList.Any() ? Visibility.Collapsed : Visibility.Visible;
         }
         catch (Exception ex)
         {

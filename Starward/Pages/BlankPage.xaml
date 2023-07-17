@@ -6,11 +6,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid>
-        <Image Width="160"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Source="{StaticResource PamuRead}" />
-    </Grid>
+    <Grid />
 
 </Page>

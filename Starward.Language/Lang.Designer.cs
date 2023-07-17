@@ -1847,6 +1847,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Screenshot folder does not exist 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotPage_ScreenshotFolderDoesNotExist {
+            get {
+                return ResourceManager.GetString("ScreenshotPage_ScreenshotFolderDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 This folder will be automatically deleted after the software update 的本地化字符串。
         /// </summary>
         public static string SelectDirectoryPage_AutoDeleteAfterUpdate {

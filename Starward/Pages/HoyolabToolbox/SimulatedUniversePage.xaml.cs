@@ -64,10 +64,6 @@ public sealed partial class SimulatedUniversePage : Page
 
 
     [ObservableProperty]
-    private bool hasData;
-
-
-    [ObservableProperty]
     private SimulatedUniverseBasicStats basicInfo;
 
 
@@ -90,6 +86,43 @@ public sealed partial class SimulatedUniversePage : Page
 
 
 
+    private void InitializeSimulatedUniverseRecord()
+    {
+        try
+        {
+            if (gameRole is null)
+            {
+                return;
+            }
+            CurrentRecord = null;
+            var list = _gameRecordService.GetSimulatedUniverseRecordBasics(gameRole);
+            if (list.Any())
+            {
+                RecordBasicList = list;
+                ListView_SimulatedUniverse.SelectedIndex = 0;
+            }
+            else
+            {
+                Image_Emoji.Visibility = Visibility.Visible;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Init simulated universe record basic data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task GetSimulatedUniverseDetailAsync()
+    {
+        await GetSimulatedUniverseInfoBasicAsync(true);
+        InitializeSimulatedUniverseRecord();
+    }
+
+
+
     private async Task GetSimulatedUniverseInfoBasicAsync(bool detail = false)
     {
         try
@@ -98,7 +131,6 @@ public sealed partial class SimulatedUniversePage : Page
             {
                 return;
             }
-            HasData = true;
             var info = await _gameRecordService.GetSimulatedUniverseInfoAsync(gameRole, detail);
             BasicInfo = info.BasicInfo;
         }
@@ -135,42 +167,6 @@ public sealed partial class SimulatedUniversePage : Page
 
 
 
-    [RelayCommand]
-    private async Task GetSimulatedUniverseDetailAsync()
-    {
-        await GetSimulatedUniverseInfoBasicAsync(true);
-        InitializeSimulatedUniverseRecord();
-    }
-
-
-
-
-
-    private void InitializeSimulatedUniverseRecord()
-    {
-        try
-        {
-            if (gameRole is null)
-            {
-                return;
-            }
-            CurrentRecord = null;
-            var list = _gameRecordService.GetSimulatedUniverseRecordBasics(gameRole);
-            if (list.Any())
-            {
-                HasData = true;
-                RecordBasicList = list;
-                ListView_SimulatedUniverse.SelectedIndex = 0;
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Init simulated universe record basic data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
-        }
-    }
-
-
-
     private void ListView_SimulatedUniverse_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.AddedItems.FirstOrDefault() is SimulatedUniverseRecordBasic data)
@@ -190,6 +186,7 @@ public sealed partial class SimulatedUniversePage : Page
                 return;
             }
             CurrentRecord = _gameRecordService.GetSimulatedUniverseRecord(gameRole, data.ScheduleId);
+            Image_Emoji.Visibility = (CurrentRecord?.HasData ?? false) ? Visibility.Collapsed : Visibility.Visible;
         }
         catch (Exception ex)
         {

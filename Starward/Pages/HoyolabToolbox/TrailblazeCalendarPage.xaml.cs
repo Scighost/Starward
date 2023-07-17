@@ -66,10 +66,6 @@ public sealed partial class TrailblazeCalendarPage : Page
 
 
     [ObservableProperty]
-    private bool hasData;
-
-
-    [ObservableProperty]
     private TrailblazeCalendarSummary currentSummary;
 
 
@@ -122,7 +118,6 @@ public sealed partial class TrailblazeCalendarPage : Page
             {
                 return;
             }
-            HasData = true;
             CurrentSummary = await _gameRecordService.GetTrailblazeCalendarSummaryAsync(gameRole);
             MenuFlyout_GetDetails.Items.Clear();
             foreach (string monthStr in CurrentSummary.OptionalMonth)
@@ -173,10 +168,7 @@ public sealed partial class TrailblazeCalendarPage : Page
         {
             SelectMonthData = null;
             MonthDataList = _gameRecordService.GetTrailblazeCalendarMonthDataList(gameRole);
-            if (MonthDataList.Any())
-            {
-                HasData = true;
-            }
+            Image_Emoji.Visibility = MonthDataList.Any() ? Visibility.Collapsed : Visibility.Visible;
         }
         catch (Exception ex)
         {

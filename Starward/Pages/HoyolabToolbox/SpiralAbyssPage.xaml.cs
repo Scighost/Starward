@@ -90,9 +90,12 @@ public sealed partial class SpiralAbyssPage : Page
             var list = _gameRecordService.GetSpiralAbyssInfoList(gameRole);
             if (list.Any())
             {
-                HasData = true;
                 AbyssList = list;
                 ListView_AbyssList.SelectedIndex = 0;
+            }
+            else
+            {
+                Image_Emoji.Visibility = Visibility.Visible;
             }
         }
         catch (Exception ex)
@@ -155,6 +158,7 @@ public sealed partial class SpiralAbyssPage : Page
             {
                 CurrentAbyss = _gameRecordService.GetSpiralAbyssInfo(gameRole, info.ScheduleId);
                 HasData = CurrentAbyss?.TotalBattleCount > 0;
+                Image_Emoji.Visibility = HasData ? Visibility.Collapsed : Visibility.Visible;
             }
         }
         catch (Exception ex)
@@ -190,5 +194,5 @@ public sealed partial class SpiralAbyssPage : Page
         return Lang.SpiralAbyssPage_ChamberX.Replace("{X}", x.ToString());
     }
 
-   
+
 }

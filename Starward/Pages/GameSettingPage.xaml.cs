@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Helpers;
@@ -53,6 +54,13 @@ public sealed partial class GameSettingPage : Page
         if (e.Parameter is GameBiz biz)
         {
             gameBiz = biz;
+            Image_Emoji.Source = gameBiz.ToGame() switch
+            {
+                GameBiz.GenshinImpact => new BitmapImage(AppConfig.EmojiPaimon),
+                GameBiz.StarRail => new BitmapImage(AppConfig.EmojiPom),
+                GameBiz.Honkai3rd => new BitmapImage(AppConfig.EmojiAI),
+                _ => null,
+            };
         }
     }
 
@@ -225,6 +233,7 @@ public sealed partial class GameSettingPage : Page
             var localVersion = await _downloadGameService.GetLocalGameVersionAsync(gameBiz);
             if (localVersion is null)
             {
+                StackPanel_Emoji.Visibility = Visibility.Visible;
                 return;
             }
             IsBaseSettingEnable = true;

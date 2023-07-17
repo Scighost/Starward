@@ -31,13 +31,15 @@
         </Grid.ColumnDefinitions>
 
 
-        <Image Grid.RowSpan="2"
-               Grid.ColumnSpan="2"
+        <Image Name="Image_Emoji"
+               Grid.RowSpan="2"
+               Grid.Column="1"
                Width="160"
+               Height="160"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="{StaticResource PamuRead}"
-               Visibility="{x:Bind HasData, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+               Source="{StaticResource EmojiPom}"
+               Visibility="Collapsed" />
 
         <StackPanel Margin="0,24,0,0"
                     HorizontalAlignment="Left"
@@ -158,14 +160,17 @@
                       Translation="0,0,16"
                       Visibility="{x:Bind CurrentRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
                     <!--  本期通关次数  -->
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <TextBlock Margin="12,0,0,0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center">
                         <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.SimulatedUniversePage_NumberOfClears}" />
                         <Run Text="" />
                         <Run Text="{x:Bind CurrentRecord.Basic.FinishCount}" />
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <!--  统计周期  -->
-                    <TextBlock HorizontalAlignment="Right"
+                    <TextBlock Margin="0,0,12,0"
+                               HorizontalAlignment="Right"
                                VerticalAlignment="Center"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}">
                         <Run Text="{x:Bind lang:Lang.ForgottenHallPage_Period}" />

@@ -25,13 +25,15 @@
 
 
 
-        <Image Grid.RowSpan="2"
-               Grid.ColumnSpan="2"
+        <Image Name="Image_Emoji"
+               Grid.RowSpan="2"
+               Grid.Column="1"
                Width="160"
+               Height="160"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="{StaticResource PamuRead}"
-               Visibility="{x:Bind HasData, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+               Source="{StaticResource EmojiPaimon}"
+               Visibility="Collapsed" />
 
 
         <StackPanel Margin="0,24,0,0"
@@ -88,8 +90,7 @@
                   Padding="12,0,12,0"
                   ItemsSource="{x:Bind MonthDataList}"
                   SelectionChanged="ListView_MonthDataList_SelectionChanged"
-                  SelectionMode="Single"
-                  Visibility="{x:Bind HasData}">
+                  SelectionMode="Single">
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                     <Setter Property="Margin" Value="0,4,0,4" />
@@ -126,9 +127,7 @@
 
 
 
-        <ScrollViewer Grid.RowSpan="2"
-                      Grid.Column="1"
-                      Visibility="{x:Bind HasData, Converter={StaticResource ObjectToVisibilityConverter}}">
+        <ScrollViewer Grid.RowSpan="2" Grid.Column="1">
             <StackPanel Margin="24" Spacing="8">
 
                 <!--  Real-Time Data  -->

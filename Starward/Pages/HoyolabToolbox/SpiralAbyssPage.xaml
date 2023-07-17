@@ -27,13 +27,15 @@
         </Grid.ColumnDefinitions>
 
 
-        <Image Grid.RowSpan="2"
-               Grid.ColumnSpan="2"
+        <Image Name="Image_Emoji"
+               Grid.RowSpan="2"
+               Grid.Column="1"
                Width="160"
+               Height="160"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="{StaticResource PamuRead}"
-               Visibility="{x:Bind HasData, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+               Source="{StaticResource EmojiPaimon}"
+               Visibility="Collapsed" />
 
         <StackPanel Margin="0,24,0,0"
                     HorizontalAlignment="Left"
@@ -98,6 +100,7 @@
                         <TextBlock Grid.Row="1"
                                    Margin="24,0,0,2"
                                    VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="{x:Bind TotalStar}" />
                     </Grid>
                 </DataTemplate>
@@ -413,7 +416,7 @@
                                                                        Text="{x:Bind local:SpiralAbyssPage.LevelX(Index)}" />
                                                             <TextBlock FontSize="12"
                                                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                                       Text="{x:Bind FirstBattleTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                                                       Text="{x:Bind FirstBattleTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                                         </StackPanel>
                                                         <!--  星星  -->
                                                         <ItemsRepeater HorizontalAlignment="Right" ItemsSource="{x:Bind linq:Enumerable.Range(0, Star)}">
@@ -442,7 +445,7 @@
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    FontSize="12"
                                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                                   Text="{x:Bind FirstBattleTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                                                   Text="{x:Bind FirstBattleTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                                         <ItemsRepeater HorizontalAlignment="Center" ItemsSource="{x:Bind linq:Enumerable.Range(0, Star)}">
                                                             <ItemsRepeater.Layout>
                                                                 <StackLayout Orientation="Horizontal" />

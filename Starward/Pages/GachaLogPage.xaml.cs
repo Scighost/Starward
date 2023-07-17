@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Gacha;
@@ -66,10 +67,12 @@ public sealed partial class GachaLogPage : Page
             if (biz.ToGame() is GameBiz.GenshinImpact)
             {
                 _gachaLogService = AppConfig.GetService<GenshinGachaService>();
+                Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPaimon);
             }
             if (biz.ToGame() is GameBiz.StarRail)
             {
                 _gachaLogService = AppConfig.GetService<StarRailGachaService>();
+                Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPom);
             }
         }
     }
@@ -159,6 +162,10 @@ public sealed partial class GachaLogPage : Page
             {
                 SelectUid = UidList.FirstOrDefault();
             }
+            if (UidList.Count == 0)
+            {
+                StackPanel_Emoji.Visibility = Visibility.Visible;
+            }
         }
         catch (Exception ex)
         {
@@ -178,6 +185,7 @@ public sealed partial class GachaLogPage : Page
                 GachaTypeStats2 = null;
                 GachaTypeStats3 = null;
                 GachaTypeStats4 = null;
+                StackPanel_Emoji.Visibility = Visibility.Visible;
             }
             else
             {
@@ -186,6 +194,7 @@ public sealed partial class GachaLogPage : Page
                 GachaTypeStats2 = stats.ElementAtOrDefault(1);
                 GachaTypeStats3 = stats.ElementAtOrDefault(2);
                 GachaTypeStats4 = stats.ElementAtOrDefault(3);
+                StackPanel_Emoji.Visibility = Visibility.Collapsed;
             }
         }
         catch (Exception ex)
