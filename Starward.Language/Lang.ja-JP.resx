@@ -1040,4 +1040,7 @@
     <value>Chamber {X}</value>
     <comment>Spiral Abyss Chamber {X}</comment>
   </data>
+  <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
+    <value>Screenshot folder does not exist</value>
+  </data>
 </root>
