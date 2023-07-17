@@ -383,13 +383,6 @@ internal static class AppConfig
     }
 
 
-    public static bool PauseVideoWhenChangeToOtherPage
-    {
-        get => GetValue<bool>();
-        set => SetValue(value);
-    }
-
-
     public static bool UseOneBg
     {
         get => GetValue<bool>();
@@ -402,6 +395,8 @@ internal static class AppConfig
         get => GetValue<bool>();
         set => SetValue(value);
     }
+
+
 
 
     #endregion

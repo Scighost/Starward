@@ -757,10 +757,7 @@ public sealed partial class MainPage : Page
         }
         else
         {
-            if (AppConfig.PauseVideoWhenChangeToOtherPage)
-            {
-                PauseVideo();
-            }
+            PauseVideo();
             Border_ContentBackground.Opacity = 1;
         }
     }

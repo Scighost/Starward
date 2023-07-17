@@ -870,14 +870,6 @@ public sealed partial class LauncherPage : Page
 
 
     [ObservableProperty]
-    private bool pauseVideoWhenChangeToOtherPage = AppConfig.PauseVideoWhenChangeToOtherPage;
-    partial void OnPauseVideoWhenChangeToOtherPageChanged(bool value)
-    {
-        AppConfig.PauseVideoWhenChangeToOtherPage = value;
-    }
-
-
-    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(VideoBgVolumeButtonIcon))]
     private int videoBgVolume = AppConfig.VideoBgVolume;
     partial void OnVideoBgVolumeChanged(int value)

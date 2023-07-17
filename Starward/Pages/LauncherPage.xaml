@@ -724,12 +724,6 @@
                                   OffContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}"
                                   OnContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}" />
 
-                    <!--  切换到其他页面时暂停视频  -->
-                    <ToggleSwitch Margin="0,-4,0,0"
-                                  IsOn="{x:Bind PauseVideoWhenChangeToOtherPage, Mode=TwoWay}"
-                                  OffContent="{x:Bind lang:Lang.SettingPage_PauseVideoWhenSwitchingToOtherPages}"
-                                  OnContent="{x:Bind lang:Lang.SettingPage_PauseVideoWhenSwitchingToOtherPages}" />
-
                     <!--  volume  -->
                     <Grid ColumnSpacing="12">
                         <Grid.ColumnDefinitions>
