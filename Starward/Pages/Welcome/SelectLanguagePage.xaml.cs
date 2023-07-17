@@ -39,6 +39,15 @@ public sealed partial class SelectLanguagePage : Page
         this.InitializeComponent();
         WelcomePage.Current.TextLanguage = null!;
         CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+    }
+
+
+
+
+
+    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        await Task.Delay(16);
         InitializeLanguageComboBox();
         switch (AppConfig.ApiCDNIndex)
         {
@@ -51,18 +60,11 @@ public sealed partial class SelectLanguagePage : Page
             case 1: RadioButton_WindowSize_Small.IsChecked = true; break;
             default: RadioButton_WindowSize_Normal.IsChecked = true; break;
         }
-    }
-
-
-
-
-
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
-    {
-        await Task.Delay(100);
         TestCDNCommand.Execute(null);
     }
 
+
+    private bool enableSelectionChanged = false;
 
 
     private void InitializeLanguageComboBox()
@@ -75,7 +77,6 @@ public sealed partial class SelectLanguagePage : Page
                 Content = Lang.SettingPage_FollowSystem,
                 Tag = "",
             });
-            ComboBox_Language.SelectedIndex = 0;
             foreach (var (Title, LangCode) in Localization.LanguageList)
             {
                 ComboBox_Language.Items.Add(new ComboBoxItem
@@ -84,8 +85,13 @@ public sealed partial class SelectLanguagePage : Page
                     Tag = LangCode,
                 });
             }
+            ComboBox_Language.SelectedIndex = 0;
         }
         catch { }
+        finally
+        {
+            enableSelectionChanged = true;
+        }
     }
 
 
@@ -150,7 +156,7 @@ public sealed partial class SelectLanguagePage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCND_CF.Text = "Network Error";
+                    TextBlock_TestCND_CF.Text = Lang.Common_NetworkError;
                 }
                 finally
                 {
@@ -167,7 +173,7 @@ public sealed partial class SelectLanguagePage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_GH.Text = "Network Error";
+                    TextBlock_TestCDN_GH.Text = Lang.Common_NetworkError;
                 }
                 finally
                 {
@@ -184,7 +190,7 @@ public sealed partial class SelectLanguagePage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_JD.Text = "Network Error";
+                    TextBlock_TestCDN_JD.Text = Lang.Common_NetworkError;
                 }
                 finally
                 {
@@ -225,7 +231,7 @@ public sealed partial class SelectLanguagePage : Page
         {
             if (ComboBox_Language.SelectedItem is ComboBoxItem item)
             {
-                if (this.IsLoaded)
+                if (enableSelectionChanged)
                 {
                     var lang = item.Tag as string;
                     _logger.LogInformation("Language change to {lang}", lang);

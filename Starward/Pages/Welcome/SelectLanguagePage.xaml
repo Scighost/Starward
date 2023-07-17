@@ -36,11 +36,9 @@
               Padding="24,12,24,12"
               HorizontalAlignment="Left"
               VerticalAlignment="Center"
-              Background="{ThemeResource CustomAcrylicBrush}"
-              CornerRadius="8"
-              Shadow="{ThemeResource ThemeShadow}"
-              Translation="0,0,16">
-            <StackPanel Spacing="12">
+              Background="{ThemeResource CustomOverlayAcrylicBrush}"
+              CornerRadius="8">
+            <StackPanel Spacing="8">
                 <TextBlock FontSize="20"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
@@ -57,7 +55,9 @@
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                            Text="Windows Size" />
-                <StackPanel Orientation="Horizontal" Spacing="16">
+                <StackPanel Margin="0,-4,0,0"
+                            Orientation="Horizontal"
+                            Spacing="16">
                     <RadioButton Name="RadioButton_WindowSize_Normal"
                                  Click="RadioButton_WindowSize_Click"
                                  GroupName="WindowSize"
@@ -87,7 +87,7 @@
                            Text="{x:Bind lang:Lang.SettingPage_CloudFlareConnectProperly}"
                            TextWrapping="Wrap" />
 
-                <RadioButtons Margin="0,-8,0,0">
+                <RadioButtons Margin="0,-4,0,0">
                     <RadioButton Name="RadioButton_CF"
                                  Click="RadioButton_CDN_Click"
                                  Tag="cf">
@@ -105,6 +105,7 @@
                         </StackPanel>
                     </RadioButton>
                     <RadioButton Name="RadioButton_GH"
+                                 Margin="0,-4,0,0"
                                  Click="RadioButton_CDN_Click"
                                  Tag="gh">
                         <StackPanel Orientation="Horizontal">
@@ -121,6 +122,7 @@
                         </StackPanel>
                     </RadioButton>
                     <RadioButton Name="RadioButton_JD"
+                                 Margin="0,-8,0,0"
                                  Click="RadioButton_CDN_Click"
                                  Tag="jd">
                         <StackPanel Orientation="Horizontal">

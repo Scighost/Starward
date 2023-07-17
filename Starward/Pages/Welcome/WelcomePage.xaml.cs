@@ -33,7 +33,6 @@ public sealed partial class WelcomePage : Page
         Current = this;
         this.InitializeComponent();
         MainWindow.Current.ChangeAccentColor(null);
-        frame.Navigate(typeof(SelectDirectoryPage));
     }
 
 
@@ -42,6 +41,16 @@ public sealed partial class WelcomePage : Page
         Current = this;
         this.InitializeComponent();
         MainWindow.Current.ChangeAccentColor(null);
+        this.first = first;
+        
+    }
+
+
+    bool first;
+
+
+    private void Page_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
         if (first)
         {
             frame.Navigate(typeof(SelectLanguagePage));
@@ -67,5 +76,5 @@ public sealed partial class WelcomePage : Page
         AppConfig.ApiCDNIndex = ApiCDNIndex;
     }
 
-
+    
 }
