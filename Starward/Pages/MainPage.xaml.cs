@@ -573,10 +573,10 @@ public sealed partial class MainPage : Page
                             decodeWidth = (int)(windowHeight * decoder.PixelWidth / decoder.PixelHeight);
                         }
                         var data = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8,
-                                                                   decoder.BitmapAlphaMode,
+                                                                   BitmapAlphaMode.Premultiplied,
                                                                    new BitmapTransform { ScaledWidth = (uint)decodeWidth, ScaledHeight = (uint)decodeHeight, InterpolationMode = BitmapInterpolationMode.Fant },
                                                                    ExifOrientationMode.IgnoreExifOrientation,
-                                                                   ColorManagementMode.DoNotColorManage);
+                                                                   ColorManagementMode.ColorManageToSRgb);
                         var bytes = data.DetachPixelData();
                         bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
                         await bitmap.PixelBuffer.AsStream().WriteAsync(bytes);
