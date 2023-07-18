@@ -18,11 +18,17 @@ More features are being planned...
 
 ## Download
 
-> You need to use Windows 10 1809 (17763) and above with [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) installed.
+First, your device needs to meet the following requirements:
 
-You can download the latest release from the [GitHub Release](https://github.com/Scighost/Starward/releases) page. The app uses incremental updates, both easy and convenient.
+- Windows 10 1809 (17763) and above
+- [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) installed
+- [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2) installed
+- Windows 10 users are advised to install the font [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
 
-There may be an issue with crashing after running on some devices. If you encounter this issue, please create a `config.ini` file in the `Starward` folder and paste the following into it. For more information about `config.ini` please read [docs/Configuration.md](./docs/Configuration.md).
+Download the package for your CPU architecture from [GitHub Release](https://github.com/Scighost/Starward/releases). Extract it, then run `Starward.exe` and follow the prompts.
+
+Starward may crash after running on some devices. if you encounter this problem, create a `config.ini` file in the `Starward` folder and paste the following into it. See [docs/Configuration.md](. /Configuration.md) for more information about `config.ini` .
+
 
 ``` ini
 EnableConsole=False
@@ -61,8 +67,8 @@ And the third-party libraries used in this project include:
 -  [Dapper](https://github.com/DapperLib/Dapper)
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
--  [Markdig](https://github.com/xoofx/markdig)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
+-  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)
 -  [SevenZipExtractor](https://github.com/adoconnection/SevenZipExtractor)
 -  [Vanara PInvoke](https://github.com/dahall/Vanara)

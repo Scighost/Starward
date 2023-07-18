@@ -18,9 +18,14 @@
 
 ## 下载
 
-> 你需要使用 Windows 10 1809 (17763) 及以上的版本的操作系统，并安装 [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) 。
+首先，您的设备需要满足以下要求：
 
-你可以在 [GitHub Release](https://github.com/Scighost/Starward/releases) 页面下载最新发布的版本，应用使用增量更新的方式，既简单又便捷。
+- Windows 10 1809 (17763) 及以上的版本
+- 已安装 [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist)
+- 已安装 [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2)
+- Windows 10 用户建议安装字体 [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
+
+请在 [GitHub Release](https://github.com/Scighost/Starward/releases) 下载对应 CPU 架构的压缩包，解压后运行 `Starward.exe` 并按提示操作。
 
 部分设备上可能出现运行后崩溃的问题，如果遇到了此问题，请在 `Starward` 文件夹中创建 `config.ini` 文件，并把以下内容粘贴到此文件中。有关 `config.ini` 的更多信息请参考 [docs/Configuration.md](./Configuration.zh-CN.md) 。
 
@@ -61,8 +66,8 @@ Starward 使用 [Crowdin](https://crowdin.com/project/starward) 进行本地化�
 -  [Dapper](https://github.com/DapperLib/Dapper)
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
--  [Markdig](https://github.com/xoofx/markdig)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
+-  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)
 -  [SevenZipExtractor](https://github.com/adoconnection/SevenZipExtractor)
 -  [Vanara PInvoke](https://github.com/dahall/Vanara)
