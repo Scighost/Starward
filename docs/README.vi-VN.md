@@ -20,7 +20,7 @@ Và nhiều tính năng khác đang được lên kế hoạch...
 
 Đầu tiên, thiết bị của bạn cần đáp ứng những điều kiện sau:
 
-- Windows 10 1809 (17763) và trở đi
+- Windows 10 1809 (17763) và trở đi.
 - [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) cài đặt.
 - [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2) cài đặt.
 - Người dùng Windows 10 nên cài đặt font [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
