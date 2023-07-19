@@ -87,11 +87,12 @@ Kiểu dữ liệu `Type` trong bảng sau sử dụng biểu thức trong C#, v
 | ShowNoviceGacha                 | bool    | -                | Hiển thị số liệu gacha người mới.                                                                                                                                 |
 | GachaLanguage                   | string? | -                | Nhận ngôn ngữ được sử dụng cho lịch sử gacha, mặc định là ngôn ngữ trong trò chơi.                                                                                |
 | EnableDynamicAccentColor        | bool    | -                | Màu chủ đề động được lấy từ ảnh nền, và màu chủ đề hệ thống được sử dụng khi tắt.                                                                                 |
-| AccentColor                     | string? | -                | Màu chủ đề động được lưu trong bộ nhớ cache, được sử dụng để giảm số lượng tính toán khi khởi động, `#ARBG#ARBG`: màu trước là màu nền và màu sau là màu văn bản/ |
+| AccentColor                     | string? | -                | Màu chủ đề động được lưu trong bộ nhớ cache, được sử dụng để giảm số lượng tính toán khi khởi động, `#ARBG#ARBG`: màu trước là màu nền và màu sau là màu văn bản. |
 | VideoBgVolume                   | int     | 100              | Âm lượng của video nền, `0 - 100`.                                                                                                                                |
-| PauseVideoWhenChangeToOtherPage | bool    | -                | Tạm dừng video khi chuyển sang trang không có trình khởi chạy.                                                                                                    |
+| PauseVideoWhenChangeToOtherPage | bool    | -                | **Lỗi thời** Tạm dừng video khi chuyển sang trang không có trình khởi chạy.                                                                                       |
 | UseOneBg                        | bool    | -                | Sử dụng cùng một hình nền cho tất cả các khu vực trò chơi, thường được bật khi sử dụng nền video.                                                                 |
 | AcceptHoyolabToolboxAgreement   | bool    | -                | Chấp nhận tuyên bố từ chối trách nhiệm của trang công cụ HoYoLAB.                                                                                                 |
+| HoyolabToolboxPaneOpen          | bool    | true             | Thanh bên điều hướng ở trang công cụ HoYoLAB có mở hay không.                                                                                                     |
 
 ## Cài đặt động (Dynamic Settings)
 
@@ -106,6 +107,6 @@ Các mục cài đặt động có các giá trị khác nhau trong từng vùng
 | enable_third_party_tool      | bool    | -                | Có bật công cụ của bên thứ ba để bắt đầu trò chơi hay không.                                                                           |
 | third_party_tool_path        | string? | -                | Đường dẫn đến tập tin của công cụ bên thứ ba.                                                                                          |
 | start_argument               | string? | -                | Đối số khởi động trò chơi                                                                                                              |
-| last_gacha_uid               | long    | -                | Uid được chọn cuối cùng trong trang bản ghi gacha.                                                                                     |
+| last_gacha_uid               | long    | -                | UID được chọn cuối cùng trong trang bản ghi gacha.                                                                                     |
 | last_region_of               | GameBiz | -                | Khu vực trò chơi được chọn cuối cùng, được sử dụng để chuyển đổi nhanh ở đầu ứng dụng, với tên đầy đủ của trò chơi được thêm vào cuối. |
-| last_select_game_record_role | long    | -                | Uid được chọn cuối cùng của vai trò trò chơi trong trang hộp công cụ HoYoLAB.                                                          |
+| last_select_game_record_role | long    | -                | UID được chọn cuối cùng của vai trò trò chơi trong trang hộp công cụ HoYoLAB.                                                          |

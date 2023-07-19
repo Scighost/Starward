@@ -18,11 +18,16 @@ Và nhiều tính năng khác đang được lên kế hoạch...
 
 ## Tải xuống
 
-> Bạn cần sử dụng Windows 10 1809 (17763) và trở đi với [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) cài đặt.
+Đầu tiên, thiết bị của bạn cần đáp ứng những điều kiện sau:
 
-Bạn có thể tải xuống bản phát hành mới nhất từ trang [Release](https://github.com/Scighost/Starward/releases). Ứng dụng sử dụng các bản cập nhật gia tăng, vừa dễ dàng vừa thuận tiện.
+- Windows 10 1809 (17763) và trở đi.
+- [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) cài đặt.
+- [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2) cài đặt.
+- Người dùng Windows 10 nên cài đặt font [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
 
-Ứng dụng có thể gặp lỗi crash khi chạy trên một số thiết bị. Nếu bạn gặp lỗi này, vui lòng tạo tập tin `config.ini` ở thư mục `Starward` và dán những dòng sau đây vào. Để biết thêm thông tin về `config.ini`, vui lòng đọc [Configuration.vi-VN.md](./Configuration.vi-VN.md).
+Tải gói dành cho kiến trúc CPU của bạn từ [GitHub Release](https://github.com/Scighost/Starward/releases). Giải nén nó, và chạy `Starward.exe` và làm theo hướng dẫn.
+
+Starward có thể crash sau khi chạy trên một số thiết bị. Nếu bạn gặp phải vấn đề này, hãy tạo tập tin `config.ini` trong thư mục `Starward` và dán những dòng sau đây vào. Xem [docs/Configuration.vi-VN.md](. /Configuration.vi-VN.md) để có thêm thông tin về `config.ini` .
 
 ## Bản địa hoá
 
@@ -55,8 +60,8 @@ Và các thư viện bên thứ ba được sử dụng trong dự án này bao 
 -  [Dapper](https://github.com/DapperLib/Dapper)
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
--  [Markdig](https://github.com/xoofx/markdig)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
+-  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)
 -  [SevenZipExtractor](https://github.com/adoconnection/SevenZipExtractor)
 -  [Vanara PInvoke](https://github.com/dahall/Vanara)
