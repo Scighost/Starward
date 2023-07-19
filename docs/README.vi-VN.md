@@ -27,7 +27,7 @@ Và nhiều tính năng khác đang được lên kế hoạch...
 
 Tải gói dành cho kiến trúc CPU của bạn từ [GitHub Release](https://github.com/Scighost/Starward/releases). Giải nén nó, và chạy `Starward.exe` và làm theo hướng dẫn.
 
-Starward có thể crash sau khi chạy trên một số thiết bị. Nếu bạn gặp phải vấn đề này, hãy tạo tập tin `config.ini` trong thư mục `Starward` và dán những dòng sau đây vào. Xem [docs/Configuration.vi-VN.md](. /Configuration.vi-VN.md) để có thêm thông tin về `config.ini` .
+Starward có thể crash sau khi chạy trên một số thiết bị. Nếu bạn gặp phải vấn đề này, hãy tạo tập tin `config.ini` trong thư mục `Starward` và dán những dòng sau đây vào. Xem [docs/Configuration.vi-VN.md](./Configuration.vi-VN.md) để có thêm thông tin về `config.ini` .
 
 ## Bản địa hoá
 
