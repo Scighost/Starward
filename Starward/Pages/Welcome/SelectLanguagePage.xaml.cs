@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Core.Metadata;
+using Starward.Services;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -33,11 +34,12 @@ public sealed partial class SelectLanguagePage : Page
 
     private readonly MetadataClient _metadataClient = AppConfig.GetService<MetadataClient>();
 
+    private readonly WelcomeService _welcomeService = AppConfig.GetService<WelcomeService>();
+
 
     public SelectLanguagePage()
     {
         this.InitializeComponent();
-        WelcomePage.Current.TextLanguage = null!;
         CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
     }
 
@@ -99,7 +101,7 @@ public sealed partial class SelectLanguagePage : Page
     [RelayCommand]
     private void Next()
     {
-        WelcomePage.Current.NavigateTo(typeof(SelectDirectoryPage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+        _welcomeService.NavigateTo(typeof(SelectDirectoryPage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
     }
 
 
@@ -113,11 +115,11 @@ public sealed partial class SelectLanguagePage : Page
                 switch (fe.Tag)
                 {
                     case "small":
-                        WelcomePage.Current.WindowSizeMode = 1;
+                        _welcomeService.WindowSizeMode = 1;
                         MainWindow.Current.ResizeToCertainSize(1064, 648);
                         break;
                     default:
-                        WelcomePage.Current.WindowSizeMode = 0;
+                        _welcomeService.WindowSizeMode = 0;
                         MainWindow.Current.ResizeToCertainSize(1280, 768);
                         break;
                 }
@@ -219,7 +221,7 @@ public sealed partial class SelectLanguagePage : Page
                 _ => 0,
             };
             _metadataClient.SetApiPrefix(index);
-            WelcomePage.Current.ApiCDNIndex = index;
+            _welcomeService.ApiCDNIndex = index;
         }
     }
 
@@ -235,7 +237,7 @@ public sealed partial class SelectLanguagePage : Page
                 {
                     var lang = item.Tag as string;
                     _logger.LogInformation("Language change to {lang}", lang);
-                    WelcomePage.Current.TextLanguage = lang!;
+                    _welcomeService.TextLanguage = lang!;
                     if (string.IsNullOrWhiteSpace(lang))
                     {
                         CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;

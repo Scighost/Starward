@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Helpers;
+using Starward.Services;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -26,6 +27,8 @@ public sealed partial class SelectDirectoryPage : Page
 
 
     private readonly ILogger<SelectDirectoryPage> _logger = AppConfig.GetLogger<SelectDirectoryPage>();
+
+    private readonly WelcomeService _welcomeService = AppConfig.GetService<WelcomeService>();
 
 
 
@@ -115,7 +118,7 @@ public sealed partial class SelectDirectoryPage : Page
                     var file = Path.Combine(selectFolder, Random.Shared.Next(int.MaxValue).ToString());
                     await File.WriteAllTextAsync(file, "");
                     File.Delete(file);
-                    WelcomePage.Current.UserDataFolder = selectFolder;
+                    _welcomeService.UserDataFolder = selectFolder;
                     TargetDictionary = selectFolder;
                     Button_Next.IsEnabled = true;
                 }
@@ -142,7 +145,7 @@ public sealed partial class SelectDirectoryPage : Page
     [RelayCommand]
     private void Preview()
     {
-        WelcomePage.Current?.NavigateTo(typeof(SelectGamePage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft });
+        _welcomeService.NavigateTo(typeof(SelectGamePage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft });
     }
 
 
@@ -150,7 +153,7 @@ public sealed partial class SelectDirectoryPage : Page
     [RelayCommand]
     private void Next()
     {
-        WelcomePage.Current?.NavigateTo(typeof(SelectGamePage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+        _welcomeService.NavigateTo(typeof(SelectGamePage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
     }
 
 

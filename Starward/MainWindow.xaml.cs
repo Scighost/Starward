@@ -43,7 +43,7 @@ public sealed partial class MainWindow : Window
         if (AppConfig.UserDataFolder is null)
         {
             Console.WriteLine($"Config Directory is NULL");
-            MainWindow_Frame.Content = new WelcomePage(true);
+            MainWindow_Frame.Content = new WelcomePage();
         }
         else
         {
