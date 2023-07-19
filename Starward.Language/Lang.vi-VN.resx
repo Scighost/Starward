@@ -1042,6 +1042,6 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <comment>Spiral Abyss Chamber {X}</comment>
   </data>
   <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
-    <value>Screenshot folder does not exist</value>
+    <value>Thư mục ảnh chụp màn hình không tồn tại</value>
   </data>
 </root>
