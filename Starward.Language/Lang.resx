@@ -117,48 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Core_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Cannot parse the wish record URL.</value>
-  </data>
-  <data name="Core_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Cannot parse the warp record URL.</value>
-  </data>
-  <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>Stellar Warp</value>
-  </data>
-  <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>Departure Warp</value>
-  </data>
-  <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>Character Event Warp</value>
-  </data>
-  <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>Light Cone Event Warp</value>
-  </data>
-  <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>Novice Wish</value>
-  </data>
-  <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>Permanent Wish</value>
-  </data>
-  <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>Character Event Wish</value>
-  </data>
-  <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>Weapon Event Wish</value>
-  </data>
-  <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>Character Event Wish - 2</value>
-  </data>
-  <data name="PostType_Activity" xml:space="preserve">
-    <value>Events</value>
-  </data>
-  <data name="PostType_Announcement" xml:space="preserve">
-    <value>Notices</value>
-  </data>
-  <data name="PostType_Information" xml:space="preserve">
-    <value>Info</value>
-  </data>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
     <value>Package Size:</value>
   </data>
@@ -616,9 +574,6 @@ closing the program during decompression will cause game file corruption.</value
   </data>
   <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
     <value>Background Setting</value>
-  </data>
-  <data name="SettingPage_PauseVideoWhenSwitchingToOtherPages" xml:space="preserve">
-    <value>Pause video when switching to other pages</value>
   </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
     <value>Use same background in all game region</value>

@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -117,48 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Core_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Không thể phân tích URL bản ghi cầu nguyện.</value>
-  </data>
-  <data name="Core_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Không thể phân tích URL bản ghi bước nhảy.</value>
-  </data>
-  <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>Bước Nhảy Chòm Sao</value>
-  </data>
-  <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>Bước Nhảy Đầu Tiên</value>
-  </data>
-  <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>Bước Nhảy Sự Kiện Nhân Vật</value>
-  </data>
-  <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>Bước Nhảy Sự Kiện Nón Ánh Sáng</value>
-  </data>
-  <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>Cầu Nguyện Người Mới</value>
-  </data>
-  <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>Cầu Nguyện Vĩnh Viễn</value>
-  </data>
-  <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>Sự Kiện Cầu Nguyện Nhân Vật</value>
-  </data>
-  <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>Sự Kiện Cầu Nguyện Vũ Khí</value>
-  </data>
-  <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>Sự Kiện Cầu Nguyện Nhân Vật - 2</value>
-  </data>
-  <data name="PostType_Activity" xml:space="preserve">
-    <value>Sự kiện</value>
-  </data>
-  <data name="PostType_Announcement" xml:space="preserve">
-    <value>Thông báo</value>
-  </data>
-  <data name="PostType_Information" xml:space="preserve">
-    <value>Thông tin</value>
-  </data>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
     <value>Kích thước gói:</value>
   </data>
@@ -616,9 +574,6 @@
   </data>
   <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
     <value>Cài đặt hình nền</value>
-  </data>
-  <data name="SettingPage_PauseVideoWhenSwitchingToOtherPages" xml:space="preserve">
-    <value>Tạm dừng video khi chuyển qua trang khác</value>
   </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
     <value>Sử dụng chung hình nền ở tất cả khu vực trò chơi</value>

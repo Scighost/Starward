@@ -223,24 +223,6 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Cannot parse the warp record URL. 的本地化字符串。
-        /// </summary>
-        public static string Core_CannotParseTheWarpRecordURL {
-            get {
-                return ResourceManager.GetString("Core_CannotParseTheWarpRecordURL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Cannot parse the wish record URL. 的本地化字符串。
-        /// </summary>
-        public static string Core_CannotParseTheWishRecordURL {
-            get {
-                return ResourceManager.GetString("Core_CannotParseTheWishRecordURL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Downloaded: 的本地化字符串。
         /// </summary>
         public static string DownloadGameDialog_Downloaded {
@@ -922,87 +904,6 @@ namespace Starward.Language {
         public static string GachaStatsCard_Stats {
             get {
                 return ResourceManager.GetString("GachaStatsCard_Stats", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Character Event Warp 的本地化字符串。
-        /// </summary>
-        public static string GachaType_CharacterEventWarp {
-            get {
-                return ResourceManager.GetString("GachaType_CharacterEventWarp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Character Event Wish 的本地化字符串。
-        /// </summary>
-        public static string GachaType_CharacterEventWish {
-            get {
-                return ResourceManager.GetString("GachaType_CharacterEventWish", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Character Event Wish - 2 的本地化字符串。
-        /// </summary>
-        public static string GachaType_CharacterEventWish_2 {
-            get {
-                return ResourceManager.GetString("GachaType_CharacterEventWish_2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Departure Warp 的本地化字符串。
-        /// </summary>
-        public static string GachaType_DepartureWarp {
-            get {
-                return ResourceManager.GetString("GachaType_DepartureWarp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Light Cone Event Warp 的本地化字符串。
-        /// </summary>
-        public static string GachaType_LightConeEventWarp {
-            get {
-                return ResourceManager.GetString("GachaType_LightConeEventWarp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Novice Wish 的本地化字符串。
-        /// </summary>
-        public static string GachaType_NoviceWish {
-            get {
-                return ResourceManager.GetString("GachaType_NoviceWish", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Permanent Wish 的本地化字符串。
-        /// </summary>
-        public static string GachaType_PermanentWish {
-            get {
-                return ResourceManager.GetString("GachaType_PermanentWish", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Stellar Warp 的本地化字符串。
-        /// </summary>
-        public static string GachaType_StellarWarp {
-            get {
-                return ResourceManager.GetString("GachaType_StellarWarp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Weapon Event Wish 的本地化字符串。
-        /// </summary>
-        public static string GachaType_WeaponEventWish {
-            get {
-                return ResourceManager.GetString("GachaType_WeaponEventWish", resourceCulture);
             }
         }
         
@@ -1802,33 +1703,6 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Events 的本地化字符串。
-        /// </summary>
-        public static string PostType_Activity {
-            get {
-                return ResourceManager.GetString("PostType_Activity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Notices 的本地化字符串。
-        /// </summary>
-        public static string PostType_Announcement {
-            get {
-                return ResourceManager.GetString("PostType_Announcement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Info 的本地化字符串。
-        /// </summary>
-        public static string PostType_Information {
-            get {
-                return ResourceManager.GetString("PostType_Information", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Screenshot 的本地化字符串。
         /// </summary>
         public static string ScreenshotPage_GameScreenshot {
@@ -2194,15 +2068,6 @@ namespace Starward.Language {
         public static string SettingPage_OpenLogFolder {
             get {
                 return ResourceManager.GetString("SettingPage_OpenLogFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Pause video when switching to other pages 的本地化字符串。
-        /// </summary>
-        public static string SettingPage_PauseVideoWhenSwitchingToOtherPages {
-            get {
-                return ResourceManager.GetString("SettingPage_PauseVideoWhenSwitchingToOtherPages", resourceCulture);
             }
         }
         
