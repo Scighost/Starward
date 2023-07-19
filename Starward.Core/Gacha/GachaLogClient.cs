@@ -31,7 +31,7 @@ public abstract class GachaLogClient
     protected const string REG_KEY_SR_CN = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\崩坏：星穹铁道";
     protected const string REG_KEY_SR_OS = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Star Rail";
 
-    protected const string WEB_CACHE_SR_PATH = @"StarRail_Data\webCaches\Cache\Cache_Data\data_2";
+    protected const string WEB_CACHE_SR_PATH = @"StarRail_Data\webCaches\2.14.0.0\Cache\Cache_Data\data_2";
 
     protected const string WEB_PREFIX_SR_CN = "https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha-v2/index.html";
     protected const string WEB_PREFIX_SR_OS = "https://webstatic-sea.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html";
