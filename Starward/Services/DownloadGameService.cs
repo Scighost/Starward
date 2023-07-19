@@ -1291,6 +1291,10 @@ internal partial class DownloadGameService
                         {
                             await process.WaitForExitAsync().ConfigureAwait(false);
                         }
+                        if (File.Exists(diff))
+                        {
+                            File.Delete(diff);
+                        }
                     }
                 }
                 File.Delete(hdifffiles);

@@ -220,16 +220,19 @@ public sealed partial class DownloadGamePage : Page
             {
                 file = await _launcherService.GetBackgroundImageAsync(gameBiz, true);
             }
-            using var fs = File.OpenRead(file);
-            var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
-            int decodeWidth = (int)decoder.PixelWidth;
-            int decodeHeight = (int)decoder.PixelHeight;
-            WriteableBitmap bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
-            fs.Position = 0;
-            await bitmap.SetSourceAsync(fs.AsRandomAccessStream());
-            (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
-            MainWindow.Current.ChangeAccentColor(back, fore);
-            BackgroundImage = bitmap;
+            if (file != null)
+            {
+                using var fs = File.OpenRead(file);
+                var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
+                int decodeWidth = (int)decoder.PixelWidth;
+                int decodeHeight = (int)decoder.PixelHeight;
+                WriteableBitmap bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
+                fs.Position = 0;
+                await bitmap.SetSourceAsync(fs.AsRandomAccessStream());
+                (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
+                MainWindow.Current.ChangeAccentColor(back, fore);
+                BackgroundImage = bitmap;
+            }
         }
         catch (Exception ex)
         {
