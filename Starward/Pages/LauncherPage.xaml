@@ -368,7 +368,7 @@
                       Translation="0,0,16">
                     <ComboBox Name="ComboBox_GameAccount"
                               Height="40"
-                              MinWidth="220"
+                              MinWidth="200"
                               BorderThickness="0"
                               CornerRadius="0,20,20,0"
                               ItemsSource="{x:Bind GameAccountList}"
