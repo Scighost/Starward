@@ -648,6 +648,32 @@ internal partial class DownloadGameService
 
             if (gameBiz.ToGame() is GameBiz.GenshinImpact)
             {
+                string? exe_cn = Path.Join(installPath, "YuanShen.exe");
+                string? exe_os = Path.Join(installPath, "GenshinImpact.exe");
+                string? data_cn = Path.Join(installPath, "YuanShen_Data");
+                string? data_os = Path.Join(installPath, "GenshinImpact_Data");
+                if (gameBiz is GameBiz.hk4e_cn)
+                {
+                    if (File.Exists(exe_os))
+                    {
+                        File.Delete(exe_os);
+                    }
+                    if (!Directory.Exists(data_cn) && Directory.Exists(data_os))
+                    {
+                        Directory.Move(data_os, data_cn);
+                    }
+                }
+                if (gameBiz is GameBiz.hk4e_global)
+                {
+                    if (File.Exists(exe_cn))
+                    {
+                        File.Delete(exe_cn);
+                    }
+                    if (!Directory.Exists(data_os) && Directory.Exists(data_cn))
+                    {
+                        Directory.Move(data_cn, data_os);
+                    }
+                }
                 await SetVoiceLanguageAsync(biz, installPath, language);
                 await CopyAudioAssetsFromPersistentToStreamAssetsAsync();
             }
