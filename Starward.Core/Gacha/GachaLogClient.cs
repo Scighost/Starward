@@ -147,7 +147,14 @@ public abstract class GachaLogClient
             var file = GetGachaCacheFilePath(gameBiz, installPath);
             if (File.Exists(file))
             {
-                return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_CN, MEMORY_WEB_PREFIX_YS_OS);
+                if (gameBiz is GameBiz.hk4e_cn)
+                {
+                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_CN);
+                }
+                if (gameBiz is GameBiz.hk4e_global)
+                {
+                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_OS);
+                }
             }
             return null;
         }
@@ -156,7 +163,14 @@ public abstract class GachaLogClient
             var file = GetGachaCacheFilePath(gameBiz, installPath);
             if (File.Exists(file))
             {
-                return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_SR_CN, MEMORY_WEB_PREFIX_SR_OS);
+                if (gameBiz is GameBiz.hkrpg_cn)
+                {
+                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_SR_CN);
+                }
+                if (gameBiz is GameBiz.hk4e_global)
+                {
+                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_SR_OS);
+                }
             }
             return null;
         }
