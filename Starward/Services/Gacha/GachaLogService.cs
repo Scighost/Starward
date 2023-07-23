@@ -196,6 +196,17 @@ internal abstract class GachaLogService
                     }
                     stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
                     stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 4);
+
+                    int pity_4 = 0;
+                    foreach (var item in list)
+                    {
+                        pity_4++;
+                        if (item.RankType == 4)
+                        {
+                            item.Pity = pity_4;
+                            pity_4 = 0;
+                        }
+                    }
                 }
                 statsList.Add(stats);
             }

@@ -157,6 +157,9 @@
             <Pivot.Resources>
                 <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
                 <Thickness x:Key="PivotHeaderItemMargin">12,0,12,0</Thickness>
+                <Style BasedOn="{StaticResource DefaultPivotHeaderItemStyle}" TargetType="PivotHeaderItem">
+                    <Setter Property="Height" Value="36" />
+                </Style>
             </Pivot.Resources>
             <PivotItem>
                 <ItemsRepeater ItemsSource="{x:Bind WarpTypeStats.List_5}">
@@ -201,7 +204,6 @@
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
             </PivotItem>
-
             <PivotItem>
                 <ItemsRepeater ItemsSource="{x:Bind WarpTypeStats.List_4}">
                     <ItemsRepeater.ItemTemplate>
