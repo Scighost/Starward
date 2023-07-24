@@ -181,6 +181,18 @@ internal class StarRailGachaService : GachaLogService
     }
 
 
+    public override async Task<(string Language, int Count)> ChangeGachaItemNameAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
+    {
+        lang = await UpdateGachaInfoAsync(gameBiz, lang, cancellationToken);
+        using var dapper = _database.CreateConnection();
+        int count = dapper.Execute("""
+            INSERT OR REPLACE INTO StarRailGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, GachaId, Count, Lang) 
+            SELECT item.Uid, Id, info.ItemName, Time, item.ItemId, ItemType, RankType, GachaType, GachaId, Count, @Lang
+            FROM StarRailGachaItem item INNER JOIN StarRailGachaInfo info ON item.ItemId = info.ItemId;
+            """, new { Lang = lang });
+        return (lang, count);
+    }
+
 
 
     private class SRGFObj

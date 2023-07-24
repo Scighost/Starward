@@ -401,6 +401,24 @@ public sealed partial class GachaLogPage : Page
 
 
     [RelayCommand]
+    private async Task ChangeGachaItemNameAsync()
+    {
+        try
+        {
+            string lang = string.IsNullOrWhiteSpace(GachaLanguage) ? System.Globalization.CultureInfo.CurrentUICulture.Name : GachaLanguage;
+            (lang, int count) = await _gachaLogService.ChangeGachaItemNameAsync(gameBiz, lang);
+            NotificationBehavior.Instance.Success(null, string.Format(Lang.GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1, count, lang), 5000);
+            UpdateGachaTypeStats(SelectUid);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Change gacha item name");
+        }
+    }
+
+
+
+    [RelayCommand]
     private async Task DeleteUidAsync()
     {
         try

@@ -181,6 +181,20 @@ internal class GenshinGachaService : GachaLogService
     }
 
 
+    public override async Task<(string Language, int Count)> ChangeGachaItemNameAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
+    {
+        lang = await UpdateGachaInfoAsync(gameBiz, lang, cancellationToken);
+        using var dapper = _database.CreateConnection();
+        int count = dapper.Execute("""
+            INSERT OR REPLACE INTO GenshinGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, Count, Lang)
+            SELECT item.Uid, item.Id, info.Name, Time, ItemId, ItemType, RankType, GachaType, Count, @Lang
+            FROM GenshinGachaItem item INNER JOIN GenshinGachaInfo info ON item.ItemId = info.Id;
+            """, new { Lang = lang });
+        return (lang, count);
+    }
+
+
+
     private class UIAFObj
     {
         public UIAFObj() { }

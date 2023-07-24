@@ -572,5 +572,5 @@ public sealed partial class SettingPage : Page
 
     #endregion
 
-  
+
 }

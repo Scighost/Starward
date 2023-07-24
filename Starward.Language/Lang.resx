@@ -999,4 +999,8 @@ Do you accept the risk and continue to use it?</value>
   <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
     <value>Screenshot folder does not exist</value>
   </data>
+  <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
+    <value>{0} gacha items have been changed to language ({1}).</value>
+    <comment>123 gacha items have been changed to language (en-us).</comment>
+  </data>
 </root>
