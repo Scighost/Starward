@@ -151,12 +151,12 @@
     <value>Không thể phân tích URL bản ghi cầu nguyện.</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
-    <value>Sự kiện</value>
+    <value>Sự Kiện</value>
   </data>
   <data name="PostType_Announcement" xml:space="preserve">
-    <value>Thông báo</value>
+    <value>Thông Báo</value>
   </data>
   <data name="PostType_Information" xml:space="preserve">
-    <value>Thông tin</value>
+    <value>Thông Tin</value>
   </data>
 </root>
