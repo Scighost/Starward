@@ -12,9 +12,9 @@ public partial class GachaLogItemEx : GachaLogItem
 
     public int Index { get; set; }
 
-
     public int Pity { get; set; }
 
+    public string Icon { get; set; }
 
     public double Progress => (double)Pity / (((int)GachaType is 12 or 302) ? 80 : 90) * 100;
 

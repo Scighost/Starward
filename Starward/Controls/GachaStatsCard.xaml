@@ -9,6 +9,7 @@
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sc="using:Starward.Controls"
              xmlns:sm="using:Starward.Models"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
@@ -166,33 +167,59 @@
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="sm:GachaLogItemEx">
                             <Grid Name="Grid_Rarity5Item"
-                                  Height="24"
+                                  Height="28"
                                   Background="Transparent"
                                   ColumnSpacing="8"
                                   PointerEntered="Grid_Rarity5Item_PointerEntered"
                                   PointerExited="Grid_Rarity5Item_PointerExited"
-                                  Tag="{x:Bind}"
-                                  ToolTipService.ToolTip="{x:Bind Time.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}">
+                                  Tag="{x:Bind}">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Padding="0" BorderThickness="0">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <sc:CachedImage Width="120"
+                                                            Height="120"
+                                                            IsCacheEnabled="True"
+                                                            Source="{x:Bind Icon}" />
+                                            <TextBlock Grid.Row="1"
+                                                       Margin="8,4,8,4"
+                                                       HorizontalAlignment="Center"
+                                                       FontSize="12"
+                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                       Text="{x:Bind Time.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="28" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="24" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock VerticalAlignment="Center"
+                                <sc:CachedImage Width="28"
+                                                Height="28"
+                                                IsCacheEnabled="True"
+                                                Source="{x:Bind Icon}" />
+                                <TextBlock Grid.Column="1"
+                                           VerticalAlignment="Center"
                                            Text="{x:Bind Name}"
                                            TextTrimming="CharacterEllipsis"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
-                                <TextBlock Grid.Column="1"
+                                <TextBlock Grid.Column="2"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            Text="{x:Bind Pity}"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
-                                <TextBlock VerticalAlignment="Center"
+                                <TextBlock Grid.Column="1"
+                                           VerticalAlignment="Center"
                                            FontWeight="SemiBold"
                                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                            Text="{x:Bind Name}"
                                            TextTrimming="CharacterEllipsis"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                <TextBlock Grid.Column="1"
+                                <TextBlock Grid.Column="2"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            FontWeight="SemiBold"
@@ -209,33 +236,59 @@
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="sm:GachaLogItemEx">
                             <Grid Name="Grid_Rarity4Item"
-                                  Height="24"
+                                  Height="28"
                                   Background="Transparent"
                                   ColumnSpacing="8"
                                   PointerEntered="Grid_Rarity4Item_PointerEntered"
                                   PointerExited="Grid_Rarity4Item_PointerExited"
-                                  Tag="{x:Bind}"
-                                  ToolTipService.ToolTip="{x:Bind Time.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}">
+                                  Tag="{x:Bind}">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Padding="0" BorderThickness="0">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <sc:CachedImage Width="120"
+                                                            Height="120"
+                                                            IsCacheEnabled="True"
+                                                            Source="{x:Bind Icon}" />
+                                            <TextBlock Grid.Row="1"
+                                                       Margin="8,4,8,4"
+                                                       HorizontalAlignment="Center"
+                                                       FontSize="12"
+                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                       Text="{x:Bind Time.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                        </Grid>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="28" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="24" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock VerticalAlignment="Center"
+                                <sc:CachedImage Width="28"
+                                                Height="28"
+                                                IsCacheEnabled="True"
+                                                Source="{x:Bind Icon}" />
+                                <TextBlock Grid.Column="1"
+                                           VerticalAlignment="Center"
                                            Text="{x:Bind Name}"
                                            TextTrimming="CharacterEllipsis"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
-                                <TextBlock Grid.Column="1"
+                                <TextBlock Grid.Column="2"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            Text="{x:Bind Pity}"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
-                                <TextBlock VerticalAlignment="Center"
+                                <TextBlock Grid.Column="1"
+                                           VerticalAlignment="Center"
                                            FontWeight="SemiBold"
                                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                            Text="{x:Bind Name}"
                                            TextTrimming="CharacterEllipsis"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                <TextBlock Grid.Column="1"
+                                <TextBlock Grid.Column="2"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            FontWeight="SemiBold"

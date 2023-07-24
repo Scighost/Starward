@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Starward.Services.Gacha;
@@ -46,6 +47,30 @@ internal class GenshinGachaService : GachaLogService
     }
 
 
+    public override List<GachaLogItemEx> GetGachaLogItemEx(long uid)
+    {
+        using var dapper = _database.CreateConnection();
+        var list = dapper.Query<GachaLogItemEx>("""
+            SELECT item.*, info.Icon FROM GenshinGachaItem item LEFT JOIN GenshinGachaInfo info ON item.ItemId=info.Id WHERE Uid=@uid ORDER BY item.Id;
+            """, new { uid }).ToList();
+        foreach (var type in GachaTypes)
+        {
+            var l = GetGroupGachaLogItems(list, (GachaType)type);
+            int index = 0;
+            int pity = 0;
+            foreach (var item in l)
+            {
+                item.Index = ++index;
+                item.Pity = ++pity;
+                if (item.RankType == 5)
+                {
+                    pity = 0;
+                }
+            }
+        }
+        return list;
+    }
+
 
     protected override int InsertGachaLogItems(List<GachaLogItem> items)
     {
@@ -56,6 +81,7 @@ internal class GenshinGachaService : GachaLogService
             VALUES (@Uid, @Id, @Name, @Time, @ItemId, @ItemType, @RankType, @GachaType, @Count, @Lang);
             """, items, t);
         t.Commit();
+        UpdateGachaItemId();
         return affect;
     }
 
@@ -125,6 +151,34 @@ internal class GenshinGachaService : GachaLogService
         return 0;
     }
 
+
+
+    public override async Task<string> UpdateGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
+    {
+        var data = await _client.GetGenshinGachaInfoAsync(gameBiz, lang, cancellationToken);
+        using var dapper = _database.CreateConnection();
+        using var t = dapper.BeginTransaction();
+        const string insertSql = """
+            INSERT OR REPLACE INTO GenshinGachaInfo (Id, Name, Icon, Element, Level, CatId, WeaponCatId)
+            VALUES (@Id, @Name, @Icon, @Element, @Level, @CatId, @WeaponCatId);
+            """;
+        dapper.Execute(insertSql, data.AllAvatar, t);
+        dapper.Execute(insertSql, data.AllWeapon, t);
+        t.Commit();
+        UpdateGachaItemId();
+        return data.Language;
+    }
+
+
+    private void UpdateGachaItemId()
+    {
+        using var dapper = _database.CreateConnection();
+        dapper.Execute("""
+            INSERT OR REPLACE INTO GenshinGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, Count, Lang)
+            SELECT item.Uid, item.Id, item.Name, Time, info.Id, ItemType, RankType, GachaType, Count, Lang
+            FROM GenshinGachaItem item INNER JOIN GenshinGachaInfo info ON item.Name = info.Name WHERE item.ItemId = 0;
+            """);
+    }
 
 
     private class UIAFObj

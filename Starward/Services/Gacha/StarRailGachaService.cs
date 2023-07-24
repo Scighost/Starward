@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Starward.Services.Gacha;
@@ -44,6 +45,32 @@ internal class StarRailGachaService : GachaLogService
 
 
 
+    public override List<GachaLogItemEx> GetGachaLogItemEx(long uid)
+    {
+        using var dapper = _database.CreateConnection();
+        var list = dapper.Query<GachaLogItemEx>("""
+            SELECT item.*, info.IconUrl Icon FROM StarRailGachaItem item LEFT JOIN StarRailGachaInfo info ON item.ItemId=info.ItemId WHERE Uid=@uid ORDER BY item.Id;
+            """, new { uid }).ToList();
+        foreach (var type in GachaTypes)
+        {
+            var l = GetGroupGachaLogItems(list, (GachaType)type);
+            int index = 0;
+            int pity = 0;
+            foreach (var item in l)
+            {
+                item.Index = ++index;
+                item.Pity = ++pity;
+                if (item.RankType == 5)
+                {
+                    pity = 0;
+                }
+            }
+        }
+        return list;
+    }
+
+
+
     protected override int InsertGachaLogItems(List<GachaLogItem> items)
     {
         using var dapper = _database.CreateConnection();
@@ -53,6 +80,7 @@ internal class StarRailGachaService : GachaLogService
             VALUES (@Uid, @Id, @Name, @Time, @ItemId, @ItemType, @RankType, @GachaType, @GachaId, @Count, @Lang);
             """, items, t);
         t.Commit();
+        UpdateGachaItemId();
         return affeted;
     }
 
@@ -121,6 +149,35 @@ internal class StarRailGachaService : GachaLogService
             return obj.info.uid;
         }
         return 0;
+    }
+
+
+    public override async Task<string> UpdateGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
+    {
+        var data = await _client.GetStarRailGachaInfoAsync(gameBiz, lang, cancellationToken);
+        using var dapper = _database.CreateConnection();
+        using var t = dapper.BeginTransaction();
+        const string insertSql = """
+            INSERT OR REPLACE INTO StarRailGachaInfo (ItemId, ItemName, IconUrl, DamageType, Rarity, AvatarBaseType, WikiUrl, IsSystem)
+            VALUES (@ItemId, @ItemName, @IconUrl, @DamageType, @Rarity, @AvatarBaseType, @WikiUrl, @IsSystem);
+            """;
+        dapper.Execute(insertSql, data.Avatar, t);
+        dapper.Execute(insertSql, data.Equipment, t);
+        t.Commit();
+        UpdateGachaItemId();
+        return data.Language;
+    }
+
+
+
+    private void UpdateGachaItemId()
+    {
+        using var dapper = _database.CreateConnection();
+        dapper.Execute("""
+            INSERT OR REPLACE INTO StarRailGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, GachaId, Count, Lang) 
+            SELECT item.Uid, Id, Name, Time, info.ItemId, ItemType, RankType, GachaType, GachaId, Count, Lang
+            FROM StarRailGachaItem item INNER JOIN StarRailGachaInfo info ON item.Name = info.ItemName WHERE item.ItemId = 0;
+            """);
     }
 
 

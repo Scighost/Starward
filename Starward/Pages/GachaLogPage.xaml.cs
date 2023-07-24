@@ -143,6 +143,7 @@ public sealed partial class GachaLogPage : Page
     {
         await Task.Delay(16);
         Initialize();
+        await UpdateWikiDataAsync();
     }
 
 
@@ -205,6 +206,18 @@ public sealed partial class GachaLogPage : Page
 
 
 
+    private async Task UpdateWikiDataAsync()
+    {
+        try
+        {
+            string lang = string.IsNullOrWhiteSpace(GachaLanguage) ? System.Globalization.CultureInfo.CurrentUICulture.Name : GachaLanguage;
+            await _gachaLogService.UpdateGachaInfoAsync(gameBiz, lang);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update wiki data {gameBiz}", gameBiz);
+        }
+    }
 
 
 
