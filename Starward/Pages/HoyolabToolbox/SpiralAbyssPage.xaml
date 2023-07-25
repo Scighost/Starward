@@ -4,6 +4,7 @@
       xmlns:abyss="using:Starward.Core.GameRecord.Genshin.SpiralAbyss"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:lang="using:Starward.Language"
+      xmlns:linq="using:System.Linq"
       xmlns:local="using:Starward.Pages.HoyolabToolbox"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
@@ -26,13 +27,15 @@
         </Grid.ColumnDefinitions>
 
 
-        <Image Grid.RowSpan="2"
-               Grid.ColumnSpan="2"
+        <Image Name="Image_Emoji"
+               Grid.RowSpan="2"
+               Grid.Column="1"
                Width="160"
+               Height="160"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="{StaticResource PamuRead}"
-               Visibility="{x:Bind HasData, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+               Source="{StaticResource EmojiPaimon}"
+               Visibility="Collapsed" />
 
         <StackPanel Margin="0,24,0,0"
                     HorizontalAlignment="Left"
@@ -97,6 +100,7 @@
                         <TextBlock Grid.Row="1"
                                    Margin="24,0,0,2"
                                    VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="{x:Bind TotalStar}" />
                     </Grid>
                 </DataTemplate>
@@ -349,6 +353,193 @@
                                Text="{x:Bind CurrentAbyss.FirstEnergySkillRank.Value, FallbackValue={x:Null}}" />
                 </Grid>
 
+                <!--  战斗记录  -->
+                <ItemsRepeater Margin="0,8,0,0" ItemsSource="{x:Bind CurrentAbyss.Floors}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="16" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="abyss:SpiralAbyssFloor">
+                            <Grid Padding="24,12,24,12"
+                                  Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                                  CornerRadius="8"
+                                  Shadow="{ThemeResource ThemeShadow}"
+                                  Translation="0,0,16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="28" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <!--  第几层  -->
+                                <TextBlock VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Text="{x:Bind local:SpiralAbyssPage.FloorX(Index)}" />
+                                <StackPanel HorizontalAlignment="Right"
+                                            Orientation="Horizontal"
+                                            Spacing="8">
+                                    <Image Width="24"
+                                           Height="24"
+                                           Source="{StaticResource AbyssIcon}" />
+                                    <TextBlock Margin="0,0,0,2"
+                                               VerticalAlignment="Center"
+                                               FontSize="16">
+                                        <Run Text="{x:Bind Star}" /><Run Text="/" /><Run Text="{x:Bind MaxStar}" />
+                                    </TextBlock>
+                                </StackPanel>
+                                <!--  每间  -->
+                                <ItemsRepeater Grid.Row="1" ItemsSource="{x:Bind Levels}">
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="abyss:SpiralAbyssLevel">
+                                            <UserControl Name="UserControl_AbyssLevel" SizeChanged="UserControl_AbyssLevel_SizeChanged">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+                                                    <MenuFlyoutSeparator Grid.ColumnSpan="3" Margin="0,8,0,8" />
+                                                    <!--  顶部  -->
+                                                    <Grid Name="Grid_LevelTimeAndStar"
+                                                          Grid.Row="1"
+                                                          Grid.ColumnSpan="3"
+                                                          Margin="0,-6,0,2">
+                                                        <!--  时间  -->
+                                                        <StackPanel VerticalAlignment="Center"
+                                                                    Orientation="Horizontal"
+                                                                    Spacing="8">
+                                                            <TextBlock FontSize="12"
+                                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                       Text="{x:Bind local:SpiralAbyssPage.LevelX(Index)}" />
+                                                            <TextBlock FontSize="12"
+                                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                       Text="{x:Bind FirstBattleTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                                        </StackPanel>
+                                                        <!--  星星  -->
+                                                        <ItemsRepeater HorizontalAlignment="Right" ItemsSource="{x:Bind linq:Enumerable.Range(0, Star)}">
+                                                            <ItemsRepeater.Layout>
+                                                                <StackLayout Orientation="Horizontal" />
+                                                            </ItemsRepeater.Layout>
+                                                            <ItemsRepeater.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Image Width="20"
+                                                                           Height="20"
+                                                                           Source="{StaticResource AbyssIcon}" />
+                                                                </DataTemplate>
+                                                            </ItemsRepeater.ItemTemplate>
+                                                        </ItemsRepeater>
+                                                    </Grid>
+                                                    <!--  中部  -->
+                                                    <StackPanel Name="StackPanel_LevelTimeAndStar"
+                                                                Grid.Row="2"
+                                                                Grid.Column="1"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Spacing="4">
+                                                        <TextBlock HorizontalAlignment="Center"
+                                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                   Text="{x:Bind local:SpiralAbyssPage.LevelX(Index)}" />
+                                                        <TextBlock HorizontalAlignment="Center"
+                                                                   FontSize="12"
+                                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                   Text="{x:Bind FirstBattleTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                                        <ItemsRepeater HorizontalAlignment="Center" ItemsSource="{x:Bind linq:Enumerable.Range(0, Star)}">
+                                                            <ItemsRepeater.Layout>
+                                                                <StackLayout Orientation="Horizontal" />
+                                                            </ItemsRepeater.Layout>
+                                                            <ItemsRepeater.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Image Width="20"
+                                                                           Height="20"
+                                                                           Source="{StaticResource AbyssIcon}" />
+                                                                </DataTemplate>
+                                                            </ItemsRepeater.ItemTemplate>
+                                                        </ItemsRepeater>
+                                                    </StackPanel>
+                                                    <!--  上半阵容  -->
+                                                    <ItemsRepeater Grid.Row="2"
+                                                                   Grid.Column="0"
+                                                                   MinHeight="73"
+                                                                   HorizontalAlignment="Left"
+                                                                   ItemsSource="{x:Bind Battles[0].Avatars}">
+                                                        <ItemsRepeater.Layout>
+                                                            <StackLayout Orientation="Horizontal" Spacing="8" />
+                                                        </ItemsRepeater.Layout>
+                                                        <ItemsRepeater.ItemTemplate>
+                                                            <DataTemplate x:DataType="abyss:SpiralAbyssAvatar">
+                                                                <Grid Width="60">
+                                                                    <sc:CachedImage IsCacheEnabled="True" Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
+                                                                    <sc:CachedImage VerticalAlignment="Top"
+                                                                                    CornerRadius="0,0,12,0"
+                                                                                    IsCacheEnabled="True"
+                                                                                    Source="{x:Bind Icon}" />
+                                                                    <TextBlock Margin="0,0,0,-1"
+                                                                               HorizontalAlignment="Center"
+                                                                               VerticalAlignment="Bottom"
+                                                                               FontSize="12"
+                                                                               Foreground="#84603D">
+                                                                        <Run Text="Lv." /><Run Text="{x:Bind Level}" />
+                                                                    </TextBlock>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ItemsRepeater.ItemTemplate>
+                                                    </ItemsRepeater>
+                                                    <!--  下半阵容  -->
+                                                    <ItemsRepeater Grid.Row="2"
+                                                                   Grid.Column="2"
+                                                                   MinHeight="73"
+                                                                   HorizontalAlignment="Right"
+                                                                   ItemsSource="{x:Bind Battles[1].Avatars}">
+                                                        <ItemsRepeater.Layout>
+                                                            <StackLayout Orientation="Horizontal" Spacing="8" />
+                                                        </ItemsRepeater.Layout>
+                                                        <ItemsRepeater.ItemTemplate>
+                                                            <DataTemplate x:DataType="abyss:SpiralAbyssAvatar">
+                                                                <Grid Width="60">
+                                                                    <sc:CachedImage IsCacheEnabled="True" Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
+                                                                    <sc:CachedImage VerticalAlignment="Top"
+                                                                                    CornerRadius="0,0,12,0"
+                                                                                    IsCacheEnabled="True"
+                                                                                    Source="{x:Bind Icon}" />
+                                                                    <TextBlock Margin="0,0,0,-1"
+                                                                               HorizontalAlignment="Center"
+                                                                               VerticalAlignment="Bottom"
+                                                                               FontSize="12"
+                                                                               Foreground="#84603D">
+                                                                        <Run Text="Lv." /><Run Text="{x:Bind Level}" />
+                                                                    </TextBlock>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ItemsRepeater.ItemTemplate>
+                                                    </ItemsRepeater>
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup>
+                                                            <VisualState x:Name="NarrowState">
+                                                                <VisualState.Setters>
+                                                                    <Setter Target="Grid_LevelTimeAndStar.Visibility" Value="Visible" />
+                                                                    <Setter Target="StackPanel_LevelTimeAndStar.Visibility" Value="Collapsed" />
+                                                                </VisualState.Setters>
+                                                            </VisualState>
+                                                            <VisualState x:Name="WideState">
+                                                                <VisualState.Setters>
+                                                                    <Setter Target="Grid_LevelTimeAndStar.Visibility" Value="Collapsed" />
+                                                                    <Setter Target="StackPanel_LevelTimeAndStar.Visibility" Value="Visible" />
+                                                                </VisualState.Setters>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </Grid>
+                                            </UserControl>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
 
             </StackPanel>
         </ScrollViewer>

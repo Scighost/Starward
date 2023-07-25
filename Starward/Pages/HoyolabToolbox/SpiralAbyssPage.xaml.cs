@@ -57,7 +57,7 @@ public sealed partial class SpiralAbyssPage : Page
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        await Task.Delay(16);
+        await Task.Delay(60);
         InitializeAbyssData();
     }
 
@@ -90,9 +90,12 @@ public sealed partial class SpiralAbyssPage : Page
             var list = _gameRecordService.GetSpiralAbyssInfoList(gameRole);
             if (list.Any())
             {
-                HasData = true;
                 AbyssList = list;
                 ListView_AbyssList.SelectedIndex = 0;
+            }
+            else
+            {
+                Image_Emoji.Visibility = Visibility.Visible;
             }
         }
         catch (Exception ex)
@@ -109,6 +112,10 @@ public sealed partial class SpiralAbyssPage : Page
     {
         try
         {
+            if (gameRole is null)
+            {
+                return;
+            }
             await _gameRecordService.RefreshSpiralAbyssInfoAsync(gameRole, 1);
             await _gameRecordService.RefreshSpiralAbyssInfoAsync(gameRole, 2);
             InitializeAbyssData();
@@ -155,6 +162,7 @@ public sealed partial class SpiralAbyssPage : Page
             {
                 CurrentAbyss = _gameRecordService.GetSpiralAbyssInfo(gameRole, info.ScheduleId);
                 HasData = CurrentAbyss?.TotalBattleCount > 0;
+                Image_Emoji.Visibility = HasData ? Visibility.Collapsed : Visibility.Visible;
             }
         }
         catch (Exception ex)
@@ -163,6 +171,32 @@ public sealed partial class SpiralAbyssPage : Page
         }
     }
 
+
+    private void UserControl_AbyssLevel_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (e.NewSize.Width > 720)
+        {
+            VisualStateManager.GoToState((Control)sender, "WideState", false);
+        }
+        else
+        {
+            VisualStateManager.GoToState((Control)sender, "NarrowState", false);
+        }
+    }
+
+
+
+    public static string FloorX(int x)
+    {
+        return Lang.SpiralAbyssPage_FloorX.Replace("{X}", x.ToString());
+    }
+
+
+
+    public static string LevelX(int x)
+    {
+        return Lang.SpiralAbyssPage_ChamberX.Replace("{X}", x.ToString());
+    }
 
 
 }

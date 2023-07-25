@@ -57,6 +57,13 @@ public sealed partial class ScreenshotPage : Page
         if (e.Parameter is GameBiz biz)
         {
             gameBiz = biz;
+            Image_Emoji.Source = gameBiz.ToGame() switch
+            {
+                GameBiz.GenshinImpact => new BitmapImage(AppConfig.EmojiPaimon),
+                GameBiz.StarRail => new BitmapImage(AppConfig.EmojiPom),
+                GameBiz.Honkai3rd => new BitmapImage(AppConfig.EmojiAI),
+                _ => null,
+            };
         }
     }
 
@@ -108,6 +115,7 @@ public sealed partial class ScreenshotPage : Page
                 else
                 {
                     _logger.LogWarning("Cannot find screenshot folder");
+                    StackPanel_Emoji.Visibility = Visibility.Visible;
                 }
             }
         }

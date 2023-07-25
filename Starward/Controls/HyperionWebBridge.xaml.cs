@@ -40,9 +40,6 @@ public sealed partial class HyperionWebBridge : UserControl
         """;
 
 
-    private bool loaded;
-
-
 
     private Dictionary<string, string> cookieDic = new();
 
@@ -62,17 +59,6 @@ public sealed partial class HyperionWebBridge : UserControl
         await InitializeAsync();
     }
 
-    private void UserControl_Unloaded(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            //await webview2.CoreWebView2.TrySuspendAsync();
-        }
-        catch (Exception ex)
-        {
-
-        }
-    }
 
 
     private async Task InitializeAsync()
@@ -105,8 +91,6 @@ public sealed partial class HyperionWebBridge : UserControl
 
             var url = TargetUrl?.Replace("{role_id}", GameRecordRole?.Uid.ToString() ?? "")?.Replace("{server}", GameRecordRole?.Region?.ToString() ?? "");
             coreWebView2.Navigate(url);
-
-            loaded = true;
         }
         catch (Exception ex)
         {
@@ -161,10 +145,9 @@ public sealed partial class HyperionWebBridge : UserControl
 
     private async void CoreWebView2_WebMessageReceived(Microsoft.Web.WebView2.Core.CoreWebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs args)
     {
-        string message = null!;
         try
         {
-            message = args.TryGetWebMessageAsString();
+            string message = args.TryGetWebMessageAsString();
             Debug.WriteLine(message);
             JsParam param = JsonSerializer.Deserialize<JsParam>(message)!;
 
@@ -192,6 +175,7 @@ public sealed partial class HyperionWebBridge : UserControl
         }
         catch (Exception ex)
         {
+            Debug.WriteLine(ex);
         }
     }
 
@@ -247,9 +231,6 @@ public sealed partial class HyperionWebBridge : UserControl
             }
         };
     }
-
-
-    private bool navigated;
 
 
 

@@ -205,7 +205,7 @@ internal class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = new() { Sql_v1, Sql_v2, Sql_v3, Sql_v4 };
+    private static readonly List<string> DatabaseSqls = new() { Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5 };
 
 
     private const string Sql_v1 = """
@@ -466,6 +466,38 @@ internal class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_TrailblazeCalendarDetailItem_Time ON TrailblazeCalendarDetailItem (Time);
 
         PRAGMA USER_VERSION = 4;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v5 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS GenshinGachaInfo
+        (
+            Id          INTEGER NOT NULL PRIMARY KEY,
+            Name        TEXT,
+            Icon        TEXT,
+            Element     INTEGER NOT NULL,
+            Level       INTEGER NOT NULL,
+            CatId       INTEGER NOT NULL,
+            WeaponCatId INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS IX_GenshinGachaInfo_Name ON GenshinGachaInfo (Name);
+
+        CREATE TABLE IF NOT EXISTS StarRailGachaInfo
+        (
+            ItemId         INTEGER NOT NULL PRIMARY KEY,
+            ItemName       TEXT,
+            IconUrl        TEXT,
+            DamageType     INTEGER NOT NULL,
+            Rarity         INTEGER NOT NULL,
+            AvatarBaseType INTEGER NOT NULL,
+            WikiUrl        TEXT,
+            IsSystem       INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS IX_StarRailGachaInfo_Name ON StarRailGachaInfo (ItemName);
+
+        PRAGMA USER_VERSION = 5;
         COMMIT TRANSACTION;
         """;
 

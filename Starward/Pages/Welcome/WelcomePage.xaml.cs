@@ -3,6 +3,8 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
+using Starward.Services;
 using System;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -16,56 +18,60 @@ namespace Starward.Pages.Welcome;
 public sealed partial class WelcomePage : Page
 {
 
-    public static WelcomePage Current { get; private set; }
+
+    private readonly WelcomeService _welcomeService = AppConfig.GetService<WelcomeService>();
 
 
-    public string TextLanguage { get; set; }
-
-    public int WindowSizeMode { get; set; }
-
-    public int ApiCDNIndex { get; set; }
-
-    public string UserDataFolder { get; set; }
+    private bool navigatedTo;
 
 
     public WelcomePage()
     {
-        Current = this;
         this.InitializeComponent();
-        MainWindow.Current.ChangeAccentColor(null);
-        frame.Navigate(typeof(SelectDirectoryPage));
     }
 
 
-    public WelcomePage(bool first)
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        Current = this;
-        this.InitializeComponent();
+        base.OnNavigatedTo(e);
+        navigatedTo = true;
+    }
+
+
+
+
+    private void Page_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        _welcomeService.Reset();
+        _welcomeService.OnNavigateTo += _welcomeService_OnNavigateTo;
         MainWindow.Current.ChangeAccentColor(null);
-        if (first)
-        {
-            frame.Navigate(typeof(SelectLanguagePage));
-        }
-        else
+        int length = (int)(48 * MainWindow.Current.UIScale);
+        MainWindow.Current.SetDragRectangles(new Windows.Graphics.RectInt32(0, 0, 10000, length));
+        if (navigatedTo)
         {
             frame.Navigate(typeof(SelectDirectoryPage));
         }
+        else
+        {
+            frame.Navigate(typeof(SelectLanguagePage));
+        }
     }
 
 
-    public void NavigateTo(Type page, object parameter, NavigationTransitionInfo infoOverride)
+    private void Page_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        frame.Navigate(page, parameter, infoOverride);
+        _welcomeService.OnNavigateTo -= _welcomeService_OnNavigateTo;
     }
 
 
-    public void ApplySetting()
+
+    private void _welcomeService_OnNavigateTo(object? sender, (Type Page, object Parameter, NavigationTransitionInfo InfoOverride) e)
     {
-        AppConfig.UserDataFolder = UserDataFolder;
-        AppConfig.Language = TextLanguage;
-        AppConfig.WindowSizeMode = WindowSizeMode;
-        AppConfig.ApiCDNIndex = ApiCDNIndex;
+        frame.Navigate(e.Page, e.Parameter, e.InfoOverride);
     }
+
+
 
 
 }

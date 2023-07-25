@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Core.Metadata;
+using Starward.Services;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -33,12 +34,22 @@ public sealed partial class SelectLanguagePage : Page
 
     private readonly MetadataClient _metadataClient = AppConfig.GetService<MetadataClient>();
 
+    private readonly WelcomeService _welcomeService = AppConfig.GetService<WelcomeService>();
+
 
     public SelectLanguagePage()
     {
         this.InitializeComponent();
-        WelcomePage.Current.TextLanguage = null!;
         CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+    }
+
+
+
+
+
+    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        await Task.Delay(16);
         InitializeLanguageComboBox();
         switch (AppConfig.ApiCDNIndex)
         {
@@ -51,18 +62,11 @@ public sealed partial class SelectLanguagePage : Page
             case 1: RadioButton_WindowSize_Small.IsChecked = true; break;
             default: RadioButton_WindowSize_Normal.IsChecked = true; break;
         }
-    }
-
-
-
-
-
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
-    {
-        await Task.Delay(100);
         TestCDNCommand.Execute(null);
     }
 
+
+    private bool enableSelectionChanged = false;
 
 
     private void InitializeLanguageComboBox()
@@ -75,7 +79,6 @@ public sealed partial class SelectLanguagePage : Page
                 Content = Lang.SettingPage_FollowSystem,
                 Tag = "",
             });
-            ComboBox_Language.SelectedIndex = 0;
             foreach (var (Title, LangCode) in Localization.LanguageList)
             {
                 ComboBox_Language.Items.Add(new ComboBoxItem
@@ -84,8 +87,13 @@ public sealed partial class SelectLanguagePage : Page
                     Tag = LangCode,
                 });
             }
+            ComboBox_Language.SelectedIndex = 0;
         }
         catch { }
+        finally
+        {
+            enableSelectionChanged = true;
+        }
     }
 
 
@@ -93,7 +101,7 @@ public sealed partial class SelectLanguagePage : Page
     [RelayCommand]
     private void Next()
     {
-        WelcomePage.Current.NavigateTo(typeof(SelectDirectoryPage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+        _welcomeService.NavigateTo(typeof(SelectDirectoryPage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
     }
 
 
@@ -107,11 +115,11 @@ public sealed partial class SelectLanguagePage : Page
                 switch (fe.Tag)
                 {
                     case "small":
-                        WelcomePage.Current.WindowSizeMode = 1;
+                        _welcomeService.WindowSizeMode = 1;
                         MainWindow.Current.ResizeToCertainSize(1064, 648);
                         break;
                     default:
-                        WelcomePage.Current.WindowSizeMode = 0;
+                        _welcomeService.WindowSizeMode = 0;
                         MainWindow.Current.ResizeToCertainSize(1280, 768);
                         break;
                 }
@@ -150,7 +158,7 @@ public sealed partial class SelectLanguagePage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCND_CF.Text = "Network Error";
+                    TextBlock_TestCND_CF.Text = Lang.Common_NetworkError;
                 }
                 finally
                 {
@@ -167,7 +175,7 @@ public sealed partial class SelectLanguagePage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_GH.Text = "Network Error";
+                    TextBlock_TestCDN_GH.Text = Lang.Common_NetworkError;
                 }
                 finally
                 {
@@ -184,7 +192,7 @@ public sealed partial class SelectLanguagePage : Page
                 }
                 catch (HttpRequestException)
                 {
-                    TextBlock_TestCDN_JD.Text = "Network Error";
+                    TextBlock_TestCDN_JD.Text = Lang.Common_NetworkError;
                 }
                 finally
                 {
@@ -213,7 +221,7 @@ public sealed partial class SelectLanguagePage : Page
                 _ => 0,
             };
             _metadataClient.SetApiPrefix(index);
-            WelcomePage.Current.ApiCDNIndex = index;
+            _welcomeService.ApiCDNIndex = index;
         }
     }
 
@@ -225,11 +233,11 @@ public sealed partial class SelectLanguagePage : Page
         {
             if (ComboBox_Language.SelectedItem is ComboBoxItem item)
             {
-                if (this.IsLoaded)
+                if (enableSelectionChanged)
                 {
                     var lang = item.Tag as string;
                     _logger.LogInformation("Language change to {lang}", lang);
-                    WelcomePage.Current.TextLanguage = lang!;
+                    _welcomeService.TextLanguage = lang!;
                     if (string.IsNullOrWhiteSpace(lang))
                     {
                         CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
@@ -252,5 +260,16 @@ public sealed partial class SelectLanguagePage : Page
         }
     }
 
+
+    private void ComboBox_Language_DropDownOpened(object sender, object e)
+    {
+        MainWindow.Current.SetDragRectangles();
+    }
+
+    private void ComboBox_Language_DropDownClosed(object sender, object e)
+    {
+        var len = (int)(48 * MainWindow.Current.UIScale);
+        MainWindow.Current.SetDragRectangles(new Windows.Graphics.RectInt32(0, 0, 100000, len));
+    }
 
 }

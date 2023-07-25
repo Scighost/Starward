@@ -159,6 +159,18 @@ public sealed partial class SettingPage : Page
 
 
 
+    private void ComboBox_Language_DropDownOpened(object sender, object e)
+    {
+        MainWindow.Current.SetDragRectangles();
+    }
+
+    private void ComboBox_Language_DropDownClosed(object sender, object e)
+    {
+        MainPage.Current.UpdateDragRectangles();
+    }
+
+
+
     #endregion
 
 
@@ -373,22 +385,6 @@ public sealed partial class SettingPage : Page
 
 
     [ObservableProperty]
-    private bool pauseVideoWhenChangeToOtherPage = AppConfig.PauseVideoWhenChangeToOtherPage;
-    partial void OnPauseVideoWhenChangeToOtherPageChanged(bool value)
-    {
-        AppConfig.PauseVideoWhenChangeToOtherPage = value;
-        if (value)
-        {
-            MainPage.Current.PauseVideo();
-        }
-        else
-        {
-            MainPage.Current.PlayVideo();
-        }
-    }
-
-
-    [ObservableProperty]
     private bool useOneBg = AppConfig.UseOneBg;
     partial void OnUseOneBgChanged(bool value)
     {
@@ -566,6 +562,7 @@ public sealed partial class SettingPage : Page
         }
 
     }
+
 
 
 

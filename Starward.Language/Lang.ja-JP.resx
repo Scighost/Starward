@@ -117,48 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Core_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>祈願の記録のURLを解析できません。</value>
-  </data>
-  <data name="Core_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>跳躍の記録のURLを解析できません。</value>
-  </data>
-  <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>群星跳躍</value>
-  </data>
-  <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>始発跳躍</value>
-  </data>
-  <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>イベント跳躍 (キャラクター)</value>
-  </data>
-  <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>イベント跳躍 (光円錐)</value>
-  </data>
-  <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>初心者応援祈願</value>
-  </data>
-  <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>恒常祈願</value>
-  </data>
-  <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>イベント祈願 (キャラクター)</value>
-  </data>
-  <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>イベント祈願 (武器)</value>
-  </data>
-  <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>イベント祈願 (キャラクター 2)</value>
-  </data>
-  <data name="PostType_Activity" xml:space="preserve">
-    <value>イベント</value>
-  </data>
-  <data name="PostType_Announcement" xml:space="preserve">
-    <value>お知らせ</value>
-  </data>
-  <data name="PostType_Information" xml:space="preserve">
-    <value>インフォメーション</value>
-  </data>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
     <value>パッケージのサイズ:</value>
   </data>
@@ -199,13 +157,13 @@
     <value>使用可能な空き容量が不足している可能性があります</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
-    <value>最低限度</value>
+    <value>天井カウント</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
     <value>平均</value>
   </data>
   <data name="GachaStatsCard_Stats" xml:space="preserve">
-    <value>状態</value>
+    <value>獲得回数</value>
   </data>
   <data name="SelectDirectoryPage_NiceToMeetYou" xml:space="preserve">
     <value>はじめまして〜</value>
@@ -235,7 +193,7 @@
     <value>OK</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>別の物を選択</value>
+    <value>別の場所を選択</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
     <value>キャンセル</value>
@@ -437,7 +395,7 @@
     <value>このアカウントは過去6ヶ月間のガチャの記録がありません</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>{0}の記録を獲得し、{1}件の記録を追加しました。</value>
+    <value>{0}件の記録を取得し、{1}件の記録を追加しました。</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
@@ -495,40 +453,40 @@
     <value>音声リソースのダウンロードを避ける為に、初めてゲームを開始する前にこの値を設定してください</value>
   </data>
   <data name="GameSettingPage_GraphicsSetting" xml:space="preserve">
-    <value>グラフィックの設定</value>
+    <value>画面設定</value>
   </data>
   <data name="GameSettingPage_GraphicsQualityPreset" xml:space="preserve">
-    <value>グラフィック品質のプリセット</value>
+    <value>画質のプリセット</value>
   </data>
   <data name="GameSettingPage_RenderScale" xml:space="preserve">
-    <value>レンダラーのスケール</value>
+    <value>レンダリング精度</value>
   </data>
   <data name="GameSettingPage_FPS" xml:space="preserve">
     <value>FPS</value>
   </data>
   <data name="GameSettingPage_VSync" xml:space="preserve">
-    <value>V-Sync</value>
+    <value>垂直同期</value>
   </data>
   <data name="GameSettingPage_AntiAliasing" xml:space="preserve">
     <value>アンチエイリアス</value>
   </data>
   <data name="GameSettingPage_ShadowQuality" xml:space="preserve">
-    <value>シャドウの品質</value>
+    <value>シャドウ品質</value>
   </data>
   <data name="GameSettingPage_ReflectionQuality" xml:space="preserve">
-    <value>リフレクションの品質</value>
+    <value>反射品質</value>
   </data>
   <data name="GameSettingPage_CharacterQuality" xml:space="preserve">
-    <value>キャラクターの品質</value>
+    <value>キャラ品質</value>
   </data>
   <data name="GameSettingPage_EnvironmentDetail" xml:space="preserve">
-    <value>環境の詳細</value>
+    <value>シーン細部</value>
   </data>
   <data name="GameSettingPage_BloomEffect" xml:space="preserve">
-    <value>Bloom効果</value>
+    <value>ブルーム効果</value>
   </data>
   <data name="GameSettingPage_LightQuality" xml:space="preserve">
-    <value>明るさの品質</value>
+    <value>照明効果</value>
   </data>
   <data name="Common_Apply" xml:space="preserve">
     <value>適用</value>
@@ -537,7 +495,7 @@
     <value>ゲームがインストールされていません</value>
   </data>
   <data name="GameSettingPage_FPSWarning" xml:space="preserve">
-    <value>FPSを120に設定するとゲーム内のグラフィック設定が使用できなくなります</value>
+    <value>FPSを120に設定するとゲーム内の画面設定が使用できなくなります</value>
   </data>
   <data name="GameSettingPage_SettingNotEffect" xml:space="preserve">
     <value>ゲームの実行中は適用された設定が反映されません</value>
@@ -617,9 +575,6 @@
   <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
     <value>背景の設定</value>
   </data>
-  <data name="SettingPage_PauseVideoWhenSwitchingToOtherPages" xml:space="preserve">
-    <value>他のページに切り替えるときに動画を一時停止する</value>
-  </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
     <value>すべてのゲームリージョンで同じ背景を使用する</value>
   </data>
@@ -630,7 +585,7 @@
     <value>ゲーム開始</value>
   </data>
   <data name="LauncherPage_GameIsRunning" xml:space="preserve">
-    <value>ゲームは実行中です</value>
+    <value>ゲームを実行中です</value>
   </data>
   <data name="Common_Start" xml:space="preserve">
     <value>開始</value>
@@ -840,7 +795,7 @@
     <value>始めにアプリのデータを保存するフォルダーを選択してください。</value>
   </data>
   <data name="GachaLogService_GetGachaProgressText" xml:space="preserve">
-    <value>{1} ページで {0} を取得</value>
+    <value>{1} ページ目で {0} の記録を取得</value>
     <comment>{0} = {gachaType} ,  {1} = {page}</comment>
   </data>
   <data name="HyperionToolbox" xml:space="preserve">
@@ -939,7 +894,7 @@
     <value>挑戦回数</value>
   </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
-    <value>時間</value>
+    <value>回</value>
     <comment>battle count 12 times</comment>
   </data>
   <data name="Common_Accept" xml:space="preserve">
@@ -986,5 +941,61 @@
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
     <value>解凍をすると追加の空き容量を必要とします。</value>
+  </data>
+  <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
+    <value>覚醒したアビリティ</value>
+  </data>
+  <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
+    <value>解放した奇物</value>
+  </data>
+  <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
+    <value>解放した祝福</value>
+  </data>
+  <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
+    <value>今期のクリア回数</value>
+  </data>
+  <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
+    <value>最高ポイント</value>
+  </data>
+  <data name="SimulatedUniversePage_ChallengedOn" xml:space="preserve">
+    <value>挑戦時間</value>
+  </data>
+  <data name="SimulatedUniversePage_CharactersUsed" xml:space="preserve">
+    <value>クリア時の使用キャラクター</value>
+  </data>
+  <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
+    <value>キャラダウンロード</value>
+  </data>
+  <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
+    <value>獲得した奇物</value>
+  </data>
+  <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
+    <value>獲得した祝福</value>
+  </data>
+  <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
+    <value>デイリーデータ</value>
+  </data>
+  <data name="TrailblazeCalendarPage_StellarJade" xml:space="preserve">
+    <value>星玉</value>
+  </data>
+  <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
+    <value>星軌チケット＆星軌専用チケット</value>
+  </data>
+  <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
+    <value>原石</value>
+  </data>
+  <data name="TravelersDiaryPage_Mora" xml:space="preserve">
+    <value>モラ</value>
+  </data>
+  <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
+    <value>第 {X} 層</value>
+    <comment>Spiral Abyss Floor {X}</comment>
+  </data>
+  <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
+    <value>第 {X} 間</value>
+    <comment>Spiral Abyss Chamber {X}</comment>
+  </data>
+  <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
+    <value>スクリーンショットフォルダが見つかりません</value>
   </data>
 </root>

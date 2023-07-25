@@ -117,48 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Core_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>无法解析祈愿记录的 URL</value>
-  </data>
-  <data name="Core_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>无法解析跃迁记录的 URL</value>
-  </data>
-  <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>群星跃迁</value>
-  </data>
-  <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>始发跃迁</value>
-  </data>
-  <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>角色活动跃迁</value>
-  </data>
-  <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>光锥活动跃迁</value>
-  </data>
-  <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>新手祈愿</value>
-  </data>
-  <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>常驻祈愿</value>
-  </data>
-  <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>角色活动祈愿</value>
-  </data>
-  <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>武器活动祈愿</value>
-  </data>
-  <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>角色活动祈愿-2</value>
-  </data>
-  <data name="PostType_Activity" xml:space="preserve">
-    <value>活动</value>
-  </data>
-  <data name="PostType_Announcement" xml:space="preserve">
-    <value>公告</value>
-  </data>
-  <data name="PostType_Information" xml:space="preserve">
-    <value>资讯</value>
-  </data>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
     <value>资源包大小：</value>
   </data>
@@ -617,9 +575,6 @@
   <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
     <value>背景设置</value>
   </data>
-  <data name="SettingPage_PauseVideoWhenSwitchingToOtherPages" xml:space="preserve">
-    <value>切换到其他页面时暂停视频</value>
-  </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
     <value>所有游戏使用相同的背景</value>
   </data>
@@ -987,5 +942,61 @@
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
     <value>解压时会占用额外的磁盘空间</value>
+  </data>
+  <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
+    <value>技能树已激活</value>
+  </data>
+  <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
+    <value>已解锁奇物</value>
+  </data>
+  <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
+    <value>已解锁祝福</value>
+  </data>
+  <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
+    <value>本期通关次数</value>
+  </data>
+  <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
+    <value>当前最高积分</value>
+  </data>
+  <data name="SimulatedUniversePage_ChallengedOn" xml:space="preserve">
+    <value>挑战时间</value>
+  </data>
+  <data name="SimulatedUniversePage_CharactersUsed" xml:space="preserve">
+    <value>通关使用角色</value>
+  </data>
+  <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
+    <value>缓存角色</value>
+  </data>
+  <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
+    <value>获得奇物</value>
+  </data>
+  <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
+    <value>获得祝福</value>
+  </data>
+  <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
+    <value>每日数据</value>
+  </data>
+  <data name="TrailblazeCalendarPage_StellarJade" xml:space="preserve">
+    <value>星琼</value>
+  </data>
+  <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
+    <value>星轨通票 &amp; 星轨专票</value>
+  </data>
+  <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
+    <value>原石</value>
+  </data>
+  <data name="TravelersDiaryPage_Mora" xml:space="preserve">
+    <value>摩拉</value>
+  </data>
+  <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
+    <value>第 {X} 层</value>
+    <comment>Spiral Abyss Floor {X}</comment>
+  </data>
+  <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
+    <value>第 {X} 间</value>
+    <comment>Spiral Abyss Chamber {X}</comment>
+  </data>
+  <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
+    <value>截图文件夹不存在</value>
   </data>
 </root>

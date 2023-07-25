@@ -117,48 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Core_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Cannot parse the wish record URL.</value>
-  </data>
-  <data name="Core_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Cannot parse the warp record URL.</value>
-  </data>
-  <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>Stellar Warp</value>
-  </data>
-  <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>Departure Warp</value>
-  </data>
-  <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>Character Event Warp</value>
-  </data>
-  <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>Light Cone Event Warp</value>
-  </data>
-  <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>Novice Wish</value>
-  </data>
-  <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>Permanent Wish</value>
-  </data>
-  <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>Character Event Wish</value>
-  </data>
-  <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>Weapon Event Wish</value>
-  </data>
-  <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>Character Event Wish - 2</value>
-  </data>
-  <data name="PostType_Activity" xml:space="preserve">
-    <value>Events</value>
-  </data>
-  <data name="PostType_Announcement" xml:space="preserve">
-    <value>Notices</value>
-  </data>
-  <data name="PostType_Information" xml:space="preserve">
-    <value>Info</value>
-  </data>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
     <value>Package Size:</value>
   </data>
@@ -617,9 +575,6 @@ closing the program during decompression will cause game file corruption.</value
   <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
     <value>Background Setting</value>
   </data>
-  <data name="SettingPage_PauseVideoWhenSwitchingToOtherPages" xml:space="preserve">
-    <value>Pause video when switching to other pages</value>
-  </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
     <value>Use same background in all game region</value>
   </data>
@@ -987,5 +942,65 @@ Do you accept the risk and continue to use it?</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
     <value>It takes additional disk space when unzip.</value>
+  </data>
+  <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
+    <value>Ability Tree Buffs Activated</value>
+  </data>
+  <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
+    <value>Unlocked Curios</value>
+  </data>
+  <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
+    <value>Unlocked Blessings</value>
+  </data>
+  <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
+    <value>Number of Clears</value>
+  </data>
+  <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
+    <value>Highest Score</value>
+  </data>
+  <data name="SimulatedUniversePage_ChallengedOn" xml:space="preserve">
+    <value>Challenged On</value>
+  </data>
+  <data name="SimulatedUniversePage_CharactersUsed" xml:space="preserve">
+    <value>Characters Used</value>
+  </data>
+  <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
+    <value>Cached Characters</value>
+  </data>
+  <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
+    <value>Curios Obtained</value>
+  </data>
+  <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
+    <value>Blessings Obtained</value>
+  </data>
+  <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
+    <value>Daily Data</value>
+  </data>
+  <data name="TrailblazeCalendarPage_StellarJade" xml:space="preserve">
+    <value>Stellar Jade</value>
+  </data>
+  <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
+    <value>Pass &amp; Special Pass</value>
+  </data>
+  <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
+    <value>Primogems</value>
+  </data>
+  <data name="TravelersDiaryPage_Mora" xml:space="preserve">
+    <value>Mora</value>
+  </data>
+  <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
+    <value>Floor {X}</value>
+    <comment>Spiral Abyss Floor {X}</comment>
+  </data>
+  <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
+    <value>Chamber {X}</value>
+    <comment>Spiral Abyss Chamber {X}</comment>
+  </data>
+  <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
+    <value>Screenshot folder does not exist</value>
+  </data>
+  <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
+    <value>{0} gacha items have been changed to language ({1}).</value>
+    <comment>123 gacha items have been changed to language (en-us).</comment>
   </data>
 </root>

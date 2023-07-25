@@ -135,7 +135,6 @@ public sealed partial class LauncherPage : Page
             if (gameBiz.ToGame() is GameBiz.Honkai3rd)
             {
                 Border_Playtime.Visibility = Visibility.Collapsed;
-                StackPanel_Account.Visibility = Visibility.Collapsed;
             }
 #pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
         }
@@ -256,13 +255,13 @@ public sealed partial class LauncherPage : Page
         catch { }
     }
 
-    private void FlipView_Banner_PointerEntered(object sender, PointerRoutedEventArgs e)
+    private void Grid_BannerContainer_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
         _timer.Stop();
         Border_PipsPager.Visibility = Visibility.Visible;
     }
 
-    private void FlipView_Banner_PointerExited(object sender, PointerRoutedEventArgs e)
+    private void Grid_BannerContainer_PointerExited(object sender, PointerRoutedEventArgs e)
     {
         _timer.Start();
         Border_PipsPager.Visibility = Visibility.Collapsed;
@@ -356,7 +355,7 @@ public sealed partial class LauncherPage : Page
     public bool IsPreDownloadEnable => LocalVersion != null && PreVersion != null;
 
 
-    public bool IsRepairGameEnable => (gameBiz is GameBiz.hk4e_cn or GameBiz.hk4e_global) && LocalVersion != null;
+    public bool IsRepairGameEnable => (gameBiz is GameBiz.hk4e_cn or GameBiz.hk4e_global || gameBiz.ToGame() is GameBiz.Honkai3rd) && LocalVersion != null;
 
 
     [ObservableProperty]
@@ -867,14 +866,6 @@ public sealed partial class LauncherPage : Page
 
     #region Background
 
-
-
-    [ObservableProperty]
-    private bool pauseVideoWhenChangeToOtherPage = AppConfig.PauseVideoWhenChangeToOtherPage;
-    partial void OnPauseVideoWhenChangeToOtherPageChanged(bool value)
-    {
-        AppConfig.PauseVideoWhenChangeToOtherPage = value;
-    }
 
 
     [ObservableProperty]

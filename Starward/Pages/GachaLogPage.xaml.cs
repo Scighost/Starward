@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Gacha;
@@ -66,10 +67,12 @@ public sealed partial class GachaLogPage : Page
             if (biz.ToGame() is GameBiz.GenshinImpact)
             {
                 _gachaLogService = AppConfig.GetService<GenshinGachaService>();
+                Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPaimon);
             }
             if (biz.ToGame() is GameBiz.StarRail)
             {
                 _gachaLogService = AppConfig.GetService<StarRailGachaService>();
+                Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPom);
             }
         }
     }
@@ -85,10 +88,10 @@ public sealed partial class GachaLogPage : Page
 
 
     [ObservableProperty]
-    private long selectUid;
-    partial void OnSelectUidChanged(long value)
+    private long? selectUid;
+    partial void OnSelectUidChanged(long? value)
     {
-        AppConfig.SetLastUidInGachaLogPage(gameBiz.ToGame(), value);
+        AppConfig.SetLastUidInGachaLogPage(gameBiz.ToGame(), value ?? 0);
         UpdateGachaTypeStats(value);
     }
 
@@ -140,6 +143,7 @@ public sealed partial class GachaLogPage : Page
     {
         await Task.Delay(16);
         Initialize();
+        await UpdateWikiDataAsync();
     }
 
 
@@ -148,6 +152,7 @@ public sealed partial class GachaLogPage : Page
     {
         try
         {
+            SelectUid = null;
             UidList = new(_gachaLogService.GetUids());
             var lastUid = AppConfig.GetLastUidInGachaLogPage(gameBiz.ToGame());
             if (UidList.Contains(lastUid))
@@ -158,6 +163,10 @@ public sealed partial class GachaLogPage : Page
             {
                 SelectUid = UidList.FirstOrDefault();
             }
+            if (UidList.Count == 0)
+            {
+                StackPanel_Emoji.Visibility = Visibility.Visible;
+            }
         }
         catch (Exception ex)
         {
@@ -167,24 +176,26 @@ public sealed partial class GachaLogPage : Page
 
 
 
-    private void UpdateGachaTypeStats(long uid)
+    private void UpdateGachaTypeStats(long? uid)
     {
         try
         {
-            if (uid == 0)
+            if (uid is null or 0)
             {
                 GachaTypeStats1 = null;
                 GachaTypeStats2 = null;
                 GachaTypeStats3 = null;
                 GachaTypeStats4 = null;
+                StackPanel_Emoji.Visibility = Visibility.Visible;
             }
             else
             {
-                var stats = _gachaLogService.GetGachaTypeStats(uid);
+                var stats = _gachaLogService.GetGachaTypeStats(uid.Value);
                 GachaTypeStats1 = stats.ElementAtOrDefault(0);
                 GachaTypeStats2 = stats.ElementAtOrDefault(1);
                 GachaTypeStats3 = stats.ElementAtOrDefault(2);
                 GachaTypeStats4 = stats.ElementAtOrDefault(3);
+                StackPanel_Emoji.Visibility = Visibility.Collapsed;
             }
         }
         catch (Exception ex)
@@ -195,6 +206,18 @@ public sealed partial class GachaLogPage : Page
 
 
 
+    private async Task UpdateWikiDataAsync()
+    {
+        try
+        {
+            string lang = string.IsNullOrWhiteSpace(GachaLanguage) ? System.Globalization.CultureInfo.CurrentUICulture.Name : GachaLanguage;
+            await _gachaLogService.UpdateGachaInfoAsync(gameBiz, lang);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update wiki data {gameBiz}", gameBiz);
+        }
+    }
 
 
 
@@ -206,11 +229,11 @@ public sealed partial class GachaLogPage : Page
             string? url = null;
             if (param is "cache")
             {
-                if (SelectUid == 0)
+                if (SelectUid is null or 0)
                 {
                     return;
                 }
-                url = _gachaLogService.GetGachaLogUrlByUid(SelectUid);
+                url = _gachaLogService.GetGachaLogUrlByUid(SelectUid.Value);
                 if (string.IsNullOrWhiteSpace(url))
                 {
                     // 无法找到 uid {uid} 的已缓存 URL
@@ -356,7 +379,11 @@ public sealed partial class GachaLogPage : Page
     {
         try
         {
-            var url = _gachaLogService.GetGachaLogUrlByUid(SelectUid);
+            if (SelectUid is null or 0)
+            {
+                return;
+            }
+            var url = _gachaLogService.GetGachaLogUrlByUid(SelectUid.Value);
             if (!string.IsNullOrWhiteSpace(url))
             {
                 ClipboardHelper.SetText(url);
@@ -374,12 +401,30 @@ public sealed partial class GachaLogPage : Page
 
 
     [RelayCommand]
+    private async Task ChangeGachaItemNameAsync()
+    {
+        try
+        {
+            string lang = string.IsNullOrWhiteSpace(GachaLanguage) ? System.Globalization.CultureInfo.CurrentUICulture.Name : GachaLanguage;
+            (lang, int count) = await _gachaLogService.ChangeGachaItemNameAsync(gameBiz, lang);
+            NotificationBehavior.Instance.Success(null, string.Format(Lang.GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1, count, lang), 5000);
+            UpdateGachaTypeStats(SelectUid);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Change gacha item name");
+        }
+    }
+
+
+
+    [RelayCommand]
     private async Task DeleteUidAsync()
     {
         try
         {
             var uid = SelectUid;
-            if (uid == 0)
+            if (uid is null or 0)
             {
                 return;
             }
@@ -399,11 +444,10 @@ public sealed partial class GachaLogPage : Page
             var result = await dialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-                var count = _gachaLogService.DeleteUid(uid);
+                var count = _gachaLogService.DeleteUid(uid.Value);
                 // 已删除 Uid {uid} 的抽卡记录 {count} 条
                 NotificationBehavior.Instance.Success(null, string.Format(Lang.GachaLogPage_DeletedGachaRecordsOfUid, count, uid));
-                SelectUid = UidList.FirstOrDefault(x => x != uid);
-                UidList.Remove(uid);
+                Initialize();
             }
         }
         catch (Exception ex)
@@ -450,11 +494,11 @@ public sealed partial class GachaLogPage : Page
     {
         try
         {
-            if (SelectUid == 0)
+            if (SelectUid is null or 0)
             {
                 return;
             }
-            long uid = SelectUid;
+            long uid = SelectUid.Value;
             var ext = format switch
             {
                 "excel" => "xlsx",

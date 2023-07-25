@@ -1,4 +1,6 @@
 ﻿using Microsoft.Win32;
+using Starward.Core.Gacha.Genshin;
+using Starward.Core.Gacha.StarRail;
 using System.Net.Http.Json;
 using System.Runtime.Versioning;
 using System.Text;
@@ -31,7 +33,7 @@ public abstract class GachaLogClient
     protected const string REG_KEY_SR_CN = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\崩坏：星穹铁道";
     protected const string REG_KEY_SR_OS = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Star Rail";
 
-    protected const string WEB_CACHE_SR_PATH = @"StarRail_Data\webCaches\Cache\Cache_Data\data_2";
+    protected const string WEB_CACHE_SR_PATH = @"StarRail_Data\webCaches\2.14.0.0\Cache\Cache_Data\data_2";
 
     protected const string WEB_PREFIX_SR_CN = "https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha-v2/index.html";
     protected const string WEB_PREFIX_SR_OS = "https://webstatic-sea.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html";
@@ -147,7 +149,14 @@ public abstract class GachaLogClient
             var file = GetGachaCacheFilePath(gameBiz, installPath);
             if (File.Exists(file))
             {
-                return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_CN, MEMORY_WEB_PREFIX_YS_OS);
+                if (gameBiz is GameBiz.hk4e_cn)
+                {
+                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_CN);
+                }
+                if (gameBiz is GameBiz.hk4e_global)
+                {
+                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_OS);
+                }
             }
             return null;
         }
@@ -156,7 +165,14 @@ public abstract class GachaLogClient
             var file = GetGachaCacheFilePath(gameBiz, installPath);
             if (File.Exists(file))
             {
-                return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_SR_CN, MEMORY_WEB_PREFIX_SR_OS);
+                if (gameBiz is GameBiz.hkrpg_cn)
+                {
+                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_SR_CN);
+                }
+                if (gameBiz is GameBiz.hk4e_global)
+                {
+                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_SR_OS);
+                }
             }
             return null;
         }
@@ -185,6 +201,26 @@ public abstract class GachaLogClient
 
 
     #region protected method
+
+
+
+    protected async Task<T> CommonGetAsync<T>(string url, CancellationToken cancellationToken = default)
+    {
+        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<T>), GachaLogJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;
+        if (wrapper is null)
+        {
+            throw new miHoYoApiException(-1, "Response body is null");
+        }
+        else if (wrapper.Retcode != 0)
+        {
+            throw new miHoYoApiException(wrapper.Retcode, wrapper.Message);
+        }
+        else
+        {
+            return wrapper.Data;
+        }
+    }
+
 
 
     protected abstract string GetGachaUrlPrefix(string gachaUrl, string? lang = null);
@@ -302,10 +338,61 @@ public abstract class GachaLogClient
 
 
 
+    public async Task<GenshinGachaWiki> GetGenshinGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
+    {
+        lang = Util.FilterLanguage(lang);
+        GenshinGachaWiki wiki;
+        if (gameBiz.IsChinaServer() && lang is "zh-cn")
+        {
+            const string url = "https://api-takumi.mihoyo.com/event/platsimulator/config?gids=2&game=hk4e";
+            wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);
+        }
+        else
+        {
+            string url = $"https://sg-public-api.hoyolab.com/event/simulatoros/config?lang={lang}";
+            wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);
+        }
+        wiki.Language = lang;
+        return wiki;
+    }
 
 
-
-
+    public async Task<StarRailGachaWiki> GetStarRailGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
+    {
+        lang = Util.FilterLanguage(lang);
+        StarRailGachaWiki wiki;
+        if (gameBiz.IsChinaServer() && lang is "zh-cn")
+        {
+            const string url = "https://api-takumi.mihoyo.com/event/rpgsimulator/config?game=hkrpg";
+            wiki = await CommonGetAsync<StarRailGachaWiki>(url, cancellationToken);
+        }
+        else
+        {
+            wiki = new StarRailGachaWiki { Game = "hkrpg", Avatar = new List<StarRailGachaInfo>(), Equipment = new List<StarRailGachaInfo>() };
+            for (int i = 1; i <= 10; i++)
+            {
+                string url = $"https://sg-public-api.hoyolab.com/event/rpgcalc/avatar/list?game=hkrpg&lang={lang}&tab_from=TabAll&page={i}&size=100";
+                var wrapper = await CommonGetAsync<StarRailGachaInfoWrapper>(url, cancellationToken);
+                wiki.Avatar.AddRange(wrapper.List);
+                if (wrapper.List.Count != 100)
+                {
+                    break;
+                }
+            }
+            for (int i = 1; i <= 10; i++)
+            {
+                string url = $"https://sg-public-api.hoyolab.com/event/rpgcalc/equipment/list?game=hkrpg&lang={lang}&tab_from=TabAll&page={i}&size=100";
+                var wrapper = await CommonGetAsync<StarRailGachaInfoWrapper>(url, cancellationToken);
+                wiki.Equipment.AddRange(wrapper.List);
+                if (wrapper.List.Count != 100)
+                {
+                    break;
+                }
+            }
+        }
+        wiki.Language = lang;
+        return wiki;
+    }
 
 
 

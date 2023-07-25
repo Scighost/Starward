@@ -27,13 +27,15 @@
         </Grid.ColumnDefinitions>
 
 
-        <Image Grid.RowSpan="2"
-               Grid.ColumnSpan="2"
+        <Image Name="Image_Emoji"
+               Grid.RowSpan="2"
+               Grid.Column="1"
                Width="160"
+               Height="160"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="{StaticResource PamuRead}"
-               Visibility="{x:Bind HasData, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+               Source="{StaticResource EmojiPom}"
+               Visibility="Collapsed" />
 
         <StackPanel Margin="0,24,0,0"
                     HorizontalAlignment="Left"
@@ -100,6 +102,7 @@
                         <TextBlock Grid.Row="1"
                                    Margin="24,0,0,2"
                                    VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="{x:Bind StarNum}" />
                     </Grid>
                 </DataTemplate>
@@ -190,6 +193,7 @@
                             <Grid Width="400"
                                   Height="300"
                                   Padding="24,0,24,0"
+                                  Background="{ThemeResource CustomOverlayAcrylicBrush}"
                                   CornerRadius="8,28,8,8"
                                   Shadow="{ThemeResource ThemeShadow}"
                                   Translation="0,0,16">
@@ -205,17 +209,17 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <!--  背景图  -->
-                                <Grid.Background>
+                                <!--<Grid.Background>
                                     <ImageBrush ImageSource="ms-appx:///Assets/Image/oblivious_chaos_memory_bg@2x.69565376.png" Stretch="UniformToFill" />
-                                </Grid.Background>
+                                </Grid.Background>-->
                                 <!--  不透明遮罩  -->
-                                <Border Grid.RowSpan="5"
+                                <!--<Border Grid.RowSpan="5"
                                         Grid.ColumnSpan="2"
                                         Margin="-24,0,-24,0"
-                                        Background="#40000000" />
+                                        Background="#40000000" />-->
                                 <Border Grid.ColumnSpan="2"
                                         Margin="-24,0,-24,0"
-                                        Background="#A0000000" />
+                                        Background="{ThemeResource ControlOnImageFillColorDefaultBrush}" />
                                 <!--  名称，回合数  -->
                                 <StackPanel VerticalAlignment="Center" Spacing="2">
                                     <TextBlock FontWeight="Bold"

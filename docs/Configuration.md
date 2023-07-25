@@ -87,11 +87,12 @@ The data type `Type` in the following table uses the expression in C#, and `-` r
 | ShowNoviceGacha                 | bool    | -             | Show novice gacha stats.                                                                                                                                         |
 | GachaLanguage                   | string? | -             | Get the language used for gacha records, the default is the in-game language.                                                                                    |
 | EnableDynamicAccentColor        | bool    | -             | The dynamic theme color is calculated from the background image, and the system theme color is used when it is turned off.                                       |
-| AccentColor                     | string? | -             | The cached dynamic theme color, used to reduce the amount of calculations at startup, `#ARBG#ARBG`: the former is background color and the latter is text color/ |
+| AccentColor                     | string? | -             | The cached dynamic theme color, used to reduce the amount of calculations at startup, `#ARBG#ARBG`: the former is background color and the latter is text color. |
 | VideoBgVolume                   | int     | 100           | The volume of the video background, `0 - 100`.                                                                                                                   |
-| PauseVideoWhenChangeToOtherPage | bool    | -             | Pause the video when switch to a not launcher page.                                                                                                              |
+| PauseVideoWhenChangeToOtherPage | bool    | -             | **Obsolete!** Pause the video when switch to a not launcher page.                                                                                                |
 | UseOneBg                        | bool    | -             | Use the same background for all game regions, usually enabled when using video background.                                                                       |
 | AcceptHoyolabToolboxAgreement   | bool    | -             | Accept the disclaimer of the HoYoLAB toolbox page.                                                                                                               |
+| HoyolabToolboxPaneOpen          | bool    | true          | Is the navigation sidebar on the HoYoLAB Toolbox page open.                                                                                                      |
 
 ## Dynamic Settings
 

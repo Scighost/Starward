@@ -33,7 +33,6 @@
                     Orientation="Horizontal"
                     Spacing="16">
             <!--  Uid List  -->
-            <!--  没有抽卡记录  -->
             <ComboBox Name="ComboBox_Uid"
                       MinWidth="160"
                       VerticalAlignment="Center"
@@ -118,6 +117,14 @@
                                 </Button>
                             </StackPanel>
                             <TextBox Text="{x:Bind GachaLanguage, Mode=TwoWay}" />
+                            <Button HorizontalAlignment="Stretch" Command="{x:Bind ChangeGachaItemNameCommand}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Margin="0,2,0,0"
+                                              FontSize="16"
+                                              Glyph="&#xE8FB;" />
+                                    <TextBlock Text="{x:Bind lang:Lang.Common_Apply}" />
+                                </StackPanel>
+                            </Button>
                             <!--  导出为  -->
                             <TextBlock Margin="0,8,0,0"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -167,13 +174,20 @@
             </Button>
         </StackPanel>
 
-
-        <Image Grid.Row="1"
-               Width="160"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Source="{StaticResource PamuRead}"
-               Visibility="{x:Bind GachaTypeStats1, Converter={StaticResource ObjectToVisibilityReversedConverter}}" />
+        <StackPanel Name="StackPanel_Emoji"
+                    Grid.RowSpan="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="16"
+                    Visibility="Collapsed">
+            <Image Name="Image_Emoji"
+                   Width="160"
+                   Height="160" />
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="16"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.GachaLogPage_NoGachaRecords}" />
+        </StackPanel>
 
 
         <ScrollViewer Grid.Row="1" Visibility="{x:Bind GachaTypeStats1, Converter={StaticResource ObjectToVisibilityConverter}}">

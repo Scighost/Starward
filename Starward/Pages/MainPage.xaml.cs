@@ -573,10 +573,10 @@ public sealed partial class MainPage : Page
                             decodeWidth = (int)(windowHeight * decoder.PixelWidth / decoder.PixelHeight);
                         }
                         var data = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8,
-                                                                   decoder.BitmapAlphaMode,
+                                                                   BitmapAlphaMode.Premultiplied,
                                                                    new BitmapTransform { ScaledWidth = (uint)decodeWidth, ScaledHeight = (uint)decodeHeight, InterpolationMode = BitmapInterpolationMode.Fant },
                                                                    ExifOrientationMode.IgnoreExifOrientation,
-                                                                   ColorManagementMode.DoNotColorManage);
+                                                                   ColorManagementMode.ColorManageToSRgb);
                         var bytes = data.DetachPixelData();
                         bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
                         await bitmap.PixelBuffer.AsStream().WriteAsync(bytes);
@@ -747,7 +747,7 @@ public sealed partial class MainPage : Page
             page = typeof(LauncherPage);
             MainPage_NavigationView.SelectedItem = MainPage_NavigationView.MenuItems.FirstOrDefault();
         }
-        _logger.LogInformation("Navigate to {page} with param {param}", page!.Name, param);
+        _logger.LogInformation("Navigate to {page} with param {param}", page!.Name, param ?? CurrentGameBiz);
         infoOverride ??= GetNavigationTransitionInfo(changeGameBiz);
         MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, infoOverride);
         if (page.Name is nameof(BlankPage) or nameof(LauncherPage))
@@ -757,10 +757,7 @@ public sealed partial class MainPage : Page
         }
         else
         {
-            if (AppConfig.PauseVideoWhenChangeToOtherPage)
-            {
-                PauseVideo();
-            }
+            PauseVideo();
             Border_ContentBackground.Opacity = 1;
         }
     }

@@ -22,12 +22,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.0.3" />
 		<PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Core" Version="7.1.2" />
 		<PackageReference Include="Dapper" Version="2.0.143" />
-		<PackageReference Include="Markdig" Version="0.31.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="7.0.0" />
@@ -38,9 +38,10 @@
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
 		<PackageReference Include="MiniExcel" Version="1.31.0" />
 		<PackageReference Include="NuGet.Versioning" Version="6.6.1" />
+		<PackageReference Include="ScottPlot.WinUI" Version="5.0.6-beta" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="Starward.Assets" Version="0.2.3" />
+		<PackageReference Include="Starward.Assets" Version="0.2.5" />
 		<PackageReference Include="Vanara.PInvoke.User32" Version="3.4.15" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>

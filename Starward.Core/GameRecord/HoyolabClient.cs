@@ -271,12 +271,9 @@ public class HoyolabClient : GameRecordClient
     /// <param name="role"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public override async Task<SimulatedUniverseInfo> GetSimulatedUniverseInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    public override async Task<SimulatedUniverseInfo> GetSimulatedUniverseInfoAsync(GameRecordRole role, bool detail = false, CancellationToken cancellationToken = default)
     {
-        // todo
-        throw new NotImplementedException();
-#pragma warning disable CS0162 // 检测到无法访问的代码
-        var url = $"https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/rogue?role_id={role.Uid}&server={role.Region}&schedule_type=3&need_detail=true";
+        var url = $"https://bbs-api-os.hoyolab.com/game_record/app/hkrpg/api/rogue?server={role.Region}&role_id={role.Uid}&schedule_type=3&need_detail={detail.ToString().ToLower()}";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(DS, CreateSecret2(url));
@@ -286,7 +283,6 @@ public class HoyolabClient : GameRecordClient
         request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
         var data = await CommonSendAsync<SimulatedUniverseInfo>(request, cancellationToken);
         return data;
-#pragma warning restore CS0162 // 检测到无法访问的代码
     }
 
 

@@ -161,7 +161,10 @@ public sealed partial class DownloadGamePage : Page
             await instance.RedirectActivationToAsync(AppInstance.GetCurrent().GetActivatedEventArgs());
             Environment.Exit(0);
         }
-        if (gameBiz.ToGame() is GameBiz.None || gameBiz is GameBiz.hk4e_cloud || (repairMode && gameBiz.ToGame() != GameBiz.GenshinImpact) || !Directory.Exists(gameFolder))
+        if (gameBiz.ToGame() is GameBiz.None
+            || gameBiz is GameBiz.hk4e_cloud
+            || (repairMode && (gameBiz.ToGame() is not GameBiz.GenshinImpact and not GameBiz.Honkai3rd))
+            || !Directory.Exists(gameFolder))
         {
             instance.UnregisterKey();
             var dialog = new ContentDialog
@@ -217,16 +220,19 @@ public sealed partial class DownloadGamePage : Page
             {
                 file = await _launcherService.GetBackgroundImageAsync(gameBiz, true);
             }
-            using var fs = File.OpenRead(file);
-            var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
-            int decodeWidth = (int)decoder.PixelWidth;
-            int decodeHeight = (int)decoder.PixelHeight;
-            WriteableBitmap bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
-            fs.Position = 0;
-            await bitmap.SetSourceAsync(fs.AsRandomAccessStream());
-            (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
-            MainWindow.Current.ChangeAccentColor(back, fore);
-            BackgroundImage = bitmap;
+            if (file != null)
+            {
+                using var fs = File.OpenRead(file);
+                var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
+                int decodeWidth = (int)decoder.PixelWidth;
+                int decodeHeight = (int)decoder.PixelHeight;
+                WriteableBitmap bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
+                fs.Position = 0;
+                await bitmap.SetSourceAsync(fs.AsRandomAccessStream());
+                (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
+                MainWindow.Current.ChangeAccentColor(back, fore);
+                BackgroundImage = bitmap;
+            }
         }
         catch (Exception ex)
         {
@@ -364,7 +370,15 @@ public sealed partial class DownloadGamePage : Page
             }
             if (state is DownloadGameService.DownloadGameState.Decompressed)
             {
-                FinishTask();
+                if (gameBiz.ToGame() is GameBiz.Honkai3rd)
+                {
+                    repairMode = true;
+                    _ = PrepareForDownloadAsync();
+                }
+                else
+                {
+                    FinishTask();
+                }
                 return;
             }
             if (state is DownloadGameService.DownloadGameState.Error)
@@ -630,6 +644,7 @@ public sealed partial class DownloadGamePage : Page
         {
             if (isFinish)
             {
+                MainWindow.Current.Close();
                 return;
             }
             var state = _downloadGameService.State;

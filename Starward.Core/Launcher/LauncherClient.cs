@@ -21,12 +21,12 @@ public class LauncherClient
 
 
 
-    private async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken? cancellationToken = null) where T : class
+    private async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken = default) where T : class
     {
         request.Version = HttpVersion.Version20;
-        var response = await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None);
+        var response = await _httpClient.SendAsync(request, cancellationToken);
         response.EnsureSuccessStatusCode();
-        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), LauncherJsonContext.Default) as miHoYoApiWrapper<T>;
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), LauncherJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;
         if (responseData is null)
         {
             throw new miHoYoApiException(-1, "Can not parse the response body.");
@@ -40,7 +40,7 @@ public class LauncherClient
 
 
 
-    public async Task<LauncherContent> GetLauncherContentAsync(GameBiz biz, string? lang = null)
+    public async Task<LauncherContent> GetLauncherContentAsync(GameBiz biz, string? lang = null, CancellationToken cancellationToken = default)
     {
         lang = Util.FilterLanguage(lang);
         var url = biz switch
@@ -58,12 +58,12 @@ public class LauncherClient
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);
-        return await CommonSendAsync<LauncherContent>(request);
+        return await CommonSendAsync<LauncherContent>(request, cancellationToken);
     }
 
 
 
-    public async Task<CloudGameBackground> GetCloudGameBackgroundAsync(GameBiz biz)
+    public async Task<CloudGameBackground> GetCloudGameBackgroundAsync(GameBiz biz, CancellationToken cancellationToken = default)
     {
         var url = biz switch
         {
@@ -71,14 +71,14 @@ public class LauncherClient
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);
-        var wrapper = await CommonSendAsync<CloudGameBackgroundWrapper>(request);
+        var wrapper = await CommonSendAsync<CloudGameBackgroundWrapper>(request, cancellationToken);
         return wrapper.BgImage;
     }
 
 
 
 
-    public async Task<LauncherResource> GetLauncherResourceAsync(GameBiz biz)
+    public async Task<LauncherResource> GetLauncherResourceAsync(GameBiz biz, CancellationToken cancellationToken = default)
     {
         var url = biz switch
         {
@@ -95,7 +95,7 @@ public class LauncherClient
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);
-        return await CommonSendAsync<LauncherResource>(request);
+        return await CommonSendAsync<LauncherResource>(request, cancellationToken);
     }
 
 

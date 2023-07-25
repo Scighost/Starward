@@ -277,14 +277,16 @@ public class HyperionClient : GameRecordClient
     /// <param name="role"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public override async Task<SimulatedUniverseInfo> GetSimulatedUniverseInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    public override async Task<SimulatedUniverseInfo> GetSimulatedUniverseInfoAsync(GameRecordRole role, bool detail = false, CancellationToken cancellationToken = default)
     {
-        var url = $"https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/rogue?role_id={role.Uid}&server={role.Region}&schedule_type=3&need_detail=true";
+        var url = $"https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/rogue?role_id={role.Uid}&server={role.Region}&schedule_type=3&need_detail={detail.ToString().ToLower()}";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(DS, CreateSecret2(url));
         request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
         request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_device_id, Regex.Match(role.Cookie ?? "", @"_MHYUUID=([^;]+)").Groups[1].Value);
+        request.Headers.Add(x_rpc_device_fp, Regex.Match(role.Cookie ?? "", @"DEVICEFP=([^;]+)").Groups[1].Value);
         request.Headers.Add(x_rpc_client_type, "5");
         request.Headers.Add(X_Request_With, com_mihoyo_hyperion);
         var data = await CommonSendAsync<SimulatedUniverseInfo>(request, cancellationToken);

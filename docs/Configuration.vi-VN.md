@@ -33,7 +33,7 @@ Lưu ý: Tập tin `config.ini` phải nằm trong thư mục gốc của ứng 
 
 ## Database
 
-Tất cả các mục cài đặt ngoại trừ hai mục trên đều được lưu trữ trong cơ sở dữ liệu `StarwardDatabase.db` ở thư mục người dùng. Tập tin này là tập tin cơ sở dữ liệu SQLite, mà bạn có thể chỉnh sửa bằng [DB Browser cho SQLite](https://sqlitebrowser.org/) hoặc các phần mềm khác.
+Tất cả các mục cài đặt ngoại trừ hai mục trên đều được lưu trữ trong cơ sở dữ liệu `StarwardDatabase.db` ở thư mục người dùng. Tập tin này là tập tin cơ sở dữ liệu SQLite, mà bạn có thể chỉnh sửa bằng [DB Browser for SQLite](https://sqlitebrowser.org/) hoặc các phần mềm khác.
 
 Sẽ có một bảng tên là `Setting` ở database chứa những mục cài đặt ứng dụng, và nó có cấu trúc như sau, với các key và value được biểu thị dưới dạng văn bản.
 
@@ -57,7 +57,7 @@ Starward sử dụng `enum GameBiz` để xác định các khu vực trò chơi
 | All               | 1     | Tất cả                                      |
 | **GenshinImpact** | 10    | Genshin Impact                              |
 | hk4e_cn           | 11    | Genshin Impact (Trung Quốc Đại Lục)         |
-| hk4e_global       | 12    | Original Gods (Toàn Cầu)                    |
+| hk4e_global       | 12    | Genshin Impact (Toàn Cầu)                   |
 | hk4e_cloud        | 13    | Genshin Impact · Cloud (Trung Quốc Đại Lục) |
 | **StarRail**      | 20    | Honkai: Star Rail                           |
 | hkrpg_cn          | 21    | Star Rail (Trung Quốc Đại Lục)              |
@@ -81,17 +81,18 @@ Kiểu dữ liệu `Type` trong bảng sau sử dụng biểu thức trong C#, v
 | ApiCDNIndex                     | int     | -                | Tuỳ chọn API CDN, 0 - CloudFlare, 1 - GitHub, 2 - jsDelivr                                                                                                        |
 | EnablePreviewRelease            | bool    | -                | Có tham gia kênh phát hành xem trước hay không.                                                                                                                   |
 | IgnoreVersion                   | string? | -                | Bỏ qua phiên bản của thông báo cập nhật, phiên bản mới hơn sẽ tiếp tục được thông báo chỉ khi chúng lớn hơn giá trị này.                                          |
-| EnableBannerAndPost             | bool    | -                | Hiển thị thông báo trò chơi ở trong trình khởi chạy page.                                                                                                         |
-| IgnoreRunningGame               | bool    | -                | Bỏ qua trò chơi đang chạy, trang trình khởi chạy sẽ không còn hiển thị `Trò chơi đang chạy` khi được bật.                                                         |
+| EnableBannerAndPost             | bool    | -                | Hiển thị thông báo trò chơi ở trong trình khởi chạy.                                                                                                         |
+| IgnoreRunningGame               | bool    | -                | Bỏ qua trò chơi đang chạy, trang trình khởi chạy sẽ không còn hiển thị `trò chơi đang chạy` khi được bật.                                                         |
 | SelectGameBiz                   | GameBiz | -                | Khu vực trò chơi được chọn cuối cùng.                                                                                                                             |
 | ShowNoviceGacha                 | bool    | -                | Hiển thị số liệu gacha người mới.                                                                                                                                 |
 | GachaLanguage                   | string? | -                | Nhận ngôn ngữ được sử dụng cho lịch sử gacha, mặc định là ngôn ngữ trong trò chơi.                                                                                |
 | EnableDynamicAccentColor        | bool    | -                | Màu chủ đề động được lấy từ ảnh nền, và màu chủ đề hệ thống được sử dụng khi tắt.                                                                                 |
-| AccentColor                     | string? | -                | Màu chủ đề động được lưu trong bộ nhớ cache, được sử dụng để giảm số lượng tính toán khi khởi động, `#ARBG#ARBG`: màu trước là màu nền và màu sau là màu văn bản/ |
+| AccentColor                     | string? | -                | Màu chủ đề động được lưu trong bộ nhớ cache, được sử dụng để giảm số lượng tính toán khi khởi động, `#ARBG#ARBG`: màu trước là màu nền và màu sau là màu văn bản. |
 | VideoBgVolume                   | int     | 100              | Âm lượng của video nền, `0 - 100`.                                                                                                                                |
-| PauseVideoWhenChangeToOtherPage | bool    | -                | Tạm dừng video khi chuyển sang trang không có trình khởi chạy.                                                                                                    |
+| PauseVideoWhenChangeToOtherPage | bool    | -                | **Đã lỗi thời:** Tạm dừng video khi chuyển sang trang không có trình khởi chạy.                                                                                       |
 | UseOneBg                        | bool    | -                | Sử dụng cùng một hình nền cho tất cả các khu vực trò chơi, thường được bật khi sử dụng nền video.                                                                 |
 | AcceptHoyolabToolboxAgreement   | bool    | -                | Chấp nhận tuyên bố từ chối trách nhiệm của trang công cụ HoYoLAB.                                                                                                 |
+| HoyolabToolboxPaneOpen          | bool    | true             | Thanh bên điều hướng ở trang công cụ HoYoLAB có mở hay không.                                                                                                     |
 
 ## Cài đặt động (Dynamic Settings)
 
@@ -106,6 +107,6 @@ Các mục cài đặt động có các giá trị khác nhau trong từng vùng
 | enable_third_party_tool      | bool    | -                | Có bật công cụ của bên thứ ba để bắt đầu trò chơi hay không.                                                                           |
 | third_party_tool_path        | string? | -                | Đường dẫn đến tập tin của công cụ bên thứ ba.                                                                                          |
 | start_argument               | string? | -                | Đối số khởi động trò chơi                                                                                                              |
-| last_gacha_uid               | long    | -                | Uid được chọn cuối cùng trong trang bản ghi gacha.                                                                                     |
+| last_gacha_uid               | long    | -                | UID được chọn cuối cùng trong trang bản ghi gacha.                                                                                     |
 | last_region_of               | GameBiz | -                | Khu vực trò chơi được chọn cuối cùng, được sử dụng để chuyển đổi nhanh ở đầu ứng dụng, với tên đầy đủ của trò chơi được thêm vào cuối. |
-| last_select_game_record_role | long    | -                | Uid được chọn cuối cùng của vai trò trò chơi trong trang hộp công cụ HoYoLAB.                                                          |
+| last_select_game_record_role | long    | -                | UID được chọn cuối cùng của vai trò trò chơi trong trang hộp công cụ HoYoLAB.                                                          |

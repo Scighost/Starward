@@ -270,12 +270,19 @@
         </ScrollViewer>
 
         <!--  游戏未安装  -->
-        <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontSize="20"
-                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                   Text="{x:Bind lang:Lang.GameSettingPage_GameNotInstalled}"
-                   Visibility="{x:Bind IsBaseSettingEnable, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+        <StackPanel Name="StackPanel_Emoji"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="16"
+                    Visibility="Collapsed">
+            <Image Name="Image_Emoji"
+                   Width="160"
+                   Height="160" />
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="16"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.GameSettingPage_GameNotInstalled}" />
+        </StackPanel>
 
 
         <Grid Grid.Row="1" Background="{ThemeResource CustomAcrylicBrush}">

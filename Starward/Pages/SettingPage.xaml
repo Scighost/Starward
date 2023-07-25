@@ -45,12 +45,9 @@
                                   Padding="18.5,0,0,0"
                                   BorderThickness="0"
                                   CornerRadius="18"
-                                  SelectionChanged="ComboBox_Language_SelectionChanged">
-                            <ComboBoxItem Content="{x:Bind lang:Lang.SettingPage_FollowSystem}" Tag="" />
-                            <ComboBoxItem Content="简体中文 (zh-CN, @Scighost)" Tag="zh-CN" />
-                            <ComboBoxItem Content="English (en-US, @Scighost)" Tag="en-US" />
-                            <ComboBoxItem Content="Tiếng Việt (vi-VN, @phucho0237)" Tag="vi-VN" />
-                        </ComboBox>
+                                  DropDownClosed="ComboBox_Language_DropDownClosed"
+                                  DropDownOpened="ComboBox_Language_DropDownOpened"
+                                  SelectionChanged="ComboBox_Language_SelectionChanged" />
                     </Border>
 
 
@@ -261,11 +258,6 @@
                                   IsOn="{x:Bind UseOneBg, Mode=TwoWay}"
                                   OffContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}"
                                   OnContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}" />
-                    <!--  切换到其他页面时暂停视频  -->
-                    <ToggleSwitch Margin="0,0,0,0"
-                                  IsOn="{x:Bind PauseVideoWhenChangeToOtherPage, Mode=TwoWay}"
-                                  OffContent="{x:Bind lang:Lang.SettingPage_PauseVideoWhenSwitchingToOtherPages}"
-                                  OnContent="{x:Bind lang:Lang.SettingPage_PauseVideoWhenSwitchingToOtherPages}" />
 
                     <!--  Update  -->
                     <TextBlock Margin="0,20,0,0"

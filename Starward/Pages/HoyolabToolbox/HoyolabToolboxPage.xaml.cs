@@ -69,6 +69,14 @@ public sealed partial class HoyolabToolboxPage : Page
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        if (AppConfig.HoyolabToolboxPaneOpen)
+        {
+            OpenNavigationViewPane();
+        }
+        else
+        {
+            CloseNavigationViewPane();
+        }
         _gameRecordService.GameRecordRoleChanged += _gameRecordService_GameRecordRoleChanged;
         _gameRecordService.NavigateChanged += _gameRecordService_NavigateChanged;
         await Task.Delay(16);
@@ -142,10 +150,7 @@ public sealed partial class HoyolabToolboxPage : Page
     // Close pane
     private void Grid_Avatar_1_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
-        NavigationViewItemContentMargin = new Thickness(2, 0, 0, 0);
-        NavigationView_Toolbox.IsPaneOpen = false;
-        Grid_Avatar_1.Visibility = Visibility.Collapsed;
-        Border_Avatar_2.Visibility = Visibility.Visible;
+        CloseNavigationViewPane();
     }
 
     private void Grid_Avatar_1_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -169,10 +174,7 @@ public sealed partial class HoyolabToolboxPage : Page
     // Open pane
     private void Border_Avatar_2_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
-        NavigationViewItemContentMargin = new Thickness(-2, 0, 0, 0);
-        NavigationView_Toolbox.IsPaneOpen = true;
-        Grid_Avatar_1.Visibility = Visibility.Visible;
-        Border_Avatar_2.Visibility = Visibility.Collapsed;
+        OpenNavigationViewPane();
     }
 
     private void Border_Avatar_2_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -193,6 +195,25 @@ public sealed partial class HoyolabToolboxPage : Page
     }
 
 
+    private void OpenNavigationViewPane()
+    {
+        NavigationViewItemContentMargin = new Thickness(-2, 0, 0, 0);
+        NavigationView_Toolbox.IsPaneOpen = true;
+        Grid_Avatar_1.Visibility = Visibility.Visible;
+        Border_Avatar_2.Visibility = Visibility.Collapsed;
+        AppConfig.HoyolabToolboxPaneOpen = true;
+    }
+
+
+    private void CloseNavigationViewPane()
+    {
+        NavigationViewItemContentMargin = new Thickness(2, 0, 0, 0);
+        NavigationView_Toolbox.IsPaneOpen = false;
+        Grid_Avatar_1.Visibility = Visibility.Collapsed;
+        Border_Avatar_2.Visibility = Visibility.Visible;
+        AppConfig.HoyolabToolboxPaneOpen = false;
+    }
+
 
     private void InitializeNavigationViewItemVisibility()
     {
@@ -203,10 +224,7 @@ public sealed partial class HoyolabToolboxPage : Page
         }
         if (gameBiz.ToGame() is GameBiz.StarRail)
         {
-            //if (gameBiz is GameBiz.hkrpg_cn)
-            //{
-            //    NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
-            //}
+            NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
             NavigationViewItem_ForgottenHall.Visibility = Visibility.Visible;
             NavigationViewItem_TrailblazeMonthlyCalendar.Visibility = Visibility.Visible;
         }
@@ -437,14 +455,7 @@ public sealed partial class HoyolabToolboxPage : Page
 
     private void NavigationView_Toolbox_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
-        if (args.InvokedItemContainer?.IsSelected ?? false)
-        {
-            return;
-        }
-        if (args.IsSettingsInvoked)
-        {
-        }
-        else
+        try
         {
             var item = args.InvokedItemContainer as NavigationViewItem;
             if (item != null)
@@ -453,6 +464,7 @@ public sealed partial class HoyolabToolboxPage : Page
                 {
                     nameof(SpiralAbyssPage) => typeof(SpiralAbyssPage),
                     nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
+                    nameof(SimulatedUniversePage) => typeof(SimulatedUniversePage),
                     nameof(ForgottenHallPage) => typeof(ForgottenHallPage),
                     nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
                     _ => null,
@@ -460,6 +472,7 @@ public sealed partial class HoyolabToolboxPage : Page
                 NavigateTo(type);
             }
         }
+        catch { }
     }
 
 

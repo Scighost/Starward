@@ -36,31 +36,28 @@
               Padding="24,12,24,12"
               HorizontalAlignment="Left"
               VerticalAlignment="Center"
-              Background="{ThemeResource CustomAcrylicBrush}"
-              CornerRadius="8"
-              Shadow="{ThemeResource ThemeShadow}"
-              Translation="0,0,16">
-            <StackPanel Spacing="12">
+              Background="{ThemeResource CustomOverlayAcrylicBrush}"
+              CornerRadius="8">
+            <StackPanel Spacing="8">
                 <TextBlock FontSize="20"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                            Text="Language" />
                 <ComboBox Name="ComboBox_Language"
                           MinWidth="300"
+                          DropDownClosed="ComboBox_Language_DropDownClosed"
+                          DropDownOpened="ComboBox_Language_DropDownOpened"
                           SelectedIndex="0"
-                          SelectionChanged="ComboBox_Language_SelectionChanged">
-                    <ComboBoxItem Content="Follow System" Tag="" />
-                    <ComboBoxItem Content="简体中文 (zh-CN, @Scighost)" Tag="zh-CN" />
-                    <ComboBoxItem Content="English (en-US, @Scighost)" Tag="en-US" />
-                    <ComboBoxItem Content="Tiếng Việt (vi-VN, @phucho0237)" Tag="vi-VN" />
-                </ComboBox>
+                          SelectionChanged="ComboBox_Language_SelectionChanged" />
 
                 <TextBlock Margin="0,8,0,0"
                            FontSize="20"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                            Text="Windows Size" />
-                <StackPanel Orientation="Horizontal" Spacing="16">
+                <StackPanel Margin="0,-4,0,0"
+                            Orientation="Horizontal"
+                            Spacing="16">
                     <RadioButton Name="RadioButton_WindowSize_Normal"
                                  Click="RadioButton_WindowSize_Click"
                                  GroupName="WindowSize"
@@ -90,7 +87,7 @@
                            Text="{x:Bind lang:Lang.SettingPage_CloudFlareConnectProperly}"
                            TextWrapping="Wrap" />
 
-                <RadioButtons Margin="0,-8,0,0">
+                <RadioButtons Margin="0,-4,0,0">
                     <RadioButton Name="RadioButton_CF"
                                  Click="RadioButton_CDN_Click"
                                  Tag="cf">
@@ -108,6 +105,7 @@
                         </StackPanel>
                     </RadioButton>
                     <RadioButton Name="RadioButton_GH"
+                                 Margin="0,-4,0,0"
                                  Click="RadioButton_CDN_Click"
                                  Tag="gh">
                         <StackPanel Orientation="Horizontal">
@@ -124,6 +122,7 @@
                         </StackPanel>
                     </RadioButton>
                     <RadioButton Name="RadioButton_JD"
+                                 Margin="0,-8,0,0"
                                  Click="RadioButton_CDN_Click"
                                  Tag="jd">
                         <StackPanel Orientation="Horizontal">

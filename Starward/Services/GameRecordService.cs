@@ -5,6 +5,7 @@ using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
+using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System;
 using System.Collections.Generic;
@@ -272,7 +273,12 @@ internal class GameRecordService
         {
             return null;
         }
-        return JsonSerializer.Deserialize<SpiralAbyssInfo>(value);
+        var info = JsonSerializer.Deserialize<SpiralAbyssInfo>(value);
+        if (info != null)
+        {
+            info.Floors = info.Floors.Where(x => x.Index > 8).OrderByDescending(x => x.Index).ToList();
+        }
+        return info;
     }
 
 
@@ -341,12 +347,93 @@ internal class GameRecordService
 
 
 
+    public List<TravelersDiaryAwardItem> GetTravelersDiaryDetailItems(long uid, int year, int month, int type)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        return dapper.Query<TravelersDiaryAwardItem>("SELECT * FROM TravelersDiaryAwardItem WHERE Uid=@uid AND Year=@year AND Month=@month AND Type=@type ORDER BY Time;", new { uid, year, month, type }).ToList();
+    }
+
 
 
 
 
     #endregion
 
+
+
+
+    #region Simulated Universe
+
+
+
+    public async Task<SimulatedUniverseInfo> GetSimulatedUniverseInfoAsync(GameRecordRole role, bool detail)
+    {
+        var info = await _gameRecordClient.GetSimulatedUniverseInfoAsync(role, detail);
+        if (detail)
+        {
+            using var dapper = _databaseService.CreateConnection();
+            using var t = dapper.BeginTransaction();
+            var obj = new
+            {
+                role.Uid,
+                info.LastRecord.Basic.ScheduleId,
+                info.LastRecord.Basic.FinishCount,
+                info.LastRecord.Basic.ScheduleBegin,
+                info.LastRecord.Basic.ScheduleEnd,
+                info.LastRecord.HasData,
+                Value = JsonSerializer.Serialize(info.LastRecord, AppConfig.JsonSerializerOptions),
+            };
+            dapper.Execute("""
+                INSERT OR REPLACE INTO SimulatedUniverseRecord (Uid, ScheduleId, FinishCount, ScheduleBegin, ScheduleEnd, HasData, Value)
+                VALUES (@Uid, @ScheduleId, @FinishCount, @ScheduleBegin, @ScheduleEnd, @HasData, @Value);
+                """, obj, t);
+            obj = new
+            {
+                role.Uid,
+                info.CurrentRecord.Basic.ScheduleId,
+                info.CurrentRecord.Basic.FinishCount,
+                info.CurrentRecord.Basic.ScheduleBegin,
+                info.CurrentRecord.Basic.ScheduleEnd,
+                info.CurrentRecord.HasData,
+                Value = JsonSerializer.Serialize(info.CurrentRecord, AppConfig.JsonSerializerOptions),
+            };
+            dapper.Execute("""
+                INSERT OR REPLACE INTO SimulatedUniverseRecord (Uid, ScheduleId, FinishCount, ScheduleBegin, ScheduleEnd, HasData, Value)
+                VALUES (@Uid, @ScheduleId, @FinishCount, @ScheduleBegin, @ScheduleEnd, @HasData, @Value);
+                """, obj, t);
+            t.Commit();
+        }
+        return info;
+    }
+
+
+
+    public List<SimulatedUniverseRecordBasic> GetSimulatedUniverseRecordBasics(GameRecordRole role)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        return dapper.Query<SimulatedUniverseRecordBasic>("""
+            SELECT ScheduleId, FinishCount, ScheduleBegin, ScheduleEnd FROM SimulatedUniverseRecord WHERE Uid=@Uid ORDER BY ScheduleId DESC;
+            """, new { role.Uid }).ToList();
+    }
+
+
+
+    public SimulatedUniverseRecord? GetSimulatedUniverseRecord(GameRecordRole role, int scheduleId)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        var value = dapper.QueryFirstOrDefault<string>("""
+            SELECT Value FROM SimulatedUniverseRecord WHERE Uid=@Uid AND ScheduleId=@scheduleId LIMIT 1;
+            """, new { role.Uid, scheduleId });
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+        return JsonSerializer.Deserialize<SimulatedUniverseRecord>(value);
+    }
+
+
+
+    #endregion
 
 
 
@@ -475,6 +562,11 @@ internal class GameRecordService
 
 
 
+    public List<TrailblazeCalendarDetailItem> GetTrailblazeCalendarDetailItems(long uid, string month, int type)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        return dapper.Query<TrailblazeCalendarDetailItem>("SELECT * FROM TrailblazeCalendarDetailItem WHERE Uid=@uid AND Month=@month AND Type=@type ORDER BY Time;", new { uid, month, type }).ToList();
+    }
 
 
 

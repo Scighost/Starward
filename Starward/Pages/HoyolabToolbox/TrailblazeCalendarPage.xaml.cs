@@ -39,6 +39,7 @@ public sealed partial class TrailblazeCalendarPage : Page
     public TrailblazeCalendarPage()
     {
         this.InitializeComponent();
+        WinUiPlot_Historical.Interaction.ContextMenuItems = new ScottPlot.Control.ContextMenuItem[0];
     }
 
 
@@ -62,10 +63,6 @@ public sealed partial class TrailblazeCalendarPage : Page
         await InitializeDataAsync();
     }
 
-
-
-    [ObservableProperty]
-    private bool hasData;
 
 
     [ObservableProperty]
@@ -121,7 +118,6 @@ public sealed partial class TrailblazeCalendarPage : Page
             {
                 return;
             }
-            HasData = true;
             CurrentSummary = await _gameRecordService.GetTrailblazeCalendarSummaryAsync(gameRole);
             MenuFlyout_GetDetails.Items.Clear();
             foreach (string monthStr in CurrentSummary.OptionalMonth)
@@ -172,10 +168,7 @@ public sealed partial class TrailblazeCalendarPage : Page
         {
             SelectMonthData = null;
             MonthDataList = _gameRecordService.GetTrailblazeCalendarMonthDataList(gameRole);
-            if (MonthDataList.Any())
-            {
-                HasData = true;
-            }
+            Image_Emoji.Visibility = MonthDataList.Any() ? Visibility.Collapsed : Visibility.Visible;
         }
         catch (Exception ex)
         {
@@ -230,6 +223,7 @@ public sealed partial class TrailblazeCalendarPage : Page
             {
                 SelectMonthData = data;
                 SelectSeries = SelectMonthData.GroupBy.Select(x => new ColorRectChart.ChartLegend(x.ActionName, x.Percent, actionColorMap.GetValueOrDefault(x.Action))).ToList();
+                RefreshDailyDataPlot(data);
             }
         }
         catch (Exception ex)
@@ -238,6 +232,79 @@ public sealed partial class TrailblazeCalendarPage : Page
         }
     }
 
+
+
+    private void RefreshDailyDataPlot(TrailblazeCalendarMonthData data)
+    {
+        try
+        {
+            var items_jade = _gameRecordService.GetTrailblazeCalendarDetailItems(data.Uid, data.Month, 1);
+            var items_pass = _gameRecordService.GetTrailblazeCalendarDetailItems(data.Uid, data.Month, 2);
+            int days = DateTime.DaysInMonth(int.Parse(data.Month[..4]), int.Parse(data.Month[4..]));
+            var x = Enumerable.Range(1, days).Select(x => (double)x).ToArray();
+
+            var stats_jade = new double[days];
+            foreach (var item in items_jade)
+            {
+                var day = item.Time.Day;
+                if (day <= days)
+                {
+                    stats_jade[day - 1] += item.Number;
+                }
+            }
+
+            var stats_pass = new double[days];
+            foreach (var item in items_pass)
+            {
+                var day = item.Time.Day;
+                if (day <= days)
+                {
+                    stats_pass[day - 1] += item.Number;
+                }
+            }
+
+            WinUiPlot_Historical.Plot.Clear();
+            WinUiPlot_Historical.Plot.Style.Background(ScottPlot.Colors.Transparent, ScottPlot.Colors.Transparent);
+            WinUiPlot_Historical.Plot.Style.ColorAxes(ScottPlot.Color.FromARGB(0xC5FFFFFF));
+            WinUiPlot_Historical.Plot.Style.ColorGrids(ScottPlot.Color.FromARGB(0x20FFFFFF));
+            var color_jade = ScottPlot.Color.FromARGB(0xFF66BCF2);
+            var color_pass = ScottPlot.Color.FromARGB(0xFFF2DE77);
+
+            WinUiPlot_Historical.Plot.LeftAxis.MajorTickColor = color_jade;
+            WinUiPlot_Historical.Plot.LeftAxis.MinorTickColor = color_jade;
+            WinUiPlot_Historical.Plot.LeftAxis.FrameLineStyle.Color = color_jade;
+            WinUiPlot_Historical.Plot.LeftAxis.MinorTickLength = 0;
+            WinUiPlot_Historical.Plot.LeftAxis.Min = 0;
+            WinUiPlot_Historical.Plot.LeftAxis.Max = stats_jade.Max() * 1.05;
+
+            WinUiPlot_Historical.Plot.RightAxis.MajorTickColor = color_pass;
+            WinUiPlot_Historical.Plot.RightAxis.MinorTickColor = color_pass;
+            WinUiPlot_Historical.Plot.RightAxis.FrameLineStyle.Color = color_pass;
+            WinUiPlot_Historical.Plot.RightAxis.MinorTickLength = 0;
+            WinUiPlot_Historical.Plot.RightAxis.Min = 0;
+            WinUiPlot_Historical.Plot.RightAxis.Max = stats_pass.Max() * 1.05;
+
+            WinUiPlot_Historical.Plot.BottomAxis.MinorTickLength = 0;
+
+            var scatter_jade = WinUiPlot_Historical.Plot.Add.Scatter(x, stats_jade, color_jade);
+            scatter_jade.Axes.YAxis = WinUiPlot_Historical.Plot.LeftAxis;
+            var scatter_pass = WinUiPlot_Historical.Plot.Add.Scatter(x, stats_pass, color_pass);
+            scatter_pass.Axes.YAxis = WinUiPlot_Historical.Plot.RightAxis;
+
+            WinUiPlot_Historical.Plot.SetAxisLimits(0.5, days + 0.5);
+            WinUiPlot_Historical.Refresh();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Refresh daily data plot");
+        }
+    }
+
+
+    private void WinUiPlot_Historical_PointerWheelChanged(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        e.Handled = true;
+    }
 
 
 }

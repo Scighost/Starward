@@ -89,9 +89,10 @@ Starward 使用 `enum GameBiz` 定义了不同的游戏区域，其中游戏全�
 | EnableDynamicAccentColor        | bool    | -             | 动态主题色，动态主题色通过背景图计算而来，关闭后使用系统主题色               |
 | AccentColor                     | string? | -             | 缓存的动态主题色，用在启动时减少计算量，`#ARBG#ARBG`，前者背景色后者文字颜色 |
 | VideoBgVolume                   | int     | 100           | 视频背景的音量，`0 - 100`                                                    |
-| PauseVideoWhenChangeToOtherPage | bool    | -             | 切换到非启动器页面时暂停视频                                                 |
+| PauseVideoWhenChangeToOtherPage | bool    | -             | **过时的！** 切换到非启动器页面时暂停视频                                                 |
 | UseOneBg                        | bool    | -             | 所有游戏区域使用同一个背景，一般在使用视频背景时启用                         |
 | AcceptHoyolabToolboxAgreement   | bool    | -             | 接受米游社工具箱页面的免责声明                                               |
+| HoyolabToolboxPaneOpen          | bool    | true          | 米游社工具箱页面的导航侧栏是否打开                                             |
 
 ## 动态设置项
 

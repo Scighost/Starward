@@ -145,16 +145,9 @@ public sealed partial class UpdatePage : Page
                     {release.Body}
 
                     """;
-                string html = "", css = "";
-                try
-                {
-                    html = await _metadataClient.RenderGithubMarkdownAsync(markdown);
-                }
-                catch
-                {
-                    html = Markdig.Markdown.ToHtml(markdown);
-                }
+                string html = await _metadataClient.RenderGithubMarkdownAsync(markdown);
                 var cssFile = Path.Combine(AppContext.BaseDirectory, @"Assets\CSS\github-markdown-dark.css");
+                string css = "";
                 if (File.Exists(cssFile))
                 {
                     css = await File.ReadAllTextAsync(cssFile);

@@ -43,41 +43,43 @@
                     <RowDefinition x:Name="RowDefinition_BannerAndPost" Height="200" />
                     <RowDefinition Height="124" />
                 </Grid.RowDefinitions>
-                <!--  Banner  -->
-                <FlipView Name="FlipView_Banner"
-                          Background="{ThemeResource CustomAcrylicBrush}"
-                          CornerRadius="8"
-                          ItemsSource="{x:Bind BannerList}"
-                          Loaded="FlipView_Banner_Loaded"
-                          PointerEntered="FlipView_Banner_PointerEntered"
-                          PointerExited="FlipView_Banner_PointerExited"
-                          Shadow="{StaticResource ThemeShadow}"
-                          Translation="0,0,16">
-                    <FlipView.ItemTemplate>
-                        <DataTemplate>
-                            <sc:HandCursorGrid>
-                                <sc:CachedImage Name="Image_Banner"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                IsRightTapEnabled="False"
-                                                Source="{Binding Img}"
-                                                Stretch="UniformToFill"
-                                                Tapped="Image_Banner_Tapped" />
-                            </sc:HandCursorGrid>
-                        </DataTemplate>
-                    </FlipView.ItemTemplate>
-                </FlipView>
-                <Border Name="Border_PipsPager"
-                        Padding="8,0,8,0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Background="{ThemeResource CustomAcrylicBrush}"
-                        CornerRadius="12,0,8,0"
-                        Visibility="Collapsed">
-                    <PipsPager Name="PipsPager_Banner"
-                               NumberOfPages="{x:Bind BannerList.Count}"
-                               SelectedPageIndex="{x:Bind FlipView_Banner.SelectedIndex, Mode=TwoWay}" />
-                </Border>
+                <Grid Name="Grid_BannerContainer"
+                      PointerEntered="Grid_BannerContainer_PointerEntered"
+                      PointerExited="Grid_BannerContainer_PointerExited">
+                    <!--  Banner  -->
+                    <FlipView Name="FlipView_Banner"
+                              Background="{ThemeResource CustomAcrylicBrush}"
+                              CornerRadius="8"
+                              ItemsSource="{x:Bind BannerList}"
+                              Loaded="FlipView_Banner_Loaded"
+                              Shadow="{StaticResource ThemeShadow}"
+                              Translation="0,0,16">
+                        <FlipView.ItemTemplate>
+                            <DataTemplate>
+                                <sc:HandCursorGrid>
+                                    <sc:CachedImage Name="Image_Banner"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    IsRightTapEnabled="False"
+                                                    Source="{Binding Img}"
+                                                    Stretch="UniformToFill"
+                                                    Tapped="Image_Banner_Tapped" />
+                                </sc:HandCursorGrid>
+                            </DataTemplate>
+                        </FlipView.ItemTemplate>
+                    </FlipView>
+                    <Border Name="Border_PipsPager"
+                            Padding="8,0,8,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Background="{ThemeResource CustomAcrylicBrush}"
+                            CornerRadius="12,0,8,0"
+                            Visibility="Collapsed">
+                        <PipsPager Name="PipsPager_Banner"
+                                   NumberOfPages="{x:Bind BannerList.Count}"
+                                   SelectedPageIndex="{x:Bind FlipView_Banner.SelectedIndex, Mode=TwoWay}" />
+                    </Border>
+                </Grid>
 
                 <!--  Post  -->
                 <Border Grid.Row="1"
@@ -366,7 +368,7 @@
                       Translation="0,0,16">
                     <ComboBox Name="ComboBox_GameAccount"
                               Height="40"
-                              MinWidth="220"
+                              MinWidth="200"
                               BorderThickness="0"
                               CornerRadius="0,20,20,0"
                               ItemsSource="{x:Bind GameAccountList}"
@@ -721,12 +723,6 @@
                                   IsOn="{x:Bind UseOneBg, Mode=TwoWay}"
                                   OffContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}"
                                   OnContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}" />
-
-                    <!--  切换到其他页面时暂停视频  -->
-                    <ToggleSwitch Margin="0,-4,0,0"
-                                  IsOn="{x:Bind PauseVideoWhenChangeToOtherPage, Mode=TwoWay}"
-                                  OffContent="{x:Bind lang:Lang.SettingPage_PauseVideoWhenSwitchingToOtherPages}"
-                                  OnContent="{x:Bind lang:Lang.SettingPage_PauseVideoWhenSwitchingToOtherPages}" />
 
                     <!--  volume  -->
                     <Grid ColumnSpacing="12">

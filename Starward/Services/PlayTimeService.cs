@@ -96,7 +96,7 @@ internal class PlayTimeService
     public TimeSpan GetPlayTimeTotal(GameBiz biz)
     {
         using var dapper = _database.CreateConnection();
-        var items = dapper.Query<PlayTimeItem>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz ORDER BY TimeStamp;", new { biz }).ToList();
+        var items = dapper.Query<PlayTimeItemStruct>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz ORDER BY TimeStamp;", new { biz }).ToList();
         long ts = 0;
         var dic_last_time = new Dictionary<int, long>();
         var dic_last_start_time = new Dictionary<int, long>();
@@ -140,7 +140,7 @@ internal class PlayTimeService
         var now = DateTimeOffset.Now;
         var month = now.Add(-now.TimeOfDay).AddDays(1 - now.Day);
         long month_ts = month.ToUnixTimeMilliseconds();
-        var items = dapper.Query<PlayTimeItem>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND TimeStamp >= @month_ts ORDER BY TimeStamp;", new { biz, month_ts }).ToList();
+        var items = dapper.Query<PlayTimeItemStruct>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND TimeStamp >= @month_ts ORDER BY TimeStamp;", new { biz, month_ts }).ToList();
         long ts = 0;
         var dic_last_time = new Dictionary<int, long>();
         var dic_last_start_time = new Dictionary<int, long>();
@@ -203,7 +203,7 @@ internal class PlayTimeService
         var now = DateTimeOffset.Now;
         var week = now.Add(-now.TimeOfDay).AddDays(-(((int)now.DayOfWeek + 6) % 7));
         long week_ts = week.ToUnixTimeMilliseconds();
-        var items = dapper.Query<PlayTimeItem>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND TimeStamp >= @week_ts ORDER BY TimeStamp;", new { biz, week_ts }).ToList();
+        var items = dapper.Query<PlayTimeItemStruct>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND TimeStamp >= @week_ts ORDER BY TimeStamp;", new { biz, week_ts }).ToList();
         long ts = 0;
         var dic_last_time = new Dictionary<int, long>();
         var dic_last_start_time = new Dictionary<int, long>();
@@ -303,6 +303,30 @@ internal class PlayTimeService
         }
     }
 
+
+
+
+
+    private struct PlayTimeItemStruct
+    {
+
+
+        public long TimeStamp { get; set; }
+
+
+        public GameBiz GameBiz { get; set; }
+
+
+        public int Pid { get; set; }
+
+
+        public PlayTimeItem.PlayState State { get; set; }
+
+
+        public long CursorPos { get; set; }
+
+
+    }
 
 
 

@@ -5,7 +5,6 @@
              xmlns:local="using:Starward.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              Loaded="UserControl_Loaded"
-             Unloaded="UserControl_Unloaded"
              mc:Ignorable="d">
 
     <Grid CornerRadius="{x:Bind CornerRadius}">

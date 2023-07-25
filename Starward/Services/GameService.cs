@@ -22,26 +22,6 @@ internal class GameService
 {
 
 
-    private const string REG_KEY_YS_CN = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
-    private const string ADL_YS_CN = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
-
-    private const string REG_KEY_YS_OS = @"HKEY_CURRENT_USER\Software\miHoYo\Genshin Impact";
-    private const string ADL_YS_OS = "MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810";
-
-    private const string REG_KEY_YS_CLOUD = @"HKEY_CURRENT_USER\Software\miHoYo\云·原神";
-    private const string ADL_YS_CLOUD = "MIHOYOSDK_ADL_0";
-
-
-    private const string REG_KEY_SR_CN = @"HKEY_CURRENT_USER\Software\miHoYo\崩坏：星穹铁道";
-    private const string ADL_SR_CN = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
-
-    private const string REG_KEY_SR_OS = @"HKEY_CURRENT_USER\Software\Cognosphere\Star Rail";
-    private const string ADL_SR_OS = "MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810";
-
-    private const string SR_AppLastUserId = "App_LastUserID_h2841727341";
-    private const string SR_GraphicsSetting = "GraphicsSettings_Model_h2986158309";
-
-
     private readonly ILogger<GameService> _logger;
 
 
@@ -134,21 +114,12 @@ internal class GameService
 
     public GameAccount? GetGameAccountsFromRegistry(GameBiz biz)
     {
-        var key = biz switch
+        var key = biz.GetGameRegistryKey();
+        var keyName = (int)biz switch
         {
-            GameBiz.hk4e_cn => REG_KEY_YS_CN,
-            GameBiz.hk4e_global => REG_KEY_YS_OS,
-            GameBiz.hk4e_cloud => REG_KEY_YS_CLOUD,
-            GameBiz.hkrpg_cn => REG_KEY_SR_CN,
-            GameBiz.hkrpg_global => REG_KEY_SR_OS,
-            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
-        };
-
-        var keyName = biz switch
-        {
-            GameBiz.hk4e_cn or GameBiz.hkrpg_cn => ADL_SR_CN,
-            GameBiz.hk4e_global or GameBiz.hkrpg_global => ADL_YS_OS,
-            GameBiz.hk4e_cloud => ADL_YS_CLOUD,
+            11 or 21 or 31 => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
+            13 => GameRegistry.MIHOYOSDK_ADL_0,
+            12 or 22 or (>= 32 and <= 36) => GameRegistry.MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
 
@@ -162,9 +133,13 @@ internal class GameService
                 Value = adl,
                 IsLogin = true,
             };
-            if (biz is GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
+            if (biz.ToGame() is GameBiz.StarRail)
             {
-                account.Uid = (int)(Registry.GetValue(key, SR_AppLastUserId, 0) ?? 0);
+                account.Uid = (int)(Registry.GetValue(key, GameRegistry.App_LastUserID_h2841727341, 0) ?? 0);
+            }
+            if (biz.ToGame() is GameBiz.Honkai3rd)
+            {
+                account.Uid = (int)(Registry.GetValue(key, GameRegistry.GENERAL_DATA_V2_LastLoginUserId_h47158221, 0) ?? 0);
             }
             return account;
         }
@@ -231,29 +206,22 @@ internal class GameService
 
     public void ChangeGameAccount(GameAccount account)
     {
-        switch (account.GameBiz)
+        var key = account.GameBiz.GetGameRegistryKey();
+        var keyName = (int)account.GameBiz switch
         {
-            case GameBiz.None:
-                break;
-            case GameBiz.hk4e_cn:
-                Registry.SetValue(REG_KEY_YS_CN, ADL_YS_CN, account.Value);
-                break;
-            case GameBiz.hk4e_global:
-                Registry.SetValue(REG_KEY_YS_OS, ADL_YS_OS, account.Value);
-                break;
-            case GameBiz.hk4e_cloud:
-                Registry.SetValue(REG_KEY_YS_CLOUD, ADL_YS_CLOUD, account.Value);
-                break;
-            case GameBiz.hkrpg_cn:
-                Registry.SetValue(REG_KEY_SR_CN, ADL_SR_CN, account.Value);
-                Registry.SetValue(REG_KEY_SR_CN, SR_AppLastUserId, account.Uid);
-                break;
-            case GameBiz.hkrpg_global:
-                Registry.SetValue(REG_KEY_SR_OS, ADL_SR_OS, account.Value);
-                Registry.SetValue(REG_KEY_SR_OS, SR_AppLastUserId, account.Uid);
-                break;
-            default:
-                break;
+            11 or 21 or 31 => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
+            13 => GameRegistry.MIHOYOSDK_ADL_0,
+            12 or 22 or (>= 32 and <= 36) => GameRegistry.MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810,
+            _ => throw new ArgumentOutOfRangeException($"Unknown region {account.GameBiz}"),
+        };
+        Registry.SetValue(key, keyName, account.Value);
+        if (account.GameBiz.ToGame() is GameBiz.StarRail)
+        {
+            Registry.SetValue(key, GameRegistry.App_LastUserID_h2841727341, account.Uid);
+        }
+        if (account.GameBiz.ToGame() is GameBiz.Honkai3rd)
+        {
+            Registry.SetValue(key, GameRegistry.GENERAL_DATA_V2_LastLoginUserId_h47158221, account.Uid);
         }
         _logger.LogInformation("Change account {name} ({biz}) successfully!", account.Name, account.GameBiz);
     }
@@ -349,11 +317,11 @@ internal class GameService
     {
         var key = biz switch
         {
-            GameBiz.hkrpg_cn => REG_KEY_SR_CN,
-            GameBiz.hkrpg_global => REG_KEY_SR_OS,
+            GameBiz.hkrpg_cn => GameRegistry.GamePath_hkrpg_cn,
+            GameBiz.hkrpg_global => GameRegistry.GamePath_hkrpg_global,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
-        var bytes = Registry.GetValue(key, SR_GraphicsSetting, null) as byte[];
+        var bytes = Registry.GetValue(key, GameRegistry.GraphicsSettings_Model_h2986158309, null) as byte[];
         if (bytes != null)
         {
             var str = Encoding.UTF8.GetString(bytes).TrimEnd('\0');
@@ -373,11 +341,11 @@ internal class GameService
     {
         var key = biz switch
         {
-            GameBiz.hkrpg_cn => REG_KEY_SR_CN,
-            GameBiz.hkrpg_global => REG_KEY_SR_OS,
+            GameBiz.hkrpg_cn => GameRegistry.GamePath_hkrpg_cn,
+            GameBiz.hkrpg_global => GameRegistry.GamePath_hkrpg_global,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
-        var bytes = Registry.GetValue(key, SR_GraphicsSetting, null) as byte[];
+        var bytes = Registry.GetValue(key, GameRegistry.GraphicsSettings_Model_h2986158309, null) as byte[];
         if (bytes != null)
         {
             var str = Encoding.UTF8.GetString(bytes).TrimEnd('\0');
@@ -386,7 +354,7 @@ internal class GameService
             {
                 node["FPS"] = fps;
                 bytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(node));
-                Registry.SetValue(key, SR_GraphicsSetting, bytes);
+                Registry.SetValue(key, GameRegistry.GraphicsSettings_Model_h2986158309, bytes);
             }
         }
     }

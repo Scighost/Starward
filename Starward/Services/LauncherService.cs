@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.System;
@@ -38,7 +40,7 @@ public class LauncherService
 
 
 
-    public async Task<LauncherContent> GetLauncherContentAsync(GameBiz gameBiz)
+    public async Task<LauncherContent> GetLauncherContentAsync(GameBiz gameBiz, CancellationToken cancellationToken = default)
     {
         string lang = CultureInfo.CurrentUICulture.Name;
         var content = MemoryCache.Instance.GetItem<LauncherContent>($"LauncherContent_{gameBiz}_{lang}", TimeSpan.FromSeconds(10));
@@ -46,7 +48,7 @@ public class LauncherService
         {
             return content;
         }
-        content = await _launcherClient.GetLauncherContentAsync(gameBiz, lang);
+        content = await _launcherClient.GetLauncherContentAsync(gameBiz, lang, cancellationToken);
         MemoryCache.Instance.SetItem($"LauncherContent_{gameBiz}_{lang}", content);
         return content;
     }
@@ -90,39 +92,70 @@ public class LauncherService
 
 
 
-    public async Task<string> GetBackgroundImageAsync(GameBiz gameBiz, bool disableCustom = false)
+    public async Task<string?> GetBackgroundImageAsync(GameBiz gameBiz, bool disableCustom = false)
     {
-        string? name, file;
-        if (AppConfig.GetEnableCustomBg(gameBiz) && !disableCustom)
+        try
         {
-            file = GetBackgroundFilePath(AppConfig.GetCustomBg(gameBiz));
-            if (File.Exists(file))
+            var tokenSource = new CancellationTokenSource(5000);
+            string? name, file;
+            if (AppConfig.GetEnableCustomBg(gameBiz) && !disableCustom)
             {
-                return file;
+                file = GetBackgroundFilePath(AppConfig.GetCustomBg(gameBiz));
+                if (File.Exists(file))
+                {
+                    return file;
+                }
+            }
+
+            string url;
+            if (gameBiz is GameBiz.hk4e_cloud)
+            {
+                var image = await _launcherClient.GetCloudGameBackgroundAsync(gameBiz, tokenSource.Token);
+                url = image.Url;
+            }
+            else
+            {
+                var content = await GetLauncherContentAsync(gameBiz, tokenSource.Token);
+                url = content.BackgroundImage.Background;
+            }
+            name = Path.GetFileName(url);
+            file = Path.Join(AppConfig.UserDataFolder, "bg", name);
+            if (!File.Exists(file))
+            {
+                var bytes = await _httpClient.GetByteArrayAsync(url);
+                Directory.CreateDirectory(Path.Combine(AppConfig.UserDataFolder, "bg"));
+                await File.WriteAllBytesAsync(file, bytes);
+            }
+            AppConfig.SetBg(gameBiz, name);
+            return file;
+        }
+        catch (Exception ex) when (ex is TaskCanceledException or HttpRequestException or SocketException)
+        {
+            string? bg = Path.Join(AppConfig.UserDataFolder, "bg", AppConfig.GetBg(gameBiz));
+            if (File.Exists(bg))
+            {
+                return bg;
+            }
+            else
+            {
+                string baseFolder = AppContext.BaseDirectory;
+                string? path = gameBiz.ToGame() switch
+                {
+                    GameBiz.Honkai3rd => Path.Combine(baseFolder, @"Assets\Image\poster_honkai.png"),
+                    GameBiz.GenshinImpact => Path.Combine(baseFolder, @"Assets\Image\poster_genshin.png"),
+                    GameBiz.StarRail => Path.Combine(baseFolder, @"Assets\Image\poster_starrail.png"),
+                    _ => null,
+                };
+                if (File.Exists(path))
+                {
+                    return path;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
-
-        string url;
-        if (gameBiz is GameBiz.hk4e_cloud)
-        {
-            var image = await _launcherClient.GetCloudGameBackgroundAsync(gameBiz);
-            url = image.Url;
-        }
-        else
-        {
-            var content = await GetLauncherContentAsync(gameBiz);
-            url = content.BackgroundImage.Background;
-        }
-        name = Path.GetFileName(url);
-        file = Path.Join(AppConfig.UserDataFolder, "bg", name);
-        if (!File.Exists(file))
-        {
-            var bytes = await _httpClient.GetByteArrayAsync(url);
-            Directory.CreateDirectory(Path.Combine(AppConfig.UserDataFolder, "bg"));
-            await File.WriteAllBytesAsync(file, bytes);
-        }
-        AppConfig.SetBg(gameBiz, name);
-        return file;
     }
 
 

@@ -8,6 +8,7 @@
       xmlns:local="using:Starward.Pages.HoyolabToolbox"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
+      xmlns:sp="using:ScottPlot.WinUI"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
       mc:Ignorable="d">
@@ -24,13 +25,15 @@
 
 
 
-        <Image Grid.RowSpan="2"
-               Grid.ColumnSpan="2"
+        <Image Name="Image_Emoji"
+               Grid.RowSpan="2"
+               Grid.Column="1"
                Width="160"
+               Height="160"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="{StaticResource PamuRead}"
-               Visibility="{x:Bind HasData, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+               Source="{StaticResource EmojiPaimon}"
+               Visibility="Collapsed" />
 
 
         <StackPanel Margin="0,24,0,0"
@@ -87,8 +90,7 @@
                   Padding="12,0,12,0"
                   ItemsSource="{x:Bind MonthDataList}"
                   SelectionChanged="ListView_MonthDataList_SelectionChanged"
-                  SelectionMode="Single"
-                  Visibility="{x:Bind HasData}">
+                  SelectionMode="Single">
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                     <Setter Property="Margin" Value="0,4,0,4" />
@@ -105,9 +107,18 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock>
+                        <TextBlock FontSize="16">
                             <Run Text="{x:Bind Year}" /><Run Text="-" /><Run Text="{x:Bind Month.ToString('D2', x:Null)}" />
                         </TextBlock>
+                        <Image Grid.Row="1"
+                               Width="20"
+                               Height="20"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/Image/UI_ItemIcon_201.png" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="24,0,0,0"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind CurrentPrimogems}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -116,9 +127,7 @@
 
 
 
-        <ScrollViewer Grid.RowSpan="2"
-                      Grid.Column="1"
-                      Visibility="{x:Bind HasData, Converter={StaticResource ObjectToVisibilityConverter}}">
+        <ScrollViewer Grid.RowSpan="2" Grid.Column="1">
             <StackPanel Margin="24" Spacing="8">
 
                 <!--  Real-Time Data  -->
@@ -309,6 +318,49 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Grid>
+
+                <!--  Daily Data  -->
+                <StackPanel Margin="0,8,0,0"
+                            Orientation="Horizontal"
+                            Visibility="{x:Bind SelectMonthData, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    <TextBlock FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                        <Run Text="{x:Bind lang:Lang.HoyolabToolboxPage_DailyData}" />
+                        <Run Text="" />
+                        <Run Text="{x:Bind SelectMonthData.Year}" /><Run Text="-" /><Run Text="{x:Bind SelectMonthData.Month.ToString('D2', x:Null)}" />
+                    </TextBlock>
+                    <Border Width="16"
+                            Height="16"
+                            Margin="12,0,0,0"
+                            VerticalAlignment="Center"
+                            Background="#FF66BCF2"
+                            CornerRadius="4" />
+                    <TextBlock Margin="4,0,0,0"
+                               VerticalAlignment="Center"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.TravelersDiaryPage_Primogems}" />
+                    <Border Width="16"
+                            Height="16"
+                            Margin="12,0,0,0"
+                            VerticalAlignment="Center"
+                            Background="#FFF2DE77"
+                            CornerRadius="4" />
+                    <TextBlock Margin="4,0,0,0"
+                               VerticalAlignment="Center"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.TravelersDiaryPage_Mora}" />
+                </StackPanel>
+                <Border Padding="4,8,4,4"
+                        Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                        CornerRadius="8"
+                        Shadow="{ThemeResource ThemeShadow}"
+                        Translation="0,0,16"
+                        Visibility="{x:Bind SelectMonthData, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    <sp:WinUIPlot Name="WinUiPlot_Historical"
+                                  Height="240"
+                                  PointerWheelChanged="WinUiPlot_Historical_PointerWheelChanged" />
+                </Border>
 
 
             </StackPanel>
