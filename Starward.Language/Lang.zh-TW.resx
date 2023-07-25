@@ -1000,7 +1000,7 @@
     <value>截圖資料夾不存在</value>
   </data>
   <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
-    <value>{0} gacha items have been changed to language ({1}).</value>
-    <comment>123 gacha items have been changed to language (en-us).</comment>
+    <value>The language of {0} gacha records has been changed to ({1}).</value>
+    <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
 </root>
