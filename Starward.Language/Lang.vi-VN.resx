@@ -344,7 +344,7 @@
     <value>Nhập từ JSON</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
-    <value>Hiện thị loại Gacha người mới</value>
+    <value>Hiện thị Gacha người mới</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
     <value>Xoá lịch sử</value>
@@ -1000,7 +1000,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thư mục ảnh chụp màn hình không tồn tại</value>
   </data>
   <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
-    <value>{0} gacha items have been changed to language ({1}).</value>
-    <comment>123 gacha items have been changed to language (en-us).</comment>
+    <value>Ngôn ngữ của {0} bản ghi gacha đã được chuyển thành ({1}).</value>
+    <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
 </root>
