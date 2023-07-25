@@ -27,7 +27,7 @@
 
 [GitHub のリリースページ](https://github.com/Scighost/Starward/releases)から使用している CPU のアーキテクチャに対応したパッケージをダウンロードして展開を行い、`Starward.exe` のプロンプトに従って操作をしてください。
 
-一部のデバイスで `Starward.exe` を実行時にクラッシュをする問題が発生する事があります。この問題が発生した場合は、`Starward.exe` が存在するフォルダーに `config.ini` のファイルを作成して、以下を貼り付けてください。`config.ini` の詳細は、[docs/Configuration.ja-JP.md](./docs/Configuration.ja-JP.md) を参照してください。
+一部のデバイスで `Starward.exe` を実行時にクラッシュをする問題が発生する事があります。この問題が発生した場合は、`Starward.exe` が存在するフォルダーに `config.ini` のファイルを作成して、以下を貼り付けてください。`config.ini` の詳細は、[docs/Configuration.ja-JP.md](./Configuration.ja-JP.md) を参照してください。
 
 ``` ini
 EnableConsole=False
