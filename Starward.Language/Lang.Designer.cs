@@ -629,7 +629,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 {0} gacha items have been changed to language ({1}). 的本地化字符串。
+        ///   查找类似 The language of {0} gacha records has been changed to ({1}). 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1 {
             get {
