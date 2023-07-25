@@ -29,8 +29,6 @@
 
 一部のデバイスで `Starward.exe` を実行時にクラッシュをする問題が発生する事があります。この問題が発生した場合は、`Starward.exe` が存在するフォルダーに `config.ini` のファイルを作成して、以下を貼り付けてください。`config.ini` の詳細は、[docs/Configuration.ja-JP.md](./docs/Configuration.ja-JP.md) を参照してください。
 
-一部のデバイスで実行後にクラッシュをする問題が発生する可能性があります。この問題が発生した場合は、`Starward` のフォルダーに `config.ini` ファイルを作成し、以下を貼り付けてください。`config.ini` の詳細は、[.docs/Configuration.ja-JP.md](./Configuration.ja-JP.md) を参照してください。
-
 ``` ini
 EnableConsole=False
 UserDataFolder=.
