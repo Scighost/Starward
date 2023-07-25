@@ -20,10 +20,10 @@
 
 始めに使用しているデバイスが以下の条件を満たしている必要があります:
 
-- Windows 10 1809 (17763) 以降の環境
+- Windows 10 1809 (17763) 以降の環境である事
 - [Visual C++ ランタイム](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist)がインストール済みである事
 - [WebView2 ランタイム](https://developer.microsoft.com/microsoft-edge/webview2)がインストール済みである事
-- Windows 10 を使用しているユーザーは、[Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons) フォントのインストールを推奨します。
+- Windows 10 を使用しているユーザーは、[Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons) フォントのインストールを推奨します
 
 [GitHub のリリースページ](https://github.com/Scighost/Starward/releases)から使用している CPU のアーキテクチャに対応したパッケージをダウンロードして展開を行い、`Starward.exe` のプロンプトに従って操作をしてください。
 
