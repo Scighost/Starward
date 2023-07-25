@@ -18,16 +18,11 @@
 
 ## ダウンロード
 
-始めに使用しているデバイスが以下の条件を満たしている必要があります:
+> [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) がインストールされた Windows 10 1809 (17763) 以降の環境を使用する必要があります。
 
-- Windows 10 1809 (17763) 以降の環境である事
-- [Visual C++ ランタイム](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist)がインストール済みである事
-- [WebView2 ランタイム](https://developer.microsoft.com/microsoft-edge/webview2)がインストール済みである事
-- Windows 10 を使用しているユーザーは、[Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons) フォントのインストールを推奨します
+最新版のリリースは、[GitHub のリリース](https://github.com/Scighost/Starward/releases) ページからダウンロードできます。このアプリケーションはインクリメンタルアップデートを採用していますので、簡単で便利になっています。
 
-[GitHub のリリースページ](https://github.com/Scighost/Starward/releases)から使用している CPU のアーキテクチャに対応したパッケージをダウンロードして展開を行い、`Starward.exe` のプロンプトに従って操作をしてください。
-
-一部のデバイスで `Starward.exe` を実行時にクラッシュをする問題が発生する事があります。この問題が発生した場合は、`Starward.exe` が存在するフォルダーに `config.ini` のファイルを作成して、以下を貼り付けてください。`config.ini` の詳細は、[docs/Configuration.ja-JP.md](./docs/Configuration.ja-JP.md) を参照してください。
+一部のデバイスで実行後にクラッシュをする問題が発生する可能性があります。この問題が発生した場合は、`Starward` のフォルダーに `config.ini` ファイルを作成し、以下を貼り付けてください。`config.ini` の詳細は、[.docs/Configuration.ja-JP.md](./Configuration.ja-JP.md) を参照してください。
 
 ``` ini
 EnableConsole=False
