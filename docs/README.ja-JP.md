@@ -1,4 +1,4 @@
-﻿English | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/README.vi-VN.md)
+[English](../README.md) | [简体中文](./README.zh-CN.md) | [Tiếng Việt](./README.vi-VN.md) | 日本語
 
 # Starward って何ですか?
 
@@ -22,7 +22,7 @@
 
 最新版のリリースは、[GitHub のリリース](https://github.com/Scighost/Starward/releases) ページからダウンロードできます。このアプリケーションはインクリメンタルアップデートを採用していますので、簡単で便利になっています。
 
-一部のデバイスで実行後にクラッシュをする問題が発生する可能性があります。この問題が発生した場合は、`Starward` のフォルダーに `config.ini` ファイルを作成し、以下を貼り付けてください。`config.ini` の詳細は、[docs/Configuration.ja-JP.md](./docs/Configuration.ja-JP.md) を参照してください。
+一部のデバイスで実行後にクラッシュをする問題が発生する可能性があります。この問題が発生した場合は、`Starward` のフォルダーに `config.ini` ファイルを作成し、以下を貼り付けてください。`config.ini` の詳細は、[.docs/Configuration.ja-JP.md](./Configuration.ja-JP.md) を参照してください。
 
 ``` ini
 EnableConsole=False
@@ -33,6 +33,7 @@ UserDataFolder=.
 ## 翻訳
 
 [![en-US translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en-US%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/en-US)
+[![ja-JP translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja-JP&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ja)
 [![vi-VN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/vi)
 [![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-CN)
 [![zh-TW translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-TW)
@@ -43,9 +44,9 @@ Starward はローカライズに[Crowdin](https://crowdin.com/project/starward)
 
 プロジェクトをローカルでコンパイルするには、Visual Studio 2022をインストールして以下のワークロードを選択する必要があります:
 
--  .NET Desktop Development
--  C++ Desktop Development
--  Universal Windows Platform Development
+-  .NET デスクトップ開発
+-  C++ によるデスクトップ開発
+-  ユニバーサル Windows プラットフォーム開発
 
 ## 謝辞
 
@@ -70,4 +71,5 @@ Starward はローカライズに[Crowdin](https://crowdin.com/project/starward)
 
 ## スクリーンショット
 
-![screenshot](https://github.com/Scighost/Starward/assets/61003590/22dad10c-bc42-44a7-b47f-5a608dfc5b08)
+![screenshot](https://github.com/reindex-ot/Starward/assets/32851879/ded2c30f-a6bd-4ed8-8e2f-5a44fc03b094)
+
