@@ -360,13 +360,13 @@
     <value>ゲームがインストールされていません</value>
   </data>
   <data name="GachaLogPage_CannotFindURL" xml:space="preserve">
-    <value>URLが見つかりません。ゲーム内のガチャ記録の履歴ページを開いてください。</value>
+    <value>URLが見つかりません。ゲーム内のガチャの記録の履歴ページを開いてください。</value>
   </data>
   <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
     <value>操作をキャンセルしました</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
-    <value>ゲーム内のガチャ記録のページを開き、再度お試しください。</value>
+    <value>ゲーム内のガチャの記録のページを開き、再度お試しください。</value>
   </data>
   <data name="Common_Warning" xml:space="preserve">
     <value>警告</value>
@@ -375,11 +375,11 @@
     <value>削除</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>UID {1} の{0}のガチャの記録を削除しました。</value>
+    <value>UID {1} の {0} のガチャの記録を削除しました。</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>UID {0} のガチャ記録が削除され、この操作は元に戻せません。</value>
+    <value>UID {0} のガチャ記録が削除されます、この操作は元に戻せません。</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
@@ -999,7 +999,7 @@
     <value>スクリーンショットフォルダが見つかりません</value>
   </data>
   <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
-    <value>{0} gacha items have been changed to language ({1}).</value>
-    <comment>123 gacha items have been changed to language (en-us).</comment>
+    <value>{0} のガチャの記録の言語を {1} に変更しました。</value>
+    <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
 </root>
