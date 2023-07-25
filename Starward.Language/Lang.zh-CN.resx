@@ -296,7 +296,7 @@
     <value>忽略</value>
   </data>
   <data name="DownloadGamePage_Stop" xml:space="preserve">
-    <value>终止</value>
+    <value>停止</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
     <value>解压未校验的文件可能会导致游戏文件损坏</value>
@@ -1000,7 +1000,7 @@
     <value>截图文件夹不存在</value>
   </data>
   <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
-    <value>{0} gacha items have been changed to language ({1}).</value>
-    <comment>123 gacha items have been changed to language (en-us).</comment>
+    <value>{0} 条抽卡记录的语言已被修改为 ({1})</value>
+    <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
 </root>
