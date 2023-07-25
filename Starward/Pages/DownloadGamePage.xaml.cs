@@ -2,9 +2,12 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI;
+using Microsoft.UI.Composition;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Windows.AppLifecycle;
@@ -16,6 +19,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Numerics;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -240,6 +244,54 @@ public sealed partial class DownloadGamePage : Page
         }
     }
 
+    AmbientLight ambientLight;
+    PointLight pointLight;
+    Vector3KeyFrameAnimation pointLightAnimation;
+
+
+    private async void ProgressBar_Download_Loaded(object sender, RoutedEventArgs e)
+    {
+        await Task.Delay(1000);
+        var visual = ElementCompositionPreview.GetElementVisual(ProgressBar_Download);
+        var com = visual.Compositor;
+        ambientLight = com.CreateAmbientLight();
+        ambientLight.Color = Colors.White;
+        ambientLight.Intensity = 1f;
+        ambientLight.Targets.Add(visual);
+
+        float width = (float)ProgressBar_Download.ActualWidth;
+        float height = (float)ProgressBar_Download.ActualHeight;
+
+        pointLight = com.CreatePointLight();
+        pointLight.Color = Colors.White;
+        pointLight.CoordinateSpace = visual;
+        pointLight.Intensity = 0.8f;
+        pointLight.Targets.Add(visual);
+        pointLight.MaxAttenuationCutoff = height * 2;
+        pointLight.Offset = new Vector3(100, 10, 20);
+
+        pointLightAnimation = com.CreateVector3KeyFrameAnimation();
+        pointLightAnimation.Duration = TimeSpan.FromSeconds(2);
+        pointLightAnimation.InsertKeyFrame(0.00f, new Vector3(-height * 2, height / 2, height));
+        pointLightAnimation.InsertKeyFrame(0.25f, new Vector3(-height * 2, height / 2, height));
+        pointLightAnimation.InsertKeyFrame(0.75f, new Vector3(width + height * 2, height / 2, height), com.CreateLinearEasingFunction());
+        pointLightAnimation.InsertKeyFrame(1.00f, new Vector3(width + height * 2, height / 2, height), com.CreateLinearEasingFunction());
+        pointLightAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
+        StartProgressAnimation();
+    }
+
+
+    private void StartProgressAnimation()
+    {
+        pointLight.StartAnimation(nameof(pointLight.Offset), pointLightAnimation);
+    }
+
+
+    private void StopProgressAnimation()
+    {
+        pointLight.Offset = new Vector3(-1000, 0, 0);
+        pointLight.StopAnimation(nameof(pointLight.Offset));
+    }
 
 
 
@@ -411,6 +463,7 @@ public sealed partial class DownloadGamePage : Page
             ActionButtonIcon = StartIcon;
             // 重试
             ActionButtonText = Lang.DownloadGamePage_Retry;
+            StopProgressAnimation();
 
             var dialog = new ContentDialog()
             {
@@ -501,6 +554,7 @@ public sealed partial class DownloadGamePage : Page
         ActionButtonText = Lang.DownloadGamePage_Finished;
         IsProgressStateVisible = false;
         ProgressValue = 100;
+        StopProgressAnimation();
     }
 
 
@@ -683,17 +737,21 @@ public sealed partial class DownloadGamePage : Page
                 StateText = Lang.DownloadGamePage_DownloadPaused;
                 SpeedText = null;
                 RemainTimeText = null;
+                StopProgressAnimation();
             }
             if (state is DownloadGameService.DownloadGameState.Prepared)
             {
+                StartProgressAnimation();
                 _ = DownloadAsync();
             }
             if (state is DownloadGameService.DownloadGameState.Verified && repairMode)
             {
+                StartProgressAnimation();
                 _ = DownloadAsync();
             }
             if (state is DownloadGameService.DownloadGameState.Error)
             {
+                StartProgressAnimation();
                 _ = PrepareForDownloadAsync();
             }
         }

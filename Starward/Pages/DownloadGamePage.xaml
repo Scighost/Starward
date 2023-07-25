@@ -86,9 +86,11 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <ProgressBar MinHeight="20"
+            <ProgressBar Name="ProgressBar_Download"
+                         MinHeight="20"
                          Background="#40101010"
                          CornerRadius="4"
+                         Loaded="ProgressBar_Download_Loaded"
                          Value="{x:Bind ProgressValue}">
                 <ProgressBar.Resources>
                     <x:Double x:Key="ProgressBarTrackHeight">20</x:Double>
