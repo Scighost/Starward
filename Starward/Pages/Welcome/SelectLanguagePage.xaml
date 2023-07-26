@@ -22,12 +22,12 @@
         <Image Grid.ColumnSpan="2"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="ms-appx:///Assets/Image/SevenDaysVersionBG.png"
+               Source="ms-appx:///Assets/Image/ImgTheSecondWorldBg.png"
                Stretch="UniformToFill" />
 
         <Image Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
-               Source="ms-appx:///Assets/Image/SevenDaysLieDH.png"
+               Source="ms-appx:///Assets/Image/ImgTheSecondWorldBoss.png"
                Stretch="Uniform" />
 
 
