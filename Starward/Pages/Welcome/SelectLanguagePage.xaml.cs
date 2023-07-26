@@ -51,12 +51,14 @@ public sealed partial class SelectLanguagePage : Page
     {
         await Task.Delay(16);
         InitializeLanguageComboBox();
+        _welcomeService.ApiCDNIndex = AppConfig.ApiCDNIndex;
         switch (AppConfig.ApiCDNIndex)
         {
             case 1: RadioButton_GH.IsChecked = true; break;
             case 2: RadioButton_JD.IsChecked = true; break;
             default: RadioButton_CF.IsChecked = true; break;
         }
+        _welcomeService.WindowSizeMode = AppConfig.WindowSizeMode;
         switch (AppConfig.WindowSizeMode)
         {
             case 1: RadioButton_WindowSize_Small.IsChecked = true; break;

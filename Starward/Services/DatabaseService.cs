@@ -19,10 +19,10 @@ internal class DatabaseService
     private readonly ILogger<DatabaseService> _logger;
 
 
-    private readonly string _databasePath;
+    private string _databasePath;
 
 
-    private readonly string _connectionString;
+    private string _connectionString;
 
 
 
@@ -36,13 +36,9 @@ internal class DatabaseService
 
 
 
-    public DatabaseService(ILogger<DatabaseService> logger, string databaseFolder)
+    public DatabaseService(ILogger<DatabaseService> logger)
     {
         _logger = logger;
-        _databasePath = Path.Combine(databaseFolder, "StarwardDatabase.db");
-        _logger.LogInformation($"Database path is '{_databasePath}'");
-        _connectionString = $"DataSource={_databasePath};";
-        InitializeDatabase();
     }
 
 
@@ -57,13 +53,31 @@ internal class DatabaseService
 
 
 
+    public void SetDatabase(string folder)
+    {
+        try
+        {
+            if (Directory.Exists(folder))
+            {
+                _logger.LogInformation($"Database path is '{folder}'");
+                _databasePath = Path.GetFullPath(Path.Combine(folder, "StarwardDatabase.db"));
+                _connectionString = $"DataSource={_databasePath};";
+                InitializeDatabase();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Initialize database");
+        }
+    }
+
 
 
     private void InitializeDatabase()
     {
         using var con = CreateConnection();
-        var version = con.QueryFirstOrDefault<int>("PRAGMA USER_VERSION;");
-        _logger.LogInformation($"Database version is {version}, target version is {DatabaseSqls.Count}.");
+        int version = con.QueryFirstOrDefault<int>("PRAGMA USER_VERSION;");
+        _logger.LogInformation("Database version is {version}, target version is {DatabaseSqls.Count}.", version, DatabaseSqls.Count);
         if (version == 0)
         {
             con.Execute("PRAGMA JOURNAL_MODE = WAL;");

@@ -40,16 +40,6 @@ public sealed partial class MainWindow : Window
         Current = this;
         this.InitializeComponent();
         InitializeMainWindow();
-        if (AppConfig.UserDataFolder is null)
-        {
-            Console.WriteLine($"Config Directory is NULL");
-            MainWindow_Frame.Content = new WelcomePage();
-        }
-        else
-        {
-            Console.WriteLine($"Config Directory is '{AppConfig.UserDataFolder}'");
-            MainWindow_Frame.Content = new MainPage();
-        }
     }
 
 
@@ -59,7 +49,6 @@ public sealed partial class MainWindow : Window
         Current = this;
         this.InitializeComponent();
         InitializeMainWindow(action);
-        MainWindow_Frame.Content = new DownloadGamePage();
     }
 
 
@@ -81,6 +70,23 @@ public sealed partial class MainWindow : Window
         }
         Title = "Starward";
         ResizeToCertainSize();
+        if (action is "download")
+        {
+            MainWindow_Frame.Content = new DownloadGamePage();
+        }
+        else
+        {
+            if (AppConfig.UserDataFolder is null)
+            {
+                Console.WriteLine($"Config Directory is NULL");
+                MainWindow_Frame.Content = new WelcomePage();
+            }
+            else
+            {
+                Console.WriteLine($"Config Directory is '{AppConfig.UserDataFolder}'");
+                MainWindow_Frame.Content = new MainPage();
+            }
+        }
     }
 
 

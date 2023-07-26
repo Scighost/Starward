@@ -91,6 +91,28 @@ internal static class AppConfig
         }
     }
 
+    private static int windowSizeMode;
+    public static int WindowSizeMode
+    {
+        get => windowSizeMode;
+        set
+        {
+            windowSizeMode = value;
+            SaveConfiguration();
+        }
+    }
+
+    private static string? language;
+    public static string? Language
+    {
+        get => language;
+        set
+        {
+            language = value;
+            SaveConfiguration();
+        }
+    }
+
     private static string userDataFolder;
     public static string UserDataFolder
     {
@@ -124,6 +146,8 @@ internal static class AppConfig
                 }
                 Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
                 enableConsole = Configuration.GetValue<bool>(nameof(EnableConsole));
+                windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
+                language = Configuration.GetValue<string>(nameof(Language));
                 string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
                 if (!string.IsNullOrWhiteSpace(dir))
                 {
@@ -181,6 +205,8 @@ internal static class AppConfig
                 }
                 File.WriteAllText(Path.Combine(baseDir, "config.ini"), $"""
                  {nameof(EnableConsole)}={EnableConsole}
+                 {nameof(WindowSizeMode)}={WindowSizeMode}
+                 {nameof(Language)}={Language}
                  {nameof(UserDataFolder)}={dataFolder}
                  """);
             }
@@ -237,7 +263,7 @@ internal static class AppConfig
             sc.AddSingleton<LauncherClient>();
             sc.AddSingleton(p => new MetadataClient(ApiCDNIndex, p.GetService<HttpClient>()));
 
-            sc.AddSingleton(p => new DatabaseService(p.GetService<ILogger<DatabaseService>>()!, UserDataFolder));
+            sc.AddSingleton<DatabaseService>();
             sc.AddSingleton<GameService>();
             sc.AddSingleton<UpdateService>();
             sc.AddSingleton<LauncherService>();
@@ -250,6 +276,10 @@ internal static class AppConfig
             sc.AddSingleton<WelcomeService>();
 
             _serviceProvider = sc.BuildServiceProvider();
+            if (!string.IsNullOrWhiteSpace(UserDataFolder))
+            {
+                _serviceProvider.GetService<DatabaseService>()!.SetDatabase(UserDataFolder);
+            }
         }
     }
 
@@ -278,19 +308,6 @@ internal static class AppConfig
 
     #region Static Setting
 
-
-    public static string? Language
-    {
-        get => GetValue<string>();
-        set => SetValue(value);
-    }
-
-
-    public static int WindowSizeMode
-    {
-        get => GetValue<int>();
-        set => SetValue(value);
-    }
 
 
     public static int ApiCDNIndex

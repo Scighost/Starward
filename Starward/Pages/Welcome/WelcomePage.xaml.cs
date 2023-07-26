@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.UI.Xaml.Navigation;
 using Starward.Services;
 using System;
 
@@ -22,40 +21,15 @@ public sealed partial class WelcomePage : Page
     private readonly WelcomeService _welcomeService = AppConfig.GetService<WelcomeService>();
 
 
-    private bool navigatedTo;
-
-
     public WelcomePage()
     {
         this.InitializeComponent();
-    }
-
-
-
-    protected override void OnNavigatedTo(NavigationEventArgs e)
-    {
-        base.OnNavigatedTo(e);
-        navigatedTo = true;
-    }
-
-
-
-
-    private void Page_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-    {
         _welcomeService.Reset();
         _welcomeService.OnNavigateTo += _welcomeService_OnNavigateTo;
         MainWindow.Current.ChangeAccentColor(null);
         int length = (int)(48 * MainWindow.Current.UIScale);
         MainWindow.Current.SetDragRectangles(new Windows.Graphics.RectInt32(0, 0, 10000, length));
-        if (navigatedTo)
-        {
-            frame.Navigate(typeof(SelectDirectoryPage));
-        }
-        else
-        {
-            frame.Navigate(typeof(SelectLanguagePage));
-        }
+        frame.Navigate(typeof(SelectLanguagePage));
     }
 
 
