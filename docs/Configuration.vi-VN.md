@@ -103,7 +103,7 @@ Các mục cài đặt động có các giá trị khác nhau trong từng vùng
 | bg                           | string? | -                | Tên tập tin hình nền chính thức, tập tin nằm trong thư mục con `bg` của thư mục dữ liệu người dùng.                                    |
 | custom_bg                    | string? | -                | Hình nền tùy chỉnh, hình ảnh là đường dẫn đầy đủ của tên tập tin và video.                                                             |
 | enable_custom_bg             | bool    | -                | Có bật hình nền tuỳ chỉnh hay không.                                                                                                   |
-| install_path                 | string? | -                | Thư mục cài đặt trò chơi, không phải thư mục trình khởi chạy chính thức.                                                               |
+| install_path                 | string? | -                | Thư mục cài đặt trò chơi, không phải thư mục của trình khởi chạy chính thức.                                                               |
 | enable_third_party_tool      | bool    | -                | Có bật công cụ của bên thứ ba để bắt đầu trò chơi hay không.                                                                           |
 | third_party_tool_path        | string? | -                | Đường dẫn đến tập tin của công cụ bên thứ ba.                                                                                          |
 | start_argument               | string? | -                | Đối số khởi động trò chơi                                                                                                              |
