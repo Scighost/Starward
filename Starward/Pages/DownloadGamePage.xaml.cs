@@ -265,17 +265,16 @@ public sealed partial class DownloadGamePage : Page
         pointLight = com.CreatePointLight();
         pointLight.Color = Colors.White;
         pointLight.CoordinateSpace = visual;
-        pointLight.Intensity = 0.8f;
+        pointLight.Intensity = 0.6f;
         pointLight.Targets.Add(visual);
-        pointLight.MaxAttenuationCutoff = height * 2;
-        pointLight.Offset = new Vector3(100, 10, 20);
+        pointLight.MaxAttenuationCutoff = height * 4;
 
         pointLightAnimation = com.CreateVector3KeyFrameAnimation();
         pointLightAnimation.Duration = TimeSpan.FromSeconds(2);
-        pointLightAnimation.InsertKeyFrame(0.00f, new Vector3(-height * 2, height / 2, height));
-        pointLightAnimation.InsertKeyFrame(0.25f, new Vector3(-height * 2, height / 2, height));
-        pointLightAnimation.InsertKeyFrame(0.75f, new Vector3(width + height * 2, height / 2, height), com.CreateLinearEasingFunction());
-        pointLightAnimation.InsertKeyFrame(1.00f, new Vector3(width + height * 2, height / 2, height), com.CreateLinearEasingFunction());
+        pointLightAnimation.InsertKeyFrame(0.00f, new Vector3(-height * 4, height / 2, height * 2));
+        pointLightAnimation.InsertKeyFrame(0.25f, new Vector3(-height * 4, height / 2, height * 2));
+        pointLightAnimation.InsertKeyFrame(0.75f, new Vector3(width + height * 4, height / 2, height * 2), com.CreateLinearEasingFunction());
+        pointLightAnimation.InsertKeyFrame(1.00f, new Vector3(width + height * 4, height / 2, height * 2), com.CreateLinearEasingFunction());
         pointLightAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
         StartProgressAnimation();
     }
@@ -732,7 +731,7 @@ public sealed partial class DownloadGamePage : Page
                 _timer.Stop();
                 ActionButtonIcon = StartIcon;
                 // 继续
-                ActionButtonText = Lang.DownloadGamePage_Pause;
+                ActionButtonText = Lang.Common_Continue;
                 // 下载已暂停
                 StateText = Lang.DownloadGamePage_DownloadPaused;
                 SpeedText = null;
