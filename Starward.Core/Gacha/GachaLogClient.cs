@@ -16,8 +16,8 @@ public abstract class GachaLogClient
     protected const string REG_KEY_YS_OS = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Genshin Impact";
     protected const string REG_KEY_YS_CLOUD = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\云·原神";
 
-    protected const string WEB_CACHE_PATH_YS_CN = @"YuanShen_Data\webCaches\2.13.0.1\Cache\Cache_Data\data_2";
-    protected const string WEB_CACHE_PATH_YS_OS = @"GenshinImpact_Data\webCaches\2.13.0.1\Cache\Cache_Data\data_2";
+    protected const string WEB_CACHE_PATH_YS_CN = @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2";
+    protected const string WEB_CACHE_PATH_YS_OS = @"GenshinImpact_Data\webCaches\Cache\Cache_Data\data_2";
 
     protected const string WEB_PREFIX_YS_CN = "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html";
     protected const string WEB_PREFIX_YS_OS = "https://webstatic-sea.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html";
@@ -33,7 +33,7 @@ public abstract class GachaLogClient
     protected const string REG_KEY_SR_CN = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\崩坏：星穹铁道";
     protected const string REG_KEY_SR_OS = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Star Rail";
 
-    protected const string WEB_CACHE_SR_PATH = @"StarRail_Data\webCaches\2.14.0.0\Cache\Cache_Data\data_2";
+    protected const string WEB_CACHE_SR_PATH = @"StarRail_Data\webCaches\Cache\Cache_Data\data_2";
 
     protected const string WEB_PREFIX_SR_CN = "https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha-v2/index.html";
     protected const string WEB_PREFIX_SR_OS = "https://webstatic-sea.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html";
@@ -135,60 +135,66 @@ public abstract class GachaLogClient
 
     public static string? GetGachaUrlFromWebCache(GameBiz gameBiz, string? installPath = null)
     {
-        if (gameBiz is GameBiz.hk4e_cloud)
+        var file = GetGachaCacheFilePath(gameBiz, installPath);
+        if (File.Exists(file))
         {
-            var file = GetGachaCacheFilePath(gameBiz, installPath);
-            if (File.Exists(file))
-            {
-                return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_CN);
-            }
-            return null;
+            return FindMatchStringFromFile(file, GetGachaUrlPattern(gameBiz));
         }
-        else if (gameBiz.ToGame() is GameBiz.GenshinImpact)
-        {
-            var file = GetGachaCacheFilePath(gameBiz, installPath);
-            if (File.Exists(file))
-            {
-                if (gameBiz is GameBiz.hk4e_cn)
-                {
-                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_CN);
-                }
-                if (gameBiz is GameBiz.hk4e_global)
-                {
-                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_YS_OS);
-                }
-            }
-            return null;
-        }
-        else if (gameBiz.ToGame() is GameBiz.StarRail)
-        {
-            var file = GetGachaCacheFilePath(gameBiz, installPath);
-            if (File.Exists(file))
-            {
-                if (gameBiz is GameBiz.hkrpg_cn)
-                {
-                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_SR_CN);
-                }
-                if (gameBiz is GameBiz.hk4e_global)
-                {
-                    return FindMatchStringFromFile(file, MEMORY_WEB_PREFIX_SR_OS);
-                }
-            }
-            return null;
-        }
-        throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}");
+        return null;
     }
 
 
 
     public static string GetGachaCacheFilePath(GameBiz gameBiz, string? installPath)
     {
-        return gameBiz switch
+        if (gameBiz is GameBiz.hk4e_cloud)
+        {
+            return Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"GenshinImpactCloudGame\config\logs\MiHoYoSDK.log");
+        }
+        string file = gameBiz switch
         {
             GameBiz.hk4e_cn => Path.Join(installPath, WEB_CACHE_PATH_YS_CN),
             GameBiz.hk4e_global => Path.Join(installPath, WEB_CACHE_PATH_YS_OS),
-            GameBiz.hk4e_cloud => Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"GenshinImpactCloudGame\config\logs\MiHoYoSDK.log"),
             GameBiz.hkrpg_cn or GameBiz.hkrpg_global => Path.Join(installPath, WEB_CACHE_SR_PATH),
+            _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
+        };
+        DateTime lastWriteTime = DateTime.MinValue;
+        if (File.Exists(file))
+        {
+            lastWriteTime = File.GetLastWriteTime(file);
+        }
+        string prefix = gameBiz switch
+        {
+            GameBiz.hk4e_cn => @"YuanShen_Data\webCaches",
+            GameBiz.hk4e_global => @"GenshinImpact_Data\webCaches",
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => @"StarRail_Data\webCaches",
+            _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
+        };
+        string webCache = Path.Join(installPath, prefix);
+        if (Directory.Exists(webCache))
+        {
+            foreach (var item in Directory.GetDirectories(webCache))
+            {
+                string target = Path.Join(item, @"Cache\Cache_Data\data_2");
+                if (File.Exists(target) && File.GetLastWriteTime(target) > lastWriteTime)
+                {
+                    file = target;
+                }
+            }
+        }
+        return file;
+    }
+
+
+
+    private static ReadOnlyMemory<byte> GetGachaUrlPattern(GameBiz gameBiz)
+    {
+        return gameBiz switch
+        {
+            GameBiz.hk4e_cn or GameBiz.hk4e_cloud => MEMORY_WEB_PREFIX_YS_CN,
+            GameBiz.hk4e_global => MEMORY_WEB_PREFIX_YS_OS,
+            GameBiz.hkrpg_cn => MEMORY_WEB_PREFIX_SR_CN,
+            GameBiz.hkrpg_global => MEMORY_WEB_PREFIX_SR_OS,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
         };
     }
