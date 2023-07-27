@@ -66,10 +66,12 @@ public sealed partial class MainWindow : Window
         {
             Title = "Starward - Download Game";
             ResizeToCertainSize(720, 410);
-            return;
         }
-        Title = "Starward";
-        ResizeToCertainSize();
+        else
+        {
+            Title = "Starward";
+            ResizeToCertainSize();
+        }
         if (action is "download")
         {
             MainWindow_Frame.Content = new DownloadGamePage();

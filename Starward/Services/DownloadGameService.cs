@@ -1364,6 +1364,12 @@ internal partial class DownloadGameService
                 File.SetAttributes(file, FileAttributes.Normal);
                 File.Delete(file);
             }
+            foreach (var file in Directory.GetFiles(installPath, "*.hidff", SearchOption.AllDirectories))
+            {
+                _logger.LogInformation("Delete file: {file}", file);
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
         });
     }
 
