@@ -54,11 +54,11 @@ internal class WelcomeService
 
     public void ApplySetting()
     {
+        _databaseService.SetDatabase(UserDataFolder);
         AppConfig.UserDataFolder = UserDataFolder;
         AppConfig.Language = TextLanguage;
         AppConfig.WindowSizeMode = WindowSizeMode;
         AppConfig.ApiCDNIndex = ApiCDNIndex;
-        _databaseService.SetDatabase(UserDataFolder);
     }
 
 
