@@ -1502,6 +1502,7 @@ internal partial class DownloadGameService
                 {
                     _streamIndex++;
                     _currentStream = _fileStreams[_streamIndex];
+                    _currentStream.Position = 0;
                     length = _currentStream.Read(buffer, offset, count);
                 }
             }
