@@ -29,6 +29,11 @@ Tải gói dành cho kiến trúc CPU của bạn từ [GitHub Release](https://
 
 Starward có thể crash sau khi chạy trên một số thiết bị. Nếu bạn gặp phải vấn đề này, hãy tạo tập tin `config.ini` trong thư mục `Starward` và dán những dòng sau đây vào. Xem [docs/Configuration.vi-VN.md](./Configuration.vi-VN.md) để có thêm thông tin về `config.ini`.
 
+``` ini
+EnableConsole=False
+UserDataFolder=.
+```
+
 ## Bản địa hoá
 
 [![en-US translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en-US%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/en-US)
