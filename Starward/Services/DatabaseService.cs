@@ -75,16 +75,19 @@ internal class DatabaseService
 
     private void InitializeDatabase()
     {
-        using var con = CreateConnection();
-        int version = con.QueryFirstOrDefault<int>("PRAGMA USER_VERSION;");
-        _logger.LogInformation("Database version is {version}, target version is {DatabaseSqls.Count}.", version, DatabaseSqls.Count);
-        if (version == 0)
+        lock (DatabaseSqls)
         {
-            con.Execute("PRAGMA JOURNAL_MODE = WAL;");
-        }
-        foreach (var sql in DatabaseSqls.Skip(version))
-        {
-            con.Execute(sql);
+            using var con = CreateConnection();
+            int version = con.QueryFirstOrDefault<int>("PRAGMA USER_VERSION;");
+            _logger.LogInformation("Database version is {version}, target version is {DatabaseSqls.Count}.", version, DatabaseSqls.Count);
+            if (version == 0)
+            {
+                con.Execute("PRAGMA JOURNAL_MODE = WAL;");
+            }
+            foreach (var sql in DatabaseSqls.Skip(version))
+            {
+                con.Execute(sql);
+            }
         }
     }
 
@@ -219,7 +222,7 @@ internal class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = new() { Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5 };
+    private static readonly List<string> DatabaseSqls = new() { Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6 };
 
 
     private const string Sql_v1 = """
@@ -512,6 +515,18 @@ internal class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_StarRailGachaInfo_Name ON StarRailGachaInfo (ItemName);
 
         PRAGMA USER_VERSION = 5;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v6 = """
+        BEGIN TRANSACTION;
+
+        CREATE INDEX IF NOT EXISTS IX_GenshinGachaItem_Name ON GenshinGachaItem (Name);
+        CREATE INDEX IF NOT EXISTS IX_GenshinGachaItem_ItemId ON GenshinGachaItem (ItemId);
+        CREATE INDEX IF NOT EXISTS IX_StarRailGachaItem_Name ON StarRailGachaItem (Name);
+        CREATE INDEX IF NOT EXISTS IX_StarRailGachaItem_ItemId ON StarRailGachaItem (ItemId);
+
+        PRAGMA USER_VERSION = 6;
         COMMIT TRANSACTION;
         """;
 
