@@ -159,4 +159,38 @@
   <data name="PostType_Information" xml:space="preserve">
     <value>Info</value>
   </data>
+  <data name="Game_GenshinImpact" xml:space="preserve">
+    <value>Genshin Impact</value>
+  </data>
+  <data name="Game_HonkaiStarRail" xml:space="preserve">
+    <value>Honkai: Star Rail</value>
+  </data>
+  <data name="Game_HonkaiImpact3rd" xml:space="preserve">
+    <value>Honkai Impact 3rd</value>
+  </data>
+  <data name="GameServer_ChinaServer" xml:space="preserve">
+    <value>China Server</value>
+  </data>
+  <data name="GameServer_GlobalServer" xml:space="preserve">
+    <value>Global Server</value>
+  </data>
+  <data name="GameServer_ChinaCloudServer" xml:space="preserve">
+    <value>China Cloud Server</value>
+  </data>
+  <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
+    <value>Europe &amp; Americas Servers</value>
+  </data>
+  <data name="GameServer_JapanServer" xml:space="preserve">
+    <value>Japan Server</value>
+  </data>
+  <data name="GameServer_KoreaServer" xml:space="preserve">
+    <value>Korea Server</value>
+  </data>
+  <data name="GameServer_SEAServer" xml:space="preserve">
+    <value>SEA Server</value>
+    <comment>Southeast Asia and Australia Server</comment>
+  </data>
+  <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
+    <value>Traditional Chinese Server</value>
+  </data>
 </root>

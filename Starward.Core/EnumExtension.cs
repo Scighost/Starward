@@ -36,6 +36,38 @@ public static class EnumExtension
     }
 
 
+    public static string ToGameName(this GameBiz biz)
+    {
+        return biz.ToGame() switch
+        {
+            GameBiz.GenshinImpact => CoreLang.Game_GenshinImpact,
+            GameBiz.StarRail => CoreLang.Game_HonkaiStarRail,
+            GameBiz.Honkai3rd => CoreLang.Game_HonkaiImpact3rd,
+            _ => "",
+        };
+    }
+
+
+    public static string ToGameServer(this GameBiz biz)
+    {
+        return biz switch
+        {
+            GameBiz.hk4e_cn => CoreLang.GameServer_ChinaServer,
+            GameBiz.hk4e_global => CoreLang.GameServer_GlobalServer,
+            GameBiz.hk4e_cloud => CoreLang.GameServer_ChinaCloudServer,
+            GameBiz.hkrpg_cn => CoreLang.GameServer_ChinaServer,
+            GameBiz.hkrpg_global => CoreLang.GameServer_GlobalServer,
+            GameBiz.bh3_cn => CoreLang.GameServer_ChinaServer,
+            GameBiz.bh3_global => CoreLang.GameServer_EuropeAmericasServers,
+            GameBiz.bh3_jp => CoreLang.GameServer_JapanServer,
+            GameBiz.bh3_kr => CoreLang.GameServer_KoreaServer,
+            GameBiz.bh3_overseas => CoreLang.GameServer_SEAServer,
+            GameBiz.bh3_tw => CoreLang.GameServer_TraditionalChineseServer,
+            _ => "",
+        };
+    }
+
+
     public static bool IsChinaServer(this GameBiz biz)
     {
         return (int)biz switch

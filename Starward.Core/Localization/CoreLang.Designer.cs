@@ -160,6 +160,105 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Genshin Impact 的本地化字符串。
+        /// </summary>
+        internal static string Game_GenshinImpact {
+            get {
+                return ResourceManager.GetString("Game_GenshinImpact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Honkai Impact 3rd 的本地化字符串。
+        /// </summary>
+        internal static string Game_HonkaiImpact3rd {
+            get {
+                return ResourceManager.GetString("Game_HonkaiImpact3rd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Honkai: Star Rail 的本地化字符串。
+        /// </summary>
+        internal static string Game_HonkaiStarRail {
+            get {
+                return ResourceManager.GetString("Game_HonkaiStarRail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 China Cloud Server 的本地化字符串。
+        /// </summary>
+        internal static string GameServer_ChinaCloudServer {
+            get {
+                return ResourceManager.GetString("GameServer_ChinaCloudServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 China Server 的本地化字符串。
+        /// </summary>
+        internal static string GameServer_ChinaServer {
+            get {
+                return ResourceManager.GetString("GameServer_ChinaServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Europe &amp; Americas Servers 的本地化字符串。
+        /// </summary>
+        internal static string GameServer_EuropeAmericasServers {
+            get {
+                return ResourceManager.GetString("GameServer_EuropeAmericasServers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Global Server 的本地化字符串。
+        /// </summary>
+        internal static string GameServer_GlobalServer {
+            get {
+                return ResourceManager.GetString("GameServer_GlobalServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Japan Server 的本地化字符串。
+        /// </summary>
+        internal static string GameServer_JapanServer {
+            get {
+                return ResourceManager.GetString("GameServer_JapanServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Korea Server 的本地化字符串。
+        /// </summary>
+        internal static string GameServer_KoreaServer {
+            get {
+                return ResourceManager.GetString("GameServer_KoreaServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 SEA Server 的本地化字符串。
+        /// </summary>
+        internal static string GameServer_SEAServer {
+            get {
+                return ResourceManager.GetString("GameServer_SEAServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Traditional Chinese Server 的本地化字符串。
+        /// </summary>
+        internal static string GameServer_TraditionalChineseServer {
+            get {
+                return ResourceManager.GetString("GameServer_TraditionalChineseServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Events 的本地化字符串。
         /// </summary>
         internal static string PostType_Activity {
