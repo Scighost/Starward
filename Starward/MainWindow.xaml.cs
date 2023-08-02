@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Pages;
 using Starward.Pages.Welcome;
 using System;
+using System.IO;
 using Vanara.PInvoke;
 using Windows.Graphics;
 using Windows.UI;
@@ -62,6 +63,7 @@ public sealed partial class MainWindow : Window
         titleBar.ExtendsContentIntoTitleBar = true;
         SetDragRectangles(new RectInt32(0, 0, 100000, len));
         ChangeTitleBarButtonColor();
+        AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo.ico"));
         if (action is "download")
         {
             Title = "Starward - Download Game";

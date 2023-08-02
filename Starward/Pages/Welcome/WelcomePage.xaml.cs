@@ -26,7 +26,6 @@ public sealed partial class WelcomePage : Page
         this.InitializeComponent();
         _welcomeService.Reset();
         _welcomeService.OnNavigateTo += _welcomeService_OnNavigateTo;
-        MainWindow.Current.ChangeAccentColor(null);
         int length = (int)(48 * MainWindow.Current.UIScale);
         MainWindow.Current.SetDragRectangles(new Windows.Graphics.RectInt32(0, 0, 10000, length));
         frame.Navigate(typeof(SelectLanguagePage));

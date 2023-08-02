@@ -9,9 +9,17 @@
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:s="using:Starward"
+      xmlns:ui="using:CommunityToolkit.WinUI.UI"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
       mc:Ignorable="d">
+
+    <Page.Resources>
+        <ui:AttachedDropShadow x:Key="LogoShadow"
+                               CastTo="{x:Bind Border_LogoShadow}"
+                               Opacity="0.4"
+                               Offset="4" />
+    </Page.Resources>
 
     <Grid>
 
@@ -366,13 +374,15 @@
 
                 <!--  About  -->
                 <StackPanel Grid.Column="1">
-                    <Border Height="160">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontSize="16"
-                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="{x:Bind lang:Lang.SettingPage_ThisIsALogo}" />
-                    </Border>
+                    <Grid Height="200">
+                        <Border Name="Border_LogoShadow" />
+                        <Image Width="160"
+                               Height="160"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               ui:Effects.Shadow="{StaticResource LogoShadow}"
+                               Source="ms-appx:///Assets/logo.png" />
+                    </Grid>
                     <TextBlock FontSize="20"
                                FontWeight="Bold"
                                Text="{x:Bind lang:Lang.SettingPage_About}" />

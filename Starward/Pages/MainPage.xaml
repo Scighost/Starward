@@ -54,10 +54,14 @@
 
         <!--  title bar  -->
         <Border Grid.Row="0">
-            <StackPanel Margin="60,0,0,0"
+            <StackPanel Margin="52,0,0,0"
                         Orientation="Horizontal"
-                        Spacing="8">
-                <TextBlock VerticalAlignment="Center"
+                        Spacing="4">
+                <Image Width="20"
+                       Height="20"
+                       Source="ms-appx:///Assets/logo_80.png" />
+                <TextBlock Margin="8,0,0,0"
+                           VerticalAlignment="Center"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="Starward" />
                 <TextBlock VerticalAlignment="Center"
