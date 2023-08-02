@@ -8,8 +8,6 @@ namespace Starward.Models;
 public partial class GachaLogItemEx : GachaLogItem
 {
 
-    public string IdText => Id.ToString();
-
     public int Index { get; set; }
 
     public int Pity { get; set; }
@@ -25,6 +23,9 @@ public partial class GachaLogItemEx : GachaLogItem
         get => _IsPointerIn;
         set => SetProperty(ref _IsPointerIn, value);
     }
+
+
+    public int ItemCount { get; set; }
 
 
 }

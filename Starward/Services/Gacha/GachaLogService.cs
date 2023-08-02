@@ -162,16 +162,17 @@ internal abstract class GachaLogService
 
 
 
-    public virtual List<GachaTypeStats> GetGachaTypeStats(long uid)
+    public virtual (List<GachaTypeStats> GachaStats, List<GachaLogItemEx> ItemStats) GetGachaTypeStats(long uid)
     {
         var statsList = new List<GachaTypeStats>();
+        var groupStats = new List<GachaLogItemEx>();
         using var dapper = _database.CreateConnection();
-        var alllist = GetGachaLogItemEx(uid);
-        if (alllist.Count > 0)
+        var allItems = GetGachaLogItemEx(uid);
+        if (allItems.Count > 0)
         {
             foreach (int type in GachaTypes)
             {
-                var list = GetGroupGachaLogItems(alllist, (GachaType)type);
+                var list = GetGroupGachaLogItems(allItems, (GachaType)type);
                 var stats = new GachaTypeStats
                 {
                     GachaType = (GachaType)type,
@@ -210,8 +211,14 @@ internal abstract class GachaLogService
                 }
                 statsList.Add(stats);
             }
+            groupStats = allItems.GroupBy(x => x.ItemId)
+                                 .Select(x => { var item = x.First(); item.ItemCount = x.Count(); return item; })
+                                 .OrderByDescending(x => x.RankType)
+                                 .ThenByDescending(x => x.ItemCount)
+                                 .ThenByDescending(x => x.Time)
+                                 .ToList();
         }
-        return statsList;
+        return (statsList, groupStats);
     }
 
 

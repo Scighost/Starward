@@ -16,6 +16,7 @@ using Starward.Models;
 using Starward.Services;
 using Starward.Services.Gacha;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -66,11 +67,13 @@ public sealed partial class GachaLogPage : Page
             GachaTypeText = GachaLogService.GetGachaLogText(biz);
             if (biz.ToGame() is GameBiz.GenshinImpact)
             {
+                EnableGenshinGachaItemStats = true;
                 _gachaLogService = AppConfig.GetService<GenshinGachaService>();
                 Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPaimon);
             }
             if (biz.ToGame() is GameBiz.StarRail)
             {
+                EnableStarRailGachaItemStats = true;
                 _gachaLogService = AppConfig.GetService<StarRailGachaService>();
                 Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPom);
             }
@@ -126,6 +129,14 @@ public sealed partial class GachaLogPage : Page
     }
 
 
+
+    [ObservableProperty]
+    private bool enableGenshinGachaItemStats;
+
+    [ObservableProperty]
+    private bool enableStarRailGachaItemStats;
+
+
     [ObservableProperty]
     private GachaTypeStats? gachaTypeStats1;
 
@@ -138,6 +149,8 @@ public sealed partial class GachaLogPage : Page
     [ObservableProperty]
     private GachaTypeStats? gachaTypeStats4;
 
+    [ObservableProperty]
+    private List<GachaLogItemEx>? gachaItemStats;
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
@@ -186,15 +199,17 @@ public sealed partial class GachaLogPage : Page
                 GachaTypeStats2 = null;
                 GachaTypeStats3 = null;
                 GachaTypeStats4 = null;
+                GachaItemStats = null;
                 StackPanel_Emoji.Visibility = Visibility.Visible;
             }
             else
             {
-                var stats = _gachaLogService.GetGachaTypeStats(uid.Value);
-                GachaTypeStats1 = stats.ElementAtOrDefault(0);
-                GachaTypeStats2 = stats.ElementAtOrDefault(1);
-                GachaTypeStats3 = stats.ElementAtOrDefault(2);
-                GachaTypeStats4 = stats.ElementAtOrDefault(3);
+                (var gachaStats, var itemStats) = _gachaLogService.GetGachaTypeStats(uid.Value);
+                GachaTypeStats1 = gachaStats.ElementAtOrDefault(0);
+                GachaTypeStats2 = gachaStats.ElementAtOrDefault(1);
+                GachaTypeStats3 = gachaStats.ElementAtOrDefault(2);
+                GachaTypeStats4 = gachaStats.ElementAtOrDefault(3);
+                GachaItemStats = itemStats;
                 StackPanel_Emoji.Visibility = Visibility.Collapsed;
             }
         }
@@ -571,6 +586,13 @@ public sealed partial class GachaLogPage : Page
         MainPage.Current.UpdateDragRectangles();
     }
 
+
+
+    [RelayCommand]
+    private void OpenItemStatsPane()
+    {
+        SplitView_Content.IsPaneOpen = true;
+    }
 
 
 }

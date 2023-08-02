@@ -9,6 +9,7 @@
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
+      xmlns:sm="using:Starward.Models"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
       mc:Ignorable="d">
@@ -28,8 +29,7 @@
                    Text="{x:Bind GachaTypeText}" />
 
 
-        <StackPanel Margin="0,0,24,0"
-                    HorizontalAlignment="Right"
+        <StackPanel HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     Spacing="16">
             <!--  Uid List  -->
@@ -172,6 +172,17 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
+            <!--  Pane  -->
+            <Button Height="32"
+                    BorderThickness="0"
+                    Command="{x:Bind OpenItemStatsPaneCommand}"
+                    CornerRadius="16,0,0,16"
+                    IsEnabled="{x:Bind GachaItemStats, Converter={StaticResource ObjectToBoolConverter}}"
+                    Style="{ThemeResource AccentButtonStyle}">
+                <FontIcon Margin="6,2,4,0"
+                          FontSize="18"
+                          Glyph="&#xE8A0;" />
+            </Button>
         </StackPanel>
 
         <StackPanel Name="StackPanel_Emoji"
@@ -190,35 +201,117 @@
         </StackPanel>
 
 
-        <ScrollViewer Grid.Row="1" Visibility="{x:Bind GachaTypeStats1, Converter={StaticResource ObjectToVisibilityConverter}}">
+        <SplitView Name="SplitView_Content"
+                   Grid.Row="1"
+                   BorderThickness="0"
+                   CornerRadius="12,0,0,12"
+                   DisplayMode="Overlay"
+                   OpenPaneLength="508"
+                   PaneBackground="{ThemeResource CustomOverlayAcrylicBrush}"
+                   PanePlacement="Right">
 
-            <Grid Name="Grid_Star5List"
-                  Grid.Row="1"
-                  Margin="24,0,24,12"
-                  ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
 
-                <sc:GachaStatsCard x:Name="GachaStatsCard_1"
-                                   Grid.Column="0"
-                                   WarpTypeStats="{x:Bind GachaTypeStats1}" />
-                <sc:GachaStatsCard x:Name="GachaStatsCard_2"
-                                   Grid.Column="1"
-                                   WarpTypeStats="{x:Bind GachaTypeStats2}" />
-                <sc:GachaStatsCard x:Name="GachaStatsCard_3"
-                                   Grid.Column="2"
-                                   WarpTypeStats="{x:Bind GachaTypeStats3}" />
-                <sc:GachaStatsCard x:Name="GachaStatsCard_4"
-                                   Grid.Column="3"
-                                   Visibility="{x:Bind ShowNoviceGacha}"
-                                   WarpTypeStats="{x:Bind GachaTypeStats4}" />
+            <ScrollViewer Visibility="{x:Bind GachaTypeStats1, Converter={StaticResource ObjectToVisibilityConverter}}">
+                <Grid Name="Grid_Star5List"
+                      Grid.Row="1"
+                      Margin="24,0,24,12"
+                      ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-            </Grid>
+                    <sc:GachaStatsCard x:Name="GachaStatsCard_1"
+                                       Grid.Column="0"
+                                       WarpTypeStats="{x:Bind GachaTypeStats1}" />
+                    <sc:GachaStatsCard x:Name="GachaStatsCard_2"
+                                       Grid.Column="1"
+                                       WarpTypeStats="{x:Bind GachaTypeStats2}" />
+                    <sc:GachaStatsCard x:Name="GachaStatsCard_3"
+                                       Grid.Column="2"
+                                       WarpTypeStats="{x:Bind GachaTypeStats3}" />
+                    <sc:GachaStatsCard x:Name="GachaStatsCard_4"
+                                       Grid.Column="3"
+                                       Visibility="{x:Bind ShowNoviceGacha}"
+                                       WarpTypeStats="{x:Bind GachaTypeStats4}" />
 
-        </ScrollViewer>
+                </Grid>
+            </ScrollViewer>
+
+
+            <SplitView.Pane>
+                <Grid>
+                    <GridView Name="GridView_GachaItemStats_Genshin"
+                              Padding="24,12,24,12"
+                              x:Load="{x:Bind EnableGenshinGachaItemStats}"
+                              ItemsSource="{x:Bind GachaItemStats}"
+                              SelectionMode="None">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="sm:GachaLogItemEx">
+                                <Grid Width="80"
+                                      Height="97"
+                                      Margin="4,2,4,2">
+                                    <sc:CachedImage Source="{x:Bind RankType, Converter={StaticResource RarityToGIBgConverter}}" />
+                                    <sc:CachedImage Height="80"
+                                                    VerticalAlignment="Top"
+                                                    CornerRadius="0,0,16,0"
+                                                    IsCacheEnabled="True"
+                                                    Source="{x:Bind Icon}" />
+                                    <TextBlock Margin="0,0,0,1"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Bottom"
+                                               FontSize="12"
+                                               FontWeight="SemiBold"
+                                               Foreground="#84603D">
+                                        <Run Text="{x:Bind ItemCount}" />
+                                        <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_Times}" />
+                                    </TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                    <GridView Name="GridView_GachaItemStats_StarRail"
+                              Padding="24,12,24,12"
+                              HorizontalAlignment="Center"
+                              x:Load="{x:Bind EnableStarRailGachaItemStats}"
+                              ItemsSource="{x:Bind GachaItemStats}"
+                              SelectionMode="None">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="sm:GachaLogItemEx">
+                                <Grid Width="80"
+                                      Height="93"
+                                      Margin="4,2,4,2">
+                                    <sc:CachedImage Source="{x:Bind RankType, Converter={StaticResource RarityToSRBgConverter}}" />
+                                    <sc:CachedImage Width="80"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Top"
+                                                    CornerRadius="0,12,0,0"
+                                                    IsCacheEnabled="True"
+                                                    Source="{x:Bind Icon}"
+                                                    Stretch="Uniform" />
+                                    <Border Height="16"
+                                            Margin="0,0,0,2"
+                                            VerticalAlignment="Bottom"
+                                            Background="#A0000000">
+                                        <TextBlock Margin="0,0,0,1"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="12"
+                                                   FontWeight="SemiBold">
+                                            <Run Text="{x:Bind ItemCount}" />
+                                            <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_Times}" />
+                                        </TextBlock>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </Grid>
+            </SplitView.Pane>
+
+
+        </SplitView>
 
 
     </Grid>
