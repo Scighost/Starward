@@ -1000,7 +1000,13 @@
     <value>截圖資料夾不存在</value>
   </data>
   <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
-    <value>The language of {0} gacha records has been changed to ({1}).</value>
+    <value>{0} 條抽卡記錄的語言已被修改為 ({1})</value>
     <comment>The language of 123 gacha records has been changed to (en-us).</comment>
+  </data>
+  <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="MainPage_Tips" xml:space="preserve">
+    <value>Tips</value>
   </data>
 </root>
