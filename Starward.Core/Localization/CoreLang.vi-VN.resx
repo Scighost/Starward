@@ -159,4 +159,38 @@
   <data name="PostType_Information" xml:space="preserve">
     <value>Thông Tin</value>
   </data>
+  <data name="Game_GenshinImpact" xml:space="preserve">
+    <value>Genshin Impact</value>
+  </data>
+  <data name="Game_HonkaiStarRail" xml:space="preserve">
+    <value>Honkai: Star Rail</value>
+  </data>
+  <data name="Game_HonkaiImpact3rd" xml:space="preserve">
+    <value>Honkai Impact 3rd</value>
+  </data>
+  <data name="GameServer_ChinaServer" xml:space="preserve">
+    <value>Máy chủ Trung Quốc</value>
+  </data>
+  <data name="GameServer_GlobalServer" xml:space="preserve">
+    <value>Máy chủ Toàn Cầu</value>
+  </data>
+  <data name="GameServer_ChinaCloudServer" xml:space="preserve">
+    <value>Máy chủ đám mây Trung Quốc</value>
+  </data>
+  <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
+    <value>Máy chủ Châu Âu &amp; Châu Mỹ</value>
+  </data>
+  <data name="GameServer_JapanServer" xml:space="preserve">
+    <value>Máy chủ Nhật Bản</value>
+  </data>
+  <data name="GameServer_KoreaServer" xml:space="preserve">
+    <value>Máy chủ Hàn Quốc</value>
+  </data>
+  <data name="GameServer_SEAServer" xml:space="preserve">
+    <value>Máy chủ Đông Nam Á</value>
+    <comment>Southeast Asia and Australia Server</comment>
+  </data>
+  <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
+    <value>Máy chủ Trung Quốc truyền thống</value>
+  </data>
 </root>
