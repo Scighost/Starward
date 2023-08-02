@@ -169,7 +169,7 @@
                             <Grid Name="Grid_Rarity5Item"
                                   Height="28"
                                   Background="Transparent"
-                                  ColumnSpacing="8"
+                                  ColumnSpacing="12"
                                   PointerEntered="Grid_Rarity5Item_PointerEntered"
                                   PointerExited="Grid_Rarity5Item_PointerExited"
                                   Tag="{x:Bind}">
@@ -198,6 +198,11 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="24" />
                                 </Grid.ColumnDefinitions>
+                                <Border Grid.Column="1"
+                                        Height="24"
+                                        Margin="-4,0,-4,0"
+                                        VerticalAlignment="Center"
+                                        Background="{x:Bind Converter={StaticResource GachaPityProgressBackgroundBrushConverter}}" />
                                 <sc:CachedImage Width="28"
                                                 Height="28"
                                                 IsCacheEnabled="True"
