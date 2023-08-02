@@ -173,12 +173,13 @@ public sealed partial class MainPage : Page
         CurrentGameBizText = newValue switch
         {
             GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn => "China",
-            GameBiz.hk4e_global or GameBiz.hkrpg_global or GameBiz.bh3_global => "Global",
-            GameBiz.hk4e_cloud => "Cloud",
-            GameBiz.bh3_tw => "TW/HK/MO",
+            GameBiz.hk4e_global or GameBiz.hkrpg_global => "Global",
+            GameBiz.hk4e_cloud => "China Cloud",
+            GameBiz.bh3_global => "Europe & Americas",
+            GameBiz.bh3_tw => "Traditional Chinese",
             GameBiz.bh3_jp => "Japan",
             GameBiz.bh3_kr => "Korea",
-            GameBiz.bh3_overseas => "Southeast Asia",
+            GameBiz.bh3_overseas => "SEA",
             _ => ""
         };
     }
