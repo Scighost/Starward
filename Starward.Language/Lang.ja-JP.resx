@@ -1002,4 +1002,10 @@
     <value>{0} のガチャの記録の言語を {1} に変更しました。</value>
     <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
+  <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="MainPage_Tips" xml:space="preserve">
+    <value>Tips</value>
+  </data>
 </root>
