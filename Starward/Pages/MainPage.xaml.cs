@@ -518,6 +518,9 @@ public sealed partial class MainPage : Page
         }
         try
         {
+            ProgressBar_LoadBackground.IsIndeterminate = true;
+            ProgressBar_LoadBackground.Visibility = Visibility.Visible;
+
             mediaPlayer?.Dispose();
             mediaPlayer = null;
             videoSource = null;
@@ -607,6 +610,11 @@ public sealed partial class MainPage : Page
         catch (Exception ex)
         {
             _logger.LogError(ex, "Update background image");
+        }
+        finally
+        {
+            ProgressBar_LoadBackground.Visibility = Visibility.Collapsed;
+            ProgressBar_LoadBackground.IsIndeterminate = false;
         }
     }
 

@@ -35,6 +35,13 @@
                    Stretch="UniformToFill" />
         </Border>
 
+        <ProgressBar Name="ProgressBar_LoadBackground"
+                     Grid.Row="1"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Bottom"
+                     IsHitTestVisible="False"
+                     Visibility="Collapsed" />
+
         <!--  title bar acrylic backgroud  -->
         <Border Name="Border_TitleBarBackground"
                 Grid.Row="0"
