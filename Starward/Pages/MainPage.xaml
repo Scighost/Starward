@@ -118,6 +118,13 @@
             </NavigationView.MenuItems>
 
             <NavigationView.FooterMenuItems>
+                <NavigationViewItem Name="NavigationViewItem_Tips"
+                                    Content="{x:Bind lang:Lang.MainPage_Tips}"
+                                    Tag="Tips">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE82F;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem Name="NavigationViewItem_Setting"
                                     Content="{x:Bind lang:Lang.SettingPage_AppSettings}"
                                     Tag="SettingPage">

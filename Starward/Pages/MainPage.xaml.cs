@@ -32,6 +32,7 @@ using Windows.Graphics;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Windows.System;
 using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -707,7 +708,7 @@ public sealed partial class MainPage : Page
     }
 
 
-    private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+    private async void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         if (args.InvokedItemContainer?.IsSelected ?? false)
         {
@@ -721,6 +722,12 @@ public sealed partial class MainPage : Page
             var item = args.InvokedItemContainer as NavigationViewItem;
             if (item != null)
             {
+                if (item.Tag is "Tips")
+                {
+                    await Launcher.LaunchUriAsync(new("https://github.com/Scighost/Starward/blob/main/docs/Tips.md"));
+                    sender.SelectedItem = null;
+                    return;
+                }
                 var type = item.Tag switch
                 {
                     nameof(LauncherPage) => typeof(LauncherPage),

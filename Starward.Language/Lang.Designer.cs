@@ -1712,6 +1712,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Tips 的本地化字符串。
+        /// </summary>
+        public static string MainPage_Tips {
+            get {
+                return ResourceManager.GetString("MainPage_Tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Screenshot 的本地化字符串。
         /// </summary>
         public static string ScreenshotPage_GameScreenshot {

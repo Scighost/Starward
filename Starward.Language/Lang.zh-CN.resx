@@ -1006,4 +1006,7 @@
   <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
     <value>隐私策略</value>
   </data>
+  <data name="MainPage_Tips" xml:space="preserve">
+    <value>小技巧</value>
+  </data>
 </root>
