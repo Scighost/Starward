@@ -236,7 +236,7 @@ internal class GenshinGachaService : GachaLogService
 
         public string export_app_version { get; set; } = AppConfig.AppVersion ?? "";
 
-        public string uigf_version { get; set; } = "v2.2";
+        public string uigf_version { get; set; } = "v2.3";
 
         public UIAFInfo() { }
 
