@@ -170,7 +170,7 @@
                                             Text="China" />
                             <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
                                             CommandParameter="bh3_global"
-                                            Text="Global" />
+                                            Text="Europe &amp; Americas" />
                             <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
                                             CommandParameter="bh3_jp"
                                             Text="Japan" />
@@ -179,10 +179,10 @@
                                             Text="Korea" />
                             <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
                                             CommandParameter="bh3_overseas"
-                                            Text="Southeast Asia" />
+                                            Text="SEA" />
                             <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
                                             CommandParameter="bh3_tw"
-                                            Text="TW/HK/MO" />
+                                            Text="Traditional Chinese" />
                         </MenuFlyout>
                     </Button.ContextFlyout>
                 </Button>
@@ -216,7 +216,7 @@
                                             Text="Global" />
                             <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
                                             CommandParameter="hk4e_cloud"
-                                            Text="Cloud" />
+                                            Text="China Cloud" />
                         </MenuFlyout>
                     </Button.ContextFlyout>
                 </Button>
