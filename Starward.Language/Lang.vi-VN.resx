@@ -1003,4 +1003,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Ngôn ngữ của {0} bản ghi gacha đã được chuyển thành ({1}).</value>
     <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
+  <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="MainPage_Tips" xml:space="preserve">
+    <value>Tips</value>
+  </data>
 </root>
