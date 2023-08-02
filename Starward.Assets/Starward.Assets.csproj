@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.2.5</Version>
+    <Version>0.2.7</Version>
     <Authors>Scighost</Authors>
     <Description>Large assets of Starward.</Description>
   </PropertyGroup>
