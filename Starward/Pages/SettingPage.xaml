@@ -412,6 +412,13 @@
                                  Text="{x:Bind lang:Lang.SettingPage_ReleaseHistroy}" />
                         </Hyperlink>
                     </TextBlock>
+                    <TextBlock Margin="0,8,0,0">
+                        <Hyperlink NavigateUri="https://github.com/Scighost/Starward/blob/main/docs/Privacy.md" UnderlineStyle="None">
+                            <Run FontWeight="Bold"
+                                 Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                 Text="{x:Bind lang:Lang.SettingPage_PrivacyPolicy}" />
+                        </Hyperlink>
+                    </TextBlock>
                 </StackPanel>
 
             </Grid>

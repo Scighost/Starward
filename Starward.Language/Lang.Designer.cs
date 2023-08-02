@@ -2081,6 +2081,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Privacy Policy 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_PrivacyPolicy {
+            get {
+                return ResourceManager.GetString("SettingPage_PrivacyPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Homepage 的本地化字符串。
         /// </summary>
         public static string SettingPage_ProjectHomepage {
