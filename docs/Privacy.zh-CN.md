@@ -1,4 +1,4 @@
-[English](./Privacy.md) | 简体中文
+[English](./Privacy.md) | 简体中文 | [Tiếng Việt](./Privacy.vi-VN.md)
 
 # 隐私策略
 
