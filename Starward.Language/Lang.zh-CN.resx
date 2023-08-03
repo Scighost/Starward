@@ -1009,4 +1009,10 @@
   <data name="MainPage_Tips" xml:space="preserve">
     <value>小技巧</value>
   </data>
+  <data name="SettingPage_CDNTips" xml:space="preserve">
+    <value>部分地区的用户可能会碰到网络异常的情况，您可以通过切换 CDN 解决此问题。</value>
+  </data>
+  <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
+    <value>选择服务器</value>
+  </data>
 </root>
