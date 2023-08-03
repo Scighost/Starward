@@ -4,23 +4,20 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Core;
 using Starward.Core.Metadata;
 using Starward.Helpers;
 using Starward.Services;
-using Starward.Services.Cache;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Numerics;
-using System.Threading;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -37,18 +34,14 @@ public sealed partial class SelectGamePage : Page
 
     private readonly ILogger<SelectGamePage> _logger = AppConfig.GetLogger<SelectGamePage>();
 
-    private readonly MetadataClient _client = AppConfig.GetService<MetadataClient>();
-
     private readonly WelcomeService _welcomeService = AppConfig.GetService<WelcomeService>();
 
-    private readonly Compositor compositor;
 
 
     public SelectGamePage()
     {
         this.InitializeComponent();
         InitializeSomeGame();
-        compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
     }
 
 
@@ -72,13 +65,8 @@ public sealed partial class SelectGamePage : Page
         try
         {
             await Task.Delay(16);
-            UpdateButtonEffect();
-            games = await _client.GetGameInfoAsync();
-            foreach (var game in games)
-            {
-                _ = ImageCacheService.Instance.PreCacheAsync(new Uri(game.Logo));
-                _ = ImageCacheService.Instance.PreCacheAsync(new Uri(game.Poster));
-            }
+            InitializeGameComboBox();
+            LoadGameInfo();
         }
         catch (HttpRequestException ex)
         {
@@ -90,6 +78,24 @@ public sealed partial class SelectGamePage : Page
         }
     }
 
+
+
+    private void LoadGameInfo()
+    {
+        try
+        {
+            var file = Path.Combine(AppContext.BaseDirectory, @"Assets\game_info.json");
+            if (File.Exists(file))
+            {
+                var str = File.ReadAllText(file);
+                games = JsonSerializer.Deserialize<List<GameInfo>>(str)!;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Load game info");
+        }
+    }
 
 
 
@@ -113,14 +119,13 @@ public sealed partial class SelectGamePage : Page
             {
                 logoAction.Execute(this, null!);
                 TextBlock_Slogan.Opacity = 1;
+                TextBlock_HoYoSlogan.Opacity = 1;
                 Rectangle_Mask.Opacity = 1;
                 Button_Next.Opacity = 0;
                 Button_Preview.Opacity = 0;
                 StackPanel_SelectGame.Opacity = 0;
-                TextBlock_Description.Opacity = 0;
+                //TextBlock_Description.Opacity = 0;
                 HyperlinkButton_HomePage.Opacity = 0;
-                Border_Description_Shadow.Opacity = 0;
-                Border_Logo_Shadow.Opacity = 0;
                 await Task.Delay(3000);
             }
             MainWindow.Current.NavigateTo(typeof(MainPage), null!, new DrillInNavigationTransitionInfo());
@@ -140,38 +145,66 @@ public sealed partial class SelectGamePage : Page
 
 
 
-    [ObservableProperty]
-    private GameBiz selectBiz;
-    partial void OnSelectBizChanged(GameBiz value)
+    private GameBiz SelectBiz;
+
+
+
+
+    private void InitializeGameComboBox()
     {
-        CurrentGameBizText = value switch
-        {
-            GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn => "China",
-            GameBiz.hk4e_global or GameBiz.hkrpg_global or GameBiz.bh3_global => "Global",
-            GameBiz.hk4e_cloud => "Cloud",
-            GameBiz.bh3_tw => "TW/HK/MO",
-            GameBiz.bh3_jp => "Japan",
-            GameBiz.bh3_kr => "Korea",
-            GameBiz.bh3_overseas => "Southeast Asia",
-            _ => ""
-        };
+        ComboBox_Game.Items.Clear();
+        ComboBox_Game.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_cn.ToGameName(), Tag = GameBiz.Honkai3rd });
+        ComboBox_Game.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_cn.ToGameName(), Tag = GameBiz.GenshinImpact });
+        ComboBox_Game.Items.Add(new ComboBoxItem { Content = GameBiz.hkrpg_cn.ToGameName(), Tag = GameBiz.StarRail });
     }
 
 
 
+    private void ComboBox_Game_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        Button_Next.IsEnabled = false;
+        ComboBox_GameServer.Items.Clear();
+        if (e.AddedItems.FirstOrDefault() is ComboBoxItem item)
+        {
+            if (item.Tag is GameBiz.Honkai3rd)
+            {
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_cn.ToGameServer(), Tag = GameBiz.bh3_cn });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_global.ToGameServer(), Tag = GameBiz.bh3_global });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_jp.ToGameServer(), Tag = GameBiz.bh3_jp });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_kr.ToGameServer(), Tag = GameBiz.bh3_kr });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_overseas.ToGameServer(), Tag = GameBiz.bh3_overseas });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_tw.ToGameServer(), Tag = GameBiz.bh3_tw });
+            }
+            if (item.Tag is GameBiz.GenshinImpact)
+            {
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_cn.ToGameServer(), Tag = GameBiz.hk4e_cn });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_global.ToGameServer(), Tag = GameBiz.hk4e_global });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_cloud.ToGameServer(), Tag = GameBiz.hk4e_cloud });
+            }
+            if (item.Tag is GameBiz.StarRail)
+            {
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hkrpg_cn.ToGameServer(), Tag = GameBiz.hkrpg_cn });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hkrpg_global.ToGameServer(), Tag = GameBiz.hkrpg_global });
+            }
+        }
+    }
 
-    [ObservableProperty]
-    private string currentGameBizText;
+
+    private void ComboBox_GameServer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.FirstOrDefault() is ComboBoxItem item)
+        {
+            ChangeGameBiz(item.Tag?.ToString() ?? "");
+        }
+    }
 
 
-    [RelayCommand(AllowConcurrentExecutions = true)]
-    private async Task ChangeGameBizAsync(string bizStr)
+    private void ChangeGameBiz(string bizStr)
     {
         if (Enum.TryParse<GameBiz>(bizStr, out var biz))
         {
             _logger.LogInformation("Change game region to {gamebiz}", biz);
             SelectBiz = biz;
-            UpdateButtonEffect();
             if (SelectBiz != GameBiz.None)
             {
                 Button_Next.IsEnabled = true;
@@ -180,143 +213,11 @@ public sealed partial class SelectGamePage : Page
             {
                 Button_Next.IsEnabled = false;
             }
-            await ChangeGameInfoAsync();
+            ChangeGameInfo();
         }
     }
 
 
-    private void UpdateButtonEffect()
-    {
-        const double OPACITY = 1;
-        isSelectBH3 = false;
-        isSelectYS = false;
-        isSelectSR = false;
-        Border_Mask_BH3.Opacity = OPACITY;
-        Border_Mask_YS.Opacity = OPACITY;
-        Border_Mask_SR.Opacity = OPACITY;
-        if (SelectBiz.ToGame() is GameBiz.Honkai3rd)
-        {
-            UpdateButtonCornerRadius(Button_BH3, true);
-            UpdateButtonCornerRadius(Button_YS, false);
-            UpdateButtonCornerRadius(Button_SR, false);
-            Border_Mask_BH3.Opacity = 0;
-            isSelectBH3 = true;
-            return;
-        }
-        if (SelectBiz.ToGame() is GameBiz.GenshinImpact)
-        {
-            UpdateButtonCornerRadius(Button_BH3, false);
-            UpdateButtonCornerRadius(Button_YS, true);
-            UpdateButtonCornerRadius(Button_SR, false);
-            Border_Mask_YS.Opacity = 0;
-            isSelectYS = true;
-            return;
-        }
-        if (SelectBiz.ToGame() is GameBiz.StarRail)
-        {
-            UpdateButtonCornerRadius(Button_BH3, false);
-            UpdateButtonCornerRadius(Button_YS, false);
-            UpdateButtonCornerRadius(Button_SR, true);
-            Border_Mask_SR.Opacity = 0;
-            isSelectSR = true;
-            return;
-        }
-        UpdateButtonCornerRadius(Button_BH3, false);
-        UpdateButtonCornerRadius(Button_YS, false);
-        UpdateButtonCornerRadius(Button_SR, false);
-
-    }
-
-
-    private void Button_Game_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        if (sender is Button button)
-        {
-            UpdateButtonCornerRadius(button, true);
-        }
-    }
-
-
-    private void Button_Game_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        if (sender is Button button)
-        {
-            UpdateButtonCornerRadius(button, false);
-        }
-    }
-
-    private bool isSelectBH3;
-    private bool isSelectYS;
-    private bool isSelectSR;
-
-    private void Button_BH3_Click(object sender, RoutedEventArgs e)
-    {
-        isSelectBH3 = true;
-    }
-
-
-    private void Button_YS_Click(object sender, RoutedEventArgs e)
-    {
-        isSelectYS = true;
-    }
-
-
-    private void Button_SR_Click(object sender, RoutedEventArgs e)
-    {
-        isSelectSR = true;
-    }
-
-
-    private void MenuFlyout_Game_Closed(object sender, object e)
-    {
-        isSelectBH3 = false;
-        isSelectYS = false;
-        isSelectSR = false;
-        UpdateButtonEffect();
-    }
-
-    private void UpdateButtonCornerRadius(Button button, bool isSelect)
-    {
-        var visual = ElementCompositionPreview.GetElementVisual(button);
-        CompositionRoundedRectangleGeometry geometry;
-        if (visual.Clip is CompositionGeometricClip clip && clip.Geometry is CompositionRoundedRectangleGeometry geo)
-        {
-            geometry = geo;
-        }
-        else
-        {
-            geometry = compositor.CreateRoundedRectangleGeometry();
-            geometry.Size = new Vector2((float)button.ActualWidth, (float)button.ActualHeight);
-            geometry.CornerRadius = Vector2.Zero;
-            clip = compositor.CreateGeometricClip(geometry);
-            visual.Clip = clip;
-        }
-
-        if (button.Tag is "bh3" && isSelectBH3)
-        {
-            return;
-        }
-        if (button.Tag is "ys" && isSelectYS)
-        {
-            return;
-        }
-        if (button.Tag is "sr" && isSelectSR)
-        {
-            return;
-        }
-
-        var animation = compositor.CreateVector2KeyFrameAnimation();
-        animation.Duration = TimeSpan.FromSeconds(0.3);
-        if (isSelect)
-        {
-            animation.InsertKeyFrame(1, new Vector2(8, 8));
-        }
-        else
-        {
-            animation.InsertKeyFrame(1, new Vector2(24, 24));
-        }
-        geometry.StartAnimation(nameof(CompositionRoundedRectangleGeometry.CornerRadius), animation);
-    }
 
 
 
@@ -326,10 +227,7 @@ public sealed partial class SelectGamePage : Page
 
 
 
-    private CancellationTokenSource? cancelSource;
-
-
-    private async Task ChangeGameInfoAsync()
+    private void ChangeGameInfo()
     {
         if (games is null)
         {
@@ -338,61 +236,33 @@ public sealed partial class SelectGamePage : Page
         var sw = Stopwatch.StartNew();
         try
         {
-            cancelSource?.Cancel();
-            Grid_GameInfo.Opacity = 0;
-            Rectangle_Mask.Opacity = 1;
             var game_info = games.FirstOrDefault(x => x.GameBiz == SelectBiz);
             if (game_info is null)
             {
+                Grid_GameInfo.Opacity = 0;
                 _logger.LogInformation("Game info of {GameBiz} is NULL.", SelectBiz);
                 return;
             }
 
-            cancelSource = new();
-            var source = cancelSource;
-            var logoTask = ImageCacheService.Instance.GetFromCacheAsync(new Uri(game_info.Logo));
-            var posterTask = ImageCacheService.Instance.GetFromCacheAsync(new Uri(game_info.Poster));
-            await Task.WhenAll(logoTask, posterTask);
-            var logo = logoTask.Result;
-            var poster = posterTask.Result;
-            if (logo is null || poster is null)
-            {
-                _logger.LogInformation("Logo and poster of {GameBiz} download failed.", game_info.Name);
-                Grid_GameInfo.Opacity = 0;
-                return;
-            }
+            Image_Logo.Source = game_info.Logo;
+            Image_Poster.Source = game_info.Poster;
+            Image_Logo_Action.Source = game_info.Logo;
 
-            if (sw.ElapsedMilliseconds < 300)
-            {
-                await Task.Delay(300 - (int)sw.ElapsedMilliseconds);
-            }
-
-            if (source.IsCancellationRequested)
-            {
-                return;
-            }
-
-            Image_Logo.Source = logo;
-            Image_Poster.Source = poster;
-            Image_Logo_Action.Source = logo;
-
-            TextBlock_Description.Text = game_info.Description;
+            //TextBlock_Description.Text = game_info.Description;
             HyperlinkButton_HomePage.NavigateUri = new Uri(game_info.HomePage);
             TextBlock_HomePage.Text = game_info.HomePage;
             TextBlock_Slogan.Text = game_info.Slogan;
+            TextBlock_HoYoSlogan.Text = game_info.HoYoSlogan;
             Grid_GameInfo.Opacity = 1;
+            if (game_info.Fonts?.Count > 0)
+            {
+                var font = game_info.Fonts[Random.Shared.Next(game_info.Fonts.Count)];
+                TextBlock_HoYoSlogan.FontFamily = new Microsoft.UI.Xaml.Media.FontFamily(font);
+            }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Change game logo and poster");
-            if (sw.ElapsedMilliseconds < 300)
-            {
-                await Task.Delay(300 - (int)sw.ElapsedMilliseconds);
-            }
-        }
-        finally
-        {
-            Rectangle_Mask.Opacity = 0;
         }
     }
 

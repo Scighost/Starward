@@ -169,7 +169,7 @@
     <value>崩坏：星穹铁道</value>
   </data>
   <data name="GameServer_ChinaCloudServer" xml:space="preserve">
-    <value>国服云游戏</value>
+    <value>中国服云游戏</value>
   </data>
   <data name="GameServer_ChinaServer" xml:space="preserve">
     <value>中国服</value>
