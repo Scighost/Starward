@@ -45,7 +45,7 @@
         <!--  title bar acrylic backgroud  -->
         <Border Name="Border_TitleBarBackground"
                 Grid.Row="0"
-                Background="{ThemeResource CustomAcrylicBrush}" />
+                Background="{ThemeResource CustomOverlayAcrylicBrush}" />
 
         <!--  main content acrylic backgournd  -->
         <Border Name="Border_ContentBackground"
@@ -56,25 +56,6 @@
             <Border.OpacityTransition>
                 <ScalarTransition />
             </Border.OpacityTransition>
-        </Border>
-
-
-        <!--  title bar  -->
-        <Border Grid.Row="0">
-            <StackPanel Margin="52,0,0,0"
-                        Orientation="Horizontal"
-                        Spacing="4">
-                <Image Width="20"
-                       Height="20"
-                       Source="ms-appx:///Assets/logo_80.png" />
-                <TextBlock Margin="8,0,0,0"
-                           VerticalAlignment="Center"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="Starward" />
-                <TextBlock VerticalAlignment="Center"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="{x:Bind s:AppConfig.AppVersion}" />
-            </StackPanel>
         </Border>
 
 
@@ -143,6 +124,26 @@
 
             <Frame Name="MainPage_Frame" Margin="0,46,0,0" />
         </NavigationView>
+
+
+
+        <!--  title bar  -->
+        <Border Grid.Row="0">
+            <StackPanel Margin="52,0,0,0"
+                        Orientation="Horizontal"
+                        Spacing="4">
+                <Image Width="20"
+                       Height="20"
+                       Source="ms-appx:///Assets/logo_80.png" />
+                <TextBlock Margin="8,0,0,0"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="Starward" />
+                <TextBlock VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind s:AppConfig.AppVersion}" />
+            </StackPanel>
+        </Border>
 
 
 

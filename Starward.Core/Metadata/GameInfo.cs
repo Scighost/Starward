@@ -29,6 +29,12 @@ public class GameInfo
     public string Poster { get; set; }
 
 
+    public string HoYoSlogan { get; set; }
+
+
+    public List<string> Fonts { get; set; }
+
+
 }
 
 

@@ -42,7 +42,7 @@
 		<PackageReference Include="ScottPlot.WinUI" Version="5.0.6-beta" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="Starward.Assets" Version="0.2.7" />
+		<PackageReference Include="Starward.Assets" Version="0.2.9" />
 		<PackageReference Include="Vanara.PInvoke.User32" Version="3.4.15" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>

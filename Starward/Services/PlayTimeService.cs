@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Windows.AppLifecycle;
 using Starward.Core;
 using Starward.Models;
 using System;
@@ -32,6 +33,12 @@ internal class PlayTimeService
     {
         try
         {
+            var instance = AppInstance.FindOrRegisterForKey($"playtime_{pid}");
+            if (!instance.IsCurrent)
+            {
+                _logger.LogWarning("Game process ({biz}, {gamePid}) has been recorded by process ({playtimePid})", biz, pid, instance.ProcessId);
+                return;
+            }
             Log(biz, pid, PlayTimeItem.PlayState.None, 0, "Ready to log time");
             var process = Process.GetProcessById(pid);
             Log(biz, pid, PlayTimeItem.PlayState.Start, new DateTimeOffset(process.StartTime).ToUnixTimeMilliseconds(), process.ProcessName);
@@ -278,29 +285,51 @@ internal class PlayTimeService
 
 
 
-    public void StartProcessToLog(GameBiz biz, Process process)
+    public async Task<Process?> StartProcessToLogAsync(GameBiz biz)
     {
         try
         {
-            if (biz.ToGame() is GameBiz.Honkai3rd)
+            var name = GameService.GetGameExeName(biz).Replace(".exe", "");
+            for (int i = 0; i < 4; i++)
             {
-                return;
-            }
-            var exe = Process.GetCurrentProcess().MainModule?.FileName ?? Path.Combine(AppContext.BaseDirectory, "Starward.exe");
-            if (File.Exists(exe))
-            {
-                Process.Start(new ProcessStartInfo
+                await Task.Delay(5000);
+                if (!Process.GetProcessesByName(name).Any())
                 {
-                    FileName = exe,
-                    Arguments = $"playtime --biz {biz} --pid {process.Id}",
-                    CreateNoWindow = true,
-                });
+                    return null;
+                }
+            }
+            foreach (var process in Process.GetProcessesByName(name))
+            {
+                if (biz.ToGame() is GameBiz.Honkai3rd && process.MainWindowHandle == 0)
+                {
+                    _logger.LogInformation("Game process ({biz}, {gamePid}) has no window", biz, process.Id);
+                }
+                var instance = AppInstance.FindOrRegisterForKey($"playtime_{process.Id}");
+                if (!instance.IsCurrent)
+                {
+                    _logger.LogInformation("Game process ({biz}, {gamePid}) has been recorded by process ({playtimePid})", biz, process.Id, instance.ProcessId);
+                    continue;
+                }
+                instance.UnregisterKey();
+                _logger.LogInformation("Start to log playtime ({biz}, {pid})", biz, process.Id);
+                var exe = Process.GetCurrentProcess().MainModule?.FileName ?? Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+                if (File.Exists(exe))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = exe,
+                        Arguments = $"playtime --biz {biz} --pid {process.Id}",
+                        CreateNoWindow = true,
+                    });
+                }
+                return process;
             }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Start process to log play time");
         }
+        return null;
     }
 
 

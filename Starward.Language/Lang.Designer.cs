@@ -1883,6 +1883,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Select Server 的本地化字符串。
+        /// </summary>
+        public static string SelectGamePage_SelectGameServer {
+            get {
+                return ResourceManager.GetString("SelectGamePage_SelectGameServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {Starward} supports some {miHoYo/HoYoverse} games, please select your target below, you can also change it at any time after entering the launcher. 的本地化字符串。
         /// </summary>
         public static string SelectGamePage_SomeGame {
@@ -1942,6 +1951,15 @@ namespace Starward.Language {
         public static string SettingPage_BgSizeTip {
             get {
                 return ResourceManager.GetString("SettingPage_BgSizeTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Users in some areas may encounter network anomalies. You could solve this problem by switching CDNs. 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_CDNTips {
+            get {
+                return ResourceManager.GetString("SettingPage_CDNTips", resourceCulture);
             }
         }
         

@@ -116,15 +116,23 @@
                                     </Button.Flyout>
                                 </Button>
                             </StackPanel>
-                            <TextBox Text="{x:Bind GachaLanguage, Mode=TwoWay}" />
-                            <Button HorizontalAlignment="Stretch" Command="{x:Bind ChangeGachaItemNameCommand}">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <FontIcon Margin="0,2,0,0"
-                                              FontSize="16"
-                                              Glyph="&#xE8FB;" />
-                                    <TextBlock Text="{x:Bind lang:Lang.Common_Apply}" />
-                                </StackPanel>
-                            </Button>
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox MinWidth="100" Text="{x:Bind GachaLanguage, Mode=TwoWay}" />
+                                <Button Grid.Column="1"
+                                        HorizontalAlignment="Stretch"
+                                        Command="{x:Bind ChangeGachaItemNameCommand}">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <FontIcon Margin="0,2,0,0"
+                                                  FontSize="16"
+                                                  Glyph="&#xE8FB;" />
+                                        <TextBlock Text="{x:Bind lang:Lang.Common_Apply}" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
                             <!--  导出为  -->
                             <TextBlock Margin="0,8,0,0"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"

@@ -581,12 +581,7 @@
                                   IsOn="{x:Bind EnableThirdPartyTool, Mode=TwoWay}"
                                   OffContent="{x:Bind lang:Lang.LauncherPage_CustomStartExecutable}"
                                   OnContent="{x:Bind lang:Lang.LauncherPage_CustomStartExecutable}" />
-                    <!--  使用第三方插件代替启动，启用后无法记录游戏时间。  -->
-                    <TextBlock FontSize="12"
-                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="{x:Bind lang:Lang.LauncherPage_ThirdPartyToolDesc}"
-                               TextWrapping="Wrap" />
-                    <Grid Margin="-24,8,0,0" ColumnSpacing="12">
+                    <Grid Margin="-24,0,0,0" ColumnSpacing="12">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />

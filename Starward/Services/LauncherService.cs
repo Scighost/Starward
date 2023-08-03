@@ -96,7 +96,7 @@ public class LauncherService
     {
         try
         {
-            var tokenSource = new CancellationTokenSource(5000);
+            var tokenSource = new CancellationTokenSource(10000);
             string? name, file;
             if (AppConfig.GetEnableCustomBg(gameBiz) && !disableCustom)
             {
@@ -122,7 +122,7 @@ public class LauncherService
             file = Path.Join(AppConfig.UserDataFolder, "bg", name);
             if (!File.Exists(file))
             {
-                var bytes = await _httpClient.GetByteArrayAsync(url);
+                var bytes = await _httpClient.GetByteArrayAsync(url, tokenSource.Token);
                 Directory.CreateDirectory(Path.Combine(AppConfig.UserDataFolder, "bg"));
                 await File.WriteAllBytesAsync(file, bytes);
             }
