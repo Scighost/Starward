@@ -1,4 +1,4 @@
-English | [简体中文](./Privacy.zh-CN.md)
+English | [简体中文](./Privacy.zh-CN.md) | [Tiếng Việt](./Privacy.vi-VN.md)
 
 # Privacy Policy
 
