@@ -1008,4 +1008,10 @@
   <data name="MainPage_Tips" xml:space="preserve">
     <value>Tips</value>
   </data>
+  <data name="SettingPage_CDNTips" xml:space="preserve">
+    <value>Users in some areas may encounter network anomalies. You could solve this problem by switching CDNs.</value>
+  </data>
+  <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
+    <value>Select Server</value>
+  </data>
 </root>
