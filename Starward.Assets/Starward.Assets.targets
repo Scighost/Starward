@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <ItemGroup>
-        <Assets Include="$(MSBuildThisFileDirectory)**\*.png" />
+        <Assets Include="$(MSBuildThisFileDirectory)**\*" />
         <None Include="@(Assets)">
             <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
