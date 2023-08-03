@@ -56,7 +56,7 @@ internal class GameService
     }
 
 
-    public string GetGameExeName(GameBiz biz)
+    public static string GetGameExeName(GameBiz biz)
     {
         return biz switch
         {
@@ -232,18 +232,7 @@ internal class GameService
 
     public Process? GetGameProcess(GameBiz biz)
     {
-        var name = biz switch
-        {
-            GameBiz.hk4e_cn => "YuanShen",
-            GameBiz.hk4e_global => "GenshinImpact",
-            GameBiz.hk4e_cloud => "Genshin Impact Cloud Game",
-            _ => biz.ToGame() switch
-            {
-                GameBiz.StarRail => "StarRail",
-                GameBiz.Honkai3rd => "BH3",
-                _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
-            },
-        };
+        var name = GetGameExeName(biz).Replace(".exe", "");
         return Process.GetProcessesByName(name).FirstOrDefault();
     }
 
@@ -261,44 +250,47 @@ internal class GameService
         {
             if (!ignoreRunningGame)
             {
-                var process = GetGameProcess(biz);
-                if (process != null)
+                if (GetGameProcess(biz) != null)
                 {
                     throw new Exception("Game process is running.");
                 }
             }
+            string? exe = null, arg = null, verb = null;
             if (AppConfig.GetEnableThirdPartyTool(biz))
             {
-                var thirdPath = AppConfig.GetThirdPartyToolPath(biz);
-                if (File.Exists(thirdPath))
+                exe = AppConfig.GetThirdPartyToolPath(biz);
+                if (File.Exists(exe))
                 {
-                    _logger.LogInformation("Start game ({biz})\r\npath: {exe}", biz, thirdPath);
-                    Process.Start(new ProcessStartInfo
-                    {
-                        FileName = thirdPath,
-                        UseShellExecute = true,
-                        Verb = Path.GetExtension(thirdPath) is ".exe" or ".bat" ? "runas" : "",
-                        WorkingDirectory = Path.GetDirectoryName(thirdPath),
-                    });
-                    return null;
+                    verb = Path.GetExtension(exe) is ".exe" or ".bat" ? "runas" : "";
                 }
                 else
                 {
+                    exe = null;
                     AppConfig.SetThirdPartyToolPath(biz, null);
+                    _logger.LogWarning("Third party tool not found: {path}", exe);
                 }
             }
-            var folder = GetGameInstallPath(biz);
-            var name = GetGameExeName(biz);
-            var exe = Path.Join(folder, name);
-            var arg = AppConfig.GetStartArgument(biz)?.Trim();
-            _logger.LogInformation("Start game ({biz})\r\npath: {exe}\r\nargu: {argu}", biz, exe, arg);
+            if (string.IsNullOrWhiteSpace(exe))
+            {
+                var folder = GetGameInstallPath(biz);
+                var name = GetGameExeName(biz);
+                exe = Path.Join(folder, name);
+                arg = AppConfig.GetStartArgument(biz)?.Trim();
+                verb = (biz is GameBiz.hk4e_cloud) ? "" : "runas";
+                if (!File.Exists(exe))
+                {
+                    _logger.LogWarning("Game exe not found: {path}", exe);
+                    return null;
+                }
+            }
+            _logger.LogInformation("Start game ({biz})\r\npath: {exe}\r\narg: {arg}", biz, exe, arg);
             var info = new ProcessStartInfo
             {
                 FileName = exe,
                 Arguments = arg,
                 UseShellExecute = true,
-                Verb = (biz is GameBiz.hk4e_cloud) ? "" : "runas",
-                WorkingDirectory = folder,
+                Verb = verb,
+                WorkingDirectory = Path.GetDirectoryName(exe),
             };
             return Process.Start(info);
         }

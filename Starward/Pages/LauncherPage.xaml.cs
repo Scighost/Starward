@@ -131,11 +131,6 @@ public sealed partial class LauncherPage : Page
             {
                 Grid_BannerAndPost.HorizontalAlignment = HorizontalAlignment.Right;
             }
-
-            if (gameBiz.ToGame() is GameBiz.Honkai3rd)
-            {
-                Border_Playtime.Visibility = Visibility.Collapsed;
-            }
 #pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
         }
         catch { }
@@ -528,33 +523,24 @@ public sealed partial class LauncherPage : Page
 
 
     [RelayCommand]
-    private void StartGame()
+    private async Task StartGameAsync()
     {
         try
         {
-            if (IgnoreRunningGame)
+            var process1 = _gameService.StartGame(gameBiz, IgnoreRunningGame);
+            if (process1 != null)
             {
-                var process = _gameService.StartGame(gameBiz, IgnoreRunningGame);
-                if (process != null)
+                MainPage.Current.PauseVideo();
+                User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
+                _logger.LogInformation("Game started ({name}, {pid})", process1.ProcessName, process1.Id);
+                if (AppConfig.IgnoreRunningGame)
                 {
-                    MainPage.Current.PauseVideo();
-                    User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
-                    _logger.LogInformation("Game started ({name}, {pid})", process.ProcessName, process.Id);
-                    _playTimeService.StartProcessToLog(gameBiz, process);
+                    _ = _playTimeService.StartProcessToLogAsync(gameBiz);
                 }
-            }
-            else
-            {
-                if (GameProcess?.HasExited ?? true)
+                else
                 {
-                    GameProcess = _gameService.StartGame(gameBiz, IgnoreRunningGame);
-                    if (GameProcess != null)
-                    {
-                        MainPage.Current.PauseVideo();
-                        User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
-                        _logger.LogInformation("Game started ({name}, {pid})", GameProcess.ProcessName, GameProcess.Id);
-                        _playTimeService.StartProcessToLog(gameBiz, GameProcess);
-                    }
+                    var process2 = await _playTimeService.StartProcessToLogAsync(gameBiz);
+                    GameProcess = process2 ?? process1;
                 }
             }
         }
@@ -1081,16 +1067,7 @@ public sealed partial class LauncherPage : Page
             var downloadResource = await _downloadGameService.CheckDownloadGameResourceAsync(gameBiz, InstallPath);
             if (downloadResource is null)
             {
-                var versionDialog = new ContentDialog
-                {
-                    Title = Lang.DownloadGameService_AlreadyTheLatestVersion,
-                    // 如果不是最新版本请修改游戏安装目录中的 config.ini 文件
-                    Content = Lang.LauncherPage_AlreadyTheLatestVersionDesc,
-                    PrimaryButtonText = Lang.Common_Confirm,
-                    XamlRoot = this.XamlRoot,
-                };
                 UpdateGameVersion();
-                await versionDialog.ShowAsync();
                 return;
             }
             var lang = await _downloadGameService.GetVoiceLanguageAsync(gameBiz, InstallPath);
