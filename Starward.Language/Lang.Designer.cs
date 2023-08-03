@@ -1946,6 +1946,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Users in some areas may encounter network anomalies. You could solve this problem by switching CDNs. 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_CDNTips {
+            get {
+                return ResourceManager.GetString("SettingPage_CDNTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Check for Update 的本地化字符串。
         /// </summary>
         public static string SettingPage_CheckForUpdate {

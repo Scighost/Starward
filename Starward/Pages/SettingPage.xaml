@@ -116,10 +116,30 @@
                     </StackPanel>
 
                     <!--  CDN  -->
-                    <TextBlock Margin="0,20,0,0"
-                               FontSize="20"
-                               FontWeight="SemiBold"
-                               Text="CDN" />
+                    <StackPanel Margin="0,20,0,0"
+                                Orientation="Horizontal"
+                                Spacing="8">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="20"
+                                   FontWeight="SemiBold"
+                                   Text="CDN" />
+                        <Button Width="24"
+                                Height="24"
+                                Padding="0"
+                                VerticalAlignment="Bottom"
+                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                            <FontIcon FontSize="14"
+                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                      Glyph="&#xE9CE;" />
+                            <Button.Flyout>
+                                <Flyout>
+                                    <TextBlock MaxWidth="360"
+                                               Text="{x:Bind lang:Lang.SettingPage_CDNTips}"
+                                               TextWrapping="Wrap" />
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                    </StackPanel>
                     <RadioButtons Margin="0,4,0,0">
                         <RadioButton Name="RadioButton_CF"
                                      Click="RadioButton_CDN_Click"
@@ -182,11 +202,6 @@
                             <TextBlock Text="{x:Bind lang:Lang.SettingPage_TestNetwork}" />
                         </StackPanel>
                     </Button>
-                    <!--  应用将从 CloudFlare 下载所需的资源，请确保它可以正常连接。  -->
-                    <TextBlock Margin="0,8,0,0"
-                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                               Text="{x:Bind lang:Lang.SettingPage_CloudFlareConnectProperly}"
-                               TextWrapping="Wrap" />
 
                     <!--  bg  -->
                     <TextBlock Margin="0,20,0,0"

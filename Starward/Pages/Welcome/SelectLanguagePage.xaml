@@ -92,14 +92,31 @@
                     </RadioButton>
                 </StackPanel>
 
-                <TextBlock Margin="0,8,0,0"
-                           FontSize="20"
-                           FontWeight="SemiBold"
-                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                           Text="CDN" />
-                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="{x:Bind lang:Lang.SettingPage_CloudFlareConnectProperly}"
-                           TextWrapping="Wrap" />
+                <StackPanel Margin="0,8,0,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                               Text="CDN" />
+                    <Button Width="24"
+                            Height="24"
+                            Padding="0"
+                            VerticalAlignment="Bottom"
+                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                        <FontIcon FontSize="14"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE9CE;" />
+                        <Button.Flyout>
+                            <Flyout>
+                                <TextBlock MaxWidth="360"
+                                           Text="{x:Bind lang:Lang.SettingPage_CDNTips}"
+                                           TextWrapping="Wrap" />
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
 
                 <RadioButtons Margin="0,-4,0,0">
                     <RadioButton Name="RadioButton_CF"
