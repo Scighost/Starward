@@ -1013,6 +1013,6 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Một số người dùng ở một số khu vực có thể gặp phải sự bất thường về mạng. Bạn có thể giải quyết vấn đề này bằng cách chuyển đổi CDN.</value>
   </data>
   <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
-    <value>Select Server</value>
+    <value>Chọn máy chủ</value>
   </data>
 </root>
