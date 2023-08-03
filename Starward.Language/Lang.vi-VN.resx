@@ -1003,4 +1003,16 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Ngôn ngữ của {0} bản ghi gacha đã được chuyển thành ({1}).</value>
     <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
+  <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
+    <value>Chính sách bảo mật</value>
+  </data>
+  <data name="MainPage_Tips" xml:space="preserve">
+    <value>Mẹo</value>
+  </data>
+  <data name="SettingPage_CDNTips" xml:space="preserve">
+    <value>Một số người dùng ở một số khu vực có thể gặp phải sự bất thường về mạng. Bạn có thể giải quyết vấn đề này bằng cách chuyển đổi CDN.</value>
+  </data>
+  <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
+    <value>Chọn máy chủ</value>
+  </data>
 </root>

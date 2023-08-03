@@ -151,13 +151,13 @@
     <value>Cannot parse the wish record URL.</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
-    <value>Events</value>
+    <value>События</value>
   </data>
   <data name="PostType_Announcement" xml:space="preserve">
-    <value>Notices</value>
+    <value>Уведомления</value>
   </data>
   <data name="PostType_Information" xml:space="preserve">
-    <value>Info</value>
+    <value>Информация</value>
   </data>
   <data name="Game_GenshinImpact" xml:space="preserve">
     <value>Genshin Impact</value>
