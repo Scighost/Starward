@@ -63,16 +63,17 @@ public sealed partial class MainWindow : Window
         titleBar.ExtendsContentIntoTitleBar = true;
         SetDragRectangles(new RectInt32(0, 0, 100000, len));
         ChangeTitleBarButtonColor();
-        AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo.ico"));
         if (action is "download")
         {
             Title = "Starward - Download Game";
             ResizeToCertainSize(720, 410);
+            AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo_dl.ico"));
         }
         else
         {
             Title = "Starward";
             ResizeToCertainSize();
+            AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo.ico"));
         }
         if (action is "download")
         {
