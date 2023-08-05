@@ -49,7 +49,7 @@ public sealed partial class SystemTrayWindow : Window, IDisposable
 
     private unsafe void InitializeWindow()
     {
-        new SystemBackdropHelper(this, SystemBackdropProperty.AcrylicDefault with { TintColorLight = 0xFFFCFCFC, TintColorDark = 0xFF2C2C2C }).TrySetAcrylic(true);
+        new SystemBackdropHelper(this, SystemBackdropProperty.AcrylicDefault with { TintColorLight = 0xFFE7E7E7, TintColorDark = 0xFF404040 }).TrySetAcrylic(true);
         AppWindow.IsShownInSwitchers = false;
         AppWindow.Closing += (s, e) => e.Cancel = true;
         this.Activated += SystemTrayWindow_Activated;
