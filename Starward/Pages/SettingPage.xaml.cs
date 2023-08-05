@@ -90,7 +90,7 @@ public sealed partial class SettingPage : Page
     #region Language
 
 
-
+    private bool languageInitialized;
 
     private void InitializeLanguage()
     {
@@ -118,7 +118,10 @@ public sealed partial class SettingPage : Page
                 }
             }
         }
-        catch { }
+        finally
+        {
+            languageInitialized = true;
+        }
     }
 
 
@@ -129,7 +132,7 @@ public sealed partial class SettingPage : Page
         {
             if (ComboBox_Language.SelectedItem is ComboBoxItem item)
             {
-                if (this.IsLoaded)
+                if (languageInitialized)
                 {
                     var lang = item.Tag as string;
                     _logger.LogInformation("Language change to {lang}", lang);
