@@ -59,6 +59,9 @@ public sealed partial class MainPage : Page
     private readonly UpdateService _updateService = AppConfig.GetService<UpdateService>();
 
 
+    private SystemTrayService _systemTrayService = AppConfig.GetService<SystemTrayService>();
+
+
     private readonly Compositor compositor;
 
 
@@ -67,7 +70,6 @@ public sealed partial class MainPage : Page
         Current = this;
         this.InitializeComponent();
         compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-
         InitializeSelectGameBiz();
         InitializeBackgroundImage();
     }
@@ -87,6 +89,7 @@ public sealed partial class MainPage : Page
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         UpdateButtonEffect();
+        InitializeSystemTray();
         await UpdateBackgroundImageAsync(true);
         await CheckUpdateAsync();
     }
@@ -104,6 +107,11 @@ public sealed partial class MainPage : Page
     {
         mediaPlayer?.Dispose();
         softwareBitmap?.Dispose();
+        _systemTrayService?.Dispose();
+        if (MainWindow.Current?.AppWindow != null)
+        {
+            MainWindow.Current.AppWindow.Closing -= AppWindow_Closing;
+        }
     }
 
 
@@ -153,6 +161,26 @@ public sealed partial class MainPage : Page
     }
 
 
+
+    private void InitializeSystemTray()
+    {
+        if (AppConfig.EnableSystemTrayIcon)
+        {
+            _systemTrayService.Initialize();
+        }
+        MainWindow.Current.AppWindow.Closing += AppWindow_Closing;
+    }
+
+
+    private void AppWindow_Closing(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowClosingEventArgs args)
+    {
+        if (AppConfig.EnableSystemTrayIcon && _systemTrayService.IsCreated && !AppConfig.ExitWhenClosing)
+        {
+            args.Cancel = true;
+            PauseVideo();
+            MainWindow.Current.AppWindow.Hide();
+        }
+    }
 
 
 

@@ -43,6 +43,8 @@ public sealed partial class SettingPage : Page
 
     private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
 
+    private readonly SystemTrayService _systemTrayService = AppConfig.GetService<SystemTrayService>();
+
     private GameBiz gameBiz;
 
     public SettingPage()
@@ -250,6 +252,38 @@ public sealed partial class SettingPage : Page
     }
 
 
+
+
+    #endregion
+
+
+
+
+    #region System Tray
+
+
+    [ObservableProperty]
+    private bool enableSystemTray = AppConfig.EnableSystemTrayIcon;
+    partial void OnEnableSystemTrayChanged(bool value)
+    {
+        AppConfig.EnableSystemTrayIcon = value;
+        if (value)
+        {
+            _systemTrayService.Initialize();
+        }
+        else
+        {
+            _systemTrayService.Dispose();
+        }
+    }
+
+
+    [ObservableProperty]
+    private bool exitWhenClosing = AppConfig.ExitWhenClosing;
+    partial void OnExitWhenClosingChanged(bool value)
+    {
+        AppConfig.ExitWhenClosing = value;
+    }
 
 
     #endregion

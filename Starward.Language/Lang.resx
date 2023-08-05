@@ -1015,4 +1015,16 @@ Do you accept the risk and continue to use it?</value>
   <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
     <value>Select Server</value>
   </data>
+  <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
+    <value>System Tray Icon</value>
+  </data>
+  <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
+    <value>Exit Launcher When Closing Window</value>
+  </data>
+  <data name="Common_Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="SettingPage_SystemTray" xml:space="preserve">
+    <value>System Tray</value>
+  </data>
 </root>

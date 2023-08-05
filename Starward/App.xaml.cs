@@ -44,7 +44,7 @@ public partial class App : Application
     /// Invoked when the application is launched.
     /// </summary>
     /// <param name="args">Details about the launch request and process.</param>
-    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs _)
+    protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs _)
     {
         instance = AppInstance.GetCurrent();
         instance.Activated += AppInstance_Activated;
@@ -58,8 +58,18 @@ public partial class App : Application
                 return;
             }
         }
-        m_window = new MainWindow();
-        m_window.Activate();
+        var main = AppInstance.FindOrRegisterForKey("");
+        if (main.IsCurrent)
+        {
+            main.UnregisterKey();
+            m_window = new MainWindow();
+            m_window.Activate();
+        }
+        else
+        {
+            await main.RedirectActivationToAsync(instance.GetActivatedEventArgs());
+            this.Exit();
+        }
     }
 
 

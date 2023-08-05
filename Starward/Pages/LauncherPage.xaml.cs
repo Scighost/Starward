@@ -54,6 +54,8 @@ public sealed partial class LauncherPage : Page
 
     private readonly DownloadGameService _downloadGameService = AppConfig.GetService<DownloadGameService>();
 
+    private readonly SystemTrayService _systemTrayService = AppConfig.GetService<SystemTrayService>();
+
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _timer;
 
     private GameBiz gameBiz;
@@ -527,11 +529,27 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
+            if (!IgnoreRunningGame)
+            {
+                var p = _gameService.GetGameProcess(gameBiz);
+                if (p != null)
+                {
+                    GameProcess = p;
+                    return;
+                }
+            }
             var process1 = _gameService.StartGame(gameBiz, IgnoreRunningGame);
             if (process1 != null)
             {
                 MainPage.Current.PauseVideo();
-                User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
+                if (AppConfig.EnableSystemTrayIcon && _systemTrayService.IsCreated)
+                {
+                    User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_HIDE);
+                }
+                else
+                {
+                    User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
+                }
                 _logger.LogInformation("Game started ({name}, {pid})", process1.ProcessName, process1.Id);
                 if (AppConfig.IgnoreRunningGame)
                 {

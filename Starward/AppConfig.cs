@@ -274,6 +274,7 @@ internal static class AppConfig
             sc.AddSingleton<GameSettingService>();
             sc.AddSingleton<GameRecordService>();
             sc.AddSingleton<WelcomeService>();
+            sc.AddSingleton<SystemTrayService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))
@@ -418,6 +419,20 @@ internal static class AppConfig
     public static bool HoyolabToolboxPaneOpen
     {
         get => GetValue(true);
+        set => SetValue(value);
+    }
+
+
+    public static bool EnableSystemTrayIcon
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
+    public static bool ExitWhenClosing
+    {
+        get => GetValue<bool>();
         set => SetValue(value);
     }
 

@@ -115,6 +115,20 @@
                         </RadioButton>
                     </StackPanel>
 
+                    <!--  system tray  -->
+                    <TextBlock Margin="0,20,0,0"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Text="{x:Bind lang:Lang.SettingPage_SystemTray}" />
+                    <ToggleSwitch Margin="0,8,0,0"
+                                  IsOn="{x:Bind EnableSystemTray, Mode=TwoWay}"
+                                  OffContent="{x:Bind lang:Lang.SettingPage_EnableSystemTrayIcon}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_EnableSystemTrayIcon}" />
+                    <ToggleSwitch IsEnabled="{x:Bind EnableSystemTray}"
+                                  IsOn="{x:Bind ExitWhenClosing, Mode=TwoWay}"
+                                  OffContent="{x:Bind lang:Lang.SettingPage_ExitLauncherWhenClosingWindow}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_ExitLauncherWhenClosingWindow}" />
+
                     <!--  CDN  -->
                     <StackPanel Margin="0,20,0,0"
                                 Orientation="Horizontal"
@@ -406,28 +420,28 @@
                         <Run Text="{x:Bind s:AppConfig.AppVersion}" />
                     </TextBlock>
                     <TextBlock Text="Developed by Scighost, all rights reserved." />
-                    <TextBlock Margin="0,16,0,0">
+                    <TextBlock Margin="0,16,0,0" HorizontalAlignment="Left">
                         <Hyperlink NavigateUri="https://github.com/Scighost/Starward" UnderlineStyle="None">
                             <Run FontWeight="Bold"
                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                  Text="{x:Bind lang:Lang.SettingPage_ProjectHomepage}" />
                         </Hyperlink>
                     </TextBlock>
-                    <TextBlock Margin="0,8,0,0">
+                    <TextBlock Margin="0,8,0,0" HorizontalAlignment="Left">
                         <Hyperlink NavigateUri="https://github.com/Scighost/Starward/issues" UnderlineStyle="None">
                             <Run FontWeight="Bold"
                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                  Text="{x:Bind lang:Lang.SettingPage_ReportIssue}" />
                         </Hyperlink>
                     </TextBlock>
-                    <TextBlock Margin="0,8,0,0">
+                    <TextBlock Margin="0,8,0,0" HorizontalAlignment="Left">
                         <Hyperlink NavigateUri="https://github.com/Scighost/Starward/releases" UnderlineStyle="None">
                             <Run FontWeight="Bold"
                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                  Text="{x:Bind lang:Lang.SettingPage_ReleaseHistroy}" />
                         </Hyperlink>
                     </TextBlock>
-                    <TextBlock Margin="0,8,0,0">
+                    <TextBlock Margin="0,8,0,0" HorizontalAlignment="Left">
                         <Hyperlink NavigateUri="https://github.com/Scighost/Starward/blob/main/docs/Privacy.md" UnderlineStyle="None">
                             <Run FontWeight="Bold"
                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"

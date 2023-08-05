@@ -133,6 +133,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Exit 的本地化字符串。
+        /// </summary>
+        public static string Common_Exit {
+            get {
+                return ResourceManager.GetString("Common_Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Network Error 的本地化字符串。
         /// </summary>
         public static string Common_NetworkError {
@@ -2036,6 +2045,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 System Tray Icon 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_EnableSystemTrayIcon {
+            get {
+                return ResourceManager.GetString("SettingPage_EnableSystemTrayIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Exit Launcher When Closing Window 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_ExitLauncherWhenClosingWindow {
+            get {
+                return ResourceManager.GetString("SettingPage_ExitLauncherWhenClosingWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 File Manager 的本地化字符串。
         /// </summary>
         public static string SettingPage_FileManager {
@@ -2167,6 +2194,15 @@ namespace Starward.Language {
         public static string SettingPage_Small {
             get {
                 return ResourceManager.GetString("SettingPage_Small", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 System Tray 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_SystemTray {
+            get {
+                return ResourceManager.GetString("SettingPage_SystemTray", resourceCulture);
             }
         }
         
