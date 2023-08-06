@@ -130,7 +130,7 @@
     <value>佔用空間：</value>
   </data>
   <data name="DownloadGameDialog_RepairMode" xml:space="preserve">
-    <value>修復模式</value>
+    <value>修復模式：</value>
   </data>
   <data name="DownloadGameDialog_VoiceLanguage" xml:space="preserve">
     <value>語音包：</value>
