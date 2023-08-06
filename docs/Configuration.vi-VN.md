@@ -1,4 +1,4 @@
-[English](./Configuration.md) | [简体中文](./Configuration.zh-CN.md) | Tiếng Việt | [日本語](./Configuration.ja-JP.md)
+[English](./Configuration.md) | [简体中文](./Configuration.zh-CN.md) | Tiếng Việt | [日本語](./Configuration.ja-JP.md) | [ภาษาไทย](./Configuration.th-TH.md)
 
 # Cấu hình ứng dụng
 

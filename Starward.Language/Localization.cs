@@ -12,6 +12,7 @@ public static class Localization
         ("Tiếng Việt (vi-VN, @phucho0237)", "vi-VN"),
         ("简体中文 (zh-CN, @Scighost)", "zh-CN"),
         ("繁體中文 (zh-TW, @XPRAMT)", "zh-TW"),
+        ("ภาษาไทย (th-TH, @thunni-noi)", "th-TH"),
     }.AsReadOnly();
 
 

@@ -1,8 +1,8 @@
-English | [简体中文](./Configuration.zh-CN.md) | [Tiếng Việt](./Configuration.vi-VN.md) | [日本語](./Configuration.ja-JP.md) | [ภาษาไทย](./Configuration.th-TH.md)
+[English](./Configuration.md) | [简体中文](./Configuration.zh-CN.md) | [Tiếng Việt](./Configuration.vi-VN.md) | [日本語](./Configuration.ja-JP.md) | ภาษาไทย
 
 # Application Configuration
 
-Starting with version 0.8.0, Starward no longer uses the registry to store configuration, but instead uses file and database, making it easier to migrate the overall application between devices. However, the registry will still be used when the file structure does not meet the following conditions:
+เริ่มตั้งแต่เวอร์ชัน 0.8.0 Starward จะไม่ใช้ registry ในการเก็บข้อมูลตั้งค่าต่างๆอีกต่อไป แต่จะใช้ไฟล์แต่ฐานข้อมูลทำให้ง่ายขึ้นในการย้ายข้อมูลแอพพลิเคชั่นระหว่างอุปกรณ์ต่างๆ อย่างไรก็ตาม registry ยังคงถูกใช้หากโครงสร้างของไฟล์ไม่ได้ตรงกับเงื่อนไขดังต่อไปนี้ :
 
 ```
 │ config.ini
@@ -14,28 +14,30 @@ Starting with version 0.8.0, Starward no longer uses the registry to store confi
    ...
 ```
 
-Don't worry, files downloaded from GitHub Release will definitely satisfy this condition, only when you pull the code and debug it locally will you use the registry to store the configuration.
+แต่ไม่ต้องเป็นห่วง ไฟล์ที่ดาวน์โหลดจาก Github Release จะตรงกับเงื่อนไขแน่นอน มีแค่ตอนที่ผู้ใช้ดึงโค้ดและมาดีบั๊กเองเท่านั่นที่จะทำให้ต้องใช้ registry ในการเก็บข้อมูล
 
 ## config.ini
 
-The `config.ini` file contains only two setting items:
+ไฟล์ `config.ini` มีการตั้งค่าแค่สองอย่างเท่านั้น
 
 ```ini
-# Whether to enable console output logging, True/False
+# ต้องการให้เปิดใช้งานคอนโซลบันทึก output หรือไม่ , True/False
 EnableConsole=False
-# The location of the user folder
+# ตำแหน่งที่ตั้งของโฟลเดอร์เก็บข้อมูล
 UserDataFolder=.
 ```
 
-`UserDataFolder` is the folder of the user's data. If this value does not exist or the set folder does not exist, the application displays the welcome page at startup. If `UserDataFolder` is set to the folder itself or a subfolder where the `config.ini` file is located, you can use **relative paths**, e.g. one of the dots `.` represents the current folder. In other cases, you **must** use an absolute path. In addition, both slash `/` and backslash `\` can be used.
+'UserDataFolder' เป็นโฟลเดอร์ที่เก็บข้อมูลของผู้ใช้งาน ถ้าหากค่าดังกล่าวไม่ได้ตั้งไว้หรือโฟลเดอร์ไม่มีอยู่ แอพพลิเคชั่นจะแสดงหน้าต้อนรับเมื่อเปิด 
+หาก 'UserDataFolder' ตั้งค่าเป็นโฟลเดอร์ของมันเองหรือว่าโฟลเดอร์ย่อยที่มีไฟล์ 'config.ini' สามารถใช้ **relative path** ได้ เช่น '.' แทนถึงโฟลเดอร์ปัจจุบัน ในกรณีอื่นๆ **จำเป็นต้องใช้ absolute path** (ในการระบุ path สามารถใช้ได้ทั้ง '/' และ '\')
 
-Note: The `config.ini` file must be at the application root folder.
+Note: ไฟล์ 'config.ini' ต้องอยู่ที่โฟลเดอร์รูทของแอพพลิเคชั่น
 
 ## Database
 
-All setting items except for the two above are stored in the database `StarwardDatabase.db` in the user data folder. This file is a SQLite database, which you can edit with [DB Browser for SQLite](https://sqlitebrowser.org/) or other software.
+การตั้งค่าทุกอย่างยกเว้นที่ระบุมาสองอันข้างต้นจะถูกเก็บอยู่ในฐานข้อมูล 'StarwardDatabse.db' ในโฟลเดอร์เก็บข้อมูลที่ผู้ใช้เลือก ไฟล์ข้างต้นเป็นไฟล์ SQLite Database ที่สามารถแก้ไขได้ด้วย [DB Browser for SQLite](https://sqlitebrowser.org/) หรือโปรแกรมอื่นๆ
 
-There is a table named `Setting` in the database that holds the application's setting items, and it has the following structure, with the keys and values represented as text.
+ข้างในจะมีตารางชื่อ 'Setting' ที่เก็บข้อมูลการตั้งค่าไว้ มีโครงสร้างดังนี้ โดยมี key และ values เป็นข้อความ
+
 
 ```sql
 CREATE TABLE Setting
@@ -45,11 +47,11 @@ CREATE TABLE Setting
 ).
 ```
 
-There are two types of setting items within the application, static setting items using Pascal nomenclature `ASettingKey`, and dynamic setting items using Pascal nomenclature `a_setting_key`, which represent the existence of a corresponding value for each game region.
+มีการตั้งค่าสองประเภทในแอพพลิเคชั่น - การตั้งค่าแบบ static ที่ใช้ชื่อ 'ASettingKey' กับการตั้งแค่แบบ Dynamic ที่ใช้ชื่อ 'a_setting_key' ตามหลักการตั้งชื่อของ Pascal โดยแสดงถึงเกมต่างๆแยกภูมิภาคออกไป 
 
-## Game Regions
+## ภูมิภาคของเกม
 
-Starward uses `enum GameBiz` to define different game regions, where the full name of the game such as `StarRail` will be specified in the comments when used.
+Starward ใช้ 'enum GameBiz' ในการระบุเกมแต่ละภูมิภาค โดยที่ชื่อเต็มของเกมเช่น 'StarRail' จะถูกเขียนลงในคอมเมนต์เมื่อใช้
 
 | Key               | Value | Comment                                 |
 | ----------------- | ----- | --------------------------------------- |
@@ -72,7 +74,7 @@ Starward uses `enum GameBiz` to define different game regions, where the full na
 
 ## Static Settings
 
-The data type `Type` in the following table uses the expression in C#, and `-` represents the default value of this type.
+ประเภทข้อมูล Type ในตารางด้านล่างใช้ใน C# และ - แทนค่าเริ่มต้นของประเภทนี้ในกรณีที่ไม่ได้กำหนดค่าเริ่มต้น
 
 | Key                             | Type    | Default Value | Comment                                                                                                                                                          |
 | ------------------------------- | ------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -96,7 +98,7 @@ The data type `Type` in the following table uses the expression in C#, and `-` r
 
 ## Dynamic Settings
 
-Dynamic setting items have different values in each game region, and their setting keys will have the game region appended to the end, for example, the setting item `custom_bg`, whose key of Genshin Impact (Global) is `custom_gb_hk4e_global`.
+รายการตั้งค่าแบบไดนามิกจะมีค่าที่แตกต่างกันในแต่ละภูมิภาคของเกม และ Key ของการตั้งค่าเหล่านี้จะมีการเพิ่มส่วนท้ายที่เป็นชื่อภูมิภาคของเกม ตัวอย่างเช่น รายการตั้งค่า custom_bg ซึ่ง Key ของ Genshin Impact (Global) คือ custom_gb_hk4e_global
 
 | Key                          | Type    | Default Value | Comment                                                                                                                            |
 | ---------------------------- | ------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |

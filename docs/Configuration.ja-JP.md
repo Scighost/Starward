@@ -1,4 +1,4 @@
-﻿[English](./Configuration.md) | [简体中文](./Configuration.zh-CN.md) | [Tiếng Việt](./Configuration.vi-VN.md) | 日本語
+﻿[English](./Configuration.md) | [简体中文](./Configuration.zh-CN.md) | [Tiếng Việt](./Configuration.vi-VN.md) | 日本語 | [ภาษาไทย](./Configuration.th-TH.md)
 # アプリケーションの構成
 
 バージョン 0.8.0から、Starward は設定の保存にレジストリを使用しなくなりました。その代わりにファイルとデータベースを使用するようになり、デバイス間でのアプリケーション全体の移行が容易になりました。ファイル構成が以下の条件になっていない場合は、レジストリを使用します。
