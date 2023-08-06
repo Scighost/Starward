@@ -1015,4 +1015,25 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
     <value>Chọn máy chủ</value>
   </data>
+  <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
+    <value>Biểu tượng khay hệ thống</value>
+  </data>
+  <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
+    <value>Thoát trình khởi chạy khi đóng cửa sổ</value>
+  </data>
+  <data name="Common_Exit" xml:space="preserve">
+    <value>Thoát</value>
+  </data>
+  <data name="SettingPage_SystemTray" xml:space="preserve">
+    <value>Khay hệ thống</value>
+  </data>
+  <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
+    <value>Trình cài đặt</value>
+  </data>
+  <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
+    <value>Bạn có thể chọn thoát hoặc ẩn cửa sổ và thu nhỏ xuống thanh hệ thống.</value>
+  </data>
+  <data name="Common_Hide" xml:space="preserve">
+    <value>Ẩn</value>
+  </data>
 </root>
