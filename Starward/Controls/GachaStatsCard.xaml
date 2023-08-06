@@ -307,7 +307,7 @@
             </PivotItem>
         </Pivot>
 
-        <labs:Segmented Name="Segmented_GachaItemList"
+        <labs:Segmented x:Name="Segmented_GachaItemList"
                         Grid.Row="11"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
