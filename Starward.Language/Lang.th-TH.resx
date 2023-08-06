@@ -1,0 +1,1038 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
+    <value>ขนาดของ Package:</value>
+  </data>
+  <data name="DownloadGameDialog_Downloaded" xml:space="preserve">
+    <value>ดาวน์โหลดแล้ว:</value>
+  </data>
+  <data name="DownloadGameDialog_FreeSpace" xml:space="preserve">
+    <value>พื้นที่ว่างเหลือ:</value>
+  </data>
+  <data name="DownloadGameDialog_RequiredSpaceForUnzipping" xml:space="preserve">
+    <value>พื้นที่ที่ต้องการ:</value>
+  </data>
+  <data name="DownloadGameDialog_RepairMode" xml:space="preserve">
+    <value>โหมดการซ่อมแซม:</value>
+  </data>
+  <data name="DownloadGameDialog_VoiceLanguage" xml:space="preserve">
+    <value>เสียงบทพากย์</value>
+  </data>
+  <data name="Language_Chinese" xml:space="preserve">
+    <value>ภาษาจีน</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>ภาษาอังกฤษ</value>
+  </data>
+  <data name="Language_Japanese" xml:space="preserve">
+    <value>ภาษาญี่ปุ่น</value>
+  </data>
+  <data name="Language_Korean" xml:space="preserve">
+    <value>ภาษาเกาหลี</value>
+  </data>
+  <data name="DownloadGameDialog_DownloadGameFilesDirectly" xml:space="preserve">
+    <value>ดาวน์โหลดไฟล์เกมโดยตรง</value>
+  </data>
+  <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
+    <value>ฟีเจอร์นี้อยู่ในกระบวนการทดลอง หากไฟล์เกมได้รับความเสียหาย กรุณาใช้ตัวเกมอย่างเป็นทางการในการซ่อมแซม</value>
+  </data>
+  <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
+    <value>พื้นที่ว่างอาจไม่เพียงพอ:</value>
+  </data>
+  <data name="GachaStatsCard_Pity" xml:space="preserve">
+    <value>จำนวนการสุ่ม</value>
+  </data>
+  <data name="GachaStatsCard_Average" xml:space="preserve">
+    <value>โดยเฉลี่ย</value>
+  </data>
+  <data name="GachaStatsCard_Stats" xml:space="preserve">
+    <value>สถิติ</value>
+  </data>
+  <data name="SelectDirectoryPage_NiceToMeetYou" xml:space="preserve">
+    <value>ยินดีที่ได้รู้จัก ~</value>
+  </data>
+  <data name="SelectDirectoryPage_SelectFolder" xml:space="preserve">
+    <value>เลือกโฟลเดอร์</value>
+  </data>
+  <data name="SelectDirectoryPage_SelectLanguage" xml:space="preserve">
+    <value>เลือกภาษา</value>
+  </data>
+  <data name="SelectDirectoryPage_SelectGame" xml:space="preserve">
+    <value>เลือกเกม</value>
+  </data>
+  <data name="SelectDirectoryPage_RecommendFolder" xml:space="preserve">
+    <value>ข้อมูลของแอพจะถูกเก็บไว้ที่โฟลเดอร์ดังต่อไปนี้โดยเริ่มต้น:</value>
+  </data>
+  <data name="SelectDirectoryPage_WouldYouLikeToChooseThisFolder" xml:space="preserve">
+    <value>คุณจะเลือกโฟลเดอร์นี้ใช่หรือไม่?</value>
+  </data>
+  <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
+    <value>โฟลเดอร์นี้จะถูกลบโดยอัตโนมัติหลังจากซอฟต์แวรือัพเดต</value>
+  </data>
+  <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
+    <value>ไม่มีสิทธิในการเขียน</value>
+  </data>
+  <data name="SelectDirectoryPage_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
+    <value>เลือกเพิ่มเติม</value>
+  </data>
+  <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
+    <value>ยกเลิก</value>
+  </data>
+  <data name="SelectDirectoryPage_FirstUse" xml:space="preserve">
+    <value>เหมือนจะเป็นครั้งแรกที่คุณใช้ {Starward} นะ</value>
+  </data>
+  <data name="SelectGamePage_GoToLauncher" xml:space="preserve">
+    <value>ไปที่ Launcher</value>
+  </data>
+  <data name="SelectGamePage_SelectFolder" xml:space="preserve">
+    <value>เลือกโฟลเดอร์</value>
+  </data>
+  <data name="SelectGamePage_SomeGame" xml:space="preserve">
+    <value>{Starward} รองรับเกมของ {miHoYo/HoYoverse} แค่บางเกมเท่านั้น โปรดเลือกเกมที่ต้องการจากด้านล่าง - สามารถเปลี่ยนเมื่อไหร่ก็ได้หลังจากเข้า Launcher </value>
+  </data>
+  <data name="SelectGamePage_TheLastStep" xml:space="preserve">
+    <value>ขั้นตอนสุดท้ายแล้ว ~</value>
+  </data>
+  <data name="DownloadGamePage_CloseSoftware" xml:space="preserve">
+    <value>ปิดโปรแกรม</value>
+  </data>
+  <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
+    <value>สามารถดาวน์โหลดต่อได้เมื่อเปืดโปรแกรมขึ้นครั้งต่อไป - การปิดโปรแกรมขณะแตกไฟล์อาจทำให้ไฟล์เกมเสียหายได้</value>
+  </data>
+  <data name="DownloadGamePage_Close" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>ยกเลิก</value>
+  </data>
+  <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
+    <value>โปรแกรมกำลังจะออก</value>
+  </data>
+  <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
+    <value>เริ่มต้นซ้ำ</value>
+  </data>
+  <data name="Common_Confirm" xml:space="preserve">
+    <value>ยืนยัน</value>
+  </data>
+  <data name="DownloadGamePage_ParameterError" xml:space="preserve">
+    <value>พารามิเตอร์ขัดข้อง</value>
+  </data>
+  <data name="DownloadGamePage_NoPermission" xml:space="preserve">
+    <value>ไม่มีสิทธิ</value>
+  </data>
+  <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
+    <value>กรุณาเปิดโปรแกรมด้วยสิทธิ Administrator</value>
+  </data>
+  <data name="DownloadGamePage_Start" xml:space="preserve">
+    <value>เริ่้ม</value>
+  </data>
+  <data name="DownloadGamePage_Preparing" xml:space="preserve">
+    <value>กำลังเตรียม</value>
+  </data>
+  <data name="DownloadGamePage_Downloading" xml:space="preserve">
+    <value>กำลังดาวน์โหลด</value>
+  </data>
+  <data name="DownloadGamePage_Verifying" xml:space="preserve">
+    <value>กำลังตรวจสอบความสมบูรณ์ของไฟล์เกม</value>
+  </data>
+  <data name="DownloadGamePage_Decompressing" xml:space="preserve">
+    <value>กำลังแตกไฟล์</value>
+  </data>
+  <data name="DownloadGamePage_SomethingError" xml:space="preserve">
+    <value>บางอย่างผิดพลาด</value>
+  </data>
+  <data name="DownloadGamePage_Retry" xml:space="preserve">
+    <value>ลองใหม่</value>
+  </data>
+  <data name="DownloadGamePage_OpenLog" xml:space="preserve">
+    <value>เปิดบันทึก</value>
+  </data>
+  <data name="DownloadGamePage_NetworkError" xml:space="preserve">
+    <value>เครือข่ายขัดข้อง</value>
+  </data>
+  <data name="DownloadGamePage_UnknownError" xml:space="preserve">
+    <value>ข้อผิดพลาดที่ไม่ทราบสาเหตุ</value>
+  </data>
+  <data name="DownloadGamePage_Finished" xml:space="preserve">
+    <value>เสร็จสิ้น</value>
+  </data>
+  <data name="DownloadGamePage_Pause" xml:space="preserve">
+    <value>หยุดชั่วคราว</value>
+  </data>
+  <data name="DownloadGamePage_Skip" xml:space="preserve">
+    <value>ข้าม</value>
+  </data>
+  <data name="DownloadGamePage_VerifyFailed" xml:space="preserve">
+    <value>การตรวจสอบความสมบูรณ์ของไฟล์เกมผิดพลาด</value>
+  </data>
+  <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
+    <value>ไม่สามารถตรวจสอบความสมบูรณ์ของไฟล์เหล่านี้ได้:</value>
+  </data>
+  <data name="DownloadGamePage_Redownload" xml:space="preserve">
+    <value>ดาวน์โหลดใหม่</value>
+  </data>
+  <data name="DownloadGamePage_Ignore" xml:space="preserve">
+    <value>เมิน</value>
+  </data>
+  <data name="DownloadGamePage_Stop" xml:space="preserve">
+    <value>หยุด</value>
+  </data>
+  <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
+    <value>การแตกไฟล์ที่โดยไม่ได้ตรวจสอบไฟล์อาจทำให้ไฟล์เกมเสียหายได้</value>
+  </data>
+  <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
+    <value>ข้ามการตรวจสอบความสมบูรณ์ของไฟล์เกม</value>
+  </data>
+  <data name="DownloadGamePage_DownloadPaused" xml:space="preserve">
+    <value>หยุดดาวน์โหลดชั่วคราว</value>
+  </data>
+  <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
+    <value>ไม่มีประวัติการสุ่ม</value>
+  </data>
+  <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
+    <value>อัพเดทประวัติการสุ่ม</value>
+  </data>
+  <data name="GachaLogPage_UpdateSavedURL" xml:space="preserve">
+    <value>อัพเดต (URL ที่เซฟไว้)</value>
+  </data>
+  <data name="GachaLogPage_UpdateAll" xml:space="preserve">
+    <value>อัพเดต (ทั้งหมด)</value>
+  </data>
+  <data name="GachaLogPage_InputURL" xml:space="preserve">
+    <value>ใส่ URL บันทึกการสุ่ม</value>
+  </data>
+  <data name="Common_Setting" xml:space="preserve">
+    <value>ตั้งค่า</value>
+  </data>
+  <data name="GachaLogPage_OtherSettings" xml:space="preserve">
+    <value>การตั้งค่าอื่นๆ</value>
+  </data>
+  <data name="GachaLogPage_CopyURL" xml:space="preserve">
+    <value>คัดลอก URL ประวัติการสุ่ม</value>
+  </data>
+  <data name="GachaLogPage_AuthkeyTimeoutAlwaysOccurs" xml:space="preserve">
+    <value>Authkey Timeout เกิดขึ้นเสมอหรือไม่?</value>
+  </data>
+  <data name="GachaLogPage_ClearURLCacheFiles" xml:space="preserve">
+    <value>ล้างแคช URL ประวัติการสุ่ม</value>
+  </data>
+  <data name="GachaLogPage_ExportAs" xml:space="preserve">
+    <value>ส่งออกประวัติการสุ่ม</value>
+  </data>
+  <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
+    <value>นำเข้าจาก JSON</value>
+  </data>
+  <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
+    <value>ชนิดการแสดงตู้สุ่มมือใหม่</value>
+  </data>
+  <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
+    <value>ลบประวัติการสุ่ม</value>
+  </data>
+  <data name="GachaLogPage_Language" xml:space="preserve">
+    <value>ภาษา</value>
+  </data>
+  <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
+    <value>ไม่พบบันทึกการสุ่มของ UID {0}</value>
+    <comment>{0} = {uid}</comment>
+  </data>
+  <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
+    <value>ไม่ได้ติดตั้งเกม</value>
+  </data>
+  <data name="GachaLogPage_CannotFindURL" xml:space="preserve">
+    <value>ไม่สามารถดึงบันทึกการสุ่มได้ โปรดเปิดประวัติการสุ่มในเกม</value>
+  </data>
+  <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
+    <value>กระบวนการถูกยกเลิก</value>
+  </data>
+  <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
+    <value>กรุณาเปิดประวัติการสุ่มในเกมแล้วลองอีกครั้ง</value>
+  </data>
+  <data name="Common_Warning" xml:space="preserve">
+    <value>คำเตือน</value>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>ลบ</value>
+  </data>
+  <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
+    <value>ลบประวัติการสุ่ม {0} ครั้งของ UID {1}</value>
+    <comment>{0} = {count} ,  {1} = {uid}</comment>
+  </data>
+  <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
+    <value>ประวัติการสุ่มกาชาของ UID {0} จะถูกลบทั้งหมด และกระบวนการนี้จะไม่สามารถย้อนกลับได้</value>
+    <comment>{0} = {uid}</comment>
+  </data>
+  <data name="GachaLogService_WishRecords" xml:space="preserve">
+    <value>ประวัติการอธิษฐาน</value>
+  </data>
+  <data name="GachaLogService_WarpRecords" xml:space="preserve">
+    <value>ประวัติการวาร์ป</value>
+  </data>
+  <data name="GachaLogService_GettingUid" xml:space="preserve">
+    <value>กำลังดึง UID</value>
+  </data>
+  <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
+    <value>บัญชีนี้ไม่มีประวัติการสุ่มในช่วง 6 เดือนที่ผ่านมา</value>
+  </data>
+  <data name="GachaLogService_GetGachaResult" xml:space="preserve">
+    <value>ดึงบันทึกการสุ่มทั้งหมด {0} โรล เพิ่มเข้าไปทั้งหมด {1} โรค</value>
+    <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
+  </data>
+  <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
+    <value>นำเข้า {0} ประวัติการสุ่มสำเร็จ</value>
+  </data>
+  <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
+    <value>นำเข้าประวัติการวาร์ป {0} โรลเสร็จสมบูรณ์</value>
+  </data>
+  <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
+    <value>เป็นเวอร์ชันล่าสุดแล้ว</value>
+  </data>
+  <data name="DownloadGameService_TooManyRetries" xml:space="preserve">
+    <value>ลองใหม่หลายครั้งเกินไป</value>
+  </data>
+  <data name="UpdateService_CannotUpdateAutomatically" xml:space="preserve">
+    <value>ไม่สามารถอัพเดตอัตโนมัติได้</value>
+  </data>
+  <data name="GameSettingPage_Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="GameSettingPage_VeryLow" xml:space="preserve">
+    <value>ต่ำมาก</value>
+  </data>
+  <data name="GameSettingPage_Low" xml:space="preserve">
+    <value>ต่ำ</value>
+  </data>
+  <data name="GameSettingPage_Medium" xml:space="preserve">
+    <value>กลาง</value>
+  </data>
+  <data name="GameSettingPage_High" xml:space="preserve">
+    <value>สูง</value>
+  </data>
+  <data name="GameSettingPage_VeryHigh" xml:space="preserve">
+    <value>สูงมาก</value>
+  </data>
+  <data name="GameSettingPage_Off" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+  <data name="GameSettingPage_StartArguments" xml:space="preserve">
+    <value>เริ่มพารามิเตอร์</value>
+  </data>
+  <data name="GameSettingPage_Resolution" xml:space="preserve">
+    <value>ความละเอียดหน้าจอ</value>
+  </data>
+  <data name="GameSettingPage_FullScreen" xml:space="preserve">
+    <value>เต็มหน้าจอ</value>
+  </data>
+  <data name="GameSettingPage_CustomResolution" xml:space="preserve">
+    <value>Custom Resolution</value>
+  </data>
+  <data name="GameSettingPage_VoiceLanguage" xml:space="preserve">
+    <value>ภาษาของเสียงพากย์</value>
+  </data>
+  <data name="GameSettingPage_VoiceLanguageDescription" xml:space="preserve">
+    <value>ตั้งค่าก่อนเริ่มเกมครั้งแรกจะทำให้ไม่จำเป็นต้องดาวน์โหลดทรัพยากรเสียงพาย์บางส่วน</value>
+  </data>
+  <data name="GameSettingPage_GraphicsSetting" xml:space="preserve">
+    <value>ตั้งค่ากราฟิก</value>
+  </data>
+  <data name="GameSettingPage_GraphicsQualityPreset" xml:space="preserve">
+    <value>คุณภาพกราฟิก</value>
+  </data>
+  <data name="GameSettingPage_RenderScale" xml:space="preserve">
+    <value>ความละเอียดการเรนเดอร์</value>
+  </data>
+  <data name="GameSettingPage_FPS" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="GameSettingPage_VSync" xml:space="preserve">
+    <value>V-Sync</value>
+  </data>
+  <data name="GameSettingPage_AntiAliasing" xml:space="preserve">
+    <value>Anti-Aliasing</value>
+  </data>
+  <data name="GameSettingPage_ShadowQuality" xml:space="preserve">
+    <value>คุณภาพของเงา</value>
+  </data>
+  <data name="GameSettingPage_ReflectionQuality" xml:space="preserve">
+    <value>คุณภาพการสะท้อง</value>
+  </data>
+  <data name="GameSettingPage_CharacterQuality" xml:space="preserve">
+    <value>Character Quality</value>
+  </data>
+  <data name="GameSettingPage_EnvironmentDetail" xml:space="preserve">
+    <value>รายละเอียดฉาก</value>
+  </data>
+  <data name="GameSettingPage_BloomEffect" xml:space="preserve">
+    <value>Bloom Effect</value>
+  </data>
+  <data name="GameSettingPage_LightQuality" xml:space="preserve">
+    <value>คุณภาพของแสง</value>
+  </data>
+  <data name="Common_Apply" xml:space="preserve">
+    <value>เปิดใช้งาน</value>
+  </data>
+  <data name="GameSettingPage_GameNotInstalled" xml:space="preserve">
+    <value>ยังไม่ได้ติดตั้งเกม</value>
+  </data>
+  <data name="GameSettingPage_FPSWarning" xml:space="preserve">
+    <value>การตั้งค่า FPS เป็น 120 จะทำให้ตั้งค่ากราฟิกในเกมใช้งานไม่ได้</value>
+  </data>
+  <data name="GameSettingPage_SettingNotEffect" xml:space="preserve">
+    <value>การตั้งค่าที่เปิดใช้งานเมื่อเกมกำลังทำงานอยู่จะไม่มีผล</value>
+  </data>
+  <data name="GameSettingPage_ResolutionMustBeGreaterThan0" xml:space="preserve">
+    <value>ความละเอียดหน้าจอต้องมากกว่า 0</value>
+  </data>
+  <data name="GameSettingPage_StartArgumentDesc" xml:space="preserve">
+    <value>ข้อมูลเพิ่มเติมสำหรับพารามิเตอร์สามารถดูได้ที่ {Unity Standalone Player Command Line Arguments}</value>
+  </data>
+  <data name="GameSettingPage_On" xml:space="preserve">
+    <value>เปิด</value>
+  </data>
+  <data name="LauncherPage_InstallGame" xml:space="preserve">
+    <value>ติดตั้งเกม</value>
+  </data>
+  <data name="LauncherPage_UpdateGame" xml:space="preserve">
+    <value>อัพเดตเกม</value>
+  </data>
+  <data name="LauncherPage_PlayTime" xml:space="preserve">
+    <value>เวลาที่เล่น</value>
+  </data>
+  <data name="Common_Refresh" xml:space="preserve">
+    <value>รีเฟรซ</value>
+  </data>
+  <data name="LauncherPage_ThisWeek" xml:space="preserve">
+    <value>สัปดาห์นี้</value>
+  </data>
+  <data name="LauncherPage_ThisMonth" xml:space="preserve">
+    <value>เดือนนี้</value>
+  </data>
+  <data name="LauncherPage_LastTime" xml:space="preserve">
+    <value>ครั้งล่าสุด</value>
+  </data>
+  <data name="LauncherPage_PreInstall" xml:space="preserve">
+    <value>ดาวน์โหลดล่วงหน้า</value>
+  </data>
+  <data name="LauncherPage_CurrentAccount" xml:space="preserve">
+    <value>บัญชีปัจจุบัน</value>
+  </data>
+  <data name="LauncherPage_SwitchAccount" xml:space="preserve">
+    <value>เปลี่ยนบัญชี</value>
+  </data>
+  <data name="LauncherPage_AccountInformation" xml:space="preserve">
+    <value>ข้อมูลบัญชี</value>
+  </data>
+  <data name="LauncherPage_Nickname" xml:space="preserve">
+    <value>ชื่อเล่น</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>บันทึก</value>
+  </data>
+  <data name="LauncherPage_GameSetting" xml:space="preserve">
+    <value>ตั้งค่าเกม</value>
+  </data>
+  <data name="LauncherPage_InstallFolder" xml:space="preserve">
+    <value>โฟลเดอร์ติดตั้ง</value>
+  </data>
+  <data name="LauncherPage_Locate" xml:space="preserve">
+    <value>ระบุโฟลเดอร์เกมที่ติดตั้งแล้ว</value>
+  </data>
+  <data name="LauncherPage_RepairGame" xml:space="preserve">
+    <value>ซ่อมแซมไฟล์เกม</value>
+  </data>
+  <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
+    <value>ตัวเรียกใช้งานที่กำหนดเอง</value>
+  </data>
+  <data name="Common_Select" xml:space="preserve">
+    <value>เลือก</value>
+  </data>
+  <data name="LauncherPage_ShowGameAnnouncement" xml:space="preserve">
+    <value>แสดงประกาศของเกม</value>
+  </data>
+  <data name="LauncherPage_IgnoreRunningGameProcess" xml:space="preserve">
+    <value>ไม่สนใจเกมที่กำลังรันอยู่</value>
+  </data>
+  <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
+    <value>ตั้งค่าพื้นหลัง</value>
+  </data>
+  <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
+    <value>ใช้ภาพพื้นหลังแบบเดียวกันในทุกภูมิภาค</value>
+  </data>
+  <data name="SettingPage_BgSizeTip" xml:space="preserve">
+    <value>โปรดเลือกภาพที่ความละเอียดตรงกับขนาดของแอพ ; ภาพที่ใหญ่เกินไปจะทำให้ประสิทธิภาพลดลง</value>
+  </data>
+  <data name="LauncherPage_StartGame" xml:space="preserve">
+    <value>เริมเกม</value>
+  </data>
+  <data name="LauncherPage_GameIsRunning" xml:space="preserve">
+    <value>เกมกำลังรันอยู่</value>
+  </data>
+  <data name="Common_Start" xml:space="preserve">
+    <value>เริ่ม</value>
+  </data>
+  <data name="LauncherPage_SelectInstallFolder" xml:space="preserve">
+    <value>เลือกโฟลเดอร์ติดตั้ง</value>
+  </data>
+  <data name="Common_Continue" xml:space="preserve">
+    <value>ต่อไป</value>
+  </data>
+  <data name="LauncherPage_Reselect" xml:space="preserve">
+    <value>เลือกใหม่</value>
+  </data>
+  <data name="LauncherPage_TheFollowingFolderContainsUnfinishedDownloadTasks" xml:space="preserve">
+    <value>โฟลเดอร์นี้มีการดาวน์โหลดที่ยังโหลดไม่เสร็จ</value>
+  </data>
+  <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
+    <value>กรุณาเลือกโฟลเดอร์ว่างในการติดตั้งเกม หรือระบุโฟลเดอร์ที่ติดตั้งเกมไว้แล้ว</value>
+  </data>
+  <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
+    <value>ถ้าไม่ใช่เวอร์ชันล่าสุด กรุณาแก้ไฟล์ config.ini ในโฟลเดอร์ติดตั้งเกม</value>
+  </data>
+  <data name="LauncherPage_StartVerification" xml:space="preserve">
+    <value>เริ่มยืนยันความสมบูรณ์ของไฟล์เกม</value>
+  </data>
+  <data name="LauncherPage_WouldYouLikeToVerifyTheFiles" xml:space="preserve">
+    <value>การดาวน์โหลดล่วงหน้าสำเร็จ - ต้องการที่จะยืนยันความสมบูรณ์ของไฟล์หรือไม่?</value>
+  </data>
+  <data name="MainPage_HowToSwitchGameRegion" xml:space="preserve">
+    <value>ต้องการที่จะเปลี่ยนภูมิภาคของเกมหรือไม่?</value>
+  </data>
+  <data name="MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft" xml:space="preserve">
+    <value>กดคลิ๊กขวาที่ไอคอนของเกมด้านซ้าย</value>
+  </data>
+  <data name="MainPage_Launcer" xml:space="preserve">
+    <value>Launcher</value>
+  </data>
+  <data name="MainPage_GameScreenshot" xml:space="preserve">
+    <value>ภาพหน้าจอ</value>
+  </data>
+  <data name="ScreenshotPage_GameScreenshot" xml:space="preserve">
+    <value>ภาพหน้าจอ</value>
+  </data>
+  <data name="ScreenshotPage_OpenFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์</value>
+  </data>
+  <data name="SettingPage_Log" xml:space="preserve">
+    <value>บันทึก</value>
+  </data>
+  <data name="SettingPage_ShowConsole" xml:space="preserve">
+    <value>แสดงคอนโซล</value>
+  </data>
+  <data name="SettingPage_AppSettings" xml:space="preserve">
+    <value>ตั้งค่าแอพ</value>
+  </data>
+  <data name="SettingPage_EffectiveAtNextStartup" xml:space="preserve">
+    <value>มีผลเมื่อเปิดโปรแกรมครั้งถัดไป</value>
+  </data>
+  <data name="SettingPage_OpenLogFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์บันทึก</value>
+  </data>
+  <data name="SettingPage_WindowsSize" xml:space="preserve">
+    <value>ขนาดของวินโดวส์</value>
+  </data>
+  <data name="SettingPage_Normal" xml:space="preserve">
+    <value>ปกติ</value>
+    <comment>Window Size Normal</comment>
+  </data>
+  <data name="SettingPage_Small" xml:space="preserve">
+    <value>เล็ก</value>
+    <comment>Window Size Small</comment>
+  </data>
+  <data name="SettingPage_TestNetwork" xml:space="preserve">
+    <value>ทดสอบเครือข่าย</value>
+  </data>
+  <data name="SettingPage_AppBackground" xml:space="preserve">
+    <value>พื้นหลังของแอพ</value>
+  </data>
+  <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
+    <value>ภาพพื้นหลังกำหนดเอง (สามารถใช้วิดีโอได้)</value>
+  </data>
+  <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
+    <value>ธีมสีไดนามิก</value>
+  </data>
+  <data name="SettingPage_CloudFlareConnectProperly" xml:space="preserve">
+    <value>แอพจะดาวน์โหลดทรัพยากรที่จำเป็นผ่านทาง CloudFlare ดังนั้นโปรดตรวจสอบว่าการเชื่อมต่อนั้นปกติ</value>
+  </data>
+  <data name="SettingPage_CheckForUpdate" xml:space="preserve">
+    <value>ตรวจสอบอัพเดต</value>
+  </data>
+  <data name="SettingPage_CurrentVersion" xml:space="preserve">
+    <value>เวอร์ชันปัจจุบัน:</value>
+  </data>
+  <data name="SettingPage_JoinPreviewReleaseChannel" xml:space="preserve">
+    <value>เข้าร่วม Preview Release Channel</value>
+  </data>
+  <data name="SettingPage_FileManager" xml:space="preserve">
+    <value>ตัวจัดการไฟล์</value>
+  </data>
+  <data name="SettingPage_OpenDataFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์เก็บข้อมูล</value>
+  </data>
+  <data name="SettingPage_ReselectDataFolder" xml:space="preserve">
+    <value>เปลี่ยนโฟลเดอร์เก็บข้อมูล</value>
+  </data>
+  <data name="SettingPage_DeleteAllSettings" xml:space="preserve">
+    <value>ลบการตั้งค่าทั้งหมด</value>
+  </data>
+  <data name="SettingPage_ClearCachedFiles" xml:space="preserve">
+    <value>ล้างแคช</value>
+  </data>
+  <data name="SettingPage_About" xml:space="preserve">
+    <value>เกี่ยวกับ</value>
+  </data>
+  <data name="SettingPage_ProjectHomepage" xml:space="preserve">
+    <value>โฮมเพจ</value>
+  </data>
+  <data name="SettingPage_ReportIssue" xml:space="preserve">
+    <value>แจ้งปัญหา</value>
+  </data>
+  <data name="SettingPage_ReleaseHistroy" xml:space="preserve">
+    <value>ประวัติการอัพเดต</value>
+  </data>
+  <data name="SettingPage_ThisIsALogo" xml:space="preserve">
+    <value>นี่ คือ โลโก้</value>
+  </data>
+  <data name="SettingPage_Update" xml:space="preserve">
+    <value>อัพเดท</value>
+  </data>
+  <data name="SettingPage_TestCDNAsync_NetworkError" xml:space="preserve">
+    <value>เครือข่ายขัดข้อย</value>
+  </data>
+  <data name="SettingPage_TheCurrentLocationOfTheDataFolderIs" xml:space="preserve">
+    <value>ที่ตั้งปัจจุบันของโฟลเดอร์เก็บข้อมูล:</value>
+  </data>
+  <data name="SettingPage_WouldLikeToReselectDataFolder" xml:space="preserve">
+    <value>ยืนยันที่จะเลือกใหม่หรือไม่? (คุณต้องย้ายไฟล์ข้อมูลเองก่อนจะเปลี่ยนโฟลเดอร์)</value>
+  </data>
+  <data name="Common_Yes" xml:space="preserve">
+    <value>ใช่</value>
+  </data>
+  <data name="SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically" xml:space="preserve">
+    <value>หลังจากลบแล้ว ซอฟต์แวร์จะเริ่มใหม่เองอัตโนมัติ</value>
+  </data>
+  <data name="UpdatePage_NewVersion" xml:space="preserve">
+    <value>เวอร์ชันใหม่!</value>
+  </data>
+  <data name="UpdatePage_Links" xml:space="preserve">
+    <value>ลิงค์:</value>
+  </data>
+  <data name="UpdatePage_BuiltTime" xml:space="preserve">
+    <value>เวลาบิวด์:</value>
+  </data>
+  <data name="UpdatePage_ReleaseChannel" xml:space="preserve">
+    <value>ช่องอัพเดต:</value>
+  </data>
+  <data name="UpdatePage_Architecture" xml:space="preserve">
+    <value>สถาปัตยกรรม:</value>
+  </data>
+  <data name="UpdatePage_DownloadInstaller" xml:space="preserve">
+    <value>ดาวน์โหลดตัวติดตั้ง</value>
+  </data>
+  <data name="UpdatePage_DownloadPortable" xml:space="preserve">
+    <value>ดาวน์โหลดตัวพกพา</value>
+  </data>
+  <data name="UpdatePage_RemindLatter" xml:space="preserve">
+    <value>เตือนภายหลัง</value>
+  </data>
+  <data name="UpdatePage_IgnoreThisVersion" xml:space="preserve">
+    <value>ข้ามเวอร์ชันนี้</value>
+  </data>
+  <data name="UpdatePage_UpdateNow" xml:space="preserve">
+    <value>อัพเดตเลย</value>
+  </data>
+  <data name="UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage" xml:space="preserve">
+    <value>คุณต้องดาวน์โหลดแพคเกจเวอร์ชันใหม่เอง</value>
+  </data>
+  <data name="UpdatePage_PreviewChannel" xml:space="preserve">
+    <value>ช่องทดลอง:</value>
+  </data>
+  <data name="UpdatePage_StableChannel" xml:space="preserve">
+    <value>ช่องเสถียร</value>
+  </data>
+  <data name="UpdatePage_DevChannel" xml:space="preserve">
+    <value>ช่องผู้พัฒนา</value>
+  </data>
+  <data name="SettingPage_ThemeColorDesc" xml:space="preserve">
+    <value>คำนวณสีของธีมจากภาพพื้นหลังโดยอัตโนมัติ และจะใช้สีธีมตามระบบเป็นค่าเริ่มต้น</value>
+  </data>
+  <data name="UpdatePage_ReleasePage" xml:space="preserve">
+    <value>หน้าอัพเดต:</value>
+  </data>
+  <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
+    <value>ใช้ปลั๊กอินของบุุคคลที่ 3 ในการเริ่มเกม - เวลาที่เล่นจะไม่สามารถนับได้</value>
+  </data>
+  <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
+    <value>กำหนดภาษาของประวัติการสุ่ม เช่น th-TH</value>
+    <comment>Replace en-US with the target language when translating</comment>
+  </data>
+  <data name="SettingPage_Language" xml:space="preserve">
+    <value>ภาษา</value>
+  </data>
+  <data name="SettingPage_FollowSystem" xml:space="preserve">
+    <value>ใช้งานตามระบบ</value>
+  </data>
+  <data name="SelectDirectoryPage_ToStart" xml:space="preserve">
+    <value>เลือกโฟลเดอร์ที่จะเก็บข้อมูลแอพเพื่อเริ่มต้น</value>
+  </data>
+  <data name="GachaLogService_GetGachaProgressText" xml:space="preserve">
+    <value>กำลังดึงข้อมูล {0} ในหน้า {1}</value>
+    <comment>{0} = {gachaType} ,  {1} = {page}</comment>
+  </data>
+  <data name="HyperionToolbox" xml:space="preserve">
+    <value>กล่องเครื่องมือ (Honkai Impact 3rd)</value>
+  </data>
+  <data name="HoYoLABToolbox" xml:space="preserve">
+    <value>HoYoLAB Toolbox</value>
+  </data>
+  <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
+    <value>ล็อกอิน</value>
+  </data>
+  <data name="HoyolabToolboxPage_WebLogin" xml:space="preserve">
+    <value>ล็อกอินผ่านเว็บ</value>
+  </data>
+  <data name="HoyolabToolboxPage_InputCookie" xml:space="preserve">
+    <value>ใส่ Cookie</value>
+  </data>
+  <data name="HoyolabToolboxPage_RefreshInfo" xml:space="preserve">
+    <value>รีเฟรซข้อมูล</value>
+  </data>
+  <data name="HoyolabToolboxPage_CopyCookie" xml:space="preserve">
+    <value>คัดลอง Cookie</value>
+  </data>
+  <data name="HoyolabToolboxPage_DeleteGameRole" xml:space="preserve">
+    <value>ลบบทบาทในเกม</value>
+  </data>
+  <data name="HoyolabToolboxPage_SpiralAbyss" xml:space="preserve">
+    <value>Spiral Abyss</value>
+  </data>
+  <data name="HoyolabToolboxPage_TravelersDiary" xml:space="preserve">
+    <value>บันทึกของนักเดินทาง</value>
+  </data>
+  <data name="HoyolabToolboxPage_SimulatedUniverse" xml:space="preserve">
+    <value>Simulated Universe</value>
+  </data>
+  <data name="HoyolabToolboxPage_ForgottenHall" xml:space="preserve">
+    <value>Forgotten Hall</value>
+  </data>
+  <data name="HoyolabToolboxPage_TrailblazeMonthlyCalendar" xml:space="preserve">
+    <value>ปฏิทินการบุกเบิก</value>
+  </data>
+  <data name="LoginPage_ClickThisButtonAfterLoggingIn" xml:space="preserve">
+    <value>กดปุ่มนี้หลังจากล็อกอินเสร็จสมบูรณ์</value>
+  </data>
+  <data name="LoginPage_AlreadyAddedGameRoles" xml:space="preserve">
+    <value>เพิ่ม {0} บทบาทของเกมแล้ว:
+{1}</value>
+  </data>
+  <data name="Common_Summary" xml:space="preserve">
+    <value>ภาพรวม</value>
+  </data>
+  <data name="SpiralAbyssPage_Picked" xml:space="preserve">
+    <value>เลือก</value>
+    <comment>avatar battle count stats</comment>
+  </data>
+  <data name="SpiralAbyssPage_CombatStats" xml:space="preserve">
+    <value>สถิติการต่อสู้</value>
+  </data>
+  <data name="SpiralAbyssPage_MostDefeats" xml:space="preserve">
+    <value>กำจัดศัตรูไปได้สูงสุด</value>
+  </data>
+  <data name="SpiralAbyssPage_StrongestSingleStrike" xml:space="preserve">
+    <value>โจมตีแรงสุด</value>
+  </data>
+  <data name="SpiralAbyssPage_MostDamageTaken" xml:space="preserve">
+    <value>ได้รับความเสียหายมากที่สุด</value>
+  </data>
+  <data name="SpiralAbyssPage_ElementalSkillsUnleashed" xml:space="preserve">
+    <value>จำนวนการใช้สกิลธาตุ</value>
+  </data>
+  <data name="SpiralAbyssPage_ElementalBrustsUnleashed" xml:space="preserve">
+    <value>จำนวนการใช้ท่าไม้ตาย</value>
+  </data>
+  <data name="TravelersDiaryPage_GetDetails" xml:space="preserve">
+    <value>ข้อมูลเพิ่มเติม</value>
+    <comment>get primogems and mora details</comment>
+  </data>
+  <data name="TravelersDiaryPage_RealTimeData" xml:space="preserve">
+    <value>ข้อมูล Real-Time</value>
+  </data>
+  <data name="TravelersDiaryPage_HistoricalData" xml:space="preserve">
+    <value>ข้อมูลในอดีต</value>
+  </data>
+  <data name="TravelersDiaryPage_AcquiredThisMonth" xml:space="preserve">
+    <value>ได้รับเดือนนี้</value>
+  </data>
+  <data name="TravelersDiaryPage_AcquiredThisDay" xml:space="preserve">
+    <value>ได้รับวันนี้</value>
+  </data>
+  <data name="TravelersDiaryPage_PrimogemsObtained" xml:space="preserve">
+    <value>Primogems ทีได้รับ</value>
+  </data>
+  <data name="SpiralAbyssPage_DeepestDescent" xml:space="preserve">
+    <value>ชั่นลึกที่สุดที่ไปถึง</value>
+  </data>
+  <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
+    <value>จำนวนครั้งที่ต่อสู้:</value>
+  </data>
+  <data name="SpiralAbyssPage_Times" xml:space="preserve">
+    <value>ครั้ง</value>
+    <comment>battle count 12 times</comment>
+  </data>
+  <data name="Common_Accept" xml:space="preserve">
+    <value>ยอมรับ</value>
+  </data>
+  <data name="Common_Reject" xml:space="preserve">
+    <value>ไม่ยอมรับ</value>
+  </data>
+  <data name="HoyolabToolboxPage_WarningAgain" xml:space="preserve">
+    <value>เตือนอีกครั้ง</value>
+  </data>
+  <data name="Common_Disclaimer" xml:space="preserve">
+    <value>คำเตือน</value>
+  </data>
+  <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
+    <value>ฟีเจอร์ในหน้านี้จำเป็นต้องให้ผู้ใช้ล็อกอินเข้าบัญชี HoYoLAB แล้ว Starward จะเก็บข้อมูลการล็อกอิน (Cookie) เพื่อที่จะปลอมตัวเป็นผู้ใช้และส่งคำขอข้อมูลต่างๆไปยังเซิฟเวอร์ของ miHoYo - วิธีนี้มีความเสี่ยงและทางเราจะไม่รับผิดชอบใดๆหากบัญชีของผู้ใช้เกิดความผิดปกติและถูกแบน
+
+คุณยอมรับความเสี่ยงและยืนยันที่จะใช้ฟีเจอร์นี้หรือไม่</value>
+  </data>
+  <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
+    <value>ผลรวม Stellar Jade ที่ได้รับ</value>
+  </data>
+  <data name="ForgottenHallPage_Period" xml:space="preserve">
+    <value>รอบ</value>
+  </data>
+  <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
+    <value>จำนวนรอบที่ใช้ไป:</value>
+  </data>
+  <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
+    <value>การจัดทีม</value>
+    <comment>example: forgotten hall team setup 1</comment>
+  </data>
+  <data name="Common_AccountError" xml:space="preserve">
+    <value>บัญชี</value>
+  </data>
+  <data name="Common_NetworkError" xml:space="preserve">
+    <value>เครือข่ายขัดข้อง</value>
+  </data>
+  <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
+    <value>ยืนยันบัญชี</value>
+  </data>
+  <data name="DownloadGameService_RepairMode" xml:space="preserve">
+    <value>โหมดการซ่อมแซม</value>
+  </data>
+  <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
+    <value>จะใช้พื้นที่เพิ่มเติมเมื่อแตกไฟล์</value>
+  </data>
+  <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
+    <value>Ability Tree ที่เปิดใช้งานแล้ว</value>
+  </data>
+  <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
+    <value>วัตถุหายากที่ปลดล็อกแล้ว</value>
+  </data>
+  <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
+    <value>พรที่ปลดล็อกแล้ว</value>
+  </data>
+  <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
+    <value>จำนวนการผ่านด่าน</value>
+  </data>
+  <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
+    <value>คะแนนสูงสุด</value>
+  </data>
+  <data name="SimulatedUniversePage_ChallengedOn" xml:space="preserve">
+    <value>สถิติรอบ</value>
+  </data>
+  <data name="SimulatedUniversePage_CharactersUsed" xml:space="preserve">
+    <value>ตัวละครที่ใช้</value>
+  </data>
+  <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
+    <value>ตัวละครของฉัน</value>
+  </data>
+  <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
+    <value>วัตถุหายากที่ได้รับ</value>
+  </data>
+  <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
+    <value>พรที่ได้รับ</value>
+  </data>
+  <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
+    <value>ข้อมูลรายวัน</value>
+  </data>
+  <data name="TrailblazeCalendarPage_StellarJade" xml:space="preserve">
+    <value>Stellar Jade</value>
+  </data>
+  <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
+    <value>Pass &amp; Special Pass</value>
+  </data>
+  <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
+    <value>Primogems</value>
+  </data>
+  <data name="TravelersDiaryPage_Mora" xml:space="preserve">
+    <value>Mora</value>
+  </data>
+  <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
+    <value>ชั้นที่ {X}</value>
+    <comment>Spiral Abyss Floor {X}</comment>
+  </data>
+  <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
+    <value>ห้องที่ {X}</value>
+    <comment>Spiral Abyss Chamber {X}</comment>
+  </data>
+  <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
+    <value>ไม่มีโฟลเดอร์เก็บภาพหน้าจอ</value>
+  </data>
+  <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
+    <value>ภาษาของประวัติรวม {0} โรลถูกเปลี่ยนเป็น ({1}) แล้ว</value>
+    <comment>The language of 123 gacha records has been changed to (en-us).</comment>
+  </data>
+  <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
+    <value>นโยบายความเป็นส่วนตัว</value>
+  </data>
+  <data name="MainPage_Tips" xml:space="preserve">
+    <value>Tips</value>
+  </data>
+  <data name="SettingPage_CDNTips" xml:space="preserve">
+    <value>ผู้ใช้งานในบางพื้นที่อาจพบปัญหาเครือข่ายไม่ปกติ สามารถแก้ได้ด้วยการเปลี่ยน CDNs</value>
+  </data>
+  <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
+    <value>เลือกเซิฟเวอร์</value>
+  </data>
+  <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
+    <value>ไอคอนบน System Tray</value>
+  </data>
+  <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
+    <value>ออกจาก Launcher เมื่อปิดวินโดวส์</value>
+  </data>
+  <data name="Common_Exit" xml:space="preserve">
+    <value>ออก</value>
+  </data>
+  <data name="SettingPage_SystemTray" xml:space="preserve">
+    <value>System Tray</value>
+  </data>
+  <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
+    <value>ตัวติดตั้ง</value>
+  </data>
+  <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
+    <value>คุณสามารถเลือกปิดโปรแกรม, ซ่อนหน้าต่าง หรือย่อหน้าต่างได้</value>
+  </data>
+  <data name="Common_Hide" xml:space="preserve">
+    <value>ซ่อน</value>
+  </data>
+</root>

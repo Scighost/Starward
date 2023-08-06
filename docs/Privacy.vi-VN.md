@@ -1,4 +1,4 @@
-[English](./Privacy.md) | [简体中文](./Privacy.zh-CN.md) | Tiếng Việt
+[English](./Privacy.md) | [简体中文](./Privacy.zh-CN.md) | Tiếng Việt | [ภาษาไทย](./Privacy.th-TH.md)
 
 # Chính sách bảo mật
 
