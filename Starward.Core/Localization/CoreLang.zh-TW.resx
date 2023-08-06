@@ -160,37 +160,37 @@
     <value>資訊</value>
   </data>
   <data name="Game_GenshinImpact" xml:space="preserve">
-    <value>Genshin Impact</value>
+    <value>原神</value>
   </data>
   <data name="Game_HonkaiStarRail" xml:space="preserve">
-    <value>Honkai: Star Rail</value>
+    <value>崩壞：星穹鐵道</value>
   </data>
   <data name="Game_HonkaiImpact3rd" xml:space="preserve">
-    <value>Honkai Impact 3rd</value>
+    <value>崩壞3rd</value>
   </data>
   <data name="GameServer_ChinaServer" xml:space="preserve">
-    <value>China Server</value>
+    <value>中國服</value>
   </data>
   <data name="GameServer_GlobalServer" xml:space="preserve">
-    <value>Global Server</value>
+    <value>國際服</value>
   </data>
   <data name="GameServer_ChinaCloudServer" xml:space="preserve">
-    <value>China Cloud Server</value>
+    <value>中國服雲遊戲</value>
   </data>
   <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
-    <value>Europe &amp; Americas Servers</value>
+    <value>歐美服</value>
   </data>
   <data name="GameServer_JapanServer" xml:space="preserve">
-    <value>Japan Server</value>
+    <value>日服</value>
   </data>
   <data name="GameServer_KoreaServer" xml:space="preserve">
-    <value>Korea Server</value>
+    <value>韓服</value>
   </data>
   <data name="GameServer_SEAServer" xml:space="preserve">
-    <value>SEA Server</value>
+    <value>東南亞服</value>
     <comment>Southeast Asia and Australia Server</comment>
   </data>
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
-    <value>Traditional Chinese Server</value>
+    <value>繁中服</value>
   </data>
 </root>
