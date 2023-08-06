@@ -1015,4 +1015,25 @@ Do you accept the risk and continue to use it?</value>
   <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
     <value>Select Server</value>
   </data>
+  <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
+    <value>System Tray Icon</value>
+  </data>
+  <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
+    <value>Exit Launcher When Closing Window</value>
+  </data>
+  <data name="Common_Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="SettingPage_SystemTray" xml:space="preserve">
+    <value>System Tray</value>
+  </data>
+  <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
+    <value>Installer</value>
+  </data>
+  <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
+    <value>You could choose to exit or hide window and minimize to system tray.</value>
+  </data>
+  <data name="Common_Hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
 </root>
