@@ -175,7 +175,7 @@
     <value>国际服</value>
   </data>
   <data name="GameServer_ChinaCloudServer" xml:space="preserve">
-    <value>中国服云游戏</value>
+    <value>国服云游戏</value>
   </data>
   <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
     <value>欧美服</value>
