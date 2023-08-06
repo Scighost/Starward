@@ -20,6 +20,7 @@
                                BlurRadius="4"
                                CastTo="{x:Bind Border_ProgressTextShadowCaster}"
                                Opacity="1" />
+        <x:Boolean x:Key="False">False</x:Boolean>
     </Page.Resources>
 
 
@@ -116,6 +117,7 @@
                         MinWidth="100"
                         BorderThickness="0"
                         Command="{x:Bind ClickActionButtonCommand}"
+                        CommandParameter="{StaticResource False}"
                         CornerRadius="18"
                         IsEnabled="{x:Bind IsActionButtonEnable}"
                         Style="{ThemeResource AccentButtonStyle}">

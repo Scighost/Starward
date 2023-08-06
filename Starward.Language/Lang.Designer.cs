@@ -142,6 +142,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Hide 的本地化字符串。
+        /// </summary>
+        public static string Common_Hide {
+            get {
+                return ResourceManager.GetString("Common_Hide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Network Error 的本地化字符串。
         /// </summary>
         public static string Common_NetworkError {
@@ -346,6 +355,15 @@ namespace Starward.Language {
         public static string DownloadGamePage_CloseSoftwareContent {
             get {
                 return ResourceManager.GetString("DownloadGamePage_CloseSoftwareContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 You could choose to exit or hide window and minimize to system tray. 的本地化字符串。
+        /// </summary>
+        public static string DownloadGamePage_CloseSoftwareContentSystemTray {
+            get {
+                return ResourceManager.GetString("DownloadGamePage_CloseSoftwareContentSystemTray", resourceCulture);
             }
         }
         
@@ -1365,6 +1383,15 @@ namespace Starward.Language {
         public static string HyperionToolbox {
             get {
                 return ResourceManager.GetString("HyperionToolbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Installer 的本地化字符串。
+        /// </summary>
+        public static string InstallGameSystemTrayPage_Installer {
+            get {
+                return ResourceManager.GetString("InstallGameSystemTrayPage_Installer", resourceCulture);
             }
         }
         

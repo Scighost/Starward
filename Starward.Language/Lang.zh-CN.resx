@@ -1027,4 +1027,13 @@
   <data name="SettingPage_SystemTray" xml:space="preserve">
     <value>系统托盘</value>
   </data>
+  <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
+    <value>安装器</value>
+  </data>
+  <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
+    <value>您可以选择退出或隐藏窗口并最小化到系统托盘。</value>
+  </data>
+  <data name="Common_Hide" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
 </root>

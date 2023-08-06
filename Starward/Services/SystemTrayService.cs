@@ -5,6 +5,7 @@ using H.NotifyIcon.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Windows.AppLifecycle;
+using Starward.Core;
 using Starward.Pages.SystemTray;
 using System;
 using System.Reflection;
@@ -36,8 +37,12 @@ internal partial class SystemTrayService : ObservableObject, IDisposable
     private SystemTrayWindow? TrayWindow;
 
 
+    public InstallGameSystemTrayPage InstallGameSystemTrayPage;
 
-    public void Initialize(bool dlIcon = false)
+
+
+
+    public void Initialize(GameBiz gameBiz = GameBiz.None)
     {
         try
         {
@@ -45,28 +50,29 @@ internal partial class SystemTrayService : ObservableObject, IDisposable
             {
                 return;
             }
-            var instance = AppInstance.FindOrRegisterForKey("");
-            if (!instance.IsCurrent)
+            if (gameBiz is GameBiz.None && !AppInstance.FindOrRegisterForKey("").IsCurrent)
             {
                 return;
             }
             TaskbarIcon = new TaskbarIcon
             {
-                IconSource = new BitmapImage(new Uri($"ms-appx:///Assets/logo{(dlIcon ? "_dl" : "")}.ico")),
+                IconSource = new BitmapImage(new Uri($"ms-appx:///Assets/logo{(gameBiz is GameBiz.None ? "" : "_dl")}.ico")),
                 ToolTipText = "Starward",
                 NoLeftClickDelay = true,
                 LeftClickCommand = ShowMainWindowCommand,
                 RightClickCommand = OpenContextMenuCommand,
+                Id = TrayIcon.CreateUniqueGuidFromString(gameBiz.ToString()),
             };
             TaskbarIcon.ForceCreate(false);
             TrayIcon = typeof(TaskbarIcon).GetProperty("TrayIcon", BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(TaskbarIcon) as TrayIcon;
-            if (dlIcon)
+            if (gameBiz is GameBiz.None)
             {
-                TrayWindow = new SystemTrayWindow(new InstallGameSystemTrayPage());
+                TrayWindow = new SystemTrayWindow(new MainMenuSystemTrayPage());
             }
             else
             {
-                TrayWindow = new SystemTrayWindow(new MainMenuSystemTrayPage());
+                InstallGameSystemTrayPage = new InstallGameSystemTrayPage(gameBiz);
+                TrayWindow = new SystemTrayWindow(InstallGameSystemTrayPage);
             }
         }
         catch (Exception ex)

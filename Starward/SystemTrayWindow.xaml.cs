@@ -88,11 +88,16 @@ public sealed partial class SystemTrayWindow : Window, IDisposable
         RootGrid.RequestedTheme = ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
         User32.GetCursorPos(out POINT point);
         SIZE windowSize = new(400, 600);
-        if (frame.Content is MainMenuSystemTrayPage page)
+        if (frame.Content is MainMenuSystemTrayPage page1)
         {
-            page.UpdateContent();
-            windowSize.Width = (int)(page.ContentGrid.ActualWidth * Scale);
-            windowSize.Height = (int)(page.ContentGrid.ActualHeight * Scale);
+            page1.UpdateContent();
+            windowSize.Width = (int)(page1.ContentGrid.ActualWidth * Scale);
+            windowSize.Height = (int)(page1.ContentGrid.ActualHeight * Scale);
+        }
+        if (frame.Content is InstallGameSystemTrayPage page2)
+        {
+            windowSize.Width = (int)(page2.ContentGrid.ActualWidth * Scale);
+            windowSize.Height = (int)(page2.ContentGrid.ActualHeight * Scale);
         }
         User32.CalculatePopupWindowPosition(point, windowSize, User32.TrackPopupMenuFlags.TPM_RIGHTALIGN | User32.TrackPopupMenuFlags.TPM_BOTTOMALIGN | User32.TrackPopupMenuFlags.TPM_WORKAREA, null, out RECT windowPos);
         User32.MoveWindow(HWND, windowPos.X, windowPos.Y, windowPos.Width, windowPos.Height, true);
