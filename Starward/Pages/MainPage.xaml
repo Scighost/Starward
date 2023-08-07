@@ -128,7 +128,7 @@
 
 
         <!--  title bar  -->
-        <Border Grid.Row="0">
+        <Border Name="Border_TitleText" Grid.Row="0">
             <StackPanel Margin="52,0,0,0"
                         Orientation="Horizontal"
                         Spacing="4">

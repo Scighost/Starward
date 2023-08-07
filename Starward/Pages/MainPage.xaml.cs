@@ -80,7 +80,11 @@ public sealed partial class MainPage : Page
     public bool IsPaneToggleButtonVisible
     {
         get => MainPage_NavigationView.IsPaneToggleButtonVisible;
-        set => MainPage_NavigationView.IsPaneToggleButtonVisible = value;
+        set
+        {
+            MainPage_NavigationView.IsPaneToggleButtonVisible = value;
+            Border_TitleText.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 
 
@@ -804,6 +808,7 @@ public sealed partial class MainPage : Page
             PauseVideo();
             Border_ContentBackground.Opacity = 1;
         }
+        IsPaneToggleButtonVisible = true;
     }
 
 
