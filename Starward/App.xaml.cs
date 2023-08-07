@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Starward.Helpers;
+using Starward.Services;
 using System;
 using System.Globalization;
 using System.IO;
@@ -58,17 +59,28 @@ public partial class App : Application
                 return;
             }
         }
-        var main = AppInstance.FindOrRegisterForKey("");
-        if (main.IsCurrent)
+        var sync = SystemTrayService.GetSyncMutex();
+        sync.WaitOne();
+        if (SystemTrayService.IsSignalMutexExisting())
         {
-            main.UnregisterKey();
-            m_window = new MainWindow();
-            m_window.Activate();
+            var instances = AppInstance.GetInstances();
+            var arg = instance.GetActivatedEventArgs();
+            foreach (var item in instances)
+            {
+                if (item.Key.StartsWith("main"))
+                {
+                    await item.RedirectActivationToAsync(arg);
+                }
+            }
+            sync.ReleaseMutex();
+            this.Exit();
         }
         else
         {
-            await main.RedirectActivationToAsync(instance.GetActivatedEventArgs());
-            this.Exit();
+            sync.ReleaseMutex();
+            AppInstance.FindOrRegisterForKey($"main_{Environment.ProcessId}");
+            m_window = new MainWindow();
+            m_window.Activate();
         }
     }
 
@@ -121,6 +133,22 @@ public partial class App : Application
         }
         catch { }
     }
+
+
+
+
+    public static AppInstance? FindInstanceForKey(string key)
+    {
+        foreach (var item in AppInstance.GetInstances())
+        {
+            if (item.Key == key)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
+
 
 
 

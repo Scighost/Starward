@@ -305,13 +305,12 @@ internal class PlayTimeService
                         _logger.LogInformation("Game process ({biz}, {gamePid}) has no window", biz, process.Id);
                         continue;
                     }
-                    var instance = AppInstance.FindOrRegisterForKey($"playtime_{process.Id}");
-                    if (!instance.IsCurrent)
+                    var instance = App.FindInstanceForKey($"playtime_{process.Id}");
+                    if (instance != null)
                     {
                         _logger.LogInformation("Game process ({biz}, {gamePid}) has been recorded by process ({playtimePid})", biz, process.Id, instance.ProcessId);
                         continue;
                     }
-                    instance.UnregisterKey();
                     _logger.LogInformation("Start to log playtime ({biz}, {pid})", biz, process.Id);
                     var exe = Process.GetCurrentProcess().MainModule?.FileName ?? Path.Combine(AppContext.BaseDirectory, "Starward.exe");
                     if (File.Exists(exe))

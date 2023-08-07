@@ -4,11 +4,13 @@ using H.NotifyIcon;
 using H.NotifyIcon.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.Windows.AppLifecycle;
 using Starward.Core;
 using Starward.Pages.SystemTray;
 using System;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading;
 using Vanara.PInvoke;
 
 namespace Starward.Services;
@@ -25,6 +27,8 @@ internal partial class SystemTrayService : ObservableObject, IDisposable
         _logger = logger;
     }
 
+
+    private Mutex? _mutex;
 
 
     public bool IsCreated => TrayIcon?.IsCreated ?? false;
@@ -44,13 +48,15 @@ internal partial class SystemTrayService : ObservableObject, IDisposable
 
     public void Initialize(GameBiz gameBiz = GameBiz.None)
     {
+        var sync = GetSyncMutex();
         try
         {
             if (TaskbarIcon is not null)
             {
                 return;
             }
-            if (gameBiz is GameBiz.None && !AppInstance.FindOrRegisterForKey("").IsCurrent)
+            sync.WaitOne(1000);
+            if (gameBiz is GameBiz.None && IsSignalMutexExisting())
             {
                 return;
             }
@@ -68,6 +74,7 @@ internal partial class SystemTrayService : ObservableObject, IDisposable
             if (gameBiz is GameBiz.None)
             {
                 TrayWindow = new SystemTrayWindow(new MainMenuSystemTrayPage());
+                _mutex = GetSignalMutex();
             }
             else
             {
@@ -78,6 +85,10 @@ internal partial class SystemTrayService : ObservableObject, IDisposable
         catch (Exception ex)
         {
             _logger.LogError(ex, "Initialize system tray");
+        }
+        finally
+        {
+            sync.ReleaseMutex();
         }
     }
 
@@ -114,14 +125,38 @@ internal partial class SystemTrayService : ObservableObject, IDisposable
         TrayIcon?.Dispose();
         TaskbarIcon?.Dispose();
         TrayWindow?.Dispose();
+        _mutex?.Dispose();
         TrayIcon = null;
         TaskbarIcon = null;
         TrayWindow = null;
-        AppInstance.GetCurrent().UnregisterKey();
+        _mutex = null;
     }
 
 
 
+
+
+
+    public static Mutex GetSyncMutex()
+    {
+        string name = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes(AppContext.BaseDirectory + "sync")));
+        return new Mutex(false, name);
+    }
+
+
+
+    public static Mutex GetSignalMutex()
+    {
+        string name = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes(AppContext.BaseDirectory + "signal")));
+        return new Mutex(false, name);
+    }
+
+
+    public static bool IsSignalMutexExisting()
+    {
+        string name = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes(AppContext.BaseDirectory + "signal")));
+        return Mutex.TryOpenExisting(name, out _);
+    }
 
 
 

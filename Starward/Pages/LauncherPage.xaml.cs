@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.Windows.AppLifecycle;
 using Starward.Controls;
 using Starward.Core;
 using Starward.Core.Launcher;
@@ -988,15 +987,14 @@ public sealed partial class LauncherPage : Page
 
     private async Task<bool> CheckRedirectInstanceAsync()
     {
-        var instance = AppInstance.FindOrRegisterForKey($"download_game_{gameBiz}");
-        if (!instance.IsCurrent)
+        var instance = App.FindInstanceForKey($"download_game_{gameBiz}");
+        if (instance != null)
         {
             await instance.RedirectActivationToAsync(instance.GetActivatedEventArgs());
             return true;
         }
         else
         {
-            instance.UnregisterKey();
             return false;
         }
     }
