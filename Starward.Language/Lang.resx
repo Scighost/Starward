@@ -1036,4 +1036,10 @@ Do you accept the risk and continue to use it?</value>
   <data name="Common_Hide" xml:space="preserve">
     <value>Hide</value>
   </data>
+  <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
+    <value>Backup Screenshots</value>
+  </data>
+  <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
+    <value>Open Backup Folder</value>
+  </data>
 </root>

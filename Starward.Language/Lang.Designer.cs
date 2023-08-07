@@ -1757,11 +1757,29 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Backup Screenshots 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotPage_BackupScreenshots {
+            get {
+                return ResourceManager.GetString("ScreenshotPage_BackupScreenshots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Screenshot 的本地化字符串。
         /// </summary>
         public static string ScreenshotPage_GameScreenshot {
             get {
                 return ResourceManager.GetString("ScreenshotPage_GameScreenshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open Backup Folder 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotPage_OpenBackupFolder {
+            get {
+                return ResourceManager.GetString("ScreenshotPage_OpenBackupFolder", resourceCulture);
             }
         }
         

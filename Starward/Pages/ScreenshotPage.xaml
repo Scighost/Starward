@@ -58,7 +58,14 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     Spacing="16">
-            <Button Command="{x:Bind OpenScreenshotFolderCommand}" Content="{x:Bind lang:Lang.ScreenshotPage_OpenFolder}" />
+            <SplitButton Command="{x:Bind OpenScreenshotFolderCommand}" Content="{x:Bind lang:Lang.ScreenshotPage_OpenFolder}">
+                <SplitButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind BackupScreenshotsCommand}" Text="{x:Bind lang:Lang.ScreenshotPage_BackupScreenshots}" />
+                        <MenuFlyoutItem Command="{x:Bind OpenBackupFolderCommand}" Text="{x:Bind lang:Lang.ScreenshotPage_OpenBackupFolder}" />
+                    </MenuFlyout>
+                </SplitButton.Flyout>
+            </SplitButton>
         </StackPanel>
 
 
@@ -91,7 +98,7 @@
                 </ListView>
             </SemanticZoom.ZoomedOutView>
             <SemanticZoom.ZoomedInView>
-                <cc:AdaptiveGridView Name="GridView_Images"
+                <cc:AdaptiveGridView x:Name="GridView_Images"
                                      Grid.Row="1"
                                      Padding="24,0,12,12"
                                      DesiredWidth="220"

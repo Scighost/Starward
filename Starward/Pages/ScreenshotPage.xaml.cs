@@ -171,6 +171,54 @@ public sealed partial class ScreenshotPage : Page
 
 
 
+    [RelayCommand]
+    private void BackupScreenshots()
+    {
+        try
+        {
+            var folder = _gameService.GetGameScreenshotPath(gameBiz);
+            if (folder != null)
+            {
+                int count = 0;
+                var files = Directory.GetFiles(folder);
+                var targetDir = Path.Combine(AppConfig.UserDataFolder, "Screenshots", gameBiz.ToString());
+                Directory.CreateDirectory(targetDir);
+                foreach (var item in files)
+                {
+                    var target = Path.Combine(targetDir, Path.GetFileName(item));
+                    if (!File.Exists(target))
+                    {
+                        File.Copy(item, target);
+                        count++;
+                    }
+                }
+                NotificationBehavior.Instance.Success(string.Format("Backed up {0} new screenshots.", count));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Backup screenshots");
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task OpenBackupFolderAsync()
+    {
+        try
+        {
+            var folder = Path.Combine(AppConfig.UserDataFolder, "Screenshots", gameBiz.ToString());
+            Directory.CreateDirectory(folder);
+            await Launcher.LaunchFolderPathAsync(folder);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open backup folder");
+        }
+    }
+
+
 
 
     #region Large Image
