@@ -458,6 +458,14 @@ public sealed partial class MainPage : Page
 
 
 
+    private void Button_SelectGame_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+    {
+        NavigateTo(typeof(LauncherPage));
+        MainPage_NavigationView.SelectedItem = null;
+    }
+
+
+
     #endregion
 
 
