@@ -1042,4 +1042,7 @@
   <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
     <value>备份截图</value>
   </data>
+  <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
+    <value>功能不支持</value>
+  </data>
 </root>

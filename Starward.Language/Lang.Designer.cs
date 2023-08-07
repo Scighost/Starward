@@ -998,6 +998,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Feature not Supported 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_FeatureNotSupported {
+            get {
+                return ResourceManager.GetString("GameSettingPage_FeatureNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 FPS 的本地化字符串。
         /// </summary>
         public static string GameSettingPage_FPS {

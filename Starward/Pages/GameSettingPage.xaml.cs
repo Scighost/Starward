@@ -233,6 +233,10 @@ public sealed partial class GameSettingPage : Page
             var localVersion = await _downloadGameService.GetLocalGameVersionAsync(gameBiz);
             if (localVersion is null)
             {
+                if (gameBiz is GameBiz.hk4e_cloud)
+                {
+                    TextBlock_GameNotInstalled.Text = Lang.GameSettingPage_FeatureNotSupported;
+                }
                 StackPanel_Emoji.Visibility = Visibility.Visible;
                 return;
             }

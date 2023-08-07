@@ -278,7 +278,8 @@
             <Image Name="Image_Emoji"
                    Width="160"
                    Height="160" />
-            <TextBlock HorizontalAlignment="Center"
+            <TextBlock Name="TextBlock_GameNotInstalled"
+                       HorizontalAlignment="Center"
                        FontSize="16"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.GameSettingPage_GameNotInstalled}" />
