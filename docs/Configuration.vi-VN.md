@@ -25,7 +25,7 @@ Tập tin `config.ini` chỉ chứa hai mục cài đặt:
 EnableConsole=False
 # Kích thước cửa sổ ứng dụng. 0 - Tiêu chuẩn, 1 - Nhỏ
 WindowSizeMode=1
-# Ngôn ngữ của giao diện ứng dụng, như là `vi-VN` `en-US`, sẽ theo hệ thống nếu để .
+# Ngôn ngữ của giao diện ứng dụng, như là `vi-VN` `en-US`, sẽ theo hệ thống nếu để trống.
 Language=
 # Vị trí thư mục người dùng
 UserDataFolder=.
@@ -80,7 +80,7 @@ Kiểu dữ liệu `Type` trong bảng sau sử dụng biểu thức trong C#, v
 
 | Key                             | Kiểu    | Giá trị mặc định | Chú thích                                                                                                                                                         |
 | ------------------------------- | ------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ApiCDNIndex                     | int     | -                | Tuỳ chọn API CDN, 0 - CloudFlare, 1 - GitHub, 2 - jsDelivr                                                                                                        |
+| ApiCDNIndex                     | int     | -                | Tuỳ chọn API CDN, 0 - CloudFlare, 1 - GitHub, 2 - jsDelivr.                                                                                                        |
 | EnablePreviewRelease            | bool    | -                | Có tham gia kênh phát hành xem trước hay không.                                                                                                                   |
 | IgnoreVersion                   | string? | -                | Bỏ qua phiên bản của thông báo cập nhật, phiên bản mới hơn sẽ tiếp tục được thông báo chỉ khi chúng lớn hơn giá trị này.                                          |
 | EnableBannerAndPost             | bool    | -                | Hiển thị thông báo trò chơi ở trong trình khởi chạy.                                                                                                              |
@@ -96,7 +96,7 @@ Kiểu dữ liệu `Type` trong bảng sau sử dụng biểu thức trong C#, v
 | AcceptHoyolabToolboxAgreement   | bool    | -                | Chấp nhận tuyên bố từ chối trách nhiệm của trang công cụ HoYoLAB.                                                                                                 |
 | HoyolabToolboxPaneOpen          | bool    | true             | Thanh bên điều hướng ở trang công cụ HoYoLAB có mở hay không.                                                                                                     |
 | EnableSystemTrayIcon            | bool    | true             | Được kích hoạt để bật chế độ singleton, và ứng dụng sẽ được thu nhỏ xuống khay hệ thống khi nhấn vào nút đóng cửa sổ.                                             |
-| ExitWhenClosing                 | bool    | true             | Có thoát khỏi quy trình sau khi nhấp vào nút đóng cửa sổ hay không                                                                                                |
+| ExitWhenClosing                 | bool    | true             | Có thoát khỏi quy trình sau khi nhấp vào nút đóng cửa sổ hay không.                                                                                                |
 
 ## Cài đặt động (Dynamic Settings)
 
