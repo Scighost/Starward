@@ -1,4 +1,4 @@
-English | [简体中文](./Tips.zh-CN.md)
+English | [简体中文](./Tips.zh-CN.md) | [Tiếng Việt](./Tips.vi-VN.md)
 
 # Tips
 

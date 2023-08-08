@@ -1,4 +1,4 @@
-[English](./Tips.md) | 简体中文
+[English](./Tips.md) | 简体中文 | [Tiếng Việt](./Tips.vi-VN.md)
 
 # 小提示
 
