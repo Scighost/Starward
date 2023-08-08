@@ -1,0 +1,34 @@
+[English](./Tips.md) | [简体中文](./Tips.zh-CN.md) | Tiếng Việt
+
+# Mẹo
+
+Tài liệu này chứa các tính năng ẩn có thể không được phát hiện trong quá trình sử dụng bình thường.
+
+
+## Nhanh chóng trở về trang trình khởi chạy
+
+Nhấn đúp chuột vào the biểu tượng trò chơi trên thanh tiêu đề
+
+
+## Chuyển đổi client trò chơi
+
+Hầu hết các tệp giống nhau giữa các client trên các máy chủ khác nhau cho mỗi trò chơi, chỉ có một số điểm khác biệt. Tính năng này thuận tiện cho người dùng nhanh chóng chuyển đổi client sang máy chủ trò chơi khác.
+
+> Honkai: Star Rail không được hỗ trợ.
+
+### Các bước sử dụng
+
+- Cài đặt trò chơi bất kì
+- Chuyển sang máy chủ khác của trò chơi ở thanh tiêu đề
+- Nhấn vào vào nút cài đặt trong trang trình khởi chạy
+- Xác định vị trí thư mục cài đặt trò chơi
+- Nhấn **Sửa chữa trò chơi**
+- Đợi quá trình xác minh và tải xuống hoàn tất
+
+<img src="https://user-images.githubusercontent.com/61003590/259001799-8ae65395-58a3-48b0-a1e8-8e2cf6e351f7.png" width="800px" />
+
+## Chuyển đổi ngôn ngữ của bản ghi gacha
+
+Theo mặc định, ngôn ngữ của vật phẩm gacha sẽ được chọn ở trong trò chơi, nhưng nó có thể thay đổi thủ công ở menu cài đặt ở trang bản ghi gacha. Bạn có thể điền vào tất cả các danh mục ngôn ngữ được trò chơi hỗ trợ. Nếu bạn không nhấn vào **Áp dụng**, bản ghi gacha mới sẽ sử dụng cài đặt ngôn ngữ này; nếu bạn nhấp vào **Áp dụng**, tất cả các bản ghi gacha hiện tại sẽ được chuyển đổi sang ngôn ngữ đã đặt.
+
+<img src="https://user-images.githubusercontent.com/61003590/259004675-7d67e320-6e7e-469e-b404-58669f42491f.png" width="200px" />
