@@ -25,7 +25,7 @@ Hầu hết các tệp giống nhau giữa các client trên các máy chủ kh�
 - Nhấn **Sửa chữa trò chơi**
 - Đợi quá trình xác minh và tải xuống hoàn tất
 
-<img src="https://user-images.githubusercontent.com/61003590/259001799-8ae65395-58a3-48b0-a1e8-8e2cf6e351f7.png" width="800px" />
+<img src="https://user-images.githubusercontent.com/61003590/259013561-907934e2-29fd-46ee-8e1c-83cb1daaa143.png" width="800px" />
 
 ## Chuyển đổi ngôn ngữ của bản ghi gacha
 
