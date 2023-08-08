@@ -296,6 +296,10 @@ internal class PlayTimeService
                 var processes = Process.GetProcessesByName(name);
                 if (processes.Length == 0)
                 {
+                    if (i < 5)
+                    {
+                        continue;
+                    }
                     return null;
                 }
                 foreach (var process in processes)
