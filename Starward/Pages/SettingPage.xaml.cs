@@ -45,6 +45,8 @@ public sealed partial class SettingPage : Page
 
     private readonly SystemTrayService _systemTrayService = AppConfig.GetService<SystemTrayService>();
 
+    private readonly DatabaseService _databaseService = AppConfig.GetService<DatabaseService>();
+
     private GameBiz gameBiz;
 
     public SettingPage()
@@ -72,6 +74,7 @@ public sealed partial class SettingPage : Page
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
         InitializeLanguage();
+        GetLastBackupTime();
         switch (AppConfig.ApiCDNIndex)
         {
             case 1: RadioButton_GH.IsChecked = true; break;
@@ -517,6 +520,11 @@ public sealed partial class SettingPage : Page
 
 
 
+
+    [ObservableProperty]
+    private string lastDatabaseBackupTime;
+
+
     [RelayCommand]
     private async Task OpenDataFolderAsync()
     {
@@ -602,6 +610,46 @@ public sealed partial class SettingPage : Page
 
 
 
+
+    private void GetLastBackupTime()
+    {
+        try
+        {
+            if (_databaseService.TryGetValue("LastBackupDatabase", out string? file, out DateTime time))
+            {
+                file = Path.Join(AppConfig.UserDataFolder, "DatabaseBackup", file);
+                if (File.Exists(file))
+                {
+                    LastDatabaseBackupTime = $"{Lang.SettingPage_LastBackup}  {time:yyyy-MM-dd HH:mm:ss}";
+                }
+                else
+                {
+                    _logger.LogWarning("Last backup database file not found: {file}", file);
+                }
+            }
+        }
+        catch { }
+    }
+
+
+
+    [RelayCommand]
+    private async Task BackupDatabaseAsync()
+    {
+        try
+        {
+            var folder = Path.Combine(AppConfig.UserDataFolder, "DatabaseBackup");
+            Directory.CreateDirectory(folder);
+            string file = Path.Combine(folder, $"StarwardDatabase_{DateTime.Now:yyyyMMdd_HHmmss}.db");
+            var time = await Task.Run(() => _databaseService.BackupDatabase(file));
+            LastDatabaseBackupTime = $"{Lang.SettingPage_LastBackup}  {time:yyyy-MM-dd HH:mm:ss}";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Backup database");
+            LastDatabaseBackupTime = ex.Message;
+        }
+    }
 
 
 

@@ -2009,6 +2009,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Backup Database 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_BackupDatabase {
+            get {
+                return ResourceManager.GetString("SettingPage_BackupDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please select an image with a pixel size matches the application window; oversized images will reduce performance. 的本地化字符串。
         /// </summary>
         public static string SettingPage_BgSizeTip {
@@ -2149,6 +2158,15 @@ namespace Starward.Language {
         public static string SettingPage_Language {
             get {
                 return ResourceManager.GetString("SettingPage_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Last backup 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_LastBackup {
+            get {
+                return ResourceManager.GetString("SettingPage_LastBackup", resourceCulture);
             }
         }
         

@@ -93,29 +93,16 @@ internal class DatabaseService
 
 
 
-    public void AutoBackupDatabase()
+    public DateTime BackupDatabase(string file)
     {
-        try
-        {
-            if (AppConfig.EnableAutoBackupDatabase)
-            {
-                var interval = Math.Clamp(AppConfig.BackupIntervalInDays, 1, int.MaxValue);
-                GetValue<string>("AutoBackupDatabase", out var lastTime);
-                if ((DateTime.Now - lastTime).TotalDays > interval)
-                {
-                    var dir = Path.Combine(AppConfig.UserDataFolder, "Backup");
-                    Directory.CreateDirectory(dir);
-                    var file = Path.Combine(dir, $"Database_{DateTime.Now:yyyyMMdd}.db");
-                    using var backupCon = new SqliteConnection($"DataSource={file};");
-                    backupCon.Open();
-                    using var con = CreateConnection();
-                    con.Execute("VACUUM;");
-                    con.BackupDatabase(backupCon);
-                    SetValue("AutoBackupDatabase", file);
-                }
-            }
-        }
-        catch { }
+        using var backupCon = new SqliteConnection($"DataSource={file};Pooling=False;");
+        backupCon.Open();
+        using var con = CreateConnection();
+        con.Execute("VACUUM;");
+        con.BackupDatabase(backupCon);
+        var time = DateTime.Now;
+        SetValue("LastBackupDatabase", Path.GetFileName(file), time);
+        return time;
     }
 
 

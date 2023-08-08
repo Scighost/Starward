@@ -349,6 +349,7 @@
                                FontSize="20"
                                FontWeight="SemiBold"
                                Text="{x:Bind lang:Lang.SettingPage_FileManager}" />
+                    <!--  open data folder  -->
                     <Button Height="40"
                             Margin="-48,12,0,0"
                             Padding="48,0,16,0"
@@ -361,6 +362,7 @@
                             <TextBlock Text="{x:Bind lang:Lang.SettingPage_OpenDataFolder}" />
                         </StackPanel>
                     </Button>
+                    <!--  reselect folder  -->
                     <Button Height="40"
                             Margin="-48,12,0,0"
                             Padding="48,0,16,0"
@@ -373,6 +375,31 @@
                             <TextBlock Text="{x:Bind lang:Lang.SettingPage_ReselectDataFolder}" />
                         </StackPanel>
                     </Button>
+                    <!--  backup database  -->
+                    <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
+                        <Button Height="40"
+                                Margin="-48,0,0,0"
+                                Padding="48,0,16,0"
+                                BorderThickness="0"
+                                Command="{x:Bind BackupDatabaseCommand}"
+                                CornerRadius="0,20,20,0"
+                                Style="{ThemeResource AccentButtonStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xF156;" />
+                                <TextBlock Text="{x:Bind lang:Lang.SettingPage_BackupDatabase}" />
+                            </StackPanel>
+                        </Button>
+                        <ProgressRing Width="28"
+                                      Height="28"
+                                      Margin="16,0,0,0"
+                                      IsIndeterminate="{x:Bind BackupDatabaseCommand.IsRunning}"
+                                      Visibility="{x:Bind BackupDatabaseCommand.IsRunning}" />
+                        <TextBlock Margin="16,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind LastDatabaseBackupTime}"
+                                   Visibility="{x:Bind BackupDatabaseCommand.IsRunning, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                    </StackPanel>
                     <Button Height="40"
                             Margin="-48,12,0,0"
                             Padding="48,0,16,0"

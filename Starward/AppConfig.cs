@@ -332,20 +332,6 @@ internal static class AppConfig
     }
 
 
-    public static bool EnableAutoBackupDatabase
-    {
-        get => GetValue(true);
-        set => SetValue(value);
-    }
-
-
-    public static int BackupIntervalInDays
-    {
-        get => GetValue(21);
-        set => SetValue(value);
-    }
-
-
     public static bool EnableBannerAndPost
     {
         get => GetValue(true);

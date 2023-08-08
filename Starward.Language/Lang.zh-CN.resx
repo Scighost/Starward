@@ -1045,4 +1045,10 @@
   <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
     <value>功能不支持</value>
   </data>
+  <data name="SettingPage_LastBackup" xml:space="preserve">
+    <value>上次备份</value>
+  </data>
+  <data name="SettingPage_BackupDatabase" xml:space="preserve">
+    <value>备份数据库</value>
+  </data>
 </root>

@@ -1045,4 +1045,10 @@ Do you accept the risk and continue to use it?</value>
   <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
     <value>Feature not Supported</value>
   </data>
+  <data name="SettingPage_LastBackup" xml:space="preserve">
+    <value>Last backup</value>
+  </data>
+  <data name="SettingPage_BackupDatabase" xml:space="preserve">
+    <value>Backup Database</value>
+  </data>
 </root>
