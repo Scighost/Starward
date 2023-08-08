@@ -83,7 +83,7 @@ Kiểu dữ liệu `Type` trong bảng sau sử dụng biểu thức trong C#, v
 | ApiCDNIndex                     | int     | -                | Tuỳ chọn API CDN, 0 - CloudFlare, 1 - GitHub, 2 - jsDelivr                                                                                                        |
 | EnablePreviewRelease            | bool    | -                | Có tham gia kênh phát hành xem trước hay không.                                                                                                                   |
 | IgnoreVersion                   | string? | -                | Bỏ qua phiên bản của thông báo cập nhật, phiên bản mới hơn sẽ tiếp tục được thông báo chỉ khi chúng lớn hơn giá trị này.                                          |
-| EnableBannerAndPost             | bool    | -                | Hiển thị thông báo trò chơi ở trong trình khởi chạy.                                                                                                         |
+| EnableBannerAndPost             | bool    | -                | Hiển thị thông báo trò chơi ở trong trình khởi chạy.                                                                                                              |
 | IgnoreRunningGame               | bool    | -                | Bỏ qua trò chơi đang chạy, trang trình khởi chạy sẽ không còn hiển thị `trò chơi đang chạy` khi được bật.                                                         |
 | SelectGameBiz                   | GameBiz | -                | Khu vực trò chơi được chọn cuối cùng.                                                                                                                             |
 | ShowNoviceGacha                 | bool    | -                | Hiển thị số liệu gacha người mới.                                                                                                                                 |
@@ -91,12 +91,12 @@ Kiểu dữ liệu `Type` trong bảng sau sử dụng biểu thức trong C#, v
 | EnableDynamicAccentColor        | bool    | -                | Màu chủ đề động được lấy từ ảnh nền, và màu chủ đề hệ thống được sử dụng khi tắt.                                                                                 |
 | AccentColor                     | string? | -                | Màu chủ đề động được lưu trong bộ nhớ cache, được sử dụng để giảm số lượng tính toán khi khởi động, `#ARBG#ARBG`: màu trước là màu nền và màu sau là màu văn bản. |
 | VideoBgVolume                   | int     | 100              | Âm lượng của video nền, `0 - 100`.                                                                                                                                |
-| PauseVideoWhenChangeToOtherPage | bool    | -                | **Đã lỗi thời:** Tạm dừng video khi chuyển sang trang không có trình khởi chạy.                                                                                       |
+| PauseVideoWhenChangeToOtherPage | bool    | -                | **Đã lỗi thời:** Tạm dừng video khi chuyển sang trang không có trình khởi chạy.                                                                                   |
 | UseOneBg                        | bool    | -                | Sử dụng cùng một hình nền cho tất cả các khu vực trò chơi, thường được bật khi sử dụng nền video.                                                                 |
 | AcceptHoyolabToolboxAgreement   | bool    | -                | Chấp nhận tuyên bố từ chối trách nhiệm của trang công cụ HoYoLAB.                                                                                                 |
 | HoyolabToolboxPaneOpen          | bool    | true             | Thanh bên điều hướng ở trang công cụ HoYoLAB có mở hay không.                                                                                                     |
-| EnableSystemTrayIcon            | bool    | true          | Được kích hoạt để bật chế độ singleton, và ứng dụng sẽ được thu nhỏ xuống khay hệ thống khi nhấn vào nút đóng cửa sổ.                                       |
-| ExitWhenClosing                 | bool    | true          | Có thoát khỏi quy trình sau khi nhấp vào nút đóng cửa sổ hay không
+| EnableSystemTrayIcon            | bool    | true             | Được kích hoạt để bật chế độ singleton, và ứng dụng sẽ được thu nhỏ xuống khay hệ thống khi nhấn vào nút đóng cửa sổ.                                             |
+| ExitWhenClosing                 | bool    | true             | Có thoát khỏi quy trình sau khi nhấp vào nút đóng cửa sổ hay không                                                                                                |
 
 ## Cài đặt động (Dynamic Settings)
 
@@ -107,7 +107,7 @@ Các mục cài đặt động có các giá trị khác nhau trong từng vùng
 | bg                           | string? | -                | Tên tập tin hình nền chính thức, tập tin nằm trong thư mục con `bg` của thư mục dữ liệu người dùng.                                    |
 | custom_bg                    | string? | -                | Hình nền tùy chỉnh, hình ảnh là đường dẫn đầy đủ của tên tập tin và video.                                                             |
 | enable_custom_bg             | bool    | -                | Có bật hình nền tuỳ chỉnh hay không.                                                                                                   |
-| install_path                 | string? | -                | Thư mục cài đặt trò chơi, không phải thư mục của trình khởi chạy chính thức.                                                               |
+| install_path                 | string? | -                | Thư mục cài đặt trò chơi, không phải thư mục của trình khởi chạy chính thức.                                                           |
 | enable_third_party_tool      | bool    | -                | Có bật công cụ của bên thứ ba để bắt đầu trò chơi hay không.                                                                           |
 | third_party_tool_path        | string? | -                | Đường dẫn đến tập tin của công cụ bên thứ ba.                                                                                          |
 | start_argument               | string? | -                | Đối số khởi động trò chơi                                                                                                              |
