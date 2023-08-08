@@ -241,7 +241,7 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
-        ///   查找类似 SEA Server 的本地化字符串。
+        ///   查找类似 Southeast Asia Server 的本地化字符串。
         /// </summary>
         internal static string GameServer_SEAServer {
             get {
