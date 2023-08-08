@@ -211,7 +211,7 @@ public sealed partial class MainPage : Page
             GameBiz.bh3_tw => "Traditional Chinese",
             GameBiz.bh3_jp => "Japan",
             GameBiz.bh3_kr => "Korea",
-            GameBiz.bh3_overseas => "SEA",
+            GameBiz.bh3_overseas => "Southeast Asia",
             _ => ""
         };
     }

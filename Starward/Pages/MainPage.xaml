@@ -195,7 +195,7 @@
                                             Text="Korea" />
                             <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
                                             CommandParameter="bh3_overseas"
-                                            Text="SEA" />
+                                            Text="Southeast Asia" />
                             <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
                                             CommandParameter="bh3_tw"
                                             Text="Traditional Chinese" />
