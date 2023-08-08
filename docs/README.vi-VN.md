@@ -24,6 +24,7 @@ Và nhiều tính năng khác đang được lên kế hoạch...
 - Đã cài đặt [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist).
 - Đã cài đặt [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2).
 - Người dùng Windows 10 được khuyến khích cài đặt font [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
+- Để có trải nghiệm tốt hơn, vui lòng bật **Hiệu ứng trong suốt** và **Hiệu ứng động** trong cài đặt hệ thống
 
 Tải gói dành cho kiến trúc CPU của bạn từ [GitHub Release](https://github.com/Scighost/Starward/releases). Giải nén nó, và chạy `Starward.exe` và làm theo hướng dẫn.
 
@@ -66,6 +67,7 @@ Và các thư viện bên thứ ba được sử dụng trong dự án này bao 
 -  [Dapper](https://github.com/DapperLib/Dapper)
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
+-  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
 -  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)
