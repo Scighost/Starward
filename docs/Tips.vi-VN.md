@@ -6,7 +6,7 @@ Tài liệu này chứa các tính năng ẩn có thể không được phát hi
 
 ## Nhanh chóng trở về trang trình khởi chạy
 
-Nhấn đúp chuột vào the biểu tượng trò chơi trên thanh tiêu đề.
+Nhấn đúp chuột vào biểu tượng trò chơi trên thanh tiêu đề.
 
 ## Chuyển đổi client trò chơi
 
