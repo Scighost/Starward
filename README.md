@@ -2,7 +2,7 @@ English | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/READM
 
 # What is Starward?
 
-**Starward** comes from the slogan of Star Rail: May This Journey Lead Us **Starward**, witch is very suitable to be used as an app name. Starward is a game launcher that supports all desktop games of miHoYo. The goal of this project is to replace the official launcher completely, and then add some extended features.
+**Starward** comes from the slogan of Star Rail: May This Journey Lead Us **Starward**, which is very suitable to be used as an app name. Starward is a game launcher that supports all desktop games of miHoYo. The goal of this project is to replace the official launcher completely, and then add some extended features.
 
 In addition to the download and installation of the game, the following features are included:
 
@@ -24,6 +24,7 @@ First, your device needs to meet the following requirements:
 - [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) installed
 - [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2) installed
 - Windows 10 users are advised to install the font [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
+- For better experience, please enable **Transparency effects** and **Animation effects** in the system settings
 
 Download the package for your CPU architecture from [GitHub Release](https://github.com/Scighost/Starward/releases). Extract it, then run `Starward.exe` and follow the prompts.
 
@@ -68,6 +69,7 @@ And the third-party libraries used in this project include:
 -  [Dapper](https://github.com/DapperLib/Dapper)
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
+-  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
 -  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)

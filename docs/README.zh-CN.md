@@ -24,6 +24,7 @@
 - 已安装 [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist)
 - 已安装 [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2)
 - Windows 10 用户建议安装字体 [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
+- 为了更好的使用体验，请在系统设置中开启**透明效果**和**动画效果**
 
 请在 [GitHub Release](https://github.com/Scighost/Starward/releases) 下载对应 CPU 架构的压缩包，解压后运行 `Starward.exe` 并按提示操作。
 
@@ -67,6 +68,7 @@ Starward 使用 [Crowdin](https://crowdin.com/project/starward) 进行本地化�
 -  [Dapper](https://github.com/DapperLib/Dapper)
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
+-  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
 -  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)

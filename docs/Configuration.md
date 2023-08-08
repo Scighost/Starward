@@ -21,9 +21,13 @@ Don't worry, files downloaded from GitHub Release will definitely satisfy this c
 The `config.ini` file contains only two setting items:
 
 ```ini
-# Whether to enable console output logging, True/False
+# Whether to enable console output logging, True/False.
 EnableConsole=False
-# The location of the user folder
+# The application window size, 0 - standard, 1 - smaller.
+WindowSizeMode=1
+# The language of the application interface, such as `zh-CN` `en-US`, which follows the system setting if empty.
+Language=
+# The location of the user folder.
 UserDataFolder=.
 ```
 
@@ -76,8 +80,6 @@ The data type `Type` in the following table uses the expression in C#, and `-` r
 
 | Key                             | Type    | Default Value | Comment                                                                                                                                                          |
 | ------------------------------- | ------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Language                        | string? | -             | The language of the application interface, such as `zh-CN` `en-US`, which follows the system setting if empty.                                                   |
-| WindowSizeMode                  | int     | -             | The application window size, 0 - standard, 1 - smaller                                                                                                           |
 | ApiCDNIndex                     | int     | -             | Api CDN options, 0 - CloudFlare, 1 - GitHub, 2 - jsDelivr                                                                                                        |
 | EnablePreviewRelease            | bool    | -             | Whether to join the preview release channel.                                                                                                                     |
 | IgnoreVersion                   | string? | -             | Ignore the version of the update alert, newer versions will continue to be alerted only if they are greater than this value.                                     |
@@ -93,6 +95,8 @@ The data type `Type` in the following table uses the expression in C#, and `-` r
 | UseOneBg                        | bool    | -             | Use the same background for all game regions, usually enabled when using video background.                                                                       |
 | AcceptHoyolabToolboxAgreement   | bool    | -             | Accept the disclaimer of the HoYoLAB toolbox page.                                                                                                               |
 | HoyolabToolboxPaneOpen          | bool    | true          | Is the navigation sidebar on the HoYoLAB Toolbox page open.                                                                                                      |
+| EnableSystemTrayIcon            | bool    | true          | Enabled to turn on the singleton mode, and app will be minimized to the system tray when click the close button of window.                                       |
+| ExitWhenClosing                 | bool    | true          | Whether to exit the process after clicking the close button of window                                                                                            |
 
 ## Dynamic Settings
 
