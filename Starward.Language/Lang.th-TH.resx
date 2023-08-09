@@ -413,7 +413,7 @@
     <value>ไม่สามารถอัพเดตอัตโนมัติได้</value>
   </data>
   <data name="GameSettingPage_Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>กำหนดเอง</value>
   </data>
   <data name="GameSettingPage_VeryLow" xml:space="preserve">
     <value>ต่ำมาก</value>
@@ -443,7 +443,7 @@
     <value>เต็มหน้าจอ</value>
   </data>
   <data name="GameSettingPage_CustomResolution" xml:space="preserve">
-    <value>Custom Resolution</value>
+    <value>ความละเอียดแบบกำหนด</value>
   </data>
   <data name="GameSettingPage_VoiceLanguage" xml:space="preserve">
     <value>ภาษาของเสียงพากย์</value>
@@ -467,7 +467,7 @@
     <value>V-Sync</value>
   </data>
   <data name="GameSettingPage_AntiAliasing" xml:space="preserve">
-    <value>Anti-Aliasing</value>
+    <value>เทคโนโลยีลบรอยหยัก</value>
   </data>
   <data name="GameSettingPage_ShadowQuality" xml:space="preserve">
     <value>คุณภาพของเงา</value>
@@ -476,13 +476,13 @@
     <value>คุณภาพการสะท้อง</value>
   </data>
   <data name="GameSettingPage_CharacterQuality" xml:space="preserve">
-    <value>Character Quality</value>
+    <value>คุณภาพตัวละคร</value>
   </data>
   <data name="GameSettingPage_EnvironmentDetail" xml:space="preserve">
     <value>รายละเอียดฉาก</value>
   </data>
   <data name="GameSettingPage_BloomEffect" xml:space="preserve">
-    <value>Bloom Effect</value>
+    <value>เอฟเฟกต์บลูม</value>
   </data>
   <data name="GameSettingPage_LightQuality" xml:space="preserve">
     <value>คุณภาพของแสง</value>
@@ -620,7 +620,7 @@
     <value>กดคลิ๊กขวาที่ไอคอนของเกมด้านซ้าย</value>
   </data>
   <data name="MainPage_Launcer" xml:space="preserve">
-    <value>Launcher</value>
+    <value>ตัวเริ่มเกม</value>
   </data>
   <data name="MainPage_GameScreenshot" xml:space="preserve">
     <value>ภาพหน้าจอ</value>
@@ -798,10 +798,10 @@
     <comment>{0} = {gachaType} ,  {1} = {page}</comment>
   </data>
   <data name="HyperionToolbox" xml:space="preserve">
-    <value>กล่องเครื่องมือ (Honkai Impact 3rd)</value>
+    <value>กล่องเครื่องมือ Hyperion</value>
   </data>
   <data name="HoYoLABToolbox" xml:space="preserve">
-    <value>HoYoLAB Toolbox</value>
+    <value>กล่องเครื่องมือ HoYoLAB</value>
   </data>
   <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
     <value>ล็อกอิน</value>
@@ -979,7 +979,7 @@
     <value>Stellar Jade</value>
   </data>
   <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
-    <value>Pass &amp; Special Pass</value>
+    <value>Pass และ Special Pass</value>
   </data>
   <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
     <value>Primogems</value>
@@ -1006,7 +1006,7 @@
     <value>นโยบายความเป็นส่วนตัว</value>
   </data>
   <data name="MainPage_Tips" xml:space="preserve">
-    <value>Tips</value>
+    <value>ทิป</value>
   </data>
   <data name="SettingPage_CDNTips" xml:space="preserve">
     <value>ผู้ใช้งานในบางพื้นที่อาจพบปัญหาเครือข่ายไม่ปกติ สามารถแก้ได้ด้วยการเปลี่ยน CDNs</value>
@@ -1024,7 +1024,7 @@
     <value>ออก</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>System Tray</value>
+    <value>ถาดระบบ</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
     <value>ตัวติดตั้ง</value>
@@ -1034,5 +1034,20 @@
   </data>
   <data name="Common_Hide" xml:space="preserve">
     <value>ซ่อน</value>
+  </data>
+  <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
+    <value>สำรองภาพหน้าจอ</value>
+  </data>
+  <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์สำรอง</value>
+  </data>
+  <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
+    <value>ฟีเจอร์ยังไม่รองรับ</value>
+  </data>
+  <data name="SettingPage_LastBackup" xml:space="preserve">
+    <value>Last backup</value>
+  </data>
+  <data name="SettingPage_BackupDatabase" xml:space="preserve">
+    <value>Backup Database</value>
   </data>
 </root>
