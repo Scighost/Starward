@@ -1036,4 +1036,19 @@
   <data name="Common_Hide" xml:space="preserve">
     <value>隱藏</value>
   </data>
+  <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
+    <value>Backup Screenshots</value>
+  </data>
+  <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
+    <value>Open Backup Folder</value>
+  </data>
+  <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
+    <value>Feature not Supported</value>
+  </data>
+  <data name="SettingPage_LastBackup" xml:space="preserve">
+    <value>Last backup</value>
+  </data>
+  <data name="SettingPage_BackupDatabase" xml:space="preserve">
+    <value>Backup Database</value>
+  </data>
 </root>
