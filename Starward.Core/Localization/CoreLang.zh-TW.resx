@@ -187,7 +187,7 @@
     <value>韓服</value>
   </data>
   <data name="GameServer_SEAServer" xml:space="preserve">
-    <value>東南亞服</value>
+    <value>Southeast Asia Server</value>
     <comment>Southeast Asia and Australia Server</comment>
   </data>
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
