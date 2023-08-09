@@ -1003,36 +1003,51 @@
     <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
   <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>プライバシーポリシー</value>
   </data>
   <data name="MainPage_Tips" xml:space="preserve">
-    <value>Tips</value>
+    <value>ヒント</value>
   </data>
   <data name="SettingPage_CDNTips" xml:space="preserve">
-    <value>Users in some areas may encounter network anomalies. You could solve this problem by switching CDNs.</value>
+    <value>一部の地域のユーザーは、ネットワークの異常が発生する場合があります。この問題はCDNを変更する事で解決ができます。</value>
   </data>
   <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
-    <value>Select Server</value>
+    <value>サーバーを選択</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
-    <value>System Tray Icon</value>
+    <value>通知領域のアイコン</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
-    <value>Exit Launcher When Closing Window</value>
+    <value>ウィンドウを閉じたときにランチャーを終了する</value>
   </data>
   <data name="Common_Exit" xml:space="preserve">
-    <value>Exit</value>
+    <value>終了</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>System Tray</value>
+    <value>通知領域</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
-    <value>Installer</value>
+    <value>インストーラー</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>You could choose to exit or hide window and minimize to system tray.</value>
+    <value>そのままウィンドウを閉じるか、通知領域に最小化をするか変更ができます。</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
-    <value>Hide</value>
+    <value>隠す</value>
+  </data>
+  <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
+    <value>スクリーンショットのバックアップ</value>
+  </data>
+  <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
+    <value>バックアップフォルダーを開く</value>
+  </data>
+  <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
+    <value>非対応の機能</value>
+  </data>
+  <data name="SettingPage_LastBackup" xml:space="preserve">
+    <value>最終バックアップ</value>
+  </data>
+  <data name="SettingPage_BackupDatabase" xml:space="preserve">
+    <value>データベースのバックアップ</value>
   </data>
 </root>
