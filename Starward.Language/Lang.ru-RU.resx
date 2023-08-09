@@ -269,22 +269,22 @@ closing the program during decompression will cause game file corruption.</value
     <value>Открыть журнал</value>
   </data>
   <data name="DownloadGamePage_NetworkError" xml:space="preserve">
-    <value>Network Error</value>
+    <value>Ошибка Сети</value>
   </data>
   <data name="DownloadGamePage_UnknownError" xml:space="preserve">
-    <value>Unknown Error</value>
+    <value>Неизвестная ошибка</value>
   </data>
   <data name="DownloadGamePage_Finished" xml:space="preserve">
-    <value>Finished</value>
+    <value>Завершено</value>
   </data>
   <data name="DownloadGamePage_Pause" xml:space="preserve">
-    <value>Pause</value>
+    <value>Пауза</value>
   </data>
   <data name="DownloadGamePage_Skip" xml:space="preserve">
-    <value>Skip</value>
+    <value>Пропустить</value>
   </data>
   <data name="DownloadGamePage_VerifyFailed" xml:space="preserve">
-    <value>Verify Failed</value>
+    <value>Сбой проверки</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
     <value>The following file verify failed:</value>
@@ -296,77 +296,77 @@ closing the program during decompression will cause game file corruption.</value
     <value>Ignore</value>
   </data>
   <data name="DownloadGamePage_Stop" xml:space="preserve">
-    <value>Stop</value>
+    <value>Остановить</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
     <value>Decompressing unchecked files may result in corrupted game files</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
-    <value>Skip Verification</value>
+    <value>Пропустить проверку</value>
   </data>
   <data name="DownloadGamePage_DownloadPaused" xml:space="preserve">
-    <value>Download Paused</value>
+    <value>Загрузка приостановлена</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
     <value>No Gacha Records</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
-    <value>Update Records</value>
+    <value>Обновить записи</value>
   </data>
   <data name="GachaLogPage_UpdateSavedURL" xml:space="preserve">
     <value>Update (Saved URL)</value>
   </data>
   <data name="GachaLogPage_UpdateAll" xml:space="preserve">
-    <value>Update (All)</value>
+    <value>Обновить (Всё)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>Input URL</value>
   </data>
   <data name="Common_Setting" xml:space="preserve">
-    <value>Setting</value>
+    <value>Настройки</value>
   </data>
   <data name="GachaLogPage_OtherSettings" xml:space="preserve">
-    <value>Other Settings</value>
+    <value>Другие настройки</value>
   </data>
   <data name="GachaLogPage_CopyURL" xml:space="preserve">
-    <value>Copy URL</value>
+    <value>Копировать URL-адрес</value>
   </data>
   <data name="GachaLogPage_AuthkeyTimeoutAlwaysOccurs" xml:space="preserve">
     <value>Authkey Timeout always occurs?</value>
   </data>
   <data name="GachaLogPage_ClearURLCacheFiles" xml:space="preserve">
-    <value>Clear URL Cache Files</value>
+    <value>Очистить кэш URL-адресов</value>
   </data>
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>Export as</value>
   </data>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>Import from JSON</value>
+    <value>Импорт из JSON</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Show Novice Gacha Type</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>Delete Records</value>
+    <value>Удалить записи</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Язык</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>Cannot find saved URL of uid {0}.</value>
+    <value>Не удается найти сохраненный URL uid {0}.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
-    <value>Game not installed</value>
+    <value>Игра не установлена</value>
   </data>
   <data name="GachaLogPage_CannotFindURL" xml:space="preserve">
-    <value>Cannot find URL, please open the gacha records history page in game.</value>
+    <value>Не удается найти URL, откройте страницу истории гачи в игре.</value>
   </data>
   <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
-    <value>Operation canceled</value>
+    <value>Операция отменена</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
-    <value>Please open the gacha records page in game and try again.</value>
+    <value>Пожалуйста, откройте страницу записей гачи в игре и попробуйте еще раз.</value>
   </data>
   <data name="Common_Warning" xml:space="preserve">
     <value>Warning</value>
@@ -383,26 +383,26 @@ closing the program during decompression will cause game file corruption.</value
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
-    <value>Wish Records</value>
+    <value>История Молитв</value>
   </data>
   <data name="GachaLogService_WarpRecords" xml:space="preserve">
-    <value>Warp Records</value>
+    <value>История Прижков</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>Getting uid</value>
+    <value>Получить uid</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>This account has no gacha records in the last 6 months.</value>
+    <value>У этого аккаунта нет записей о гаче за последние 6 месяцев.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>Got {0} records, added {1} records.</value>
+    <value>Получено {0} записей, добавлено {1} записи.</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} wish records successfully.</value>
+    <value>Импорт {0} записей молитв успешно завершен.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} warp records successfully.</value>
+    <value>Импорт {0} записей прыжков успешно завершен.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
     <value>Вы используете самую последнюю версию</value>
@@ -432,7 +432,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Очень Высокое</value>
   </data>
   <data name="GameSettingPage_Off" xml:space="preserve">
-    <value>Выкл</value>
+    <value>Выкл.</value>
   </data>
   <data name="GameSettingPage_StartArguments" xml:space="preserve">
     <value>Параметры запуска</value>
@@ -507,7 +507,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Получить информацию о параметрах запуска см. {Unity Standalone Player Command Line Arguments}</value>
   </data>
   <data name="GameSettingPage_On" xml:space="preserve">
-    <value>Включено</value>
+    <value>Вкл.</value>
   </data>
   <data name="LauncherPage_InstallGame" xml:space="preserve">
     <value>Установить игру</value>
@@ -555,16 +555,16 @@ closing the program during decompression will cause game file corruption.</value
     <value>Папка для установки</value>
   </data>
   <data name="LauncherPage_Locate" xml:space="preserve">
-    <value>Locate</value>
+    <value>Найти</value>
   </data>
   <data name="LauncherPage_RepairGame" xml:space="preserve">
-    <value>Repair Game</value>
+    <value>Восстановить игру</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
     <value>Custom Start Executable</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
-    <value>Select</value>
+    <value>Выбрать</value>
   </data>
   <data name="LauncherPage_ShowGameAnnouncement" xml:space="preserve">
     <value>Show Game Announcement</value>
@@ -582,22 +582,22 @@ closing the program during decompression will cause game file corruption.</value
     <value>Please select an image with a pixel size matches the application window; oversized images will reduce performance.</value>
   </data>
   <data name="LauncherPage_StartGame" xml:space="preserve">
-    <value>Start Game</value>
+    <value>Запустить игру</value>
   </data>
   <data name="LauncherPage_GameIsRunning" xml:space="preserve">
-    <value>Game is Running</value>
+    <value>Игра уже запущена</value>
   </data>
   <data name="Common_Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Запуск</value>
   </data>
   <data name="LauncherPage_SelectInstallFolder" xml:space="preserve">
-    <value>Select Installation Folder</value>
+    <value>Выберите папку для установки</value>
   </data>
   <data name="Common_Continue" xml:space="preserve">
-    <value>Continue</value>
+    <value>Продолжить</value>
   </data>
   <data name="LauncherPage_Reselect" xml:space="preserve">
-    <value>Reselect</value>
+    <value>Выбрать заново</value>
   </data>
   <data name="LauncherPage_TheFollowingFolderContainsUnfinishedDownloadTasks" xml:space="preserve">
     <value>The following folder contains unfinished download tasks:</value>
@@ -621,7 +621,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Click the right mouse button on the game icon on the left.</value>
   </data>
   <data name="MainPage_Launcer" xml:space="preserve">
-    <value>Launcher</value>
+    <value>Лаунчер</value>
   </data>
   <data name="MainPage_GameScreenshot" xml:space="preserve">
     <value>Screenshot</value>
@@ -630,57 +630,57 @@ closing the program during decompression will cause game file corruption.</value
     <value>Screenshot</value>
   </data>
   <data name="ScreenshotPage_OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
+    <value>Открыть папку</value>
   </data>
   <data name="SettingPage_Log" xml:space="preserve">
-    <value>Log</value>
+    <value>Логи</value>
   </data>
   <data name="SettingPage_ShowConsole" xml:space="preserve">
-    <value>Show Console</value>
+    <value>Показать консоль</value>
   </data>
   <data name="SettingPage_AppSettings" xml:space="preserve">
-    <value>App Settings</value>
+    <value>Настройки приложения</value>
   </data>
   <data name="SettingPage_EffectiveAtNextStartup" xml:space="preserve">
-    <value>Effective at next startup</value>
+    <value>Действует при следующем запуске</value>
   </data>
   <data name="SettingPage_OpenLogFolder" xml:space="preserve">
-    <value>Open Log Folder</value>
+    <value>Открыть папку журнала</value>
   </data>
   <data name="SettingPage_WindowsSize" xml:space="preserve">
-    <value>Windows Size</value>
+    <value>Размер окна</value>
   </data>
   <data name="SettingPage_Normal" xml:space="preserve">
-    <value>Normal</value>
+    <value>Обычный</value>
     <comment>Window Size Normal</comment>
   </data>
   <data name="SettingPage_Small" xml:space="preserve">
-    <value>Small</value>
+    <value>Маленький</value>
     <comment>Window Size Small</comment>
   </data>
   <data name="SettingPage_TestNetwork" xml:space="preserve">
-    <value>Test Network</value>
+    <value>Тест сети</value>
   </data>
   <data name="SettingPage_AppBackground" xml:space="preserve">
-    <value>App Background</value>
+    <value>Фон приложения</value>
   </data>
   <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
-    <value>Custom Background (Support Video)</value>
+    <value>Пользовательский фон (Поддержка видео)</value>
   </data>
   <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
-    <value>Dynamic Theme Color</value>
+    <value>Динамический цвет темы</value>
   </data>
   <data name="SettingPage_CloudFlareConnectProperly" xml:space="preserve">
     <value>The app will download the required resources from CloudFlare, so make sure it can connect properly.</value>
   </data>
   <data name="SettingPage_CheckForUpdate" xml:space="preserve">
-    <value>Check for Update</value>
+    <value>Проверить наличие обновления</value>
   </data>
   <data name="SettingPage_CurrentVersion" xml:space="preserve">
-    <value>Current Version:</value>
+    <value>Текущая версия:</value>
   </data>
   <data name="SettingPage_JoinPreviewReleaseChannel" xml:space="preserve">
-    <value>Join Preview Release Channel</value>
+    <value>Присоединиться к предварительной версии</value>
   </data>
   <data name="SettingPage_FileManager" xml:space="preserve">
     <value>File Manager</value>
@@ -805,10 +805,10 @@ closing the program during decompression will cause game file corruption.</value
     <value>HoYoLAB Toolbox</value>
   </data>
   <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
-    <value>Log in</value>
+    <value>Войти</value>
   </data>
   <data name="HoyolabToolboxPage_WebLogin" xml:space="preserve">
-    <value>Web Login</value>
+    <value>Веб-логин</value>
   </data>
   <data name="HoyolabToolboxPage_InputCookie" xml:space="preserve">
     <value>Ввод Cookie</value>
@@ -1035,5 +1035,20 @@ Do you accept the risk and continue to use it?</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
     <value>Hide</value>
+  </data>
+  <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
+    <value>Backup Screenshots</value>
+  </data>
+  <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
+    <value>Open Backup Folder</value>
+  </data>
+  <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
+    <value>Feature not Supported</value>
+  </data>
+  <data name="SettingPage_LastBackup" xml:space="preserve">
+    <value>Last backup</value>
+  </data>
+  <data name="SettingPage_BackupDatabase" xml:space="preserve">
+    <value>Backup Database</value>
   </data>
 </root>

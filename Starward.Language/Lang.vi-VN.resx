@@ -1036,4 +1036,19 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="Common_Hide" xml:space="preserve">
     <value>Ẩn</value>
   </data>
+  <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
+    <value>Sao lưu ảnh chụp màn hình</value>
+  </data>
+  <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
+    <value>Mở thư mục sao lưu</value>
+  </data>
+  <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
+    <value>Tính năng không được hỗ trợ</value>
+  </data>
+  <data name="SettingPage_LastBackup" xml:space="preserve">
+    <value>Bản sao lưu gần nhất</value>
+  </data>
+  <data name="SettingPage_BackupDatabase" xml:space="preserve">
+    <value>Cơ sở dữ liệu sao lưu</value>
+  </data>
 </root>
