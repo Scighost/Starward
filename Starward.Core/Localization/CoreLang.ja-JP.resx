@@ -187,7 +187,7 @@
     <value>韓国サーバー</value>
   </data>
   <data name="GameServer_SEAServer" xml:space="preserve">
-    <value>SEAサーバー</value>
+    <value>東南アジアサーバー</value>
     <comment>Southeast Asia and Australia Server</comment>
   </data>
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
