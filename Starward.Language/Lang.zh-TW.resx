@@ -1037,18 +1037,18 @@
     <value>隱藏</value>
   </data>
   <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
-    <value>Backup Screenshots</value>
+    <value>備份截圖</value>
   </data>
   <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
-    <value>Open Backup Folder</value>
+    <value>開啟備份資料夾</value>
   </data>
   <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
-    <value>Feature not Supported</value>
+    <value>不支持此功能</value>
   </data>
   <data name="SettingPage_LastBackup" xml:space="preserve">
-    <value>Last backup</value>
+    <value>上次備份</value>
   </data>
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
-    <value>Backup Database</value>
+    <value>備份資料庫</value>
   </data>
 </root>
