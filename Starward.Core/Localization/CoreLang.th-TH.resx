@@ -187,7 +187,7 @@
     <value>เซิฟเวอร์เกาหลี</value>
   </data>
   <data name="GameServer_SEAServer" xml:space="preserve">
-    <value>เซิฟเวอร์ SEA</value>
+    <value>Southeast Asia Server</value>
     <comment>Southeast Asia and Australia Server</comment>
   </data>
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
