@@ -8,6 +8,11 @@ namespace Starward.Models;
 public partial class GachaLogItemEx : GachaLogItem
 {
 
+    /// <summary>
+    /// 不要删除，导出 Excel 时有用
+    /// </summary>
+    public string IdText => Id.ToString();
+
     public int Index { get; set; }
 
     public int Pity { get; set; }
