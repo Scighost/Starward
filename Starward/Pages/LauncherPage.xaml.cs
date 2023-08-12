@@ -541,13 +541,16 @@ public sealed partial class LauncherPage : Page
             if (process1 != null)
             {
                 MainPage.Current.PauseVideo();
-                if (AppConfig.EnableSystemTrayIcon && _systemTrayService.IsCreated)
+                if (AppConfig.MinimizedWindowAfterGameStart)
                 {
-                    User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_HIDE);
-                }
-                else
-                {
-                    User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
+                    if (AppConfig.EnableSystemTrayIcon && _systemTrayService.IsCreated)
+                    {
+                        User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_HIDE);
+                    }
+                    else
+                    {
+                        User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
+                    }
                 }
                 _logger.LogInformation("Game started ({name}, {pid})", process1.ProcessName, process1.Id);
                 if (AppConfig.IgnoreRunningGame)

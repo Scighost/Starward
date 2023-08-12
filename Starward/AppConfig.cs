@@ -408,6 +408,11 @@ internal static class AppConfig
         set => SetValue(value);
     }
 
+    public static bool MinimizedWindowAfterGameStart
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
 
     public static bool EnableSystemTrayIcon
     {

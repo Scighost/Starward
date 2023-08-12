@@ -121,6 +121,10 @@
                                FontWeight="SemiBold"
                                Text="{x:Bind lang:Lang.SettingPage_SystemTray}" />
                     <ToggleSwitch Margin="0,8,0,0"
+                                  IsOn="{x:Bind MinimizedWindowAfterGameStart, Mode=TwoWay}"
+                                  OffContent="{x:Bind lang:Lang.SettingPage_MinimizedWindowAfterGameStart}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_MinimizedWindowAfterGameStart}" />
+                    <ToggleSwitch Margin="0,8,0,0"
                                   IsOn="{x:Bind EnableSystemTray, Mode=TwoWay}"
                                   OffContent="{x:Bind lang:Lang.SettingPage_EnableSystemTrayIcon}"
                                   OnContent="{x:Bind lang:Lang.SettingPage_EnableSystemTrayIcon}" />

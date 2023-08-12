@@ -264,6 +264,12 @@ public sealed partial class SettingPage : Page
 
     #region System Tray
 
+    [ObservableProperty]
+    private bool minimizedWindowAfterGameStart = AppConfig.MinimizedWindowAfterGameStart;
+    partial void OnMinimizedWindowAfterGameStartChanged(bool value)
+    {
+        AppConfig.MinimizedWindowAfterGameStart = value;
+    }
 
     [ObservableProperty]
     private bool enableSystemTray = AppConfig.EnableSystemTrayIcon;

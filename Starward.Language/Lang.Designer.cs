@@ -2180,6 +2180,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Minimized Window After Game Start 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_MinimizedWindowAfterGameStart {
+            get {
+                return ResourceManager.GetString("SettingPage_MinimizedWindowAfterGameStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Normal 的本地化字符串。
         /// </summary>
         public static string SettingPage_Normal {
