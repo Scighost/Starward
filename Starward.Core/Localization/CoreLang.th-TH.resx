@@ -169,28 +169,28 @@
     <value>Honkai Impact 3rd</value>
   </data>
   <data name="GameServer_ChinaServer" xml:space="preserve">
-    <value>เซิฟเวอร์จีน</value>
+    <value>เซิร์ฟเวอร์จีน</value>
   </data>
   <data name="GameServer_GlobalServer" xml:space="preserve">
-    <value>เซิฟเวอร์ Global</value>
+    <value>เซิร์ฟเวอร์ Global</value>
   </data>
   <data name="GameServer_ChinaCloudServer" xml:space="preserve">
-    <value>เซิฟเวอร์คลาวด์จีน</value>
+    <value>เซิร์ฟเวอร์คลาวด์จีน</value>
   </data>
   <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
-    <value>เซิฟเวอร์ยุโรปและอเมริกัน</value>
+    <value>เซิร์ฟเวอร์ยุโรปและอเมริกัน</value>
   </data>
   <data name="GameServer_JapanServer" xml:space="preserve">
-    <value>เซิฟเวอร์ญี่ปึ่น</value>
+    <value>เซิร์ฟเวอร์ญี่ปุ่น</value>
   </data>
   <data name="GameServer_KoreaServer" xml:space="preserve">
-    <value>เซิฟเวอร์เกาหลี</value>
+    <value>เซิร์ฟเวอร์เกาหลี</value>
   </data>
   <data name="GameServer_SEAServer" xml:space="preserve">
-    <value>Southeast Asia Server</value>
+    <value>เซิร์ฟเวอร์เอเชียตะวันออกเฉียงใต้</value>
     <comment>Southeast Asia and Australia Server</comment>
   </data>
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
-    <value>เซิฟเวอร์จีนดั้งเดิม</value>
+    <value>เซิร์ฟเวอร์จีนดั้งเดิม</value>
   </data>
 </root>
