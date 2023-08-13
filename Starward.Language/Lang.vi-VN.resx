@@ -579,7 +579,7 @@
     <value>Sử dụng chung hình nền ở tất cả khu vực trò chơi</value>
   </data>
   <data name="SettingPage_BgSizeTip" xml:space="preserve">
-    <value>Vui lòng chọn bức ảnh với kích thước pixel trùng với cửa số ứng dụng; ảnh quá cỡ sẽ giảm hiệu năng.</value>
+    <value>Vui lòng chọn bức ảnh với kích thước pixel trùng với cửa số ứng dụng; ảnh quá cỡ sẽ làm giảm hiệu năng.</value>
   </data>
   <data name="LauncherPage_StartGame" xml:space="preserve">
     <value>Bắt đầu trò chơi</value>
