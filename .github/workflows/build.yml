@@ -33,9 +33,6 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.3.1
 
-    - name: Restore
-      run: dotnet restore Starward
-
     - name: Build
       run: |
         msbuild src/Starward.Launcher "-property:Configuration=$env:Configuration;Platform=$env:Platform"
