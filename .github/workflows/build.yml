@@ -38,6 +38,6 @@ jobs:
 
     - name: Build
       run: |
-        msbuild Starward.Launcher "-property:Configuration=$env:Configuration;Platform=$env:Platform"
-        dotnet build Starward -c $env:Configuration -p:Platform=$env:Platform
+        msbuild src/Starward.Launcher "-property:Configuration=$env:Configuration;Platform=$env:Platform"
+        dotnet build src/Starward -c $env:Configuration -p:Platform=$env:Platform
 

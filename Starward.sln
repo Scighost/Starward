@@ -3,20 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward.Core", "Starward.Core\Starward.Core.csproj", "{E63D6151-9CB1-4E3F-B74F-F006FDF9AC38}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6F090A28-90DC-480B-AE52-61FD1F993D45}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward", "Starward\Starward.csproj", "{CD1EC7A8-4DA1-4998-9B84-F948AA98CDE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward.Core", "src\Starward.Core\Starward.Core.csproj", "{E63D6151-9CB1-4E3F-B74F-F006FDF9AC38}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Starward.Launcher", "Starward.Launcher\Starward.Launcher.vcxproj", "{BC2FB0E5-F79E-4EA0-8380-73F96ECB6F2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward", "src\Starward\Starward.csproj", "{CD1EC7A8-4DA1-4998-9B84-F948AA98CDE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward.SevenZip", "Starward.SevenZip\Starward.SevenZip.csproj", "{D949DE4D-DB2A-47E7-998E-3BB7C8739516}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Starward.Launcher", "src\Starward.Launcher\Starward.Launcher.vcxproj", "{BC2FB0E5-F79E-4EA0-8380-73F96ECB6F2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starward.Language", "Starward.Language\Starward.Language.csproj", "{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward.SevenZip", "src\Starward.SevenZip\Starward.SevenZip.csproj", "{D949DE4D-DB2A-47E7-998E-3BB7C8739516}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward.Language", "src\Starward.Language\Starward.Language.csproj", "{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,22 +94,22 @@ Global
 		{D949DE4D-DB2A-47E7-998E-3BB7C8739516}.Release|x64.Build.0 = Release|Any CPU
 		{D949DE4D-DB2A-47E7-998E-3BB7C8739516}.Release|x86.ActiveCfg = Release|Any CPU
 		{D949DE4D-DB2A-47E7-998E-3BB7C8739516}.Release|x86.Build.0 = Release|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Debug|x64.Build.0 = Debug|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Debug|x86.Build.0 = Debug|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Release|ARM64.Build.0 = Release|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Release|x64.ActiveCfg = Release|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Release|x64.Build.0 = Release|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Release|x86.ActiveCfg = Release|Any CPU
-		{9A5F4AF9-2E1E-456F-B710-CFDC97DEE0D3}.Release|x86.Build.0 = Release|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Debug|x64.Build.0 = Debug|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Debug|x86.Build.0 = Debug|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Release|ARM64.Build.0 = Release|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Release|x64.ActiveCfg = Release|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Release|x64.Build.0 = Release|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Release|x86.ActiveCfg = Release|Any CPU
+		{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

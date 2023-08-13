@@ -21,8 +21,8 @@ jobs:
 
     - name: Build
       run: |
-        dotnet publish Starward.Core -c Release -o build
-        dotnet publish Starward.Language -c Release -o build
+        dotnet publish src/Starward.Core -c Release -o build
+        dotnet publish src/Starward.Language -c Release -o build
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3.1.2
