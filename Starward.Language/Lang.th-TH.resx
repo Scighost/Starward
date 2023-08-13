@@ -244,7 +244,7 @@
     <value>กรุณาเปิดโปรแกรมด้วยสิทธิ Administrator</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
-    <value>เริ่้ม</value>
+    <value>เริ่ม</value>
   </data>
   <data name="DownloadGamePage_Preparing" xml:space="preserve">
     <value>กำลังเตรียม</value>
@@ -1045,9 +1045,9 @@
     <value>ฟีเจอร์ยังไม่รองรับ</value>
   </data>
   <data name="SettingPage_LastBackup" xml:space="preserve">
-    <value>Last backup</value>
+    <value>การสำรองข้อมูลล่าสุด</value>
   </data>
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
-    <value>Backup Database</value>
+    <value>ฐานข้อมูลสำรอง</value>
   </data>
 </root>
