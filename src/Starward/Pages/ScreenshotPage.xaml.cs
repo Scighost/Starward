@@ -192,7 +192,7 @@ public sealed partial class ScreenshotPage : Page
                         count++;
                     }
                 }
-                NotificationBehavior.Instance.Success(string.Format("Backed up {0} new screenshots.", count));
+                NotificationBehavior.Instance.Success(string.Format(Lang.ScreenshotPage_BackedUpNewScreenshots, count));
             }
         }
         catch (Exception ex)
