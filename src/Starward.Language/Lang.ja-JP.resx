@@ -1050,4 +1050,7 @@
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
     <value>データベースのバックアップ</value>
   </data>
+  <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
+    <value>Backed up {0} new screenshots.</value>
+  </data>
 </root>
