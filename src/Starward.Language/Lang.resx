@@ -1051,7 +1051,4 @@ Do you accept the risk and continue to use it?</value>
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
     <value>Backup Database</value>
   </data>
-  <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
-    <value>Backed up {0} new screenshots.</value>
-  </data>
 </root>
