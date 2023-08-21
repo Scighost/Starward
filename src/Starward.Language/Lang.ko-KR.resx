@@ -118,940 +118,940 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
-    <value>Размер пакета:</value>
+    <value>패키지 크기</value>
   </data>
   <data name="DownloadGameDialog_Downloaded" xml:space="preserve">
-    <value>Скачано:</value>
+    <value>다운로드 됨</value>
   </data>
   <data name="DownloadGameDialog_FreeSpace" xml:space="preserve">
-    <value>Доступное место:</value>
+    <value>잔여공간</value>
   </data>
   <data name="DownloadGameDialog_RequiredSpaceForUnzipping" xml:space="preserve">
-    <value>Необходимое место:</value>
+    <value>필요 저장 공간</value>
   </data>
   <data name="DownloadGameDialog_RepairMode" xml:space="preserve">
-    <value>Режим ремонта:</value>
+    <value>복구모드</value>
   </data>
   <data name="DownloadGameDialog_VoiceLanguage" xml:space="preserve">
-    <value>Язык Озвучки:</value>
+    <value>음성언어</value>
   </data>
   <data name="Language_Chinese" xml:space="preserve">
-    <value>Китайский</value>
+    <value>중국어</value>
   </data>
   <data name="Language_English" xml:space="preserve">
-    <value>Английский</value>
+    <value>영어</value>
   </data>
   <data name="Language_Japanese" xml:space="preserve">
-    <value>Японский</value>
+    <value>일본어</value>
   </data>
   <data name="Language_Korean" xml:space="preserve">
-    <value>Корейский</value>
+    <value>한국어</value>
   </data>
   <data name="DownloadGameDialog_DownloadGameFilesDirectly" xml:space="preserve">
-    <value>Скачать файлы игры напрямую</value>
+    <value>게임파일 직접 다운로드</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>Эта функция находится в стадии тестирования. Если есть повреждение файлов игры, пожалуйста, используйте официальный лаунчер, чтобы восстановить его.</value>
+    <value>이 기능은 시험단계 입니다. 오류발생시 기본 런처로 복구 할수 있습니다.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
-    <value>Недостаточно свободного места</value>
+    <value>잔여공간 부족</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
-    <value>Pity</value>
+    <value>천장</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
-    <value>Average</value>
+    <value>평균</value>
   </data>
   <data name="GachaStatsCard_Stats" xml:space="preserve">
-    <value>Статистика</value>
+    <value>통계</value>
   </data>
   <data name="SelectDirectoryPage_NiceToMeetYou" xml:space="preserve">
-    <value>Nice to Meet You ~</value>
+    <value>안녕하세요~</value>
   </data>
   <data name="SelectDirectoryPage_SelectFolder" xml:space="preserve">
-    <value>Выберите папку</value>
+    <value>폴더 선택</value>
   </data>
   <data name="SelectDirectoryPage_SelectLanguage" xml:space="preserve">
-    <value>Выберите язык</value>
+    <value>언어 선택</value>
   </data>
   <data name="SelectDirectoryPage_SelectGame" xml:space="preserve">
-    <value>Выберите игру</value>
+    <value>게임 선택</value>
   </data>
   <data name="SelectDirectoryPage_RecommendFolder" xml:space="preserve">
-    <value>Данные приложения будут сохранены в следующей папке по умолчанию:</value>
+    <value>프로그램 데이터는 아래의 폴더에 저장됩니다.</value>
   </data>
   <data name="SelectDirectoryPage_WouldYouLikeToChooseThisFolder" xml:space="preserve">
-    <value>Вы хотите выбрать эту папку?</value>
+    <value>이 폴더에 저장 하겠습니까?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>Эта папка будет автоматически удалена после обновления приложения</value>
+    <value>이 폴더는 프로그램 업데이트 후 자동으로 제거됩니다.</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
-    <value>Нет разрешения на запись</value>
+    <value>쓰기 권한이 없습니다.</value>
   </data>
   <data name="SelectDirectoryPage_OK" xml:space="preserve">
-    <value>ОК</value>
+    <value>OK</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>Выбрать другое</value>
+    <value>수동선택하기</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
-    <value>Отменить</value>
+    <value>취소</value>
   </data>
   <data name="SelectDirectoryPage_FirstUse" xml:space="preserve">
-    <value>Кажется, вы впервые используете {Starward}.</value>
+    <value>처음 {Starward} 를 사용하시는군요!</value>
   </data>
   <data name="SelectGamePage_GoToLauncher" xml:space="preserve">
-    <value>Перейти в Launcher</value>
+    <value>런쳐 실행</value>
   </data>
   <data name="SelectGamePage_SelectFolder" xml:space="preserve">
-    <value>Выберите папку</value>
+    <value>폴더 선택</value>
   </data>
   <data name="SelectGamePage_SomeGame" xml:space="preserve">
-    <value>{Starward} supports some {miHoYo/HoYoverse} games, please select your target below, you can also change it at any time after entering the launcher.</value>
+    <value>{Starward} 는 일부 {miHoYo/HoYoverse} 게임을 지원합니다. 아래에서 선택해주세요. 이는 추후에 수정할수 있습니다.</value>
   </data>
   <data name="SelectGamePage_TheLastStep" xml:space="preserve">
-    <value>Последний шаг ~</value>
+    <value>마지막 단계 입니다~</value>
   </data>
   <data name="DownloadGamePage_CloseSoftware" xml:space="preserve">
-    <value>Закрыть программу</value>
+    <value>프로그램 닫기</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
-    <value>Downloading can be resumed after the next startup;
-closing the program during decompression will cause game file corruption.</value>
+    <value>다음 실행 시 자동으로 이어 다운로드 할수 있습니다.；
+압축해제중에 강제종료시 파일이 손상될수 있습니다.</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
-    <value>Закрыть</value>
+    <value>닫기</value>
   </data>
   <data name="Common_Cancel" xml:space="preserve">
-    <value>Отменить</value>
+    <value>취소</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>Software will be exited soon</value>
+    <value>프로그램이 곧 종료됩니다.</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
-    <value>Повторить Запуск</value>
+    <value>다시시작</value>
   </data>
   <data name="Common_Confirm" xml:space="preserve">
-    <value>Подтвердить</value>
+    <value>확인</value>
   </data>
   <data name="DownloadGamePage_ParameterError" xml:space="preserve">
-    <value>Ошибка параметра</value>
+    <value>Parameter Error</value>
   </data>
   <data name="DownloadGamePage_NoPermission" xml:space="preserve">
-    <value>Нет разрешения</value>
+    <value>권한부족</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Пожалуйста, запустите как администратор</value>
+    <value>관리자 모드로 실행해주세요.</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
-    <value>Запуск</value>
+    <value>시작</value>
   </data>
   <data name="DownloadGamePage_Preparing" xml:space="preserve">
-    <value>Подготовка</value>
+    <value>준비중</value>
   </data>
   <data name="DownloadGamePage_Downloading" xml:space="preserve">
-    <value>Загрузка</value>
+    <value>다운로드 중</value>
   </data>
   <data name="DownloadGamePage_Verifying" xml:space="preserve">
-    <value>Проверка</value>
+    <value>검증 중</value>
   </data>
   <data name="DownloadGamePage_Decompressing" xml:space="preserve">
-    <value>Распаковка</value>
+    <value>압축해제 중</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>Ошибка</value>
+    <value>뭔가 잘못 됐어요!</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
-    <value>Повторить</value>
+    <value>다시시도</value>
   </data>
   <data name="DownloadGamePage_OpenLog" xml:space="preserve">
-    <value>Открыть журнал</value>
+    <value>로그 보기</value>
   </data>
   <data name="DownloadGamePage_NetworkError" xml:space="preserve">
-    <value>Ошибка Сети</value>
+    <value>네트워크 오류</value>
   </data>
   <data name="DownloadGamePage_UnknownError" xml:space="preserve">
-    <value>Неизвестная ошибка</value>
+    <value>알수없는 오류</value>
   </data>
   <data name="DownloadGamePage_Finished" xml:space="preserve">
-    <value>Завершено</value>
+    <value>완료됨</value>
   </data>
   <data name="DownloadGamePage_Pause" xml:space="preserve">
-    <value>Пауза</value>
+    <value>일시정지</value>
   </data>
   <data name="DownloadGamePage_Skip" xml:space="preserve">
-    <value>Пропустить</value>
+    <value>건너뛰기</value>
   </data>
   <data name="DownloadGamePage_VerifyFailed" xml:space="preserve">
-    <value>Сбой проверки</value>
+    <value>검증실패</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>The following file verify failed:</value>
+    <value>검증실패 파일</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
-    <value>Redownload</value>
+    <value>다시다운로드</value>
   </data>
   <data name="DownloadGamePage_Ignore" xml:space="preserve">
-    <value>Ignore</value>
+    <value>무시하기</value>
   </data>
   <data name="DownloadGamePage_Stop" xml:space="preserve">
-    <value>Остановить</value>
+    <value>정지</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Decompressing unchecked files may result in corrupted game files</value>
+    <value>검증하지않고 압축해제 시 게임파일이 손상될수 있습니다.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
-    <value>Пропустить проверку</value>
+    <value>검증 건너뛰기</value>
   </data>
   <data name="DownloadGamePage_DownloadPaused" xml:space="preserve">
-    <value>Загрузка приостановлена</value>
+    <value>다운로드 일시정지</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
-    <value>No Gacha Records</value>
+    <value>뽑기 기록이 없습니다.</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
-    <value>Обновить записи</value>
+    <value>업데이트 기록</value>
   </data>
   <data name="GachaLogPage_UpdateSavedURL" xml:space="preserve">
-    <value>Update (Saved URL)</value>
+    <value>업데이트 (저장된  URL)</value>
   </data>
   <data name="GachaLogPage_UpdateAll" xml:space="preserve">
-    <value>Обновить (Всё)</value>
+    <value>업데이트 (전체)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
-    <value>Input URL</value>
+    <value>URL 입력</value>
   </data>
   <data name="Common_Setting" xml:space="preserve">
-    <value>Настройки</value>
+    <value>설정</value>
   </data>
   <data name="GachaLogPage_OtherSettings" xml:space="preserve">
-    <value>Другие настройки</value>
+    <value>기타설정</value>
   </data>
   <data name="GachaLogPage_CopyURL" xml:space="preserve">
-    <value>Копировать URL-адрес</value>
+    <value>URL복사</value>
   </data>
   <data name="GachaLogPage_AuthkeyTimeoutAlwaysOccurs" xml:space="preserve">
-    <value>Authkey Timeout always occurs?</value>
+    <value>Authkey Timeout 이 자꾸 표시되나요?</value>
   </data>
   <data name="GachaLogPage_ClearURLCacheFiles" xml:space="preserve">
-    <value>Очистить кэш URL-адресов</value>
+    <value>URL 캐시 제거</value>
   </data>
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
-    <value>Export as</value>
+    <value>내보내기</value>
   </data>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>Импорт из JSON</value>
+    <value>JSON 에서 불러오기</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
-    <value>Show Novice Gacha Type</value>
+    <value>초보자 뽑기 표시</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>Удалить записи</value>
+    <value>삭제기록</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
-    <value>Язык</value>
+    <value>언어</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>Не удается найти сохраненный URL uid {0}.</value>
+    <value> Uid {0} 에 저장된 기록이 없습니다.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
-    <value>Игра не установлена</value>
+    <value>게임이 설치되지 않았습니다.</value>
   </data>
   <data name="GachaLogPage_CannotFindURL" xml:space="preserve">
-    <value>Не удается найти URL, откройте страницу истории гачи в игре.</value>
+    <value> URL 을 찾을수 없습니다. 게임에서 뽑기기록 페이지를 열어주세요.</value>
   </data>
   <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
-    <value>Операция отменена</value>
+    <value>작업이 취소되었습니다.</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
-    <value>Пожалуйста, откройте страницу записей гачи в игре и попробуйте еще раз.</value>
+    <value>게임에서 뽑기기록 페이지를 열고 다시시도 하세요.</value>
   </data>
   <data name="Common_Warning" xml:space="preserve">
-    <value>Warning</value>
+    <value>경고</value>
   </data>
   <data name="Common_Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>삭제</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>Deleted {0} gacha records of Uid {1}.</value>
+    <value>Uid {1} 의 뽑기기록  {0} 건이 삭제되었습니다.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>All gacha records of uid {0} will be deleted, and this operation is irreversible.</value>
+    <value>Uid {0} 의 모든 뽑기기록을 삭제합니다. 이 작업은 되돌릴수 없습니다.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
-    <value>История Молитв</value>
+    <value>기원기록</value>
   </data>
   <data name="GachaLogService_WarpRecords" xml:space="preserve">
-    <value>История Прижков</value>
+    <value>워프기록</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>Получить uid</value>
+    <value>UID 불러오는 중</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>У этого аккаунта нет записей о гаче за последние 6 месяцев.</value>
+    <value>이 계정에는 최근 6개월의 뽑기 기록이 없습니다.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>Получено {0} записей, добавлено {1} записи.</value>
+    <value> {0} 건 불러오기 성공, {1} 건이 추가되었습니다.</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>Импорт {0} записей молитв успешно завершен.</value>
+    <value>{0} 건의 뽑기기록을 불러왔습니다.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>Импорт {0} записей прыжков успешно завершен.</value>
+    <value>{0} 건의 뽑기기록을 불러왔습니다.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
-    <value>Вы используете самую последнюю версию</value>
+    <value>이미 최신버전 입니다.</value>
   </data>
   <data name="DownloadGameService_TooManyRetries" xml:space="preserve">
-    <value>Слишком много попыток</value>
+    <value>재시도 횟수 초과</value>
   </data>
   <data name="UpdateService_CannotUpdateAutomatically" xml:space="preserve">
-    <value>Не удается обновить автоматически</value>
+    <value>자동 업데이트 실패</value>
   </data>
   <data name="GameSettingPage_Custom" xml:space="preserve">
-    <value>Своя</value>
+    <value>사용자 지정</value>
   </data>
   <data name="GameSettingPage_VeryLow" xml:space="preserve">
-    <value>Очень низкое</value>
+    <value>아주 낮음</value>
   </data>
   <data name="GameSettingPage_Low" xml:space="preserve">
-    <value>Низкое</value>
+    <value>낮음</value>
   </data>
   <data name="GameSettingPage_Medium" xml:space="preserve">
-    <value>Средние</value>
+    <value>중간</value>
   </data>
   <data name="GameSettingPage_High" xml:space="preserve">
-    <value>Высокое</value>
+    <value>높음</value>
   </data>
   <data name="GameSettingPage_VeryHigh" xml:space="preserve">
-    <value>Очень Высокое</value>
+    <value>낮음</value>
   </data>
   <data name="GameSettingPage_Off" xml:space="preserve">
-    <value>Выкл.</value>
+    <value>끄기</value>
   </data>
   <data name="GameSettingPage_StartArguments" xml:space="preserve">
-    <value>Параметры запуска</value>
+    <value>시작변수 설정</value>
   </data>
   <data name="GameSettingPage_Resolution" xml:space="preserve">
-    <value>Разрешение</value>
+    <value>해상도</value>
   </data>
   <data name="GameSettingPage_FullScreen" xml:space="preserve">
-    <value>Во весь экран</value>
+    <value>전체화면</value>
   </data>
   <data name="GameSettingPage_CustomResolution" xml:space="preserve">
-    <value>Пользовательское разрешение</value>
+    <value>커스텀 해상도</value>
   </data>
   <data name="GameSettingPage_VoiceLanguage" xml:space="preserve">
-    <value>Язык Озвучки</value>
+    <value>음성언어</value>
   </data>
   <data name="GameSettingPage_VoiceLanguageDescription" xml:space="preserve">
-    <value>Set this value before starting the game for the first time to avoid downloading some voice resources</value>
+    <value>최초 실행시 아래의 언어를 선택하면 불필요한 음성 데이터를 다운로드 하지 않습니다.</value>
   </data>
   <data name="GameSettingPage_GraphicsSetting" xml:space="preserve">
-    <value>Настройки графики</value>
+    <value>그래픽 설정</value>
   </data>
   <data name="GameSettingPage_GraphicsQualityPreset" xml:space="preserve">
-    <value>Предустановленные настройки графики</value>
+    <value>그래픽 품질 프리셋</value>
   </data>
   <data name="GameSettingPage_RenderScale" xml:space="preserve">
-    <value>Масштаб отрисовки</value>
+    <value>렌더링 스케일</value>
   </data>
   <data name="GameSettingPage_FPS" xml:space="preserve">
     <value>FPS</value>
   </data>
   <data name="GameSettingPage_VSync" xml:space="preserve">
-    <value>Вертикальная синхронизация</value>
+    <value>수직동기화</value>
   </data>
   <data name="GameSettingPage_AntiAliasing" xml:space="preserve">
-    <value>Режим сглаживания</value>
+    <value>안티 앨리어싱</value>
   </data>
   <data name="GameSettingPage_ShadowQuality" xml:space="preserve">
-    <value>Качество теней</value>
+    <value>그림자 품질</value>
   </data>
   <data name="GameSettingPage_ReflectionQuality" xml:space="preserve">
-    <value>Качество отражений</value>
+    <value>반사 품질</value>
   </data>
   <data name="GameSettingPage_CharacterQuality" xml:space="preserve">
-    <value>Качество Персонажа</value>
+    <value>캐릭터 품질</value>
   </data>
   <data name="GameSettingPage_EnvironmentDetail" xml:space="preserve">
-    <value>Детализация окружения</value>
+    <value>배경 품질</value>
   </data>
   <data name="GameSettingPage_BloomEffect" xml:space="preserve">
-    <value>Эффект размытия</value>
+    <value>블룸 이펙트</value>
   </data>
   <data name="GameSettingPage_LightQuality" xml:space="preserve">
-    <value>Качество освещения</value>
+    <value>조명 이펙트</value>
   </data>
   <data name="Common_Apply" xml:space="preserve">
-    <value>Применить</value>
+    <value>적용</value>
   </data>
   <data name="GameSettingPage_GameNotInstalled" xml:space="preserve">
-    <value>Игра не установлена</value>
+    <value>게임이 설치되지 않았습니다.</value>
   </data>
   <data name="GameSettingPage_FPSWarning" xml:space="preserve">
-    <value>Установка FPS на 120 сделает недоступными внутриигровые настройки графики</value>
+    <value>120 FPS 설정후 게임내 그래픽 설정을 사용할수 없습니다.</value>
   </data>
   <data name="GameSettingPage_SettingNotEffect" xml:space="preserve">
-    <value>Настройки во время игры не вступят в силу</value>
+    <value>게임 실행중 설정을 변경하면 적용되지 않습니다.</value>
   </data>
   <data name="GameSettingPage_ResolutionMustBeGreaterThan0" xml:space="preserve">
-    <value>Разрешение должно быть больше 0</value>
+    <value>0보다 큰 수를 입력해주세요.</value>
   </data>
   <data name="GameSettingPage_StartArgumentDesc" xml:space="preserve">
-    <value>Получить информацию о параметрах запуска см. {Unity Standalone Player Command Line Arguments}</value>
+    <value>시작변수 정보 참고: {Unity Standalone Player Command Line Arguments}</value>
   </data>
   <data name="GameSettingPage_On" xml:space="preserve">
-    <value>Вкл.</value>
+    <value>켜기</value>
   </data>
   <data name="LauncherPage_InstallGame" xml:space="preserve">
-    <value>Установить игру</value>
+    <value>게임설치</value>
   </data>
   <data name="LauncherPage_UpdateGame" xml:space="preserve">
-    <value>Обновить игру</value>
+    <value>업데이트</value>
   </data>
   <data name="LauncherPage_PlayTime" xml:space="preserve">
-    <value>Время в игре</value>
+    <value>Play Time</value>
   </data>
   <data name="Common_Refresh" xml:space="preserve">
-    <value>Обновить</value>
+    <value>새로고침</value>
   </data>
   <data name="LauncherPage_ThisWeek" xml:space="preserve">
-    <value>За неделю</value>
+    <value>이번주</value>
   </data>
   <data name="LauncherPage_ThisMonth" xml:space="preserve">
-    <value>За месяц</value>
+    <value>이번달</value>
   </data>
   <data name="LauncherPage_LastTime" xml:space="preserve">
-    <value>Последний раз</value>
+    <value>마지막 실행</value>
   </data>
   <data name="LauncherPage_PreInstall" xml:space="preserve">
-    <value>Предварительная установка</value>
+    <value>사전다운로드</value>
   </data>
   <data name="LauncherPage_CurrentAccount" xml:space="preserve">
-    <value>Текущий аккаунт входа</value>
+    <value>현재 계정</value>
   </data>
   <data name="LauncherPage_SwitchAccount" xml:space="preserve">
-    <value>Сменить аккаунт</value>
+    <value>계정 변경</value>
   </data>
   <data name="LauncherPage_AccountInformation" xml:space="preserve">
-    <value>Информация об аккаунте</value>
+    <value>계정 정보</value>
   </data>
   <data name="LauncherPage_Nickname" xml:space="preserve">
-    <value>Псевдоним</value>
+    <value>닉네임</value>
   </data>
   <data name="Common_Save" xml:space="preserve">
-    <value>Сохранить</value>
+    <value>저장</value>
   </data>
   <data name="LauncherPage_GameSetting" xml:space="preserve">
-    <value>Настройки игры</value>
+    <value>게임설정</value>
   </data>
   <data name="LauncherPage_InstallFolder" xml:space="preserve">
-    <value>Папка для установки</value>
+    <value>설치경로</value>
   </data>
   <data name="LauncherPage_Locate" xml:space="preserve">
-    <value>Найти</value>
+    <value>디렉토리 열기</value>
   </data>
   <data name="LauncherPage_RepairGame" xml:space="preserve">
-    <value>Восстановить игру</value>
+    <value>게임복구</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>Custom Start Executable</value>
+    <value>시작변수 적용</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
-    <value>Выбрать</value>
+    <value>선택</value>
   </data>
   <data name="LauncherPage_ShowGameAnnouncement" xml:space="preserve">
-    <value>Show Game Announcement</value>
+    <value>게임공지 표시하기</value>
   </data>
   <data name="LauncherPage_IgnoreRunningGameProcess" xml:space="preserve">
-    <value>Ignore Running Game Process</value>
+    <value>실행중인 게임 무시하기</value>
   </data>
   <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
-    <value>Background Setting</value>
+    <value>배경 설정</value>
   </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
-    <value>Use same background in all game region</value>
+    <value>모든 게임에 동일한 배경 사용</value>
   </data>
   <data name="SettingPage_BgSizeTip" xml:space="preserve">
-    <value>Please select an image with a pixel size matches the application window; oversized images will reduce performance.</value>
+    <value>프로그램 창 크기와 비슷한 이미지를 선택해주세요. 너무 큰 이미지는 프로그램 성능에 영향을 줄 수 있습니다.</value>
   </data>
   <data name="LauncherPage_StartGame" xml:space="preserve">
-    <value>Запустить игру</value>
+    <value>게임시작</value>
   </data>
   <data name="LauncherPage_GameIsRunning" xml:space="preserve">
-    <value>Игра уже запущена</value>
+    <value>게임실행중</value>
   </data>
   <data name="Common_Start" xml:space="preserve">
-    <value>Запуск</value>
+    <value>시작</value>
   </data>
   <data name="LauncherPage_SelectInstallFolder" xml:space="preserve">
-    <value>Выберите папку для установки</value>
+    <value>설치경로</value>
   </data>
   <data name="Common_Continue" xml:space="preserve">
-    <value>Продолжить</value>
+    <value>계속</value>
   </data>
   <data name="LauncherPage_Reselect" xml:space="preserve">
-    <value>Выбрать заново</value>
+    <value>다시선택</value>
   </data>
   <data name="LauncherPage_TheFollowingFolderContainsUnfinishedDownloadTasks" xml:space="preserve">
-    <value>The following folder contains unfinished download tasks:</value>
+    <value>아래 폴더에 완료되지 않은 다운로드 임무 가 있습니다.</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Please select an empty folder for installing the game, or locate the folder where the game is already installed.</value>
+    <value>게임을 설치 할 폴더를 선택하거나 게임이 설치된 폴더를 선택하세요.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
-    <value>If it is not the latest version, please modify the config.ini file in the game installation directory.</value>
+    <value>최신버전이 아니면 게임 디렉토리의 config.ini 파일을 수정하세요.</value>
   </data>
   <data name="LauncherPage_StartVerification" xml:space="preserve">
-    <value>Start to Verify</value>
+    <value>검증시작</value>
   </data>
   <data name="LauncherPage_WouldYouLikeToVerifyTheFiles" xml:space="preserve">
-    <value>Pre-install completed, would you like to verify the files?</value>
+    <value>사전 다운로드 완료. 리소스 체크를 시작하시겠습니까?</value>
   </data>
   <data name="MainPage_HowToSwitchGameRegion" xml:space="preserve">
-    <value>How to switch game region?</value>
+    <value>서버를 변경하려면?</value>
   </data>
   <data name="MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft" xml:space="preserve">
-    <value>Click the right mouse button on the game icon on the left.</value>
+    <value>런쳐 상단의 게임아이콘을 우클릭해보세요.</value>
   </data>
   <data name="MainPage_Launcer" xml:space="preserve">
-    <value>Лаунчер</value>
+    <value>런쳐</value>
   </data>
   <data name="MainPage_GameScreenshot" xml:space="preserve">
-    <value>Screenshot</value>
+    <value>스크린샷</value>
   </data>
   <data name="ScreenshotPage_GameScreenshot" xml:space="preserve">
-    <value>Screenshot</value>
+    <value>스크린샷</value>
   </data>
   <data name="ScreenshotPage_OpenFolder" xml:space="preserve">
-    <value>Открыть папку</value>
+    <value>폴더 열기</value>
   </data>
   <data name="SettingPage_Log" xml:space="preserve">
-    <value>Логи</value>
+    <value>로그</value>
   </data>
   <data name="SettingPage_ShowConsole" xml:space="preserve">
-    <value>Показать консоль</value>
+    <value>콘솔 보기</value>
   </data>
   <data name="SettingPage_AppSettings" xml:space="preserve">
-    <value>Настройки приложения</value>
+    <value>프로그램 설정</value>
   </data>
   <data name="SettingPage_EffectiveAtNextStartup" xml:space="preserve">
-    <value>Действует при следующем запуске</value>
+    <value>다음 실행시 적용</value>
   </data>
   <data name="SettingPage_OpenLogFolder" xml:space="preserve">
-    <value>Открыть папку журнала</value>
+    <value>로그 폴더 열기</value>
   </data>
   <data name="SettingPage_WindowsSize" xml:space="preserve">
-    <value>Размер окна</value>
+    <value>창 크기</value>
   </data>
   <data name="SettingPage_Normal" xml:space="preserve">
-    <value>Обычный</value>
+    <value>기본값</value>
     <comment>Window Size Normal</comment>
   </data>
   <data name="SettingPage_Small" xml:space="preserve">
-    <value>Маленький</value>
+    <value>작음</value>
     <comment>Window Size Small</comment>
   </data>
   <data name="SettingPage_TestNetwork" xml:space="preserve">
-    <value>Тест сети</value>
+    <value>네트워크 테스트</value>
   </data>
   <data name="SettingPage_AppBackground" xml:space="preserve">
-    <value>Фон приложения</value>
+    <value>프로그램 배경</value>
   </data>
   <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
-    <value>Пользовательский фон (Поддержка видео)</value>
+    <value>사용자 지정 배경 (이미지 &amp; 비디오)</value>
   </data>
   <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
-    <value>Динамический цвет темы</value>
+    <value>다이나믹 테마</value>
   </data>
   <data name="SettingPage_CloudFlareConnectProperly" xml:space="preserve">
-    <value>The app will download the required resources from CloudFlare, so make sure it can connect properly.</value>
+    <value>프로그램이 CloudFlare 로부터 필요한 파일을 다운로드 합니다. 인터넷 연결을 유지해주세요.</value>
   </data>
   <data name="SettingPage_CheckForUpdate" xml:space="preserve">
-    <value>Проверить наличие обновления</value>
+    <value>업데이트 확인</value>
   </data>
   <data name="SettingPage_CurrentVersion" xml:space="preserve">
-    <value>Текущая версия:</value>
+    <value>현재 버전</value>
   </data>
   <data name="SettingPage_JoinPreviewReleaseChannel" xml:space="preserve">
-    <value>Присоединиться к предварительной версии</value>
+    <value>체험판 채널에 가입하기</value>
   </data>
   <data name="SettingPage_FileManager" xml:space="preserve">
-    <value>File Manager</value>
+    <value>파일매니저</value>
   </data>
   <data name="SettingPage_OpenDataFolder" xml:space="preserve">
-    <value>Open Data Folder</value>
+    <value>데이터 폴더 열기</value>
   </data>
   <data name="SettingPage_ReselectDataFolder" xml:space="preserve">
-    <value>Reselect Data Folder</value>
+    <value>데이터 폴더 변경</value>
   </data>
   <data name="SettingPage_DeleteAllSettings" xml:space="preserve">
-    <value>Delete All Settings</value>
+    <value>모든 설정 초기화</value>
   </data>
   <data name="SettingPage_ClearCachedFiles" xml:space="preserve">
-    <value>Clear Cached Files</value>
+    <value>캐시파일 제거</value>
   </data>
   <data name="SettingPage_About" xml:space="preserve">
     <value>About</value>
   </data>
   <data name="SettingPage_ProjectHomepage" xml:space="preserve">
-    <value>Homepage</value>
+    <value>홈페이지</value>
   </data>
   <data name="SettingPage_ReportIssue" xml:space="preserve">
-    <value>Сообщить об ошибке</value>
+    <value>버그 제보</value>
   </data>
   <data name="SettingPage_ReleaseHistroy" xml:space="preserve">
-    <value>История релизов</value>
+    <value>업데이트 기록</value>
   </data>
   <data name="SettingPage_ThisIsALogo" xml:space="preserve">
-    <value>This is a Logo</value>
+    <value>여기에 로고가 있다고 상상해보세요</value>
   </data>
   <data name="SettingPage_Update" xml:space="preserve">
-    <value>Обновление</value>
+    <value>업데이트 확인</value>
   </data>
   <data name="SettingPage_TestCDNAsync_NetworkError" xml:space="preserve">
-    <value>Ошибка Сети</value>
+    <value>네트워크 오류</value>
   </data>
   <data name="SettingPage_TheCurrentLocationOfTheDataFolderIs" xml:space="preserve">
-    <value>Текущее расположение папки с данными:</value>
+    <value>데이터 저장경로:</value>
   </data>
   <data name="SettingPage_WouldLikeToReselectDataFolder" xml:space="preserve">
-    <value>Would like to reselect? (You need to migrate the data files manually before selecting)</value>
+    <value>변경하시겠습니까? (미리 수동으로 파일을 이동한 수 변경헤주세요.)</value>
   </data>
   <data name="Common_Yes" xml:space="preserve">
-    <value>Да</value>
+    <value>Yes</value>
   </data>
   <data name="SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically" xml:space="preserve">
-    <value>После удаления, программа будет перезапущена автоматически.</value>
+    <value>제거완료 후 프로그램이 자동으로 다시시작 됩니다.</value>
   </data>
   <data name="UpdatePage_NewVersion" xml:space="preserve">
-    <value>Новая версия!</value>
+    <value>새 버전 확인!</value>
   </data>
   <data name="UpdatePage_Links" xml:space="preserve">
-    <value>Ссылки:</value>
+    <value>링크:</value>
   </data>
   <data name="UpdatePage_BuiltTime" xml:space="preserve">
-    <value>Built Time:</value>
+    <value>빌드시간:</value>
   </data>
   <data name="UpdatePage_ReleaseChannel" xml:space="preserve">
-    <value>Канал релиза:</value>
+    <value>릴리즈 채널:</value>
   </data>
   <data name="UpdatePage_Architecture" xml:space="preserve">
-    <value>Architecture:</value>
+    <value>아키텍쳐:</value>
   </data>
   <data name="UpdatePage_DownloadInstaller" xml:space="preserve">
-    <value>Скачать установщик</value>
+    <value>설치프로그램 다운로드</value>
   </data>
   <data name="UpdatePage_DownloadPortable" xml:space="preserve">
-    <value>Скачать портативный</value>
+    <value>비설치 압축파일 다운로드</value>
   </data>
   <data name="UpdatePage_RemindLatter" xml:space="preserve">
-    <value>Напомнить позже</value>
+    <value>다음에 알리기</value>
   </data>
   <data name="UpdatePage_IgnoreThisVersion" xml:space="preserve">
-    <value>Игнорировать эту версию</value>
+    <value>이 버전 무시하기</value>
   </data>
   <data name="UpdatePage_UpdateNow" xml:space="preserve">
-    <value>Обновить сейчас</value>
+    <value>지금 업데이트</value>
   </data>
   <data name="UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage" xml:space="preserve">
-    <value>Вам нужно вручную скачать новую версию пакета</value>
+    <value>수동으로 최신 설치파일을 다운로드 해주세요</value>
   </data>
   <data name="UpdatePage_PreviewChannel" xml:space="preserve">
-    <value>Предварительный канала</value>
+    <value>체험버전</value>
   </data>
   <data name="UpdatePage_StableChannel" xml:space="preserve">
-    <value>Стабильный канал</value>
+    <value>정식버전</value>
   </data>
   <data name="UpdatePage_DevChannel" xml:space="preserve">
-    <value>Канал разработчика</value>
+    <value>개발자버전</value>
   </data>
   <data name="SettingPage_ThemeColorDesc" xml:space="preserve">
-    <value>Automatically calculate the theme color based on the background image, and use the system theme color by default.</value>
+    <value>배경이미지를 기반으로 테마 컬러를 계산합니다. 이 기능을 끄면 시스템 테마컬러를 적용합니다.</value>
   </data>
   <data name="UpdatePage_ReleasePage" xml:space="preserve">
-    <value>Страница релиза</value>
+    <value>릴리즈페이지</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>Use a third-party plugin to start instead, and game time cannot be recorded when enabled.</value>
+    <value>서드파티 런쳐로 실행시 게임기록을 사용할수 없습니다.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Specify the language of gacha records, such as en-US.</value>
+    <value>뽑기 기록에 사용할 언어를 지정하세요. 예: ko-KR</value>
     <comment>Replace en-US with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
-    <value>Язык</value>
+    <value>언어</value>
   </data>
   <data name="SettingPage_FollowSystem" xml:space="preserve">
-    <value>Использовать системой</value>
+    <value>시스템기본값</value>
   </data>
   <data name="SelectDirectoryPage_ToStart" xml:space="preserve">
-    <value>Для начала, выберите папку для сохранения данных.</value>
+    <value>시작하기전에 프로그램 데이터를 저장할 폴더를 선택하세요.</value>
   </data>
   <data name="GachaLogService_GetGachaProgressText" xml:space="preserve">
-    <value>Getting {0} with page {1}</value>
+    <value>불러오는중  {0} 중  {1} 페이지</value>
     <comment>{0} = {gachaType} ,  {1} = {page}</comment>
   </data>
   <data name="HyperionToolbox" xml:space="preserve">
-    <value>Hyperion Toolbox</value>
+    <value>Hyperion 도구상자</value>
   </data>
   <data name="HoYoLABToolbox" xml:space="preserve">
-    <value>HoYoLAB Toolbox</value>
+    <value>HoYoLAB 도구상자</value>
   </data>
   <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
-    <value>Войти</value>
+    <value>로그인</value>
   </data>
   <data name="HoyolabToolboxPage_WebLogin" xml:space="preserve">
-    <value>Веб-логин</value>
+    <value>웹 로그인</value>
   </data>
   <data name="HoyolabToolboxPage_InputCookie" xml:space="preserve">
-    <value>Ввод Cookie</value>
+    <value>쿠키 입력</value>
   </data>
   <data name="HoyolabToolboxPage_RefreshInfo" xml:space="preserve">
-    <value>Обновить информацию</value>
+    <value>정보 새로고침</value>
   </data>
   <data name="HoyolabToolboxPage_CopyCookie" xml:space="preserve">
-    <value>Копировать Cookie</value>
+    <value>쿠키복사</value>
   </data>
   <data name="HoyolabToolboxPage_DeleteGameRole" xml:space="preserve">
-    <value>Удалить роль игры</value>
+    <value>게임캐릭터 제거</value>
   </data>
   <data name="HoyolabToolboxPage_SpiralAbyss" xml:space="preserve">
-    <value>Spiral Abyss</value>
+    <value>나선비경</value>
   </data>
   <data name="HoyolabToolboxPage_TravelersDiary" xml:space="preserve">
-    <value>Traveler's Diary</value>
+    <value>여행자 다이어리</value>
   </data>
   <data name="HoyolabToolboxPage_SimulatedUniverse" xml:space="preserve">
-    <value>Simulated Universe</value>
+    <value>시뮬레이션 우주</value>
   </data>
   <data name="HoyolabToolboxPage_ForgottenHall" xml:space="preserve">
-    <value>Forgotten Hall</value>
+    <value>망각의 정원</value>
   </data>
   <data name="HoyolabToolboxPage_TrailblazeMonthlyCalendar" xml:space="preserve">
-    <value>Trailblaze Monthly Calendar</value>
+    <value>개척일지</value>
   </data>
   <data name="LoginPage_ClickThisButtonAfterLoggingIn" xml:space="preserve">
-    <value>Click this button after logging in.</value>
+    <value>로그인 후 이 버튼을 클릭하세요.</value>
   </data>
   <data name="LoginPage_AlreadyAddedGameRoles" xml:space="preserve">
-    <value>Already added {0} game roles:
+    <value>캐릭터 불러오는중  {0} 중 :
 {1}</value>
   </data>
   <data name="Common_Summary" xml:space="preserve">
-    <value>Summary</value>
+    <value>요약</value>
   </data>
   <data name="SpiralAbyssPage_Picked" xml:space="preserve">
-    <value>Picked</value>
+    <value>출전횟수</value>
     <comment>avatar battle count stats</comment>
   </data>
   <data name="SpiralAbyssPage_CombatStats" xml:space="preserve">
-    <value>Combat Stats</value>
+    <value>전투통계</value>
   </data>
   <data name="SpiralAbyssPage_MostDefeats" xml:space="preserve">
-    <value>Most Defeats</value>
+    <value>최대 격파 횟수</value>
   </data>
   <data name="SpiralAbyssPage_StrongestSingleStrike" xml:space="preserve">
-    <value>Strongest Single Strike</value>
+    <value>최고의 일격</value>
   </data>
   <data name="SpiralAbyssPage_MostDamageTaken" xml:space="preserve">
-    <value>Most Damage Taken</value>
+    <value>가장 크게 받은 피해</value>
   </data>
   <data name="SpiralAbyssPage_ElementalSkillsUnleashed" xml:space="preserve">
-    <value>Elemental Skills Unleashed</value>
+    <value>원소전투스킬 발동 횟수</value>
   </data>
   <data name="SpiralAbyssPage_ElementalBrustsUnleashed" xml:space="preserve">
-    <value>Elemental Brusts Unleashed</value>
+    <value>원소폭발 발동 횟수</value>
   </data>
   <data name="TravelersDiaryPage_GetDetails" xml:space="preserve">
-    <value>Get Details</value>
+    <value>더보기</value>
     <comment>get primogems and mora details</comment>
   </data>
   <data name="TravelersDiaryPage_RealTimeData" xml:space="preserve">
-    <value>Real-Time Data</value>
+    <value>실시간 데이터</value>
   </data>
   <data name="TravelersDiaryPage_HistoricalData" xml:space="preserve">
-    <value>Historical Data</value>
+    <value>지난 기록</value>
   </data>
   <data name="TravelersDiaryPage_AcquiredThisMonth" xml:space="preserve">
-    <value>Acquired this month</value>
+    <value>이번 달 총 획득</value>
   </data>
   <data name="TravelersDiaryPage_AcquiredThisDay" xml:space="preserve">
-    <value>Acquired this day</value>
+    <value>오늘 총 획득</value>
   </data>
   <data name="TravelersDiaryPage_PrimogemsObtained" xml:space="preserve">
-    <value>Primogems obtained</value>
+    <value>원석 수입 구성</value>
   </data>
   <data name="SpiralAbyssPage_DeepestDescent" xml:space="preserve">
-    <value>Deepest Descent</value>
+    <value>최고 기록</value>
   </data>
   <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
-    <value>Battles Fought</value>
+    <value>전투 횟수</value>
   </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
-    <value>times</value>
+    <value>회</value>
     <comment>battle count 12 times</comment>
   </data>
   <data name="Common_Accept" xml:space="preserve">
-    <value>Accept</value>
+    <value>확인</value>
   </data>
   <data name="Common_Reject" xml:space="preserve">
-    <value>Reject</value>
+    <value>거절</value>
   </data>
   <data name="HoyolabToolboxPage_WarningAgain" xml:space="preserve">
-    <value>Warning Again</value>
+    <value>재경고</value>
   </data>
   <data name="Common_Disclaimer" xml:space="preserve">
-    <value>Disclaimer</value>
+    <value>면책조항</value>
   </data>
   <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
-    <value>The features of this page requires you to log in to your Hyperion/HoYoLAB account, and Starward will save your login credentials (Cookie) and impersonate you to send requests to miHoYo's server. This method is risky and we are not responsible if your account is abnormal or banned as a result.
+    <value>이 기능은 사용자의 쿠키를 이용하여 Starward 프로그램이 사용자를 가장하여 miHoYo 서버에 접속하여 데이터를 청구합니다. 이런 행위는 사용자 계정의 이상 혹은 계정정지 등을 초래할 수 있으며 이로인해 발생한 손해 는 사용자가 전적으로 책임져야 함을 알립니다.
 
-Do you accept the risk and continue to use it?</value>
+위 내용을 이해하였으며 그래도 계속하시겠습니까?</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
-    <value>Stellar Jade Sources</value>
+    <value>성옥 획득처</value>
   </data>
   <data name="ForgottenHallPage_Period" xml:space="preserve">
-    <value>Period</value>
+    <value>통계주기</value>
   </data>
   <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
-    <value>Cycles used:</value>
+    <value>사용 라운드:</value>
   </data>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
-    <value>Team Setup</value>
+    <value>파티편성</value>
     <comment>example: forgotten hall team setup 1</comment>
   </data>
   <data name="Common_AccountError" xml:space="preserve">
-    <value>Account Error</value>
+    <value>계정 오류</value>
   </data>
   <data name="Common_NetworkError" xml:space="preserve">
-    <value>Network Error</value>
+    <value>네트워크 오류</value>
   </data>
   <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
-    <value>Verify Account</value>
+    <value>계정 체크</value>
   </data>
   <data name="DownloadGameService_RepairMode" xml:space="preserve">
-    <value>Repair Mode</value>
+    <value>복구모드</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
-    <value>It takes additional disk space when unzip.</value>
+    <value>압축해제 시 더 많은 공간이 필요할수 있습니다.</value>
   </data>
   <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
-    <value>Ability Tree Buffs Activated</value>
+    <value>스킬트리 활성화 완료</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
-    <value>Unlocked Curios</value>
+    <value>기물 개방완료</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
-    <value>Unlocked Blessings</value>
+    <value>축복 개방완료</value>
   </data>
   <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
-    <value>Number of Clears</value>
+    <value>이번 회차 클리어 휫수</value>
   </data>
   <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
-    <value>Highest Score</value>
+    <value>최고점수</value>
   </data>
   <data name="SimulatedUniversePage_ChallengedOn" xml:space="preserve">
-    <value>Challenged On</value>
+    <value>도전시간</value>
   </data>
   <data name="SimulatedUniversePage_CharactersUsed" xml:space="preserve">
-    <value>Characters Used</value>
+    <value>클리어 시 사용한 캐릭터</value>
   </data>
   <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
-    <value>Cached Characters</value>
+    <value>다운로드 된 캐릭터</value>
   </data>
   <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
-    <value>Curios Obtained</value>
+    <value>획득 기물</value>
   </data>
   <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
-    <value>Blessings Obtained</value>
+    <value>획득 축복</value>
   </data>
   <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
-    <value>Daily Data</value>
+    <value>일일 정보</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJade" xml:space="preserve">
-    <value>Stellar Jade</value>
+    <value>성옥</value>
   </data>
   <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
-    <value>Pass &amp; Special Pass</value>
+    <value>티켓 &amp; 전용티켓</value>
   </data>
   <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
-    <value>Primogems</value>
+    <value>원석</value>
   </data>
   <data name="TravelersDiaryPage_Mora" xml:space="preserve">
-    <value>Mora</value>
+    <value>모라</value>
   </data>
   <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
-    <value>Floor {X}</value>
+    <value>제 {X} 층</value>
     <comment>Spiral Abyss Floor {X}</comment>
   </data>
   <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
-    <value>Chamber {X}</value>
+    <value> {X} 번방</value>
     <comment>Spiral Abyss Chamber {X}</comment>
   </data>
   <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
-    <value>Screenshot folder does not exist</value>
+    <value>스크린샷 폴더가 없습니다.</value>
   </data>
   <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
-    <value>The language of {0} gacha records has been changed to ({1}).</value>
+    <value>{0} 건의 뽑기기록의 언어가 ({1}) 로 변경되었습니다.</value>
     <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
   <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>개인정보 정책</value>
   </data>
   <data name="MainPage_Tips" xml:space="preserve">
-    <value>Tips</value>
+    <value>팁</value>
   </data>
   <data name="SettingPage_CDNTips" xml:space="preserve">
-    <value>Users in some areas may encounter network anomalies. You could solve this problem by switching CDNs.</value>
+    <value>일부 지역의 사용자는 접속오류가 발생할수 있습니다. CDN 을 교체하여 이를 해결 할수 있습니다.</value>
   </data>
   <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
-    <value>Select Server</value>
+    <value>서버 선택</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
-    <value>System Tray Icon</value>
+    <value>시스템 트레이 아이콘</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
-    <value>Exit Launcher When Closing Window</value>
+    <value>프로그램 창 종료시 프로그램 종료</value>
   </data>
   <data name="Common_Exit" xml:space="preserve">
-    <value>Exit</value>
+    <value>닫기</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>System Tray</value>
+    <value>시스템 트레이</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
-    <value>Installer</value>
+    <value>설치프로그램</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>You could choose to exit or hide window and minimize to system tray.</value>
+    <value>창을 닫은 후 프로그램을 종료할 지 시스템 트레이에 최소화 할 지 선택할 수 있습니다.</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
-    <value>Hide</value>
+    <value>숨김</value>
   </data>
   <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
-    <value>Backup Screenshots</value>
+    <value>스크린샷 백업</value>
   </data>
   <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
-    <value>Open Backup Folder</value>
+    <value>백업폴더 열기</value>
   </data>
   <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
-    <value>Feature not Supported</value>
+    <value>지원되지 않는 기능</value>
   </data>
   <data name="SettingPage_LastBackup" xml:space="preserve">
-    <value>Last backup</value>
+    <value>마지막 백업</value>
   </data>
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
-    <value>Backup Database</value>
+    <value>백업 데이터베이스</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
-    <value>Backed up {0} new screenshots.</value>
+    <value>스크린샷  {0}  건 추가됨</value>
   </data>
 </root>

@@ -308,10 +308,10 @@
     <value>Tải xuống đã tạm dừng</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
-    <value>Không có lịch sử Gacha</value>
+    <value>Không có bản ghi Gacha</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
-    <value>Cập nhật lịch sử</value>
+    <value>Cập nhật Bản ghi</value>
   </data>
   <data name="GachaLogPage_UpdateSavedURL" xml:space="preserve">
     <value>Cập nhật (URL đã lưu)</value>
@@ -347,7 +347,7 @@
     <value>Hiện thị Gacha người mới</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>Xoá lịch sử</value>
+    <value>Xoá bản ghi</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
     <value>Ngôn ngữ</value>
@@ -375,31 +375,31 @@
     <value>Xoá</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>Đã xoá {0} lịch sử gacha của UID {1}.</value>
+    <value>Đã xoá {0} bản ghi gacha của UID {1}.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>Tất cả lịch sử gacha của UID {0} sẽ bị xoá, và hành động này là không thể hoàn tác.</value>
+    <value>Tất cả bản ghi gacha của UID {0} sẽ bị xoá, và hành động này là không thể hoàn tác.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
-    <value>Lịch sử cầu nguyện</value>
+    <value>Bản ghi cầu nguyện</value>
   </data>
   <data name="GachaLogService_WarpRecords" xml:space="preserve">
-    <value>Lịch sử bước nhảy</value>
+    <value>Bản ghi bước nhảy</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
     <value>Đang nhận UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>Tài khoản này không có lịch sử gacha trong 6 tháng gần nhất.</value>
+    <value>Tài khoản này không có bản ghi gacha trong 6 tháng gần nhất.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
     <value>Nhận {0} bản ghi, đã thêm {1} bản ghi.</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>Nhập {0} lịch sử cầu nguyện thành công.</value>
+    <value>Nhập {0} bản ghi cầu nguyện thành công.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
     <value>Nhập {0} bản ghi bước nhảy thành công.</value>
@@ -782,7 +782,7 @@
     <value>Thay vào đó, sử dụng plugin bên thứ ba để bắt đầu, và thời gian chơi có thể không được ghi lại khi được bật.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Chỉ định ngôn ngữ của lịch sử gacha, như là vi_VN.</value>
+    <value>Chỉ định ngôn ngữ của bản ghi gacha, như là vi_VN.</value>
     <comment>Replace en-US with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
@@ -1050,5 +1050,8 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
     <value>Cơ sở dữ liệu sao lưu</value>
+  </data>
+  <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
+    <value>Đã sao lưu {0} ảnh chụp màn hình mới.</value>
   </data>
 </root>

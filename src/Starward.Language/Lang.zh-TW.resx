@@ -1051,4 +1051,7 @@
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
     <value>備份資料庫</value>
   </data>
+  <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
+    <value>新增 {0} 張截圖備份</value>
+  </data>
 </root>
