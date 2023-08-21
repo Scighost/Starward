@@ -148,6 +148,8 @@
                         <DataTemplate x:DataType="sm:ScreenshotItem">
                             <Grid Height="120">
                                 <sc:CachedImage Name="Image_Thumb"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
                                                 ui:VisualExtensions.NormalizedCenterPoint="0.5"
                                                 Background="{ThemeResource ControlAltFillColorTertiaryBrush}"
                                                 EnableLazyLoading="True"

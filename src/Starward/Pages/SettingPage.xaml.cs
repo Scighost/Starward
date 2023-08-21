@@ -538,7 +538,7 @@ public sealed partial class SettingPage : Page
 
 
     [RelayCommand]
-    private async void ChangeDataFolder()
+    private async Task ChangeDataFolderAsync()
     {
         try
         {
