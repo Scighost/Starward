@@ -1074,15 +1074,8 @@ internal partial class DownloadGameService
                 {
                     File.Delete(BH3Base);
                 }
-                string bugtrace = Path.Combine(installPath, "bugtrace.dll");
-                if (File.Exists(bugtrace))
-                {
-                    File.Delete(bugtrace);
-                }
                 long? length = await GetContentLengthAsync($"{sperateUrl}/BH3Base.dll");
                 list.Add(new DownloadTask { FileName = "BH3Base.dll", MD5 = "", Size = length ?? 0 });
-                length = await GetContentLengthAsync($"{sperateUrl}/bugtrace.dll");
-                list.Add(new DownloadTask { FileName = "bugtrace.dll", MD5 = "", Size = length ?? 0 });
             }
 
             sliceTasks = list;
