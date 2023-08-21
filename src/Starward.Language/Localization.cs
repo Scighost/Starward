@@ -13,6 +13,7 @@ public static class Localization
         ("简体中文 (zh-CN, @Scighost)", "zh-CN"),
         ("繁體中文 (zh-TW, @XPRAMT)", "zh-TW"),
         ("ภาษาไทย (th-TH, @thunni-noi)", "th-TH"),
+        ("한국어 (ko-KR, @DE2SSE)", "ko-KR"),
     }.AsReadOnly();
 
 
