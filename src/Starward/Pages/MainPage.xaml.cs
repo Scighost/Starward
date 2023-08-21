@@ -517,6 +517,14 @@ public sealed partial class MainPage : Page
                 }
                 else
                 {
+                    if (CurrentGameBiz is GameBiz.hk4e_cloud && !AppConfig.GetEnableCustomBg(GameBiz.hk4e_cloud))
+                    {
+                        Image_Content.HorizontalAlignment = HorizontalAlignment.Left;
+                    }
+                    else
+                    {
+                        Image_Content.HorizontalAlignment = HorizontalAlignment.Center;
+                    }
                     BackgroundImage = new BitmapImage(new Uri(file));
                     Color? back = null, fore = null;
                     if (AppConfig.EnableDynamicAccentColor)
@@ -639,6 +647,14 @@ public sealed partial class MainPage : Page
                     if (source.IsCancellationRequested)
                     {
                         return;
+                    }
+                    if (CurrentGameBiz is GameBiz.hk4e_cloud && !AppConfig.GetEnableCustomBg(GameBiz.hk4e_cloud))
+                    {
+                        Image_Content.HorizontalAlignment = HorizontalAlignment.Left;
+                    }
+                    else
+                    {
+                        Image_Content.HorizontalAlignment = HorizontalAlignment.Center;
                     }
                     BackgroundImage = bitmap;
                 }
