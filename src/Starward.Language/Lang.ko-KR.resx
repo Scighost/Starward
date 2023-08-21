@@ -1052,6 +1052,6 @@
     <value>백업 데이터베이스</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
-    <value>Backed up {0} new screenshots.</value>
+    <value>스크린샷  {0}  건 추가됨</value>
   </data>
 </root>
