@@ -642,7 +642,7 @@
     <value>アプリの設定</value>
   </data>
   <data name="SettingPage_EffectiveAtNextStartup" xml:space="preserve">
-    <value>次回の起動時に有効</value>
+    <value>次回の起動時に有効化されます。</value>
   </data>
   <data name="SettingPage_OpenLogFolder" xml:space="preserve">
     <value>ログフォルダーを開く</value>
@@ -1015,7 +1015,7 @@
     <value>サーバーを選択</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
-    <value>通知領域のアイコン</value>
+    <value>通知領域にアイコンを表示する</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
     <value>ウィンドウを閉じたときにランチャーを終了する</value>
@@ -1051,6 +1051,6 @@
     <value>データベースのバックアップ</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
-    <value>Backed up {0} new screenshots.</value>
+    <value>新規スクリーンショットの {0} をバックアップしました。</value>
   </data>
 </root>
