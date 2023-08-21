@@ -79,6 +79,13 @@
                         <FontIcon Glyph="&#xE80F;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Name="NavigationViewItem_GameAnnounce"
+                                    Content="{x:Bind lang:Lang.GameNotices}"
+                                    Tag="GameNoticesPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE789;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem Name="NavigationViewItem_GameSetting"
                                     Content="{x:Bind lang:Lang.LauncherPage_GameSetting}"
                                     Tag="GameSettingPage">

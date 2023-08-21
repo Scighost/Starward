@@ -944,6 +944,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Game Notices 的本地化字符串。
+        /// </summary>
+        public static string GameNotices {
+            get {
+                return ResourceManager.GetString("GameNotices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Anti-Aliasing 的本地化字符串。
         /// </summary>
         public static string GameSettingPage_AntiAliasing {
