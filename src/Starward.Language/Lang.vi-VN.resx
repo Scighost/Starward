@@ -1052,6 +1052,6 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Cơ sở dữ liệu sao lưu</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
-    <value>Backed up {0} new screenshots.</value>
+    <value>Đã sao lưu {0} ảnh chụp màn hình mới.</value>
   </data>
 </root>
