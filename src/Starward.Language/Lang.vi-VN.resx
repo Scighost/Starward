@@ -148,13 +148,13 @@
     <value>Tiếng Hàn</value>
   </data>
   <data name="DownloadGameDialog_DownloadGameFilesDirectly" xml:space="preserve">
-    <value>Tải tập tin trò chơi trực tiếp</value>
+    <value>Tải file trò chơi trực tiếp</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>Tính năng này đang ở trong giai đoạn thử nghiệm, Nếu có bất kì tệp trò chơi nào bị hỏng, vui lòng sử dụng trình khởi chạy chính thức để sửa nó.</value>
+    <value>Tính năng này đang ở trong giai đoạn thử nghiệm. Nếu có bất kì file trò chơi nào bị hỏng hoặc thiếu, vui lòng sử dụng trình khởi chạy chính thức của miHoYo để sửa.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
-    <value>Dung lượng có sẵn có lẽ là không đủ</value>
+    <value>Dung lượng có sẵn có lẽ không đủ</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
     <value>Đảm bảo</value>
@@ -184,10 +184,10 @@
     <value>Bạn có muốn chọn thư mục này?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>Thư mục này sẽ tự động xoá sau khi phần mềm cập nhật</value>
+    <value>Thư mục này sẽ tự động xoá sau khi cập nhật phần mềm</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
-    <value>Không có quyền ghi</value>
+    <value>Không có quyền ghi file</value>
   </data>
   <data name="SelectDirectoryPage_OK" xml:space="preserve">
     <value>OK</value>
@@ -218,7 +218,7 @@
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
     <value>Tải xuống có thể được tiếp tục sau lần khởi động tiếp theo;
-đóng phần mềm trong khi giải nén sẽ gây ra hư hỏng tập tin.</value>
+đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập tin.</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
     <value>Đóng</value>
@@ -227,7 +227,7 @@
     <value>Huỷ</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>Phần mềm sẽ được thoát sớm</value>
+    <value>Ứng dụng sẽ được thoát sớm</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
     <value>Bắt đầu lặp lại</value>
@@ -242,7 +242,7 @@
     <value>Không có quyền hạn</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Vui lòng khởi động bằng quyền Administrator</value>
+    <value>Vui lòng khởi động bằng quyền Administrator (Quản trị viên)</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
     <value>Bắt đầu</value>
@@ -266,7 +266,7 @@
     <value>Thử lại</value>
   </data>
   <data name="DownloadGamePage_OpenLog" xml:space="preserve">
-    <value>Mở bản ghi nhật kí</value>
+    <value>Mở bản nhật kí</value>
   </data>
   <data name="DownloadGamePage_NetworkError" xml:space="preserve">
     <value>Lỗi mạng</value>
@@ -308,7 +308,7 @@
     <value>Tải xuống đã tạm dừng</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
-    <value>Không có bản ghi Gacha</value>
+    <value>Không có bản ghi lịch sử Gacha</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
     <value>Cập nhật Bản ghi</value>
