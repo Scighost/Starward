@@ -813,19 +813,38 @@ public sealed partial class MainPage : Page
 
     public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null, bool changeGameBiz = false)
     {
+        Border_ContentBackground.Visibility = Visibility.Visible;
+        string? sourcePage = MainPage_Frame.CurrentSourcePageType?.Name, destPage = page?.Name;
         if (page is null
-            || page?.Name is nameof(BlankPage)
-            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && page?.Name is nameof(GachaLogPage) or nameof(HoyolabToolboxPage)))
+            || destPage is nameof(BlankPage)
+            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is nameof(GachaLogPage) or nameof(HoyolabToolboxPage)))
         {
             page = typeof(LauncherPage);
+        }
+        else if (!changeGameBiz && (destPage is nameof(GameNoticesPage)
+            || (destPage is nameof(LauncherPage) && sourcePage is nameof(GameNoticesPage))))
+        {
+            infoOverride = new SuppressNavigationTransitionInfo();
+        }
+        if (page?.Name is nameof(LauncherPage))
+        {
             MainPage_NavigationView.SelectedItem = MainPage_NavigationView.MenuItems.FirstOrDefault();
         }
         _logger.LogInformation("Navigate to {page} with param {param}", page!.Name, param ?? CurrentGameBiz);
         infoOverride ??= GetNavigationTransitionInfo(changeGameBiz);
         MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, infoOverride);
-        if (page.Name is nameof(BlankPage) or nameof(LauncherPage))
+        if (destPage is nameof(LauncherPage))
         {
             PlayVideo();
+            Border_ContentBackground.Opacity = 0;
+            if (sourcePage is nameof(GameNoticesPage))
+            {
+                Border_ContentBackground.Visibility = Visibility.Collapsed;
+            }
+        }
+        else if (destPage is nameof(BlankPage))
+        {
+            PauseVideo();
             Border_ContentBackground.Opacity = 0;
         }
         else

@@ -8,15 +8,16 @@
       mc:Ignorable="d">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
 
+        <Image Name="Image_Bg"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Stretch="UniformToFill" />
 
         <WebView2 Name="webview"
                   Grid.Row="1"
-                  DefaultBackgroundColor="#404040">
+                  DefaultBackgroundColor="#404040"
+                  Opacity="0">
             <WebView2.Resources>
                 <SolidColorBrush x:Key="BrushForThemeBackgroundColor" Color="#404040" />
             </WebView2.Resources>
