@@ -404,6 +404,11 @@ public sealed partial class LauncherPage : Page
                 processTimer?.Start();
             }
         }
+        else
+        {
+            _logger.LogInformation("Game process exited");
+            DispatcherQueue.TryEnqueue(GetGameAccount);
+        }
     }
 
 
