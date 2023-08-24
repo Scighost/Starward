@@ -157,11 +157,16 @@ public sealed partial class GameNoticesPage : Page
                         }
                         let close = document.getElementsByClassName("home__close");
                         if (close.length > 0) {
-                            close[0].addEventListener("click", (e) => { window.chrome.webview.postMessage("close") });
+                            close[0].addEventListener("click", () => {
+                                console.log("click");
+                                if (document.getElementsByClassName("home__close--back").length === 0) {
+                                    window.chrome.webview.postMessage("close");
+                                }
+                            }, true);
                         }
                         close = document.getElementsByClassName("innerann__close");
                         if (close.length > 0) {
-                            close[0].addEventListener("click", (e) => { window.chrome.webview.postMessage("close") });
+                            close[0].addEventListener("click", () => { window.chrome.webview.postMessage("close") });
                         }
                     }
                 }
