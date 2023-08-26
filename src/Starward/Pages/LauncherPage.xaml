@@ -104,6 +104,25 @@
                                            Text="{Binding Header}" />
                             </DataTemplate>
                         </Pivot.HeaderTemplate>
+                        <Pivot.RightHeader>
+                            <Button Margin="0,0,8,0"
+                                    Command="{x:Bind NavigateToGameNoticesPageCommand}"
+                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                                    ToolTipService.ToolTip="{x:Bind lang:Lang.GameNotices}">
+                                <Grid>
+                                    <FontIcon FontSize="18"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE789;" />
+                                    <Image Name="Image_GameNoticesAlert"
+                                           Width="20"
+                                           Margin="0,-8,-12,0"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Top"
+                                           Source="ms-appx:///Assets/Image/alert.png"
+                                           Visibility="Collapsed" />
+                                </Grid>
+                            </Button>
+                        </Pivot.RightHeader>
                         <Pivot.ItemTemplate>
                             <DataTemplate>
                                 <PivotItem Margin="12,0,12,0">

@@ -180,16 +180,17 @@ internal class GameService
 
 
 
-    public void SaveGameAccount(GameAccount account)
+    public bool SaveGameAccount(GameAccount account)
     {
         if (string.IsNullOrWhiteSpace(account.Name))
         {
             _logger.LogWarning("Account name is null, cannot be saved.");
-            return;
+            return false;
         }
         using var dapper = _database.CreateConnection();
         dapper.Execute("INSERT OR REPLACE INTO GameAccount (SHA256, GameBiz, Uid, Name, Value, Time) VALUES (@SHA256, @GameBiz, @Uid, @Name, @Value, @Time);", account);
         _logger.LogInformation("Save account {name} ({biz}) successfully!", account.Name, account.GameBiz);
+        return true;
     }
 
 

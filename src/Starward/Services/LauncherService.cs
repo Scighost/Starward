@@ -55,6 +55,12 @@ public class LauncherService
 
 
 
+    public async Task<bool> IsNoticesAlertAsync(GameBiz gameBiz, long uid, CancellationToken cancellationToken = default)
+    {
+        return await _launcherClient.IsNoticesAlertAsync(gameBiz, uid, CultureInfo.CurrentUICulture.Name, cancellationToken);
+    }
+
+
 
     public static string? GetBackgroundFilePath(string? name)
     {

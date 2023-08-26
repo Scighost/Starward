@@ -103,6 +103,7 @@ public sealed partial class LauncherPage : Page
             UpdateGameState();
             GetGameAccount();
             await GetLauncherContentAsync();
+            await GetGameNoticesAlertAsync();
         }
         catch { }
     }
@@ -263,6 +264,42 @@ public sealed partial class LauncherPage : Page
         Border_PipsPager.Visibility = Visibility.Collapsed;
     }
 
+
+
+
+    private async Task GetGameNoticesAlertAsync()
+    {
+        try
+        {
+            long uid = 0;
+            if (GameAccountList?.FirstOrDefault(x => x.IsLogin) is GameAccount account)
+            {
+                uid = account.Uid;
+            }
+            if (await _launcherService.IsNoticesAlertAsync(gameBiz, uid))
+            {
+                Image_GameNoticesAlert.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Image_GameNoticesAlert.Visibility = Visibility.Collapsed;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Game notices alert");
+            Image_GameNoticesAlert.Visibility = Visibility.Collapsed;
+        }
+    }
+
+
+
+
+    [RelayCommand]
+    private void NavigateToGameNoticesPage()
+    {
+        MainPage.Current.NavigateTo(typeof(GameNoticesPage));
+    }
 
 
     #endregion
@@ -812,6 +849,7 @@ public sealed partial class LauncherPage : Page
                 }
                 CanChangeGameAccount = false;
                 SelectGameAccount.IsLogin = true;
+                _ = GetGameNoticesAlertAsync();
             }
         }
         catch (Exception ex)
@@ -829,10 +867,13 @@ public sealed partial class LauncherPage : Page
             if (SelectGameAccount is not null)
             {
                 SelectGameAccount.Time = DateTime.Now;
-                _gameService.SaveGameAccount(SelectGameAccount);
-                FontIcon_SaveGameAccount.Glyph = "\uE8FB";
-                await Task.Delay(3000);
-                FontIcon_SaveGameAccount.Glyph = "\uE74E";
+                if (_gameService.SaveGameAccount(SelectGameAccount))
+                {
+                    FontIcon_SaveGameAccount.Glyph = "\uE8FB";
+                    _ = GetGameNoticesAlertAsync();
+                    await Task.Delay(3000);
+                    FontIcon_SaveGameAccount.Glyph = "\uE74E";
+                }
             }
         }
         catch (Exception ex)
@@ -851,6 +892,7 @@ public sealed partial class LauncherPage : Page
             {
                 _gameService.DeleteGameAccount(SelectGameAccount);
                 GetGameAccount();
+                _ = GetGameNoticesAlertAsync();
             }
         }
         catch (Exception ex)
