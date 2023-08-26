@@ -44,6 +44,7 @@
 		<PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Starward.Assets" Version="0.3.0" />
+		<PackageReference Include="Starward.NativeLib" Version="0.2.0" />
 		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.16" />
 		<PackageReference Include="Vanara.PInvoke.User32" Version="3.4.16" />
 		<Manifest Include="$(ApplicationManifest)" />
@@ -52,7 +53,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
 		<ProjectReference Include="..\Starward.Language\Starward.Language.csproj" />
-		<ProjectReference Include="..\Starward.SevenZip\Starward.SevenZip.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
