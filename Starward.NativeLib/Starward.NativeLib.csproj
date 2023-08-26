@@ -1,33 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <Version>0.1.0</Version>
-    <Authors>Scighost</Authors>
-    <Description>
-7z.dll v22.01
-hpatchz.exe v4.6.3
-    </Description>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<Version>0.2.0</Version>
+		<Authors>Scighost</Authors>
+		<Description>
+7z.dll v23.01
+hpatchz.exe v4.6.5
+		</Description>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)x64\*">
-      <PackagePath>runtimes\win10-x64\native\</PackagePath>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Pack>true</Pack>
-    </None>
-    <None Include="$(MSBuildThisFileDirectory)x86\*">
-      <PackagePath>runtimes\win10-x86\native\</PackagePath>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Pack>true</Pack>
-    </None>
-    <None Include="$(MSBuildThisFileDirectory)arm64\*">
-      <PackagePath>runtimes\win10-arm64\native\</PackagePath>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Pack>true</Pack>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="$(MSBuildThisFileDirectory)runtimes\**">
+			<PackagePath>.\</PackagePath>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<Pack>true</Pack>
+		</None>
+	</ItemGroup>
 
 </Project>
