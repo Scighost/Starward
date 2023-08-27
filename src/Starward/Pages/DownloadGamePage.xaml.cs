@@ -533,12 +533,17 @@ public sealed partial class DownloadGamePage : Page
                 // 解压中
                 StateText = Lang.DownloadGamePage_Decompressing;
             }
+            if (state is DownloadGameService.DownloadGameState.Merging)
+            {
+                // 合并中
+                StateText = Lang.DownloadGamePage_Merging;
+            }
             if (state is DownloadGameService.DownloadGameState.Decompressed)
             {
                 if (gameBiz.ToGame() is GameBiz.Honkai3rd)
                 {
                     repairMode = true;
-                    _ = PrepareForDownloadAsync();
+                    _ = PrepareForDownloadAsync(false);
                 }
                 else
                 {
@@ -618,10 +623,12 @@ public sealed partial class DownloadGamePage : Page
         long thisProgressBytes = _downloadGameService.ProgressBytes;
         long thisMilliseconds = _stopwatch.ElapsedMilliseconds;
         double progress = 0;
-        if (repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
+        if ((repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
+            || _downloadGameService.State is DownloadGameService.DownloadGameState.Merging)
         {
             progress = (double)_downloadGameService.ProgressCount / _downloadGameService.TotalCount;
             ProgressBytesText = $"{_downloadGameService.ProgressCount}/{_downloadGameService.TotalCount}";
+            SpeedText = null;
             RemainTimeText = null;
         }
         else
@@ -640,8 +647,10 @@ public sealed partial class DownloadGamePage : Page
             if (speed > 0)
             {
                 SpeedText = $"{speed / (1 << 20):F2} MB/s";
-                if (repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
+                if ((repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
+                    || _downloadGameService.State is DownloadGameService.DownloadGameState.Merging)
                 {
+                    SpeedText = null;
                     RemainTimeText = null;
                 }
                 else
@@ -673,7 +682,7 @@ public sealed partial class DownloadGamePage : Page
 
 
 
-    private async Task PrepareForDownloadAsync()
+    private async Task PrepareForDownloadAsync(bool changeActionType = true)
     {
         _timer.Start();
         IsActionButtonEnable = false;
@@ -687,7 +696,10 @@ public sealed partial class DownloadGamePage : Page
             lastProgressBytes = _downloadGameService.ProgressBytes;
             decompress = await _downloadGameService.PrepareForDownloadAsync(gameBiz, gameFolder, voiceLanguage);
         }
-        ActionType = _downloadGameService.ActionType;
+        if (changeActionType)
+        {
+            ActionType = _downloadGameService.ActionType;
+        }
     }
 
 

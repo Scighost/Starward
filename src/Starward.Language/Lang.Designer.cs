@@ -413,6 +413,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Merging 的本地化字符串。
+        /// </summary>
+        public static string DownloadGamePage_Merging {
+            get {
+                return ResourceManager.GetString("DownloadGamePage_Merging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Network Error 的本地化字符串。
         /// </summary>
         public static string DownloadGamePage_NetworkError {

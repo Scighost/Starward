@@ -1289,8 +1289,14 @@ internal partial class DownloadGameService
             var hdifffiles = Path.Combine(installPath, "hdifffiles.txt");
             if (File.Exists(hdifffiles))
             {
+                int tmp_TotalCount = TotalCount;
+                int tmp_ProgressCount = ProgressCount;
+
                 var hpatch = Path.Combine(AppContext.BaseDirectory, "hpatchz.exe");
                 var lines = await File.ReadAllLinesAsync(hdifffiles).ConfigureAwait(false);
+                TotalCount = lines.Length;
+                progressCount = 0;
+                State = DownloadGameState.Merging;
                 foreach (var line in lines)
                 {
                     var json = JsonNode.Parse(line);
@@ -1315,8 +1321,12 @@ internal partial class DownloadGameService
                             File.Delete(diff);
                         }
                     }
+                    progressCount++;
                 }
                 File.Delete(hdifffiles);
+                TotalCount = tmp_TotalCount;
+                progressCount = tmp_ProgressCount;
+                State = DownloadGameState.Decompressing;
             }
         }
     }
@@ -1425,6 +1435,8 @@ internal partial class DownloadGameService
         Decompressing,
 
         Decompressed,
+
+        Merging,
 
         Finish,
 
