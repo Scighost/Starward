@@ -1078,6 +1078,34 @@ internal partial class DownloadGameService
                 list.Add(new DownloadTask { FileName = "BH3Base.dll", MD5 = "", Size = length ?? 0 });
             }
 
+            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            {
+                List<string>? existFiles = null;
+                if (gameBiz is GameBiz.hk4e_cn)
+                {
+                    existFiles = Directory.GetFiles(Path.Combine(installPath, @"YuanShen_Data\StreamingAssets"), "*", SearchOption.AllDirectories).ToList();
+                }
+                if (gameBiz is GameBiz.hk4e_global)
+                {
+                    existFiles = Directory.GetFiles(Path.Combine(installPath, @"GenshinImpact_Data\StreamingAssets"), "*", SearchOption.AllDirectories).ToList();
+                }
+                var packageFiles = packageTasks.Select(x => Path.GetFullPath(Path.Combine(installPath, x.FileName))).ToList();
+                if (existFiles != null)
+                {
+                    var deleteFiles = existFiles.Except(packageFiles).ToList();
+                    foreach (var file in deleteFiles)
+                    {
+                        if (File.Exists(file))
+                        {
+                            _logger.LogInformation("Delete deprecated file: {file}", file);
+                            File.SetAttributes(file, FileAttributes.Normal);
+                            File.Delete(file);
+                        }
+                    }
+                }
+            }
+
+            _logger.LogInformation("{count} files need to download.", list.Count);
             sliceTasks = list;
             TotalBytes = sliceTasks.Sum(x => x.Size);
             progressBytes = 0;

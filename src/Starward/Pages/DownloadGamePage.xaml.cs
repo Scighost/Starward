@@ -623,8 +623,13 @@ public sealed partial class DownloadGamePage : Page
         long thisProgressBytes = _downloadGameService.ProgressBytes;
         long thisMilliseconds = _stopwatch.ElapsedMilliseconds;
         double progress = 0;
-        if ((repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
-            || _downloadGameService.State is DownloadGameService.DownloadGameState.Merging)
+        if (repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
+        {
+            progress = (double)_downloadGameService.ProgressCount / _downloadGameService.TotalCount;
+            ProgressBytesText = $"{_downloadGameService.ProgressCount}/{_downloadGameService.TotalCount}";
+            RemainTimeText = null;
+        }
+        else if (_downloadGameService.State is DownloadGameService.DownloadGameState.Merging)
         {
             progress = (double)_downloadGameService.ProgressCount / _downloadGameService.TotalCount;
             ProgressBytesText = $"{_downloadGameService.ProgressCount}/{_downloadGameService.TotalCount}";
@@ -647,8 +652,11 @@ public sealed partial class DownloadGamePage : Page
             if (speed > 0)
             {
                 SpeedText = $"{speed / (1 << 20):F2} MB/s";
-                if ((repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
-                    || _downloadGameService.State is DownloadGameService.DownloadGameState.Merging)
+                if (repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
+                {
+                    RemainTimeText = null;
+                }
+                else if (_downloadGameService.State is DownloadGameService.DownloadGameState.Merging)
                 {
                     SpeedText = null;
                     RemainTimeText = null;
