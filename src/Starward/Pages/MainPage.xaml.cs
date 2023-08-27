@@ -820,6 +820,7 @@ public sealed partial class MainPage : Page
             || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is nameof(GachaLogPage) or nameof(HoyolabToolboxPage)))
         {
             page = typeof(LauncherPage);
+            destPage = nameof(LauncherPage);
         }
         else if (!changeGameBiz && (destPage is nameof(GameNoticesPage)
             || (destPage is nameof(LauncherPage) && sourcePage is nameof(GameNoticesPage))))
