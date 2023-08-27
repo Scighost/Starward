@@ -11,7 +11,9 @@ using Starward.Services;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -110,12 +112,21 @@ public sealed partial class GameNoticesPage : Page
                 _logger.LogError(e, "Ensure core webview2");
             }
             webview.CoreWebView2.DOMContentLoaded += async (_, _) => await InsertBgAsync();
-            webview.CoreWebView2.WebMessageReceived += (s, e) =>
+            webview.CoreWebView2.WebMessageReceived += async (s, e) =>
             {
-                string message = e.TryGetWebMessageAsString();
-                if (message is "close")
+                var node = JsonNode.Parse(e.WebMessageAsJson);
+                string? action = node?["action"]?.ToString();
+                string? param = node?["param"]?.ToString();
+                if (action is "close")
                 {
                     MainPage.Current.NavigateTo(typeof(LauncherPage));
+                }
+                if (action is "url")
+                {
+                    if (Uri.TryCreate(param, UriKind.RelativeOrAbsolute, out var uri))
+                    {
+                        await Launcher.LaunchUriAsync(uri);
+                    }
                 }
             };
             webview.Source = new Uri(url);
@@ -137,6 +148,9 @@ public sealed partial class GameNoticesPage : Page
             string bg = content.BackgroundImage.Background;
             await webview.EnsureCoreWebView2Async();
             string script = $$"""
+                miHoYoGameJSSDK.closeWebview = () => chrome.webview.postMessage({ "action": "close" });
+                miHoYoGameJSSDK.openInBrowser = (url) => chrome.webview.postMessage({ "action": "url", "param": url });
+                miHoYoGameJSSDK.openInWebview = (url) => chrome.webview.postMessage({ "action": "url", "param": url });  
                 function InsertBg() {
                     let root = document.getElementById("root");
                     if (root === null) {
@@ -154,19 +168,6 @@ public sealed partial class GameNoticesPage : Page
                             home[0].style.background = "transparent";
                         } else {
                             window.setTimeout(InsertBg, 100);
-                        }
-                        let close = document.getElementsByClassName("home__close");
-                        if (close.length > 0) {
-                            close[0].addEventListener("click", () => {
-                                console.log("click");
-                                if (document.getElementsByClassName("home__close--back").length === 0) {
-                                    window.chrome.webview.postMessage("close");
-                                }
-                            }, true);
-                        }
-                        close = document.getElementsByClassName("innerann__close");
-                        if (close.length > 0) {
-                            close[0].addEventListener("click", () => { window.chrome.webview.postMessage("close") });
                         }
                     }
                 }
