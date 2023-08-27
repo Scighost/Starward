@@ -51,7 +51,6 @@
                         </Grid.ScaleTransition>
                         <sc:CachedImage Name="Image_Avatar_1"
                                         Margin="6"
-                                        Background="{ThemeResource AccentFillColorDefaultBrush}"
                                         CornerRadius="100"
                                         IsCacheEnabled="True"
                                         Source="{x:Bind AvatarUrl}" />
