@@ -42,9 +42,9 @@ internal class UpdateService
         var release = await _metadataClient.GetVersionAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.OSArchitecture);
         _logger.LogInformation("Current version: {0}, latest version: {1}, ignore version: {2}", AppConfig.AppVersion, release?.Version, ignoreVersion);
         NuGetVersion.TryParse(release?.Version, out var newVersion);
-        if (newVersion > currentVersion)
+        if (newVersion! > currentVersion!)
         {
-            if (disableIgnore || newVersion > ignoreVersion)
+            if (disableIgnore || newVersion! > ignoreVersion!)
             {
                 return release;
             }
