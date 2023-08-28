@@ -874,6 +874,10 @@ public sealed partial class LauncherPage : Page
                     await Task.Delay(3000);
                     FontIcon_SaveGameAccount.Glyph = "\uE74E";
                 }
+                else
+                {
+                    TextBox_Nickname.Focus(FocusState.Programmatic);
+                }
             }
         }
         catch (Exception ex)
