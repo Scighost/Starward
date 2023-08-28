@@ -351,6 +351,13 @@ internal class UpdateService
                         readLength += length;
                         Interlocked.Add(ref progress_BytesDownloaded, length);
                     }
+                    ms.Position = 0;
+                    string hash = Convert.ToHexString(SHA256.HashData(ms));
+                    if (hash != releaseFile.Hash)
+                    {
+                        _logger.LogWarning("Checksum failed, path: {path}, actual hash: {hash}, true hash: {truehash}", releaseFile.Path, hash, releaseFile.Hash);
+                        throw new Exception($"Checksum failed: {releaseFile.Path}");
+                    }
                     await File.WriteAllBytesAsync(file, ms.ToArray(), cancellationToken);
                     Interlocked.Increment(ref progress_FileCountDownloaded);
 
