@@ -24,6 +24,14 @@ namespace Starward.Core.GameRecord.Genshin.SpiralAbyss
         public List<SpiralAbyssBattle> Battles { get; set; }
 
 
+        [JsonPropertyName("top_half_floor_monster")]
+        public List<SpiralAbyssMonster> TopHalfFloorMonster { get; set; }
+        
+
+        [JsonPropertyName("bottom_half_floor_monster")]
+        public List<SpiralAbyssMonster> BottomHalfFloorMonster { get; set; }
+
+
         [JsonIgnore]
         public DateTimeOffset FirstBattleTime => Battles.FirstOrDefault()?.Time ?? new();
 
