@@ -144,8 +144,16 @@ public sealed partial class GameNoticesPage : Page
     {
         try
         {
-            var content = await _launcherService.GetLauncherContentAsync(gameBiz);
-            string bg = content.BackgroundImage.Background;
+            string? bg = null;
+            try
+            {
+                var content = await _launcherService.GetLauncherContentAsync(gameBiz);
+                bg = content.BackgroundImage?.Background;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Get background image ({gameBiz})", gameBiz);
+            }
             await webview.EnsureCoreWebView2Async();
             string script = $$"""
                 miHoYoGameJSSDK.closeWebview = () => chrome.webview.postMessage({ "action": "close" });
@@ -175,11 +183,14 @@ public sealed partial class GameNoticesPage : Page
                 """;
             await webview.CoreWebView2.ExecuteScriptAsync(script);
             await Task.Delay(100);
-            webview.Opacity = 1;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Insert bg");
+        }
+        finally
+        {
+            webview.Opacity = 1;
         }
     }
 

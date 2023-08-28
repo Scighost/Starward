@@ -122,6 +122,11 @@ public class LauncherService
             else
             {
                 var content = await GetLauncherContentAsync(gameBiz, tokenSource.Token);
+                if (content.BackgroundImage is null)
+                {
+                    _logger.LogWarning("Background of mihoyo api is null ({gameBiz})", gameBiz);
+                    return GetFallbackBackgroundImage(gameBiz);
+                }
                 url = content.BackgroundImage.Background;
             }
             name = Path.GetFileName(url);
@@ -137,33 +142,39 @@ public class LauncherService
         }
         catch (Exception ex) when (ex is TaskCanceledException or HttpRequestException or SocketException)
         {
-            string? bg = Path.Join(AppConfig.UserDataFolder, "bg", AppConfig.GetBg(gameBiz));
-            if (File.Exists(bg))
-            {
-                return bg;
-            }
-            else
-            {
-                string baseFolder = AppContext.BaseDirectory;
-                string? path = gameBiz.ToGame() switch
-                {
-                    GameBiz.Honkai3rd => Path.Combine(baseFolder, @"Assets\Image\poster_honkai.png"),
-                    GameBiz.GenshinImpact => Path.Combine(baseFolder, @"Assets\Image\poster_genshin.png"),
-                    GameBiz.StarRail => Path.Combine(baseFolder, @"Assets\Image\poster_starrail.png"),
-                    _ => null,
-                };
-                if (File.Exists(path))
-                {
-                    return path;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            return GetFallbackBackgroundImage(gameBiz);
         }
     }
 
+
+
+    private string? GetFallbackBackgroundImage(GameBiz gameBiz)
+    {
+        string? bg = Path.Join(AppConfig.UserDataFolder, "bg", AppConfig.GetBg(gameBiz));
+        if (File.Exists(bg))
+        {
+            return bg;
+        }
+        else
+        {
+            string baseFolder = AppContext.BaseDirectory;
+            string? path = gameBiz.ToGame() switch
+            {
+                GameBiz.Honkai3rd => Path.Combine(baseFolder, @"Assets\Image\poster_honkai.png"),
+                GameBiz.GenshinImpact => Path.Combine(baseFolder, @"Assets\Image\poster_genshin.png"),
+                GameBiz.StarRail => Path.Combine(baseFolder, @"Assets\Image\poster_starrail.png"),
+                _ => null,
+            };
+            if (File.Exists(path))
+            {
+                return path;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
 
 
 
