@@ -1058,10 +1058,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Đang hợp nhất</value>
   </data>
   <data name="LauncherPage_Required" xml:space="preserve">
-    <value>Required</value>
+    <value>Bắt buộc</value>
     <comment>Nickname is required.</comment>
   </data>
   <data name="DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip" xml:space="preserve">
-    <value>Turn on if there's not enough free space for unzip.</value>
+    <value>Bật nếu không có đủ dung lượng trống để giải nén.</value>
   </data>
 </root>
