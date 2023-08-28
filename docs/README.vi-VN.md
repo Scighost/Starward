@@ -14,9 +14,9 @@ Ngoài việc tải xuống và cài đặt trò chơi, dự án còn bao gồm 
 
 Và nhiều tính năng khác đang được lên kế hoạch...
 
-> Starward sẽ không đạt được những tính năng yêu cầu nhà phát triển liên tục cập nhật dữ liệu trò chơi và tài nguyên, như là hình ảnh vật phẩm gacha.
+> Starward sẽ không đạt được những tính năng yêu cầu nhà phát triển liên tục cập nhật dữ liệu trò chơi và tài nguyên, như là số liệu thống kê cho mỗi sự kiện gacha.
 
-## Tải xuống
+## Cài đặt
 
 Đầu tiên, thiết bị của bạn cần đáp ứng những điều kiện sau:
 
