@@ -1052,8 +1052,7 @@ Do you accept the risk and continue to use it?</value>
     <value>Backup Database</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
-    <value>Key Comment  Comment.en-US .en-US Comment.ja-JP .ja-JP Comment.ru-RU .ru-RU Comment.th-TH .th-TH Comment.vi-VN .vi-VN Comment.zh-CN .zh-CN Comment.zh-TW .zh-TW
-ScreenshotPage_BackedUpNewScreenshots  Backed up {0} new screenshots.</value>
+    <value>Backed up {0} new screenshots.</value>
   </data>
   <data name="GameNotices" xml:space="preserve">
     <value>Game Notices</value>
