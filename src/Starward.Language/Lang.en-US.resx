@@ -147,9 +147,6 @@
   <data name="Language_Korean" xml:space="preserve">
     <value>Korean</value>
   </data>
-  <data name="DownloadGameDialog_DownloadGameFilesDirectly" xml:space="preserve">
-    <value>Download game files directly</value>
-  </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
     <value>This feature is in the testing stage. If there is any game file damage, please use the official launcher to repair it.</value>
   </data>
@@ -1063,5 +1060,8 @@ Do you accept the risk and continue to use it?</value>
   <data name="LauncherPage_Required" xml:space="preserve">
     <value>Required</value>
     <comment>Nickname is required.</comment>
+  </data>
+  <data name="DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip" xml:space="preserve">
+    <value>Turn on if there's not enough free space for unzip.</value>
   </data>
 </root>
