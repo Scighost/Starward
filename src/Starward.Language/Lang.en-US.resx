@@ -1060,4 +1060,7 @@ Do you accept the risk and continue to use it?</value>
   <data name="DownloadGamePage_Merging" xml:space="preserve">
     <value>Merging</value>
   </data>
+  <data name="LauncherPage_Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
 </root>

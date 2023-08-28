@@ -1603,6 +1603,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Required 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_Required {
+            get {
+                return ResourceManager.GetString("LauncherPage_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Reselect 的本地化字符串。
         /// </summary>
         public static string LauncherPage_Reselect {

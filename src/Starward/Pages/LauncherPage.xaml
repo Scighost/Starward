@@ -453,7 +453,9 @@
                                             Height="0"
                                             IsHitTestVisible="False" />
                                     <TextBlock Text="{x:Bind lang:Lang.LauncherPage_Nickname}" />
-                                    <TextBox IsSpellCheckEnabled="False" Text="{x:Bind SelectGameAccount.Name, Mode=TwoWay}" />
+                                    <TextBox IsSpellCheckEnabled="False"
+                                             PlaceholderText="{x:Bind lang:Lang.LauncherPage_Required}"
+                                             Text="{x:Bind SelectGameAccount.Name, Mode=TwoWay}" />
                                     <TextBlock Margin="0,8,0,0" Text="Uid" />
                                     <NumberBox Minimum="0" Value="{x:Bind SelectGameAccount.Uid, Mode=TwoWay}" />
                                     <Grid Margin="0,16,0,0"
