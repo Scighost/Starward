@@ -147,9 +147,6 @@
   <data name="Language_Korean" xml:space="preserve">
     <value>韓国語</value>
   </data>
-  <data name="DownloadGameDialog_DownloadGameFilesDirectly" xml:space="preserve">
-    <value>ゲームファイルを直接ダウンロード</value>
-  </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
     <value>この機能はテスト段階です。もしもゲームファイルの破損が起きた場合は、公式のランチャーを使用して修復を行なってください。</value>
   </data>

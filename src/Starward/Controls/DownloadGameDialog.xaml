@@ -103,9 +103,24 @@
                        VerticalAlignment="Center"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.DownloadGameDialog_RepairMode}" />
-            <ToggleSwitch IsOn="{x:Bind EnableRepairMode, Mode=TwoWay}"
-                          OffContent="{x:Bind lang:Lang.DownloadGameDialog_DownloadGameFilesDirectly}"
-                          OnContent="{x:Bind lang:Lang.DownloadGameDialog_DownloadGameFilesDirectly}" />
+            <ToggleSwitch MaxWidth="20"
+                          HorizontalAlignment="Left"
+                          IsOn="{x:Bind EnableRepairMode, Mode=TwoWay}"
+                          OffContent=""
+                          OnContent="" />
+            <Button Margin="-100,2,0,0"
+                    Padding="2"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind lang:Lang.DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip}">
+                <FontIcon FontSize="14"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE946;" />
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock Text="{x:Bind lang:Lang.DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip}" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
         </StackPanel>
         <!--  此功能处于测试阶段，如出现游戏文件损坏请使用官方启动器修复。  -->
         <TextBlock Foreground="{ThemeResource SystemFillColorCautionBrush}"

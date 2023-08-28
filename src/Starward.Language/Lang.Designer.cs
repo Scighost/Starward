@@ -250,15 +250,6 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Download game files directly 的本地化字符串。
-        /// </summary>
-        public static string DownloadGameDialog_DownloadGameFilesDirectly {
-            get {
-                return ResourceManager.GetString("DownloadGameDialog_DownloadGameFilesDirectly", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Available Space: 的本地化字符串。
         /// </summary>
         public static string DownloadGameDialog_FreeSpace {
@@ -318,6 +309,15 @@ namespace Starward.Language {
         public static string DownloadGameDialog_TestWarning {
             get {
                 return ResourceManager.GetString("DownloadGameDialog_TestWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Turn on if there&apos;s not enough free space for unzip. 的本地化字符串。
+        /// </summary>
+        public static string DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip {
+            get {
+                return ResourceManager.GetString("DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip", resourceCulture);
             }
         }
         

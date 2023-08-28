@@ -147,9 +147,6 @@
   <data name="Language_Korean" xml:space="preserve">
     <value>Tiếng Hàn</value>
   </data>
-  <data name="DownloadGameDialog_DownloadGameFilesDirectly" xml:space="preserve">
-    <value>Tải tập tin trò chơi trực tiếp</value>
-  </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
     <value>Tính năng này đang ở trong giai đoạn thử nghiệm, Nếu có bất kì tệp trò chơi nào bị hỏng, vui lòng sử dụng trình khởi chạy chính thức để sửa nó.</value>
   </data>
