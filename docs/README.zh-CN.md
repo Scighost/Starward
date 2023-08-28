@@ -14,9 +14,9 @@
 
 更多功能正在计划中。。。
 
-> Starward 不会加入需要开发者持续更新游戏数据和资源的功能，比如给抽卡记录加上物品图片。
+> Starward 不会加入需要开发者持续更新游戏数据和资源的功能，比如每个卡池的抽卡统计。
 
-## 下载
+## 安装
 
 首先，您的设备需要满足以下要求：
 
@@ -69,6 +69,7 @@ Starward 使用 [Crowdin](https://crowdin.com/project/starward) 进行本地化�
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
 -  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
+-  [HoYo-Glyphs](https://github.com/SpeedyOrc-C/HoYo-Glyphs)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
 -  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)

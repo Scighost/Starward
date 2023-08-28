@@ -29,7 +29,7 @@ Starward เป็น launcer ที่รองรับเกมบนเด�
 ดาวน์โหลดแพ็คเกจสำหรับสถาปัตยกรรม CPU ที่ใช้อยู่จาก [GitHub Release](https://github.com/Scighost/Starward/releases) แตกไฟล์ แล้วรัน 'Starward.exe' แล้วทำตามที่มันบอกจนเซ็ทอัพเสร็จ
 
 Starward อาจ crash ได้บนบางอุปกรณ์ หากพบเจอปัญหานี้ให้สร้าง 'config.ini' ไฟล์ในโฟลเดอร์ 'Starward' แล้ววางข้อความต่อไปนี้ลงไป 
-ไปที่ [docs/Configuration.md](. /Configuration.md) หากต้องการข้อมูลเพิ่มเติมเกี่ยวกับ 'config.ini'
+ไปที่ [docs/Configuration.md](./Configuration.md) หากต้องการข้อมูลเพิ่มเติมเกี่ยวกับ 'config.ini'
 
 ``` ini
 EnableConsole=False
@@ -71,6 +71,8 @@ Starward ไม่เพียงแต่จะใช้ทรัพยาก�
 -  [Dapper](https://github.com/DapperLib/Dapper)
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
+-  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
+-  [HoYo-Glyphs](https://github.com/SpeedyOrc-C/HoYo-Glyphs)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
 -  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)

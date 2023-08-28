@@ -68,6 +68,7 @@ Và các thư viện bên thứ ba được sử dụng trong dự án này bao 
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
 -  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
+-  [HoYo-Glyphs](https://github.com/SpeedyOrc-C/HoYo-Glyphs)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
 -  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)

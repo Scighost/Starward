@@ -14,9 +14,9 @@ In addition to the download and installation of the game, the following features
 
 More features are being planned...
 
-> Starward will not achieve features that require developers to continually update game data and resources, such as gacha item images.
+> Starward will not achieve features that require developers to continually update game data and resources, such as stats for each gacha event.
 
-## Download
+## Install
 
 First, your device needs to meet the following requirements:
 
@@ -28,7 +28,7 @@ First, your device needs to meet the following requirements:
 
 Download the package for your CPU architecture from [GitHub Release](https://github.com/Scighost/Starward/releases). Extract it, then run `Starward.exe` and follow the prompts.
 
-Starward may crash after running on some devices. if you encounter this problem, create a `config.ini` file in the `Starward` folder and paste the following into it. See [docs/Configuration.md](. /Configuration.md) for more information about `config.ini` .
+Starward may crash after running on some devices. if you encounter this problem, create a `config.ini` file in the `Starward` folder and paste the following into it. See [docs/Configuration.md](./Configuration.md) for more information about `config.ini` .
 
 
 ``` ini
@@ -70,6 +70,7 @@ And the third-party libraries used in this project include:
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
 -  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
+-  [HoYo-Glyphs](https://github.com/SpeedyOrc-C/HoYo-Glyphs)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
 -  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)
