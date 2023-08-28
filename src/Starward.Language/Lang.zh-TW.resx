@@ -147,9 +147,6 @@
   <data name="Language_Korean" xml:space="preserve">
     <value>韓語</value>
   </data>
-  <data name="DownloadGameDialog_DownloadGameFilesDirectly" xml:space="preserve">
-    <value>直接下載遊戲檔案</value>
-  </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
     <value>此功能處於測試階段。如果出現遊戲檔案損毀，請使用官方啟動器修復。</value>
   </data>
@@ -1063,5 +1060,8 @@
   <data name="LauncherPage_Required" xml:space="preserve">
     <value>Required</value>
     <comment>Nickname is required.</comment>
+  </data>
+  <data name="DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip" xml:space="preserve">
+    <value>Turn on if there's not enough free space for unzip.</value>
   </data>
 </root>
