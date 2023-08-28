@@ -80,7 +80,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Name="NavigationViewItem_GameAnnounce"
-                                    Content="{x:Bind lang:Lang.GameNotices}"
+                                    Content="{x:Bind lang:Lang.MainPage_GameNotices}"
                                     Tag="GameNoticesPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE789;" />

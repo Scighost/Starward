@@ -108,7 +108,7 @@
                             <Button Margin="0,0,8,0"
                                     Command="{x:Bind NavigateToGameNoticesPageCommand}"
                                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                                    ToolTipService.ToolTip="{x:Bind lang:Lang.GameNotices}">
+                                    ToolTipService.ToolTip="{x:Bind lang:Lang.MainPage_GameNotices}">
                                 <Grid>
                                     <FontIcon FontSize="18"
                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
