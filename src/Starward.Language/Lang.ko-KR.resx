@@ -151,7 +151,7 @@
     <value>게임파일 직접 다운로드</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>이 기능은 시험단계 입니다. 오류발생시 기본 런처로 복구 할수 있습니다.</value>
+    <value>이 기능은 시험단계 입니다. 오류발생시 기본 실행기로 복구 할수 있습니다.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
     <value>잔여공간 부족</value>
@@ -202,7 +202,7 @@
     <value>처음 {Starward} 를 사용하시는군요!</value>
   </data>
   <data name="SelectGamePage_GoToLauncher" xml:space="preserve">
-    <value>런쳐 실행</value>
+    <value>실행기로 이동</value>
   </data>
   <data name="SelectGamePage_SelectFolder" xml:space="preserve">
     <value>폴더 선택</value>
@@ -254,7 +254,7 @@
     <value>다운로드 중</value>
   </data>
   <data name="DownloadGamePage_Verifying" xml:space="preserve">
-    <value>검증 중</value>
+    <value>파일 확인중</value>
   </data>
   <data name="DownloadGamePage_Decompressing" xml:space="preserve">
     <value>압축해제 중</value>
@@ -284,10 +284,10 @@
     <value>건너뛰기</value>
   </data>
   <data name="DownloadGamePage_VerifyFailed" xml:space="preserve">
-    <value>검증실패</value>
+    <value>파일 오류</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>검증실패 파일</value>
+    <value>오류 파일 리스트</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
     <value>다시다운로드</value>
@@ -299,10 +299,10 @@
     <value>정지</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>검증하지않고 압축해제 시 게임파일이 손상될수 있습니다.</value>
+    <value>파일 확인을 건너뛰고 압축해제 시 게임파일이 손상될수 있습니다.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
-    <value>검증 건너뛰기</value>
+    <value>파일 확인 건너뛰기</value>
   </data>
   <data name="DownloadGamePage_DownloadPaused" xml:space="preserve">
     <value>다운로드 일시정지</value>
@@ -311,7 +311,7 @@
     <value>뽑기 기록이 없습니다.</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
-    <value>업데이트 기록</value>
+    <value>기록 업데이트</value>
   </data>
   <data name="GachaLogPage_UpdateSavedURL" xml:space="preserve">
     <value>업데이트 (저장된  URL)</value>
@@ -609,7 +609,7 @@
     <value>최신버전이 아니면 게임 디렉토리의 config.ini 파일을 수정하세요.</value>
   </data>
   <data name="LauncherPage_StartVerification" xml:space="preserve">
-    <value>검증시작</value>
+    <value>확인 시작</value>
   </data>
   <data name="LauncherPage_WouldYouLikeToVerifyTheFiles" xml:space="preserve">
     <value>사전 다운로드 완료. 리소스 체크를 시작하시겠습니까?</value>
@@ -618,10 +618,10 @@
     <value>서버를 변경하려면?</value>
   </data>
   <data name="MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft" xml:space="preserve">
-    <value>런쳐 상단의 게임아이콘을 우클릭해보세요.</value>
+    <value>실행기 상단의 게임아이콘을 우클릭해보세요.</value>
   </data>
   <data name="MainPage_Launcer" xml:space="preserve">
-    <value>런쳐</value>
+    <value>실행기</value>
   </data>
   <data name="MainPage_GameScreenshot" xml:space="preserve">
     <value>스크린샷</value>
@@ -779,7 +779,7 @@
     <value>릴리즈페이지</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>서드파티 런쳐로 실행시 게임기록을 사용할수 없습니다.</value>
+    <value>서드파티 실행기로 게임 실행시 게임기록을 사용할수 없습니다.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>뽑기 기록에 사용할 언어를 지정하세요. 예: ko-KR</value>
@@ -935,7 +935,7 @@
     <value>네트워크 오류</value>
   </data>
   <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
-    <value>계정 체크</value>
+    <value>계정 확인</value>
   </data>
   <data name="DownloadGameService_RepairMode" xml:space="preserve">
     <value>복구모드</value>
@@ -1053,5 +1053,15 @@
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
     <value>스크린샷  {0}  건 추가됨</value>
+  </data>
+  <data name="GameNotices" xml:space="preserve">
+    <value>공지사항</value>
+  </data>
+  <data name="DownloadGamePage_Merging" xml:space="preserve">
+    <value>Merging</value>
+  </data>
+  <data name="LauncherPage_Required" xml:space="preserve">
+    <value>Required</value>
+    <comment>Nickname is required.</comment>
   </data>
 </root>

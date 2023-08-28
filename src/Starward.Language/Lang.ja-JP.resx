@@ -1053,4 +1053,14 @@
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
     <value>新規スクリーンショットの {0} をバックアップしました。</value>
   </data>
+  <data name="GameNotices" xml:space="preserve">
+    <value>ゲームのお知らせ</value>
+  </data>
+  <data name="DownloadGamePage_Merging" xml:space="preserve">
+    <value>Merging</value>
+  </data>
+  <data name="LauncherPage_Required" xml:space="preserve">
+    <value>Required</value>
+    <comment>Nickname is required.</comment>
+  </data>
 </root>

@@ -1054,4 +1054,14 @@
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
     <value>新增 {0} 張截圖備份</value>
   </data>
+  <data name="GameNotices" xml:space="preserve">
+    <value>遊戲公告</value>
+  </data>
+  <data name="DownloadGamePage_Merging" xml:space="preserve">
+    <value>合併中</value>
+  </data>
+  <data name="LauncherPage_Required" xml:space="preserve">
+    <value>Required</value>
+    <comment>Nickname is required.</comment>
+  </data>
 </root>
