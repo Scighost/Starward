@@ -4,15 +4,15 @@
 
 **Starward** xuất phát từ khẩu hiệu của Honkai Star Rail: Hi vọng cuộc hành trình này sẽ đưa chúng ta đến những vì sao (May This Journey Lead Us **Starward**), rất thích hợp để sử dụng làm tên ứng dụng. Starward là trình khởi chạy trò chơi hỗ trợ tất cả các trò chơi trên máy tính của nhà miHoYo. Mục tiêu của dự án này là thay thế hoàn toàn trình khởi chạy chính thức mặc định của miHoYo, và sau đó thêm một số tính năng mở rộng.
 
-Ngoài việc tải xuống và cài đặt trò chơi, dự án còn bao gồm những tính năng dưới đây:
+Ngoài việc tải xuống và cài đặt trò chơi, ứng dụng còn có những tính năng sau đây:
 
 -  Ghi lại thời gian chơi
--  Chuyển đổi tài khoản
+-  Chuyển đổi tài khoản HoYo
 -  Xem ảnh chụp màn hình trò chơi
 -  Lưu lịch sử gacha
 -  Hộp công cụ HoYoLAB
 
-Và nhiều tính năng khác đang được lên kế hoạch...
+Và nhiều tính năng khác đang được lên kế hoạch trong tương lai...
 
 > Starward sẽ không đạt được những tính năng yêu cầu nhà phát triển liên tục cập nhật dữ liệu trò chơi và tài nguyên, như là số liệu thống kê cho mỗi sự kiện gacha.
 
@@ -20,13 +20,13 @@ Và nhiều tính năng khác đang được lên kế hoạch...
 
 Đầu tiên, thiết bị của bạn cần đáp ứng những điều kiện sau:
 
--  Windows 10 1809 (17763) và trở đi.
+-  Phiên bản Windows 10 1809 (17763) trở về sau.
 -  Đã cài đặt [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist)
 -  Đã cài đặt [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2)
--  Người dùng Windows 10 được khuyến khích cài đặt font [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
+-  Khuyến khích người dùng Windows 10 cài đặt font [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
 -  Để có trải nghiệm tốt hơn, vui lòng bật **Hiệu ứng trong suốt** và **Hiệu ứng động** trong cài đặt hệ thống
 
-Tải gói dành cho kiến trúc CPU của bạn từ [GitHub Release](https://github.com/Scighost/Starward/releases). Giải nén file nén, và chạy `Starward.exe` và làm theo hướng dẫn.
+Tải gói dành cho kiến trúc CPU của bạn từ [GitHub Release](https://github.com/Scighost/Starward/releases). Giải nén file, chạy `Starward.exe` và làm theo hướng dẫn.
 
 Starward có thể crash sau khi chạy trên một số thiết bị. Nếu bạn gặp phải vấn đề này, hãy tạo tập tin `config.ini` trong thư mục `Starward` và dán những dòng sau đây vào. Xem [docs/Configuration.vi-VN.md](./Configuration.vi-VN.md) để có thêm thông tin về `config.ini`.
 
@@ -44,7 +44,7 @@ UserDataFolder=.
 [![zh-CN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/zh-CN)
 [![zh-TW translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/zh-TW)
 
-Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho việc dịch thuật, cung cấp bản dịch máy tiếng Anh như bản gốc. Bạn có thể giúp chúng tôi dịch và sửa lỗi ngôn ngữ địa phương, và chúng tôi mong muốn có nhiều người tham gia hơn. Nếu bạn muốn tạo thêm ngôn ngữ dịch mới, vui lòng tạo Issue.
+Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho việc dịch thuật, cung cấp bản dịch tiếng Anh như bản gốc. Bạn có thể giúp chúng tôi dịch và sửa lỗi ngôn ngữ của bạn, và chúng tôi mong muốn có nhiều người tham gia hơn. Nếu bạn muốn tạo thêm ngôn ngữ dịch mới, vui lòng tạo Issue.
 
 ## Phát triển
 
@@ -56,7 +56,7 @@ Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho việc 
 
 ## Cảm ơn
 
-Đầu tiên, tôi muốn dành lời cảm ơn đặc biệt đến [neon-nyan](https://github.com/neon-nyan), có dự án [Collapse](https://github.com/neon-nyan/Collapse) đã truyền cảm hứng cho dự án này. Starward không chỉ sử dụng một số tài nguyên do anh ấy tạo ra, mà còn bắt chước thiết kế giao diện người dùng. Tôi đã học được rất nhiều từ code của Collapse, và nó giúp quá trình phát triển của tôi suôn sẻ hơn nhiều.
+Đầu tiên, tôi muốn dành lời cảm ơn đặc biệt đến [neon-nyan](https://github.com/neon-nyan), có dự án [Collapse](https://github.com/neon-nyan/Collapse) đã truyền cảm hứng cho dự án này. Starward không chỉ sử dụng một số tài nguyên do anh ấy tạo ra, mà còn bắt chước thiết kế giao diện người dùng. Tôi đã học được rất nhiều từ code của Collapse, và nó giúp quá trình phát triển của tôi suôn sẻ hơn rất nhiều.
 
 Và cảm ơn CloudFlare vì đã cung cấp CDN miễn phí.
 
