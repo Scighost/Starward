@@ -761,13 +761,13 @@
     <value>Bạn cần phải tải xuống gói phiên bản mới thủ công</value>
   </data>
   <data name="UpdatePage_PreviewChannel" xml:space="preserve">
-    <value>Kênh trải nghiệm trước</value>
+    <value>Kênh trải nghiệm sớm</value>
   </data>
   <data name="UpdatePage_StableChannel" xml:space="preserve">
-    <value>Kênh ổn định trước khi phát hành</value>
+    <value>Kênh Chính Thức</value>
   </data>
   <data name="UpdatePage_DevChannel" xml:space="preserve">
-    <value>Kênh phát triển sớm</value>
+    <value>Kênh dành cho nhà phát triển</value>
   </data>
   <data name="SettingPage_ThemeColorDesc" xml:space="preserve">
     <value>Tự động tính toán màu chủ đề dựa trên màu của hình nền, và sử dụng màu chủ đề hệ thống theo mặc định.</value>
