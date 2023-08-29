@@ -148,7 +148,7 @@
     <value>Tiếng Hàn</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>Tính năng này đang ở trong giai đoạn thử nghiệm, Nếu có bất kì tệp trò chơi nào bị hỏng, vui lòng sử dụng trình khởi chạy chính thức để sửa nó.</value>
+    <value>Tính năng này đang ở trong giai đoạn thử nghiệm. Nếu có bất kì tệp trò chơi nào bị hỏng, vui lòng sử dụng trình khởi chạy chính thức để sửa nó.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
     <value>Dung lượng có sẵn có lẽ là không đủ</value>
@@ -181,7 +181,7 @@
     <value>Bạn có muốn chọn thư mục này?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>Thư mục này sẽ tự động xoá sau khi phần mềm cập nhật</value>
+    <value>Thư mục này sẽ tự động xoá sau khi ứng dụng được cập nhật</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
     <value>Không có quyền ghi</value>
@@ -211,11 +211,11 @@
     <value>Bước cuối cùng ~</value>
   </data>
   <data name="DownloadGamePage_CloseSoftware" xml:space="preserve">
-    <value>Đóng phần mềm</value>
+    <value>Đóng ứng dụng</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
     <value>Tải xuống có thể được tiếp tục sau lần khởi động tiếp theo;
-đóng phần mềm trong khi giải nén sẽ gây ra hư hỏng tập tin.</value>
+đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập tin.</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
     <value>Đóng</value>
@@ -224,7 +224,7 @@
     <value>Huỷ</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>Phần mềm sẽ được thoát sớm</value>
+    <value>Ứng dụng sẽ được thoát sớm</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
     <value>Bắt đầu lặp lại</value>
@@ -236,10 +236,10 @@
     <value>Lỗi tham số</value>
   </data>
   <data name="DownloadGamePage_NoPermission" xml:space="preserve">
-    <value>Không có quyền hạn</value>
+    <value>Không có quyền</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Vui lòng khởi động bằng quyền Administrator</value>
+    <value>Vui lòng khởi động bằng quyền Quản Trị Viên (Administrator)</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
     <value>Bắt đầu</value>
@@ -308,7 +308,7 @@
     <value>Không có bản ghi Gacha</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
-    <value>Cập nhật Bản ghi</value>
+    <value>Cập nhật bản ghi</value>
   </data>
   <data name="GachaLogPage_UpdateSavedURL" xml:space="preserve">
     <value>Cập nhật (URL đã lưu)</value>
@@ -338,7 +338,7 @@
     <value>Xuất như</value>
   </data>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>Nhập từ JSON</value>
+    <value>Nhập từ file JSON</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Hiện thị Gacha người mới</value>
@@ -402,7 +402,7 @@
     <value>Nhập {0} bản ghi bước nhảy thành công.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
-    <value>Đã là phiên bản mới nhất</value>
+    <value>Đây đã là phiên bản mới nhất</value>
   </data>
   <data name="DownloadGameService_TooManyRetries" xml:space="preserve">
     <value>Quá nhiều lần thử lại</value>
@@ -603,7 +603,7 @@
     <value>Vui lòng chọn một thư mục trống để cài đặt game, hoặc chọn đường dẫn nơi mà trò chơi đã được cài đặt.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
-    <value>Nếu nó không phải là phiên bản mới nhất, vui lòng sửa đổi tập tin config.ini ở thư mục cài đặt game.</value>
+    <value>Nếu đây không phải là phiên bản mới nhất, vui lòng sửa đổi tập tin config.ini ở thư mục cài đặt game.</value>
   </data>
   <data name="LauncherPage_StartVerification" xml:space="preserve">
     <value>Bắt đầu xác minh</value>
@@ -633,7 +633,7 @@
     <value>Nhật kí</value>
   </data>
   <data name="SettingPage_ShowConsole" xml:space="preserve">
-    <value>Hiện thị console</value>
+    <value>Hiện console</value>
   </data>
   <data name="SettingPage_AppSettings" xml:space="preserve">
     <value>Cài đặt ứng dụng</value>
@@ -725,7 +725,7 @@
     <value>Có</value>
   </data>
   <data name="SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically" xml:space="preserve">
-    <value>Sau khi xoá, phần mềm sẽ tự động khởi động lại.</value>
+    <value>Sau khi xoá, ứng dụng sẽ tự động khởi động lại.</value>
   </data>
   <data name="UpdatePage_NewVersion" xml:space="preserve">
     <value>Phiên bản mới!</value>
@@ -761,13 +761,13 @@
     <value>Bạn cần phải tải xuống gói phiên bản mới thủ công</value>
   </data>
   <data name="UpdatePage_PreviewChannel" xml:space="preserve">
-    <value>Kênh xem trước</value>
+    <value>Kênh trải nghiệm trước</value>
   </data>
   <data name="UpdatePage_StableChannel" xml:space="preserve">
-    <value>Kênh ổn định</value>
+    <value>Kênh ổn định trước khi phát hành</value>
   </data>
   <data name="UpdatePage_DevChannel" xml:space="preserve">
-    <value>Kênh nhà phát triển</value>
+    <value>Kênh phát triển sớm</value>
   </data>
   <data name="SettingPage_ThemeColorDesc" xml:space="preserve">
     <value>Tự động tính toán màu chủ đề dựa trên màu của hình nền, và sử dụng màu chủ đề hệ thống theo mặc định.</value>
