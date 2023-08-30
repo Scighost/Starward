@@ -158,47 +158,49 @@ internal class PlayTimeService
                 ts += items[0].TimeStamp - month_ts;
             }
         }
-        if (items.Count > 1)
+
+        if (items.Count <= 1)
         {
-            if (items[0].State is PlayTimeItem.PlayState.Stop)
+            return TimeSpan.FromMilliseconds(ts);
+        }
+        if (items[0].State is PlayTimeItem.PlayState.Stop)
+        {
+            ts += items[0].TimeStamp - month_ts;
+        }
+        if (items[0].State is PlayTimeItem.PlayState.Play)
+        {
+            dic_last_time[items[0].Pid] = month_ts;
+            dic_last_start_time[items[0].Pid] = month_ts;
+        }
+        for (int i = 0; i < items.Count; i++)
+        {
+            var item = items[i];
+            int pid = item.Pid;
+            if (item.State is PlayTimeItem.PlayState.Start)
             {
-                ts += items[0].TimeStamp - month_ts;
-            }
-            if (items[0].State is PlayTimeItem.PlayState.Play)
-            {
-                dic_last_time[items[0].Pid] = month_ts;
-                dic_last_start_time[items[0].Pid] = month_ts;
-            }
-            for (int i = 0; i < items.Count; i++)
-            {
-                var item = items[i];
-                int pid = item.Pid;
-                if (item.State is PlayTimeItem.PlayState.Start)
+                if (dic_last_start_time.GetValueOrDefault(pid) != 0)
                 {
-                    if (dic_last_start_time.GetValueOrDefault(pid) != 0)
-                    {
-                        ts += dic_last_time.GetValueOrDefault(pid) - dic_last_start_time.GetValueOrDefault(pid);
-                    }
-                    dic_last_start_time[pid] = item.TimeStamp;
+                    ts += dic_last_time.GetValueOrDefault(pid) - dic_last_start_time.GetValueOrDefault(pid);
                 }
-                if (item.State is PlayTimeItem.PlayState.Stop)
-                {
-                    if (dic_last_start_time.GetValueOrDefault(pid) != 0)
-                    {
-                        ts += item.TimeStamp - dic_last_start_time.GetValueOrDefault(pid);
-                        dic_last_start_time[pid] = 0;
-                    }
-                }
-                if (item.State is PlayTimeItem.PlayState.Play && i == items.Count - 1)
+                dic_last_start_time[pid] = item.TimeStamp;
+            }
+            if (item.State is PlayTimeItem.PlayState.Stop)
+            {
+                if (dic_last_start_time.GetValueOrDefault(pid) != 0)
                 {
                     ts += item.TimeStamp - dic_last_start_time.GetValueOrDefault(pid);
-                }
-                if (item.State is PlayTimeItem.PlayState.Error)
-                {
                     dic_last_start_time[pid] = 0;
                 }
-                dic_last_time[pid] = item.TimeStamp;
             }
+            if (item.State is PlayTimeItem.PlayState.Play && i == items.Count - 1)
+            {
+                ts += item.TimeStamp - dic_last_start_time.GetValueOrDefault(pid);
+            }
+            if (item.State is PlayTimeItem.PlayState.Error)
+            {
+                dic_last_start_time[pid] = 0;
+            }
+            dic_last_time[pid] = item.TimeStamp;
         }
         return TimeSpan.FromMilliseconds(ts);
     }
@@ -221,47 +223,49 @@ internal class PlayTimeService
                 ts += items[0].TimeStamp - week_ts;
             }
         }
-        if (items.Count > 1)
+
+        if (items.Count <= 1)
         {
-            if (items[0].State is PlayTimeItem.PlayState.Stop)
+            return TimeSpan.FromMilliseconds(ts);
+        }
+        if (items[0].State is PlayTimeItem.PlayState.Stop)
+        {
+            ts += items[0].TimeStamp - week_ts;
+        }
+        if (items[0].State is PlayTimeItem.PlayState.Play)
+        {
+            dic_last_time[items[0].Pid] = week_ts;
+            dic_last_start_time[items[0].Pid] = week_ts;
+        }
+        for (int i = 0; i < items.Count; i++)
+        {
+            var item = items[i];
+            int pid = item.Pid;
+            if (item.State is PlayTimeItem.PlayState.Start)
             {
-                ts += items[0].TimeStamp - week_ts;
-            }
-            if (items[0].State is PlayTimeItem.PlayState.Play)
-            {
-                dic_last_time[items[0].Pid] = week_ts;
-                dic_last_start_time[items[0].Pid] = week_ts;
-            }
-            for (int i = 0; i < items.Count; i++)
-            {
-                var item = items[i];
-                int pid = item.Pid;
-                if (item.State is PlayTimeItem.PlayState.Start)
+                if (dic_last_start_time.GetValueOrDefault(pid) != 0)
                 {
-                    if (dic_last_start_time.GetValueOrDefault(pid) != 0)
-                    {
-                        ts += dic_last_time.GetValueOrDefault(pid) - dic_last_start_time.GetValueOrDefault(pid);
-                    }
-                    dic_last_start_time[pid] = item.TimeStamp;
+                    ts += dic_last_time.GetValueOrDefault(pid) - dic_last_start_time.GetValueOrDefault(pid);
                 }
-                if (item.State is PlayTimeItem.PlayState.Stop)
-                {
-                    if (dic_last_start_time.GetValueOrDefault(pid) != 0)
-                    {
-                        ts += item.TimeStamp - dic_last_start_time.GetValueOrDefault(pid);
-                        dic_last_start_time[pid] = 0;
-                    }
-                }
-                if (item.State is PlayTimeItem.PlayState.Play && i == items.Count - 1)
+                dic_last_start_time[pid] = item.TimeStamp;
+            }
+            if (item.State is PlayTimeItem.PlayState.Stop)
+            {
+                if (dic_last_start_time.GetValueOrDefault(pid) != 0)
                 {
                     ts += item.TimeStamp - dic_last_start_time.GetValueOrDefault(pid);
-                }
-                if (item.State is PlayTimeItem.PlayState.Error)
-                {
                     dic_last_start_time[pid] = 0;
                 }
-                dic_last_time[pid] = item.TimeStamp;
             }
+            if (item.State is PlayTimeItem.PlayState.Play && i == items.Count - 1)
+            {
+                ts += item.TimeStamp - dic_last_start_time.GetValueOrDefault(pid);
+            }
+            if (item.State is PlayTimeItem.PlayState.Error)
+            {
+                dic_last_start_time[pid] = 0;
+            }
+            dic_last_time[pid] = item.TimeStamp;
         }
         return TimeSpan.FromMilliseconds(ts);
     }
@@ -271,13 +275,14 @@ internal class PlayTimeService
     {
         using var dapper = _database.CreateConnection();
         var start_item = dapper.QueryFirstOrDefault<PlayTimeItem>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND State = 1 ORDER BY TimeStamp DESC LIMIT 1;", new { biz });
-        if (start_item != null)
+        if (start_item is null)
         {
-            var last_item = dapper.QueryFirstOrDefault<PlayTimeItem>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND Pid = @Pid ORDER BY TimeStamp DESC LIMIT 1;", new { biz, start_item.Pid });
-            if (last_item != null)
-            {
-                return (DateTimeOffset.FromUnixTimeMilliseconds(start_item.TimeStamp), TimeSpan.FromMilliseconds(last_item.TimeStamp - start_item.TimeStamp));
-            }
+            return (DateTimeOffset.MinValue, TimeSpan.Zero);
+        }
+        var last_item = dapper.QueryFirstOrDefault<PlayTimeItem>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND Pid = @Pid ORDER BY TimeStamp DESC LIMIT 1;", new { biz, start_item.Pid });
+        if (last_item is not null)
+        {
+            return (DateTimeOffset.FromUnixTimeMilliseconds(start_item.TimeStamp), TimeSpan.FromMilliseconds(last_item.TimeStamp - start_item.TimeStamp));
         }
         return (DateTimeOffset.MinValue, TimeSpan.Zero);
     }

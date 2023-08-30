@@ -698,16 +698,17 @@ internal partial class DownloadGameService
         var lines = str.Split('\n');
         foreach (var line in lines)
         {
-            if (!string.IsNullOrWhiteSpace(line))
+            if (string.IsNullOrWhiteSpace(line))
             {
-                var node = JsonNode.Parse(line.Trim());
-                list.Add(new DownloadTask
-                {
-                    FileName = node?["remoteName"]?.ToString()!,
-                    MD5 = node?["md5"]?.ToString()!,
-                    Size = (long)(node?["fileSize"] ?? 0),
-                });
+                continue;
             }
+            var node = JsonNode.Parse(line.Trim());
+            list.Add(new DownloadTask
+            {
+                FileName = node?["remoteName"]?.ToString()!,
+                MD5 = node?["md5"]?.ToString()!,
+                Size = (long)(node?["fileSize"] ?? 0),
+            });
         }
         return list;
     }
