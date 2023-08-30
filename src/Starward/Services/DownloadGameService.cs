@@ -698,16 +698,17 @@ internal partial class DownloadGameService
         var lines = str.Split('\n');
         foreach (var line in lines)
         {
-            if (!string.IsNullOrWhiteSpace(line))
+            if (string.IsNullOrWhiteSpace(line))
             {
-                var node = JsonNode.Parse(line.Trim());
-                list.Add(new DownloadTask
-                {
-                    FileName = node?["remoteName"]?.ToString()!,
-                    MD5 = node?["md5"]?.ToString()!,
-                    Size = (long)(node?["fileSize"] ?? 0),
-                });
+                continue;
             }
+            var node = JsonNode.Parse(line.Trim());
+            list.Add(new DownloadTask
+            {
+                FileName = node?["remoteName"]?.ToString()!,
+                MD5 = node?["md5"]?.ToString()!,
+                Size = (long)(node?["fileSize"] ?? 0),
+            });
         }
         return list;
     }
@@ -716,6 +717,7 @@ internal partial class DownloadGameService
 
     public async Task DownloadAsync(CancellationToken cancellationToken)
     {
+        const int bufferSize = 1 << 16;
         try
         {
             State = DownloadGameState.Downloading;
@@ -732,7 +734,7 @@ internal partial class DownloadGameService
                 var FileStreamOptions = new FileStreamOptions
                 {
                     Access = FileAccess.Write,
-                    BufferSize = 1 << 16,
+                    BufferSize = bufferSize,
                     Mode = FileMode.Append,
                     Options = FileOptions.Asynchronous
                 };
@@ -759,7 +761,7 @@ internal partial class DownloadGameService
                         response.EnsureSuccessStatusCode();
                         using var hs = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 
-                        var buffer = new byte[1 << 16];
+                        var buffer = new byte[bufferSize];
                         int length;
                         while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {
@@ -819,6 +821,7 @@ internal partial class DownloadGameService
 
     public async Task DownloadSeparateFilesAsync(CancellationToken cancellationToken)
     {
+        const int bufferSize = 1 << 16;
         try
         {
             State = DownloadGameState.Downloading;
@@ -835,7 +838,7 @@ internal partial class DownloadGameService
                 var FileStreamOptions = new FileStreamOptions
                 {
                     Access = FileAccess.Write,
-                    BufferSize = 1 << 16,
+                    BufferSize = bufferSize,
                     Mode = FileMode.Append,
                     Options = FileOptions.Asynchronous
                 };
@@ -863,7 +866,7 @@ internal partial class DownloadGameService
                         response.EnsureSuccessStatusCode();
                         using var hs = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 
-                        var buffer = new byte[1 << 16];
+                        var buffer = new byte[bufferSize];
                         int length;
                         while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {

@@ -247,6 +247,7 @@ internal class GameService
     /// <returns></returns>
     public Process? StartGame(GameBiz biz, bool ignoreRunningGame = false)
     {
+        const int ERROR_CANCELLED = 0x000004C7;
         try
         {
             if (!ignoreRunningGame)
@@ -295,7 +296,7 @@ internal class GameService
             };
             return Process.Start(info);
         }
-        catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
+        catch (Win32Exception ex) when (ex.NativeErrorCode == ERROR_CANCELLED)
         {
             // Operation canceled
             _logger.LogInformation("Start game operation canceled.");

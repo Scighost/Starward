@@ -16,7 +16,13 @@ namespace Starward.Helpers;
 
 internal static class FileDialogHelper
 {
-
+    /// <summary>
+    /// The operation was canceled by the user.
+    /// </summary>
+    /// <remarks>
+    /// see https://learn.microsoft.com/zh-cn/openspecs/windows_protocols/ms-erref/18d8fbe8-a967-4f1c-ae50-99ca8e491d2d
+    /// </remarks>
+    private const int ERROR_CANCELLED = 0x000004C7;
 
     public static async Task<string?> PickSingleFileAsync(nint parentWindow, params (string Name, string Extension)[] fileTypeFilter)
     {
@@ -52,7 +58,7 @@ internal static class FileDialogHelper
                     {
                         ((HRESULT)dialog.Show(parentWindow)).ThrowIfFailed();
                     }
-                    catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
+                    catch (Win32Exception ex) when (ex.NativeErrorCode == ERROR_CANCELLED)
                     {
                         return null;
                     }
@@ -116,7 +122,7 @@ internal static class FileDialogHelper
                     {
                         ((HRESULT)dialog.Show(parentWindow)).ThrowIfFailed();
                     }
-                    catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
+                    catch (Win32Exception ex) when (ex.NativeErrorCode == ERROR_CANCELLED)
                     {
                         return null;
                     }
@@ -197,7 +203,7 @@ internal static class FileDialogHelper
                     {
                         ((HRESULT)dialog.Show(parentWindow)).ThrowIfFailed();
                     }
-                    catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
+                    catch (Win32Exception ex) when (ex.NativeErrorCode == ERROR_CANCELLED)
                     {
                         return null;
                     }

@@ -470,6 +470,7 @@ public abstract class CacheBase<T>
     private async Task<T?> DownloadFileAsync(Uri uri, StorageFile baseFile, bool preCacheOnly, CancellationToken cancellationToken, IProgress<DownloadProgress>? progress = null)
     {
         T? instance = default;
+        const int bufferSize = 8192;
 
         var request = GetHttpRequestMessage(uri);
 
@@ -486,7 +487,7 @@ public abstract class CacheBase<T>
 
         using var hs = await response.Content.ReadAsStreamAsync(cancellationToken);
 
-        byte[] buffer = new byte[8192];
+        byte[] buffer = new byte[bufferSize];
 
         var ms = new MemoryStream();
 
@@ -497,7 +498,7 @@ public abstract class CacheBase<T>
 
         do
         {
-            read = await hs.ReadAsync(buffer, 0, 8192).ConfigureAwait(false);
+            read = await hs.ReadAsync(buffer, 0, bufferSize).ConfigureAwait(false);
             await ms.WriteAsync(buffer, 0, read).ConfigureAwait(false);
             bytesRecieved += read;
             var nowMs = sw.ElapsedMilliseconds;

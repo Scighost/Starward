@@ -103,19 +103,20 @@ public sealed partial class HyperionWebBridge : UserControl
     {
         cookieDic.Clear();
         var cookies = GameRecordRole.Cookie?.Split(';');
-        if (cookies != null)
+        if (cookies is null)
         {
-            foreach (var item in cookies)
+            return;
+        }
+        foreach (var item in cookies)
+        {
+            var kv = item.Split('=');
+            if (kv.Length == 2)
             {
-                var kv = item.Split('=');
-                if (kv.Length == 2)
+                var key = kv[0].Trim();
+                var value = kv[1].Trim();
+                if (!string.IsNullOrWhiteSpace(key) && !string.IsNullOrWhiteSpace(value))
                 {
-                    var key = kv[0].Trim();
-                    var value = kv[1].Trim();
-                    if (!string.IsNullOrWhiteSpace(key) && !string.IsNullOrWhiteSpace(value))
-                    {
-                        cookieDic[key] = value;
-                    }
+                    cookieDic[key] = value;
                 }
             }
         }

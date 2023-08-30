@@ -642,12 +642,9 @@ internal static class AppConfig
         try
         {
             string? val = value?.ToString();
-            if (cache.TryGetValue(key, out string? cacheValue))
+            if (cache.TryGetValue(key, out string? cacheValue) && cacheValue == val)
             {
-                if (cacheValue == val)
-                {
-                    return;
-                }
+                return;
             }
             cache[key] = val;
             if (reg)
