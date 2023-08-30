@@ -43,7 +43,7 @@ public static class EnumExtension
             GameBiz.GenshinImpact => CoreLang.Game_GenshinImpact,
             GameBiz.StarRail => CoreLang.Game_HonkaiStarRail,
             GameBiz.Honkai3rd => CoreLang.Game_HonkaiImpact3rd,
-            _ => "",
+            _ => string.Empty,
         };
     }
 
@@ -142,7 +142,7 @@ public static class EnumExtension
             GachaType.CharacterEventWish => CoreLang.GachaType_CharacterEventWish,
             GachaType.CharacterEventWish_2 => CoreLang.GachaType_CharacterEventWish_2,
             GachaType.WeaponEventWish => CoreLang.GachaType_WeaponEventWish,
-            _ => "",
+            _ => string.Empty,
         };
     }
 
@@ -155,7 +155,7 @@ public static class EnumExtension
             PostType.POST_TYPE_ACTIVITY => CoreLang.PostType_Activity,
             PostType.POST_TYPE_ANNOUNCE => CoreLang.PostType_Announcement,
             PostType.POST_TYPE_INFO => CoreLang.PostType_Information,
-            _ => "",
+            _ => string.Empty,
         };
     }
 
