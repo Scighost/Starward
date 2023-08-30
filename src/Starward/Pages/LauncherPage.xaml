@@ -460,15 +460,16 @@
                                     <TextBlock Margin="0,8,0,0" Text="Uid" />
                                     <NumberBox Minimum="0" Value="{x:Bind SelectGameAccount.Uid, Mode=TwoWay}" />
                                     <Grid Margin="0,16,0,0"
-                                          HorizontalAlignment="Left"
+                                          HorizontalAlignment="Stretch"
                                           Background="{ThemeResource CustomAcrylicBrush}"
                                           CornerRadius="20">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        <Button Width="100"
-                                                Height="40"
+                                        <Button Height="40"
+                                                MinWidth="100"
+                                                HorizontalAlignment="Stretch"
                                                 Command="{x:Bind SaveGameAccountCommand}"
                                                 CornerRadius="20,0,0,20">
                                             <StackPanel Orientation="Horizontal" Spacing="12">
@@ -479,16 +480,33 @@
                                             </StackPanel>
                                         </Button>
                                         <Button Grid.Column="1"
-                                                Width="100"
                                                 Height="40"
-                                                Command="{x:Bind DeleteGameAccountCommand}"
+                                                MinWidth="100"
+                                                HorizontalAlignment="Stretch"
                                                 CornerRadius="0,20,20,0">
+                                            <Button.Flyout>
+                                                <MenuFlyout>
+                                                    <MenuFlyoutItem Command="{x:Bind DeleteGameAccountCommand}"
+                                                                    Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                                                                    Text="{x:Bind lang:Lang.LauncherPage_ConfirmDelete}" />
+                                                </MenuFlyout>
+                                            </Button.Flyout>
                                             <StackPanel Orientation="Horizontal" Spacing="12">
                                                 <TextBlock Text="{x:Bind lang:Lang.Common_Delete}" />
                                                 <FontIcon FontSize="16" Glyph="&#xE74D;" />
                                             </StackPanel>
                                         </Button>
                                     </Grid>
+                                    <StackPanel Margin="0,4,0,-4" Orientation="Horizontal">
+                                        <FontIcon Margin="4,0,0,1"
+                                                  VerticalAlignment="Bottom"
+                                                  FontSize="14"
+                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                  Glyph="&#xE930;" />
+                                        <TextBlock Margin="8,0,0,0"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   Text="{x:Bind lang:Lang.LauncherPage_CurrentlyLoggedInAccount}" />
+                                    </StackPanel>
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>

@@ -1477,11 +1477,29 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Confirm Delete 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_ConfirmDelete {
+            get {
+                return ResourceManager.GetString("LauncherPage_ConfirmDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Current Login Account 的本地化字符串。
         /// </summary>
         public static string LauncherPage_CurrentAccount {
             get {
                 return ResourceManager.GetString("LauncherPage_CurrentAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Currently logged in account 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_CurrentlyLoggedInAccount {
+            get {
+                return ResourceManager.GetString("LauncherPage_CurrentlyLoggedInAccount", resourceCulture);
             }
         }
         
