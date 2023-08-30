@@ -717,6 +717,7 @@ internal partial class DownloadGameService
 
     public async Task DownloadAsync(CancellationToken cancellationToken)
     {
+        const int bufferSize = 1 << 16;
         try
         {
             State = DownloadGameState.Downloading;
@@ -733,7 +734,7 @@ internal partial class DownloadGameService
                 var FileStreamOptions = new FileStreamOptions
                 {
                     Access = FileAccess.Write,
-                    BufferSize = 1 << 16,
+                    BufferSize = bufferSize,
                     Mode = FileMode.Append,
                     Options = FileOptions.Asynchronous
                 };
@@ -760,7 +761,7 @@ internal partial class DownloadGameService
                         response.EnsureSuccessStatusCode();
                         using var hs = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 
-                        var buffer = new byte[1 << 16];
+                        var buffer = new byte[bufferSize];
                         int length;
                         while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {
@@ -820,6 +821,7 @@ internal partial class DownloadGameService
 
     public async Task DownloadSeparateFilesAsync(CancellationToken cancellationToken)
     {
+        const int bufferSize = 1 << 16;
         try
         {
             State = DownloadGameState.Downloading;
@@ -836,7 +838,7 @@ internal partial class DownloadGameService
                 var FileStreamOptions = new FileStreamOptions
                 {
                     Access = FileAccess.Write,
-                    BufferSize = 1 << 16,
+                    BufferSize = bufferSize,
                     Mode = FileMode.Append,
                     Options = FileOptions.Asynchronous
                 };
@@ -864,7 +866,7 @@ internal partial class DownloadGameService
                         response.EnsureSuccessStatusCode();
                         using var hs = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 
-                        var buffer = new byte[1 << 16];
+                        var buffer = new byte[bufferSize];
                         int length;
                         while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {
