@@ -102,7 +102,7 @@
                 </NavigationViewItem>
                 <NavigationViewItem Name="NavigationViewItem_GachaLog" Tag="GachaLogPage">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE81C;" />
+                        <FontIcon Glyph="&#xF4A5;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Name="NavigationViewItem_HoyolabToolbox" Tag="HoyolabToolboxPage">
