@@ -22,12 +22,19 @@
         <Image Grid.ColumnSpan="2"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="ms-appx:///Assets/Image/ImgTheSecondWorldBg.png"
+               Source="ms-appx:///Assets/Image/BgRogueDlcQuestBannerBg1.png"
+               Stretch="UniformToFill" />
+        <Image Grid.ColumnSpan="2"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Source="ms-appx:///Assets/Image/BgRogueDlcQuestBannerBg2.png"
                Stretch="UniformToFill" />
         <Image Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
-               Source="ms-appx:///Assets/Image/ImgTheSecondWorldBoss.png"
+               VerticalAlignment="Bottom"
+               Source="ms-appx:///Assets/Image/BgRogueDlcQuestBannerBg3.png"
                Stretch="Uniform" />
+
 
         <Grid Name="Grid_OverMask"
               Grid.ColumnSpan="2"
