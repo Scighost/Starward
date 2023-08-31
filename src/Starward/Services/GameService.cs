@@ -124,26 +124,27 @@ internal class GameService
         };
 
         var adl = Registry.GetValue(key, keyName, null) as byte[];
-        if (adl != null)
+        if (adl is null)
         {
-            var account = new GameAccount
-            {
-                SHA256 = Convert.ToHexString(SHA256.HashData(adl)),
-                GameBiz = biz,
-                Value = adl,
-                IsLogin = true,
-            };
-            if (biz.ToGame() is GameBiz.StarRail)
-            {
-                account.Uid = (int)(Registry.GetValue(key, GameRegistry.App_LastUserID_h2841727341, 0) ?? 0);
-            }
-            if (biz.ToGame() is GameBiz.Honkai3rd)
-            {
-                account.Uid = (int)(Registry.GetValue(key, GameRegistry.GENERAL_DATA_V2_LastLoginUserId_h47158221, 0) ?? 0);
-            }
-            return account;
+            return null;
         }
-        return null;
+
+        var account = new GameAccount
+        {
+            SHA256 = Convert.ToHexString(SHA256.HashData(adl)),
+            GameBiz = biz,
+            Value = adl,
+            IsLogin = true,
+        };
+        if (biz.ToGame() is GameBiz.StarRail)
+        {
+            account.Uid = (int)(Registry.GetValue(key, GameRegistry.App_LastUserID_h2841727341, 0) ?? 0);
+        }
+        if (biz.ToGame() is GameBiz.Honkai3rd)
+        {
+            account.Uid = (int)(Registry.GetValue(key, GameRegistry.GENERAL_DATA_V2_LastLoginUserId_h47158221, 0) ?? 0);
+        }
+        return account;
     }
 
 
@@ -250,12 +251,9 @@ internal class GameService
         const int ERROR_CANCELLED = 0x000004C7;
         try
         {
-            if (!ignoreRunningGame)
+            if (!ignoreRunningGame && GetGameProcess(biz) != null)
             {
-                if (GetGameProcess(biz) != null)
-                {
-                    throw new Exception("Game process is running.");
-                }
+                throw new Exception("Game process is running.");
             }
             string? exe = null, arg = null, verb = null;
             if (AppConfig.GetEnableThirdPartyTool(biz))

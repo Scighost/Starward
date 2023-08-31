@@ -131,16 +131,14 @@ internal partial class DownloadGameService
                 var flag = await GetVoiceLanguageAsync(biz, installPath);
                 foreach (var lang in Enum.GetValues<VoiceLanguage>())
                 {
-                    if (flag.HasFlag(lang))
+                    if (flag.HasFlag(lang) &&
+                        diff.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
                     {
-                        if (diff.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
+                        var voicePackage = CheckDownloadPackage(pack, installPath);
+                        if (voicePackage.DownloadedSize != voicePackage.PackageSize)
                         {
-                            var voicePackage = CheckDownloadPackage(pack, installPath);
-                            if (voicePackage.DownloadedSize != voicePackage.PackageSize)
-                            {
-                                long? length = await GetContentLengthAsync(voicePackage.Url);
-                                return voicePackage.DownloadedSize == length;
-                            }
+                            long? length = await GetContentLengthAsync(voicePackage.Url);
+                            return voicePackage.DownloadedSize == length;
                         }
                     }
                 }
@@ -157,16 +155,14 @@ internal partial class DownloadGameService
                 var flag = await GetVoiceLanguageAsync(biz, installPath);
                 foreach (var lang in Enum.GetValues<VoiceLanguage>())
                 {
-                    if (flag.HasFlag(lang))
+                    if (flag.HasFlag(lang) &&
+                        resource.PreDownloadGame.Latest.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
                     {
-                        if (resource.PreDownloadGame.Latest.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
+                        var voicePackage = CheckDownloadPackage(pack, installPath);
+                        if (voicePackage.DownloadedSize != voicePackage.PackageSize)
                         {
-                            var voicePackage = CheckDownloadPackage(pack, installPath);
-                            if (voicePackage.DownloadedSize != voicePackage.PackageSize)
-                            {
-                                long? length = await GetContentLengthAsync(voicePackage.Url);
-                                return voicePackage.DownloadedSize == length;
-                            }
+                            long? length = await GetContentLengthAsync(voicePackage.Url);
+                            return voicePackage.DownloadedSize == length;
                         }
                     }
                 }
@@ -202,59 +198,64 @@ internal partial class DownloadGameService
 
     public async Task SetVoiceLanguageAsync(GameBiz biz, string installPath, VoiceLanguage lang)
     {
-        if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+        if (biz is not GameBiz.hk4e_cn and not GameBiz.hk4e_global)
         {
-            var file = biz switch
-            {
-                GameBiz.hk4e_cn => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
-                GameBiz.hk4e_global => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),
-                _ => ""
-            };
-            Directory.CreateDirectory(Path.GetDirectoryName(file)!);
-            var lines = new List<string>(4);
-            if (lang.HasFlag(VoiceLanguage.Chinese)) { lines.Add("Chinese"); }
-            if (lang.HasFlag(VoiceLanguage.English)) { lines.Add("English(US)"); }
-            if (lang.HasFlag(VoiceLanguage.Japanese)) { lines.Add("Japanese"); }
-            if (lang.HasFlag(VoiceLanguage.Korean)) { lines.Add("Korean"); }
-            await File.WriteAllLinesAsync(file, lines);
-            if (File.Exists(file))
-            {
-                var key = biz switch
-                {
-                    GameBiz.hk4e_cn => GameRegistry.GamePath_hk4e_cn,
-                    GameBiz.hk4e_global => GameRegistry.GamePath_hk4e_global,
-                    _ => "HKEY_CURRENT_USER",
-                };
-                var value = Registry.GetValue(key, GameRegistry.GENERAL_DATA_h2389025596, null) as byte[];
-                if (value is null)
-                {
-                    int? id = null;
-                    if (lang.HasFlag(VoiceLanguage.Chinese))
-                    {
-                        id = 0;
-                    }
-                    else if (lang.HasFlag(VoiceLanguage.English))
-                    {
-                        id = 1;
-                    }
-                    else if (lang.HasFlag(VoiceLanguage.Japanese))
-                    {
-                        id = 2;
-                    }
-                    else if (lang.HasFlag(VoiceLanguage.Korean))
-                    {
-                        id = 3;
-                    }
-                    if (id != null)
-                    {
-                        Registry.SetValue(key, GameRegistry.GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes($"{{\"deviceVoiceLanguageType\":{id}}}\0"));
-                    }
-                }
-            }
+            return;
+        }
+
+        var file = biz switch
+        {
+            GameBiz.hk4e_cn => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
+            GameBiz.hk4e_global => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),
+            _ => ""
+        };
+        Directory.CreateDirectory(Path.GetDirectoryName(file)!);
+        var lines = new List<string>(4);
+        if (lang.HasFlag(VoiceLanguage.Chinese)) { lines.Add("Chinese"); }
+        if (lang.HasFlag(VoiceLanguage.English)) { lines.Add("English(US)"); }
+        if (lang.HasFlag(VoiceLanguage.Japanese)) { lines.Add("Japanese"); }
+        if (lang.HasFlag(VoiceLanguage.Korean)) { lines.Add("Korean"); }
+        await File.WriteAllLinesAsync(file, lines);
+        if (File.Exists(file))
+        {
+            SetVoiceLanguageRegistryValue(biz, lang);
         }
     }
 
-
+    private static void SetVoiceLanguageRegistryValue(GameBiz biz, VoiceLanguage lang)
+    {
+        var key = biz switch
+        {
+            GameBiz.hk4e_cn => GameRegistry.GamePath_hk4e_cn,
+            GameBiz.hk4e_global => GameRegistry.GamePath_hk4e_global,
+            _ => "HKEY_CURRENT_USER",
+        };
+        var value = Registry.GetValue(key, GameRegistry.GENERAL_DATA_h2389025596, null) as byte[];
+        if (value is null)
+        {
+            int? id = null;
+            if (lang.HasFlag(VoiceLanguage.Chinese))
+            {
+                id = 0;
+            }
+            else if (lang.HasFlag(VoiceLanguage.English))
+            {
+                id = 1;
+            }
+            else if (lang.HasFlag(VoiceLanguage.Japanese))
+            {
+                id = 2;
+            }
+            else if (lang.HasFlag(VoiceLanguage.Korean))
+            {
+                id = 3;
+            }
+            if (id != null)
+            {
+                Registry.SetValue(key, GameRegistry.GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes($"{{\"deviceVoiceLanguageType\":{id}}}\0"));
+            }
+        }
+    }
 
 
 
@@ -279,49 +280,47 @@ internal partial class DownloadGameService
         }
 
 
-        if (gameResource != null)
+        if (gameResource is null)
         {
-            var downloadGameResource = new DownloadGameResource();
-            downloadGameResource.FreeSpace = new DriveInfo(Path.GetFullPath(installPath).Substring(0, 1)).AvailableFreeSpace;
-            if (gameResource.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
+            return null;
+        }
+        var downloadGameResource = new DownloadGameResource();
+        downloadGameResource.FreeSpace = new DriveInfo(Path.GetFullPath(installPath).Substring(0, 1)).AvailableFreeSpace;
+        if (gameResource.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
+        {
+            downloadGameResource.Game = CheckDownloadPackage(diff, installPath);
+            foreach (var pack in diff.VoicePacks)
             {
-                downloadGameResource.Game = CheckDownloadPackage(diff, installPath);
-                foreach (var pack in diff.VoicePacks)
+                var state = CheckDownloadPackage(pack, installPath);
+                state.Name = pack.Language;
+                downloadGameResource.Voices.Add(state);
+            }
+        }
+        else
+        {
+            if (string.IsNullOrWhiteSpace(gameResource.Latest.Path))
+            {
+                var state = new DownloadPackageState
                 {
-                    var state = CheckDownloadPackage(pack, installPath);
-                    state.Name = pack.Language;
-                    downloadGameResource.Voices.Add(state);
-                }
+                    PackageSize = gameResource.Latest.PackageSize,
+                    DecompressedSize = gameResource.Latest.Size,
+                };
+                var size = gameResource.Latest.Segments.Sum(x => CheckDownloadPackage(Path.GetFileName(x.Path), installPath));
+                state.DownloadedSize = size;
+                downloadGameResource.Game = state;
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(gameResource.Latest.Path))
-                {
-                    var state = new DownloadPackageState
-                    {
-                        PackageSize = gameResource.Latest.PackageSize,
-                        DecompressedSize = gameResource.Latest.Size,
-                    };
-                    var size = gameResource.Latest.Segments.Sum(x => CheckDownloadPackage(Path.GetFileName(x.Path), installPath));
-                    state.DownloadedSize = size;
-                    downloadGameResource.Game = state;
-                }
-                else
-                {
-                    downloadGameResource.Game = CheckDownloadPackage(gameResource.Latest, installPath);
-                }
-                foreach (var pack in gameResource.Latest.VoicePacks)
-                {
-                    var state = CheckDownloadPackage(pack, installPath);
-                    state.Name = pack.Language;
-                    downloadGameResource.Voices.Add(state);
-                }
+                downloadGameResource.Game = CheckDownloadPackage(gameResource.Latest, installPath);
             }
-            return downloadGameResource;
+            foreach (var pack in gameResource.Latest.VoicePacks)
+            {
+                var state = CheckDownloadPackage(pack, installPath);
+                state.Name = pack.Language;
+                downloadGameResource.Voices.Add(state);
+            }
         }
-
-        return null;
-
+        return downloadGameResource;
     }
 
 
@@ -478,12 +477,10 @@ internal partial class DownloadGameService
                 var flag = await GetVoiceLanguageAsync(biz, installPath).ConfigureAwait(false);
                 foreach (var lang in Enum.GetValues<VoiceLanguage>())
                 {
-                    if (flag.HasFlag(lang))
+                    if (flag.HasFlag(lang) &&
+                        diff.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
                     {
-                        if (diff.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
-                        {
-                            list_package.Add(new DownloadTask { FileName = Path.GetFileName(pack.Path), Url = pack.Path, Size = pack.PackageSize, MD5 = pack.Md5 });
-                        }
+                        list_package.Add(new DownloadTask { FileName = Path.GetFileName(pack.Path), Url = pack.Path, Size = pack.PackageSize, MD5 = pack.Md5 });
                     }
                 }
             }
@@ -499,12 +496,10 @@ internal partial class DownloadGameService
                 }
                 foreach (var lang in Enum.GetValues<VoiceLanguage>())
                 {
-                    if (language.HasFlag(lang))
+                    if (language.HasFlag(lang) &&
+                        gameResource.Latest.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
                     {
-                        if (gameResource.Latest.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
-                        {
-                            list_package.Add(new DownloadTask { FileName = Path.GetFileName(pack.Path), Url = pack.Path, Size = pack.PackageSize, MD5 = pack.Md5 });
-                        }
+                        list_package.Add(new DownloadTask { FileName = Path.GetFileName(pack.Path), Url = pack.Path, Size = pack.PackageSize, MD5 = pack.Md5 });
                     }
                 }
             }
@@ -1208,157 +1203,160 @@ internal partial class DownloadGameService
 
     private async Task CopyAudioAssetsFromPersistentToStreamAssetsAsync()
     {
-        if (gameBiz is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+        if (gameBiz is not GameBiz.hk4e_cn and not GameBiz.hk4e_global)
         {
-            await Task.Run(() =>
+            return;
+        }
+
+        await Task.Run(() =>
+        {
+            string dataName = gameBiz switch
             {
-                string dataName = gameBiz switch
+                GameBiz.hk4e_cn => "YuanShen_Data",
+                GameBiz.hk4e_global => "GenshinImpact_Data",
+                _ => "",
+            };
+            if (!string.IsNullOrWhiteSpace(dataName))
+            {
+                var source = Path.Combine(installPath, $@"{dataName}\Persistent\AudioAssets");
+                var target = Path.Combine(installPath, $@"{dataName}\StreamingAssets\AudioAssets");
+                if (Directory.Exists(source))
                 {
-                    GameBiz.hk4e_cn => "YuanShen_Data",
-                    GameBiz.hk4e_global => "GenshinImpact_Data",
-                    _ => "",
-                };
-                if (!string.IsNullOrWhiteSpace(dataName))
-                {
-                    var source = Path.Combine(installPath, $@"{dataName}\Persistent\AudioAssets");
-                    var target = Path.Combine(installPath, $@"{dataName}\StreamingAssets\AudioAssets");
-                    if (Directory.Exists(source))
+                    var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
+                    _logger.LogInformation("Move audio assets: {count} files.", files.Length);
+                    foreach (var file in files)
                     {
-                        var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
-                        _logger.LogInformation("Move audio assets: {count} files.", files.Length);
-                        foreach (var file in files)
+                        var relative = Path.GetRelativePath(source, file);
+                        var dest = Path.Combine(target, relative);
+                        if (File.Exists(dest))
                         {
-                            var relative = Path.GetRelativePath(source, file);
-                            var dest = Path.Combine(target, relative);
-                            if (File.Exists(dest))
-                            {
-                                File.SetAttributes(dest, FileAttributes.Archive);
-                            }
-                            Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
-                            File.Move(file, dest, true);
-                            if (File.Exists(dest))
-                            {
-                                File.SetAttributes(dest, FileAttributes.Archive);
-                            }
+                            File.SetAttributes(dest, FileAttributes.Archive);
+                        }
+                        Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
+                        File.Move(file, dest, true);
+                        if (File.Exists(dest))
+                        {
+                            File.SetAttributes(dest, FileAttributes.Archive);
                         }
                     }
                 }
-            });
-        }
+            }
+        }).ConfigureAwait(false);
     }
 
 
     private async Task DecompressAsync(IEnumerable<string> files, bool use7zip)
     {
-        if (files.Any())
+        if (!files.Any())
         {
-            using var fs = new SliceStream(files);
-            if (use7zip)
+            return;
+        }
+        using var fs = new SliceStream(files);
+        if (use7zip)
+        {
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                using var extra = new ArchiveFile(fs);
+                double ratio = (double)fs.Length / extra.Entries.Sum(x => (long)x.Size);
+                long sum = 0;
+                extra.ExtractProgress += (_, e) =>
                 {
-                    using var extra = new ArchiveFile(fs);
-                    double ratio = (double)fs.Length / extra.Entries.Sum(x => (long)x.Size);
-                    long sum = 0;
-                    extra.ExtractProgress += (_, e) =>
-                    {
-                        long size = (long)(e.Read * ratio);
-                        progressBytes += size;
-                        sum += size;
-                    };
-                    extra.Extract(installPath, true);
-                    progressBytes += fs.Length - sum;
-                }).ConfigureAwait(false);
-            }
-            else
+                    long size = (long)(e.Read * ratio);
+                    progressBytes += size;
+                    sum += size;
+                };
+                extra.Extract(installPath, true);
+                progressBytes += fs.Length - sum;
+            }).ConfigureAwait(false);
+        }
+        else
+        {
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                long sum = 0;
+                using var zip = new ZipArchive(fs, ZipArchiveMode.Read, true);
+                foreach (var item in zip.Entries)
                 {
-                    long sum = 0;
-                    using var zip = new ZipArchive(fs, ZipArchiveMode.Read, true);
-                    foreach (var item in zip.Entries)
+                    if ((item.ExternalAttributes & 0x10) > 0)
                     {
-                        if ((item.ExternalAttributes & 0x10) > 0)
-                        {
-                            var target = Path.Combine(installPath, item.FullName);
-                            Directory.CreateDirectory(target);
-                        }
-                        else
-                        {
-                            var target = Path.Combine(installPath, item.FullName);
-                            Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-                            item.ExtractToFile(target, true);
-                            progressBytes += item.CompressedLength;
-                            sum += item.CompressedLength;
-                        }
+                        var target = Path.Combine(installPath, item.FullName);
+                        Directory.CreateDirectory(target);
                     }
-                    progressBytes += fs.Length - sum;
-                }).ConfigureAwait(false);
-            }
-            fs.Dispose();
-
-            foreach (var item in files)
-            {
-                File.Delete(item);
-            }
-
-            var delete = Path.Combine(installPath, "deletefiles.txt");
-            if (File.Exists(delete))
-            {
-                var deleteFiles = await File.ReadAllLinesAsync(delete).ConfigureAwait(false);
-                foreach (var file in deleteFiles)
-                {
-                    var target = Path.Combine(installPath, file);
-                    if (File.Exists(target))
+                    else
                     {
-                        File.Delete(target);
+                        var target = Path.Combine(installPath, item.FullName);
+                        Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                        item.ExtractToFile(target, true);
+                        progressBytes += item.CompressedLength;
+                        sum += item.CompressedLength;
                     }
                 }
-                File.Delete(delete);
-            }
+                progressBytes += fs.Length - sum;
+            }).ConfigureAwait(false);
+        }
+        fs.Dispose();
 
-            var hdifffiles = Path.Combine(installPath, "hdifffiles.txt");
-            if (File.Exists(hdifffiles))
+        foreach (var item in files)
+        {
+            File.Delete(item);
+        }
+
+        var delete = Path.Combine(installPath, "deletefiles.txt");
+        if (File.Exists(delete))
+        {
+            var deleteFiles = await File.ReadAllLinesAsync(delete).ConfigureAwait(false);
+            foreach (var file in deleteFiles)
             {
-                int tmp_TotalCount = TotalCount;
-                int tmp_ProgressCount = ProgressCount;
-
-                var hpatch = Path.Combine(AppContext.BaseDirectory, "hpatchz.exe");
-                var lines = await File.ReadAllLinesAsync(hdifffiles).ConfigureAwait(false);
-                TotalCount = lines.Length;
-                progressCount = 0;
-                State = DownloadGameState.Merging;
-                foreach (var line in lines)
+                var target = Path.Combine(installPath, file);
+                if (File.Exists(target))
                 {
-                    var json = JsonNode.Parse(line);
-                    var name = json?["remoteName"]?.ToString();
-                    var target = Path.Join(installPath, name);
-                    var diff = $"{target}.hdiff";
-                    if (File.Exists(target) && File.Exists(diff))
-                    {
-                        File.SetAttributes(target, FileAttributes.Archive);
-                        using var process = Process.Start(new ProcessStartInfo
-                        {
-                            FileName = hpatch,
-                            Arguments = $"""-f "{target}" "{diff}" "{target}"  """,
-                            CreateNoWindow = true,
-                        });
-                        if (process != null)
-                        {
-                            await process.WaitForExitAsync().ConfigureAwait(false);
-                        }
-                        if (File.Exists(diff))
-                        {
-                            File.Delete(diff);
-                        }
-                    }
-                    progressCount++;
+                    File.Delete(target);
                 }
-                File.Delete(hdifffiles);
-                TotalCount = tmp_TotalCount;
-                progressCount = tmp_ProgressCount;
-                State = DownloadGameState.Decompressing;
             }
+            File.Delete(delete);
+        }
+
+        var hdifffiles = Path.Combine(installPath, "hdifffiles.txt");
+        if (File.Exists(hdifffiles))
+        {
+            int tmp_TotalCount = TotalCount;
+            int tmp_ProgressCount = ProgressCount;
+
+            var hpatch = Path.Combine(AppContext.BaseDirectory, "hpatchz.exe");
+            var lines = await File.ReadAllLinesAsync(hdifffiles).ConfigureAwait(false);
+            TotalCount = lines.Length;
+            progressCount = 0;
+            State = DownloadGameState.Merging;
+            foreach (var line in lines)
+            {
+                var json = JsonNode.Parse(line);
+                var name = json?["remoteName"]?.ToString();
+                var target = Path.Join(installPath, name);
+                var diff = $"{target}.hdiff";
+                if (File.Exists(target) && File.Exists(diff))
+                {
+                    File.SetAttributes(target, FileAttributes.Archive);
+                    using var process = Process.Start(new ProcessStartInfo
+                    {
+                        FileName = hpatch,
+                        Arguments = $"""-f "{target}" "{diff}" "{target}"  """,
+                        CreateNoWindow = true,
+                    });
+                    if (process != null)
+                    {
+                        await process.WaitForExitAsync().ConfigureAwait(false);
+                    }
+                    if (File.Exists(diff))
+                    {
+                        File.Delete(diff);
+                    }
+                }
+                progressCount++;
+            }
+            File.Delete(hdifffiles);
+            TotalCount = tmp_TotalCount;
+            progressCount = tmp_ProgressCount;
+            State = DownloadGameState.Decompressing;
         }
     }
 
