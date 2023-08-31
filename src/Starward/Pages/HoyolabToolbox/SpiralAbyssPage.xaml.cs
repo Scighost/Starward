@@ -57,7 +57,7 @@ public sealed partial class SpiralAbyssPage : Page
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        await Task.Delay(60);
+        await Task.Delay(160);
         InitializeAbyssData();
     }
 
