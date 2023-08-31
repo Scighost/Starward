@@ -24,7 +24,7 @@ namespace Starward.Services;
 
 internal partial class DownloadGameService
 {
-
+    private const long GB = 1 << 30;
 
     private readonly ILogger<DownloadGameService> _logger;
 
@@ -117,59 +117,60 @@ internal partial class DownloadGameService
             return false;
         }
         var resource = await GetLauncherResourceAsync(biz);
-        if (resource.PreDownloadGame != null)
+        if (resource.PreDownloadGame is null)
         {
-            var localVersion = await GetLocalGameVersionAsync(biz);
-            if (resource.PreDownloadGame.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
-            {
-                var package = CheckDownloadPackage(diff, installPath);
-                if (package.DownloadedSize != package.PackageSize)
-                {
-                    long? length = await GetContentLengthAsync(package.Url);
-                    return package.DownloadedSize == length;
-                }
-                var flag = await GetVoiceLanguageAsync(biz, installPath);
-                foreach (var lang in Enum.GetValues<VoiceLanguage>())
-                {
-                    if (flag.HasFlag(lang) &&
-                        diff.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
-                    {
-                        var voicePackage = CheckDownloadPackage(pack, installPath);
-                        if (voicePackage.DownloadedSize != voicePackage.PackageSize)
-                        {
-                            long? length = await GetContentLengthAsync(voicePackage.Url);
-                            return voicePackage.DownloadedSize == length;
-                        }
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                var package = CheckDownloadPackage(resource.PreDownloadGame.Latest, installPath);
-                if (package.DownloadedSize != package.PackageSize)
-                {
-                    long? length = await GetContentLengthAsync(package.Url);
-                    return package.DownloadedSize == length;
-                }
-                var flag = await GetVoiceLanguageAsync(biz, installPath);
-                foreach (var lang in Enum.GetValues<VoiceLanguage>())
-                {
-                    if (flag.HasFlag(lang) &&
-                        resource.PreDownloadGame.Latest.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
-                    {
-                        var voicePackage = CheckDownloadPackage(pack, installPath);
-                        if (voicePackage.DownloadedSize != voicePackage.PackageSize)
-                        {
-                            long? length = await GetContentLengthAsync(voicePackage.Url);
-                            return voicePackage.DownloadedSize == length;
-                        }
-                    }
-                }
-                return true;
-            }
+            return false;
         }
-        return false;
+
+        var localVersion = await GetLocalGameVersionAsync(biz);
+        if (resource.PreDownloadGame.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
+        {
+            var package = CheckDownloadPackage(diff, installPath);
+            if (package.DownloadedSize != package.PackageSize)
+            {
+                long? length = await GetContentLengthAsync(package.Url);
+                return package.DownloadedSize == length;
+            }
+            var flag = await GetVoiceLanguageAsync(biz, installPath);
+            foreach (var lang in Enum.GetValues<VoiceLanguage>())
+            {
+                if (flag.HasFlag(lang) &&
+                    diff.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
+                {
+                    var voicePackage = CheckDownloadPackage(pack, installPath);
+                    if (voicePackage.DownloadedSize != voicePackage.PackageSize)
+                    {
+                        long? length = await GetContentLengthAsync(voicePackage.Url);
+                        return voicePackage.DownloadedSize == length;
+                    }
+                }
+            }
+            return true;
+        }
+        else
+        {
+            var package = CheckDownloadPackage(resource.PreDownloadGame.Latest, installPath);
+            if (package.DownloadedSize != package.PackageSize)
+            {
+                long? length = await GetContentLengthAsync(package.Url);
+                return package.DownloadedSize == length;
+            }
+            var flag = await GetVoiceLanguageAsync(biz, installPath);
+            foreach (var lang in Enum.GetValues<VoiceLanguage>())
+            {
+                if (flag.HasFlag(lang) &&
+                    resource.PreDownloadGame.Latest.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
+                {
+                    var voicePackage = CheckDownloadPackage(pack, installPath);
+                    if (voicePackage.DownloadedSize != voicePackage.PackageSize)
+                    {
+                        long? length = await GetContentLengthAsync(voicePackage.Url);
+                        return voicePackage.DownloadedSize == length;
+                    }
+                }
+            }
+            return true;
+        }
     }
 
 
@@ -517,8 +518,6 @@ internal partial class DownloadGameService
             }).ConfigureAwait(false);
 
             packageTasks = list_package;
-
-            const long GB = 1 << 30;
 
             var list_slice = new List<DownloadTask>();
             foreach (var item in list_package)
@@ -1479,8 +1478,6 @@ internal partial class DownloadGameService
 
     private class SliceStream : Stream
     {
-
-        private const long GB = 1 << 30;
 
         public override bool CanRead => true;
 
