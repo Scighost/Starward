@@ -42,11 +42,11 @@
 
             <!--  Custom Acrylic  -->
             <AcrylicBrush x:Key="CustomAcrylicBrush"
-                          FallbackColor="{ThemeResource ControlOnImageFillColorDefault}"
+                          FallbackColor="#F52C2C2C"
                           TintColor="{ThemeResource ControlOnImageFillColorDefault}"
                           TintOpacity="0.6" />
             <AcrylicBrush x:Key="CustomOverlayAcrylicBrush"
-                          FallbackColor="{ThemeResource ControlOnImageFillColorDefault}"
+                          FallbackColor="#F52C2C2C"
                           TintColor="{ThemeResource ControlOnImageFillColorDefault}"
                           TintOpacity="0.4" />
 
