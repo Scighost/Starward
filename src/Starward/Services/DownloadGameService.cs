@@ -1018,37 +1018,9 @@ internal partial class DownloadGameService
 
             await Parallel.ForEachAsync(packageTasks, cancellationToken, async (item, token) =>
             {
-                byte[] buffer = new byte[1 << 18];
                 var file = Path.Combine(installPath, item.FileName);
-                bool needDownload = false;
-                if (File.Exists(file))
-                {
-                    using var fs = File.OpenRead(file);
-                    if (fs.Length != item.Size)
-                    {
-                        needDownload = true;
-                    }
-                    else
-                    {
-                        var hashProvider = MD5.Create();
-                        int read = 0;
-                        while ((read = await fs.ReadAsync(buffer, cancellationToken)) != 0)
-                        {
-                            hashProvider.TransformBlock(buffer, 0, read, buffer, 0);
-                            Interlocked.Add(ref progressBytes, read);
-                        }
-                        hashProvider.TransformFinalBlock(buffer, 0, read);
-                        var hash = hashProvider.Hash;
-                        if (!(hash?.SequenceEqual(Convert.FromHexString(item.MD5)) ?? false))
-                        {
-                            needDownload = true;
-                        }
-                    }
-                }
-                else
-                {
-                    needDownload = true;
-                }
+                bool needDownload = await GetNeedDownloadStateAsync(file, item, cancellationToken);
+                
                 Interlocked.Increment(ref progressCount);
                 if (needDownload)
                 {
@@ -1126,7 +1098,39 @@ internal partial class DownloadGameService
         }
     }
 
-
+    private async Task<bool> GetNeedDownloadStateAsync(string filePath, DownloadTask item, CancellationToken cancellationToken)
+    {
+        byte[] buffer = new byte[1 << 18];
+        if (File.Exists(filePath))
+        {
+            using var fs = File.OpenRead(filePath);
+            if (fs.Length != item.Size)
+            {
+                 return true;
+            }
+            else
+            {
+                var hashProvider = MD5.Create();
+                int read = 0;
+                while ((read = await fs.ReadAsync(buffer, cancellationToken)) != 0)
+                {
+                    hashProvider.TransformBlock(buffer, 0, read, buffer, 0);
+                    Interlocked.Add(ref progressBytes, read);
+                }
+                hashProvider.TransformFinalBlock(buffer, 0, read);
+                var hash = hashProvider.Hash;
+                if (!(hash?.SequenceEqual(Convert.FromHexString(item.MD5)) ?? false))
+                {
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            return true;
+        }
+        return false;
+    }
 
     public async Task DecompressAsync()
     {
@@ -1266,14 +1270,14 @@ internal partial class DownloadGameService
                 using var zip = new ZipArchive(fs, ZipArchiveMode.Read, true);
                 foreach (var item in zip.Entries)
                 {
-                    if ((item.ExternalAttributes & 0x10) > 0)
+                    bool isDirectory = (item.ExternalAttributes & 0x10) > 0;
+                    var target = Path.Combine(installPath, item.FullName);
+                    if (isDirectory)
                     {
-                        var target = Path.Combine(installPath, item.FullName);
                         Directory.CreateDirectory(target);
                     }
                     else
                     {
-                        var target = Path.Combine(installPath, item.FullName);
                         Directory.CreateDirectory(Path.GetDirectoryName(target)!);
                         item.ExtractToFile(target, true);
                         progressBytes += item.CompressedLength;
