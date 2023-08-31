@@ -286,7 +286,7 @@ internal partial class DownloadGameService
             return null;
         }
         var downloadGameResource = new DownloadGameResource();
-        downloadGameResource.FreeSpace = new DriveInfo(Path.GetFullPath(installPath).Substring(0, 1)).AvailableFreeSpace;
+        downloadGameResource.FreeSpace = new DriveInfo(Path.GetFullPath(installPath)[..1]).AvailableFreeSpace;
         if (gameResource.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
         {
             downloadGameResource.Game = CheckDownloadPackage(diff, installPath);
@@ -519,66 +519,7 @@ internal partial class DownloadGameService
 
             packageTasks = list_package;
 
-            var list_slice = new List<DownloadTask>();
-            foreach (var item in list_package)
-            {
-                var file = Path.Combine(installPath, item.FileName);
-                if (File.Exists(file) && new FileInfo(file).Length == item.Size)
-                {
-                    var t = new DownloadTask
-                    {
-                        FileName = item.FileName,
-                        Url = item.Url,
-                        Size = item.Size,
-                        MD5 = item.MD5,
-                        Range = (0, item.Size),
-                        DownloadSize = item.Size,
-                    };
-                    list_slice.Add(t);
-                }
-                else
-                {
-                    int b = (int)(item.Size / GB);
-                    int c = (int)(item.Size % GB);
-                    var temp = Enumerable.Range(0, b).Select(x =>
-                    {
-                        var t = new DownloadTask
-                        {
-                            FileName = $"{item.FileName}.slice.{x:D3}",
-                            Url = item.Url,
-                            Size = GB,
-                            MD5 = item.MD5,
-                            Range = (GB * x, GB * (x + 1)),
-                        };
-                        var f = Path.Combine(installPath, t.FileName);
-                        if (File.Exists(f))
-                        {
-                            t.DownloadSize = new FileInfo(f).Length;
-                        }
-                        return t;
-                    }).ToList();
-                    if (c > 0)
-                    {
-                        var t = new DownloadTask
-                        {
-                            FileName = $"{item.FileName}.slice.{b:D3}",
-                            Url = item.Url,
-                            Size = c,
-                            MD5 = item.MD5,
-                            Range = (GB * b, item.Size),
-                        };
-                        var f = Path.Combine(installPath, t.FileName);
-                        if (File.Exists(f))
-                        {
-                            t.DownloadSize = new FileInfo(f).Length;
-                        }
-                        temp.Add(t);
-                    }
-                    list_slice.AddRange(temp);
-                }
-            }
-            sliceTasks = list_slice;
-
+            sliceTasks = CreateDownloadTasks(list_package);
 
             TotalBytes = sliceTasks.Sum(x => x.Size);
             progressBytes = sliceTasks.Sum(x => x.DownloadSize);
@@ -595,7 +536,68 @@ internal partial class DownloadGameService
         return decompress;
     }
 
-
+    private List<DownloadTask> CreateDownloadTasks(List<DownloadTask> tasks)
+    {
+        var listSlice = new List<DownloadTask>();
+        foreach (var item in tasks)
+        {
+            var file = Path.Combine(installPath, item.FileName);
+            if (File.Exists(file) && new FileInfo(file).Length == item.Size)
+            {
+                var t = new DownloadTask
+                {
+                    FileName = item.FileName,
+                    Url = item.Url,
+                    Size = item.Size,
+                    MD5 = item.MD5,
+                    Range = (0, item.Size),
+                    DownloadSize = item.Size,
+                };
+                listSlice.Add(t);
+            }
+            else
+            {
+                int b = (int)(item.Size / GB);
+                int c = (int)(item.Size % GB);
+                var temp = Enumerable.Range(0, b).Select(x =>
+                {
+                    var task = new DownloadTask
+                    {
+                        FileName = $"{item.FileName}.slice.{x:D3}",
+                        Url = item.Url,
+                        Size = GB,
+                        MD5 = item.MD5,
+                        Range = (GB * x, GB * (x + 1)),
+                    };
+                    var filePath = Path.Combine(installPath, task.FileName);
+                    if (File.Exists(filePath))
+                    {
+                        task.DownloadSize = new FileInfo(filePath).Length;
+                    }
+                    return task;
+                }).ToList();
+                if (c > 0)
+                {
+                    var task = new DownloadTask
+                    {
+                        FileName = $"{item.FileName}.slice.{b:D3}",
+                        Url = item.Url,
+                        Size = c,
+                        MD5 = item.MD5,
+                        Range = (GB * b, item.Size),
+                    };
+                    var filePath = Path.Combine(installPath, task.FileName);
+                    if (File.Exists(filePath))
+                    {
+                        task.DownloadSize = new FileInfo(filePath).Length;
+                    }
+                    temp.Add(task);
+                }
+                listSlice.AddRange(temp);
+            }
+        }
+        return listSlice;
+    }
 
     public async Task PrepareForRepairAsync(GameBiz biz, string installPath, VoiceLanguage language)
     {
@@ -1003,7 +1005,6 @@ internal partial class DownloadGameService
     }
 
 
-
     public async Task VerifySeparateFilesAsync(CancellationToken cancellationToken)
     {
         try
@@ -1215,28 +1216,30 @@ internal partial class DownloadGameService
                 GameBiz.hk4e_global => "GenshinImpact_Data",
                 _ => "",
             };
-            if (!string.IsNullOrWhiteSpace(dataName))
+            if (string.IsNullOrWhiteSpace(dataName))
             {
-                var source = Path.Combine(installPath, $@"{dataName}\Persistent\AudioAssets");
-                var target = Path.Combine(installPath, $@"{dataName}\StreamingAssets\AudioAssets");
-                if (Directory.Exists(source))
+                return;
+            }
+
+            var source = Path.Combine(installPath, $@"{dataName}\Persistent\AudioAssets");
+            var target = Path.Combine(installPath, $@"{dataName}\StreamingAssets\AudioAssets");
+            if (Directory.Exists(source))
+            {
+                var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
+                _logger.LogInformation("Move audio assets: {count} files.", files.Length);
+                foreach (var file in files)
                 {
-                    var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
-                    _logger.LogInformation("Move audio assets: {count} files.", files.Length);
-                    foreach (var file in files)
+                    var relative = Path.GetRelativePath(source, file);
+                    var dest = Path.Combine(target, relative);
+                    if (File.Exists(dest))
                     {
-                        var relative = Path.GetRelativePath(source, file);
-                        var dest = Path.Combine(target, relative);
-                        if (File.Exists(dest))
-                        {
-                            File.SetAttributes(dest, FileAttributes.Archive);
-                        }
-                        Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
-                        File.Move(file, dest, true);
-                        if (File.Exists(dest))
-                        {
-                            File.SetAttributes(dest, FileAttributes.Archive);
-                        }
+                        File.SetAttributes(dest, FileAttributes.Archive);
+                    }
+                    Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
+                    File.Move(file, dest, true);
+                    if (File.Exists(dest))
+                    {
+                        File.SetAttributes(dest, FileAttributes.Archive);
                     }
                 }
             }
@@ -1253,20 +1256,7 @@ internal partial class DownloadGameService
         using var fs = new SliceStream(files);
         if (use7zip)
         {
-            await Task.Run(() =>
-            {
-                using var extra = new ArchiveFile(fs);
-                double ratio = (double)fs.Length / extra.Entries.Sum(x => (long)x.Size);
-                long sum = 0;
-                extra.ExtractProgress += (_, e) =>
-                {
-                    long size = (long)(e.Read * ratio);
-                    progressBytes += size;
-                    sum += size;
-                };
-                extra.Extract(installPath, true);
-                progressBytes += fs.Length - sum;
-            }).ConfigureAwait(false);
+            await DecompressUse7zipAsync(fs);
         }
         else
         {
@@ -1357,6 +1347,24 @@ internal partial class DownloadGameService
             progressCount = tmp_ProgressCount;
             State = DownloadGameState.Decompressing;
         }
+    }
+
+    private async Task DecompressUse7zipAsync(SliceStream fs)
+    {
+        await Task.Run(() =>
+        {
+            using var extra = new ArchiveFile(fs);
+            double ratio = (double)fs.Length / extra.Entries.Sum(x => (long)x.Size);
+            long sum = 0;
+            extra.ExtractProgress += (_, e) =>
+            {
+                long size = (long)(e.Read * ratio);
+                progressBytes += size;
+                sum += size;
+            };
+            extra.Extract(installPath, true);
+            progressBytes += fs.Length - sum;
+        });
     }
 
 
