@@ -296,53 +296,7 @@
                                   OffContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}"
                                   OnContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}" />
 
-                    <!--  Update  -->
-                    <TextBlock Margin="0,20,0,0"
-                               FontSize="20"
-                               FontWeight="SemiBold"
-                               Text="{x:Bind lang:Lang.SettingPage_Update}" />
-                    <StackPanel Margin="0,12,0,0"
-                                Orientation="Horizontal"
-                                Spacing="4">
-                        <TextBlock Text="{x:Bind lang:Lang.SettingPage_CurrentVersion}" />
-                        <TextBlock FontWeight="SemiBold"
-                                   Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                   Text="{x:Bind s:AppConfig.AppVersion}" />
-                    </StackPanel>
-                    <!--  加入预览版更新渠道  -->
-                    <ToggleSwitch Margin="0,8,0,0"
-                                  IsOn="{x:Bind EnablePreviewRelease, Mode=TwoWay}"
-                                  OffContent="{x:Bind lang:Lang.SettingPage_JoinPreviewReleaseChannel}"
-                                  OnContent="{x:Bind lang:Lang.SettingPage_JoinPreviewReleaseChannel}" />
-                    <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
-                        <Button Height="40"
-                                Margin="-48,0,0,0"
-                                Padding="48,0,16,0"
-                                BorderThickness="0"
-                                Command="{x:Bind CheckUpdateCommand}"
-                                CornerRadius="0,20,20,0"
-                                Style="{ThemeResource AccentButtonStyle}">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon Glyph="&#xE752;" />
-                                <TextBlock Text="{x:Bind lang:Lang.SettingPage_CheckForUpdate}" />
-                            </StackPanel>
-                        </Button>
-                        <Grid Width="40"
-                              Height="40"
-                              Margin="16,0,0,0">
-                            <FontIcon FontSize="20"
-                                      Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                      Glyph="&#xF78C;"
-                                      Visibility="{x:Bind IsUpdated}" />
-                            <ProgressRing Width="28"
-                                          Height="28"
-                                          IsIndeterminate="{x:Bind CheckUpdateCommand.IsRunning}" />
-                        </Grid>
-                        <TextBlock Margin="16,0,0,0"
-                                   VerticalAlignment="Center"
-                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="{x:Bind UpdateErrorText}" />
-                    </StackPanel>
+
 
                     <!--  File Manager  -->
                     <TextBlock Margin="0,20,0,0"
@@ -439,14 +393,60 @@
                                ui:Effects.Shadow="{StaticResource LogoShadow}"
                                Source="ms-appx:///Assets/logo.png" />
                     </Grid>
-                    <TextBlock FontSize="20"
-                               FontWeight="Bold"
-                               Text="{x:Bind lang:Lang.SettingPage_About}" />
-                    <TextBlock Margin="0,8,0,0">
-                        <Run Text="Starward" />
-                        <Run Text="{x:Bind s:AppConfig.AppVersion}" />
-                    </TextBlock>
                     <TextBlock Text="Developed by Scighost, all rights reserved." />
+                    <!--  Update  -->
+                    <TextBlock Margin="0,20,0,0"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Text="{x:Bind lang:Lang.SettingPage_Update}" />
+                    <StackPanel Margin="0,12,0,0"
+                                Orientation="Horizontal"
+                                Spacing="4">
+                        <TextBlock Text="{x:Bind lang:Lang.SettingPage_CurrentVersion}" />
+                        <TextBlock FontWeight="SemiBold"
+                                   Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                   Text="{x:Bind s:AppConfig.AppVersion}" />
+                    </StackPanel>
+                    <!--  加入预览版更新渠道  -->
+                    <ToggleSwitch Margin="0,4,0,0"
+                                  IsOn="{x:Bind EnablePreviewRelease, Mode=TwoWay}"
+                                  OffContent="{x:Bind lang:Lang.SettingPage_JoinPreviewReleaseChannel}"
+                                  OnContent="{x:Bind lang:Lang.SettingPage_JoinPreviewReleaseChannel}" />
+                    <Grid Margin="0,4,0,0" ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Height="40"
+                                Padding="12,0,16,0"
+                                BorderThickness="0"
+                                Command="{x:Bind CheckUpdateCommand}"
+                                CornerRadius="4,20,20,4"
+                                Style="{ThemeResource AccentButtonStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE752;" />
+                                <TextBlock Text="{x:Bind lang:Lang.SettingPage_CheckForUpdate}" />
+                            </StackPanel>
+                        </Button>
+                        <FontIcon Grid.Column="1"
+                                  HorizontalAlignment="Left"
+                                  FontSize="20"
+                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                  Glyph="&#xF78C;"
+                                  Visibility="{x:Bind IsUpdated}" />
+                        <ProgressRing Grid.Column="1"
+                                      Width="28"
+                                      Height="28"
+                                      HorizontalAlignment="Left"
+                                      IsIndeterminate="{x:Bind CheckUpdateCommand.IsRunning}" />
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind UpdateErrorText}"
+                                   TextWrapping="Wrap" />
+                    </Grid>
+
+
                     <TextBlock Margin="0,16,0,0" HorizontalAlignment="Left">
                         <Hyperlink NavigateUri="https://github.com/Scighost/Starward" UnderlineStyle="None">
                             <Run FontWeight="Bold"
