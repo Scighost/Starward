@@ -6,6 +6,7 @@ using Starward.Models;
 using Starward.Services.Cache;
 using Starward.SevenZip;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -757,13 +758,14 @@ internal partial class DownloadGameService
                         response.EnsureSuccessStatusCode();
                         using var hs = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 
-                        var buffer = new byte[bufferSize];
+                        var buffer = ArrayPool<byte>.Shared.Rent(bufferSize);
                         int length;
                         while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {
                             await fs.WriteAsync(buffer.AsMemory(0, length), token).ConfigureAwait(false);
                             Interlocked.Add(ref progressBytes, length);
                         }
+                        ArrayPool<byte>.Shared.Return(buffer);
                         _logger.LogInformation("Download Successfully: FileName {name}, Elapsed {time}", slice.FileName, Stopwatch.GetElapsedTime(ts));
                     }
                     catch (HttpRequestException ex)
@@ -862,13 +864,14 @@ internal partial class DownloadGameService
                         response.EnsureSuccessStatusCode();
                         using var hs = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 
-                        var buffer = new byte[bufferSize];
+                        var buffer = ArrayPool<byte>.Shared.Rent(bufferSize);
                         int length;
                         while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {
                             await fs.WriteAsync(buffer.AsMemory(0, length), token).ConfigureAwait(false);
                             Interlocked.Add(ref progressBytes, length);
                         }
+                        ArrayPool<byte>.Shared.Return(buffer);
                     }
                     catch (HttpRequestException ex)
                     {
@@ -1109,7 +1112,7 @@ internal partial class DownloadGameService
             }
             else
             {
-                byte[] buffer = new byte[1 << 18];
+                byte[] buffer = ArrayPool<byte>.Shared.Rent(1 << 18);
                 var hashProvider = MD5.Create();
                 int read = 0;
                 while ((read = await fs.ReadAsync(buffer, cancellationToken)) != 0)
@@ -1119,6 +1122,7 @@ internal partial class DownloadGameService
                 }
                 hashProvider.TransformFinalBlock(buffer, 0, read);
                 var hash = hashProvider.Hash;
+                ArrayPool<byte>.Shared.Return(buffer);
                 if (!(hash?.SequenceEqual(Convert.FromHexString(item.MD5)) ?? false))
                 {
                     return true;
