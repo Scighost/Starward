@@ -1100,7 +1100,6 @@ internal partial class DownloadGameService
 
     private async Task<bool> GetNeedDownloadStateAsync(string filePath, DownloadTask item, CancellationToken cancellationToken)
     {
-        byte[] buffer = new byte[1 << 18];
         if (File.Exists(filePath))
         {
             using var fs = File.OpenRead(filePath);
@@ -1110,6 +1109,7 @@ internal partial class DownloadGameService
             }
             else
             {
+                byte[] buffer = new byte[1 << 18];
                 var hashProvider = MD5.Create();
                 int read = 0;
                 while ((read = await fs.ReadAsync(buffer, cancellationToken)) != 0)
