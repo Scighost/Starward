@@ -75,11 +75,11 @@
                                Text="{x:Bind lang:Lang.SettingPage_EffectiveAtNextStartup}"
                                TextWrapping="Wrap" />
                     <Button Height="40"
-                            Margin="-48,12,0,0"
-                            Padding="48,0,16,0"
+                            Margin="-0,12,0,0"
+                            Padding="16,0,16,0"
                             BorderThickness="0"
                             Command="{x:Bind OpenLogFolderCommand}"
-                            CornerRadius="0,20,20,0"
+                            CornerRadius="4,20,20,4"
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xE838;" />
@@ -205,11 +205,11 @@
                         </RadioButton>
                     </RadioButtons>
                     <Button Height="40"
-                            Margin="-48,12,0,0"
-                            Padding="48,0,16,0"
+                            Margin="0,12,0,0"
+                            Padding="16,0,16,0"
                             BorderThickness="0"
                             Command="{x:Bind TestCDNCommand}"
-                            CornerRadius="0,20,20,0"
+                            CornerRadius="4,20,20,4"
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xF6FA;" />
@@ -226,16 +226,16 @@
                                   IsOn="{x:Bind EnableCustomBg, Mode=TwoWay}"
                                   OffContent="{x:Bind lang:Lang.SettingPage_CustomBackgroundSupportVideo}"
                                   OnContent="{x:Bind lang:Lang.SettingPage_CustomBackgroundSupportVideo}" />
-                    <Grid Margin="-48,8,0,0" ColumnSpacing="16">
+                    <Grid Margin="0,8,0,0" ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Button Height="40"
-                                Padding="48,0,16,0"
+                                Padding="16,0,16,0"
                                 BorderThickness="0"
                                 Command="{x:Bind ChangeCustomBgCommand}"
-                                CornerRadius="0,20,20,0"
+                                CornerRadius="4,20,20,4"
                                 IsEnabled="{x:Bind EnableCustomBg}"
                                 Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
@@ -305,11 +305,11 @@
                                Text="{x:Bind lang:Lang.SettingPage_FileManager}" />
                     <!--  open data folder  -->
                     <Button Height="40"
-                            Margin="-48,12,0,0"
-                            Padding="48,0,16,0"
+                            Margin="0,12,0,0"
+                            Padding="16,0,16,0"
                             BorderThickness="0"
                             Command="{x:Bind OpenDataFolderCommand}"
-                            CornerRadius="0,20,20,0"
+                            CornerRadius="4,20,20,4"
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xE838;" />
@@ -318,11 +318,11 @@
                     </Button>
                     <!--  reselect folder  -->
                     <Button Height="40"
-                            Margin="-48,12,0,0"
-                            Padding="48,0,16,0"
+                            Margin="0,12,0,0"
+                            Padding="16,0,16,0"
                             BorderThickness="0"
                             Command="{x:Bind ChangeDataFolderCommand}"
-                            CornerRadius="0,20,20,0"
+                            CornerRadius="4,20,20,4"
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xE8DE;" />
@@ -330,13 +330,13 @@
                         </StackPanel>
                     </Button>
                     <!--  backup database  -->
-                    <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
+                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
                         <Button Height="40"
-                                Margin="-48,0,0,0"
-                                Padding="48,0,16,0"
+                                Margin="0,0,0,0"
+                                Padding="16,0,16,0"
                                 BorderThickness="0"
                                 Command="{x:Bind BackupDatabaseCommand}"
-                                CornerRadius="0,20,20,0"
+                                CornerRadius="4,20,20,4"
                                 Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon Glyph="&#xF156;" />
@@ -355,11 +355,11 @@
                                    Visibility="{x:Bind BackupDatabaseCommand.IsRunning, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
                     </StackPanel>
                     <Button Height="40"
-                            Margin="-48,12,0,0"
-                            Padding="48,0,16,0"
+                            Margin="0,12,0,0"
+                            Padding="16,0,16,0"
                             BorderThickness="0"
                             Command="{x:Bind DeleteAllSettingCommand}"
-                            CornerRadius="0,20,20,0"
+                            CornerRadius="4,20,20,4"
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xE74D;" />
@@ -367,10 +367,10 @@
                         </StackPanel>
                     </Button>
                     <Button Height="40"
-                            Margin="-48,0,0,0"
-                            Padding="48,0,16,0"
+                            Margin="0,12,0,0"
+                            Padding="16,0,16,0"
                             BorderThickness="0"
-                            CornerRadius="0,20,20,0"
+                            CornerRadius="4,20,20,4"
                             Style="{ThemeResource AccentButtonStyle}"
                             Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal" Spacing="8">
@@ -398,7 +398,7 @@
                     <TextBlock Margin="0,20,0,0"
                                FontSize="20"
                                FontWeight="SemiBold"
-                               Text="{x:Bind lang:Lang.SettingPage_Update}" />
+                               Text="{x:Bind lang:Lang.SettingPage_About}" />
                     <StackPanel Margin="0,12,0,0"
                                 Orientation="Horizontal"
                                 Spacing="4">

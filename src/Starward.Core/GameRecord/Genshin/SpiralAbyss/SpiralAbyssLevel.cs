@@ -26,7 +26,7 @@ namespace Starward.Core.GameRecord.Genshin.SpiralAbyss
 
         [JsonPropertyName("top_half_floor_monster")]
         public List<SpiralAbyssMonster> TopHalfFloorMonster { get; set; }
-        
+
 
         [JsonPropertyName("bottom_half_floor_monster")]
         public List<SpiralAbyssMonster> BottomHalfFloorMonster { get; set; }

@@ -14,7 +14,7 @@ public class HyperionClient : GameRecordClient
 
     protected override string UAContent => $"Mozilla/5.0 miHoYoBBS/{AppVersion}";
 
-    protected override string AppVersion => "2.53.1";
+    protected override string AppVersion => "2.58.2";
 
     protected override string ApiSalt => "t0qEgfub6cvueAPgR5m9aQWWVciEer7v";
 
