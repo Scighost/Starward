@@ -1063,4 +1063,10 @@
   <data name="DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip" xml:space="preserve">
     <value>Turn on if there's not enough free space for unzip.</value>
   </data>
+  <data name="LauncherPage_ConfirmDelete" xml:space="preserve">
+    <value>Confirm Delete</value>
+  </data>
+  <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
+    <value>Currently logged in account</value>
+  </data>
 </root>
