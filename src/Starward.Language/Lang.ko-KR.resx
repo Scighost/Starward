@@ -1055,13 +1055,19 @@
     <value>공지사항</value>
   </data>
   <data name="DownloadGamePage_Merging" xml:space="preserve">
-    <value>Merging</value>
+    <value>병합중</value>
   </data>
   <data name="LauncherPage_Required" xml:space="preserve">
-    <value>Required</value>
+    <value>필수</value>
     <comment>Nickname is required.</comment>
   </data>
   <data name="DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip" xml:space="preserve">
-    <value>Turn on if there's not enough free space for unzip.</value>
+    <value>압축해제 공간이 부족할때 이 기능을 활성화 하세요.</value>
+  </data>
+  <data name="LauncherPage_ConfirmDelete" xml:space="preserve">
+    <value>삭제 확인</value>
+  </data>
+  <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
+    <value>현재 로그인 된 계정</value>
   </data>
 </root>
