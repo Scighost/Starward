@@ -148,7 +148,7 @@
     <value>Tiếng Hàn</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>Tính năng này đang ở trong giai đoạn thử nghiệm, Nếu có bất kì tệp trò chơi nào bị hỏng, vui lòng sử dụng trình khởi chạy chính thức để sửa nó.</value>
+    <value>Tính năng này đang ở trong giai đoạn thử nghiệm. Nếu có bất kì tệp trò chơi nào bị hỏng, vui lòng sử dụng trình khởi chạy chính thức để sửa nó.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
     <value>Dung lượng có sẵn có lẽ là không đủ</value>
