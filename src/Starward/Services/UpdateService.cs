@@ -279,6 +279,7 @@ internal class UpdateService
                 throw new TaskCanceledException();
             }
             State = UpdateState.Moving;
+            await Task.Delay(1000);
             MovingFiles();
             State = UpdateState.Finish;
         }
