@@ -79,7 +79,7 @@ internal class DatabaseService
         {
             using var con = CreateConnection();
             int version = con.QueryFirstOrDefault<int>("PRAGMA USER_VERSION;");
-            _logger.LogInformation("Database version is {version}, target version is {DatabaseSqls.Count}.", version, DatabaseSqls.Count);
+            _logger.LogInformation("Database version is {version}, target version is {targetVersion}.", version, DatabaseSqls.Count);
             if (version == 0)
             {
                 con.Execute("PRAGMA JOURNAL_MODE = WAL;");
