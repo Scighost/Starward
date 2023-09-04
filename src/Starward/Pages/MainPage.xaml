@@ -11,6 +11,8 @@
       xmlns:s="using:Starward"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
+      PreviewKeyDown="Page_PreviewKeyDown"
+      PreviewKeyUp="Page_PreviewKeyUp"
       SizeChanged="Page_SizeChanged"
       Unloaded="Page_Unloaded"
       mc:Ignorable="d">
@@ -310,12 +312,164 @@
 
             </StackPanel>
 
+            <StackPanel Name="StackPanel_Shortcut_Game"
+                        Margin="12,0,12,-24"
+                        VerticalAlignment="Bottom"
+                        IsHitTestVisible="False"
+                        Orientation="Horizontal"
+                        Spacing="8"
+                        Visibility="Collapsed">
+                <Border Width="28"
+                        Height="28"
+                        Margin="4,0,4,0"
+                        Background="{ThemeResource CustomAcrylicBrush}"
+                        CornerRadius="4"
+                        Shadow="{ThemeResource ThemeShadow}"
+                        Translation="0,0,16">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="1" />
+                </Border>
+                <Border Width="28"
+                        Height="28"
+                        Margin="4,0,4,0"
+                        Background="{ThemeResource CustomAcrylicBrush}"
+                        CornerRadius="4"
+                        Shadow="{ThemeResource ThemeShadow}"
+                        Translation="0,0,16">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="2" />
+                </Border>
+                <Border Width="28"
+                        Height="28"
+                        Margin="4,0,4,0"
+                        Background="{ThemeResource CustomAcrylicBrush}"
+                        CornerRadius="4"
+                        Shadow="{ThemeResource ThemeShadow}"
+                        Translation="0,0,16">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="3" />
+                </Border>
+            </StackPanel>
 
         </Grid>
 
 
+        <Border Name="Border_Shortcut_Page_1"
+                Grid.Row="1"
+                Margin="0,-4,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Background="{ThemeResource CustomAcrylicBrush}"
+                CornerRadius="4"
+                IsHitTestVisible="False"
+                Shadow="{ThemeResource ThemeShadow}"
+                Translation="0,0,16"
+                Visibility="Collapsed">
+            <VariableSizedWrapGrid Margin="8,0,8,0"
+                                   ItemHeight="40"
+                                   ItemWidth="32"
+                                   MaximumRowsOrColumns="2"
+                                   Orientation="Horizontal">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE80F;" />
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="1" />
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE789;" />
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="2" />
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE7FC;" />
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="3" />
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE91B;" />
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="4" />
+                <FontIcon x:Name="FontIcon_5"
+                          x:Load="{x:Bind NavigationViewItem_GachaLog.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
+                          FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xF4A5;" />
+                <TextBlock x:Name="TextBlock_5"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           x:Load="{x:Bind NavigationViewItem_GachaLog.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="5" />
+                <FontIcon x:Name="FontIcon_6"
+                          x:Load="{x:Bind NavigationViewItem_HoyolabToolbox.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
+                          FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xF133;" />
+                <TextBlock x:Name="TextBlock_6"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           x:Load="{x:Bind NavigationViewItem_HoyolabToolbox.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="6" />
+                <!--<FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE82F;" />
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="7" />
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE713;" />
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="8" />-->
+            </VariableSizedWrapGrid>
+        </Border>
 
-
+        <Border Name="Border_Shortcut_Page_2"
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Background="{ThemeResource CustomAcrylicBrush}"
+                CornerRadius="4"
+                IsHitTestVisible="False"
+                Shadow="{ThemeResource ThemeShadow}"
+                Translation="0,0,16"
+                Visibility="Collapsed">
+            <VariableSizedWrapGrid Margin="8,0,8,2"
+                                   ItemHeight="40"
+                                   ItemWidth="32"
+                                   MaximumRowsOrColumns="2"
+                                   Orientation="Horizontal">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE713;" />
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="0" />
+            </VariableSizedWrapGrid>
+        </Border>
 
 
     </Grid>

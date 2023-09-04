@@ -39,6 +39,7 @@
             <scv:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
             <scv:CollectionToVisibilityConverter x:Key="CollectionToVisibilityConverter" />
             <scv:GachaPityProgressBackgroundBrushConverter x:Key="GachaPityProgressBackgroundBrushConverter" />
+            <scv:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
 
             <!--  Custom Acrylic  -->
             <AcrylicBrush x:Key="CustomAcrylicBrush"

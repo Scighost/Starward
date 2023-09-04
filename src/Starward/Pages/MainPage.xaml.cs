@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Composition;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
@@ -34,6 +35,7 @@ using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -886,7 +888,155 @@ public sealed partial class MainPage : Page
 
 
 
+
     #endregion
+
+
+
+
+    #region Shortcut
+
+
+
+    private void Page_PreviewKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    {
+        try
+        {
+            bool ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            bool shift = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            bool alt = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            if (ctrl && alt)
+            {
+                return;
+            }
+            if (e.Key == VirtualKey.Control)
+            {
+                StackPanel_Shortcut_Game.Visibility = Visibility.Visible;
+                return;
+            }
+            if (e.Key == VirtualKey.Menu)
+            {
+                Border_Shortcut_Page_1.Visibility = Visibility.Visible;
+                Border_Shortcut_Page_2.Visibility = Visibility.Visible;
+                return;
+            }
+            if (ctrl && e.Key == VirtualKey.Number1)
+            {
+                Button_BH3_Click(null!, null!);
+            }
+            if (ctrl && e.Key == VirtualKey.Number2)
+            {
+                Button_YS_Click(null!, null!);
+            }
+            if (ctrl && e.Key == VirtualKey.Number3)
+            {
+                Button_SR_Click(null!, null!);
+            }
+            if (ctrl && !shift && e.Key == VirtualKey.Tab)
+            {
+                if (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd)
+                {
+                    Button_YS_Click(null!, null!);
+                    return;
+                }
+                if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
+                {
+                    Button_SR_Click(null!, null!);
+                    return;
+                }
+                if (CurrentGameBiz.ToGame() is GameBiz.StarRail or GameBiz.None)
+                {
+                    Button_BH3_Click(null!, null!);
+                    return;
+                }
+            }
+            if (ctrl && shift && e.Key == VirtualKey.Tab)
+            {
+                if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
+                {
+                    Button_BH3_Click(null!, null!);
+                    return;
+                }
+                if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
+                {
+                    Button_YS_Click(null!, null!);
+                    return;
+                }
+                if (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd or GameBiz.None)
+                {
+                    Button_SR_Click(null!, null!);
+                    return;
+                }
+            }
+            if (alt && !ctrl)
+            {
+                e.Handled = true;
+                if (e.Key is VirtualKey.Number0)
+                {
+                    NavigationViewItem_Setting.IsSelected = true;
+                    NavigateTo(typeof(SettingPage));
+                }
+                if (CurrentGameBiz.ToGame() == GameBiz.None)
+                {
+                    return;
+                }
+                if (e.Key is VirtualKey.Number1)
+                {
+                    NavigationViewItem_Launcher.IsSelected = true;
+                    NavigateTo(typeof(LauncherPage));
+                }
+                if (e.Key is VirtualKey.Number2)
+                {
+                    NavigationViewItem_GameAnnounce.IsSelected = true;
+                    NavigateTo(typeof(GameNoticesPage));
+                }
+                if (e.Key is VirtualKey.Number3)
+                {
+                    NavigationViewItem_GameSetting.IsSelected = true;
+                    NavigateTo(typeof(GameSettingPage));
+                }
+                if (e.Key is VirtualKey.Number4)
+                {
+                    NavigationViewItem_Screenshot.IsSelected = true;
+                    NavigateTo(typeof(ScreenshotPage));
+                }
+                if (e.Key is VirtualKey.Number5 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
+                {
+                    NavigationViewItem_GachaLog.IsSelected = true;
+                    NavigateTo(typeof(GachaLogPage));
+                }
+                if (e.Key is VirtualKey.Number6 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
+                {
+                    NavigationViewItem_HoyolabToolbox.IsSelected = true;
+                    NavigateTo(typeof(HoyolabToolboxPage));
+                }
+            }
+        }
+        catch { }
+    }
+
+
+    private void Page_PreviewKeyUp(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    {
+        try
+        {
+            if (e.Key == VirtualKey.Control)
+            {
+                StackPanel_Shortcut_Game.Visibility = Visibility.Collapsed;
+            }
+            if (e.Key == VirtualKey.Menu)
+            {
+                Border_Shortcut_Page_1.Visibility = Visibility.Collapsed;
+                Border_Shortcut_Page_2.Visibility = Visibility.Collapsed;
+            }
+        }
+        catch { }
+    }
+
+
+
+    #endregion
+
 
 
 }
