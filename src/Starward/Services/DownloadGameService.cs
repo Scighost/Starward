@@ -1083,14 +1083,16 @@ internal partial class DownloadGameService
 
             if (gameBiz.ToGame() is GameBiz.GenshinImpact)
             {
+                string assetsFolder = gameBiz switch
+                {
+                    GameBiz.hk4e_cn => Path.Combine(installPath, @"YuanShen_Data\StreamingAssets"),
+                    GameBiz.hk4e_global => Path.Combine(installPath, @"GenshinImpact_Data\StreamingAssets"),
+                    _ => "",
+                };
                 List<string>? existFiles = null;
-                if (gameBiz is GameBiz.hk4e_cn)
+                if (Directory.Exists(assetsFolder))
                 {
-                    existFiles = Directory.GetFiles(Path.Combine(installPath, @"YuanShen_Data\StreamingAssets"), "*", SearchOption.AllDirectories).ToList();
-                }
-                if (gameBiz is GameBiz.hk4e_global)
-                {
-                    existFiles = Directory.GetFiles(Path.Combine(installPath, @"GenshinImpact_Data\StreamingAssets"), "*", SearchOption.AllDirectories).ToList();
+                    existFiles = Directory.GetFiles(assetsFolder, "*", SearchOption.AllDirectories).ToList();
                 }
                 var packageFiles = packageTasks.Select(x => Path.GetFullPath(Path.Combine(installPath, x.FileName))).ToList();
                 if (existFiles != null)
