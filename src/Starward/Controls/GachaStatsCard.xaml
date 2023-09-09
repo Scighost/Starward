@@ -171,27 +171,8 @@
                                   ColumnSpacing="12"
                                   PointerEntered="Grid_Rarity5Item_PointerEntered"
                                   PointerExited="Grid_Rarity5Item_PointerExited"
-                                  Tag="{x:Bind}">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Padding="0" BorderThickness="0">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-                                            <sc:CachedImage Width="120"
-                                                            Height="120"
-                                                            IsCacheEnabled="True"
-                                                            Source="{x:Bind Icon}" />
-                                            <TextBlock Grid.Row="1"
-                                                       Margin="8,4,8,4"
-                                                       HorizontalAlignment="Center"
-                                                       FontSize="12"
-                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                       Text="{x:Bind Time.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
-                                        </Grid>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
+                                  Tag="{x:Bind}"
+                                  ToolTipService.ToolTip="{x:Bind Time.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="28" />
                                     <ColumnDefinition />
@@ -245,27 +226,8 @@
                                   ColumnSpacing="8"
                                   PointerEntered="Grid_Rarity4Item_PointerEntered"
                                   PointerExited="Grid_Rarity4Item_PointerExited"
-                                  Tag="{x:Bind}">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Padding="0" BorderThickness="0">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                                <RowDefinition />
-                                            </Grid.RowDefinitions>
-                                            <sc:CachedImage Width="120"
-                                                            Height="120"
-                                                            IsCacheEnabled="True"
-                                                            Source="{x:Bind Icon}" />
-                                            <TextBlock Grid.Row="1"
-                                                       Margin="8,4,8,4"
-                                                       HorizontalAlignment="Center"
-                                                       FontSize="12"
-                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                       Text="{x:Bind Time.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
-                                        </Grid>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
+                                  Tag="{x:Bind}"
+                                  ToolTipService.ToolTip="{x:Bind Time.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="28" />
                                     <ColumnDefinition />
