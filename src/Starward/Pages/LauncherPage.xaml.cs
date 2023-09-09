@@ -866,6 +866,29 @@ public sealed partial class LauncherPage : Page
         {
             if (SelectGameAccount is not null)
             {
+                var acc = SelectGameAccount;
+                if (string.IsNullOrWhiteSpace(acc.Name))
+                {
+                    TextBox_Nickname.Focus(FocusState.Programmatic);
+                    return;
+                }
+                if (GameAccountList.FirstOrDefault(x => x.SHA256 != acc.SHA256 && x.Uid == acc.Uid) is GameAccount lacc)
+                {
+                    var dialog = new ContentDialog
+                    {
+                        Title = Lang.Common_Attention,
+                        Content = string.Format(Lang.LauncherPage_AccountSaveNew, acc.Uid),
+                        PrimaryButtonText = Lang.LauncherPage_Replace,
+                        SecondaryButtonText = Lang.LauncherPage_SaveNew,
+                        DefaultButton = ContentDialogButton.Primary,
+                        XamlRoot = this.XamlRoot,
+                    };
+                    if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+                    {
+                        GameAccountList.Remove(lacc);
+                        _gameService.DeleteGameAccount(lacc);
+                    }
+                }
                 SelectGameAccount.Time = DateTime.Now;
                 if (_gameService.SaveGameAccount(SelectGameAccount))
                 {

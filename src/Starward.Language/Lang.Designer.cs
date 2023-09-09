@@ -88,6 +88,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Attention 的本地化字符串。
+        /// </summary>
+        public static string Common_Attention {
+            get {
+                return ResourceManager.GetString("Common_Attention", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Cancel 的本地化字符串。
         /// </summary>
         public static string Common_Cancel {
@@ -1459,6 +1468,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Account with uid {0} already exists, replace it or save new? 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_AccountSaveNew {
+            get {
+                return ResourceManager.GetString("LauncherPage_AccountSaveNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 If it is not the latest version, please modify the config.ini file in the game installation directory. 的本地化字符串。
         /// </summary>
         public static string LauncherPage_AlreadyTheLatestVersionDesc {
@@ -1612,6 +1630,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Replace 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_Replace {
+            get {
+                return ResourceManager.GetString("LauncherPage_Replace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Required 的本地化字符串。
         /// </summary>
         public static string LauncherPage_Required {
@@ -1626,6 +1653,15 @@ namespace Starward.Language {
         public static string LauncherPage_Reselect {
             get {
                 return ResourceManager.GetString("LauncherPage_Reselect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Save New 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_SaveNew {
+            get {
+                return ResourceManager.GetString("LauncherPage_SaveNew", resourceCulture);
             }
         }
         
