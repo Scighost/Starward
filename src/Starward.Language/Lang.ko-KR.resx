@@ -1070,4 +1070,17 @@
   <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
     <value>현재 로그인 된 계정</value>
   </data>
+  <data name="Common_Attention" xml:space="preserve">
+    <value>Attention</value>
+  </data>
+  <data name="LauncherPage_Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="LauncherPage_SaveNew" xml:space="preserve">
+    <value>Save New</value>
+    <comment>Account with uid {0} already exists, replace it or save new?</comment>
+  </data>
+  <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
+    <value>Account with uid {0} already exists, replace it or save new?</value>
+  </data>
 </root>

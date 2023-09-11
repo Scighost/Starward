@@ -1070,4 +1070,17 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
     <value>Tài khoản đăng nhập hiện tại</value>
   </data>
+  <data name="Common_Attention" xml:space="preserve">
+    <value>Chú ý</value>
+  </data>
+  <data name="LauncherPage_Replace" xml:space="preserve">
+    <value>Thay thế</value>
+  </data>
+  <data name="LauncherPage_SaveNew" xml:space="preserve">
+    <value>Lưu mới</value>
+    <comment>Account with uid {0} already exists, replace it or save new?</comment>
+  </data>
+  <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
+    <value>Tài khoản với uid {0} đã tồn tại, thay thế hay lưu mới?</value>
+  </data>
 </root>

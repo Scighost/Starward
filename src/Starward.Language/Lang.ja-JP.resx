@@ -1012,7 +1012,7 @@
     <value>サーバーを選択</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
-    <value>通知領域にアイコンを表示する</value>
+    <value>システム トレイ アイコンを表示する</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
     <value>ウィンドウを閉じたときにランチャーを終了する</value>
@@ -1021,13 +1021,13 @@
     <value>終了</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>通知領域</value>
+    <value>システム トレイ</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
     <value>インストーラー</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>そのままウィンドウを閉じるか、通知領域に最小化をするか変更ができます。</value>
+    <value>そのままウィンドウを閉じるか、システム トレイに最小化をするか変更ができます。</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
     <value>隠す</value>
@@ -1064,9 +1064,22 @@
     <value>解凍に必要な空き容量がない場合は、オンにしてください。</value>
   </data>
   <data name="LauncherPage_ConfirmDelete" xml:space="preserve">
-    <value>Confirm Delete</value>
+    <value>削除の確認</value>
   </data>
   <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
-    <value>Currently logged in account</value>
+    <value>現在のログイン済みアカウント</value>
+  </data>
+  <data name="Common_Attention" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="LauncherPage_Replace" xml:space="preserve">
+    <value>置き換え</value>
+  </data>
+  <data name="LauncherPage_SaveNew" xml:space="preserve">
+    <value>新規で保存</value>
+    <comment>Account with uid {0} already exists, replace it or save new?</comment>
+  </data>
+  <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
+    <value>UID {0} のアカウントは既に存在します。置き換えまたはアカウントを新規で保存しますか?</value>
   </data>
 </root>
