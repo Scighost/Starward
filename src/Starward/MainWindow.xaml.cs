@@ -59,6 +59,7 @@ public sealed partial class MainWindow : Window
     {
         HWND = WindowNative.GetWindowHandle(this);
         var titleBar = AppWindow.TitleBar;
+        titleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
         var len = (int)(48 * UIScale);
         titleBar.ExtendsContentIntoTitleBar = true;
         SetDragRectangles(new RectInt32(0, 0, 100000, len));

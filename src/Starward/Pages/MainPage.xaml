@@ -11,6 +11,7 @@
       xmlns:s="using:Starward"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
+      LostFocus="Page_LostFocus"
       PreviewKeyDown="Page_PreviewKeyDown"
       PreviewKeyUp="Page_PreviewKeyUp"
       SizeChanged="Page_SizeChanged"

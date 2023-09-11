@@ -1034,6 +1034,18 @@ public sealed partial class MainPage : Page
     }
 
 
+    private void Page_LostFocus(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            StackPanel_Shortcut_Game.Visibility = Visibility.Collapsed;
+            Border_Shortcut_Page_1.Visibility = Visibility.Collapsed;
+            Border_Shortcut_Page_2.Visibility = Visibility.Collapsed;
+        }
+        catch { }
+    }
+
+
 
     #endregion
 
