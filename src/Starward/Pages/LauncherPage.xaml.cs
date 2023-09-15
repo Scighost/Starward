@@ -780,6 +780,8 @@ public sealed partial class LauncherPage : Page
         SplitView_Content.IsPaneOpen = true;
     }
 
+    public bool IsGameSettingOpened => SplitView_Content.IsPaneOpen;
+
 
 
     private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)

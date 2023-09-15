@@ -1051,4 +1051,65 @@ public sealed partial class MainPage : Page
 
 
 
+    #region PointerWheelChanged
+
+    private static readonly GameBiz[] s_GameOrder =
+    {
+        GameBiz.Honkai3rd,
+        GameBiz.GenshinImpact,
+        GameBiz.StarRail
+    };
+    private DateTime? m_LastTimePointerWheelChanged = null;
+
+    private async void Page_PointerWheelChanged(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        // 限制页面
+        if (MainPage_Frame.Content is not LauncherPage launcherPage || launcherPage.IsGameSettingOpened)
+        {
+            return;
+        }
+
+        // 限制鼠标区域
+        if (e.OriginalSource is Image /* banner */)
+        {
+            return;
+        }
+
+        // 限制连续滚动的时间间隔
+        if ((DateTime.Now - m_LastTimePointerWheelChanged)?.TotalSeconds < 0.2)
+        {
+            return;
+        }
+
+        int gameIndex = Array.IndexOf(s_GameOrder, CurrentGameBiz.ToGame());
+
+        if (e.GetCurrentPoint(this).Properties.MouseWheelDelta > 0)
+        {
+            gameIndex--;
+        }
+        else
+        {
+            gameIndex++;
+        }
+
+        gameIndex = (gameIndex + s_GameOrder.Length) % s_GameOrder.Length;
+        GameBiz gameBiz = AppConfig.GetLastRegionOfGame(s_GameOrder[gameIndex]);
+
+        if (gameBiz == default)
+        {
+            gameBiz = s_GameOrder[gameIndex] + 1;
+        }
+
+        if (gameBiz != CurrentGameBiz)
+        {
+            e.Handled = true;
+            m_LastTimePointerWheelChanged = DateTime.Now;
+
+            await ChangeGameBizAsync(gameBiz.ToString());
+        }
+    }
+
+    #endregion
+
+
 }

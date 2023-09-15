@@ -16,6 +16,7 @@
       PreviewKeyUp="Page_PreviewKeyUp"
       SizeChanged="Page_SizeChanged"
       Unloaded="Page_Unloaded"
+      PointerWheelChanged="Page_PointerWheelChanged"
       mc:Ignorable="d">
 
 
