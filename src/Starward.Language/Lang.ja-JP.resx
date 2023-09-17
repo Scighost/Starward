@@ -1012,7 +1012,7 @@
     <value>サーバーを選択</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
-    <value>システム トレイ アイコンを表示する</value>
+    <value>システムトレイアイコンを表示する</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
     <value>ウィンドウを閉じたときにランチャーを終了する</value>
@@ -1021,13 +1021,13 @@
     <value>終了</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>システム トレイ</value>
+    <value>システムトレイ</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
     <value>インストーラー</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>そのままウィンドウを閉じるか、システム トレイに最小化をするか変更ができます。</value>
+    <value>そのままウィンドウを閉じるか、システムトレイに最小化をするか変更ができます。</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
     <value>隠す</value>
