@@ -1071,16 +1071,16 @@
     <value>현재 로그인 된 계정</value>
   </data>
   <data name="Common_Attention" xml:space="preserve">
-    <value>Attention</value>
+    <value>경고</value>
   </data>
   <data name="LauncherPage_Replace" xml:space="preserve">
-    <value>Replace</value>
+    <value>변경</value>
   </data>
   <data name="LauncherPage_SaveNew" xml:space="preserve">
-    <value>Save New</value>
+    <value>새계정 저장</value>
     <comment>Account with uid {0} already exists, replace it or save new?</comment>
   </data>
   <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
-    <value>Account with uid {0} already exists, replace it or save new?</value>
+    <value>UID {0} 이 계정은 이미 존재합니다. 교체하시거나 새로 덮어쓰시겠습니까?</value>
   </data>
 </root>
