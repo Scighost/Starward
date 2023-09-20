@@ -1,5 +1,6 @@
 ﻿using Starward.Core.Gacha;
 using Starward.Core.Launcher;
+using Starward.Core.SelfQuery;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -155,6 +156,36 @@ public static class EnumExtension
             PostType.POST_TYPE_ACTIVITY => CoreLang.PostType_Activity,
             PostType.POST_TYPE_ANNOUNCE => CoreLang.PostType_Announcement,
             PostType.POST_TYPE_INFO => CoreLang.PostType_Information,
+            _ => "",
+        };
+    }
+
+
+
+    public static string ToLocalization(this GenshinQueryType genshinQueryType)
+    {
+        return genshinQueryType switch
+        {
+            GenshinQueryType.Crystal => CoreLang.GenshinQueryType_GenesisCrystal,
+            GenshinQueryType.Primogem => CoreLang.GenshinQueryType_Primogem,
+            GenshinQueryType.Resin => CoreLang.GenshinQueryType_OriginalResin,
+            GenshinQueryType.Artifact => CoreLang.GenshinQueryType_Artifact,
+            GenshinQueryType.Weapon => CoreLang.GenshinQueryType_Weapon,
+            _ => "",
+        };
+    }
+
+
+
+    public static string ToLocalization(this StarRailQueryType starRailQueryType)
+    {
+        return starRailQueryType switch
+        {
+            StarRailQueryType.Stellar => CoreLang.StarRailQueryType_StellarJade,
+            StarRailQueryType.Dreams => CoreLang.StarRailQueryType_OneiricShared,
+            StarRailQueryType.Relic => CoreLang.StarRailQueryType_Relic,
+            StarRailQueryType.Cone => CoreLang.StarRailQueryType_LightCone,
+            StarRailQueryType.Power => CoreLang.StarRailQueryType_TrailblazePower,
             _ => "",
         };
     }

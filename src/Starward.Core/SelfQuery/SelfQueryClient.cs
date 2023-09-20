@@ -45,14 +45,6 @@ public class SelfQueryClient
 
 
 
-    private async Task<List<T>> CommonGetQueryListAsync<T>(string url, CancellationToken cancellationToken = default) where T : class
-    {
-        var wrapper = await CommonGetAsync<SelfQueryListWrapper<T>>(url, cancellationToken);
-        return wrapper.List ?? new List<T>(0);
-    }
-
-
-
     private GameBiz gameBiz;
 
     private string? authQuery;
@@ -129,7 +121,7 @@ public class SelfQueryClient
 
 
 
-    private void EnsureInitialized()
+    public void EnsureInitialized()
     {
         if (gameBiz is GameBiz.None
             || UserInfo is null
@@ -155,115 +147,29 @@ public class SelfQueryClient
 
 
 
-    /// <summary>
-    /// 创世结晶
-    /// </summary>
-    /// <param name="endId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<List<GenshinQueryItem>> GetGenshinCrystalAsync(long endId, CancellationToken cancellationToken = default)
+
+    public async Task<List<GenshinQueryItem>> GetGenshinQueryItemsAsync(GenshinQueryType type, long endId, CancellationToken cancellationToken = default)
     {
         EnsureInitialized();
-        string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetCrystalLog{authQuery}&size=20&selfquery_type=1&end_id={endId}";
-        var list = await CommonGetQueryListAsync<GenshinQueryItem>(url, cancellationToken);
-        long uid = UserInfo!.Uid;
+        string url = type switch
+        {
+            GenshinQueryType.Crystal => $"{prefixUrl}/common/hk4e_self_help_query/User/GetCrystalLog{authQuery}&size=20&selfquery_type=1&end_id={endId}",
+            GenshinQueryType.Primogem => $"{prefixUrl}/common/hk4e_self_help_query/User/GetPrimogemLog{authQuery}&size=20&selfquery_type=1&end_id={endId}",
+            GenshinQueryType.Resin => $"{prefixUrl}/common/hk4e_self_help_query/User/GetResinLog{authQuery}&size=20&selfquery_type=4&end_id={endId}",
+            GenshinQueryType.Artifact => $"{prefixUrl}/common/hk4e_self_help_query/User/GetArtifactLog{authQuery}&size=20&selfquery_type=2&end_id={endId}",
+            GenshinQueryType.Weapon => $"{prefixUrl}/common/hk4e_self_help_query/User/GetWeaponLog{authQuery}&size=20&selfquery_type=4&end_id={endId}",
+            _ => throw new ArgumentOutOfRangeException($"Unknown query type ({type})", nameof(type)),
+        };
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinQueryItem>>(url, cancellationToken);
+        var list = wrapper.List ?? new List<GenshinQueryItem>(0);
+        long uid = UserInfo?.Uid ?? 0;
         foreach (var item in list)
         {
             item.Uid = uid;
-            item.Type = GenshinQueryType.Crystal;
+            item.Type = type;
         }
         return list;
     }
-
-
-
-    /// <summary>
-    /// 原石
-    /// </summary>
-    /// <param name="endId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<List<GenshinQueryItem>> GetGenshinPrimogemAsync(long endId, CancellationToken cancellationToken = default)
-    {
-        EnsureInitialized();
-        string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetPrimogemLog{authQuery}&size=20&selfquery_type=1&end_id={endId}";
-        var list = await CommonGetQueryListAsync<GenshinQueryItem>(url, cancellationToken);
-        long uid = UserInfo!.Uid;
-        foreach (var item in list)
-        {
-            item.Uid = uid;
-            item.Type = GenshinQueryType.Primogem;
-        }
-        return list;
-    }
-
-
-
-    /// <summary>
-    /// 树脂
-    /// </summary>
-    /// <param name="endId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<List<GenshinQueryItem>> GetGenshinResinAsync(long endId, CancellationToken cancellationToken = default)
-    {
-        EnsureInitialized();
-        string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetResinLog{authQuery}&size=20&selfquery_type=4&end_id={endId}";
-        var list = await CommonGetQueryListAsync<GenshinQueryItem>(url, cancellationToken);
-        long uid = UserInfo!.Uid;
-        foreach (var item in list)
-        {
-            item.Uid = uid;
-            item.Type = GenshinQueryType.Resin;
-        }
-        return list;
-    }
-
-
-
-    /// <summary>
-    /// 圣遗物
-    /// </summary>
-    /// <param name="endId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<List<GenshinQueryItem>> GetGenshinArtifactAsync(long endId, CancellationToken cancellationToken = default)
-    {
-        EnsureInitialized();
-        string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetArtifactLog{authQuery}&size=20&selfquery_type=2&end_id={endId}";
-        var list = await CommonGetQueryListAsync<GenshinQueryItem>(url, cancellationToken);
-        long uid = UserInfo!.Uid;
-        foreach (var item in list)
-        {
-            item.Uid = uid;
-            item.Type = GenshinQueryType.Artifact;
-        }
-        return list;
-    }
-
-
-
-    /// <summary>
-    /// 武器
-    /// </summary>
-    /// <param name="endId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<List<GenshinQueryItem>> GetGenshinWeaponAsync(long endId, CancellationToken cancellationToken = default)
-    {
-        EnsureInitialized();
-        string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetWeaponLog{authQuery}&size=20&selfquery_type=4&end_id={endId}";
-        var list = await CommonGetQueryListAsync<GenshinQueryItem>(url, cancellationToken);
-        long uid = UserInfo!.Uid;
-        foreach (var item in list)
-        {
-            item.Uid = uid;
-            item.Type = GenshinQueryType.Weapon;
-        }
-        return list;
-    }
-
-
 
 
 
@@ -287,129 +193,31 @@ public class SelfQueryClient
 
 
 
-    /// <summary>
-    /// 星琼
-    /// </summary>
-    /// <param name="page"></param>
-    /// <param name="pageSize"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<List<StarRailQueryItem>> GetStarRailStellarAsync(int page, int pageSize = 100, CancellationToken cancellationToken = default)
+
+    public async Task<List<StarRailQueryItem>> GetStarRailQueryItemsAsync(StarRailQueryType type, int page, int pageSize = 100, CancellationToken cancellationToken = default)
     {
         EnsureInitialized();
-        string url = $"{prefixUrl}/common/hkrpg_self_help_inquiry/Stellar/GetList{authQuery}&page={page}&page_size={pageSize}";
-        var list = await CommonGetQueryListAsync<StarRailQueryItem>(url, cancellationToken);
+        string url = type switch
+        {
+            StarRailQueryType.Stellar => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Stellar/GetList{authQuery}&page={page}&page_size={pageSize}",
+            StarRailQueryType.Dreams => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Dreams/GetList{authQuery}&page={page}&page_size={pageSize}",
+            StarRailQueryType.Relic => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Relic/GetList{authQuery}&page={page}&page_size={pageSize}",
+            StarRailQueryType.Cone => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Cone/GetList{authQuery}&page={page}&page_size={pageSize}",
+            StarRailQueryType.Power => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Power/GetList{authQuery}&page={page}&page_size={pageSize}",
+            _ => throw new ArgumentOutOfRangeException($"Unknown query type ({type})", nameof(type)),
+        };
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<StarRailQueryItem>>(url, cancellationToken);
+        var list = wrapper.List ?? new List<StarRailQueryItem>(0);
         foreach (var item in list)
         {
-            item.Type = StarRailQueryType.Stellar;
+            item.Type = type;
         }
         return list;
     }
-
-
-
-    /// <summary>
-    /// 古老梦华
-    /// </summary>
-    /// <param name="page"></param>
-    /// <param name="pageSize"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<List<StarRailQueryItem>> GetStarRailDreamsAsync(int page, int pageSize = 100, CancellationToken cancellationToken = default)
-    {
-        EnsureInitialized();
-        string url = $"{prefixUrl}/common/hkrpg_self_help_inquiry/Dreams/GetList{authQuery}&page={page}&page_size={pageSize}";
-        var list = await CommonGetQueryListAsync<StarRailQueryItem>(url, cancellationToken);
-        foreach (var item in list)
-        {
-            item.Type = StarRailQueryType.Dreams;
-        }
-        return list;
-    }
-
-
-
-    /// <summary>
-    /// 遗器
-    /// </summary>
-    /// <param name="page"></param>
-    /// <param name="pageSize"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<List<StarRailQueryItem>> GetStarRailRelicAsync(int page, int pageSize = 100, CancellationToken cancellationToken = default)
-    {
-        EnsureInitialized();
-        string url = $"{prefixUrl}/common/hkrpg_self_help_inquiry/Relic/GetList{authQuery}&page={page}&page_size={pageSize}";
-        var list = await CommonGetQueryListAsync<StarRailQueryItem>(url, cancellationToken);
-        foreach (var item in list)
-        {
-            item.Type = StarRailQueryType.Relic;
-        }
-        return list;
-    }
-
-
-    /// <summary>
-    /// 光锥
-    /// </summary>
-    /// <param name="page"></param>
-    /// <param name="pageSize"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<List<StarRailQueryItem>> GetStarRailConeAsync(int page, int pageSize = 100, CancellationToken cancellationToken = default)
-    {
-        EnsureInitialized();
-        string url = $"{prefixUrl}/common/hkrpg_self_help_inquiry/Cone/GetList{authQuery}&page={page}&page_size={pageSize}";
-        var list = await CommonGetQueryListAsync<StarRailQueryItem>(url, cancellationToken);
-        foreach (var item in list)
-        {
-            item.Type = StarRailQueryType.Cone;
-        }
-        return list;
-    }
-
-
-    /// <summary>
-    /// 开拓力
-    /// </summary>
-    /// <param name="page"></param>
-    /// <param name="pageSize"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task<List<StarRailQueryItem>> GetStarRailPowerAsync(int page, int pageSize = 100, CancellationToken cancellationToken = default)
-    {
-        EnsureInitialized();
-        string url = $"{prefixUrl}/common/hkrpg_self_help_inquiry/Power/GetList{authQuery}&page={page}&page_size={pageSize}";
-        var list = await CommonGetQueryListAsync<StarRailQueryItem>(url, cancellationToken);
-        foreach (var item in list)
-        {
-            item.Type = StarRailQueryType.Power;
-        }
-        return list;
-    }
-
-
-
 
 
 
     #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

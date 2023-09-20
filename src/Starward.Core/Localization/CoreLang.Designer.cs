@@ -259,6 +259,51 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Artifacts 的本地化字符串。
+        /// </summary>
+        internal static string GenshinQueryType_Artifact {
+            get {
+                return ResourceManager.GetString("GenshinQueryType_Artifact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Genesis Crystals 的本地化字符串。
+        /// </summary>
+        internal static string GenshinQueryType_GenesisCrystal {
+            get {
+                return ResourceManager.GetString("GenshinQueryType_GenesisCrystal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Original Resins 的本地化字符串。
+        /// </summary>
+        internal static string GenshinQueryType_OriginalResin {
+            get {
+                return ResourceManager.GetString("GenshinQueryType_OriginalResin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Primogems 的本地化字符串。
+        /// </summary>
+        internal static string GenshinQueryType_Primogem {
+            get {
+                return ResourceManager.GetString("GenshinQueryType_Primogem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Weapons 的本地化字符串。
+        /// </summary>
+        internal static string GenshinQueryType_Weapon {
+            get {
+                return ResourceManager.GetString("GenshinQueryType_Weapon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Events 的本地化字符串。
         /// </summary>
         internal static string PostType_Activity {
@@ -282,6 +327,51 @@ namespace Starward.Core.Localization {
         internal static string PostType_Information {
             get {
                 return ResourceManager.GetString("PostType_Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Light Cone 的本地化字符串。
+        /// </summary>
+        internal static string StarRailQueryType_LightCone {
+            get {
+                return ResourceManager.GetString("StarRailQueryType_LightCone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Oneiric Shared 的本地化字符串。
+        /// </summary>
+        internal static string StarRailQueryType_OneiricShared {
+            get {
+                return ResourceManager.GetString("StarRailQueryType_OneiricShared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Relic 的本地化字符串。
+        /// </summary>
+        internal static string StarRailQueryType_Relic {
+            get {
+                return ResourceManager.GetString("StarRailQueryType_Relic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Stellar Jade 的本地化字符串。
+        /// </summary>
+        internal static string StarRailQueryType_StellarJade {
+            get {
+                return ResourceManager.GetString("StarRailQueryType_StellarJade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Trailblaze Power 的本地化字符串。
+        /// </summary>
+        internal static string StarRailQueryType_TrailblazePower {
+            get {
+                return ResourceManager.GetString("StarRailQueryType_TrailblazePower", resourceCulture);
             }
         }
     }
