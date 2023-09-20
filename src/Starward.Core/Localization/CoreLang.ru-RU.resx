@@ -118,37 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>Character Event Warp</value>
+    <value>Прыжок события: Персонаж</value>
   </data>
   <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>Character Event Wish</value>
+    <value>Молитва события персонажа</value>
   </data>
   <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>Character Event Wish - 2</value>
+    <value>Молитва события персонажа - 2</value>
   </data>
   <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>Departure Warp</value>
+    <value>Отправной Прыжок</value>
   </data>
   <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>Light Cone Event Warp</value>
+    <value>Прыжок события: Световой конус</value>
   </data>
   <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>Novice Wish</value>
+    <value>Молитвы Новичка</value>
   </data>
   <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>Permanent Wish</value>
+    <value>Стандартный Прыжок</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>Stellar Warp</value>
+    <value>Звёздный Прыжок</value>
   </data>
   <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>Weapon Event Wish</value>
+    <value>Молитва события оружия</value>
   </data>
   <data name="Gacha_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Cannot parse the warp record URL.</value>
+    <value>Невозможно разобрать URL записи Прыжока.</value>
   </data>
   <data name="Gacha_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Cannot parse the wish record URL.</value>
+    <value>Невозможно разобрать URL записи Молитвы.</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
     <value>События</value>
@@ -169,28 +169,28 @@
     <value>Honkai Impact 3rd</value>
   </data>
   <data name="GameServer_ChinaServer" xml:space="preserve">
-    <value>China Server</value>
+    <value>Китайский сервер</value>
   </data>
   <data name="GameServer_GlobalServer" xml:space="preserve">
-    <value>Global Server</value>
+    <value>Глобальный сервер</value>
   </data>
   <data name="GameServer_ChinaCloudServer" xml:space="preserve">
-    <value>China Cloud Server</value>
+    <value>Китайский облачный сервер</value>
   </data>
   <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
-    <value>Europe &amp; Americas Servers</value>
+    <value>Серверы Европы и Америки</value>
   </data>
   <data name="GameServer_JapanServer" xml:space="preserve">
-    <value>Japan Server</value>
+    <value>Японский сервер</value>
   </data>
   <data name="GameServer_KoreaServer" xml:space="preserve">
-    <value>Korea Server</value>
+    <value>Корейский сервер</value>
   </data>
   <data name="GameServer_SEAServer" xml:space="preserve">
-    <value>Southeast Asia Server</value>
+    <value>Сервер Юго-Восточной Азии</value>
     <comment>Southeast Asia and Australia Server</comment>
   </data>
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
-    <value>Traditional Chinese Server</value>
+    <value>Традиционный китайский сервер</value>
   </data>
 </root>
