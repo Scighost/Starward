@@ -68,6 +68,9 @@
                 <Setter Property="Background" Value="{ThemeResource CustomAcrylicBrush}" />
             </Style>
 
+            <Style TargetType="FontIcon">
+                <Setter Property="FontFamily" Value="ms-appx:///Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" />
+            </Style>
 
             <!--  Accent Color  -->
             <ResourceDictionary.ThemeDictionaries>
