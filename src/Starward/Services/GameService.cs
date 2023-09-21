@@ -282,7 +282,7 @@ internal class GameService
                 if (!File.Exists(exe))
                 {
                     _logger.LogWarning("Game exe not found: {path}", exe);
-                    return null;
+                    throw new FileNotFoundException("Game exe not found", name);
                 }
             }
             _logger.LogInformation("Start game ({biz})\r\npath: {exe}\r\narg: {arg}", biz, exe, arg);

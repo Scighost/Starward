@@ -603,6 +603,10 @@ public sealed partial class LauncherPage : Page
                 }
             }
         }
+        catch (FileNotFoundException ex)
+        {
+            NotificationBehavior.Instance.Warning($"File \"{ex.FileName}\" not found.");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Start game");
