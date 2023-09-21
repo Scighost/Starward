@@ -2063,6 +2063,71 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Account Records 的本地化字符串。
+        /// </summary>
+        public static string SelfQueryPage_AccountRecords {
+            get {
+                return ResourceManager.GetString("SelfQueryPage_AccountRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete this Month&apos;s Data 的本地化字符串。
+        /// </summary>
+        public static string SelfQueryPage_DeleteThisMonthSData {
+            get {
+                return ResourceManager.GetString("SelfQueryPage_DeleteThisMonthSData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Deleted {0} records of {1} in {2}. 的本地化字符串。
+        /// </summary>
+        public static string SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful {
+            get {
+                return ResourceManager.GetString("SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Would you like to delete records of {0} in {1}? This operation cannot be canceled. 的本地化字符串。
+        /// </summary>
+        public static string SelfQueryPage_DeleteThisMonthSData_DialogContent {
+            get {
+                return ResourceManager.GetString("SelfQueryPage_DeleteThisMonthSData_DialogContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Note: Records language follows language setting in game and cannot be changed. 的本地化字符串。
+        /// </summary>
+        public static string SelfQueryPage_InputURLNote {
+            get {
+                return ResourceManager.GetString("SelfQueryPage_InputURLNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 - Open menu in game.
+        ///- Click Feedback (Genshin) or Bug Report (Star Rail).
+        ///- Copy the URL of web and paste into the box below. 的本地化字符串。
+        /// </summary>
+        public static string SelfQueryPage_InputURLSteps {
+            get {
+                return ResourceManager.GetString("SelfQueryPage_InputURLSteps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Steps to get URL: 的本地化字符串。
+        /// </summary>
+        public static string SelfQueryPage_StepsToGetURL {
+            get {
+                return ResourceManager.GetString("SelfQueryPage_StepsToGetURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 About 的本地化字符串。
         /// </summary>
         public static string SettingPage_About {

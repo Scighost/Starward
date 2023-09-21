@@ -23,7 +23,7 @@ public class GenshinQueryItem
 
     [JsonPropertyName("datetime")]
     [JsonConverter(typeof(DateTimeJsonConverter))]
-    public DateTime Datetime { get; set; }
+    public DateTime DateTime { get; set; }
 
     [JsonPropertyName("type")]
     public GenshinQueryType Type { get; set; }

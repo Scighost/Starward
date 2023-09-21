@@ -22,4 +22,8 @@ public class SelfQueryUserInfo
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public int Level { get; set; }
 
+
+    [JsonIgnore]
+    public GameBiz GameBiz { get; set; }
+
 }

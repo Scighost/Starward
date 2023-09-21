@@ -113,6 +113,13 @@
                         <FontIcon Glyph="&#xF133;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Name="NavigationViewItem_SelfQuery"
+                                    Content="{x:Bind lang:Lang.SelfQueryPage_AccountRecords}"
+                                    Tag="SelfQueryPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8C7;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
 
             <NavigationView.FooterMenuItems>
@@ -430,20 +437,17 @@
                            x:Load="{x:Bind NavigationViewItem_HoyolabToolbox.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="6" />
-                <!--<FontIcon FontSize="16"
+                <FontIcon x:Name="FontIcon_7"
+                          x:Load="{x:Bind NavigationViewItem_SelfQuery.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
+                          FontSize="16"
                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xE82F;" />
-                <TextBlock HorizontalAlignment="Center"
+                          Glyph="&#xE8C7;" />
+                <TextBlock x:Name="TextBlock_7"
+                           HorizontalAlignment="Center"
                            VerticalAlignment="Center"
+                           x:Load="{x:Bind NavigationViewItem_SelfQuery.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="7" />
-                <FontIcon FontSize="16"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xE713;" />
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="8" />-->
             </VariableSizedWrapGrid>
         </Border>
 

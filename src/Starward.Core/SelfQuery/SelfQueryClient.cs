@@ -142,7 +142,9 @@ public class SelfQueryClient
     public async Task<SelfQueryUserInfo> GetGenshinUserInfoAsync(CancellationToken cancellationToken = default)
     {
         string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetUserInfo{authQuery}";
-        return UserInfo ??= await CommonGetAsync<SelfQueryUserInfo>(url, cancellationToken);
+        UserInfo ??= await CommonGetAsync<SelfQueryUserInfo>(url, cancellationToken);
+        UserInfo.GameBiz = gameBiz;
+        return UserInfo;
     }
 
 
@@ -188,7 +190,9 @@ public class SelfQueryClient
     public async Task<SelfQueryUserInfo> GetStarRailUserInfoAsync(CancellationToken cancellationToken = default)
     {
         string url = $"{prefixUrl}/common/hkrpg_self_help_inquiry/UserInfo/GetUserInfo{authQuery}";
-        return UserInfo ??= await CommonGetAsync<SelfQueryUserInfo>(url, cancellationToken);
+        UserInfo ??= await CommonGetAsync<SelfQueryUserInfo>(url, cancellationToken);
+        UserInfo.GameBiz = gameBiz;
+        return UserInfo;
     }
 
 

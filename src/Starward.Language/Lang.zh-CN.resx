@@ -1089,4 +1089,27 @@
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
     <value>修复系统托盘</value>
   </data>
+  <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
+    <value>账号记录</value>
+  </data>
+  <data name="SelfQueryPage_DeleteThisMonthSData" xml:space="preserve">
+    <value>删除本月数据</value>
+  </data>
+  <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
+    <value>获取 URL 的步骤：</value>
+  </data>
+  <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
+    <value>- 在游戏中打开菜单
+- 点击反馈(原神)或问题反馈(星穹铁道)
+- 复制网页的 URL 并粘贴到下方输入框中</value>
+  </data>
+  <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
+    <value>注意：本地账号记录的语言跟随游戏中的语言设置，并且无法被更改。</value>
+  </data>
+  <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
+    <value>已删除 {2} 的{1}记录 {0} 条</value>
+  </data>
+  <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
+    <value>你想要删除 {1} 的{0}记录吗？此操作不可撤销。</value>
+  </data>
 </root>

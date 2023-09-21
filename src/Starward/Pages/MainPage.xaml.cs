@@ -737,6 +737,7 @@ public sealed partial class MainPage : Page
             NavigationViewItem_Screenshot.Visibility = Visibility.Collapsed;
             NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
             NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
+            NavigationViewItem_SelfQuery.Visibility = Visibility.Collapsed;
         }
         else if (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd)
         {
@@ -745,6 +746,7 @@ public sealed partial class MainPage : Page
             NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
             NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
             NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
+            NavigationViewItem_SelfQuery.Visibility = Visibility.Collapsed;
         }
         else
         {
@@ -753,6 +755,7 @@ public sealed partial class MainPage : Page
             NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
             NavigationViewItem_GachaLog.Visibility = Visibility.Visible;
             NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Visible;
+            NavigationViewItem_SelfQuery.Visibility = Visibility.Visible;
         }
         if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
         {
@@ -804,6 +807,7 @@ public sealed partial class MainPage : Page
                     nameof(GachaLogPage) => typeof(GachaLogPage),
                     nameof(HoyolabToolboxPage) => typeof(HoyolabToolboxPage),
                     nameof(SettingPage) => typeof(SettingPage),
+                    nameof(SelfQueryPage) => typeof(SelfQueryPage),
                     _ => null,
                 };
                 NavigateTo(type);
@@ -1009,6 +1013,11 @@ public sealed partial class MainPage : Page
                 {
                     NavigationViewItem_HoyolabToolbox.IsSelected = true;
                     NavigateTo(typeof(HoyolabToolboxPage));
+                }
+                if (e.Key is VirtualKey.Number7 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
+                {
+                    NavigationViewItem_SelfQuery.IsSelected = true;
+                    NavigateTo(typeof(SelfQueryPage));
                 }
             }
         }

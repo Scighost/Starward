@@ -10,6 +10,7 @@ using Starward.Core.Gacha.StarRail;
 using Starward.Core.GameRecord;
 using Starward.Core.Launcher;
 using Starward.Core.Metadata;
+using Starward.Core.SelfQuery;
 using Starward.Services;
 using Starward.Services.Gacha;
 using System;
@@ -261,6 +262,7 @@ internal static class AppConfig
             sc.AddSingleton<HyperionClient>();
             sc.AddSingleton<HoyolabClient>();
             sc.AddSingleton<LauncherClient>();
+            sc.AddSingleton<SelfQueryClient>();
             sc.AddSingleton(p => new MetadataClient(ApiCDNIndex, p.GetService<HttpClient>()));
 
             sc.AddSingleton<DatabaseService>();
@@ -275,6 +277,7 @@ internal static class AppConfig
             sc.AddSingleton<GameRecordService>();
             sc.AddSingleton<WelcomeService>();
             sc.AddSingleton<SystemTrayService>();
+            sc.AddSingleton<SelfQueryService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))

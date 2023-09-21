@@ -5,14 +5,15 @@ public enum StarRailQueryType
 
     None,
 
+    Dreams,
+
     Stellar,
 
-    Dreams,
+    Power,
 
     Relic,
 
     Cone,
 
-    Power,
 
 }

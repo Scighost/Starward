@@ -23,7 +23,7 @@ public class StarRailQueryItem
 
 
     [JsonPropertyName("add_num")]
-    public int AddNum { get; set; }
+    public long AddNum { get; set; }
 
 
     [JsonPropertyName("time")]
