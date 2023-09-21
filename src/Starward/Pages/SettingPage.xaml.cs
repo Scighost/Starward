@@ -289,6 +289,56 @@ public sealed partial class SettingPage : Page
     }
 
 
+
+    [RelayCommand]
+    private async Task RepairSystemTray()
+    {
+        try
+        {
+            var dialog = new ContentDialog()
+            {
+                Title = Lang.SettingPage_RepairSystemTray,
+                Content = Lang.SettingPage_RepairSystemTrayContent,
+                PrimaryButtonText = Lang.Common_Confirm,
+                SecondaryButtonText = Lang.Common_Cancel,
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = this.XamlRoot,
+            };
+            if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+            {
+                var p = Process.Start(new ProcessStartInfo
+                {
+                    FileName = "PowerShell",
+                    Arguments = """
+                    New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT -ErrorAction Continue;
+                    $key = 'HKCR:\Local Settings\Software\Microsoft\Windows\CurrentVersion\TrayNotify';
+                    Remove-ItemProperty -Path $key -Name IconStreams -ErrorAction Continue;
+                    Remove-ItemProperty -Path $key -Name PastIconsStream -ErrorAction Continue;
+                    Stop-Process -Name explorer -ErrorAction Continue;
+                    #Start-Process -FilePath explorer -ErrorAction Continue;
+                    """,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                });
+                if (p != null)
+                {
+                    await p.WaitForExitAsync();
+                    _logger.LogInformation(await p.StandardOutput.ReadToEndAsync());
+                }
+                if (EnableSystemTray)
+                {
+                    await Task.Delay(1000);
+                    _systemTrayService.Initialize();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Repair system tray");
+        }
+    }
+
+
     #endregion
 
 

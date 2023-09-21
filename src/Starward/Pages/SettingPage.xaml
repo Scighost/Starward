@@ -128,6 +128,18 @@
                                   IsOn="{x:Bind ExitWhenClosing, Mode=TwoWay}"
                                   OffContent="{x:Bind lang:Lang.SettingPage_ExitLauncherWhenClosingWindow}"
                                   OnContent="{x:Bind lang:Lang.SettingPage_ExitLauncherWhenClosingWindow}" />
+                    <Button Height="40"
+                            Margin="0,12,0,0"
+                            Padding="16,0,16,0"
+                            BorderThickness="0"
+                            Command="{x:Bind RepairSystemTrayCommand}"
+                            CornerRadius="4,20,20,4"
+                            Style="{ThemeResource AccentButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE90F;" />
+                            <TextBlock Text="{x:Bind lang:Lang.SettingPage_RepairSystemTray}" />
+                        </StackPanel>
+                    </Button>
 
                     <!--  CDN  -->
                     <StackPanel Margin="0,20,0,0"

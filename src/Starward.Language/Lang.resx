@@ -59,7 +59,7 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
@@ -1082,5 +1082,11 @@ Do you accept the risk and continue to use it?</value>
   </data>
   <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
     <value>Account with uid {0} already exists, replace it or save new?</value>
+  </data>
+  <data name="SettingPage_RepairSystemTray" xml:space="preserve">
+    <value>Repair System Tray</value>
+  </data>
+  <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
+    <value>Fix the issue that cannot create system tray icon, this method will restart explorer.</value>
   </data>
 </root>

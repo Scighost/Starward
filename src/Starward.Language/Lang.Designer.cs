@@ -2324,6 +2324,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Repair System Tray 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_RepairSystemTray {
+            get {
+                return ResourceManager.GetString("SettingPage_RepairSystemTray", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fix the issue that cannot create system tray icon, this method will restart explorer. 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_RepairSystemTrayContent {
+            get {
+                return ResourceManager.GetString("SettingPage_RepairSystemTrayContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Report Issue 的本地化字符串。
         /// </summary>
         public static string SettingPage_ReportIssue {
