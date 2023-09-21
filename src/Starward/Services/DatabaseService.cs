@@ -209,7 +209,7 @@ internal class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = new() { Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6 };
+    private static readonly List<string> DatabaseSqls = new() { Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7 };
 
 
     private const string Sql_v1 = """
@@ -517,6 +517,53 @@ internal class DatabaseService
         COMMIT TRANSACTION;
         """;
 
+    private const string Sql_v7 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS GenshinQueryItem
+        (
+            Uid      INTEGER NOT NULL,
+            Id       INTEGER NOT NULL,
+            AddNum   INTEGER NOT NULL,
+            Reason   TEXT,
+            DateTime TEXT,
+            Type     INTEGER NOT NULL,
+            Icon     TEXT,
+            Level    INTEGER NOT NULL,
+            Quality  INTEGER NOT NULL,
+            Name     TEXT,
+            PRIMARY KEY (Uid, Id)
+        );
+        CREATE INDEX IF NOT EXISTS IX_GenshinQueryItem_Id ON GenshinQueryItem (Id);
+        CREATE INDEX IF NOT EXISTS IX_GenshinQueryItem_AddNum ON GenshinQueryItem (AddNum);
+        CREATE INDEX IF NOT EXISTS IX_GenshinQueryItem_Reason ON GenshinQueryItem (Reason);
+        CREATE INDEX IF NOT EXISTS IX_GenshinQueryItem_DateTime ON GenshinQueryItem (DateTime);
+        CREATE INDEX IF NOT EXISTS IX_GenshinQueryItem_Type ON GenshinQueryItem (Type);
+
+        CREATE TABLE IF NOT EXISTS StarRailQueryItem
+        (
+            Id              INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            Uid             INTEGER NOT NULL,
+            Type            INTEGER NOT NULL,
+            Action          TEXT,
+            AddNum          INTEGER NOT NULL,
+            Time            TEXT,
+            RelicName       TEXT,
+            RelicLevel      INTEGER NOT NULL,
+            RelicRarity     INTEGER NOT NULL,
+            EquipmentName   TEXT,
+            EquipmentLevel  INTEGER NOT NULL,
+            EquipmentRarity INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS IX_StarRailQueryItem_Uid ON StarRailQueryItem (Uid);
+        CREATE INDEX IF NOT EXISTS IX_StarRailQueryItem_Type ON StarRailQueryItem (Type);
+        CREATE INDEX IF NOT EXISTS IX_StarRailQueryItem_Action ON StarRailQueryItem (Action);
+        CREATE INDEX IF NOT EXISTS IX_StarRailQueryItem_AddNum ON StarRailQueryItem (AddNum);
+        CREATE INDEX IF NOT EXISTS IX_StarRailQueryItem_Time ON StarRailQueryItem (Time);
+
+        PRAGMA USER_VERSION = 7;
+        COMMIT TRANSACTION;
+        """;
 
     #endregion
 
