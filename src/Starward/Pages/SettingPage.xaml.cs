@@ -310,12 +310,11 @@ public sealed partial class SettingPage : Page
                 {
                     FileName = "PowerShell",
                     Arguments = """
-                    New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT -ErrorAction Continue;
+                    $null = New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT -ErrorAction Continue;
                     $key = 'HKCR:\Local Settings\Software\Microsoft\Windows\CurrentVersion\TrayNotify';
                     Remove-ItemProperty -Path $key -Name IconStreams -ErrorAction Continue;
                     Remove-ItemProperty -Path $key -Name PastIconsStream -ErrorAction Continue;
                     Stop-Process -Name explorer -ErrorAction Continue;
-                    #Start-Process -FilePath explorer -ErrorAction Continue;
                     """,
                     CreateNoWindow = true,
                     RedirectStandardOutput = true,
@@ -323,7 +322,7 @@ public sealed partial class SettingPage : Page
                 if (p != null)
                 {
                     await p.WaitForExitAsync();
-                    _logger.LogInformation(await p.StandardOutput.ReadToEndAsync());
+                    _logger.LogInformation("Repair system tray log:\n{log}", await p.StandardOutput.ReadToEndAsync());
                 }
                 if (EnableSystemTray)
                 {
