@@ -455,7 +455,6 @@
                                     <TextBlock Text="{x:Bind lang:Lang.LauncherPage_Nickname}" />
                                     <TextBox Name="TextBox_Nickname"
                                              IsSpellCheckEnabled="False"
-                                             PlaceholderText="{x:Bind lang:Lang.LauncherPage_Required}"
                                              Text="{x:Bind SelectGameAccount.Name, Mode=TwoWay}" />
                                     <TextBlock Margin="0,8,0,0" Text="Uid" />
                                     <NumberBox Minimum="0" Value="{x:Bind SelectGameAccount.Uid, Mode=TwoWay}" />
@@ -497,7 +496,9 @@
                                             </StackPanel>
                                         </Button>
                                     </Grid>
-                                    <StackPanel Margin="0,4,0,-4" Orientation="Horizontal">
+                                    <StackPanel Margin="0,4,0,-4"
+                                                Orientation="Horizontal"
+                                                Visibility="{x:Bind SelectGameAccount.IsLogin}">
                                         <FontIcon Margin="4,0,0,1"
                                                   VerticalAlignment="Bottom"
                                                   FontSize="14"

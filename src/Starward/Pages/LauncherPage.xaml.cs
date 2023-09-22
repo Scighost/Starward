@@ -871,11 +871,6 @@ public sealed partial class LauncherPage : Page
             if (SelectGameAccount is not null)
             {
                 var acc = SelectGameAccount;
-                if (string.IsNullOrWhiteSpace(acc.Name))
-                {
-                    TextBox_Nickname.Focus(FocusState.Programmatic);
-                    return;
-                }
                 if (GameAccountList.FirstOrDefault(x => x.SHA256 != acc.SHA256 && x.Uid == acc.Uid) is GameAccount lacc)
                 {
                     var dialog = new ContentDialog
@@ -894,17 +889,11 @@ public sealed partial class LauncherPage : Page
                     }
                 }
                 SelectGameAccount.Time = DateTime.Now;
-                if (_gameService.SaveGameAccount(SelectGameAccount))
-                {
-                    FontIcon_SaveGameAccount.Glyph = "\uE8FB";
-                    _ = GetGameNoticesAlertAsync();
-                    await Task.Delay(3000);
-                    FontIcon_SaveGameAccount.Glyph = "\uE74E";
-                }
-                else
-                {
-                    TextBox_Nickname.Focus(FocusState.Programmatic);
-                }
+                _gameService.SaveGameAccount(SelectGameAccount);
+                FontIcon_SaveGameAccount.Glyph = "\uE8FB";
+                _ = GetGameNoticesAlertAsync();
+                await Task.Delay(3000);
+                FontIcon_SaveGameAccount.Glyph = "\uE74E";
             }
         }
         catch (Exception ex)
