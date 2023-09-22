@@ -193,4 +193,34 @@
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
     <value>중국어 번체 서버</value>
   </data>
+  <data name="GenshinQueryType_GenesisCrystal" xml:space="preserve">
+    <value>창세의 결정</value>
+  </data>
+  <data name="GenshinQueryType_Primogem" xml:space="preserve">
+    <value>원석</value>
+  </data>
+  <data name="GenshinQueryType_OriginalResin" xml:space="preserve">
+    <value>퓨어레진</value>
+  </data>
+  <data name="GenshinQueryType_Artifact" xml:space="preserve">
+    <value>성유물</value>
+  </data>
+  <data name="GenshinQueryType_Weapon" xml:space="preserve">
+    <value>무기</value>
+  </data>
+  <data name="StarRailQueryType_StellarJade" xml:space="preserve">
+    <value>성옥</value>
+  </data>
+  <data name="StarRailQueryType_OneiricShared" xml:space="preserve">
+    <value>오래된 꿈</value>
+  </data>
+  <data name="StarRailQueryType_Relic" xml:space="preserve">
+    <value>유물</value>
+  </data>
+  <data name="StarRailQueryType_LightCone" xml:space="preserve">
+    <value>광추</value>
+  </data>
+  <data name="StarRailQueryType_TrailblazePower" xml:space="preserve">
+    <value>개척력</value>
+  </data>
 </root>

@@ -193,4 +193,34 @@
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
     <value>繁体字中国語サーバー</value>
   </data>
+  <data name="GenshinQueryType_GenesisCrystal" xml:space="preserve">
+    <value>Genesis Crystals</value>
+  </data>
+  <data name="GenshinQueryType_Primogem" xml:space="preserve">
+    <value>Primogems</value>
+  </data>
+  <data name="GenshinQueryType_OriginalResin" xml:space="preserve">
+    <value>Original Resins</value>
+  </data>
+  <data name="GenshinQueryType_Artifact" xml:space="preserve">
+    <value>Artifacts</value>
+  </data>
+  <data name="GenshinQueryType_Weapon" xml:space="preserve">
+    <value>Weapons</value>
+  </data>
+  <data name="StarRailQueryType_StellarJade" xml:space="preserve">
+    <value>Stellar Jade</value>
+  </data>
+  <data name="StarRailQueryType_OneiricShared" xml:space="preserve">
+    <value>Oneiric Shared</value>
+  </data>
+  <data name="StarRailQueryType_Relic" xml:space="preserve">
+    <value>Relic</value>
+  </data>
+  <data name="StarRailQueryType_LightCone" xml:space="preserve">
+    <value>Light Cone</value>
+  </data>
+  <data name="StarRailQueryType_TrailblazePower" xml:space="preserve">
+    <value>Trailblaze Power</value>
+  </data>
 </root>
