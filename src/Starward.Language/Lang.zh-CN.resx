@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -1083,11 +1083,11 @@
   <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
     <value>Uid {0} 的账号已存在，替换或保存为新账号？</value>
   </data>
-  <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
-    <value>修复无法创建系统托盘图标的问题，此方法会重启资源管理器。</value>
-  </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
     <value>修复系统托盘</value>
+  </data>
+  <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
+    <value>修复无法创建系统托盘图标的问题，此方法会重启资源管理器。</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
     <value>账号记录</value>
@@ -1106,23 +1106,25 @@
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
     <value>注意：本地账号记录的语言跟随游戏中的语言设置，并且无法被更改。</value>
   </data>
-  <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
-    <value>已删除 {2} 的{1}记录 {0} 条</value>
-  </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
     <value>你想要删除 {1} 的{0}记录吗？此操作不可撤销。</value>
+    <comment>Would you like to delete records of Stellar Jade in 2023-08? This operation cannot be canceled.</comment>
+  </data>
+  <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
+    <value>已删除 {2} 的{1}记录 {0} 条</value>
+    <comment>Deleted 123 records of Stellar Jade in 2023-08.</comment>
   </data>
   <data name="LauncherPage_UninstallGame" xml:space="preserve">
     <value>卸载游戏</value>
   </data>
-  <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
-    <value>删除游戏资源</value>
+  <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
+    <value>清理注册表</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
     <value>删除临时文件</value>
   </data>
-  <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
-    <value>清理注册表</value>
+  <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
+    <value>删除游戏资源</value>
   </data>
   <data name="UninstallGameDialog_StepTip" xml:space="preserve">
     <value>选择卸载步骤。卸载过程时间较长，请耐心等待。</value>
@@ -1130,13 +1132,13 @@
   <data name="UninstallGameDialog_OfficalLauncherTip" xml:space="preserve">
     <value>官方启动器需要您自行卸载。</value>
   </data>
-  <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
-    <value>请检查相关日志。</value>
+  <data name="LauncherPage_UninstallationError" xml:space="preserve">
+    <value>卸载出错</value>
   </data>
   <data name="LauncherPage_UninstallationCompleted" xml:space="preserve">
     <value>卸载已完成</value>
   </data>
-  <data name="LauncherPage_UninstallationError" xml:space="preserve">
-    <value>卸载出错</value>
+  <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
+    <value>请检查相关日志。</value>
   </data>
 </root>
