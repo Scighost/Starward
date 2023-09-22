@@ -1083,4 +1083,62 @@
   <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
     <value>UID {0} 이 계정은 이미 존재합니다. 교체하시거나 새로 덮어쓰시겠습니까?</value>
   </data>
+  <data name="SettingPage_RepairSystemTray" xml:space="preserve">
+    <value>트레이 아이콘 복구</value>
+  </data>
+  <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
+    <value>시스템 트레이 아이콘이 적용되지 않는 문제를 해결합니다. 작업표시줄이 재시작 됩니다.</value>
+  </data>
+  <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
+    <value>계정 기록</value>
+  </data>
+  <data name="SelfQueryPage_DeleteThisMonthSData" xml:space="preserve">
+    <value>이번달 기록 제거</value>
+  </data>
+  <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
+    <value>URL 획득 경로</value>
+  </data>
+  <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
+    <value>- 게임내의 메뉴화면에 진입합니다.
+- 제보(원신) 혹은 오류제보(스타레일) 을 클릭합니다.
+- 열린 페이지의 URL을 복사해 하단 입력창에 붙여넣기 합니다.</value>
+  </data>
+  <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
+    <value>경고: 계정기록의 언어는 게임내 언어와 동일하며 수정할 수 없습니다.</value>
+  </data>
+  <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
+    <value> {1} 의 {0} 기록을 제거하시겠습니까? 이 동작은 되돌릴 수 없습니다.</value>
+    <comment>Would you like to delete records of Stellar Jade in 2023-08? This operation cannot be canceled.</comment>
+  </data>
+  <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
+    <value>  {2} 의 {1} 기록 {0} 건이 삭제되었습니다.</value>
+    <comment>Deleted 123 records of Stellar Jade in 2023-08.</comment>
+  </data>
+  <data name="LauncherPage_UninstallGame" xml:space="preserve">
+    <value>Uninstall Game</value>
+  </data>
+  <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
+    <value>Clean Registry</value>
+  </data>
+  <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
+    <value>Delete Temporary Files</value>
+  </data>
+  <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
+    <value>Delete Game Assets</value>
+  </data>
+  <data name="UninstallGameDialog_StepTip" xml:space="preserve">
+    <value>Choose the steps of uninstallation. The uninstallation takes a long time, so please be patient.</value>
+  </data>
+  <data name="UninstallGameDialog_OfficalLauncherTip" xml:space="preserve">
+    <value>The official launcher needs to be uninstalled by yourself.</value>
+  </data>
+  <data name="LauncherPage_UninstallationError" xml:space="preserve">
+    <value>Uninstallation Error</value>
+  </data>
+  <data name="LauncherPage_UninstallationCompleted" xml:space="preserve">
+    <value>Uninstallation Completed</value>
+  </data>
+  <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
+    <value>Please check the related logs.</value>
+  </data>
 </root>
