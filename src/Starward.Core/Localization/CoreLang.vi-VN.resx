@@ -193,4 +193,34 @@
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
     <value>Máy chủ Trung Quốc truyền thống</value>
   </data>
+  <data name="GenshinQueryType_GenesisCrystal" xml:space="preserve">
+    <value>Đá sáng thế</value>
+  </data>
+  <data name="GenshinQueryType_Primogem" xml:space="preserve">
+    <value>Nguyên thạch</value>
+  </data>
+  <data name="GenshinQueryType_OriginalResin" xml:space="preserve">
+    <value>Nhựa nguyên chất</value>
+  </data>
+  <data name="GenshinQueryType_Artifact" xml:space="preserve">
+    <value>Thánh di vật</value>
+  </data>
+  <data name="GenshinQueryType_Weapon" xml:space="preserve">
+    <value>Vũ khí</value>
+  </data>
+  <data name="StarRailQueryType_StellarJade" xml:space="preserve">
+    <value>Ngọc ánh sao</value>
+  </data>
+  <data name="StarRailQueryType_OneiricShared" xml:space="preserve">
+    <value>Mộng ước viễn cổ</value>
+  </data>
+  <data name="StarRailQueryType_Relic" xml:space="preserve">
+    <value>Di vật</value>
+  </data>
+  <data name="StarRailQueryType_LightCone" xml:space="preserve">
+    <value>Nón ánh sáng</value>
+  </data>
+  <data name="StarRailQueryType_TrailblazePower" xml:space="preserve">
+    <value>Sức mạnh khai phá</value>
+  </data>
 </root>
