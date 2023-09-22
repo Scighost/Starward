@@ -358,4 +358,120 @@ internal class GameService
 
 
 
+    public int UninstallGame(GameBiz gameBiz, string? loc, UninstallStep steps)
+    {
+        try
+        {
+            if (steps == UninstallStep.None)
+            {
+                _logger.LogWarning("No nned to do anything.");
+                return 0;
+            }
+            if (GetGameProcess(gameBiz) != null)
+            {
+                _logger.LogWarning("Game is runnning");
+                return -1;
+            }
+
+            if (steps.HasFlag(UninstallStep.BackupScreenshot) && Directory.Exists(AppConfig.UserDataFolder))
+            {
+                _logger.LogInformation("Start to backup screenshot");
+                string relativePath = gameBiz.ToGame() switch
+                {
+                    GameBiz.GenshinImpact => "ScreenShot",
+                    GameBiz.StarRail => @"StarRail_Data\ScreenShots",
+                    GameBiz.Honkai3rd => @"ScreenShot",
+                    _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
+                };
+                string folder = Path.Join(loc, relativePath);
+                if (Directory.Exists(folder))
+                {
+                    _logger.LogInformation("Screenshot folder is {folder}", folder);
+                    string dest = Path.Join(AppConfig.UserDataFolder, "Screenshots", gameBiz.ToString());
+                    Directory.CreateDirectory(dest);
+                    string[] files = Directory.GetFiles(folder);
+                    int count = 0;
+                    foreach (var file in files)
+                    {
+                        string t = Path.Join(dest, Path.GetFileName(file));
+                        if (!File.Exists(t))
+                        {
+                            File.Move(file, t, true);
+                            count++;
+                        }
+                    }
+                    _logger.LogInformation("Backed up {count} screenshots.", count);
+                }
+                else
+                {
+                    _logger.LogWarning("Screenshot folder does not exist: {folder}", folder);
+                }
+            }
+
+            if (steps.HasFlag(UninstallStep.CleanRegistry))
+            {
+                _logger.LogInformation("Start to clean registry.");
+                string key = gameBiz.GetGameRegistryKey().Replace(@"HKEY_CURRENT_USER\", "");
+                Registry.CurrentUser.DeleteSubKeyTree(key, false);
+                var parent = Registry.CurrentUser.OpenSubKey(Path.GetDirectoryName(key)!);
+                if (parent != null && parent.SubKeyCount == 0 && parent.ValueCount == 0)
+                {
+                    Registry.CurrentUser.DeleteSubKey(Path.GetDirectoryName(key)!, false);
+                }
+                _logger.LogInformation("Finished clean registry.");
+            }
+
+            if (steps.HasFlag(UninstallStep.DeleteTempFiles))
+            {
+                _logger.LogInformation("Start to delete temp files.");
+                string relativePath = gameBiz.GetGameRegistryKey().Replace(@"HKEY_CURRENT_USER\Software\", "");
+                string temp = Path.Join(Path.GetTempPath(), relativePath);
+                string local = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), relativePath);
+                string locallow = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", relativePath);
+                DeleteFolderAndParent(temp);
+                DeleteFolderAndParent(local);
+                DeleteFolderAndParent(locallow);
+                _logger.LogInformation("Finishing deleting temp files.");
+            }
+
+            if (steps.HasFlag(UninstallStep.DeleteGameAssets) && Directory.Exists(loc))
+            {
+                _logger.LogInformation("Start to delete game assets: {loc}", loc);
+                string[] files = Directory.GetFiles(loc, "*", SearchOption.AllDirectories);
+                foreach (string file in files)
+                {
+                    File.SetAttributes(file, FileAttributes.Normal);
+                }
+                Directory.Delete(loc, true);
+                _logger.LogInformation("Finished deleting game assets.");
+            }
+
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Uninstall game");
+            return -1;
+        }
+    }
+
+
+
+    void DeleteFolderAndParent(string folder)
+    {
+        if (Directory.Exists(folder))
+        {
+            Directory.Delete(folder, true);
+            string? parent = Path.GetDirectoryName(folder);
+            if (Directory.Exists(parent) && Directory.GetDirectories(parent).Length == 0 && Directory.GetFiles(parent).Length == 0)
+            {
+                Directory.Delete(parent, true);
+            }
+            _logger.LogInformation("Deleted folder {folder}", folder);
+        }
+    }
+
+
+
+
 }

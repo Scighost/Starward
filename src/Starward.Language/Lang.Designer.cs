@@ -1612,6 +1612,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Please check the related logs. 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_PleaseCheckTheRelatedLogs {
+            get {
+                return ResourceManager.GetString("LauncherPage_PleaseCheckTheRelatedLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Pre-Install 的本地化字符串。
         /// </summary>
         public static string LauncherPage_PreInstall {
@@ -1752,6 +1761,33 @@ namespace Starward.Language {
         public static string LauncherPage_ThisWeek {
             get {
                 return ResourceManager.GetString("LauncherPage_ThisWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uninstallation Completed 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_UninstallationCompleted {
+            get {
+                return ResourceManager.GetString("LauncherPage_UninstallationCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uninstallation Error 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_UninstallationError {
+            get {
+                return ResourceManager.GetString("LauncherPage_UninstallationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uninstall Game 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_UninstallGame {
+            get {
+                return ResourceManager.GetString("LauncherPage_UninstallGame", resourceCulture);
             }
         }
         
@@ -2835,6 +2871,51 @@ namespace Starward.Language {
         public static string TravelersDiaryPage_RealTimeData {
             get {
                 return ResourceManager.GetString("TravelersDiaryPage_RealTimeData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Clean Registry 的本地化字符串。
+        /// </summary>
+        public static string UninstallGameDialog_CleanRegistry {
+            get {
+                return ResourceManager.GetString("UninstallGameDialog_CleanRegistry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete Game Assets 的本地化字符串。
+        /// </summary>
+        public static string UninstallGameDialog_DeleteGameAssets {
+            get {
+                return ResourceManager.GetString("UninstallGameDialog_DeleteGameAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete Temporary Files 的本地化字符串。
+        /// </summary>
+        public static string UninstallGameDialog_DeleteTemporaryFiles {
+            get {
+                return ResourceManager.GetString("UninstallGameDialog_DeleteTemporaryFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The official launcher needs to be uninstalled by yourself. 的本地化字符串。
+        /// </summary>
+        public static string UninstallGameDialog_OfficalLauncherTip {
+            get {
+                return ResourceManager.GetString("UninstallGameDialog_OfficalLauncherTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Choose the steps of uninstallation. The uninstallation takes a long time, so please be patient. 的本地化字符串。
+        /// </summary>
+        public static string UninstallGameDialog_StepTip {
+            get {
+                return ResourceManager.GetString("UninstallGameDialog_StepTip", resourceCulture);
             }
         }
         

@@ -586,19 +586,41 @@
                     </Grid>
 
                     <!--  repair game  -->
-                    <Button Height="36"
-                            Margin="-24,12,0,0"
-                            Padding="24,0,16,0"
-                            BorderThickness="0"
-                            Command="{x:Bind RepairGameCommand}"
-                            CornerRadius="0,18,18,0"
-                            Style="{ThemeResource AccentButtonStyle}"
-                            Visibility="{x:Bind IsRepairGameEnable}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE90F;" />
-                            <TextBlock Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
-                        </StackPanel>
-                    </Button>
+                    <StackPanel Margin="-24,12,0,0"
+                                Orientation="Horizontal"
+                                Spacing="16">
+                        <Button Height="36"
+                                Padding="24,0,16,0"
+                                BorderThickness="0"
+                                Command="{x:Bind RepairGameCommand}"
+                                CornerRadius="0,18,18,0"
+                                IsEnabled="{x:Bind IsRepairGameEnable}"
+                                Style="{ThemeResource AccentButtonStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE90F;" />
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
+                            </StackPanel>
+                        </Button>
+                        <Button Height="36"
+                                Padding="16,0,16,0"
+                                BorderThickness="0"
+                                Command="{x:Bind UninstallGameCommand}"
+                                CornerRadius="8,18,18,8"
+                                Style="{ThemeResource AccentButtonStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Grid>
+                                    <FontIcon Width="20"
+                                              Height="20"
+                                              Glyph="&#xE74D;"
+                                              Visibility="{x:Bind UninstallGameCommand.IsRunning, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                                    <ProgressRing Width="20"
+                                                  Height="20"
+                                                  Visibility="{x:Bind UninstallGameCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                </Grid>
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_UninstallGame}" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
 
                     <Button Width="0"
                             Height="0"

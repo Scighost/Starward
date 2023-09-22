@@ -1112,4 +1112,31 @@
   <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
     <value>你想要删除 {1} 的{0}记录吗？此操作不可撤销。</value>
   </data>
+  <data name="LauncherPage_UninstallGame" xml:space="preserve">
+    <value>卸载游戏</value>
+  </data>
+  <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
+    <value>删除游戏资源</value>
+  </data>
+  <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
+    <value>删除临时文件</value>
+  </data>
+  <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
+    <value>清理注册表</value>
+  </data>
+  <data name="UninstallGameDialog_StepTip" xml:space="preserve">
+    <value>选择卸载步骤。卸载过程时间较长，请耐心等待。</value>
+  </data>
+  <data name="UninstallGameDialog_OfficalLauncherTip" xml:space="preserve">
+    <value>官方启动器需要您自行卸载。</value>
+  </data>
+  <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
+    <value>请检查相关日志。</value>
+  </data>
+  <data name="LauncherPage_UninstallationCompleted" xml:space="preserve">
+    <value>卸载已完成</value>
+  </data>
+  <data name="LauncherPage_UninstallationError" xml:space="preserve">
+    <value>卸载出错</value>
+  </data>
 </root>

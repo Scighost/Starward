@@ -1,7 +1,9 @@
 ﻿global using Starward.Language;
 using Microsoft.Extensions.Configuration;
 using Starward.Core;
+using Starward.Models;
 using Starward.Services;
+using System;
 
 namespace Starward;
 
@@ -35,6 +37,16 @@ public static class Program
                 return;
             }
 
+            if (args[0].ToLower() is "uninstall")
+            {
+                GameBiz biz = AppConfig.Configuration.GetValue<GameBiz>("biz");
+                string? loc = AppConfig.Configuration.GetValue<string>("loc");
+                UninstallStep steps = AppConfig.Configuration.GetValue<UninstallStep>("steps");
+                var gameService = AppConfig.GetService<GameService>();
+                int result = gameService.UninstallGame(biz, loc!, steps);
+                Environment.Exit(result);
+                return;
+            }
         }
 
 

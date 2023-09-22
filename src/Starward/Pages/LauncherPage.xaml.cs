@@ -1288,6 +1288,86 @@ public sealed partial class LauncherPage : Page
 
 
 
+
+    [RelayCommand]
+    private async Task UninstallGameAsync()
+    {
+        try
+        {
+            if (_gameService.GetGameProcess(gameBiz) != null)
+            {
+                NotificationBehavior.Instance.Warning(Lang.LauncherPage_GameIsRunning);
+                return;
+            }
+            UninstallStep enableSteps = UninstallStep.CleanRegistry | UninstallStep.DeleteTempFiles;
+            if (Directory.Exists(InstallPath))
+            {
+                enableSteps |= UninstallStep.DeleteGameAssets;
+            }
+            if (LocalVersion != null)
+            {
+                enableSteps |= UninstallStep.BackupScreenshot;
+            }
+            var control = new UninstallGameDialog
+            {
+                Steps = enableSteps,
+                EnableSteps = enableSteps,
+            };
+            var dialog = new ContentDialog
+            {
+                Title = Lang.LauncherPage_UninstallGame,
+                Content = control,
+                PrimaryButtonText = Lang.Common_Confirm,
+                SecondaryButtonText = Lang.Common_Cancel,
+                DefaultButton = ContentDialogButton.Secondary,
+                XamlRoot = this.XamlRoot,
+            };
+            if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+            {
+                UninstallStep steps = control.Steps;
+                var exe = Process.GetCurrentProcess().MainModule?.FileName;
+                if (!File.Exists(exe))
+                {
+                    exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+                }
+                string argu = $"""uninstall --biz {gameBiz} --loc "{InstallPath}" --steps {(int)steps}""";
+                _logger.LogInformation("Start to uninstall game with argu: {argu}", argu);
+                var p = Process.Start(new ProcessStartInfo
+                {
+                    FileName = exe,
+                    UseShellExecute = true,
+                    Arguments = argu,
+                    Verb = "runas",
+                });
+                if (p != null)
+                {
+                    await p.WaitForExitAsync();
+                    if (p.ExitCode != 0)
+                    {
+                        _logger.LogError("Uninstallation error, exit code {code}", p.ExitCode);
+                        NotificationBehavior.Instance.Warning(Lang.LauncherPage_UninstallationError, Lang.LauncherPage_PleaseCheckTheRelatedLogs);
+                    }
+                    else
+                    {
+                        _logger.LogInformation("Uninstall finished.");
+                        NotificationBehavior.Instance.Success(Lang.LauncherPage_UninstallationCompleted);
+                    }
+                    UpdateGameVersion();
+                    GetGameAccount();
+                }
+                else
+                {
+                    _logger.LogWarning("Uninstall process not started.");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Uninstall game");
+        }
+    }
+
+
     #endregion
 
 
