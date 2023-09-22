@@ -11,10 +11,11 @@
       xmlns:s="using:Starward"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
-      LostFocus="Page_LostFocus"
       PreviewKeyDown="Page_PreviewKeyDown"
       PreviewKeyUp="Page_PreviewKeyUp"
+      RightTapped="Page_RightTapped"
       SizeChanged="Page_SizeChanged"
+      Tapped="Page_Tapped"
       Unloaded="Page_Unloaded"
       mc:Ignorable="d">
 
@@ -67,6 +68,7 @@
                         Grid.RowSpan="2"
                         IsBackButtonVisible="Collapsed"
                         IsSettingsVisible="False"
+                        IsTabStop="True"
                         ItemInvoked="NavigationView_ItemInvoked"
                         PaneDisplayMode="LeftMinimal">
             <NavigationView.Resources>
@@ -320,57 +322,9 @@
 
             </StackPanel>
 
-            <StackPanel Name="StackPanel_Shortcut_Game"
-                        Margin="12,0,12,-24"
-                        VerticalAlignment="Bottom"
-                        IsHitTestVisible="False"
-                        Orientation="Horizontal"
-                        Spacing="8"
-                        Visibility="Collapsed">
-                <Border Width="28"
-                        Height="28"
-                        Margin="4,0,4,0"
-                        Background="{ThemeResource CustomAcrylicBrush}"
-                        CornerRadius="4"
-                        Shadow="{ThemeResource ThemeShadow}"
-                        Translation="0,0,16">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="16"
-                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="1" />
-                </Border>
-                <Border Width="28"
-                        Height="28"
-                        Margin="4,0,4,0"
-                        Background="{ThemeResource CustomAcrylicBrush}"
-                        CornerRadius="4"
-                        Shadow="{ThemeResource ThemeShadow}"
-                        Translation="0,0,16">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="16"
-                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="2" />
-                </Border>
-                <Border Width="28"
-                        Height="28"
-                        Margin="4,0,4,0"
-                        Background="{ThemeResource CustomAcrylicBrush}"
-                        CornerRadius="4"
-                        Shadow="{ThemeResource ThemeShadow}"
-                        Translation="0,0,16">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontSize="16"
-                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="3" />
-                </Border>
-            </StackPanel>
-
         </Grid>
 
-
+        <!--  shortcut  -->
         <Border Name="Border_Shortcut_Page_1"
                 Grid.Row="1"
                 Margin="0,-4,0,0"
@@ -378,77 +332,133 @@
                 VerticalAlignment="Top"
                 Background="{ThemeResource CustomAcrylicBrush}"
                 CornerRadius="4"
-                IsHitTestVisible="False"
+                IsTabStop="True"
                 Shadow="{ThemeResource ThemeShadow}"
                 Translation="0,0,16"
                 Visibility="Collapsed">
-            <VariableSizedWrapGrid Margin="8,0,8,0"
-                                   ItemHeight="40"
-                                   ItemWidth="32"
-                                   MaximumRowsOrColumns="2"
-                                   Orientation="Horizontal">
-                <FontIcon FontSize="16"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xE80F;" />
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="1" />
-                <FontIcon FontSize="16"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xE789;" />
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="2" />
-                <FontIcon FontSize="16"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xE7FC;" />
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="3" />
-                <FontIcon FontSize="16"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xE91B;" />
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="4" />
-                <FontIcon x:Name="FontIcon_5"
-                          x:Load="{x:Bind NavigationViewItem_GachaLog.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
-                          FontSize="16"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xF4A5;" />
-                <TextBlock x:Name="TextBlock_5"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           x:Load="{x:Bind NavigationViewItem_GachaLog.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="5" />
-                <FontIcon x:Name="FontIcon_6"
-                          x:Load="{x:Bind NavigationViewItem_HoyolabToolbox.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
-                          FontSize="16"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xF133;" />
-                <TextBlock x:Name="TextBlock_6"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           x:Load="{x:Bind NavigationViewItem_HoyolabToolbox.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="6" />
-                <FontIcon x:Name="FontIcon_7"
-                          x:Load="{x:Bind NavigationViewItem_SelfQuery.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
-                          FontSize="16"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xE8C7;" />
-                <TextBlock x:Name="TextBlock_7"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           x:Load="{x:Bind NavigationViewItem_SelfQuery.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="7" />
-            </VariableSizedWrapGrid>
+            <StackPanel Margin="4,0,8,0">
+                <!--  1  -->
+                <Button x:Name="Button_Navigation_1"
+                        Height="40"
+                        Click="Button_Navigation_Click"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="1">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE80F;" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="1" />
+                    </StackPanel>
+                </Button>
+                <!--  2  -->
+                <Button x:Name="Button_Navigation_2"
+                        Height="40"
+                        Click="Button_Navigation_Click"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="2">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE789;" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="2" />
+                    </StackPanel>
+                </Button>
+                <!--  3  -->
+                <Button x:Name="Button_Navigation_3"
+                        Height="40"
+                        Click="Button_Navigation_Click"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="3">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE7FC;" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="3" />
+                    </StackPanel>
+                </Button>
+                <!--  4  -->
+                <Button x:Name="Button_Navigation_4"
+                        Height="40"
+                        Click="Button_Navigation_Click"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="4">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE91B;" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="4" />
+                    </StackPanel>
+                </Button>
+                <!--  5  -->
+                <Button x:Name="Button_Navigation_5"
+                        Height="40"
+                        x:Load="{x:Bind NavigationViewItem_GachaLog.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
+                        Click="Button_Navigation_Click"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="5">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <FontIcon x:Name="FontIcon_5"
+                                  FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xF4A5;" />
+                        <TextBlock x:Name="TextBlock_5"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="5" />
+                    </StackPanel>
+                </Button>
+                <!--  6  -->
+                <Button x:Name="Button_Navigation_6"
+                        Height="40"
+                        x:Load="{x:Bind NavigationViewItem_HoyolabToolbox.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
+                        Click="Button_Navigation_Click"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="6">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <FontIcon x:Name="FontIcon_6"
+                                  FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xF133;" />
+                        <TextBlock x:Name="TextBlock_6"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="6" />
+                    </StackPanel>
+                </Button>
+                <!--  7  -->
+                <Button x:Name="Button_Navigation_7"
+                        Height="40"
+                        x:Load="{x:Bind NavigationViewItem_SelfQuery.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
+                        Click="Button_Navigation_Click"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="7">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <FontIcon x:Name="FontIcon_7"
+                                  FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE8C7;" />
+                        <TextBlock x:Name="TextBlock_7"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="7" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
         </Border>
 
         <Border Name="Border_Shortcut_Page_2"
@@ -457,23 +467,26 @@
                 VerticalAlignment="Bottom"
                 Background="{ThemeResource CustomAcrylicBrush}"
                 CornerRadius="4"
-                IsHitTestVisible="False"
                 Shadow="{ThemeResource ThemeShadow}"
                 Translation="0,0,16"
                 Visibility="Collapsed">
-            <VariableSizedWrapGrid Margin="8,0,8,2"
-                                   ItemHeight="40"
-                                   ItemWidth="32"
-                                   MaximumRowsOrColumns="2"
-                                   Orientation="Horizontal">
-                <FontIcon FontSize="16"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xE713;" />
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="0" />
-            </VariableSizedWrapGrid>
+            <StackPanel Margin="4,0,8,2">
+                <Button x:Name="Button_Navigation_0"
+                        Height="40"
+                        Click="Button_Navigation_Click"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Tag="0">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE713;" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="0" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
         </Border>
 
 
