@@ -186,6 +186,15 @@ internal partial class DownloadGameService
             GameBiz.hk4e_global => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),
             _ => ""
         };
+        if (!File.Exists(file))
+        {
+            file = biz switch
+            {
+                GameBiz.hk4e_global => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
+                GameBiz.hk4e_cn => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),
+                _ => ""
+            };
+        }
         var flag = VoiceLanguage.None;
         if (File.Exists(file))
         {
