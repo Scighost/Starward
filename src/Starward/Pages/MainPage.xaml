@@ -336,7 +336,7 @@
                 Shadow="{ThemeResource ThemeShadow}"
                 Translation="0,0,16"
                 Visibility="Collapsed">
-            <StackPanel Margin="4,0,8,0">
+            <StackPanel Margin="4,0,4,0">
                 <!--  1  -->
                 <Button x:Name="Button_Navigation_1"
                         Height="40"
@@ -470,7 +470,7 @@
                 Shadow="{ThemeResource ThemeShadow}"
                 Translation="0,0,16"
                 Visibility="Collapsed">
-            <StackPanel Margin="4,0,8,2">
+            <StackPanel Margin="4,0,4,2">
                 <Button x:Name="Button_Navigation_0"
                         Height="40"
                         Click="Button_Navigation_Click"
