@@ -83,4 +83,4 @@ Starward использует [Crowdin](https://crowdin.com/project/starward) д
 
 ## Скриншот Лаунчера
 
-![screenshot](https://github.com/Scighost/Starward/assets/61003590/22dad10c-bc42-44a7-b47f-5a608dfc5b08)
+![screenshot](https://github.com/Scighost/Starward/assets/88989555/8d83c941-cfcc-4655-8bf1-2ccd16792336)
