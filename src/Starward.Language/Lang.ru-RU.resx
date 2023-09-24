@@ -154,7 +154,7 @@
     <value>Недостаточно свободного места</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
-    <value>Жалость</value>
+    <value>Гарант</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
     <value>Среднее значение</value>
@@ -462,7 +462,7 @@
     <value>FPS</value>
   </data>
   <data name="GameSettingPage_VSync" xml:space="preserve">
-    <value>Вертикальная синхронизация</value>
+    <value>Верт. синхронизация</value>
   </data>
   <data name="GameSettingPage_AntiAliasing" xml:space="preserve">
     <value>Режим сглаживания</value>
@@ -531,7 +531,7 @@
     <value>Предварительная установка</value>
   </data>
   <data name="LauncherPage_CurrentAccount" xml:space="preserve">
-    <value>Текущий аккаунт входа</value>
+    <value>Текущий аккаунт выбран</value>
   </data>
   <data name="LauncherPage_SwitchAccount" xml:space="preserve">
     <value>Сменить аккаунт</value>
@@ -621,10 +621,10 @@
     <value>Лаунчер</value>
   </data>
   <data name="MainPage_GameScreenshot" xml:space="preserve">
-    <value>Скриншот</value>
+    <value>Скриншоты</value>
   </data>
   <data name="ScreenshotPage_GameScreenshot" xml:space="preserve">
-    <value>Скриншот</value>
+    <value>Скриншоты</value>
   </data>
   <data name="ScreenshotPage_OpenFolder" xml:space="preserve">
     <value>Открыть папку</value>
@@ -817,7 +817,7 @@
     <value>Копировать Cookie</value>
   </data>
   <data name="HoyolabToolboxPage_DeleteGameRole" xml:space="preserve">
-    <value>Удалить роль игры</value>
+    <value>Удалить профиль</value>
   </data>
   <data name="HoyolabToolboxPage_SpiralAbyss" xml:space="preserve">
     <value>Витая Бездна</value>
@@ -838,7 +838,7 @@
     <value>Щелкните на эту кнопку после входа.</value>
   </data>
   <data name="LoginPage_AlreadyAddedGameRoles" xml:space="preserve">
-    <value>Уже добавлено {0} игровых ролей:
+    <value>Добавлено {0} игровых профилей:
 {1}</value>
   </data>
   <data name="Common_Summary" xml:space="preserve">
@@ -1084,61 +1084,61 @@
     <value>Аккаунт с uid {0} уже существует, заменить его или сохранить новый?</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
-    <value>Repair System Tray</value>
+    <value>Починить системный трек</value>
   </data>
   <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
-    <value>Fix the issue that cannot create system tray icon, this method will restart explorer.</value>
+    <value>Исправлена проблема, из-за которой не удалось создать иконку в системном трее, этот метод перезапустит проводник.</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
-    <value>Account Records</value>
+    <value>Расходов Аккаунта</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData" xml:space="preserve">
-    <value>Delete this Month's Data</value>
+    <value>Удалить данные за этот месяц</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Steps to get URL:</value>
+    <value>Шаги, чтобы получить URL:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Open menu in game.
-- Click Feedback (Genshin) or Bug Report (Star Rail).
-- Copy the URL of web and paste into the box below.</value>
+    <value>- Откройте меню в игре.
+- Нажмите "Поддержка" (Genshin) или "Сообщить о проблеме" (Star Rail).
+- Скопируйте URL-адрес веб-сайта и вставьте в поле ниже.</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
-    <value>Note: Records language follows language setting in game and cannot be changed.</value>
+    <value>Примечание: Язык записи следует за языком в игре и не может быть изменен.</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
-    <value>Would you like to delete records of {0} in {1}? This operation cannot be canceled.</value>
+    <value>Вы хотите удалить записи {0} в {1}? Эта операция не может быть отменена.</value>
     <comment>Would you like to delete records of Stellar Jade in 2023-08? This operation cannot be canceled.</comment>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
-    <value>Deleted {0} records of {1} in {2}.</value>
+    <value>Удалены записи {0} для {1} в {2}.</value>
     <comment>Deleted 123 records of Stellar Jade in 2023-08.</comment>
   </data>
   <data name="LauncherPage_UninstallGame" xml:space="preserve">
-    <value>Uninstall Game</value>
+    <value>Удалить игру</value>
   </data>
   <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
-    <value>Clean Registry</value>
+    <value>Очистить реестр</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
-    <value>Delete Temporary Files</value>
+    <value>Удалить временные файлы</value>
   </data>
   <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
-    <value>Delete Game Assets</value>
+    <value>Удалить игровые ресурсы</value>
   </data>
   <data name="UninstallGameDialog_StepTip" xml:space="preserve">
-    <value>Choose the steps of uninstallation. The uninstallation takes a long time, so please be patient.</value>
+    <value>Выберите шаги удаления. Удаление занимает много времени, поэтому будьте терпеливы.</value>
   </data>
   <data name="UninstallGameDialog_OfficalLauncherTip" xml:space="preserve">
-    <value>The official launcher needs to be uninstalled by yourself.</value>
+    <value>Официальный лаунчер необходимо удалить самостоятельно.</value>
   </data>
   <data name="LauncherPage_UninstallationError" xml:space="preserve">
-    <value>Uninstallation Error</value>
+    <value>Ошибка удаления</value>
   </data>
   <data name="LauncherPage_UninstallationCompleted" xml:space="preserve">
-    <value>Uninstallation Completed</value>
+    <value>Удаление завершено</value>
   </data>
   <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
-    <value>Please check the related logs.</value>
+    <value>Пожалуйста, проверьте соответствующие журналы.</value>
   </data>
 </root>
