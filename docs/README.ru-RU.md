@@ -1,5 +1,3 @@
-[English](./docs/README.md) | [Tiếng Việt](./docs/README.vi-VN.md) | [日本語](./docs/README.ja-JP.md) | [ภาษาไทย](./docs/README.th-TH.md) | Русский
-
 # Что такое Starward?
 
 **Starward** происходит от слогана Star Rail: May This Journey Lead Us **Starward**, который очень подходит для использования в качестве названия приложения. Starward - это игровой лаунчер, который поддерживает все компьютерные игры miHoYo. Цель этого проекта - полностью заменить официальный лаунчер, а затем добавить некоторые расширенные функции.
@@ -23,7 +21,6 @@
 - Windows 10 1809 (17763) и выше
 - Установлено [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) 
 - Установлено [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2) 
-- Пользователям Windows 10 рекомендуется установить шрифт [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
 - Для улучшения работы, пожалуйста, включите ** Эффекты прозрачности ** и ** Анимационные эффекты ** в системных настройках
 
 Загрузите пакет для вашей архитектуры процессора с сайта [GitHub Release](https://github.com/Scighost/Starward/releases). Извлеките его, затем запустите `Starward.exe ` и следуйте инструкциям.
@@ -32,7 +29,6 @@ Starward может выйти из строя после запуска на н
 
 
 ``` ini
-EnableConsole=False
 UserDataFolder=.
 ```
 

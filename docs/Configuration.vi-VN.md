@@ -1,5 +1,3 @@
-[English](./Configuration.md) | [简体中文](./Configuration.zh-CN.md) | Tiếng Việt | [日本語](./Configuration.ja-JP.md) | [ภาษาไทย](./Configuration.th-TH.md)
-
 # Cấu hình ứng dụng
 
 Kể từ phiên bản 0.8.0, Starward sẽ không còn sử dụng registry để lưu trữ cấu hình, mà thay vào đó sử dụng tập tin và cơ sở dữ liệu, giúp việc di chuyển tổng thể ứng dụng giữa các thiết bị trở nên dễ dàng hơn. Tuy nhiên, registry sẽ vẫn được sử dụng khi cấu trúc tập tin không đáp ứng các điều kiện sau:

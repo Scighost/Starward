@@ -1,5 +1,3 @@
-[English](./Tips.md) | 简体中文 | [Tiếng Việt](./Tips.vi-VN.md)
-
 # 小提示
 
 本文的包含了在正常使用过程中可能无法发现的隐藏功能。

@@ -23,7 +23,6 @@ First, your device needs to meet the following requirements:
 - Windows 10 1809 (17763) and above
 - [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) installed
 - [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2) installed
-- Windows 10 users are advised to install the font [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
 - For better experience, please enable **Transparency effects** and **Animation effects** in the system settings
 
 Download the package for your CPU architecture from [GitHub Release](https://github.com/Scighost/Starward/releases). Extract it, then run `Starward.exe` and follow the prompts.
@@ -32,7 +31,6 @@ Starward may crash after running on some devices. if you encounter this problem,
 
 
 ``` ini
-EnableConsole=False
 UserDataFolder=.
 ```
 

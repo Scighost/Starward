@@ -1,5 +1,3 @@
-[English](../README.md) | [简体中文](./docs/README.zh-CN.md) | Tiếng Việt | [日本語](./docs/README.ja-JP.md) | [ภาษาไทย](./docs/README.th-TH.md)
-
 # Starward là gì?
 
 **Starward** xuất phát từ khẩu hiệu của Honkai Star Rail: Hi vọng cuộc hành trình này sẽ đưa chúng ta đến những vì sao (May This Journey Lead Us **Starward**), rất thích hợp để sử dụng làm tên ứng dụng. Starward là trình khởi chạy trò chơi hỗ trợ tất cả các trò chơi trên máy tính của nhà miHoYo. Mục tiêu của dự án này là thay thế hoàn toàn trình khởi chạy chính thức mặc định của miHoYo, và sau đó thêm một số tính năng mở rộng.
@@ -23,7 +21,6 @@ Và nhiều tính năng khác đang được lên kế hoạch trong tương lai
 -  Phiên bản Windows 10 1809 (17763) trở về sau.
 -  Đã cài đặt [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist)
 -  Đã cài đặt [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2)
--  Khuyến khích người dùng Windows 10 cài đặt font [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
 -  Để có trải nghiệm tốt hơn, vui lòng bật **Hiệu ứng trong suốt** và **Hiệu ứng động** trong cài đặt hệ thống
 
 Tải gói dành cho kiến trúc CPU của bạn từ [GitHub Release](https://github.com/Scighost/Starward/releases). Giải nén file, chạy `Starward.exe` và làm theo hướng dẫn.
@@ -31,7 +28,6 @@ Tải gói dành cho kiến trúc CPU của bạn từ [GitHub Release](https://
 Starward có thể crash sau khi chạy trên một số thiết bị. Nếu bạn gặp phải vấn đề này, hãy tạo tập tin `config.ini` trong thư mục `Starward` và dán những dòng sau đây vào. Xem [docs/Configuration.vi-VN.md](./Configuration.vi-VN.md) để có thêm thông tin về `config.ini`.
 
 ```ini
-EnableConsole=False
 UserDataFolder=.
 ```
 

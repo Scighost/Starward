@@ -1,5 +1,3 @@
-[English](./Configuration.md) | 简体中文 | [Tiếng Việt](./Configuration.vi-VN.md) | [日本語](./Configuration.ja-JP.md) | [ภาษาไทย](./Configuration.th-TH.md)
-
 # 应用配置
 
 从 0.8.0 版本开始，Starward 不再使用注册表存储配置信息，而是改用配置文件和数据库，使得整体应用在不同设备间的迁移更加方便。但是当文件结构不满足以下条件时，仍会使用注册表。

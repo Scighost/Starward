@@ -1,5 +1,3 @@
-[English](./Tips.md) | [简体中文](./Tips.zh-CN.md) | Tiếng Việt
-
 # Mẹo
 
 Tài liệu này chứa các tính năng ẩn có thể không được phát hiện trong quá trình sử dụng bình thường.

@@ -1,5 +1,3 @@
-[English](../README.md) | 简体中文 | [Tiếng Việt](./docs/README.vi-VN.md) | [日本語](./docs/README.ja-JP.md) | [ภาษาไทย](./docs/README.th-TH.md)
-
 # What is Starward?
 
 **Starward** 出自星穹铁道开服前的宣传语———愿此行，终抵群星 (May This Journey Lead Us **Starward**)，虽然这不是一个正确的英文单词，但是很适合拿来用作应用名。Starward 是一个米家游戏启动器，支持米哈游旗下的所有桌面端游戏，本项目的目标是完全替代官方的启动器，并在此基础上加入一些拓展功能。
@@ -23,7 +21,6 @@
 - Windows 10 1809 (17763) 及以上的版本
 - 已安装 [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist)
 - 已安装 [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2)
-- Windows 10 用户建议安装字体 [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
 - 为了更好的使用体验，请在系统设置中开启**透明效果**和**动画效果**
 
 请在 [GitHub Release](https://github.com/Scighost/Starward/releases) 下载对应 CPU 架构的压缩包，解压后运行 `Starward.exe` 并按提示操作。
@@ -31,7 +28,6 @@
 部分设备上可能出现运行后崩溃的问题，如果遇到了此问题，请在 `Starward` 文件夹中创建 `config.ini` 文件，并把以下内容粘贴到此文件中。有关 `config.ini` 的更多信息请参考 [docs/Configuration.md](./Configuration.zh-CN.md) 。
 
 ``` ini
-EnableConsole=False
 UserDataFolder=.
 ```
 
