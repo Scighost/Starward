@@ -181,7 +181,7 @@
     <value>Bạn có muốn chọn thư mục này?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>Thư mục này sẽ tự động xoá sau khi phần mềm cập nhật</value>
+    <value>Thư mục này sẽ tự động xoá sau khi ứng dụng được cập nhật</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
     <value>Không có quyền ghi</value>
@@ -211,11 +211,11 @@
     <value>Bước cuối cùng ~</value>
   </data>
   <data name="DownloadGamePage_CloseSoftware" xml:space="preserve">
-    <value>Đóng phần mềm</value>
+    <value>Đóng ứng dụng</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
     <value>Tải xuống có thể được tiếp tục sau lần khởi động tiếp theo;
-đóng phần mềm trong khi giải nén sẽ gây ra hư hỏng tập tin.</value>
+đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập tin.</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
     <value>Đóng</value>
@@ -224,7 +224,7 @@
     <value>Huỷ</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>Phần mềm sẽ được thoát sớm</value>
+    <value>Ứng dụng sẽ được thoát sớm</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
     <value>Bắt đầu lặp lại</value>
@@ -236,10 +236,10 @@
     <value>Lỗi tham số</value>
   </data>
   <data name="DownloadGamePage_NoPermission" xml:space="preserve">
-    <value>Không có quyền hạn</value>
+    <value>Không có quyền</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Vui lòng khởi động bằng quyền Administrator</value>
+    <value>Vui lòng khởi động bằng quyền Quản Trị Viên (Administrator)</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
     <value>Bắt đầu</value>
@@ -338,7 +338,7 @@
     <value>Xuất như</value>
   </data>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>Nhập từ JSON</value>
+    <value>Nhập từ file JSON</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Hiện thị Gacha người mới</value>
@@ -402,7 +402,7 @@
     <value>Nhập {0} bản ghi bước nhảy thành công.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
-    <value>Đã là phiên bản mới nhất</value>
+    <value>Đây đã là phiên bản mới nhất</value>
   </data>
   <data name="DownloadGameService_TooManyRetries" xml:space="preserve">
     <value>Quá nhiều lần thử lại</value>
@@ -603,7 +603,7 @@
     <value>Vui lòng chọn một thư mục trống để cài đặt game, hoặc chọn đường dẫn nơi mà trò chơi đã được cài đặt.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
-    <value>Nếu nó không phải là phiên bản mới nhất, vui lòng sửa đổi tập tin config.ini ở thư mục cài đặt game.</value>
+    <value>Nếu đây không phải là phiên bản mới nhất, vui lòng sửa đổi tập tin config.ini ở thư mục cài đặt game.</value>
   </data>
   <data name="LauncherPage_StartVerification" xml:space="preserve">
     <value>Bắt đầu xác minh</value>
@@ -633,7 +633,7 @@
     <value>Nhật kí</value>
   </data>
   <data name="SettingPage_ShowConsole" xml:space="preserve">
-    <value>Hiện thị console</value>
+    <value>Hiện console</value>
   </data>
   <data name="SettingPage_AppSettings" xml:space="preserve">
     <value>Cài đặt ứng dụng</value>
@@ -725,7 +725,7 @@
     <value>Có</value>
   </data>
   <data name="SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically" xml:space="preserve">
-    <value>Sau khi xoá, phần mềm sẽ tự động khởi động lại.</value>
+    <value>Sau khi xoá, ứng dụng sẽ tự động khởi động lại.</value>
   </data>
   <data name="UpdatePage_NewVersion" xml:space="preserve">
     <value>Phiên bản mới!</value>
@@ -764,7 +764,7 @@
     <value>Kênh trải nghiệm sớm</value>
   </data>
   <data name="UpdatePage_StableChannel" xml:space="preserve">
-    <value>Kênh Chính Thức</value>
+    <value>Kênh chính thức</value>
   </data>
   <data name="UpdatePage_DevChannel" xml:space="preserve">
     <value>Kênh dành cho nhà phát triển</value>
@@ -1081,7 +1081,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <comment>Account with uid {0} already exists, replace it or save new?</comment>
   </data>
   <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
-    <value>Tài khoản với uid {0} đã tồn tại, thay thế hay lưu mới?</value>
+    <value>Tài khoản với UID {0} đã tồn tại, thay thế hay lưu mới?</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
     <value>Sửa khay hệ thống</value>
@@ -1090,55 +1090,55 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Sửa lỗi không thể tạo biểu tượng khay hệ thống, phương pháp này sẽ khởi động lại explorer.</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
-    <value>Account Records</value>
+    <value>Bản ghi tài khoản</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData" xml:space="preserve">
-    <value>Delete this Month's Data</value>
+    <value>Xóa dữ liệu tháng này</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Steps to get URL:</value>
+    <value>Các bước để lấy URL:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Open menu in game.
-- Click Feedback (Genshin) or Bug Report (Star Rail).
-- Copy the URL of web and paste into the box below.</value>
+    <value>- Mở menu trong trò chơi.
+- Nhấn Phản hồi (Genshin) hoặc Báo lỗi (Star Rail).
+- Sao chép URL của trang web và dán vào ô bên dưới.</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
-    <value>Note: Records language follows language setting in game and cannot be changed.</value>
+    <value>Lưu ý: Ngôn ngữ bản ghi sẽ tuân theo cài đặt ngôn ngữ trong trò chơi và không thể thay đổi.</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
-    <value>Would you like to delete records of {0} in {1}? This operation cannot be canceled.</value>
+    <value>Bạn có muốn xóa bản ghi của {0} vào {1} không? Thao tác này không thể hủy bỏ.</value>
     <comment>Would you like to delete records of Stellar Jade in 2023-08? This operation cannot be canceled.</comment>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
-    <value>Deleted {0} records of {1} in {2}.</value>
+    <value>Đã xoá {0} bản ghi của {1} vào {2}.</value>
     <comment>Deleted 123 records of Stellar Jade in 2023-08.</comment>
   </data>
   <data name="LauncherPage_UninstallGame" xml:space="preserve">
-    <value>Uninstall Game</value>
+    <value>Gỡ cài đặt trò chơi</value>
   </data>
   <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
-    <value>Clean Registry</value>
+    <value>Dọn Registry</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
-    <value>Delete Temporary Files</value>
+    <value>Xóa tập tin tạm thời</value>
   </data>
   <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
-    <value>Delete Game Assets</value>
+    <value>Xóa nội dung trò chơi</value>
   </data>
   <data name="UninstallGameDialog_StepTip" xml:space="preserve">
-    <value>Choose the steps of uninstallation. The uninstallation takes a long time, so please be patient.</value>
+    <value>Chọn các bước gỡ cài đặt. Quá trình gỡ cài đặt sẽ mất nhiều thời gian, vì vậy hãy kiên nhẫn.</value>
   </data>
   <data name="UninstallGameDialog_OfficalLauncherTip" xml:space="preserve">
-    <value>The official launcher needs to be uninstalled by yourself.</value>
+    <value>Trình khởi chạy chính thức cần được gỡ cài đặt thủ công.</value>
   </data>
   <data name="LauncherPage_UninstallationError" xml:space="preserve">
-    <value>Uninstallation Error</value>
+    <value>Gỡ cài đặt thất bại</value>
   </data>
   <data name="LauncherPage_UninstallationCompleted" xml:space="preserve">
-    <value>Uninstallation Completed</value>
+    <value>Gỡ cài đặt hoàn tất</value>
   </data>
   <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
-    <value>Please check the related logs.</value>
+    <value>Vui lòng kiểm tra các nhật ký liên quan.</value>
   </data>
 </root>
