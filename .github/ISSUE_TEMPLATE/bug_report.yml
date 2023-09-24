@@ -54,6 +54,8 @@ body:
       label: Log
       description: Please copy and paste any relevant log output.
       render: shell
+    validations:
+      required: true
 
   - type: textarea
     id: context
