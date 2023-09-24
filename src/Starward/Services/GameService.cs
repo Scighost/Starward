@@ -391,7 +391,7 @@ internal class GameService
                         string t = Path.Join(dest, Path.GetFileName(file));
                         if (!File.Exists(t))
                         {
-                            File.Move(file, t, true);
+                            File.Copy(file, t, true);
                             count++;
                         }
                     }
