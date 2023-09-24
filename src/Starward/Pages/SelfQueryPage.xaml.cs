@@ -519,13 +519,13 @@ public sealed partial class SelfQueryPage : Page
                 if (gameBiz.ToGame() is GameBiz.GenshinImpact)
                 {
                     count = dapper.Execute("""
-                        DELETE FROM GenshinQueryItem WHERE WHERE Uid=@uid Type=@Type AND DateTime LIKE @time;
+                        DELETE FROM GenshinQueryItem WHERE Uid=@uid AND Type=@Type AND DateTime LIKE @time;
                         """, new { uid, SelectTypeStats.Type, time = month + "%" });
                 }
                 if (gameBiz.ToGame() is GameBiz.StarRail)
                 {
                     count = dapper.Execute("""
-                        DELETE FROM StarRailQueryItem WHERE WHERE Uid=@uid Type=@Type AND Time LIKE @time;
+                        DELETE FROM StarRailQueryItem WHERE Uid=@uid AND Type=@Type AND Time LIKE @time;
                         """, new { uid, SelectTypeStats.Type, time = month + "%" });
                 }
                 NotificationBehavior.Instance.Success(string.Format(Lang.SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful, count, type, month));

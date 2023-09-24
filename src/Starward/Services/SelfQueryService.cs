@@ -223,6 +223,7 @@ internal class SelfQueryService
             var temp_list = await _selfQueryClient.GetStarRailQueryItemsAsync(type, i, 100, cancellationToken);
             if (temp_list.Count < 100)
             {
+                temp_list = temp_list.Where(x => x.Time > lastTime).ToList();
                 list.AddRange(temp_list);
                 break;
             }
