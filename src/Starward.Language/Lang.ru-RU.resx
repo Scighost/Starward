@@ -1090,7 +1090,7 @@
     <value>Исправлена проблема, из-за которой не удалось создать иконку в системном трее, этот метод перезапустит проводник.</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
-    <value>Расходов Аккаунта</value>
+    <value>История расходов в аккаунте</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData" xml:space="preserve">
     <value>Удалить данные за этот месяц</value>
