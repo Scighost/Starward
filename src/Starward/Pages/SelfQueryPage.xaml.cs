@@ -370,6 +370,7 @@ public sealed partial class SelfQueryPage : Page
             }
             var progress = new Progress<int>(i => stats.Page = i);
             (stats.Add, stats.Sub) = await _selfQueryService.UpdateGenshinQueryItemsAsync(type, progress, tokenSource.Token);
+            TypeStatsChanged((int)type);
         }
         catch (TaskCanceledException ex)
         {
@@ -398,6 +399,7 @@ public sealed partial class SelfQueryPage : Page
             }
             var progress = new Progress<int>(i => stats.Page = i);
             (stats.Add, stats.Sub) = await _selfQueryService.UpdateStarRailQueryItemsAsync(type, progress, tokenSource.Token);
+            TypeStatsChanged((int)type);
         }
         catch (TaskCanceledException ex)
         {
