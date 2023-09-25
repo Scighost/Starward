@@ -131,6 +131,7 @@ public sealed partial class LauncherPage : Page
 
             if (gameBiz is GameBiz.hk4e_cloud)
             {
+                Button_UninstallGame.IsEnabled = false;
                 Grid_BannerAndPost.HorizontalAlignment = HorizontalAlignment.Right;
             }
 #pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 

@@ -590,7 +590,8 @@
                     <StackPanel Margin="-24,12,0,0"
                                 Orientation="Horizontal"
                                 Spacing="16">
-                        <Button Height="36"
+                        <Button Name="Button_RepairGame"
+                                Height="36"
                                 Padding="24,0,16,0"
                                 BorderThickness="0"
                                 Command="{x:Bind RepairGameCommand}"
@@ -602,7 +603,8 @@
                                 <TextBlock Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
                             </StackPanel>
                         </Button>
-                        <Button Height="36"
+                        <Button Name="Button_UninstallGame"
+                                Height="36"
                                 Padding="16,0,16,0"
                                 BorderThickness="0"
                                 Command="{x:Bind UninstallGameCommand}"
