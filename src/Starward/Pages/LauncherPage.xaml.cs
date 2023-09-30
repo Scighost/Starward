@@ -1174,18 +1174,8 @@ public sealed partial class LauncherPage : Page
             if (await dialog.ShowAsync() is ContentDialogResult.Primary)
             {
                 lang = content.LanguageType;
-                var exe = Process.GetCurrentProcess().MainModule?.FileName;
-                if (!File.Exists(exe))
-                {
-                    exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
-                }
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = exe,
-                    UseShellExecute = true,
-                    Arguments = $"""{(content.EnableRepairMode ? "repair" : "download")} --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
-                    Verb = "runas",
-                });
+                string argu = $"""{(content.EnableRepairMode ? "repair" : "download")} --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """;
+                ProcessHelper.StartAsAdmin(null, argu);
             }
         }
         catch (Exception ex)
@@ -1223,18 +1213,8 @@ public sealed partial class LauncherPage : Page
                 if (await dialog.ShowAsync() is ContentDialogResult.Primary)
                 {
                     var lang = await _downloadGameService.GetVoiceLanguageAsync(gameBiz, InstallPath);
-                    var exe = Process.GetCurrentProcess().MainModule?.FileName;
-                    if (!File.Exists(exe))
-                    {
-                        exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
-                    }
-                    Process.Start(new ProcessStartInfo
-                    {
-                        FileName = exe,
-                        UseShellExecute = true,
-                        Arguments = $"""download --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
-                        Verb = "runas",
-                    });
+                    string argu = $"""download --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """;
+                    ProcessHelper.StartAsAdmin(null, argu);
                 }
             }
             else
@@ -1257,18 +1237,8 @@ public sealed partial class LauncherPage : Page
         try
         {
             var lang = await _downloadGameService.GetVoiceLanguageAsync(gameBiz, InstallPath);
-            var exe = Process.GetCurrentProcess().MainModule?.FileName;
-            if (!File.Exists(exe))
-            {
-                exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
-            }
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = exe,
-                UseShellExecute = true,
-                Arguments = $"""repair --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
-                Verb = "runas",
-            });
+            string argu = $"""repair --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """;
+            ProcessHelper.StartAsAdmin(null, argu);
         }
         catch (Exception ex)
         {

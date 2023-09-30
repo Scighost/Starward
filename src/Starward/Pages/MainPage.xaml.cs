@@ -733,6 +733,7 @@ public sealed partial class MainPage : Page
         if (CurrentGameBiz.ToGame() is GameBiz.None)
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Collapsed;
+            NavigationViewItem_GameAnnounce.Visibility = Visibility.Collapsed;
             NavigationViewItem_GameSetting.Visibility = Visibility.Collapsed;
             NavigationViewItem_Screenshot.Visibility = Visibility.Collapsed;
             NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
@@ -742,6 +743,7 @@ public sealed partial class MainPage : Page
         else if (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd)
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Visible;
+            NavigationViewItem_GameAnnounce.Visibility = Visibility.Visible;
             NavigationViewItem_GameSetting.Visibility = Visibility.Visible;
             NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
             NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
@@ -751,6 +753,7 @@ public sealed partial class MainPage : Page
         else
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Visible;
+            NavigationViewItem_GameAnnounce.Visibility = Visibility.Visible;
             NavigationViewItem_GameSetting.Visibility = Visibility.Visible;
             NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
             NavigationViewItem_GachaLog.Visibility = Visibility.Visible;
