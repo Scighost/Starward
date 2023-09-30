@@ -58,7 +58,9 @@ internal partial class DownloadGameService
     public async Task<Version?> GetLocalGameVersionAsync(GameBiz biz)
     {
         var installPath = _gameService.GetGameInstallPath(biz);
-        return await GetLocalGameVersionAsync(installPath);
+        var version = await GetLocalGameVersionAsync(installPath);
+        _logger.LogInformation("Local game version is {version} (gameBiz: {biz})", version, biz);
+        return version;
     }
 
 
@@ -78,6 +80,10 @@ internal partial class DownloadGameService
             {
                 return version;
             }
+        }
+        else
+        {
+            _logger.LogWarning("config.ini not found: {path}", config);
         }
         return null;
     }

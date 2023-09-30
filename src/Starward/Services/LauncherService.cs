@@ -142,6 +142,7 @@ public class LauncherService
         }
         catch (Exception ex) when (ex is TaskCanceledException or HttpRequestException or SocketException)
         {
+            _logger.LogError(ex, "Get background image");
             return GetFallbackBackgroundImage(gameBiz);
         }
     }
