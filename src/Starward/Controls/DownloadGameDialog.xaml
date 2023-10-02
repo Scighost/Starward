@@ -9,22 +9,30 @@
              Loaded="UserControl_Loaded"
              mc:Ignorable="d">
 
-    <StackPanel Spacing="8">
-        <StackPanel Orientation="Horizontal" Spacing="8">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    Spacing="8"
+                    Visibility="{x:Bind ShowAllInfo}">
             <!--  资源包大小  -->
             <TextBlock MinWidth="120"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.DownloadGameDialog_PackageSize}" />
             <TextBlock Text="{x:Bind PackageSizeText}" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="8">
+        <StackPanel Margin="0,8,0,0"
+                    Orientation="Horizontal"
+                    Spacing="8"
+                    Visibility="{x:Bind ShowAllInfo}">
             <!--  已下载  -->
             <TextBlock MinWidth="120"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.DownloadGameDialog_Downloaded}" />
             <TextBlock Text="{x:Bind DownloadSizeText}" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="8">
+        <StackPanel Margin="0,8,0,0"
+                    Orientation="Horizontal"
+                    Spacing="8"
+                    Visibility="{x:Bind ShowAllInfo}">
             <!--  解压占用空间  -->
             <TextBlock MinWidth="120"
                        VerticalAlignment="Center"
@@ -45,7 +53,10 @@
                 </Button.Flyout>
             </Button>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="8">
+        <StackPanel Margin="0,8,0,0"
+                    Orientation="Horizontal"
+                    Spacing="8"
+                    Visibility="{x:Bind ShowAllInfo}">
             <!--  剩余空间  -->
             <TextBlock MinWidth="120"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -56,6 +67,7 @@
                        Text="{x:Bind FreeSpaceCautionText}" />
         </StackPanel>
         <StackPanel Name="StackPanel_Voice"
+                    Margin="0,8,0,0"
                     Orientation="Horizontal"
                     Spacing="8"
                     Visibility="Collapsed">
@@ -95,6 +107,7 @@
             </Grid>
         </StackPanel>
         <StackPanel Name="StackPanel_RepairMode"
+                    Margin="0,8,0,0"
                     Orientation="Horizontal"
                     Spacing="8"
                     Visibility="Collapsed">
@@ -123,9 +136,11 @@
             </Button>
         </StackPanel>
         <!--  此功能处于测试阶段，如出现游戏文件损坏请使用官方启动器修复。  -->
-        <TextBlock Foreground="{ThemeResource SystemFillColorCautionBrush}"
+        <TextBlock Margin="0,8,0,0"
+                   Foreground="{ThemeResource SystemFillColorCautionBrush}"
                    Text="{x:Bind lang:Lang.DownloadGameDialog_TestWarning}"
-                   TextWrapping="Wrap" />
+                   TextWrapping="Wrap"
+                   Visibility="{x:Bind ShowAllInfo}" />
     </StackPanel>
 
 </UserControl>

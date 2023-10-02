@@ -28,6 +28,10 @@ public sealed partial class DownloadGameDialog : UserControl
     public bool IsPreDownload { get; set; }
 
 
+    public bool ShowAllInfo { get; set; } = true;
+
+    public bool RepairGame { get; set; }
+
 
     public DownloadGameDialog()
     {
@@ -137,11 +141,11 @@ public sealed partial class DownloadGameDialog : UserControl
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-        if (GameBiz.ToGame() is GameBiz.GenshinImpact && !IsPreDownload)
+        if (GameBiz.ToGame() is GameBiz.GenshinImpact && !IsPreDownload && ShowAllInfo)
         {
             StackPanel_RepairMode.Visibility = Visibility.Visible;
         }
-        if (GameResource.Voices.Any())
+        if (RepairGame || GameResource.Voices.Any())
         {
             StackPanel_Voice.Visibility = Visibility.Visible;
         }
@@ -155,6 +159,10 @@ public sealed partial class DownloadGameDialog : UserControl
     {
         try
         {
+            if (GameResource is null)
+            {
+                return;
+            }
             long package = 0, decompress = 0, download = 0;
             package += GameResource.Game.PackageSize;
             decompress += GameResource.Game.DecompressedSize;
