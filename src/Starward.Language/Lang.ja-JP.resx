@@ -175,7 +175,7 @@
     <value>ゲームを選択</value>
   </data>
   <data name="SelectDirectoryPage_RecommendFolder" xml:space="preserve">
-    <value>アプリのデータはデフォルトで以下のフォルダーに保存されます:</value>
+    <value>アプリのデータは、既定で以下のフォルダーに保存されます:</value>
   </data>
   <data name="SelectDirectoryPage_WouldYouLikeToChooseThisFolder" xml:space="preserve">
     <value>このフォルダーを選択しますか?</value>
@@ -501,7 +501,7 @@
     <value>解像度は0より大きくなければなりません</value>
   </data>
   <data name="GameSettingPage_StartArgumentDesc" xml:space="preserve">
-    <value>開始のパラメータについては、{Unity Standalone Player Command Line Arguments}を参照してください。</value>
+    <value>ゲーム開始時の引数については、{Unityスタンドアロンプレイヤーのコマンドライン引数}を参照してください。</value>
   </data>
   <data name="GameSettingPage_On" xml:space="preserve">
     <value>オン</value>
@@ -770,7 +770,7 @@
     <value>Devチャンネル</value>
   </data>
   <data name="SettingPage_ThemeColorDesc" xml:space="preserve">
-    <value>背景画像に基づいてテーマカラーを自動的に計算し、デフォルトのシステムカラーとして使用します。</value>
+    <value>背景画像に基づいてテーマカラーを自動的に計算し、既定のシステムカラーとして使用します。</value>
   </data>
   <data name="UpdatePage_ReleasePage" xml:space="preserve">
     <value>リリースページ</value>
@@ -799,7 +799,7 @@
     <value>Hyperionツールボックス</value>
   </data>
   <data name="HoYoLABToolbox" xml:space="preserve">
-    <value>HoYoLABツールボックス</value>
+    <value>HoYoLAB ツールボックス</value>
   </data>
   <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
     <value>ログイン</value>
@@ -1083,61 +1083,61 @@
     <value>UID {0} のアカウントは既に存在します。置き換えまたはアカウントを新規で保存しますか?</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
-    <value>Repair System Tray</value>
+    <value>システムトレイを修復する</value>
   </data>
   <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
-    <value>Fix the issue that cannot create system tray icon, this method will restart explorer.</value>
+    <value>システムトレイアイコンが表示できない問題を修正します。(エクスプローラーを再起動します)</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
-    <value>Account Records</value>
+    <value>アカウントの記録</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData" xml:space="preserve">
-    <value>Delete this Month's Data</value>
+    <value>今月のデータを削除する</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Steps to get URL:</value>
+    <value>URLを取得する手順:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Open menu in game.
-- Click Feedback (Genshin) or Bug Report (Star Rail).
-- Copy the URL of web and paste into the box below.</value>
+    <value>- ゲーム内のメニューを開きます。
+- フィードバック(原神)またはバグの報告(崩壊:スターレイル)をクリックします。
+- WebのURLをコピーし、下のボックスに貼り付けます。</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
-    <value>Note: Records language follows language setting in game and cannot be changed.</value>
+    <value>注意: 記録の表示言語はゲーム内の言語設定に従っている為、変更する事はできません。</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
-    <value>Would you like to delete records of {0} in {1}? This operation cannot be canceled.</value>
+    <value>{1} 内の {0} の記録を削除しますか? この操作は取り消す事はできません。</value>
     <comment>Would you like to delete records of Stellar Jade in 2023-08? This operation cannot be canceled.</comment>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
-    <value>Deleted {0} records of {1} in {2}.</value>
+    <value>{2} 内の {1} の {0} の記録を削除しました。</value>
     <comment>Deleted 123 records of Stellar Jade in 2023-08.</comment>
   </data>
   <data name="LauncherPage_UninstallGame" xml:space="preserve">
-    <value>Uninstall Game</value>
+    <value>ゲームをアンインストール</value>
   </data>
   <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
-    <value>Clean Registry</value>
+    <value>レジストリを削除する</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
-    <value>Delete Temporary Files</value>
+    <value>一時ファイルを削除する</value>
   </data>
   <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
-    <value>Delete Game Assets</value>
+    <value>ゲームアセットを削除する</value>
   </data>
   <data name="UninstallGameDialog_StepTip" xml:space="preserve">
-    <value>Choose the steps of uninstallation. The uninstallation takes a long time, so please be patient.</value>
+    <value>アンインストールの手順を選択してください。アンインストールの処理は時間がかかります。処理が終わるまで暫くお待ちください。</value>
   </data>
   <data name="UninstallGameDialog_OfficalLauncherTip" xml:space="preserve">
-    <value>The official launcher needs to be uninstalled by yourself.</value>
+    <value>公式のランチャーは自分でアンインストールを行う必要があります。</value>
   </data>
   <data name="LauncherPage_UninstallationError" xml:space="preserve">
-    <value>Uninstallation Error</value>
+    <value>アンインストールエラー</value>
   </data>
   <data name="LauncherPage_UninstallationCompleted" xml:space="preserve">
-    <value>Uninstallation Completed</value>
+    <value>アンインストールが完了しました</value>
   </data>
   <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
-    <value>Please check the related logs.</value>
+    <value>関連ログを確認してください。</value>
   </data>
 </root>
