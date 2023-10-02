@@ -1262,6 +1262,30 @@ public sealed partial class LauncherPage : Page
             {
                 exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
             }
+            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            {
+                var control = new DownloadGameDialog
+                {
+                    GameBiz = gameBiz,
+                    LanguageType = lang,
+                    ShowAllInfo = false,
+                    RepairGame = true,
+                };
+                var dialog = new ContentDialog
+                {
+                    Title = Lang.LauncherPage_RepairGame,
+                    Content = control,
+                    PrimaryButtonText = Lang.Common_Confirm,
+                    SecondaryButtonText = Lang.Common_Cancel,
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = this.XamlRoot,
+                };
+                if (await dialog.ShowAsync() is not ContentDialogResult.Primary)
+                {
+                    return;
+                }
+                lang = control.LanguageType;
+            }
             Process.Start(new ProcessStartInfo
             {
                 FileName = exe,
