@@ -1115,30 +1115,30 @@
     <comment>Deleted 123 records of Stellar Jade in 2023-08.</comment>
   </data>
   <data name="LauncherPage_UninstallGame" xml:space="preserve">
-    <value>Uninstall Game</value>
+    <value>게임제거</value>
   </data>
   <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
-    <value>Clean Registry</value>
+    <value>레지스트리 정리</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
-    <value>Delete Temporary Files</value>
+    <value>임시파일 제거</value>
   </data>
   <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
-    <value>Delete Game Assets</value>
+    <value>게임 자원 제거</value>
   </data>
   <data name="UninstallGameDialog_StepTip" xml:space="preserve">
-    <value>Choose the steps of uninstallation. The uninstallation takes a long time, so please be patient.</value>
+    <value>게임 제거 방법을 선택하세요. 제거 과정이 오래 걸릴 수 있습니다.</value>
   </data>
   <data name="UninstallGameDialog_OfficalLauncherTip" xml:space="preserve">
-    <value>The official launcher needs to be uninstalled by yourself.</value>
+    <value>공식 실행기는 수동으로 제거해야 합니다.</value>
   </data>
   <data name="LauncherPage_UninstallationError" xml:space="preserve">
-    <value>Uninstallation Error</value>
+    <value>제거 오류</value>
   </data>
   <data name="LauncherPage_UninstallationCompleted" xml:space="preserve">
-    <value>Uninstallation Completed</value>
+    <value>제거 완료</value>
   </data>
   <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
-    <value>Please check the related logs.</value>
+    <value>로그를 확인하세요.</value>
   </data>
 </root>
