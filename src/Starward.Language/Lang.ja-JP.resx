@@ -501,7 +501,7 @@
     <value>解像度は0より大きくなければなりません</value>
   </data>
   <data name="GameSettingPage_StartArgumentDesc" xml:space="preserve">
-    <value>ゲーム開始時の引数については、{Unityスタンドアロンプレイヤーのコマンドライン引数}を参照してください。</value>
+    <value>ゲーム開始時の引数については、{Unity Standalone Player Command Line Arguments} を参照してください。</value>
   </data>
   <data name="GameSettingPage_On" xml:space="preserve">
     <value>オン</value>
