@@ -9,6 +9,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using Vanara.PInvoke;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -35,7 +36,15 @@ public partial class App : Application
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward", "crash");
+        string folder;
+        if (AppConfig.MsixPackaged)
+        {
+            folder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "crash");
+        }
+        else
+        {
+            folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward", "crash");
+        }
         Directory.CreateDirectory(folder);
         var file = Path.Combine(folder, $"crash_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
         File.WriteAllText(file, e.Exception.ToString());
