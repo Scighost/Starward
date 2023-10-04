@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.Gacha;
+using Starward.Helpers;
 using Starward.Models;
 using System;
 using System.Collections.Generic;
@@ -210,14 +211,17 @@ internal class GameService
             12 or 22 or (>= 32 and <= 36) => GameRegistry.MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {account.GameBiz}"),
         };
-        Registry.SetValue(key, keyName, account.Value);
         if (account.GameBiz.ToGame() is GameBiz.StarRail)
         {
-            Registry.SetValue(key, GameRegistry.App_LastUserID_h2841727341, account.Uid);
+            RegistryHelper.SetValue((key, keyName, account.Value, RegistryValueKind.Binary), (key, GameRegistry.App_LastUserID_h2841727341, account.Uid, RegistryValueKind.DWord));
         }
-        if (account.GameBiz.ToGame() is GameBiz.Honkai3rd)
+        else if (account.GameBiz.ToGame() is GameBiz.Honkai3rd)
         {
-            Registry.SetValue(key, GameRegistry.GENERAL_DATA_V2_LastLoginUserId_h47158221, account.Uid);
+            RegistryHelper.SetValue((key, keyName, account.Value, RegistryValueKind.Binary), (key, GameRegistry.GENERAL_DATA_V2_LastLoginUserId_h47158221, account.Uid, RegistryValueKind.DWord));
+        }
+        else
+        {
+            RegistryHelper.SetValue((key, keyName, account.Value, RegistryValueKind.Binary));
         }
         _logger.LogInformation("Change account {name} ({biz}) successfully!", account.Name, account.GameBiz);
     }
@@ -343,7 +347,7 @@ internal class GameService
             {
                 node["FPS"] = fps;
                 bytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(node));
-                Registry.SetValue(key, GameRegistry.GraphicsSettings_Model_h2986158309, bytes);
+                RegistryHelper.SetValue((key, GameRegistry.GraphicsSettings_Model_h2986158309, bytes, RegistryValueKind.Binary));
             }
         }
     }
@@ -406,12 +410,21 @@ internal class GameService
             if (steps.HasFlag(UninstallStep.CleanRegistry))
             {
                 _logger.LogInformation("Start to clean registry.");
-                string key = gameBiz.GetGameRegistryKey().Replace(@"HKEY_CURRENT_USER\", "");
-                Registry.CurrentUser.DeleteSubKeyTree(key, false);
-                var parent = Registry.CurrentUser.OpenSubKey(Path.GetDirectoryName(key)!);
-                if (parent != null && parent.SubKeyCount == 0 && parent.ValueCount == 0)
+                if (AppConfig.MsixPackaged)
                 {
-                    Registry.CurrentUser.DeleteSubKey(Path.GetDirectoryName(key)!, false);
+                    string key = gameBiz.GetGameRegistryKey().Replace(@"HKEY_CURRENT_USER", "HKCU:");
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "PowerShell",
+                        CreateNoWindow = true,
+                        WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                        Arguments = $"Remove-Item -Path '{key}' -Recurse -Force;",
+                    })?.WaitForExit();
+                }
+                else
+                {
+                    string key = gameBiz.GetGameRegistryKey().Replace(@"HKEY_CURRENT_USER\", "");
+                    Registry.CurrentUser.DeleteSubKeyTree(key, false);
                 }
                 _logger.LogInformation("Finished clean registry.");
             }
@@ -423,9 +436,9 @@ internal class GameService
                 string temp = Path.Join(Path.GetTempPath(), relativePath);
                 string local = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), relativePath);
                 string locallow = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", relativePath);
-                DeleteFolderAndParent(temp);
-                DeleteFolderAndParent(local);
-                DeleteFolderAndParent(locallow);
+                DeleteFolder(temp);
+                DeleteFolder(local);
+                DeleteFolder(locallow);
                 _logger.LogInformation("Finishing deleting temp files.");
             }
 
@@ -452,18 +465,23 @@ internal class GameService
 
 
 
-    void DeleteFolderAndParent(string folder)
+    void DeleteFolder(string folder)
     {
-        if (Directory.Exists(folder))
+        if (AppConfig.MsixPackaged)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "PowerShell",
+                CreateNoWindow = true,
+                WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                Arguments = $"Remove-Item -Path '{folder}' -Recurse -Force;",
+            })?.WaitForExit();
+        }
+        else
         {
             Directory.Delete(folder, true);
-            string? parent = Path.GetDirectoryName(folder);
-            if (Directory.Exists(parent) && Directory.GetDirectories(parent).Length == 0 && Directory.GetFiles(parent).Length == 0)
-            {
-                Directory.Delete(parent, true);
-            }
-            _logger.LogInformation("Deleted folder {folder}", folder);
         }
+        _logger.LogInformation("Deleted folder {folder}", folder);
     }
 
 

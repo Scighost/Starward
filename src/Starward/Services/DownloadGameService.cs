@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.Launcher;
+using Starward.Helpers;
 using Starward.Models;
 using Starward.Services.Cache;
 using Starward.SevenZip;
@@ -262,7 +263,7 @@ internal partial class DownloadGameService
                     }
                     if (id != null)
                     {
-                        Registry.SetValue(key, GameRegistry.GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes($"{{\"deviceVoiceLanguageType\":{id}}}\0"));
+                        RegistryHelper.SetValue((key, GameRegistry.GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes($"{{\"deviceVoiceLanguageType\":{id}}}\0"), RegistryValueKind.Binary));
                     }
                 }
             }

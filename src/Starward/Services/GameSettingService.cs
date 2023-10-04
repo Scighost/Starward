@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Starward.Core;
+using Starward.Helpers;
 using Starward.Models.GameSetting;
 using System.Text;
 using System.Text.Json;
@@ -88,24 +89,24 @@ internal class GameSettingService
         if (biz.ToGame() is GameBiz.Honkai3rd)
         {
             var str = JsonSerializer.Serialize(model) + "\0";
-            Registry.SetValue(keyPath, GENERAL_DATA_V2_ScreenSettingData_h1916288658, Encoding.UTF8.GetBytes(str));
-            Registry.SetValue(keyPath, Screenmanager_Is_Fullscreen_mode_h3981298716, model.IsFullScreen ? 1 : 0);
-            Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
-            Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
+            RegistryHelper.SetValue((keyPath, GENERAL_DATA_V2_ScreenSettingData_h1916288658, Encoding.UTF8.GetBytes(str), RegistryValueKind.Binary),
+                                    (keyPath, Screenmanager_Is_Fullscreen_mode_h3981298716, model.IsFullScreen ? 1 : 0, RegistryValueKind.DWord),
+                                    (keyPath, Screenmanager_Resolution_Width_h182942802, model.Width, RegistryValueKind.DWord),
+                                    (keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height, RegistryValueKind.DWord));
         }
         if (biz.ToGame() is GameBiz.StarRail)
         {
             var str = JsonSerializer.Serialize(model) + "\0";
-            Registry.SetValue(keyPath, GraphicsSettings_PCResolution_h431323223, Encoding.UTF8.GetBytes(str));
-            Registry.SetValue(keyPath, Screenmanager_Fullscreen_mode_h3630240806, model.IsFullScreen ? 1 : 3);
-            Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
-            Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
+            RegistryHelper.SetValue((keyPath, GraphicsSettings_PCResolution_h431323223, Encoding.UTF8.GetBytes(str), RegistryValueKind.Binary),
+                                    (keyPath, Screenmanager_Fullscreen_mode_h3630240806, model.IsFullScreen ? 1 : 3, RegistryValueKind.DWord),
+                                    (keyPath, Screenmanager_Resolution_Width_h182942802, model.Width, RegistryValueKind.DWord),
+                                    (keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height, RegistryValueKind.DWord));
         }
         if (biz.ToGame() is GameBiz.GenshinImpact)
         {
-            Registry.SetValue(keyPath, Screenmanager_Is_Fullscreen_mode_h3981298716, model.IsFullScreen ? 1 : 0);
-            Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
-            Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
+            RegistryHelper.SetValue((keyPath, Screenmanager_Is_Fullscreen_mode_h3981298716, model.IsFullScreen ? 1 : 0, RegistryValueKind.DWord),
+                                    (keyPath, Screenmanager_Resolution_Width_h182942802, model.Width, RegistryValueKind.DWord),
+                                    (keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height, RegistryValueKind.DWord));
         }
     }
 
@@ -166,11 +167,11 @@ internal class GameSettingService
             if (node != null)
             {
                 var str = node.ToJsonString() + "\0";
-                Registry.SetValue(keyPath, GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes(str));
+                RegistryHelper.SetValue((keyPath, GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes(str), RegistryValueKind.Binary));
             }
             else
             {
-                Registry.SetValue(keyPath, GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes($"{{\"deviceVoiceLanguageType\": {lang}}}\0"));
+                RegistryHelper.SetValue((keyPath, GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes($"{{\"deviceVoiceLanguageType\": {lang}}}\0"), RegistryValueKind.Binary));
             }
         }
         if (biz.ToGame() is GameBiz.StarRail)
@@ -185,7 +186,7 @@ internal class GameSettingService
             };
             if (!string.IsNullOrWhiteSpace(str))
             {
-                Registry.SetValue(keyPath, LanguageSettings_LocalAudioLanguage_h882585060, Encoding.UTF8.GetBytes(str));
+                RegistryHelper.SetValue((keyPath, LanguageSettings_LocalAudioLanguage_h882585060, Encoding.UTF8.GetBytes(str), RegistryValueKind.Binary));
             }
         }
     }
@@ -211,7 +212,7 @@ internal class GameSettingService
         if (biz.ToGame() is GameBiz.StarRail)
         {
             var keyPath = biz.GetGameRegistryKey();
-            Registry.SetValue(keyPath, GraphicsSettings_GraphicsQuality_h523255858, value);
+            RegistryHelper.SetValue((keyPath, GraphicsSettings_GraphicsQuality_h523255858, value, RegistryValueKind.DWord));
         }
     }
 
@@ -241,7 +242,7 @@ internal class GameSettingService
         {
             var keyPath = biz.GetGameRegistryKey();
             var str = JsonSerializer.Serialize(model) + "\0";
-            Registry.SetValue(keyPath, GraphicsSettings_Model_h2986158309, Encoding.UTF8.GetBytes(str));
+            RegistryHelper.SetValue((keyPath, GraphicsSettings_Model_h2986158309, Encoding.UTF8.GetBytes(str), RegistryValueKind.Binary));
         }
     }
 
