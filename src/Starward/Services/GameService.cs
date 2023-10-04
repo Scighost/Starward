@@ -439,12 +439,22 @@ internal class GameService
                 DeleteFolder(temp);
                 DeleteFolder(local);
                 DeleteFolder(locallow);
-                _logger.LogInformation("Finishing deleting temp files.");
+                _logger.LogInformation("Finished deleting temp files.");
             }
 
             if (steps.HasFlag(UninstallStep.DeleteGameAssets) && Directory.Exists(loc))
             {
                 _logger.LogInformation("Start to delete game assets: {loc}", loc);
+                if (new DirectoryInfo(loc).FullName == new DirectoryInfo(loc).Root.FullName)
+                {
+                    _logger.LogWarning("Game assets' folder is the root of drive.");
+                    return -1;
+                }
+                if (Directory.GetDirectories(loc).Length > 3)
+                {
+                    _logger.LogWarning("Game assets' folder has more than 3 subfolders, it may delete other non-game assets files.");
+                    return -1;
+                }
                 string[] files = Directory.GetFiles(loc, "*", SearchOption.AllDirectories);
                 foreach (string file in files)
                 {
@@ -479,7 +489,10 @@ internal class GameService
         }
         else
         {
-            Directory.Delete(folder, true);
+            if (Directory.Exists(folder))
+            {
+                Directory.Delete(folder, true);
+            }
         }
         _logger.LogInformation("Deleted folder {folder}", folder);
     }
