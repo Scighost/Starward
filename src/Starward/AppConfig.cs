@@ -24,8 +24,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using Windows.ApplicationModel;
-using Windows.Storage;
 
 namespace Starward;
 
@@ -39,8 +37,6 @@ internal static class AppConfig
     private const string REG_KEY_NAME = @"HKEY_CURRENT_USER\Software\Starward";
 #endif
 
-
-    public static bool MsixPackaged { get; private set; }
 
     public static string? AppVersion { get; private set; }
 
@@ -60,19 +56,8 @@ internal static class AppConfig
     private static bool reg;
 
 
-    private static readonly ApplicationDataContainer _container;
-
-
-
     static AppConfig()
     {
-        try
-        {
-            _ = Package.Current.Id;
-            MsixPackaged = true;
-            _container = ApplicationData.Current.LocalSettings;
-        }
-        catch { }
         LoadConfiguration();
     }
 
@@ -144,83 +129,59 @@ internal static class AppConfig
 
     private static void LoadConfiguration()
     {
-        if (MsixPackaged)
+        try
         {
-            try
+            AppVersion = typeof(AppConfig).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+            var webviewFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\webview");
+            Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", webviewFolder, EnvironmentVariableTarget.Process);
+
+            string? baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'));
+            string exe = Path.Join(baseDir, "Starward.exe");
+            var builder = new ConfigurationBuilder();
+            if (File.Exists(exe))
             {
-                var v = Package.Current.Id.Version;
-                AppVersion = $"{v.Major}.{v.Minor}.{v.Build}";
-                Configuration = new ConfigurationBuilder().AddCommandLine(Environment.GetCommandLineArgs()).Build();
-                enableConsole = LocalSettingGetValue<bool>(nameof(EnableConsole));
-                windowSizeMode = LocalSettingGetValue<int>(nameof(WindowSizeMode));
-                language = LocalSettingGetValue<string>(nameof(Language));
-                string? dir = LocalSettingGetValue<string>(nameof(UserDataFolder));
+                string ini = Path.Join(baseDir, "config.ini");
+                if (File.Exists(ini))
+                {
+                    builder.AddIniFile(ini);
+                }
+                Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
+                enableConsole = Configuration.GetValue<bool>(nameof(EnableConsole));
+                windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
+                language = Configuration.GetValue<string>(nameof(Language));
+                string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
                 if (!string.IsNullOrWhiteSpace(dir))
                 {
-                    if (Path.IsPathFullyQualified(dir) && Directory.Exists(dir))
+                    string folder;
+                    if (Path.IsPathFullyQualified(dir))
                     {
-                        userDataFolder = dir;
+                        folder = dir;
+                    }
+                    else
+                    {
+                        folder = Path.Join(baseDir, dir);
+                    }
+                    if (Directory.Exists(folder))
+                    {
+                        userDataFolder = Path.GetFullPath(folder);
                     }
                 }
             }
-            catch { }
+            else
+            {
+                reg = true;
+                Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
+                enableConsole = Registry.GetValue(REG_KEY_NAME, nameof(EnableConsole), null) is 1;
+                string? dir = Registry.GetValue(REG_KEY_NAME, nameof(UserDataFolder), null) as string;
+                if (Directory.Exists(dir))
+                {
+                    userDataFolder = Path.GetFullPath(dir);
+                }
+            }
         }
-        else
+        catch
         {
-            try
-            {
-                AppVersion = typeof(AppConfig).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-                var webviewFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\webview");
-                Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", webviewFolder, EnvironmentVariableTarget.Process);
-
-                string? baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'));
-                string exe = Path.Join(baseDir, "Starward.exe");
-                var builder = new ConfigurationBuilder();
-                if (File.Exists(exe))
-                {
-                    string ini = Path.Join(baseDir, "config.ini");
-                    if (File.Exists(ini))
-                    {
-                        builder.AddIniFile(ini);
-                    }
-                    Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
-                    enableConsole = Configuration.GetValue<bool>(nameof(EnableConsole));
-                    windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
-                    language = Configuration.GetValue<string>(nameof(Language));
-                    string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
-                    if (!string.IsNullOrWhiteSpace(dir))
-                    {
-                        string folder;
-                        if (Path.IsPathFullyQualified(dir))
-                        {
-                            folder = dir;
-                        }
-                        else
-                        {
-                            folder = Path.Join(baseDir, dir);
-                        }
-                        if (Directory.Exists(folder))
-                        {
-                            userDataFolder = Path.GetFullPath(folder);
-                        }
-                    }
-                }
-                else
-                {
-                    reg = true;
-                    Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
-                    enableConsole = Registry.GetValue(REG_KEY_NAME, nameof(EnableConsole), null) is 1;
-                    string? dir = Registry.GetValue(REG_KEY_NAME, nameof(UserDataFolder), null) as string;
-                    if (Directory.Exists(dir))
-                    {
-                        userDataFolder = Path.GetFullPath(dir);
-                    }
-                }
-            }
-            catch
-            {
-                Configuration ??= new ConfigurationBuilder().AddCommandLine(Environment.GetCommandLineArgs()).Build();
-            }
+            Configuration ??= new ConfigurationBuilder().AddCommandLine(Environment.GetCommandLineArgs()).Build();
         }
     }
 
@@ -228,95 +189,31 @@ internal static class AppConfig
 
     private static void SaveConfiguration()
     {
-        if (MsixPackaged)
-        {
-            try
-            {
-                LocalSettingSetValue(nameof(EnableConsole), EnableConsole);
-                LocalSettingSetValue(nameof(WindowSizeMode), WindowSizeMode);
-                LocalSettingSetValue(nameof(Language), Language);
-                LocalSettingSetValue(nameof(UserDataFolder), UserDataFolder);
-            }
-            catch { }
-        }
-        else
-        {
-            try
-            {
-                if (reg)
-                {
-                    Registry.SetValue(REG_KEY_NAME, nameof(EnableConsole), EnableConsole ? 1 : 0);
-                    Registry.SetValue(REG_KEY_NAME, nameof(UserDataFolder), UserDataFolder);
-                }
-                else
-                {
-                    string dataFolder = UserDataFolder;
-                    string baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'))!;
-                    if (dataFolder?.StartsWith(baseDir) ?? false)
-                    {
-                        dataFolder = Path.GetRelativePath(baseDir, dataFolder);
-                    }
-                    File.WriteAllText(Path.Combine(baseDir, "config.ini"), $"""
-                         {nameof(EnableConsole)}={EnableConsole}
-                         {nameof(WindowSizeMode)}={WindowSizeMode}
-                         {nameof(Language)}={Language}
-                         {nameof(UserDataFolder)}={dataFolder}
-                         """);
-                }
-            }
-            catch { }
-        }
-    }
-
-
-
-
-
-    public static T? LocalSettingGetValue<T>(string key, T? defaultValue = default)
-    {
         try
         {
-            if (string.IsNullOrWhiteSpace(key))
+            if (reg)
             {
-                return defaultValue;
+                Registry.SetValue(REG_KEY_NAME, nameof(EnableConsole), EnableConsole ? 1 : 0);
+                Registry.SetValue(REG_KEY_NAME, nameof(UserDataFolder), UserDataFolder);
             }
-            var value = _container.Values[key];
-            if (value is T t)
+            else
             {
-                return t;
-            }
-            else if (value is string s)
-            {
-                var converter = TypeDescriptor.GetConverter(typeof(T));
-                if (converter == null)
+                string dataFolder = UserDataFolder;
+                string baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'))!;
+                if (dataFolder?.StartsWith(baseDir) ?? false)
                 {
-                    return defaultValue;
+                    dataFolder = Path.GetRelativePath(baseDir, dataFolder);
                 }
-                return (T?)converter.ConvertFromString(s);
+                File.WriteAllText(Path.Combine(baseDir, "config.ini"), $"""
+                 {nameof(EnableConsole)}={EnableConsole}
+                 {nameof(WindowSizeMode)}={WindowSizeMode}
+                 {nameof(Language)}={Language}
+                 {nameof(UserDataFolder)}={dataFolder}
+                 """);
             }
-            return defaultValue;
-        }
-        catch
-        {
-            return defaultValue;
-        }
-
-    }
-
-
-    public static void LocalSettingSetValue<T>(string key, T? value)
-    {
-        try
-        {
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                return;
-            }
-            _container.Values[key] = value;
         }
         catch { }
     }
-
 
 
 
@@ -341,15 +238,7 @@ internal static class AppConfig
     {
         if (_serviceProvider == null)
         {
-            string logFolder;
-            if (MsixPackaged)
-            {
-                logFolder = Path.Combine(ApplicationData.Current.LocalFolder.Path, "log");
-            }
-            else
-            {
-                logFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log");
-            }
+            var logFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log");
             Directory.CreateDirectory(logFolder);
             LogFile = Path.Combine(logFolder, $"Starward_{DateTime.Now:yyMMdd_HHmmss}.log");
             Log.Logger = new LoggerConfiguration().WriteTo.File(path: LogFile, outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u4}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}")

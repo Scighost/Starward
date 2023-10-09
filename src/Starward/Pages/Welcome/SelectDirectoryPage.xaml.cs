@@ -61,7 +61,7 @@ public sealed partial class SelectDirectoryPage : Page
             var exe = Path.Join(parentFolder, "Starward.exe");
             string? selectFolder = null;
 
-            if (!AppConfig.MsixPackaged && File.Exists(exe))
+            if (File.Exists(exe))
             {
                 var dialog = new ContentDialog
                 {

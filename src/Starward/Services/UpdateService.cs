@@ -36,11 +36,6 @@ internal class UpdateService
 
     public async Task<ReleaseVersion?> CheckUpdateAsync(bool disableIgnore = false)
     {
-        if (AppConfig.MsixPackaged)
-        {
-            _logger.LogInformation("Skip check update for msix packaged.");
-            return null;
-        }
         _logger.LogInformation("Start to check update (Preview: {preview}, Arch: {arch})", AppConfig.EnablePreviewRelease, RuntimeInformation.OSArchitecture);
         NuGetVersion.TryParse(AppConfig.AppVersion, out var currentVersion);
         NuGetVersion.TryParse(AppConfig.IgnoreVersion, out var ignoreVersion);

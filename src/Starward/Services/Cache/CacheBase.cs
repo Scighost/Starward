@@ -573,16 +573,9 @@ public abstract class CacheBase<T>
 
         if (_baseFolder == null)
         {
-            if (AppConfig.MsixPackaged)
-            {
-                _baseFolder = ApplicationData.Current.LocalFolder;
-            }
-            else
-            {
-                var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
-                Directory.CreateDirectory(folder);
-                _baseFolder = await StorageFolder.GetFolderFromPathAsync(folder);
-            }
+            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
+            Directory.CreateDirectory(folder);
+            _baseFolder = await StorageFolder.GetFolderFromPathAsync(folder);
         }
 
         if (string.IsNullOrWhiteSpace(_cacheFolderName))

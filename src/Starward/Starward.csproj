@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
-		<TargetPlatformMinVersion>10.0.19043.0</TargetPlatformMinVersion>
+		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 		<RootNamespace>Starward</RootNamespace>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -12,36 +12,15 @@
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
+		<WindowsPackageType>None</WindowsPackageType>
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<Deterministic>true</Deterministic>
 		<TieredCompilationQuickJitForLoops>true</TieredCompilationQuickJitForLoops>
 		<TieredPGO>true</TieredPGO>
 		<ApplicationIcon>logo.ico</ApplicationIcon>
-		<Configurations>Debug;Release;Debug_Package;Release_Package</Configurations>
 	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'">
-		<WindowsPackageType>None</WindowsPackageType>
-		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)'=='Debug_Package' Or '$(Configuration)'=='Release_Package'">
-		<DebugType>embedded</DebugType>
-		<DefineConstants>$(DefineConstants);MSIX_PACKAGED</DefineConstants>
-		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-		<PackageCertificateThumbprint>54F8A017A9BDFB1646EAD635B02F3F213791C97E</PackageCertificateThumbprint>
-		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-		<AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
-		<GenerateTestArtifacts>True</GenerateTestArtifacts>
-		<AppxBundle>Always</AppxBundle>
-		<AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
-		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-		<GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-	</PropertyGroup>
-
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.0.3" />
@@ -81,14 +60,5 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-
-	
-	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-		<ProjectCapability Include="Msix" />
-	</ItemGroup>
-
-	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
-	</PropertyGroup>
 
 </Project>
