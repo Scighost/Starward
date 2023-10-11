@@ -141,7 +141,7 @@ public sealed partial class DownloadGameDialog : UserControl
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-        if (GameBiz.ToGame() is GameBiz.GenshinImpact && !IsPreDownload && ShowAllInfo)
+        if (GameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail && !IsPreDownload && ShowAllInfo)
         {
             StackPanel_RepairMode.Visibility = Visibility.Visible;
         }

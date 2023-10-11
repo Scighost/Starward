@@ -95,7 +95,16 @@ public class LauncherClient
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);
-        return await CommonSendAsync<LauncherResource>(request, cancellationToken);
+        var resource = await CommonSendAsync<LauncherResource>(request, cancellationToken);
+        if (biz is GameBiz.hkrpg_global)
+        {
+            if (string.IsNullOrWhiteSpace(resource.Game.Latest.DecompressedPath) && !string.IsNullOrWhiteSpace(resource.Game.Latest.Path))
+            {
+                string path = resource.Game.Latest.Path;
+                resource.Game.Latest.DecompressedPath = path[..path.LastIndexOf('/')] + "/unzip";
+            }
+        }
+        return resource;
     }
 
 

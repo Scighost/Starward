@@ -204,7 +204,6 @@ public sealed partial class DownloadGamePage : Page
         }
         if (gameBiz.ToGame() is GameBiz.None
             || gameBiz is GameBiz.hk4e_cloud
-            || (repairMode && (gameBiz.ToGame() is not GameBiz.GenshinImpact and not GameBiz.Honkai3rd))
             || !Directory.Exists(gameFolder))
         {
             instance.UnregisterKey();
