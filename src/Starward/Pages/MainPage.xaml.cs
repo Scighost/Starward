@@ -823,7 +823,7 @@ public sealed partial class MainPage : Page
         string? sourcePage = MainPage_Frame.CurrentSourcePageType?.Name, destPage = page?.Name;
         if (page is null
             || destPage is nameof(BlankPage)
-            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is nameof(GachaLogPage) or nameof(HoyolabToolboxPage)))
+            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is nameof(GachaLogPage) or nameof(HoyolabToolboxPage) or nameof(SelfQueryPage)))
         {
             page = typeof(LauncherPage);
             destPage = nameof(LauncherPage);
