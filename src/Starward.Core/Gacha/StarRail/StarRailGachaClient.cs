@@ -22,19 +22,24 @@ public class StarRailGachaClient : GachaLogClient
 
     protected override string GetGachaUrlPrefix(string gachaUrl, string? lang = null)
     {
-        var match = Regex.Match(gachaUrl, @"(https://webstatic[!-z]+)");
+        var match = Regex.Match(gachaUrl, @"(https://webstatic\.mihoyo\.com[!-z]+)");
         if (match.Success)
         {
             gachaUrl = match.Groups[1].Value;
             var auth = gachaUrl.Substring(gachaUrl.IndexOf('?'));
-            if (gachaUrl.Contains("webstatic-sea"))
+            gachaUrl = API_PREFIX_SR_CN + auth;
+            if (!string.IsNullOrWhiteSpace(lang))
             {
-                gachaUrl = API_PREFIX_SR_OS + auth;
+                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
             }
-            else
-            {
-                gachaUrl = API_PREFIX_SR_CN + auth;
-            }
+            return gachaUrl;
+        }
+        match = Regex.Match(gachaUrl, @"(https://gs\.hoyoverse\.com[!-z]+)");
+        if (match.Success)
+        {
+            gachaUrl = match.Groups[1].Value;
+            var auth = gachaUrl.Substring(gachaUrl.IndexOf('?'));
+            gachaUrl = API_PREFIX_SR_OS + auth;
             if (!string.IsNullOrWhiteSpace(lang))
             {
                 gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");

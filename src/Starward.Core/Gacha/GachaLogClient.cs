@@ -36,7 +36,7 @@ public abstract class GachaLogClient
     protected const string WEB_CACHE_SR_PATH = @"StarRail_Data\webCaches\Cache\Cache_Data\data_2";
 
     protected const string WEB_PREFIX_SR_CN = "https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha-v2/index.html";
-    protected const string WEB_PREFIX_SR_OS = "https://webstatic-sea.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html";
+    protected const string WEB_PREFIX_SR_OS = "https://gs.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html";
 
     protected const string API_PREFIX_SR_CN = "https://api-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
     protected const string API_PREFIX_SR_OS = "https://api-os-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
