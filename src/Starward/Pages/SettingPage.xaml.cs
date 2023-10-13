@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Metadata;
-using Starward.Helpers;
 using Starward.Pages.Welcome;
 using Starward.Services;
 using System;
@@ -61,11 +60,6 @@ public sealed partial class SettingPage : Page
         if (e.Parameter is GameBiz biz)
         {
             gameBiz = biz;
-#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
-            enableCustomBg = AppConfig.GetEnableCustomBg(biz);
-#pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
-            OnPropertyChanged(nameof(EnableCustomBg));
-            CustomBg = AppConfig.GetCustomBg(biz);
         }
     }
 
@@ -181,54 +175,6 @@ public sealed partial class SettingPage : Page
 
     #endregion
 
-
-
-
-    #region Log
-
-
-    [ObservableProperty]
-    private bool enableConsole = AppConfig.EnableConsole;
-    partial void OnEnableConsoleChanged(bool value)
-    {
-        AppConfig.EnableConsole = value;
-        if (value)
-        {
-            ConsoleHelper.Show();
-        }
-        else
-        {
-            ConsoleHelper.Hide();
-        }
-    }
-
-
-    [RelayCommand]
-    private async Task OpenLogFolderAsync()
-    {
-        try
-        {
-            if (File.Exists(AppConfig.LogFile))
-            {
-                var item = await StorageFile.GetFileFromPathAsync(AppConfig.LogFile);
-                var options = new FolderLauncherOptions();
-                options.ItemsToSelect.Add(item);
-                await Launcher.LaunchFolderPathAsync(Path.GetDirectoryName(AppConfig.LogFile), options);
-            }
-            else
-            {
-                await Launcher.LaunchFolderPathAsync(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log"));
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Open log folder");
-        }
-    }
-
-
-
-    #endregion
 
 
 
@@ -448,75 +394,6 @@ public sealed partial class SettingPage : Page
 
 
 
-    #region Background
-
-
-    [ObservableProperty]
-    private bool enableCustomBg;
-    partial void OnEnableCustomBgChanged(bool value)
-    {
-        AppConfig.SetEnableCustomBg(gameBiz, value);
-        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
-    }
-
-
-    [ObservableProperty]
-    private string? customBg;
-
-
-    [ObservableProperty]
-    private bool enableDynamicAccentColor = AppConfig.EnableDynamicAccentColor;
-    partial void OnEnableDynamicAccentColorChanged(bool value)
-    {
-        AppConfig.EnableDynamicAccentColor = value;
-        _ = MainPage.Current.UpdateBackgroundImageAsync();
-    }
-
-
-    [ObservableProperty]
-    private bool useOneBg = AppConfig.UseOneBg;
-    partial void OnUseOneBgChanged(bool value)
-    {
-        AppConfig.UseOneBg = value;
-        AppConfig.SetCustomBg(gameBiz, CustomBg);
-        AppConfig.SetEnableCustomBg(gameBiz, EnableCustomBg);
-    }
-
-
-    [RelayCommand]
-    private async Task ChangeCustomBgAsync()
-    {
-        var file = await _launcherService.ChangeCustomBgAsync();
-        if (file is not null)
-        {
-            CustomBg = file;
-            AppConfig.SetCustomBg(gameBiz, file);
-            _ = MainPage.Current.UpdateBackgroundImageAsync(true);
-        }
-    }
-
-
-    [RelayCommand]
-    private async Task OpenCustomBgAsync()
-    {
-        await _launcherService.OpenCustomBgAsync(CustomBg);
-    }
-
-
-    [RelayCommand]
-    private void DeleteCustomBg()
-    {
-        AppConfig.SetCustomBg(gameBiz, null);
-        CustomBg = null;
-        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
-    }
-
-
-    #endregion
-
-
-
-
     #region Update
 
     [ObservableProperty]
@@ -567,6 +444,30 @@ public sealed partial class SettingPage : Page
 
     #region File Manager
 
+
+
+    [RelayCommand]
+    private async Task OpenLogFolderAsync()
+    {
+        try
+        {
+            if (File.Exists(AppConfig.LogFile))
+            {
+                var item = await StorageFile.GetFileFromPathAsync(AppConfig.LogFile);
+                var options = new FolderLauncherOptions();
+                options.ItemsToSelect.Add(item);
+                await Launcher.LaunchFolderPathAsync(Path.GetDirectoryName(AppConfig.LogFile), options);
+            }
+            else
+            {
+                await Launcher.LaunchFolderPathAsync(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log"));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open log folder");
+        }
+    }
 
 
 

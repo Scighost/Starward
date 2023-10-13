@@ -81,17 +81,6 @@ internal static class AppConfig
     #region UserData
 
 
-    private static bool enableConsole;
-    public static bool EnableConsole
-    {
-        get => enableConsole;
-        set
-        {
-            enableConsole = value;
-            SaveConfiguration();
-        }
-    }
-
     private static int windowSizeMode;
     public static int WindowSizeMode
     {
@@ -146,7 +135,6 @@ internal static class AppConfig
                     builder.AddIniFile(ini);
                 }
                 Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
-                enableConsole = Configuration.GetValue<bool>(nameof(EnableConsole));
                 windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
                 language = Configuration.GetValue<string>(nameof(Language));
                 string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
@@ -171,7 +159,8 @@ internal static class AppConfig
             {
                 reg = true;
                 Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
-                enableConsole = Registry.GetValue(REG_KEY_NAME, nameof(EnableConsole), null) is 1;
+                windowSizeMode = Registry.GetValue(REG_KEY_NAME, nameof(WindowSizeMode), null) as int? ?? 0;
+                language = Registry.GetValue(REG_KEY_NAME, nameof(Language), null) as string;
                 string? dir = Registry.GetValue(REG_KEY_NAME, nameof(UserDataFolder), null) as string;
                 if (Directory.Exists(dir))
                 {
@@ -193,7 +182,8 @@ internal static class AppConfig
         {
             if (reg)
             {
-                Registry.SetValue(REG_KEY_NAME, nameof(EnableConsole), EnableConsole ? 1 : 0);
+                Registry.SetValue(REG_KEY_NAME, nameof(WindowSizeMode), WindowSizeMode);
+                Registry.SetValue(REG_KEY_NAME, nameof(Language), Language);
                 Registry.SetValue(REG_KEY_NAME, nameof(UserDataFolder), UserDataFolder);
             }
             else
@@ -205,7 +195,6 @@ internal static class AppConfig
                     dataFolder = Path.GetRelativePath(baseDir, dataFolder);
                 }
                 File.WriteAllText(Path.Combine(baseDir, "config.ini"), $"""
-                 {nameof(EnableConsole)}={EnableConsole}
                  {nameof(WindowSizeMode)}={WindowSizeMode}
                  {nameof(Language)}={Language}
                  {nameof(UserDataFolder)}={dataFolder}
@@ -366,13 +355,6 @@ internal static class AppConfig
     public static string? GachaLanguage
     {
         get => GetValue<string>();
-        set => SetValue(value);
-    }
-
-
-    public static bool EnableDynamicAccentColor
-    {
-        get => GetValue(true);
         set => SetValue(value);
     }
 

@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
-using Starward.Helpers;
 using Starward.Services;
 using System;
 using System.Globalization;
@@ -29,7 +28,6 @@ public partial class App : Application
         this.InitializeComponent();
         RequestedTheme = ApplicationTheme.Dark;
         UnhandledException += App_UnhandledException;
-        InitializeConsoleOutput();
         InitializeLanguage();
     }
 
@@ -99,33 +97,12 @@ public partial class App : Application
 
 
 
-    private void InitializeConsoleOutput()
-    {
-        try
-        {
-            if (AppConfig.EnableConsole)
-            {
-                ConsoleHelper.Alloc();
-                ConsoleHelper.Show();
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.WriteLine($"Welcome to Starward v{AppConfig.AppVersion}");
-                Console.WriteLine(DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-                Console.WriteLine(Environment.CommandLine);
-                Console.WriteLine();
-                Console.ResetColor();
-            }
-        }
-        catch { }
-    }
-
-
 
     private void InitializeLanguage()
     {
         try
         {
             var lang = AppConfig.Language;
-            Console.WriteLine($"Language is {lang}");
             if (!string.IsNullOrWhiteSpace(lang))
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(lang);

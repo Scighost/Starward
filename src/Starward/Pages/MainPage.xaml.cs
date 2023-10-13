@@ -529,18 +529,15 @@ public sealed partial class MainPage : Page
                     }
                     BackgroundImage = new BitmapImage(new Uri(file));
                     Color? back = null, fore = null;
-                    if (AppConfig.EnableDynamicAccentColor)
+                    var hex = AppConfig.AccentColor;
+                    if (!string.IsNullOrWhiteSpace(hex))
                     {
-                        var hex = AppConfig.AccentColor;
-                        if (!string.IsNullOrWhiteSpace(hex))
+                        try
                         {
-                            try
-                            {
-                                back = ColorHelper.ToColor(hex[0..9]);
-                                fore = ColorHelper.ToColor(hex[9..18]);
-                            }
-                            catch { }
+                            back = ColorHelper.ToColor(hex[0..9]);
+                            fore = ColorHelper.ToColor(hex[9..18]);
                         }
+                        catch { }
                     }
                     MainWindow.Current.ChangeAccentColor(back, fore);
                 }
@@ -637,15 +634,8 @@ public sealed partial class MainPage : Page
                         await bitmap.PixelBuffer.AsStream().WriteAsync(bytes);
                     }
 
-                    if (AppConfig.EnableDynamicAccentColor)
-                    {
-                        (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
-                        MainWindow.Current.ChangeAccentColor(back, fore);
-                    }
-                    else
-                    {
-                        MainWindow.Current.ChangeAccentColor(null, null);
-                    }
+                    (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
+                    MainWindow.Current.ChangeAccentColor(back, fore);
                     if (source.IsCancellationRequested)
                     {
                         return;
