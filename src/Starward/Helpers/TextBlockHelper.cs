@@ -53,10 +53,7 @@ internal static class TextBlockHelper
                 }
             }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
+        catch { }
     }
 
 

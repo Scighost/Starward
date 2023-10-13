@@ -84,12 +84,10 @@ public sealed partial class MainWindow : Window
         {
             if (AppConfig.UserDataFolder is null)
             {
-                Console.WriteLine($"Config Directory is NULL");
                 MainWindow_Frame.Content = new WelcomePage();
             }
             else
             {
-                Console.WriteLine($"Config Directory is '{AppConfig.UserDataFolder}'");
                 MainWindow_Frame.Content = new MainPage();
             }
         }
@@ -293,10 +291,7 @@ public sealed partial class MainWindow : Window
                 RootGrid.RequestedTheme = ElementTheme.Default;
             }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Change Accent Color\r\n{ex}");
-        }
+        catch { }
     }
 
 
