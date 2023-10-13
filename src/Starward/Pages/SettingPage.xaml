@@ -59,33 +59,6 @@
                     </Border>
 
 
-                    <!--  Log  -->
-                    <TextBlock Margin="0,20,0,0"
-                               FontSize="20"
-                               FontWeight="SemiBold"
-                               Text="{x:Bind lang:Lang.SettingPage_Log}" />
-                    <!--  显示控制台  -->
-                    <ToggleSwitch Margin="0,8,0,0"
-                                  IsOn="{x:Bind EnableConsole, Mode=TwoWay}"
-                                  OffContent="{x:Bind lang:Lang.SettingPage_ShowConsole}"
-                                  OnContent="{x:Bind lang:Lang.SettingPage_ShowConsole}" />
-                    <!--  下次启动时生效  -->
-                    <TextBlock Margin="0,0,0,0"
-                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                               Text="{x:Bind lang:Lang.SettingPage_EffectiveAtNextStartup}"
-                               TextWrapping="Wrap" />
-                    <Button Height="40"
-                            Margin="-0,12,0,0"
-                            Padding="16,0,16,0"
-                            BorderThickness="0"
-                            Command="{x:Bind OpenLogFolderCommand}"
-                            CornerRadius="4,20,20,4"
-                            Style="{ThemeResource AccentButtonStyle}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE838;" />
-                            <TextBlock Text="{x:Bind lang:Lang.SettingPage_OpenLogFolder}" />
-                        </StackPanel>
-                    </Button>
 
                     <!--  Window Size  -->
                     <TextBlock Margin="0,20,0,0"
@@ -229,85 +202,6 @@
                         </StackPanel>
                     </Button>
 
-                    <!--  bg  -->
-                    <TextBlock Margin="0,20,0,0"
-                               FontSize="20"
-                               FontWeight="SemiBold"
-                               Text="{x:Bind lang:Lang.SettingPage_AppBackground}" />
-                    <ToggleSwitch Margin="0,8,0,0"
-                                  IsOn="{x:Bind EnableCustomBg, Mode=TwoWay}"
-                                  OffContent="{x:Bind lang:Lang.SettingPage_CustomBackgroundSupportVideo}"
-                                  OnContent="{x:Bind lang:Lang.SettingPage_CustomBackgroundSupportVideo}" />
-                    <Grid Margin="0,8,0,0" ColumnSpacing="16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button Height="40"
-                                Padding="16,0,16,0"
-                                BorderThickness="0"
-                                Command="{x:Bind ChangeCustomBgCommand}"
-                                CornerRadius="4,20,20,4"
-                                IsEnabled="{x:Bind EnableCustomBg}"
-                                Style="{ThemeResource AccentButtonStyle}">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon Glyph="&#xE91B;" />
-                                <TextBlock Text="{x:Bind lang:Lang.Common_Select}" />
-                            </StackPanel>
-                        </Button>
-                        <Grid Grid.Column="1"
-                              Height="40"
-                              HorizontalAlignment="Left"
-                              Background="{ThemeResource CustomAcrylicBrush}"
-                              CornerRadius="20"
-                              Visibility="{x:Bind CustomBg, Converter={StaticResource ObjectToVisibilityConverter}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Button Height="40"
-                                    BorderThickness="0"
-                                    Command="{x:Bind OpenCustomBgCommand}"
-                                    CornerRadius="0">
-                                <TextBlock Margin="8,0,0,0"
-                                           VerticalAlignment="Center"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind CustomBg}"
-                                           TextTrimming="CharacterEllipsis" />
-                            </Button>
-                            <Button Grid.Column="1"
-                                    Height="40"
-                                    BorderThickness="0"
-                                    Command="{x:Bind DeleteCustomBgCommand}"
-                                    CornerRadius="0">
-                                <FontIcon Margin="0,2,4,0"
-                                          FontSize="16"
-                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                          Glyph="&#xE711;" />
-                            </Button>
-                        </Grid>
-                    </Grid>
-                    <!--  请选择像素大小与应用窗口相匹配的图片，过大的图片会降低性能。  -->
-                    <TextBlock Margin="0,8,0,0"
-                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                               Text="{x:Bind lang:Lang.SettingPage_BgSizeTip}"
-                               TextWrapping="Wrap" />
-                    <!--  动态主题色  -->
-                    <ToggleSwitch Margin="0,8,0,0"
-                                  IsOn="{x:Bind EnableDynamicAccentColor, Mode=TwoWay}"
-                                  OffContent="{x:Bind lang:Lang.SettingPage_DynamicThemeColor}"
-                                  OnContent="{x:Bind lang:Lang.SettingPage_DynamicThemeColor}" />
-                    <!--  根据背景图片自动计算主题颜色，关闭后使用系统主题色。  -->
-                    <TextBlock Margin="0,-4,0,0"
-                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                               Text="{x:Bind lang:Lang.SettingPage_ThemeColorDesc}"
-                               TextWrapping="Wrap" />
-                    <!--  所有游戏使用相同的背景  -->
-                    <ToggleSwitch Margin="0,8,0,0"
-                                  IsOn="{x:Bind UseOneBg, Mode=TwoWay}"
-                                  OffContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}"
-                                  OnContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}" />
-
 
 
                     <!--  File Manager  -->
@@ -315,6 +209,18 @@
                                FontSize="20"
                                FontWeight="SemiBold"
                                Text="{x:Bind lang:Lang.SettingPage_FileManager}" />
+                    <Button Height="40"
+                            Margin="0,12,0,0"
+                            Padding="16,0,16,0"
+                            BorderThickness="0"
+                            Command="{x:Bind OpenLogFolderCommand}"
+                            CornerRadius="4,20,20,4"
+                            Style="{ThemeResource AccentButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE838;" />
+                            <TextBlock Text="{x:Bind lang:Lang.SettingPage_OpenLogFolder}" />
+                        </StackPanel>
+                    </Button>
                     <!--  open data folder  -->
                     <Button Height="40"
                             Margin="0,12,0,0"
