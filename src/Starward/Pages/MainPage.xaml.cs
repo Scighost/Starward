@@ -633,13 +633,16 @@ public sealed partial class MainPage : Page
                         bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
                         await bitmap.PixelBuffer.AsStream().WriteAsync(bytes);
                     }
-
-                    (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
-                    MainWindow.Current.ChangeAccentColor(back, fore);
                     if (source.IsCancellationRequested)
                     {
                         return;
                     }
+                    (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
+                    if (source.IsCancellationRequested)
+                    {
+                        return;
+                    }
+                    MainWindow.Current.ChangeAccentColor(back, fore);
                     if (CurrentGameBiz is GameBiz.hk4e_cloud && !AppConfig.GetEnableCustomBg(GameBiz.hk4e_cloud))
                     {
                         Image_Content.HorizontalAlignment = HorizontalAlignment.Left;
