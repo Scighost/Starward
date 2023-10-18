@@ -896,17 +896,24 @@ internal partial class DownloadGameService
                     }
                 }).ConfigureAwait(false);
 
+                bool failed = false;
                 foreach (var item in sliceTasks)
                 {
                     var file = Path.Combine(installPath, item.FileName);
                     if (!File.Exists(file))
                     {
-                        continue;
+                        failed = true;
+                        break;
                     }
                     if (new FileInfo(file).Length != item.Size)
                     {
-                        continue;
+                        failed = true;
+                        break;
                     }
+                }
+                if (failed)
+                {
+                    continue;
                 }
                 break;
             }
