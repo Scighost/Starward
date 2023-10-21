@@ -115,6 +115,8 @@ internal static class AppConfig
     }
 
 
+    public static bool EnableNavigationShortcut { get; set; } = true;
+
 
     private static void LoadConfiguration()
     {
@@ -137,6 +139,7 @@ internal static class AppConfig
                 Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
                 windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
                 language = Configuration.GetValue<string>(nameof(Language));
+                EnableNavigationShortcut = Configuration.GetValue(nameof(EnableNavigationShortcut), true);
                 string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
                 if (!string.IsNullOrWhiteSpace(dir))
                 {
@@ -161,6 +164,7 @@ internal static class AppConfig
                 Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
                 windowSizeMode = Registry.GetValue(REG_KEY_NAME, nameof(WindowSizeMode), null) as int? ?? 0;
                 language = Registry.GetValue(REG_KEY_NAME, nameof(Language), null) as string;
+                EnableNavigationShortcut = Registry.GetValue(REG_KEY_NAME, nameof(EnableNavigationShortcut), 1) is 1;
                 string? dir = Registry.GetValue(REG_KEY_NAME, nameof(UserDataFolder), null) as string;
                 if (Directory.Exists(dir))
                 {
@@ -198,6 +202,7 @@ internal static class AppConfig
                  {nameof(WindowSizeMode)}={WindowSizeMode}
                  {nameof(Language)}={Language}
                  {nameof(UserDataFolder)}={dataFolder}
+                 {nameof(EnableNavigationShortcut)}={EnableNavigationShortcut}
                  """);
             }
         }
