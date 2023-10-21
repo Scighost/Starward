@@ -115,7 +115,7 @@ internal static class AppConfig
     }
 
 
-    public static bool EnableNavigationShortcut { get; set; } = true;
+    public static bool DisableNavigationShortcut { get; set; }
 
 
     private static void LoadConfiguration()
@@ -139,7 +139,7 @@ internal static class AppConfig
                 Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
                 windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
                 language = Configuration.GetValue<string>(nameof(Language));
-                EnableNavigationShortcut = Configuration.GetValue(nameof(EnableNavigationShortcut), true);
+                DisableNavigationShortcut = Configuration.GetValue<bool>(nameof(DisableNavigationShortcut));
                 string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
                 if (!string.IsNullOrWhiteSpace(dir))
                 {
@@ -164,7 +164,7 @@ internal static class AppConfig
                 Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
                 windowSizeMode = Registry.GetValue(REG_KEY_NAME, nameof(WindowSizeMode), null) as int? ?? 0;
                 language = Registry.GetValue(REG_KEY_NAME, nameof(Language), null) as string;
-                EnableNavigationShortcut = Registry.GetValue(REG_KEY_NAME, nameof(EnableNavigationShortcut), 1) is 1;
+                DisableNavigationShortcut = Registry.GetValue(REG_KEY_NAME, nameof(DisableNavigationShortcut), 0) is 1;
                 string? dir = Registry.GetValue(REG_KEY_NAME, nameof(UserDataFolder), null) as string;
                 if (Directory.Exists(dir))
                 {
@@ -187,7 +187,7 @@ internal static class AppConfig
             if (reg)
             {
                 Registry.SetValue(REG_KEY_NAME, nameof(WindowSizeMode), WindowSizeMode);
-                Registry.SetValue(REG_KEY_NAME, nameof(Language), Language);
+                Registry.SetValue(REG_KEY_NAME, nameof(Language), Language ?? "");
                 Registry.SetValue(REG_KEY_NAME, nameof(UserDataFolder), UserDataFolder);
             }
             else
@@ -202,7 +202,7 @@ internal static class AppConfig
                  {nameof(WindowSizeMode)}={WindowSizeMode}
                  {nameof(Language)}={Language}
                  {nameof(UserDataFolder)}={dataFolder}
-                 {nameof(EnableNavigationShortcut)}={EnableNavigationShortcut}
+                 {nameof(DisableNavigationShortcut)}={DisableNavigationShortcut}
                  """);
             }
         }

@@ -913,24 +913,25 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            if (AppConfig.EnableNavigationShortcut)
+            if (AppConfig.DisableNavigationShortcut)
             {
-                bool ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-                bool alt = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
-                if (e.Key == VirtualKey.Control)
-                {
-                    OpenShortcutPanel();
-                    return;
-                }
-                if (alt)
-                {
-                    CloseShortcutPanel();
-                    return;
-                }
-                if (ctrl)
-                {
-                    ShortcutNavigate((int)e.Key - 48);
-                }
+                return;
+            }
+            bool ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            bool alt = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            if (e.Key == VirtualKey.Control)
+            {
+                OpenShortcutPanel();
+                return;
+            }
+            if (alt)
+            {
+                CloseShortcutPanel();
+                return;
+            }
+            if (ctrl)
+            {
+                ShortcutNavigate((int)e.Key - 48);
             }
         }
         catch { }
@@ -941,12 +942,13 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            if (AppConfig.EnableNavigationShortcut)
+            if (AppConfig.DisableNavigationShortcut)
             {
-                if (e.Key is VirtualKey.Control or VirtualKey.Menu)
-                {
-                    CloseShortcutPanel();
-                }
+                return;
+            }
+            if (e.Key is VirtualKey.Control or VirtualKey.Menu)
+            {
+                CloseShortcutPanel();
             }
         }
         catch { }
@@ -1006,10 +1008,11 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            if (AppConfig.EnableNavigationShortcut)
+            if (AppConfig.DisableNavigationShortcut)
             {
-                CloseShortcutPanel();
+                return;
             }
+            CloseShortcutPanel();
         }
         catch { }
     }
@@ -1019,13 +1022,14 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            if (AppConfig.EnableNavigationShortcut)
+            if (AppConfig.DisableNavigationShortcut)
             {
-                var point = e.GetPosition(this);
-                if (point.Y > 48)
-                {
-                    OpenShortcutPanel();
-                }
+                return;
+            }
+            var point = e.GetPosition(this);
+            if (point.Y > 48)
+            {
+                OpenShortcutPanel();
             }
         }
         catch { }
