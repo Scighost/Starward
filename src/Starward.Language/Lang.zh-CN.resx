@@ -1144,4 +1144,16 @@
   <data name="SettingPage_Donate" xml:space="preserve">
     <value>赞助</value>
   </data>
+  <data name="SettingPage_TestURLProtocol" xml:space="preserve">
+    <value>测试 URL 协议</value>
+  </data>
+  <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
+    <value>注册 URL 协议</value>
+  </data>
+  <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
+    <value>URL 协议（实验中）</value>
+  </data>
+  <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
+    <value>其他软件可通过 URL 协议使用 Starward 的部分功能</value>
+  </data>
 </root>

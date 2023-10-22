@@ -69,6 +69,7 @@ public sealed partial class SettingPage : Page
     {
         InitializeLanguage();
         GetLastBackupTime();
+        CheckUrlProtocol();
         switch (AppConfig.ApiCDNIndex)
         {
             case 1: RadioButton_GH.IsChecked = true; break;
@@ -606,6 +607,75 @@ public sealed partial class SettingPage : Page
 
 
     #endregion
+
+
+
+
+    #region URL Protocol
+
+
+
+    [ObservableProperty]
+    private bool enableUrlProtocol;
+
+
+    partial void OnEnableUrlProtocolChanged(bool value)
+    {
+        try
+        {
+            if (value)
+            {
+                UrlProtocolService.RegisterProtocol();
+            }
+            else
+            {
+                UrlProtocolService.UnregisterProtocol();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Enable url protocol changed");
+        }
+    }
+
+
+
+    private async void CheckUrlProtocol()
+    {
+        try
+        {
+            var status = await Launcher.QueryUriSupportAsync(new Uri("starward://"), LaunchQuerySupportType.Uri);
+#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
+            enableUrlProtocol = status is LaunchQuerySupportStatus.Available;
+#pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
+            OnPropertyChanged(nameof(EnableUrlProtocol));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Check url protocol");
+        }
+    }
+
+
+
+
+    [RelayCommand]
+    private async Task TestUrlProtocolAsync()
+    {
+        try
+        {
+            await Launcher.LaunchUriAsync(new Uri("starward://test"), new LauncherOptions { DisplayApplicationPicker = true });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Test url protocol");
+        }
+    }
+
+
+
+    #endregion
+
 
 
 }

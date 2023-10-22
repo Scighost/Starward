@@ -2425,6 +2425,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Register URL Protocol 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_RegisterURLProtocol {
+            get {
+                return ResourceManager.GetString("SettingPage_RegisterURLProtocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Release History 的本地化字符串。
         /// </summary>
         public static string SettingPage_ReleaseHistroy {
@@ -2515,6 +2524,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Test URL Protocol 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_TestURLProtocol {
+            get {
+                return ResourceManager.GetString("SettingPage_TestURLProtocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The current location of the data folder is: 的本地化字符串。
         /// </summary>
         public static string SettingPage_TheCurrentLocationOfTheDataFolderIs {
@@ -2547,6 +2565,24 @@ namespace Starward.Language {
         public static string SettingPage_Update {
             get {
                 return ResourceManager.GetString("SettingPage_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Other software can use some of Starward&apos;s features through the URL protocol. 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_URLProtocolDesc {
+            get {
+                return ResourceManager.GetString("SettingPage_URLProtocolDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 URL Protocol (Experimental) 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_URLProtocolExperimental {
+            get {
+                return ResourceManager.GetString("SettingPage_URLProtocolExperimental", resourceCulture);
             }
         }
         
