@@ -56,6 +56,15 @@ public partial class App : Application
                 m_window.Activate();
                 return;
             }
+            if (Uri.TryCreate(args[1], UriKind.RelativeOrAbsolute, out Uri? uri))
+            {
+                if (uri.Host is "test")
+                {
+                    m_window = new TestUrlProtocolWindow();
+                    m_window.Activate();
+                    return;
+                }
+            }
         }
         var sync = SystemTrayService.GetSyncMutex();
         sync.WaitOne();

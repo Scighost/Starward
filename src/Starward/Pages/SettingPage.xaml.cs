@@ -664,7 +664,7 @@ public sealed partial class SettingPage : Page
     {
         try
         {
-            await Launcher.LaunchUriAsync(new Uri("starward://test"), new LauncherOptions { DisplayApplicationPicker = true });
+            await Launcher.LaunchUriAsync(new Uri("starward://test"));
         }
         catch (Exception ex)
         {
