@@ -1141,4 +1141,19 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
     <value>Vui lòng kiểm tra các nhật ký liên quan.</value>
   </data>
+  <data name="SettingPage_Donate" xml:space="preserve">
+    <value>Ủng hộ</value>
+  </data>
+  <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
+    <value>Giao thức URL (Thử nghiệm)</value>
+  </data>
+  <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
+    <value>Những phần mềm khác có thể sử dụng một số tính năng của Starward thông qua giao thức URL.</value>
+  </data>
+  <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
+    <value>Đăng kí giao thức URL</value>
+  </data>
+  <data name="SettingPage_TestURLProtocol" xml:space="preserve">
+    <value>Kiểm tra giao thức URL</value>
+  </data>
 </root>
