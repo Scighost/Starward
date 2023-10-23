@@ -47,6 +47,14 @@ public static class Program
                 Environment.Exit(result);
                 return;
             }
+
+            if (args[0].ToLower().StartsWith("starward://"))
+            {
+                if (UrlProtocolService.HandleUrlProtocolAsync(args[0]).GetAwaiter().GetResult())
+                {
+                    return;
+                }
+            }
         }
 
 

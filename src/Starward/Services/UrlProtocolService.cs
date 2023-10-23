@@ -1,6 +1,13 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
+using Starward.Core;
+using Starward.Models;
 using System;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using Vanara.PInvoke;
 
 namespace Starward.Services;
 
@@ -35,7 +42,67 @@ internal class UrlProtocolService
 
 
 
-
+    public static async Task<bool> HandleUrlProtocolAsync(string url)
+    {
+        var log = AppConfig.GetLogger<UrlProtocolService>();
+        try
+        {
+            if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out Uri? uri))
+            {
+                if (uri.Host is "test")
+                {
+                    return false;
+                }
+                if (string.IsNullOrWhiteSpace(AppConfig.UserDataFolder))
+                {
+                    throw new ArgumentNullException("UserDataFolder is null");
+                }
+                if (uri.Host is "startgame")
+                {
+                    if (Enum.TryParse(uri.AbsolutePath.Trim('/'), out GameBiz biz))
+                    {
+                        var kvs = HttpUtility.ParseQueryString(uri.Query);
+                        string? uidStr = kvs["uid"];
+                        var gameService = AppConfig.GetService<GameService>();
+                        if (int.TryParse(uidStr, out int uid))
+                        {
+                            var accounts = gameService.GetGameAccountsFromDatabase(biz);
+                            if (accounts.FirstOrDefault(x => x.Uid == uid) is GameAccount account)
+                            {
+                                gameService.ChangeGameAccount(account);
+                                log.LogInformation("Changed game account ({biz}, {uid}).", biz, uid);
+                            }
+                            else
+                            {
+                                log.LogWarning("Game account ({biz}, {uid}) is not saved.", biz, uid);
+                            }
+                        }
+                        else
+                        {
+                            log.LogWarning("Cannot parse the uid '{uid}'", uidStr);
+                        }
+                        var p = gameService.StartGame(biz);
+                        if (p != null)
+                        {
+                            await AppConfig.GetService<PlayTimeService>().StartProcessToLogAsync(biz);
+                        }
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Cannot parse the game biz '{uri.AbsolutePath.Trim('/')}'");
+                    }
+                    return true;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            log.LogError(ex, "Handle url protocol");
+            User32.MessageBox(HWND.NULL, ex.Message, "Starward");
+            return true;
+        }
+        return false;
+    }
 
 
 
