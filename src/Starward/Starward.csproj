@@ -28,7 +28,7 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Core" Version="7.1.2" />
-		<PackageReference Include="Dapper" Version="2.1.4" />
+		<PackageReference Include="Dapper" Version="2.1.15" />
 		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.115" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.12" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
@@ -45,8 +45,8 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Starward.Assets" Version="0.4.3" />
 		<PackageReference Include="Starward.NativeLib" Version="0.2.0" />
-		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.16" />
-		<PackageReference Include="Vanara.PInvoke.User32" Version="3.4.16" />
+		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.17" />
+		<PackageReference Include="Vanara.PInvoke.User32" Version="3.4.17" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
