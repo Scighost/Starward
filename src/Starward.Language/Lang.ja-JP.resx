@@ -1140,4 +1140,19 @@
   <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
     <value>関連ログを確認してください。</value>
   </data>
+  <data name="SettingPage_Donate" xml:space="preserve">
+    <value>Donate</value>
+  </data>
+  <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
+    <value>URL Protocol (Experimental)</value>
+  </data>
+  <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
+    <value>Other software can use some of Starward's features through the URL protocol.</value>
+  </data>
+  <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
+    <value>Register URL Protocol</value>
+  </data>
+  <data name="SettingPage_TestURLProtocol" xml:space="preserve">
+    <value>Test URL Protocol</value>
+  </data>
 </root>
