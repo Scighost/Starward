@@ -117,6 +117,10 @@ internal static class AppConfig
 
     public static bool DisableNavigationShortcut { get; set; }
 
+    public static bool DisableGameNoticeRedHot { get; set; }
+
+    public static bool DisableGameAccountSwitcher { get; set; }
+
 
     private static void LoadConfiguration()
     {
@@ -140,6 +144,8 @@ internal static class AppConfig
                 windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
                 language = Configuration.GetValue<string>(nameof(Language));
                 DisableNavigationShortcut = Configuration.GetValue<bool>(nameof(DisableNavigationShortcut));
+                DisableGameNoticeRedHot = Configuration.GetValue<bool>(nameof(DisableGameNoticeRedHot));
+                DisableGameAccountSwitcher = Configuration.GetValue<bool>(nameof(DisableGameAccountSwitcher));
                 string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
                 if (!string.IsNullOrWhiteSpace(dir))
                 {
@@ -165,6 +171,8 @@ internal static class AppConfig
                 windowSizeMode = Registry.GetValue(REG_KEY_NAME, nameof(WindowSizeMode), null) as int? ?? 0;
                 language = Registry.GetValue(REG_KEY_NAME, nameof(Language), null) as string;
                 DisableNavigationShortcut = Registry.GetValue(REG_KEY_NAME, nameof(DisableNavigationShortcut), 0) is 1;
+                DisableGameNoticeRedHot = Registry.GetValue(REG_KEY_NAME, nameof(DisableGameNoticeRedHot), 0) is 1;
+                DisableGameAccountSwitcher = Registry.GetValue(REG_KEY_NAME, nameof(DisableGameAccountSwitcher), 0) is 1;
                 string? dir = Registry.GetValue(REG_KEY_NAME, nameof(UserDataFolder), null) as string;
                 if (Directory.Exists(dir))
                 {
@@ -203,6 +211,8 @@ internal static class AppConfig
                  {nameof(Language)}={Language}
                  {nameof(UserDataFolder)}={dataFolder}
                  {nameof(DisableNavigationShortcut)}={DisableNavigationShortcut}
+                 {nameof(DisableGameNoticeRedHot)}={DisableGameNoticeRedHot}
+                 {nameof(DisableGameAccountSwitcher)}={DisableGameAccountSwitcher}
                  """);
             }
         }

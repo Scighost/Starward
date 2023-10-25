@@ -272,6 +272,10 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
+            if (AppConfig.DisableGameNoticeRedHot || AppConfig.DisableGameAccountSwitcher)
+            {
+                return;
+            }
             long uid = 0;
             if (GameAccountList?.FirstOrDefault(x => x.IsLogin) is GameAccount account)
             {
@@ -827,6 +831,11 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
+            if (AppConfig.DisableGameAccountSwitcher)
+            {
+                StackPanel_Account.Visibility = Visibility.Collapsed;
+                return;
+            }
             GameAccountList = _gameService.GetGameAccounts(gameBiz).ToList();
             SelectGameAccount = GameAccountList.FirstOrDefault(x => x.IsLogin);
             CanChangeGameAccount = false;
