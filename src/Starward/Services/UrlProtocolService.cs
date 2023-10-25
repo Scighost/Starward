@@ -55,7 +55,8 @@ internal class UrlProtocolService
                 }
                 if (string.IsNullOrWhiteSpace(AppConfig.UserDataFolder))
                 {
-                    throw new ArgumentNullException("UserDataFolder is null");
+                    log.LogWarning("UserDataFolder is null");
+                    return false;
                 }
                 if (uri.Host is "startgame")
                 {
@@ -63,6 +64,7 @@ internal class UrlProtocolService
                     {
                         var kvs = HttpUtility.ParseQueryString(uri.Query);
                         string? uidStr = kvs["uid"];
+                        string? installPath = kvs["install_path"];
                         var gameService = AppConfig.GetService<GameService>();
                         if (int.TryParse(uidStr, out int uid))
                         {
@@ -81,11 +83,24 @@ internal class UrlProtocolService
                         {
                             log.LogWarning("Cannot parse the uid '{uid}'", uidStr);
                         }
-                        var p = gameService.StartGame(biz);
+                        var p = gameService.StartGame(biz, false, installPath);
                         if (p != null)
                         {
                             await AppConfig.GetService<PlayTimeService>().StartProcessToLogAsync(biz);
                         }
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Cannot parse the game biz '{uri.AbsolutePath.Trim('/')}'");
+                    }
+                    return true;
+                }
+                if (uri.Host is "playtime")
+                {
+                    if (Enum.TryParse(uri.AbsolutePath.Trim('/'), out GameBiz biz))
+                    {
+                        var kvs = HttpUtility.ParseQueryString(uri.Query);
+                        await AppConfig.GetService<PlayTimeService>().StartProcessToLogAsync(biz);
                     }
                     else
                     {

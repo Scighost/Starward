@@ -240,7 +240,7 @@ internal class GameService
     /// 启动游戏
     /// </summary>
     /// <returns></returns>
-    public Process? StartGame(GameBiz biz, bool ignoreRunningGame = false)
+    public Process? StartGame(GameBiz biz, bool ignoreRunningGame = false, string? installPath = null)
     {
         const int ERROR_CANCELLED = 0x000004C7;
         try
@@ -253,7 +253,15 @@ internal class GameService
                 }
             }
             string? exe = null, arg = null, verb = null;
-            if (AppConfig.GetEnableThirdPartyTool(biz))
+            if (Directory.Exists(installPath))
+            {
+                var e = Path.Join(installPath, GetGameExeName(biz));
+                if (File.Exists(e))
+                {
+                    exe = e;
+                }
+            }
+            if (string.IsNullOrWhiteSpace(exe) && AppConfig.GetEnableThirdPartyTool(biz))
             {
                 exe = AppConfig.GetThirdPartyToolPath(biz);
                 if (File.Exists(exe))
