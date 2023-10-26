@@ -4,11 +4,11 @@
 
 Ngoài việc tải xuống và cài đặt trò chơi, ứng dụng còn có những tính năng sau đây:
 
--  Ghi lại thời gian chơi
--  Chuyển đổi tài khoản HoYo
--  Xem ảnh chụp màn hình trò chơi
--  Lưu lịch sử gacha
--  Hộp công cụ HoYoLAB
+- Ghi lại thời gian chơi
+- Chuyển đổi tài khoản HoYo
+- Xem ảnh chụp màn hình trò chơi
+- Lưu lịch sử gacha
+- Hộp công cụ HoYoLAB
 
 Và nhiều tính năng khác đang được lên kế hoạch trong tương lai...
 
@@ -18,10 +18,10 @@ Và nhiều tính năng khác đang được lên kế hoạch trong tương lai
 
 Đầu tiên, thiết bị của bạn cần đáp ứng những điều kiện sau:
 
--  Phiên bản Windows 10 1809 (17763) trở về sau.
--  Đã cài đặt [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist)
--  Đã cài đặt [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2)
--  Để có trải nghiệm tốt hơn, vui lòng bật **Hiệu ứng trong suốt** và **Hiệu ứng động** trong cài đặt hệ thống
+- Phiên bản Windows 10 1809 (17763) trở về sau.
+- Đã cài đặt [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist)
+- Đã cài đặt [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2)
+- Để có trải nghiệm tốt hơn, vui lòng bật **Hiệu ứng trong suốt** và **Hiệu ứng động** trong cài đặt hệ thống
 
 Tải gói dành cho kiến trúc CPU của bạn từ [GitHub Release](https://github.com/Scighost/Starward/releases). Giải nén file, chạy `Starward.exe` và làm theo hướng dẫn.
 
@@ -33,13 +33,13 @@ UserDataFolder=.
 
 ## Dịch thuật
 
-[![en-US translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en-US%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/en-US)
-[![ja-JP translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja-JP&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ja)
-[![ko-KR translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ko-KR&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ko%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ko)
-[![th-TH translation](https://img.shields.io/badge/dynamic/json?color=blue&label=th-TH&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27th%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/th)
-[![vi-VN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/vi)
-[![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-CN)
-[![zh-TW translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-TW)
+[![en-US translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en-US%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/en-US)
+[![ja-JP translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=ja-JP&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/ja)
+[![ko-KR translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=ko-KR&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ko%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/ko)
+[![th-TH translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=th-TH&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27th%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/th)
+[![vi-VN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/vi)
+[![zh-CN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/zh-CN)
+[![zh-TW translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/zh-TW)
 
 Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho việc dịch thuật, cung cấp bản dịch tiếng Anh như bản gốc. Bạn có thể giúp chúng tôi dịch và sửa lỗi ngôn ngữ của bạn, và chúng tôi mong muốn có nhiều người tham gia hơn. Nếu bạn muốn tạo thêm ngôn ngữ dịch mới, vui lòng tạo Issue.
 
@@ -47,9 +47,9 @@ Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho việc 
 
 Để biên dịch dự án cục bộ, bạn cần cài đặt Visual Studio 2022 và chọn những workloads sau:
 
--  .NET Desktop Development
--  C++ Desktop Development
--  Universal Windows Platform Development
+- .NET Desktop Development
+- C++ Desktop Development
+- Universal Windows Platform Development
 
 ## Cảm ơn
 
@@ -61,18 +61,18 @@ Và cảm ơn CloudFlare vì đã cung cấp CDN miễn phí.
 
 Và các thư viện bên thứ ba được sử dụng trong dự án này bao gồm:
 
--  [Dapper](https://github.com/DapperLib/Dapper)
--  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
--  [HDiffPatch](https://github.com/sisong/HDiffPatch)
--  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
--  [HoYo-Glyphs](https://github.com/SpeedyOrc-C/HoYo-Glyphs)
--  [MiniExcel](https://github.com/mini-software/MiniExcel)
--  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
--  [Serilog](https://github.com/serilog/serilog)
--  [SevenZipExtractor](https://github.com/adoconnection/SevenZipExtractor)
--  [Vanara PInvoke](https://github.com/dahall/Vanara)
--  [WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
--  [WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
+- [Dapper](https://github.com/DapperLib/Dapper)
+- [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
+- [HDiffPatch](https://github.com/sisong/HDiffPatch)
+- [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
+- [HoYo-Glyphs](https://github.com/SpeedyOrc-C/HoYo-Glyphs)
+- [MiniExcel](https://github.com/mini-software/MiniExcel)
+- [ScottPlot](https://github.com/ScottPlot/ScottPlot)
+- [Serilog](https://github.com/serilog/serilog)
+- [SevenZipExtractor](https://github.com/adoconnection/SevenZipExtractor)
+- [Vanara PInvoke](https://github.com/dahall/Vanara)
+- [WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
+- [WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
 
 ## Ảnh chụp màn hình
 
