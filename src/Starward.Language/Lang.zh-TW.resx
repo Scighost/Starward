@@ -1142,18 +1142,18 @@
     <value>請檢查相關日誌。</value>
   </data>
   <data name="SettingPage_Donate" xml:space="preserve">
-    <value>Donate</value>
+    <value>捐贈</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
-    <value>URL Protocol (Experimental)</value>
+    <value>URL協議 (實驗中)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
-    <value>Other software can use some of Starward's features through the URL protocol.</value>
+    <value>其他軟體可透過URL協議使用Starward的部分功能</value>
   </data>
   <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
-    <value>Register URL Protocol</value>
+    <value>註冊URL協議</value>
   </data>
   <data name="SettingPage_TestURLProtocol" xml:space="preserve">
-    <value>Test URL Protocol</value>
+    <value>測試URL協議</value>
   </data>
 </root>
