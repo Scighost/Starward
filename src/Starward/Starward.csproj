@@ -25,12 +25,12 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.0.3" />
 		<PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.0.1" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Core" Version="7.1.2" />
 		<PackageReference Include="Dapper" Version="2.1.15" />
 		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.115" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.12" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.13" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
