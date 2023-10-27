@@ -1,5 +1,3 @@
-[English](./Configuration.md) | [简体中文](./Configuration.zh-CN.md) | Tiếng Việt | [日本語](./Configuration.ja-JP.md) | [ภาษาไทย](./Configuration.th-TH.md)
-
 # Cấu hình ứng dụng
 
 Kể từ phiên bản 0.8.0, Starward sẽ không còn sử dụng registry để lưu trữ cấu hình, mà thay vào đó sử dụng tập tin và cơ sở dữ liệu, giúp việc di chuyển tổng thể ứng dụng giữa các thiết bị trở nên dễ dàng hơn. Tuy nhiên, registry sẽ vẫn được sử dụng khi cấu trúc tập tin không đáp ứng các điều kiện sau:
@@ -80,7 +78,7 @@ Kiểu dữ liệu `Type` trong bảng sau sử dụng biểu thức trong C#, v
 
 | Key                             | Kiểu    | Giá trị mặc định | Chú thích                                                                                                                                                         |
 | ------------------------------- | ------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ApiCDNIndex                     | int     | -                | Tuỳ chọn API CDN, 0 - CloudFlare, 1 - GitHub, 2 - jsDelivr.                                                                                                        |
+| ApiCDNIndex                     | int     | -                | Tuỳ chọn API CDN, 0 - CloudFlare, 1 - GitHub, 2 - jsDelivr.                                                                                                       |
 | EnablePreviewRelease            | bool    | -                | Có tham gia kênh phát hành xem trước hay không.                                                                                                                   |
 | IgnoreVersion                   | string? | -                | Bỏ qua phiên bản của thông báo cập nhật, phiên bản mới hơn sẽ tiếp tục được thông báo chỉ khi chúng lớn hơn giá trị này.                                          |
 | EnableBannerAndPost             | bool    | -                | Hiển thị thông báo trò chơi ở trong trình khởi chạy.                                                                                                              |
@@ -96,7 +94,7 @@ Kiểu dữ liệu `Type` trong bảng sau sử dụng biểu thức trong C#, v
 | AcceptHoyolabToolboxAgreement   | bool    | -                | Chấp nhận tuyên bố từ chối trách nhiệm của trang công cụ HoYoLAB.                                                                                                 |
 | HoyolabToolboxPaneOpen          | bool    | true             | Thanh bên điều hướng ở trang công cụ HoYoLAB có mở hay không.                                                                                                     |
 | EnableSystemTrayIcon            | bool    | true             | Được kích hoạt để bật chế độ singleton, và ứng dụng sẽ được thu nhỏ xuống khay hệ thống khi nhấn vào nút đóng cửa sổ.                                             |
-| ExitWhenClosing                 | bool    | true             | Có thoát khỏi quy trình sau khi nhấp vào nút đóng cửa sổ hay không.                                                                                                |
+| ExitWhenClosing                 | bool    | true             | Có thoát khỏi quy trình sau khi nhấp vào nút đóng cửa sổ hay không.                                                                                               |
 
 ## Cài đặt động (Dynamic Settings)
 

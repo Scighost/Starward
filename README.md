@@ -1,4 +1,4 @@
-English | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/README.vi-VN.md) | [日本語](./docs/README.ja-JP.md) | [ภาษาไทย](./docs/README.th-TH.md)
+English | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/README.vi-VN.md) | [日本語](./docs/README.ja-JP.md) | [ภาษาไทย](./docs/README.th-TH.md) | [Русский](./docs/README.ru-RU.md)
 
 # What is Starward?
 
@@ -14,25 +14,23 @@ In addition to the download and installation of the game, the following features
 
 More features are being planned...
 
-> Starward will not achieve features that require developers to continually update game data and resources, such as gacha item images.
+> Starward will not achieve features that require developers to continually update game data and resources, such as stats for each gacha event.
 
-## Download
+## Install
 
 First, your device needs to meet the following requirements:
 
 - Windows 10 1809 (17763) and above
 - [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) installed
 - [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2) installed
-- Windows 10 users are advised to install the font [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
 - For better experience, please enable **Transparency effects** and **Animation effects** in the system settings
 
 Download the package for your CPU architecture from [GitHub Release](https://github.com/Scighost/Starward/releases). Extract it, then run `Starward.exe` and follow the prompts.
 
-Starward may crash after running on some devices. if you encounter this problem, create a `config.ini` file in the `Starward` folder and paste the following into it. See [docs/Configuration.md](. /Configuration.md) for more information about `config.ini` .
+Starward may crash after running on some devices. if you encounter this problem, create a `config.ini` file in the `Starward` folder and paste the following into it. See [docs/Configuration.md](./Configuration.md) for more information about `config.ini` .
 
 
 ``` ini
-EnableConsole=False
 UserDataFolder=.
 ```
 
@@ -41,10 +39,12 @@ UserDataFolder=.
 
 [![en-US translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en-US%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/en-US)
 [![ja-JP translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja-JP&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ja)
+[![ko-KR translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ko-KR&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ko%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ko)
 [![th-TH translation](https://img.shields.io/badge/dynamic/json?color=blue&label=th-TH&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27th%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/th)
 [![vi-VN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/vi)
 [![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-CN)
 [![zh-TW translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-TW)
+[![ru-RU translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ru-RU&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ru%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ru)
 
 Starward uses [Crowdin](https://crowdin.com/project/starward) for localization work, providing machine translated English text as the original. You can help us translate and proofread the local language, and we look forward to having more people participate. If you would like to add a new translation language, please create an issue.
 
@@ -70,6 +70,7 @@ And the third-party libraries used in this project include:
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
 -  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
+-  [HoYo-Glyphs](https://github.com/SpeedyOrc-C/HoYo-Glyphs)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
 -  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)

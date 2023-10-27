@@ -4,6 +4,15 @@ title: "[Bug] "
 labels: ["triage"]
 body:
 
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Your issue may be closed without any reply if duplicate.
+      options:
+        - label: My issue was not mentioned by others, and it is not a duplicate issue.
+          required: true
+
   - type: textarea
     id: bug
     attributes:
@@ -54,6 +63,8 @@ body:
       label: Log
       description: Please copy and paste any relevant log output.
       render: shell
+    validations:
+      required: true
 
   - type: textarea
     id: context

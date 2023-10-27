@@ -1,5 +1,3 @@
-[English](../README.md) | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/README.vi-VN.md) | [日本語](./docs/README.ja-JP.md) | ภาษาไทย
-
 # อะไรคือ Starward?
 
 **Starward**  มาจากสโลแกนของ Star Rail: ขอให้การเดินทางครั้งนี้ พาเรามุ่งไปสู่ดวงดาว (May This Journey Lead Us **Starward**) ซึ่งเหมาะมากที่จะใช้เป็นชื่อแอพ 
@@ -24,15 +22,13 @@ Starward เป็น launcer ที่รองรับเกมบนเด�
 - Windows 10 1809 (17763) ขึ้นไป
 - ติดตั้ง [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) 
 - ติดตั้ง [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2) installed
-- ผู้ใช้ Windows 10 ควรติดตั้งฟอนต์ [Segoe Fluent Icons](https://aka.ms/SegoeFluentIcons)
 
 ดาวน์โหลดแพ็คเกจสำหรับสถาปัตยกรรม CPU ที่ใช้อยู่จาก [GitHub Release](https://github.com/Scighost/Starward/releases) แตกไฟล์ แล้วรัน 'Starward.exe' แล้วทำตามที่มันบอกจนเซ็ทอัพเสร็จ
 
 Starward อาจ crash ได้บนบางอุปกรณ์ หากพบเจอปัญหานี้ให้สร้าง 'config.ini' ไฟล์ในโฟลเดอร์ 'Starward' แล้ววางข้อความต่อไปนี้ลงไป 
-ไปที่ [docs/Configuration.md](. /Configuration.md) หากต้องการข้อมูลเพิ่มเติมเกี่ยวกับ 'config.ini'
+ไปที่ [docs/Configuration.md](./Configuration.md) หากต้องการข้อมูลเพิ่มเติมเกี่ยวกับ 'config.ini'
 
 ``` ini
-EnableConsole=False
 UserDataFolder=.
 ```
 
@@ -40,6 +36,7 @@ UserDataFolder=.
 
 [![en-US translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en-US%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/en-US)
 [![ja-JP translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja-JP&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ja)
+[![ko-KR translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ko-KR&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ko%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ko)
 [![th-TH translation](https://img.shields.io/badge/dynamic/json?color=blue&label=th-TH&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27th%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/th)
 [![vi-VN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/vi)
 [![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-CN)
@@ -71,6 +68,8 @@ Starward ไม่เพียงแต่จะใช้ทรัพยาก�
 -  [Dapper](https://github.com/DapperLib/Dapper)
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
+-  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
+-  [HoYo-Glyphs](https://github.com/SpeedyOrc-C/HoYo-Glyphs)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
 -  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)

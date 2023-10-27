@@ -1,5 +1,3 @@
-[English](./Tips.md) | 简体中文 | [Tiếng Việt](./Tips.vi-VN.md)
-
 # 小提示
 
 本文的包含了在正常使用过程中可能无法发现的隐藏功能。
@@ -34,3 +32,15 @@
 
 <img src="https://user-images.githubusercontent.com/61003590/259004532-9fffe2ec-056f-495c-8840-1a3672e7be3c.png" width="200px" />
 
+
+## 拓展设置
+
+从 [0.10.2](https://github.com/Scighost/Starward/releases/tag/0.10.2) 版本开始，Starward 加入了部分功能开关的设置项，这些设置没有提供应用内的修改页面，你需要在 Starward 配置文件 `config.ini` 中修改。
+
+设置以键值对的方式存在，比如你想要关闭游戏公告的红点提醒，需要在 `config.ini` 文件中添加 `DisableGameNoticeRedHot=True`。
+
+|键|可用值|说明|
+|---|---|---|
+|DisableNavigationShortcut|`True` \| `False`|隐藏导航快捷方式|
+|DisableGameNoticeRedHot|`True` \| `False`|关闭游戏公告的红点提醒|
+|DisableGameAccountSwitcher|`True` \| `False`|隐藏游戏账号切换功能|

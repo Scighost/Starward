@@ -1,0 +1,239 @@
+<Page x:Class="Starward.Pages.SelfQueryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:convert="using:Starward.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
+      xmlns:local="using:Starward.Pages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:sc="using:Starward.Controls"
+      xmlns:scs="using:Starward.Core.SelfQuery"
+      x:DefaultBindMode="OneWay"
+      Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <convert:SelfQueryStatsNumberConverter x:Key="SelfQueryStatsNumberConverter" />
+        <convert:SelfQueryStatsNumberBrushConverter x:Key="SelfQueryStatsNumberBrushConverter" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Margin="24,0,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Text="{x:Bind lang:Lang.SelfQueryPage_AccountRecords}" />
+
+        <StackPanel Grid.ColumnSpan="2"
+                    Margin="0,0,24,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Spacing="16">
+            <ComboBox Name="ComboBox_Uid"
+                      MinWidth="160"
+                      VerticalAlignment="Center"
+                      DropDownClosed="ComboBox_Uid_DropDownClosed"
+                      DropDownOpened="ComboBox_Uid_DropDownOpened"
+                      ItemsSource="{x:Bind UidList}"
+                      SelectedItem="{x:Bind SelectUid, Mode=TwoWay}" />
+            <Button BorderThickness="0"
+                    Command="{x:Bind InputURLCommand}"
+                    Content="{x:Bind lang:Lang.GachaLogPage_InputURL}"
+                    Style="{ThemeResource AccentButtonStyle}" />
+        </StackPanel>
+
+
+        <Grid Grid.Row="1"
+              Margin="28,0,28,8"
+              Padding="8"
+              Background="{ThemeResource CustomOverlayAcrylicBrush}"
+              CornerRadius="4"
+              Visibility="{x:Bind QueryUserInfo, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <sc:CachedImage Width="40"
+                            Height="40"
+                            Margin="4,0,0,0"
+                            HorizontalAlignment="Left"
+                            CornerRadius="20"
+                            Source="{x:Bind GameIcon}" />
+            <StackPanel Margin="56,0,0,0"
+                        VerticalAlignment="Center"
+                        Spacing="2">
+                <TextBlock Text="{x:Bind QueryUserInfo.Nickname}" />
+                <TextBlock FontSize="12"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind QueryUserInfo.Uid}" />
+            </StackPanel>
+        </Grid>
+
+
+        <ListView Grid.Row="2"
+                  Margin="24,0,24,0"
+                  ItemsSource="{x:Bind TypeStatsList}"
+                  SelectedItem="{x:Bind SelectTypeStats, Mode=TwoWay}">
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="0,4,0,4" />
+                    <Setter Property="Padding" Value="4,0,4,0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="8"
+                          Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                          ColumnSpacing="8"
+                          CornerRadius="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" MinWidth="32" />
+                        </Grid.ColumnDefinitions>
+                        <sc:CachedImage Width="40"
+                                        Height="40"
+                                        Source="{Binding Icon}" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock HorizontalAlignment="Left"
+                                       FontSize="14"
+                                       Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                                       Text="{Binding Add, Converter={StaticResource SelfQueryStatsNumberConverter}}" />
+                            <TextBlock HorizontalAlignment="Left"
+                                       FontSize="14"
+                                       Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                       Text="{Binding Sub, Converter={StaticResource SelfQueryStatsNumberConverter}}" />
+                        </StackPanel>
+                        <ProgressRing Grid.Column="2"
+                                      Width="24"
+                                      Height="24"
+                                      Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <TextBlock Grid.Column="2"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="12"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{Binding Page}"
+                                   Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <Button Name="Button_UpdateSelfQueryItems"
+                                Grid.Column="2"
+                                Width="32"
+                                Height="32"
+                                Padding="0"
+                                Click="Button_UpdateSelfQueryItems_Click"
+                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                                Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                            <FontIcon FontSize="16"
+                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                      Glyph="&#xE895;" />
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+        <Grid Grid.Row="1"
+              Grid.RowSpan="2"
+              Grid.Column="1"
+              RowSpacing="12"
+              Visibility="{x:Bind SelectTypeStats, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Margin="20,0,0,0"
+                        Orientation="Horizontal"
+                        Spacing="24">
+                <TextBlock VerticalAlignment="Center"
+                           FontSize="16"
+                           Text="{x:Bind SelectTypeStats.Name}" />
+                <ComboBox Width="120"
+                          DropDownClosed="ComboBox_Uid_DropDownClosed"
+                          DropDownOpened="ComboBox_Uid_DropDownOpened"
+                          ItemsSource="{x:Bind TypeStatsMonthList}"
+                          SelectedItem="{x:Bind SelectTypeStatsMonth, Mode=TwoWay}" />
+                <TextBlock HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                           Text="{x:Bind MonthAddNum, Converter={StaticResource SelfQueryStatsNumberConverter}}" />
+                <TextBlock HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                           Text="{x:Bind MonthSubNum, Converter={StaticResource SelfQueryStatsNumberConverter}}" />
+                <Button Command="{x:Bind DeleteCurrentMonthDataCommand}" Content="{x:Bind lang:Lang.SelfQueryPage_DeleteThisMonthSData}" />
+            </StackPanel>
+            <ListView Name="ListView_QueryItems_Genshin"
+                      Grid.Row="1"
+                      Padding="0,0,0,12"
+                      ItemsSource="{x:Bind GenshinQueryItemList}"
+                      SelectionMode="None"
+                      Visibility="Collapsed">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="scs:GenshinQueryItem">
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <TextBlock Width="160"
+                                       VerticalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Bind DateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                            <TextBlock Width="220"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind Reason}"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Width="220"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind Name}"
+                                       Visibility="{x:Bind Name, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                            <TextBlock VerticalAlignment="Center"
+                                       Foreground="{x:Bind AddNum, Converter={StaticResource SelfQueryStatsNumberBrushConverter}}"
+                                       Text="{x:Bind AddNum, Converter={StaticResource SelfQueryStatsNumberConverter}}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView Name="ListView_QueryItems_StarRail"
+                      Grid.Row="1"
+                      Padding="0,0,0,12"
+                      ItemsSource="{x:Bind StarRailQueryItemList}"
+                      SelectionMode="None"
+                      Visibility="Collapsed">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="scs:StarRailQueryItem">
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <TextBlock Width="160"
+                                       VerticalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Bind Time.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                            <TextBlock Width="220"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind Action}"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Width="220"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind EquipmentName}"
+                                       Visibility="{x:Bind EquipmentName, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                            <TextBlock Width="220"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind RelicName}"
+                                       Visibility="{x:Bind RelicName, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                            <TextBlock VerticalAlignment="Center"
+                                       Foreground="{x:Bind AddNum, Converter={StaticResource SelfQueryStatsNumberBrushConverter}}"
+                                       Text="{x:Bind AddNum, Converter={StaticResource SelfQueryStatsNumberConverter}}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+
+
+    </Grid>
+</Page>

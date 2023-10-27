@@ -4,6 +4,17 @@ title: "[Feature] "
 labels: ["triage"]
 body:
 
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Your suggested feature may be closed without any reply if duplicate.
+      options:
+        - label: I have already read [docs/Tips.md](https://github.com/Scighost/Starward/blob/main/docs/Tips.md), but my feature is not implemented.
+          required: true
+        - label: My suggested feature was not mentioned by others, and it is not a duplicate feature.
+          required: true
+
   - type: textarea
     id: summary
     attributes:

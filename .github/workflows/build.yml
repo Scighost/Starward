@@ -33,11 +33,21 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.3.1
 
-    - name: Restore
-      run: dotnet restore Starward
+    - name: SHA
+      id: sha
+      run: echo "sha=$("${{ github.sha }}".SubString(0, 7))" >> $env:GITHUB_OUTPUT
 
     - name: Build
       run: |
-        msbuild Starward.Launcher "-property:Configuration=$env:Configuration;Platform=$env:Platform"
-        dotnet build Starward -c $env:Configuration -p:Platform=$env:Platform
+        $sha = "${{ steps.sha.outputs.sha }}"
+        New-Item -Path "build/Starward/" -Type Directory
+        msbuild src/Starward.Launcher "-property:Configuration=$env:Configuration;Platform=$env:Platform;OutDir=$(Resolve-Path "build/Starward/")"
+        dotnet build src/Starward -c $env:Configuration -o "build/Starward/app-build.$sha" -p:Platform=$env:Platform -p:Version="100-build.$sha"
+        Add-Content "build/Starward/version.ini" -Value "app_folder=app-build.$sha`r`nexe_name=Starward.exe"
+        Remove-Item "build/Starward/Starward.pdb" -Force
 
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: Starward_${{ matrix.configuration }}_${{ matrix.platform }}_${{ steps.sha.outputs.sha }}
+        path: build/Starward/

@@ -1,0 +1,27 @@
+<Page x:Class="Starward.Pages.GameNoticesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Starward.Pages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Loaded="Page_Loaded"
+      mc:Ignorable="d">
+
+    <Grid>
+
+        <Image Name="Image_Bg"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Stretch="UniformToFill" />
+
+        <WebView2 Name="webview"
+                  Grid.Row="1"
+                  DefaultBackgroundColor="#404040"
+                  Opacity="0">
+            <WebView2.Resources>
+                <SolidColorBrush x:Key="BrushForThemeBackgroundColor" Color="#404040" />
+            </WebView2.Resources>
+        </WebView2>
+
+    </Grid>
+</Page>

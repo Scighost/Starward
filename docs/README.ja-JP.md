@@ -1,5 +1,3 @@
-[English](../README.md) | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/README.vi-VN.md) | 日本語 | [ภาษาไทย](./docs/README.th-TH.md)
-
 # Starward って何ですか?
 
 **Starward** は、崩壊:スターレイルのスローガン「May This Journey Lead Us Starward」(この旅が私たちを星へと導くように)に由来しています。 **Starward** は、miHoYo のすべてのデスクトップ版ゲームをサポートするゲームランチャーです。このプロジェクトの目標は、公式ランチャーを完全に置き換える事と更にいくつかの拡張機能を追加する事になります。
@@ -30,7 +28,6 @@
 一部のデバイスで `Starward.exe` を実行時にクラッシュをする問題が発生する事があります。この問題が発生した場合は、`Starward.exe` が存在するフォルダーに `config.ini` のファイルを作成して、以下を貼り付けてください。`config.ini` の詳細は、[docs/Configuration.ja-JP.md](./Configuration.ja-JP.md) を参照してください。
 
 ``` ini
-EnableConsole=False
 UserDataFolder=.
 ```
 
@@ -39,6 +36,7 @@ UserDataFolder=.
 
 [![en-US translation](https://img.shields.io/badge/dynamic/json?color=blue&label=en-US&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27en-US%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/en-US)
 [![ja-JP translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja-JP&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ja)
+[![ko-KR translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ko-KR&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ko%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ko)
 [![th-TH translation](https://img.shields.io/badge/dynamic/json?color=blue&label=th-TH&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27th%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/th)
 [![vi-VN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/vi)
 [![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-CN)
@@ -67,8 +65,10 @@ Starward はローカライズに[Crowdin](https://crowdin.com/project/starward)
 -  [Dapper](https://github.com/DapperLib/Dapper)
 -  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
 -  [HDiffPatch](https://github.com/sisong/HDiffPatch)
--  [Markdig](https://github.com/xoofx/markdig)
+-  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
+-  [HoYo-Glyphs](https://github.com/SpeedyOrc-C/HoYo-Glyphs)
 -  [MiniExcel](https://github.com/mini-software/MiniExcel)
+-  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
 -  [Serilog](https://github.com/serilog/serilog)
 -  [SevenZipExtractor](https://github.com/adoconnection/SevenZipExtractor)
 -  [Vanara PInvoke](https://github.com/dahall/Vanara)

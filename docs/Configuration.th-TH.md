@@ -1,5 +1,3 @@
-[English](./Configuration.md) | [简体中文](./Configuration.zh-CN.md) | [Tiếng Việt](./Configuration.vi-VN.md) | [日本語](./Configuration.ja-JP.md) | ภาษาไทย
-
 # Application Configuration
 
 เริ่มตั้งแต่เวอร์ชัน 0.8.0 Starward จะไม่ใช้ registry ในการเก็บข้อมูลตั้งค่าต่างๆอีกต่อไป แต่จะใช้ไฟล์แต่ฐานข้อมูลทำให้ง่ายขึ้นในการย้ายข้อมูลแอพพลิเคชั่นระหว่างอุปกรณ์ต่างๆ อย่างไรก็ตาม registry ยังคงถูกใช้หากโครงสร้างของไฟล์ไม่ได้ตรงกับเงื่อนไขดังต่อไปนี้ :
