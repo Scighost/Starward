@@ -6,7 +6,7 @@ Các phần mềm khác thậm chí cả trang web cũng có thể sử dụng g
 
 ## Các tính năng có sẵn
 
-Tham số `game_biz` sau đây là mã nhận dạng khu vực trò chơi và có thể được xem trong [docs/Configuration.md](./docs/Configuration.vi-VN.md#game-regions) .
+Tham số `game_biz` sau đây là mã nhận dạng khu vực trò chơi và có thể được xem trong [docs/Configuration.vi-VN.md](./docs/Configuration.vi-VN.md#game-regions) .
 
 ### Bắt đầu trò chơi
 
