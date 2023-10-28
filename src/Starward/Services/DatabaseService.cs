@@ -98,7 +98,7 @@ internal class DatabaseService
         using var backupCon = new SqliteConnection($"DataSource={file};Pooling=False;");
         backupCon.Open();
         using var con = CreateConnection();
-        con.Execute("VACUUM;");
+        con.Execute("VACUUM;", commandType: CommandType.Text);
         con.BackupDatabase(backupCon);
         var time = DateTime.Now;
         SetValue("LastBackupDatabase", Path.GetFileName(file), time);
