@@ -33,9 +33,9 @@ Theo mặc định, ngôn ngữ của vật phẩm gacha sẽ được chọn �
 
 Kể từ phiên bản [0.10.2](https://github.com/Scighost/Starward/releases/tag/0.10.2), Starward đã thêm một số cài đặt tiện ích mở rộng để bật hoặc tắt một số tính năng. Các cài đặt này không có trang chỉnh sửa trong ứng dụng và bạn cần sửa đổi chúng trong tệp cấu hình Starward `config.ini`.
 
-Cài đặt tồn tại theo dạng cặp key-value. Ví dụ: nếu bạn muốn tắt lời nhắc chấm đỏ về thông báo trò chơi, bạn cần thêm 'DisableGameNoticeRedHot = True' vào tệp `config.ini`.
+Cài đặt tồn tại theo dạng cặp khóa-giá trị. Ví dụ: nếu bạn muốn tắt lời nhắc chấm đỏ về thông báo trò chơi, bạn cần thêm 'DisableGameNoticeRedHot = True' vào tệp `config.ini`.
 
-| Key                        | Giá trị khả dụng  | Mô tả                                       |
+| Khóa                       | Giá trị khả dụng  | Mô tả                                       |
 | -------------------------- | ----------------- | ------------------------------------------- |
 | DisableNavigationShortcut  | `True` \| `False` | Ẩn phím tắt điều hướng.                     |
 | DisableGameNoticeRedHot    | `True` \| `False` | Tắt nhắc nhở chấm đỏ về thông báo trò chơi. |
