@@ -2,7 +2,7 @@
 
 Các phần mềm khác thậm chí cả trang web cũng có thể sử dụng giao thức url `starward://` để gọi một số tính năng của Starward. Giao thức URL chỉ được đăng ký khi người dùng bật tính năng này trong trang cài đặt.
 
-![URL Protocol](https://github.com/phucho0237/Starward/assets/88989555/eb454803-b1f9-468f-94ea-3a431e04457f)
+![URL Protocol](https://user-images.githubusercontent.com/88989555/278791338-1b516f5d-95dd-42a1-b620-ec0bc9e2f421.png)
 
 ## Các tính năng có sẵn
 
