@@ -131,6 +131,8 @@ public class HyperionClient : GameRecordClient
         request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, Regex.Match(role.Cookie ?? "", @"_MHYUUID=([^;]+)").Groups[1].Value);
+        request.Headers.Add(x_rpc_device_fp, Regex.Match(role.Cookie ?? "", @"DEVICEFP=([^;]+)").Groups[1].Value);
         request.Headers.Add(X_Request_With, com_mihoyo_hyperion);
         var data = await CommonSendAsync<SpiralAbyssInfo>(request, cancellationToken);
         data.Uid = role.Uid;
