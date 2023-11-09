@@ -1141,18 +1141,18 @@
     <value>関連ログを確認してください。</value>
   </data>
   <data name="SettingPage_Donate" xml:space="preserve">
-    <value>Donate</value>
+    <value>寄付</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
-    <value>URL Protocol (Experimental)</value>
+    <value>URLプロトコル (試験的)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
-    <value>Other software can use some of Starward's features through the URL protocol.</value>
+    <value>他のソフトウェアは、URLプロトコルを通じてStarwardの機能の一部を使用ができます。</value>
   </data>
   <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
-    <value>Register URL Protocol</value>
+    <value>URLプロトコルを登録</value>
   </data>
   <data name="SettingPage_TestURLProtocol" xml:space="preserve">
-    <value>Test URL Protocol</value>
+    <value>URLプロトコルをテスト</value>
   </data>
 </root>

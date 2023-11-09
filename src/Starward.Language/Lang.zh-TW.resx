@@ -154,7 +154,7 @@
     <value>剩餘空間可能不足</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
-    <value>保底</value>
+    <value>已墊</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
     <value>平均</value>
@@ -435,13 +435,13 @@
     <value>啟動參數</value>
   </data>
   <data name="GameSettingPage_Resolution" xml:space="preserve">
-    <value>分辨率</value>
+    <value>解析度</value>
   </data>
   <data name="GameSettingPage_FullScreen" xml:space="preserve">
     <value>全螢幕</value>
   </data>
   <data name="GameSettingPage_CustomResolution" xml:space="preserve">
-    <value>自訂分辨率</value>
+    <value>自訂解析度</value>
   </data>
   <data name="GameSettingPage_VoiceLanguage" xml:space="preserve">
     <value>語音</value>
@@ -456,7 +456,7 @@
     <value>圖像品質預設</value>
   </data>
   <data name="GameSettingPage_RenderScale" xml:space="preserve">
-    <value>渲染精度</value>
+    <value>渲染精細度</value>
   </data>
   <data name="GameSettingPage_FPS" xml:space="preserve">
     <value>FPS</value>
@@ -465,7 +465,7 @@
     <value>垂直同步</value>
   </data>
   <data name="GameSettingPage_AntiAliasing" xml:space="preserve">
-    <value>抗鋸齒</value>
+    <value>反鋸齒</value>
   </data>
   <data name="GameSettingPage_ShadowQuality" xml:space="preserve">
     <value>陰影品質</value>
@@ -498,7 +498,7 @@
     <value>遊戲運行時更改的設定無法生效</value>
   </data>
   <data name="GameSettingPage_ResolutionMustBeGreaterThan0" xml:space="preserve">
-    <value>分辨率必須大於 0</value>
+    <value>解析度必須大於 0</value>
   </data>
   <data name="GameSettingPage_StartArgumentDesc" xml:space="preserve">
     <value>關於啟動參數的資訊，請參閲 {Unity Standalone Player Command Line Arguments}</value>
@@ -1013,7 +1013,7 @@
     <value>選擇伺服器</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
-    <value>系統托盤圖示</value>
+    <value>系統匣圖示</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
     <value>關閉視窗時退出啟動器</value>
@@ -1022,13 +1022,13 @@
     <value>退出</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>系統托盤</value>
+    <value>系統匣</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
     <value>安裝器</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>您可以退出，或隱藏視窗至系統托盤。</value>
+    <value>您可以退出，或隱藏視窗至系統匣。</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
     <value>隱藏</value>
@@ -1084,10 +1084,10 @@
     <value>Uid {0} 的帳號已存在，替換或儲存為新帳號？</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
-    <value>修復系統托盤</value>
+    <value>修復系統匣</value>
   </data>
   <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
-    <value>修正無法建立系統托盤圖示的問題，此方法會重新啟動資源管理器。</value>
+    <value>修正無法建立系統匣圖示的問題，此方法會重新啟動資源管理器。</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
     <value>帳號記錄</value>
@@ -1118,7 +1118,7 @@
     <value>解除安裝遊戲</value>
   </data>
   <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
-    <value>清理註冊表</value>
+    <value>清理登錄檔</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
     <value>刪除臨時文件</value>

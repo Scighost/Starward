@@ -1142,7 +1142,7 @@
     <value>请检查相关日志。</value>
   </data>
   <data name="SettingPage_Donate" xml:space="preserve">
-    <value>赞助</value>
+    <value>赞助开发者</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
     <value>URL 协议（实验中）</value>
