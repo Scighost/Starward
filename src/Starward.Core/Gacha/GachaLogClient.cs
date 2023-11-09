@@ -23,7 +23,7 @@ public abstract class GachaLogClient
     protected const string API_PREFIX_YS_OS = "https://hk4e-api-os.hoyoverse.com/event/gacha_info/api/getGachaLog";
 
     protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_YS_CN => "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html"u8;
-    protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_YS_OS => "https://webstatic-sea.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html"u8;
+    protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_YS_OS => "https://gs.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html"u8;
 
 
 
