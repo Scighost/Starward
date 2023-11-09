@@ -918,7 +918,10 @@ internal partial class DownloadGameService
                 break;
             }
 
-            await ClearDeprecatedFilesAsync();
+            if (launcherResource.PreDownloadGame is null)
+            {
+                await ClearDeprecatedFilesAsync();
+            }
 
             var config = $"""
                 [General]
