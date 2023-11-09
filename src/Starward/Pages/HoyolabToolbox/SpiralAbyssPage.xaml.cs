@@ -123,7 +123,7 @@ public sealed partial class SpiralAbyssPage : Page
         catch (miHoYoApiException ex)
         {
             _logger.LogError(ex, "Refresh abyss data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
-            if (ex.ReturnCode == 1034)
+            if (ex.ReturnCode is 1034 or 5003)
             {
                 NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Warning, Lang.Common_AccountError, ex.Message, Lang.HoyolabToolboxPage_VerifyAccount, () =>
                 {

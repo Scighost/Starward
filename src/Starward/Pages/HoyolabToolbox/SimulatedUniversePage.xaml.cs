@@ -138,7 +138,7 @@ public sealed partial class SimulatedUniversePage : Page
         catch (miHoYoApiException ex)
         {
             _logger.LogError(ex, "Get simulated universe data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
-            if (ex.ReturnCode == 1034)
+            if (ex.ReturnCode is 1034 or 5003)
             {
                 NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Warning, Lang.Common_AccountError, ex.Message, Lang.HoyolabToolboxPage_VerifyAccount, () =>
                 {
