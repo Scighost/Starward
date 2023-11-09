@@ -344,7 +344,7 @@
     <value>초보자 뽑기 표시</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>삭제기록</value>
+    <value>기록삭제</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
     <value>언어</value>
