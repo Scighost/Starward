@@ -22,8 +22,8 @@ public abstract class GachaLogClient
     protected const string API_PREFIX_YS_CN = "https://hk4e-api.mihoyo.com/event/gacha_info/api/getGachaLog";
     protected const string API_PREFIX_YS_OS = "https://hk4e-api-os.hoyoverse.com/event/gacha_info/api/getGachaLog";
 
-    protected static ReadOnlySpan<byte> MEMORY_WEB_PREFIX_YS_CN => "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html"u8;
-    protected static ReadOnlySpan<byte> MEMORY_WEB_PREFIX_YS_OS => "https://webstatic-sea.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html"u8;
+    protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_YS_CN => "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html"u8;
+    protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_YS_OS => "https://webstatic-sea.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html"u8;
 
 
 
@@ -35,8 +35,8 @@ public abstract class GachaLogClient
     protected const string API_PREFIX_SR_CN = "https://api-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
     protected const string API_PREFIX_SR_OS = "https://api-os-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
 
-    protected static ReadOnlySpan<byte> MEMORY_WEB_PREFIX_SR_CN => "https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha-v2/index.html"u8;
-    protected static ReadOnlySpan<byte> MEMORY_WEB_PREFIX_SR_OS => "https://gs.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html"u8;
+    protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_SR_CN => "https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha-v2/index.html"u8;
+    protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_SR_OS => "https://gs.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html"u8;
 
 
 
@@ -185,10 +185,10 @@ public abstract class GachaLogClient
     {
         return gameBiz switch
         {
-            GameBiz.hk4e_cn or GameBiz.hk4e_cloud => MEMORY_WEB_PREFIX_YS_CN,
-            GameBiz.hk4e_global => MEMORY_WEB_PREFIX_YS_OS,
-            GameBiz.hkrpg_cn => MEMORY_WEB_PREFIX_SR_CN,
-            GameBiz.hkrpg_global => MEMORY_WEB_PREFIX_SR_OS,
+            GameBiz.hk4e_cn or GameBiz.hk4e_cloud => SPAN_WEB_PREFIX_YS_CN,
+            GameBiz.hk4e_global => SPAN_WEB_PREFIX_YS_OS,
+            GameBiz.hkrpg_cn => SPAN_WEB_PREFIX_SR_CN,
+            GameBiz.hkrpg_global => SPAN_WEB_PREFIX_SR_OS,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
         };
     }
