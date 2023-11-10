@@ -104,8 +104,8 @@ internal class GenshinGachaService : GachaLogService
     private async Task ExportAsJsonAsync(long uid, string output)
     {
         using var dapper = _database.CreateConnection();
-        var list = dapper.Query<UIAFItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-        var obj = new UIAFObj(uid, list);
+        var list = dapper.Query<UIGFItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        var obj = new UIGFObj(uid, list);
         var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
         await File.WriteAllTextAsync(output, str);
     }
@@ -127,7 +127,7 @@ internal class GenshinGachaService : GachaLogService
     public override long ImportGachaLog(string file)
     {
         var str = File.ReadAllText(file);
-        var obj = JsonSerializer.Deserialize<UIAFObj>(str);
+        var obj = JsonSerializer.Deserialize<UIGFObj>(str);
         if (obj != null)
         {
             string lang = obj.info.lang ?? "";
@@ -195,11 +195,11 @@ internal class GenshinGachaService : GachaLogService
 
 
 
-    private class UIAFObj
+    private class UIGFObj
     {
-        public UIAFObj() { }
+        public UIGFObj() { }
 
-        public UIAFObj(long uid, List<UIAFItem> list)
+        public UIGFObj(long uid, List<UIGFItem> list)
         {
             this.info = new UIAFInfo(uid, list);
             foreach (var item in list)
@@ -215,7 +215,7 @@ internal class GenshinGachaService : GachaLogService
 
         public UIAFInfo info { get; set; }
 
-        public List<UIAFItem> list { get; set; }
+        public List<UIGFItem> list { get; set; }
     }
 
 
@@ -238,21 +238,30 @@ internal class GenshinGachaService : GachaLogService
 
         public string uigf_version { get; set; } = "v2.3";
 
+        public int? region_time_zone { get; set; }
+
         public UIAFInfo() { }
 
-        public UIAFInfo(long uid, List<UIAFItem> list)
+        public UIAFInfo(long uid, List<UIGFItem> list)
         {
             this.uid = uid;
             lang = list.FirstOrDefault()?.Lang ?? "";
             var time = DateTimeOffset.Now;
             export_time = time.ToString("yyyy-MM-dd HH:mm:ss");
             export_timestamp = time.ToUnixTimeSeconds();
+            region_time_zone = uid.ToString().FirstOrDefault() switch
+            {
+                >= '1' and <= '5' or '8' or '9' => 8,
+                '6' => -5,
+                '7' => 1,
+                _ => null,
+            };
         }
     }
 
 
 
-    private class UIAFItem : GenshinGachaItem
+    private class UIGFItem : GenshinGachaItem
     {
         public string uigf_gacha_type { get; set; }
     }
