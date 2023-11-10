@@ -281,6 +281,10 @@ public sealed partial class LauncherPage : Page
             {
                 uid = account.Uid;
             }
+            if (uid == 0)
+            {
+                return;
+            }
             if (await _launcherService.IsNoticesAlertAsync(gameBiz, uid))
             {
                 Image_GameNoticesAlert.Visibility = Visibility.Visible;
