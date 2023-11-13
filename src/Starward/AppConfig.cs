@@ -316,7 +316,11 @@ internal static class AppConfig
 
     #region Static Setting
 
-
+    public static int DowlondSpeed
+    {
+        get => GetValue<int>();
+        set => SetValue(value);
+    }
 
     public static int ApiCDNIndex
     {

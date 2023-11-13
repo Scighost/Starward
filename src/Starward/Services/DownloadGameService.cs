@@ -733,6 +733,7 @@ internal partial class DownloadGameService
     public async Task DownloadAsync(CancellationToken cancellationToken)
     {
         const int bufferSize = 1 << 16;
+        int speed = AppConfig.DowlondSpeed * 500;
         try
         {
             State = DownloadGameState.Downloading;
@@ -778,8 +779,32 @@ internal partial class DownloadGameService
 
                         var buffer = new byte[bufferSize];
                         int length;
+                        long total_read = 0;
+                        DateTime begin = DateTime.Now;
                         while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {
+                            if (AppConfig.DowlondSpeed != 100)
+                            {
+                                total_read += bufferSize;
+                                double totalSeconds = DateTime.Now.Subtract(begin).TotalSeconds;
+                                double byteper = total_read / totalSeconds;
+                                if (double.IsInfinity(byteper))
+                                {
+                                    await fs.WriteAsync(buffer.AsMemory(0, length), token).ConfigureAwait(false);
+                                    Interlocked.Add(ref progressBytes, length);
+                                    continue;
+                                }
+                                else
+                                {
+                                    double speedPer = byteper / 1024;
+                                    if (speedPer >= speed)
+                                    {
+                                        double tempData = ((speedPer - speed) < 1) ? 1 : speedPer - speed;
+                                        int sleepMS = Convert.ToInt32(tempData * (1000 / speed) + 100);
+                                        Thread.Sleep((sleepMS > 1000) ? 1000 : sleepMS);
+                                    }
+                                }
+                            }
                             await fs.WriteAsync(buffer.AsMemory(0, length), token).ConfigureAwait(false);
                             Interlocked.Add(ref progressBytes, length);
                         }
@@ -837,6 +862,7 @@ internal partial class DownloadGameService
     public async Task DownloadSeparateFilesAsync(CancellationToken cancellationToken)
     {
         const int bufferSize = 1 << 16;
+        int speed = AppConfig.DowlondSpeed * 500;
         try
         {
             State = DownloadGameState.Downloading;
@@ -883,8 +909,32 @@ internal partial class DownloadGameService
 
                         var buffer = new byte[bufferSize];
                         int length;
+                        long total_read = 0;
+                        DateTime begin = DateTime.Now;
                         while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {
+                            if (AppConfig.DowlondSpeed != 100)
+                            {
+                                total_read += bufferSize;
+                                double totalSeconds = DateTime.Now.Subtract(begin).TotalSeconds;
+                                double byteper = total_read / totalSeconds;
+                                if (double.IsInfinity(byteper))
+                                {
+                                    await fs.WriteAsync(buffer.AsMemory(0, length), token).ConfigureAwait(false);
+                                    Interlocked.Add(ref progressBytes, length);
+                                    continue;
+                                }
+                                else
+                                {
+                                    double speedPer = byteper / 1024;
+                                    if (speedPer >= speed)
+                                    {
+                                        double tempData = ((speedPer - speed) < 1) ? 1 : speedPer - speed;
+                                        int sleepMS = Convert.ToInt32(tempData * (1000 / speed) + 100);
+                                        Thread.Sleep((sleepMS > 1000) ? 1000 : sleepMS);
+                                    }
+                                }
+                            }
                             await fs.WriteAsync(buffer.AsMemory(0, length), token).ConfigureAwait(false);
                             Interlocked.Add(ref progressBytes, length);
                         }
