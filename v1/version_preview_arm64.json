@@ -1,13 +1,13 @@
 {
-  "InstallHash": null,
-  "Architecture": "arm64",
-  "Portable": "https://starward.scighost.com/release/package/Starward_Portable_0.10.5-beta.1_arm64.7z",
-  "SeparatePrefix": "https://starward.scighost.com/release/separate_files/",
-  "DisableAutoUpdate": false,
-  "InstallSize": 0,
-  "Version": "0.10.5-beta.1",
   "Install": null,
-  "PortableHash": "4EA640574B20376B5BBA2808B578C93404427C3DB15D17362C91AB4CAFEE6DEF",
-  "PortableSize": 52375092,
-  "BuildTime": "2023-11-18T08:30:07.1315548+00:00"
+  "InstallSize": 0,
+  "Architecture": "arm64",
+  "DisableAutoUpdate": false,
+  "InstallHash": null,
+  "Portable": "https://starward.scighost.com/release/package/Starward_Portable_0.10.5-beta.2_arm64.7z",
+  "BuildTime": "2023-11-18T15:31:14.9645632+00:00",
+  "SeparatePrefix": "https://starward.scighost.com/release/separate_files/",
+  "Version": "0.10.5-beta.2",
+  "PortableHash": "7D4A1781B588D428AA6B7B648C1A6C184AE7E6C461FF06F67F510799661CB594",
+  "PortableSize": 52481402
 }
