@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
+		<TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 		<RootNamespace>Starward</RootNamespace>
 		<Nullable>enable</Nullable>
@@ -20,6 +20,8 @@
 		<TieredCompilationQuickJitForLoops>true</TieredCompilationQuickJitForLoops>
 		<TieredPGO>true</TieredPGO>
 		<ApplicationIcon>logo.ico</ApplicationIcon>
+		<UseRidGraph>true</UseRidGraph>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -28,22 +30,22 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Core" Version="7.1.2" />
-		<PackageReference Include="Dapper" Version="2.1.15" />
-		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.115" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.13" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
-		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.3" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230724000" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+		<PackageReference Include="Dapper" Version="2.1.21" />
+		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.118" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.0" />
+		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.4" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
 		<PackageReference Include="MiniExcel" Version="1.31.2" />
-		<PackageReference Include="NuGet.Versioning" Version="6.7.0" />
-		<PackageReference Include="ScottPlot.WinUI" Version="5.0.6-beta" />
-		<PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+		<PackageReference Include="NuGet.Versioning" Version="6.8.0" />
+		<PackageReference Include="ScottPlot.WinUI" Version="5.0.9-beta" />
+		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="Starward.Assets" Version="0.4.3" />
+		<PackageReference Include="Starward.Assets" Version="0.4.5" />
 		<PackageReference Include="Starward.NativeLib" Version="0.2.0" />
 		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.17" />
 		<PackageReference Include="Vanara.PInvoke.User32" Version="3.4.17" />
