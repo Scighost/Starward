@@ -615,7 +615,7 @@ internal class DatabaseService
                 return new();
             }
 
-            public override void SetValue(IDbDataParameter parameter, List<TravelersDiaryPrimogemsMonthGroupStats> value)
+            public override void SetValue(IDbDataParameter parameter, List<TravelersDiaryPrimogemsMonthGroupStats>? value)
             {
                 parameter.Value = JsonSerializer.Serialize(value, JsonSerializerOptions);
             }
@@ -636,7 +636,7 @@ internal class DatabaseService
                 return new();
             }
 
-            public override void SetValue(IDbDataParameter parameter, List<TrailblazeCalendarMonthDataGroupBy> value)
+            public override void SetValue(IDbDataParameter parameter, List<TrailblazeCalendarMonthDataGroupBy>? value)
             {
                 parameter.Value = JsonSerializer.Serialize(value, JsonSerializerOptions);
             }
@@ -657,7 +657,7 @@ internal class DatabaseService
                 return new();
             }
 
-            public override void SetValue(IDbDataParameter parameter, List<string> value)
+            public override void SetValue(IDbDataParameter parameter, List<string>? value)
             {
                 parameter.Value = JsonSerializer.Serialize(value, JsonSerializerOptions);
             }
