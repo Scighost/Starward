@@ -22,6 +22,7 @@
 		<ApplicationIcon>logo.ico</ApplicationIcon>
 		<UseRidGraph>true</UseRidGraph>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 	</PropertyGroup>
 
 	<ItemGroup>
