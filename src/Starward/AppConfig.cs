@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Win32;
 using Serilog;
 using Starward.Core;
 using Starward.Core.Gacha.Genshin;
@@ -31,14 +30,10 @@ internal static class AppConfig
 {
 
 
-#if (DEBUG || DEV) && !DISABLE_DEV
-    private const string REG_KEY_NAME = @"HKEY_CURRENT_USER\Software\Starward_Dev";
-#else
-    private const string REG_KEY_NAME = @"HKEY_CURRENT_USER\Software\Starward";
-#endif
-
-
     public static string? AppVersion { get; private set; }
+
+
+    public static bool IsPortable { get; private set; }
 
 
     public static IConfigurationRoot Configuration { get; private set; }
@@ -53,12 +48,9 @@ internal static class AppConfig
     private static IServiceProvider _serviceProvider;
 
 
-    private static bool reg;
-
-
     static AppConfig()
     {
-        LoadConfiguration();
+        Initialize();
     }
 
 
@@ -78,7 +70,7 @@ internal static class AppConfig
 
 
 
-    #region UserData
+    #region Ini Config
 
 
     private static int windowSizeMode;
@@ -122,7 +114,8 @@ internal static class AppConfig
     public static bool DisableGameAccountSwitcher { get; set; }
 
 
-    private static void LoadConfiguration()
+
+    private static void Initialize()
     {
         try
         {
@@ -132,51 +125,43 @@ internal static class AppConfig
 
             string? baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'));
             string exe = Path.Join(baseDir, "Starward.exe");
-            var builder = new ConfigurationBuilder();
             if (File.Exists(exe))
             {
-                string ini = Path.Join(baseDir, "config.ini");
-                if (File.Exists(ini))
-                {
-                    builder.AddIniFile(ini);
-                }
-                Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
-                windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
-                language = Configuration.GetValue<string>(nameof(Language));
-                DisableNavigationShortcut = Configuration.GetValue<bool>(nameof(DisableNavigationShortcut));
-                DisableGameNoticeRedHot = Configuration.GetValue<bool>(nameof(DisableGameNoticeRedHot));
-                DisableGameAccountSwitcher = Configuration.GetValue<bool>(nameof(DisableGameAccountSwitcher));
-                string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
-                if (!string.IsNullOrWhiteSpace(dir))
-                {
-                    string folder;
-                    if (Path.IsPathFullyQualified(dir))
-                    {
-                        folder = dir;
-                    }
-                    else
-                    {
-                        folder = Path.Join(baseDir, dir);
-                    }
-                    if (Directory.Exists(folder))
-                    {
-                        userDataFolder = Path.GetFullPath(folder);
-                    }
-                }
+                IsPortable = true;
             }
             else
             {
-                reg = true;
-                Configuration = builder.AddCommandLine(Environment.GetCommandLineArgs()).Build();
-                windowSizeMode = Registry.GetValue(REG_KEY_NAME, nameof(WindowSizeMode), null) as int? ?? 0;
-                language = Registry.GetValue(REG_KEY_NAME, nameof(Language), null) as string;
-                DisableNavigationShortcut = Registry.GetValue(REG_KEY_NAME, nameof(DisableNavigationShortcut), 0) is 1;
-                DisableGameNoticeRedHot = Registry.GetValue(REG_KEY_NAME, nameof(DisableGameNoticeRedHot), 0) is 1;
-                DisableGameAccountSwitcher = Registry.GetValue(REG_KEY_NAME, nameof(DisableGameAccountSwitcher), 0) is 1;
-                string? dir = Registry.GetValue(REG_KEY_NAME, nameof(UserDataFolder), null) as string;
-                if (Directory.Exists(dir))
+                baseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
+                Directory.CreateDirectory(baseDir);
+            }
+            string? iniPath = Path.Join(baseDir, "config.ini");
+            var builder = new ConfigurationBuilder().AddCommandLine(Environment.GetCommandLineArgs());
+            if (File.Exists(iniPath))
+            {
+                builder.AddIniFile(iniPath);
+            }
+            Configuration = builder.Build();
+
+            windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
+            language = Configuration.GetValue<string>(nameof(Language));
+            DisableNavigationShortcut = Configuration.GetValue<bool>(nameof(DisableNavigationShortcut));
+            DisableGameNoticeRedHot = Configuration.GetValue<bool>(nameof(DisableGameNoticeRedHot));
+            DisableGameAccountSwitcher = Configuration.GetValue<bool>(nameof(DisableGameAccountSwitcher));
+            string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
+            if (!string.IsNullOrWhiteSpace(dir))
+            {
+                string folder;
+                if (Path.IsPathFullyQualified(dir))
                 {
-                    userDataFolder = Path.GetFullPath(dir);
+                    folder = dir;
+                }
+                else
+                {
+                    folder = Path.Join(baseDir, dir);
+                }
+                if (Directory.Exists(folder))
+                {
+                    userDataFolder = Path.GetFullPath(folder);
                 }
             }
         }
@@ -192,29 +177,28 @@ internal static class AppConfig
     {
         try
         {
-            if (reg)
+            string dataFolder = UserDataFolder;
+            string baseDir;
+            if (IsPortable)
             {
-                Registry.SetValue(REG_KEY_NAME, nameof(WindowSizeMode), WindowSizeMode);
-                Registry.SetValue(REG_KEY_NAME, nameof(Language), Language ?? "");
-                Registry.SetValue(REG_KEY_NAME, nameof(UserDataFolder), UserDataFolder);
+                baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'))!;
             }
             else
             {
-                string dataFolder = UserDataFolder;
-                string baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'))!;
-                if (dataFolder?.StartsWith(baseDir) ?? false)
-                {
-                    dataFolder = Path.GetRelativePath(baseDir, dataFolder);
-                }
-                File.WriteAllText(Path.Combine(baseDir, "config.ini"), $"""
-                 {nameof(WindowSizeMode)}={WindowSizeMode}
-                 {nameof(Language)}={Language}
-                 {nameof(UserDataFolder)}={dataFolder}
-                 {nameof(DisableNavigationShortcut)}={DisableNavigationShortcut}
-                 {nameof(DisableGameNoticeRedHot)}={DisableGameNoticeRedHot}
-                 {nameof(DisableGameAccountSwitcher)}={DisableGameAccountSwitcher}
-                 """);
+                baseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
             }
+            if (dataFolder?.StartsWith(baseDir) ?? false)
+            {
+                dataFolder = Path.GetRelativePath(baseDir, dataFolder);
+            }
+            File.WriteAllText(Path.Combine(baseDir, "config.ini"), $"""
+                {nameof(WindowSizeMode)}={WindowSizeMode}
+                {nameof(Language)}={Language}
+                {nameof(UserDataFolder)}={dataFolder}
+                {nameof(DisableNavigationShortcut)}={DisableNavigationShortcut}
+                {nameof(DisableGameNoticeRedHot)}={DisableGameNoticeRedHot}
+                {nameof(DisableGameAccountSwitcher)}={DisableGameAccountSwitcher}
+                """);
         }
         catch { }
     }
@@ -561,15 +545,8 @@ internal static class AppConfig
             DatabaseService ??= GetService<DatabaseService>();
             if (cache is null)
             {
-                if (reg)
-                {
-                    cache = new();
-                }
-                else
-                {
-                    using var dapper = DatabaseService.CreateConnection();
-                    cache = dapper.Query<(string Key, string? Value)>("SELECT Key, Value FROM Setting;").ToDictionary(x => x.Key, x => x.Value);
-                }
+                using var dapper = DatabaseService.CreateConnection();
+                cache = dapper.Query<(string Key, string? Value)>("SELECT Key, Value FROM Setting;").ToDictionary(x => x.Key, x => x.Value);
             }
         }
         catch { }
@@ -594,15 +571,8 @@ internal static class AppConfig
             {
                 return ConvertFromString(value, defaultValue);
             }
-            if (reg)
-            {
-                value = Registry.GetValue(REG_KEY_NAME, key, null) as string;
-            }
-            else
-            {
-                using var dapper = DatabaseService.CreateConnection();
-                value = dapper.QueryFirstOrDefault<string>("SELECT Value FROM Setting WHERE Key=@key LIMIT 1;", new { key });
-            }
+            using var dapper = DatabaseService.CreateConnection();
+            value = dapper.QueryFirstOrDefault<string>("SELECT Value FROM Setting WHERE Key=@key LIMIT 1;", new { key });
             cache[key] = value;
             return ConvertFromString(value, defaultValue);
         }
@@ -647,26 +617,8 @@ internal static class AppConfig
                 return;
             }
             cache[key] = val;
-            if (reg)
-            {
-                if (val is null)
-                {
-#if (DEBUG || DEV) && !DISABLE_DEV
-                    Registry.CurrentUser.OpenSubKey(@"Software\Starward_Dev", true)?.DeleteValue(key, false);
-#else
-                    Registry.CurrentUser.OpenSubKey(@"Software\Starward", true)?.DeleteValue(key, false);
-#endif
-                }
-                else
-                {
-                    Registry.SetValue(REG_KEY_NAME, key, val);
-                }
-            }
-            else
-            {
-                using var dapper = DatabaseService.CreateConnection();
-                dapper.Execute("INSERT OR REPLACE INTO Setting (Key, Value) VALUES (@key, @val);", new { key, val });
-            }
+            using var dapper = DatabaseService.CreateConnection();
+            dapper.Execute("INSERT OR REPLACE INTO Setting (Key, Value) VALUES (@key, @val);", new { key, val });
         }
         catch { }
     }
@@ -675,19 +627,12 @@ internal static class AppConfig
 
     public static void DeleteAllSettings()
     {
-        if (reg)
-        {
-#if (DEBUG || DEV) && !DISABLE_DEV
-            Registry.CurrentUser.OpenSubKey(@"Software", true)?.DeleteSubKeyTree("Starward_Dev");
-#else
-            Registry.CurrentUser.OpenSubKey(@"Software", true)?.DeleteSubKeyTree("Starward");
-#endif
-        }
-        else
+        try
         {
             using var dapper = DatabaseService.CreateConnection();
             dapper.Execute("DELETE FROM Setting WHERE TRUE;");
         }
+        catch { }
     }
 
 

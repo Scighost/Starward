@@ -57,51 +57,51 @@ public sealed partial class SelectDirectoryPage : Page
     {
         try
         {
-            var parentFolder = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('/', '\\'));
-            var exe = Path.Join(parentFolder, "Starward.exe");
-            string? selectFolder = null;
-
-            if (File.Exists(exe))
+            string folder;
+            if (AppConfig.IsPortable)
             {
-                var dialog = new ContentDialog
-                {
-                    // 选择文件夹
-                    Title = Lang.SelectDirectoryPage_SelectFolder,
-                    // 推荐您将数据保存在软件所在的文件夹中：
-                    // 是否选择此文件夹？
-                    Content = $"""
-                    {Lang.SelectDirectoryPage_RecommendFolder}
-                    
-                    {parentFolder}
-
-                    {Lang.SelectDirectoryPage_WouldYouLikeToChooseThisFolder}
-                    """,
-                    DefaultButton = ContentDialogButton.Primary,
-                    // 好的
-                    PrimaryButtonText = Lang.SelectDirectoryPage_OK,
-                    // 自己选
-                    SecondaryButtonText = Lang.SelectDirectoryPage_ChooseAnother,
-                    // 不想选
-                    CloseButtonText = Lang.SelectDirectoryPage_Cancel,
-                    XamlRoot = this.XamlRoot
-                };
-                var result = await dialog.ShowAsync();
-                if (result is ContentDialogResult.Primary)
-                {
-                    selectFolder = parentFolder;
-                }
-                if (result is ContentDialogResult.Secondary)
-                {
-                    selectFolder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
-                }
-                if (result is ContentDialogResult.None)
-                {
-                    return;
-                }
+                folder = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('/', '\\'))!;
             }
             else
             {
+                folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
+            }
+            string? selectFolder = null;
+
+            var dialog = new ContentDialog
+            {
+                // 选择文件夹
+                Title = Lang.SelectDirectoryPage_SelectFolder,
+                // 推荐您将数据保存在软件所在的文件夹中：
+                // 是否选择此文件夹？
+                Content = $"""
+                    {Lang.SelectDirectoryPage_RecommendFolder}
+                    
+                    {folder}
+
+                    {Lang.SelectDirectoryPage_WouldYouLikeToChooseThisFolder}
+                    """,
+                DefaultButton = ContentDialogButton.Primary,
+                // 好的
+                PrimaryButtonText = Lang.SelectDirectoryPage_OK,
+                // 自己选
+                SecondaryButtonText = Lang.SelectDirectoryPage_ChooseAnother,
+                // 取消
+                CloseButtonText = Lang.Common_Cancel,
+                XamlRoot = this.XamlRoot
+            };
+            var result = await dialog.ShowAsync();
+            if (result is ContentDialogResult.Primary)
+            {
+                selectFolder = folder;
+            }
+            if (result is ContentDialogResult.Secondary)
+            {
                 selectFolder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+            }
+            if (result is ContentDialogResult.None)
+            {
+                return;
             }
 
             if (Directory.Exists(selectFolder))

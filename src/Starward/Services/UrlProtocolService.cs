@@ -19,8 +19,12 @@ internal class UrlProtocolService
     public static void RegisterProtocol()
     {
         UnregisterProtocol();
-        string exe = Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\', '/')), "Starward.exe");
-        if (!File.Exists(exe))
+        string exe;
+        if (AppConfig.IsPortable)
+        {
+            exe = Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\', '/')), "Starward.exe");
+        }
+        else
         {
             exe = Path.Join(AppContext.BaseDirectory, "Starward.exe");
         }
