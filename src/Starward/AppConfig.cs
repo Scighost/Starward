@@ -113,6 +113,8 @@ internal static class AppConfig
 
     public static bool DisableGameAccountSwitcher { get; set; }
 
+    public static bool EnableSystemAccentColor { get; set; }
+
 
 
     private static void Initialize()
@@ -147,6 +149,7 @@ internal static class AppConfig
             DisableNavigationShortcut = Configuration.GetValue<bool>(nameof(DisableNavigationShortcut));
             DisableGameNoticeRedHot = Configuration.GetValue<bool>(nameof(DisableGameNoticeRedHot));
             DisableGameAccountSwitcher = Configuration.GetValue<bool>(nameof(DisableGameAccountSwitcher));
+            EnableSystemAccentColor = Configuration.GetValue<bool>(nameof(EnableSystemAccentColor));
             string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
             if (!string.IsNullOrWhiteSpace(dir))
             {
@@ -198,6 +201,7 @@ internal static class AppConfig
                 {nameof(DisableNavigationShortcut)}={DisableNavigationShortcut}
                 {nameof(DisableGameNoticeRedHot)}={DisableGameNoticeRedHot}
                 {nameof(DisableGameAccountSwitcher)}={DisableGameAccountSwitcher}
+                {nameof(EnableSystemAccentColor)}={EnableSystemAccentColor}
                 """);
         }
         catch { }

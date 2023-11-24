@@ -529,15 +529,18 @@ public sealed partial class MainPage : Page
                     }
                     BackgroundImage = new BitmapImage(new Uri(file));
                     Color? back = null, fore = null;
-                    var hex = AppConfig.AccentColor;
-                    if (!string.IsNullOrWhiteSpace(hex))
+                    if (!AppConfig.EnableSystemAccentColor)
                     {
-                        try
+                        var hex = AppConfig.AccentColor;
+                        if (!string.IsNullOrWhiteSpace(hex))
                         {
-                            back = ColorHelper.ToColor(hex[0..9]);
-                            fore = ColorHelper.ToColor(hex[9..18]);
+                            try
+                            {
+                                back = ColorHelper.ToColor(hex[0..9]);
+                                fore = ColorHelper.ToColor(hex[9..18]);
+                            }
+                            catch { }
                         }
-                        catch { }
                     }
                     MainWindow.Current.ChangeAccentColor(back, fore);
                 }
@@ -637,7 +640,11 @@ public sealed partial class MainPage : Page
                     {
                         return;
                     }
-                    (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
+                    Color? back = null, fore = null;
+                    if (!AppConfig.EnableSystemAccentColor)
+                    {
+                        (back, fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
+                    }
                     if (source.IsCancellationRequested)
                     {
                         return;
