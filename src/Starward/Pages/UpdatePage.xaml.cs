@@ -352,6 +352,15 @@ public sealed partial class UpdatePage : Page
             ProgresBar_Update.IsIndeterminate = false;
             UpdateProgressValue();
         }
+        if (_updateService.State is UpdateService.UpdateState.Moving)
+        {
+            Button_Update.IsEnabled = false;
+            Button_RemindLatter.IsEnabled = false;
+            IsProgressBarVisible = true;
+            IsProgressTextVisible = true;
+            ProgresBar_Update.IsIndeterminate = true;
+            UpdateProgressValue();
+        }
         if (_updateService.State is UpdateService.UpdateState.Finish)
         {
             IsProgressTextVisible = false;
