@@ -22,11 +22,10 @@ int wmain(int argc, wchar_t* argv[])
 		INIReader ini(version.string());
 		if (ini.ParseError() == 0)
 		{
-			auto app_folder = ini.Get("", "app_folder", "");
-			if (app_folder.length())
+			auto exe_path = ini.Get("", "exe_path", "");
+			if (exe_path.length())
 			{
-				auto exe_name = ini.Get("", "exe_name", "Starward.exe");
-				auto target_exe = path(base_folder).append(app_folder).append(exe_name);
+				auto target_exe = path(base_folder).append(exe_path);
 				if (exists(target_exe))
 				{
 					run_exe = target_exe.wstring();
