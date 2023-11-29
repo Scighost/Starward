@@ -733,6 +733,12 @@ internal partial class DownloadGameService
     public async Task DownloadAsync(CancellationToken cancellationToken)
     {
         const int bufferSize = 1 << 16;
+        // 只要使用限速功能就限制使用单线程下载
+        // int maxdegreeOfparallelism = (AppConfig.DowlondSpeed == 0) ? Environment.ProcessorCount : 1;
+        // int speed = AppConfig.DowlondSpeed;
+        // 限制每个线程的速度，速度限制非常不稳定
+        int maxdegreeOfparallelism = Environment.ProcessorCount;
+        double speed = (double)AppConfig.DowlondSpeed / (double)Environment.ProcessorCount;
         try
         {
             State = DownloadGameState.Downloading;
@@ -756,7 +762,7 @@ internal partial class DownloadGameService
 
                 await Parallel.ForEachAsync(sliceTasks, new ParallelOptions
                 {
-                    MaxDegreeOfParallelism = Environment.ProcessorCount,
+                    MaxDegreeOfParallelism = maxdegreeOfparallelism,
                     CancellationToken = cancellationToken
                 }, async (slice, token) =>
                 {
@@ -778,8 +784,32 @@ internal partial class DownloadGameService
 
                         var buffer = new byte[bufferSize];
                         int length;
+                        long total_read = 0;
+                        DateTime begin = DateTime.Now;
                         while ((length = await hs.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
                         {
+                            if (AppConfig.DowlondSpeed != 0)
+                            {
+                                total_read += length;
+                                double totalSeconds = DateTime.Now.Subtract(begin).TotalSeconds;
+                                double byteper = total_read / totalSeconds; // Byte/s
+                                if (double.IsInfinity(byteper))
+                                {
+                                    await fs.WriteAsync(buffer.AsMemory(0, length), token).ConfigureAwait(false);
+                                    Interlocked.Add(ref progressBytes, length);
+                                    continue;
+                                }
+                                else
+                                {
+                                    double speedPer = byteper / 1000000; // MB/s
+                                    if (speedPer >= speed)
+                                    {
+                                        double difPer = speedPer - speed;
+                                        int sleepMS = Convert.ToInt32(difPer / speed * 1000);
+                                        Thread.Sleep(sleepMS);
+                                    }
+                                }
+                            }
                             await fs.WriteAsync(buffer.AsMemory(0, length), token).ConfigureAwait(false);
                             Interlocked.Add(ref progressBytes, length);
                         }
