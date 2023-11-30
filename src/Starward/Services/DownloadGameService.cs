@@ -737,8 +737,13 @@ internal partial class DownloadGameService
         // int maxdegreeOfparallelism = (AppConfig.DowlondSpeed == 0) ? Environment.ProcessorCount : 1;
         // int speed = AppConfig.DowlondSpeed;
         // 限制每个线程的速度，速度限制非常不稳定
-        int maxdegreeOfparallelism = Environment.ProcessorCount;
-        double speed = (double)AppConfig.DowlondSpeed / (double)Environment.ProcessorCount;
+        // int maxdegreeOfparallelism = Environment.ProcessorCount;
+        // double speed = (double)AppConfig.DowlondSpeed / (double)Environment.ProcessorCount;
+
+        int maxdegreeOfparallelism = (AppConfig.DowlondSpeed == 0) | (AppConfig.DowlondSpeed / 10 > Environment.ProcessorCount) ? Environment.ProcessorCount : AppConfig.DowlondSpeed / 10;
+        maxdegreeOfparallelism = (maxdegreeOfparallelism == 0) ? 1 : maxdegreeOfparallelism;
+        double speed = (double)AppConfig.DowlondSpeed / (double)maxdegreeOfparallelism;
+
         try
         {
             State = DownloadGameState.Downloading;
