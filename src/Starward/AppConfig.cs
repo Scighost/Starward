@@ -115,6 +115,8 @@ internal static class AppConfig
 
     public static bool EnableSystemAccentColor { get; set; }
 
+    public static bool EnableNavigationViewLeftCompact { get; set; } = true;
+
 
 
     private static void Initialize()

@@ -27,40 +27,20 @@
         </Grid.RowDefinitions>
 
 
-        <!--  title bar background brush  -->
-        <Border Name="Border_TitleBar" Grid.Row="0" />
 
-        <!--  main content background image  -->
-        <Border Name="Border_ContentImage" Grid.Row="1">
-            <Image Name="Image_Content"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Source="{x:Bind BackgroundImage}"
-                   Stretch="UniformToFill" />
-        </Border>
+        <!--  background image  -->
+        <Image Name="Image_Content"
+               Grid.RowSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Bottom"
+               Source="{x:Bind BackgroundImage}"
+               Stretch="UniformToFill" />
 
-        <ProgressBar Name="ProgressBar_LoadBackground"
-                     Grid.Row="1"
-                     HorizontalAlignment="Stretch"
-                     VerticalAlignment="Bottom"
-                     IsHitTestVisible="False"
-                     Visibility="Collapsed" />
 
-        <!--  title bar acrylic backgroud  -->
+        <!--  acrylic backgroud  -->
         <Border Name="Border_TitleBarBackground"
-                Grid.Row="0"
-                Background="{ThemeResource CustomOverlayAcrylicBrush}" />
-
-        <!--  main content acrylic backgournd  -->
-        <Border Name="Border_ContentBackground"
-                Grid.Row="0"
                 Grid.RowSpan="2"
-                Background="{ThemeResource CustomAcrylicBrush}"
-                Opacity="0">
-            <Border.OpacityTransition>
-                <ScalarTransition />
-            </Border.OpacityTransition>
-        </Border>
+                Background="{ThemeResource CustomAcrylicBrush}" />
 
 
 
@@ -68,12 +48,17 @@
                         Grid.RowSpan="2"
                         IsBackButtonVisible="Collapsed"
                         IsSettingsVisible="False"
-                        IsTabStop="True"
                         ItemInvoked="NavigationView_ItemInvoked"
                         PaneDisplayMode="LeftMinimal">
             <NavigationView.Resources>
                 <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+                <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
+                <!--<Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>-->
             </NavigationView.Resources>
+
+            <NavigationView.PaneCustomContent>
+                <Border Height="4" />
+            </NavigationView.PaneCustomContent>
 
             <NavigationView.MenuItems>
                 <NavigationViewItem Name="NavigationViewItem_Launcher"
@@ -141,14 +126,31 @@
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
 
-            <Frame Name="MainPage_Frame" Margin="0,46,0,0" />
+            <Grid Name="Grid_FrameContent" Margin="0,48,0,0">
+                <Image Name="Image_FrameBackground"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Bottom"
+                       Source="{x:Bind BackgroundImage}"
+                       Stretch="UniformToFill">
+                    <Image.OpacityTransition>
+                        <ScalarTransition />
+                    </Image.OpacityTransition>
+                </Image>
+                <ProgressBar Name="ProgressBar_LoadBackground"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Bottom"
+                             IsHitTestVisible="False"
+                             Visibility="Collapsed" />
+                <Frame Name="MainPage_Frame" />
+            </Grid>
+
         </NavigationView>
 
 
 
         <!--  title bar  -->
-        <Border Name="Border_TitleText" Grid.Row="0">
-            <StackPanel Margin="52,0,0,0"
+        <Border Name="Border_TitleText">
+            <StackPanel Margin="56,0,0,0"
                         Orientation="Horizontal"
                         Spacing="4">
                 <Image Width="20"
@@ -327,12 +329,11 @@
         <!--  shortcut  -->
         <Border Name="Border_Shortcut_Page_1"
                 Grid.Row="1"
-                Margin="0,-4,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Background="{ThemeResource CustomAcrylicBrush}"
                 CornerRadius="4"
-                IsTabStop="True"
+                IsTabStop="False"
                 Shadow="{ThemeResource ThemeShadow}"
                 Translation="0,0,16"
                 Visibility="Collapsed">
@@ -467,6 +468,7 @@
                 VerticalAlignment="Bottom"
                 Background="{ThemeResource CustomAcrylicBrush}"
                 CornerRadius="4"
+                IsTabStop="False"
                 Shadow="{ThemeResource ThemeShadow}"
                 Translation="0,0,16"
                 Visibility="Collapsed">

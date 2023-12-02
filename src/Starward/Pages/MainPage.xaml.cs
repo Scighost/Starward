@@ -94,6 +94,7 @@ public sealed partial class MainPage : Page
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        InitializeNavigationViewPaneDisplayMode();
         UpdateButtonEffect();
         InitializeSystemTray();
         await UpdateBackgroundImageAsync(true);
@@ -102,9 +103,18 @@ public sealed partial class MainPage : Page
 
 
 
+    private void InitializeNavigationViewPaneDisplayMode()
+    {
+        if (AppConfig.EnableNavigationViewLeftCompact)
+        {
+            MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
+            Grid_FrameContent.CornerRadius = new CornerRadius(8, 0, 0, 0);
+        }
+    }
+
+
     private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        InitializeTitleBarBackground();
         UpdateDragRectangles();
     }
 
@@ -120,21 +130,6 @@ public sealed partial class MainPage : Page
         }
     }
 
-
-
-    private void InitializeTitleBarBackground()
-    {
-        var surface = compositor.CreateVisualSurface();
-        surface.SourceOffset = Vector2.Zero;
-        surface.SourceVisual = ElementCompositionPreview.GetElementVisual(Border_ContentImage);
-        surface.SourceSize = new Vector2((float)Border_TitleBar.ActualWidth, 12);
-        var visual = compositor.CreateSpriteVisual();
-        visual.Size = new Vector2((float)Border_TitleBar.ActualWidth, (float)Border_TitleBar.ActualHeight);
-        var brush = compositor.CreateSurfaceBrush(surface);
-        brush.Stretch = CompositionStretch.Fill;
-        visual.Brush = brush;
-        ElementCompositionPreview.SetElementChildVisual(Border_TitleBar, visual);
-    }
 
 
 
@@ -819,7 +814,6 @@ public sealed partial class MainPage : Page
 
     public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null, bool changeGameBiz = false)
     {
-        Border_ContentBackground.Visibility = Visibility.Visible;
         string? sourcePage = MainPage_Frame.CurrentSourcePageType?.Name, destPage = page?.Name;
         if (page is null
             || destPage is nameof(BlankPage)
@@ -843,21 +837,17 @@ public sealed partial class MainPage : Page
         if (destPage is nameof(LauncherPage))
         {
             PlayVideo();
-            Border_ContentBackground.Opacity = 0;
-            if (sourcePage is nameof(GameNoticesPage))
-            {
-                Border_ContentBackground.Visibility = Visibility.Collapsed;
-            }
+            Image_FrameBackground.Opacity = 1;
         }
-        else if (destPage is nameof(BlankPage))
+        else if (destPage is nameof(GameNoticesPage) or nameof(BlankPage))
         {
             PauseVideo();
-            Border_ContentBackground.Opacity = 0;
+            Image_FrameBackground.Opacity = 1;
         }
         else
         {
             PauseVideo();
-            Border_ContentBackground.Opacity = 1;
+            Image_FrameBackground.Opacity = 0;
         }
         IsPaneToggleButtonVisible = true;
     }
@@ -920,7 +910,7 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            if (AppConfig.DisableNavigationShortcut)
+            if (AppConfig.DisableNavigationShortcut || AppConfig.EnableNavigationViewLeftCompact)
             {
                 return;
             }
@@ -949,7 +939,7 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            if (AppConfig.DisableNavigationShortcut)
+            if (AppConfig.DisableNavigationShortcut || AppConfig.EnableNavigationViewLeftCompact)
             {
                 return;
             }
@@ -1015,7 +1005,7 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            if (AppConfig.DisableNavigationShortcut)
+            if (AppConfig.DisableNavigationShortcut || AppConfig.EnableNavigationViewLeftCompact)
             {
                 return;
             }
@@ -1029,7 +1019,7 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            if (AppConfig.DisableNavigationShortcut)
+            if (AppConfig.DisableNavigationShortcut || AppConfig.EnableNavigationViewLeftCompact)
             {
                 return;
             }
