@@ -205,9 +205,9 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-            if (BannerList?.Any() ?? false)
+            if (BannerList?.Count > 0)
             {
-                PipsPager_Banner.SelectedPageIndex = (PipsPager_Banner.SelectedPageIndex + 1) % PipsPager_Banner.NumberOfPages;
+                FlipView_Banner.SelectedIndex = (FlipView_Banner.SelectedIndex + 1) % BannerList.Count;
             }
         }
         catch { }

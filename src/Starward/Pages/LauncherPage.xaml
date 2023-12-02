@@ -57,28 +57,28 @@
                               Translation="0,0,16">
                         <FlipView.ItemTemplate>
                             <DataTemplate>
-                                    <sc:CachedImage Name="Image_Banner"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
+                                <sc:CachedImage Name="Image_Banner"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
                                                 sh:PointerCursor.CursorShape="Hand"
                                                 IsCacheEnabled="True"
-                                                    IsRightTapEnabled="False"
-                                                    Source="{Binding Img}"
-                                                    Stretch="UniformToFill"
-                                                    Tapped="Image_Banner_Tapped" />
+                                                IsRightTapEnabled="False"
+                                                Source="{Binding Img}"
+                                                Stretch="UniformToFill"
+                                                Tapped="Image_Banner_Tapped" />
                             </DataTemplate>
                         </FlipView.ItemTemplate>
                     </FlipView>
                     <Border Name="Border_PipsPager"
-                            Padding="8,0,8,0"
+                            Padding="8,2,8,2"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom"
                             Background="{ThemeResource CustomAcrylicBrush}"
-                            CornerRadius="12,0,8,0"
+                            CornerRadius="10,0,8,0"
                             Visibility="Collapsed">
-                        <PipsPager Name="PipsPager_Banner"
-                                   NumberOfPages="{x:Bind BannerList.Count}"
-                                   SelectedPageIndex="{x:Bind FlipView_Banner.SelectedIndex, Mode=TwoWay}" />
+                        <TextBlock FontSize="14" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                            <Run Text="{x:Bind sh:NumberToStringHelper.Add(FlipView_Banner.SelectedIndex, 1)}" /><Run Text="/" /><Run Text="{x:Bind BannerList.Count}" />
+                        </TextBlock>
                     </Border>
                 </Grid>
 
