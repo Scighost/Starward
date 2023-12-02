@@ -16,9 +16,6 @@
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-		<Deterministic>true</Deterministic>
-		<TieredCompilationQuickJitForLoops>true</TieredCompilationQuickJitForLoops>
-		<TieredPGO>true</TieredPGO>
 		<ApplicationIcon>logo.ico</ApplicationIcon>
 		<UseRidGraph>true</UseRidGraph>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
