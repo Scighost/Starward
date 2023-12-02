@@ -7,6 +7,7 @@ public enum GameBiz
 
     All = 1,
 
+
     /// <summary>
     /// Genshin Impact
     /// </summary>
@@ -27,6 +28,7 @@ public enum GameBiz
     /// </summary>
     hk4e_cloud = 13,
 
+
     /// <summary>
     /// Star Rail
     /// </summary>
@@ -41,6 +43,7 @@ public enum GameBiz
     /// Star Rail Global
     /// </summary>
     hkrpg_global = 22,
+
 
     /// <summary>
     /// Honkai Impact 3rd
@@ -76,5 +79,21 @@ public enum GameBiz
     /// Honkai Impact 3rd Traditional Chinese
     /// </summary>
     bh3_tw = 36,
+
+
+    /// <summary>
+    /// Zenless Zone Zero
+    /// </summary>
+    ZZZ = 40,
+
+    /// <summary>
+    /// Zenless Zone Zero China
+    /// </summary>
+    nap_cn = 41,
+
+    /// <summary>
+    /// Zenless Zone Zero Global
+    /// </summary>
+    nap_global = 42,
 
 }
