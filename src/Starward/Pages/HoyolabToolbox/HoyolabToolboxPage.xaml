@@ -19,7 +19,7 @@
                         IsPaneToggleButtonVisible="False"
                         IsSettingsVisible="False"
                         ItemInvoked="NavigationView_Toolbox_ItemInvoked"
-                        OpenPaneLength="260"
+                        OpenPaneLength="248"
                         PaneDisplayMode="Left">
             <NavigationView.Resources>
                 <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
@@ -142,7 +142,7 @@
                                         <Setter Property="Padding" Value="4" />
                                     </Style>
                                 </Flyout.FlyoutPresenterStyle>
-                                <Grid MinWidth="252"
+                                <Grid MinWidth="240"
                                       Padding="0,8,0,8"
                                       RowSpacing="4">
                                     <Grid.RowDefinitions>

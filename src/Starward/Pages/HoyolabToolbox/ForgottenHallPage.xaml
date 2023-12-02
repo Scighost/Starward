@@ -184,15 +184,15 @@
                                HorizontalAlignment="Center"
                                ItemsSource="{x:Bind CurrentForgottenHall.AllFloorDetail}">
                     <ItemsRepeater.Layout>
-                        <UniformGridLayout MinColumnSpacing="24"
+                        <UniformGridLayout MinColumnSpacing="12"
                                            MinRowSpacing="12"
                                            Orientation="Horizontal" />
                     </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="hall:ForgottenHallFloorDetail">
-                            <Grid Width="400"
+                            <Grid Width="388"
                                   Height="300"
-                                  Padding="24,0,24,0"
+                                  Padding="20,0,20,0"
                                   Background="{ThemeResource CustomOverlayAcrylicBrush}"
                                   CornerRadius="8,28,8,8"
                                   Shadow="{ThemeResource ThemeShadow}"

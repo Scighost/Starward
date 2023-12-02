@@ -10,8 +10,8 @@
     <Grid>
 
         <Image Name="Image_Bg"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Bottom"
                Stretch="UniformToFill" />
 
         <WebView2 Name="webview"

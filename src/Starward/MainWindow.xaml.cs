@@ -101,23 +101,16 @@ public sealed partial class MainWindow : Window
         var scale = UIScale;
         if (width * height == 0)
         {
-            if (AppConfig.WindowSizeMode == 0)
+            (width, height) = (AppConfig.WindowSizeMode, AppConfig.EnableNavigationViewLeftCompact) switch
             {
-                width = (int)(1280 * scale);
-                height = (int)(768 * scale);
-            }
-            else
-            {
-                width = (int)(1064 * scale);
-                height = (int)(648 * scale);
-            }
+                (0, true) => (1280, 740),
+                (0, false) => (1280, 768),
+                (_, true) => (1092, 636),
+                (_, false) => (1064, 648),
+            };
         }
-        else
-        {
-            width = (int)(width * scale);
-            height = (int)(height * scale);
-
-        }
+        width = (int)(width * scale);
+        height = (int)(height * scale);
         var x = (display.WorkArea.Width - width) / 2;
         var y = (display.WorkArea.Height - height) / 2;
         AppWindow.MoveAndResize(new RectInt32(x, y, width, height));

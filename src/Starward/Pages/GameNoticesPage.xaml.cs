@@ -166,7 +166,7 @@ public sealed partial class GameNoticesPage : Page
                     } else {
                         root.style.backgroundImage = "url('{{bg}}')";
                         root.style.backgroundRepeat = "no-repeat";
-                        root.style.backgroundPosition = "center";
+                        root.style.backgroundPosition = "left bottom";
                         root.style.backgroundSize = "cover";
                         let home = document.getElementsByClassName("home");
                         let mask = document.getElementsByClassName("home__mask");
