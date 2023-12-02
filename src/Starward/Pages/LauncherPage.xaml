@@ -10,6 +10,7 @@
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sc="using:Starward.Controls"
+      xmlns:sh="using:Starward.Helpers"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
       Unloaded="Page_Unloaded"
@@ -56,15 +57,15 @@
                               Translation="0,0,16">
                         <FlipView.ItemTemplate>
                             <DataTemplate>
-                                <sc:HandCursorGrid>
                                     <sc:CachedImage Name="Image_Banner"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
+                                                sh:PointerCursor.CursorShape="Hand"
+                                                IsCacheEnabled="True"
                                                     IsRightTapEnabled="False"
                                                     Source="{Binding Img}"
                                                     Stretch="UniformToFill"
                                                     Tapped="Image_Banner_Tapped" />
-                                </sc:HandCursorGrid>
                             </DataTemplate>
                         </FlipView.ItemTemplate>
                     </FlipView>
