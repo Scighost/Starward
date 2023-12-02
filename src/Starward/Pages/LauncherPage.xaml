@@ -70,11 +70,11 @@
                         </FlipView.ItemTemplate>
                     </FlipView>
                     <Border Name="Border_PipsPager"
-                            Padding="8,2,8,2"
+                            Padding="10,2,10,2"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom"
-                            Background="{ThemeResource CustomAcrylicBrush}"
-                            CornerRadius="10,0,8,0"
+                            Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                            CornerRadius="8,0,8,0"
                             Visibility="Collapsed">
                         <TextBlock FontSize="14" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
                             <Run Text="{x:Bind sh:NumberToStringHelper.Add(FlipView_Banner.SelectedIndex, 1)}" /><Run Text="/" /><Run Text="{x:Bind BannerList.Count}" />
