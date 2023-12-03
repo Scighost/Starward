@@ -300,6 +300,14 @@ public sealed partial class MainWindow : Window
 
     public IntPtr SUBCLASSPROC(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
     {
+        if (uMsg == ((uint)User32.WindowMessage.WM_SYSCOMMAND))
+        {
+            // SC_MAXIMIZE
+            if (wParam == 0xF030)
+            {
+                return IntPtr.Zero;
+            }
+        }
         return ComCtl32.DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
