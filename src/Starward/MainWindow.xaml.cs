@@ -34,6 +34,7 @@ public sealed partial class MainWindow : Window
 
     public double UIScale => User32.GetDpiForWindow(HWND) / 96d;
 
+    private ComCtl32.SUBCLASSPROC subclassProc;
 
 
     public MainWindow()
@@ -41,6 +42,7 @@ public sealed partial class MainWindow : Window
         Current = this;
         this.InitializeComponent();
         InitializeMainWindow();
+        InitializeWindowSubclass();
     }
 
 
@@ -50,10 +52,17 @@ public sealed partial class MainWindow : Window
         Current = this;
         this.InitializeComponent();
         InitializeMainWindow(action);
+        InitializeWindowSubclass();
     }
 
 
 
+    private void InitializeWindowSubclass()
+    {
+        subclassProc = new ComCtl32.SUBCLASSPROC(SUBCLASSPROC);
+        ComCtl32.SetWindowSubclass(HWND, subclassProc, 1001, IntPtr.Zero);
+        WTSRegisterSessionNotification(MainWindow.Current.HWND, 0);
+    }
 
     private void InitializeMainWindow(string? action = null)
     {
@@ -285,6 +294,13 @@ public sealed partial class MainWindow : Window
             }
         }
         catch { }
+    }
+
+
+
+    public IntPtr SUBCLASSPROC(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
+    {
+        return ComCtl32.DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
 

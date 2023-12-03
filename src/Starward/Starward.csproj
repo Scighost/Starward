@@ -45,8 +45,8 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Starward.Assets" Version="0.4.5" />
 		<PackageReference Include="Starward.NativeLib" Version="0.2.0" />
+		<PackageReference Include="Vanara.PInvoke.ComCtl32" Version="3.4.17" />
 		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.17" />
-		<PackageReference Include="Vanara.PInvoke.User32" Version="3.4.17" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
