@@ -31,7 +31,7 @@ public class ScreenshotItem
                 return;
             }
         }
-        if (name.StartsWith("GenshinlmpactPhoto 2023_02_27 16_35_33"))
+        if (name.StartsWith("GenshinlmpactPhoto "))
         {
             name = name["GenshinlmpactPhoto ".Length..];
             if (DateTime.TryParseExact(name, "yyyy_MM_dd HH_mm_ss", null, DateTimeStyles.None, out var time1))

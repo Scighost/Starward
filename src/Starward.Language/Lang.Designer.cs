@@ -124,6 +124,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Copy 的本地化字符串。
+        /// </summary>
+        public static string Common_Copy {
+            get {
+                return ResourceManager.GetString("Common_Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Delete 的本地化字符串。
         /// </summary>
         public static string Common_Delete {
@@ -165,6 +174,15 @@ namespace Starward.Language {
         public static string Common_NetworkError {
             get {
                 return ResourceManager.GetString("Common_NetworkError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open 的本地化字符串。
+        /// </summary>
+        public static string Common_Open {
+            get {
+                return ResourceManager.GetString("Common_Open", resourceCulture);
             }
         }
         
@@ -1410,6 +1428,33 @@ namespace Starward.Language {
         public static string HyperionToolbox {
             get {
                 return ResourceManager.GetString("HyperionToolbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Rotate 的本地化字符串。
+        /// </summary>
+        public static string ImageViewPage_Rotate {
+            get {
+                return ResourceManager.GetString("ImageViewPage_Rotate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Zoom in 的本地化字符串。
+        /// </summary>
+        public static string ImageViewPage_ZoomIn {
+            get {
+                return ResourceManager.GetString("ImageViewPage_ZoomIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Zoom out 的本地化字符串。
+        /// </summary>
+        public static string ImageViewPage_ZoomOut {
+            get {
+                return ResourceManager.GetString("ImageViewPage_ZoomOut", resourceCulture);
             }
         }
         
