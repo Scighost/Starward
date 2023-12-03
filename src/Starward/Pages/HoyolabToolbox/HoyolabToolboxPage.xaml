@@ -350,7 +350,7 @@
 
             </NavigationView.MenuItems>
 
-            <Frame Name="frame" />
+            <Frame Name="frame" IsNavigationStackEnabled="False" />
 
         </NavigationView>
 

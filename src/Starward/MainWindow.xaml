@@ -18,9 +18,11 @@
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
           KeyDown="RootGrid_KeyDown">
 
-        <Frame Name="MainWindow_Frame" />
+        <Frame Name="MainWindow_Frame" IsNavigationStackEnabled="False" />
 
-        <Frame Name="Frame_Overlay" Visibility="Collapsed" />
+        <Frame Name="Frame_Overlay"
+               IsNavigationStackEnabled="False"
+               Visibility="Collapsed" />
 
         <StackPanel MaxWidth="600"
                     Margin="24,72,24,72"

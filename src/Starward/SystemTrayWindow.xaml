@@ -9,7 +9,7 @@
 
     <Grid Name="RootGrid">
 
-        <Frame Name="frame" />
+        <Frame Name="frame" IsNavigationStackEnabled="False" />
 
     </Grid>
 </Window>

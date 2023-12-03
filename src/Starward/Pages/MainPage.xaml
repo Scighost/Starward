@@ -141,7 +141,7 @@
                              VerticalAlignment="Bottom"
                              IsHitTestVisible="False"
                              Visibility="Collapsed" />
-                <Frame Name="MainPage_Frame" />
+                <Frame Name="MainPage_Frame" IsNavigationStackEnabled="False" />
             </Grid>
 
         </NavigationView>
