@@ -152,6 +152,7 @@ internal static class AppConfig
             DisableGameNoticeRedHot = Configuration.GetValue<bool>(nameof(DisableGameNoticeRedHot));
             DisableGameAccountSwitcher = Configuration.GetValue<bool>(nameof(DisableGameAccountSwitcher));
             EnableSystemAccentColor = Configuration.GetValue<bool>(nameof(EnableSystemAccentColor));
+            EnableNavigationViewLeftCompact = Configuration.GetValue<bool>(nameof(EnableNavigationViewLeftCompact), true);
             string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
             if (!string.IsNullOrWhiteSpace(dir))
             {
@@ -204,6 +205,7 @@ internal static class AppConfig
                 {nameof(DisableGameNoticeRedHot)}={DisableGameNoticeRedHot}
                 {nameof(DisableGameAccountSwitcher)}={DisableGameAccountSwitcher}
                 {nameof(EnableSystemAccentColor)}={EnableSystemAccentColor}
+                {nameof(EnableNavigationViewLeftCompact)}={EnableNavigationViewLeftCompact}
                 """);
         }
         catch { }
