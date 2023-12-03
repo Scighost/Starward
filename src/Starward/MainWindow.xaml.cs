@@ -343,6 +343,7 @@ public sealed partial class MainWindow : Window
                 {
                     MainPage.Current?.PauseVideo();
                     AppWindow.Hide();
+                    GC.Collect();
                 }
             }
         }

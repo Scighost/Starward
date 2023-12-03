@@ -614,6 +614,7 @@ public sealed partial class LauncherPage : Page
                 if (AppConfig.EnableSystemTrayIcon && _systemTrayService.IsCreated)
                 {
                     User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_HIDE);
+                    GC.Collect();
                 }
                 else
                 {

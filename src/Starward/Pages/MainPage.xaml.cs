@@ -166,6 +166,7 @@ public sealed partial class MainPage : Page
             args.Cancel = true;
             PauseVideo();
             MainWindow.Current.AppWindow.Hide();
+            GC.Collect();
         }
     }
 
@@ -483,7 +484,7 @@ public sealed partial class MainPage : Page
 
     public bool IsPlayingVideo { get; private set; }
 
-   
+
 
     private void InitializeBackgroundImage()
     {
