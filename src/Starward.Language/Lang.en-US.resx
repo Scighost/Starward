@@ -1156,4 +1156,22 @@ Do you accept the risk and continue to use it?</value>
   <data name="SettingPage_TestURLProtocol" xml:space="preserve">
     <value>Test URL Protocol</value>
   </data>
+  <data name="LauncherPage_OpenInBrowser" xml:space="preserve">
+    <value>Open in Browser</value>
+  </data>
+  <data name="ImageViewPage_ZoomOut" xml:space="preserve">
+    <value>Zoom out</value>
+  </data>
+  <data name="ImageViewPage_ZoomIn" xml:space="preserve">
+    <value>Zoom in</value>
+  </data>
+  <data name="ImageViewPage_Rotate" xml:space="preserve">
+    <value>Rotate</value>
+  </data>
+  <data name="Common_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Common_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
 </root>
