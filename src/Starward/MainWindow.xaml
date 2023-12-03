@@ -15,7 +15,8 @@
 
     <Grid Name="RootGrid"
           ActualThemeChanged="RootGrid_ActualThemeChanged"
-          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          KeyDown="RootGrid_KeyDown">
 
         <Frame Name="MainWindow_Frame" />
 

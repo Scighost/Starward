@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Pages;
 using Starward.Pages.Welcome;
+using Starward.Services;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -62,7 +63,7 @@ public sealed partial class MainWindow : Window
     {
         subclassProc = new ComCtl32.SUBCLASSPROC(SUBCLASSPROC);
         ComCtl32.SetWindowSubclass(HWND, subclassProc, 1001, IntPtr.Zero);
-        WTSRegisterSessionNotification(MainWindow.Current.HWND, 0);
+        WTSRegisterSessionNotification(HWND, 0);
     }
 
 
@@ -307,7 +308,7 @@ public sealed partial class MainWindow : Window
 
     public IntPtr SUBCLASSPROC(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
     {
-        if (uMsg == ((uint)User32.WindowMessage.WM_WTSSESSION_CHANGE))
+        if (uMsg == (uint)User32.WindowMessage.WM_WTSSESSION_CHANGE)
         {
             // WTS_SESSION_LOCK
             if (wParam == 0x7)
@@ -320,7 +321,7 @@ public sealed partial class MainWindow : Window
                 MainPage.Current?.PlayVideo(true);
             }
         }
-        if (uMsg == ((uint)User32.WindowMessage.WM_SYSCOMMAND))
+        if (uMsg == (uint)User32.WindowMessage.WM_SYSCOMMAND)
         {
             // SC_MAXIMIZE
             if (wParam == 0xF030)
@@ -332,6 +333,21 @@ public sealed partial class MainWindow : Window
     }
 
 
+    private void RootGrid_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    {
+        try
+        {
+            if (e.Key is Windows.System.VirtualKey.Escape)
+            {
+                if (AppConfig.EnableSystemTrayIcon && AppConfig.GetService<SystemTrayService>().IsCreated)
+                {
+                    MainPage.Current?.PauseVideo();
+                    AppWindow.Hide();
+                }
+            }
+        }
+        catch { }
+    }
 
 
 }
