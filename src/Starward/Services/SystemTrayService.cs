@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
 using Starward.Pages.SystemTray;
 using System;
-using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -70,7 +70,7 @@ internal partial class SystemTrayService : ObservableObject, IDisposable
                 Id = TrayIcon.CreateUniqueGuidFromString(gameBiz.ToString()),
             };
             TaskbarIcon.ForceCreate(false);
-            TrayIcon = typeof(TaskbarIcon).GetProperty("TrayIcon", BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(TaskbarIcon) as TrayIcon;
+            TrayIcon = GetTrayIcon(TaskbarIcon);
             if (gameBiz is GameBiz.None)
             {
                 TrayWindow = new SystemTrayWindow(new MainMenuSystemTrayPage());
@@ -92,6 +92,10 @@ internal partial class SystemTrayService : ObservableObject, IDisposable
         }
     }
 
+
+
+    [UnsafeAccessor(UnsafeAccessorKind.Method, Name = "get_TrayIcon")]
+    private static extern TrayIcon GetTrayIcon(TaskbarIcon taskbarIcon);
 
 
 
