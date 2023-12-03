@@ -497,7 +497,7 @@ public sealed partial class MainPage : Page
 
     public bool IsPlayingVideo { get; private set; }
 
-
+   
 
     private void InitializeBackgroundImage()
     {
@@ -699,15 +699,28 @@ public sealed partial class MainPage : Page
     }
 
 
+    private bool pausedBySessionLocked;
 
-    public void PlayVideo()
+
+    public void PlayVideo(bool sessionUnlock = false)
     {
-        mediaPlayer?.Play();
+        if (!sessionUnlock)
+        {
+            mediaPlayer?.Play();
+        }
+        if (sessionUnlock && pausedBySessionLocked)
+        {
+            mediaPlayer?.Play();
+        }
     }
 
 
-    public void PauseVideo()
+    public void PauseVideo(bool sessionLock = false)
     {
+        if (mediaPlayer?.PlaybackSession?.PlaybackState is MediaPlaybackState.Playing)
+        {
+            pausedBySessionLocked = sessionLock;
+        }
         mediaPlayer?.Pause();
     }
 

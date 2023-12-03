@@ -11,6 +11,7 @@ using Starward.Pages;
 using Starward.Pages.Welcome;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 using Windows.Graphics;
 using Windows.UI;
@@ -63,6 +64,8 @@ public sealed partial class MainWindow : Window
         ComCtl32.SetWindowSubclass(HWND, subclassProc, 1001, IntPtr.Zero);
         WTSRegisterSessionNotification(MainWindow.Current.HWND, 0);
     }
+
+
 
     private void InitializeMainWindow(string? action = null)
     {
@@ -298,8 +301,25 @@ public sealed partial class MainWindow : Window
 
 
 
+    [DllImport("Wtsapi32.dll")]
+    private static extern bool WTSRegisterSessionNotification(IntPtr hWnd, int dwFlags);
+
+
     public IntPtr SUBCLASSPROC(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
     {
+        if (uMsg == ((uint)User32.WindowMessage.WM_WTSSESSION_CHANGE))
+        {
+            // WTS_SESSION_LOCK
+            if (wParam == 0x7)
+            {
+                MainPage.Current?.PauseVideo(true);
+            }
+            // WTS_SESSION_UNLOCK 
+            if (wParam == 0x8)
+            {
+                MainPage.Current?.PlayVideo(true);
+            }
+        }
         if (uMsg == ((uint)User32.WindowMessage.WM_SYSCOMMAND))
         {
             // SC_MAXIMIZE
