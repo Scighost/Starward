@@ -1160,18 +1160,18 @@
     <value>在浏览器中打开</value>
   </data>
   <data name="ImageViewPage_ZoomOut" xml:space="preserve">
-    <value>Zoom out</value>
+    <value>缩小</value>
   </data>
   <data name="ImageViewPage_ZoomIn" xml:space="preserve">
-    <value>Zoom in</value>
+    <value>放大</value>
   </data>
   <data name="ImageViewPage_Rotate" xml:space="preserve">
-    <value>Rotate</value>
+    <value>旋转</value>
   </data>
   <data name="Common_Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>复制</value>
   </data>
   <data name="Common_Open" xml:space="preserve">
-    <value>Open</value>
+    <value>打开</value>
   </data>
 </root>
