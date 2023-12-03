@@ -374,6 +374,7 @@ public sealed partial class ImageViewPage : Page
     private void _ScrollViewer_Image_Tapped(object sender, TappedRoutedEventArgs e)
     {
         ChangeToolBarVisibility();
+        this.Focus(FocusState.Programmatic);
     }
 
 

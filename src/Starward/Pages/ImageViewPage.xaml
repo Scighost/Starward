@@ -7,7 +7,6 @@
       xmlns:sc="using:Starward.Controls"
       xmlns:sm="using:Starward.Models"
       x:DefaultBindMode="OneWay"
-      Background="Transparent"
       KeyDown="Page_KeyDown"
       Loaded="Page_Loaded"
       mc:Ignorable="d">
