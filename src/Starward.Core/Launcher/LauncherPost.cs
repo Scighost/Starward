@@ -8,7 +8,7 @@ public class LauncherPost
     public string PostId { get; set; }
 
     [JsonPropertyName("type")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter<PostType>))]
     public PostType Type { get; set; }
 
     [JsonPropertyName("tittle")]
