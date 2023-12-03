@@ -69,13 +69,13 @@
                         <FontIcon Glyph="&#xE80F;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Name="NavigationViewItem_GameAnnounce"
+                <!--<NavigationViewItem Name="NavigationViewItem_GameAnnounce"
                                     Content="{x:Bind lang:Lang.MainPage_GameNotices}"
                                     Tag="GameNoticesPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE789;" />
                     </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                </NavigationViewItem>-->
                 <NavigationViewItem Name="NavigationViewItem_GameSetting"
                                     Content="{x:Bind lang:Lang.LauncherPage_GameSetting}"
                                     Tag="GameSettingPage">
@@ -355,7 +355,7 @@
                     </StackPanel>
                 </Button>
                 <!--  2  -->
-                <Button x:Name="Button_Navigation_2"
+                <!--<Button x:Name="Button_Navigation_2"
                         Height="40"
                         Click="Button_Navigation_Click"
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
@@ -369,13 +369,13 @@
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="2" />
                     </StackPanel>
-                </Button>
+                </Button>-->
                 <!--  3  -->
                 <Button x:Name="Button_Navigation_3"
                         Height="40"
                         Click="Button_Navigation_Click"
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                        Tag="3">
+                        Tag="2">
                     <StackPanel Orientation="Horizontal" Spacing="16">
                         <FontIcon FontSize="16"
                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -383,7 +383,7 @@
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="3" />
+                                   Text="2" />
                     </StackPanel>
                 </Button>
                 <!--  4  -->
@@ -391,7 +391,7 @@
                         Height="40"
                         Click="Button_Navigation_Click"
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                        Tag="4">
+                        Tag="3">
                     <StackPanel Orientation="Horizontal" Spacing="16">
                         <FontIcon FontSize="16"
                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -399,7 +399,7 @@
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="4" />
+                                   Text="3" />
                     </StackPanel>
                 </Button>
                 <!--  5  -->
@@ -408,7 +408,7 @@
                         x:Load="{x:Bind NavigationViewItem_GachaLog.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
                         Click="Button_Navigation_Click"
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                        Tag="5">
+                        Tag="4">
                     <StackPanel Orientation="Horizontal" Spacing="16">
                         <FontIcon x:Name="FontIcon_5"
                                   FontSize="16"
@@ -418,7 +418,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="5" />
+                                   Text="4" />
                     </StackPanel>
                 </Button>
                 <!--  6  -->
@@ -427,7 +427,7 @@
                         x:Load="{x:Bind NavigationViewItem_HoyolabToolbox.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
                         Click="Button_Navigation_Click"
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                        Tag="6">
+                        Tag="5">
                     <StackPanel Orientation="Horizontal" Spacing="16">
                         <FontIcon x:Name="FontIcon_6"
                                   FontSize="16"
@@ -437,7 +437,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="6" />
+                                   Text="5" />
                     </StackPanel>
                 </Button>
                 <!--  7  -->
@@ -446,7 +446,7 @@
                         x:Load="{x:Bind NavigationViewItem_SelfQuery.Visibility, Converter={StaticResource VisibilityToBoolConverter}}"
                         Click="Button_Navigation_Click"
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                        Tag="7">
+                        Tag="6">
                     <StackPanel Orientation="Horizontal" Spacing="16">
                         <FontIcon x:Name="FontIcon_7"
                                   FontSize="16"
@@ -456,7 +456,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="7" />
+                                   Text="6" />
                     </StackPanel>
                 </Button>
             </StackPanel>

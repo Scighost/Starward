@@ -968,32 +968,32 @@ public sealed partial class MainPage : Page
             NavigationViewItem_Launcher.IsSelected = true;
             NavigateTo(typeof(LauncherPage));
         }
+        //if (num == 2)
+        //{
+        //    NavigationViewItem_GameAnnounce.IsSelected = true;
+        //    NavigateTo(typeof(GameNoticesPage));
+        //}
         if (num == 2)
-        {
-            NavigationViewItem_GameAnnounce.IsSelected = true;
-            NavigateTo(typeof(GameNoticesPage));
-        }
-        if (num == 3)
         {
             NavigationViewItem_GameSetting.IsSelected = true;
             NavigateTo(typeof(GameSettingPage));
         }
-        if (num == 4)
+        if (num == 3)
         {
             NavigationViewItem_Screenshot.IsSelected = true;
             NavigateTo(typeof(ScreenshotPage));
         }
-        if (num == 5 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
+        if (num == 4 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
         {
             NavigationViewItem_GachaLog.IsSelected = true;
             NavigateTo(typeof(GachaLogPage));
         }
-        if (num == 6 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
+        if (num == 5 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
         {
             NavigationViewItem_HoyolabToolbox.IsSelected = true;
             NavigateTo(typeof(HoyolabToolboxPage));
         }
-        if (num == 7 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
+        if (num == 6 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
         {
             NavigationViewItem_SelfQuery.IsSelected = true;
             NavigateTo(typeof(SelfQueryPage));
