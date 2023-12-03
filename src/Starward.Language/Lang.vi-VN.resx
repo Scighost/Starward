@@ -1156,4 +1156,22 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="SettingPage_TestURLProtocol" xml:space="preserve">
     <value>Kiểm tra giao thức URL</value>
   </data>
+  <data name="LauncherPage_OpenInBrowser" xml:space="preserve">
+    <value>Mở trong Trình duyệt</value>
+  </data>
+  <data name="ImageViewPage_ZoomOut" xml:space="preserve">
+    <value>Zoom out</value>
+  </data>
+  <data name="ImageViewPage_ZoomIn" xml:space="preserve">
+    <value>Zoom in</value>
+  </data>
+  <data name="ImageViewPage_Rotate" xml:space="preserve">
+    <value>Rotate</value>
+  </data>
+  <data name="Common_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Common_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
 </root>
