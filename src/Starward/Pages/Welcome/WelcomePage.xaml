@@ -15,7 +15,7 @@
                VerticalAlignment="Center"
                Source="ms-appx:///Assets/Image/StartUpBG2.png"
                Stretch="UniformToFill" />
-        <Frame Name="frame" IsNavigationStackEnabled="False" />
+        <Frame Name="frame" />
 
     </Grid>
 </Page>
