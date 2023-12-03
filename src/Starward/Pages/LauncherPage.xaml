@@ -110,6 +110,16 @@
                                     Command="{x:Bind NavigateToGameNoticesPageCommand}"
                                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                                     ToolTipService.ToolTip="{x:Bind lang:Lang.MainPage_GameNotices}">
+                                <Button.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Command="{x:Bind OpenGameNoticesInBrowserCommand}" Text="{x:Bind lang:Lang.LauncherPage_OpenInBrowser}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE774;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+
+                                    </MenuFlyout>
+                                </Button.ContextFlyout>
                                 <Grid>
                                     <FontIcon FontSize="18"
                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"

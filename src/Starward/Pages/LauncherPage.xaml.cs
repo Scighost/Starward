@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -308,6 +309,24 @@ public sealed partial class LauncherPage : Page
     private void NavigateToGameNoticesPage()
     {
         MainPage.Current.NavigateTo(typeof(GameNoticesPage));
+    }
+
+
+
+    [RelayCommand]
+    private async Task OpenGameNoticesInBrowser()
+    {
+        try
+        {
+            long uid = SelectGameAccount?.Uid ?? 0;
+            string lang = CultureInfo.CurrentUICulture.Name;
+            string url = LauncherClient.GetGameNoticesUrl(gameBiz, uid, lang);
+            await Launcher.LaunchUriAsync(new Uri(url));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open game notices in browser");
+        }
     }
 
 

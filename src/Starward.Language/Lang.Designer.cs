@@ -1603,6 +1603,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Open in Browser 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_OpenInBrowser {
+            get {
+                return ResourceManager.GetString("LauncherPage_OpenInBrowser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Play Time 的本地化字符串。
         /// </summary>
         public static string LauncherPage_PlayTime {
