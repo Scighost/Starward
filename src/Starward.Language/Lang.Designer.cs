@@ -1765,6 +1765,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Startup Count 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_StartupCount {
+            get {
+                return ResourceManager.GetString("LauncherPage_StartupCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Start to Verify 的本地化字符串。
         /// </summary>
         public static string LauncherPage_StartVerification {

@@ -1174,4 +1174,7 @@ Do you accept the risk and continue to use it?</value>
   <data name="Common_Open" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="LauncherPage_StartupCount" xml:space="preserve">
+    <value>Startup Count</value>
+  </data>
 </root>

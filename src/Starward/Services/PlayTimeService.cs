@@ -64,6 +64,7 @@ internal class PlayTimeService
             _database.SetValue($"playtime_total_{biz}", GetPlayTimeTotal(biz));
             _database.SetValue($"playtime_month_{biz}", GetPlayCurrentMonth(biz));
             _database.SetValue($"playtime_week_{biz}", GetPlayCurrentWeek(biz));
+            _database.SetValue($"startup_count_{biz}", GetStartUpCount(biz));
         }
         catch (Exception ex)
         {
@@ -264,6 +265,14 @@ internal class PlayTimeService
             }
         }
         return TimeSpan.FromMilliseconds(ts);
+    }
+
+
+
+    public int GetStartUpCount(GameBiz biz)
+    {
+        using var dapper = _database.CreateConnection();
+        return dapper.ExecuteScalar<int>("SELECT COUNT(*) FROM PlayTimeItem WHERE GameBiz = @biz AND State = @state;", new { biz, state = PlayTimeItem.PlayState.Start });
     }
 
 

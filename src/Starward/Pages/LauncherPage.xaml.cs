@@ -762,6 +762,10 @@ public sealed partial class LauncherPage : Page
     private string lastPlayTimeText;
 
 
+    [ObservableProperty]
+    private int startUpCount;
+
+
     private void InitializePlayTime()
     {
         try
@@ -769,6 +773,7 @@ public sealed partial class LauncherPage : Page
             PlayTimeTotal = _databaseService.GetValue<TimeSpan>($"playtime_total_{gameBiz}", out _);
             PlayTimeMonth = _databaseService.GetValue<TimeSpan>($"playtime_month_{gameBiz}", out _);
             PlayTimeWeek = _databaseService.GetValue<TimeSpan>($"playtime_week_{gameBiz}", out _);
+            StartUpCount = _databaseService.GetValue<int>($"startup_count_{gameBiz}", out _);
             (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(gameBiz);
             if (time > DateTimeOffset.MinValue)
             {
@@ -791,6 +796,7 @@ public sealed partial class LauncherPage : Page
             PlayTimeTotal = _playTimeService.GetPlayTimeTotal(gameBiz);
             PlayTimeMonth = _playTimeService.GetPlayCurrentMonth(gameBiz);
             PlayTimeWeek = _playTimeService.GetPlayCurrentWeek(gameBiz);
+            StartUpCount = _playTimeService.GetStartUpCount(gameBiz);
             (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(gameBiz);
             if (time > DateTimeOffset.MinValue)
             {
@@ -799,6 +805,7 @@ public sealed partial class LauncherPage : Page
             _databaseService.SetValue($"playtime_total_{gameBiz}", PlayTimeTotal);
             _databaseService.SetValue($"playtime_month_{gameBiz}", PlayTimeMonth);
             _databaseService.SetValue($"playtime_week_{gameBiz}", PlayTimeWeek);
+            _databaseService.SetValue($"startup_count_{gameBiz}", StartUpCount);
         }
         catch (Exception ex)
         {
