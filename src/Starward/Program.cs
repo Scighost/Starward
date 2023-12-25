@@ -1,4 +1,5 @@
 ﻿global using Starward.Language;
+global using Starward.MyWindows;
 using Microsoft.Extensions.Configuration;
 using Starward.Core;
 using Starward.Models;
