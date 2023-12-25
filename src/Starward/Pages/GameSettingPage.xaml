@@ -26,22 +26,8 @@
                         IsHitTestVisible="False" />
 
                 <StackPanel Margin="0,0,12,0" Visibility="{x:Bind IsBaseSettingEnable}">
-                    <!--  启动参数  -->
-                    <TextBlock FontSize="20"
-                               FontWeight="Bold"
-                               Text="{x:Bind lang:Lang.GameSettingPage_StartArguments}" />
-                    <TextBox Margin="0,12,0,0"
-                             HorizontalAlignment="Stretch"
-                             IsSpellCheckEnabled="False"
-                             Text="{x:Bind StartArgument, Mode=TwoWay}" />
-                    <!--  关于启动参数的信息请查看 {nity Standalone Player Command Line Arguments}  -->
-                    <TextBlock Name="TextBlock_StartArgumentDesc"
-                               Margin="0,8,0,0"
-                               TextWrapping="Wrap" />
-
                     <!--  分辨率  -->
-                    <TextBlock Margin="0,20,0,0"
-                               FontSize="20"
+                    <TextBlock FontSize="20"
                                FontWeight="Bold"
                                Text="{x:Bind lang:Lang.GameSettingPage_Resolution}" />
                     <!--  全屏  -->

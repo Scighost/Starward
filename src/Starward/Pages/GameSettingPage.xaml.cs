@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
-using Starward.Helpers;
 using Starward.Models.GameSetting;
 using Starward.Services;
 using System;
@@ -38,11 +37,6 @@ public sealed partial class GameSettingPage : Page
     public GameSettingPage()
     {
         this.InitializeComponent();
-        TextBlockHelper.Inlines(
-            TextBlock_StartArgumentDesc.Inlines,
-            // 关于启动参数的信息请查看 {Unity Standalone Player Command Line Arguments}
-            Lang.GameSettingPage_StartArgumentDesc,
-            ("{Unity Standalone Player Command Line Arguments}", "https://docs.unity3d.com/Manual/PlayerCommandLineArguments.html"));
     }
 
 

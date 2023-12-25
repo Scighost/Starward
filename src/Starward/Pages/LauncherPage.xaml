@@ -643,12 +643,28 @@
                             Height="0"
                             IsHitTestVisible="False" />
 
-                    <TextBlock Margin="0,12,0,0"
-                               FontWeight="SemiBold"
-                               Text="{x:Bind lang:Lang.GameSettingPage_StartArguments}" />
+                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+
+                        <TextBlock FontWeight="SemiBold" Text="{x:Bind lang:Lang.GameSettingPage_StartArguments}" />
+                        <Button Margin="8,2,0,0"
+                                Padding="2"
+                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                            <FontIcon FontSize="14"
+                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                      Glyph="&#xE9CE;" />
+                            <Button.Flyout>
+                                <Flyout>
+                                    <TextBlock Name="TextBlock_StartArgumentDesc"
+                                               MaxWidth="360"
+                                               TextWrapping="Wrap" />
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                    </StackPanel>
                     <TextBox MinWidth="320"
                              Margin="0,8,0,0"
                              HorizontalAlignment="Left"
+                             IsEnabled="{x:Bind EnableThirdPartyTool, Converter={StaticResource BoolReversedConverter}}"
                              IsSpellCheckEnabled="False"
                              Text="{x:Bind StartGameArgument, Mode=TwoWay}"
                              TextWrapping="Wrap" />

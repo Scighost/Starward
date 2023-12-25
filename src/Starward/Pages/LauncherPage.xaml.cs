@@ -66,6 +66,11 @@ public sealed partial class LauncherPage : Page
     {
         this.InitializeComponent();
 
+        TextBlockHelper.Inlines(
+            TextBlock_StartArgumentDesc.Inlines,
+            Lang.GameSettingPage_StartArgumentDesc,
+            ("{Unity Standalone Player Command Line Arguments}", "https://docs.unity3d.com/Manual/PlayerCommandLineArguments.html"));
+
         if (AppConfig.WindowSizeMode > 0)
         {
             Grid_BannerAndPost.Width = 364;
