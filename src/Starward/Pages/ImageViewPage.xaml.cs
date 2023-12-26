@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Storage;
@@ -65,24 +66,36 @@ public sealed partial class ImageViewPage : Page
     }
 
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        await Task.Delay(100);
-        this.Focus(FocusState.Programmatic);
+        MainWindow.Current.BridgeMessageLoop += ImageViewPage_KeyDown;
     }
 
 
-    private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
+    private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
-        if (e.Key is VirtualKey.Escape)
+        MainWindow.Current.BridgeMessageLoop -= ImageViewPage_KeyDown;
+    }
+
+
+    private void ImageViewPage_KeyDown(object? sender, WindowEx.MessageLoopEventArgs e)
+    {
+        if (e.Handled)
         {
-            Close();
-            e.Handled = true;
+            return;
         }
-        if (e.Key is VirtualKey.F11)
+        if (e.uMsg == (uint)User32.WindowMessage.WM_KEYDOWN)
         {
-            FullScreen();
-            e.Handled = true;
+            if (e.wParam == (nint)User32.VK.VK_ESCAPE)
+            {
+                Close();
+                e.Handled = true;
+            }
+            if (e.wParam == (nint)User32.VK.VK_F11)
+            {
+                FullScreen();
+                e.Handled = true;
+            }
         }
     }
 
@@ -525,8 +538,6 @@ public sealed partial class ImageViewPage : Page
             Button_FullScreen.Content = "\uE740";
         }
     }
-
-
 
 
 }

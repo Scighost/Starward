@@ -29,6 +29,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.Graphics;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
@@ -77,6 +78,8 @@ public sealed partial class MainPage : Page
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        MainWindow.Current.BridgeMessageLoop += MainPage_KeyEvent;
+        WTSRegisterSessionNotification(MainWindow.Current.BridgeHandle, 0);
         InitializeNavigationViewPaneDisplayMode();
         UpdateButtonEffect();
         InitializeSystemTray();
@@ -106,6 +109,7 @@ public sealed partial class MainPage : Page
 
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
+        MainWindow.Current.BridgeMessageLoop -= MainPage_KeyEvent;
         mediaPlayer?.Dispose();
         softwareBitmap?.Dispose();
         if (MainWindow.Current?.AppWindow != null)
@@ -900,47 +904,61 @@ public sealed partial class MainPage : Page
     }
 
 
-    private void Page_PreviewKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+
+    private void MainPage_KeyEvent(object? sender, WindowEx.MessageLoopEventArgs e)
     {
         try
         {
-            if (AppConfig.DisableNavigationShortcut || AppConfig.EnableNavigationViewLeftCompact)
+            if (e.Handled)
             {
                 return;
             }
-            bool ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            bool alt = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
-            if (e.Key == VirtualKey.Control)
+            if (e.uMsg == (uint)User32.WindowMessage.WM_WTSSESSION_CHANGE)
             {
-                OpenShortcutPanel();
-                return;
+                // WTS_SESSION_LOCK
+                if (e.wParam == 0x7)
+            {
+                    PauseVideo(true);
             }
-            if (alt)
+                // WTS_SESSION_UNLOCK 
+                if (e.wParam == 0x8)
             {
-                CloseShortcutPanel();
-                return;
-            }
-            if (ctrl)
-            {
-                ShortcutNavigate((int)e.Key - 48);
+                    PlayVideo(true);
             }
         }
-        catch { }
-    }
-
-
-    private void Page_PreviewKeyUp(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+            if (e.uMsg == (uint)User32.WindowMessage.WM_KEYDOWN)
     {
-        try
+                if (e.wParam == (nint)User32.VK.VK_ESCAPE)
         {
+                    PauseVideo();
+                    MainWindow.Current.Hide();
+                    e.Handled = true;
+                }
             if (AppConfig.DisableNavigationShortcut || AppConfig.EnableNavigationViewLeftCompact)
             {
                 return;
             }
-            if (e.Key is VirtualKey.Control or VirtualKey.Menu)
+                if (e.wParam == (nint)User32.VK.VK_CONTROL)
+                {
+                    OpenShortcutPanel();
+                }
+                if (e.wParam >= (nint)User32.VK.VK_0 && e.wParam <= (nint)User32.VK.VK_9)
+                {
+                    bool ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                    if (ctrl)
+                    {
+                        ShortcutNavigate((int)e.wParam - 48);
+                        e.Handled = true;
+                    }
+                }
+            }
+            if (e.uMsg == (uint)User32.WindowMessage.WM_KEYUP)
+            {
+                if (e.wParam == (nint)User32.VK.VK_CONTROL)
             {
                 CloseShortcutPanel();
             }
+        }
         }
         catch { }
     }
@@ -1047,6 +1065,11 @@ public sealed partial class MainPage : Page
 
     #endregion
 
+
+
+    [LibraryImport("wtsapi32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool WTSRegisterSessionNotification(IntPtr hWnd, int dwFlags);
 
 
 }

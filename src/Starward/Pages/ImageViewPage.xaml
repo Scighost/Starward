@@ -7,8 +7,8 @@
       xmlns:sc="using:Starward.Controls"
       xmlns:sm="using:Starward.Models"
       x:DefaultBindMode="OneWay"
-      KeyDown="Page_KeyDown"
       Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded"
       mc:Ignorable="d">
 
 

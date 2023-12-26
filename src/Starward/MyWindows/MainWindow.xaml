@@ -13,9 +13,7 @@
                 Closed="MainWindow_Closed"
                 mc:Ignorable="d">
 
-    <Grid Name="RootGrid"
-          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-          KeyDown="RootGrid_KeyDown">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Frame Name="MainWindow_Frame" />
 

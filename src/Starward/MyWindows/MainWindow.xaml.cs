@@ -101,7 +101,7 @@ public sealed partial class MainWindow : WindowEx
         Frame_Overlay.Visibility = Visibility.Visible;
         Frame_Overlay.Navigate(page, parameter!, infoOverride);
         var len = (int)(48 * UIScale);
-        SetDragRectangles(new RectInt32[] { new RectInt32(0, 0, 100000, len) });
+        SetDragRectangles(new RectInt32(0, 0, 100000, len));
     }
 
 
@@ -111,57 +111,6 @@ public sealed partial class MainWindow : WindowEx
         Frame_Overlay.Visibility = Visibility.Collapsed;
         Frame_Overlay.Content = null;
         MainPage.Current?.UpdateDragRectangles();
-    }
-
-
-
-
-    [DllImport("wtsapi32.dll")]
-    private static extern bool WTSRegisterSessionNotification(IntPtr hWnd, int dwFlags);
-
-
-    public IntPtr SUBCLASSPROC(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
-    {
-        if (uMsg == (uint)User32.WindowMessage.WM_WTSSESSION_CHANGE)
-        {
-            // WTS_SESSION_LOCK
-            if (wParam == 0x7)
-            {
-                MainPage.Current?.PauseVideo(true);
-            }
-            // WTS_SESSION_UNLOCK 
-            if (wParam == 0x8)
-            {
-                MainPage.Current?.PlayVideo(true);
-            }
-        }
-        if (uMsg == (uint)User32.WindowMessage.WM_SYSCOMMAND)
-        {
-            // SC_MAXIMIZE
-            if (wParam == 0xF030)
-            {
-                return IntPtr.Zero;
-            }
-        }
-        return ComCtl32.DefSubclassProc(hWnd, uMsg, wParam, lParam);
-    }
-
-
-    private void RootGrid_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
-    {
-        try
-        {
-            if (e.Key is Windows.System.VirtualKey.Escape)
-            {
-                if (AppConfig.EnableSystemTrayIcon)
-                {
-                    MainPage.Current?.PauseVideo();
-                    AppWindow.Hide();
-                    GC.Collect();
-                }
-            }
-        }
-        catch { }
     }
 
 

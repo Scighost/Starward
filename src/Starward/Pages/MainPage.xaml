@@ -11,8 +11,6 @@
       xmlns:s="using:Starward"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
-      PreviewKeyDown="Page_PreviewKeyDown"
-      PreviewKeyUp="Page_PreviewKeyUp"
       RightTapped="Page_RightTapped"
       SizeChanged="Page_SizeChanged"
       Tapped="Page_Tapped"
