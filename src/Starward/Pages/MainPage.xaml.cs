@@ -81,7 +81,9 @@ public sealed partial class MainPage : Page
         UpdateButtonEffect();
         InitializeSystemTray();
         await UpdateBackgroundImageAsync(true);
+#if !CI
         await CheckUpdateAsync();
+#endif
     }
 
 
