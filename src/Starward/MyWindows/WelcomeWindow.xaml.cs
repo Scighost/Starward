@@ -43,7 +43,7 @@ public sealed partial class WelcomeWindow : WindowEx
         new SystemBackdropHelper(this, SystemBackdropProperty.AcrylicDefault with
         {
             TintColorLight = 0xFFE7E7E7,
-            TintColorDark = 0xFF404040
+            TintColorDark = 0xFF303030
         }).TrySetAcrylic(true);
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
