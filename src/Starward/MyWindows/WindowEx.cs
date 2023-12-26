@@ -13,9 +13,9 @@ public abstract class WindowEx : Window
 {
 
 
-    public IntPtr WindowHandle { get; init; }
+    public IntPtr WindowHandle { get; private init; }
 
-    public IntPtr BridgeHandle { get; init; }
+    public IntPtr BridgeHandle { get; private init; }
 
 
     public double UIScale => User32.GetDpiForWindow(WindowHandle) / 96d;
@@ -239,6 +239,29 @@ public abstract class WindowEx : Window
     #endregion
 
 
+    #region Accent Color
+
+
+    public virtual void ChangeAccentColor(Color? backColor = null, Color? foreColor = null)
+    {
+        if (Content is FrameworkElement element)
+        {
+            App.ChangeAccentColor(element.ActualTheme, backColor, foreColor);
+            if (element.ActualTheme is ElementTheme.Dark)
+            {
+                element.RequestedTheme = ElementTheme.Light;
+                element.RequestedTheme = ElementTheme.Default;
+            }
+            if (element.ActualTheme is ElementTheme.Light)
+            {
+                element.RequestedTheme = ElementTheme.Dark;
+                element.RequestedTheme = ElementTheme.Default;
+            }
+        }
+    }
+
+
+    #endregion
 
 
 }
