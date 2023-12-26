@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Core.Metadata;
-using Starward.Services;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -34,13 +33,10 @@ public sealed partial class SelectLanguagePage : Page
 
     private readonly MetadataClient _metadataClient = AppConfig.GetService<MetadataClient>();
 
-    private readonly WelcomeService _welcomeService = AppConfig.GetService<WelcomeService>();
-
 
     public SelectLanguagePage()
     {
         this.InitializeComponent();
-        CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
     }
 
 
@@ -53,14 +49,14 @@ public sealed partial class SelectLanguagePage : Page
         await Task.Delay(480);
         SettingGridLoad = true;
         InitializeLanguageComboBox();
-        _welcomeService.ApiCDNIndex = AppConfig.ApiCDNIndex;
+        WelcomeWindow.Current.ApiCDNIndex = AppConfig.ApiCDNIndex;
         switch (AppConfig.ApiCDNIndex)
         {
             case 1: RadioButton_GH.IsChecked = true; break;
             case 2: RadioButton_JD.IsChecked = true; break;
             default: RadioButton_CF.IsChecked = true; break;
         }
-        _welcomeService.WindowSizeMode = AppConfig.WindowSizeMode;
+        WelcomeWindow.Current.WindowSizeMode = AppConfig.WindowSizeMode;
         switch (AppConfig.WindowSizeMode)
         {
             case 1: RadioButton_WindowSize_Small.IsChecked = true; break;
@@ -112,7 +108,7 @@ public sealed partial class SelectLanguagePage : Page
     [RelayCommand]
     private void Next()
     {
-        _welcomeService.NavigateTo(typeof(SelectDirectoryPage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+        WelcomeWindow.Current.NavigateTo(typeof(SelectDirectoryPage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
     }
 
 
@@ -126,12 +122,10 @@ public sealed partial class SelectLanguagePage : Page
                 switch (fe.Tag)
                 {
                     case "small":
-                        _welcomeService.WindowSizeMode = 1;
-                        MainWindow.Current.ChangeWindowSize(1064, 648);
+                        WelcomeWindow.Current.ChangeWindowSize(1);
                         break;
                     default:
-                        _welcomeService.WindowSizeMode = 0;
-                        MainWindow.Current.ChangeWindowSize(1280, 768);
+                        WelcomeWindow.Current.ChangeWindowSize(0);
                         break;
                 }
             }
@@ -232,7 +226,7 @@ public sealed partial class SelectLanguagePage : Page
                 _ => 0,
             };
             _metadataClient.SetApiPrefix(index);
-            _welcomeService.ApiCDNIndex = index;
+            WelcomeWindow.Current.ApiCDNIndex = index;
         }
     }
 
@@ -248,7 +242,7 @@ public sealed partial class SelectLanguagePage : Page
                 {
                     var lang = item.Tag as string;
                     _logger.LogInformation("Language change to {lang}", lang);
-                    _welcomeService.TextLanguage = lang!;
+                    WelcomeWindow.Current.TextLanguage = lang!;
                     if (string.IsNullOrWhiteSpace(lang))
                     {
                         CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
@@ -272,15 +266,5 @@ public sealed partial class SelectLanguagePage : Page
     }
 
 
-    private void ComboBox_Language_DropDownOpened(object sender, object e)
-    {
-        MainWindow.Current.SetDragRectangles();
-    }
-
-    private void ComboBox_Language_DropDownClosed(object sender, object e)
-    {
-        var len = (int)(48 * MainWindow.Current.UIScale);
-        MainWindow.Current.SetDragRectangles(new Windows.Graphics.RectInt32(0, 0, 100000, len));
-    }
 
 }

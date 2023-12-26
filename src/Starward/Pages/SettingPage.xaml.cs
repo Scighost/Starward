@@ -506,7 +506,11 @@ public sealed partial class SettingPage : Page
             {
                 AppConfig.UserDataFolder = null!;
                 AppConfig.ResetServiceProvider();
-                MainWindow.Current.NavigateTo(typeof(WelcomePage), null, new Microsoft.UI.Xaml.Media.Animation.DrillInNavigationTransitionInfo());
+                var window = new WelcomeWindow();
+                App.Current.SetWindow(window);
+                window.Activate();
+                MainWindow.Current.Close();
+                SystemTrayWindow.Current?.Close();
             }
         }
         catch (Exception ex)

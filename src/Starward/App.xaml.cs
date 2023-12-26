@@ -9,6 +9,7 @@ using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.UI;
 
@@ -22,6 +23,10 @@ namespace Starward;
 /// </summary>
 public partial class App : Application
 {
+
+    public static new App Current => (App)Application.Current;
+
+
     /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
     /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -76,25 +81,55 @@ public partial class App : Application
             this.Exit();
             return;
         }
-        // todo
-        //m_SystemTrayWindow = new SystemTrayWindow();
-        m_window = new MainWindow();
-        m_window.Activate();
+        if (AppConfig.UserDataFolder is null)
+        {
+            m_window = new WelcomeWindow();
+            m_window.Activate();
+        }
+        else
+        {
+
+            m_window = new MainWindow();
+            m_window.Activate();
+#if DEBUG
+            await Task.Delay(1000);
+#endif
+            // todo
+            m_SystemTrayWindow = new SystemTrayWindow();
+        }
     }
 
 
 
     private AppInstance instance;
 
-    private Window m_window;
+    private WindowEx m_window;
 
     private SystemTrayWindow m_SystemTrayWindow;
 
 
+
+    public void SetWindow(WindowEx window)
+    {
+        m_window = window;
+    }
+
+
     private void AppInstance_Activated(object? sender, AppActivationArguments e)
     {
-        User32.ShowWindow(MainWindow.Current.WindowHandle, ShowWindowCommand.SW_SHOWNORMAL);
-        User32.SetForegroundWindow(MainWindow.Current.WindowHandle);
+        if (m_window is null)
+        {
+            if (AppConfig.UserDataFolder is null)
+            {
+                m_window = new WelcomeWindow();
+            }
+            else
+            {
+                m_window = new MainWindow();
+            }
+        }
+        m_window.Activate();
+        m_window.Show();
     }
 
 

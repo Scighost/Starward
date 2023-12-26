@@ -5,10 +5,8 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Pages;
-using Starward.Pages.Welcome;
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 using Windows.Graphics;
 
@@ -51,14 +49,7 @@ public sealed partial class MainWindow : WindowEx
             presenter.IsMaximizable = false;
             presenter.IsResizable = false;
         }
-        if (AppConfig.UserDataFolder is null)
-        {
-            MainWindow_Frame.Content = new WelcomePage();
-        }
-        else
-        {
-            MainWindow_Frame.Content = new MainPage();
-        }
+        MainWindow_Frame.Content = new MainPage();
     }
 
 
@@ -83,7 +74,7 @@ public sealed partial class MainWindow : WindowEx
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
     {
-
+        Current = null!;
     }
 
 

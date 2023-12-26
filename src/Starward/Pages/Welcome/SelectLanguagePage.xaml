@@ -67,8 +67,6 @@
                            Text="Language" />
                 <ComboBox Name="ComboBox_Language"
                           MinWidth="300"
-                          DropDownClosed="ComboBox_Language_DropDownClosed"
-                          DropDownOpened="ComboBox_Language_DropDownOpened"
                           SelectionChanged="ComboBox_Language_SelectionChanged" />
 
                 <TextBlock Margin="0,8,0,0"

@@ -122,9 +122,11 @@ public sealed partial class SystemTrayWindow : WindowEx
     }
 
 
-
-
-
+    private void WindowEx_Closed(object sender, WindowEventArgs args)
+    {
+        Current = null!;
+        TaskbarIcon.Dispose();
+    }
 
 
 }

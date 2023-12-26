@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Core;
 using Starward.Core.Metadata;
 using Starward.Helpers;
-using Starward.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,8 +32,6 @@ public sealed partial class SelectGamePage : Page
 {
 
     private readonly ILogger<SelectGamePage> _logger = AppConfig.GetLogger<SelectGamePage>();
-
-    private readonly WelcomeService _welcomeService = AppConfig.GetService<WelcomeService>();
 
 
 
@@ -102,7 +99,7 @@ public sealed partial class SelectGamePage : Page
     [RelayCommand]
     private void Preview()
     {
-        _welcomeService.NavigateTo(typeof(SelectDirectoryPage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft });
+        WelcomeWindow.Current.NavigateTo(typeof(SelectDirectoryPage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft });
     }
 
 
@@ -113,7 +110,7 @@ public sealed partial class SelectGamePage : Page
     {
         try
         {
-            _welcomeService.ApplySetting();
+            WelcomeWindow.Current.ApplySetting();
             AppConfig.SelectGameBiz = SelectBiz;
             if (Grid_GameInfo.Opacity == 1)
             {
@@ -128,7 +125,7 @@ public sealed partial class SelectGamePage : Page
                 HyperlinkButton_HomePage.Opacity = 0;
                 await Task.Delay(3000);
             }
-            MainWindow.Current.NavigateTo(typeof(MainPage), null!, new DrillInNavigationTransitionInfo());
+            WelcomeWindow.Current.OpenMainWindow();
         }
         catch (Exception ex)
         {
