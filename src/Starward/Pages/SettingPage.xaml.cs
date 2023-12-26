@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Metadata;
-using Starward.Pages.Welcome;
 using Starward.Services;
 using System;
 using System.Diagnostics;
@@ -506,11 +505,8 @@ public sealed partial class SettingPage : Page
             {
                 AppConfig.UserDataFolder = null!;
                 AppConfig.ResetServiceProvider();
-                var window = new WelcomeWindow();
-                App.Current.SetWindow(window);
-                window.Activate();
-                MainWindow.Current.Close();
-                SystemTrayWindow.Current?.Close();
+                App.Current.CloseSystemTray();
+                App.Current.SwitchMainWindow(new WelcomeWindow());
             }
         }
         catch (Exception ex)

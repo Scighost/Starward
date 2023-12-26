@@ -125,10 +125,7 @@ public sealed partial class WelcomeWindow : WindowEx
 
     public void OpenMainWindow()
     {
-        var window = new MainWindow();
-        App.Current.SetWindow(window);
-        window.Activate();
-        Close();
+        App.Current.SwitchMainWindow(new MainWindow());
     }
 
 

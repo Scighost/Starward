@@ -46,7 +46,11 @@ public sealed partial class SystemTrayWindow : WindowEx
 
     private unsafe void InitializeWindow()
     {
-        new SystemBackdropHelper(this, SystemBackdropProperty.AcrylicDefault with { TintColorLight = 0xFFE7E7E7, TintColorDark = 0xFF404040 }).TrySetAcrylic(true);
+        new SystemBackdropHelper(this, SystemBackdropProperty.AcrylicDefault with
+        {
+            TintColorLight = 0xFFE7E7E7,
+            TintColorDark = 0xFF404040
+        }).TrySetAcrylic(true);
         AppWindow.IsShownInSwitchers = false;
         AppWindow.Closing += (s, e) => e.Cancel = true;
         this.Activated += SystemTrayWindow_Activated;
@@ -84,10 +88,14 @@ public sealed partial class SystemTrayWindow : WindowEx
     public override void Show()
     {
         RootGrid.RequestedTheme = ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
+        tray.UpdateContent();
+        tray.UpdateLayout();
         User32.GetCursorPos(out POINT point);
-        SIZE windowSize = new(400, 600);
-        windowSize.Width = (int)(tray.ActualWidth * UIScale);
-        windowSize.Height = (int)(tray.ActualHeight * UIScale);
+        SIZE windowSize = new()
+        {
+            Width = (int)(tray.ActualWidth * UIScale),
+            Height = (int)(tray.ActualHeight * UIScale)
+        };
         User32.CalculatePopupWindowPosition(point, windowSize, User32.TrackPopupMenuFlags.TPM_RIGHTALIGN | User32.TrackPopupMenuFlags.TPM_BOTTOMALIGN | User32.TrackPopupMenuFlags.TPM_WORKAREA, null, out RECT windowPos);
         User32.MoveWindow(WindowHandle, windowPos.X, windowPos.Y, windowPos.Width, windowPos.Height, true);
         base.Show();
@@ -117,15 +125,14 @@ public sealed partial class SystemTrayWindow : WindowEx
     [RelayCommand]
     public void ShowMainWindow()
     {
-        // todo
-        MainWindow.Current?.Activate();
+        App.Current.EnsureMainWindow();
     }
 
 
     private void WindowEx_Closed(object sender, WindowEventArgs args)
     {
         Current = null!;
-        TaskbarIcon.Dispose();
+        TaskbarIcon?.Dispose();
     }
 
 

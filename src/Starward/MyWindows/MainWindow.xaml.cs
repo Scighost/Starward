@@ -6,7 +6,9 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Pages;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Graphics;
 
@@ -30,6 +32,22 @@ public sealed partial class MainWindow : WindowEx
         Current = this;
         this.InitializeComponent();
         InitializeMainWindow();
+#if DEBUG
+        if (Debugger.IsAttached)
+        {
+            Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                DispatcherQueue.TryEnqueue(App.Current.InitializeSystemTray);
+            });
+        }
+        else
+        {
+            App.Current.InitializeSystemTray();
+        }
+#else
+        App.Current.InitializeSystemTray();
+#endif
     }
 
 
@@ -39,6 +57,7 @@ public sealed partial class MainWindow : WindowEx
         Title = "Starward";
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         AppWindow.TitleBar.IconShowOptions = IconShowOptions.ShowIconAndSystemMenu;
+        AppWindow.Closing += AppWindow_Closing;
         var len = (int)(48 * UIScale);
         ChangeWindowSize();
         AdaptTitleBarButtonColorToActuallTheme();
@@ -49,7 +68,6 @@ public sealed partial class MainWindow : WindowEx
             presenter.IsMaximizable = false;
             presenter.IsResizable = false;
         }
-        MainWindow_Frame.Content = new MainPage();
     }
 
 
@@ -70,20 +88,19 @@ public sealed partial class MainWindow : WindowEx
     }
 
 
+    private void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+    {
+        args.Cancel = true;
+        // todo
+        App.Current.Exit();
+    }
+
 
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
     {
         Current = null!;
     }
-
-
-
-    public void NavigateTo(Type page, object? parameter, NavigationTransitionInfo infoOverride)
-    {
-        MainWindow_Frame.Navigate(page, parameter!, infoOverride);
-    }
-
 
 
     public void OverlayFrameNavigateTo(Type page, object? parameter, NavigationTransitionInfo infoOverride)

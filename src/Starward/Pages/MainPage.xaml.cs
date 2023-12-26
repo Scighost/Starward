@@ -82,7 +82,6 @@ public sealed partial class MainPage : Page
         WTSRegisterSessionNotification(MainWindow.Current.BridgeHandle, 0);
         InitializeNavigationViewPaneDisplayMode();
         UpdateButtonEffect();
-        InitializeSystemTray();
         await UpdateBackgroundImageAsync(true);
 #if !CI
         await CheckUpdateAsync();
@@ -109,13 +108,9 @@ public sealed partial class MainPage : Page
 
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
-        MainWindow.Current.BridgeMessageLoop -= MainPage_KeyEvent;
+        Current = null!;
         mediaPlayer?.Dispose();
         softwareBitmap?.Dispose();
-        if (MainWindow.Current?.AppWindow != null)
-        {
-            MainWindow.Current.AppWindow.Closing -= AppWindow_Closing;
-        }
     }
 
 
@@ -149,25 +144,6 @@ public sealed partial class MainPage : Page
         UpdateNavigationViewItems();
     }
 
-
-
-    private void InitializeSystemTray()
-    {
-        // todo
-        MainWindow.Current.AppWindow.Closing += AppWindow_Closing;
-    }
-
-
-    private void AppWindow_Closing(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowClosingEventArgs args)
-    {
-        if (AppConfig.EnableSystemTrayIcon && !AppConfig.ExitWhenClosing)
-        {
-            args.Cancel = true;
-            PauseVideo();
-            MainWindow.Current.AppWindow.Hide();
-            GC.Collect();
-        }
-    }
 
 
 
@@ -917,27 +893,27 @@ public sealed partial class MainPage : Page
             {
                 // WTS_SESSION_LOCK
                 if (e.wParam == 0x7)
-            {
+                {
                     PauseVideo(true);
-            }
+                }
                 // WTS_SESSION_UNLOCK 
                 if (e.wParam == 0x8)
-            {
+                {
                     PlayVideo(true);
+                }
             }
-        }
             if (e.uMsg == (uint)User32.WindowMessage.WM_KEYDOWN)
-    {
+            {
                 if (e.wParam == (nint)User32.VK.VK_ESCAPE)
-        {
+                {
                     PauseVideo();
                     MainWindow.Current.Hide();
                     e.Handled = true;
                 }
-            if (AppConfig.DisableNavigationShortcut || AppConfig.EnableNavigationViewLeftCompact)
-            {
-                return;
-            }
+                if (AppConfig.DisableNavigationShortcut || AppConfig.EnableNavigationViewLeftCompact)
+                {
+                    return;
+                }
                 if (e.wParam == (nint)User32.VK.VK_CONTROL)
                 {
                     OpenShortcutPanel();
@@ -955,10 +931,10 @@ public sealed partial class MainPage : Page
             if (e.uMsg == (uint)User32.WindowMessage.WM_KEYUP)
             {
                 if (e.wParam == (nint)User32.VK.VK_CONTROL)
-            {
-                CloseShortcutPanel();
+                {
+                    CloseShortcutPanel();
+                }
             }
-        }
         }
         catch { }
     }

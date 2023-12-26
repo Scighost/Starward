@@ -134,8 +134,7 @@ public sealed partial class SystemTrayControl : UserControl
     [RelayCommand]
     private void OpenLauncher()
     {
-        // todo
-        MainWindow.Current?.Activate();
+        App.Current.EnsureMainWindow();
     }
 
 
@@ -143,9 +142,7 @@ public sealed partial class SystemTrayControl : UserControl
     [RelayCommand]
     private void Exit()
     {
-        // todo
-        MainWindow.Current?.Close();
-        SystemTrayWindow.Current?.Close();
+        App.Current.Exit();
     }
 
 

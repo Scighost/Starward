@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.Helpers;
+using Microsoft.Extensions.Configuration;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -9,8 +10,6 @@ using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Globalization;
 using System.IO;
-using System.Threading.Tasks;
-using Vanara.PInvoke;
 using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -64,7 +63,7 @@ public partial class App : Application
                 m_window.Activate();
                 return;
             }
-            if (Uri.TryCreate(args[1], UriKind.RelativeOrAbsolute, out Uri? uri))
+            if (Uri.TryCreate(args[1], UriKind.Absolute, out Uri? uri))
             {
                 if (uri.Host is "test")
                 {
@@ -88,14 +87,15 @@ public partial class App : Application
         }
         else
         {
-
-            m_window = new MainWindow();
-            m_window.Activate();
-#if DEBUG
-            await Task.Delay(1000);
-#endif
-            // todo
-            m_SystemTrayWindow = new SystemTrayWindow();
+            if (AppConfig.Configuration.GetValue<bool>("quiet"))
+            {
+                m_SystemTrayWindow = new SystemTrayWindow();
+            }
+            else
+            {
+                m_window = new MainWindow();
+                m_window.Activate();
+            }
         }
     }
 
@@ -108,28 +108,60 @@ public partial class App : Application
     private SystemTrayWindow m_SystemTrayWindow;
 
 
-
-    public void SetWindow(WindowEx window)
+    public void SwitchMainWindow(WindowEx window)
     {
+        var old = m_window;
         m_window = window;
+        m_window.Activate();
+        old?.Close();
     }
+
+
+    public void EnsureMainWindow()
+    {
+        m_window ??= new MainWindow();
+        m_window.Activate();
+    }
+
+
+    public void CloseMainWindow()
+    {
+        m_window?.Close();
+        m_window = null!;
+    }
+
+
+    public void InitializeSystemTray()
+    {
+        m_SystemTrayWindow ??= new SystemTrayWindow();
+    }
+
+
+    public void CloseSystemTray()
+    {
+        m_SystemTrayWindow?.Close();
+        m_SystemTrayWindow = null!;
+    }
+
 
 
     private void AppInstance_Activated(object? sender, AppActivationArguments e)
     {
         if (m_window is null)
         {
-            if (AppConfig.UserDataFolder is null)
+            m_SystemTrayWindow?.DispatcherQueue.TryEnqueue(() =>
             {
-                m_window = new WelcomeWindow();
-            }
-            else
-            {
-                m_window = new MainWindow();
-            }
+                if (AppConfig.UserDataFolder is null)
+                {
+                    m_window = new WelcomeWindow();
+                }
+                else
+                {
+                    m_window = new MainWindow();
+                }
+                m_window.Activate();
+            });
         }
-        m_window.Activate();
-        m_window.Show();
     }
 
 
