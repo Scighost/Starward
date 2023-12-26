@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Pages;
 using Starward.Pages.Welcome;
-using Starward.Services;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -313,7 +312,7 @@ public sealed partial class MainWindow : Window
         {
             if (e.Key is Windows.System.VirtualKey.Escape)
             {
-                if (AppConfig.EnableSystemTrayIcon && AppConfig.GetService<SystemTrayService>().IsCreated)
+                if (AppConfig.EnableSystemTrayIcon)
                 {
                     MainPage.Current?.PauseVideo();
                     AppWindow.Hide();

@@ -54,8 +54,6 @@ public sealed partial class LauncherPage : Page
 
     private readonly DownloadGameService _downloadGameService = AppConfig.GetService<DownloadGameService>();
 
-    private readonly SystemTrayService _systemTrayService = AppConfig.GetService<SystemTrayService>();
-
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _timer;
 
     private GameBiz gameBiz;
@@ -616,7 +614,8 @@ public sealed partial class LauncherPage : Page
             if (process1 != null)
             {
                 MainPage.Current.PauseVideo();
-                if (AppConfig.EnableSystemTrayIcon && _systemTrayService.IsCreated)
+                // todo
+                if (AppConfig.EnableSystemTrayIcon)
                 {
                     User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_HIDE);
                     GC.Collect();

@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -6,53 +6,47 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
+using Starward.Pages;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using Vanara.PInvoke;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace Starward.Pages.SystemTray;
+namespace Starward.Controls;
 
-/// <summary>
-/// An empty page that can be used on its own or navigated to within a Frame.
-/// </summary>
 [INotifyPropertyChanged]
-public sealed partial class MainMenuSystemTrayPage : Page
+public sealed partial class SystemTrayControl : UserControl
 {
 
-    private readonly ILogger<MainMenuSystemTrayPage> _logger = AppConfig.GetLogger<MainMenuSystemTrayPage>();
+
+    private readonly ILogger<SystemTrayControl> _logger = AppConfig.GetLogger<SystemTrayControl>();
 
     private readonly GameService _gameService = AppConfig.GetService<GameService>();
-
-    private readonly SystemTrayService _systemTrayService = AppConfig.GetService<SystemTrayService>();
 
     private readonly PlayTimeService _playTimeService = AppConfig.GetService<PlayTimeService>();
 
     private string lang;
 
 
-    public MainMenuSystemTrayPage()
+    public SystemTrayControl()
     {
         this.InitializeComponent();
+        this.Loaded += SystemTrayControl_Loaded;
     }
-
 
 
     [ObservableProperty]
     private List<GameServerModel>? installedGames;
 
 
-
-    private void Page_Loaded(object sender, RoutedEventArgs e)
+    private void SystemTrayControl_Loaded(object sender, RoutedEventArgs e)
     {
         UpdateContent();
     }
-
 
 
     public void UpdateContent()
@@ -116,10 +110,10 @@ public sealed partial class MainMenuSystemTrayPage : Page
         {
             if (sender is Button button && button.Tag is GameServerModel game)
             {
-                _systemTrayService.HideTrayWindow();
                 var process1 = _gameService.StartGame(game.GameBiz, AppConfig.IgnoreRunningGame);
                 if (process1 != null)
                 {
+                    // todo
                     MainPage.Current.PauseVideo();
                     //User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
                     _logger.LogInformation("Game started ({name}, {pid})", process1.ProcessName, process1.Id);
@@ -140,8 +134,8 @@ public sealed partial class MainMenuSystemTrayPage : Page
     [RelayCommand]
     private void OpenLauncher()
     {
-        User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWNORMAL);
-        User32.SetForegroundWindow(MainWindow.Current.HWND);
+        // todo
+        MainWindow.Current?.Activate();
     }
 
 
@@ -149,8 +143,9 @@ public sealed partial class MainMenuSystemTrayPage : Page
     [RelayCommand]
     private void Exit()
     {
-        _systemTrayService.Dispose();
-        MainWindow.Current.Close();
+        // todo
+        MainWindow.Current?.Close();
+        SystemTrayWindow.Current?.Close();
     }
 
 
@@ -167,6 +162,11 @@ public sealed partial class MainMenuSystemTrayPage : Page
         public string GameServer => GameBiz.ToGameServer();
 
     }
+
+
+
+
+
 
 
 }

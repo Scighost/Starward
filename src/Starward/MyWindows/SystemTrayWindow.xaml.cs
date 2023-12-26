@@ -2,13 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Starward.Helpers;
-using Starward.Pages.SystemTray;
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using Vanara.PInvoke;
-using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -19,31 +17,30 @@ namespace Starward.MyWindows;
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class SystemTrayWindow : Window, IDisposable
+public sealed partial class SystemTrayWindow : WindowEx
 {
 
 
-    private readonly IntPtr HWND;
+    public static new SystemTrayWindow Current { get; private set; }
 
-
-    private double Scale => User32.GetDpiForWindow(HWND) / 96d;
 
 
     public SystemTrayWindow()
     {
+        Current = this;
         this.InitializeComponent();
-        HWND = WindowNative.GetWindowHandle(this);
         InitializeWindow();
+        try
+        {
+            string icon = Path.Combine(AppContext.BaseDirectory, "Assets", "logo.ico");
+            if (File.Exists(icon))
+            {
+                TaskbarIcon.Icon = new(icon);
+            }
+        }
+        catch { }
     }
 
-
-    public SystemTrayWindow(Page page)
-    {
-        this.InitializeComponent();
-        HWND = WindowNative.GetWindowHandle(this);
-        InitializeWindow();
-        frame.Content = page;
-    }
 
 
 
@@ -60,14 +57,15 @@ public sealed partial class SystemTrayWindow : Window, IDisposable
             presenter.IsResizable = false;
             presenter.IsAlwaysOnTop = true;
         }
-        var flag = User32.GetWindowLongPtr(HWND, User32.WindowLongFlags.GWL_STYLE);
+        var flag = User32.GetWindowLongPtr(WindowHandle, User32.WindowLongFlags.GWL_STYLE);
         flag &= ~(nint)User32.WindowStyles.WS_CAPTION;
         flag &= ~(nint)User32.WindowStyles.WS_BORDER;
-        User32.SetWindowLong(HWND, User32.WindowLongFlags.GWL_STYLE, flag);
+        User32.SetWindowLong(WindowHandle, User32.WindowLongFlags.GWL_STYLE, flag);
         var p = DwmApi.DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUND;
-        DwmApi.DwmSetWindowAttribute(HWND, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, (nint)(&p), sizeof(DwmApi.DWM_WINDOW_CORNER_PREFERENCE));
+        DwmApi.DwmSetWindowAttribute(WindowHandle, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, (nint)(&p), sizeof(DwmApi.DWM_WINDOW_CORNER_PREFERENCE));
         RootGrid.RequestedTheme = ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
-        User32.ShowWindow(HWND, ShowWindowCommand.SW_HIDE);
+        Show();
+        Hide();
     }
 
 
@@ -83,70 +81,50 @@ public sealed partial class SystemTrayWindow : Window, IDisposable
 
 
     [RelayCommand]
-    public void Show()
+    public override void Show()
     {
         RootGrid.RequestedTheme = ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
         User32.GetCursorPos(out POINT point);
         SIZE windowSize = new(400, 600);
-        if (frame.Content is MainMenuSystemTrayPage page1)
-        {
-            page1.UpdateContent();
-            windowSize.Width = (int)(page1.ContentGrid.ActualWidth * Scale);
-            windowSize.Height = (int)(page1.ContentGrid.ActualHeight * Scale);
-        }
-        if (frame.Content is InstallGameSystemTrayPage page2)
-        {
-            windowSize.Width = (int)(page2.ContentGrid.ActualWidth * Scale);
-            windowSize.Height = (int)(page2.ContentGrid.ActualHeight * Scale);
-        }
+        windowSize.Width = (int)(tray.ActualWidth * UIScale);
+        windowSize.Height = (int)(tray.ActualHeight * UIScale);
         User32.CalculatePopupWindowPosition(point, windowSize, User32.TrackPopupMenuFlags.TPM_RIGHTALIGN | User32.TrackPopupMenuFlags.TPM_BOTTOMALIGN | User32.TrackPopupMenuFlags.TPM_WORKAREA, null, out RECT windowPos);
-        User32.MoveWindow(HWND, windowPos.X, windowPos.Y, windowPos.Width, windowPos.Height, true);
-        User32.ShowWindow(HWND, ShowWindowCommand.SW_SHOWNORMAL);
-        User32.SetForegroundWindow(HWND);
+        User32.MoveWindow(WindowHandle, windowPos.X, windowPos.Y, windowPos.Width, windowPos.Height, true);
+        base.Show();
     }
 
 
 
     [RelayCommand]
-    public void Hide()
+    public override void Hide()
     {
-        User32.ShowWindow(HWND, ShowWindowCommand.SW_HIDE);
-        AppWindow.ResizeClient(new Windows.Graphics.SizeInt32(1000, 1000));
-    }
-
-
-
-    [DllImport("UXTheme.dll", SetLastError = true, EntryPoint = "#138")]
-    private static extern bool ShouldSystemUseDarkMode();
-
-
-
-    private bool disposedValue;
-
-
-    private void Dispose(bool disposing)
-    {
-        if (!disposedValue)
+        base.Hide();
+        try
         {
-            if (disposing)
-            {
-
-            }
-            this.Hide();
-            this.Close();
-            disposedValue = true;
+            AppWindow.ResizeClient(new Windows.Graphics.SizeInt32(1000, 1000));
         }
+        catch { }
     }
 
-    ~SystemTrayWindow()
+
+
+    [return: MarshalAs(UnmanagedType.Bool)]
+    [LibraryImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
+    private static partial bool ShouldSystemUseDarkMode();
+
+
+
+    [RelayCommand]
+    public void ShowMainWindow()
     {
-        Dispose(disposing: false);
+        // todo
+        MainWindow.Current?.Activate();
     }
 
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
+
+
+
+
+
 
 }

@@ -272,7 +272,6 @@ internal static class AppConfig
             sc.AddSingleton<GameSettingService>();
             sc.AddSingleton<GameRecordService>();
             sc.AddSingleton<WelcomeService>();
-            sc.AddSingleton<SystemTrayService>();
             sc.AddSingleton<SelfQueryService>();
 
             _serviceProvider = sc.BuildServiceProvider();

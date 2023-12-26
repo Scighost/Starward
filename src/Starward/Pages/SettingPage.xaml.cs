@@ -42,8 +42,6 @@ public sealed partial class SettingPage : Page
 
     private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
 
-    private readonly SystemTrayService _systemTrayService = AppConfig.GetService<SystemTrayService>();
-
     private readonly DatabaseService _databaseService = AppConfig.GetService<DatabaseService>();
 
     private GameBiz gameBiz;
@@ -216,15 +214,8 @@ public sealed partial class SettingPage : Page
     private bool enableSystemTray = AppConfig.EnableSystemTrayIcon;
     partial void OnEnableSystemTrayChanged(bool value)
     {
+        // todo
         AppConfig.EnableSystemTrayIcon = value;
-        if (value)
-        {
-            _systemTrayService.Initialize();
-        }
-        else
-        {
-            _systemTrayService.Dispose();
-        }
     }
 
 
@@ -240,6 +231,7 @@ public sealed partial class SettingPage : Page
     [RelayCommand]
     private async Task RepairSystemTray()
     {
+        // todo delete
         try
         {
             var dialog = new ContentDialog()
@@ -274,7 +266,6 @@ public sealed partial class SettingPage : Page
                 if (EnableSystemTray)
                 {
                     await Task.Delay(1000);
-                    _systemTrayService.Initialize();
                 }
             }
         }

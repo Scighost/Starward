@@ -70,29 +70,17 @@ public partial class App : Application
                 }
             }
         }
-        var sync = SystemTrayService.GetSyncMutex();
-        sync.WaitOne();
-        if (SystemTrayService.IsSignalMutexExisting())
+        var main = AppInstance.FindOrRegisterForKey("main");
+        if (!main.IsCurrent)
         {
-            var instances = AppInstance.GetInstances();
-            var arg = instance.GetActivatedEventArgs();
-            foreach (var item in instances)
-            {
-                if (item.Key.StartsWith("main"))
-                {
-                    await item.RedirectActivationToAsync(arg);
-                }
-            }
-            sync.ReleaseMutex();
+            await main.RedirectActivationToAsync(instance.GetActivatedEventArgs());
             this.Exit();
+            return;
         }
-        else
-        {
-            sync.ReleaseMutex();
-            AppInstance.FindOrRegisterForKey($"main_{Environment.ProcessId}");
-            m_window = new MainWindow();
-            m_window.Activate();
-        }
+        // todo
+        //m_SystemTrayWindow = new SystemTrayWindow();
+        m_window = new MainWindow();
+        m_window.Activate();
     }
 
 
@@ -100,6 +88,8 @@ public partial class App : Application
     private AppInstance instance;
 
     private Window m_window;
+
+    private SystemTrayWindow m_SystemTrayWindow;
 
 
     private void AppInstance_Activated(object? sender, AppActivationArguments e)
