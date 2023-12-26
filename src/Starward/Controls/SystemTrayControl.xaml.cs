@@ -115,7 +115,7 @@ public sealed partial class SystemTrayControl : UserControl
                 {
                     // todo
                     MainPage.Current.PauseVideo();
-                    //User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
+                    //User32.ShowWindow(MainWindow.Current.WindowHandle, ShowWindowCommand.SW_SHOWMINIMIZED);
                     _logger.LogInformation("Game started ({name}, {pid})", process1.ProcessName, process1.Id);
                     _ = _playTimeService.StartProcessToLogAsync(game.GameBiz);
                 }

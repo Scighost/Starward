@@ -521,7 +521,7 @@ public sealed partial class GachaLogPage : Page
                 _ => "json"
             };
             var suggestName = $"Stardward_Export_{gameBiz.ToGame()}_{uid}_{DateTime.Now:yyyyMMddHHmmss}.{ext}";
-            var file = await FileDialogHelper.OpenSaveFileDialogAsync(MainWindow.Current.HWND, suggestName, (ext, $".{ext}"));
+            var file = await FileDialogHelper.OpenSaveFileDialogAsync(MainWindow.Current.WindowHandle, suggestName, (ext, $".{ext}"));
             if (file is not null)
             {
                 await _gachaLogService.ExportGachaLogAsync(uid, file, format);
@@ -546,7 +546,7 @@ public sealed partial class GachaLogPage : Page
     {
         try
         {
-            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.HWND, ("Json", ".json"));
+            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.WindowHandle, ("Json", ".json"));
             if (File.Exists(file))
             {
                 var uid = _gachaLogService.ImportGachaLog(file);

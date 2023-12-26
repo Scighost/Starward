@@ -97,7 +97,7 @@ public sealed partial class SelectDirectoryPage : Page
             }
             if (result is ContentDialogResult.Secondary)
             {
-                selectFolder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+                selectFolder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
             }
             if (result is ContentDialogResult.None)
             {

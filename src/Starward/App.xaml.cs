@@ -6,7 +6,6 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.AppLifecycle;
-using Starward.Services;
 using System;
 using System.Globalization;
 using System.IO;
@@ -94,8 +93,8 @@ public partial class App : Application
 
     private void AppInstance_Activated(object? sender, AppActivationArguments e)
     {
-        User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWNORMAL);
-        User32.SetForegroundWindow(MainWindow.Current.HWND);
+        User32.ShowWindow(MainWindow.Current.WindowHandle, ShowWindowCommand.SW_SHOWNORMAL);
+        User32.SetForegroundWindow(MainWindow.Current.WindowHandle);
     }
 
 

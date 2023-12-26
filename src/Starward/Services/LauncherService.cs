@@ -199,7 +199,7 @@ public class LauncherService
                 ("Video", ".mp4"),
                 ("Video", ".webm"),
             };
-            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.HWND, filter.ToArray());
+            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.WindowHandle, filter.ToArray());
             if (File.Exists(file))
             {
                 _logger.LogInformation("Background file is '{file}'", file);

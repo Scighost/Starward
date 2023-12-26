@@ -617,12 +617,12 @@ public sealed partial class LauncherPage : Page
                 // todo
                 if (AppConfig.EnableSystemTrayIcon)
                 {
-                    User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_HIDE);
+                    User32.ShowWindow(MainWindow.Current.WindowHandle, ShowWindowCommand.SW_HIDE);
                     GC.Collect();
                 }
                 else
                 {
-                    User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_SHOWMINIMIZED);
+                    User32.ShowWindow(MainWindow.Current.WindowHandle, ShowWindowCommand.SW_SHOWMINIMIZED);
                 }
                 _logger.LogInformation("Game started ({name}, {pid})", process1.ProcessName, process1.Id);
                 if (AppConfig.IgnoreRunningGame)
@@ -653,7 +653,7 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-            var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+            var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
             if (Directory.Exists(folder))
             {
                 InstallPath = folder;
@@ -678,7 +678,7 @@ public sealed partial class LauncherPage : Page
     {
         try
         {
-            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.HWND);
+            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.WindowHandle);
             if (File.Exists(file))
             {
                 ThirdPartyToolPath = file;
@@ -1144,7 +1144,7 @@ public sealed partial class LauncherPage : Page
                     var result = await folderDialog.ShowAsync();
                     if (result is ContentDialogResult.Secondary)
                     {
-                        var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+                        var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
                         if (Directory.Exists(folder))
                         {
                             InstallPath = folder;
@@ -1170,7 +1170,7 @@ public sealed partial class LauncherPage : Page
                 };
                 if (await folderDialog.ShowAsync() is ContentDialogResult.Primary)
                 {
-                    var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.HWND);
+                    var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
                     if (Directory.Exists(folder))
                     {
                         InstallPath = folder;

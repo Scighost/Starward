@@ -127,11 +127,11 @@ public sealed partial class SelectLanguagePage : Page
                 {
                     case "small":
                         _welcomeService.WindowSizeMode = 1;
-                        MainWindow.Current.ResizeToCertainSize(1064, 648);
+                        MainWindow.Current.ChangeWindowSize(1064, 648);
                         break;
                     default:
                         _welcomeService.WindowSizeMode = 0;
-                        MainWindow.Current.ResizeToCertainSize(1280, 768);
+                        MainWindow.Current.ChangeWindowSize(1280, 768);
                         break;
                 }
             }

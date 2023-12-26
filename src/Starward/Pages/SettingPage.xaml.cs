@@ -193,7 +193,7 @@ public sealed partial class SettingPage : Page
                     _ => 0,
                 };
                 AppConfig.WindowSizeMode = index;
-                MainWindow.Current.ResizeToCertainSize();
+                MainWindow.Current.ChangeWindowSize();
             }
         }
         catch { }

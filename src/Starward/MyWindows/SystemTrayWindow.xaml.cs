@@ -109,7 +109,7 @@ public sealed partial class SystemTrayWindow : WindowEx
 
 
     [return: MarshalAs(UnmanagedType.Bool)]
-    [LibraryImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
+    [LibraryImport("uxtheme.dll", EntryPoint = "#138", SetLastError = true)]
     private static partial bool ShouldSystemUseDarkMode();
 
 
