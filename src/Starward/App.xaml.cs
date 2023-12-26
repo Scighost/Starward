@@ -56,7 +56,7 @@ public partial class App : Application
         {
             if (args[1].ToLower() is "download" or "repair")
             {
-                m_window = new MainWindow("download");
+                m_window = new InstallGameWindow();
                 m_window.Activate();
                 return;
             }

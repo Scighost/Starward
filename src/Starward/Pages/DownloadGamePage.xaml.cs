@@ -13,7 +13,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Windows.AppLifecycle;
 using Starward.Core;
 using Starward.Helpers;
-using Starward.Pages.SystemTray;
 using Starward.Services;
 using System;
 using System.Diagnostics;
@@ -24,7 +23,6 @@ using System.Numerics;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
-using Vanara.PInvoke;
 using Windows.Graphics.Imaging;
 using Windows.System;
 using Windows.UI;
@@ -49,8 +47,6 @@ public sealed partial class DownloadGamePage : Page
 
     private readonly DownloadGameService _downloadGameService = AppConfig.GetService<DownloadGameService>();
 
-    private readonly SystemTrayService _systemTrayService = AppConfig.GetService<SystemTrayService>();
-
 
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _timer;
     private readonly Stopwatch _stopwatch = Stopwatch.StartNew();
@@ -59,8 +55,8 @@ public sealed partial class DownloadGamePage : Page
     public DownloadGamePage()
     {
         this.InitializeComponent();
-        MainWindow.Current.ChangeAccentColor(null, null);
-        MainWindow.Current.AppWindow.Closing += AppWindow_Closing;
+        InstallGameWindow.Current.ChangeAccentColor(null, null);
+        InstallGameWindow.Current.AppWindow.Closing += AppWindow_Closing;
         _timer = DispatcherQueue.CreateTimer();
         _timer.Interval = TimeSpan.FromMilliseconds(100);
         _timer.Tick += (_, _) => UpdateTicks();
@@ -76,17 +72,12 @@ public sealed partial class DownloadGamePage : Page
             Exit();
             return;
         }
-        // 下次启动后可恢复下载；\r\n解压过程中关闭程序会造成游戏文件损坏。
-        var content = Lang.DownloadGamePage_CloseSoftwareContent;
-        if (_systemTrayService.IsCreated)
-        {
-            content += "\n\n" + Lang.DownloadGamePage_CloseSoftwareContentSystemTray;
-        }
         var dialog = new ContentDialog
         {
             // 关闭软件
             Title = Lang.DownloadGamePage_CloseSoftware,
-            Content = content,
+            // 下次启动后可恢复下载；\r\n解压过程中关闭程序会造成游戏文件损坏。
+            Content = Lang.DownloadGamePage_CloseSoftwareContent,
             // 关闭
             PrimaryButtonText = Lang.Common_Exit,
             // 取消
@@ -94,26 +85,17 @@ public sealed partial class DownloadGamePage : Page
             DefaultButton = ContentDialogButton.Close,
             XamlRoot = this.XamlRoot,
         };
-        if (_systemTrayService.IsCreated)
-        {
-            dialog.SecondaryButtonText = Lang.Common_Hide;
-        }
         var result = await dialog.ShowAsync();
         if (result is ContentDialogResult.Primary)
         {
             Exit();
-        }
-        if (result is ContentDialogResult.Secondary)
-        {
-            User32.ShowWindow(MainWindow.Current.HWND, ShowWindowCommand.SW_HIDE);
         }
     }
 
 
     private void Exit()
     {
-        _systemTrayService.Dispose();
-        MainWindow.Current.Close();
+        InstallGameWindow.Current.Close();
     }
 
 
@@ -142,9 +124,6 @@ public sealed partial class DownloadGamePage : Page
     private VoiceLanguage voiceLanguage;
 
 
-    private InstallGameSystemTrayPage? trayPage;
-
-
     private CancellationTokenSource tokenSource;
 
 
@@ -156,15 +135,6 @@ public sealed partial class DownloadGamePage : Page
             await CheckInstanceAsync();
             _ = GetBgAsync();
             IsContentVisible = true;
-            if (AppConfig.EnableSystemTrayIcon)
-            {
-                _systemTrayService.Initialize(gameBiz);
-                trayPage = _systemTrayService.InstallGameSystemTrayPage;
-                if (trayPage != null)
-                {
-                    trayPage.ActionButtonClicked += (_, _) => ClickActionButtonCommand.Execute(true);
-                }
-            }
             _ = PrepareForDownloadAsync();
         }
         catch (Exception ex)
@@ -270,7 +240,7 @@ public sealed partial class DownloadGamePage : Page
                 fs.Position = 0;
                 await bitmap.SetSourceAsync(fs.AsRandomAccessStream());
                 (Color? back, Color? fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
-                MainWindow.Current.ChangeAccentColor(back, fore);
+                InstallGameWindow.Current.ChangeAccentColor(back, fore);
                 BackgroundImage = bitmap;
             }
         }
@@ -337,24 +307,12 @@ public sealed partial class DownloadGamePage : Page
 
     [ObservableProperty]
     private bool isActionButtonEnable;
-    partial void OnIsActionButtonEnableChanged(bool value)
-    {
-        if (trayPage != null)
-        {
-            trayPage.IsActionButtonEnable = value;
-        }
-    }
+
 
 
     [ObservableProperty]
     private string? actionButtonIcon = StartIcon;
-    partial void OnActionButtonIconChanged(string? value)
-    {
-        if (trayPage != null)
-        {
-            trayPage.ActionButtonIcon = value;
-        }
-    }
+
 
 
     private const string StartIcon = "\uE768";
@@ -367,93 +325,30 @@ public sealed partial class DownloadGamePage : Page
 
     [ObservableProperty]
     private string? actionButtonText = Lang.DownloadGamePage_Start; // 开始
-    partial void OnActionButtonTextChanged(string? value)
-    {
-        if (trayPage != null)
-        {
-            trayPage.ActionButtonText = value;
-        }
-    }
 
     [ObservableProperty]
     private string actionType;
-    partial void OnActionTypeChanged(string value)
-    {
-        if (trayPage != null)
-        {
-            trayPage.ActionType = value;
-        }
-    }
 
     [ObservableProperty]
     private bool isProgressStateVisible = true;
-    partial void OnIsProgressStateVisibleChanged(bool value)
-    {
-        if (trayPage != null)
-        {
-            trayPage.IsProgressStateVisible = value;
-        }
-    }
 
     [ObservableProperty]
     private string? stateText;
-    partial void OnStateTextChanged(string? value)
-    {
-        if (trayPage != null)
-        {
-            trayPage.StateText = value;
-        }
-    }
 
     [ObservableProperty]
     private string? progressBytesText;
-    partial void OnProgressBytesTextChanged(string? value)
-    {
-        if (trayPage != null)
-        {
-            trayPage.ProgressBytesText = value;
-        }
-    }
 
     [ObservableProperty]
     private string? progressText;
-    partial void OnProgressTextChanged(string? value)
-    {
-        if (trayPage != null)
-        {
-            trayPage.ProgressText = value;
-        }
-    }
 
     [ObservableProperty]
     private double progressValue;
-    partial void OnProgressValueChanged(double value)
-    {
-        if (trayPage != null)
-        {
-            trayPage.ProgressValue = value;
-        }
-    }
 
     [ObservableProperty]
     private string? speedText;
-    partial void OnSpeedTextChanged(string? value)
-    {
-        if (trayPage != null)
-        {
-            trayPage.SpeedText = value;
-        }
-    }
 
     [ObservableProperty]
     private string? remainTimeText;
-    partial void OnRemainTimeTextChanged(string? value)
-    {
-        if (trayPage != null)
-        {
-            trayPage.RemainTimeText = value;
-        }
-    }
 
     private long lastProgressBytes;
 

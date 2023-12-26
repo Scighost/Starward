@@ -49,16 +49,6 @@ public sealed partial class MainWindow : Window
 
 
 
-    public MainWindow(string action)
-    {
-        Current = this;
-        this.InitializeComponent();
-        InitializeMainWindow(action);
-        InitializeWindowSubclass();
-    }
-
-
-
     private void InitializeWindowSubclass()
     {
         subclassProc = new ComCtl32.SUBCLASSPROC(SUBCLASSPROC);
@@ -68,41 +58,25 @@ public sealed partial class MainWindow : Window
 
 
 
-    private void InitializeMainWindow(string? action = null)
+    private void InitializeMainWindow()
     {
+        Title = "Starward";
         HWND = WindowNative.GetWindowHandle(this);
         var titleBar = AppWindow.TitleBar;
-        titleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
+        titleBar.IconShowOptions = IconShowOptions.ShowIconAndSystemMenu;
         var len = (int)(48 * UIScale);
         titleBar.ExtendsContentIntoTitleBar = true;
         SetDragRectangles(new RectInt32(0, 0, 100000, len));
         ChangeTitleBarButtonColor();
-        if (action is "download")
+        ResizeToCertainSize();
+        AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo.ico"));
+        if (AppConfig.UserDataFolder is null)
         {
-            Title = "Starward - Download Game";
-            ResizeToCertainSize(720, 410);
-            AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo_dl.ico"));
+            MainWindow_Frame.Content = new WelcomePage();
         }
         else
         {
-            Title = "Starward";
-            ResizeToCertainSize();
-            AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo.ico"));
-        }
-        if (action is "download")
-        {
-            MainWindow_Frame.Content = new DownloadGamePage();
-        }
-        else
-        {
-            if (AppConfig.UserDataFolder is null)
-            {
-                MainWindow_Frame.Content = new WelcomePage();
-            }
-            else
-            {
-                MainWindow_Frame.Content = new MainPage();
-            }
+            MainWindow_Frame.Content = new MainPage();
         }
     }
 
@@ -302,7 +276,7 @@ public sealed partial class MainWindow : Window
 
 
 
-    [DllImport("Wtsapi32.dll")]
+    [DllImport("wtsapi32.dll")]
     private static extern bool WTSRegisterSessionNotification(IntPtr hWnd, int dwFlags);
 
 
