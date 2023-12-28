@@ -1201,4 +1201,7 @@
   <data name="LauncherPage_StartupCount" xml:space="preserve">
     <value>启动次数</value>
   </data>
+  <data name="LauncherPage_ThisDay" xml:space="preserve">
+    <value>本日</value>
+  </data>
 </root>

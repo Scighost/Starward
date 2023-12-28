@@ -759,6 +759,10 @@ public sealed partial class LauncherPage : Page
 
 
     [ObservableProperty]
+    private TimeSpan playTimeDay;
+
+
+    [ObservableProperty]
     private TimeSpan playTimeLast;
 
 
@@ -800,6 +804,7 @@ public sealed partial class LauncherPage : Page
             PlayTimeTotal = _playTimeService.GetPlayTimeTotal(gameBiz);
             PlayTimeMonth = _playTimeService.GetPlayCurrentMonth(gameBiz);
             PlayTimeWeek = _playTimeService.GetPlayCurrentWeek(gameBiz);
+            PlayTimeDay = _playTimeService.GetPlayCurrentDay(gameBiz);
             StartUpCount = _playTimeService.GetStartUpCount(gameBiz);
             (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(gameBiz);
             if (time > DateTimeOffset.MinValue)
@@ -809,6 +814,7 @@ public sealed partial class LauncherPage : Page
             _databaseService.SetValue($"playtime_total_{gameBiz}", PlayTimeTotal);
             _databaseService.SetValue($"playtime_month_{gameBiz}", PlayTimeMonth);
             _databaseService.SetValue($"playtime_week_{gameBiz}", PlayTimeWeek);
+            _databaseService.SetValue($"playtime_day_{gameBiz}", PlayTimeDay);
             _databaseService.SetValue($"startup_count_{gameBiz}", StartUpCount);
         }
         catch (Exception ex)

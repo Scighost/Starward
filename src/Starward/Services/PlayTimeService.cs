@@ -64,6 +64,7 @@ internal class PlayTimeService
             _database.SetValue($"playtime_total_{biz}", GetPlayTimeTotal(biz));
             _database.SetValue($"playtime_month_{biz}", GetPlayCurrentMonth(biz));
             _database.SetValue($"playtime_week_{biz}", GetPlayCurrentWeek(biz));
+            _database.SetValue($"playtime_day_{biz}", GetPlayCurrentDay(biz));
             _database.SetValue($"startup_count_{biz}", GetStartUpCount(biz));
         }
         catch (Exception ex)
@@ -267,6 +268,68 @@ internal class PlayTimeService
         return TimeSpan.FromMilliseconds(ts);
     }
 
+
+    public TimeSpan GetPlayCurrentDay(GameBiz biz)
+    {
+        using var dapper = _database.CreateConnection();
+        var now = DateTimeOffset.Now;
+        var day = now.Add(-now.TimeOfDay);
+        long day_ts = day.ToUnixTimeMilliseconds();
+        var items = dapper.Query<PlayTimeItemStruct>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND TimeStamp >= @day_ts ORDER BY TimeStamp;", new { biz, day_ts }).ToList();
+        long ts = 0;
+        var dic_last_time = new Dictionary<int, long>();
+        var dic_last_start_time = new Dictionary<int, long>();
+        if (items.Count == 1)
+        {
+            if (items[0].State is PlayTimeItem.PlayState.Stop)
+            {
+                ts += items[0].TimeStamp - day_ts;
+            }
+        }
+        if (items.Count > 1)
+        {
+            if (items[0].State is PlayTimeItem.PlayState.Stop)
+            {
+                ts += items[0].TimeStamp - day_ts;
+            }
+            if (items[0].State is PlayTimeItem.PlayState.Play)
+            {
+                dic_last_time[items[0].Pid] = day_ts;
+                dic_last_start_time[items[0].Pid] = day_ts;
+            }
+            for (int i = 0; i < items.Count; i++)
+            {
+                var item = items[i];
+                int pid = item.Pid;
+                if (item.State is PlayTimeItem.PlayState.Start)
+                {
+                    if (dic_last_start_time.GetValueOrDefault(pid) != 0)
+                    {
+                        ts += dic_last_time.GetValueOrDefault(pid) - dic_last_start_time.GetValueOrDefault(pid);
+                    }
+                    dic_last_start_time[pid] = item.TimeStamp;
+                }
+                if (item.State is PlayTimeItem.PlayState.Stop)
+                {
+                    if (dic_last_start_time.GetValueOrDefault(pid) != 0)
+                    {
+                        ts += item.TimeStamp - dic_last_start_time.GetValueOrDefault(pid);
+                        dic_last_start_time[pid] = 0;
+                    }
+                }
+                if (item.State is PlayTimeItem.PlayState.Play && i == items.Count - 1)
+                {
+                    ts += item.TimeStamp - dic_last_start_time.GetValueOrDefault(pid);
+                }
+                if (item.State is PlayTimeItem.PlayState.Error)
+                {
+                    dic_last_start_time[pid] = 0;
+                }
+                dic_last_time[pid] = item.TimeStamp;
+            }
+        }
+        return TimeSpan.FromMilliseconds(ts);
+    }
 
 
     public int GetStartUpCount(GameBiz biz)

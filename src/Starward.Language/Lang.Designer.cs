@@ -1846,6 +1846,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 This Day 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_ThisDay {
+            get {
+                return ResourceManager.GetString("LauncherPage_ThisDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 This Month 的本地化字符串。
         /// </summary>
         public static string LauncherPage_ThisMonth {

@@ -315,6 +315,7 @@
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0" Spacing="8">
                                             <TextBlock Text="{x:Bind lang:Lang.LauncherPage_StartupCount}" />
+                                            <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisDay}" />
                                             <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisWeek}" />
                                             <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisMonth}" />
                                             <TextBlock Text="{x:Bind lang:Lang.LauncherPage_LastTime}" />
@@ -322,6 +323,7 @@
                                         </StackPanel>
                                         <StackPanel Grid.Column="1" Spacing="8">
                                             <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind StartUpCount}" />
+                                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind PlayTimeDay, Converter={StaticResource TimeSpanToStringConverter}}" />
                                             <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind PlayTimeWeek, Converter={StaticResource TimeSpanToStringConverter}}" />
                                             <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind PlayTimeMonth, Converter={StaticResource TimeSpanToStringConverter}}" />
                                             <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind PlayTimeLast, Converter={StaticResource TimeSpanToStringConverter}}" />

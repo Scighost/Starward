@@ -1201,4 +1201,7 @@ Do you accept the risk and continue to use it?</value>
   <data name="SettingPage_Advanced" xml:space="preserve">
     <value>Advanced</value>
   </data>
+  <data name="LauncherPage_ThisDay" xml:space="preserve">
+    <value>This Day</value>
+  </data>
 </root>
