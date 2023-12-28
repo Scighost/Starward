@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page x:Class="Starward.Pages.Setting.AppearanceSettingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lang="using:Starward.Language"
+      xmlns:local="using:Starward.Pages.Setting"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      x:DefaultBindMode="OneWay"
+      mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel>
+
+            <!--  Language  -->
+            <TextBlock FontSize="20"
+                       FontWeight="SemiBold"
+                       Text="{x:Bind lang:Lang.SettingPage_Language}" />
+            <Border Height="36"
+                    Margin="0,12,0,0"
+                    HorizontalAlignment="Left"
+                    Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                    CornerRadius="8,18,18,8">
+                <ComboBox Name="ComboBox_Language"
+                          Height="36"
+                          MinWidth="260"
+                          Padding="18.5,0,0,0"
+                          BorderThickness="0"
+                          CornerRadius="8,18,18,8"
+                          SelectionChanged="ComboBox_Language_SelectionChanged" />
+            </Border>
+
+            <!--  Window Size  -->
+            <TextBlock Margin="0,20,0,0"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Text="{x:Bind lang:Lang.SettingPage_WindowsSize}" />
+            <StackPanel Margin="0,12,0,0"
+                        Orientation="Horizontal"
+                        Spacing="16">
+                <RadioButton Name="RadioButton_WindowSize_Normal"
+                             Click="RadioButton_WindowSize_Click"
+                             GroupName="WindowSize"
+                             Tag="normal">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE740;" />
+                        <TextBlock Text="{x:Bind lang:Lang.SettingPage_Normal}" />
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton Name="RadioButton_WindowSize_Small"
+                             Click="RadioButton_WindowSize_Click"
+                             GroupName="WindowSize"
+                             Tag="small">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE73F;" />
+                        <TextBlock Text="{x:Bind lang:Lang.SettingPage_Small}" />
+                    </StackPanel>
+                </RadioButton>
+            </StackPanel>
+
+
+        </StackPanel>
+    </ScrollViewer>
+
+</Page>

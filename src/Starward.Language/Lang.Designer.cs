@@ -61,6 +61,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Links 的本地化字符串。
+        /// </summary>
+        public static string AboutSettingPage_Links {
+            get {
+                return ResourceManager.GetString("AboutSettingPage_Links", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Accept 的本地化字符串。
         /// </summary>
         public static string Common_Accept {
@@ -661,6 +670,33 @@ namespace Starward.Language {
         public static string DownloadGameService_TooManyRetries {
             get {
                 return ResourceManager.GetString("DownloadGameService_TooManyRetries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Data Folder 的本地化字符串。
+        /// </summary>
+        public static string FileSettingPage_DataFolder {
+            get {
+                return ResourceManager.GetString("FileSettingPage_DataFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Location: 的本地化字符串。
+        /// </summary>
+        public static string FileSettingPage_Location {
+            get {
+                return ResourceManager.GetString("FileSettingPage_Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open Log File 的本地化字符串。
+        /// </summary>
+        public static string FileSettingPage_OpenLogFile {
+            get {
+                return ResourceManager.GetString("FileSettingPage_OpenLogFile", resourceCulture);
             }
         }
         
@@ -2236,6 +2272,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Advanced 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_Advanced {
+            get {
+                return ResourceManager.GetString("SettingPage_Advanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 After deleting, the software will be restarted automatically. 的本地化字符串。
         /// </summary>
         public static string SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically {
@@ -2250,6 +2295,15 @@ namespace Starward.Language {
         public static string SettingPage_AppBackground {
             get {
                 return ResourceManager.GetString("SettingPage_AppBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Appearance 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_Appearance {
+            get {
+                return ResourceManager.GetString("SettingPage_Appearance", resourceCulture);
             }
         }
         
@@ -2313,6 +2367,15 @@ namespace Starward.Language {
         public static string SettingPage_CloudFlareConnectProperly {
             get {
                 return ResourceManager.GetString("SettingPage_CloudFlareConnectProperly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Completed 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_Completed {
+            get {
+                return ResourceManager.GetString("SettingPage_Completed", resourceCulture);
             }
         }
         
@@ -2385,6 +2448,15 @@ namespace Starward.Language {
         public static string SettingPage_ExitLauncherWhenClosingWindow {
             get {
                 return ResourceManager.GetString("SettingPage_ExitLauncherWhenClosingWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File Management 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_FileManagement {
+            get {
+                return ResourceManager.GetString("SettingPage_FileManagement", resourceCulture);
             }
         }
         

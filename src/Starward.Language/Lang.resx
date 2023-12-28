@@ -1177,4 +1177,28 @@ Do you accept the risk and continue to use it?</value>
   <data name="LauncherPage_StartupCount" xml:space="preserve">
     <value>Startup Count</value>
   </data>
+  <data name="FileSettingPage_DataFolder" xml:space="preserve">
+    <value>Data Folder</value>
+  </data>
+  <data name="FileSettingPage_Location" xml:space="preserve">
+    <value>Location:</value>
+  </data>
+  <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
+    <value>Open Log File</value>
+  </data>
+  <data name="SettingPage_Appearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="SettingPage_FileManagement" xml:space="preserve">
+    <value>File Management</value>
+  </data>
+  <data name="SettingPage_Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="AboutSettingPage_Links" xml:space="preserve">
+    <value>Links</value>
+  </data>
+  <data name="SettingPage_Advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
 </root>

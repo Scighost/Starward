@@ -18,6 +18,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Pages.HoyolabToolbox;
+using Starward.Pages.Setting;
 using Starward.Services;
 using System;
 using System.ComponentModel;
@@ -768,6 +769,13 @@ public sealed partial class MainPage : Page
                     sender.SelectedItem = null;
                     return;
                 }
+                if (item.Tag is nameof(SettingPage))
+                {
+                    MainWindow.Current.OverlayFrameNavigateTo(typeof(Setting.SettingPage), null, new SuppressNavigationTransitionInfo());
+                    await Task.Delay(1);
+                    sender.SelectedItem = null;
+                    return;
+                }
                 var type = item.Tag switch
                 {
                     nameof(LauncherPage) => typeof(LauncherPage),
@@ -776,7 +784,6 @@ public sealed partial class MainPage : Page
                     nameof(ScreenshotPage) => typeof(ScreenshotPage),
                     nameof(GachaLogPage) => typeof(GachaLogPage),
                     nameof(HoyolabToolboxPage) => typeof(HoyolabToolboxPage),
-                    nameof(SettingPage) => typeof(SettingPage),
                     nameof(SelfQueryPage) => typeof(SelfQueryPage),
                     _ => null,
                 };
@@ -944,8 +951,7 @@ public sealed partial class MainPage : Page
     {
         if (num == 0)
         {
-            NavigationViewItem_Setting.IsSelected = true;
-            NavigateTo(typeof(SettingPage));
+            MainWindow.Current.OverlayFrameNavigateTo(typeof(Setting.SettingPage), null, new SuppressNavigationTransitionInfo());
         }
         if (CurrentGameBiz.ToGame() == GameBiz.None)
         {
