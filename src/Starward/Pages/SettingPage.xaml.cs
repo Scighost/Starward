@@ -158,19 +158,6 @@ public sealed partial class SettingPage : Page
     }
 
 
-
-    private void ComboBox_Language_DropDownOpened(object sender, object e)
-    {
-        MainWindow.Current.SetDragRectangles();
-    }
-
-    private void ComboBox_Language_DropDownClosed(object sender, object e)
-    {
-        MainPage.Current.UpdateDragRectangles();
-    }
-
-
-
     #endregion
 
 

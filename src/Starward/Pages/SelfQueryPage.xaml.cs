@@ -543,23 +543,6 @@ public sealed partial class SelfQueryPage : Page
 
 
 
-
-    private void ComboBox_Uid_DropDownOpened(object sender, object e)
-    {
-        MainWindow.Current.SetDragRectangles();
-    }
-
-
-
-    private void ComboBox_Uid_DropDownClosed(object sender, object e)
-    {
-        MainPage.Current.UpdateDragRectangles();
-    }
-
-
-
-
-
     private static string TypeToIcon(GenshinQueryType type)
     {
         return type switch

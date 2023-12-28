@@ -368,7 +368,7 @@ public sealed partial class GachaLogPage : Page
                 // 取消
                 SecondaryButtonText = Lang.Common_Cancel,
                 DefaultButton = ContentDialogButton.Primary,
-                XamlRoot = MainWindow.Current.Content.XamlRoot,
+                XamlRoot = this.XamlRoot,
             };
             var result = await dialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
@@ -454,7 +454,7 @@ public sealed partial class GachaLogPage : Page
                 // 取消
                 SecondaryButtonText = Lang.Common_Cancel,
                 DefaultButton = ContentDialogButton.Secondary,
-                XamlRoot = MainWindow.Current.Content.XamlRoot,
+                XamlRoot = this.XamlRoot,
             };
             var result = await dialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
@@ -573,18 +573,6 @@ public sealed partial class GachaLogPage : Page
     }
 
 
-
-    private void ComboBox_Uid_DropDownOpened(object sender, object e)
-    {
-        MainWindow.Current.SetDragRectangles();
-    }
-
-
-
-    private void ComboBox_Uid_DropDownClosed(object sender, object e)
-    {
-        MainPage.Current.UpdateDragRectangles();
-    }
 
 
 

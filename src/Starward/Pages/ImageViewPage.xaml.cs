@@ -295,8 +295,8 @@ public sealed partial class ImageViewPage : Page
     [RelayCommand]
     private void Close()
     {
-        MainWindow.Current?.CloseOverlayPage();
-        MainWindow.Current?.AppWindow?.SetPresenter(AppWindowPresenterKind.Overlapped);
+        MainWindow.Current.CloseOverlayPage();
+        MainWindow.Current.AppWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
     }
 
 
