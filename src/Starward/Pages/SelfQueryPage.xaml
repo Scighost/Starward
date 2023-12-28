@@ -44,8 +44,6 @@
             <ComboBox Name="ComboBox_Uid"
                       MinWidth="160"
                       VerticalAlignment="Center"
-                      DropDownClosed="ComboBox_Uid_DropDownClosed"
-                      DropDownOpened="ComboBox_Uid_DropDownOpened"
                       ItemsSource="{x:Bind UidList}"
                       SelectedItem="{x:Bind SelectUid, Mode=TwoWay}" />
             <Button BorderThickness="0"
@@ -157,8 +155,6 @@
                            FontSize="16"
                            Text="{x:Bind SelectTypeStats.Name}" />
                 <ComboBox Width="120"
-                          DropDownClosed="ComboBox_Uid_DropDownClosed"
-                          DropDownOpened="ComboBox_Uid_DropDownOpened"
                           ItemsSource="{x:Bind TypeStatsMonthList}"
                           SelectedItem="{x:Bind SelectTypeStatsMonth, Mode=TwoWay}" />
                 <TextBlock HorizontalAlignment="Left"

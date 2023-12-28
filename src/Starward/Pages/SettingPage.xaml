@@ -53,8 +53,6 @@
                                   Padding="18.5,0,0,0"
                                   BorderThickness="0"
                                   CornerRadius="18"
-                                  DropDownClosed="ComboBox_Language_DropDownClosed"
-                                  DropDownOpened="ComboBox_Language_DropDownOpened"
                                   SelectionChanged="ComboBox_Language_SelectionChanged" />
                     </Border>
 
