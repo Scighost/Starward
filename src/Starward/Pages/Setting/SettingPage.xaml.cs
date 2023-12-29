@@ -26,9 +26,40 @@ public sealed partial class SettingPage : PageBase
     }
 
 
+    protected override void OnLoaded()
+    {
+        MainWindow.Current.KeyDown += SettingPage_KeyDown;
+    }
+
+
     protected override void OnUnloaded()
     {
+        MainWindow.Current.KeyDown -= SettingPage_KeyDown;
         WeakReferenceMessenger.Default.UnregisterAll(this);
+    }
+
+
+    private void SettingPage_KeyDown(object? sender, MainWindow.KeyDownEventArgs e)
+    {
+        try
+        {
+            if (e.Handled)
+            {
+                return;
+            }
+            if (e.VirtualKey == Windows.System.VirtualKey.Escape)
+            {
+                ClosePage();
+                e.Handled = true;
+            }
+        }
+        catch { }
+    }
+
+
+    private void ClosePage()
+    {
+        MainWindow.Current.CloseOverlayPage();
     }
 
 
@@ -59,7 +90,7 @@ public sealed partial class SettingPage : PageBase
                             _languageChangedMessage.Completed = true;
                             WeakReferenceMessenger.Default.Send(_languageChangedMessage);
                         }
-                        MainWindow.Current.CloseOverlayPage();
+                        ClosePage();
                         return;
                     }
                     var type = item.Tag switch
