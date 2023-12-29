@@ -1174,4 +1174,34 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="Common_Open" xml:space="preserve">
     <value>Mở</value>
   </data>
+  <data name="LauncherPage_StartupCount" xml:space="preserve">
+    <value>Số lần khởi động</value>
+  </data>
+  <data name="FileSettingPage_DataFolder" xml:space="preserve">
+    <value>Thư mục dữ liệu</value>
+  </data>
+  <data name="FileSettingPage_Location" xml:space="preserve">
+    <value>Vị trí:</value>
+  </data>
+  <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
+    <value>Mở tệp nhật kí</value>
+  </data>
+  <data name="SettingPage_Appearance" xml:space="preserve">
+    <value>Ngoại hình</value>
+  </data>
+  <data name="SettingPage_FileManagement" xml:space="preserve">
+    <value>Quản lí tệp tin</value>
+  </data>
+  <data name="SettingPage_Completed" xml:space="preserve">
+    <value>Đã hoàn thành</value>
+  </data>
+  <data name="AboutSettingPage_Links" xml:space="preserve">
+    <value>Liên kết</value>
+  </data>
+  <data name="SettingPage_Advanced" xml:space="preserve">
+    <value>Nâng cao</value>
+  </data>
+  <data name="LauncherPage_ThisDay" xml:space="preserve">
+    <value>Ngày hôm nay</value>
+  </data>
 </root>
