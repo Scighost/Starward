@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Composition;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
@@ -39,7 +38,6 @@ using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.System;
 using Windows.UI;
-using Windows.UI.Core;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -881,21 +879,6 @@ public sealed partial class MainPage : Page
 
 
 
-    private void OpenShortcutPanel()
-    {
-        Border_Shortcut_Page_1.Visibility = Visibility.Visible;
-        Border_Shortcut_Page_2.Visibility = Visibility.Visible;
-    }
-
-
-    private void CloseShortcutPanel()
-    {
-        Border_Shortcut_Page_1.Visibility = Visibility.Collapsed;
-        Border_Shortcut_Page_2.Visibility = Visibility.Collapsed;
-    }
-
-
-
     private void MainPage_KeyEvent(object? sender, WindowEx.MessageLoopEventArgs e)
     {
         try
@@ -924,127 +907,6 @@ public sealed partial class MainPage : Page
                     PauseVideo();
                     MainWindow.Current.Hide();
                     e.Handled = true;
-                }
-                if (AppConfig.DisableNavigationShortcut || AppConfig.EnableNavigationViewLeftCompact)
-                {
-                    return;
-                }
-                if (e.wParam == (nint)User32.VK.VK_CONTROL)
-                {
-                    OpenShortcutPanel();
-                }
-                if (e.wParam >= (nint)User32.VK.VK_0 && e.wParam <= (nint)User32.VK.VK_9)
-                {
-                    bool ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-                    if (ctrl)
-                    {
-                        ShortcutNavigate((int)e.wParam - 48);
-                        e.Handled = true;
-                    }
-                }
-            }
-            if (e.uMsg == (uint)User32.WindowMessage.WM_KEYUP)
-            {
-                if (e.wParam == (nint)User32.VK.VK_CONTROL)
-                {
-                    CloseShortcutPanel();
-                }
-            }
-        }
-        catch { }
-    }
-
-
-    private void ShortcutNavigate(int num)
-    {
-        if (num == 0)
-        {
-            MainWindow.Current.OverlayFrameNavigateTo(typeof(SettingPage), null);
-        }
-        if (CurrentGameBiz.ToGame() == GameBiz.None)
-        {
-            return;
-        }
-        if (num == 1)
-        {
-            NavigationViewItem_Launcher.IsSelected = true;
-            NavigateTo(typeof(LauncherPage));
-        }
-        //if (num == 2)
-        //{
-        //    NavigationViewItem_GameAnnounce.IsSelected = true;
-        //    NavigateTo(typeof(GameNoticesPage));
-        //}
-        if (num == 2)
-        {
-            NavigationViewItem_GameSetting.IsSelected = true;
-            NavigateTo(typeof(GameSettingPage));
-        }
-        if (num == 3)
-        {
-            NavigationViewItem_Screenshot.IsSelected = true;
-            NavigateTo(typeof(ScreenshotPage));
-        }
-        if (num == 4 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
-        {
-            NavigationViewItem_GachaLog.IsSelected = true;
-            NavigateTo(typeof(GachaLogPage));
-        }
-        if (num == 5 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
-        {
-            NavigationViewItem_HoyolabToolbox.IsSelected = true;
-            NavigateTo(typeof(HoyolabToolboxPage));
-        }
-        if (num == 6 && CurrentGameBiz.ToGame() != GameBiz.Honkai3rd)
-        {
-            NavigationViewItem_SelfQuery.IsSelected = true;
-            NavigateTo(typeof(SelfQueryPage));
-        }
-    }
-
-
-    private void Page_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
-    {
-        try
-        {
-            if (AppConfig.DisableNavigationShortcut || AppConfig.EnableNavigationViewLeftCompact)
-            {
-                return;
-            }
-            CloseShortcutPanel();
-        }
-        catch { }
-    }
-
-
-    private void Page_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
-    {
-        try
-        {
-            if (AppConfig.DisableNavigationShortcut || AppConfig.EnableNavigationViewLeftCompact)
-            {
-                return;
-            }
-            var point = e.GetPosition(this);
-            if (point.Y > 48)
-            {
-                OpenShortcutPanel();
-            }
-        }
-        catch { }
-    }
-
-
-    private void Button_Navigation_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            if (sender is Button button)
-            {
-                if (int.TryParse(button.Tag as string, out int num))
-                {
-                    ShortcutNavigate(num);
-                    CloseShortcutPanel();
                 }
             }
         }
