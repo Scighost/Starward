@@ -216,7 +216,7 @@ public sealed partial class ScreenshotPage : PageBase
             if (e.ClickedItem is ScreenshotItem item && Watcher is not null)
             {
                 var list = Watcher.ImageList.ToList();
-                MainWindow.Current.OverlayFrameNavigateTo(typeof(ImageViewPage), (item, list), new DrillInNavigationTransitionInfo());
+                MainWindow.Current.OverlayFrameNavigateTo(typeof(ImageViewPage), (item, list));
             }
         }
         catch { }

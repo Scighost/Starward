@@ -3,11 +3,13 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Pages;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Graphics;
@@ -103,22 +105,62 @@ public sealed partial class MainWindow : WindowEx
     }
 
 
-    public void OverlayFrameNavigateTo(Type page, object? parameter, NavigationTransitionInfo infoOverride)
+
+    private CancellationTokenSource overlayCancelTokenSource;
+
+
+    public void OverlayFrameNavigateTo(Type page, object? parameter)
     {
-        MainPage.Current?.PauseVideo();
-        Frame_Overlay.Visibility = Visibility.Visible;
-        Frame_Overlay.Navigate(page, parameter!, infoOverride);
-        var len = (int)(48 * UIScale);
-        SetDragRectangles(new RectInt32(0, 0, 100000, len));
+        try
+        {
+            overlayCancelTokenSource?.Cancel();
+            overlayCancelTokenSource = new CancellationTokenSource();
+            MainPage.Current?.PauseVideo();
+            Frame_Overlay.Visibility = Visibility.Visible;
+            Frame_Overlay.Navigate(page, parameter!, new SuppressNavigationTransitionInfo());
+            if (Frame_Overlay.Content is UIElement element)
+            {
+                element.Transitions = [new EntranceThemeTransition { FromVerticalOffset = 600 }];
+            }
+            SetDragRectangles(new RectInt32(0, 0, 100000, (int)(48 * UIScale)));
+        }
+        catch { }
     }
 
 
     public void CloseOverlayPage()
     {
-        MainPage.Current?.PlayVideo();
-        Frame_Overlay.Visibility = Visibility.Collapsed;
-        Frame_Overlay.Content = null;
-        MainPage.Current?.UpdateDragRectangles();
+        try
+        {
+            if (Frame_Overlay.Content is UIElement element)
+            {
+                var token = overlayCancelTokenSource?.Token ?? CancellationToken.None;
+                var tt = new TranslateTransform();
+                element.RenderTransform = tt;
+                var da = new DoubleAnimation
+                {
+                    To = Frame_Overlay.ActualHeight,
+                    Duration = new Duration(TimeSpan.FromMilliseconds(600)),
+                    EasingFunction = new BackEase(),
+                };
+                Storyboard.SetTarget(da, tt);
+                Storyboard.SetTargetProperty(da, nameof(tt.Y));
+                var sb = new Storyboard { Duration = new Duration(TimeSpan.FromMilliseconds(600)) };
+                sb.Children.Add(da);
+                sb.Completed += (_, _) =>
+                {
+                    if (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
+                    Frame_Overlay.Visibility = Visibility.Collapsed;
+                    Frame_Overlay.Content = null;
+                    MainPage.Current?.UpdateDragRectangles();
+                };
+                sb.Begin();
+            }
+        }
+        catch { }
     }
 
 

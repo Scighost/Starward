@@ -61,7 +61,7 @@ public sealed partial class AboutSettingPage : PageBase
             var release = await _updateService.CheckUpdateAsync(true);
             if (release != null)
             {
-                MainWindow.Current.OverlayFrameNavigateTo(typeof(UpdatePage), release, new SlideNavigationTransitionInfo());
+                MainWindow.Current.OverlayFrameNavigateTo(typeof(UpdatePage), release);
             }
             else
             {

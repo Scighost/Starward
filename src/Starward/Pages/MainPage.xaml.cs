@@ -128,7 +128,7 @@ public sealed partial class MainPage : Page
             var release = await _updateService.CheckUpdateAsync(false);
             if (release != null)
             {
-                MainWindow.Current.OverlayFrameNavigateTo(typeof(UpdatePage), release, new DrillInNavigationTransitionInfo());
+                MainWindow.Current.OverlayFrameNavigateTo(typeof(UpdatePage), release);
             }
         }
         catch (HttpRequestException ex)
@@ -779,7 +779,7 @@ public sealed partial class MainPage : Page
                 }
                 if (item.Tag is nameof(SettingPage))
                 {
-                    MainWindow.Current.OverlayFrameNavigateTo(typeof(Setting.SettingPage), null, new SuppressNavigationTransitionInfo());
+                    MainWindow.Current.OverlayFrameNavigateTo(typeof(SettingPage), null);
                     await Task.Delay(1);
                     sender.SelectedItem = null;
                     return;
@@ -959,7 +959,7 @@ public sealed partial class MainPage : Page
     {
         if (num == 0)
         {
-            MainWindow.Current.OverlayFrameNavigateTo(typeof(Setting.SettingPage), null, new SuppressNavigationTransitionInfo());
+            MainWindow.Current.OverlayFrameNavigateTo(typeof(SettingPage), null);
         }
         if (CurrentGameBiz.ToGame() == GameBiz.None)
         {
