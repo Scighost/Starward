@@ -2,7 +2,6 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
-using System.Runtime.CompilerServices;
 using Vanara.PInvoke;
 using Windows.Graphics;
 using Windows.UI;
@@ -45,38 +44,9 @@ public abstract class WindowEx : Window
     private readonly ComCtl32.SUBCLASSPROC bridgeSubclassProc;
 
 
-    private event EventHandler<MessageLoopEventArgs> windowMessageLoop;
-    public event EventHandler<MessageLoopEventArgs> WindowMessageLoop
-    {
-        add => bridgeMessageLoop = value + bridgeMessageLoop;
-        remove => bridgeMessageLoop -= value;
-    }
-
-
-    private event EventHandler<MessageLoopEventArgs> bridgeMessageLoop;
-    public event EventHandler<MessageLoopEventArgs> BridgeMessageLoop
-    {
-        add => bridgeMessageLoop = value + bridgeMessageLoop;
-        remove => bridgeMessageLoop -= value;
-    }
-
-
 
     public unsafe virtual IntPtr WindowSubclassProc(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
     {
-        bool handled = false;
-        var args = new MessageLoopEventArgs
-        {
-            uMsg = uMsg,
-            wParam = wParam,
-            lParam = lParam,
-            pHandled = (nint)Unsafe.AsPointer(ref handled)
-        };
-        windowMessageLoop?.Invoke(this, args);
-        if (handled)
-        {
-            return IntPtr.Zero;
-        }
         return ComCtl32.DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
@@ -84,38 +54,10 @@ public abstract class WindowEx : Window
 
     public unsafe virtual IntPtr BridgeSubclassProc(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
     {
-        bool handled = false;
-        var args = new MessageLoopEventArgs
-        {
-            uMsg = uMsg,
-            wParam = wParam,
-            lParam = lParam,
-            pHandled = (nint)Unsafe.AsPointer(ref handled)
-        };
-        bridgeMessageLoop?.Invoke(this, args);
-        if (handled)
-        {
-            return IntPtr.Zero;
-        }
         return ComCtl32.DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
-
-
-    public struct MessageLoopEventArgs
-    {
-        public uint uMsg;
-        public nint wParam;
-        public nint lParam;
-        public nint pHandled;
-        public unsafe bool Handled
-        {
-            get => Unsafe.Read<bool>(pHandled.ToPointer());
-            set => Unsafe.Write(pHandled.ToPointer(), value);
-        }
-    }
-
-
+   
 
 
     #endregion
@@ -138,6 +80,13 @@ public abstract class WindowEx : Window
     public virtual void Hide()
     {
         AppWindow.Hide();
+    }
+
+
+
+    public virtual void Minimize()
+    {
+        User32.ShowWindow(WindowHandle, ShowWindowCommand.SW_MINIMIZE);
     }
 
 
@@ -237,6 +186,8 @@ public abstract class WindowEx : Window
 
 
     #endregion
+
+
 
 
     #region Accent Color

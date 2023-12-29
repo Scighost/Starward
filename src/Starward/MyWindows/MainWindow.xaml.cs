@@ -9,10 +9,12 @@ using Starward.Pages;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Graphics;
+using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,6 +29,15 @@ public sealed partial class MainWindow : WindowEx
 
 
     public static new MainWindow Current { get; private set; }
+
+
+    private event EventHandler<KeyDownEventArgs> keyDown;
+    public event EventHandler<KeyDownEventArgs> KeyDown
+    {
+        add => keyDown = value + keyDown;
+        remove => keyDown -= value;
+    }
+
 
 
     public MainWindow()
@@ -177,6 +188,47 @@ public sealed partial class MainWindow : WindowEx
         }
         return base.WindowSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
     }
+
+
+    public unsafe override nint BridgeSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
+    {
+        bool handled = false;
+        if (uMsg == (uint)User32.WindowMessage.WM_KEYDOWN)
+        {
+            var args = new KeyDownEventArgs
+            {
+                uMsg = uMsg,
+                wParam = wParam,
+                lParam = lParam,
+                pHandled = (nint)Unsafe.AsPointer(ref handled),
+            };
+            keyDown?.Invoke(this, args);
+            if (args.Handled)
+            {
+                return IntPtr.Zero;
+            }
+        }
+        return base.BridgeSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
+    }
+
+
+
+    public struct KeyDownEventArgs
+    {
+        public uint uMsg;
+        public nint wParam;
+        public nint lParam;
+        public nint pHandled;
+        public unsafe bool Handled
+        {
+            get => Unsafe.Read<bool>(pHandled.ToPointer());
+            set => Unsafe.Write(pHandled.ToPointer(), value);
+        }
+        public VirtualKey VirtualKey => (VirtualKey)wParam;
+    }
+
+
+
 
 
 }

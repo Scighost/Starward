@@ -8,18 +8,11 @@
                 xmlns:sc="using:Starward.Controls"
                 xmlns:sm="using:Starward.Models"
                 x:DefaultBindMode="OneWay"
-                Loaded="Page_Loaded"
-                Unloaded="Page_Unloaded"
+                Background="{ThemeResource CustomOverlayAcrylicBrush}"
                 mc:Ignorable="d">
 
-    <!--<Page.Transitions>
-        <TransitionCollection>
-            <EntranceThemeTransition FromVerticalOffset="1000" />
-        </TransitionCollection>
-    </Page.Transitions>-->
 
-
-    <Grid Background="{ThemeResource CustomOverlayAcrylicBrush}">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="6*" />

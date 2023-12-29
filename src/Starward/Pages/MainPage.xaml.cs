@@ -80,7 +80,7 @@ public sealed partial class MainPage : Page
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        MainWindow.Current.BridgeMessageLoop += MainPage_KeyEvent;
+        MainWindow.Current.KeyDown += MainPage_KeyDown;
         WTSRegisterSessionNotification(MainWindow.Current.BridgeHandle, 0);
         InitializeNavigationViewPaneDisplayMode();
         UpdateButtonEffect();
@@ -874,12 +874,11 @@ public sealed partial class MainPage : Page
 
 
 
-
     #region Shortcut
 
 
 
-    private void MainPage_KeyEvent(object? sender, WindowEx.MessageLoopEventArgs e)
+    private void MainPage_KeyDown(object? sender, MainWindow.KeyDownEventArgs e)
     {
         try
         {
@@ -887,6 +886,7 @@ public sealed partial class MainPage : Page
             {
                 return;
             }
+            // todo
             if (e.uMsg == (uint)User32.WindowMessage.WM_WTSSESSION_CHANGE)
             {
                 // WTS_SESSION_LOCK
@@ -900,14 +900,11 @@ public sealed partial class MainPage : Page
                     PlayVideo(true);
                 }
             }
-            if (e.uMsg == (uint)User32.WindowMessage.WM_KEYDOWN)
+            if (e.wParam == (nint)User32.VK.VK_ESCAPE)
             {
-                if (e.wParam == (nint)User32.VK.VK_ESCAPE)
-                {
-                    PauseVideo();
-                    MainWindow.Current.Hide();
-                    e.Handled = true;
-                }
+                PauseVideo();
+                MainWindow.Current.Hide();
+                e.Handled = true;
             }
         }
         catch { }

@@ -66,37 +66,45 @@ public sealed partial class ImageViewPage : PageBase
     }
 
 
-    private void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override void OnLoaded()
     {
-        MainWindow.Current.BridgeMessageLoop += ImageViewPage_KeyDown;
-    }
-
-
-    private void Page_Unloaded(object sender, RoutedEventArgs e)
-    {
-        MainWindow.Current.BridgeMessageLoop -= ImageViewPage_KeyDown;
-    }
-
-
-    private void ImageViewPage_KeyDown(object? sender, WindowEx.MessageLoopEventArgs e)
-    {
-        if (e.Handled)
+        if (MainWindow.Current is not null)
         {
-            return;
+            MainWindow.Current.KeyDown += ImageViewPage_KeyDown;
         }
-        if (e.uMsg == (uint)User32.WindowMessage.WM_KEYDOWN)
+    }
+
+
+    protected override void OnUnloaded()
+    {
+        if (MainWindow.Current is not null)
         {
-            if (e.wParam == (nint)User32.VK.VK_ESCAPE)
+            MainWindow.Current.KeyDown -= ImageViewPage_KeyDown;
+        }
+    }
+
+
+
+    private void ImageViewPage_KeyDown(object? sender, MainWindow.KeyDownEventArgs e)
+    {
+        try
+        {
+            if (e.Handled)
+            {
+                return;
+            }
+            if (e.VirtualKey == VirtualKey.Escape)
             {
                 Close();
                 e.Handled = true;
             }
-            if (e.wParam == (nint)User32.VK.VK_F11)
+            if (e.VirtualKey == VirtualKey.F11)
             {
                 FullScreen();
                 e.Handled = true;
             }
         }
+        catch { }
     }
 
 
