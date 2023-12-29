@@ -1,7 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Starward.Messages;
 using System;
 using System.Globalization;
 
@@ -89,7 +91,8 @@ public sealed partial class AppearanceSettingPage : PageBase
                     {
                         CultureInfo.CurrentUICulture = new CultureInfo(lang);
                     }
-                    MainPage.Current.ReloadTextForLanguage();
+                    this.Bindings.Update();
+                    WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(lang!, CultureInfo.CurrentUICulture));
                 }
             }
         }

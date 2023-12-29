@@ -3,5 +3,8 @@
 namespace Starward.Messages;
 
 
-public record LanguageChangedMessage(string Language, CultureInfo CultureInfo);
+public record LanguageChangedMessage(string Language, CultureInfo CultureInfo)
+{
+    public bool Completed { get; set; }
+}
 

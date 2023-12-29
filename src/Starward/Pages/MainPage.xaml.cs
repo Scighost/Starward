@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas;
@@ -17,6 +18,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
 using Starward.Helpers;
+using Starward.Messages;
 using Starward.Pages.HoyolabToolbox;
 using Starward.Pages.Setting;
 using Starward.Services;
@@ -48,7 +50,7 @@ namespace Starward.Pages;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class MainPage : PageBase
+public sealed partial class MainPage : Page
 {
 
     public static MainPage Current { get; private set; }
@@ -73,6 +75,7 @@ public sealed partial class MainPage : PageBase
         compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
         InitializeSelectGameBiz();
         InitializeBackgroundImage();
+        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
     }
 
 
@@ -112,6 +115,7 @@ public sealed partial class MainPage : PageBase
         Current = null!;
         mediaPlayer?.Dispose();
         softwareBitmap?.Dispose();
+        WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
 
@@ -139,10 +143,14 @@ public sealed partial class MainPage : PageBase
 
 
 
-    public void ReloadTextForLanguage()
+    public void OnLanguageChanged(object? sender, LanguageChangedMessage message)
     {
         this.Bindings.Update();
         UpdateNavigationViewItems();
+        if (message.Completed)
+        {
+            NavigateTo(MainPage_Frame.SourcePageType, changeGameBiz: false);
+        }
     }
 
 

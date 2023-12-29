@@ -1,4 +1,6 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
+using Starward.Messages;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -15,7 +17,23 @@ public sealed partial class SettingPage : PageBase
     {
         this.InitializeComponent();
         SettingFrame.Navigate(typeof(AboutSettingPage));
+        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (_, m) =>
+        {
+            _languageChangedMessage = m;
+            this.Bindings.Update();
+        });
+
     }
+
+
+    protected override void OnUnloaded()
+    {
+        WeakReferenceMessenger.Default.UnregisterAll(this);
+    }
+
+
+    private LanguageChangedMessage? _languageChangedMessage;
+
 
 
     private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -36,6 +54,11 @@ public sealed partial class SettingPage : PageBase
                 {
                     if (item.Tag is "Completed")
                     {
+                        if (_languageChangedMessage is not null)
+                        {
+                            _languageChangedMessage.Completed = true;
+                            WeakReferenceMessenger.Default.Send(_languageChangedMessage);
+                        }
                         MainWindow.Current.CloseOverlayPage();
                         return;
                     }
