@@ -24,7 +24,7 @@ namespace Starward.Pages.Welcome;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class SelectLanguagePage : Page
+public sealed partial class SelectLanguagePage : PageBase
 {
 
     private readonly ILogger<SelectLanguagePage> _logger = AppConfig.GetLogger<SelectLanguagePage>();

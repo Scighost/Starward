@@ -39,7 +39,7 @@ namespace Starward.Pages;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class LauncherPage : Page
+public sealed partial class LauncherPage : PageBase
 {
 
     private readonly ILogger<LauncherPage> _logger = AppConfig.GetLogger<LauncherPage>();

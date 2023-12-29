@@ -6,7 +6,6 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core.Metadata;
 using Starward.Services;
@@ -27,7 +26,7 @@ namespace Starward.Pages;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class UpdatePage : Page
+public sealed partial class UpdatePage : PageBase
 {
 
     private readonly ILogger<UpdatePage> _logger = AppConfig.GetLogger<UpdatePage>();

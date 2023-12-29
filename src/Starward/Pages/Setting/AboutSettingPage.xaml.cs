@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Services;
 using System;
@@ -16,7 +15,7 @@ namespace Starward.Pages.Setting;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class AboutSettingPage : Page
+public sealed partial class AboutSettingPage : PageBase
 {
 
 
@@ -24,6 +23,7 @@ public sealed partial class AboutSettingPage : Page
 
 
     private readonly UpdateService _updateService = AppConfig.GetService<UpdateService>();
+
 
 
 

@@ -28,7 +28,7 @@ namespace Starward.Pages.Welcome;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class SelectGamePage : Page
+public sealed partial class SelectGamePage : PageBase
 {
 
     private readonly ILogger<SelectGamePage> _logger = AppConfig.GetLogger<SelectGamePage>();

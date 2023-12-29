@@ -1,16 +1,17 @@
-﻿<Page x:Class="Starward.Pages.HoyolabToolbox.SpiralAbyssPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:abyss="using:Starward.Core.GameRecord.Genshin.SpiralAbyss"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:lang="using:Starward.Language"
-      xmlns:linq="using:System.Linq"
-      xmlns:local="using:Starward.Pages.HoyolabToolbox"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:sc="using:Starward.Controls"
-      x:DefaultBindMode="OneWay"
-      Loaded="Page_Loaded"
-      mc:Ignorable="d">
+﻿<sp:PageBase x:Class="Starward.Pages.HoyolabToolbox.SpiralAbyssPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:abyss="using:Starward.Core.GameRecord.Genshin.SpiralAbyss"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:linq="using:System.Linq"
+             xmlns:local="using:Starward.Pages.HoyolabToolbox"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sc="using:Starward.Controls"
+             xmlns:sp="using:Starward.Pages"
+             x:DefaultBindMode="OneWay"
+             Loaded="Page_Loaded"
+             mc:Ignorable="d">
 
     <Page.Resources>
         <BitmapImage x:Key="AbyssIcon" UriSource="ms-appx:///Assets/Image/UI_Icon_Tower_Star.png" />
@@ -547,4 +548,4 @@
 
     </Grid>
 
-</Page>
+</sp:PageBase>

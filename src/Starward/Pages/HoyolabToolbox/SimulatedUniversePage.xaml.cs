@@ -24,7 +24,7 @@ namespace Starward.Pages.HoyolabToolbox;
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class SimulatedUniversePage : Page
+public sealed partial class SimulatedUniversePage : PageBase
 {
 
 

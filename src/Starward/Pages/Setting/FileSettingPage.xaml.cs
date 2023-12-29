@@ -19,7 +19,7 @@ namespace Starward.Pages.Setting;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class FileSettingPage : Page
+public sealed partial class FileSettingPage : PageBase
 {
 
     private readonly ILogger<FileSettingPage> _logger = AppConfig.GetLogger<FileSettingPage>();

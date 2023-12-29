@@ -35,7 +35,7 @@ namespace Starward.Pages;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class GachaLogPage : Page
+public sealed partial class GachaLogPage : PageBase
 {
 
     private readonly ILogger<GachaLogPage> _logger = AppConfig.GetLogger<GachaLogPage>();

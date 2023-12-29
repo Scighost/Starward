@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml.Controls;
 using Starward.Services;
 using System;
 using System.Threading.Tasks;
@@ -16,7 +15,7 @@ namespace Starward.Pages.Setting;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class AdvancedSettingPage : Page
+public sealed partial class AdvancedSettingPage : PageBase
 {
 
 

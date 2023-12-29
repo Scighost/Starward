@@ -1,22 +1,17 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<Page x:Class="Starward.Pages.Setting.SettingPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:lang="using:Starward.Language"
-      xmlns:local="using:Starward.Pages.Setting"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      x:DefaultBindMode="OneWay"
-      Background="{ThemeResource CustomAcrylicBrush}"
-      mc:Ignorable="d">
-    <Page.Transitions>
-        <TransitionCollection>
-            <EntranceThemeTransition FromVerticalOffset="1000" />
-        </TransitionCollection>
-    </Page.Transitions>
+<sp:PageBase x:Class="Starward.Pages.Setting.SettingPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Pages.Setting"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sp="using:Starward.Pages"
+             x:DefaultBindMode="OneWay"
+             Background="{ThemeResource CustomAcrylicBrush}"
+             mc:Ignorable="d">
+
 
     <Grid>
-
 
 
         <NavigationView Margin="12,24,0,0"
@@ -30,7 +25,7 @@
             <NavigationView.Resources>
                 <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
                 <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
-                <Thickness x:Key="NavigationViewContentMargin">48,60,0,0</Thickness>
+                <Thickness x:Key="NavigationViewContentMargin">48,48,0,0</Thickness>
             </NavigationView.Resources>
 
             <NavigationView.PaneHeader>
@@ -80,4 +75,4 @@
         </NavigationView>
 
     </Grid>
-</Page>
+</sp:PageBase>

@@ -36,7 +36,7 @@ namespace Starward.Pages;
 /// 查看器中通过引入系统缩放率 <see cref="MainWindow.UIScale"/> 解决这个问题。
 /// </remarks>
 [INotifyPropertyChanged]
-public sealed partial class ImageViewPage : Page
+public sealed partial class ImageViewPage : PageBase
 {
 
     private readonly double uiScale;

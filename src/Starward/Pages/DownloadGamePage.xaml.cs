@@ -36,7 +36,7 @@ namespace Starward.Pages;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class DownloadGamePage : Page
+public sealed partial class DownloadGamePage : PageBase
 {
 
     private readonly ILogger<DownloadGamePage> _logger = AppConfig.GetLogger<DownloadGamePage>();

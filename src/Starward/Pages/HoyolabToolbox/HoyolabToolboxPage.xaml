@@ -1,17 +1,18 @@
-﻿<Page x:Class="Starward.Pages.HoyolabToolbox.HoyolabToolboxPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:lang="using:Starward.Language"
-      xmlns:local="using:Starward.Pages.HoyolabToolbox"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:sc="using:Starward.Controls"
-      xmlns:scg="using:Starward.Core.GameRecord"
-      xmlns:sh="using:Starward.Helpers"
-      x:DefaultBindMode="OneWay"
-      Loaded="Page_Loaded"
-      Unloaded="Page_Unloaded"
-      mc:Ignorable="d">
+﻿<sp:PageBase x:Class="Starward.Pages.HoyolabToolbox.HoyolabToolboxPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Pages.HoyolabToolbox"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sc="using:Starward.Controls"
+             xmlns:scg="using:Starward.Core.GameRecord"
+             xmlns:sh="using:Starward.Helpers"
+             xmlns:sp="using:Starward.Pages"
+             x:DefaultBindMode="OneWay"
+             Loaded="Page_Loaded"
+             Unloaded="Page_Unloaded"
+             mc:Ignorable="d">
 
     <Grid>
         <NavigationView Name="NavigationView_Toolbox"
@@ -356,4 +357,4 @@
 
     </Grid>
 
-</Page>
+</sp:PageBase>

@@ -1,8 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
-using Starward.Messages;
 
 namespace Starward.Pages;
 
@@ -17,7 +15,6 @@ public abstract class PageBase : Page
     {
         Loaded += PageEx_Loaded;
         Unloaded += PageEx_Unloaded;
-        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (_, _) => OnLanguageChanged());
     }
 
 
@@ -32,7 +29,6 @@ public abstract class PageBase : Page
     {
         Loaded -= PageEx_Loaded;
         Unloaded -= PageEx_Unloaded;
-        WeakReferenceMessenger.Default.UnregisterAll(this);
         OnUnloaded();
     }
 
@@ -56,13 +52,6 @@ public abstract class PageBase : Page
 
 
     protected virtual void OnUnloaded()
-    {
-
-    }
-
-
-
-    protected virtual void OnLanguageChanged()
     {
 
     }

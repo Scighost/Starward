@@ -14,7 +14,7 @@ namespace Starward.Pages.Setting;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class AppearanceSettingPage : Page
+public sealed partial class AppearanceSettingPage : PageBase
 {
 
 
@@ -90,7 +90,6 @@ public sealed partial class AppearanceSettingPage : Page
                         CultureInfo.CurrentUICulture = new CultureInfo(lang);
                     }
                     MainPage.Current.ReloadTextForLanguage();
-                    this.Bindings.Update();
                 }
             }
         }

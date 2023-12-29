@@ -26,7 +26,7 @@ namespace Starward.Pages.HoyolabToolbox;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class TrailblazeCalendarPage : Page
+public sealed partial class TrailblazeCalendarPage : PageBase
 {
 
 

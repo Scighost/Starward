@@ -26,7 +26,7 @@ namespace Starward.Pages;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class SelfQueryPage : Page
+public sealed partial class SelfQueryPage : PageBase
 {
 
 
