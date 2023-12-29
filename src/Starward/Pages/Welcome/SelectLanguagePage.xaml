@@ -62,7 +62,7 @@
                 <TextBlock FontSize="20"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                           Text="Language" />
+                           Text="{x:Bind lang:Lang.SettingPage_Language}" />
                 <ComboBox Name="ComboBox_Language"
                           MinWidth="300"
                           SelectionChanged="ComboBox_Language_SelectionChanged" />
@@ -71,7 +71,7 @@
                            FontSize="20"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                           Text="Windows Size" />
+                           Text="{x:Bind lang:Lang.SettingPage_WindowsSize}" />
                 <StackPanel Margin="0,-4,0,0"
                             Orientation="Horizontal"
                             Spacing="16">
@@ -81,7 +81,7 @@
                                  Tag="normal">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon FontSize="16" Glyph="&#xE740;" />
-                            <TextBlock Text="Normal" />
+                            <TextBlock Text="{x:Bind lang:Lang.SettingPage_Normal}" />
                         </StackPanel>
                     </RadioButton>
                     <RadioButton Name="RadioButton_WindowSize_Small"
@@ -90,7 +90,7 @@
                                  Tag="small">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon FontSize="16" Glyph="&#xE73F;" />
-                            <TextBlock Text="Small" />
+                            <TextBlock Text="{x:Bind lang:Lang.SettingPage_Small}" />
                         </StackPanel>
                     </RadioButton>
                 </StackPanel>

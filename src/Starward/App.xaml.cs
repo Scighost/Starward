@@ -171,10 +171,13 @@ public partial class App : Application
     {
         try
         {
-            var lang = AppConfig.Language;
-            if (!string.IsNullOrWhiteSpace(lang))
+            if (!string.IsNullOrWhiteSpace(AppConfig.UserDataFolder))
             {
-                CultureInfo.CurrentUICulture = new CultureInfo(lang);
+                var lang = AppConfig.Language;
+                if (!string.IsNullOrWhiteSpace(lang))
+                {
+                    CultureInfo.CurrentUICulture = new CultureInfo(lang);
+                }
             }
         }
         catch { }

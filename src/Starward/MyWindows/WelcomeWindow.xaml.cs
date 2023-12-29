@@ -5,7 +5,6 @@ using Starward.Helpers;
 using Starward.Pages.Welcome;
 using Starward.Services;
 using System;
-using System.Globalization;
 using System.IO;
 using Vanara.PInvoke;
 using Windows.Graphics;
@@ -33,7 +32,6 @@ public sealed partial class WelcomeWindow : WindowEx
         Current = this;
         this.InitializeComponent();
         InitializeWindow();
-        CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
     }
 
 
