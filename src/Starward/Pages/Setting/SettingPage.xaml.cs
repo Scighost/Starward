@@ -34,7 +34,10 @@ public sealed partial class SettingPage : PageBase
 
     protected override void OnUnloaded()
     {
-        MainWindow.Current.KeyDown -= SettingPage_KeyDown;
+        if (MainWindow.Current is not null)
+        {
+            MainWindow.Current.KeyDown -= SettingPage_KeyDown;
+        }
         WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
@@ -97,6 +100,7 @@ public sealed partial class SettingPage : PageBase
                     {
                         nameof(AboutSettingPage) => typeof(AboutSettingPage),
                         nameof(AppearanceSettingPage) => typeof(AppearanceSettingPage),
+                        nameof(ExperienceSettingPage) => typeof(ExperienceSettingPage),
                         nameof(FileSettingPage) => typeof(FileSettingPage),
                         nameof(AdvancedSettingPage) => typeof(AdvancedSettingPage),
                         _ => null,

@@ -70,6 +70,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 You could change the option again in setting page. 的本地化字符串。
+        /// </summary>
+        public static string CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage {
+            get {
+                return ResourceManager.GetString("CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Accept 的本地化字符串。
         /// </summary>
         public static string Common_Accept {
@@ -670,6 +679,42 @@ namespace Starward.Language {
         public static string DownloadGameService_TooManyRetries {
             get {
                 return ResourceManager.GetString("DownloadGameService_TooManyRetries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Close window but keep system tray 的本地化字符串。
+        /// </summary>
+        public static string ExperienceSettingPage_CloseWindowButKeepSystemTray {
+            get {
+                return ResourceManager.GetString("ExperienceSettingPage_CloseWindowButKeepSystemTray", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Close Window Option 的本地化字符串。
+        /// </summary>
+        public static string ExperienceSettingPage_CloseWindowOption {
+            get {
+                return ResourceManager.GetString("ExperienceSettingPage_CloseWindowOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Exit completely 的本地化字符串。
+        /// </summary>
+        public static string ExperienceSettingPage_ExitCompletely {
+            get {
+                return ResourceManager.GetString("ExperienceSettingPage_ExitCompletely", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Minimize to system tray 的本地化字符串。
+        /// </summary>
+        public static string ExperienceSettingPage_MinimizeToSystemTray {
+            get {
+                return ResourceManager.GetString("ExperienceSettingPage_MinimizeToSystemTray", resourceCulture);
             }
         }
         
@@ -2457,6 +2502,15 @@ namespace Starward.Language {
         public static string SettingPage_ExitLauncherWhenClosingWindow {
             get {
                 return ResourceManager.GetString("SettingPage_ExitLauncherWhenClosingWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Experience 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_Experience {
+            get {
+                return ResourceManager.GetString("SettingPage_Experience", resourceCulture);
             }
         }
         

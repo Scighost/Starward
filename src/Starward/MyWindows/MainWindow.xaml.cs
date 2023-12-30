@@ -3,8 +3,11 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
+using Starward.Controls;
+using Starward.Models;
 using Starward.Pages;
 using System;
 using System.Diagnostics;
@@ -102,11 +105,46 @@ public sealed partial class MainWindow : WindowEx
     }
 
 
-    private void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+    private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
-        args.Cancel = true;
-        // todo
-        App.Current.Exit();
+        try
+        {
+            args.Cancel = true;
+            CloseWindowOption option = AppConfig.CloseWindowOption;
+            if (option is not CloseWindowOption.Hide and not CloseWindowOption.Exit and not CloseWindowOption.Close)
+            {
+                var content = new CloseWindowDialog();
+                var dialog = new ContentDialog
+                {
+                    Content = content,
+                    Title = Lang.ExperienceSettingPage_CloseWindowOption,
+                    PrimaryButtonText = Lang.Common_Confirm,
+                    CloseButtonText = Lang.Common_Cancel,
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = Content.XamlRoot,
+                };
+                var result = await dialog.ShowAsync();
+                if (result is not ContentDialogResult.Primary)
+                {
+                    return;
+                }
+                option = content.CloseWindowOption;
+                AppConfig.CloseWindowOption = option;
+            }
+            if (option is CloseWindowOption.Hide)
+            {
+                Hide();
+            }
+            if (option is CloseWindowOption.Exit)
+            {
+                App.Current.Exit();
+            }
+            if (option is CloseWindowOption.Close)
+            {
+                App.Current.CloseMainWindow();
+            }
+        }
+        catch { }
     }
 
 

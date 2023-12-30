@@ -48,6 +48,11 @@
                         <FontIcon Glyph="&#xE790;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_Experience}" Tag="ExperienceSettingPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEC7A;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_FileManagement}" Tag="FileSettingPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8F1;" />

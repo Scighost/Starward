@@ -1,0 +1,32 @@
+<UserControl x:Class="Starward.Controls.CloseWindowDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <StackPanel Spacing="4">
+
+        <TextBlock Margin="0,0,0,8"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   Text="{x:Bind lang:Lang.CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage}"
+                   TextWrapping="Wrap" />
+        <RadioButton Click="RadioButton_Click"
+                     Content="{x:Bind lang:Lang.ExperienceSettingPage_MinimizeToSystemTray}"
+                     GroupName="CloseWindowOption"
+                     IsChecked="True"
+                     Tag="Hide" />
+        <RadioButton Click="RadioButton_Click"
+                     Content="{x:Bind lang:Lang.ExperienceSettingPage_ExitCompletely}"
+                     GroupName="CloseWindowOption"
+                     Tag="Exit" />
+        <RadioButton Click="RadioButton_Click"
+                     Content="{x:Bind lang:Lang.ExperienceSettingPage_CloseWindowButKeepSystemTray}"
+                     GroupName="CloseWindowOption"
+                     Tag="Close" />
+    </StackPanel>
+
+</UserControl>

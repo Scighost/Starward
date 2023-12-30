@@ -10,6 +10,7 @@ using Starward.Core.GameRecord;
 using Starward.Core.Launcher;
 using Starward.Core.Metadata;
 using Starward.Core.SelfQuery;
+using Starward.Models;
 using Starward.Services;
 using Starward.Services.Gacha;
 using System;
@@ -409,6 +410,13 @@ internal static class AppConfig
     public static bool ExitWhenClosing
     {
         get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
+    public static CloseWindowOption CloseWindowOption
+    {
+        get => GetValue<CloseWindowOption>();
         set => SetValue(value);
     }
 
