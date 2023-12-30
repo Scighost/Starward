@@ -1178,30 +1178,30 @@
     <value>Количество запусков</value>
   </data>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
-    <value>Data Folder</value>
+    <value>Папка с данными</value>
   </data>
   <data name="FileSettingPage_Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>Расположение:</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>Open Log File</value>
+    <value>Открыть файл журнала</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
-    <value>Appearance</value>
+    <value>Внешний вид</value>
   </data>
   <data name="SettingPage_FileManagement" xml:space="preserve">
-    <value>File Management</value>
+    <value>Управление файлами</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
-    <value>Completed</value>
+    <value>Выполнено</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
-    <value>Links</value>
+    <value>Ссылки</value>
   </data>
   <data name="SettingPage_Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Дополнительно</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>This Day</value>
+    <value>В этот день</value>
   </data>
 </root>
