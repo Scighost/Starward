@@ -1204,4 +1204,23 @@
   <data name="LauncherPage_ThisDay" xml:space="preserve">
     <value>本日</value>
   </data>
+  <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
+    <value>关闭窗口选项</value>
+  </data>
+  <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
+    <value>最小化到系统托盘</value>
+  </data>
+  <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
+    <value>完全退出</value>
+  </data>
+  <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
+    <value>关闭窗口但保留系统托盘</value>
+  </data>
+  <data name="SettingPage_Experience" xml:space="preserve">
+    <value>体验</value>
+    <comment>means user experience</comment>
+  </data>
+  <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
+    <value>你可以在设置页面再次更改此选项。</value>
+  </data>
 </root>
