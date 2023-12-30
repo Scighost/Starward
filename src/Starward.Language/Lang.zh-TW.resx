@@ -1204,4 +1204,23 @@
   <data name="LauncherPage_ThisDay" xml:space="preserve">
     <value>This Day</value>
   </data>
+  <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
+    <value>Close Window Option</value>
+  </data>
+  <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
+    <value>Minimize to system tray</value>
+  </data>
+  <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
+    <value>Exit completely</value>
+  </data>
+  <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
+    <value>Close window but keep system tray</value>
+  </data>
+  <data name="SettingPage_Experience" xml:space="preserve">
+    <value>Experience</value>
+    <comment>means user experience</comment>
+  </data>
+  <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
+    <value>You could change the option again in setting page.</value>
+  </data>
 </root>
