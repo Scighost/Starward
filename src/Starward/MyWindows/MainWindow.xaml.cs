@@ -10,6 +10,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -76,6 +77,7 @@ public sealed partial class MainWindow : WindowEx
         AdaptTitleBarButtonColorToActuallTheme();
         SetDragRectangles(new RectInt32(0, 0, 100000, len));
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo.ico"));
+        WTSRegisterSessionNotification(WindowHandle, 0);
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
             presenter.IsMaximizable = false;
@@ -186,6 +188,19 @@ public sealed partial class MainWindow : WindowEx
                 return IntPtr.Zero;
             }
         }
+        if (uMsg == (uint)User32.WindowMessage.WM_WTSSESSION_CHANGE)
+        {
+            // WTS_SESSION_LOCK
+            if (wParam == 0x7)
+            {
+                mainPage?.PauseVideo(true);
+            }
+            // WTS_SESSION_UNLOCK 
+            if (wParam == 0x8)
+            {
+                mainPage?.PlayVideo(true);
+            }
+        }
         return base.WindowSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
     }
 
@@ -229,6 +244,9 @@ public sealed partial class MainWindow : WindowEx
 
 
 
+    [LibraryImport("wtsapi32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool WTSRegisterSessionNotification(IntPtr hWnd, int dwFlags);
 
 
 }

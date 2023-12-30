@@ -81,7 +81,6 @@ public sealed partial class MainPage : Page
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         MainWindow.Current.KeyDown += MainPage_KeyDown;
-        WTSRegisterSessionNotification(MainWindow.Current.BridgeHandle, 0);
         InitializeNavigationViewPaneDisplayMode();
         UpdateButtonEffect();
         await UpdateBackgroundImageAsync(true);
@@ -886,20 +885,6 @@ public sealed partial class MainPage : Page
             {
                 return;
             }
-            // todo
-            if (e.uMsg == (uint)User32.WindowMessage.WM_WTSSESSION_CHANGE)
-            {
-                // WTS_SESSION_LOCK
-                if (e.wParam == 0x7)
-                {
-                    PauseVideo(true);
-                }
-                // WTS_SESSION_UNLOCK 
-                if (e.wParam == 0x8)
-                {
-                    PlayVideo(true);
-                }
-            }
             if (e.wParam == (nint)User32.VK.VK_ESCAPE)
             {
                 PauseVideo();
@@ -916,9 +901,7 @@ public sealed partial class MainPage : Page
 
 
 
-    [LibraryImport("wtsapi32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool WTSRegisterSessionNotification(IntPtr hWnd, int dwFlags);
+
 
 
 }
