@@ -47,8 +47,7 @@ public sealed partial class WelcomeWindow : WindowEx
         AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
         ChangeWindowSize(AppConfig.WindowSizeMode);
         AdaptTitleBarButtonColorToActuallTheme();
-        int len = (int)(48 * UIScale);
-        SetDragRectangles(new RectInt32(0, 0, 10000, len));
+        SetDragRectangles(new RectInt32(0, 0, 10000, (int)(48 * UIScale)));
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo.ico"));
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {

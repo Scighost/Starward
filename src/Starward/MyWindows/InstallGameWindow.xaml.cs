@@ -29,7 +29,7 @@ public sealed partial class InstallGameWindow : WindowEx
 
 
 
-    private void InitializeWindow(string? action = null)
+    private void InitializeWindow()
     {
         Title = "Starward - Install Game";
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;

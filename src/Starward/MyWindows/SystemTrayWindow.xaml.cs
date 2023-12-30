@@ -106,9 +106,9 @@ public sealed partial class SystemTrayWindow : WindowEx
     [RelayCommand]
     public override void Hide()
     {
-        base.Hide();
         try
         {
+            base.Hide();
             AppWindow.ResizeClient(new Windows.Graphics.SizeInt32(1000, 1000));
         }
         catch { }
