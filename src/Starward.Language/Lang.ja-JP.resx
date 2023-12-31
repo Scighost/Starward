@@ -1249,4 +1249,7 @@
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
     <value>Are you able to receive updates for Starward?</value>
   </data>
+  <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
+    <value>Please select a folder to store your personal data, it is very important!</value>
+  </data>
 </root>
