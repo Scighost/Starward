@@ -6,6 +6,7 @@
       xmlns:local="using:Starward.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:s="using:Starward"
+      xmlns:sct="using:Starward.Controls.TitleBarGameIcon"
       x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded"
       SizeChanged="Page_SizeChanged"
@@ -166,125 +167,28 @@
               HorizontalAlignment="Center"
               SizeChanged="Grid_SelectGame_SizeChanged">
 
-            <StackPanel Margin="12,0,12,0"
-                        HorizontalAlignment="Center"
+            <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        Spacing="8">
+                        Orientation="Horizontal">
 
-                <Button Name="Button_BH3"
-                        Width="36"
-                        Height="36"
-                        Padding="0"
-                        BorderThickness="0"
-                        Click="Button_BH3_Click"
-                        CornerRadius="8"
-                        DoubleTapped="Button_SelectGame_DoubleTapped"
-                        PointerEntered="Button_Game_PointerEntered"
-                        PointerExited="Button_Game_PointerExited"
-                        RightTapped="Button_BH3_RightTapped"
-                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                        Tag="bh3">
-                    <Grid>
-                        <Image Source="ms-appx:///Assets/Image/icon_bh3.jpg" />
-                        <Border Name="Border_Mask_BH3" Background="#60000000">
-                            <Border.OpacityTransition>
-                                <ScalarTransition />
-                            </Border.OpacityTransition>
-                        </Border>
-                    </Grid>
-                    <Button.ContextFlyout>
-                        <MenuFlyout Closed="MenuFlyout_Game_Closed">
-                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
-                                            CommandParameter="bh3_cn"
-                                            Text="China" />
-                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
-                                            CommandParameter="bh3_global"
-                                            Text="Europe &amp; Americas" />
-                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
-                                            CommandParameter="bh3_jp"
-                                            Text="Japan" />
-                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
-                                            CommandParameter="bh3_kr"
-                                            Text="Korea" />
-                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
-                                            CommandParameter="bh3_overseas"
-                                            Text="Southeast Asia" />
-                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
-                                            CommandParameter="bh3_tw"
-                                            Text="Traditional Chinese" />
-                        </MenuFlyout>
-                    </Button.ContextFlyout>
-                </Button>
-                <Button Name="Button_YS"
-                        Width="36"
-                        Height="36"
-                        Padding="0"
-                        BorderThickness="0"
-                        Click="Button_YS_Click"
-                        CornerRadius="8"
-                        DoubleTapped="Button_SelectGame_DoubleTapped"
-                        PointerEntered="Button_Game_PointerEntered"
-                        PointerExited="Button_Game_PointerExited"
-                        RightTapped="Button_YS_RightTapped"
-                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                        Tag="ys">
-                    <Grid>
-                        <Image Source="ms-appx:///Assets/Image/icon_ys.jpg" />
-                        <Border Name="Border_Mask_YS" Background="#60000000">
-                            <Border.OpacityTransition>
-                                <ScalarTransition />
-                            </Border.OpacityTransition>
-                        </Border>
-                    </Grid>
-                    <Button.ContextFlyout>
-                        <MenuFlyout Closed="MenuFlyout_Game_Closed">
-                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
-                                            CommandParameter="hk4e_cn"
-                                            Text="China" />
-                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
-                                            CommandParameter="hk4e_global"
-                                            Text="Global" />
-                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
-                                            CommandParameter="hk4e_cloud"
-                                            Text="China Cloud" />
-                        </MenuFlyout>
-                    </Button.ContextFlyout>
-                </Button>
-                <Button Name="Button_SR"
-                        Width="36"
-                        Height="36"
-                        Padding="0"
-                        BorderThickness="0"
-                        Click="Button_SR_Click"
-                        CornerRadius="8"
-                        DoubleTapped="Button_SelectGame_DoubleTapped"
-                        PointerEntered="Button_Game_PointerEntered"
-                        PointerExited="Button_Game_PointerExited"
-                        RightTapped="Button_SR_RightTapped"
-                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                        Tag="sr">
-                    <Grid>
-                        <Image Source="ms-appx:///Assets/Image/icon_sr.jpg" />
-                        <Border Name="Border_Mask_SR" Background="#60000000">
-                            <Border.OpacityTransition>
-                                <ScalarTransition />
-                            </Border.OpacityTransition>
-                        </Border>
-                    </Grid>
-                    <Button.ContextFlyout>
-                        <MenuFlyout Closed="MenuFlyout_Game_Closed">
-                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
-                                            CommandParameter="hkrpg_cn"
-                                            Text="China" />
-                            <MenuFlyoutItem Command="{x:Bind ChangeGameBizCommand}"
-                                            CommandParameter="hkrpg_global"
-                                            Text="Global" />
-                        </MenuFlyout>
-                    </Button.ContextFlyout>
-                </Button>
+                <sct:TitleBarGameIconBH3 x:Name="GameIcon_BH3"
+                                         Width="36"
+                                         Height="36"
+                                         Margin="4,0,4,0"
+                                         Command="{x:Bind ChangeGameBiz1Command}" />
+                <sct:TitleBarGameIconYS x:Name="GameIcon_YS"
+                                        Width="36"
+                                        Height="36"
+                                        Margin="4,0,4,0"
+                                        Command="{x:Bind ChangeGameBiz1Command}" />
+                <sct:TitleBarGameIconSR x:Name="GameIcon_SR"
+                                        Width="36"
+                                        Height="36"
+                                        Margin="4,0,4,0"
+                                        Command="{x:Bind ChangeGameBiz1Command}" />
 
                 <Border Height="32"
+                        Margin="4,0,4,0"
                         Background="{ThemeResource DateTimePickerFlyoutButtonBackgroundPointerOver}"
                         CornerRadius="16">
                     <Button Height="32"
@@ -295,7 +199,7 @@
                             Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                         <TextBlock Margin="12,0,12,0"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="{x:Bind CurrentGameBizText}" />
+                                   Text="{x:Bind CurrentGameServerText}" />
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel MaxWidth="220" Spacing="4">

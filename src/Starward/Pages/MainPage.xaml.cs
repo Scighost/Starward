@@ -26,7 +26,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
@@ -83,7 +82,6 @@ public sealed partial class MainPage : Page
     {
         MainWindow.Current.KeyDown += MainPage_KeyDown;
         InitializeNavigationViewPaneDisplayMode();
-        UpdateButtonEffect();
         await UpdateBackgroundImageAsync(true);
 #if !CI
         await CheckUpdateAsync();
@@ -132,6 +130,7 @@ public sealed partial class MainPage : Page
     {
         try
         {
+            await Task.Delay(1000);
             var release = await _updateService.CheckUpdateAsync(false);
             if (release != null)
             {
@@ -171,29 +170,28 @@ public sealed partial class MainPage : Page
 
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CurrentGameServerText))]
     private GameBiz currentGameBiz = (GameBiz)int.MaxValue;
     partial void OnCurrentGameBizChanged(GameBiz oldValue, GameBiz newValue)
     {
         lastGameBiz = oldValue;
         AppConfig.SelectGameBiz = newValue;
         UpdateNavigationViewItems();
-        CurrentGameBizText = newValue switch
-        {
-            GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn => "China",
-            GameBiz.hk4e_global or GameBiz.hkrpg_global => "Global",
-            GameBiz.hk4e_cloud => "China Cloud",
-            GameBiz.bh3_global => "Europe & Americas",
-            GameBiz.bh3_tw => "Traditional Chinese",
-            GameBiz.bh3_jp => "Japan",
-            GameBiz.bh3_kr => "Korea",
-            GameBiz.bh3_overseas => "Southeast Asia",
-            _ => ""
-        };
     }
 
 
-    [ObservableProperty]
-    private string currentGameBizText;
+    public string CurrentGameServerText => CurrentGameBiz switch
+    {
+        GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn => "China",
+        GameBiz.hk4e_global or GameBiz.hkrpg_global => "Global",
+        GameBiz.hk4e_cloud => "China Cloud",
+        GameBiz.bh3_global => "Europe & Americas",
+        GameBiz.bh3_tw => "Traditional Chinese",
+        GameBiz.bh3_jp => "Japan",
+        GameBiz.bh3_kr => "Korea",
+        GameBiz.bh3_overseas => "Southeast Asia",
+        _ => ""
+    };
 
 
     private void InitializeSelectGameBiz()
@@ -201,6 +199,7 @@ public sealed partial class MainPage : Page
         CurrentGameBiz = AppConfig.SelectGameBiz;
         AppConfig.SetLastRegionOfGame(CurrentGameBiz.ToGame(), CurrentGameBiz);
         _logger.LogInformation("Select game region is {gamebiz}", CurrentGameBiz);
+        UpdateGameIcon();
         if (CurrentGameBiz.ToGame() == GameBiz.None)
         {
             MainPage_Frame.Content = new BlankPage();
@@ -221,190 +220,44 @@ public sealed partial class MainPage : Page
             _logger.LogInformation("Change game region to {gamebiz}", biz);
             CurrentGameBiz = biz;
             AppConfig.SetLastRegionOfGame(biz.ToGame(), biz);
-            UpdateButtonEffect();
             NavigateTo(MainPage_Frame.SourcePageType, changeGameBiz: true);
             await UpdateBackgroundImageAsync();
         }
     }
 
 
-    private void UpdateButtonEffect()
+    [RelayCommand]
+    private void ChangeGameBiz1(GameBiz biz)
     {
-        const double OPACITY = 1;
-        isSelectBH3 = false;
-        isSelectYS = false;
-        isSelectSR = false;
-        Border_Mask_BH3.Opacity = OPACITY;
-        Border_Mask_YS.Opacity = OPACITY;
-        Border_Mask_SR.Opacity = OPACITY;
-        if (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd)
+        if (biz.ToGame() is GameBiz.None)
         {
-            UpdateButtonCornerRadius(Button_BH3, true);
-            UpdateButtonCornerRadius(Button_YS, false);
-            UpdateButtonCornerRadius(Button_SR, false);
-            Border_Mask_BH3.Opacity = 0;
-            isSelectBH3 = true;
-            return;
-        }
-        if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
-        {
-            UpdateButtonCornerRadius(Button_BH3, false);
-            UpdateButtonCornerRadius(Button_YS, true);
-            UpdateButtonCornerRadius(Button_SR, false);
-            Border_Mask_YS.Opacity = 0;
-            isSelectYS = true;
-            return;
-        }
-        if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
-        {
-            UpdateButtonCornerRadius(Button_BH3, false);
-            UpdateButtonCornerRadius(Button_YS, false);
-            UpdateButtonCornerRadius(Button_SR, true);
-            Border_Mask_SR.Opacity = 0;
-            isSelectSR = true;
-            return;
-        }
-        UpdateButtonCornerRadius(Button_BH3, false);
-        UpdateButtonCornerRadius(Button_YS, false);
-        UpdateButtonCornerRadius(Button_SR, false);
-
-    }
-
-
-    private void Button_Game_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        if (sender is Button button)
-        {
-            UpdateButtonCornerRadius(button, true);
-        }
-    }
-
-
-    private void Button_Game_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        if (sender is Button button)
-        {
-            UpdateButtonCornerRadius(button, false);
-        }
-    }
-
-    private bool isSelectBH3;
-    private bool isSelectYS;
-    private bool isSelectSR;
-
-    private async void Button_BH3_Click(object sender, RoutedEventArgs e)
-    {
-        var biz = AppConfig.GetLastRegionOfGame(GameBiz.Honkai3rd) switch
-        {
-            GameBiz.bh3_cn => GameBiz.bh3_cn,
-            GameBiz.bh3_global => GameBiz.bh3_global,
-            GameBiz.bh3_jp => GameBiz.bh3_jp,
-            GameBiz.bh3_kr => GameBiz.bh3_kr,
-            GameBiz.bh3_overseas => GameBiz.bh3_overseas,
-            GameBiz.bh3_tw => GameBiz.bh3_tw,
-            _ => GameBiz.bh3_cn,
-        };
-        if (biz != CurrentGameBiz)
-        {
-            await ChangeGameBizAsync(biz.ToString());
-        }
-    }
-
-    private void Button_BH3_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
-    {
-        isSelectBH3 = true;
-    }
-
-    private async void Button_YS_Click(object sender, RoutedEventArgs e)
-    {
-        var biz = AppConfig.GetLastRegionOfGame(GameBiz.GenshinImpact) switch
-        {
-            GameBiz.hk4e_cn => GameBiz.hk4e_cn,
-            GameBiz.hk4e_global => GameBiz.hk4e_global,
-            GameBiz.hk4e_cloud => GameBiz.hk4e_cloud,
-            _ => GameBiz.hk4e_cn,
-        };
-        if (biz != CurrentGameBiz)
-        {
-            await ChangeGameBizAsync(biz.ToString());
-        }
-    }
-
-    private void Button_YS_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
-    {
-        isSelectYS = true;
-    }
-
-    private async void Button_SR_Click(object sender, RoutedEventArgs e)
-    {
-        var biz = AppConfig.GetLastRegionOfGame(GameBiz.StarRail) switch
-        {
-            GameBiz.hkrpg_cn => GameBiz.hkrpg_cn,
-            GameBiz.hkrpg_global => GameBiz.hkrpg_global,
-            _ => GameBiz.hkrpg_cn,
-        };
-        if (biz != CurrentGameBiz)
-        {
-            await ChangeGameBizAsync(biz.ToString());
-        }
-    }
-
-    private void Button_SR_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
-    {
-        isSelectSR = true;
-    }
-
-    private void MenuFlyout_Game_Closed(object sender, object e)
-    {
-        isSelectBH3 = false;
-        isSelectYS = false;
-        isSelectSR = false;
-        UpdateButtonEffect();
-    }
-
-    private void UpdateButtonCornerRadius(Button button, bool isSelect)
-    {
-        var visual = ElementCompositionPreview.GetElementVisual(button);
-        CompositionRoundedRectangleGeometry geometry;
-        if (visual.Clip is CompositionGeometricClip clip && clip.Geometry is CompositionRoundedRectangleGeometry geo)
-        {
-            geometry = geo;
+            GameBiz b = AppConfig.GetLastRegionOfGame(biz);
+            if (b.ToGame() is GameBiz.None)
+            {
+                biz++;
+            }
+            else
+            {
+                biz = b;
+            }
         }
         else
         {
-            geometry = compositor.CreateRoundedRectangleGeometry();
-            geometry.Size = new Vector2((float)button.ActualWidth, (float)button.ActualHeight);
-            geometry.CornerRadius = Vector2.Zero;
-            clip = compositor.CreateGeometricClip(geometry);
-            visual.Clip = clip;
+            AppConfig.SetLastRegionOfGame(biz.ToGame(), biz);
         }
-
-        if (button.Tag is "bh3" && isSelectBH3)
-        {
-            return;
-        }
-        if (button.Tag is "ys" && isSelectYS)
-        {
-            return;
-        }
-        if (button.Tag is "sr" && isSelectSR)
-        {
-            return;
-        }
-
-        var animation = compositor.CreateVector2KeyFrameAnimation();
-        animation.Duration = TimeSpan.FromSeconds(0.3);
-        if (isSelect)
-        {
-            animation.InsertKeyFrame(1, new Vector2(8, 8));
-        }
-        else
-        {
-            animation.InsertKeyFrame(1, new Vector2(18, 18));
-        }
-        geometry.StartAnimation(nameof(CompositionRoundedRectangleGeometry.CornerRadius), animation);
+        CurrentGameBiz = biz;
+        UpdateGameIcon();
+        NavigateTo(MainPage_Frame.SourcePageType, changeGameBiz: true);
+        _ = UpdateBackgroundImageAsync();
     }
 
+
+    private void UpdateGameIcon()
+    {
+        GameIcon_BH3.Select(CurrentGameBiz);
+        GameIcon_YS.Select(CurrentGameBiz);
+        GameIcon_SR.Select(CurrentGameBiz);
+    }
 
 
 
@@ -429,14 +282,6 @@ public sealed partial class MainPage : Page
             MainWindow.Current.SetDragRectangles(rect1, rect2);
         }
         catch { }
-    }
-
-
-
-    private void Button_SelectGame_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
-    {
-        NavigateTo(typeof(LauncherPage));
-        MainPage_NavigationView.SelectedItem = null;
     }
 
 
