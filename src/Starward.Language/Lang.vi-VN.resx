@@ -1232,4 +1232,16 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
     <value>Use System Theme Color</value>
   </data>
+  <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
+    <value>Always display navigation sidebar icons</value>
+  </data>
+  <data name="ExperienceSettingPage_Features" xml:space="preserve">
+    <value>Features</value>
+  </data>
+  <data name="ExperienceSettingPage_HideGameAccountSwitcher" xml:space="preserve">
+    <value>Hide game account switcher</value>
+  </data>
+  <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
+    <value>Disable red dot reminder for game notices</value>
+  </data>
 </root>
