@@ -728,11 +728,11 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Location: 的本地化字符串。
+        ///   查找类似 Your personal data is stored in the folder below. It is very important, please do not delete it casually. 的本地化字符串。
         /// </summary>
-        public static string FileSettingPage_Location {
+        public static string FileSettingPage_DataFolderIsImportant {
             get {
-                return ResourceManager.GetString("FileSettingPage_Location", resourceCulture);
+                return ResourceManager.GetString("FileSettingPage_DataFolderIsImportant", resourceCulture);
             }
         }
         

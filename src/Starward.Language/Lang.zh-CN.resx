@@ -1192,9 +1192,6 @@
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
     <value>打开日志文件</value>
   </data>
-  <data name="FileSettingPage_Location" xml:space="preserve">
-    <value>位置：</value>
-  </data>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
     <value>数据文件夹</value>
   </data>
@@ -1205,7 +1202,7 @@
     <value>本日</value>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
-    <value>你可以在设置页面再次更改此选项。</value>
+    <value>您可以在设置页面再次更改此选项。</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
     <value>体验</value>
@@ -1221,5 +1218,8 @@
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
     <value>关闭窗口选项</value>
+  </data>
+  <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
+    <value>您的个人数据保存在下面的文件夹中，它很重要，请不要随意删除。</value>
   </data>
 </root>

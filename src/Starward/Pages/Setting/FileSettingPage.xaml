@@ -11,39 +11,46 @@
              mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel>
+        <StackPanel Margin="0,0,48,0">
 
 
             <!--  user data folder  -->
             <TextBlock FontSize="20"
                        FontWeight="SemiBold"
                        Text="{x:Bind lang:Lang.FileSettingPage_DataFolder}" />
-            <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-                <TextBlock Text="{x:Bind lang:Lang.FileSettingPage_Location}" />
-                <TextBlock Margin="8,0,0,0"
-                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                           Text="{x:Bind s:AppConfig.UserDataFolder}" />
-            </StackPanel>
-            <!--  open data folder  -->
-            <Button Height="40"
+            <TextBlock Margin="0,12,0,0"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.FileSettingPage_DataFolderIsImportant}"
+                       TextWrapping="Wrap" />
+            <Border Height="40"
                     Margin="0,12,0,0"
-                    Padding="16,0,16,0"
-                    BorderThickness="0"
-                    Command="{x:Bind OpenDataFolderCommand}"
-                    CornerRadius="4,20,20,4"
-                    Style="{ThemeResource AccentButtonStyle}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <FontIcon Glyph="&#xE838;" />
-                    <TextBlock Text="{x:Bind lang:Lang.SettingPage_OpenDataFolder}" />
-                </StackPanel>
-            </Button>
+                    HorizontalAlignment="Left"
+                    Background="{ThemeResource CustomAcrylicBrush}"
+                    CornerRadius="8,20,20,8"
+                    Visibility="{x:Bind LastDatabaseBackupTime, Converter={StaticResource ObjectToVisibilityConverter}}">
+                <Button Height="40"
+                        Padding="16,0,16,1"
+                        BorderThickness="0"
+                        Command="{x:Bind OpenDataFolderCommand}"
+                        CornerRadius="0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind s:AppConfig.UserDataFolder}" />
+                        <FontIcon Margin="8,2,2,0"
+                                  FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE8A7;" />
+                    </StackPanel>
+                </Button>
+            </Border>
             <!--  reselect folder  -->
             <Button Height="40"
                     Margin="0,8,0,0"
                     Padding="16,0,16,0"
                     BorderThickness="0"
                     Command="{x:Bind ChangeDataFolderCommand}"
-                    CornerRadius="4,20,20,4"
+                    CornerRadius="8,20,20,8"
                     Style="{ThemeResource AccentButtonStyle}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon Glyph="&#xE8DE;" />
@@ -57,7 +64,7 @@
                         Padding="16,0,16,0"
                         BorderThickness="0"
                         Command="{x:Bind BackupDatabaseCommand}"
-                        CornerRadius="4,20,20,4"
+                        CornerRadius="8,20,20,8"
                         Style="{ThemeResource AccentButtonStyle}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <FontIcon Glyph="&#xF156;" />
@@ -99,7 +106,7 @@
                     Padding="16,0,16,0"
                     BorderThickness="0"
                     Command="{x:Bind DeleteAllSettingCommand}"
-                    CornerRadius="4,20,20,4"
+                    CornerRadius="8,20,20,8"
                     Style="{ThemeResource AccentButtonStyle}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon Glyph="&#xE74D;" />
@@ -119,7 +126,7 @@
                     Padding="16,0,16,0"
                     BorderThickness="0"
                     Command="{x:Bind OpenLogFileCommand}"
-                    CornerRadius="4,20,20,4"
+                    CornerRadius="8,20,20,8"
                     Style="{ThemeResource AccentButtonStyle}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon Glyph="&#xE8E5;" />
@@ -132,7 +139,7 @@
                     Padding="16,0,16,0"
                     BorderThickness="0"
                     Command="{x:Bind OpenLogFolderCommand}"
-                    CornerRadius="4,20,20,4"
+                    CornerRadius="8,20,20,8"
                     Style="{ThemeResource AccentButtonStyle}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon Glyph="&#xE838;" />
