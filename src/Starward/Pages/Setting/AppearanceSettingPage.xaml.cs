@@ -143,6 +143,7 @@ public sealed partial class AppearanceSettingPage : PageBase
                 };
                 AppConfig.WindowSizeMode = index;
                 MainWindow.Current.ChangeWindowSize();
+                WeakReferenceMessenger.Default.Send(new WindowSizeModeChangedMessage(index));
             }
         }
         catch { }

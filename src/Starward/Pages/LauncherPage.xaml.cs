@@ -71,11 +71,7 @@ public sealed partial class LauncherPage : PageBase
             Lang.GameSettingPage_StartArgumentDesc,
             ("{Unity Standalone Player Command Line Arguments}", "https://docs.unity3d.com/Manual/PlayerCommandLineArguments.html"));
 
-        if (AppConfig.WindowSizeMode > 0)
-        {
-            Grid_BannerAndPost.Width = 364;
-            RowDefinition_BannerAndPost.Height = new GridLength(168);
-        }
+        InitializeBannerSize();
 
         _timer = DispatcherQueue.CreateTimer();
         _timer.Interval = TimeSpan.FromSeconds(5);
@@ -88,6 +84,7 @@ public sealed partial class LauncherPage : PageBase
             _ = GetGameNoticesAlertAsync();
         });
         WeakReferenceMessenger.Default.Register<GameNoticeRedHotDisabledChanged>(this, (_, _) => _ = GetGameNoticesAlertAsync());
+        WeakReferenceMessenger.Default.Register<WindowSizeModeChangedMessage>(this, (_, _) => InitializeBannerSize());
     }
 
 
@@ -154,6 +151,20 @@ public sealed partial class LauncherPage : PageBase
     }
 
 
+
+    private void InitializeBannerSize()
+    {
+        if (AppConfig.WindowSizeMode == 0)
+        {
+            Grid_BannerAndPost.Width = 432;
+            RowDefinition_BannerAndPost.Height = new GridLength(200);
+        }
+        else
+        {
+            Grid_BannerAndPost.Width = 364;
+            RowDefinition_BannerAndPost.Height = new GridLength(168);
+        }
+    }
 
 
 
