@@ -1180,9 +1180,6 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
     <value>Thư mục dữ liệu</value>
   </data>
-  <data name="FileSettingPage_Location" xml:space="preserve">
-    <value>Vị trí:</value>
-  </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
     <value>Mở tệp nhật kí</value>
   </data>
@@ -1222,5 +1219,8 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
     <value>You could change the option again in setting page.</value>
+  </data>
+  <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
+    <value>Your personal data is stored in the folder below. It is very important, please do not delete it casually.</value>
   </data>
 </root>
