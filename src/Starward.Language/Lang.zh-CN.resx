@@ -1244,4 +1244,10 @@
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
     <value>禁用游戏通知的红点提醒</value>
   </data>
+  <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
+    <value>网络测试</value>
+  </data>
+  <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
+    <value>您是否能接收到 Starward 的更新？</value>
+  </data>
 </root>
