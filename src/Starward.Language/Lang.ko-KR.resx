@@ -1244,4 +1244,10 @@
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
     <value>Disable red dot reminder for game notices</value>
   </data>
+  <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
+    <value>Network Test</value>
+  </data>
+  <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
+    <value>Are you able to receive updates for Starward?</value>
+  </data>
 </root>
