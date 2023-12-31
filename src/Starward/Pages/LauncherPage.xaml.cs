@@ -380,7 +380,7 @@ public sealed partial class LauncherPage : PageBase
 
     private void UpdateStartGameButtonStyle()
     {
-        if (MainPage.Current.IsPlayingVideo)
+        if (AppConfig.IsPlayingVideo)
         {
             Button_StartGame.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
             AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;

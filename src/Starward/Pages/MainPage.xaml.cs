@@ -47,7 +47,7 @@ namespace Starward.Pages;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class MainPage : Page
+public sealed partial class MainPage : PageBase
 {
 
     public static MainPage Current { get; private set; }
@@ -70,18 +70,18 @@ public sealed partial class MainPage : Page
         Current = this;
         this.InitializeComponent();
         compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-        InitializeSelectGameBiz();
+        InitializeGameBiz();
+        RegisterMessage();
         InitializeBackgroundImage();
-        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
-        WeakReferenceMessenger.Default.Register<NavigationViewCompactChangedMessage>(this, InitializeNavigationViewPaneDisplayMode);
+        InitializeNavigationViewPaneDisplayMode();
     }
 
 
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
         MainWindow.Current.KeyDown += MainPage_KeyDown;
-        InitializeNavigationViewPaneDisplayMode();
+        UpdateGameIcon();
         await UpdateBackgroundImageAsync(true);
 #if !CI
         await CheckUpdateAsync();
@@ -90,32 +90,7 @@ public sealed partial class MainPage : Page
 
 
 
-    private void InitializeNavigationViewPaneDisplayMode(object? sender = null, NavigationViewCompactChangedMessage? message = null)
-    {
-        try
-        {
-            if (AppConfig.EnableNavigationViewLeftCompact)
-            {
-                MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
-                Grid_FrameContent.CornerRadius = new CornerRadius(8, 0, 0, 0);
-            }
-            else
-            {
-                MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
-                Grid_FrameContent.CornerRadius = new CornerRadius();
-            }
-        }
-        catch { }
-    }
-
-
-    private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        UpdateDragRectangles();
-    }
-
-
-    private void Page_Unloaded(object sender, RoutedEventArgs e)
+    protected override void OnUnloaded()
     {
         Current = null!;
         mediaPlayer?.Dispose();
@@ -123,6 +98,21 @@ public sealed partial class MainPage : Page
         WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
+
+
+    private void RegisterMessage()
+    {
+        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
+        WeakReferenceMessenger.Default.Register<NavigationViewCompactChangedMessage>(this, InitializeNavigationViewPaneDisplayMode);
+    }
+
+
+
+
+    private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        UpdateDragRectangles();
+    }
 
 
 
@@ -154,15 +144,15 @@ public sealed partial class MainPage : Page
         if (message.Completed)
         {
             this.Bindings.Update();
-            UpdateNavigationViewItems();
-            NavigateTo(MainPage_Frame.SourcePageType, changeGameBiz: false);
+            UpdateNavigationViewItemsText();
+            NavigateTo(MainPage_Frame.SourcePageType);
         }
     }
 
 
 
 
-    #region Select Game
+    #region  GameBiz
 
 
 
@@ -171,12 +161,12 @@ public sealed partial class MainPage : Page
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CurrentGameServerText))]
-    private GameBiz currentGameBiz = (GameBiz)int.MaxValue;
+    private GameBiz currentGameBiz = AppConfig.GetLastRegionOfGame(GameBiz.None);
     partial void OnCurrentGameBizChanged(GameBiz oldValue, GameBiz newValue)
     {
         lastGameBiz = oldValue;
-        AppConfig.SelectGameBiz = newValue;
-        UpdateNavigationViewItems();
+        AppConfig.SetLastRegionOfGame(GameBiz.None, newValue);
+        AppConfig.SetLastRegionOfGame(newValue.ToGame(), newValue);
     }
 
 
@@ -194,12 +184,10 @@ public sealed partial class MainPage : Page
     };
 
 
-    private void InitializeSelectGameBiz()
+    private void InitializeGameBiz()
     {
-        CurrentGameBiz = AppConfig.SelectGameBiz;
-        AppConfig.SetLastRegionOfGame(CurrentGameBiz.ToGame(), CurrentGameBiz);
-        _logger.LogInformation("Select game region is {gamebiz}", CurrentGameBiz);
-        UpdateGameIcon();
+        _logger.LogInformation("Last game region is {gamebiz}", CurrentGameBiz);
+        UpdateNavigationViewItemsText();
         if (CurrentGameBiz.ToGame() == GameBiz.None)
         {
             MainPage_Frame.Content = new BlankPage();
@@ -211,24 +199,10 @@ public sealed partial class MainPage : Page
     }
 
 
-
-    [RelayCommand(AllowConcurrentExecutions = true)]
-    private async Task ChangeGameBizAsync(string bizStr)
-    {
-        if (Enum.TryParse<GameBiz>(bizStr, out var biz))
-        {
-            _logger.LogInformation("Change game region to {gamebiz}", biz);
-            CurrentGameBiz = biz;
-            AppConfig.SetLastRegionOfGame(biz.ToGame(), biz);
-            NavigateTo(MainPage_Frame.SourcePageType, changeGameBiz: true);
-            await UpdateBackgroundImageAsync();
-        }
-    }
-
-
     [RelayCommand]
-    private void ChangeGameBiz1(GameBiz biz)
+    private void ChangeGameBiz(GameBiz biz)
     {
+        _logger.LogInformation("Change game region to {gamebiz}", biz);
         if (biz.ToGame() is GameBiz.None)
         {
             GameBiz b = AppConfig.GetLastRegionOfGame(biz);
@@ -241,13 +215,10 @@ public sealed partial class MainPage : Page
                 biz = b;
             }
         }
-        else
-        {
-            AppConfig.SetLastRegionOfGame(biz.ToGame(), biz);
-        }
         CurrentGameBiz = biz;
         UpdateGameIcon();
-        NavigateTo(MainPage_Frame.SourcePageType, changeGameBiz: true);
+        UpdateNavigationViewItemsText();
+        NavigateTo(MainPage_Frame.SourcePageType);
         _ = UpdateBackgroundImageAsync();
     }
 
@@ -290,6 +261,7 @@ public sealed partial class MainPage : Page
 
 
 
+
     #region Background Image
 
 
@@ -318,9 +290,6 @@ public sealed partial class MainPage : Page
     private MediaPlayer? mediaPlayer;
 
 
-    public bool IsPlayingVideo { get; private set; }
-
-
 
     private void InitializeBackgroundImage()
     {
@@ -331,7 +300,7 @@ public sealed partial class MainPage : Page
             {
                 if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm")
                 {
-                    IsPlayingVideo = true;
+                    AppConfig.IsPlayingVideo = true;
                     BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
                     MainWindow.Current.ChangeAccentColor(null, null);
                 }
@@ -405,18 +374,20 @@ public sealed partial class MainPage : Page
             {
                 if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm")
                 {
-                    mediaPlayer = new MediaPlayer();
-                    mediaPlayer.IsLoopingEnabled = true;
-                    mediaPlayer.Volume = VideoBgVolume / 100d;
-                    mediaPlayer.IsVideoFrameServerEnabled = true;
-                    mediaPlayer.Source = MediaSource.CreateFromUri(new Uri(file));
+                    mediaPlayer = new MediaPlayer
+                    {
+                        IsLoopingEnabled = true,
+                        Volume = VideoBgVolume / 100d,
+                        IsVideoFrameServerEnabled = true,
+                        Source = MediaSource.CreateFromUri(new Uri(file))
+                    };
                     mediaPlayer.VideoFrameAvailable += MediaPlayer_VideoFrameAvailable;
                     mediaPlayer.Play();
-                    IsPlayingVideo = true;
+                    AppConfig.IsPlayingVideo = true;
                 }
                 else
                 {
-                    IsPlayingVideo = false;
+                    AppConfig.IsPlayingVideo = false;
                     using var fs = File.OpenRead(file);
                     var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
 
@@ -554,12 +525,31 @@ public sealed partial class MainPage : Page
 
 
 
+
     #region Navigate
 
 
 
+    private void InitializeNavigationViewPaneDisplayMode(object? sender = null, NavigationViewCompactChangedMessage? message = null)
+    {
+        try
+        {
+            if (AppConfig.EnableNavigationViewLeftCompact)
+            {
+                MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
+                Grid_FrameContent.CornerRadius = new CornerRadius(8, 0, 0, 0);
+            }
+            else
+            {
+                MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
+                Grid_FrameContent.CornerRadius = new CornerRadius();
+            }
+        }
+        catch { }
+    }
 
-    private void UpdateNavigationViewItems()
+
+    private void UpdateNavigationViewItemsText()
     {
         if (CurrentGameBiz.ToGame() is GameBiz.None)
         {
@@ -620,8 +610,7 @@ public sealed partial class MainPage : Page
         }
         else
         {
-            var item = args.InvokedItemContainer as NavigationViewItem;
-            if (item != null)
+            if (args.InvokedItemContainer is NavigationViewItem item)
             {
                 if (item.Tag is "Tips")
                 {
@@ -653,28 +642,26 @@ public sealed partial class MainPage : Page
     }
 
 
-
-    public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null, bool changeGameBiz = false)
+    public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null)
     {
         string? sourcePage = MainPage_Frame.CurrentSourcePageType?.Name, destPage = page?.Name;
-        if (page is null
-            || destPage is nameof(BlankPage)
+        bool gameBizChanged = lastGameBiz.ToGame() != GameBiz.None && lastGameBiz.ToGame() != CurrentGameBiz.ToGame();
+        if (destPage is null or nameof(BlankPage)
             || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is nameof(GachaLogPage) or nameof(HoyolabToolboxPage) or nameof(SelfQueryPage)))
         {
             page = typeof(LauncherPage);
             destPage = nameof(LauncherPage);
         }
-        else if (!changeGameBiz && (destPage is nameof(GameNoticesPage)
-            || (destPage is nameof(LauncherPage) && sourcePage is nameof(GameNoticesPage))))
+        else if (!gameBizChanged && (destPage is nameof(GameNoticesPage) || (sourcePage is nameof(GameNoticesPage) && destPage is nameof(LauncherPage))))
         {
             infoOverride = new SuppressNavigationTransitionInfo();
         }
-        if (page?.Name is nameof(LauncherPage))
+        if (destPage is nameof(LauncherPage))
         {
             MainPage_NavigationView.SelectedItem = MainPage_NavigationView.MenuItems.FirstOrDefault();
         }
-        _logger.LogInformation("Navigate to {page} with param {param}", page!.Name, param ?? CurrentGameBiz);
-        infoOverride ??= GetNavigationTransitionInfo(changeGameBiz);
+        _logger.LogInformation("Navigate to {page} with param {param}", destPage, param ?? CurrentGameBiz);
+        infoOverride ??= GetNavigationTransitionInfo(gameBizChanged);
         MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, infoOverride);
         if (destPage is nameof(LauncherPage))
         {
@@ -694,21 +681,27 @@ public sealed partial class MainPage : Page
     }
 
 
-
     private NavigationTransitionInfo GetNavigationTransitionInfo(bool changeGameBiz)
     {
-        GameBiz lastGame = lastGameBiz.ToGame(), currentGame = CurrentGameBiz.ToGame();
-        if (changeGameBiz && lastGame != GameBiz.None && lastGame != currentGame)
+        if (changeGameBiz)
         {
-            return (lastGameBiz.ToGame(), CurrentGameBiz.ToGame()) switch
+            GameBiz lastGame = lastGameBiz.ToGame(), currentGame = CurrentGameBiz.ToGame();
+            if (lastGame is GameBiz.Honkai3rd)
             {
-                (GameBiz.None, _) => new DrillInNavigationTransitionInfo(),
-                (_, GameBiz.Honkai3rd) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft },
-                (GameBiz.Honkai3rd, GameBiz.GenshinImpact) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight },
-                (GameBiz.StarRail, GameBiz.GenshinImpact) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft },
-                (_, GameBiz.StarRail) => new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight },
-                _ => new DrillInNavigationTransitionInfo(),
-            };
+                lastGame = 0;
+            }
+            if (currentGame is GameBiz.Honkai3rd)
+            {
+                currentGame = 0;
+            }
+            if (currentGame > lastGame)
+            {
+                return new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight };
+            }
+            else
+            {
+                return new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft };
+            }
         }
         else
         {
@@ -719,12 +712,8 @@ public sealed partial class MainPage : Page
 
 
 
-
-
-
-
-
     #endregion
+
 
 
 
@@ -753,8 +742,6 @@ public sealed partial class MainPage : Page
 
 
     #endregion
-
-
 
 
 

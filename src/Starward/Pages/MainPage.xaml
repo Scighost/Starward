@@ -1,17 +1,15 @@
-﻿<Page x:Class="Starward.Pages.MainPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:lang="using:Starward.Language"
-      xmlns:local="using:Starward.Pages"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:s="using:Starward"
-      xmlns:sct="using:Starward.Controls.TitleBarGameIcon"
-      x:DefaultBindMode="OneWay"
-      Loaded="Page_Loaded"
-      SizeChanged="Page_SizeChanged"
-      Unloaded="Page_Unloaded"
-      mc:Ignorable="d">
+﻿<local:PageBase x:Class="Starward.Pages.MainPage"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:lang="using:Starward.Language"
+                xmlns:local="using:Starward.Pages"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:s="using:Starward"
+                xmlns:sct="using:Starward.Controls.TitleBarGameIcon"
+                x:DefaultBindMode="OneWay"
+                SizeChanged="Page_SizeChanged"
+                mc:Ignorable="d">
 
 
     <Grid>
@@ -166,27 +164,24 @@
         <Grid Name="Grid_SelectGame"
               HorizontalAlignment="Center"
               SizeChanged="Grid_SelectGame_SizeChanged">
-
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
-
                 <sct:TitleBarGameIconBH3 x:Name="GameIcon_BH3"
                                          Width="36"
                                          Height="36"
                                          Margin="4,0,4,0"
-                                         Command="{x:Bind ChangeGameBiz1Command}" />
+                                         Command="{x:Bind ChangeGameBizCommand}" />
                 <sct:TitleBarGameIconYS x:Name="GameIcon_YS"
                                         Width="36"
                                         Height="36"
                                         Margin="4,0,4,0"
-                                        Command="{x:Bind ChangeGameBiz1Command}" />
+                                        Command="{x:Bind ChangeGameBizCommand}" />
                 <sct:TitleBarGameIconSR x:Name="GameIcon_SR"
                                         Width="36"
                                         Height="36"
                                         Margin="4,0,4,0"
-                                        Command="{x:Bind ChangeGameBiz1Command}" />
-
+                                        Command="{x:Bind ChangeGameBizCommand}" />
                 <Border Height="32"
                         Margin="4,0,4,0"
                         Background="{ThemeResource DateTimePickerFlyoutButtonBackgroundPointerOver}"
@@ -217,13 +212,10 @@
                         </Button.Flyout>
                     </Button>
                 </Border>
-
-
             </StackPanel>
-
         </Grid>
 
 
 
     </Grid>
-</Page>
+</local:PageBase>

@@ -317,13 +317,6 @@ internal static class AppConfig
     }
 
 
-    public static GameBiz SelectGameBiz
-    {
-        get => GetValue<GameBiz>();
-        set => SetValue(value);
-    }
-
-
     public static bool ShowNoviceGacha
     {
         get => GetValue<bool>();
@@ -650,6 +643,19 @@ internal static class AppConfig
         }
         catch { }
     }
+
+
+    #endregion
+
+
+
+
+    #region Temp Variable
+
+
+
+    public static bool IsPlayingVideo { get; set; }
+
 
 
     #endregion

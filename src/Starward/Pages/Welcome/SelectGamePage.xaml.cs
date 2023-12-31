@@ -107,7 +107,7 @@ public sealed partial class SelectGamePage : PageBase
         try
         {
             WelcomeWindow.Current.ApplySetting();
-            AppConfig.SelectGameBiz = SelectBiz;
+            AppConfig.SetLastRegionOfGame(GameBiz.None, SelectBiz);
             if (Grid_GameInfo.Opacity == 1)
             {
                 logoAction.Execute(this, null!);
