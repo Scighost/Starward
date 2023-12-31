@@ -74,6 +74,7 @@ public sealed partial class MainPage : Page
         InitializeSelectGameBiz();
         InitializeBackgroundImage();
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
+        WeakReferenceMessenger.Default.Register<NavigationViewCompactChangedMessage>(this, InitializeNavigationViewPaneDisplayMode);
     }
 
 
@@ -91,13 +92,22 @@ public sealed partial class MainPage : Page
 
 
 
-    private void InitializeNavigationViewPaneDisplayMode()
+    private void InitializeNavigationViewPaneDisplayMode(object? sender = null, NavigationViewCompactChangedMessage? message = null)
     {
-        if (AppConfig.EnableNavigationViewLeftCompact)
+        try
         {
-            MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
-            Grid_FrameContent.CornerRadius = new CornerRadius(8, 0, 0, 0);
+            if (AppConfig.EnableNavigationViewLeftCompact)
+            {
+                MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
+                Grid_FrameContent.CornerRadius = new CornerRadius(8, 0, 0, 0);
+            }
+            else
+            {
+                MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
+                Grid_FrameContent.CornerRadius = new CornerRadius();
+            }
         }
+        catch { }
     }
 
 

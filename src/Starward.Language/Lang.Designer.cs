@@ -70,6 +70,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Always display navigation sidebar icons 的本地化字符串。
+        /// </summary>
+        public static string AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons {
+            get {
+                return ResourceManager.GetString("AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Theme Color 的本地化字符串。
         /// </summary>
         public static string AppearanceSettingPage_ThemeColor {

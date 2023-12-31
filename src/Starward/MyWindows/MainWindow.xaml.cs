@@ -75,7 +75,7 @@ public sealed partial class MainWindow : WindowEx
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         AppWindow.TitleBar.IconShowOptions = IconShowOptions.ShowIconAndSystemMenu;
         AppWindow.Closing += AppWindow_Closing;
-        ChangeWindowSize();
+        ChangeWindowSize(center: true);
         AdaptTitleBarButtonColorToActuallTheme();
         SetDragRectangles(new RectInt32(0, 0, 100000, (int)(48 * UIScale)));
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo.ico"));
@@ -89,19 +89,33 @@ public sealed partial class MainWindow : WindowEx
 
 
 
-    public void ChangeWindowSize(int width = 0, int height = 0)
+    public void ChangeWindowSize(int width = 0, int height = 0, bool center = false)
     {
-        if (width * height == 0)
+        try
         {
-            (width, height) = (AppConfig.WindowSizeMode, AppConfig.EnableNavigationViewLeftCompact) switch
+            if (width * height == 0)
             {
-                (0, true) => (1280, 740),
-                (0, false) => (1280, 768),
-                (_, true) => (1092, 636),
-                (_, false) => (1064, 648),
-            };
+                (width, height) = (AppConfig.WindowSizeMode, AppConfig.EnableNavigationViewLeftCompact) switch
+                {
+                    (0, true) => (1280, 740),
+                    (0, false) => (1280, 768),
+                    (_, true) => (1092, 636),
+                    (_, false) => (1064, 648),
+                };
+            }
+            if (center)
+            {
+                CenterInScreen(width, height);
+            }
+            else
+            {
+                double scale = UIScale;
+                width = (int)(width * scale);
+                height = (int)(height * scale);
+                AppWindow.Resize(new SizeInt32(width, height));
+            }
         }
-        CenterInScreen(width, height);
+        catch { }
     }
 
 

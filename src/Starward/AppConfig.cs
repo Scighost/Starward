@@ -116,7 +116,6 @@ internal static class AppConfig
 
     public static bool EnableSystemAccentColor { get; set; }
 
-    public static bool EnableNavigationViewLeftCompact { get; set; } = true;
 
 
 
@@ -149,11 +148,11 @@ internal static class AppConfig
 
             windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
             language = Configuration.GetValue<string>(nameof(Language));
-            DisableNavigationShortcut = Configuration.GetValue<bool>(nameof(DisableNavigationShortcut));
-            DisableGameNoticeRedHot = Configuration.GetValue<bool>(nameof(DisableGameNoticeRedHot));
-            DisableGameAccountSwitcher = Configuration.GetValue<bool>(nameof(DisableGameAccountSwitcher));
-            EnableSystemAccentColor = Configuration.GetValue<bool>(nameof(EnableSystemAccentColor));
-            EnableNavigationViewLeftCompact = Configuration.GetValue<bool>(nameof(EnableNavigationViewLeftCompact), true);
+            //DisableNavigationShortcut = Configuration.GetValue<bool>(nameof(DisableNavigationShortcut));
+            //DisableGameNoticeRedHot = Configuration.GetValue<bool>(nameof(DisableGameNoticeRedHot));
+            //DisableGameAccountSwitcher = Configuration.GetValue<bool>(nameof(DisableGameAccountSwitcher));
+            //EnableSystemAccentColor = Configuration.GetValue<bool>(nameof(EnableSystemAccentColor));
+            //EnableNavigationViewLeftCompact = Configuration.GetValue<bool>(nameof(EnableNavigationViewLeftCompact), true);
             string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
             if (!string.IsNullOrWhiteSpace(dir))
             {
@@ -426,6 +425,14 @@ internal static class AppConfig
         get => GetValue<bool>();
         set => SetValue(value);
     }
+
+
+    public static bool EnableNavigationViewLeftCompact
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
 
 
     #endregion

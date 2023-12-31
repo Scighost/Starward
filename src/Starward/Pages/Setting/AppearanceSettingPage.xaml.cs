@@ -173,4 +173,22 @@ public sealed partial class AppearanceSettingPage : PageBase
 
 
 
+    #region NavigationView Compact
+
+
+    [ObservableProperty]
+    private bool enableNavigationViewLeftCompact = AppConfig.EnableNavigationViewLeftCompact;
+    partial void OnEnableNavigationViewLeftCompactChanged(bool value)
+    {
+        AppConfig.EnableNavigationViewLeftCompact = value;
+        MainWindow.Current.ChangeWindowSize();
+        WeakReferenceMessenger.Default.Send(new NavigationViewCompactChangedMessage(value));
+    }
+
+
+
+    #endregion
+
+
+
 }

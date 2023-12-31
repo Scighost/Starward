@@ -57,6 +57,10 @@
                     </StackPanel>
                 </RadioButton>
             </StackPanel>
+            <ToggleSwitch Margin="0,8,0,0"
+                          IsOn="{x:Bind EnableNavigationViewLeftCompact, Mode=TwoWay}"
+                          OffContent="{x:Bind lang:Lang.AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons}"
+                          OnContent="{x:Bind lang:Lang.AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons}" />
 
             <!--  theme color  -->
             <TextBlock Margin="0,20,0,0"

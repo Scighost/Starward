@@ -1231,4 +1231,7 @@
   <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
     <value>默认情况下，主题色通过背景图像确定。</value>
   </data>
+  <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
+    <value>始终显示导航侧栏图标</value>
+  </data>
 </root>
