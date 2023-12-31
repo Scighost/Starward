@@ -1250,4 +1250,7 @@
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
     <value>您是否能接收到 Starward 的更新？</value>
   </data>
+  <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
+    <value>请选择一个文件夹存储您的个人数据，它很重要！</value>
+  </data>
 </root>
