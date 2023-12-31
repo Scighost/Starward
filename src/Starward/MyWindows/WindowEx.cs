@@ -57,7 +57,7 @@ public abstract class WindowEx : Window
         return ComCtl32.DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
-   
+
 
 
     #endregion

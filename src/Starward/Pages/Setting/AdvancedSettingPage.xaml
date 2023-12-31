@@ -30,7 +30,7 @@
                     Padding="16,0,16,0"
                     BorderThickness="0"
                     Command="{x:Bind TestUrlProtocolCommand}"
-                    CornerRadius="4,20,20,4"
+                    CornerRadius="8,20,20,8"
                     Style="{ThemeResource AccentButtonStyle}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon Glyph="&#xE76E;" />

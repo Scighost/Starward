@@ -152,10 +152,10 @@ public sealed partial class MainPage : Page
 
     public void OnLanguageChanged(object? sender, LanguageChangedMessage message)
     {
-        this.Bindings.Update();
-        UpdateNavigationViewItems();
         if (message.Completed)
         {
+            this.Bindings.Update();
+            UpdateNavigationViewItems();
             NavigateTo(MainPage_Frame.SourcePageType, changeGameBiz: false);
         }
     }

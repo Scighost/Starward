@@ -52,7 +52,6 @@
                           TintOpacity="0.4" />
 
             <Thickness x:Key="NavigationViewBorderThickness">0</Thickness>
-            <StaticResource x:Key="ComboBoxDropDownBackground" ResourceKey="CustomAcrylicBrush" />
             <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="CustomAcrylicBrush" />
             <StaticResource x:Key="ContentDialogTopOverlay" ResourceKey="ControlFillColorTransparentBrush" />
 
@@ -63,10 +62,6 @@
             <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                 <Setter Property="Background" Value="{ThemeResource CustomAcrylicBrush}" />
             </Style>
-
-            <!--<Style BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}" TargetType="MenuFlyoutPresenter">
-                <Setter Property="Background" Value="{ThemeResource CustomAcrylicBrush}" />
-            </Style>-->
 
             <Style TargetType="FontIcon">
                 <Setter Property="FontFamily" Value="ms-appx:///Assets/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons" />

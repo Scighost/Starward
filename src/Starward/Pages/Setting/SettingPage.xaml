@@ -7,11 +7,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sp="using:Starward.Pages"
              x:DefaultBindMode="OneWay"
-             Background="{ThemeResource CustomAcrylicBrush}"
              mc:Ignorable="d">
 
 
-    <Grid>
+    <Grid Background="{ThemeResource CustomAcrylicBrush}">
 
 
         <NavigationView Margin="12,24,0,0"
