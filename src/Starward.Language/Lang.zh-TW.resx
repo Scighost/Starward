@@ -190,7 +190,7 @@
     <value>好的</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>自己選</value>
+    <value>選擇其他</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
     <value>不想選</value>

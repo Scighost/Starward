@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Core;
@@ -43,7 +42,6 @@ public sealed partial class SelectGamePage : PageBase
 
 
 
-
     private void InitializeSomeGame()
     {
         TextBlockHelper.Inlines(TextBlock_SomeGame.Inlines, Lang.SelectGamePage_SomeGame, ("{Starward}", null), ("{miHoYo/HoYoverse}", null));
@@ -56,14 +54,12 @@ public sealed partial class SelectGamePage : PageBase
 
 
 
-
-    private async void Page_Loading(FrameworkElement sender, object args)
+    protected override void OnLoaded()
     {
         try
         {
-            await Task.Delay(16);
             InitializeGameComboBox();
-            LoadGameInfo();
+            _ = LoadGameInfoAsync();
         }
         catch (HttpRequestException ex)
         {
@@ -77,14 +73,14 @@ public sealed partial class SelectGamePage : PageBase
 
 
 
-    private void LoadGameInfo()
+    private async Task LoadGameInfoAsync()
     {
         try
         {
             var file = Path.Combine(AppContext.BaseDirectory, @"Assets\game_info.json");
             if (File.Exists(file))
             {
-                var str = File.ReadAllText(file);
+                var str = await File.ReadAllTextAsync(file);
                 games = JsonSerializer.Deserialize<List<GameInfo>>(str)!;
             }
         }

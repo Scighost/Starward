@@ -20,8 +20,8 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
 
@@ -45,19 +45,15 @@
             <TextBlock FontSize="24"
                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                        Text="{x:Bind lang:Lang.SelectDirectoryPage_NiceToMeetYou}" />
-            <!--  这似乎是你第一次使用 Starward，在开始之前，请选择一个文件夹保存应用数据。  -->
-            <TextBlock Name="TextBlock_FirstUse"
-                       FontSize="20"
+            <!--  请选择一个文件夹存储您的个人数据，它很重要！  -->
+            <TextBlock FontSize="20"
+                       Text="{x:Bind lang:Lang.SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData}"
                        TextWrapping="Wrap" />
-            <TextBlock Margin="0,-20,0,0"
-                       FontSize="20"
-                       Text="{x:Bind lang:Lang.SelectDirectoryPage_ToStart}"
-                       TextWrapping="Wrap" />
-            <Button Height="36"
+            <Button Height="40"
                     Margin="0,20,0,0"
                     BorderThickness="0"
                     Command="{x:Bind SelectDirectoryCommand}"
-                    CornerRadius="18"
+                    CornerRadius="8,20,20,8"
                     Style="{ThemeResource AccentButtonStyle}">
                 <StackPanel Margin="8,0,8,0"
                             Orientation="Horizontal"

@@ -9,7 +9,6 @@
              xmlns:sc="using:Starward.Controls"
              xmlns:sp="using:Starward.Pages"
              x:DefaultBindMode="OneWay"
-             Loading="Page_Loading"
              mc:Ignorable="d">
 
     <Page.Resources>
@@ -95,7 +94,7 @@
 
         <!--  select game  -->
         <StackPanel Name="StackPanel_SelectGame"
-                    Margin="48,48,48,96"
+                    Margin="48,48,0,96"
                     VerticalAlignment="Center"
                     Spacing="20">
             <StackPanel.OpacityTransition>

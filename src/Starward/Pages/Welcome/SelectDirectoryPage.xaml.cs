@@ -32,15 +32,9 @@ public sealed partial class SelectDirectoryPage : PageBase
     public SelectDirectoryPage()
     {
         this.InitializeComponent();
-        InitializeFirstUse();
     }
 
 
-
-    private void InitializeFirstUse()
-    {
-        TextBlockHelper.Inlines(TextBlock_FirstUse.Inlines, Lang.SelectDirectoryPage_FirstUse, ("{Starward}", null));
-    }
 
 
 
@@ -81,7 +75,7 @@ public sealed partial class SelectDirectoryPage : PageBase
                 DefaultButton = ContentDialogButton.Primary,
                 // 好的
                 PrimaryButtonText = Lang.SelectDirectoryPage_OK,
-                // 自己选
+                // 选择其他
                 SecondaryButtonText = Lang.SelectDirectoryPage_ChooseAnother,
                 // 取消
                 CloseButtonText = Lang.Common_Cancel,

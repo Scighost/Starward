@@ -190,7 +190,7 @@
     <value>好的</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>自己选</value>
+    <value>选择其他</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
     <value>不想选</value>
@@ -1248,5 +1248,8 @@
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
     <value>网络测试</value>
+  </data>
+  <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
+    <value>请选择一个文件夹存储您的个人数据，它很重要！</value>
   </data>
 </root>
