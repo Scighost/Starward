@@ -1201,7 +1201,7 @@
     <value>この日</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
-    <value>Close Window Option</value>
+    <value>ウィンドウオプションを閉じる</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
     <value>Minimize to system tray</value>
@@ -1213,7 +1213,7 @@
     <value>Close window but keep system tray</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
-    <value>Experience</value>
+    <value>エクスペリエンス</value>
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
@@ -1223,7 +1223,7 @@
     <value>Your personal data is stored in the folder below. It is very important, please do not delete it casually.</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
-    <value>Theme Color</value>
+    <value>テーマカラー</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
     <value>By default, the theme color is determined through the background image.</value>
@@ -1244,7 +1244,7 @@
     <value>Disable red dot reminder for game notices</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
-    <value>Network Test</value>
+    <value>ネットワークテスト</value>
   </data>
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
     <value>Are you able to receive updates for Starward?</value>
