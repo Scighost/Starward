@@ -1244,4 +1244,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
     <value>Tắt thông báo chấm đỏ cho thông báo trò chơi</value>
   </data>
+  <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
+    <value>Network Test</value>
+  </data>
+  <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
+    <value>Are you able to receive updates for Starward?</value>
+  </data>
 </root>
