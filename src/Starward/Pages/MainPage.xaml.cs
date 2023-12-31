@@ -492,7 +492,7 @@ public sealed partial class MainPage : Page
                     }
                     BackgroundImage = new BitmapImage(new Uri(file));
                     Color? back = null, fore = null;
-                    if (!AppConfig.EnableSystemAccentColor)
+                    if (!AppConfig.UseSystemThemeColor)
                     {
                         var hex = AppConfig.AccentColor;
                         if (!string.IsNullOrWhiteSpace(hex))
@@ -604,7 +604,7 @@ public sealed partial class MainPage : Page
                         return;
                     }
                     Color? back = null, fore = null;
-                    if (!AppConfig.EnableSystemAccentColor)
+                    if (!AppConfig.UseSystemThemeColor)
                     {
                         (back, fore) = AccentColorHelper.GetAccentColor(bitmap.PixelBuffer, decodeWidth, decodeHeight);
                     }

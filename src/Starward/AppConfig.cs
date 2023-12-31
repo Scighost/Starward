@@ -421,6 +421,13 @@ internal static class AppConfig
     }
 
 
+    public static bool UseSystemThemeColor
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
     #endregion
 
 

@@ -154,4 +154,23 @@ public sealed partial class AppearanceSettingPage : PageBase
 
 
 
+
+    #region Theme Color
+
+
+
+    [ObservableProperty]
+    private bool useSystemThemeColor = AppConfig.UseSystemThemeColor;
+    partial void OnUseSystemThemeColorChanged(bool value)
+    {
+        AppConfig.UseSystemThemeColor = value;
+        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
+    }
+
+
+
+    #endregion
+
+
+
 }

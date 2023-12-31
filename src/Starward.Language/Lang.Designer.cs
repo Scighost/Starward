@@ -70,6 +70,33 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Theme Color 的本地化字符串。
+        /// </summary>
+        public static string AppearanceSettingPage_ThemeColor {
+            get {
+                return ResourceManager.GetString("AppearanceSettingPage_ThemeColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 By default, the theme color is determined through the background image. 的本地化字符串。
+        /// </summary>
+        public static string AppearanceSettingPage_ThemeColorDescription {
+            get {
+                return ResourceManager.GetString("AppearanceSettingPage_ThemeColorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Use System Theme Color 的本地化字符串。
+        /// </summary>
+        public static string AppearanceSettingPage_UseSystemThemeColor {
+            get {
+                return ResourceManager.GetString("AppearanceSettingPage_UseSystemThemeColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 You could change the option again in setting page. 的本地化字符串。
         /// </summary>
         public static string CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage {
