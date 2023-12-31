@@ -2315,6 +2315,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Are you able to receive updates for Starward? 的本地化字符串。
+        /// </summary>
+        public static string SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward {
+            get {
+                return ResourceManager.GetString("SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Network Test 的本地化字符串。
+        /// </summary>
+        public static string SelectLanguagePage_NetworkTest {
+            get {
+                return ResourceManager.GetString("SelectLanguagePage_NetworkTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Account Records 的本地化字符串。
         /// </summary>
         public static string SelfQueryPage_AccountRecords {

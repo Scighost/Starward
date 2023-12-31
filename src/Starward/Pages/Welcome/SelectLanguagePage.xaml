@@ -34,18 +34,11 @@
                Stretch="Uniform" />
 
 
-        <Grid Name="Grid_OverMask"
-              Grid.ColumnSpan="2"
-              Background="{ThemeResource CustomOverlayAcrylicBrush}"
-              IsHitTestVisible="False"
-              Loaded="Grid_OverMask_Loaded" />
-
-
 
         <Grid Name="Grid_Setting"
               Grid.Column="1"
               Margin="0,48,48,96"
-              Padding="24,12,24,12"
+              Padding="24"
               HorizontalAlignment="Left"
               VerticalAlignment="Center"
               x:Load="{x:Bind SettingGridLoad}"
@@ -59,6 +52,7 @@
                 </TransitionCollection>
             </Grid.Transitions>
             <StackPanel Spacing="8">
+                <!--  language  -->
                 <TextBlock FontSize="20"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
@@ -66,15 +60,13 @@
                 <ComboBox Name="ComboBox_Language"
                           MinWidth="300"
                           SelectionChanged="ComboBox_Language_SelectionChanged" />
-
+                <!--  window size  -->
                 <TextBlock Margin="0,8,0,0"
                            FontSize="20"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                            Text="{x:Bind lang:Lang.SettingPage_WindowsSize}" />
-                <StackPanel Margin="0,-4,0,0"
-                            Orientation="Horizontal"
-                            Spacing="16">
+                <StackPanel Orientation="Horizontal" Spacing="16">
                     <RadioButton Name="RadioButton_WindowSize_Normal"
                                  Click="RadioButton_WindowSize_Click"
                                  GroupName="WindowSize"
@@ -94,97 +86,48 @@
                         </StackPanel>
                     </RadioButton>
                 </StackPanel>
-
+                <!--  speed test  -->
+                <TextBlock Margin="0,4,0,0"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                           Text="{x:Bind lang:Lang.SelectLanguagePage_NetworkTest}" />
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind lang:Lang.SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward}"
+                           TextWrapping="Wrap" />
                 <StackPanel Margin="0,8,0,0"
                             Orientation="Horizontal"
                             Spacing="8">
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="20"
-                               FontWeight="SemiBold"
-                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                               Text="CDN" />
-                    <Button Width="24"
-                            Height="24"
-                            Padding="0"
-                            VerticalAlignment="Bottom"
-                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                        <FontIcon FontSize="14"
-                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                  Glyph="&#xE9CE;" />
-                        <Button.Flyout>
-                            <Flyout>
-                                <TextBlock MaxWidth="360"
-                                           Text="{x:Bind lang:Lang.SettingPage_CDNTips}"
-                                           TextWrapping="Wrap" />
-                            </Flyout>
-                        </Button.Flyout>
+                    <Button Height="36"
+                            HorizontalAlignment="Left"
+                            BorderThickness="0"
+                            Command="{x:Bind TestSpeedCommand}"
+                            CornerRadius="8,18,18,8"
+                            Style="{ThemeResource AccentButtonStyle}">
+                        <StackPanel Margin="6,0,6,0"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
+                            <Grid>
+                                <FontIcon FontSize="20"
+                                          Glyph="&#xE768;"
+                                          Visibility="{x:Bind TestSpeedCommand.IsRunning, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                                <ProgressRing Width="20"
+                                              Height="20"
+                                              Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                              IsActive="{x:Bind TestSpeedCommand.IsRunning}" />
+                            </Grid>
+                            <TextBlock Text="Go" />
+                        </StackPanel>
                     </Button>
+                    <TextBlock Name="TextBlock_Delay"
+                               Margin="16,0,0,0"
+                               VerticalAlignment="Center"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                    <TextBlock Name="TextBlock_Speed"
+                               Margin="16,0,0,0"
+                               VerticalAlignment="Center"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                 </StackPanel>
-
-                <RadioButtons Margin="0,-4,0,0">
-                    <RadioButton Name="RadioButton_CF"
-                                 Click="RadioButton_CDN_Click"
-                                 Tag="cf">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock MinWidth="80" Text="CloudFlare" />
-                            <ProgressRing Name="ProgressRing_TestCND_CF"
-                                          Width="20"
-                                          Height="20"
-                                          Margin="16,0,0,0"
-                                          Visibility="Collapsed" />
-                            <TextBlock Name="TextBlock_TestCND_CF"
-                                       Margin="16,0,0,0"
-                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                    </RadioButton>
-                    <RadioButton Name="RadioButton_GH"
-                                 Margin="0,-4,0,0"
-                                 Click="RadioButton_CDN_Click"
-                                 Tag="gh">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock MinWidth="80" Text="GitHub" />
-                            <ProgressRing Name="ProgressRing_TestCND_GH"
-                                          Width="20"
-                                          Height="20"
-                                          Margin="16,0,0,0"
-                                          Visibility="Collapsed" />
-                            <TextBlock Name="TextBlock_TestCDN_GH"
-                                       Margin="16,0,0,0"
-                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                    </RadioButton>
-                    <RadioButton Name="RadioButton_JD"
-                                 Margin="0,-8,0,0"
-                                 Click="RadioButton_CDN_Click"
-                                 Tag="jd">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock MinWidth="80" Text="jsDelivr" />
-                            <ProgressRing Name="ProgressRing_TestCND_JD"
-                                          Width="20"
-                                          Height="20"
-                                          Margin="16,0,0,0"
-                                          Visibility="Collapsed" />
-                            <TextBlock Name="TextBlock_TestCDN_JD"
-                                       Margin="16,0,0,0"
-                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                    </RadioButton>
-                </RadioButtons>
-                <Button Height="32"
-                        HorizontalAlignment="Left"
-                        BorderThickness="0"
-                        Command="{x:Bind TestCDNCommand}"
-                        Style="{ThemeResource AccentButtonStyle}">
-                    <StackPanel Margin="12,0,12,0"
-                                Orientation="Horizontal"
-                                Spacing="8">
-                        <FontIcon Glyph="&#xF6FA;" />
-                        <TextBlock Text="Test" />
-                    </StackPanel>
-                </Button>
 
 
             </StackPanel>

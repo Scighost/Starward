@@ -77,8 +77,6 @@ public sealed partial class WelcomeWindow : WindowEx
 
     public int WindowSizeMode { get; set; }
 
-    public int ApiCDNIndex { get; set; }
-
     public string UserDataFolder { get; set; }
 
 
@@ -103,7 +101,6 @@ public sealed partial class WelcomeWindow : WindowEx
     {
         TextLanguage = null!;
         WindowSizeMode = 0;
-        ApiCDNIndex = 0;
         UserDataFolder = null!;
     }
 
@@ -115,7 +112,6 @@ public sealed partial class WelcomeWindow : WindowEx
         AppConfig.UserDataFolder = UserDataFolder;
         AppConfig.Language = TextLanguage;
         AppConfig.WindowSizeMode = WindowSizeMode;
-        AppConfig.ApiCDNIndex = ApiCDNIndex;
     }
 
 

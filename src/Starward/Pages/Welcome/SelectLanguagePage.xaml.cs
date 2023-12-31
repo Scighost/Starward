@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Starward.Core.Metadata;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -31,8 +30,6 @@ public sealed partial class SelectLanguagePage : PageBase
 
     private readonly HttpClient _httpClient = AppConfig.GetService<HttpClient>();
 
-    private readonly MetadataClient _metadataClient = AppConfig.GetService<MetadataClient>();
-
 
     public SelectLanguagePage()
     {
@@ -46,31 +43,26 @@ public sealed partial class SelectLanguagePage : PageBase
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        await Task.Delay(480);
+        await Task.Delay(600);
         SettingGridLoad = true;
         InitializeLanguageComboBox();
-        WelcomeWindow.Current.ApiCDNIndex = AppConfig.ApiCDNIndex;
-        switch (AppConfig.ApiCDNIndex)
-        {
-            case 1: RadioButton_GH.IsChecked = true; break;
-            case 2: RadioButton_JD.IsChecked = true; break;
-            default: RadioButton_CF.IsChecked = true; break;
-        }
-        WelcomeWindow.Current.WindowSizeMode = AppConfig.WindowSizeMode;
-        switch (AppConfig.WindowSizeMode)
-        {
-            case 1: RadioButton_WindowSize_Small.IsChecked = true; break;
-            default: RadioButton_WindowSize_Normal.IsChecked = true; break;
-        }
-        TestCDNCommand.Execute(null);
+        IntializeWindowSize();
+        TestSpeedCommand.Execute(null);
     }
 
 
 
-    private void Grid_OverMask_Loaded(object sender, RoutedEventArgs e)
+    [RelayCommand]
+    private void Next()
     {
-        Grid_OverMask.Visibility = Visibility.Collapsed;
+        WelcomeWindow.Current.NavigateTo(typeof(SelectDirectoryPage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
     }
+
+
+
+
+    #region Language
+
 
 
     private bool enableSelectionChanged = false;
@@ -102,134 +94,6 @@ public sealed partial class SelectLanguagePage : PageBase
             enableSelectionChanged = true;
         }
     }
-
-
-
-    [RelayCommand]
-    private void Next()
-    {
-        WelcomeWindow.Current.NavigateTo(typeof(SelectDirectoryPage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
-    }
-
-
-
-    private void RadioButton_WindowSize_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            if (sender is FrameworkElement fe)
-            {
-                switch (fe.Tag)
-                {
-                    case "small":
-                        WelcomeWindow.Current.ChangeWindowSize(1);
-                        break;
-                    default:
-                        WelcomeWindow.Current.ChangeWindowSize(0);
-                        break;
-                }
-            }
-        }
-        catch { }
-    }
-
-
-
-    [RelayCommand]
-    private async Task TestCDNAsync()
-    {
-        try
-        {
-            const string url_cf = "https://starward.scighost.com/metadata/test/test_10kb";
-            const string url_gh = "https://raw.githubusercontent.com/Scighost/Starward/metadata/test/test_10kb";
-            const string url_jd = "https://cdn.jsdelivr.net/gh/Scighost/Starward@metadata/test/test_10kb";
-
-            TextBlock_TestCND_CF.Text = "";
-            TextBlock_TestCDN_GH.Text = "";
-            TextBlock_TestCDN_JD.Text = "";
-
-            ProgressRing_TestCND_CF.Visibility = Visibility.Visible;
-            ProgressRing_TestCND_GH.Visibility = Visibility.Visible;
-            ProgressRing_TestCND_JD.Visibility = Visibility.Visible;
-
-            var sw = Stopwatch.StartNew();
-
-            var cfTask = async () =>
-            {
-                try
-                {
-                    await _httpClient.GetByteArrayAsync(url_cf);
-                    TextBlock_TestCND_CF.Text = $"{sw.ElapsedMilliseconds} ms";
-                }
-                catch (HttpRequestException)
-                {
-                    TextBlock_TestCND_CF.Text = Lang.Common_NetworkError;
-                }
-                finally
-                {
-                    ProgressRing_TestCND_CF.Visibility = Visibility.Collapsed;
-                }
-            };
-
-            var ghTask = async () =>
-            {
-                try
-                {
-                    await _httpClient.GetByteArrayAsync(url_gh);
-                    TextBlock_TestCDN_GH.Text = $"{sw.ElapsedMilliseconds} ms";
-                }
-                catch (HttpRequestException)
-                {
-                    TextBlock_TestCDN_GH.Text = Lang.Common_NetworkError;
-                }
-                finally
-                {
-                    ProgressRing_TestCND_GH.Visibility = Visibility.Collapsed;
-                }
-            };
-
-            var jdTask = async () =>
-            {
-                try
-                {
-                    await _httpClient.GetByteArrayAsync(url_jd);
-                    TextBlock_TestCDN_JD.Text = $"{sw.ElapsedMilliseconds} ms";
-                }
-                catch (HttpRequestException)
-                {
-                    TextBlock_TestCDN_JD.Text = Lang.Common_NetworkError;
-                }
-                finally
-                {
-                    ProgressRing_TestCND_JD.Visibility = Visibility.Collapsed;
-                }
-            };
-
-            await Task.WhenAll(cfTask(), ghTask(), jdTask());
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Test CDN");
-        }
-    }
-
-
-
-    private void RadioButton_CDN_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is FrameworkElement fe)
-        {
-            var index = fe.Tag switch
-            {
-                "gh" => 1,
-                "jd" => 2,
-                _ => 0,
-            };
-            _metadataClient.SetApiPrefix(index);
-            WelcomeWindow.Current.ApiCDNIndex = index;
-        }
-    }
-
 
 
     private void ComboBox_Language_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -264,6 +128,106 @@ public sealed partial class SelectLanguagePage : PageBase
             _logger.LogError(ex, "Change Language");
         }
     }
+
+
+
+    #endregion
+
+
+
+    #region Window Size
+
+
+
+    private void IntializeWindowSize()
+    {
+        try
+        {
+            WelcomeWindow.Current.WindowSizeMode = AppConfig.WindowSizeMode;
+            switch (AppConfig.WindowSizeMode)
+            {
+                case 1: RadioButton_WindowSize_Small.IsChecked = true; break;
+                default: RadioButton_WindowSize_Normal.IsChecked = true; break;
+            }
+        }
+        catch { }
+    }
+
+
+    private void RadioButton_WindowSize_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement fe)
+            {
+                switch (fe.Tag)
+                {
+                    case "small":
+                        WelcomeWindow.Current.ChangeWindowSize(1);
+                        break;
+                    default:
+                        WelcomeWindow.Current.ChangeWindowSize(0);
+                        break;
+                }
+            }
+        }
+        catch { }
+    }
+
+
+
+    #endregion
+
+
+
+    #region Speed Test
+
+
+
+
+    [RelayCommand]
+    private async Task TestSpeedAsync()
+    {
+        try
+        {
+            const string url = "https://starward.scighost.com/metadata/test/test_100kb";
+
+            TextBlock_Delay.Text = "";
+            TextBlock_Speed.Text = "";
+
+
+            var sw = Stopwatch.StartNew();
+            var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+            sw.Stop();
+            TextBlock_Delay.Text = $"{sw.ElapsedMilliseconds}ms";
+            sw.Start();
+            var bytes = await response.Content.ReadAsByteArrayAsync();
+            sw.Stop();
+            double speed = bytes.Length / 1024.0 / sw.Elapsed.TotalSeconds;
+            if (speed < 1024)
+            {
+                TextBlock_Speed.Text = $"{speed:0.00}KB/s";
+            }
+            else
+            {
+                TextBlock_Speed.Text = $"{speed / 1024:0.00}MB/s";
+            }
+        }
+        catch (Exception ex)
+        {
+            TextBlock_Delay.Text = Lang.Common_NetworkError;
+            TextBlock_Speed.Text = "";
+            _logger.LogError(ex, "Test Speed");
+        }
+    }
+
+
+
+
+    #endregion
+
+
+
 
 
 

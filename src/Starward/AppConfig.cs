@@ -240,7 +240,7 @@ internal static class AppConfig
             sc.AddSingleton<HoyolabClient>();
             sc.AddSingleton<LauncherClient>();
             sc.AddSingleton<SelfQueryClient>();
-            sc.AddSingleton(p => new MetadataClient(ApiCDNIndex, p.GetService<HttpClient>()));
+            sc.AddSingleton<MetadataClient>();
 
             sc.AddSingleton<DatabaseService>();
             sc.AddSingleton<GameService>();
@@ -287,13 +287,6 @@ internal static class AppConfig
 
     #region Static Setting
 
-
-
-    public static int ApiCDNIndex
-    {
-        get => GetValue<int>();
-        set => SetValue(value);
-    }
 
 
     public static bool EnablePreviewRelease
