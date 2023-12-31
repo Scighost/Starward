@@ -1180,9 +1180,6 @@ Do you accept the risk and continue to use it?</value>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
     <value>Data Folder</value>
   </data>
-  <data name="FileSettingPage_Location" xml:space="preserve">
-    <value>Location:</value>
-  </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
     <value>Open Log File</value>
   </data>
@@ -1222,5 +1219,8 @@ Do you accept the risk and continue to use it?</value>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
     <value>You could change the option again in setting page.</value>
+  </data>
+  <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
+    <value>Your personal data is stored in the folder below. It is very important, please do not delete it casually.</value>
   </data>
 </root>
