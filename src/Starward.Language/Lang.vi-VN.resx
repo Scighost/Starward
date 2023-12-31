@@ -1223,4 +1223,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
     <value>Your personal data is stored in the folder below. It is very important, please do not delete it casually.</value>
   </data>
+  <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
+    <value>Theme Color</value>
+  </data>
+  <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
+    <value>By default, the theme color is determined through the background image.</value>
+  </data>
+  <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
+    <value>Use System Theme Color</value>
+  </data>
 </root>
