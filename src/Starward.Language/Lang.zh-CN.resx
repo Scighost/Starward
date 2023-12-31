@@ -1223,4 +1223,13 @@
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
     <value>您的个人数据保存在下面的文件夹中，它很重要，请不要随意删除。</value>
   </data>
+  <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
+    <value>主题色</value>
+  </data>
+  <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
+    <value>默认情况下，主题色通过背景图像确定。</value>
+  </data>
+  <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
+    <value>使用系统主题色</value>
+  </data>
 </root>
