@@ -164,7 +164,6 @@ public sealed partial class MainPage : PageBase
     private GameBiz currentGameBiz = AppConfig.GetLastRegionOfGame(GameBiz.None);
     partial void OnCurrentGameBizChanged(GameBiz oldValue, GameBiz newValue)
     {
-        lastGameBiz = oldValue;
         AppConfig.SetLastRegionOfGame(GameBiz.None, newValue);
         AppConfig.SetLastRegionOfGame(newValue.ToGame(), newValue);
     }
@@ -215,6 +214,7 @@ public sealed partial class MainPage : PageBase
                 biz = b;
             }
         }
+        lastGameBiz = CurrentGameBiz;
         CurrentGameBiz = biz;
         UpdateGameIcon();
         UpdateNavigationViewItemsText();
