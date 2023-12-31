@@ -1245,12 +1245,12 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Tắt thông báo chấm đỏ cho thông báo trò chơi</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
-    <value>Network Test</value>
+    <value>Kiểm tra mạng</value>
   </data>
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
-    <value>Are you able to receive updates for Starward?</value>
+    <value>Bạn có thể nhận được cập nhật cho Starward không?</value>
   </data>
   <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
-    <value>Please select a folder to store your personal data, it is very important!</value>
+    <value>Hãy chọn một thư mục để lưu trữ dữ liệu cá nhân của bạn, nó rất quan trọng!</value>
   </data>
 </root>
