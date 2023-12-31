@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -14,6 +15,7 @@ using Starward.Controls;
 using Starward.Core;
 using Starward.Core.Launcher;
 using Starward.Helpers;
+using Starward.Messages;
 using Starward.Models;
 using Starward.Services;
 using System;
@@ -79,6 +81,13 @@ public sealed partial class LauncherPage : PageBase
         _timer.Interval = TimeSpan.FromSeconds(5);
         _timer.IsRepeating = true;
         _timer.Tick += _timer_Tick;
+
+        WeakReferenceMessenger.Default.Register<GameAccountSwitcherDisabledChanged>(this, (_, _) =>
+        {
+            GetGameAccount();
+            _ = GetGameNoticesAlertAsync();
+        });
+        WeakReferenceMessenger.Default.Register<GameNoticeRedHotDisabledChanged>(this, (_, _) => _ = GetGameNoticesAlertAsync());
     }
 
 
@@ -117,6 +126,7 @@ public sealed partial class LauncherPage : PageBase
     {
         _timer.Stop();
         GameProcess?.Dispose();
+        WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
 
@@ -278,6 +288,7 @@ public sealed partial class LauncherPage : PageBase
         {
             if (AppConfig.DisableGameNoticeRedHot || AppConfig.DisableGameAccountSwitcher)
             {
+                Image_GameNoticesAlert.Visibility = Visibility.Collapsed;
                 return;
             }
             long uid = 0;
@@ -287,6 +298,7 @@ public sealed partial class LauncherPage : PageBase
             }
             if (uid == 0)
             {
+                Image_GameNoticesAlert.Visibility = Visibility.Collapsed;
                 return;
             }
             if (await _launcherService.IsNoticesAlertAsync(gameBiz, uid))
@@ -877,7 +889,11 @@ public sealed partial class LauncherPage : PageBase
                 StackPanel_Account.Visibility = Visibility.Collapsed;
                 return;
             }
-            GameAccountList = _gameService.GetGameAccounts(gameBiz).ToList();
+            else
+            {
+                StackPanel_Account.Visibility = Visibility.Visible;
+            }
+            GameAccountList = _gameService.GetGameAccounts(gameBiz);
             SelectGameAccount = GameAccountList.FirstOrDefault(x => x.IsLogin);
             CanChangeGameAccount = false;
         }

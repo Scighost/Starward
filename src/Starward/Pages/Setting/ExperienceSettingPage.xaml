@@ -32,6 +32,21 @@
 
 
 
+            <!--  features  -->
+            <TextBlock Margin="0,20,0,0"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Text="{x:Bind lang:Lang.ExperienceSettingPage_Features}" />
+            <ToggleSwitch Margin="0,8,0,0"
+                          IsOn="{x:Bind DisableGameAccountSwitcher, Mode=TwoWay}"
+                          OffContent="{x:Bind lang:Lang.ExperienceSettingPage_HideGameAccountSwitcher}"
+                          OnContent="{x:Bind lang:Lang.ExperienceSettingPage_HideGameAccountSwitcher}" />
+            <ToggleSwitch IsEnabled="{x:Bind DisableGameAccountSwitcher, Converter={StaticResource BoolReversedConverter}}"
+                          IsOn="{x:Bind DisableGameNoticeRedHot, Mode=TwoWay}"
+                          OffContent="{x:Bind lang:Lang.ExperienceSettingPage_DisableRedDotReminderForGameNotices}"
+                          OnContent="{x:Bind lang:Lang.ExperienceSettingPage_DisableRedDotReminderForGameNotices}" />
+
+
         </StackPanel>
     </ScrollViewer>
 

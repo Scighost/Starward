@@ -108,15 +108,6 @@ internal static class AppConfig
     }
 
 
-    public static bool DisableNavigationShortcut { get; set; }
-
-    public static bool DisableGameNoticeRedHot { get; set; }
-
-    public static bool DisableGameAccountSwitcher { get; set; }
-
-    public static bool EnableSystemAccentColor { get; set; }
-
-
 
 
     private static void Initialize()
@@ -148,11 +139,6 @@ internal static class AppConfig
 
             windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
             language = Configuration.GetValue<string>(nameof(Language));
-            //DisableNavigationShortcut = Configuration.GetValue<bool>(nameof(DisableNavigationShortcut));
-            //DisableGameNoticeRedHot = Configuration.GetValue<bool>(nameof(DisableGameNoticeRedHot));
-            //DisableGameAccountSwitcher = Configuration.GetValue<bool>(nameof(DisableGameAccountSwitcher));
-            //EnableSystemAccentColor = Configuration.GetValue<bool>(nameof(EnableSystemAccentColor));
-            //EnableNavigationViewLeftCompact = Configuration.GetValue<bool>(nameof(EnableNavigationViewLeftCompact), true);
             string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
             if (!string.IsNullOrWhiteSpace(dir))
             {
@@ -201,11 +187,6 @@ internal static class AppConfig
                 {nameof(WindowSizeMode)}={WindowSizeMode}
                 {nameof(Language)}={Language}
                 {nameof(UserDataFolder)}={dataFolder}
-                {nameof(DisableNavigationShortcut)}={DisableNavigationShortcut}
-                {nameof(DisableGameNoticeRedHot)}={DisableGameNoticeRedHot}
-                {nameof(DisableGameAccountSwitcher)}={DisableGameAccountSwitcher}
-                {nameof(EnableSystemAccentColor)}={EnableSystemAccentColor}
-                {nameof(EnableNavigationViewLeftCompact)}={EnableNavigationViewLeftCompact}
                 """);
         }
         catch { }
@@ -428,6 +409,20 @@ internal static class AppConfig
 
 
     public static bool EnableNavigationViewLeftCompact
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
+    public static bool DisableGameAccountSwitcher
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
+    public static bool DisableGameNoticeRedHot
     {
         get => GetValue<bool>();
         set => SetValue(value);

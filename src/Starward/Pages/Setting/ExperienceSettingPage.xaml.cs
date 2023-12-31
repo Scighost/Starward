@@ -1,5 +1,8 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
+using Starward.Messages;
 using Starward.Models;
 using System;
 
@@ -11,6 +14,7 @@ namespace Starward.Pages.Setting;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
+[INotifyPropertyChanged]
 public sealed partial class ExperienceSettingPage : PageBase
 {
 
@@ -100,6 +104,33 @@ public sealed partial class ExperienceSettingPage : PageBase
     #endregion
 
 
+
+
+    #region Features
+
+
+
+    [ObservableProperty]
+    private bool disableGameAccountSwitcher = AppConfig.DisableGameAccountSwitcher;
+    partial void OnDisableGameAccountSwitcherChanged(bool value)
+    {
+        AppConfig.DisableGameAccountSwitcher = value;
+        WeakReferenceMessenger.Default.Send(new GameAccountSwitcherDisabledChanged(value));
+    }
+
+
+    [ObservableProperty]
+    private bool disableGameNoticeRedHot = AppConfig.DisableGameNoticeRedHot;
+    partial void OnDisableGameNoticeRedHotChanged(bool value)
+    {
+        AppConfig.DisableGameNoticeRedHot = value;
+        WeakReferenceMessenger.Default.Send(new GameNoticeRedHotDisabledChanged(value));
+    }
+
+
+
+
+    #endregion
 
 
 

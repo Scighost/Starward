@@ -737,11 +737,38 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Disable red dot reminder for game notices 的本地化字符串。
+        /// </summary>
+        public static string ExperienceSettingPage_DisableRedDotReminderForGameNotices {
+            get {
+                return ResourceManager.GetString("ExperienceSettingPage_DisableRedDotReminderForGameNotices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Exit completely 的本地化字符串。
         /// </summary>
         public static string ExperienceSettingPage_ExitCompletely {
             get {
                 return ResourceManager.GetString("ExperienceSettingPage_ExitCompletely", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Features 的本地化字符串。
+        /// </summary>
+        public static string ExperienceSettingPage_Features {
+            get {
+                return ResourceManager.GetString("ExperienceSettingPage_Features", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hide game account switcher 的本地化字符串。
+        /// </summary>
+        public static string ExperienceSettingPage_HideGameAccountSwitcher {
+            get {
+                return ResourceManager.GetString("ExperienceSettingPage_HideGameAccountSwitcher", resourceCulture);
             }
         }
         
