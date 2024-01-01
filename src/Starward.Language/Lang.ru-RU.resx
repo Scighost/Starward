@@ -1202,26 +1202,26 @@
     <value>В этот день</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
-    <value>Close Window Option</value>
+    <value>Опция закрытия окна</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
-    <value>Minimize to system tray</value>
+    <value>Сворачивать в системный трей</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
-    <value>Exit completely</value>
+    <value>Выйти полностью</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
     <value>Закрыть окно, но сохранить системный трей</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
-    <value>Experience</value>
+    <value>Опыт</value>
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
     <value>Вы можете изменить эту опцию снова на странице настройки.</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
-    <value>Your personal data is stored in the folder below. It is very important, please do not delete it casually.</value>
+    <value>Ваши личные данные хранятся в папке ниже. Это очень важно, пожалуйста, не удаляйте их случайно.</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
     <value>Цвет темы</value>
@@ -1242,15 +1242,15 @@
     <value>Скрыть переключатель игровых аккаунтов</value>
   </data>
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
-    <value>Disable red dot reminder for game notices</value>
+    <value>Отключить красной точке для новых игровых уведомлений</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
-    <value>Network Test</value>
+    <value>Тест сети</value>
   </data>
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
-    <value>Are you able to receive updates for Starward?</value>
+    <value>Можете ли вы получать обновления для Starward?</value>
   </data>
   <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
-    <value>Please select a folder to store your personal data, it is very important!</value>
+    <value>Пожалуйста, выберите папку для хранения ваших личных данных, это очень важно!</value>
   </data>
 </root>
