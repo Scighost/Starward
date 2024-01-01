@@ -1211,35 +1211,35 @@
     <value>Exit completely</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>Close window but keep system tray</value>
+    <value>Закрыть окно, но сохранить системный трей</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
     <value>Experience</value>
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
-    <value>You could change the option again in setting page.</value>
+    <value>Вы можете изменить эту опцию снова на странице настройки.</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
     <value>Your personal data is stored in the folder below. It is very important, please do not delete it casually.</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
-    <value>Theme Color</value>
+    <value>Цвет темы</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
-    <value>By default, the theme color is determined through the background image.</value>
+    <value>По умолчанию цвет темы определяется с помощью фонового изображения.</value>
   </data>
   <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
-    <value>Use System Theme Color</value>
+    <value>Использовать цвет темы системы</value>
   </data>
   <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
-    <value>Always display navigation sidebar icons</value>
+    <value>Всегда отображать значки боковой панели навигации</value>
   </data>
   <data name="ExperienceSettingPage_Features" xml:space="preserve">
-    <value>Features</value>
+    <value>Функции</value>
   </data>
   <data name="ExperienceSettingPage_HideGameAccountSwitcher" xml:space="preserve">
-    <value>Hide game account switcher</value>
+    <value>Скрыть переключатель игровых аккаунтов</value>
   </data>
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
     <value>Disable red dot reminder for game notices</value>
