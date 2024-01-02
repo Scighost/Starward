@@ -204,21 +204,30 @@ public sealed partial class MainPage : PageBase
         _logger.LogInformation("Change game region to {gamebiz}", biz);
         if (biz.ToGame() is GameBiz.None)
         {
-            GameBiz b = AppConfig.GetLastRegionOfGame(biz);
-            if (b.ToGame() is GameBiz.None)
+            if (CurrentGameBiz.ToGame() == biz)
             {
-                biz++;
+                // double click, navigate to launcher page
+                NavigateTo(typeof(LauncherPage));
+                return;
             }
             else
             {
-                biz = b;
+                GameBiz b = AppConfig.GetLastRegionOfGame(biz);
+                if (b.ToGame() is GameBiz.None)
+                {
+                    biz++;
+                }
+                else
+                {
+                    biz = b;
+                }
             }
         }
         lastGameBiz = CurrentGameBiz;
         CurrentGameBiz = biz;
         UpdateGameIcon();
         UpdateNavigationViewItemsText();
-        NavigateTo(MainPage_Frame.SourcePageType);
+        NavigateTo(MainPage_Frame.SourcePageType, gameBizChanged: true);
         _ = UpdateBackgroundImageAsync();
     }
 
@@ -642,10 +651,13 @@ public sealed partial class MainPage : PageBase
     }
 
 
-    public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null)
+    public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null, bool gameBizChanged = false)
     {
+        if (gameBizChanged)
+        {
+            gameBizChanged = lastGameBiz.ToGame() != GameBiz.None && lastGameBiz.ToGame() != CurrentGameBiz.ToGame();
+        }
         string? sourcePage = MainPage_Frame.CurrentSourcePageType?.Name, destPage = page?.Name;
-        bool gameBizChanged = lastGameBiz.ToGame() != GameBiz.None && lastGameBiz.ToGame() != CurrentGameBiz.ToGame();
         if (destPage is null or nameof(BlankPage)
             || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is nameof(GachaLogPage) or nameof(HoyolabToolboxPage) or nameof(SelfQueryPage)))
         {
