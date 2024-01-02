@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -190,7 +190,7 @@
     <value>好的</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>选择其他</value>
+    <value>自己选</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
     <value>不想选</value>
@@ -1174,62 +1174,63 @@
   <data name="Common_Open" xml:space="preserve">
     <value>打开</value>
   </data>
-  <data name="SettingPage_Advanced" xml:space="preserve">
-    <value>高级</value>
-  </data>
-  <data name="AboutSettingPage_Links" xml:space="preserve">
-    <value>相关链接</value>
-  </data>
-  <data name="SettingPage_Completed" xml:space="preserve">
-    <value>完成</value>
-  </data>
-  <data name="SettingPage_FileManagement" xml:space="preserve">
-    <value>文件管理</value>
-  </data>
-  <data name="SettingPage_Appearance" xml:space="preserve">
-    <value>外观</value>
-  </data>
-  <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>打开日志文件</value>
+  <data name="LauncherPage_StartupCount" xml:space="preserve">
+    <value>启动次数</value>
   </data>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
     <value>数据文件夹</value>
   </data>
-  <data name="LauncherPage_StartupCount" xml:space="preserve">
-    <value>启动次数</value>
+  <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
+    <value>打开日志文件</value>
+  </data>
+  <data name="SettingPage_Appearance" xml:space="preserve">
+    <value>外观</value>
+  </data>
+  <data name="SettingPage_FileManagement" xml:space="preserve">
+    <value>文件管理</value>
+  </data>
+  <data name="SettingPage_Completed" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="AboutSettingPage_Links" xml:space="preserve">
+    <value>相关链接</value>
+  </data>
+  <data name="SettingPage_Advanced" xml:space="preserve">
+    <value>高级</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
     <value>本日</value>
   </data>
-  <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
-    <value>您可以在设置页面再次更改此选项。</value>
-  </data>
-  <data name="SettingPage_Experience" xml:space="preserve">
-    <value>体验</value>
-  </data>
-  <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>关闭窗口但保留系统托盘</value>
-  </data>
-  <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
-    <value>完全退出</value>
+  <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
+    <value>关闭窗口选项</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
     <value>最小化到系统托盘</value>
   </data>
-  <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
-    <value>关闭窗口选项</value>
+  <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
+    <value>完全退出</value>
+  </data>
+  <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
+    <value>关闭窗口但保留系统托盘</value>
+  </data>
+  <data name="SettingPage_Experience" xml:space="preserve">
+    <value>体验</value>
+    <comment>means user experience</comment>
+  </data>
+  <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
+    <value>您可以在设置页面再次更改此选项。</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
     <value>您的个人数据保存在下面的文件夹中，它很重要，请不要随意删除。</value>
-  </data>
-  <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
-    <value>使用系统主题色</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
     <value>主题色</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
     <value>默认情况下，主题色通过背景图像确定。</value>
+  </data>
+  <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
+    <value>使用系统主题色</value>
   </data>
   <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
     <value>始终显示导航侧栏图标</value>
@@ -1243,11 +1244,11 @@
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
     <value>禁用游戏通知的红点提醒</value>
   </data>
-  <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
-    <value>您是否能接收到 Starward 的更新？</value>
-  </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
     <value>网络测试</value>
+  </data>
+  <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
+    <value>您是否能接收到 Starward 的更新？</value>
   </data>
   <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
     <value>请选择一个文件夹存储您的个人数据，它很重要！</value>

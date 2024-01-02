@@ -1157,21 +1157,100 @@
     <value>Проверить URL протокол</value>
   </data>
   <data name="LauncherPage_OpenInBrowser" xml:space="preserve">
-    <value>Open in Browser</value>
+    <value>Открыть в браузере</value>
   </data>
   <data name="ImageViewPage_ZoomOut" xml:space="preserve">
-    <value>Zoom out</value>
+    <value>Уменьшить</value>
   </data>
   <data name="ImageViewPage_ZoomIn" xml:space="preserve">
-    <value>Zoom in</value>
+    <value>Увеличить</value>
   </data>
   <data name="ImageViewPage_Rotate" xml:space="preserve">
-    <value>Rotate</value>
+    <value>Повернуть</value>
   </data>
   <data name="Common_Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Копировать</value>
   </data>
   <data name="Common_Open" xml:space="preserve">
-    <value>Open</value>
+    <value>Открыть</value>
+  </data>
+  <data name="LauncherPage_StartupCount" xml:space="preserve">
+    <value>Количество запусков</value>
+  </data>
+  <data name="FileSettingPage_DataFolder" xml:space="preserve">
+    <value>Папка с данными</value>
+  </data>
+  <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
+    <value>Открыть файл журнала</value>
+  </data>
+  <data name="SettingPage_Appearance" xml:space="preserve">
+    <value>Внешний вид</value>
+  </data>
+  <data name="SettingPage_FileManagement" xml:space="preserve">
+    <value>Управление файлами</value>
+  </data>
+  <data name="SettingPage_Completed" xml:space="preserve">
+    <value>Выполнено</value>
+  </data>
+  <data name="AboutSettingPage_Links" xml:space="preserve">
+    <value>Ссылки</value>
+  </data>
+  <data name="SettingPage_Advanced" xml:space="preserve">
+    <value>Дополнительно</value>
+  </data>
+  <data name="LauncherPage_ThisDay" xml:space="preserve">
+    <value>В этот день</value>
+  </data>
+  <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
+    <value>Опция закрытия окна</value>
+  </data>
+  <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
+    <value>Сворачивать в системный трей</value>
+  </data>
+  <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
+    <value>Выйти полностью</value>
+  </data>
+  <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
+    <value>Закрыть окно, но сохранить системный трей</value>
+  </data>
+  <data name="SettingPage_Experience" xml:space="preserve">
+    <value>Опыт</value>
+    <comment>means user experience</comment>
+  </data>
+  <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
+    <value>Вы можете изменить эту опцию снова на странице настройки.</value>
+  </data>
+  <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
+    <value>Ваши личные данные хранятся в папке ниже. Это очень важно, пожалуйста, не удаляйте их случайно.</value>
+  </data>
+  <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
+    <value>Цвет темы</value>
+  </data>
+  <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
+    <value>По умолчанию цвет темы определяется с помощью фонового изображения.</value>
+  </data>
+  <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
+    <value>Использовать цвет темы системы</value>
+  </data>
+  <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
+    <value>Всегда отображать значки боковой панели навигации</value>
+  </data>
+  <data name="ExperienceSettingPage_Features" xml:space="preserve">
+    <value>Функции</value>
+  </data>
+  <data name="ExperienceSettingPage_HideGameAccountSwitcher" xml:space="preserve">
+    <value>Скрыть переключатель игровых аккаунтов</value>
+  </data>
+  <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
+    <value>Отключить красной точке для новых игровых уведомлений</value>
+  </data>
+  <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
+    <value>Тест сети</value>
+  </data>
+  <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
+    <value>Можете ли вы получать обновления для Starward?</value>
+  </data>
+  <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
+    <value>Пожалуйста, выберите папку для хранения ваших личных данных, это очень важно!</value>
   </data>
 </root>

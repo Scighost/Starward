@@ -1156,21 +1156,100 @@
     <value>URLプロトコルをテスト</value>
   </data>
   <data name="LauncherPage_OpenInBrowser" xml:space="preserve">
-    <value>Open in Browser</value>
+    <value>ブラウザーで開く</value>
   </data>
   <data name="ImageViewPage_ZoomOut" xml:space="preserve">
-    <value>Zoom out</value>
+    <value>縮小</value>
   </data>
   <data name="ImageViewPage_ZoomIn" xml:space="preserve">
-    <value>Zoom in</value>
+    <value>拡大</value>
   </data>
   <data name="ImageViewPage_Rotate" xml:space="preserve">
-    <value>Rotate</value>
+    <value>回転</value>
   </data>
   <data name="Common_Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>コピー</value>
   </data>
   <data name="Common_Open" xml:space="preserve">
-    <value>Open</value>
+    <value>開く</value>
+  </data>
+  <data name="LauncherPage_StartupCount" xml:space="preserve">
+    <value>起動回数</value>
+  </data>
+  <data name="FileSettingPage_DataFolder" xml:space="preserve">
+    <value>データフォルダー</value>
+  </data>
+  <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
+    <value>ログファイルを開く</value>
+  </data>
+  <data name="SettingPage_Appearance" xml:space="preserve">
+    <value>外観</value>
+  </data>
+  <data name="SettingPage_FileManagement" xml:space="preserve">
+    <value>ファイルの管理</value>
+  </data>
+  <data name="SettingPage_Completed" xml:space="preserve">
+    <value>完了</value>
+  </data>
+  <data name="AboutSettingPage_Links" xml:space="preserve">
+    <value>リンク</value>
+  </data>
+  <data name="SettingPage_Advanced" xml:space="preserve">
+    <value>高度な設定</value>
+  </data>
+  <data name="LauncherPage_ThisDay" xml:space="preserve">
+    <value>この日</value>
+  </data>
+  <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
+    <value>ウィンドウオプションを閉じる</value>
+  </data>
+  <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
+    <value>システムトレイに最小化する</value>
+  </data>
+  <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
+    <value>終了をする</value>
+  </data>
+  <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
+    <value>ウィンドウを閉じてシステムトレイ上にアイコンを残す</value>
+  </data>
+  <data name="SettingPage_Experience" xml:space="preserve">
+    <value>エクスペリエンス</value>
+    <comment>means user experience</comment>
+  </data>
+  <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
+    <value>このオプションは設定ページから再び変更ができます。</value>
+  </data>
+  <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
+    <value>個人データは、以下のフォルダーに保存されています。非常に重要なファイルが格納されているため、安易に削除をしないでください。</value>
+  </data>
+  <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
+    <value>テーマカラー</value>
+  </data>
+  <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
+    <value>既定でのテーマカラーは、背景画像によって決定されます。</value>
+  </data>
+  <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
+    <value>システムテーマカラーを使用する</value>
+  </data>
+  <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
+    <value>ナビゲーションサイドバーアイコンを常に表示する</value>
+  </data>
+  <data name="ExperienceSettingPage_Features" xml:space="preserve">
+    <value>機能</value>
+  </data>
+  <data name="ExperienceSettingPage_HideGameAccountSwitcher" xml:space="preserve">
+    <value>ゲームアカウントの切り替えを非表示にする</value>
+  </data>
+  <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
+    <value>ゲームのお知らせの赤いドットのリマインダーを無効化する</value>
+  </data>
+  <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
+    <value>ネットワークテスト</value>
+  </data>
+  <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
+    <value>Starwardのアップデートを受け取りますか?</value>
+  </data>
+  <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
+    <value>個人データを保存するフォルダーを選択してください。これは非常に重要です!</value>
   </data>
 </root>
