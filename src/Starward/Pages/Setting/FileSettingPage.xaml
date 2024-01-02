@@ -22,41 +22,40 @@
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.FileSettingPage_DataFolderIsImportant}"
                        TextWrapping="Wrap" />
-            <Border Height="40"
-                    Margin="0,12,0,0"
-                    HorizontalAlignment="Left"
-                    Background="{ThemeResource CustomAcrylicBrush}"
-                    CornerRadius="8,20,20,8"
-                    Visibility="{x:Bind LastDatabaseBackupTime, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                <!--  reselect folder  -->
                 <Button Height="40"
-                        Padding="16,0,16,1"
+                        Padding="16,0,16,0"
                         BorderThickness="0"
-                        Command="{x:Bind OpenDataFolderCommand}"
-                        CornerRadius="0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center"
-                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="{x:Bind s:AppConfig.UserDataFolder}" />
-                        <FontIcon Margin="8,2,2,0"
-                                  FontSize="16"
-                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                  Glyph="&#xE8A7;" />
+                        Command="{x:Bind ChangeDataFolderCommand}"
+                        CornerRadius="8,20,20,8"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE8DE;" />
+                        <TextBlock Text="{x:Bind lang:Lang.SettingPage_ReselectDataFolder}" />
                     </StackPanel>
                 </Button>
-            </Border>
-            <!--  reselect folder  -->
-            <Button Height="40"
-                    Margin="0,8,0,0"
-                    Padding="16,0,16,0"
-                    BorderThickness="0"
-                    Command="{x:Bind ChangeDataFolderCommand}"
-                    CornerRadius="8,20,20,8"
-                    Style="{ThemeResource AccentButtonStyle}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <FontIcon Glyph="&#xE8DE;" />
-                    <TextBlock Text="{x:Bind lang:Lang.SettingPage_ReselectDataFolder}" />
-                </StackPanel>
-            </Button>
+                <Border Height="40"
+                        Margin="16,0,0,0"
+                        HorizontalAlignment="Left"
+                        Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                        CornerRadius="20">
+                    <Button Height="40"
+                            Padding="16,0,16,1"
+                            BorderThickness="0"
+                            Command="{x:Bind OpenDataFolderCommand}"
+                            CornerRadius="0"
+                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Glyph="&#xE838;" />
+                            <TextBlock VerticalAlignment="Center"
+                                       Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                       Text="{x:Bind s:AppConfig.UserDataFolder}" />
+                        </StackPanel>
+                    </Button>
+                </Border>
+            </StackPanel>
+
             <!--  backup database  -->
             <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
                 <Button Height="40"
@@ -79,14 +78,15 @@
                 <Border Height="40"
                         Margin="16,0,0,0"
                         HorizontalAlignment="Left"
-                        Background="{ThemeResource CustomAcrylicBrush}"
+                        Background="{ThemeResource CustomOverlayAcrylicBrush}"
                         CornerRadius="20"
                         Visibility="{x:Bind LastDatabaseBackupTime, Converter={StaticResource ObjectToVisibilityConverter}}">
                     <Button Height="40"
                             Padding="16,0,16,1"
                             BorderThickness="0"
                             Command="{x:Bind OpenLastBackupDatabaseCommand}"
-                            CornerRadius="0">
+                            CornerRadius="0"
+                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock VerticalAlignment="Center"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
