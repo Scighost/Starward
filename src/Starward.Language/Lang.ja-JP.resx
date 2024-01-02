@@ -447,7 +447,7 @@
     <value>ボイスの言語</value>
   </data>
   <data name="GameSettingPage_VoiceLanguageDescription" xml:space="preserve">
-    <value>音声リソースのダウンロードを避ける為に、初めてゲームを開始する前にこの値を設定してください</value>
+    <value>音声リソースのダウンロードを避ける為に、初めてゲームを開始する前にこの値を設定してください。</value>
   </data>
   <data name="GameSettingPage_GraphicsSetting" xml:space="preserve">
     <value>画面設定</value>
@@ -1147,7 +1147,7 @@
     <value>URLプロトコル (試験的)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
-    <value>他のソフトウェアは、URLプロトコルを通じてStarwardの機能の一部を使用ができます。</value>
+    <value>他のソフトウェアは、URLプロトコルを通じてStarwardの一部の機能を使用する事ができます。</value>
   </data>
   <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
     <value>URLプロトコルを登録</value>
