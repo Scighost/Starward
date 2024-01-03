@@ -27,7 +27,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Timers;
-using Vanara.PInvoke;
 using Windows.Storage;
 using Windows.System;
 
@@ -608,15 +607,18 @@ public sealed partial class LauncherPage : PageBase
             else
             {
                 MainPage.Current.PauseVideo();
-                // todo
-                if (AppConfig.EnableSystemTrayIcon)
+                var action = AppConfig.AfterStartGameAction;
+                if (action is AfterStartGameAction.Minimize)
                 {
-                    User32.ShowWindow(MainWindow.Current.WindowHandle, ShowWindowCommand.SW_HIDE);
-                    GC.Collect();
+                    MainWindow.Current.Minimize();
+                }
+                else if (action is AfterStartGameAction.DoNothing)
+                {
+                    // do nothing
                 }
                 else
                 {
-                    User32.ShowWindow(MainWindow.Current.WindowHandle, ShowWindowCommand.SW_SHOWMINIMIZED);
+                    MainWindow.Current.Hide();
                 }
                 _logger.LogInformation("Game started ({name}, {pid})", process1.ProcessName, process1.Id);
                 if (AppConfig.IgnoreRunningGame)

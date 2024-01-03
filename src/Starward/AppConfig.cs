@@ -415,6 +415,13 @@ internal static class AppConfig
     }
 
 
+    public static AfterStartGameAction AfterStartGameAction
+    {
+        get => GetValue<AfterStartGameAction>();
+        set => SetValue(value);
+    }
+
+
 
     #endregion
 

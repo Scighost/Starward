@@ -27,9 +27,24 @@ public sealed partial class ExperienceSettingPage : PageBase
     {
         this.InitializeComponent();
         InitializeCloseWindowOption();
+        InitializeAfterStartGameAction();
     }
 
 
+
+    protected override void OnLoaded()
+    {
+        ComboBox_CloseWindowOption.SelectionChanged += ComboBox_CloseWindowOption_SelectionChanged;
+        ComboBox_AfterStartGameAction.SelectionChanged += ComboBox_AfterStartGameAction_SelectionChanged;
+    }
+
+
+
+    protected override void OnUnloaded()
+    {
+        ComboBox_CloseWindowOption.SelectionChanged -= ComboBox_CloseWindowOption_SelectionChanged;
+        ComboBox_AfterStartGameAction.SelectionChanged -= ComboBox_AfterStartGameAction_SelectionChanged;
+    }
 
 
 
@@ -41,23 +56,6 @@ public sealed partial class ExperienceSettingPage : PageBase
     {
         try
         {
-            var lang = AppConfig.Language;
-            ComboBox_CloseWindowOption.Items.Clear();
-            ComboBox_CloseWindowOption.Items.Add(new ComboBoxItem
-            {
-                Content = Lang.ExperienceSettingPage_MinimizeToSystemTray,
-                Tag = "Hide",
-            });
-            ComboBox_CloseWindowOption.Items.Add(new ComboBoxItem
-            {
-                Content = Lang.ExperienceSettingPage_ExitCompletely,
-                Tag = "Exit",
-            });
-            ComboBox_CloseWindowOption.Items.Add(new ComboBoxItem
-            {
-                Content = Lang.ExperienceSettingPage_CloseWindowButKeepSystemTray,
-                Tag = "Close",
-            });
             var option = AppConfig.CloseWindowOption;
             if (option is CloseWindowOption.Hide)
             {
@@ -85,9 +83,7 @@ public sealed partial class ExperienceSettingPage : PageBase
             {
                 AppConfig.CloseWindowOption = item.Tag switch
                 {
-                    "Hide" => CloseWindowOption.Hide,
-                    "Exit" => CloseWindowOption.Exit,
-                    "Close" => CloseWindowOption.Close,
+                    CloseWindowOption option => option,
                     _ => CloseWindowOption.Undefined,
                 };
             }
@@ -95,6 +91,61 @@ public sealed partial class ExperienceSettingPage : PageBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Change Close Window Option");
+        }
+    }
+
+
+
+
+    #endregion
+
+
+
+
+
+    #region After Start Game Action
+
+
+
+    private void InitializeAfterStartGameAction()
+    {
+        try
+        {
+            var option = AppConfig.AfterStartGameAction;
+            if (option is AfterStartGameAction.Hide)
+            {
+                ComboBox_AfterStartGameAction.SelectedIndex = 0;
+            }
+            else if (option is AfterStartGameAction.Minimize)
+            {
+                ComboBox_AfterStartGameAction.SelectedIndex = 1;
+            }
+            else if (option is AfterStartGameAction.DoNothing)
+            {
+                ComboBox_AfterStartGameAction.SelectedIndex = 2;
+            }
+        }
+        catch { }
+    }
+
+
+
+    private void ComboBox_AfterStartGameAction_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        try
+        {
+            if (ComboBox_AfterStartGameAction.SelectedItem is ComboBoxItem item)
+            {
+                AppConfig.AfterStartGameAction = item.Tag switch
+                {
+                    AfterStartGameAction action => action,
+                    _ => AfterStartGameAction.Hide,
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Change After Start Game Action");
         }
     }
 

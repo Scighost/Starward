@@ -719,6 +719,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 After Starting Game 的本地化字符串。
+        /// </summary>
+        public static string ExperienceSettingPage_AfterStartingGame {
+            get {
+                return ResourceManager.GetString("ExperienceSettingPage_AfterStartingGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Close window but keep system tray 的本地化字符串。
         /// </summary>
         public static string ExperienceSettingPage_CloseWindowButKeepSystemTray {
@@ -742,6 +751,15 @@ namespace Starward.Language {
         public static string ExperienceSettingPage_DisableRedDotReminderForGameNotices {
             get {
                 return ResourceManager.GetString("ExperienceSettingPage_DisableRedDotReminderForGameNotices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Do nothing 的本地化字符串。
+        /// </summary>
+        public static string ExperienceSettingPage_DoNothing {
+            get {
+                return ResourceManager.GetString("ExperienceSettingPage_DoNothing", resourceCulture);
             }
         }
         
@@ -778,6 +796,15 @@ namespace Starward.Language {
         public static string ExperienceSettingPage_MinimizeToSystemTray {
             get {
                 return ResourceManager.GetString("ExperienceSettingPage_MinimizeToSystemTray", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Minimize to taskbar 的本地化字符串。
+        /// </summary>
+        public static string ExperienceSettingPage_MinimizeToTaskbar {
+            get {
+                return ResourceManager.GetString("ExperienceSettingPage_MinimizeToTaskbar", resourceCulture);
             }
         }
         
