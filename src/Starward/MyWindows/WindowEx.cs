@@ -1,6 +1,8 @@
-﻿using Microsoft.UI;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Starward.Messages;
 using System;
 using Vanara.PInvoke;
 using Windows.Graphics;
@@ -73,6 +75,7 @@ public abstract class WindowEx : Window
     {
         AppWindow.Show(true);
         User32.SetForegroundWindow(WindowHandle);
+        WeakReferenceMessenger.Default.Send(new WindowStateChangedMessage(false));
     }
 
 
@@ -80,6 +83,7 @@ public abstract class WindowEx : Window
     public virtual void Hide()
     {
         AppWindow.Hide();
+        WeakReferenceMessenger.Default.Send(new WindowStateChangedMessage(true));
     }
 
 

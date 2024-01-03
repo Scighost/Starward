@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using Starward.Controls;
 using Starward.Core;
 using Starward.Core.Launcher;
@@ -56,9 +55,6 @@ public sealed partial class LauncherPage : PageBase
 
     private readonly DownloadGameService _downloadGameService = AppConfig.GetService<DownloadGameService>();
 
-    private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _timer;
-
-    private GameBiz gameBiz;
 
 
 
@@ -70,77 +66,83 @@ public sealed partial class LauncherPage : PageBase
             TextBlock_StartArgumentDesc.Inlines,
             Lang.GameSettingPage_StartArgumentDesc,
             ("{Unity Standalone Player Command Line Arguments}", "https://docs.unity3d.com/Manual/PlayerCommandLineArguments.html"));
-
-        InitializeBannerSize();
-
-        _timer = DispatcherQueue.CreateTimer();
-        _timer.Interval = TimeSpan.FromSeconds(5);
-        _timer.IsRepeating = true;
-        _timer.Tick += _timer_Tick;
-
-        WeakReferenceMessenger.Default.Register<GameAccountSwitcherDisabledChanged>(this, (_, _) =>
-        {
-            GetGameAccount();
-            _ = GetGameNoticesAlertAsync();
-        });
-        WeakReferenceMessenger.Default.Register<GameNoticeRedHotDisabledChanged>(this, (_, _) => _ = GetGameNoticesAlertAsync());
-        WeakReferenceMessenger.Default.Register<WindowSizeModeChangedMessage>(this, (_, _) => InitializeBannerSize());
-    }
-
-
-    protected override void OnNavigatedTo(NavigationEventArgs e)
-    {
-        base.OnNavigatedTo(e);
-        if (e.Parameter is GameBiz biz)
-        {
-            gameBiz = biz;
-        }
     }
 
 
 
-
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
         try
         {
-            UpdateStartGameButtonStyle();
-            InitializeCommandTrigger();
+            RegisterMessageHandler();
+            InitializeCurrentGameBiz();
+            // banner
+            InitializeBannerSize();
+            InitializeBannerTimer();
+
             await Task.Delay(16);
-            InitializeGameBiz();
-            UpdateGameVersion();
-            InitializePlayTime();
+            CheckGameVersion();
             UpdateGameState();
+            InitializePlayTime();
             GetGameAccount();
-            await GetLauncherContentAsync();
-            await GetGameNoticesAlertAsync();
+
+            await Task.Delay(150);
+            await UpdateLauncherContentAsync();
+            await UpdateGameNoticesAlertAsync();
         }
         catch { }
     }
 
 
-    private void Page_Unloaded(object sender, RoutedEventArgs e)
+
+    protected override void OnUnloaded()
     {
-        _timer.Stop();
+        _bannerTimer.Stop();
         GameProcess?.Dispose();
+        processTimer?.Dispose();
         WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
 
 
-    private void InitializeGameBiz()
+    private void RegisterMessageHandler()
+    {
+        WeakReferenceMessenger.Default.Register<GameAccountSwitcherDisabledChanged>(this, (_, _) =>
+        {
+            GetGameAccount();
+            _ = UpdateGameNoticesAlertAsync();
+        });
+        WeakReferenceMessenger.Default.Register<WindowStateChangedMessage>(this, (_, m) =>
+        {
+            if (m.IsHide)
+            {
+                _bannerTimer.Stop();
+            }
+            else
+            {
+                _bannerTimer.Start();
+            }
+        });
+        WeakReferenceMessenger.Default.Register<GameNoticeRedHotDisabledChanged>(this, (_, _) => _ = UpdateGameNoticesAlertAsync());
+        WeakReferenceMessenger.Default.Register<WindowSizeModeChangedMessage>(this, (_, _) => InitializeBannerSize());
+        WeakReferenceMessenger.Default.Register<VideoPlayStateChangedMessage>(this, (_, _) => UpdateGameButtonStyle());
+    }
+
+
+
+    private void InitializeCurrentGameBiz()
     {
 #pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
         try
         {
-            StartGameArgument = AppConfig.GetStartArgument(gameBiz);
-            EnableThirdPartyTool = AppConfig.GetEnableThirdPartyTool(gameBiz);
-            ThirdPartyToolPath = AppConfig.GetThirdPartyToolPath(gameBiz);
-            enableCustomBg = AppConfig.GetEnableCustomBg(gameBiz);
+            StartGameArgument = AppConfig.GetStartArgument(CurrentGameBiz);
+            EnableThirdPartyTool = AppConfig.GetEnableThirdPartyTool(CurrentGameBiz);
+            ThirdPartyToolPath = AppConfig.GetThirdPartyToolPath(CurrentGameBiz);
+            enableCustomBg = AppConfig.GetEnableCustomBg(CurrentGameBiz);
             OnPropertyChanged(nameof(EnableCustomBg));
-            CustomBg = AppConfig.GetCustomBg(gameBiz);
+            CustomBg = AppConfig.GetCustomBg(CurrentGameBiz);
 
-            if (gameBiz is GameBiz.hk4e_cloud)
+            if (CurrentGameBiz is GameBiz.hk4e_cloud)
             {
                 Button_UninstallGame.IsEnabled = false;
                 Grid_BannerAndPost.HorizontalAlignment = HorizontalAlignment.Right;
@@ -152,25 +154,13 @@ public sealed partial class LauncherPage : PageBase
 
 
 
-    private void InitializeBannerSize()
-    {
-        if (AppConfig.WindowSizeMode == 0)
-        {
-            Grid_BannerAndPost.Width = 432;
-            RowDefinition_BannerAndPost.Height = new GridLength(200);
-        }
-        else
-        {
-            Grid_BannerAndPost.Width = 364;
-            RowDefinition_BannerAndPost.Height = new GridLength(168);
-        }
-    }
+
+
+    #region Banner & Post
 
 
 
-
-    #region Anncounce & Post
-
+    private Microsoft.UI.Dispatching.DispatcherQueueTimer _bannerTimer;
 
 
     [ObservableProperty]
@@ -190,47 +180,73 @@ public sealed partial class LauncherPage : PageBase
         Grid_BannerAndPost.IsHitTestVisible = value;
         if (value)
         {
-            _timer.Start();
+            _bannerTimer.Start();
         }
         else
         {
-            _timer.Stop();
+            _bannerTimer.Stop();
         }
     }
 
 
+    private void InitializeBannerTimer()
+    {
+        if (_bannerTimer is null)
+        {
+            _bannerTimer = DispatcherQueue.CreateTimer();
+            _bannerTimer.Interval = TimeSpan.FromSeconds(5);
+            _bannerTimer.IsRepeating = true;
+            _bannerTimer.Tick += _bannerTimer_Tick;
+        }
+    }
 
-    private async Task GetLauncherContentAsync()
+
+    private void InitializeBannerSize()
+    {
+        if (AppConfig.WindowSizeMode == 0)
+        {
+            Grid_BannerAndPost.Width = 432;
+            RowDefinition_BannerAndPost.Height = new GridLength(200);
+        }
+        else
+        {
+            Grid_BannerAndPost.Width = 364;
+            RowDefinition_BannerAndPost.Height = new GridLength(168);
+        }
+    }
+
+
+    private async Task UpdateLauncherContentAsync()
     {
         try
         {
-            var content = await _launcherService.GetLauncherContentAsync(gameBiz);
+            var content = await _launcherService.GetLauncherContentAsync(CurrentGameBiz);
             BannerList = content.Banner;
             LauncherPostGroupList = content.Post.GroupBy(x => x.Type).OrderBy(x => x.Key).Select(x => new LauncherPostGroup(x.Key.ToLocalization(), x)).ToList();
-            if (EnableBannerAndPost && BannerList.Any() && LauncherPostGroupList.Any())
+            if (EnableBannerAndPost && BannerList.Count != 0 && LauncherPostGroupList.Count != 0)
             {
                 Grid_BannerAndPost.Opacity = 1;
                 Grid_BannerAndPost.IsHitTestVisible = true;
-                _timer.Start();
+                _bannerTimer.Start();
             }
         }
         catch (HttpRequestException ex)
         {
-            _logger.LogWarning("Cannot get game launcher content ({gamebiz}): {error}", gameBiz, ex.Message);
+            _logger.LogWarning("Cannot get game launcher content ({CurrentGameBiz}): {error}", CurrentGameBiz, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Get game launcher content ({gamebiz})", gameBiz);
+            _logger.LogError(ex, "Get game launcher content ({CurrentGameBiz})", CurrentGameBiz);
         }
     }
 
 
 
-    private void _timer_Tick(Microsoft.UI.Dispatching.DispatcherQueueTimer sender, object args)
+    private void _bannerTimer_Tick(Microsoft.UI.Dispatching.DispatcherQueueTimer sender, object args)
     {
         try
         {
-            if (BannerList?.Count > 0)
+            if (EnableBannerAndPost && BannerList?.Count > 0)
             {
                 FlipView_Banner.SelectedIndex = (FlipView_Banner.SelectedIndex + 1) % BannerList.Count;
             }
@@ -280,20 +296,20 @@ public sealed partial class LauncherPage : PageBase
 
     private void Grid_BannerContainer_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
-        _timer.Stop();
+        _bannerTimer.Stop();
         Border_PipsPager.Visibility = Visibility.Visible;
     }
 
     private void Grid_BannerContainer_PointerExited(object sender, PointerRoutedEventArgs e)
     {
-        _timer.Start();
+        _bannerTimer.Start();
         Border_PipsPager.Visibility = Visibility.Collapsed;
     }
 
 
 
 
-    private async Task GetGameNoticesAlertAsync()
+    private async Task UpdateGameNoticesAlertAsync()
     {
         try
         {
@@ -312,7 +328,7 @@ public sealed partial class LauncherPage : PageBase
                 Image_GameNoticesAlert.Visibility = Visibility.Collapsed;
                 return;
             }
-            if (await _launcherService.IsNoticesAlertAsync(gameBiz, uid))
+            if (await _launcherService.IsNoticesAlertAsync(CurrentGameBiz, uid))
             {
                 Image_GameNoticesAlert.Visibility = Visibility.Visible;
             }
@@ -346,7 +362,7 @@ public sealed partial class LauncherPage : PageBase
         {
             long uid = SelectGameAccount?.Uid ?? 0;
             string lang = CultureInfo.CurrentUICulture.Name;
-            string url = LauncherClient.GetGameNoticesUrl(gameBiz, uid, lang);
+            string url = LauncherClient.GetGameNoticesUrl(CurrentGameBiz, uid, lang);
             await Launcher.LaunchUriAsync(new Uri(url));
         }
         catch (Exception ex)
@@ -365,113 +381,111 @@ public sealed partial class LauncherPage : PageBase
 
 
 
+    private void UpdateGameButtonStyle()
+    {
+        var accentStyle = Application.Current.Resources["AccentButtonStyle"] as Style;
+        var defaultStyle = Application.Current.Resources["DefaultButtonStyle"] as Style;
+        if (AppConfig.IsPlayingVideo)
+        {
+            Button_GameIsRunning.Style = defaultStyle;
+            Button_StartGame.Style = defaultStyle;
+            Button_DownloadGame.Style = defaultStyle;
+            Button_UpdateGame.Style = defaultStyle;
+            Button_RepairGame.Style = defaultStyle;
+            Button_PreDownloadGame.Style = defaultStyle;
+            AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
+        }
+        else
+        {
+            if (!CanStartGame || IsGameRunning)
+            {
+                AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
+            }
+            else
+            {
+                AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextOnAccentFillColorPrimaryBrush"] as Brush;
+            }
+            Button_GameIsRunning.Style = accentStyle;
+            Button_StartGame.Style = accentStyle;
+            Button_DownloadGame.Style = accentStyle;
+            Button_UpdateGame.Style = accentStyle;
+            Button_RepairGame.Style = accentStyle;
+            Button_PreDownloadGame.Style = accentStyle;
+        }
+    }
 
-    private Timer processTimer;
+
+
+
+
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsStartGameButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsDownloadGameButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsUpdateGameButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsPreInstallButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsRepairGameButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsGameSupportRepair))]
+    private Version? localGameVersion;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsStartGameButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsUpdateGameButtonEnable))]
+    private Version? latestGameVersion;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsPreInstallButtonEnable))]
+    private Version? preInstallGameVersion;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsStartGameButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsDownloadGameButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsRepairGameButtonEnable))]
+    private bool isGameExeExists;
+
+
+    public bool IsGameSupportRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && (InstallPath != null || LocalGameVersion != null);
+
+
+    public bool IsStartGameButtonEnable => LocalGameVersion != null && LocalGameVersion >= LatestGameVersion && IsGameExeExists && !IsGameRunning;
+
+
+    public bool IsDownloadGameButtonEnable => (LocalGameVersion == null && !IsGameExeExists) || ((LocalGameVersion == null || !IsGameExeExists) && !IsGameSupportRepair);
+
+
+    public bool IsUpdateGameButtonEnable => LocalGameVersion != null && LatestGameVersion > LocalGameVersion;
+
+
+    public bool IsPreInstallButtonEnable => LocalGameVersion != null && PreInstallGameVersion != null;
+
+
+    public bool IsRepairGameButtonEnable => IsGameSupportRepair && ((LocalGameVersion != null && !IsGameExeExists) || (LocalGameVersion == null && IsGameExeExists));
+
+
+
+    [ObservableProperty]
+    private bool isPreDownloadOK;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsStartGameButtonEnable))]
+    private bool isGameRunning;
+    partial void OnIsGameRunningChanged(bool value)
+    {
+        UpdateGameButtonStyle();
+    }
+
 
 
     [ObservableProperty]
     private bool canStartGame = true;
     partial void OnCanStartGameChanged(bool value)
     {
-        UpdateStartGameButtonStyle();
+        UpdateGameButtonStyle();
     }
 
 
 
-    private void UpdateStartGameButtonStyle()
-    {
-        if (AppConfig.IsPlayingVideo)
-        {
-            Button_StartGame.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
-            AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
-        }
-        else
-        {
-            if (CanStartGame || IsDownloadGameEnable || IsUpdateGameEnable)
-            {
-                AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextOnAccentFillColorPrimaryBrush"] as Brush;
-            }
-            else
-            {
-                AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
-            }
-            Button_StartGame.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
-        }
-    }
-
-
-    private void InitializeCommandTrigger()
-    {
-        StartGameCommand.CanExecuteChanged += (_, _) => UpdateStartGameButtonStyle();
-        DownloadGameCommand.CanExecuteChanged += (_, _) => UpdateStartGameButtonStyle();
-    }
-
-
-    [ObservableProperty]
-    private string startGameButtonText = Lang.LauncherPage_StartGame;
-
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(IsStartGameEnable))]
-    [NotifyPropertyChangedFor(nameof(IsDownloadGameEnable))]
-    [NotifyPropertyChangedFor(nameof(IsUpdateGameEnable))]
-    [NotifyPropertyChangedFor(nameof(IsPreDownloadEnable))]
-    [NotifyPropertyChangedFor(nameof(IsRepairGameEnable))]
-    private Version? localVersion;
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(IsStartGameEnable))]
-    [NotifyPropertyChangedFor(nameof(IsUpdateGameEnable))]
-    private Version? currentVersion;
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(IsPreDownloadEnable))]
-    private Version? preVersion;
-
-
-
-    public bool IsStartGameEnable => LocalVersion != null && LocalVersion >= CurrentVersion;
-
-
-    public bool IsDownloadGameEnable => LocalVersion == null;
-
-
-    public bool IsUpdateGameEnable => LocalVersion != null && CurrentVersion > LocalVersion;
-
-
-    public bool IsPreDownloadEnable => LocalVersion != null && PreVersion != null;
-
-
-    public bool IsRepairGameEnable => gameBiz.ToGame() != GameBiz.None && gameBiz != GameBiz.hk4e_cloud && LocalVersion != null;
-
-
-    [ObservableProperty]
-    private bool isPreDownloadOK;
-
-
-    [ObservableProperty]
-    private string? installPath;
-    partial void OnInstallPathChanged(string? value)
-    {
-        AppConfig.SetGameInstallPath(gameBiz, value);
-        _logger.LogInformation("Game install path {biz}: {path}", gameBiz, value);
-    }
-
-
-    [ObservableProperty]
-    private bool enableThirdPartyTool;
-    partial void OnEnableThirdPartyToolChanged(bool value)
-    {
-        AppConfig.SetEnableThirdPartyTool(gameBiz, value);
-    }
-
-
-    [ObservableProperty]
-    private string? thirdPartyToolPath;
-    partial void OnThirdPartyToolPathChanged(string? value)
-    {
-        AppConfig.SetThirdPartyToolPath(gameBiz, value);
-    }
+    private Timer processTimer;
 
 
     [ObservableProperty]
@@ -480,20 +494,14 @@ public sealed partial class LauncherPage : PageBase
     {
         oldValue?.Dispose();
         processTimer?.Stop();
+        if (processTimer is null)
+        {
+            processTimer = new(1000);
+            processTimer.Elapsed += (_, _) => CheckGameExited();
+        }
         if (newValue != null)
         {
-            try
-            {
-                CanStartGame = false;
-                StartGameButtonText = Lang.LauncherPage_GameIsRunning;
-                newValue.EnableRaisingEvents = true;
-                newValue.Exited += (_, _) => CheckGameExited();
-            }
-            catch (Win32Exception ex) when (ex.NativeErrorCode == 5)
-            {
-                // Access is denied
-                processTimer?.Start();
-            }
+            processTimer?.Start();
         }
         else
         {
@@ -505,61 +513,27 @@ public sealed partial class LauncherPage : PageBase
 
 
 
-    [ObservableProperty]
-    private string? startGameArgument;
-    partial void OnStartGameArgumentChanged(string? value)
-    {
-        AppConfig.SetStartArgument(gameBiz, value);
-    }
-
-
-    [ObservableProperty]
-    private int targetFPS;
-    partial void OnTargetFPSChanged(int value)
+    private async void CheckGameVersion()
     {
         try
         {
-            value = Math.Clamp(value, 60, 320);
-            _gameService.SetStarRailFPS(gameBiz, value);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Set StarRail FPS");
-        }
-    }
-
-
-    [ObservableProperty]
-    private bool ignoreRunningGame = AppConfig.IgnoreRunningGame;
-    partial void OnIgnoreRunningGameChanged(bool value)
-    {
-        AppConfig.IgnoreRunningGame = value;
-        UpdateGameState();
-    }
-
-
-
-
-    private async void UpdateGameVersion()
-    {
-        try
-        {
-            InstallPath = _gameService.GetGameInstallPath(gameBiz);
-            if (gameBiz == GameBiz.hk4e_cloud)
+            InstallPath = _gameService.GetGameInstallPath(CurrentGameBiz);
+            IsGameExeExists = _gameService.IsGameExeExists(CurrentGameBiz);
+            if (CurrentGameBiz == GameBiz.hk4e_cloud)
             {
                 if (Directory.Exists(InstallPath))
                 {
-                    LocalVersion = new Version();
-                    UpdateStartGameButtonStyle();
+                    LocalGameVersion = new Version();
+                    UpdateGameButtonStyle();
                 }
                 return;
             }
-            LocalVersion = await _downloadGameService.GetLocalGameVersionAsync(gameBiz);
-            UpdateStartGameButtonStyle();
-            (CurrentVersion, PreVersion) = await _downloadGameService.GetGameVersionAsync(gameBiz);
-            if (IsPreDownloadEnable)
+            LocalGameVersion = await _downloadGameService.GetLocalGameVersionAsync(CurrentGameBiz);
+            UpdateGameButtonStyle();
+            (LatestGameVersion, PreInstallGameVersion) = await _downloadGameService.GetGameVersionAsync(CurrentGameBiz);
+            if (IsPreInstallButtonEnable)
             {
-                IsPreDownloadOK = await _downloadGameService.CheckPreDownloadIsOKAsync(gameBiz, InstallPath);
+                IsPreDownloadOK = await _downloadGameService.CheckPreDownloadIsOKAsync(CurrentGameBiz, InstallPath);
             }
         }
         catch (Exception ex)
@@ -575,19 +549,16 @@ public sealed partial class LauncherPage : PageBase
         try
         {
             CanStartGame = true;
-            StartGameButtonText = Lang.LauncherPage_StartGame;
+            IsGameRunning = false;
             if (IgnoreRunningGame)
             {
+                GameProcess = null;
                 return;
             }
-            if (processTimer is null)
-            {
-                processTimer = new(1000);
-                processTimer.Elapsed += (_, _) => CheckGameExited();
-            }
-            GameProcess = _gameService.GetGameProcess(gameBiz);
+            GameProcess = _gameService.GetGameProcess(CurrentGameBiz);
             if (GameProcess != null)
             {
+                IsGameRunning = true;
                 _logger.LogInformation("Game is running ({name}, {pid})", GameProcess.ProcessName, GameProcess.Id);
             }
         }
@@ -604,12 +575,7 @@ public sealed partial class LauncherPage : PageBase
             {
                 if (GameProcess.HasExited)
                 {
-                    DispatcherQueue.TryEnqueue(() =>
-                    {
-                        CanStartGame = true;
-                        StartGameButtonText = Lang.LauncherPage_StartGame;
-                    });
-                    GameProcess.Dispose();
+                    DispatcherQueue.TryEnqueue(UpdateGameState);
                     GameProcess = null;
                 }
             }
@@ -624,17 +590,22 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
+            CanStartGame = false;
             if (!IgnoreRunningGame)
             {
-                var p = _gameService.GetGameProcess(gameBiz);
+                var p = _gameService.GetGameProcess(CurrentGameBiz);
                 if (p != null)
                 {
                     GameProcess = p;
                     return;
                 }
             }
-            var process1 = _gameService.StartGame(gameBiz, IgnoreRunningGame);
-            if (process1 != null)
+            var process1 = _gameService.StartGame(CurrentGameBiz, IgnoreRunningGame);
+            if (process1 == null)
+            {
+                CanStartGame = true;
+            }
+            else
             {
                 MainPage.Current.PauseVideo();
                 // todo
@@ -650,122 +621,33 @@ public sealed partial class LauncherPage : PageBase
                 _logger.LogInformation("Game started ({name}, {pid})", process1.ProcessName, process1.Id);
                 if (AppConfig.IgnoreRunningGame)
                 {
-                    _ = _playTimeService.StartProcessToLogAsync(gameBiz);
+                    _ = _playTimeService.StartProcessToLogAsync(CurrentGameBiz);
+                    CanStartGame = true;
                 }
                 else
                 {
-                    var process2 = await _playTimeService.StartProcessToLogAsync(gameBiz);
+                    IsGameRunning = true;
+                    var process2 = await _playTimeService.StartProcessToLogAsync(CurrentGameBiz);
                     GameProcess = process2 ?? process1;
                 }
             }
         }
-        catch (FileNotFoundException ex)
-        {
-            NotificationBehavior.Instance.Warning($"File \"{ex.FileName}\" not found.");
-        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Start game");
+            CanStartGame = true;
         }
     }
 
 
 
-    [RelayCommand]
-    private async Task ChangeGameInstallPathAsync()
-    {
-        try
-        {
-            var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
-            if (Directory.Exists(folder))
-            {
-                InstallPath = folder;
-            }
-            else
-            {
-                InstallPath = null;
-            }
-            UpdateGameVersion();
-            UpdateGameState();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Change game install path ({biz})", gameBiz);
-        }
-    }
+
+    #endregion
 
 
 
-    [RelayCommand]
-    private async Task ChangeThirdPartyPathAsync()
-    {
-        try
-        {
-            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.WindowHandle);
-            if (File.Exists(file))
-            {
-                ThirdPartyToolPath = file;
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Change third party tool path ({biz})", gameBiz);
-        }
-    }
 
-
-    [RelayCommand]
-    private async Task OpenGameInstallFolderAsync()
-    {
-        try
-        {
-            if (Directory.Exists(InstallPath))
-            {
-                await Launcher.LaunchFolderPathAsync(InstallPath);
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Open game install folder {folder}", InstallPath);
-        }
-    }
-
-
-
-    [RelayCommand]
-    private async Task OpenThirdPartyToolFolderAsync()
-    {
-        try
-        {
-            if (File.Exists(ThirdPartyToolPath))
-            {
-                var folder = Path.GetDirectoryName(ThirdPartyToolPath);
-                var file = await StorageFile.GetFileFromPathAsync(ThirdPartyToolPath);
-                var option = new FolderLauncherOptions();
-                option.ItemsToSelect.Add(file);
-                await Launcher.LaunchFolderPathAsync(folder, option);
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Open third party tool folder {folder}", ThirdPartyToolPath);
-        }
-    }
-
-
-    [RelayCommand]
-    private void DeleteGameInstallPath()
-    {
-        InstallPath = null;
-        UpdateGameVersion();
-    }
-
-
-    [RelayCommand]
-    private void DeleteThirdPartyToolPath()
-    {
-        ThirdPartyToolPath = null;
-    }
+    #region Playtime
 
 
 
@@ -801,11 +683,11 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            PlayTimeTotal = _databaseService.GetValue<TimeSpan>($"playtime_total_{gameBiz}", out _);
-            PlayTimeMonth = _databaseService.GetValue<TimeSpan>($"playtime_month_{gameBiz}", out _);
-            PlayTimeWeek = _databaseService.GetValue<TimeSpan>($"playtime_week_{gameBiz}", out _);
-            StartUpCount = _databaseService.GetValue<int>($"startup_count_{gameBiz}", out _);
-            (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(gameBiz);
+            PlayTimeTotal = _databaseService.GetValue<TimeSpan>($"playtime_total_{CurrentGameBiz}", out _);
+            PlayTimeMonth = _databaseService.GetValue<TimeSpan>($"playtime_month_{CurrentGameBiz}", out _);
+            PlayTimeWeek = _databaseService.GetValue<TimeSpan>($"playtime_week_{CurrentGameBiz}", out _);
+            StartUpCount = _databaseService.GetValue<int>($"startup_count_{CurrentGameBiz}", out _);
+            (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(CurrentGameBiz);
             if (time > DateTimeOffset.MinValue)
             {
                 LastPlayTimeText = time.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss");
@@ -824,21 +706,21 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            PlayTimeTotal = _playTimeService.GetPlayTimeTotal(gameBiz);
-            PlayTimeMonth = _playTimeService.GetPlayCurrentMonth(gameBiz);
-            PlayTimeWeek = _playTimeService.GetPlayCurrentWeek(gameBiz);
-            PlayTimeDay = _playTimeService.GetPlayCurrentDay(gameBiz);
-            StartUpCount = _playTimeService.GetStartUpCount(gameBiz);
-            (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(gameBiz);
+            PlayTimeTotal = _playTimeService.GetPlayTimeTotal(CurrentGameBiz);
+            PlayTimeMonth = _playTimeService.GetPlayCurrentMonth(CurrentGameBiz);
+            PlayTimeWeek = _playTimeService.GetPlayCurrentWeek(CurrentGameBiz);
+            PlayTimeDay = _playTimeService.GetPlayCurrentDay(CurrentGameBiz);
+            StartUpCount = _playTimeService.GetStartUpCount(CurrentGameBiz);
+            (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(CurrentGameBiz);
             if (time > DateTimeOffset.MinValue)
             {
                 LastPlayTimeText = time.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss");
             }
-            _databaseService.SetValue($"playtime_total_{gameBiz}", PlayTimeTotal);
-            _databaseService.SetValue($"playtime_month_{gameBiz}", PlayTimeMonth);
-            _databaseService.SetValue($"playtime_week_{gameBiz}", PlayTimeWeek);
-            _databaseService.SetValue($"playtime_day_{gameBiz}", PlayTimeDay);
-            _databaseService.SetValue($"startup_count_{gameBiz}", StartUpCount);
+            _databaseService.SetValue($"playtime_total_{CurrentGameBiz}", PlayTimeTotal);
+            _databaseService.SetValue($"playtime_month_{CurrentGameBiz}", PlayTimeMonth);
+            _databaseService.SetValue($"playtime_week_{CurrentGameBiz}", PlayTimeWeek);
+            _databaseService.SetValue($"playtime_day_{CurrentGameBiz}", PlayTimeDay);
+            _databaseService.SetValue($"startup_count_{CurrentGameBiz}", StartUpCount);
         }
         catch (Exception ex)
         {
@@ -846,22 +728,6 @@ public sealed partial class LauncherPage : PageBase
         }
     }
 
-
-    [RelayCommand]
-    private void OpenGameSetting()
-    {
-        SplitView_Content.IsPaneOpen = true;
-    }
-
-
-
-    private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
-    {
-        if (sender.FontSize == 14 && sender.IsTextTrimmed)
-        {
-            sender.FontSize = 12;
-        }
-    }
 
 
     #endregion
@@ -904,13 +770,13 @@ public sealed partial class LauncherPage : PageBase
             {
                 StackPanel_Account.Visibility = Visibility.Visible;
             }
-            GameAccountList = _gameService.GetGameAccounts(gameBiz);
+            GameAccountList = _gameService.GetGameAccounts(CurrentGameBiz);
             SelectGameAccount = GameAccountList.FirstOrDefault(x => x.IsLogin);
             CanChangeGameAccount = false;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Cannot get game account ({biz})", gameBiz);
+            _logger.LogError(ex, "Cannot get game account ({biz})", CurrentGameBiz);
         }
     }
 
@@ -931,12 +797,12 @@ public sealed partial class LauncherPage : PageBase
                 }
                 CanChangeGameAccount = false;
                 SelectGameAccount.IsLogin = true;
-                _ = GetGameNoticesAlertAsync();
+                _ = UpdateGameNoticesAlertAsync();
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Cannot change game {biz} account to {name}", gameBiz, SelectGameAccount?.Name);
+            _logger.LogError(ex, "Cannot change game {biz} account to {name}", CurrentGameBiz, SelectGameAccount?.Name);
         }
     }
 
@@ -969,7 +835,7 @@ public sealed partial class LauncherPage : PageBase
                 SelectGameAccount.Time = DateTime.Now;
                 _gameService.SaveGameAccount(SelectGameAccount);
                 FontIcon_SaveGameAccount.Glyph = "\uE8FB";
-                _ = GetGameNoticesAlertAsync();
+                _ = UpdateGameNoticesAlertAsync();
                 await Task.Delay(3000);
                 FontIcon_SaveGameAccount.Glyph = "\uE74E";
             }
@@ -990,7 +856,7 @@ public sealed partial class LauncherPage : PageBase
             {
                 _gameService.DeleteGameAccount(SelectGameAccount);
                 GetGameAccount();
-                _ = GetGameNoticesAlertAsync();
+                _ = UpdateGameNoticesAlertAsync();
             }
         }
         catch (Exception ex)
@@ -1012,110 +878,6 @@ public sealed partial class LauncherPage : PageBase
 
 
 
-    #region Background
-
-
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(VideoBgVolumeButtonIcon))]
-    private int videoBgVolume = AppConfig.VideoBgVolume;
-    partial void OnVideoBgVolumeChanged(int value)
-    {
-        if (MainPage.Current is not null)
-        {
-            MainPage.Current.VideoBgVolume = value;
-        }
-    }
-
-
-    [ObservableProperty]
-    private bool useOneBg = AppConfig.UseOneBg;
-    partial void OnUseOneBgChanged(bool value)
-    {
-        AppConfig.UseOneBg = value;
-        AppConfig.SetCustomBg(gameBiz, CustomBg);
-        AppConfig.SetEnableCustomBg(gameBiz, EnableCustomBg);
-
-    }
-
-
-    public string VideoBgVolumeButtonIcon => VideoBgVolume switch
-    {
-        > 66 => "\uE995",
-        > 33 => "\uE994",
-        > 1 => "\uE993",
-        _ => "\uE992",
-    };
-
-
-    private int notMuteVolume = 100;
-
-    [RelayCommand]
-    private void Mute()
-    {
-        if (VideoBgVolume > 0)
-        {
-            notMuteVolume = VideoBgVolume;
-            VideoBgVolume = 0;
-        }
-        else
-        {
-            VideoBgVolume = notMuteVolume;
-        }
-    }
-
-
-    [ObservableProperty]
-    private bool enableCustomBg;
-    partial void OnEnableCustomBgChanged(bool value)
-    {
-        AppConfig.SetEnableCustomBg(gameBiz, value);
-        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
-        UpdateStartGameButtonStyle();
-    }
-
-
-    [ObservableProperty]
-    private string? customBg;
-
-
-    [RelayCommand]
-    private async Task ChangeCustomBgAsync()
-    {
-        var file = await _launcherService.ChangeCustomBgAsync();
-        if (file is not null)
-        {
-            CustomBg = file;
-            AppConfig.SetCustomBg(gameBiz, file);
-            _ = MainPage.Current.UpdateBackgroundImageAsync(true);
-        }
-    }
-
-
-    [RelayCommand]
-    private async Task OpenCustomBgAsync()
-    {
-        await _launcherService.OpenCustomBgAsync(CustomBg);
-    }
-
-
-    [RelayCommand]
-    private void DeleteCustomBg()
-    {
-        AppConfig.SetCustomBg(gameBiz, null);
-        CustomBg = null;
-        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
-    }
-
-
-
-
-    #endregion
-
-
-
-
-
     #region Download Game
 
 
@@ -1123,7 +885,7 @@ public sealed partial class LauncherPage : PageBase
 
     private async Task<bool> CheckRedirectInstanceAsync()
     {
-        var instance = App.FindInstanceForKey($"download_game_{gameBiz}");
+        var instance = App.FindInstanceForKey($"download_game_{CurrentGameBiz}");
         if (instance != null)
         {
             await instance.RedirectActivationToAsync(instance.GetActivatedEventArgs());
@@ -1143,7 +905,7 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            if (gameBiz is GameBiz.hk4e_cloud)
+            if (CurrentGameBiz is GameBiz.hk4e_cloud)
             {
                 await Launcher.LaunchUriAsync(new Uri("https://mhyy.mihoyo.com/"));
                 return;
@@ -1157,7 +919,7 @@ public sealed partial class LauncherPage : PageBase
 
             if (Directory.Exists(InstallPath))
             {
-                if (LocalVersion is null)
+                if (LocalGameVersion is null)
                 {
                     var folderDialog = new ContentDialog
                     {
@@ -1216,22 +978,22 @@ public sealed partial class LauncherPage : PageBase
                 return;
             }
 
-            var downloadResource = await _downloadGameService.CheckDownloadGameResourceAsync(gameBiz, InstallPath);
+            var downloadResource = await _downloadGameService.CheckDownloadGameResourceAsync(CurrentGameBiz, InstallPath);
             if (downloadResource is null)
             {
-                UpdateGameVersion();
+                CheckGameVersion();
                 return;
             }
-            var lang = await _downloadGameService.GetVoiceLanguageAsync(gameBiz, InstallPath);
+            var lang = await _downloadGameService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
             if (lang is VoiceLanguage.None)
             {
                 lang = VoiceLanguage.All;
             }
 
-            var content = new DownloadGameDialog { GameBiz = gameBiz, LanguageType = lang, GameResource = downloadResource, IsPreDownload = IsPreDownloadEnable };
+            var content = new DownloadGameDialog { GameBiz = CurrentGameBiz, LanguageType = lang, GameResource = downloadResource, IsPreDownload = IsPreInstallButtonEnable };
             var dialog = new ContentDialog
             {
-                Title = IsUpdateGameEnable ? Lang.LauncherPage_UpdateGame : (IsPreDownloadEnable ? Lang.LauncherPage_PreInstall : Lang.LauncherPage_InstallGame),
+                Title = IsUpdateGameButtonEnable ? Lang.LauncherPage_UpdateGame : (IsPreInstallButtonEnable ? Lang.LauncherPage_PreInstall : Lang.LauncherPage_InstallGame),
                 Content = content,
                 PrimaryButtonText = Lang.Common_Start,
                 SecondaryButtonText = Lang.Common_Cancel,
@@ -1251,7 +1013,7 @@ public sealed partial class LauncherPage : PageBase
                 {
                     FileName = exe,
                     UseShellExecute = true,
-                    Arguments = $"""{(content.EnableRepairMode ? "repair" : "download")} --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
+                    Arguments = $"""{(content.EnableRepairMode ? "repair" : "download")} --biz {CurrentGameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
                     Verb = "runas",
                 });
             }
@@ -1290,7 +1052,7 @@ public sealed partial class LauncherPage : PageBase
                 };
                 if (await dialog.ShowAsync() is ContentDialogResult.Primary)
                 {
-                    var lang = await _downloadGameService.GetVoiceLanguageAsync(gameBiz, InstallPath);
+                    var lang = await _downloadGameService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
                     var exe = Process.GetCurrentProcess().MainModule?.FileName;
                     if (!File.Exists(exe))
                     {
@@ -1300,7 +1062,7 @@ public sealed partial class LauncherPage : PageBase
                     {
                         FileName = exe,
                         UseShellExecute = true,
-                        Arguments = $"""download --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
+                        Arguments = $"""download --biz {CurrentGameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
                         Verb = "runas",
                     });
                 }
@@ -1324,17 +1086,17 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            var lang = await _downloadGameService.GetVoiceLanguageAsync(gameBiz, InstallPath);
+            var lang = await _downloadGameService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
             var exe = Process.GetCurrentProcess().MainModule?.FileName;
             if (!File.Exists(exe))
             {
                 exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
             }
-            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
             {
                 var control = new DownloadGameDialog
                 {
-                    GameBiz = gameBiz,
+                    GameBiz = CurrentGameBiz,
                     LanguageType = lang,
                     ShowAllInfo = false,
                     RepairGame = true,
@@ -1358,7 +1120,7 @@ public sealed partial class LauncherPage : PageBase
             {
                 FileName = exe,
                 UseShellExecute = true,
-                Arguments = $"""repair --biz {gameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
+                Arguments = $"""repair --biz {CurrentGameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
                 Verb = "runas",
             });
         }
@@ -1376,7 +1138,7 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            if (_gameService.GetGameProcess(gameBiz) != null)
+            if (_gameService.GetGameProcess(CurrentGameBiz) != null)
             {
                 NotificationBehavior.Instance.Warning(Lang.LauncherPage_GameIsRunning);
                 return;
@@ -1386,7 +1148,7 @@ public sealed partial class LauncherPage : PageBase
             {
                 enableSteps |= UninstallStep.DeleteGameAssets;
             }
-            if (LocalVersion != null)
+            if (LocalGameVersion != null)
             {
                 enableSteps |= UninstallStep.BackupScreenshot;
             }
@@ -1412,7 +1174,7 @@ public sealed partial class LauncherPage : PageBase
                 {
                     exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
                 }
-                string argu = $"""uninstall --biz {gameBiz} --loc "{InstallPath}" --steps {(int)steps}""";
+                string argu = $"""uninstall --biz {CurrentGameBiz} --loc "{InstallPath}" --steps {(int)steps}""";
                 _logger.LogInformation("Start to uninstall game with argu: {argu}", argu);
                 var p = Process.Start(new ProcessStartInfo
                 {
@@ -1434,7 +1196,7 @@ public sealed partial class LauncherPage : PageBase
                         _logger.LogInformation("Uninstall finished.");
                         NotificationBehavior.Instance.Success(Lang.LauncherPage_UninstallationCompleted);
                     }
-                    UpdateGameVersion();
+                    CheckGameVersion();
                     GetGameAccount();
                 }
                 else
@@ -1452,6 +1214,276 @@ public sealed partial class LauncherPage : PageBase
 
     #endregion
 
+
+
+
+    #region Game Setting
+
+
+
+
+    [ObservableProperty]
+    private string? installPath;
+    partial void OnInstallPathChanged(string? value)
+    {
+        AppConfig.SetGameInstallPath(CurrentGameBiz, value);
+        _logger.LogInformation("Game install path {biz}: {path}", CurrentGameBiz, value);
+    }
+
+
+    [ObservableProperty]
+    private bool enableThirdPartyTool;
+    partial void OnEnableThirdPartyToolChanged(bool value)
+    {
+        AppConfig.SetEnableThirdPartyTool(CurrentGameBiz, value);
+    }
+
+
+    [ObservableProperty]
+    private string? thirdPartyToolPath;
+    partial void OnThirdPartyToolPathChanged(string? value)
+    {
+        AppConfig.SetThirdPartyToolPath(CurrentGameBiz, value);
+    }
+
+
+
+    [ObservableProperty]
+    private string? startGameArgument;
+    partial void OnStartGameArgumentChanged(string? value)
+    {
+        AppConfig.SetStartArgument(CurrentGameBiz, value);
+    }
+
+
+
+    [ObservableProperty]
+    private bool ignoreRunningGame = AppConfig.IgnoreRunningGame;
+    partial void OnIgnoreRunningGameChanged(bool value)
+    {
+        AppConfig.IgnoreRunningGame = value;
+        UpdateGameState();
+    }
+
+
+    [RelayCommand]
+    private void OpenGameSetting()
+    {
+        SplitView_Content.IsPaneOpen = true;
+    }
+
+
+    [RelayCommand]
+    private async Task ChangeGameInstallPathAsync()
+    {
+        try
+        {
+            var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
+            if (!Directory.Exists(folder))
+            {
+                return;
+            }
+            InstallPath = folder;
+            CheckGameVersion();
+            UpdateGameState();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Change game install path ({biz})", CurrentGameBiz);
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task ChangeThirdPartyPathAsync()
+    {
+        try
+        {
+            var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.WindowHandle);
+            if (File.Exists(file))
+            {
+                ThirdPartyToolPath = file;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Change third party tool path ({biz})", CurrentGameBiz);
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task OpenGameInstallFolderAsync()
+    {
+        try
+        {
+            if (Directory.Exists(InstallPath))
+            {
+                await Launcher.LaunchFolderPathAsync(InstallPath);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open game install folder {folder}", InstallPath);
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task OpenThirdPartyToolFolderAsync()
+    {
+        try
+        {
+            if (File.Exists(ThirdPartyToolPath))
+            {
+                var folder = Path.GetDirectoryName(ThirdPartyToolPath);
+                var file = await StorageFile.GetFileFromPathAsync(ThirdPartyToolPath);
+                var option = new FolderLauncherOptions();
+                option.ItemsToSelect.Add(file);
+                await Launcher.LaunchFolderPathAsync(folder, option);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open third party tool folder {folder}", ThirdPartyToolPath);
+        }
+    }
+
+
+    [RelayCommand]
+    private void DeleteGameInstallPath()
+    {
+        InstallPath = null;
+        CheckGameVersion();
+    }
+
+
+    [RelayCommand]
+    private void DeleteThirdPartyToolPath()
+    {
+        ThirdPartyToolPath = null;
+    }
+
+
+
+
+
+    private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
+    {
+        if (sender.FontSize == 14 && sender.IsTextTrimmed)
+        {
+            sender.FontSize = 12;
+        }
+    }
+
+
+
+    #endregion
+
+
+
+
+    #region Background Setting
+
+
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VideoBgVolumeButtonIcon))]
+    private int videoBgVolume = AppConfig.VideoBgVolume;
+    partial void OnVideoBgVolumeChanged(int value)
+    {
+        if (MainPage.Current is not null)
+        {
+            MainPage.Current.VideoBgVolume = value;
+        }
+    }
+
+
+    [ObservableProperty]
+    private bool useOneBg = AppConfig.UseOneBg;
+    partial void OnUseOneBgChanged(bool value)
+    {
+        AppConfig.UseOneBg = value;
+        AppConfig.SetCustomBg(CurrentGameBiz, CustomBg);
+        AppConfig.SetEnableCustomBg(CurrentGameBiz, EnableCustomBg);
+
+    }
+
+
+    public string VideoBgVolumeButtonIcon => VideoBgVolume switch
+    {
+        > 66 => "\uE995",
+        > 33 => "\uE994",
+        > 1 => "\uE993",
+        _ => "\uE992",
+    };
+
+
+    private int notMuteVolume = 100;
+
+    [RelayCommand]
+    private void Mute()
+    {
+        if (VideoBgVolume > 0)
+        {
+            notMuteVolume = VideoBgVolume;
+            VideoBgVolume = 0;
+        }
+        else
+        {
+            VideoBgVolume = notMuteVolume;
+        }
+    }
+
+
+    [ObservableProperty]
+    private bool enableCustomBg;
+    partial void OnEnableCustomBgChanged(bool value)
+    {
+        AppConfig.SetEnableCustomBg(CurrentGameBiz, value);
+        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
+        UpdateGameButtonStyle();
+    }
+
+
+    [ObservableProperty]
+    private string? customBg;
+
+
+    [RelayCommand]
+    private async Task ChangeCustomBgAsync()
+    {
+        var file = await _launcherService.ChangeCustomBgAsync();
+        if (file is not null)
+        {
+            CustomBg = file;
+            AppConfig.SetCustomBg(CurrentGameBiz, file);
+            _ = MainPage.Current.UpdateBackgroundImageAsync(true);
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task OpenCustomBgAsync()
+    {
+        await _launcherService.OpenCustomBgAsync(CustomBg);
+    }
+
+
+    [RelayCommand]
+    private void DeleteCustomBg()
+    {
+        AppConfig.SetCustomBg(CurrentGameBiz, null);
+        CustomBg = null;
+        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
+    }
+
+
+
+
+    #endregion
 
 
 

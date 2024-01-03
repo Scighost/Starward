@@ -393,10 +393,12 @@ public sealed partial class MainPage : PageBase
                     mediaPlayer.VideoFrameAvailable += MediaPlayer_VideoFrameAvailable;
                     mediaPlayer.Play();
                     AppConfig.IsPlayingVideo = true;
+                    WeakReferenceMessenger.Default.Send(new VideoPlayStateChangedMessage(true));
                 }
                 else
                 {
                     AppConfig.IsPlayingVideo = false;
+                    WeakReferenceMessenger.Default.Send(new VideoPlayStateChangedMessage(false));
                     using var fs = File.OpenRead(file);
                     var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
 

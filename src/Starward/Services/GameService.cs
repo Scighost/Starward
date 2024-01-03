@@ -11,9 +11,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 
 namespace Starward.Services;
@@ -53,6 +50,18 @@ internal class GameService
             AppConfig.SetGameInstallPath(biz, null);
             return null;
         }
+    }
+
+
+    public bool IsGameExeExists(GameBiz biz)
+    {
+        var path = GetGameInstallPath(biz);
+        if (path != null)
+        {
+            var exe = Path.Combine(path, GetGameExeName(biz));
+            return File.Exists(exe);
+        }
+        return false;
     }
 
 
@@ -310,57 +319,6 @@ internal class GameService
 
 
 
-    public int GetStarRailFPS(GameBiz biz)
-    {
-        var key = biz switch
-        {
-            GameBiz.hkrpg_cn => GameRegistry.GamePath_hkrpg_cn,
-            GameBiz.hkrpg_global => GameRegistry.GamePath_hkrpg_global,
-            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
-        };
-        var bytes = Registry.GetValue(key, GameRegistry.GraphicsSettings_Model_h2986158309, null) as byte[];
-        if (bytes != null)
-        {
-            var str = Encoding.UTF8.GetString(bytes).TrimEnd('\0');
-            var node = JsonNode.Parse(str);
-            if (node != null)
-            {
-                return (int)(node["FPS"] ?? 60);
-            }
-        }
-        return 60;
-    }
-
-
-
-
-    public void SetStarRailFPS(GameBiz biz, int fps)
-    {
-        var key = biz switch
-        {
-            GameBiz.hkrpg_cn => GameRegistry.GamePath_hkrpg_cn,
-            GameBiz.hkrpg_global => GameRegistry.GamePath_hkrpg_global,
-            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
-        };
-        var bytes = Registry.GetValue(key, GameRegistry.GraphicsSettings_Model_h2986158309, null) as byte[];
-        if (bytes != null)
-        {
-            var str = Encoding.UTF8.GetString(bytes).TrimEnd('\0');
-            var node = JsonNode.Parse(str);
-            if (node != null)
-            {
-                node["FPS"] = fps;
-                bytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(node));
-                Registry.SetValue(key, GameRegistry.GraphicsSettings_Model_h2986158309, bytes);
-            }
-        }
-    }
-
-
-
-
-
-
     public int UninstallGame(GameBiz gameBiz, string? loc, UninstallStep steps)
     {
         try
@@ -470,7 +428,7 @@ internal class GameService
 
 
 
-    void DeleteFolderAndParent(string folder)
+    private void DeleteFolderAndParent(string folder)
     {
         if (Directory.Exists(folder))
         {

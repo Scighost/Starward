@@ -9,8 +9,6 @@
                 xmlns:sc="using:Starward.Controls"
                 xmlns:sh="using:Starward.Helpers"
                 x:DefaultBindMode="OneWay"
-                Loaded="Page_Loaded"
-                Unloaded="Page_Unloaded"
                 mc:Ignorable="d">
 
 
@@ -188,6 +186,31 @@
                       Shadow="{StaticResource ThemeShadow}"
                       Translation="0,0,16">
 
+                    <!--  Game is Running  -->
+                    <Button Name="Button_GameIsRunning"
+                            Height="40"
+                            HorizontalAlignment="Stretch"
+                            BorderThickness="0"
+                            CornerRadius="20,0,0,20"
+                            FontSize="14"
+                            IsEnabled="False"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsGameRunning}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_GameIsRunning}" />
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      FontWeight="Bold"
+                                      Glyph="&#xE76C;" />
+                            <FontIcon Margin="-22,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      FontWeight="Bold"
+                                      Glyph="&#xE76C;" />
+                        </StackPanel>
+                    </Button>
+
                     <!--  Start Game  -->
                     <Button Name="Button_StartGame"
                             Height="40"
@@ -198,11 +221,9 @@
                             FontSize="14"
                             IsEnabled="{x:Bind CanStartGame}"
                             Style="{ThemeResource AccentButtonStyle}"
-                            Visibility="{x:Bind IsStartGameEnable}">
+                            Visibility="{x:Bind IsStartGameButtonEnable}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock Name="TextBlock_StartGame"
-                                       VerticalAlignment="Center"
-                                       Text="{x:Bind StartGameButtonText}" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_StartGame}" />
                             <FontIcon Margin="0,2,0,0"
                                       VerticalAlignment="Center"
                                       FontSize="18"
@@ -225,7 +246,7 @@
                             CornerRadius="20,0,0,20"
                             FontSize="14"
                             Style="{ThemeResource AccentButtonStyle}"
-                            Visibility="{x:Bind IsDownloadGameEnable}">
+                            Visibility="{x:Bind IsDownloadGameButtonEnable}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Margin="0,2,0,0"
                                       VerticalAlignment="Center"
@@ -244,7 +265,7 @@
                             CornerRadius="20,0,0,20"
                             FontSize="14"
                             Style="{ThemeResource AccentButtonStyle}"
-                            Visibility="{x:Bind IsUpdateGameEnable}">
+                            Visibility="{x:Bind IsUpdateGameButtonEnable}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Margin="0,2,0,0"
                                       VerticalAlignment="Center"
@@ -254,8 +275,27 @@
                         </StackPanel>
                     </Button>
 
+                    <!--  Repair Game  -->
+                    <Button Name="Button_RepairGame"
+                            Height="40"
+                            HorizontalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind RepairGameCommand}"
+                            CornerRadius="20,0,0,20"
+                            FontSize="14"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsRepairGameButtonEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      Glyph="&#xE90F;" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
+                        </StackPanel>
+                    </Button>
+
                     <!--  Game Setting  -->
-                    <Button Width="44"
+                    <Button Width="40"
                             Height="40"
                             Padding="0"
                             HorizontalAlignment="Right"
@@ -274,6 +314,7 @@
                             </AnimatedIcon.FallbackIconSource>
                         </AnimatedIcon>
                     </Button>
+
                 </Grid>
 
 
@@ -358,7 +399,7 @@
                         CornerRadius="20"
                         Shadow="{StaticResource ThemeShadow}"
                         Translation="0,0,16"
-                        Visibility="{x:Bind IsPreDownloadEnable}">
+                        Visibility="{x:Bind IsPreInstallButtonEnable}">
                     <Button Name="Button_PreDownloadGame"
                             Height="40"
                             BorderThickness="0"
@@ -603,13 +644,12 @@
                     <StackPanel Margin="-24,12,0,0"
                                 Orientation="Horizontal"
                                 Spacing="16">
-                        <Button Name="Button_RepairGame"
-                                Height="36"
+                        <Button Height="36"
                                 Padding="24,0,16,0"
                                 BorderThickness="0"
                                 Command="{x:Bind RepairGameCommand}"
                                 CornerRadius="0,18,18,0"
-                                IsEnabled="{x:Bind IsRepairGameEnable}"
+                                IsEnabled="{x:Bind IsGameSupportRepair}"
                                 Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon Glyph="&#xE90F;" />
