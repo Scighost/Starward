@@ -1254,12 +1254,12 @@
     <value>Пожалуйста, выберите папку для хранения ваших личных данных, это очень важно!</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToTaskbar" xml:space="preserve">
-    <value>Minimize to taskbar</value>
+    <value>Свернуть в панель задач</value>
   </data>
   <data name="ExperienceSettingPage_DoNothing" xml:space="preserve">
-    <value>Do nothing</value>
+    <value>Ничего не делать</value>
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
-    <value>After Starting Game</value>
+    <value>После запуска игры</value>
   </data>
 </root>
