@@ -1252,4 +1252,13 @@
   <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
     <value>Please select a folder to store your personal data, it is very important!</value>
   </data>
+  <data name="ExperienceSettingPage_MinimizeToTaskbar" xml:space="preserve">
+    <value>Minimize to taskbar</value>
+  </data>
+  <data name="ExperienceSettingPage_DoNothing" xml:space="preserve">
+    <value>Do nothing</value>
+  </data>
+  <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
+    <value>After Starting Game</value>
+  </data>
 </root>
