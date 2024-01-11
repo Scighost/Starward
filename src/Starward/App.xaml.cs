@@ -87,7 +87,7 @@ public partial class App : Application
         }
         else
         {
-            if (AppConfig.Configuration.GetValue<bool>("quiet"))
+            if (AppConfig.Configuration.GetValue<bool>("hide"))
             {
                 m_SystemTrayWindow = new SystemTrayWindow();
             }
