@@ -664,6 +664,9 @@ internal static class AppConfig
     public static bool IsPlayingVideo { get; set; }
 
 
+    public static bool LauncherPageFirstLoaded { get; set; }
+
+
 
     #endregion
 
