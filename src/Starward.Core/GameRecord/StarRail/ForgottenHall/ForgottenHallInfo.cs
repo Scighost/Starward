@@ -38,5 +38,10 @@ public class ForgottenHallInfo
 
     [JsonPropertyName("all_floor_detail")]
     public List<ForgottenHallFloorDetail> AllFloorDetail { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
+
 }
 

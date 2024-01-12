@@ -21,6 +21,46 @@ public class ForgottenHallFloorDetail
 
     [JsonPropertyName("is_chaos")]
     public bool IsChaos { get; set; }
+
+    [JsonPropertyName("maze_id")]
+    public int MazeId { get; set; }
+
+    /// <summary>
+    /// 快速通关
+    /// </summary>
+    [JsonPropertyName("is_fast")]
+    private bool _isFast { get; set; }
+
+    /// <summary>
+    /// 快速通关
+    /// </summary>
+    [JsonIgnore]
+    public bool IsFast
+    {
+        get
+        {
+            if (_isFast)
+            {
+                return true;
+            }
+            else if (Node1?.ChallengeTime == Node2?.ChallengeTime)
+            {
+                return true;
+            }
+            else if (Node1?.Avatars?.Count == 0 || Node2?.Avatars?.Count == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

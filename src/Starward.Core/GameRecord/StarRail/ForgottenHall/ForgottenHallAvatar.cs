@@ -18,5 +18,15 @@ public class ForgottenHallAvatar
 
     [JsonPropertyName("element")]
     public string Element { get; set; }
+
+    /// <summary>
+    /// 星魂
+    /// </summary>
+    [JsonPropertyName("rank")]
+    public int Rank { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 

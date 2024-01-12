@@ -10,6 +10,10 @@ public class ForgottenHallNode
 
     [JsonPropertyName("avatars")]
     public List<ForgottenHallAvatar> Avatars { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 
