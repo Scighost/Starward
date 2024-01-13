@@ -629,7 +629,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Something Error 的本地化字符串。
+        ///   查找类似 Something went wrong 的本地化字符串。
         /// </summary>
         public static string DownloadGamePage_SomethingError {
             get {
@@ -656,7 +656,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 The following file verify failed: 的本地化字符串。
+        ///   查找类似 Failed to verify the following file: 的本地化字符串。
         /// </summary>
         public static string DownloadGamePage_TheFollowingFileVerifyFailed {
             get {
@@ -890,7 +890,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Cannot find saved URL of uid {0}. 的本地化字符串。
+        ///   查找类似 Cannot find saved URL of UID {0}. 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_CannotFindSavedURLOfUid {
             get {
@@ -926,7 +926,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Deleted {0} gacha records of Uid {1}. 的本地化字符串。
+        ///   查找类似 Deleted {0} gacha record(s) of UID {1}. 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_DeletedGachaRecordsOfUid {
             get {
@@ -935,7 +935,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 All gacha records of uid {0} will be deleted, and this operation is irreversible. 的本地化字符串。
+        ///   查找类似 All gacha records of UID {0} will be deleted, and you won&apos;t able to undo this operation. 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_DeleteGachaRecordsWarning {
             get {
@@ -1088,7 +1088,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Got {0} records, added {1} records. 的本地化字符串。
+        ///   查找类似 Got {0} record(s), added {1} record(s). 的本地化字符串。
         /// </summary>
         public static string GachaLogService_GetGachaResult {
             get {
@@ -1097,7 +1097,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Getting uid 的本地化字符串。
+        ///   查找类似 Getting UID 的本地化字符串。
         /// </summary>
         public static string GachaLogService_GettingUid {
             get {
@@ -1448,7 +1448,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Import {0} wish records successfully. 的本地化字符串。
+        ///   查找类似 Import {0} wish record(s) successfully. 的本地化字符串。
         /// </summary>
         public static string GenshinGachaService_ImportWishRecordsSuccessfully {
             get {
@@ -1756,7 +1756,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Custom Start Executable 的本地化字符串。
+        ///   查找类似 Custom Startup Executable 的本地化字符串。
         /// </summary>
         public static string LauncherPage_CustomStartExecutable {
             get {
@@ -1990,7 +1990,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Use a third-party plugin to start instead, and game time cannot be recorded when enabled. 的本地化字符串。
+        ///   查找类似 Use a third-party plugin to start instead. Game time cannot be recorded when enabled. 的本地化字符串。
         /// </summary>
         public static string LauncherPage_ThirdPartyToolDesc {
             get {
@@ -3145,7 +3145,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Import {0} warp records successfully. 的本地化字符串。
+        ///   查找类似 Import {0} warp record(s) successfully. 的本地化字符串。
         /// </summary>
         public static string StarRailGachaService_ImportWarpRecordsSuccessfully {
             get {
@@ -3307,7 +3307,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Built Time: 的本地化字符串。
+        ///   查找类似 Build Time: 的本地化字符串。
         /// </summary>
         public static string UpdatePage_BuiltTime {
             get {

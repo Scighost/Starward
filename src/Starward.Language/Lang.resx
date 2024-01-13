@@ -257,7 +257,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Decompressing</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>Something Error</value>
+    <value>Something went wrong</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
     <value>Retry</value>
@@ -284,7 +284,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Verify Failed</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>The following file verify failed:</value>
+    <value>Failed to verify the following file:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
     <value>Redownload</value>
@@ -350,7 +350,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Language</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>Cannot find saved URL of uid {0}.</value>
+    <value>Cannot find saved URL of UID {0}.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
@@ -372,11 +372,11 @@ closing the program during decompression will cause game file corruption.</value
     <value>Delete</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>Deleted {0} gacha records of Uid {1}.</value>
+    <value>Deleted {0} gacha record(s) of UID {1}.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>All gacha records of uid {0} will be deleted, and this operation is irreversible.</value>
+    <value>All gacha records of UID {0} will be deleted, and you won't able to undo this operation.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
@@ -386,20 +386,20 @@ closing the program during decompression will cause game file corruption.</value
     <value>Warp Records</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>Getting uid</value>
+    <value>Getting UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
     <value>This account has no gacha records in the last 6 months.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>Got {0} records, added {1} records.</value>
+    <value>Got {0} record(s), added {1} record(s).</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} wish records successfully.</value>
+    <value>Import {0} wish record(s) successfully.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} warp records successfully.</value>
+    <value>Import {0} warp record(s) successfully.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
     <value>Already the latest version</value>
@@ -558,7 +558,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Repair Game</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>Custom Start Executable</value>
+    <value>Custom Startup Executable</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>Select</value>
@@ -734,7 +734,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Links:</value>
   </data>
   <data name="UpdatePage_BuiltTime" xml:space="preserve">
-    <value>Built Time:</value>
+    <value>Build Time:</value>
   </data>
   <data name="UpdatePage_ReleaseChannel" xml:space="preserve">
     <value>Release Channel:</value>
@@ -776,7 +776,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Release Page</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>Use a third-party plugin to start instead, and game time cannot be recorded when enabled.</value>
+    <value>Use a third-party plugin to start instead. Game time cannot be recorded when enabled.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>Specify the language of gacha records, such as en-US.</value>
