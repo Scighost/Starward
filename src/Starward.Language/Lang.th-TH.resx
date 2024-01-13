@@ -256,7 +256,7 @@
     <value>กำลังแตกไฟล์</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>บางอย่างผิดพลาด</value>
+    <value>Something went wrong</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
     <value>ลองใหม่</value>
@@ -283,7 +283,7 @@
     <value>การตรวจสอบความสมบูรณ์ของไฟล์เกมผิดพลาด</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>ไม่สามารถตรวจสอบความสมบูรณ์ของไฟล์เหล่านี้ได้:</value>
+    <value>Failed to verify the following file:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
     <value>ดาวน์โหลดใหม่</value>
@@ -349,7 +349,7 @@
     <value>ภาษา</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>ไม่พบบันทึกการสุ่มของ UID {0}</value>
+    <value>Cannot find saved URL of UID {0}.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
@@ -371,11 +371,11 @@
     <value>ลบ</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>ลบประวัติการสุ่ม {0} ครั้งของ UID {1}</value>
+    <value>Deleted {0} gacha record(s) of UID {1}.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>ประวัติการสุ่มกาชาของ UID {0} จะถูกลบทั้งหมด และกระบวนการนี้จะไม่สามารถย้อนกลับได้</value>
+    <value>All gacha records of UID {0} will be deleted, and you won't able to undo this operation.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
@@ -385,20 +385,20 @@
     <value>ประวัติการวาร์ป</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>กำลังดึง UID</value>
+    <value>Getting UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
     <value>บัญชีนี้ไม่มีประวัติการสุ่มในช่วง 6 เดือนที่ผ่านมา</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>ดึงบันทึกการสุ่มทั้งหมด {0} โรล เพิ่มเข้าไปทั้งหมด {1} โรค</value>
+    <value>Got {0} record(s), added {1} record(s).</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>นำเข้า {0} ประวัติการสุ่มสำเร็จ</value>
+    <value>Import {0} wish record(s) successfully.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>นำเข้าประวัติการวาร์ป {0} โรลเสร็จสมบูรณ์</value>
+    <value>Import {0} warp record(s) successfully.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
     <value>เป็นเวอร์ชันล่าสุดแล้ว</value>
@@ -557,7 +557,7 @@
     <value>ซ่อมแซมไฟล์เกม</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>ตัวเรียกใช้งานที่กำหนดเอง</value>
+    <value>Custom Startup Executable</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>เลือก</value>
@@ -733,7 +733,7 @@
     <value>ลิงค์:</value>
   </data>
   <data name="UpdatePage_BuiltTime" xml:space="preserve">
-    <value>เวลาบิวด์:</value>
+    <value>Build Time:</value>
   </data>
   <data name="UpdatePage_ReleaseChannel" xml:space="preserve">
     <value>ช่องอัพเดต:</value>
@@ -775,7 +775,7 @@
     <value>หน้าอัพเดต:</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>ใช้ปลั๊กอินของบุุคคลที่ 3 ในการเริ่มเกม - เวลาที่เล่นจะไม่สามารถนับได้</value>
+    <value>Use a third-party plugin to start instead. Game time cannot be recorded when enabled.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>กำหนดภาษาของประวัติการสุ่ม เช่น th-TH</value>
@@ -1260,5 +1260,11 @@
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
     <value>After Starting Game</value>
+  </data>
+  <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
+    <value>Quick Cleared</value>
+  </data>
+  <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
+    <value>Pure Fiction</value>
   </data>
 </root>
