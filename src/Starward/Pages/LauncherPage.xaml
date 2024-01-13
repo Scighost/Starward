@@ -649,7 +649,7 @@
                                 BorderThickness="0"
                                 Command="{x:Bind RepairGameCommand}"
                                 CornerRadius="0,18,18,0"
-                                IsEnabled="{x:Bind IsGameSupportRepair}"
+                                IsEnabled="{x:Bind IsSettingGameRepairButtonEnabled}"
                                 Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon Glyph="&#xE90F;" />

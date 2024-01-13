@@ -429,7 +429,8 @@ public sealed partial class LauncherPage : PageBase
     [NotifyPropertyChangedFor(nameof(IsUpdateGameButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsPreInstallButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsRepairGameButtonEnable))]
-    [NotifyPropertyChangedFor(nameof(IsGameSupportRepair))]
+    [NotifyPropertyChangedFor(nameof(IsGameSupportCompleteRepair))]
+    [NotifyPropertyChangedFor(nameof(IsSettingGameRepairButtonEnabled))]
     private Version? localGameVersion;
 
     [ObservableProperty]
@@ -445,16 +446,17 @@ public sealed partial class LauncherPage : PageBase
     [NotifyPropertyChangedFor(nameof(IsStartGameButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsDownloadGameButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsRepairGameButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsSettingGameRepairButtonEnabled))]
     private bool isGameExeExists;
 
 
-    public bool IsGameSupportRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && (InstallPath != null || LocalGameVersion != null);
+    public bool IsGameSupportCompleteRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && (CurrentGameBiz.ToGame() != GameBiz.Honkai3rd || (CurrentGameBiz.ToGame() == GameBiz.Honkai3rd && IsGameExeExists));
 
 
     public bool IsStartGameButtonEnable => LocalGameVersion != null && LocalGameVersion >= LatestGameVersion && IsGameExeExists && !IsGameRunning;
 
 
-    public bool IsDownloadGameButtonEnable => (LocalGameVersion == null && !IsGameExeExists) || ((LocalGameVersion == null || !IsGameExeExists) && !IsGameSupportRepair);
+    public bool IsDownloadGameButtonEnable => (LocalGameVersion == null && !IsGameExeExists) || ((LocalGameVersion == null || !IsGameExeExists) && !IsGameSupportCompleteRepair);
 
 
     public bool IsUpdateGameButtonEnable => LocalGameVersion != null && LatestGameVersion > LocalGameVersion;
@@ -463,7 +465,7 @@ public sealed partial class LauncherPage : PageBase
     public bool IsPreInstallButtonEnable => LocalGameVersion != null && PreInstallGameVersion != null;
 
 
-    public bool IsRepairGameButtonEnable => IsGameSupportRepair && ((LocalGameVersion != null && !IsGameExeExists) || (LocalGameVersion == null && IsGameExeExists));
+    public bool IsRepairGameButtonEnable => IsGameSupportCompleteRepair && ((LocalGameVersion != null && !IsGameExeExists) || (LocalGameVersion == null && IsGameExeExists));
 
 
 
@@ -1227,6 +1229,8 @@ public sealed partial class LauncherPage : PageBase
     #region Game Setting
 
 
+
+    public bool IsSettingGameRepairButtonEnabled => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && LocalGameVersion != null && IsGameExeExists;
 
 
     [ObservableProperty]
