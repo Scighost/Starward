@@ -1261,4 +1261,10 @@
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
     <value>After Starting Game</value>
   </data>
+  <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
+    <value>Quick Cleared</value>
+  </data>
+  <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
+    <value>Pure Fiction</value>
+  </data>
 </root>
