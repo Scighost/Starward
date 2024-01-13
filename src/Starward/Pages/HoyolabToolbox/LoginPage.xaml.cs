@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Starward.Core;
+using Starward.Messages;
 using Starward.Services;
 using System;
 using System.Linq;
@@ -255,7 +257,7 @@ public sealed partial class LoginPage : PageBase
             var cookieString = string.Join(";", cookies.Select(x => $"{x.Name}={x.Value}"));
             var user = await _gameRecordService.AddRecordUserAsync(cookieString);
             var roles = await _gameRecordService.AddGameRolesAsync(cookieString);
-            _gameRecordService.InvokeGameRecordRoleChanged(roles.FirstOrDefault(x => x.GameBiz == gameBiz.ToString()));
+            WeakReferenceMessenger.Default.Send(new GameRecordRoleChangedMessage(roles.FirstOrDefault(x => x.GameBiz == gameBiz.ToString())));
             TextBlock_Tip.Text = string.Format(Lang.LoginPage_AlreadyAddedGameRoles, roles.Count, string.Join("\r\n", roles.Select(x => $"{x.Nickname}  {x.Uid}")));
         }
         catch (miHoYoApiException ex)

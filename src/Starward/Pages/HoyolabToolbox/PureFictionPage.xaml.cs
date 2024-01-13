@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.GameRecord;
-using Starward.Core.GameRecord.StarRail.ForgottenHall;
+using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Helpers;
 using Starward.Messages;
 using Starward.Services;
@@ -26,17 +26,17 @@ namespace Starward.Pages.HoyolabToolbox;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public sealed partial class ForgottenHallPage : PageBase
+public sealed partial class PureFictionPage : PageBase
 {
 
 
-    private readonly ILogger<ForgottenHallPage> _logger = AppConfig.GetLogger<ForgottenHallPage>();
+    private readonly ILogger<PureFictionPage> _logger = AppConfig.GetLogger<PureFictionPage>();
 
     private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
 
-    public ForgottenHallPage()
+    public PureFictionPage()
     {
         this.InitializeComponent();
     }
@@ -60,30 +60,30 @@ public sealed partial class ForgottenHallPage : PageBase
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         await Task.Delay(16);
-        InitializeForgottenHallData();
+        InitializePureFictionInfoData();
     }
 
 
 
 
     [ObservableProperty]
-    private List<ForgottenHallInfo> forgottenHallList;
+    private List<PureFictionInfo> pureFictionList;
 
 
     [ObservableProperty]
-    private ForgottenHallInfo? currentForgottenHall;
+    private PureFictionInfo? currentPureFiction;
 
 
 
-    private void InitializeForgottenHallData()
+    private void InitializePureFictionInfoData()
     {
         try
         {
-            CurrentForgottenHall = null;
-            var list = _gameRecordService.GetForgottenHallInfoList(gameRole);
-            if (list.Count != 0)
+            CurrentPureFiction = null;
+            var list = _gameRecordService.GetPureFictionInfoList(gameRole);
+            if (list.Any())
             {
-                ForgottenHallList = list;
+                PureFictionList = list;
                 ListView_ForgottenHall.SelectedIndex = 0;
             }
             else
@@ -93,7 +93,7 @@ public sealed partial class ForgottenHallPage : PageBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Init forgotten hall data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Init pure fiction data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
         }
     }
 
@@ -109,18 +109,18 @@ public sealed partial class ForgottenHallPage : PageBase
             {
                 return;
             }
-            await _gameRecordService.RefreshForgottenHallInfoAsync(gameRole, 1);
-            await _gameRecordService.RefreshForgottenHallInfoAsync(gameRole, 2);
-            InitializeForgottenHallData();
+            await _gameRecordService.RefreshPureFictionInfoAsync(gameRole, 1);
+            await _gameRecordService.RefreshPureFictionInfoAsync(gameRole, 2);
+            InitializePureFictionInfoData();
         }
         catch (miHoYoApiException ex)
         {
-            _logger.LogError(ex, "Refresh forgotten hall data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Refresh pure fiction data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
             if (ex.ReturnCode is 1034 or 5003)
             {
                 NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Warning, Lang.Common_AccountError, ex.Message, Lang.HoyolabToolboxPage_VerifyAccount, () =>
                 {
-                    WeakReferenceMessenger.Default.Send(new VerifyAccountMessage(gameRole!, "https://webstatic.mihoyo.com/app/community-game-records/rpg/index.html?bbs_presentation_style=fullscreen#/rpg/oblivious?role_id={role_id}&server={server}&isPrev=&type=challenge"));
+                    WeakReferenceMessenger.Default.Send(new VerifyAccountMessage(gameRole!, "https://webstatic.mihoyo.com/app/community-game-records/rpg/index.html?bbs_presentation_style=fullscreen#/rpg/oblivious?role_id={role_id}&server={server}&isPrev=&type=story"));
                 });
             }
             else
@@ -130,12 +130,12 @@ public sealed partial class ForgottenHallPage : PageBase
         }
         catch (HttpRequestException ex)
         {
-            _logger.LogError(ex, "Refresh forgotten hall data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Refresh pure fiction data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
             NotificationBehavior.Instance.Warning(Lang.Common_NetworkError, ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Refresh forgotten hall data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
+            _logger.LogError(ex, "Refresh pure fiction data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
             NotificationBehavior.Instance.Error(ex);
         }
     }
@@ -146,10 +146,10 @@ public sealed partial class ForgottenHallPage : PageBase
     {
         try
         {
-            if (e.AddedItems.FirstOrDefault() is ForgottenHallInfo info)
+            if (e.AddedItems.FirstOrDefault() is PureFictionInfo info)
             {
-                CurrentForgottenHall = _gameRecordService.GetForgottenHallInfo(gameRole, info.ScheduleId);
-                Image_Emoji.Visibility = (CurrentForgottenHall?.HasData ?? false) ? Visibility.Collapsed : Visibility.Visible;
+                CurrentPureFiction = _gameRecordService.GetPureFictionInfo(gameRole, info.ScheduleId);
+                Image_Emoji.Visibility = (CurrentPureFiction?.HasData ?? false) ? Visibility.Collapsed : Visibility.Visible;
             }
         }
         catch (Exception ex)

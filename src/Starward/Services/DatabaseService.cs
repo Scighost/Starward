@@ -209,7 +209,7 @@ internal class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = new() { Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7 };
+    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8];
 
 
     private const string Sql_v1 = """
@@ -562,6 +562,28 @@ internal class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_StarRailQueryItem_Time ON StarRailQueryItem (Time);
 
         PRAGMA USER_VERSION = 7;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v8 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS PureFictionInfo
+        (
+            Uid        INTEGER NOT NULL,
+            ScheduleId INTEGER NOT NULL,
+            BeginTime  TEXT    NOT NULL,
+            EndTime    TEXT    NOT NULL,
+            StarNum    INTEGER NOT NULL,
+            MaxFloor   TEXT,
+            BattleNum  INTEGER NOT NULL,
+            HasData    INTEGER NOT NULL,
+            Value      TEXT    NOT NULL,
+            PRIMARY KEY (Uid, ScheduleId)
+        );
+        CREATE INDEX IF NOT EXISTS IX_PureFictionInfo_ScheduleId ON PureFictionInfo (ScheduleId);
+
+        PRAGMA USER_VERSION = 8;
         COMMIT TRANSACTION;
         """;
 

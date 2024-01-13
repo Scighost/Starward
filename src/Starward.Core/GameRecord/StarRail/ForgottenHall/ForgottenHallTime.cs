@@ -33,21 +33,24 @@ internal class ForgottenHallTimeJsonConverter : JsonConverter<DateTime>
         }
         else
         {
-            return new DateTime();
+            return DateTime.MinValue;
         }
     }
 
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        var time = new ForgottenHallTime
+        if (value != DateTime.MinValue)
         {
-            Year = value.Year,
-            Month = value.Month,
-            Day = value.Day,
-            Hour = value.Hour,
-            Minute = value.Minute,
-        };
-        writer.WriteRawValue(JsonSerializer.Serialize(time, typeof(ForgottenHallTime), GameRecordJsonContext.Default));
+            var time = new ForgottenHallTime
+            {
+                Year = value.Year,
+                Month = value.Month,
+                Day = value.Day,
+                Hour = value.Hour,
+                Minute = value.Minute,
+            };
+            writer.WriteRawValue(JsonSerializer.Serialize(time, typeof(ForgottenHallTime), GameRecordJsonContext.Default));
+        }
     }
 
 }

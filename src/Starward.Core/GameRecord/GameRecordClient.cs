@@ -1,6 +1,7 @@
 ﻿using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
+using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System.Net;
@@ -283,6 +284,16 @@ public abstract class GameRecordClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public abstract Task<ForgottenHallInfo> GetForgottenHallInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default);
+
+
+    /// <summary>
+    /// 虚构叙事
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="schedule">1当期，2上期</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<PureFictionInfo> GetPureFictionInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default);
 
 
     /// <summary>

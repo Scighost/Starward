@@ -854,6 +854,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Quick Cleared 的本地化字符串。
+        /// </summary>
+        public static string ForgottenHallPage_QuickCleared {
+            get {
+                return ResourceManager.GetString("ForgottenHallPage_QuickCleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Team Setup 的本地化字符串。
         /// </summary>
         public static string ForgottenHallPage_TeamSetup {
@@ -1518,6 +1527,15 @@ namespace Starward.Language {
         public static string HoyolabToolboxPage_LogIn {
             get {
                 return ResourceManager.GetString("HoyolabToolboxPage_LogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pure Fiction 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_PureFiction {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_PureFiction", resourceCulture);
             }
         }
         

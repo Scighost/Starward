@@ -28,8 +28,9 @@ public class ForgottenHallFloorDetail
     /// <summary>
     /// 快速通关
     /// </summary>
+    [JsonInclude]
     [JsonPropertyName("is_fast")]
-    private bool _isFast { get; set; }
+    internal bool _isFast { get; set; }
 
     /// <summary>
     /// 快速通关
@@ -43,11 +44,7 @@ public class ForgottenHallFloorDetail
             {
                 return true;
             }
-            else if (Node1?.ChallengeTime == Node2?.ChallengeTime)
-            {
-                return true;
-            }
-            else if (Node1?.Avatars?.Count == 0 || Node2?.Avatars?.Count == 0)
+            else if (Node1?.Avatars?.Count == 0 && Node2?.Avatars?.Count == 0)
             {
                 return true;
             }

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -8,6 +9,7 @@ using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Helpers;
+using Starward.Messages;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
@@ -127,11 +129,7 @@ public sealed partial class SpiralAbyssPage : PageBase
             {
                 NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Warning, Lang.Common_AccountError, ex.Message, Lang.HoyolabToolboxPage_VerifyAccount, () =>
                 {
-                    _gameRecordService.InvokeNavigateChanged(typeof(HyperionWebBridgePage), new HyperionWebBridgePage.PageParameter
-                    {
-                        GameRole = gameRole!,
-                        TargetUrl = "https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/deep?role_id={role_id}&server={server}",
-                    });
+                    WeakReferenceMessenger.Default.Send(new VerifyAccountMessage(gameRole!, "https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/deep?role_id={role_id}&server={server}"));
                 });
             }
             else

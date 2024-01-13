@@ -40,11 +40,11 @@ public sealed partial class HyperionWebBridgePage : PageBase
 
 
 
-    public class PageParameter
+    public class PageParameter(GameRecordRole gameRole, string targetUrl)
     {
-        public GameRecordRole GameRole { get; set; }
+        public GameRecordRole GameRole { get; set; } = gameRole;
 
-        public string TargetUrl { get; set; }
+        public string TargetUrl { get; set; } = targetUrl;
     }
 
 

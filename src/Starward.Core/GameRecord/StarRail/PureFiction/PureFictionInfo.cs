@@ -1,9 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using Starward.Core.GameRecord.StarRail.ForgottenHall;
+using System.Text.Json.Serialization;
 
-namespace Starward.Core.GameRecord.StarRail.ForgottenHall;
+namespace Starward.Core.GameRecord.StarRail.PureFiction;
 
-
-public class ForgottenHallInfo
+public class PureFictionInfo : IJsonOnDeserialized
 {
 
     [JsonPropertyName("uid")]
@@ -34,17 +34,17 @@ public class ForgottenHallInfo
     public bool HasData { get; set; }
 
     [JsonPropertyName("all_floor_detail")]
-    public List<ForgottenHallFloorDetail> AllFloorDetail { get; set; }
+    public List<PureFictionFloorDetail> AllFloorDetail { get; set; }
 
     [JsonPropertyName("groups")]
-    public List<ForgottenHallMeta>? Metas { get; set; }
+    public List<PureFictionMeta>? Metas { get; set; }
 
     [JsonIgnore]
     public string? Name
     {
         get
         {
-            if (Metas?.FirstOrDefault(x => x.ScheduleId == this.ScheduleId) is ForgottenHallMeta meta)
+            if (Metas?.FirstOrDefault(x => x.ScheduleId == this.ScheduleId) is PureFictionMeta meta)
             {
                 return meta.Name;
             }
@@ -59,5 +59,21 @@ public class ForgottenHallInfo
     [JsonExtensionData]
     public Dictionary<string, object>? ExtensionData { get; set; }
 
-}
 
+    public void OnDeserialized()
+    {
+        if (ScheduleId == 0 && Metas?.Count == 1)
+        {
+            ScheduleId = Metas[0].ScheduleId;
+        }
+        if (BeginTime == DateTime.MinValue && Metas?.Count == 1)
+        {
+            BeginTime = Metas[0].BeginTime;
+        }
+        if (EndTime == DateTime.MinValue && Metas?.Count == 1)
+        {
+            EndTime = Metas[0].EndTime;
+        }
+    }
+
+}

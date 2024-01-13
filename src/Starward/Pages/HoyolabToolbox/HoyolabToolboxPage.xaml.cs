@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -7,6 +8,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Helpers;
+using Starward.Messages;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
@@ -76,8 +78,14 @@ public sealed partial class HoyolabToolboxPage : PageBase
         {
             CloseNavigationViewPane();
         }
-        _gameRecordService.GameRecordRoleChanged += _gameRecordService_GameRecordRoleChanged;
-        _gameRecordService.NavigateChanged += _gameRecordService_NavigateChanged;
+        WeakReferenceMessenger.Default.Register<GameRecordRoleChangedMessage>(this, (r, m) =>
+        {
+            LoadGameRoles(m.GameRole);
+        });
+        WeakReferenceMessenger.Default.Register<VerifyAccountMessage>(this, (r, m) =>
+        {
+            NavigateTo(typeof(HyperionWebBridgePage), new HyperionWebBridgePage.PageParameter(m.GameRole, m.TargetUrl));
+        });
         await Task.Delay(16);
         NavigateTo(typeof(BlankPage));
         await CheckAgreementAsync();
@@ -88,8 +96,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
 
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
-        _gameRecordService.GameRecordRoleChanged -= _gameRecordService_GameRecordRoleChanged;
-        _gameRecordService.NavigateChanged -= _gameRecordService_NavigateChanged;
+        WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
 
@@ -191,6 +198,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
         {
             NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
             NavigationViewItem_ForgottenHall.Visibility = Visibility.Visible;
+            NavigationViewItem_PureFiction.Visibility = Visibility.Visible;
             NavigationViewItem_TrailblazeMonthlyCalendar.Visibility = Visibility.Visible;
         }
     }
@@ -244,12 +252,6 @@ public sealed partial class HoyolabToolboxPage : PageBase
         }
     }
 
-
-
-    private void _gameRecordService_GameRecordRoleChanged(object? sender, GameRecordRole? e)
-    {
-        LoadGameRoles(e);
-    }
 
 
 
@@ -431,6 +433,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
                     nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
                     nameof(SimulatedUniversePage) => typeof(SimulatedUniversePage),
                     nameof(ForgottenHallPage) => typeof(ForgottenHallPage),
+                    nameof(PureFictionPage) => typeof(PureFictionPage),
                     nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
                     _ => null,
                 };
@@ -438,12 +441,6 @@ public sealed partial class HoyolabToolboxPage : PageBase
             }
         }
         catch { }
-    }
-
-
-    private void _gameRecordService_NavigateChanged(object? sender, (Type Page, object? Parameter) e)
-    {
-        NavigateTo(e.Page, e.Parameter);
     }
 
 

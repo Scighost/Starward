@@ -1,6 +1,7 @@
 ﻿using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
+using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System.Text.RegularExpressions;
@@ -268,6 +269,31 @@ public class HyperionClient : GameRecordClient
         request.Headers.Add(x_rpc_client_type, "5");
         request.Headers.Add(X_Request_With, com_mihoyo_hyperion);
         var data = await CommonSendAsync<ForgottenHallInfo>(request, cancellationToken);
+        data.Uid = role.Uid;
+        return data;
+    }
+
+
+    /// <summary>
+    /// 虚构叙事
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="schedule">1当期，2上期</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<PureFictionInfo> GetPureFictionInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    {
+        var url = $"https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/challenge_story?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}&need_all=true";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_device_id, Regex.Match(role.Cookie ?? "", @"_MHYUUID=([^;]+)").Groups[1].Value);
+        request.Headers.Add(x_rpc_device_fp, Regex.Match(role.Cookie ?? "", @"DEVICEFP=([^;]+)").Groups[1].Value);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(X_Request_With, com_mihoyo_hyperion);
+        var data = await CommonSendAsync<PureFictionInfo>(request, cancellationToken);
         data.Uid = role.Uid;
         return data;
     }

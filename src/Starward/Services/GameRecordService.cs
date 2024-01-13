@@ -5,6 +5,7 @@ using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
+using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System;
@@ -29,11 +30,6 @@ internal class GameRecordService
     private readonly HoyolabClient _hoyolabClient;
 
     private GameRecordClient _gameRecordClient;
-
-
-    public event EventHandler<GameRecordRole?> GameRecordRoleChanged;
-
-    public event EventHandler<(Type Page, object? Parameter)> NavigateChanged;
 
 
     public string Language { get => _hoyolabClient.Language; set => _hoyolabClient.Language = value; }
@@ -69,17 +65,6 @@ internal class GameRecordService
         _gameRecordClient = hyperionClient;
     }
 
-
-
-    public void InvokeGameRecordRoleChanged(GameRecordRole? role)
-    {
-        GameRecordRoleChanged?.Invoke(this, role);
-    }
-
-    public void InvokeNavigateChanged(Type Page, object? Parameter = null)
-    {
-        NavigateChanged?.Invoke(this, (Page, Parameter));
-    }
 
 
 
@@ -493,6 +478,74 @@ internal class GameRecordService
             return null;
         }
         return JsonSerializer.Deserialize<ForgottenHallInfo>(value);
+    }
+
+
+
+    #endregion
+
+
+
+
+    #region Pure Fiction
+
+
+
+    public async Task<PureFictionInfo> RefreshPureFictionInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    {
+        var info = await _gameRecordClient.GetPureFictionInfoAsync(role, schedule);
+        if (info.ScheduleId == 0)
+        {
+            return info;
+        }
+        var obj = new
+        {
+            info.Uid,
+            info.ScheduleId,
+            info.BeginTime,
+            info.EndTime,
+            info.StarNum,
+            info.MaxFloor,
+            info.BattleNum,
+            info.HasData,
+            Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+        };
+        using var dapper = _databaseService.CreateConnection();
+        dapper.Execute("""
+            INSERT OR REPLACE INTO PureFictionInfo (Uid, ScheduleId, BeginTime, EndTime, StarNum, MaxFloor, BattleNum, HasData, Value)
+            VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @StarNum, @MaxFloor, @BattleNum, @HasData, @Value);
+            """, obj);
+        return info;
+    }
+
+
+
+    public List<PureFictionInfo> GetPureFictionInfoList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<PureFictionInfo>();
+        }
+        using var dapper = _databaseService.CreateConnection();
+        var list = dapper.Query<PureFictionInfo>("""
+            SELECT Uid, ScheduleId, BeginTime, EndTime, StarNum, MaxFloor, BattleNum, HasData FROM PureFictionInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
+            """, new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public PureFictionInfo? GetPureFictionInfo(GameRecordRole role, int scheduleId)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        var value = dapper.QueryFirstOrDefault<string>("""
+            SELECT Value FROM PureFictionInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
+            """, new { role.Uid, scheduleId });
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+        return JsonSerializer.Deserialize<PureFictionInfo>(value);
     }
 
 
