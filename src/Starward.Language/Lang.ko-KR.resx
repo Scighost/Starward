@@ -257,7 +257,7 @@
     <value>압축해제 중</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>뭔가 잘못 됐어요!</value>
+    <value>Something went wrong</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
     <value>다시시도</value>
@@ -284,7 +284,7 @@
     <value>파일 오류</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>오류 파일 리스트</value>
+    <value>Failed to verify the following file:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
     <value>다시다운로드</value>
@@ -350,7 +350,7 @@
     <value>언어</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value> Uid {0} 에 저장된 기록이 없습니다.</value>
+    <value>Cannot find saved URL of UID {0}.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
@@ -372,11 +372,11 @@
     <value>삭제</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>Uid {1} 의 뽑기기록  {0} 건이 삭제되었습니다.</value>
+    <value>Deleted {0} gacha record(s) of UID {1}.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>Uid {0} 의 모든 뽑기기록을 삭제합니다. 이 작업은 되돌릴수 없습니다.</value>
+    <value>All gacha records of UID {0} will be deleted, and you won't able to undo this operation.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
@@ -386,20 +386,20 @@
     <value>워프기록</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>UID 불러오는 중</value>
+    <value>Getting UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
     <value>이 계정에는 최근 6개월의 뽑기 기록이 없습니다.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value> {0} 건 불러오기 성공, {1} 건이 추가되었습니다.</value>
+    <value>Got {0} record(s), added {1} record(s).</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>{0} 건의 뽑기기록을 불러왔습니다.</value>
+    <value>Import {0} wish record(s) successfully.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>{0} 건의 뽑기기록을 불러왔습니다.</value>
+    <value>Import {0} warp record(s) successfully.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
     <value>이미 최신버전 입니다.</value>
@@ -558,7 +558,7 @@
     <value>게임복구</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>시작변수 적용</value>
+    <value>Custom Startup Executable</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>선택</value>
@@ -734,7 +734,7 @@
     <value>링크:</value>
   </data>
   <data name="UpdatePage_BuiltTime" xml:space="preserve">
-    <value>빌드시간:</value>
+    <value>Build Time:</value>
   </data>
   <data name="UpdatePage_ReleaseChannel" xml:space="preserve">
     <value>릴리즈 채널:</value>
@@ -776,7 +776,7 @@
     <value>릴리즈페이지</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>서드파티 실행기로 게임 실행시 게임기록을 사용할수 없습니다.</value>
+    <value>Use a third-party plugin to start instead. Game time cannot be recorded when enabled.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>뽑기 기록에 사용할 언어를 지정하세요. 예: ko-KR</value>
@@ -1261,5 +1261,11 @@
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
     <value>After Starting Game</value>
+  </data>
+  <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
+    <value>Quick Cleared</value>
+  </data>
+  <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
+    <value>Pure Fiction</value>
   </data>
 </root>
