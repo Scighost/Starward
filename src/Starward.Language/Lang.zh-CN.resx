@@ -257,7 +257,7 @@
     <value>解压中</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>出错了</value>
+    <value>Something went wrong</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
     <value>重试</value>
@@ -284,7 +284,7 @@
     <value>校验失败</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>以下文件校验失败：</value>
+    <value>Failed to verify the following file:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
     <value>重新下载</value>
@@ -350,7 +350,7 @@
     <value>语言</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>无法找到 Uid {0} 的已保存的抽卡记录。</value>
+    <value>Cannot find saved URL of UID {0}.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
@@ -372,11 +372,11 @@
     <value>删除</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>已删除 Uid {1} 的抽卡记录 {0} 条。</value>
+    <value>Deleted {0} gacha record(s) of UID {1}.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>即将删除 Uid {0} 的所有抽卡记录，此操作不可恢复。</value>
+    <value>All gacha records of UID {0} will be deleted, and you won't able to undo this operation.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
@@ -386,20 +386,20 @@
     <value>跃迁记录</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>正在获取 uid</value>
+    <value>Getting UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
     <value>该账号最近 6 个月没有抽卡记录</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>获取 {0} 条记录，新增 {1} 条记录</value>
+    <value>Got {0} record(s), added {1} record(s).</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>成功导入祈愿记录 {0} 条</value>
+    <value>Import {0} wish record(s) successfully.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>成功导入跃迁记录 {0} 条</value>
+    <value>Import {0} warp record(s) successfully.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
     <value>已是最新版本</value>
@@ -558,7 +558,7 @@
     <value>一键修复</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>自定义启动程序</value>
+    <value>Custom Startup Executable</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>选择</value>
@@ -734,7 +734,7 @@
     <value>相关链接：</value>
   </data>
   <data name="UpdatePage_BuiltTime" xml:space="preserve">
-    <value>编译时间：</value>
+    <value>Build Time:</value>
   </data>
   <data name="UpdatePage_ReleaseChannel" xml:space="preserve">
     <value>更新渠道：</value>
@@ -776,7 +776,7 @@
     <value>发布页面</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>使用第三方插件代替启动，启用后无法记录游戏时间。</value>
+    <value>Use a third-party plugin to start instead. Game time cannot be recorded when enabled.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>指定抽卡记录的语言，比如 zh-CN 。</value>
@@ -1261,5 +1261,11 @@
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
     <value>游戏启动后</value>
+  </data>
+  <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
+    <value>Quick Cleared</value>
+  </data>
+  <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
+    <value>Pure Fiction</value>
   </data>
 </root>
