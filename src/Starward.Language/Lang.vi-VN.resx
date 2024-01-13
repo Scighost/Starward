@@ -1262,4 +1262,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
     <value>Sau khi khởi động trò chơi</value>
   </data>
+  <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
+    <value>Quick Cleared</value>
+  </data>
+  <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
+    <value>Pure Fiction</value>
+  </data>
 </root>
