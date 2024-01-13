@@ -257,7 +257,7 @@
     <value>Распаковка</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>Ошибка</value>
+    <value>Something went wrong</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
     <value>Повторить</value>
@@ -284,7 +284,7 @@
     <value>Сбой проверки</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>Ошибка проверки следующего файла:</value>
+    <value>Failed to verify the following file:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
     <value>Повторно загрузить</value>
@@ -350,7 +350,7 @@
     <value>Язык</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>Не удается найти сохраненный URL uid {0}.</value>
+    <value>Cannot find saved URL of UID {0}.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
@@ -372,11 +372,11 @@
     <value>Удалить</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>Удалены записи {0} гачи Uid {1}.</value>
+    <value>Deleted {0} gacha record(s) of UID {1}.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>Все записи гачи Uid {0} будут удалены, и эта операция необратима.</value>
+    <value>All gacha records of UID {0} will be deleted, and you won't able to undo this operation.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
@@ -386,20 +386,20 @@
     <value>История Прижков</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>Получить uid</value>
+    <value>Getting UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
     <value>У этого аккаунта нет записей о гаче за последние 6 месяцев.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>Получено {0} записей, добавлено {1} записи.</value>
+    <value>Got {0} record(s), added {1} record(s).</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>Импорт {0} записей молитв успешно завершен.</value>
+    <value>Import {0} wish record(s) successfully.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>Импорт {0} записей прыжков успешно завершен.</value>
+    <value>Import {0} warp record(s) successfully.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
     <value>Вы используете самую последнюю версию</value>
@@ -558,7 +558,7 @@
     <value>Восстановить игру</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>Пользовательский запуск исполняемых файлов</value>
+    <value>Custom Startup Executable</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>Выбрать</value>
@@ -734,7 +734,7 @@
     <value>Ссылки:</value>
   </data>
   <data name="UpdatePage_BuiltTime" xml:space="preserve">
-    <value>Время сборки:</value>
+    <value>Build Time:</value>
   </data>
   <data name="UpdatePage_ReleaseChannel" xml:space="preserve">
     <value>Канал релиза:</value>
@@ -776,7 +776,7 @@
     <value>Страница релиза</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>Использовать сторонний плагин, чтобы начать игру, и время игры не может быть записано.</value>
+    <value>Use a third-party plugin to start instead. Game time cannot be recorded when enabled.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>Укажите язык данных гача, например, en-US.</value>
@@ -1261,5 +1261,11 @@
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
     <value>После запуска игры</value>
+  </data>
+  <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
+    <value>Quick Cleared</value>
+  </data>
+  <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
+    <value>Pure Fiction</value>
   </data>
 </root>
