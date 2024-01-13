@@ -48,7 +48,6 @@ public sealed partial class SpiralAbyssPage : PageBase
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        base.OnNavigatedTo(e);
         if (e.Parameter is GameRecordRole role)
         {
             gameRole = role;
@@ -57,7 +56,7 @@ public sealed partial class SpiralAbyssPage : PageBase
 
 
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
         await Task.Delay(160);
         InitializeAbyssData();

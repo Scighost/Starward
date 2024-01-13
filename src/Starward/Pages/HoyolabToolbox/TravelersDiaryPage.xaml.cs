@@ -50,14 +50,13 @@ public sealed partial class TravelersDiaryPage : PageBase
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        base.OnNavigatedTo(e);
         if (e.Parameter is GameRecordRole role)
         {
             gameRole = role;
         }
     }
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
         await Task.Delay(16);
         await InitializeDataAsync();

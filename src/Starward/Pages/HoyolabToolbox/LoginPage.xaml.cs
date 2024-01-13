@@ -45,26 +45,12 @@ public sealed partial class LoginPage : PageBase
 
 
 
-    private GameBiz gameBiz;
-
-
-
-    protected override void OnNavigatedTo(NavigationEventArgs e)
-    {
-        base.OnNavigatedTo(e);
-        if (e.Parameter is GameBiz biz)
-        {
-            gameBiz = biz;
-        }
-    }
-
-
 
     private string GetGameBizUrl()
     {
-        if (gameBiz.IsChinaServer())
+        if (CurrentGameBiz.IsChinaServer())
         {
-            return gameBiz.ToGame() switch
+            return CurrentGameBiz.ToGame() switch
             {
                 GameBiz.GenshinImpact => $"{URL_CN}ys",
                 GameBiz.StarRail => $"{URL_CN}sr",
@@ -82,7 +68,7 @@ public sealed partial class LoginPage : PageBase
 
 
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
         await InitializeCoreWebView();
     }
@@ -257,7 +243,7 @@ public sealed partial class LoginPage : PageBase
             var cookieString = string.Join(";", cookies.Select(x => $"{x.Name}={x.Value}"));
             var user = await _gameRecordService.AddRecordUserAsync(cookieString);
             var roles = await _gameRecordService.AddGameRolesAsync(cookieString);
-            WeakReferenceMessenger.Default.Send(new GameRecordRoleChangedMessage(roles.FirstOrDefault(x => x.GameBiz == gameBiz.ToString())));
+            WeakReferenceMessenger.Default.Send(new GameRecordRoleChangedMessage(roles.FirstOrDefault(x => x.GameBiz == CurrentGameBiz.ToString())));
             TextBlock_Tip.Text = string.Format(Lang.LoginPage_AlreadyAddedGameRoles, roles.Count, string.Join("\r\n", roles.Select(x => $"{x.Nickname}  {x.Uid}")));
         }
         catch (miHoYoApiException ex)

@@ -51,7 +51,6 @@ public sealed partial class HoyolabToolboxPage : PageBase
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        base.OnNavigatedTo(e);
         if (e.Parameter is GameBiz biz)
         {
             gameBiz = biz switch
@@ -68,7 +67,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
 
 
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
         if (AppConfig.HoyolabToolboxPaneOpen)
         {
@@ -94,7 +93,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
 
 
 
-    private void Page_Unloaded(object sender, RoutedEventArgs e)
+    protected override void OnUnloaded()
     {
         WeakReferenceMessenger.Default.UnregisterAll(this);
     }

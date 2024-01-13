@@ -7,7 +7,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sp="using:Starward.Pages"
              x:DefaultBindMode="OneWay"
-             Loaded="Page_Loaded"
              mc:Ignorable="d">
 
     <Grid>

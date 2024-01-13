@@ -48,7 +48,6 @@ public sealed partial class PureFictionPage : PageBase
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        base.OnNavigatedTo(e);
         if (e.Parameter is GameRecordRole role)
         {
             gameRole = role;
@@ -57,7 +56,7 @@ public sealed partial class PureFictionPage : PageBase
 
 
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
         await Task.Delay(16);
         InitializePureFictionInfoData();
@@ -81,7 +80,7 @@ public sealed partial class PureFictionPage : PageBase
         {
             CurrentPureFiction = null;
             var list = _gameRecordService.GetPureFictionInfoList(gameRole);
-            if (list.Any())
+            if (list.Count != 0)
             {
                 PureFictionList = list;
                 ListView_ForgottenHall.SelectedIndex = 0;

@@ -11,7 +11,6 @@
               xmlns:sp="using:ScottPlot.WinUI"
               xmlns:sp2="using:Starward.Pages"
               x:DefaultBindMode="OneWay"
-              Loaded="Page_Loaded"
               mc:Ignorable="d">
 
     <Grid>
@@ -388,7 +387,7 @@
                         Shadow="{ThemeResource ThemeShadow}"
                         Translation="0,0,16"
                         Visibility="{x:Bind SelectMonthData, Converter={StaticResource ObjectToVisibilityConverter}}">
-                    <sp:WinUIPlot Name="WinUiPlot_Historical"
+                    <sp:WinUIPlot x:Name="WinUiPlot_Historical"
                                   Height="240"
                                   PointerWheelChanged="WinUiPlot_Historical_PointerWheelChanged" />
                 </Border>

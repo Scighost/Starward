@@ -10,7 +10,6 @@
              xmlns:sc="using:Starward.Controls"
              xmlns:sp="using:Starward.Pages"
              x:DefaultBindMode="OneWay"
-             Loaded="Page_Loaded"
              mc:Ignorable="d">
 
     <Page.Resources>

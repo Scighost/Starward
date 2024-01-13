@@ -49,7 +49,6 @@ public sealed partial class TrailblazeCalendarPage : PageBase
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        base.OnNavigatedTo(e);
         if (e.Parameter is GameRecordRole role)
         {
             gameRole = role;
@@ -57,12 +56,12 @@ public sealed partial class TrailblazeCalendarPage : PageBase
     }
 
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
         await Task.Delay(16);
         await InitializeDataAsync();
     }
-
+   
 
 
     [ObservableProperty]

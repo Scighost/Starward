@@ -47,7 +47,6 @@ public sealed partial class SimulatedUniversePage : PageBase
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        base.OnNavigatedTo(e);
         if (e.Parameter is GameRecordRole role)
         {
             gameRole = role;
@@ -56,10 +55,10 @@ public sealed partial class SimulatedUniversePage : PageBase
 
 
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
         await Task.Delay(16);
-        await InitializeDataAsync();
+        InitializeSimulatedUniverseRecord();
     }
 
 
@@ -79,15 +78,6 @@ public sealed partial class SimulatedUniversePage : PageBase
 
 
 
-
-    private async Task InitializeDataAsync()
-    {
-        await Task.Delay(16);
-        InitializeSimulatedUniverseRecord();
-    }
-
-
-
     private void InitializeSimulatedUniverseRecord()
     {
         try
@@ -99,7 +89,7 @@ public sealed partial class SimulatedUniversePage : PageBase
             }
             CurrentRecord = null;
             var list = _gameRecordService.GetSimulatedUniverseRecordBasics(gameRole);
-            if (list.Any())
+            if (list.Count != 0)
             {
                 RecordBasicList = list;
                 ListView_SimulatedUniverse.SelectedIndex = 0;

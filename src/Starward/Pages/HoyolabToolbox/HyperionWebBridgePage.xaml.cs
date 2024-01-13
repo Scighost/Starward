@@ -24,7 +24,6 @@ public sealed partial class HyperionWebBridgePage : PageBase
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        base.OnNavigatedTo(e);
         if (e.Parameter is PageParameter parameter)
         {
             webBridge.GameRecordRole = parameter.GameRole;
