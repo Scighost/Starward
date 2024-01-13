@@ -257,7 +257,7 @@
     <value>解凍中</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>何らかのエラーが発生しました</value>
+    <value>Something went wrong</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
     <value>再試行</value>
@@ -284,7 +284,7 @@
     <value>検証に失敗しました</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>次のファイルの検証に失敗しました:</value>
+    <value>Failed to verify the following file:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
     <value>再ダウンロード</value>
@@ -350,7 +350,7 @@
     <value>言語</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>UID {0} の保存URLが見つかりません。</value>
+    <value>Cannot find saved URL of UID {0}.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
@@ -372,11 +372,11 @@
     <value>削除</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>UID {1} の {0} のガチャの記録を削除しました。</value>
+    <value>Deleted {0} gacha record(s) of UID {1}.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>UID {0} のガチャ記録が削除されます、この操作は元に戻せません。</value>
+    <value>All gacha records of UID {0} will be deleted, and you won't able to undo this operation.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
@@ -386,20 +386,20 @@
     <value>跳躍の記録</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>UIDを取得</value>
+    <value>Getting UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
     <value>このアカウントは過去6ヶ月間のガチャの記録がありません</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>{0}件の記録を取得し、{1}件の記録を追加しました。</value>
+    <value>Got {0} record(s), added {1} record(s).</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>{0} の祈願の記録を正常にインポートしました。</value>
+    <value>Import {0} wish record(s) successfully.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>{0} の跳躍の記録を正常にインポートしました。</value>
+    <value>Import {0} warp record(s) successfully.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
     <value>最新バージョンです</value>
@@ -558,7 +558,7 @@
     <value>ゲームを修復する</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>カスタムをした状態でゲームを開始</value>
+    <value>Custom Startup Executable</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>選択</value>
@@ -734,7 +734,7 @@
     <value>リンク:</value>
   </data>
   <data name="UpdatePage_BuiltTime" xml:space="preserve">
-    <value>ビルド日時:</value>
+    <value>Build Time:</value>
   </data>
   <data name="UpdatePage_ReleaseChannel" xml:space="preserve">
     <value>リリースチャンネル:</value>
@@ -776,7 +776,7 @@
     <value>リリースページ</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>代わりにサードパーティーのプラグインを使用してゲームを開始をしてください。有効化するとゲームの時間を記録する事ができません。</value>
+    <value>Use a third-party plugin to start instead. Game time cannot be recorded when enabled.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>en-USなど言語ごとのガチャの記録を指定します。</value>
@@ -1260,5 +1260,11 @@
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
     <value>ゲーム開始後</value>
+  </data>
+  <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
+    <value>Quick Cleared</value>
+  </data>
+  <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
+    <value>Pure Fiction</value>
   </data>
 </root>
