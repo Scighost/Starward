@@ -600,7 +600,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>The following folder contains unfinished download tasks:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Please select an empty folder for installing the game, or locate the folder where the game is already installed.</value>
+    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>If it is not the latest version, please modify the config.ini file in the game installation directory.</value>
