@@ -1272,18 +1272,18 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Giúp chúng tôi dịch Starward</value>
   </data>
   <data name="FileSettingPage_Cache" xml:space="preserve">
-    <value>Cache</value>
+    <value>Bộ nhớ đệm</value>
   </data>
   <data name="FileSettingPage_Log" xml:space="preserve">
-    <value>Log</value>
+    <value>Bản ghi</value>
   </data>
   <data name="FileSettingPage_Image" xml:space="preserve">
-    <value>Image</value>
+    <value>Hình ảnh</value>
   </data>
   <data name="FileSettingPage_Browser" xml:space="preserve">
-    <value>Browser</value>
+    <value>Trình duyệt</value>
   </data>
   <data name="FileSettingPage_ClearCache" xml:space="preserve">
-    <value>Clear Cache</value>
+    <value>Dọn bộ nhớ đệm</value>
   </data>
 </root>
