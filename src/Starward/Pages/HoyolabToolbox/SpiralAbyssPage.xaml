@@ -8,12 +8,14 @@
              xmlns:local="using:Starward.Pages.HoyolabToolbox"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
+             xmlns:scv="using:Starward.Converters"
              xmlns:sp="using:Starward.Pages"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
     <Page.Resources>
         <BitmapImage x:Key="AbyssIcon" UriSource="ms-appx:///Assets/Image/UI_Icon_Tower_Star.png" />
+        <scv:SpiralAbyssBattleAvatarsSelectConverter x:Key="SpiralAbyssBattleAvatarsSelectConverter" />
     </Page.Resources>
 
     <Grid>
@@ -464,7 +466,7 @@
                                                                    Grid.Column="0"
                                                                    MinHeight="73"
                                                                    HorizontalAlignment="Left"
-                                                                   ItemsSource="{x:Bind Battles[0].Avatars}">
+                                                                   ItemsSource="{x:Bind Battles, Converter={StaticResource SpiralAbyssBattleAvatarsSelectConverter}}">
                                                         <ItemsRepeater.Layout>
                                                             <StackLayout Orientation="Horizontal" Spacing="8" />
                                                         </ItemsRepeater.Layout>
@@ -492,7 +494,7 @@
                                                                    Grid.Column="2"
                                                                    MinHeight="73"
                                                                    HorizontalAlignment="Right"
-                                                                   ItemsSource="{x:Bind Battles[1].Avatars}">
+                                                                   ItemsSource="{x:Bind Battles, Converter={StaticResource SpiralAbyssBattleAvatarsSelectConverter}, ConverterParameter=1}">
                                                         <ItemsRepeater.Layout>
                                                             <StackLayout Orientation="Horizontal" Spacing="8" />
                                                         </ItemsRepeater.Layout>
