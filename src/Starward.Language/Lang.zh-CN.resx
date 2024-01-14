@@ -1268,4 +1268,7 @@
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
     <value>虚构叙事</value>
   </data>
+  <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
+    <value>Help us translate Starward</value>
+  </data>
 </root>
