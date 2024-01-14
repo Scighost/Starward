@@ -119,7 +119,7 @@
             <TextBlock Margin="0,20,0,0"
                        FontSize="20"
                        FontWeight="SemiBold"
-                       Text="{x:Bind lang:Lang.SettingPage_Log}" />
+                       Text="{x:Bind lang:Lang.FileSettingPage_Log}" />
             <!--  open log file  -->
             <Button Height="40"
                     Margin="0,12,0,0"
@@ -144,6 +144,44 @@
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon Glyph="&#xE838;" />
                     <TextBlock Text="{x:Bind lang:Lang.SettingPage_OpenLogFolder}" />
+                </StackPanel>
+            </Button>
+
+
+            <!--  cache  -->
+            <TextBlock Margin="0,20,0,0"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Text="{x:Bind lang:Lang.FileSettingPage_Cache}" />
+            <StackPanel Margin="0,8,0,0"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                <TextBlock>
+                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.FileSettingPage_Log}" />
+                    <LineBreak />
+                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.FileSettingPage_Image}" />
+                    <LineBreak />
+                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.FileSettingPage_Browser}" />
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="{x:Bind LogCacheSize}" />
+                    <LineBreak />
+                    <Run Text="{x:Bind ImageCacheSize}" />
+                    <LineBreak />
+                    <Run Text="{x:Bind WebCacheSize}" />
+                </TextBlock>
+            </StackPanel>
+            <!--  open log folder  -->
+            <Button Height="40"
+                    Margin="0,12,0,0"
+                    Padding="16,0,16,0"
+                    BorderThickness="0"
+                    Command="{x:Bind ClearCacheCommand}"
+                    CornerRadius="8,20,20,8"
+                    Style="{ThemeResource AccentButtonStyle}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xEA99;" />
+                    <TextBlock Text="{x:Bind lang:Lang.FileSettingPage_ClearCache}" />
                 </StackPanel>
             </Button>
 

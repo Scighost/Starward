@@ -2,10 +2,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
+using Starward.Controls;
 using Starward.Services;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
@@ -26,62 +28,24 @@ public sealed partial class FileSettingPage : PageBase
 
     private readonly DatabaseService _databaseService = AppConfig.GetService<DatabaseService>();
 
+
     public FileSettingPage()
     {
         this.InitializeComponent();
+    }
+
+
+
+    protected override async void OnLoaded()
+    {
         GetLastBackupTime();
+        await UpdateCacheSizeAsync();
     }
 
 
 
 
-    #region File Manager
-
-
-    [RelayCommand]
-    private async Task OpenLogFileAsync()
-    {
-        try
-        {
-            if (File.Exists(AppConfig.LogFile))
-            {
-                var item = await StorageFile.GetFileFromPathAsync(AppConfig.LogFile);
-                await Launcher.LaunchFileAsync(item);
-            }
-            else
-            {
-                await Launcher.LaunchFolderPathAsync(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log"));
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Open log file");
-        }
-    }
-
-
-    [RelayCommand]
-    private async Task OpenLogFolderAsync()
-    {
-        try
-        {
-            if (File.Exists(AppConfig.LogFile))
-            {
-                var item = await StorageFile.GetFileFromPathAsync(AppConfig.LogFile);
-                var options = new FolderLauncherOptions();
-                options.ItemsToSelect.Add(item);
-                await Launcher.LaunchFolderPathAsync(Path.GetDirectoryName(AppConfig.LogFile), options);
-            }
-            else
-            {
-                await Launcher.LaunchFolderPathAsync(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log"));
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Open log folder");
-        }
-    }
+    #region Database
 
 
 
@@ -258,6 +222,159 @@ public sealed partial class FileSettingPage : PageBase
 
 
 
+    #region Log
+
+
+
+    [RelayCommand]
+    private async Task OpenLogFileAsync()
+    {
+        try
+        {
+            if (File.Exists(AppConfig.LogFile))
+            {
+                var item = await StorageFile.GetFileFromPathAsync(AppConfig.LogFile);
+                await Launcher.LaunchFileAsync(item);
+            }
+            else
+            {
+                await Launcher.LaunchFolderPathAsync(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log"));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open log file");
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task OpenLogFolderAsync()
+    {
+        try
+        {
+            if (File.Exists(AppConfig.LogFile))
+            {
+                var item = await StorageFile.GetFileFromPathAsync(AppConfig.LogFile);
+                var options = new FolderLauncherOptions();
+                options.ItemsToSelect.Add(item);
+                await Launcher.LaunchFolderPathAsync(Path.GetDirectoryName(AppConfig.LogFile), options);
+            }
+            else
+            {
+                await Launcher.LaunchFolderPathAsync(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log"));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open log folder");
+        }
+    }
+
+
+
+    #endregion
+
+
+
+
+
+    #region Cache
+
+
+
+    [ObservableProperty]
+    private string logCacheSize = "0.00 KB";
+
+    [ObservableProperty]
+    private string imageCacheSize = "0.00 KB";
+
+    [ObservableProperty]
+    private string webCacheSize = "0.00 KB";
+
+
+
+    private async Task UpdateCacheSizeAsync()
+    {
+        try
+        {
+            var local = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward");
+            LogCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "log"));
+            ImageCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "cache"));
+            WebCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "webview"));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update cache size");
+        }
+    }
+
+
+
+    private static async Task<string> GetFolderSizeStringAsync(string folder) => await Task.Run(() =>
+    {
+        if (Directory.Exists(folder))
+        {
+            double size = Directory.GetFiles(folder, "*", SearchOption.AllDirectories).Sum(file => new FileInfo(file).Length);
+            if (size < (1 << 20))
+            {
+                return $"{size / (1 << 10):F2} KB";
+            }
+            else
+            {
+                return $"{size / (1 << 20):F2} MB";
+            }
+        }
+        else
+        {
+            return "0.00 KB";
+        }
+    });
+
+
+
+    [RelayCommand]
+    private async Task ClearCacheAsync()
+    {
+        try
+        {
+            var local = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward");
+            await DeleteFolderAsync(Path.Combine(local, "log"));
+            await DeleteFolderAsync(Path.Combine(local, "crash"));
+            await DeleteFolderAsync(Path.Combine(local, "cache"));
+            await DeleteFolderAsync(Path.Combine(local, "webview"));
+            await DeleteFolderAsync(Path.Combine(local, "update"));
+            CachedImage.ClearCache();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Clear cache");
+        }
+        await UpdateCacheSizeAsync();
+    }
+
+
+
+    private async Task DeleteFolderAsync(string folder) => await Task.Run(() =>
+    {
+        if (Directory.Exists(folder))
+        {
+            try
+            {
+                Directory.Delete(folder, true);
+                Directory.CreateDirectory(folder);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Delete folder '{folder}'", folder);
+            }
+        }
+    });
+
+
+
+
+    #endregion
 
 
 

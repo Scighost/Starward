@@ -1271,4 +1271,19 @@ Do you accept the risk and continue to use it?</value>
   <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
     <value>Help us translate Starward</value>
   </data>
+  <data name="FileSettingPage_Cache" xml:space="preserve">
+    <value>Cache</value>
+  </data>
+  <data name="FileSettingPage_Log" xml:space="preserve">
+    <value>Log</value>
+  </data>
+  <data name="FileSettingPage_Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="FileSettingPage_Browser" xml:space="preserve">
+    <value>Browser</value>
+  </data>
+  <data name="FileSettingPage_ClearCache" xml:space="preserve">
+    <value>Clear Cache</value>
+  </data>
 </root>

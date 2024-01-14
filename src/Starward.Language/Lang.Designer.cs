@@ -818,6 +818,33 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Browser 的本地化字符串。
+        /// </summary>
+        public static string FileSettingPage_Browser {
+            get {
+                return ResourceManager.GetString("FileSettingPage_Browser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cache 的本地化字符串。
+        /// </summary>
+        public static string FileSettingPage_Cache {
+            get {
+                return ResourceManager.GetString("FileSettingPage_Cache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Clear Cache 的本地化字符串。
+        /// </summary>
+        public static string FileSettingPage_ClearCache {
+            get {
+                return ResourceManager.GetString("FileSettingPage_ClearCache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Data Folder 的本地化字符串。
         /// </summary>
         public static string FileSettingPage_DataFolder {
@@ -832,6 +859,24 @@ namespace Starward.Language {
         public static string FileSettingPage_DataFolderIsImportant {
             get {
                 return ResourceManager.GetString("FileSettingPage_DataFolderIsImportant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Image 的本地化字符串。
+        /// </summary>
+        public static string FileSettingPage_Image {
+            get {
+                return ResourceManager.GetString("FileSettingPage_Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Log 的本地化字符串。
+        /// </summary>
+        public static string FileSettingPage_Log {
+            get {
+                return ResourceManager.GetString("FileSettingPage_Log", resourceCulture);
             }
         }
         
