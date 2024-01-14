@@ -1268,4 +1268,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
     <value>Kể chuyện hư cấu</value>
   </data>
+  <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
+    <value>Giúp chúng tôi dịch Starward</value>
+  </data>
 </root>
