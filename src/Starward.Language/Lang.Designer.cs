@@ -665,6 +665,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 The download task of {0} is already running. 的本地化字符串。
+        /// </summary>
+        public static string DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning {
+            get {
+                return ResourceManager.GetString("DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The folder does not exist. 的本地化字符串。
+        /// </summary>
+        public static string DownloadGamePage_TheFolderDoesNotExist {
+            get {
+                return ResourceManager.GetString("DownloadGamePage_TheFolderDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Failed to verify the following file: 的本地化字符串。
         /// </summary>
         public static string DownloadGamePage_TheFollowingFileVerifyFailed {
@@ -1914,6 +1932,15 @@ namespace Starward.Language {
         public static string LauncherPage_PleaseCheckTheRelatedLogs {
             get {
                 return ResourceManager.GetString("LauncherPage_PleaseCheckTheRelatedLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please do not select the root directory of a drive. 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive {
+            get {
+                return ResourceManager.GetString("LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive", resourceCulture);
             }
         }
         

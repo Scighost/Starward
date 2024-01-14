@@ -162,29 +162,38 @@ public sealed partial class DownloadGamePage : PageBase
             {
                 // 重复启动
                 Title = Lang.DownloadGamePage_RepeatStart,
-                // 程序即将退出
-                Content = Lang.DownloadGamePage_SoftwareWillBeExitedSoon,
-                // 确定
-                PrimaryButtonText = Lang.Common_Confirm,
+                // 下载任务正在运行
+                Content = string.Format(Lang.DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning, gameBiz.ToGameName()),
+                PrimaryButtonText = Lang.Common_Exit,
                 XamlRoot = this.XamlRoot
             };
             await dialog.ShowAsync();
             await instance.RedirectActivationToAsync(AppInstance.GetCurrent().GetActivatedEventArgs());
             Environment.Exit(0);
         }
-        if (gameBiz.ToGame() is GameBiz.None
-            || gameBiz is GameBiz.hk4e_cloud
-            || !Directory.Exists(gameFolder))
+        if (gameBiz.ToGame() is GameBiz.None || gameBiz is GameBiz.hk4e_cloud)
         {
             instance.UnregisterKey();
             var dialog = new ContentDialog
             {
-                // 参数错误
+                // 游戏区服错误
                 Title = Lang.DownloadGamePage_ParameterError,
-                // 程序即将退出
-                Content = Lang.DownloadGamePage_SoftwareWillBeExitedSoon,
-                // 确定
-                PrimaryButtonText = Lang.Common_Confirm,
+                Content = $"({gameBiz}) is not supported.",
+                PrimaryButtonText = Lang.Common_Exit,
+                XamlRoot = this.XamlRoot
+            };
+            await dialog.ShowAsync();
+            Environment.Exit(0);
+        }
+        if (!Directory.Exists(gameFolder))
+        {
+            instance.UnregisterKey();
+            var dialog = new ContentDialog
+            {
+                // 文件夹不存在
+                Title = Lang.DownloadGamePage_ParameterError,
+                Content = $"{Lang.DownloadGamePage_TheFolderDoesNotExist}\r\n{gameFolder}",
+                PrimaryButtonText = Lang.Common_Exit,
                 XamlRoot = this.XamlRoot
             };
             await dialog.ShowAsync();
@@ -200,8 +209,7 @@ public sealed partial class DownloadGamePage : PageBase
                 Title = Lang.DownloadGamePage_NoPermission,
                 // 请使用管理员身份启动
                 Content = Lang.DownloadGamePage_PleaseStartAsAdministrator,
-                // 确定
-                PrimaryButtonText = Lang.Common_Confirm,
+                PrimaryButtonText = Lang.Common_Exit,
                 XamlRoot = this.XamlRoot
             };
             await dialog.ShowAsync();
@@ -212,7 +220,7 @@ public sealed partial class DownloadGamePage : PageBase
 
 
     [ObservableProperty]
-    private ImageSource backgroundImage/* = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"))*/;
+    private ImageSource backgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
 
 
 

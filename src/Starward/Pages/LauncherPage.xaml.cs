@@ -925,6 +925,7 @@ public sealed partial class LauncherPage : PageBase
                 return;
             }
 
+            string? temp_install_path = null;
 
             if (Directory.Exists(InstallPath))
             {
@@ -946,15 +947,15 @@ public sealed partial class LauncherPage : PageBase
                         XamlRoot = this.XamlRoot,
                     };
                     var result = await folderDialog.ShowAsync();
-                    if (result is ContentDialogResult.Secondary)
+                    if (result is ContentDialogResult.Primary)
                     {
-                        var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
-                        if (Directory.Exists(folder))
-                        {
-                            InstallPath = folder;
-                        }
+                        temp_install_path = InstallPath;
                     }
-                    if (result is ContentDialogResult.None)
+                    else if (result is ContentDialogResult.Secondary)
+                    {
+                        temp_install_path = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
+                    }
+                    else
                     {
                         return;
                     }
@@ -965,7 +966,7 @@ public sealed partial class LauncherPage : PageBase
                 var folderDialog = new ContentDialog
                 {
                     Title = Lang.LauncherPage_SelectInstallFolder,
-                    // 请选择一个空文件夹用于安装游戏，或者定位已安装游戏的文件夹。
+                    // todo 请选择一个空文件夹用于安装游戏，或者定位已安装游戏的文件夹。
                     Content = Lang.LauncherPage_SelectInstallFolderDesc,
                     PrimaryButtonText = Lang.Common_Select,
                     SecondaryButtonText = Lang.Common_Cancel,
@@ -974,18 +975,22 @@ public sealed partial class LauncherPage : PageBase
                 };
                 if (await folderDialog.ShowAsync() is ContentDialogResult.Primary)
                 {
-                    var folder = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
-                    if (Directory.Exists(folder))
-                    {
-                        InstallPath = folder;
-                    }
+                    temp_install_path = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
                 }
             }
 
-            if (!Directory.Exists(InstallPath))
+            if (!Directory.Exists(temp_install_path))
             {
                 return;
             }
+
+            if (Path.GetPathRoot(temp_install_path) == temp_install_path)
+            {
+                NotificationBehavior.Instance.Warning(Lang.LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive);
+                return;
+            }
+
+            InstallPath = temp_install_path;
 
             var downloadResource = await _downloadGameService.CheckDownloadGameResourceAsync(CurrentGameBiz, InstallPath);
             if (downloadResource is null)
