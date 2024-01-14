@@ -1211,7 +1211,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thoát hoàn toàn</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>Đóng cửa sổ nhưng vẫn giữ khay hệ thống</value>
+    <value>Đóng cửa sổ nhưng vẫn giữ biểu tượng khay hệ thống</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
     <value>Trải nghiệm người dùng</value>
