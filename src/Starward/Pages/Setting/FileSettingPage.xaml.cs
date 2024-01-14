@@ -128,6 +128,7 @@ public sealed partial class FileSettingPage : PageBase
             {
                 AppConfig.UserDataFolder = null!;
                 AppConfig.ResetServiceProvider();
+                AppConfig.SaveConfiguration();
                 App.Current.CloseSystemTray();
                 App.Current.SwitchMainWindow(new WelcomeWindow());
             }

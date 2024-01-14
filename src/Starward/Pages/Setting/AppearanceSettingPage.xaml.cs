@@ -93,6 +93,7 @@ public sealed partial class AppearanceSettingPage : PageBase
                     }
                     this.Bindings.Update();
                     WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(lang!, CultureInfo.CurrentUICulture));
+                    AppConfig.SaveConfiguration();
                 }
             }
         }
@@ -144,6 +145,7 @@ public sealed partial class AppearanceSettingPage : PageBase
                 AppConfig.WindowSizeMode = index;
                 MainWindow.Current.ChangeWindowSize();
                 WeakReferenceMessenger.Default.Send(new WindowSizeModeChangedMessage(index));
+                AppConfig.SaveConfiguration();
             }
         }
         catch { }

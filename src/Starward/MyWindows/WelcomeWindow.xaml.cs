@@ -112,6 +112,7 @@ public sealed partial class WelcomeWindow : WindowEx
         AppConfig.UserDataFolder = UserDataFolder;
         AppConfig.Language = TextLanguage;
         AppConfig.WindowSizeMode = WindowSizeMode;
+        AppConfig.SaveConfiguration();
     }
 
 

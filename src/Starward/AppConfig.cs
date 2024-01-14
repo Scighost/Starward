@@ -81,7 +81,6 @@ internal static class AppConfig
         set
         {
             windowSizeMode = value;
-            SaveConfiguration();
         }
     }
 
@@ -92,7 +91,6 @@ internal static class AppConfig
         set
         {
             language = value;
-            SaveConfiguration();
         }
     }
 
@@ -103,7 +101,6 @@ internal static class AppConfig
         set
         {
             userDataFolder = value;
-            SaveConfiguration();
         }
     }
 
@@ -165,7 +162,7 @@ internal static class AppConfig
 
 
 
-    private static void SaveConfiguration()
+    public static void SaveConfiguration()
     {
         try
         {
