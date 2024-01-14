@@ -1267,4 +1267,7 @@
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
     <value>Pure Fiction</value>
   </data>
+  <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
+    <value>Help us translate Starward</value>
+  </data>
 </root>
