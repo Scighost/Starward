@@ -600,7 +600,7 @@
     <value>Thư mục sau chứa những tác vụ tải xuống chưa hoàn thành:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Vui lòng chọn một thư mục trống để cài đặt game, hoặc chọn đường dẫn nơi mà trò chơi đã được cài đặt.</value>
+    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>Nếu đây không phải là phiên bản mới nhất, vui lòng sửa đổi tập tin config.ini ở thư mục cài đặt game.</value>
