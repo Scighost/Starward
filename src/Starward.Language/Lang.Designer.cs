@@ -2008,7 +2008,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Please select an empty folder for installing the game, or locate the folder where the game is already installed. 的本地化字符串。
+        ///   查找类似 Please select an empty folder for installing game, or locate the folder where executable file {0} is. 的本地化字符串。
         /// </summary>
         public static string LauncherPage_SelectInstallFolderDesc {
             get {

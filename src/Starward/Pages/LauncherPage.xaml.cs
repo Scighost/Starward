@@ -966,8 +966,8 @@ public sealed partial class LauncherPage : PageBase
                 var folderDialog = new ContentDialog
                 {
                     Title = Lang.LauncherPage_SelectInstallFolder,
-                    // todo 请选择一个空文件夹用于安装游戏，或者定位已安装游戏的文件夹。
-                    Content = Lang.LauncherPage_SelectInstallFolderDesc,
+                    // 请选择一个空文件夹用于安装游戏，或者定位已安装游戏的文件夹。
+                    Content = string.Format(Lang.LauncherPage_SelectInstallFolderDesc, GameService.GetGameExeName(CurrentGameBiz)),
                     PrimaryButtonText = Lang.Common_Select,
                     SecondaryButtonText = Lang.Common_Cancel,
                     DefaultButton = ContentDialogButton.Primary,
