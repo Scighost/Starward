@@ -677,7 +677,7 @@
     <value>Phiên bản hiện tại:</value>
   </data>
   <data name="SettingPage_JoinPreviewReleaseChannel" xml:space="preserve">
-    <value>Tham gia kênh xem trước phát hành</value>
+    <value>Tham gia kênh phát hành xem trước</value>
   </data>
   <data name="SettingPage_FileManager" xml:space="preserve">
     <value>Quản lí tập tin</value>
@@ -1046,7 +1046,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Bản sao lưu gần nhất</value>
   </data>
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
-    <value>Cơ sở dữ liệu sao lưu</value>
+    <value>Sao lưu cơ sở dữ liệu</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
     <value>Đã sao lưu {0} ảnh chụp màn hình mới.</value>
@@ -1190,7 +1190,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Quản lí tệp tin</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
-    <value>Đã hoàn thành</value>
+    <value>Hoàn thành</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
     <value>Liên kết</value>
@@ -1263,7 +1263,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Sau khi khởi động trò chơi</value>
   </data>
   <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
-    <value>Quick Cleared</value>
+    <value>Vượt ải nhanh</value>
   </data>
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
     <value>Kể chuyện hư cấu</value>
