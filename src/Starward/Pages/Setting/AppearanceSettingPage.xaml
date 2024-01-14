@@ -16,19 +16,27 @@
             <TextBlock FontSize="20"
                        FontWeight="SemiBold"
                        Text="{x:Bind lang:Lang.SettingPage_Language}" />
-            <Border Height="36"
-                    Margin="0,12,0,0"
-                    HorizontalAlignment="Left"
-                    Background="{ThemeResource CustomOverlayAcrylicBrush}"
-                    CornerRadius="8,18,18,8">
-                <ComboBox Name="ComboBox_Language"
-                          Height="36"
-                          MinWidth="260"
-                          Padding="18.5,0,0,0"
-                          BorderThickness="0"
-                          CornerRadius="8,18,18,8"
-                          SelectionChanged="ComboBox_Language_SelectionChanged" />
-            </Border>
+            <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                <Border Height="36"
+                        Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                        CornerRadius="8,18,18,8">
+                    <ComboBox Name="ComboBox_Language"
+                              Height="36"
+                              MinWidth="260"
+                              Padding="18.5,0,0,0"
+                              BorderThickness="0"
+                              CornerRadius="8,18,18,8"
+                              SelectionChanged="ComboBox_Language_SelectionChanged" />
+                </Border>
+                <HyperlinkButton Margin="20,0,0,0"
+                                 VerticalAlignment="Center"
+                                 NavigateUri="https://github.com/Scighost/Starward/blob/main/docs/Localization.md">
+                    <TextBlock FontSize="16"
+                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                               Text="{x:Bind lang:Lang.AppearanceSettingPage_HelpUsTranslateStarward}" />
+
+                </HyperlinkButton>
+            </StackPanel>
 
             <!--  Window Size  -->
             <TextBlock Margin="0,20,0,0"
