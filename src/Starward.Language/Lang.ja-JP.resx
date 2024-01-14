@@ -600,7 +600,7 @@
     <value>次のフォルダーは未完成のダウンロードタスクが含まれています:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>ゲームをインストールするには空のフォルダーを選択するか、またはゲームが既にインストールされているフォルダーを選択してください。</value>
+    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>最新バージョンではない場合は、ゲームのインストールディレクトリにある「config.ini」ファイルを変更してください。</value>
