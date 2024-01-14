@@ -1286,4 +1286,14 @@ Do you accept the risk and continue to use it?</value>
   <data name="FileSettingPage_ClearCache" xml:space="preserve">
     <value>Clear Cache</value>
   </data>
+  <data name="DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning" xml:space="preserve">
+    <value>The download task of {0} is already running.</value>
+    <comment>{0} is game name, like Genshin Impact.</comment>
+  </data>
+  <data name="DownloadGamePage_TheFolderDoesNotExist" xml:space="preserve">
+    <value>The folder does not exist.</value>
+  </data>
+  <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
+    <value>Please do not select the root directory of a drive.</value>
+  </data>
 </root>
