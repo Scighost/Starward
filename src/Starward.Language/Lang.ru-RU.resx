@@ -600,7 +600,7 @@
     <value>Следующая папка содержит незавершенные задачи загрузки:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Пожалуйста, выберите пустую папку для установки игры, или найдите папку, в которой уже установлена игра.</value>
+    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>Если это не последняя версия, пожалуйста, измените файл config.ini в директории установки игры.</value>
