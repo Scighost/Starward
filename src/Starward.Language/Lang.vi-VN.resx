@@ -600,7 +600,7 @@
     <value>Thư mục sau chứa những tác vụ tải xuống chưa hoàn thành:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Vui lòng chọn một thư mục trống để cài đặt game, hoặc chọn đường dẫn nơi mà trò chơi đã được cài đặt.</value>
+    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>Nếu đây không phải là phiên bản mới nhất, vui lòng sửa đổi tập tin config.ini ở thư mục cài đặt game.</value>
@@ -677,7 +677,7 @@
     <value>Phiên bản hiện tại:</value>
   </data>
   <data name="SettingPage_JoinPreviewReleaseChannel" xml:space="preserve">
-    <value>Tham gia kênh xem trước phát hành</value>
+    <value>Tham gia kênh phát hành xem trước</value>
   </data>
   <data name="SettingPage_FileManager" xml:space="preserve">
     <value>Quản lí tập tin</value>
@@ -1046,7 +1046,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Bản sao lưu gần nhất</value>
   </data>
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
-    <value>Cơ sở dữ liệu sao lưu</value>
+    <value>Sao lưu cơ sở dữ liệu</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
     <value>Đã sao lưu {0} ảnh chụp màn hình mới.</value>
@@ -1190,7 +1190,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Quản lí tệp tin</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
-    <value>Đã hoàn thành</value>
+    <value>Hoàn thành</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
     <value>Liên kết</value>
@@ -1261,5 +1261,39 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
     <value>Sau khi khởi động trò chơi</value>
+  </data>
+  <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
+    <value>Vượt ải nhanh</value>
+  </data>
+  <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
+    <value>Kể chuyện hư cấu</value>
+  </data>
+  <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
+    <value>Giúp chúng tôi dịch Starward</value>
+  </data>
+  <data name="FileSettingPage_Cache" xml:space="preserve">
+    <value>Bộ nhớ đệm</value>
+  </data>
+  <data name="FileSettingPage_Log" xml:space="preserve">
+    <value>Bản ghi</value>
+  </data>
+  <data name="FileSettingPage_Image" xml:space="preserve">
+    <value>Hình ảnh</value>
+  </data>
+  <data name="FileSettingPage_Browser" xml:space="preserve">
+    <value>Trình duyệt</value>
+  </data>
+  <data name="FileSettingPage_ClearCache" xml:space="preserve">
+    <value>Dọn bộ nhớ đệm</value>
+  </data>
+  <data name="DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning" xml:space="preserve">
+    <value>The download task of {0} is already running.</value>
+    <comment>{0} is game name, like Genshin Impact.</comment>
+  </data>
+  <data name="DownloadGamePage_TheFolderDoesNotExist" xml:space="preserve">
+    <value>The folder does not exist.</value>
+  </data>
+  <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
+    <value>Please do not select the root directory of a drive.</value>
   </data>
 </root>
