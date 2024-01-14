@@ -600,7 +600,7 @@
     <value>以下資料夾中有尚未完成的下載任務:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>請選擇一個空資料夾用於安裝遊戲，或者定位已安裝遊戲的資料夾。</value>
+    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>如果不是最新版本請修改遊戲安裝目錄中的config.ini文件。</value>
