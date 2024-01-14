@@ -599,7 +599,7 @@
     <value>โฟลเดอร์นี้มีการดาวน์โหลดที่ยังโหลดไม่เสร็จ</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>กรุณาเลือกโฟลเดอร์ว่างในการติดตั้งเกม หรือระบุโฟลเดอร์ที่ติดตั้งเกมไว้แล้ว</value>
+    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>ถ้าไม่ใช่เวอร์ชันล่าสุด กรุณาแก้ไฟล์ config.ini ในโฟลเดอร์ติดตั้งเกม</value>
