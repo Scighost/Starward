@@ -600,7 +600,7 @@
     <value>아래 폴더에 완료되지 않은 다운로드 임무 가 있습니다.</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>게임을 설치 할 폴더를 선택하거나 게임이 설치된 폴더를 선택하세요.</value>
+    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>최신버전이 아니면 게임 디렉토리의 config.ini 파일을 수정하세요.</value>
