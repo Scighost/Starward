@@ -1296,4 +1296,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
     <value>Vui lòng không chọn thư mục gốc của ổ đĩa.</value>
   </data>
+  <data name="LauncherPage_SavedAccount" xml:space="preserve">
+    <value>Saved account</value>
+  </data>
 </root>
