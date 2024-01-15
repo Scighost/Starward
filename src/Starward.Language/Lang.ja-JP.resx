@@ -1295,4 +1295,7 @@
   <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
     <value>Please do not select the root directory of a drive.</value>
   </data>
+  <data name="LauncherPage_SavedAccount" xml:space="preserve">
+    <value>Saved account</value>
+  </data>
 </root>
