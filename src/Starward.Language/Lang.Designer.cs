@@ -1990,6 +1990,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Saved account 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_SavedAccount {
+            get {
+                return ResourceManager.GetString("LauncherPage_SavedAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Save New 的本地化字符串。
         /// </summary>
         public static string LauncherPage_SaveNew {

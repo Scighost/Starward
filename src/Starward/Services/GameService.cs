@@ -146,9 +146,17 @@ internal class GameService
             {
                 account.Uid = (int)(Registry.GetValue(key, GameRegistry.App_LastUserID_h2841727341, 0) ?? 0);
             }
-            if (biz.ToGame() is GameBiz.Honkai3rd)
+            else if (biz.ToGame() is GameBiz.Honkai3rd)
             {
                 account.Uid = (int)(Registry.GetValue(key, GameRegistry.GENERAL_DATA_V2_LastLoginUserId_h47158221, 0) ?? 0);
+            }
+            else if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+            {
+                List<int> uids = GetUidsFromRegistry(biz).ToList();
+                if (uids.Count == 1)
+                {
+                    account.Uid = uids[0];
+                }
             }
             return account;
         }
@@ -157,10 +165,37 @@ internal class GameService
 
 
 
+    private IEnumerable<int> GetUidsFromRegistry(GameBiz biz)
+    {
+        if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+        {
+            string key = biz.GetGameRegistryKey().Replace(@"HKEY_CURRENT_USER\", "");
+            List<string> usds = Registry.CurrentUser.OpenSubKey(key)?.GetValueNames()?.Where(x => x.StartsWith("USD_"))?.ToList() ?? [];
+            foreach (var usd in usds)
+            {
+                string uidstr = Regex.Match(usd, @"USD_(\d+)_h").Groups[1].Value;
+                if (int.TryParse(uidstr, out int uid))
+                {
+                    if (uid != 0)
+                    {
+                        yield return uid;
+                    }
+                }
+            }
+        }
+    }
+
+
+
     public IEnumerable<GameAccount> GetGameAccountsFromDatabase(GameBiz biz)
     {
         using var dapper = _database.CreateConnection();
-        return dapper.Query<GameAccount>("SELECT * FROM GameAccount WHERE GameBiz = @biz;", new { biz });
+        var list = dapper.Query<GameAccount>("SELECT * FROM GameAccount WHERE GameBiz = @biz;", new { biz });
+        foreach (var item in list)
+        {
+            item.IsSaved = true;
+            yield return item;
+        }
     }
 
 
@@ -187,11 +222,23 @@ internal class GameService
 
 
 
+    public IEnumerable<int> GetSuggestionUids(GameBiz biz)
+    {
+        using var dapper = _database.CreateConnection();
+        List<int> uids = dapper.Query<int>("SELECT DISTINCT Uid FROM GameAccount WHERE GameBiz = @biz AND Uid > 0;", new { biz }).ToList();
+        if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+        {
+            uids.AddRange(GetUidsFromRegistry(biz));
+        }
+        return uids.Distinct().Order();
+    }
+
 
 
     public void SaveGameAccount(GameAccount account)
     {
         account.Name ??= "";
+        account.IsSaved = true;
         using var dapper = _database.CreateConnection();
         dapper.Execute("INSERT OR REPLACE INTO GameAccount (SHA256, GameBiz, Uid, Name, Value, Time) VALUES (@SHA256, @GameBiz, @Uid, @Name, @Value, @Time);", account);
         _logger.LogInformation("Save account {name} ({biz}) successfully!", account.Name, account.GameBiz);

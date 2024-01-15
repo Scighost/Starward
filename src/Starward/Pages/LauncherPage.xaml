@@ -7,11 +7,14 @@
                 xmlns:local="using:Starward.Pages"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:sc="using:Starward.Controls"
+                xmlns:scv="using:Starward.Converters"
                 xmlns:sh="using:Starward.Helpers"
                 x:DefaultBindMode="OneWay"
                 mc:Ignorable="d">
 
-
+    <Page.Resources>
+        <scv:GameAccountUidStringConverter x:Key="GameAccountUidStringConverter" />
+    </Page.Resources>
 
     <SplitView Name="SplitView_Content"
                BorderThickness="0"
@@ -448,9 +451,10 @@
                               SelectedItem="{x:Bind SelectGameAccount, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Padding="8,0,0,0" ColumnSpacing="8">
+                                <Grid Padding="8,0,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock VerticalAlignment="Center">
@@ -461,12 +465,21 @@
                                              Text="{Binding Uid}" />
                                     </TextBlock>
                                     <FontIcon Grid.Column="1"
+                                              Margin="8,0,0,0"
                                               VerticalAlignment="Bottom"
                                               FontSize="14"
                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                               Glyph="&#xE930;"
                                               ToolTipService.ToolTip="{Binding LoginAccountText}"
                                               Visibility="{Binding IsLogin}" />
+                                    <FontIcon Grid.Column="2"
+                                              Margin="8,0,0,0"
+                                              VerticalAlignment="Bottom"
+                                              FontSize="14"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE74E;"
+                                              ToolTipService.ToolTip="{Binding SaveAccountText}"
+                                              Visibility="{Binding IsSaved}" />
                                 </Grid>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
@@ -499,7 +512,7 @@
                                   Glyph="&#xE70F;" />
                         <Button.Flyout>
                             <Flyout>
-                                <StackPanel MinWidth="200" Spacing="8">
+                                <StackPanel MinWidth="200" Spacing="4">
                                     <TextBlock FontSize="16"
                                                FontWeight="SemiBold"
                                                Text="{x:Bind lang:Lang.LauncherPage_AccountInformation}" />
@@ -511,8 +524,34 @@
                                              IsSpellCheckEnabled="False"
                                              Text="{x:Bind SelectGameAccount.Name, Mode=TwoWay}" />
                                     <TextBlock Margin="0,8,0,0" Text="Uid" />
-                                    <NumberBox Minimum="0" Value="{x:Bind SelectGameAccount.Uid, Mode=TwoWay}" />
-                                    <Grid Margin="0,16,0,0"
+                                    <AutoSuggestBox x:Name="AutoSuggestBox_Uid"
+                                                    GotFocus="AutoSuggestBox_Uid_GotFocus"
+                                                    Loaded="AutoSuggestBox_Uid_Loaded"
+                                                    Text="{x:Bind SelectGameAccount.Uid, Converter={StaticResource GameAccountUidStringConverter}, Mode=TwoWay}"
+                                                    TextChanged="AutoSuggestBox_Uid_TextChanged" />
+                                    <StackPanel Margin="0,4,0,0"
+                                                Orientation="Horizontal"
+                                                Visibility="{x:Bind SelectGameAccount.IsLogin}">
+                                        <FontIcon Margin="4,0,0,1"
+                                                  VerticalAlignment="Bottom"
+                                                  FontSize="14"
+                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                  Glyph="&#xE930;" />
+                                        <TextBlock Margin="8,0,0,0"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   Text="{x:Bind lang:Lang.LauncherPage_CurrentlyLoggedInAccount}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Visibility="{x:Bind SelectGameAccount.IsSaved}">
+                                        <FontIcon Margin="4,0,0,1"
+                                                  VerticalAlignment="Bottom"
+                                                  FontSize="14"
+                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                  Glyph="&#xE74E;" />
+                                        <TextBlock Margin="8,0,0,0"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   Text="{x:Bind lang:Lang.LauncherPage_SavedAccount}" />
+                                    </StackPanel>
+                                    <Grid Margin="0,4,0,0"
                                           HorizontalAlignment="Stretch"
                                           Background="{ThemeResource CustomAcrylicBrush}"
                                           CornerRadius="20">
@@ -550,18 +589,7 @@
                                             </StackPanel>
                                         </Button>
                                     </Grid>
-                                    <StackPanel Margin="0,4,0,-4"
-                                                Orientation="Horizontal"
-                                                Visibility="{x:Bind SelectGameAccount.IsLogin}">
-                                        <FontIcon Margin="4,0,0,1"
-                                                  VerticalAlignment="Bottom"
-                                                  FontSize="14"
-                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                  Glyph="&#xE930;" />
-                                        <TextBlock Margin="8,0,0,0"
-                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                   Text="{x:Bind lang:Lang.LauncherPage_CurrentlyLoggedInAccount}" />
-                                    </StackPanel>
+
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>

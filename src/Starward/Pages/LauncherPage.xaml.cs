@@ -748,6 +748,9 @@ public sealed partial class LauncherPage : PageBase
 
 
 
+    private TextBox TextBox_AccountUid;
+
+
     [ObservableProperty]
     private List<GameAccount> gameAccountList;
 
@@ -764,6 +767,8 @@ public sealed partial class LauncherPage : PageBase
     [NotifyCanExecuteChangedFor(nameof(ChangeGameAccountCommand))]
     private bool canChangeGameAccount;
 
+
+    private List<string> suggestionUids;
 
 
     private void GetGameAccount()
@@ -876,9 +881,87 @@ public sealed partial class LauncherPage : PageBase
 
 
 
+    private void AutoSuggestBox_Uid_Loaded(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (TextBox_AccountUid is null)
+            {
+                var ele1 = VisualTreeHelper.GetChild(AutoSuggestBox_Uid, 0);
+                var ele = VisualTreeHelper.GetChild(ele1, 0);
+                if (ele is TextBox textBox)
+                {
+                    TextBox_AccountUid = textBox;
+                    TextBox_AccountUid.InputScope = new InputScope { Names = { new InputScopeName { NameValue = InputScopeNameValue.Number } } };
+                    TextBox_AccountUid.BeforeTextChanging += (s, e) =>
+                    {
+                        e.Cancel = !e.NewText.All(x => char.IsDigit(x));
+                    };
+                }
+            }
+        }
+        catch { }
+    }
 
 
+    private void AutoSuggestBox_Uid_GotFocus(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            suggestionUids = _gameService.GetSuggestionUids(CurrentGameBiz).Select(x => x.ToString()).ToList();
+            UpdateSuggestionUids(AutoSuggestBox_Uid.Text);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Get suggestion uids");
+        }
+    }
 
+
+    private void AutoSuggestBox_Uid_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        try
+        {
+            if (args.Reason is AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                UpdateSuggestionUids(sender.Text);
+            }
+        }
+        catch { }
+    }
+
+
+    private void UpdateSuggestionUids(string text)
+    {
+        try
+        {
+            if (suggestionUids != null && suggestionUids.Count > 0)
+            {
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    AutoSuggestBox_Uid.ItemsSource = suggestionUids;
+                    AutoSuggestBox_Uid.IsSuggestionListOpen = true;
+                }
+                else
+                {
+                    var list = suggestionUids.Where(x => x != text && x.StartsWith(text)).ToList();
+                    if (list.Count == 0)
+                    {
+                        AutoSuggestBox_Uid.IsSuggestionListOpen = false;
+                    }
+                    else
+                    {
+                        if (!(AutoSuggestBox_Uid.ItemsSource is List<string> source && source.SequenceEqual(list)))
+                        {
+                            AutoSuggestBox_Uid.ItemsSource = list;
+                        }
+                        AutoSuggestBox_Uid.IsSuggestionListOpen = true;
+                    }
+                }
+            }
+        }
+        catch { }
+    }
 
 
 
