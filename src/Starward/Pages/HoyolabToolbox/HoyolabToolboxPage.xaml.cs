@@ -215,11 +215,11 @@ public sealed partial class HoyolabToolboxPage : PageBase
 
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(AvatarUrl))]
     private GameRecordUser? currentUser;
 
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(AvatarUrl))]
     private GameRecordRole? currentRole;
 
 
