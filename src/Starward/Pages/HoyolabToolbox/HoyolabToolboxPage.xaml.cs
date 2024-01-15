@@ -215,11 +215,11 @@ public sealed partial class HoyolabToolboxPage : PageBase
 
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(AvatarUrl))]
     private GameRecordUser? currentUser;
 
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(AvatarUrl))]
     private GameRecordRole? currentRole;
 
 
@@ -302,6 +302,8 @@ public sealed partial class HoyolabToolboxPage : PageBase
         if (e.AddedItems.FirstOrDefault() is GameRecordRole role)
         {
             CurrentRole = role;
+            _gameRecordService.SetLastSelectGameRecordRole(gameBiz, role);
+            CurrentUser = _gameRecordService.GetGameRecordUser(CurrentRole);
             if (frame.SourcePageType?.Name is not nameof(LoginPage))
             {
                 NavigateTo(frame.SourcePageType);
