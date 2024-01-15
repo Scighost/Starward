@@ -67,7 +67,7 @@ public sealed partial class ScreenshotPage : PageBase
 
 
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
         await Task.Delay(16);
         Initialize();
@@ -75,9 +75,10 @@ public sealed partial class ScreenshotPage : PageBase
 
 
 
-    private void Page_Unloaded(object sender, RoutedEventArgs e)
+    protected override void OnUnloaded()
     {
         Watcher?.Dispose();
+        GC.Collect();
     }
 
 

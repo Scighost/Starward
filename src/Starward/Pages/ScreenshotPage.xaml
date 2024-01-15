@@ -15,8 +15,6 @@
                 xmlns:sm="using:Starward.Models"
                 xmlns:ui="using:CommunityToolkit.WinUI.UI"
                 x:DefaultBindMode="OneWay"
-                Loaded="Page_Loaded"
-                Unloaded="Page_Unloaded"
                 mc:Ignorable="d">
 
     <Page.Resources>

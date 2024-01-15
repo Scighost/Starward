@@ -61,7 +61,7 @@ public sealed partial class TrailblazeCalendarPage : PageBase
         await Task.Delay(16);
         await InitializeDataAsync();
     }
-   
+
 
 
     [ObservableProperty]

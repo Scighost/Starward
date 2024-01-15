@@ -108,14 +108,6 @@ public sealed partial class MainPage : PageBase
 
 
 
-
-    private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        UpdateDragRectangles();
-    }
-
-
-
     private async Task CheckUpdateAsync()
     {
         try

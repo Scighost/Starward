@@ -8,7 +8,6 @@
                 xmlns:s="using:Starward"
                 xmlns:sct="using:Starward.Controls.TitleBarGameIcon"
                 x:DefaultBindMode="OneWay"
-                SizeChanged="Page_SizeChanged"
                 mc:Ignorable="d">
 
 
