@@ -1299,4 +1299,19 @@ Do you accept the risk and continue to use it?</value>
   <data name="LauncherPage_SavedAccount" xml:space="preserve">
     <value>Saved account</value>
   </data>
+  <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
+    <value>Account switching cannot take effect while game is running.</value>
+  </data>
+  <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
+    <value>Recommend enabling {0} and {1} in system settings for a better user experience.</value>
+  </data>
+  <data name="AppearanceSettingPage_TransparencyEffects" xml:space="preserve">
+    <value>Transparency effects</value>
+  </data>
+  <data name="AppearanceSettingPage_AnimationEffects" xml:space="preserve">
+    <value>Animation effects</value>
+  </data>
+  <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
+    <value>Always failed to get gacha records?</value>
+  </data>
 </root>
