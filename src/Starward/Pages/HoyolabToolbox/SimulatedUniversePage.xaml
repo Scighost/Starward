@@ -31,15 +31,21 @@
         </Grid.ColumnDefinitions>
 
 
-        <Image Name="Image_Emoji"
-               Grid.RowSpan="2"
-               Grid.Column="1"
-               Width="160"
-               Height="160"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Source="{StaticResource EmojiPom}"
-               Visibility="Collapsed" />
+        <StackPanel Name="Image_Emoji"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="16"
+                    Visibility="Collapsed">
+            <Image Width="160"
+                   Height="160"
+                   Source="{StaticResource EmojiPom}" />
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="16"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_NoData}" />
+        </StackPanel>
 
         <StackPanel Margin="0,24,0,0"
                     HorizontalAlignment="Left"

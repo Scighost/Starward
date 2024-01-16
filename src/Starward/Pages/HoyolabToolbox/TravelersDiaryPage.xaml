@@ -25,15 +25,21 @@
 
 
 
-        <Image Name="Image_Emoji"
-               Grid.RowSpan="2"
-               Grid.Column="1"
-               Width="160"
-               Height="160"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Source="{StaticResource EmojiPaimon}"
-               Visibility="Collapsed" />
+        <StackPanel Name="Image_Emoji"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="16"
+                    Visibility="Collapsed">
+            <Image Width="160"
+                   Height="160"
+                   Source="{StaticResource EmojiPaimon}" />
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="16"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_NoData}" />
+        </StackPanel>
 
 
         <StackPanel Margin="0,24,0,0"
@@ -357,7 +363,7 @@
                         Shadow="{ThemeResource ThemeShadow}"
                         Translation="0,0,16"
                         Visibility="{x:Bind SelectMonthData, Converter={StaticResource ObjectToVisibilityConverter}}">
-                    <sp:WinUIPlot Name="WinUiPlot_Historical"
+                    <sp:WinUIPlot x:Name="WinUiPlot_Historical"
                                   Height="240"
                                   PointerWheelChanged="WinUiPlot_Historical_PointerWheelChanged" />
                 </Border>
