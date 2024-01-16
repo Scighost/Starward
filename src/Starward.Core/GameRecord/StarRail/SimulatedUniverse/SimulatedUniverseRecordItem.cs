@@ -56,6 +56,10 @@ public class SimulatedUniverseRecordItem
     /// </summary>
     [JsonPropertyName("progress")]
     public int Progress { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

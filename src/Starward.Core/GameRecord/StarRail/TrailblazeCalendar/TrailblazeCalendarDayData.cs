@@ -30,6 +30,10 @@ public class TrailblazeCalendarDayData
     /// </summary>
     [JsonPropertyName("last_rails_pass")]
     public int LastRailsPass { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

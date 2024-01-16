@@ -12,6 +12,10 @@ public class SimulatedUniverseRecord
 
     [JsonPropertyName("has_data")]
     public bool HasData { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

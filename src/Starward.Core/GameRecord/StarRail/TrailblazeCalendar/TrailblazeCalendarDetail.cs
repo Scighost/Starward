@@ -33,6 +33,11 @@ public class TrailblazeCalendarDetail : IJsonOnDeserialized
     [JsonPropertyName("total")]
     public int Total { get; set; }
 
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
+
+
     public void OnDeserialized()
     {
         foreach (var item in List)

@@ -23,4 +23,8 @@ public class TravelersDiaryPrimogemsMonthGroupStats
     [JsonPropertyName("percent")]
     public int Percent { get; set; }
 
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
+
 }

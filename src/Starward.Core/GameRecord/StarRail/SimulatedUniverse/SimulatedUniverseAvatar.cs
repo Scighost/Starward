@@ -18,6 +18,10 @@ public class SimulatedUniverseAvatar
 
     [JsonPropertyName("element")]
     public string Element { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

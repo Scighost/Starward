@@ -24,4 +24,8 @@ public class TravelersDiaryDayData
     public int LastMora { get; set; }
 
 
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
+
+
 }

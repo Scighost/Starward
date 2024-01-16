@@ -64,4 +64,8 @@ public class TravelersDiaryMonthData
     public List<TravelersDiaryPrimogemsMonthGroupStats> PrimogemsGroupBy { get; set; }
 
 
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
+
+
 }

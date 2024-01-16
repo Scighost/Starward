@@ -15,6 +15,10 @@ public class SimulatedUniverseBuffItem
 
     [JsonPropertyName("rank")]
     public int Rank { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

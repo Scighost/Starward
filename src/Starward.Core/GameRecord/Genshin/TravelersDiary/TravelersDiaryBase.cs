@@ -48,6 +48,10 @@ public abstract class TravelersDiaryBase
     [JsonPropertyName("data_month")]
     public int DataMonth { get; set; }
 
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
+
 }
 
 

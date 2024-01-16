@@ -15,6 +15,10 @@ public class SimulatedUniverseInfo
 
     [JsonPropertyName("last_record")]
     public SimulatedUniverseRecord LastRecord { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

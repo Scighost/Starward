@@ -57,6 +57,10 @@ public class TrailblazeCalendarMonthData
     /// </summary>
     [JsonPropertyName("group_by")]
     public List<TrailblazeCalendarMonthDataGroupBy> GroupBy { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

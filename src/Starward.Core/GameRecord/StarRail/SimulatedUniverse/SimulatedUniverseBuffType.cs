@@ -12,6 +12,10 @@ public class SimulatedUniverseBuffType
 
     [JsonPropertyName("cnt")]
     public int Cnt { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

@@ -62,6 +62,11 @@ public class TrailblazeCalendarSummary : IJsonOnDeserialized
     [JsonPropertyName("start_month")]
     public string StartMonth { get; set; }
 
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
+
+
     public void OnDeserialized()
     {
         MonthData.Uid = Uid;

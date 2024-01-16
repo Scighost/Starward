@@ -14,4 +14,8 @@ public class SpiralAbyssMonster
     [JsonPropertyName("level")]
     public int Level { get; set; }
 
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
+
 }

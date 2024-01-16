@@ -83,6 +83,10 @@ public class SpiralAbyssInfo
     public bool IsUnlock { get; set; }
 
 
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
+
+
     /// <summary>
     /// 出战最多
     /// </summary>

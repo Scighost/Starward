@@ -18,6 +18,10 @@ public class TrailblazeCalendarMonthDataGroupBy
 
     [JsonPropertyName("action_name")]
     public string ActionName { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

@@ -38,5 +38,9 @@ public class TrailblazeCalendarDetailItem
 
     [JsonPropertyName("num")]
     public int Number { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 

@@ -20,6 +20,10 @@ public class SimulatedUniverseRecordBasic
     [JsonPropertyName("schedule_end")]
     [JsonConverter(typeof(SimulatedUniverseTimeJsonConverter))]
     public DateTime ScheduleEnd { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

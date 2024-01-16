@@ -12,6 +12,10 @@ public class SimulatedUniverseMiracleItem
 
     [JsonPropertyName("icon")]
     public string Icon { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

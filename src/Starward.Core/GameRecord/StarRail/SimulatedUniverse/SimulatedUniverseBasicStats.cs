@@ -21,6 +21,10 @@ public class SimulatedUniverseBasicStats
     /// </summary>
     [JsonPropertyName("unlocked_skill_points")]
     public int UnlockedSkillPoints { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 

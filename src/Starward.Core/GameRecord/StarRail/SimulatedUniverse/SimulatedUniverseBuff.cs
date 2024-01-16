@@ -9,6 +9,10 @@ public class SimulatedUniverseBuff
 
     [JsonPropertyName("items")]
     public List<SimulatedUniverseBuffItem> Items { get; set; }
+
+
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 }
 
 
