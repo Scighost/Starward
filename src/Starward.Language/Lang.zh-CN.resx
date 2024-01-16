@@ -1315,6 +1315,6 @@
     <value>总是获取不到抽卡记录？</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
-    <value>No Data</value>
+    <value>没有数据</value>
   </data>
 </root>
