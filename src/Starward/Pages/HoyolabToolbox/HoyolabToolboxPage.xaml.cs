@@ -12,7 +12,6 @@ using Starward.Messages;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -111,29 +110,42 @@ public sealed partial class HoyolabToolboxPage : PageBase
                 {
                     Title = Lang.Common_Disclaimer,
                     Content = Lang.HoyolabToolboxPage_DisclaimerContent,
-                    PrimaryButtonText = Lang.Common_Accept,
+                    PrimaryButtonText = Lang.Common_Accept + " (5s)",
                     SecondaryButtonText = Lang.Common_Reject,
+                    IsPrimaryButtonEnabled = false,
+                    DefaultButton = ContentDialogButton.Secondary,
                     XamlRoot = this.XamlRoot,
                 };
-                var sw = Stopwatch.StartNew();
-                var result = await dialog.ShowAsync();
-                sw.Stop();
-                if (result is ContentDialogResult.Secondary)
+                var resultTask = dialog.ShowAsync();
+                bool cancel = false;
+                for (int i = 0; i < 5; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        await Task.Delay(100);
+                        if (resultTask.Status is Windows.Foundation.AsyncStatus.Completed)
+                        {
+                            cancel = true;
+                            break;
+                        }
+                    }
+                    if (cancel)
+                    {
+                        break;
+                    }
+                    dialog.PrimaryButtonText = Lang.Common_Accept + $" ({4 - i}s)";
+                }
+                dialog.PrimaryButtonText = Lang.Common_Accept;
+                dialog.IsPrimaryButtonEnabled = true;
+                var result = await resultTask;
+                if (result is ContentDialogResult.Primary)
+                {
+                    AppConfig.AcceptHoyolabToolboxAgreement = true;
+                }
+                else
                 {
                     WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(LauncherPage)));
-                    return;
                 }
-                if (sw.ElapsedMilliseconds < 5000)
-                {
-                    dialog.Title = Lang.HoyolabToolboxPage_WarningAgain;
-                    result = await dialog.ShowAsync();
-                    if (result is ContentDialogResult.Secondary)
-                    {
-                        WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(LauncherPage)));
-                        return;
-                    }
-                }
-                AppConfig.AcceptHoyolabToolboxAgreement = true;
             }
         }
         catch (Exception ex)
