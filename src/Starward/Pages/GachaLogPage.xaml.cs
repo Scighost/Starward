@@ -152,6 +152,9 @@ public sealed partial class GachaLogPage : PageBase
     [ObservableProperty]
     private List<GachaLogItemEx>? gachaItemStats;
 
+    private int errorCount = 0;
+
+
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         await Task.Delay(16);
@@ -269,7 +272,20 @@ public sealed partial class GachaLogPage : PageBase
                 if (string.IsNullOrWhiteSpace(url))
                 {
                     // 无法找到 URL，请在游戏中打开抽卡记录页面
+                    errorCount++;
+                    if (errorCount > 2 && IsGachaCacheFileExists())
+                    {
+                        errorCount = 0;
+                        NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Warning,
+                                                                     Lang.GachaLogPage_AlwaysFailedToGetGachaRecords,
+                                                                     null,
+                                                                     Lang.GachaLogPage_ClearURLCacheFiles,
+                                                                     () => _ = DeleteGachaCacheFileAsync());
+                    }
+                    else
+                    {
                     NotificationBehavior.Instance.Warning(null, Lang.GachaLogPage_CannotFindURL);
+                    }
                     return;
                 }
             }
@@ -340,7 +356,20 @@ public sealed partial class GachaLogPage : PageBase
             {
                 // authkey timeout
                 // 请在游戏中打开抽卡记录页面后再重试
+                errorCount++;
+                if (errorCount > 2 && IsGachaCacheFileExists())
+                {
+                    errorCount = 0;
+                    NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Warning,
+                                                                 Lang.GachaLogPage_AlwaysFailedToGetGachaRecords,
+                                                                 null,
+                                                                 Lang.GachaLogPage_ClearURLCacheFiles,
+                                                                 () => _ = DeleteGachaCacheFileAsync());
+                }
+                else
+                {
                 NotificationBehavior.Instance.Warning("Authkey Timeout", Lang.GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain);
+            }
             }
             else
             {
@@ -499,6 +528,26 @@ public sealed partial class GachaLogPage : PageBase
         {
             _logger.LogError(ex, "Delete gacha cache file");
         }
+    }
+
+
+
+    private bool IsGachaCacheFileExists()
+    {
+        try
+        {
+            var installPath = _gameService.GetGameInstallPath(gameBiz);
+            if (Directory.Exists(installPath))
+            {
+                var path = GachaLogClient.GetGachaCacheFilePath(gameBiz, installPath);
+                return File.Exists(path);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Check gacha cache file exists");
+        }
+        return false;
     }
 
 

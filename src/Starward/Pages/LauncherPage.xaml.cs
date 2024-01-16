@@ -811,6 +811,10 @@ public sealed partial class LauncherPage : PageBase
                 }
                 CanChangeGameAccount = false;
                 SelectGameAccount.IsLogin = true;
+                if (IsGameRunning)
+                {
+                    NotificationBehavior.Instance.Warning(Lang.LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning);
+                }
                 _ = UpdateGameNoticesAlertAsync();
             }
         }

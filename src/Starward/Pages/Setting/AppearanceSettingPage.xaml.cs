@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Starward.Helpers;
 using Starward.Messages;
 using System;
 using System.Globalization;
@@ -29,6 +30,7 @@ public sealed partial class AppearanceSettingPage : PageBase
         this.InitializeComponent();
         InitializeLanguage();
         InitializeWinowSize();
+        UpdateExperienceDesc();
     }
 
 
@@ -92,6 +94,7 @@ public sealed partial class AppearanceSettingPage : PageBase
                         CultureInfo.CurrentUICulture = new CultureInfo(lang);
                     }
                     this.Bindings.Update();
+                    UpdateExperienceDesc();
                     WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(lang!, CultureInfo.CurrentUICulture));
                     AppConfig.SaveConfiguration();
                 }
@@ -176,6 +179,7 @@ public sealed partial class AppearanceSettingPage : PageBase
 
 
 
+
     #region NavigationView Compact
 
 
@@ -192,6 +196,32 @@ public sealed partial class AppearanceSettingPage : PageBase
 
     #endregion
 
+
+
+
+    #region Experience
+
+
+
+    private void UpdateExperienceDesc()
+    {
+        try
+        {
+            TextBlock_BetterExperience.Inlines.Clear();
+            TextBlockHelper.Inlines(TextBlock_BetterExperience.Inlines,
+                                    string.Format(Lang.AppearanceSettingPage_BetterExperience,
+                                                  $"{{{Lang.AppearanceSettingPage_TransparencyEffects}}}",
+                                                  $"{{{Lang.AppearanceSettingPage_AnimationEffects}}}"),
+                                    ($"{{{Lang.AppearanceSettingPage_TransparencyEffects}}}", "ms-settings:easeofaccess-visualeffects"),
+                                    ($"{{{Lang.AppearanceSettingPage_AnimationEffects}}}", "ms-settings:easeofaccess-visualeffects"));
+        }
+        catch { }
+    }
+
+
+
+
+    #endregion
 
 
 }

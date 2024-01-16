@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using System;
+using Windows.System;
 
 namespace Starward.Helpers;
 
@@ -46,6 +47,10 @@ internal static class TextBlockHelper
                     {
                         Uri.TryCreate(hyperlink, UriKind.RelativeOrAbsolute, out var uri);
                         var hyper = new Hyperlink { NavigateUri = uri, UnderlineStyle = UnderlineStyle.None };
+                        if (uri is not null && uri.Scheme is not "http" and not "https")
+                        {
+                            hyper.Click += (s, e) => _ = Launcher.LaunchUriAsync(uri);
+                        }
                         hyper.Inlines.Add(new Run { Text = replace, Foreground = brush });
                         inlines.Add(hyper);
                     }

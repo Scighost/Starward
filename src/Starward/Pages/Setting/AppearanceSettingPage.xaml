@@ -84,6 +84,12 @@
                           OffContent="{x:Bind lang:Lang.AppearanceSettingPage_UseSystemThemeColor}"
                           OnContent="{x:Bind lang:Lang.AppearanceSettingPage_UseSystemThemeColor}" />
 
+            <MenuFlyoutSeparator Margin="0,20,0,0" />
+
+            <TextBlock x:Name="TextBlock_BetterExperience"
+                       Margin="0,20,0,0"
+                       TextWrapping="Wrap" />
+
 
         </StackPanel>
     </ScrollViewer>

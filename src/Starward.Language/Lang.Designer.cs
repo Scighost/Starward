@@ -79,6 +79,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Animation effects 的本地化字符串。
+        /// </summary>
+        public static string AppearanceSettingPage_AnimationEffects {
+            get {
+                return ResourceManager.GetString("AppearanceSettingPage_AnimationEffects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Recommend enabling {0} and {1} in system settings for a better user experience. 的本地化字符串。
+        /// </summary>
+        public static string AppearanceSettingPage_BetterExperience {
+            get {
+                return ResourceManager.GetString("AppearanceSettingPage_BetterExperience", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Help us translate Starward 的本地化字符串。
         /// </summary>
         public static string AppearanceSettingPage_HelpUsTranslateStarward {
@@ -102,6 +120,15 @@ namespace Starward.Language {
         public static string AppearanceSettingPage_ThemeColorDescription {
             get {
                 return ResourceManager.GetString("AppearanceSettingPage_ThemeColorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Transparency effects 的本地化字符串。
+        /// </summary>
+        public static string AppearanceSettingPage_TransparencyEffects {
+            get {
+                return ResourceManager.GetString("AppearanceSettingPage_TransparencyEffects", resourceCulture);
             }
         }
         
@@ -953,6 +980,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Always failed to get gacha records? 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_AlwaysFailedToGetGachaRecords {
+            get {
+                return ResourceManager.GetString("GachaLogPage_AlwaysFailedToGetGachaRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Authkey Timeout always occurs? 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_AuthkeyTimeoutAlwaysOccurs {
@@ -1779,6 +1815,15 @@ namespace Starward.Language {
         public static string LauncherPage_AccountSaveNew {
             get {
                 return ResourceManager.GetString("LauncherPage_AccountSaveNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Account switching cannot take effect while game is running. 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning {
+            get {
+                return ResourceManager.GetString("LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning", resourceCulture);
             }
         }
         
