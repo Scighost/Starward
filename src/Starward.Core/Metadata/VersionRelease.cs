@@ -52,7 +52,7 @@ public class ReleaseVersion : IJsonOnDeserialized
             string prefix;
             if (string.IsNullOrWhiteSpace(SeparatePrefix))
             {
-#if (DEBUG || DEV) && !DISABLE_DEV
+#if DEV
                 prefix = $"https://starward.scighost.com/release/separate_files/dev/";
 #else
                 prefix = $"https://starward.scighost.com/release/separate_files/";

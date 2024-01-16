@@ -78,7 +78,7 @@ public sealed partial class UpdatePage : PageBase
 
     private bool isPreview = AppConfig.EnablePreviewRelease;
 
-#if (DEBUG || DEV) && !DISABLE_DEV
+#if DEV
     public string ChannelText => Lang.UpdatePage_DevChannel;
 #else
     public string ChannelText => AppConfig.EnablePreviewRelease ? Lang.UpdatePage_PreviewChannel : Lang.UpdatePage_StableChannel;

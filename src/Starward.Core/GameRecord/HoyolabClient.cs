@@ -13,7 +13,7 @@ public class HoyolabClient : GameRecordClient
 
     protected override string UAContent => $"Mozilla/5.0 miHoYoBBSOversea/{AppVersion}";
 
-    protected override string AppVersion => "2.39.0";
+    protected override string AppVersion => "2.47.0";
 
     protected override string ApiSalt => "okr4obncj8bw5a65hbnn5oo6ixjc3l9w";
 

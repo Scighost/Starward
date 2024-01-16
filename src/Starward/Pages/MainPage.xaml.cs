@@ -80,7 +80,7 @@ public sealed partial class MainPage : PageBase
         MainWindow.Current.KeyDown += MainPage_KeyDown;
         UpdateGameIcon();
         await UpdateBackgroundImageAsync(true);
-#if !CI
+#if !CI && !DEBUG
         await CheckUpdateAsync();
 #endif
     }
