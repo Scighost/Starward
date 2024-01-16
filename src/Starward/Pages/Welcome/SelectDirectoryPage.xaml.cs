@@ -98,7 +98,20 @@ public sealed partial class SelectDirectoryPage : PageBase
             if (Directory.Exists(selectFolder))
             {
                 _logger.LogInformation("Select directory is '{Path}'", selectFolder);
-                if (Path.GetFullPath(selectFolder) == Path.GetFullPath(AppContext.BaseDirectory.TrimEnd('/', '\\')))
+                string target = Path.GetFullPath(selectFolder);
+                string path1 = Path.GetFullPath(AppContext.BaseDirectory.TrimEnd('/', '\\'));
+                var local = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward");
+                string path2 = Path.GetFullPath(Path.Combine(local, "log"));
+                string path3 = Path.GetFullPath(Path.Combine(local, "crash"));
+                string path4 = Path.GetFullPath(Path.Combine(local, "cache"));
+                string path5 = Path.GetFullPath(Path.Combine(local, "update"));
+                string path6 = Path.GetFullPath(Path.Combine(local, "webview"));
+                if (target.StartsWith(path1)
+                    || target.StartsWith(path2)
+                    || target.StartsWith(path3)
+                    || target.StartsWith(path4)
+                    || target.StartsWith(path5)
+                    || target.StartsWith(path6))
                 {
                     // 此文件夹将在软件更新后被自动删除
                     TargetDictionary = Lang.SelectDirectoryPage_AutoDeleteAfterUpdate;

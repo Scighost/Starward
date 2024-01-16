@@ -8,7 +8,7 @@
                 Closed="WindowEx_Closed"
                 mc:Ignorable="d">
 
-    <Grid Name="RootGrid">
+    <Grid Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Image HorizontalAlignment="Center"
                VerticalAlignment="Center"
                Source="ms-appx:///Assets/Image/StartUpBG2.png"

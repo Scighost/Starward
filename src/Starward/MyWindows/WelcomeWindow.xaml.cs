@@ -38,11 +38,11 @@ public sealed partial class WelcomeWindow : WindowEx
     private void InitializeWindow()
     {
         Title = "Starward";
-        new SystemBackdropHelper(this, SystemBackdropProperty.AcrylicDefault with
-        {
-            TintColorLight = 0xFFE7E7E7,
-            TintColorDark = 0xFF303030
-        }).TrySetAcrylic(true);
+        //new SystemBackdropHelper(this, SystemBackdropProperty.AcrylicDefault with
+        //{
+        //    TintColorLight = 0xFFE7E7E7,
+        //    TintColorDark = 0xFF303030
+        //}).TrySetAcrylic(true);
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
         ChangeWindowSize(AppConfig.WindowSizeMode);
