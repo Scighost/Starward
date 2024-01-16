@@ -1300,21 +1300,21 @@
     <value>Сохраненный аккаунт</value>
   </data>
   <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
-    <value>Account switching cannot take effect while game is running.</value>
+    <value>Смена аккаунта не может вступить в силу во время игры.</value>
   </data>
   <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
-    <value>Recommend enabling {0} and {1} in system settings for a better user experience.</value>
+    <value>Рекомендуется включить {0} и {1} в системных настройках для лучшего использования.</value>
   </data>
   <data name="AppearanceSettingPage_TransparencyEffects" xml:space="preserve">
-    <value>Transparency effects</value>
+    <value>Эффекты прозрачности</value>
   </data>
   <data name="AppearanceSettingPage_AnimationEffects" xml:space="preserve">
-    <value>Animation effects</value>
+    <value>Анимационные эффекты</value>
   </data>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
-    <value>Always failed to get gacha records?</value>
+    <value>Всегда не удаётся получить записи гачи?</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
-    <value>No Data</value>
+    <value>Нет данных</value>
   </data>
 </root>
