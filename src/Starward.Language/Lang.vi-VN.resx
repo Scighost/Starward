@@ -1300,18 +1300,18 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Tài khoản đã lưu</value>
   </data>
   <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
-    <value>Account switching cannot take effect while game is running.</value>
+    <value>Việc chuyển đổi tài khoản không có hiệu lực khi trò chơi đang chạy.</value>
   </data>
   <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
-    <value>Recommend enabling {0} and {1} in system settings for a better user experience.</value>
+    <value>Đề xuất bật {0} và {1} trong cài đặt hệ thống để có trải nghiệm người dùng tốt hơn.</value>
   </data>
   <data name="AppearanceSettingPage_TransparencyEffects" xml:space="preserve">
-    <value>Transparency effects</value>
+    <value>Hiệu ứng trong suốt</value>
   </data>
   <data name="AppearanceSettingPage_AnimationEffects" xml:space="preserve">
-    <value>Animation effects</value>
+    <value>Hiệu ứng chuyển động</value>
   </data>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
-    <value>Always failed to get gacha records?</value>
+    <value>Vẫn không lấy được bản ghi gacha?</value>
   </data>
 </root>
