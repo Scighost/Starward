@@ -163,6 +163,13 @@ public partial class App : Application
                 m_window.Activate();
             });
         }
+        else
+        {
+            m_window.DispatcherQueue.TryEnqueue(() =>
+            {
+                m_window.Show();
+            });
+        }
     }
 
 
