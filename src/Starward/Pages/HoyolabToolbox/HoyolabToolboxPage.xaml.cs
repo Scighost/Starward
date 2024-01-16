@@ -120,7 +120,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
                 sw.Stop();
                 if (result is ContentDialogResult.Secondary)
                 {
-                    MainPage.Current.NavigateTo(typeof(LauncherPage));
+                    WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(LauncherPage)));
                     return;
                 }
                 if (sw.ElapsedMilliseconds < 5000)
@@ -129,7 +129,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
                     result = await dialog.ShowAsync();
                     if (result is ContentDialogResult.Secondary)
                     {
-                        MainPage.Current.NavigateTo(typeof(LauncherPage));
+                        WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(LauncherPage)));
                         return;
                     }
                 }

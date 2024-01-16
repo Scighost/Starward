@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -5,6 +6,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Starward.Core;
 using Starward.Core.Launcher;
+using Starward.Messages;
 using Starward.Models;
 using Starward.Services;
 using System;
@@ -118,7 +120,7 @@ public sealed partial class GameNoticesPage : PageBase
                 string? param = node?["param"]?.ToString();
                 if (action is "close")
                 {
-                    MainPage.Current.NavigateTo(typeof(LauncherPage));
+                    WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(LauncherPage)));
                 }
                 if (action is "url")
                 {

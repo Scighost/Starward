@@ -50,8 +50,6 @@ namespace Starward.Pages;
 public sealed partial class MainPage : PageBase
 {
 
-    public static MainPage Current { get; private set; }
-
 
     private readonly ILogger<MainPage> _logger = AppConfig.GetLogger<MainPage>();
 
@@ -67,7 +65,6 @@ public sealed partial class MainPage : PageBase
 
     public MainPage()
     {
-        Current = this;
         this.InitializeComponent();
         compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
         InitializeGameBiz();
@@ -92,7 +89,6 @@ public sealed partial class MainPage : PageBase
 
     protected override void OnUnloaded()
     {
-        Current = null!;
         mediaPlayer?.Dispose();
         softwareBitmap?.Dispose();
         WeakReferenceMessenger.Default.UnregisterAll(this);
@@ -104,6 +100,9 @@ public sealed partial class MainPage : PageBase
     {
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
         WeakReferenceMessenger.Default.Register<NavigationViewCompactChangedMessage>(this, InitializeNavigationViewPaneDisplayMode);
+        WeakReferenceMessenger.Default.Register<GameStartMessage>(this, (_, _) => PauseVideo());
+        WeakReferenceMessenger.Default.Register<UpdateBackgroundImageMessage>(this, (_, m) => _ = UpdateBackgroundImageAsync(m.Force));
+        WeakReferenceMessenger.Default.Register<MainPageNavigateMessage>(this, (_, m) => NavigateTo(m.Page, m.Param, m.TransitionInfo));
     }
 
 

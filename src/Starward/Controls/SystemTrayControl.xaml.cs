@@ -1,12 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
-using Starward.Pages;
+using Starward.Messages;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
@@ -113,9 +114,7 @@ public sealed partial class SystemTrayControl : UserControl
                 var process1 = _gameService.StartGame(game.GameBiz, AppConfig.IgnoreRunningGame);
                 if (process1 != null)
                 {
-                    // todo
-                    MainPage.Current.PauseVideo();
-                    //User32.ShowWindow(MainWindow.Current.WindowHandle, ShowWindowCommand.SW_SHOWMINIMIZED);
+                    WeakReferenceMessenger.Default.Send(new GameStartMessage(game.GameBiz));
                     _logger.LogInformation("Game started ({name}, {pid})", process1.ProcessName, process1.Id);
                     _ = _playTimeService.StartProcessToLogAsync(game.GameBiz);
                 }

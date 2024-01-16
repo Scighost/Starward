@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Controls;
 using Starward.Models;
-using Starward.Pages;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -169,7 +168,7 @@ public sealed partial class MainWindow : WindowEx
         {
             overlayCancelTokenSource?.Cancel();
             overlayCancelTokenSource = new CancellationTokenSource();
-            MainPage.Current?.PauseVideo();
+            mainPage.PauseVideo();
             Frame_Overlay.Visibility = Visibility.Visible;
             Frame_Overlay.Navigate(page, parameter!, new SuppressNavigationTransitionInfo());
             if (Frame_Overlay.Content is UIElement element)
@@ -209,7 +208,7 @@ public sealed partial class MainWindow : WindowEx
                     }
                     Frame_Overlay.Visibility = Visibility.Collapsed;
                     Frame_Overlay.Content = null;
-                    MainPage.Current?.UpdateDragRectangles();
+                    mainPage.UpdateDragRectangles();
                 };
                 sb.Begin();
             }

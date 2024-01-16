@@ -15,7 +15,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <sp:MainPage x:Name="mainPage" />
+        <sp:MainPage x:Name="mainPage" x:FieldModifier="public" />
 
         <Frame Name="Frame_Overlay"
                IsNavigationStackEnabled="False"

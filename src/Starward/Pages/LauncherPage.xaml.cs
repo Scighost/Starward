@@ -354,7 +354,7 @@ public sealed partial class LauncherPage : PageBase
     [RelayCommand]
     private void NavigateToGameNoticesPage()
     {
-        MainPage.Current.NavigateTo(typeof(GameNoticesPage));
+        WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(GameNoticesPage)));
     }
 
 
@@ -613,7 +613,7 @@ public sealed partial class LauncherPage : PageBase
             }
             else
             {
-                MainPage.Current.PauseVideo();
+                WeakReferenceMessenger.Default.Send(new GameStartMessage(CurrentGameBiz));
                 var action = AppConfig.AfterStartGameAction;
                 if (action is AfterStartGameAction.Minimize)
                 {
@@ -1497,9 +1497,9 @@ public sealed partial class LauncherPage : PageBase
     private int videoBgVolume = AppConfig.VideoBgVolume;
     partial void OnVideoBgVolumeChanged(int value)
     {
-        if (MainPage.Current is not null)
+        if (MainWindow.Current?.mainPage is not null)
         {
-            MainPage.Current.VideoBgVolume = value;
+            MainWindow.Current.mainPage.VideoBgVolume = value;
         }
     }
 
@@ -1546,7 +1546,7 @@ public sealed partial class LauncherPage : PageBase
     partial void OnEnableCustomBgChanged(bool value)
     {
         AppConfig.SetEnableCustomBg(CurrentGameBiz, value);
-        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
+        WeakReferenceMessenger.Default.Send(new UpdateBackgroundImageMessage(true));
         UpdateGameButtonStyle();
     }
 
@@ -1563,7 +1563,7 @@ public sealed partial class LauncherPage : PageBase
         {
             CustomBg = file;
             AppConfig.SetCustomBg(CurrentGameBiz, file);
-            _ = MainPage.Current.UpdateBackgroundImageAsync(true);
+            WeakReferenceMessenger.Default.Send(new UpdateBackgroundImageMessage(true));
         }
     }
 
@@ -1580,7 +1580,7 @@ public sealed partial class LauncherPage : PageBase
     {
         AppConfig.SetCustomBg(CurrentGameBiz, null);
         CustomBg = null;
-        _ = MainPage.Current.UpdateBackgroundImageAsync(true);
+        WeakReferenceMessenger.Default.Send(new UpdateBackgroundImageMessage(true));
     }
 
 
