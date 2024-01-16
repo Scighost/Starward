@@ -14,6 +14,7 @@ internal class SimulatedUniverseBuffIconConverter : IValueConverter
     private const string Icon_125 = "ms-appx:///Assets/Image/RogueInterveneWarrior.png";
     private const string Icon_126 = "ms-appx:///Assets/Image/RogueInterveneJoy.png";
     private const string Icon_127 = "ms-appx:///Assets/Image/RogueIntervenePropagation.png";
+    private const string Icon_128 = "ms-appx:///Assets/Image/RogueInterveneMage.png";
     private const string TransparentBackground = "ms-appx:///Assets/Image/Transparent.png";
 
     public object Convert(object value, Type targetType, object parameter, string language)
@@ -28,6 +29,7 @@ internal class SimulatedUniverseBuffIconConverter : IValueConverter
             125 => Icon_125,
             126 => Icon_126,
             127 => Icon_127,
+            128 => Icon_128,
             _ => TransparentBackground,
         };
     }
