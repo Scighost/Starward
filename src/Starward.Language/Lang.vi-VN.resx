@@ -1314,4 +1314,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
     <value>Vẫn không lấy được bản ghi gacha?</value>
   </data>
+  <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
+    <value>No Data</value>
+  </data>
 </root>
