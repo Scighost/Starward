@@ -1314,4 +1314,7 @@
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
     <value>Always failed to get gacha records?</value>
   </data>
+  <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
+    <value>No Data</value>
+  </data>
 </root>
