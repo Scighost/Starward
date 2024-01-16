@@ -74,6 +74,7 @@ public abstract class WindowEx : Window
     public virtual void Show()
     {
         AppWindow.Show(true);
+        AppWindow.MoveInZOrderAtTop();
         User32.SetForegroundWindow(WindowHandle);
         WeakReferenceMessenger.Default.Send(new WindowStateChangedMessage(false));
     }
