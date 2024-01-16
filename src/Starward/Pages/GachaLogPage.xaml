@@ -31,7 +31,7 @@
                     Spacing="16">
             <!--  Uid List  -->
             <ComboBox Name="ComboBox_Uid"
-                      MinWidth="160"
+                      MinWidth="140"
                       VerticalAlignment="Center"
                       ItemsSource="{x:Bind UidList}"
                       SelectedItem="{x:Bind SelectUid, Mode=TwoWay}" />

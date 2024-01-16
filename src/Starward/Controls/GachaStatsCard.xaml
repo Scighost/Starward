@@ -72,9 +72,9 @@
         <TextBlock Grid.Row="1"
                    FontSize="12"
                    Foreground="{ThemeResource TextFillColorSecondaryBrush}">
-            <Run Text="{x:Bind WarpTypeStats.StartTime}" />
+            <Run Text="{x:Bind WarpTypeStats.StartTime.ToString('yyyy/MM/dd HH:mm:ss', x:Null)}" />
             <Run Text="-" />
-            <Run Text="{x:Bind WarpTypeStats.EndTime}" />
+            <Run Text="{x:Bind WarpTypeStats.EndTime.ToString('yyyy/MM/dd HH:mm:ss', x:Null)}" />
         </TextBlock>
 
         <MenuFlyoutSeparator Grid.Row="2" />
