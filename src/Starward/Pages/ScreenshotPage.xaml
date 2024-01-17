@@ -147,6 +147,8 @@
                                                 ui:VisualExtensions.NormalizedCenterPoint="0.5"
                                                 Background="{ThemeResource ControlAltFillColorTertiaryBrush}"
                                                 EnableLazyLoading="True"
+                                                IsCacheEnabled="True"
+                                                IsThumbnail="True"
                                                 Source="{x:Bind FullName}"
                                                 Stretch="UniformToFill">
                                     <animations:Explicit.Animations>

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.WinUI.UI.Controls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Services.Cache;
@@ -7,6 +8,8 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
 
 namespace Starward.Controls;
 
@@ -23,13 +26,41 @@ public sealed class CachedImage : ImageEx
     }
 
 
+
+    public bool IsThumbnail
+    {
+        get { return (bool)GetValue(IsThumbnailProperty); }
+        set { SetValue(IsThumbnailProperty, value); }
+    }
+
+    public static readonly DependencyProperty IsThumbnailProperty =
+        DependencyProperty.Register("IsThumbnail", typeof(bool), typeof(CachedImage), new PropertyMetadata(false));
+
+
+
+
     protected override async Task<ImageSource> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
         try
         {
-            if (imageUri.Scheme is "ms-appx" or "file")
+            if (imageUri.Scheme is "ms-appx")
             {
                 return new BitmapImage(imageUri);
+            }
+            else if (imageUri.Scheme is "file")
+            {
+                if (IsThumbnail)
+                {
+                    StorageFile file = await StorageFile.GetFileFromPathAsync(imageUri.LocalPath);
+                    StorageItemThumbnail thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 240, ThumbnailOptions.UseCurrentScale);
+                    BitmapImage image = new BitmapImage();
+                    await image.SetSourceAsync(thumbnail);
+                    return image;
+                }
+                else
+                {
+                    return new BitmapImage(imageUri);
+                }
             }
             else
             {
