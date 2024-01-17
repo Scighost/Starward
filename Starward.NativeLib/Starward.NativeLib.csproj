@@ -1,14 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
-		<Version>0.2.0</Version>
+		<Version>0.2.1</Version>
 		<Authors>Scighost</Authors>
+		<PackageProjectUrl>https://github.com/Scighost/Starward</PackageProjectUrl>
 		<Description>
 7z.dll v23.01
-hpatchz.exe v4.6.5
+hpatchz.exe v4.6.9
 		</Description>
 	</PropertyGroup>
 
