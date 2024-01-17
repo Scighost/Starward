@@ -600,7 +600,7 @@
     <value>아래 폴더에 완료되지 않은 다운로드 임무 가 있습니다.</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
+    <value>게임을 설치 할 폴더를 선택하거나 이미 설치 한 경우 {0} 파일이 위치한 경로를 선택하세요.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>최신버전이 아니면 게임 디렉토리의 config.ini 파일을 수정하세요.</value>
@@ -1178,143 +1178,143 @@
     <value>실행회수</value>
   </data>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
-    <value>Data Folder</value>
+    <value>데이터 저장 경로</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>Open Log File</value>
+    <value>로그 파일 보기</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
-    <value>Appearance</value>
+    <value>표시</value>
   </data>
   <data name="SettingPage_FileManagement" xml:space="preserve">
-    <value>File Management</value>
+    <value>파일 관리</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
-    <value>Completed</value>
+    <value>완료</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
-    <value>Links</value>
+    <value>링크</value>
   </data>
   <data name="SettingPage_Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>고급 설정</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>This Day</value>
+    <value>오늘</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
-    <value>Close Window Option</value>
+    <value>창 닫기 옵션</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
-    <value>Minimize to system tray</value>
+    <value>시스템 트레이로 최소화</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
-    <value>Exit completely</value>
+    <value>프로그램 종료</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>Close window but keep system tray</value>
+    <value>프로그램 종료 후 시스템 트레이로 최소화</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
-    <value>Experience</value>
+    <value>경험</value>
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
-    <value>You could change the option again in setting page.</value>
+    <value>설정페이지에서 이 설정을 변경할 수 있습니다.</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
-    <value>Your personal data is stored in the folder below. It is very important, please do not delete it casually.</value>
+    <value>중요한 사용자 데이터가 아래 폴더에 저장되어 있으므로 일반적인 경우 삭제하지 마십시오.</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
-    <value>Theme Color</value>
+    <value>테마</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
-    <value>By default, the theme color is determined through the background image.</value>
+    <value>기본 설정은 배경 이미지를 기반으로 테마 색상이 설정됩니다.</value>
   </data>
   <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
-    <value>Use System Theme Color</value>
+    <value>윈도우 테마 색상 사용</value>
   </data>
   <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
-    <value>Always display navigation sidebar icons</value>
+    <value>측면 내비게이션 바 아이콘 항상 표시</value>
   </data>
   <data name="ExperienceSettingPage_Features" xml:space="preserve">
-    <value>Features</value>
+    <value>기능</value>
   </data>
   <data name="ExperienceSettingPage_HideGameAccountSwitcher" xml:space="preserve">
-    <value>Hide game account switcher</value>
+    <value>계정 변환기 표시</value>
   </data>
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
-    <value>Disable red dot reminder for game notices</value>
+    <value>게임 알림 뱃지 표시하지 않음</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
-    <value>Network Test</value>
+    <value>네트워크 테스트</value>
   </data>
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
-    <value>Are you able to receive updates for Starward?</value>
+    <value>Starward 의 업데이트를 정상적으로 받을 수 있습니까?</value>
   </data>
   <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
-    <value>Please select a folder to store your personal data, it is very important!</value>
+    <value>중요한 사용자 설정 파일을 저장할 위치를 선택하세요 !</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToTaskbar" xml:space="preserve">
-    <value>Minimize to taskbar</value>
+    <value>작업 표시줄로 최소화하기</value>
   </data>
   <data name="ExperienceSettingPage_DoNothing" xml:space="preserve">
-    <value>Do nothing</value>
+    <value>아무것도 하지 않음</value>
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
-    <value>After Starting Game</value>
+    <value>게임 시작 후</value>
   </data>
   <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
-    <value>Quick Cleared</value>
+    <value>자동 클리어</value>
   </data>
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
-    <value>Pure Fiction</value>
+    <value>허구 이야기</value>
   </data>
   <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
-    <value>Help us translate Starward</value>
+    <value>도움! Starward 번역</value>
   </data>
   <data name="FileSettingPage_Cache" xml:space="preserve">
-    <value>Cache</value>
+    <value>캐시</value>
   </data>
   <data name="FileSettingPage_Log" xml:space="preserve">
-    <value>Log</value>
+    <value>로그</value>
   </data>
   <data name="FileSettingPage_Image" xml:space="preserve">
-    <value>Image</value>
+    <value>이미지</value>
   </data>
   <data name="FileSettingPage_Browser" xml:space="preserve">
-    <value>Browser</value>
+    <value>브라우저</value>
   </data>
   <data name="FileSettingPage_ClearCache" xml:space="preserve">
-    <value>Clear Cache</value>
+    <value>캐시 지우기</value>
   </data>
   <data name="DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning" xml:space="preserve">
-    <value>The download task of {0} is already running.</value>
+    <value>{0} 개의 다운로드 가 진행중입니다.</value>
     <comment>{0} is game name, like Genshin Impact.</comment>
   </data>
   <data name="DownloadGamePage_TheFolderDoesNotExist" xml:space="preserve">
-    <value>The folder does not exist.</value>
+    <value>폴더가 존재하지 않습니다.</value>
   </data>
   <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
-    <value>Please do not select the root directory of a drive.</value>
+    <value>드라이브의 최상위 폴더를 선택하지 마세요.</value>
   </data>
   <data name="LauncherPage_SavedAccount" xml:space="preserve">
-    <value>Saved account</value>
+    <value>저장된 계정</value>
   </data>
   <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
-    <value>Account switching cannot take effect while game is running.</value>
+    <value>게임 실행 중에는 계정변경 기능을 사용할 수 없습니다.</value>
   </data>
   <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
-    <value>Recommend enabling {0} and {1} in system settings for a better user experience.</value>
+    <value>시스템 설정에서 {0} 와 {1} 를 활성화 하면 더 나은 경험을 제공할 수 있습니다.</value>
   </data>
   <data name="AppearanceSettingPage_TransparencyEffects" xml:space="preserve">
-    <value>Transparency effects</value>
+    <value>투명효과</value>
   </data>
   <data name="AppearanceSettingPage_AnimationEffects" xml:space="preserve">
-    <value>Animation effects</value>
+    <value>애니메이션</value>
   </data>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
-    <value>Always failed to get gacha records?</value>
+    <value>뽑기 기록을 불러오는데 문제가 있습니까?</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
-    <value>No Data</value>
+    <value>데이터 없음</value>
   </data>
 </root>
