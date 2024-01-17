@@ -88,7 +88,7 @@ public sealed partial class LauncherPage : PageBase
             if (!AppConfig.LauncherPageFirstLoaded)
             {
                 // 避免加载窗口和缓存图片同时进行可能导致的崩溃
-                await Task.Delay(150);
+                await Task.Delay(200);
                 AppConfig.LauncherPageFirstLoaded = true;
             }
             await UpdateLauncherContentAsync();

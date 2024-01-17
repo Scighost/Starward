@@ -45,8 +45,6 @@ public sealed partial class GachaLogPage : PageBase
     private GachaLogService _gachaLogService;
 
 
-    private GameBiz gameBiz;
-
 
     public GachaLogPage()
     {
@@ -63,7 +61,6 @@ public sealed partial class GachaLogPage : PageBase
         base.OnNavigatedTo(e);
         if (e.Parameter is GameBiz biz)
         {
-            gameBiz = biz;
             GachaTypeText = GachaLogService.GetGachaLogText(biz);
             if (biz.ToGame() is GameBiz.GenshinImpact)
             {
@@ -94,7 +91,7 @@ public sealed partial class GachaLogPage : PageBase
     private long? selectUid;
     partial void OnSelectUidChanged(long? value)
     {
-        AppConfig.SetLastUidInGachaLogPage(gameBiz.ToGame(), value ?? 0);
+        AppConfig.SetLastUidInGachaLogPage(CurrentGameBiz.ToGame(), value ?? 0);
         UpdateGachaTypeStats(value);
     }
 
@@ -170,7 +167,7 @@ public sealed partial class GachaLogPage : PageBase
         {
             SelectUid = null;
             UidList = new(_gachaLogService.GetUids());
-            var lastUid = AppConfig.GetLastUidInGachaLogPage(gameBiz.ToGame());
+            var lastUid = AppConfig.GetLastUidInGachaLogPage(CurrentGameBiz.ToGame());
             if (UidList.Contains(lastUid))
             {
                 SelectUid = lastUid;
@@ -229,11 +226,11 @@ public sealed partial class GachaLogPage : PageBase
         try
         {
             string lang = string.IsNullOrWhiteSpace(GachaLanguage) ? System.Globalization.CultureInfo.CurrentUICulture.Name : GachaLanguage;
-            await _gachaLogService.UpdateGachaInfoAsync(gameBiz, lang);
+            await _gachaLogService.UpdateGachaInfoAsync(CurrentGameBiz, lang);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Update wiki data {gameBiz}", gameBiz);
+            _logger.LogError(ex, "Update wiki data {gameBiz}", CurrentGameBiz);
         }
     }
 
@@ -261,14 +258,14 @@ public sealed partial class GachaLogPage : PageBase
             }
             else
             {
-                var path = _gameService.GetGameInstallPath(gameBiz);
+                var path = _gameService.GetGameInstallPath(CurrentGameBiz);
                 if (!Directory.Exists(path))
                 {
                     // 游戏未安装
                     NotificationBehavior.Instance.Warning(null, Lang.GachaLogPage_GameNotInstalled);
                     return;
                 }
-                url = _gachaLogService.GetGachaLogUrlFromWebCache(gameBiz, path);
+                url = _gachaLogService.GetGachaLogUrlFromWebCache(CurrentGameBiz, path);
                 if (string.IsNullOrWhiteSpace(url))
                 {
                     // 无法找到 URL，请在游戏中打开抽卡记录页面
@@ -284,7 +281,7 @@ public sealed partial class GachaLogPage : PageBase
                     }
                     else
                     {
-                    NotificationBehavior.Instance.Warning(null, Lang.GachaLogPage_CannotFindURL);
+                        NotificationBehavior.Instance.Warning(null, Lang.GachaLogPage_CannotFindURL);
                     }
                     return;
                 }
@@ -368,8 +365,8 @@ public sealed partial class GachaLogPage : PageBase
                 }
                 else
                 {
-                NotificationBehavior.Instance.Warning("Authkey Timeout", Lang.GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain);
-            }
+                    NotificationBehavior.Instance.Warning("Authkey Timeout", Lang.GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain);
+                }
             }
             else
             {
@@ -450,7 +447,7 @@ public sealed partial class GachaLogPage : PageBase
         try
         {
             string lang = string.IsNullOrWhiteSpace(GachaLanguage) ? System.Globalization.CultureInfo.CurrentUICulture.Name : GachaLanguage;
-            (lang, int count) = await _gachaLogService.ChangeGachaItemNameAsync(gameBiz, lang);
+            (lang, int count) = await _gachaLogService.ChangeGachaItemNameAsync(CurrentGameBiz, lang);
             NotificationBehavior.Instance.Success(null, string.Format(Lang.GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1, count, lang), 5000);
             UpdateGachaTypeStats(SelectUid);
         }
@@ -508,10 +505,10 @@ public sealed partial class GachaLogPage : PageBase
     {
         try
         {
-            var installPath = _gameService.GetGameInstallPath(gameBiz);
+            var installPath = _gameService.GetGameInstallPath(CurrentGameBiz);
             if (Directory.Exists(installPath))
             {
-                var path = GachaLogClient.GetGachaCacheFilePath(gameBiz, installPath);
+                var path = GachaLogClient.GetGachaCacheFilePath(CurrentGameBiz, installPath);
                 if (File.Exists(path))
                 {
                     var file = await StorageFile.GetFileFromPathAsync(path);
@@ -536,10 +533,10 @@ public sealed partial class GachaLogPage : PageBase
     {
         try
         {
-            var installPath = _gameService.GetGameInstallPath(gameBiz);
+            var installPath = _gameService.GetGameInstallPath(CurrentGameBiz);
             if (Directory.Exists(installPath))
             {
-                var path = GachaLogClient.GetGachaCacheFilePath(gameBiz, installPath);
+                var path = GachaLogClient.GetGachaCacheFilePath(CurrentGameBiz, installPath);
                 return File.Exists(path);
             }
         }
@@ -569,7 +566,7 @@ public sealed partial class GachaLogPage : PageBase
                 "json" => "json",
                 _ => "json"
             };
-            var suggestName = $"Stardward_Export_{gameBiz.ToGame()}_{uid}_{DateTime.Now:yyyyMMddHHmmss}.{ext}";
+            var suggestName = $"Stardward_Export_{CurrentGameBiz.ToGame()}_{uid}_{DateTime.Now:yyyyMMddHHmmss}.{ext}";
             var file = await FileDialogHelper.OpenSaveFileDialogAsync(MainWindow.Current.WindowHandle, suggestName, (ext, $".{ext}"));
             if (file is not null)
             {

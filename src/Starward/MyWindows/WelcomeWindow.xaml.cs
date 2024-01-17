@@ -1,7 +1,6 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
-using Starward.Helpers;
 using Starward.Pages.Welcome;
 using Starward.Services;
 using System;
