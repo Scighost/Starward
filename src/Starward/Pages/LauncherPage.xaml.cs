@@ -695,6 +695,7 @@ public sealed partial class LauncherPage : PageBase
             PlayTimeTotal = _databaseService.GetValue<TimeSpan>($"playtime_total_{CurrentGameBiz}", out _);
             PlayTimeMonth = _databaseService.GetValue<TimeSpan>($"playtime_month_{CurrentGameBiz}", out _);
             PlayTimeWeek = _databaseService.GetValue<TimeSpan>($"playtime_week_{CurrentGameBiz}", out _);
+            PlayTimeDay = _databaseService.GetValue<TimeSpan>($"playtime_day_{CurrentGameBiz}", out _);
             StartUpCount = _databaseService.GetValue<int>($"startup_count_{CurrentGameBiz}", out _);
             (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(CurrentGameBiz);
             if (time > DateTimeOffset.MinValue)
