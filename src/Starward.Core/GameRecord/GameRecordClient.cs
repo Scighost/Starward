@@ -344,6 +344,11 @@ public abstract class GameRecordClient
     #endregion
 
 
+    // 寰宇蝗灾
+    // https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/rogue_locust?server=prod_gf_cn&role_id={uid}&need_detail=true
+
+    // 黄金与机械
+    // https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/rogue_nous?server=prod_gf_cn&role_id={uid}&need_detail=true
 
 
 }
