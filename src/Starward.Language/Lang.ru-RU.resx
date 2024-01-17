@@ -600,7 +600,7 @@
     <value>Следующая папка содержит незавершенные задачи загрузки:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Пожалуйста, выберите пустую папку для установки игры, или найдите папку, в которой уже установлена игра.</value>
+    <value>Пожалуйста, выберите пустую папку для установки игры, или найдите папку, в которой находится исполняемый файл {0}.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>Если это не последняя версия, пожалуйста, измените файл config.ini в директории установки игры.</value>
@@ -1261,5 +1261,60 @@
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
     <value>После запуска игры</value>
+  </data>
+  <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
+    <value>Быстрая очистка</value>
+  </data>
+  <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
+    <value>Чистый вымысел</value>
+  </data>
+  <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
+    <value>Помогите нам перевести Starward</value>
+  </data>
+  <data name="FileSettingPage_Cache" xml:space="preserve">
+    <value>Кэш</value>
+  </data>
+  <data name="FileSettingPage_Log" xml:space="preserve">
+    <value>Логи</value>
+  </data>
+  <data name="FileSettingPage_Image" xml:space="preserve">
+    <value>Изображение</value>
+  </data>
+  <data name="FileSettingPage_Browser" xml:space="preserve">
+    <value>Браузер</value>
+  </data>
+  <data name="FileSettingPage_ClearCache" xml:space="preserve">
+    <value>Очистить Кэш</value>
+  </data>
+  <data name="DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning" xml:space="preserve">
+    <value>Загрузка задачи {0} уже запущена.</value>
+    <comment>{0} is game name, like Genshin Impact.</comment>
+  </data>
+  <data name="DownloadGamePage_TheFolderDoesNotExist" xml:space="preserve">
+    <value>Эта папка не существует.</value>
+  </data>
+  <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
+    <value>Пожалуйста, не выбирайте корневой каталог диска.</value>
+  </data>
+  <data name="LauncherPage_SavedAccount" xml:space="preserve">
+    <value>Сохраненный аккаунт</value>
+  </data>
+  <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
+    <value>Смена аккаунта не может вступить в силу во время игры.</value>
+  </data>
+  <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
+    <value>Рекомендуется включить {0} и {1} в системных настройках для лучшего использования.</value>
+  </data>
+  <data name="AppearanceSettingPage_TransparencyEffects" xml:space="preserve">
+    <value>Эффекты прозрачности</value>
+  </data>
+  <data name="AppearanceSettingPage_AnimationEffects" xml:space="preserve">
+    <value>Анимационные эффекты</value>
+  </data>
+  <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
+    <value>Всегда не удаётся получить записи гачи?</value>
+  </data>
+  <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
+    <value>Нет данных</value>
   </data>
 </root>
