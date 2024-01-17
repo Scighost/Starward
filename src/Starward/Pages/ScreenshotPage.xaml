@@ -96,8 +96,6 @@
                                      Grid.Row="1"
                                      Padding="24,0,12,12"
                                      DesiredWidth="220"
-                                     IsItemClickEnabled="True"
-                                     ItemClick="GridView_Images_ItemClick"
                                      ItemHeight="120"
                                      ItemsSource="{x:Bind Watcher.ImageViewSource.View, FallbackValue={x:Null}}"
                                      SelectionMode="None"
@@ -140,7 +138,12 @@
                     </GridView.ItemsPanel>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="sm:ScreenshotItem">
-                            <Grid Height="120">
+                            <Grid Name="Grid_ImageItem"
+                                  Height="120"
+                                  CanDrag="True"
+                                  DragStarting="Grid_ImageItem_DragStarting"
+                                  IsRightTapEnabled="False"
+                                  Tapped="Grid_ImageItem_Tapped">
                                 <sc:CachedImage Name="Image_Thumb"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"

@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
+using Starward.Controls;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Models;
@@ -222,6 +223,45 @@ public sealed partial class ScreenshotPage : PageBase
         catch { }
     }
 
+
+
+    private void Grid_ImageItem_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement grid && grid.DataContext is ScreenshotItem item && Watcher is not null)
+            {
+                var list = Watcher.ImageList.ToList();
+                MainWindow.Current.OverlayFrameNavigateTo(typeof(ImageViewPage), (item, list));
+            }
+        }
+        catch { }
+    }
+
+
+
+    private async void Grid_ImageItem_DragStarting(UIElement sender, DragStartingEventArgs args)
+    {
+        try
+        {
+            if (sender is FrameworkElement grid && grid.DataContext is ScreenshotItem item)
+            {
+                var deferral = args.GetDeferral();
+                args.AllowedOperations = DataPackageOperation.Copy;
+                var file = await StorageFile.GetFileFromPathAsync(item.FullName);
+                args.Data.SetStorageItems([file], true);
+                string thumbnail = await CachedImage.GetImageThumbnailAsync(item.FullName);
+                var bitmap = new BitmapImage(new Uri(thumbnail));
+                bitmap.DecodePixelHeight = (int)(grid.ActualHeight * MainWindow.Current.UIScale);
+                args.DragUI.SetContentFromBitmapImage(bitmap);
+                deferral.Complete();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Drag image starting");
+        }
+    }
 
 
 }
