@@ -6,10 +6,11 @@ using Starward.Services.Cache;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.FileProperties;
+using Windows.Graphics.Imaging;
 
 namespace Starward.Controls;
 
@@ -51,11 +52,17 @@ public sealed class CachedImage : ImageEx
             {
                 if (IsThumbnail)
                 {
-                    StorageFile file = await StorageFile.GetFileFromPathAsync(imageUri.LocalPath);
-                    StorageItemThumbnail thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 240, ThumbnailOptions.UseCurrentScale);
-                    BitmapImage image = new BitmapImage();
-                    await image.SetSourceAsync(thumbnail);
-                    return image;
+                    if (fileCache.TryGetValue(imageUri, out var uri))
+                    {
+                        return new BitmapImage(uri);
+                    }
+                    else
+                    {
+                        string path = await GetImageThumbnailAsync(imageUri.LocalPath);
+                        uri = new Uri(path);
+                        fileCache[imageUri] = uri;
+                        return new BitmapImage(uri);
+                    }
                 }
                 else
                 {
@@ -100,4 +107,39 @@ public sealed class CachedImage : ImageEx
             throw;
         }
     }
+
+
+
+    private static readonly string CacheFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward", "cache");
+
+
+    public static async Task<string> GetImageThumbnailAsync(string path)
+    {
+        return await Task.Run(async () =>
+        {
+            string fileName = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes(path)));
+            string outPath = Path.Combine(CacheFolder, fileName);
+            if (File.Exists(outPath))
+            {
+                return outPath;
+            }
+            Directory.CreateDirectory(CacheFolder);
+            using var fs = File.OpenRead(path);
+            using var ms = new MemoryStream();
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
+            var bitmap = await decoder.GetSoftwareBitmapAsync(decoder.BitmapPixelFormat, decoder.BitmapAlphaMode, new BitmapTransform
+            {
+                ScaledHeight = 240,
+                ScaledWidth = 240 * decoder.PixelWidth / decoder.PixelHeight,
+                InterpolationMode = BitmapInterpolationMode.Fant,
+            }, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, ms.AsRandomAccessStream());
+            encoder.SetSoftwareBitmap(bitmap);
+            await encoder.FlushAsync();
+            await File.WriteAllBytesAsync(outPath, ms.ToArray());
+            return outPath;
+        });
+    }
+
+
 }
