@@ -1048,6 +1048,10 @@ public sealed partial class LauncherPage : PageBase
                         return;
                     }
                 }
+                else
+                {
+                    temp_install_path = InstallPath;
+                }
             }
             else
             {
