@@ -1068,7 +1068,7 @@
     <value>確認刪除</value>
   </data>
   <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
-    <value>目前登入的帳户</value>
+    <value>目前登入的帳戶</value>
   </data>
   <data name="Common_Attention" xml:space="preserve">
     <value>請注意</value>
@@ -1199,7 +1199,7 @@
     <value>進階</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>This Day</value>
+    <value>本日</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
     <value>關閉窗口選項</value>
@@ -1236,7 +1236,7 @@
     <value>始終顯示導航側邊欄圖標</value>
   </data>
   <data name="ExperienceSettingPage_Features" xml:space="preserve">
-    <value>Features</value>
+    <value>功能</value>
   </data>
   <data name="ExperienceSettingPage_HideGameAccountSwitcher" xml:space="preserve">
     <value>隱藏游戲賬戶切換器</value>
@@ -1266,7 +1266,7 @@
     <value>快速清除</value>
   </data>
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
-    <value>Pure Fiction</value>
+    <value>虛構敘事</value>
   </data>
   <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
     <value>幫助我們翻譯Starward</value>
@@ -1312,7 +1312,7 @@
     <value>動畫效果</value>
   </data>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
-    <value>Always failed to get gacha records?</value>
+    <value>總是獲取不到抽卡記錄？</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
     <value>沒有資料</value>
