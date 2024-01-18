@@ -1,4 +1,4 @@
-> Phiên bản của tài liệu này là v1. Nếu phiên bản chưa được cập nhật, vui lòng tham khảo [tài liệu gốc](./Localization.md).
+> Phiên bản của tài liệu này là **v1**. Nếu phiên bản chưa được cập nhật, vui lòng tham khảo [tài liệu gốc](./Localization.md).
 
 # Dịch thuật
 
@@ -34,6 +34,6 @@ Sau khi dịch xong, vui lòng gửi lại về repo này thông qua Pull Reques
 
 Bản dịch văn bản trong ứng dụng cho Starward được lưu trữ trên nền tảng [Crowdin](https://crowdin.com/project/starward), nơi bạn có thể sửa đổi nội dung văn bản bất cứ lúc nào. Nếu bạn muốn thêm ngôn ngữ dịch mới, vui lòng tạo [issue](https://github.com/Scighost/Starward/issues).
 
-Những thay đổi bạn thực hiện trên Crowdin sẽ được đồng bộ hóa với nhánh [l10n/main] [l10n/main](https://github.com/Scighost/Starward/tree/l10n/main) trong vòng 1 giờ đổng hồ, kích hoạt quá trình build tự động. Tìm quy trình làm việc mới nhất có tên `New Crowdin updates` trong [GitHub Actions](https://github.com/Scighost/Starward/actions/workflows/build.yml) và tải xuống tệp đã biên dịch (Artifacts). Bạn có thể kiểm tra hiệu ứng hiển thị của văn bản dịch trong ứng dụng theo thời gian thực. **Phiên bản đang được phát triển có thể làm hỏng cơ sở dữ liệu cá nhân của bạn `StarwardDatabase.db`. Vui lòng sao lưu trước khi kiểm tra. Phiên bản này không nên được sử dụng trong một thời gian dài.**
+Những thay đổi bạn thực hiện trên Crowdin sẽ được đồng bộ hóa với nhánh [l10n/main](https://github.com/Scighost/Starward/tree/l10n/main) trong vòng 1 giờ đổng hồ, kích hoạt quá trình build tự động. Tìm quy trình làm việc mới nhất có tên `New Crowdin updates` trong [GitHub Actions](https://github.com/Scighost/Starward/actions/workflows/build.yml) và tải xuống tệp đã biên dịch (Artifacts). Bạn có thể kiểm tra hiệu ứng hiển thị của văn bản dịch trong ứng dụng theo thời gian thực. **Phiên bản đang được phát triển có thể làm hỏng cơ sở dữ liệu cá nhân của bạn `StarwardDatabase.db`. Vui lòng sao lưu trước khi kiểm tra. Phiên bản này không nên được sử dụng trong một thời gian dài.**
 
 Vì trình độ tiếng Anh của tôi còn hạn chế nên có thể mắc nhiều lỗi khác nhau. Vì văn bản nguồn không thể được sửa đổi tự do trên Crowdin nên nếu bạn thấy bất kỳ khu vực nào trong văn bản tiếng Anh cần chỉnh sửa, vui lòng gửi các sửa đổi của bạn thông qua Pull Request.
