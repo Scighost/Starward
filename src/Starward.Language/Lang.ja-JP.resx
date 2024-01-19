@@ -1280,38 +1280,38 @@
     <value>画像</value>
   </data>
   <data name="FileSettingPage_Browser" xml:space="preserve">
-    <value>Browser</value>
+    <value>ブラウザー</value>
   </data>
   <data name="FileSettingPage_ClearCache" xml:space="preserve">
-    <value>Clear Cache</value>
+    <value>キャッシュをクリア</value>
   </data>
   <data name="DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning" xml:space="preserve">
-    <value>The download task of {0} is already running.</value>
+    <value>{0}のダウンロードタスクは、既に実行されています。</value>
     <comment>{0} is game name, like Genshin Impact.</comment>
   </data>
   <data name="DownloadGamePage_TheFolderDoesNotExist" xml:space="preserve">
-    <value>The folder does not exist.</value>
+    <value>フォルダーが存在しません。</value>
   </data>
   <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
-    <value>Please do not select the root directory of a drive.</value>
+    <value>ドライブのルートディレクトリを選択しないでください。</value>
   </data>
   <data name="LauncherPage_SavedAccount" xml:space="preserve">
-    <value>Saved account</value>
+    <value>保存されたアカウント</value>
   </data>
   <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
-    <value>Account switching cannot take effect while game is running.</value>
+    <value>ゲームの実行中は、アカウントの切り替えを有効にする事はできません。</value>
   </data>
   <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
-    <value>Recommend enabling {0} and {1} in system settings for a better user experience.</value>
+    <value>より良いユーザーエクスペリエンスのために、システム設定で「{0}」と「{1}」を有効化する事をお勧めします。</value>
   </data>
   <data name="AppearanceSettingPage_TransparencyEffects" xml:space="preserve">
-    <value>Transparency effects</value>
+    <value>透過効果</value>
   </data>
   <data name="AppearanceSettingPage_AnimationEffects" xml:space="preserve">
-    <value>Animation effects</value>
+    <value>アニメーション効果</value>
   </data>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
-    <value>Always failed to get gacha records?</value>
+    <value>常にガチャの記録に失敗しますか?</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
     <value>データなし</value>
