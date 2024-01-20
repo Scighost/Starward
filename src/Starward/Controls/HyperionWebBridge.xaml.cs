@@ -1,6 +1,8 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Starward.Core.GameRecord;
+using Starward.Messages;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -154,7 +156,7 @@ public sealed partial class HyperionWebBridge : UserControl
 
             JsResult? result = param.Method switch
             {
-                "closePage" => null,
+                "closePage" => ClosePage(param),
                 "configure_share" => null,
                 "eventTrack" => null,
                 //"getActionTicket" => await GetActionTicketAsync(param).ConfigureAwait(false),
@@ -233,6 +235,20 @@ public sealed partial class HyperionWebBridge : UserControl
         };
     }
 
+
+    private JsResult? ClosePage(JsParam param)
+    {
+        if (webview2.CoreWebView2.CanGoBack)
+        {
+            webview2.CoreWebView2.GoBack();
+        }
+        else
+        {
+            this.DispatcherQueue.TryEnqueue(() => WeakReferenceMessenger.Default.Send(new GameRecordPageNavigationGoBackMessage()));
+
+        }
+        return null;
+    }
 
 
     private JsResult? PushPage(JsParam param)

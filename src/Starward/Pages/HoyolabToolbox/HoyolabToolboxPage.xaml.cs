@@ -84,6 +84,10 @@ public sealed partial class HoyolabToolboxPage : PageBase
         {
             NavigateTo(typeof(HyperionWebBridgePage), new HyperionWebBridgePage.PageParameter(m.GameRole, m.TargetUrl));
         });
+        WeakReferenceMessenger.Default.Register<GameRecordPageNavigationGoBackMessage>(this, (r, m) =>
+        {
+            if (frame.CanGoBack) { frame.GoBack(); }
+        });
         await Task.Delay(16);
         NavigateTo(typeof(BlankPage));
         await CheckAgreementAsync();
