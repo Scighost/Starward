@@ -52,6 +52,10 @@ Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho công v
 - C++ Desktop Development
 - Universal Windows Platform Development
 
+## Ủng hộ
+
+Phát triển không phải là dễ dàng. Nếu bạn nghĩ Starward hữu ích, bạn có thể ủng hộ cho tôi qua https://donate.scighost.com.
+
 ## Cảm ơn
 
 Đầu tiên, tôi muốn gửi lời cảm ơn đặc biệt tới [@neon-nyan](https://github.com/neon-nyan). Nguồn cảm hứng và thiết kế cho dự án này đến trực tiếp từ dự án [Collapse](https://github.com/neon-nyan/Collapse) của anh ấy. Mình đã thu được rất nhiều kiến ​​thức từ mã nguồn của Collapse, và với những tài liệu tham khảo quý giá như vậy, quá trình phát triển của mình đã suôn sẻ hơn rất nhiều
