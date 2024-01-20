@@ -19,7 +19,7 @@ Starward is an open-source third-party launcher developed to address the aforeme
 -  View game screenshots
 -  Save gacha records
 
-Additional features are left for you to explore on your own...
+More features are left for you to explore...
 
 
 ## Install
@@ -27,7 +27,6 @@ Additional features are left for you to explore on your own...
 First, your device needs to meet the following requirements:
 
 - Windows 10 1809 (17763) and above.
-- [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) installed.
 - [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2) installed.
 - For better experience, please enable **Transparency effects** and **Animation effects** in the system settings.
 
@@ -45,7 +44,7 @@ Next, download the package for your CPU architecture from [GitHub Release](https
 [![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-CN)
 [![zh-TW translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-TW)
 
-Starward utilizes [Crowdin](https://crowdin.com/project/starward) for in-app text localization work. You can contribute by helping us translate and proofread content in your local language. We look forward to having more people join us.
+Starward uses [Crowdin](https://crowdin.com/project/starward) for in-app text localization work. You can contribute by helping us translate and proofread content in your local language. We look forward to having more people join us.
 
 [Localization Guide](./docs/Localization.md)
 
@@ -66,11 +65,18 @@ Development is not easy. If you think Starward useful, you cloud donate me at ht
 
 ## Thanks
 
-Firstly, I want to express my special thanks to [@neon-nyan](https://github.com/neon-nyan). The inspiration and design for this project come directly from his project [Collapse](https://github.com/neon-nyan/Collapse). I have gained a lot of knowledge from the Collapse code, and with such a valuable reference, my development process has been much smoother.
+<picture>
+    <source srcset="https://github.com/Scighost/Starward/assets/61003590/9d369ec3-ab7c-408f-88c2-11bfe4453208" type="image/avif" />
+    <img src="https://github.com/Scighost/Starward/assets/61003590/44552992-e2c5-451f-9c2a-73176e8e4e93" width="240px" />
+</picture>
+
+First of all, I would like to express my sincerest thanks to all the contributors and translators of this project. Starward can only become better because of you.
+
+Then, I want to express my special thanks to [@neon-nyan](https://github.com/neon-nyan). The inspiration and design for this project come directly from his project [Collapse](https://github.com/neon-nyan/Collapse). I have gained a lot of knowledge from the Collapse code, and with such a valuable reference, my development process has been much smoother.
 
 Next, a big thanks to the main developer of [Snap Hutao](https://github.com/DGP-Studio/Snap.Hutao), [@Lightczx](https://github.com/Lightczx). His assistance has been invaluable during the development of Starward.
 
-Additionally, I would like to express my gratitude to CloudFlare for providing free CDN services, contributing to a great update experience for everyone.
+Additionally, thanks CloudFlare for providing free CDN services, contributing to a great update experience for everyone.
 
 <img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
