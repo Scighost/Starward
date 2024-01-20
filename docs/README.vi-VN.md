@@ -82,3 +82,10 @@ Và các thư viện bên thứ ba được sử dụng trong dự án này bao 
 - [WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
 
 ## Ảnh chụp màn hình
+
+<picture>
+    <source srcset="https://github.com/phucho0237/Starward/assets/88989555/c31fd567-941a-414e-85fc-1b6ef3c0605d" type="image/avif" />
+    <img src="https://github.com/phucho0237/Starward/assets/88989555/c31fd567-941a-414e-85fc-1b6ef3c0605d" />
+</picture>
+
+Hình nền từ [Pixiv@七言不绝诗](https://www.pixiv.net/artworks/113506129)
