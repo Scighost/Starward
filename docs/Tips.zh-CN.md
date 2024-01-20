@@ -1,3 +1,6 @@
+> 本文的版本是 **v0.10.7**，若版本落后请以[原文](./Tips.md)为准。
+
+
 # 小提示
 
 本文的包含了在正常使用过程中可能无法发现的隐藏功能。
@@ -12,7 +15,6 @@
 
 每个游戏的不同服务器的客户端之间的大多数文件都是相同的，仅有少数的文件存在区别。此功能方便用户快速地把客户端切换至对应的游戏服务器。
 
-> 崩坏：星穹铁道无法使用此功能
 
 ### 使用步骤
 
@@ -32,15 +34,3 @@
 
 <img src="https://user-images.githubusercontent.com/61003590/259004532-9fffe2ec-056f-495c-8840-1a3672e7be3c.png" width="200px" />
 
-
-## 拓展设置
-
-从 [0.10.2](https://github.com/Scighost/Starward/releases/tag/0.10.2) 版本开始，Starward 加入了部分功能开关的设置项，这些设置没有提供应用内的修改页面，你需要在 Starward 配置文件 `config.ini` 中修改。
-
-设置以键值对的方式存在，比如你想要关闭游戏公告的红点提醒，需要在 `config.ini` 文件中添加 `DisableGameNoticeRedHot=True`。
-
-|键|可用值|说明|
-|---|---|---|
-|DisableNavigationShortcut|`True` \| `False`|隐藏导航快捷方式|
-|DisableGameNoticeRedHot|`True` \| `False`|关闭游戏公告的红点提醒|
-|DisableGameAccountSwitcher|`True` \| `False`|隐藏游戏账号切换功能|

@@ -1,4 +1,5 @@
-English | [简体中文](./Tips.zh-CN.md) | [Tiếng Việt](./Tips.vi-VN.md)
+**v0.10.7** | English | [简体中文](./Tips.zh-CN.md) | [Tiếng Việt](./Tips.vi-VN.md)
+
 
 # Tips
 
@@ -14,7 +15,6 @@ Double-click the game icon in the title bar.
 
 Most of the files are the same between clients on different servers for each game, with only a few differences. This feature is convenient for users to quickly convert the client to the another game server.
 
-> Honkai: Star Rail is not supported.
 
 ### Steps to use
 
@@ -34,15 +34,3 @@ By default, the language of gacha items is the one selected in game, but this ca
 
 <img src="https://user-images.githubusercontent.com/61003590/259004675-7d67e320-6e7e-469e-b404-58669f42491f.png" width="200px" />
 
-
-## Extension Settings
-
-Starting from version [0.10.2](https://github.com/Scighost/Starward/releases/tag/0.10.2), Starward added some extension settings to enable or disable some features. These settings have no edit page in app, and you need to modify them in the Starward configuration file `config.ini`.
-
-Settings exist in the form of key-value pairs. For example, if you want to disable the red dot reminder of game notices, you need to add 'DisableGameNoticeRedHot=True' to the `config.ini` file.
-
-| Key | Available value | Description |
-|---|---|---|
-| DisableNavigationShortcut | `True` \| `False` | Hide navigation shortcut. |
-| DisableGameNoticeRedHot | `True` \| `False` | Disable red dot reminder of game notices. |
-| DisableGameAccountSwitcher | `True` \| `False` | Hide game account switcher. |
