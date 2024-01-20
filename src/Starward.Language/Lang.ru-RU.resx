@@ -1190,7 +1190,7 @@
     <value>Управление файлами</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
-    <value>Выполнено</value>
+    <value>Применить</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
     <value>Ссылки</value>
@@ -1214,7 +1214,7 @@
     <value>Закрыть окно, но сохранить системный трей</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
-    <value>Опыт</value>
+    <value>Опыт использования</value>
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
@@ -1309,7 +1309,7 @@
     <value>Эффекты прозрачности</value>
   </data>
   <data name="AppearanceSettingPage_AnimationEffects" xml:space="preserve">
-    <value>Анимационные эффекты</value>
+    <value>Эффекты анимации</value>
   </data>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
     <value>Всегда не удаётся получить записи гачи?</value>

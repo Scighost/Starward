@@ -600,7 +600,7 @@
     <value>以下資料夾中有尚未完成的下載任務:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
+    <value>請選擇一個空資料夾安裝游戲，或定位已安裝游戲的資料夾。</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>如果不是最新版本請修改遊戲安裝目錄中的config.ini文件。</value>
@@ -1068,7 +1068,7 @@
     <value>確認刪除</value>
   </data>
   <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
-    <value>目前登入的帳户</value>
+    <value>目前登入的帳戶</value>
   </data>
   <data name="Common_Attention" xml:space="preserve">
     <value>請注意</value>
@@ -1157,164 +1157,164 @@
     <value>測試URL協議</value>
   </data>
   <data name="LauncherPage_OpenInBrowser" xml:space="preserve">
-    <value>Open in Browser</value>
+    <value>在瀏覽器中打開</value>
   </data>
   <data name="ImageViewPage_ZoomOut" xml:space="preserve">
-    <value>Zoom out</value>
+    <value>縮小</value>
   </data>
   <data name="ImageViewPage_ZoomIn" xml:space="preserve">
-    <value>Zoom in</value>
+    <value>放大</value>
   </data>
   <data name="ImageViewPage_Rotate" xml:space="preserve">
-    <value>Rotate</value>
+    <value>旋轉</value>
   </data>
   <data name="Common_Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>複製</value>
   </data>
   <data name="Common_Open" xml:space="preserve">
-    <value>Open</value>
+    <value>打開</value>
   </data>
   <data name="LauncherPage_StartupCount" xml:space="preserve">
-    <value>Startup Count</value>
+    <value>開始計數</value>
   </data>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
-    <value>Data Folder</value>
+    <value>資料夾</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>Open Log File</value>
+    <value>打開日志資料夾</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
-    <value>Appearance</value>
+    <value>外觀</value>
   </data>
   <data name="SettingPage_FileManagement" xml:space="preserve">
-    <value>File Management</value>
+    <value>檔案管理</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
-    <value>Completed</value>
+    <value>完成</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
-    <value>Links</value>
+    <value>鏈接</value>
   </data>
   <data name="SettingPage_Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>進階</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>This Day</value>
+    <value>本日</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
-    <value>Close Window Option</value>
+    <value>關閉窗口選項</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
-    <value>Minimize to system tray</value>
+    <value>最小化到系統託盤</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
-    <value>Exit completely</value>
+    <value>完全退出</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>Close window but keep system tray</value>
+    <value>關閉窗口但保留系統託盤</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
-    <value>Experience</value>
+    <value>經驗</value>
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
-    <value>You could change the option again in setting page.</value>
+    <value>您可以在設定頁面中再次更改選項。</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
-    <value>Your personal data is stored in the folder below. It is very important, please do not delete it casually.</value>
+    <value>您的個人資料存儲在下麵的資料夾中。 它非常重要，請不要隨意删除。</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
-    <value>Theme Color</value>
+    <value>主題顏色</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
-    <value>By default, the theme color is determined through the background image.</value>
+    <value>默認情况下，主題顏色是通過背景影像確定。</value>
   </data>
   <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
-    <value>Use System Theme Color</value>
+    <value>使用系統主題顏色</value>
   </data>
   <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
-    <value>Always display navigation sidebar icons</value>
+    <value>始終顯示導航側邊欄圖標</value>
   </data>
   <data name="ExperienceSettingPage_Features" xml:space="preserve">
-    <value>Features</value>
+    <value>功能</value>
   </data>
   <data name="ExperienceSettingPage_HideGameAccountSwitcher" xml:space="preserve">
-    <value>Hide game account switcher</value>
+    <value>隱藏游戲賬戶切換器</value>
   </data>
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
-    <value>Disable red dot reminder for game notices</value>
+    <value>禁用游戲通知紅點提示</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
-    <value>Network Test</value>
+    <value>網絡測試</value>
   </data>
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
-    <value>Are you able to receive updates for Starward?</value>
+    <value>你能收到Starward的更新嗎？</value>
   </data>
   <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
-    <value>Please select a folder to store your personal data, it is very important!</value>
+    <value>請選擇一個資料夾來存儲您的個人數據，這非常重要！</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToTaskbar" xml:space="preserve">
-    <value>Minimize to taskbar</value>
+    <value>最小化至工作列</value>
   </data>
   <data name="ExperienceSettingPage_DoNothing" xml:space="preserve">
-    <value>Do nothing</value>
+    <value>什麼也不做</value>
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
-    <value>After Starting Game</value>
+    <value>開啓游戲後</value>
   </data>
   <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
-    <value>Quick Cleared</value>
+    <value>快速清除</value>
   </data>
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
-    <value>Pure Fiction</value>
+    <value>虛構敘事</value>
   </data>
   <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
-    <value>Help us translate Starward</value>
+    <value>幫助我們翻譯Starward</value>
   </data>
   <data name="FileSettingPage_Cache" xml:space="preserve">
-    <value>Cache</value>
+    <value>快取</value>
   </data>
   <data name="FileSettingPage_Log" xml:space="preserve">
-    <value>Log</value>
+    <value>日誌</value>
   </data>
   <data name="FileSettingPage_Image" xml:space="preserve">
-    <value>Image</value>
+    <value>圖片</value>
   </data>
   <data name="FileSettingPage_Browser" xml:space="preserve">
-    <value>Browser</value>
+    <value>瀏覽器</value>
   </data>
   <data name="FileSettingPage_ClearCache" xml:space="preserve">
-    <value>Clear Cache</value>
+    <value>清除快取</value>
   </data>
   <data name="DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning" xml:space="preserve">
-    <value>The download task of {0} is already running.</value>
+    <value>{0} 的下載任務已在執行。</value>
     <comment>{0} is game name, like Genshin Impact.</comment>
   </data>
   <data name="DownloadGamePage_TheFolderDoesNotExist" xml:space="preserve">
-    <value>The folder does not exist.</value>
+    <value>資料夾不存在</value>
   </data>
   <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
-    <value>Please do not select the root directory of a drive.</value>
+    <value>請不要選擇驅動器的根目錄。</value>
   </data>
   <data name="LauncherPage_SavedAccount" xml:space="preserve">
-    <value>Saved account</value>
+    <value>儲存帳戶</value>
   </data>
   <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
-    <value>Account switching cannot take effect while game is running.</value>
+    <value>帳戶切換在遊戲運行時無法生效。</value>
   </data>
   <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
-    <value>Recommend enabling {0} and {1} in system settings for a better user experience.</value>
+    <value>建議在系統設置中啟用 {0} 和 {1} 以獲得更好的用戶體驗。</value>
   </data>
   <data name="AppearanceSettingPage_TransparencyEffects" xml:space="preserve">
-    <value>Transparency effects</value>
+    <value>透明度效果</value>
   </data>
   <data name="AppearanceSettingPage_AnimationEffects" xml:space="preserve">
-    <value>Animation effects</value>
+    <value>動畫效果</value>
   </data>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
-    <value>Always failed to get gacha records?</value>
+    <value>總是獲取不到抽卡記錄？</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
-    <value>No Data</value>
+    <value>沒有資料</value>
   </data>
 </root>
