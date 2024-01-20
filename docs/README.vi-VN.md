@@ -1,8 +1,14 @@
-# Starward là gì?
+Trình khởi chạy trò chơi trên PC của [HoYoverse](https://www.hoyoverse.com) là một trong những phần mềm thương mại tệ nhất mà tôi từng thấy. Trải nghiệm người dùng tổng thể ở mức khá, nhưng nó hoạt động kém ở một số chi tiết nhất định:
 
-**Starward** xuất phát từ khẩu hiệu của Honkai Star Rail: Hi vọng cuộc hành trình này sẽ đưa chúng ta đến những vì sao (May This Journey Lead Us **Starward**), rất thích hợp để sử dụng làm tên ứng dụng. Starward là trình khởi chạy trò chơi hỗ trợ tất cả các trò chơi trên máy tính của nhà miHoYo. Mục tiêu của dự án này là thay thế hoàn toàn trình khởi chạy chính thức mặc định của miHoYo, và sau đó thêm một số tính năng mở rộng.
+- Thiếu hỗ trợ cho tỷ lệ màn hình mở rộng cao, dẫn đến thiếu tính thẩm mỹ trên toàn bộ giao diện.
+- Xác minh tài nguyên sử dụng một luồng duy nhất, không thể sử dụng hiệu quả nhiều nhân, dẫn đến lãng phí thời gian đáng kể.
+- Mặc dù có công cụ trình duyệt tích hợp nhưng thiết kế giao diện vẫn không thay đổi trong nhiều năm, không tận dụng được tính linh hoạt của các trang web mà thay vào đó là thêm số lượng lớn không cần thiết.
 
-Ngoài việc tải xuống và cài đặt trò chơi, ứng dụng còn có những tính năng sau đây:
+# Starward
+
+> **Starward** xuất phát từ khẩu hiệu của Star Rail: May This Journey Lead Us **Starward**, rất phù hợp để dùng làm tên ứng dụng.
+Starward là một launcher mã nguồn mở của bên thứ ba được phát triển để giải quyết những thiếu sót nói trên. Nó hỗ trợ tất cả các trò chơi 
+trên PC của HoYoverse và nhằm mục đích thay thế hoàn toàn trình khởi chạy chính thức. Ngoài những chức năng cơ bản của trình khởi chạy chính thức, tôi cũng sẽ tích hợp thêm một số tính năng dựa trên nhu cầu cá nhân, chẳng hạn như:
 
 - Ghi lại thời gian chơi
 - Chuyển đổi tài khoản HoYo
@@ -10,38 +16,33 @@ Ngoài việc tải xuống và cài đặt trò chơi, ứng dụng còn có nh
 - Lưu lịch sử gacha
 - Hộp công cụ HoYoLAB
 
-Và nhiều tính năng khác đang được lên kế hoạch trong tương lai...
-
-> Starward sẽ không đạt được những tính năng yêu cầu nhà phát triển liên tục cập nhật dữ liệu trò chơi và tài nguyên, như là số liệu thống kê cho mỗi sự kiện gacha.
+Các tính năng bổ sung còn lại để bạn tự khám phá...
 
 ## Cài đặt
 
 Đầu tiên, thiết bị của bạn cần đáp ứng những điều kiện sau:
 
 - Phiên bản Windows 10 1809 (17763) trở về sau.
-- Đã cài đặt [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist)
-- Đã cài đặt [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2)
-- Để có trải nghiệm tốt hơn, vui lòng bật **Hiệu ứng trong suốt** và **Hiệu ứng động** trong cài đặt hệ thống
+- Đã cài đặt [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist).
+- Đã cài đặt [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2).
+- Để có trải nghiệm tốt hơn, vui lòng bật **Hiệu ứng trong suốt** và **Hiệu ứng động** trong cài đặt hệ thống.
 
-Tải gói dành cho kiến trúc CPU của bạn từ [GitHub Release](https://github.com/Scighost/Starward/releases). Giải nén file, chạy `Starward.exe` và làm theo hướng dẫn.
-
-Starward có thể crash sau khi chạy trên một số thiết bị. Nếu bạn gặp phải vấn đề này, hãy tạo tập tin `config.ini` trong thư mục `Starward` và dán những dòng sau đây vào. Xem [docs/Configuration.vi-VN.md](./Configuration.vi-VN.md) để có thêm thông tin về `config.ini`.
-
-```ini
-UserDataFolder=.
-```
+Tiếp theo, tải xuống gói dành cho kiến ​​trúc CPU của bạn từ [GitHub Release](https://github.com/Scighost/Starward/releases). Giải nén nó, sau đó chạy `Starward.exe` và làm theo hướng dẫn.
 
 ## Dịch thuật
 
 [![en_US translation](https://img.shields.io/badge/any_text-100%25-blue?logo=crowdin&label=en-US)](https://crowdin.com/project/starward)
 [![ja-JP translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=ja-JP&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/ja)
 [![ko-KR translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=ko-KR&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ko%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/ko)
+[![ru-RU translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ru-RU&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ru%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ru)
 [![th-TH translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=th-TH&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27th%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/th)
 [![vi-VN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/vi)
 [![zh-CN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/zh-CN)
 [![zh-TW translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/zh-TW)
 
-Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho việc dịch thuật, cung cấp bản dịch tiếng Anh như bản gốc. Bạn có thể giúp chúng tôi dịch và sửa lỗi ngôn ngữ của bạn, và chúng tôi mong muốn có nhiều người tham gia hơn. Nếu bạn muốn tạo thêm ngôn ngữ dịch mới, vui lòng tạo Issue.
+Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho công việc dịch văn bản trong ứng dụng. Bạn có thể đóng góp bằng cách giúp chúng tôi dịch và hiệu chỉnh nội dung bằng ngôn ngữ địa phương của bạn. Chúng tôi mong muốn có thêm nhiều người tham gia cùng chúng tôi.
+
+[Hướng dẫn dịch thuật ở đây](./docs/Localization.md)
 
 ## Phát triển
 
@@ -53,9 +54,11 @@ Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho việc 
 
 ## Cảm ơn
 
-Đầu tiên, tôi muốn dành lời cảm ơn đặc biệt đến [neon-nyan](https://github.com/neon-nyan), có dự án [Collapse](https://github.com/neon-nyan/Collapse) đã truyền cảm hứng cho dự án này. Starward không chỉ sử dụng một số tài nguyên do anh ấy tạo ra, mà còn bắt chước thiết kế giao diện người dùng. Tôi đã học được rất nhiều từ code của Collapse, và nó giúp quá trình phát triển của tôi suôn sẻ hơn rất nhiều.
+Đầu tiên, tôi muốn gửi lời cảm ơn đặc biệt tới [@neon-nyan](https://github.com/neon-nyan). Nguồn cảm hứng và thiết kế cho dự án này đến trực tiếp từ dự án [Collapse](https://github.com/neon-nyan/Collapse) của anh ấy. Mình đã thu được rất nhiều kiến ​​thức từ mã nguồn của Collapse, và với những tài liệu tham khảo quý giá như vậy, quá trình phát triển của mình đã suôn sẻ hơn rất nhiều
 
-Và cảm ơn CloudFlare vì đã cung cấp CDN miễn phí.
+Tiếp theo, xin gửi lời cảm ơn sâu sắc đến nhà phát triển chính của [Snap Hutao](https://github.com/DGP-Studio/Snap.Hutao), [@Lightczx](https://github.com/Lightczx). Sự trợ giúp của anh ấy là vô giá trong quá trình phát triển Starward.
+
+Ngoài ra, tôi muốn bày tỏ lòng biết ơn tới CloudFlare vì đã cung cấp dịch vụ CDN miễn phí, góp phần mang lại trải nghiệm cập nhật tuyệt vời cho mọi người.
 
 <img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
@@ -75,5 +78,3 @@ Và các thư viện bên thứ ba được sử dụng trong dự án này bao 
 - [WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
 
 ## Ảnh chụp màn hình
-
-![screenshot](https://github.com/Scighost/Starward/assets/88989555/d02d1448-e2cb-4836-8d4c-a6e3962808f3)
