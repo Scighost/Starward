@@ -65,11 +65,18 @@ Starward 使用 [Crowdin](https://crowdin.com/project/starward) 进行应用内�
 
 ## 致谢
 
-首先我要特别感谢 [@neon-nyan](https://github.com/neon-nyan)，本项目的灵感和设计正是来源于他的项目 [Collapse](https://github.com/neon-nyan/Collapse)。我也从 Collapse 的代码中学到了很多知识，有此珠玉在前，我的开发过程顺利了很多。
+<picture>
+    <source srcset="https://github.com/Scighost/Starward/assets/61003590/9d369ec3-ab7c-408f-88c2-11bfe4453208" type="image/avif" />
+    <img src="https://github.com/Scighost/Starward/assets/61003590/44552992-e2c5-451f-9c2a-73176e8e4e93" width="240px" />
+</picture>
 
-然后，感谢[胡桃工具箱](https://github.com/DGP-Studio/Snap.Hutao)的主要开发者 [@Lightczx](https://github.com/Lightczx)，Starward 的开发过程中得到了他的很多帮助。
+首先，我要向本项目的所有贡献者和翻译者致以最诚挚的感谢，有了你们，Starward 才能变得更好。
 
-其次，感谢 CloudFlare 提供的免费 CDN，它带给了所有人良好的更新体验。
+然后，我要特别感谢 [@neon-nyan](https://github.com/neon-nyan)，本项目的灵感和设计正是来源于他的项目 [Collapse](https://github.com/neon-nyan/Collapse)。我也从 Collapse 的代码中学到了很多知识，有此珠玉在前，我的开发过程顺利了很多。
+
+其次，感谢[胡桃工具箱](https://github.com/DGP-Studio/Snap.Hutao)的主要开发者 [@Lightczx](https://github.com/Lightczx)，Starward 的开发过程中得到了他的很多帮助。
+
+我还要感谢 CloudFlare 提供的免费 CDN，它带给了所有人良好的更新体验。
 
 <img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
