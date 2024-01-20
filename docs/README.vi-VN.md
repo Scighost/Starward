@@ -16,14 +16,13 @@ trên PC của HoYoverse và nhằm mục đích thay thế hoàn toàn trình k
 - Lưu lịch sử gacha
 - Hộp công cụ HoYoLAB
 
-Các tính năng bổ sung còn lại để bạn tự khám phá...
+Còn nhiều tính năng khác để bạn khám phá...
 
 ## Cài đặt
 
 Đầu tiên, thiết bị của bạn cần đáp ứng những điều kiện sau:
 
 - Phiên bản Windows 10 1809 (17763) trở về sau.
-- Đã cài đặt [Visual C++ Runtime](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist).
 - Đã cài đặt [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2).
 - Để có trải nghiệm tốt hơn, vui lòng bật **Hiệu ứng trong suốt** và **Hiệu ứng động** trong cài đặt hệ thống.
 
@@ -58,11 +57,18 @@ Phát triển không phải là dễ dàng. Nếu bạn nghĩ Starward hữu íc
 
 ## Cảm ơn
 
-Đầu tiên, tôi muốn gửi lời cảm ơn đặc biệt tới [@neon-nyan](https://github.com/neon-nyan). Nguồn cảm hứng và thiết kế cho dự án này đến trực tiếp từ dự án [Collapse](https://github.com/neon-nyan/Collapse) của anh ấy. Mình đã thu được rất nhiều kiến ​​thức từ mã nguồn của Collapse, và với những tài liệu tham khảo quý giá như vậy, quá trình phát triển của mình đã suôn sẻ hơn rất nhiều
+<picture>
+    <source srcset="https://github.com/Scighost/Starward/assets/61003590/9d369ec3-ab7c-408f-88c2-11bfe4453208" type="image/avif" />
+    <img src="https://github.com/Scighost/Starward/assets/61003590/44552992-e2c5-451f-9c2a-73176e8e4e93" width="240px" />
+</picture>
+
+Đầu tiên, tôi xin gửi lời cảm ơn chân thành nhất tới tất cả những người đóng góp và dịch giả của dự án này. Starward chỉ có thể trở nên tốt hơn nhờ có bạn.
+
+Sau đó, tôi muốn gửi lời cảm ơn đặc biệt tới [@neon-nyan](https://github.com/neon-nyan). Nguồn cảm hứng và thiết kế cho dự án này đến trực tiếp từ dự án [Collapse](https://github.com/neon-nyan/Collapse) của anh ấy. Mình đã thu được rất nhiều kiến ​​thức từ mã nguồn của Collapse, và với những tài liệu tham khảo quý giá như vậy, quá trình phát triển của mình đã suôn sẻ hơn rất nhiều
 
 Tiếp theo, xin gửi lời cảm ơn sâu sắc đến nhà phát triển chính của [Snap Hutao](https://github.com/DGP-Studio/Snap.Hutao), [@Lightczx](https://github.com/Lightczx). Sự trợ giúp của anh ấy là vô giá trong quá trình phát triển Starward.
 
-Ngoài ra, tôi muốn bày tỏ lòng biết ơn tới CloudFlare vì đã cung cấp dịch vụ CDN miễn phí, góp phần mang lại trải nghiệm cập nhật tuyệt vời cho mọi người.
+Ngoài ra, cảm ơn CloudFlare vì đã cung cấp dịch vụ CDN miễn phí, góp phần mang lại trải nghiệm cập nhật tuyệt vời cho mọi người.
 
 <img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
