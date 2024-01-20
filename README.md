@@ -59,6 +59,11 @@ To compile the project locally, you need to install Visual Studio 2022 and selec
 -  Universal Windows Platform Development
 
 
+## Donation
+
+Development is not easy. If you think Starward useful, you cloud donate me at https://donate.scighost.com.
+
+
 ## Thanks
 
 Firstly, I want to express my special thanks to [@neon-nyan](https://github.com/neon-nyan). The inspiration and design for this project come directly from his project [Collapse](https://github.com/neon-nyan/Collapse). I have gained a lot of knowledge from the Collapse code, and with such a valuable reference, my development process has been much smoother.

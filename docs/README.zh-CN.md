@@ -58,6 +58,11 @@ Starward 使用 [Crowdin](https://crowdin.com/project/starward) 进行应用内�
 -  通用 Windows 平台开发
 
 
+## 赞助
+
+开发不易，如果你觉得 Starward 好用，可以在 https://donate.scighost.com 赞助我。
+
+
 ## 致谢
 
 首先我要特别感谢 [@neon-nyan](https://github.com/neon-nyan)，本项目的灵感和设计正是来源于他的项目 [Collapse](https://github.com/neon-nyan/Collapse)。我也从 Collapse 的代码中学到了很多知识，有此珠玉在前，我的开发过程顺利了很多。
