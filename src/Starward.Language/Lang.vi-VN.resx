@@ -1199,7 +1199,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Nâng cao</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>Ngày hôm nay</value>
+    <value>Hôm nay</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
     <value>Tuỳ chọn đóng cửa sổ</value>
