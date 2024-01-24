@@ -1318,10 +1318,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Không có dữ liệu</value>
   </data>
   <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
-    <value>Verify File Integrity</value>
+    <value>Xác minh tính toàn vẹn của tệp</value>
   </data>
   <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
-    <value>Verify failed</value>
+    <value>Xác minh thất bại</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
     <value>Current version is not the latest version ({0}).</value>
