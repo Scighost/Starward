@@ -1318,21 +1318,21 @@
     <value>Нет данных</value>
   </data>
   <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
-    <value>Verify File Integrity</value>
+    <value>Проверить целостность файлов</value>
   </data>
   <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
-    <value>Verify failed</value>
+    <value>Сбой проверки</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
     <value>Current version is not the latest version ({0}).</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
-    <value>Click button to repair files.</value>
+    <value>Нажмите на кнопку для восстановления файлов.</value>
   </data>
   <data name="AboutSettingPage_RepairFiles" xml:space="preserve">
-    <value>Repair Files</value>
+    <value>Восстановление файлов</value>
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
-    <value>Verify successfully!</value>
+    <value>Проверка прошла успешно!</value>
   </data>
 </root>
