@@ -1214,7 +1214,7 @@
     <value>關閉窗口但保留系統託盤</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
-    <value>經驗</value>
+    <value>行為</value>
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
