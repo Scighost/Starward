@@ -10,10 +10,36 @@
 using namespace std::filesystem;
 
 
+HANDLE stdOut;
+
+
+void Log(std::wstring output)
+{
+	if (stdOut)
+	{
+		SYSTEMTIME time;
+		GetSystemTime(&time);
+		std::wstring timeStr = std::format(L"[{:02}:{:02}:{:02}.{:03}] ", time.wHour, time.wMinute, time.wSecond, time.wMilliseconds);
+		WriteConsole(stdOut, timeStr.c_str(), timeStr.length(), NULL, NULL);
+		WriteConsole(stdOut, output.c_str(), output.length(), NULL, NULL);
+		WriteConsole(stdOut, L"\r\n", 2, NULL, NULL);
+	}
+}
+
 
 int wmain(int argc, wchar_t* argv[])
 {
-	std::wstring run_exe, arg = std::wstring(GetCommandLine()).substr(std::wstring(argv[0]).length() + 2);
+	for (size_t i = 0; i < argc; i++)
+	{
+		if (!wcscmp(argv[i], L"--trace"))
+		{
+			AllocConsole();
+		}
+	}
+
+	stdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	std::wstring run_exe;
 
 	auto base_folder = path(argv[0]).parent_path();
 	auto version = path(base_folder).append("version.ini");
@@ -32,6 +58,10 @@ int wmain(int argc, wchar_t* argv[])
 				}
 			}
 		}
+	}
+	else
+	{
+		Log(L"version.ini not found");
 	}
 
 	if (!run_exe.length())
@@ -54,20 +84,23 @@ int wmain(int argc, wchar_t* argv[])
 				}
 			}
 		}
-		if (exists(target_exe))
-		{
-			run_exe = target_exe.wstring();
-		}
+		run_exe = target_exe.wstring();
 	}
 
-	if (exists(run_exe))
+	Log(L"run_exe: " + run_exe);
+
+	if (run_exe.length())
 	{
+		std::wstring arg = std::wstring(GetCommandLine()).substr(std::wstring(argv[0]).length() + 2);
+		Log(L"arg: " + arg);
 		STARTUPINFO si;
 		PROCESS_INFORMATION pi;
 		ZeroMemory(&si, sizeof(si));
 		si.cb = sizeof(si);
 		ZeroMemory(&pi, sizeof(pi));
+		Log(L"Starting process");
 		CreateProcess(run_exe.c_str(), (LPWSTR)arg.c_str(), NULL, NULL, false, 0, NULL, NULL, &si, &pi);
+		Log(std::format(L"Process started ({})", GetProcessId(pi.hProcess)));
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
 
@@ -77,18 +110,26 @@ int wmain(int argc, wchar_t* argv[])
 			auto folder_name = folder.path().filename().wstring();
 			if (folder.is_directory() && folder_name.starts_with(L"app-") && folder_name.compare(base_name))
 			{
+				Log(std::format(L"Removing old version: {}", folder_name));
 				remove_all(folder);
 			}
 		}
 	}
 	else
 	{
+		Log(L"Starward.exe not found");
 		SetProcessDPIAware();
 		auto ok = MessageBox(NULL, L"Starward files not found.\r\nWould you like to download it now?\r\nhttps://github.com/Scighost/Starward", L"Starward", MB_ICONWARNING | MB_OKCANCEL);
 		if (ok == IDOK)
 		{
 			ShellExecute(NULL, NULL, L"https://github.com/Scighost/Starward", NULL, NULL, SW_SHOWNORMAL);
 		}
+	}
+
+	if (stdOut)
+	{
+		Log(L"Wait for 10s to exit...");
+		Sleep(10000);
 	}
 }
 
