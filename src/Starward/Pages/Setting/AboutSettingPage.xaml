@@ -57,7 +57,8 @@
             <Grid Margin="0,4,0,0" ColumnSpacing="16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Button Height="40"
                         Padding="12,0,16,0"
@@ -77,15 +78,28 @@
                           Glyph="&#xF78C;"
                           Visibility="{x:Bind IsUpdated}" />
                 <ProgressRing Grid.Column="1"
-                              Width="28"
-                              Height="28"
+                              Width="20"
+                              Height="20"
                               HorizontalAlignment="Left"
-                              IsIndeterminate="{x:Bind CheckUpdateCommand.IsRunning}" />
+                              IsIndeterminate="{x:Bind CheckUpdateCommand.IsRunning}"
+                              Visibility="{x:Bind CheckUpdateCommand.IsRunning}" />
                 <TextBlock Grid.Column="1"
                            VerticalAlignment="Center"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="{x:Bind UpdateErrorText}"
                            TextWrapping="Wrap" />
+                <Button Grid.Column="2"
+                        Height="40"
+                        Padding="16,0,16,0"
+                        BorderThickness="0"
+                        Command="{x:Bind VerifyFileCommand}"
+                        CornerRadius="20"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE95E;" />
+                        <TextBlock Text="{x:Bind lang:Lang.AboutSettingPage_VerifyFileIntegrity}" />
+                    </StackPanel>
+                </Button>
             </Grid>
 
 

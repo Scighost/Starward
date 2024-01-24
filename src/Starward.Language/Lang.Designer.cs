@@ -61,11 +61,65 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Click button to repair files. 的本地化字符串。
+        /// </summary>
+        public static string AboutSettingPage_ClickButtonToRepairFiles {
+            get {
+                return ResourceManager.GetString("AboutSettingPage_ClickButtonToRepairFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Current version is not the latest version ({0}). 的本地化字符串。
+        /// </summary>
+        public static string AboutSettingPage_CurrentVersionIsNotTheLatestVersion {
+            get {
+                return ResourceManager.GetString("AboutSettingPage_CurrentVersionIsNotTheLatestVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Links 的本地化字符串。
         /// </summary>
         public static string AboutSettingPage_Links {
             get {
                 return ResourceManager.GetString("AboutSettingPage_Links", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Repair Files 的本地化字符串。
+        /// </summary>
+        public static string AboutSettingPage_RepairFiles {
+            get {
+                return ResourceManager.GetString("AboutSettingPage_RepairFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Verify failed 的本地化字符串。
+        /// </summary>
+        public static string AboutSettingPage_VerifyFailed {
+            get {
+                return ResourceManager.GetString("AboutSettingPage_VerifyFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Verify File Integrity 的本地化字符串。
+        /// </summary>
+        public static string AboutSettingPage_VerifyFileIntegrity {
+            get {
+                return ResourceManager.GetString("AboutSettingPage_VerifyFileIntegrity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Verify successfully! 的本地化字符串。
+        /// </summary>
+        public static string AboutSettingPage_VerifySuccessfully {
+            get {
+                return ResourceManager.GetString("AboutSettingPage_VerifySuccessfully", resourceCulture);
             }
         }
         
