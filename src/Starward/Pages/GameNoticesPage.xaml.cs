@@ -31,7 +31,7 @@ public sealed partial class GameNoticesPage : PageBase
     private readonly ILogger<GameNoticesPage> _logger = AppConfig.GetLogger<GameNoticesPage>();
 
 
-    private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
+    private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
 
 
     private readonly GameAccountService _gameAccountService = AppConfig.GetService<GameAccountService>();
@@ -73,7 +73,7 @@ public sealed partial class GameNoticesPage : PageBase
     {
         try
         {
-            string? bg = await _launcherService.GetBackgroundImageAsync(gameBiz, disableCustom: true);
+            string? bg = await _launcherContentService.GetBackgroundImageAsync(gameBiz, disableCustom: true);
             if (Uri.TryCreate(bg, UriKind.RelativeOrAbsolute, out var uri))
             {
                 Image_Bg.Source = new BitmapImage(uri);
@@ -149,7 +149,7 @@ public sealed partial class GameNoticesPage : PageBase
             string? bg = null;
             try
             {
-                var content = await _launcherService.GetLauncherContentAsync(gameBiz);
+                var content = await _launcherContentService.GetLauncherContentAsync(gameBiz);
                 bg = content.BackgroundImage?.Background;
             }
             catch (Exception ex)

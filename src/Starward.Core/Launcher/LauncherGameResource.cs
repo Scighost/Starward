@@ -3,7 +3,7 @@
 namespace Starward.Core.Launcher;
 
 
-public class LauncherResource
+public class LauncherGameResource
 {
     [JsonPropertyName("game")]
     public GameResource Game { get; set; }

@@ -17,10 +17,10 @@ using Windows.System;
 
 namespace Starward.Services;
 
-public class LauncherService
+public class LauncherContentService
 {
 
-    private readonly ILogger<LauncherService> _logger;
+    private readonly ILogger<LauncherContentService> _logger;
 
     private readonly HttpClient _httpClient;
 
@@ -29,7 +29,7 @@ public class LauncherService
 
 
 
-    public LauncherService(ILogger<LauncherService> logger, HttpClient httpClient, LauncherClient launcherClient)
+    public LauncherContentService(ILogger<LauncherContentService> logger, HttpClient httpClient, LauncherClient launcherClient)
     {
         _logger = logger;
         _httpClient = httpClient;

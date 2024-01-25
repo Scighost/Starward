@@ -54,7 +54,7 @@ public sealed partial class MainPage : PageBase
     private readonly ILogger<MainPage> _logger = AppConfig.GetLogger<MainPage>();
 
 
-    private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
+    private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
 
 
     private readonly UpdateService _updateService = AppConfig.GetService<UpdateService>();
@@ -295,7 +295,7 @@ public sealed partial class MainPage : PageBase
     {
         try
         {
-            var file = _launcherService.GetCachedBackgroundImage(CurrentGameBiz);
+            var file = _launcherContentService.GetCachedBackgroundImage(CurrentGameBiz);
             if (file != null)
             {
                 if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm")
@@ -369,7 +369,7 @@ public sealed partial class MainPage : PageBase
             cancelSource = new();
             var source = cancelSource;
 
-            var file = await _launcherService.GetBackgroundImageAsync(CurrentGameBiz);
+            var file = await _launcherContentService.GetBackgroundImageAsync(CurrentGameBiz);
             if (file != null)
             {
                 if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm")

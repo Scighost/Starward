@@ -43,7 +43,7 @@ public sealed partial class DownloadGamePage : PageBase
 
     private readonly GameService _gameService = AppConfig.GetService<GameService>();
 
-    private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
+    private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
 
     private readonly DownloadGameService _downloadGameService = AppConfig.GetService<DownloadGameService>();
 
@@ -233,10 +233,10 @@ public sealed partial class DownloadGamePage : PageBase
     {
         try
         {
-            var file = _launcherService.GetCachedBackgroundImage(gameBiz, true);
+            var file = _launcherContentService.GetCachedBackgroundImage(gameBiz, true);
             if (!File.Exists(file))
             {
-                file = await _launcherService.GetBackgroundImageAsync(gameBiz, true);
+                file = await _launcherContentService.GetBackgroundImageAsync(gameBiz, true);
             }
             if (file != null)
             {

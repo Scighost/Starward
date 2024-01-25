@@ -80,7 +80,7 @@ public class LauncherClient
 
 
 
-    public async Task<LauncherResource> GetLauncherResourceAsync(GameBiz biz, CancellationToken cancellationToken = default)
+    public async Task<LauncherGameResource> GetLauncherGameResourceAsync(GameBiz biz, CancellationToken cancellationToken = default)
     {
         var url = biz switch
         {
@@ -99,7 +99,7 @@ public class LauncherClient
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);
-        var resource = await CommonSendAsync<LauncherResource>(request, cancellationToken);
+        var resource = await CommonSendAsync<LauncherGameResource>(request, cancellationToken);
         if (biz is GameBiz.hkrpg_global)
         {
             if (string.IsNullOrWhiteSpace(resource.Game.Latest.DecompressedPath) && !string.IsNullOrWhiteSpace(resource.Game.Latest.Path))

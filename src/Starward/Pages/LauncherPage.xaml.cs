@@ -46,7 +46,7 @@ public sealed partial class LauncherPage : PageBase
 
     private readonly GameService _gameService = AppConfig.GetService<GameService>();
 
-    private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
+    private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
 
     private readonly PlayTimeService _playTimeService = AppConfig.GetService<PlayTimeService>();
 
@@ -224,7 +224,7 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            var content = await _launcherService.GetLauncherContentAsync(CurrentGameBiz);
+            var content = await _launcherContentService.GetLauncherContentAsync(CurrentGameBiz);
             BannerList = content.Banner;
             LauncherPostGroupList = content.Post.GroupBy(x => x.Type).OrderBy(x => x.Key).Select(x => new LauncherPostGroup(x.Key.ToLocalization(), x)).ToList();
             if (EnableBannerAndPost && BannerList.Count != 0 && LauncherPostGroupList.Count != 0)
@@ -332,7 +332,7 @@ public sealed partial class LauncherPage : PageBase
                 Image_GameNoticesAlert.Visibility = Visibility.Collapsed;
                 return;
             }
-            if (await _launcherService.IsNoticesAlertAsync(CurrentGameBiz, uid))
+            if (await _launcherContentService.IsNoticesAlertAsync(CurrentGameBiz, uid))
             {
                 Image_GameNoticesAlert.Visibility = Visibility.Visible;
             }
@@ -1563,7 +1563,7 @@ public sealed partial class LauncherPage : PageBase
     [RelayCommand]
     private async Task ChangeCustomBgAsync()
     {
-        var file = await _launcherService.ChangeCustomBgAsync();
+        var file = await _launcherContentService.ChangeCustomBgAsync();
         if (file is not null)
         {
             CustomBg = file;
@@ -1576,7 +1576,7 @@ public sealed partial class LauncherPage : PageBase
     [RelayCommand]
     private async Task OpenCustomBgAsync()
     {
-        await _launcherService.OpenCustomBgAsync(CustomBg);
+        await _launcherContentService.OpenCustomBgAsync(CustomBg);
     }
 
 

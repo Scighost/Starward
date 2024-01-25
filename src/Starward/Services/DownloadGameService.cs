@@ -91,12 +91,12 @@ internal partial class DownloadGameService
 
 
 
-    public async Task<LauncherResource> GetLauncherResourceAsync(GameBiz biz)
+    public async Task<LauncherGameResource> GetLauncherGameResourceAsync(GameBiz biz)
     {
-        var resource = MemoryCache.Instance.GetItem<LauncherResource>($"LauncherResource_{biz}", TimeSpan.FromSeconds(10));
+        var resource = MemoryCache.Instance.GetItem<LauncherGameResource>($"LauncherResource_{biz}", TimeSpan.FromSeconds(10));
         if (resource is null)
         {
-            resource = await _launcherClient.GetLauncherResourceAsync(biz);
+            resource = await _launcherClient.GetLauncherGameResourceAsync(biz);
             MemoryCache.Instance.SetItem($"LauncherResource_{biz}", resource);
         }
         return resource;
@@ -107,7 +107,7 @@ internal partial class DownloadGameService
 
     public async Task<(Version? LatestVersion, Version? PreDownloadVersion)> GetGameVersionAsync(GameBiz biz)
     {
-        var resource = await GetLauncherResourceAsync(biz);
+        var resource = await GetLauncherGameResourceAsync(biz);
         _ = Version.TryParse(resource.Game?.Latest?.Version, out Version? latest);
         _ = Version.TryParse(resource.PreDownloadGame?.Latest?.Version, out Version? preDownload);
         return (latest, preDownload);
@@ -122,7 +122,7 @@ internal partial class DownloadGameService
         {
             return false;
         }
-        var resource = await GetLauncherResourceAsync(biz);
+        var resource = await GetLauncherGameResourceAsync(biz);
         if (resource.PreDownloadGame != null)
         {
             var localVersion = await GetLocalGameVersionAsync(biz);
@@ -277,7 +277,7 @@ internal partial class DownloadGameService
     {
         var localVersion = await GetLocalGameVersionAsync(installPath);
         (Version? latestVersion, Version? preDownloadVersion) = await GetGameVersionAsync(biz);
-        var resource = await GetLauncherResourceAsync(biz);
+        var resource = await GetLauncherGameResourceAsync(biz);
         GameResource? gameResource = null;
 
         if (localVersion is null)
@@ -404,7 +404,7 @@ internal partial class DownloadGameService
 
     private List<DownloadTask> sliceTasks;
 
-    private LauncherResource launcherResource;
+    private LauncherGameResource launcherResource;
 
     private string sperateUrl;
 
@@ -455,7 +455,7 @@ internal partial class DownloadGameService
 
             var localVersion = await GetLocalGameVersionAsync(installPath).ConfigureAwait(false);
             (Version? latestVersion, Version? preDownloadVersion) = await GetGameVersionAsync(biz).ConfigureAwait(false);
-            launcherResource = await GetLauncherResourceAsync(biz).ConfigureAwait(false);
+            launcherResource = await GetLauncherGameResourceAsync(biz).ConfigureAwait(false);
             GameResource? gameResource = null;
             if (localVersion is null)
             {
@@ -627,7 +627,7 @@ internal partial class DownloadGameService
             progressBytes = 0;
             ActionType = Lang.DownloadGameService_RepairMode;
 
-            launcherResource = await GetLauncherResourceAsync(biz).ConfigureAwait(false);
+            launcherResource = await GetLauncherGameResourceAsync(biz).ConfigureAwait(false);
             GameResource gameResource = launcherResource.Game;
 
             this.installPath = installPath;
