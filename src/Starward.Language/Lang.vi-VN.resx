@@ -148,7 +148,7 @@
     <value>Tiếng Hàn</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>Tính năng này đang ở trong giai đoạn thử nghiệm. Nếu có bất kì tệp trò chơi nào bị hỏng, vui lòng sử dụng trình khởi chạy chính thức để sửa nó.</value>
+    <value>Tính năng này đang ở trong giai đoạn thử nghiệm. Nếu có bất kì tập tin trò chơi nào bị hỏng, vui lòng sử dụng trình khởi chạy chính thức để sửa nó.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
     <value>Dung lượng có sẵn có lẽ là không đủ</value>
@@ -600,7 +600,7 @@
     <value>Thư mục sau chứa những tác vụ tải xuống chưa hoàn thành:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Vui lòng chọn một thư mục trống để cài đặt trò chơi, hoặc tìm thư mục chứa tệp thực thi của {0}.</value>
+    <value>Vui lòng chọn một thư mục trống để cài đặt trò chơi, hoặc tìm thư mục chứa tập tin thực thi của {0}.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>Nếu đây không phải là phiên bản mới nhất, vui lòng sửa đổi tập tin config.ini ở thư mục cài đặt game.</value>
@@ -1181,13 +1181,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thư mục dữ liệu</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>Mở tệp nhật kí</value>
+    <value>Mở tập tin nhật kí</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
     <value>Ngoại hình</value>
   </data>
   <data name="SettingPage_FileManagement" xml:space="preserve">
-    <value>Quản lí tệp tin</value>
+    <value>Quản lí tập tin</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
     <value>Hoàn thành</value>
@@ -1318,21 +1318,21 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Không có dữ liệu</value>
   </data>
   <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
-    <value>Xác minh tính toàn vẹn của tệp</value>
+    <value>Xác minh tính toàn vẹn của tập tin</value>
   </data>
   <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
     <value>Xác minh thất bại</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
-    <value>Current version is not the latest version ({0}).</value>
+    <value>Phiên bản hiện tại không phải là phiên bản mới nhất ({0}).</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
-    <value>Click button to repair files.</value>
+    <value>Bấm vào nút để sửa chữa các tập tin.</value>
   </data>
   <data name="AboutSettingPage_RepairFiles" xml:space="preserve">
-    <value>Repair Files</value>
+    <value>Sửa chữa tập tin</value>
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
-    <value>Verify successfully!</value>
+    <value>Xác minh thành công!</value>
   </data>
 </root>
