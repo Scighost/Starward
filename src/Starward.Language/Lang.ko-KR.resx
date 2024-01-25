@@ -1318,21 +1318,21 @@
     <value>데이터 없음</value>
   </data>
   <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
-    <value>Verify File Integrity</value>
+    <value>파일 무결성 확인</value>
   </data>
   <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
-    <value>Verify failed</value>
+    <value>실패</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
-    <value>Current version is not the latest version ({0}).</value>
+    <value>현재 최신버전이 아닙니다. ({0}).</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
-    <value>Click button to repair files.</value>
+    <value>파일 복구 실행</value>
   </data>
   <data name="AboutSettingPage_RepairFiles" xml:space="preserve">
-    <value>Repair Files</value>
+    <value>파일 복구</value>
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
-    <value>Verify successfully!</value>
+    <value>무결성 확인 성공!</value>
   </data>
 </root>
