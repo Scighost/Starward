@@ -1318,21 +1318,21 @@
     <value>没有数据</value>
   </data>
   <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
-    <value>Verify File Integrity</value>
+    <value>校验文件完整性</value>
   </data>
   <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
-    <value>Verify failed</value>
+    <value>校验失败</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
-    <value>Current version is not the latest version ({0}).</value>
+    <value>当前版本不是最新版本 ({0})</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
-    <value>Click button to repair files.</value>
+    <value>点击按键，修复文件。</value>
   </data>
   <data name="AboutSettingPage_RepairFiles" xml:space="preserve">
-    <value>Repair Files</value>
+    <value>修复文件</value>
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
-    <value>Verify successfully!</value>
+    <value>校验成功！</value>
   </data>
 </root>
