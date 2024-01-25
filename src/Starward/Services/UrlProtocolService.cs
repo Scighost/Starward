@@ -72,10 +72,11 @@ internal class UrlProtocolService
                         var gameService = AppConfig.GetService<GameService>();
                         if (int.TryParse(uidStr, out int uid))
                         {
-                            var accounts = gameService.GetGameAccountsFromDatabase(biz);
+                            var gameAccountService = AppConfig.GetService<GameAccountService>();
+                            var accounts = gameAccountService.GetGameAccountsFromDatabase(biz);
                             if (accounts.FirstOrDefault(x => x.Uid == uid) is GameAccount account)
                             {
-                                gameService.ChangeGameAccount(account);
+                                gameAccountService.ChangeGameAccount(account);
                                 log.LogInformation("Changed game account ({biz}, {uid}).", biz, uid);
                             }
                             else

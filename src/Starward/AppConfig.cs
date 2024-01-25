@@ -221,7 +221,6 @@ internal static class AppConfig
             Log.Information($"Welcome to Starward v{AppVersion}\r\nSystem: {Environment.OSVersion}\r\nCommand Line: {Environment.CommandLine}");
 
             var sc = new ServiceCollection();
-            sc.AddLogging(c => c.AddSimpleConsole(c => c.TimestampFormat = "HH:mm:ss.fff\r\n"));
             sc.AddLogging(c => c.AddSerilog(Log.Logger));
             sc.AddTransient(_ =>
             {
@@ -250,6 +249,7 @@ internal static class AppConfig
             sc.AddSingleton<GameSettingService>();
             sc.AddSingleton<GameRecordService>();
             sc.AddSingleton<SelfQueryService>();
+            sc.AddSingleton<GameAccountService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))

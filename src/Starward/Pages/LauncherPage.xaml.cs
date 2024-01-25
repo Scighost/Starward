@@ -54,7 +54,7 @@ public sealed partial class LauncherPage : PageBase
 
     private readonly DownloadGameService _downloadGameService = AppConfig.GetService<DownloadGameService>();
 
-
+    private readonly GameAccountService _gameAccountService = AppConfig.GetService<GameAccountService>();
 
 
     public LauncherPage()
@@ -785,7 +785,7 @@ public sealed partial class LauncherPage : PageBase
             {
                 StackPanel_Account.Visibility = Visibility.Visible;
             }
-            GameAccountList = _gameService.GetGameAccounts(CurrentGameBiz);
+            GameAccountList = _gameAccountService.GetGameAccounts(CurrentGameBiz);
             SelectGameAccount = GameAccountList.FirstOrDefault(x => x.IsLogin);
             CanChangeGameAccount = false;
         }
@@ -805,7 +805,7 @@ public sealed partial class LauncherPage : PageBase
         {
             if (SelectGameAccount is not null)
             {
-                _gameService.ChangeGameAccount(SelectGameAccount);
+                _gameAccountService.ChangeGameAccount(SelectGameAccount);
                 foreach (var item in GameAccountList)
                 {
                     item.IsLogin = false;
@@ -848,11 +848,11 @@ public sealed partial class LauncherPage : PageBase
                     if (await dialog.ShowAsync() is ContentDialogResult.Primary)
                     {
                         GameAccountList.Remove(lacc);
-                        _gameService.DeleteGameAccount(lacc);
+                        _gameAccountService.DeleteGameAccount(lacc);
                     }
                 }
                 SelectGameAccount.Time = DateTime.Now;
-                _gameService.SaveGameAccount(SelectGameAccount);
+                _gameAccountService.SaveGameAccount(SelectGameAccount);
                 FontIcon_SaveGameAccount.Glyph = "\uE8FB";
                 _ = UpdateGameNoticesAlertAsync();
                 await Task.Delay(3000);
@@ -873,7 +873,7 @@ public sealed partial class LauncherPage : PageBase
         {
             if (SelectGameAccount is not null)
             {
-                _gameService.DeleteGameAccount(SelectGameAccount);
+                _gameAccountService.DeleteGameAccount(SelectGameAccount);
                 GetGameAccount();
                 _ = UpdateGameNoticesAlertAsync();
             }
@@ -913,7 +913,7 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            suggestionUids = _gameService.GetSuggestionUids(CurrentGameBiz).Select(x => x.ToString()).ToList();
+            suggestionUids = _gameAccountService.GetSuggestionUids(CurrentGameBiz).Select(x => x.ToString()).ToList();
             UpdateSuggestionUids(AutoSuggestBox_Uid.Text);
         }
         catch (Exception ex)

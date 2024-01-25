@@ -31,10 +31,11 @@ public sealed partial class GameNoticesPage : PageBase
     private readonly ILogger<GameNoticesPage> _logger = AppConfig.GetLogger<GameNoticesPage>();
 
 
-    private readonly GameService _gameService = AppConfig.GetService<GameService>();
-
-
     private readonly LauncherService _launcherService = AppConfig.GetService<LauncherService>();
+
+
+    private readonly GameAccountService _gameAccountService = AppConfig.GetService<GameAccountService>();
+
 
 
     public GameNoticesPage()
@@ -94,7 +95,7 @@ public sealed partial class GameNoticesPage : PageBase
             long uid = 0;
             try
             {
-                var accounts = _gameService.GetGameAccounts(gameBiz);
+                var accounts = _gameAccountService.GetGameAccounts(gameBiz);
                 if (accounts.FirstOrDefault(x => x.IsLogin) is GameAccount acc)
                 {
                     uid = acc.Uid;
