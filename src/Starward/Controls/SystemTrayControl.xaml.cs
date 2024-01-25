@@ -28,6 +28,8 @@ public sealed partial class SystemTrayControl : UserControl
 
     private readonly GameService _gameService = AppConfig.GetService<GameService>();
 
+    private readonly GameResourceService _gameResourceService = AppConfig.GetService<GameResourceService>();
+
     private readonly PlayTimeService _playTimeService = AppConfig.GetService<PlayTimeService>();
 
     private string lang;
@@ -60,12 +62,12 @@ public sealed partial class SystemTrayControl : UserControl
             {
                 if (biz.ToGame() is not GameBiz.None)
                 {
-                    string? folder = _gameService.GetGameInstallPath(biz);
+                    string? folder = _gameResourceService.GetGameInstallPath(biz);
                     if (string.IsNullOrWhiteSpace(folder))
                     {
                         continue;
                     }
-                    string name = GameService.GetGameExeName(biz);
+                    string name = GameResourceService.GetGameExeName(biz);
                     string file = Path.Join(folder, name);
                     if (File.Exists(file))
                     {

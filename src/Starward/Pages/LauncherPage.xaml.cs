@@ -52,7 +52,7 @@ public sealed partial class LauncherPage : PageBase
 
     private readonly DatabaseService _databaseService = AppConfig.GetService<DatabaseService>();
 
-    private readonly DownloadGameService _downloadGameService = AppConfig.GetService<DownloadGameService>();
+    private readonly GameResourceService _gameResourceService = AppConfig.GetService<GameResourceService>();
 
     private readonly GameAccountService _gameAccountService = AppConfig.GetService<GameAccountService>();
 
@@ -523,8 +523,8 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            InstallPath = _gameService.GetGameInstallPath(CurrentGameBiz);
-            IsGameExeExists = _gameService.IsGameExeExists(CurrentGameBiz);
+            InstallPath = _gameResourceService.GetGameInstallPath(CurrentGameBiz);
+            IsGameExeExists = _gameResourceService.IsGameExeExists(CurrentGameBiz);
             if (CurrentGameBiz == GameBiz.hk4e_cloud)
             {
                 if (Directory.Exists(InstallPath))
@@ -534,12 +534,12 @@ public sealed partial class LauncherPage : PageBase
                 }
                 return;
             }
-            LocalGameVersion = await _downloadGameService.GetLocalGameVersionAsync(CurrentGameBiz);
+            LocalGameVersion = await _gameResourceService.GetGameLocalVersionAsync(CurrentGameBiz);
             UpdateGameButtonStyle();
-            (LatestGameVersion, PreInstallGameVersion) = await _downloadGameService.GetGameVersionAsync(CurrentGameBiz);
+            (LatestGameVersion, PreInstallGameVersion) = await _gameResourceService.GetGameResourceVersionAsync(CurrentGameBiz);
             if (IsPreInstallButtonEnable)
             {
-                IsPreDownloadOK = await _downloadGameService.CheckPreDownloadIsOKAsync(CurrentGameBiz, InstallPath);
+                IsPreDownloadOK = await _gameResourceService.CheckPreDownloadIsOKAsync(CurrentGameBiz);
             }
         }
         catch (Exception ex)
@@ -1059,7 +1059,7 @@ public sealed partial class LauncherPage : PageBase
                 {
                     Title = Lang.LauncherPage_SelectInstallFolder,
                     // 请选择一个空文件夹用于安装游戏，或者定位已安装游戏的文件夹。
-                    Content = string.Format(Lang.LauncherPage_SelectInstallFolderDesc, GameService.GetGameExeName(CurrentGameBiz)),
+                    Content = string.Format(Lang.LauncherPage_SelectInstallFolderDesc, GameResourceService.GetGameExeName(CurrentGameBiz)),
                     PrimaryButtonText = Lang.Common_Select,
                     SecondaryButtonText = Lang.Common_Cancel,
                     DefaultButton = ContentDialogButton.Primary,
@@ -1084,13 +1084,13 @@ public sealed partial class LauncherPage : PageBase
 
             InstallPath = temp_install_path;
 
-            var downloadResource = await _downloadGameService.CheckDownloadGameResourceAsync(CurrentGameBiz, InstallPath);
+            var downloadResource = await _gameResourceService.CheckDownloadGameResourceAsync(CurrentGameBiz, InstallPath);
             if (downloadResource is null)
             {
                 CheckGameVersion();
                 return;
             }
-            var lang = await _downloadGameService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
+            var lang = await _gameResourceService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
             if (lang is VoiceLanguage.None)
             {
                 lang = VoiceLanguage.All;
@@ -1158,7 +1158,7 @@ public sealed partial class LauncherPage : PageBase
                 };
                 if (await dialog.ShowAsync() is ContentDialogResult.Primary)
                 {
-                    var lang = await _downloadGameService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
+                    var lang = await _gameResourceService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
                     var exe = Process.GetCurrentProcess().MainModule?.FileName;
                     if (!File.Exists(exe))
                     {
@@ -1192,7 +1192,7 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            var lang = await _downloadGameService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
+            var lang = await _gameResourceService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
             var exe = Process.GetCurrentProcess().MainModule?.FileName;
             if (!File.Exists(exe))
             {

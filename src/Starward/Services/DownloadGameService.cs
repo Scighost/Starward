@@ -29,7 +29,7 @@ internal partial class DownloadGameService
     private readonly ILogger<DownloadGameService> _logger;
 
 
-    private readonly GameService _gameService;
+    private readonly GameResourceService _gameResourceService;
 
 
     private readonly LauncherClient _launcherClient;
@@ -37,10 +37,10 @@ internal partial class DownloadGameService
 
     private readonly HttpClient _httpClient;
 
-    public DownloadGameService(ILogger<DownloadGameService> logger, GameService gameService, LauncherClient launcherClient, HttpClient httpClient)
+    public DownloadGameService(ILogger<DownloadGameService> logger, GameResourceService gameService, LauncherClient launcherClient, HttpClient httpClient)
     {
         _logger = logger;
-        _gameService = gameService;
+        _gameResourceService = gameService;
         _launcherClient = launcherClient;
         _httpClient = httpClient;
     }
@@ -57,7 +57,7 @@ internal partial class DownloadGameService
 
     public async Task<Version?> GetLocalGameVersionAsync(GameBiz biz)
     {
-        var installPath = _gameService.GetGameInstallPath(biz);
+        var installPath = _gameResourceService.GetGameInstallPath(biz);
         var version = await GetLocalGameVersionAsync(installPath);
         _logger.LogInformation("Local game version is {version} (gameBiz: {biz})", version, biz);
         return version;

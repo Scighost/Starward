@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Starward.Core;
-using Starward.Core.Gacha;
 using Starward.Models;
 using System;
 using System.ComponentModel;
@@ -19,14 +18,17 @@ internal class GameService
     private readonly ILogger<GameService> _logger;
 
 
-    private readonly DatabaseService _database;
+    private readonly GameResourceService _gameResourceService;
 
-    public GameService(ILogger<GameService> logger, DatabaseService database)
+    public GameService(ILogger<GameService> logger, GameResourceService gameResourceService)
     {
         _logger = logger;
-        _database = database;
+        _gameResourceService = gameResourceService;
     }
 
+
+
+#if false
 
 
 
@@ -77,7 +79,7 @@ internal class GameService
             },
         };
     }
-
+#endif
 
 
     public string? GetGameScreenshotPath(GameBiz biz)
@@ -95,7 +97,7 @@ internal class GameService
         }
         else
         {
-            folder = GetGameInstallPath(biz);
+            folder = _gameResourceService.GetGameInstallPath(biz);
             var relativePath = biz.ToGame() switch
             {
                 GameBiz.GenshinImpact => "ScreenShot",
@@ -122,7 +124,7 @@ internal class GameService
 
     public Process? GetGameProcess(GameBiz biz)
     {
-        var name = GetGameExeName(biz).Replace(".exe", "");
+        var name = GameResourceService.GetGameExeName(biz).Replace(".exe", "");
         return Process.GetProcessesByName(name).FirstOrDefault();
     }
 
@@ -149,7 +151,7 @@ internal class GameService
             string? exe = null, arg = null, verb = null;
             if (Directory.Exists(installPath))
             {
-                var e = Path.Join(installPath, GetGameExeName(biz));
+                var e = Path.Join(installPath, GameResourceService.GetGameExeName(biz));
                 if (File.Exists(e))
                 {
                     exe = e;
@@ -171,8 +173,8 @@ internal class GameService
             }
             if (string.IsNullOrWhiteSpace(exe))
             {
-                var folder = GetGameInstallPath(biz);
-                var name = GetGameExeName(biz);
+                var folder = _gameResourceService.GetGameInstallPath(biz);
+                var name = GameResourceService.GetGameExeName(biz);
                 exe = Path.Join(folder, name);
                 arg = AppConfig.GetStartArgument(biz)?.Trim();
                 verb = (biz is GameBiz.hk4e_cloud) ? "" : "runas";

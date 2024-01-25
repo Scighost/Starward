@@ -361,7 +361,7 @@ internal class PlayTimeService
     {
         try
         {
-            var name = GameService.GetGameExeName(biz).Replace(".exe", "");
+            var name = GameResourceService.GetGameExeName(biz).Replace(".exe", "");
             for (int i = 0; i < 10; i++)
             {
                 await Task.Delay(2000);

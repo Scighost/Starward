@@ -40,7 +40,7 @@ public sealed partial class GachaLogPage : PageBase
 
     private readonly ILogger<GachaLogPage> _logger = AppConfig.GetLogger<GachaLogPage>();
 
-    private readonly GameService _gameService = AppConfig.GetService<GameService>();
+    private readonly GameResourceService _gameResourceService = AppConfig.GetService<GameResourceService>();
 
     private GachaLogService _gachaLogService;
 
@@ -258,7 +258,7 @@ public sealed partial class GachaLogPage : PageBase
             }
             else
             {
-                var path = _gameService.GetGameInstallPath(CurrentGameBiz);
+                var path = _gameResourceService.GetGameInstallPath(CurrentGameBiz);
                 if (!Directory.Exists(path))
                 {
                     // 游戏未安装
@@ -505,7 +505,7 @@ public sealed partial class GachaLogPage : PageBase
     {
         try
         {
-            var installPath = _gameService.GetGameInstallPath(CurrentGameBiz);
+            var installPath = _gameResourceService.GetGameInstallPath(CurrentGameBiz);
             if (Directory.Exists(installPath))
             {
                 var path = GachaLogClient.GetGachaCacheFilePath(CurrentGameBiz, installPath);
@@ -533,7 +533,7 @@ public sealed partial class GachaLogPage : PageBase
     {
         try
         {
-            var installPath = _gameService.GetGameInstallPath(CurrentGameBiz);
+            var installPath = _gameResourceService.GetGameInstallPath(CurrentGameBiz);
             if (Directory.Exists(installPath))
             {
                 var path = GachaLogClient.GetGachaCacheFilePath(CurrentGameBiz, installPath);
