@@ -13,7 +13,7 @@ internal enum InstallGameState
 
     Decompress,
 
-    Patch,
+    Merge,
 
     Finish,
 

@@ -36,32 +36,32 @@ internal class StarRailInstallGameService : InstallGameService
         try
         {
             _logger.LogInformation("Start install game, skipVerify: {skip}", skipVerify);
-            _timer.Start();
             CanCancel = false;
             cancellationTokenSource?.Cancel();
             cancellationTokenSource = new CancellationTokenSource();
 
-            if (State != InstallGameState.Download || skipVerify)
+            if (_inState != InstallGameState.Download || skipVerify)
             {
                 if (IsRepairMode)
                 {
-                    _logger.LogInformation("Repair mode, prepare for repair.");
                     State = InstallGameState.Prepare;
                     await PrepareForRepairAsync().ConfigureAwait(false);
 
-                    _logger.LogInformation("Repair mode, verify files.");
                     State = InstallGameState.Verify;
                     await VerifySeparateFilesAsync(CancellationToken.None).ConfigureAwait(false);
                 }
                 else
                 {
-                    _logger.LogInformation("Prepare for download.");
                     State = InstallGameState.Prepare;
                     await PrepareForDownloadAsync().ConfigureAwait(false);
                 }
             }
 
-            _logger.LogInformation("Start download files.");
+            if (_inState is InstallGameState.Download)
+            {
+                await UpdateDownloadTaskAsync();
+            }
+
             CanCancel = true;
             State = InstallGameState.Download;
             await DownloadAsync(cancellationTokenSource.Token).ConfigureAwait(false);
@@ -69,35 +69,39 @@ internal class StarRailInstallGameService : InstallGameService
 
             if (skipVerify)
             {
-                _logger.LogInformation("Skip verify downloaded files.");
                 await SkipVerifyDownloadedFilesAsync().ConfigureAwait(false);
             }
             else
             {
-                _logger.LogInformation("Verify downloaded files.");
                 State = InstallGameState.Verify;
                 await VerifyDownloadedFilesAsnyc(cancellationTokenSource.Token).ConfigureAwait(false);
             }
 
             if (!(IsPreInstall || IsRepairMode))
             {
-                _logger.LogInformation("Decompress downloaded files.");
                 State = InstallGameState.Decompress;
                 await DecompressAndApplyDiffPackagesAsync(cancellationTokenSource.Token).ConfigureAwait(false);
             }
 
-            _logger.LogInformation("Clear deprecated files.");
             await ClearDeprecatedFilesAsync().ConfigureAwait(false);
 
-            _timer.Stop();
+            if (!IsPreInstall)
+            {
+                await WriteConfigFileAsync().ConfigureAwait(false);
+            }
+
             State = InstallGameState.Finish;
             _logger.LogInformation("Install game finished.");
+        }
+        catch (TaskCanceledException)
+        {
+            State = InstallGameState.None;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Install game error.");
-            _timer.Stop();
-            InvokeStateOrProgressChanged(ex);
+            CanCancel = false;
+            InvokeStateOrProgressChanged(true, ex);
         }
     }
 

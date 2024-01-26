@@ -7,8 +7,6 @@
                 xmlns:sc="using:Starward.Controls"
                 xmlns:ui="using:CommunityToolkit.WinUI.UI"
                 x:DefaultBindMode="OneWay"
-                Loaded="Page_Loaded"
-                Unloaded="Page_Unloaded"
                 mc:Ignorable="d">
 
     <Page.Resources>
@@ -117,7 +115,6 @@
                         MinWidth="100"
                         BorderThickness="0"
                         Command="{x:Bind ClickActionButtonCommand}"
-                        CommandParameter="{StaticResource False}"
                         CornerRadius="18"
                         IsEnabled="{x:Bind IsActionButtonEnable}"
                         Style="{ThemeResource AccentButtonStyle}">

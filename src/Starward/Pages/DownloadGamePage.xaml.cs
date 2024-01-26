@@ -14,14 +14,13 @@ using Microsoft.Windows.AppLifecycle;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Services;
+using Starward.Services.InstallGame;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Numerics;
 using System.Security.Principal;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.System;
@@ -45,10 +44,10 @@ public sealed partial class DownloadGamePage : PageBase
 
     private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
 
-    private readonly DownloadGameService _downloadGameService = AppConfig.GetService<DownloadGameService>();
-
+    private readonly InstallGameService _installGameService;
 
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _timer;
+
     private readonly Stopwatch _stopwatch = Stopwatch.StartNew();
 
 
@@ -57,17 +56,30 @@ public sealed partial class DownloadGamePage : PageBase
         this.InitializeComponent();
         InstallGameWindow.Current.ChangeAccentColor(null, null);
         InstallGameWindow.Current.AppWindow.Closing += AppWindow_Closing;
+
         _timer = DispatcherQueue.CreateTimer();
         _timer.Interval = TimeSpan.FromMilliseconds(100);
-        _timer.Tick += (_, _) => UpdateTicks();
+        _timer.Tick += _timer_Tick;
 
-        InitializeGameBiz();
+        gameBiz = AppConfig.Configuration.GetValue<GameBiz>("biz");
+        gameFolder = AppConfig.Configuration.GetValue<string>("loc")!;
+        voiceLanguage = AppConfig.Configuration.GetValue<VoiceLanguage>("lang");
+
+        _installGameService = gameBiz.ToGame() switch
+        {
+            GameBiz.Honkai3rd => AppConfig.GetService<Honkai3rdInstallGameService>(),
+            GameBiz.GenshinImpact => AppConfig.GetService<GenshinInstallGameService>(),
+            GameBiz.StarRail => AppConfig.GetService<StarRailInstallGameService>(),
+            _ => null!,
+        };
     }
+
+
 
     private async void AppWindow_Closing(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowClosingEventArgs args)
     {
         args.Cancel = true;
-        if (_downloadGameService.State is DownloadGameService.DownloadGameState.None or DownloadGameService.DownloadGameState.Error || isFinish)
+        if (_installGameService.State is InstallGameState.None or InstallGameState.Error || isFinish)
         {
             Exit();
             return;
@@ -99,20 +111,10 @@ public sealed partial class DownloadGamePage : PageBase
     }
 
 
-    private void InitializeGameBiz()
-    {
-        var args = Environment.GetCommandLineArgs();
-        gameBiz = AppConfig.Configuration.GetValue<GameBiz>("biz");
-        gameFolder = AppConfig.Configuration.GetValue<string>("loc")!;
-        voiceLanguage = AppConfig.Configuration.GetValue<VoiceLanguage>("lang");
-        if (args[1].ToLower() is "repair")
-        {
-            repairMode = true;
-        }
-    }
-
 
     private bool repairMode;
+
+    private bool reinstallMode;
 
 
     private GameBiz gameBiz;
@@ -124,18 +126,16 @@ public sealed partial class DownloadGamePage : PageBase
     private VoiceLanguage voiceLanguage;
 
 
-    private CancellationTokenSource tokenSource;
 
-
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
         try
         {
             await Task.Delay(16);
-            await CheckInstanceAsync();
+            await CheckAvailableAsync();
             _ = GetBgAsync();
             IsContentVisible = true;
-            _ = PrepareForDownloadAsync();
+            _ = StartAsync();
         }
         catch (Exception ex)
         {
@@ -144,16 +144,15 @@ public sealed partial class DownloadGamePage : PageBase
     }
 
 
-
-    private void Page_Unloaded(object sender, RoutedEventArgs e)
+    protected override void OnUnloaded()
     {
-        _timer.Stop();
-        tokenSource?.Cancel();
+        _installGameService.StateChanged -= _installGameService_StateChanged;
+        _installGameService.Cancel();
     }
 
 
 
-    private async Task CheckInstanceAsync()
+    private async Task CheckAvailableAsync()
     {
         var instance = AppInstance.FindOrRegisterForKey($"download_game_{gameBiz}");
         if (!instance.IsCurrent)
@@ -171,7 +170,7 @@ public sealed partial class DownloadGamePage : PageBase
             await instance.RedirectActivationToAsync(AppInstance.GetCurrent().GetActivatedEventArgs());
             Environment.Exit(0);
         }
-        if (gameBiz.ToGame() is GameBiz.None || gameBiz is GameBiz.hk4e_cloud)
+        if (gameBiz.ToGame() is GameBiz.None || gameBiz is GameBiz.hk4e_cloud || _installGameService is null)
         {
             instance.UnregisterKey();
             var dialog = new ContentDialog
@@ -215,12 +214,19 @@ public sealed partial class DownloadGamePage : PageBase
             await dialog.ShowAsync();
             Environment.Exit(0);
         }
+
+        var args = Environment.GetCommandLineArgs();
+        if (args[1].ToLower() is "repair")
+        {
+            repairMode = true;
+        }
+        if (args[1].ToLower() is "reinstall")
+        {
+            reinstallMode = true;
+        }
+        _installGameService.Initialize(gameBiz, gameFolder, voiceLanguage, repairMode, reinstallMode);
+        _installGameService.StateChanged += _installGameService_StateChanged;
     }
-
-
-
-    [ObservableProperty]
-    private ImageSource backgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
 
 
 
@@ -228,6 +234,13 @@ public sealed partial class DownloadGamePage : PageBase
     private bool isContentVisible;
 
 
+
+
+    #region Background
+
+
+    [ObservableProperty]
+    private ImageSource backgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
 
     private async Task GetBgAsync()
     {
@@ -257,6 +270,15 @@ public sealed partial class DownloadGamePage : PageBase
             _logger.LogError(ex, "get bg");
         }
     }
+
+
+    #endregion
+
+
+
+
+    #region Progress bar animation
+
 
     AmbientLight ambientLight;
     PointLight pointLight;
@@ -296,19 +318,24 @@ public sealed partial class DownloadGamePage : PageBase
 
     private void StartProgressAnimation()
     {
-        pointLight.StartAnimation(nameof(pointLight.Offset), pointLightAnimation);
+        pointLight?.StartAnimation(nameof(pointLight.Offset), pointLightAnimation);
     }
 
 
     private void StopProgressAnimation()
     {
-        pointLight.Offset = new Vector3(-1000, 0, 0);
-        pointLight.StopAnimation(nameof(pointLight.Offset));
+        if (pointLight != null)
+        {
+            pointLight.Offset = new Vector3(-1000, 0, 0);
+            pointLight.StopAnimation(nameof(pointLight.Offset));
+        }
     }
 
 
+    #endregion
 
-    private bool decompress;
+
+
 
     private bool isFinish;
 
@@ -363,118 +390,105 @@ public sealed partial class DownloadGamePage : PageBase
     private long lastMilliseconds;
 
 
-    private void UpdateTicks()
+
+    private void _timer_Tick(Microsoft.UI.Dispatching.DispatcherQueueTimer sender, object args)
     {
-        try
+        var arg = new StateEventArgs
         {
-            var state = _downloadGameService.State;
-            if (state is DownloadGameService.DownloadGameState.None)
-            {
-                return;
-            }
-            if (state is DownloadGameService.DownloadGameState.Preparing)
-            {
-                // 准备中
-                StateText = Lang.DownloadGamePage_Preparing;
-                return;
-            }
-            if (state is DownloadGameService.DownloadGameState.Prepared)
-            {
-                if (repairMode)
-                {
-                    _ = VerifyAsync();
-                }
-                else
-                {
-                    _ = DownloadAsync();
-                }
-            }
-            if (state is DownloadGameService.DownloadGameState.Downloading)
-            {
-                // 下载中
-                StateText = Lang.DownloadGamePage_Downloading;
-            }
-            if (state is DownloadGameService.DownloadGameState.Downloaded)
-            {
-                if (repairMode)
-                {
-                    FinishTask();
-                    return;
-                }
-                else
-                {
-                    _ = VerifyAsync();
-                }
-            }
-            if (state is DownloadGameService.DownloadGameState.Verifying)
-            {
-                // 校验中
-                StateText = Lang.DownloadGamePage_Verifying;
-            }
-            if (state is DownloadGameService.DownloadGameState.Verified)
-            {
-                if (repairMode)
-                {
-                    _ = DownloadAsync();
-                }
-                else
-                {
-                    if (decompress)
-                    {
-                        _ = DecompressAsync();
-                    }
-                    else
-                    {
-                        FinishTask();
-                        return;
-                    }
-                }
-            }
-            if (state is DownloadGameService.DownloadGameState.Decompressing)
-            {
-                // 解压中
-                StateText = Lang.DownloadGamePage_Decompressing;
-            }
-            if (state is DownloadGameService.DownloadGameState.Merging)
-            {
-                // 合并中
-                StateText = Lang.DownloadGamePage_Merging;
-            }
-            if (state is DownloadGameService.DownloadGameState.Decompressed)
-            {
-                if (gameBiz.ToGame() is GameBiz.Honkai3rd)
-                {
-                    repairMode = true;
-                    _ = PrepareForDownloadAsync(false);
-                }
-                else
-                {
-                    FinishTask();
-                }
-                return;
-            }
-            if (state is DownloadGameService.DownloadGameState.Error)
-            {
-                ShowErrorMessage();
-                return;
-            }
-            if (state is DownloadGameService.DownloadGameState.Finish)
-            {
-                FinishTask();
-                return;
-            }
-            UpdateDownloadProgress();
-        }
-        catch { }
+            State = _installGameService.State,
+            TotalBytes = _installGameService.TotalBytes,
+            ProgressBytes = _installGameService.ProgressBytes,
+            TotalCount = _installGameService.TotalCount,
+            ProgressCount = _installGameService.ProgressCount,
+        };
+        OnStateOrProgressChanged(arg);
+    }
+
+
+    private void _installGameService_StateChanged(object? sender, StateEventArgs e)
+    {
+        DispatcherQueue.TryEnqueue(() => OnStateOrProgressChanged(e));
     }
 
 
 
-    private async void ShowErrorMessage()
+    private void OnStateOrProgressChanged(StateEventArgs e)
     {
         try
         {
-            _timer.Stop();
+            switch (e.State)
+            {
+                case InstallGameState.None:
+                    return;
+                case InstallGameState.Prepare:
+                    StateText = Lang.DownloadGamePage_Preparing;
+                    break;
+                case InstallGameState.Download:
+                    StateText = Lang.DownloadGamePage_Downloading;
+                    IsActionButtonEnable = true;
+                    ActionButtonIcon = PauseIcon;
+                    ActionButtonText = Lang.DownloadGamePage_Pause;
+                    break;
+                case InstallGameState.Verify:
+                    StateText = Lang.DownloadGamePage_Verifying;
+                    if (_installGameService.IsRepairMode)
+                    {
+                        IsActionButtonEnable = false;
+                        ActionButtonIcon = PauseIcon;
+                        ActionButtonText = Lang.DownloadGamePage_Verifying;
+                    }
+                    else
+                    {
+                        IsActionButtonEnable = true;
+                        ActionButtonIcon = NextIcon;
+                        ActionButtonText = Lang.DownloadGamePage_Skip;
+                    }
+                    break;
+                case InstallGameState.Decompress:
+                    StateText = Lang.DownloadGamePage_Decompressing;
+                    IsActionButtonEnable = false;
+                    ActionButtonIcon = ErrorIcon;
+                    ActionButtonText = Lang.DownloadGamePage_Stop;
+                    break;
+                case InstallGameState.Merge:
+                    StateText = Lang.DownloadGamePage_Merging;
+                    break;
+                case InstallGameState.Finish:
+                    _timer.Stop();
+                    FinishTask();
+                    return;
+                case InstallGameState.Error:
+                    _timer.Stop();
+                    ShowErrorMessage(e.Exception!);
+                    break;
+                default:
+                    break;
+            }
+            if (e.StateChanged)
+            {
+                lastProgressBytes = e.ProgressBytes;
+                lastMilliseconds = _stopwatch.ElapsedMilliseconds;
+            }
+            UpdateDownloadProgress(e);
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
+    private async void ShowErrorMessage(Exception exception)
+    {
+        try
+        {
+            if (exception is TaskCanceledException)
+            {
+                _logger.LogInformation("Task canceled");
+                return;
+            }
+
             // 出错了
             StateText = Lang.DownloadGamePage_SomethingError;
             SpeedText = null;
@@ -494,17 +508,17 @@ public sealed partial class DownloadGamePage : PageBase
                 DefaultButton = ContentDialogButton.Secondary,
                 XamlRoot = this.XamlRoot,
             };
-            if (_downloadGameService.ErrorType is nameof(HttpRequestException))
+            if (exception is HttpRequestException e)
             {
                 // 网络错误
                 dialog.Title = Lang.DownloadGamePage_NetworkError;
-                dialog.Content = _downloadGameService.ErrorMessage;
+                dialog.Content = e.Message;
             }
             else
             {
                 // 未知错误
                 dialog.Title = Lang.DownloadGamePage_UnknownError;
-                dialog.Content = _downloadGameService.ErrorMessage;
+                dialog.Content = exception.Message;
             }
             if (await dialog.ShowAsync() is ContentDialogResult.Primary)
             {
@@ -519,29 +533,29 @@ public sealed partial class DownloadGamePage : PageBase
 
 
 
-    private void UpdateDownloadProgress()
+    private void UpdateDownloadProgress(StateEventArgs args)
     {
         const double GB = 1 << 30;
-        long thisProgressBytes = _downloadGameService.ProgressBytes;
+        long thisProgressBytes = args.ProgressBytes;
         long thisMilliseconds = _stopwatch.ElapsedMilliseconds;
         double progress = 0;
-        if (repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
+        if (_installGameService.IsRepairMode && args.State is InstallGameState.Verify)
         {
-            progress = (double)_downloadGameService.ProgressCount / _downloadGameService.TotalCount;
-            ProgressBytesText = $"{_downloadGameService.ProgressCount}/{_downloadGameService.TotalCount}";
+            progress = (double)args.ProgressCount / args.TotalCount;
+            ProgressBytesText = $"{args.ProgressCount}/{args.TotalCount}";
             RemainTimeText = null;
         }
-        else if (_downloadGameService.State is DownloadGameService.DownloadGameState.Merging)
+        else if (args.State is InstallGameState.Merge)
         {
-            progress = (double)_downloadGameService.ProgressCount / _downloadGameService.TotalCount;
-            ProgressBytesText = $"{_downloadGameService.ProgressCount}/{_downloadGameService.TotalCount}";
+            progress = (double)args.ProgressCount / args.TotalCount;
+            ProgressBytesText = $"{args.ProgressCount}/{args.TotalCount}";
             SpeedText = null;
             RemainTimeText = null;
         }
         else
         {
-            progress = (double)thisProgressBytes / _downloadGameService.TotalBytes;
-            ProgressBytesText = $"{thisProgressBytes / GB:F2}/{_downloadGameService.TotalBytes / GB:F2} GB";
+            progress = (double)thisProgressBytes / args.TotalBytes;
+            ProgressBytesText = $"{thisProgressBytes / GB:F2}/{args.TotalBytes / GB:F2} GB";
         }
         progress = double.IsNormal(progress) ? progress : 0;
         ProgressValue = progress * 100;
@@ -554,18 +568,18 @@ public sealed partial class DownloadGamePage : PageBase
             if (speed > 0)
             {
                 SpeedText = $"{speed / (1 << 20):F2} MB/s";
-                if (repairMode && _downloadGameService.State is DownloadGameService.DownloadGameState.Verifying)
+                if (_installGameService.IsRepairMode && args.State is InstallGameState.Verify)
                 {
                     RemainTimeText = null;
                 }
-                else if (_downloadGameService.State is DownloadGameService.DownloadGameState.Merging)
+                else if (args.State is InstallGameState.Merge)
                 {
                     SpeedText = null;
                     RemainTimeText = null;
                 }
                 else
                 {
-                    var remainTime = TimeSpan.FromSeconds((_downloadGameService.TotalBytes - thisProgressBytes) / speed);
+                    var remainTime = TimeSpan.FromSeconds((args.TotalBytes - thisProgressBytes) / speed);
                     RemainTimeText = $"{remainTime.Days * 24 + remainTime.Hours}h {remainTime.Minutes}m {remainTime.Seconds}s";
                 }
             }
@@ -578,11 +592,9 @@ public sealed partial class DownloadGamePage : PageBase
 
     private void FinishTask()
     {
-        _timer.Stop();
         isFinish = true;
         IsActionButtonEnable = true;
         ActionButtonIcon = FinishIcon;
-        // 已完成
         ActionButtonText = Lang.DownloadGamePage_Finished;
         IsProgressStateVisible = false;
         ProgressValue = 100;
@@ -592,186 +604,56 @@ public sealed partial class DownloadGamePage : PageBase
 
 
 
-    private async Task PrepareForDownloadAsync(bool changeActionType = true)
+    private async Task StartAsync()
     {
-        _timer.Start();
+        StartProgressAnimation();
         IsActionButtonEnable = false;
-        lastMilliseconds = _stopwatch.ElapsedMilliseconds;
-        if (repairMode)
-        {
-            await _downloadGameService.PrepareForRepairAsync(gameBiz, gameFolder, voiceLanguage);
-        }
-        else
-        {
-            lastProgressBytes = _downloadGameService.ProgressBytes;
-            decompress = await _downloadGameService.PrepareForDownloadAsync(gameBiz, gameFolder, voiceLanguage);
-        }
-        if (changeActionType)
-        {
-            ActionType = _downloadGameService.ActionType;
-        }
-    }
-
-
-    private async Task DownloadAsync()
-    {
+        _ = _installGameService.StartAsync();
         _timer.Start();
-        IsActionButtonEnable = true;
-        ActionButtonIcon = PauseIcon;
-        // 暂停
-        ActionButtonText = Lang.DownloadGamePage_Pause;
-
-        lastMilliseconds = _stopwatch.ElapsedMilliseconds;
-        lastProgressBytes = _downloadGameService.ProgressBytes;
-        tokenSource = new CancellationTokenSource();
-        if (repairMode)
-        {
-            await _downloadGameService.DownloadSeparateFilesAsync(tokenSource.Token);
-        }
-        else
-        {
-            await _downloadGameService.DownloadAsync(tokenSource.Token);
-        }
-    }
-
-
-    private async Task VerifyAsync()
-    {
-        try
-        {
-            _timer.Start();
-
-            if (repairMode)
-            {
-                IsActionButtonEnable = false;
-                ActionButtonIcon = PauseIcon;
-                // 校验中
-                ActionButtonText = Lang.DownloadGamePage_Verifying;
-                tokenSource = new CancellationTokenSource();
-                await _downloadGameService.VerifySeparateFilesAsync(tokenSource.Token);
-            }
-            else
-            {
-                IsActionButtonEnable = true;
-                ActionButtonIcon = NextIcon;
-                // 跳过
-                ActionButtonText = Lang.DownloadGamePage_Skip;
-
-                lastMilliseconds = _stopwatch.ElapsedMilliseconds;
-                lastProgressBytes = 0;
-                tokenSource = new CancellationTokenSource();
-                var list = await _downloadGameService.VerifyPackageAsync(tokenSource.Token);
-                if (list.Any())
-                {
-                    var dialog = new ContentDialog
-                    {
-                        // 校验失败
-                        Title = Lang.DownloadGamePage_VerifyFailed,
-                        // 以下文件校验失败
-                        Content = $"""
-                        {Lang.DownloadGamePage_TheFollowingFileVerifyFailed}
-                        {string.Join("\r\n", list)}
-                        """,
-                        // 重新下载
-                        PrimaryButtonText = Lang.DownloadGamePage_Redownload,
-                        // 忽略
-                        SecondaryButtonText = Lang.DownloadGamePage_Ignore,
-                        DefaultButton = ContentDialogButton.Primary,
-                        XamlRoot = this.XamlRoot,
-                    };
-                    if (await dialog.ShowAsync() is ContentDialogResult.Primary)
-                    {
-                        foreach (var name in list)
-                        {
-                            var files = Directory.GetFiles(gameFolder, $"{name}.*");
-                            foreach (var file in files)
-                            {
-                                File.Delete(file);
-                            }
-                        }
-                        _ = PrepareForDownloadAsync();
-                    }
-                    else
-                    {
-                        if (decompress)
-                        {
-                            _ = DecompressAsync();
-                        }
-                        else
-                        {
-                            FinishTask();
-                        }
-                    }
-                }
-            }
-        }
-        catch { }
-    }
-
-
-
-    private async Task DecompressAsync()
-    {
-        _timer.Start();
-        IsActionButtonEnable = false;
-        ActionButtonIcon = ErrorIcon;
-        // 终止
-        ActionButtonText = Lang.DownloadGamePage_Stop;
-
-        lastMilliseconds = _stopwatch.ElapsedMilliseconds;
-        lastProgressBytes = 0;
-        await _downloadGameService.DecompressAsync();
     }
 
 
 
 
     [RelayCommand]
-    private async Task ClickActionButtonAsync(bool force = false)
+    private async Task ClickActionButtonAsync()
     {
         try
         {
-            if (isFinish)
+            if (_installGameService.State is InstallGameState.Finish)
             {
                 Exit();
                 return;
             }
-            var state = _downloadGameService.State;
-            if (state is DownloadGameService.DownloadGameState.Verifying)
+            var state = _installGameService.State;
+            //if (state is InstallGameState.Verify)
+            //{
+            //    if (_installGameService.IsRepairMode)
+            //    {
+            //        return;
+            //    }
+            //    var dialog = new ContentDialog
+            //    {
+            //        // 跳过校验
+            //        Title = Lang.DownloadGamePage_SkipVerification,
+            //        // 解压未校验的文件可能会导致游戏文件损坏
+            //        Content = Lang.DownloadGamePage_SkipVerificationContent,
+            //        // 跳过
+            //        PrimaryButtonText = Lang.DownloadGamePage_Skip,
+            //        // 取消
+            //        SecondaryButtonText = Lang.Common_Cancel,
+            //        DefaultButton = ContentDialogButton.Secondary,
+            //        XamlRoot = this.XamlRoot,
+            //    };
+            //    if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+            //    {
+            //        tokenSource?.Cancel();
+            //    }
+            //}
+            if (state is InstallGameState.Download)
             {
-                if (repairMode)
-                {
-                    return;
-                }
-                if (force)
-                {
-                    tokenSource?.Cancel();
-                }
-                else
-                {
-                    var dialog = new ContentDialog
-                    {
-                        // 跳过校验
-                        Title = Lang.DownloadGamePage_SkipVerification,
-                        // 解压未校验的文件可能会导致游戏文件损坏
-                        Content = Lang.DownloadGamePage_SkipVerificationContent,
-                        // 跳过
-                        PrimaryButtonText = Lang.DownloadGamePage_Skip,
-                        // 取消
-                        SecondaryButtonText = Lang.Common_Cancel,
-                        DefaultButton = ContentDialogButton.Secondary,
-                        XamlRoot = this.XamlRoot,
-                    };
-                    if (await dialog.ShowAsync() is ContentDialogResult.Primary)
-                    {
-                        tokenSource?.Cancel();
-                    }
-                }
-            }
-            if (state is DownloadGameService.DownloadGameState.Downloading)
-            {
-                tokenSource?.Cancel();
-                _timer.Stop();
+                _timer.Start();
+                _installGameService.Cancel();
                 ActionButtonIcon = StartIcon;
                 // 继续
                 ActionButtonText = Lang.Common_Continue;
@@ -781,20 +663,9 @@ public sealed partial class DownloadGamePage : PageBase
                 RemainTimeText = null;
                 StopProgressAnimation();
             }
-            if (state is DownloadGameService.DownloadGameState.Prepared)
+            else
             {
-                StartProgressAnimation();
-                _ = DownloadAsync();
-            }
-            if (state is DownloadGameService.DownloadGameState.Verified && repairMode)
-            {
-                StartProgressAnimation();
-                _ = DownloadAsync();
-            }
-            if (state is DownloadGameService.DownloadGameState.Error)
-            {
-                StartProgressAnimation();
-                _ = PrepareForDownloadAsync();
+                _ = StartAsync();
             }
         }
         catch (Exception ex)

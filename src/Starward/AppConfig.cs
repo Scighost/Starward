@@ -13,6 +13,7 @@ using Starward.Core.SelfQuery;
 using Starward.Models;
 using Starward.Services;
 using Starward.Services.Gacha;
+using Starward.Services.InstallGame;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -250,6 +251,10 @@ internal static class AppConfig
             sc.AddSingleton<GameRecordService>();
             sc.AddSingleton<SelfQueryService>();
             sc.AddSingleton<GameAccountService>();
+            sc.AddSingleton<GameResourceService>();
+            sc.AddSingleton<Honkai3rdInstallGameService>();
+            sc.AddSingleton<GenshinInstallGameService>();
+            sc.AddSingleton<StarRailInstallGameService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))

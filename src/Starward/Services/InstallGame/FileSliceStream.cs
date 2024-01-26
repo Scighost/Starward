@@ -96,14 +96,15 @@ internal class FileSliceStream : Stream
         {
             offset += Length;
         }
-        long position = Math.Clamp(offset, 0, Length - 1);
+        long position = offset = Math.Clamp(offset, 0, Length);
         for (int i = 0; i < _streamLengths.Length; i++)
         {
-            if (position <= _streamLengths[i])
+            if (position < _streamLengths[i] || i == _streamLengths.Length - 1)
             {
                 _streamIndex = i;
                 _currentStream = _fileStreams[i];
                 _currentStream.Position = position;
+                break;
             }
             else
             {

@@ -34,8 +34,6 @@ internal abstract class InstallGameService
     protected readonly HttpClient _httpClient;
 
 
-    protected readonly System.Timers.Timer _timer;
-
 
 
     protected InstallGameService(ILogger<InstallGameService> logger, GameResourceService gameResourceService, LauncherClient launcherClient, HttpClient httpClient)
@@ -44,8 +42,6 @@ internal abstract class InstallGameService
         _gameResourceService = gameResourceService;
         _launcherClient = launcherClient;
         _httpClient = httpClient;
-        _timer = new(100);
-        _timer.Elapsed += (_, _) => InvokeStateOrProgressChanged();
     }
 
 
@@ -81,21 +77,26 @@ internal abstract class InstallGameService
     protected int progressCount;
     public int ProgressCount => progressCount;
 
+    protected InstallGameState _inState;
     protected InstallGameState _state;
     public InstallGameState State
     {
         get => _state;
         set
         {
+            if (value is not InstallGameState.None)
+            {
+                _inState = value;
+            }
             _state = value;
-            InvokeStateOrProgressChanged();
+            InvokeStateOrProgressChanged(true);
         }
     }
 
     public bool CanCancel { get; protected set; }
 
 
-    public event EventHandler<StateOrProgressChangedEventArgs> StateOrProgressChanged;
+    public event EventHandler<StateEventArgs> StateChanged;
 
 
 
@@ -125,17 +126,22 @@ internal abstract class InstallGameService
         if (CanCancel)
         {
             cancellationTokenSource?.Cancel();
-            _timer.Stop();
+            CanCancel = false;
         }
     }
 
 
 
-    protected void InvokeStateOrProgressChanged(Exception? ex = null)
+    protected void InvokeStateOrProgressChanged(bool stateChanged = false, Exception? ex = null)
     {
-        StateOrProgressChanged?.Invoke(this, new StateOrProgressChangedEventArgs
+        if (ex is not null)
         {
-            State = ex is null ? State : InstallGameState.Error,
+            _state = InstallGameState.Error;
+        }
+        StateChanged?.Invoke(this, new StateEventArgs
+        {
+            State = State,
+            StateChanged = stateChanged,
             TotalBytes = TotalBytes,
             ProgressBytes = ProgressBytes,
             TotalCount = TotalCount,
@@ -180,7 +186,7 @@ internal abstract class InstallGameService
             path: {path}
             lang: {lang}
             repair: {repair}
-            reinstall: {reinstall})
+            reinstall: {reinstall}
             """, CurrentGameBiz, InstallPath, VoiceLanguages, IsRepairMode, IsReInstall);
     }
 
@@ -196,6 +202,8 @@ internal abstract class InstallGameService
     /// <exception cref="Exception"></exception>
     protected async Task PrepareForDownloadAsync()
     {
+        _logger.LogInformation("Prepare for download.");
+
         var localVersion = await _gameResourceService.GetGameLocalVersionAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
         launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz).ConfigureAwait(false);
         (Version? latestVersion, Version? preDownloadVersion) = await _gameResourceService.GetGameResourceVersionAsync(CurrentGameBiz).ConfigureAwait(false);
@@ -333,6 +341,8 @@ internal abstract class InstallGameService
     /// <returns></returns>
     protected async Task PrepareForRepairAsync()
     {
+        _logger.LogInformation("Repair mode, prepare for repair.");
+
         launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz).ConfigureAwait(false);
         GameResource gameResource = launcherGameResource.Game;
 
@@ -406,12 +416,14 @@ internal abstract class InstallGameService
     /// <exception cref="InvalidOperationException"></exception>
     protected virtual async Task VerifySeparateFilesAsync(CancellationToken cancellationToken)
     {
-        if (downloadTasks is null)
+        _logger.LogInformation("Repair mode, verify files.");
+
+        if (separateResources is null)
         {
             throw new InvalidOperationException("Please call PrepareForDownloadAsync() first.");
         }
 
-        TotalCount = downloadTasks.Count;
+        TotalCount = separateResources.Count;
         progressCount = 0;
 
         var list = new List<DownloadFileTask>();
@@ -442,12 +454,38 @@ internal abstract class InstallGameService
 
 
     /// <summary>
+    /// 更新已下载大小
+    /// </summary>
+    protected async Task UpdateDownloadTaskAsync()
+    {
+        await Task.Run(() =>
+        {
+            foreach (var task in downloadTasks)
+            {
+                string file = Path.Combine(InstallPath, task.FileName);
+                string file_tmp = file + "_tmp";
+                if (File.Exists(file))
+                {
+                    task.DownloadSize = new FileInfo(file).Length;
+                }
+                else if (File.Exists(file_tmp))
+                {
+                    task.DownloadSize = new FileInfo(file_tmp).Length;
+                }
+            }
+        });
+    }
+
+
+    /// <summary>
     /// 下载文件到临时文件 *_tmp
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     protected async Task DownloadAsync(CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Start download files.");
+
         TotalCount = downloadTasks.Count;
         TotalBytes = downloadTasks.Sum(x => x.Size);
         progressCount = 0;
@@ -471,6 +509,8 @@ internal abstract class InstallGameService
     /// <returns></returns>
     protected async Task ClearDeprecatedFilesAsync()
     {
+        _logger.LogInformation("Clear deprecated files.");
+
         await Task.Run(() =>
         {
             foreach (var item in launcherGameResource.DeprecatedFiles)
@@ -561,6 +601,8 @@ internal abstract class InstallGameService
     /// <exception cref="FileNotFoundException"></exception>
     protected async Task DecompressAndApplyDiffPackagesAsync(CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Decompress downloaded files.");
+
         TotalCount = downloadTasks.Count;
         TotalBytes = downloadTasks.Sum(x => x.Size);
         progressCount = 0;
@@ -610,6 +652,8 @@ internal abstract class InstallGameService
     /// <exception cref="CheckSumFailedException"></exception>
     protected async Task VerifyDownloadedFilesAsnyc(CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Verify downloaded files.");
+
         TotalCount = downloadTasks.Count;
         TotalBytes = downloadTasks.Sum(x => x.Size);
         progressCount = 0;
@@ -641,6 +685,8 @@ internal abstract class InstallGameService
     /// <returns></returns>
     protected async Task SkipVerifyDownloadedFilesAsync()
     {
+        _logger.LogInformation("Skip verify downloaded files.");
+
         await Task.Run(() =>
         {
             foreach (var task in downloadTasks)
@@ -691,7 +737,24 @@ internal abstract class InstallGameService
     }
 
 
-
+    /// <summary>
+    /// 写入 config.ini
+    /// </summary>
+    /// <returns></returns>
+    protected async Task WriteConfigFileAsync()
+    {
+        string version = launcherGameResource.Game.Latest.Version;
+        string config = $"""
+            [General]
+            channel=1
+            cps=
+            game_version={version}
+            sub_channel=1
+            sdk_version=
+            """;
+        _logger.LogInformation("Write config.ini (game_version={version})", version);
+        await File.WriteAllTextAsync(Path.Combine(InstallPath, "config.ini"), config).ConfigureAwait(false);
+    }
 
 
 
@@ -716,6 +779,10 @@ internal abstract class InstallGameService
         using var fs = File.Open(file_tmp, FileMode.OpenOrCreate);
         if (fs.Length < task.Size)
         {
+            if (string.IsNullOrWhiteSpace(task.Url))
+            {
+                task.Url = $"{separateUrlPrefix}/{task.FileName.TrimStart('/')}";
+            }
             _logger.LogInformation("Download: FileName {name}, Url {url}", task.FileName, task.Url);
             fs.Position = fs.Length;
             var request = new HttpRequestMessage(HttpMethod.Get, task.Url) { Version = HttpVersion.Version11 };
@@ -777,7 +844,8 @@ internal abstract class InstallGameService
         }
         hashProvider.TransformFinalBlock(buffer, 0, length);
         var hash = hashProvider.Hash;
-        if (Convert.ToHexString(hash!) == task.MD5)
+        fs.Dispose();
+        if (string.Equals(Convert.ToHexString(hash!), task.MD5, StringComparison.OrdinalIgnoreCase))
         {
             if (is_tmp)
             {
@@ -909,7 +977,7 @@ internal abstract class InstallGameService
             var lines = await File.ReadAllLinesAsync(hdifffiles).ConfigureAwait(false);
             TotalCount = lines.Length;
             progressCount = 0;
-            State = InstallGameState.Patch;
+            State = InstallGameState.Merge;
             foreach (var line in lines)
             {
                 var json = JsonNode.Parse(line);

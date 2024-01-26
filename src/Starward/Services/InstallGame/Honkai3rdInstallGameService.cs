@@ -13,7 +13,7 @@ namespace Starward.Services.InstallGame;
 internal class Honkai3rdInstallGameService : InstallGameService
 {
 
-    public override GameBiz CurrentGame => GameBiz.GenshinImpact;
+    public override GameBiz CurrentGame => GameBiz.Honkai3rd;
 
 
     public Honkai3rdInstallGameService(ILogger<Honkai3rdInstallGameService> logger, GameResourceService gameResourceService, LauncherClient launcherClient, HttpClient httpClient)
@@ -34,32 +34,32 @@ internal class Honkai3rdInstallGameService : InstallGameService
         try
         {
             _logger.LogInformation("Start install game, skipVerify: {skip}", skipVerify);
-            _timer.Start();
             CanCancel = false;
             cancellationTokenSource?.Cancel();
             cancellationTokenSource = new CancellationTokenSource();
 
-            if (State != InstallGameState.Download || skipVerify)
+            if (_inState != InstallGameState.Download || skipVerify)
             {
                 if (IsRepairMode)
                 {
-                    _logger.LogInformation("Repair mode, prepare for repair.");
                     State = InstallGameState.Prepare;
                     await PrepareForRepairAsync().ConfigureAwait(false);
 
-                    _logger.LogInformation("Repair mode, verify files.");
                     State = InstallGameState.Verify;
                     await VerifySeparateFilesAsync(CancellationToken.None).ConfigureAwait(false);
                 }
                 else
                 {
-                    _logger.LogInformation("Prepare for download.");
                     State = InstallGameState.Prepare;
                     await PrepareForDownloadAsync().ConfigureAwait(false);
                 }
             }
 
-            _logger.LogInformation("Start download files.");
+            if (_inState is InstallGameState.Download)
+            {
+                await UpdateDownloadTaskAsync();
+            }
+
             CanCancel = true;
             State = InstallGameState.Download;
             await DownloadAsync(cancellationTokenSource.Token).ConfigureAwait(false);
@@ -67,39 +67,46 @@ internal class Honkai3rdInstallGameService : InstallGameService
 
             if (skipVerify)
             {
-                _logger.LogInformation("Skip verify downloaded files.");
                 await SkipVerifyDownloadedFilesAsync().ConfigureAwait(false);
             }
             else
             {
-                _logger.LogInformation("Verify downloaded files.");
                 State = InstallGameState.Verify;
                 await VerifyDownloadedFilesAsnyc(cancellationTokenSource.Token).ConfigureAwait(false);
             }
 
             if (!(IsPreInstall || IsRepairMode))
             {
-                _logger.LogInformation("Decompress downloaded files.");
                 State = InstallGameState.Decompress;
                 await DecompressAndApplyDiffPackagesAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+            }
 
+            if (!IsPreInstall)
+            {
                 // BH3Base.dll 不在资源列表中，需要单独下载
-                _logger.LogInformation("Download BH3Base.dll.");
+                State = InstallGameState.Download;
                 await DownloadBH3BaseAsync(cancellationTokenSource.Token).ConfigureAwait(false);
             }
 
-            _logger.LogInformation("Clear deprecated files.");
             await ClearDeprecatedFilesAsync().ConfigureAwait(false);
 
-            _timer.Stop();
+            if (!IsPreInstall)
+            {
+                await WriteConfigFileAsync().ConfigureAwait(false);
+            }
+
             State = InstallGameState.Finish;
             _logger.LogInformation("Install game finished.");
+        }
+        catch (TaskCanceledException)
+        {
+            State = InstallGameState.None;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Install game error.");
-            _timer.Stop();
-            InvokeStateOrProgressChanged(ex);
+            CanCancel = false;
+            InvokeStateOrProgressChanged(true, ex);
         }
     }
 
@@ -110,19 +117,19 @@ internal class Honkai3rdInstallGameService : InstallGameService
     {
         await base.VerifySeparateFilesAsync(cancellationToken).ConfigureAwait(false);
 
-        // BH3Base.dll 不在资源列表中，需要单独下载
-        string BH3Base = Path.Combine(InstallPath, "BH3Base.dll");
-        if (File.Exists(BH3Base))
-        {
-            File.Delete(BH3Base);
-        }
-        long? length = await GetContentLengthAsync($"{separateUrlPrefix}/BH3Base.dll");
-        downloadTasks.Add(new DownloadFileTask
-        {
-            FileName = "BH3Base.dll",
-            MD5 = "",
-            Size = length ?? 0,
-        });
+        //// BH3Base.dll 不在资源列表中，需要单独下载
+        //string BH3Base = Path.Combine(InstallPath, "BH3Base.dll");
+        //if (File.Exists(BH3Base))
+        //{
+        //    File.Delete(BH3Base);
+        //}
+        //long? length = await GetContentLengthAsync($"{separateUrlPrefix}/BH3Base.dll");
+        //downloadTasks.Add(new DownloadFileTask
+        //{
+        //    FileName = "BH3Base.dll",
+        //    MD5 = "",
+        //    Size = length ?? 0,
+        //});
 
         TotalBytes = downloadTasks.Sum(x => x.Size);
         progressBytes = 0;
@@ -134,6 +141,8 @@ internal class Honkai3rdInstallGameService : InstallGameService
 
     protected async Task DownloadBH3BaseAsync(CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Download BH3Base.dll.");
+
         TotalBytes = 0;
         progressBytes = 0;
         TotalCount = 1;

@@ -2,10 +2,12 @@
 
 namespace Starward.Services.InstallGame;
 
-internal class StateOrProgressChangedEventArgs : EventArgs
+internal class StateEventArgs : EventArgs
 {
 
     public InstallGameState State { get; init; }
+
+    public bool StateChanged { get; init; }
 
     public long TotalBytes { get; init; }
 
