@@ -1324,7 +1324,7 @@
     <value>Сбой проверки</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
-    <value>Current version is not the latest version ({0}).</value>
+    <value>Текущая версия не является последней версией ({0}).</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
     <value>Нажмите на кнопку для восстановления файлов.</value>
