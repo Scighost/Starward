@@ -296,7 +296,7 @@
     <value>停止</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>未チェックのファイルを解凍するとゲームファイルが破損する可能性があります。</value>
+    <value>Skipping verification may result in corrupted game files.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>検証をスキップする</value>
@@ -1333,5 +1333,8 @@
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
     <value>Verify successfully!</value>
+  </data>
+  <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
+    <value>{0} files verify failed.</value>
   </data>
 </root>
