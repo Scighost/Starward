@@ -2071,6 +2071,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Reinstall Game 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_ReinstallGame {
+            get {
+                return ResourceManager.GetString("LauncherPage_ReinstallGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Repair Game 的本地化字符串。
         /// </summary>
         public static string LauncherPage_RepairGame {
@@ -2184,6 +2193,15 @@ namespace Starward.Language {
         public static string LauncherPage_SwitchAccount {
             get {
                 return ResourceManager.GetString("LauncherPage_SwitchAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Switch Client 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_SwitchClient {
+            get {
+                return ResourceManager.GetString("LauncherPage_SwitchClient", resourceCulture);
             }
         }
         

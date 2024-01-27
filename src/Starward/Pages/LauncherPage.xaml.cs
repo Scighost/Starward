@@ -1096,7 +1096,13 @@ public sealed partial class LauncherPage : PageBase
                 lang = VoiceLanguage.All;
             }
 
-            var content = new DownloadGameDialog { GameBiz = CurrentGameBiz, LanguageType = lang, GameResource = downloadResource, IsPreDownload = IsPreInstallButtonEnable };
+            var content = new DownloadGameDialog
+            {
+                GameBiz = CurrentGameBiz,
+                LanguageType = lang,
+                GameResource = downloadResource,
+                PreDownloadMode = IsPreInstallButtonEnable
+            };
             var dialog = new ContentDialog
             {
                 Title = IsUpdateGameButtonEnable ? Lang.LauncherPage_UpdateGame : (IsPreInstallButtonEnable ? Lang.LauncherPage_PreInstall : Lang.LauncherPage_InstallGame),
@@ -1198,30 +1204,26 @@ public sealed partial class LauncherPage : PageBase
             {
                 exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
             }
-            if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
+            var control = new DownloadGameDialog
             {
-                var control = new DownloadGameDialog
-                {
-                    GameBiz = CurrentGameBiz,
-                    LanguageType = lang,
-                    ShowAllInfo = false,
-                    RepairGame = true,
-                };
-                var dialog = new ContentDialog
-                {
-                    Title = Lang.LauncherPage_RepairGame,
-                    Content = control,
-                    PrimaryButtonText = Lang.Common_Confirm,
-                    SecondaryButtonText = Lang.Common_Cancel,
-                    DefaultButton = ContentDialogButton.Primary,
-                    XamlRoot = this.XamlRoot,
-                };
-                if (await dialog.ShowAsync() is not ContentDialogResult.Primary)
-                {
-                    return;
-                }
-                lang = control.LanguageType;
+                GameBiz = CurrentGameBiz,
+                LanguageType = lang,
+                RepairMode = true,
+            };
+            var dialog = new ContentDialog
+            {
+                Title = Lang.LauncherPage_RepairGame,
+                Content = control,
+                PrimaryButtonText = Lang.Common_Confirm,
+                SecondaryButtonText = Lang.Common_Cancel,
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = this.XamlRoot,
+            };
+            if (await dialog.ShowAsync() is not ContentDialogResult.Primary)
+            {
+                return;
             }
+            lang = control.LanguageType;
             Process.Start(new ProcessStartInfo
             {
                 FileName = exe,
@@ -1233,6 +1235,55 @@ public sealed partial class LauncherPage : PageBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Start repair game");
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task ReinstallGameAsync()
+    {
+        try
+        {
+            var gameResource = await _gameResourceService.CheckDownloadGameResourceAsync(CurrentGameBiz, InstallPath!, true);
+            var lang = await _gameResourceService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
+            var exe = Process.GetCurrentProcess().MainModule?.FileName;
+            if (!File.Exists(exe))
+            {
+                exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+            }
+            var control = new DownloadGameDialog
+            {
+                GameBiz = CurrentGameBiz,
+                GameResource = gameResource!,
+                LanguageType = lang,
+                ReinstallMode = true,
+            };
+            var dialog = new ContentDialog
+            {
+                Title = Lang.LauncherPage_ReinstallGame,
+                Content = control,
+                PrimaryButtonText = Lang.Common_Confirm,
+                SecondaryButtonText = Lang.Common_Cancel,
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = this.XamlRoot,
+            };
+            if (await dialog.ShowAsync() is not ContentDialogResult.Primary)
+            {
+                return;
+            }
+            lang = control.LanguageType;
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = exe,
+                UseShellExecute = true,
+                Arguments = $"""reinstall --biz {CurrentGameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
+                Verb = "runas",
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Reinstall game");
         }
     }
 

@@ -57,7 +57,7 @@ public partial class App : Application
         var args = Environment.GetCommandLineArgs();
         if (args.Length > 1)
         {
-            if (args[1].ToLower() is "download" or "repair")
+            if (args[1].ToLower() is "download" or "repair" or "reinstall")
             {
                 m_window = new InstallGameWindow();
                 m_window.Activate();

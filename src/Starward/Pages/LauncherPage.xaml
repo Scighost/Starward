@@ -672,18 +672,49 @@
                     <StackPanel Margin="-24,12,0,0"
                                 Orientation="Horizontal"
                                 Spacing="16">
-                        <Button Height="36"
-                                Padding="24,0,16,0"
-                                BorderThickness="0"
-                                Command="{x:Bind RepairGameCommand}"
-                                CornerRadius="0,18,18,0"
-                                IsEnabled="{x:Bind IsSettingGameRepairButtonEnabled}"
-                                Style="{ThemeResource AccentButtonStyle}">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon Glyph="&#xE90F;" />
-                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
-                            </StackPanel>
-                        </Button>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button Height="36"
+                                    Padding="24,0,10,0"
+                                    BorderThickness="0"
+                                    Command="{x:Bind RepairGameCommand}"
+                                    CornerRadius="0"
+                                    IsEnabled="{x:Bind IsSettingGameRepairButtonEnabled}"
+                                    Style="{ThemeResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE90F;" />
+                                    <TextBlock Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
+                                </StackPanel>
+                            </Button>
+                            <Button Grid.Column="1"
+                                    Height="36"
+                                    Padding="10,0,12,0"
+                                    BorderThickness="0"
+                                    CornerRadius="0,18,18,0"
+                                    IsEnabled="{x:Bind IsSettingGameRepairButtonEnabled}"
+                                    Style="{ThemeResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon FontSize="14" Glyph="&#xE70D;" />
+                                </StackPanel>
+                                <Button.Flyout>
+                                    <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                        <MenuFlyoutItem Command="{x:Bind ReinstallGameCommand}" Text="{x:Bind lang:Lang.LauncherPage_ReinstallGame}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xEBD3;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem Text="{x:Bind lang:Lang.LauncherPage_SwitchClient}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE8B1;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                            </Button>
+                        </Grid>
                         <Button Name="Button_UninstallGame"
                                 Height="36"
                                 Padding="16,0,16,0"

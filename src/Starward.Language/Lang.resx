@@ -1338,4 +1338,10 @@ Do you accept the risk and continue to use it?</value>
   <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
     <value>{0} files verify failed.</value>
   </data>
+  <data name="LauncherPage_ReinstallGame" xml:space="preserve">
+    <value>Reinstall Game</value>
+  </data>
+  <data name="LauncherPage_SwitchClient" xml:space="preserve">
+    <value>Switch Client</value>
+  </data>
 </root>

@@ -25,12 +25,14 @@ public sealed partial class DownloadGameDialog : UserControl
     public DownloadGameResource GameResource { get; set; }
 
 
-    public bool IsPreDownload { get; set; }
+    public bool PreDownloadMode { get; set; }
 
 
-    public bool ShowAllInfo { get; set; } = true;
+    public bool RepairMode { get; set; }
 
-    public bool RepairGame { get; set; }
+
+    public bool ReinstallMode { get; set; }
+
 
 
     public DownloadGameDialog()
@@ -40,7 +42,24 @@ public sealed partial class DownloadGameDialog : UserControl
 
 
     [ObservableProperty]
+    private bool showAllInfo;
+
+
+    [ObservableProperty]
+    private bool showRepairSwitcher;
+
+
+    [ObservableProperty]
+    private bool showVoiceBoxes;
+
+
+    [ObservableProperty]
+    private bool canCheckVoiceBoxes;
+
+
+    [ObservableProperty]
     private string packageSizeText;
+
 
     [ObservableProperty]
     private string downloadSizeText;
@@ -141,13 +160,44 @@ public sealed partial class DownloadGameDialog : UserControl
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-        if (GameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail && !IsPreDownload && ShowAllInfo)
+        if (RepairMode)
         {
-            StackPanel_RepairMode.Visibility = Visibility.Visible;
+            ShowAllInfo = false;
+            ShowRepairSwitcher = false;
+            if (GameBiz.ToGame() is GameBiz.GenshinImpact)
+            {
+                ShowVoiceBoxes = true;
+                CanCheckVoiceBoxes = true;
+            }
         }
-        if (RepairGame || GameResource.Voices.Any())
+        else if (PreDownloadMode)
         {
-            StackPanel_Voice.Visibility = Visibility.Visible;
+            ShowAllInfo = true;
+            ShowRepairSwitcher = false;
+            if (GameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
+            {
+                ShowVoiceBoxes = true;
+            }
+        }
+        else if (ReinstallMode)
+        {
+            ShowAllInfo = true;
+            ShowRepairSwitcher = false;
+            if (GameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
+            {
+                ShowVoiceBoxes = true;
+                CanCheckVoiceBoxes = true;
+            }
+        }
+        else
+        {
+            ShowAllInfo = true;
+            if (GameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
+            {
+                ShowRepairSwitcher = true;
+                ShowVoiceBoxes = true;
+                CanCheckVoiceBoxes = true;
+            }
         }
         UpdateSizeText();
     }

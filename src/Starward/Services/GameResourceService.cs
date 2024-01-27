@@ -202,14 +202,14 @@ internal class GameResourceService
 
 
 
-    public async Task<DownloadGameResource?> CheckDownloadGameResourceAsync(GameBiz biz, string installPath)
+    public async Task<DownloadGameResource?> CheckDownloadGameResourceAsync(GameBiz biz, string installPath, bool reinstall = false)
     {
         var localVersion = await GetGameLocalVersionAsync(biz, installPath);
         (Version? latestVersion, Version? preDownloadVersion) = await GetGameResourceVersionAsync(biz);
         var resource = await GetGameResourceAsync(biz);
         GameResource? gameResource = null;
 
-        if (localVersion is null)
+        if (localVersion is null || reinstall)
         {
             gameResource = resource.Game;
         }
@@ -278,22 +278,15 @@ internal class GameResourceService
             PackageSize = package.PackageSize,
             DecompressedSize = package.Size,
         };
-        var file = Path.Join(installPath, state.Name);
+        string file = Path.Join(installPath, state.Name);
+        string file_tmp = file + "_tmp";
         if (File.Exists(file))
         {
             state.DownloadedSize = new FileInfo(file).Length;
         }
-        else
+        else if (File.Exists(file_tmp))
         {
-            file = Path.Join(installPath, $"{state.Name}_tmp");
-            if (File.Exists(file))
-            {
-                state.DownloadedSize = new FileInfo(file).Length;
-            }
-            else
-            {
-                state.DownloadedSize = 0;
-            }
+            state.DownloadedSize = new FileInfo(file_tmp).Length;
         }
         return state;
     }
@@ -301,22 +294,19 @@ internal class GameResourceService
 
     private long CheckDownloadPackage(string name, string installPath)
     {
-        var file = Path.Join(installPath, name);
+        string file = Path.Join(installPath, name);
+        string file_tmp = file + "_tmp";
         if (File.Exists(file))
         {
             return new FileInfo(file).Length;
         }
+        else if (File.Exists(file_tmp))
+        {
+            return new FileInfo(file_tmp).Length;
+        }
         else
         {
-            file = Path.Join(installPath, $"{name}_tmp");
-            if (File.Exists(file))
-            {
-                return new FileInfo(file).Length;
-            }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
     }
 

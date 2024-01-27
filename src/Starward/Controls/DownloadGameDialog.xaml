@@ -66,11 +66,10 @@
                        Margin="8,0,0,0"
                        Text="{x:Bind FreeSpaceCautionText}" />
         </StackPanel>
-        <StackPanel Name="StackPanel_Voice"
-                    Margin="0,8,0,0"
+        <StackPanel Margin="0,8,0,0"
                     Orientation="Horizontal"
                     Spacing="8"
-                    Visibility="Collapsed">
+                    Visibility="{x:Bind ShowVoiceBoxes}">
             <!--  语音包  -->
             <TextBlock MinWidth="120"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -88,29 +87,33 @@
                 <CheckBox Grid.Row="0"
                           Grid.Column="0"
                           Content="{x:Bind lang:Lang.Language_Chinese}"
-                          IsChecked="{x:Bind IsChineseChecked, Mode=TwoWay}" />
+                          IsChecked="{x:Bind IsChineseChecked, Mode=TwoWay}"
+                          IsEnabled="{x:Bind CanCheckVoiceBoxes}" />
                 <!--  英语  -->
                 <CheckBox Grid.Row="0"
                           Grid.Column="1"
                           Content="{x:Bind lang:Lang.Language_English}"
-                          IsChecked="{x:Bind IsEnglishChecked, Mode=TwoWay}" />
+                          IsChecked="{x:Bind IsEnglishChecked, Mode=TwoWay}"
+                          IsEnabled="{x:Bind CanCheckVoiceBoxes}" />
                 <!--  日语  -->
                 <CheckBox Grid.Row="1"
                           Grid.Column="0"
                           Content="{x:Bind lang:Lang.Language_Japanese}"
-                          IsChecked="{x:Bind IsJapaneseChecked, Mode=TwoWay}" />
+                          IsChecked="{x:Bind IsJapaneseChecked, Mode=TwoWay}"
+                          IsEnabled="{x:Bind CanCheckVoiceBoxes}" />
                 <!--  韩语  -->
                 <CheckBox Grid.Row="1"
                           Grid.Column="1"
                           Content="{x:Bind lang:Lang.Language_Korean}"
-                          IsChecked="{x:Bind IsKoreanChecked, Mode=TwoWay}" />
+                          IsChecked="{x:Bind IsKoreanChecked, Mode=TwoWay}"
+                          IsEnabled="{x:Bind CanCheckVoiceBoxes}" />
             </Grid>
         </StackPanel>
         <StackPanel Name="StackPanel_RepairMode"
                     Margin="0,8,0,0"
                     Orientation="Horizontal"
                     Spacing="8"
-                    Visibility="Collapsed">
+                    Visibility="{x:Bind ShowRepairSwitcher}">
             <!--  修复模式  -->
             <TextBlock MinWidth="120"
                        VerticalAlignment="Center"
