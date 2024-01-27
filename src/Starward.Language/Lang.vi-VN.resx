@@ -1338,4 +1338,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
     <value>Xác minh tệp {0} không thành công.</value>
   </data>
+  <data name="LauncherPage_ReinstallGame" xml:space="preserve">
+    <value>Reinstall Game</value>
+  </data>
+  <data name="LauncherPage_SwitchClient" xml:space="preserve">
+    <value>Switch Client</value>
+  </data>
 </root>
