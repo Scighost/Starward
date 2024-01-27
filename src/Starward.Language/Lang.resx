@@ -296,7 +296,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Stop</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Decompressing unchecked files may result in corrupted game files</value>
+    <value>Skipping verification may result in corrupted game files.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>Skip Verification</value>
@@ -1334,5 +1334,8 @@ Do you accept the risk and continue to use it?</value>
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
     <value>Verify successfully!</value>
+  </data>
+  <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
+    <value>{0} files verify failed.</value>
   </data>
 </root>
