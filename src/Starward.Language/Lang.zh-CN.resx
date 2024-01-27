@@ -296,7 +296,7 @@
     <value>停止</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>解压未校验的文件可能会导致游戏文件损坏</value>
+    <value>Skipping verification may result in corrupted game files.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>跳过校验</value>
@@ -1334,5 +1334,8 @@
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
     <value>校验成功！</value>
+  </data>
+  <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
+    <value>{0} files verify failed.</value>
   </data>
 </root>
