@@ -295,7 +295,7 @@
     <value>หยุด</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>การแตกไฟล์ที่โดยไม่ได้ตรวจสอบไฟล์อาจทำให้ไฟล์เกมเสียหายได้</value>
+    <value>Skipping verification may result in corrupted game files.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>ข้ามการตรวจสอบความสมบูรณ์ของไฟล์เกม</value>
@@ -1333,5 +1333,8 @@
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
     <value>Verify successfully!</value>
+  </data>
+  <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
+    <value>{0} files verify failed.</value>
   </data>
 </root>
