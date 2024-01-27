@@ -40,15 +40,12 @@ public sealed partial class DownloadGamePage : PageBase
 
     private readonly ILogger<DownloadGamePage> _logger = AppConfig.GetLogger<DownloadGamePage>();
 
-    private readonly GameService _gameService = AppConfig.GetService<GameService>();
-
     private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
 
     private readonly InstallGameService _installGameService;
 
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _timer;
 
-    private readonly Stopwatch _stopwatch = Stopwatch.StartNew();
 
 
     public DownloadGamePage()
@@ -135,7 +132,7 @@ public sealed partial class DownloadGamePage : PageBase
             await CheckAvailableAsync();
             _ = GetBgAsync();
             IsContentVisible = true;
-            _ = StartAsync();
+            StartInstallGame();
         }
         catch (Exception ex)
         {
@@ -387,7 +384,7 @@ public sealed partial class DownloadGamePage : PageBase
 
     private long lastProgressBytes;
 
-    private long lastMilliseconds;
+    private long lastTimeTicks;
 
 
 
@@ -467,7 +464,7 @@ public sealed partial class DownloadGamePage : PageBase
             if (e.StateChanged)
             {
                 lastProgressBytes = e.ProgressBytes;
-                lastMilliseconds = _stopwatch.ElapsedMilliseconds;
+                lastTimeTicks = Stopwatch.GetTimestamp();
             }
             UpdateDownloadProgress(e);
         }
@@ -499,20 +496,26 @@ public sealed partial class DownloadGamePage : PageBase
             ActionButtonText = Lang.DownloadGamePage_Retry;
             StopProgressAnimation();
 
+            if (exception is CheckSumFailedException ex1)
+            {
+                await ShowVerifyFailedDialogAsync(ex1);
+                return;
+            }
+
             var dialog = new ContentDialog()
             {
                 // 打开日志
                 PrimaryButtonText = Lang.DownloadGamePage_OpenLog,
                 // 取消
-                SecondaryButtonText = Lang.Common_Cancel,
-                DefaultButton = ContentDialogButton.Secondary,
+                CloseButtonText = Lang.Common_Cancel,
+                DefaultButton = ContentDialogButton.Close,
                 XamlRoot = this.XamlRoot,
             };
-            if (exception is HttpRequestException e)
+            if (exception is HttpRequestException ex2)
             {
                 // 网络错误
                 dialog.Title = Lang.DownloadGamePage_NetworkError;
-                dialog.Content = e.Message;
+                dialog.Content = ex2.Message;
             }
             else
             {
@@ -537,7 +540,7 @@ public sealed partial class DownloadGamePage : PageBase
     {
         const double GB = 1 << 30;
         long thisProgressBytes = args.ProgressBytes;
-        long thisMilliseconds = _stopwatch.ElapsedMilliseconds;
+        long thisTimeTicks = Stopwatch.GetTimestamp();
         double progress = 0;
         if (_installGameService.IsRepairMode && args.State is InstallGameState.Verify)
         {
@@ -562,10 +565,10 @@ public sealed partial class DownloadGamePage : PageBase
         ProgressText = progress.ToString("P1");
 
 
-        if (thisMilliseconds - lastMilliseconds > 980)
+        if (thisTimeTicks - lastTimeTicks >= Stopwatch.Frequency)
         {
-            double speed = (double)(thisProgressBytes - lastProgressBytes) / (thisMilliseconds - lastMilliseconds) * 1000;
-            if (speed > 0)
+            double speed = (thisProgressBytes - lastProgressBytes) / Stopwatch.GetElapsedTime(lastTimeTicks, thisTimeTicks).TotalSeconds;
+            if (speed >= 0)
             {
                 SpeedText = $"{speed / (1 << 20):F2} MB/s";
                 if (_installGameService.IsRepairMode && args.State is InstallGameState.Verify)
@@ -579,12 +582,19 @@ public sealed partial class DownloadGamePage : PageBase
                 }
                 else
                 {
-                    var remainTime = TimeSpan.FromSeconds((args.TotalBytes - thisProgressBytes) / speed);
-                    RemainTimeText = $"{remainTime.Days * 24 + remainTime.Hours}h {remainTime.Minutes}m {remainTime.Seconds}s";
+                    if (speed == 0)
+                    {
+                        RemainTimeText = "-";
+                    }
+                    else
+                    {
+                        var remainTime = TimeSpan.FromSeconds((args.TotalBytes - thisProgressBytes) / speed);
+                        RemainTimeText = $"{remainTime.Days * 24 + remainTime.Hours}h {remainTime.Minutes}m {remainTime.Seconds}s";
+                    }
                 }
             }
             lastProgressBytes = thisProgressBytes;
-            lastMilliseconds = thisMilliseconds;
+            lastTimeTicks = thisTimeTicks;
         }
     }
 
@@ -604,11 +614,11 @@ public sealed partial class DownloadGamePage : PageBase
 
 
 
-    private async Task StartAsync()
+    private void StartInstallGame(bool skipVerify = false)
     {
         StartProgressAnimation();
         IsActionButtonEnable = false;
-        _ = _installGameService.StartAsync();
+        _ = _installGameService.StartAsync(skipVerify);
         _timer.Start();
     }
 
@@ -626,31 +636,32 @@ public sealed partial class DownloadGamePage : PageBase
                 return;
             }
             var state = _installGameService.State;
-            //if (state is InstallGameState.Verify)
-            //{
-            //    if (_installGameService.IsRepairMode)
-            //    {
-            //        return;
-            //    }
-            //    var dialog = new ContentDialog
-            //    {
-            //        // 跳过校验
-            //        Title = Lang.DownloadGamePage_SkipVerification,
-            //        // 解压未校验的文件可能会导致游戏文件损坏
-            //        Content = Lang.DownloadGamePage_SkipVerificationContent,
-            //        // 跳过
-            //        PrimaryButtonText = Lang.DownloadGamePage_Skip,
-            //        // 取消
-            //        SecondaryButtonText = Lang.Common_Cancel,
-            //        DefaultButton = ContentDialogButton.Secondary,
-            //        XamlRoot = this.XamlRoot,
-            //    };
-            //    if (await dialog.ShowAsync() is ContentDialogResult.Primary)
-            //    {
-            //        tokenSource?.Cancel();
-            //    }
-            //}
-            if (state is InstallGameState.Download)
+            if (state is InstallGameState.Verify)
+            {
+                if (_installGameService.IsRepairMode)
+                {
+                    return;
+                }
+                var dialog = new ContentDialog
+                {
+                    // 跳过校验
+                    Title = Lang.DownloadGamePage_SkipVerification,
+                    // 跳过校验可能会导致游戏文件损坏
+                    Content = Lang.DownloadGamePage_SkipVerificationContent,
+                    // 跳过
+                    PrimaryButtonText = Lang.DownloadGamePage_Skip,
+                    // 取消
+                    SecondaryButtonText = Lang.Common_Cancel,
+                    DefaultButton = ContentDialogButton.Secondary,
+                    XamlRoot = this.XamlRoot,
+                };
+                if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+                {
+                    _installGameService.Cancel();
+                    StartInstallGame(true);
+                }
+            }
+            else if (state is InstallGameState.Download)
             {
                 _timer.Start();
                 _installGameService.Cancel();
@@ -665,7 +676,7 @@ public sealed partial class DownloadGamePage : PageBase
             }
             else
             {
-                _ = StartAsync();
+                StartInstallGame();
             }
         }
         catch (Exception ex)
@@ -674,6 +685,56 @@ public sealed partial class DownloadGamePage : PageBase
         }
     }
 
+
+
+    private async Task ShowVerifyFailedDialogAsync(CheckSumFailedException exception)
+    {
+        try
+        {
+            var dialog = new ContentDialog
+            {
+                Title = Lang.DownloadGamePage_VerifyFailed,
+                PrimaryButtonText = Lang.DownloadGamePage_Redownload,
+                SecondaryButtonText = Lang.DownloadGamePage_SkipVerification,
+                CloseButtonText = Lang.Common_Cancel,
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = XamlRoot,
+            };
+            var content = new StackPanel();
+            content.Children.Add(new TextBlock
+            {
+                Text = string.Format(Lang.DownloadGamePage_0FilesVerifyFailed, exception.Files.Count),
+                TextWrapping = TextWrapping.Wrap,
+            });
+            var button = new Button
+            {
+                Content = Lang.DownloadGamePage_OpenLog,
+                Margin = new Thickness(0, 16, 0, 0),
+            };
+            button.Click += async (s, e) =>
+            {
+                await Launcher.LaunchUriAsync(new Uri(AppConfig.LogFile));
+            };
+            content.Children.Add(button);
+            dialog.Content = content;
+            var result = await dialog.ShowAsync();
+            if (result is ContentDialogResult.Primary)
+            {
+                _installGameService.Cancel();
+                await _installGameService.DeleteDownloadedFilesAsync(exception.Files);
+                StartInstallGame();
+            }
+            else if (result is ContentDialogResult.Secondary)
+            {
+                _installGameService.Cancel();
+                StartInstallGame(true);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Show verify failed dialog");
+        }
+    }
 
 
 

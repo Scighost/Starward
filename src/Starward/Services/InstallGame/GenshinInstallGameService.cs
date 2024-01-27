@@ -27,84 +27,103 @@ internal class GenshinInstallGameService : InstallGameService
 
 
 
-    public override async Task StartAsync(bool skipVerify = false)
+    protected override async Task PrepareForRepairAsync()
     {
-        if (!initialized)
+        await base.PrepareForRepairAsync();
+
+        var list = new List<DownloadFileTask>();
+        if (VoiceLanguages.HasFlag(VoiceLanguage.Chinese))
         {
-            throw new Exception("Not initialized");
+            list.AddRange(await GetPkgVersionsAsync($"{separateUrlPrefix}/Audio_Chinese_pkg_version").ConfigureAwait(false));
         }
-        try
+        if (VoiceLanguages.HasFlag(VoiceLanguage.English))
         {
-            _logger.LogInformation("Start install game, skipVerify: {skip}", skipVerify);
-            CanCancel = false;
-            cancellationTokenSource?.Cancel();
-            cancellationTokenSource = new CancellationTokenSource();
-
-            if (_inState != InstallGameState.Download || skipVerify)
-            {
-                if (IsRepairMode)
-                {
-                    State = InstallGameState.Prepare;
-                    await PrepareForRepairAsync().ConfigureAwait(false);
-
-                    State = InstallGameState.Verify;
-                    await VerifySeparateFilesAsync(CancellationToken.None).ConfigureAwait(false);
-                }
-                else
-                {
-                    State = InstallGameState.Prepare;
-                    await PrepareForDownloadAsync().ConfigureAwait(false);
-                }
-            }
-
-            if (_inState is InstallGameState.Download)
-            {
-                await UpdateDownloadTaskAsync();
-            }
-
-            CanCancel = true;
-            State = InstallGameState.Download;
-            await DownloadAsync(cancellationTokenSource.Token).ConfigureAwait(false);
-            CanCancel = false;
-
-            if (skipVerify)
-            {
-                await SkipVerifyDownloadedFilesAsync().ConfigureAwait(false);
-            }
-            else
-            {
-                State = InstallGameState.Verify;
-                await VerifyDownloadedFilesAsnyc(cancellationTokenSource.Token).ConfigureAwait(false);
-            }
-
-            if (!(IsPreInstall || IsRepairMode))
-            {
-                State = InstallGameState.Decompress;
-                await DecompressAndApplyDiffPackagesAsync(cancellationTokenSource.Token).ConfigureAwait(false);
-            }
-
-            await ClearDeprecatedFilesAsync().ConfigureAwait(false);
-
-            if (!IsPreInstall)
-            {
-                await WriteConfigFileAsync().ConfigureAwait(false);
-            }
-
-            State = InstallGameState.Finish;
-            _logger.LogInformation("Install game finished.");
+            list.AddRange(await GetPkgVersionsAsync($"{separateUrlPrefix}/Audio_English(US)_pkg_version").ConfigureAwait(false));
         }
-        catch (TaskCanceledException)
+        if (VoiceLanguages.HasFlag(VoiceLanguage.Japanese))
         {
-            State = InstallGameState.None;
+            list.AddRange(await GetPkgVersionsAsync($"{separateUrlPrefix}/Audio_Japanese_pkg_version").ConfigureAwait(false));
         }
-        catch (Exception ex)
+        if (VoiceLanguages.HasFlag(VoiceLanguage.Korean))
         {
-            _logger.LogError(ex, "Install game error.");
-            CanCancel = false;
-            InvokeStateOrProgressChanged(true, ex);
+            list.AddRange(await GetPkgVersionsAsync($"{separateUrlPrefix}/Audio_Korean_pkg_version").ConfigureAwait(false));
         }
+
+        separateResources.AddRange(list);
+
+        string? exe_cn = Path.Join(InstallPath, "YuanShen.exe");
+        string? exe_os = Path.Join(InstallPath, "GenshinImpact.exe");
+        string? data_cn = Path.Join(InstallPath, "YuanShen_Data");
+        string? data_os = Path.Join(InstallPath, "GenshinImpact_Data");
+        if (CurrentGameBiz is GameBiz.hk4e_cn)
+        {
+            if (File.Exists(exe_os))
+            {
+                File.Delete(exe_os);
+            }
+            if (!Directory.Exists(data_cn) && Directory.Exists(data_os))
+            {
+                Directory.Move(data_os, data_cn);
+            }
+        }
+        if (CurrentGameBiz is GameBiz.hk4e_global)
+        {
+            if (File.Exists(exe_cn))
+            {
+                File.Delete(exe_cn);
+            }
+            if (!Directory.Exists(data_os) && Directory.Exists(data_cn))
+            {
+                Directory.Move(data_cn, data_os);
+            }
+        }
+        await _gameResourceService.SetVoiceLanguageAsync(CurrentGameBiz, InstallPath, VoiceLanguages).ConfigureAwait(false);
+        await MoveAudioAssetsFromPersistentToStreamAssetsAsync().ConfigureAwait(false);
     }
 
+
+
+    /// <summary>
+    /// 原神专用，将 Persistent\AudioAssets 目录下的文件移动到 StreamingAssets\AudioAssets 目录下
+    /// </summary>
+    /// <returns></returns>
+    protected async Task MoveAudioAssetsFromPersistentToStreamAssetsAsync()
+    {
+        await Task.Run(() =>
+        {
+            string dataName = CurrentGameBiz switch
+            {
+                GameBiz.hk4e_cn => "YuanShen_Data",
+                GameBiz.hk4e_global => "GenshinImpact_Data",
+                _ => "",
+            };
+            if (!string.IsNullOrWhiteSpace(dataName))
+            {
+                var source = Path.Combine(InstallPath, $@"{dataName}\Persistent\AudioAssets");
+                var target = Path.Combine(InstallPath, $@"{dataName}\StreamingAssets\AudioAssets");
+                if (Directory.Exists(source))
+                {
+                    var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
+                    _logger.LogInformation("Move audio assets: {count} files.", files.Length);
+                    foreach (var file in files)
+                    {
+                        var relative = Path.GetRelativePath(source, file);
+                        var dest = Path.Combine(target, relative);
+                        if (File.Exists(dest))
+                        {
+                            File.SetAttributes(dest, FileAttributes.Archive);
+                        }
+                        Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
+                        File.Move(file, dest, true);
+                        if (File.Exists(dest))
+                        {
+                            File.SetAttributes(dest, FileAttributes.Archive);
+                        }
+                    }
+                }
+            }
+        }).ConfigureAwait(false);
+    }
 
 
 

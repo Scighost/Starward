@@ -3,7 +3,6 @@ using Starward.Core;
 using Starward.Core.Launcher;
 using System;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,7 +61,7 @@ internal class Honkai3rdInstallGameService : InstallGameService
 
             CanCancel = true;
             State = InstallGameState.Download;
-            await DownloadAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+            await DownloadAsync(cancellationTokenSource.Token, IsRepairMode).ConfigureAwait(false);
             CanCancel = false;
 
             if (skipVerify)
@@ -112,33 +111,6 @@ internal class Honkai3rdInstallGameService : InstallGameService
 
 
 
-
-    protected override async Task VerifySeparateFilesAsync(CancellationToken cancellationToken)
-    {
-        await base.VerifySeparateFilesAsync(cancellationToken).ConfigureAwait(false);
-
-        //// BH3Base.dll 不在资源列表中，需要单独下载
-        //string BH3Base = Path.Combine(InstallPath, "BH3Base.dll");
-        //if (File.Exists(BH3Base))
-        //{
-        //    File.Delete(BH3Base);
-        //}
-        //long? length = await GetContentLengthAsync($"{separateUrlPrefix}/BH3Base.dll");
-        //downloadTasks.Add(new DownloadFileTask
-        //{
-        //    FileName = "BH3Base.dll",
-        //    MD5 = "",
-        //    Size = length ?? 0,
-        //});
-
-        TotalBytes = downloadTasks.Sum(x => x.Size);
-        progressBytes = 0;
-        TotalCount = downloadTasks.Count;
-        progressCount = 0;
-    }
-
-
-
     protected async Task DownloadBH3BaseAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Download BH3Base.dll.");
@@ -172,11 +144,7 @@ internal class Honkai3rdInstallGameService : InstallGameService
             Url = url,
             IsSegment = false,
         };
-        await DownloadFileAsync(task, cancellationToken).ConfigureAwait(false);
-        if (File.Exists(BH3Base_tmp))
-        {
-            File.Move(BH3Base_tmp, BH3Base, true);
-        }
+        await DownloadFileAsync(task, cancellationToken, noTmp: true).ConfigureAwait(false);
     }
 
 

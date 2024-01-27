@@ -246,7 +246,6 @@ internal static class AppConfig
             sc.AddSingleton<GenshinGachaService>();
             sc.AddSingleton<StarRailGachaService>();
             sc.AddSingleton<PlayTimeService>();
-            sc.AddSingleton<DownloadGameService>();
             sc.AddSingleton<GameSettingService>();
             sc.AddSingleton<GameRecordService>();
             sc.AddSingleton<SelfQueryService>();

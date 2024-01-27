@@ -28,7 +28,7 @@ public sealed partial class GameSettingPage : PageBase
 
     private readonly ILogger<GameSettingPage> _logger = AppConfig.GetLogger<GameSettingPage>();
 
-    private readonly DownloadGameService _downloadGameService = AppConfig.GetService<DownloadGameService>();
+    private readonly GameResourceService _gameResourceService = AppConfig.GetService<GameResourceService>();
 
     private readonly GameSettingService _gameSettingService = AppConfig.GetService<GameSettingService>();
 
@@ -228,7 +228,7 @@ public sealed partial class GameSettingPage : PageBase
     {
         try
         {
-            var localVersion = await _downloadGameService.GetLocalGameVersionAsync(gameBiz);
+            var localVersion = await _gameResourceService.GetGameLocalVersionAsync(gameBiz);
             if (localVersion is null)
             {
                 if (gameBiz is GameBiz.hk4e_cloud)

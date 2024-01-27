@@ -502,6 +502,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 {0} files verify failed. 的本地化字符串。
+        /// </summary>
+        public static string DownloadGamePage_0FilesVerifyFailed {
+            get {
+                return ResourceManager.GetString("DownloadGamePage_0FilesVerifyFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Close 的本地化字符串。
         /// </summary>
         public static string DownloadGamePage_Close {
@@ -701,7 +710,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Decompressing unchecked files may result in corrupted game files 的本地化字符串。
+        ///   查找类似 Skipping verification may result in corrupted game files. 的本地化字符串。
         /// </summary>
         public static string DownloadGamePage_SkipVerificationContent {
             get {
