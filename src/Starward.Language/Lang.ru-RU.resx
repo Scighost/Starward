@@ -296,7 +296,7 @@
     <value>Остановить</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Skipping verification may result in corrupted game files.</value>
+    <value>Пропуск проверки, может привести к повреждению игровых файлов.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>Пропустить проверку</value>
@@ -1336,12 +1336,12 @@
     <value>Проверка прошла успешно!</value>
   </data>
   <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
-    <value>{0} files verify failed.</value>
+    <value>{0} не удалось выполнить проверку файлов.</value>
   </data>
   <data name="LauncherPage_ReinstallGame" xml:space="preserve">
-    <value>Reinstall Game</value>
+    <value>Переустановить Игру</value>
   </data>
   <data name="LauncherPage_SwitchClient" xml:space="preserve">
-    <value>Switch Client</value>
+    <value>Сменить Клиента</value>
   </data>
 </root>
