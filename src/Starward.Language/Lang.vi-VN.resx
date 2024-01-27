@@ -296,7 +296,7 @@
     <value>Dừng</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Giải nén các tập tin không được kiểm tra có thể dẫn đến tập tin trò chơi bị hỏng</value>
+    <value>Skipping verification may result in corrupted game files.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>Bỏ qua xác minh</value>
@@ -1334,5 +1334,8 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
     <value>Xác minh thành công!</value>
+  </data>
+  <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
+    <value>{0} files verify failed.</value>
   </data>
 </root>
