@@ -148,7 +148,7 @@
     <value>Tiếng Hàn</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>Tính năng này đang ở trong giai đoạn thử nghiệm. Nếu có bất kì tệp trò chơi nào bị hỏng, vui lòng sử dụng trình khởi chạy chính thức để sửa nó.</value>
+    <value>Tính năng này đang ở trong giai đoạn thử nghiệm. Nếu có bất kì tập tin trò chơi nào bị hỏng, vui lòng sử dụng trình khởi chạy chính thức để sửa nó.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
     <value>Dung lượng có sẵn có lẽ là không đủ</value>
@@ -239,7 +239,7 @@
     <value>Không có quyền</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Vui lòng khởi động bằng quyền Quản Trị Viên (Administrator)</value>
+    <value>Vui lòng khởi động bằng quyền Quản Trị Viên</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
     <value>Bắt đầu</value>
@@ -296,7 +296,7 @@
     <value>Dừng</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Giải nén các tập tin không được kiểm tra có thể dẫn đến tập tin trò chơi bị hỏng</value>
+    <value>Bỏ qua xác minh có thể dẫn đến các tập tin trò chơi bị hỏng.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>Bỏ qua xác minh</value>
@@ -305,7 +305,7 @@
     <value>Tải xuống đã tạm dừng</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
-    <value>Không có bản ghi Gacha</value>
+    <value>Không có bản ghi gacha</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
     <value>Cập nhật bản ghi</value>
@@ -314,7 +314,7 @@
     <value>Cập nhật (URL đã lưu)</value>
   </data>
   <data name="GachaLogPage_UpdateAll" xml:space="preserve">
-    <value>Cập nhật (Tất cả)</value>
+    <value>Cập nhật (tất cả)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>Nhập URL</value>
@@ -341,7 +341,7 @@
     <value>Nhập từ file JSON</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
-    <value>Hiện thị Gacha người mới</value>
+    <value>Hiện thị gacha người mới</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
     <value>Xoá bản ghi</value>
@@ -600,7 +600,7 @@
     <value>Thư mục sau chứa những tác vụ tải xuống chưa hoàn thành:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Vui lòng chọn một thư mục trống để cài đặt trò chơi, hoặc tìm thư mục chứa tệp thực thi của {0}.</value>
+    <value>Vui lòng chọn một thư mục trống để cài đặt trò chơi, hoặc tìm thư mục chứa tập tin thực thi của {0}.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>Nếu đây không phải là phiên bản mới nhất, vui lòng sửa đổi tập tin config.ini ở thư mục cài đặt game.</value>
@@ -662,7 +662,7 @@
     <value>Hình nền ứng dụng</value>
   </data>
   <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
-    <value>Hình nền tuỳ chọn (Hỗ trợ video)</value>
+    <value>Hình nền tuỳ chọn (hỗ trợ video)</value>
   </data>
   <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
     <value>Màu chủ đề động</value>
@@ -719,7 +719,7 @@
     <value>Vị trí hiện tại của thư mục chứa dữ liệu là:</value>
   </data>
   <data name="SettingPage_WouldLikeToReselectDataFolder" xml:space="preserve">
-    <value>Bạn có muốn chọn lại? (Bạn cần chuyển dữ liệu thủ công trước khi chọn)</value>
+    <value>Bạn có muốn chọn lại? (bạn cần chuyển dữ liệu thủ công trước khi chọn)</value>
   </data>
   <data name="Common_Yes" xml:space="preserve">
     <value>Có</value>
@@ -1118,7 +1118,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Gỡ cài đặt trò chơi</value>
   </data>
   <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
-    <value>Dọn Registry</value>
+    <value>Dọn registry</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
     <value>Xóa tập tin tạm thời</value>
@@ -1145,7 +1145,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Ủng hộ</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
-    <value>Giao thức URL (Thử nghiệm)</value>
+    <value>Giao thức URL (thử nghiệm)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
     <value>Những phần mềm khác có thể sử dụng một số tính năng của Starward thông qua giao thức URL.</value>
@@ -1181,13 +1181,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thư mục dữ liệu</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>Mở tệp nhật kí</value>
+    <value>Mở tập tin nhật kí</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
     <value>Ngoại hình</value>
   </data>
   <data name="SettingPage_FileManagement" xml:space="preserve">
-    <value>Quản lí tệp tin</value>
+    <value>Quản lí tập tin</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
     <value>Hoàn thành</value>
@@ -1199,7 +1199,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Nâng cao</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>Ngày hôm nay</value>
+    <value>Hôm nay</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
     <value>Tuỳ chọn đóng cửa sổ</value>
@@ -1316,5 +1316,59 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
     <value>Không có dữ liệu</value>
+  </data>
+  <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
+    <value>Xác minh tính toàn vẹn của tập tin</value>
+  </data>
+  <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
+    <value>Xác minh thất bại</value>
+  </data>
+  <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
+    <value>Phiên bản hiện tại không phải là phiên bản mới nhất ({0}).</value>
+  </data>
+  <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
+    <value>Bấm vào nút để sửa chữa các tập tin.</value>
+  </data>
+  <data name="AboutSettingPage_RepairFiles" xml:space="preserve">
+    <value>Sửa chữa tập tin</value>
+  </data>
+  <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
+    <value>Xác minh thành công!</value>
+  </data>
+  <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
+    <value>Xác minh tệp {0} không thành công.</value>
+  </data>
+  <data name="LauncherPage_ReinstallGame" xml:space="preserve">
+    <value>Cài đặt lại trò chơi</value>
+  </data>
+  <data name="LauncherPage_SwitchClient" xml:space="preserve">
+    <value>Chuyển đổi Client</value>
+  </data>
+  <data name="FileSettingPage_GameResource" xml:space="preserve">
+    <value>Tài nguyên trò chơi</value>
+  </data>
+  <data name="SwitchClientPage_SelectTargetGameServer" xml:space="preserve">
+    <value>Chọn máy chủ đích trò chơi</value>
+  </data>
+  <data name="SwitchClientPage_FeatureDescription" xml:space="preserve">
+    <value>Tính năng này có thể nhanh chóng chuyển đổi Client sang máy chủ tương ứng, chỉ cần tải xuống một số tài nguyên trong lần chuyển đổi đầu tiên.</value>
+  </data>
+  <data name="SwitchClientPage_StartSwitching" xml:space="preserve">
+    <value>Bắt đầu chuyển đổi</value>
+  </data>
+  <data name="SwitchClientPage_TheLocalGameVersionIsNotTheLatest" xml:space="preserve">
+    <value>Phiên bản trò chơi đã cài đặt không phải là phiên bản mới nhất.</value>
+  </data>
+  <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
+    <value>Phiên bản máy chủ đích khác với phiên bản đã cài đặt.</value>
+  </data>
+  <data name="SwitchClientPage_ReadyToSwitchClient" xml:space="preserve">
+    <value>Sẵn sàng để chuyển đổi Client</value>
+  </data>
+  <data name="SwitchClientPage_FileVerificationFailedPleaseTryAgain" xml:space="preserve">
+    <value>Xác minh tập tin thất bại, vui lòng thử lại sau.</value>
+  </data>
+  <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
+    <value>Xác minh tập tin không thành công, vui lòng thử sửa chữa tài nguyên trò chơi.</value>
   </data>
 </root>
