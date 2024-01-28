@@ -528,6 +528,7 @@ public sealed partial class LauncherPage : PageBase
         try
         {
             InstallPath = _gameResourceService.GetGameInstallPath(CurrentGameBiz);
+            _logger.LogInformation("Install path of {biz}: {path}", CurrentGameBiz, InstallPath);
             IsGameExeExists = _gameResourceService.IsGameExeExists(CurrentGameBiz);
             if (CurrentGameBiz == GameBiz.hk4e_cloud)
             {

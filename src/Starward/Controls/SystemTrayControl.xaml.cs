@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -67,6 +68,11 @@ public sealed partial class SystemTrayControl : UserControl
                     {
                         continue;
                     }
+                    GameBiz configBiz = _gameResourceService.GetLocalGameBiz(biz);
+                    if (configBiz.ToGame() != GameBiz.None && configBiz != biz)
+                    {
+                        continue;
+                    }
                     string name = GameResourceService.GetGameExeName(biz);
                     string file = Path.Join(folder, name);
                     if (File.Exists(file))
@@ -87,7 +93,7 @@ public sealed partial class SystemTrayControl : UserControl
             }
             if (list.Count > 0)
             {
-                if (list.Count != InstalledGames?.Count || lang != CultureInfo.CurrentUICulture.Name)
+                if ((!InstalledGames?.SequenceEqual(list) ?? true) || lang != CultureInfo.CurrentUICulture.Name)
                 {
                     InstalledGames = list;
                     lang = CultureInfo.CurrentUICulture.Name;
@@ -148,7 +154,7 @@ public sealed partial class SystemTrayControl : UserControl
 
 
 
-    public class GameServerModel
+    public class GameServerModel : IEquatable<GameServerModel>
     {
 
         public ImageSource Icon { get; set; }
@@ -159,6 +165,10 @@ public sealed partial class SystemTrayControl : UserControl
 
         public string GameServer => GameBiz.ToGameServer();
 
+        public bool Equals(GameServerModel? other)
+        {
+            return ReferenceEquals(this, other) || GameBiz == other?.GameBiz;
+        }
     }
 
 

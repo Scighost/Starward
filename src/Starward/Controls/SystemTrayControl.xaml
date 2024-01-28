@@ -33,7 +33,7 @@
                             <TextBlock Grid.Column="1"
                                        VerticalAlignment="Center"
                                        Text="{Binding GameServer}"
-                                       TextTrimming="CharacterEllipsis" />
+                                       TextTrimming="None" />
                         </Grid>
                     </Button>
                 </DataTemplate>

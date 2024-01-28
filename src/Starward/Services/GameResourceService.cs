@@ -48,7 +48,6 @@ internal class GameResourceService
         }
         else
         {
-            _logger.LogInformation("Game uninstalled path not found ({biz})", biz);
             AppConfig.SetGameInstallPath(biz, null);
             return null;
         }
@@ -111,6 +110,29 @@ internal class GameResourceService
         }
         _logger.LogInformation("Local game version is {version} (gameBiz: {biz})", version, biz);
         return (version, gameBiz);
+    }
+
+
+    public GameBiz GetLocalGameBiz(GameBiz biz, string? installPath = null)
+    {
+        installPath ??= GetGameInstallPath(biz);
+        if (string.IsNullOrWhiteSpace(installPath))
+        {
+            return GameBiz.None;
+        }
+        Version? version = null;
+        GameBiz gameBiz = GameBiz.None;
+        var config = Path.Join(installPath, "config.ini");
+        if (File.Exists(config))
+        {
+            var str = File.ReadAllText(config);
+            Enum.TryParse(Regex.Match(str, @"game_biz=(.+)").Groups[1].Value, out gameBiz);
+        }
+        else
+        {
+            _logger.LogWarning("config.ini not found: {path}", config);
+        }
+        return gameBiz;
     }
 
 
