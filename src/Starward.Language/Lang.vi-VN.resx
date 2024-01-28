@@ -1344,4 +1344,31 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="LauncherPage_SwitchClient" xml:space="preserve">
     <value>Switch Client</value>
   </data>
+  <data name="FileSettingPage_GameResource" xml:space="preserve">
+    <value>Game Resource</value>
+  </data>
+  <data name="SwitchClientPage_SelectTargetGameServer" xml:space="preserve">
+    <value>Select target game server</value>
+  </data>
+  <data name="SwitchClientPage_FeatureDescription" xml:space="preserve">
+    <value>This feature can quickly switch the client to the corresponding server, only needing to download some resources during the first switch.</value>
+  </data>
+  <data name="SwitchClientPage_StartSwitching" xml:space="preserve">
+    <value>Start Switching</value>
+  </data>
+  <data name="SwitchClientPage_TheLocalGameVersionIsNotTheLatest" xml:space="preserve">
+    <value>The local game version is not the latest.</value>
+  </data>
+  <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
+    <value>The target server version is different from the local version.</value>
+  </data>
+  <data name="SwitchClientPage_ReadyToSwitchClient" xml:space="preserve">
+    <value>Ready to switch client</value>
+  </data>
+  <data name="SwitchClientPage_FileVerificationFailedPleaseTryAgain" xml:space="preserve">
+    <value>File verification failed, please try again.</value>
+  </data>
+  <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
+    <value>File verification failed, please try to repair game resources.</value>
+  </data>
 </root>
