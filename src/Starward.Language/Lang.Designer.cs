@@ -971,6 +971,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Game Resource 的本地化字符串。
+        /// </summary>
+        public static string FileSettingPage_GameResource {
+            get {
+                return ResourceManager.GetString("FileSettingPage_GameResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Image 的本地化字符串。
         /// </summary>
         public static string FileSettingPage_Image {
@@ -3375,6 +3384,78 @@ namespace Starward.Language {
         public static string StarRailGachaService_ImportWarpRecordsSuccessfully {
             get {
                 return ResourceManager.GetString("StarRailGachaService_ImportWarpRecordsSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This feature can quickly switch the client to the corresponding server, only needing to download some resources during the first switch. 的本地化字符串。
+        /// </summary>
+        public static string SwitchClientPage_FeatureDescription {
+            get {
+                return ResourceManager.GetString("SwitchClientPage_FeatureDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File verification failed, please try again. 的本地化字符串。
+        /// </summary>
+        public static string SwitchClientPage_FileVerificationFailedPleaseTryAgain {
+            get {
+                return ResourceManager.GetString("SwitchClientPage_FileVerificationFailedPleaseTryAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File verification failed, please try to repair game resources. 的本地化字符串。
+        /// </summary>
+        public static string SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources {
+            get {
+                return ResourceManager.GetString("SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Ready to switch client 的本地化字符串。
+        /// </summary>
+        public static string SwitchClientPage_ReadyToSwitchClient {
+            get {
+                return ResourceManager.GetString("SwitchClientPage_ReadyToSwitchClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select target game server 的本地化字符串。
+        /// </summary>
+        public static string SwitchClientPage_SelectTargetGameServer {
+            get {
+                return ResourceManager.GetString("SwitchClientPage_SelectTargetGameServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start Switching 的本地化字符串。
+        /// </summary>
+        public static string SwitchClientPage_StartSwitching {
+            get {
+                return ResourceManager.GetString("SwitchClientPage_StartSwitching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The local game version is not the latest. 的本地化字符串。
+        /// </summary>
+        public static string SwitchClientPage_TheLocalGameVersionIsNotTheLatest {
+            get {
+                return ResourceManager.GetString("SwitchClientPage_TheLocalGameVersionIsNotTheLatest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The target server version is different from the local version. 的本地化字符串。
+        /// </summary>
+        public static string SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion {
+            get {
+                return ResourceManager.GetString("SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion", resourceCulture);
             }
         }
         

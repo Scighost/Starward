@@ -196,6 +196,7 @@ public sealed partial class AboutSettingPage : PageBase
             {
                 string script = $$""""
                 $ProgressPreference = 'SilentlyContinue';
+                $ErrorActionPreference = 'Continue';
 
                 function CheckResource {
                     $archi = $env:PROCESSOR_ARCHITECTURE.ToLower().Replace('amd', 'x');

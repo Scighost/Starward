@@ -291,7 +291,7 @@ internal abstract class InstallGameService
     {
         _logger.LogInformation("Prepare for download.");
 
-        var localVersion = await _gameResourceService.GetLocalGameVersionAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
+        (var localVersion, _) = await _gameResourceService.GetLocalGameVersionAndBizAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
         launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz).ConfigureAwait(false);
         (Version? latestVersion, Version? preDownloadVersion) = await _gameResourceService.GetGameResourceVersionAsync(CurrentGameBiz).ConfigureAwait(false);
         GameResource? gameResource = null;

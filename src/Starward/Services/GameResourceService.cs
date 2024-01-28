@@ -75,7 +75,7 @@ internal class GameResourceService
     {
         return biz switch
         {
-            GameBiz.hk4e_cn => "YuanShen.exe",
+            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => "YuanShen.exe",
             GameBiz.hk4e_global => "GenshinImpact.exe",
             GameBiz.hk4e_cloud => "Genshin Impact Cloud Game.exe",
             _ => biz.ToGame() switch
@@ -89,27 +89,28 @@ internal class GameResourceService
 
 
 
-    public async Task<Version?> GetGameLocalVersionAsync(GameBiz biz, string? installPath = null)
+    public async Task<(Version?, GameBiz)> GetLocalGameVersionAndBizAsync(GameBiz biz, string? installPath = null)
     {
         installPath ??= GetGameInstallPath(biz);
         if (string.IsNullOrWhiteSpace(installPath))
         {
-            return null;
+            return (null, GameBiz.None);
         }
         Version? version = null;
+        GameBiz gameBiz = GameBiz.None;
         var config = Path.Join(installPath, "config.ini");
         if (File.Exists(config))
         {
             var str = await File.ReadAllTextAsync(config);
-            var ver = Regex.Match(str, @"game_version=(.+)").Groups[1].Value;
-            Version.TryParse(ver, out version);
+            Version.TryParse(Regex.Match(str, @"game_version=(.+)").Groups[1].Value, out version);
+            Enum.TryParse(Regex.Match(str, @"game_biz=(.+)").Groups[1].Value, out gameBiz);
         }
         else
         {
             _logger.LogWarning("config.ini not found: {path}", config);
         }
         _logger.LogInformation("Local game version is {version} (gameBiz: {biz})", version, biz);
-        return version;
+        return (version, gameBiz);
     }
 
 
@@ -147,7 +148,7 @@ internal class GameResourceService
         var resource = await GetGameResourceAsync(biz);
         if (resource.PreDownloadGame != null)
         {
-            var localVersion = await GetGameLocalVersionAsync(biz, installPath);
+            (var localVersion, _) = await GetLocalGameVersionAndBizAsync(biz, installPath);
             if (resource.PreDownloadGame.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
             {
                 string file = Path.Combine(installPath, diff.Name);
@@ -204,7 +205,7 @@ internal class GameResourceService
 
     public async Task<DownloadGameResource?> CheckDownloadGameResourceAsync(GameBiz biz, string installPath, bool reinstall = false)
     {
-        var localVersion = await GetGameLocalVersionAsync(biz, installPath);
+        (var localVersion, _) = await GetLocalGameVersionAndBizAsync(biz, installPath);
         (Version? latestVersion, Version? preDownloadVersion) = await GetGameResourceVersionAsync(biz);
         var resource = await GetGameResourceAsync(biz);
         GameResource? gameResource = null;
@@ -321,9 +322,9 @@ internal class GameResourceService
         }
         var file = biz switch
         {
-            GameBiz.hk4e_cn => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
+            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
             GameBiz.hk4e_global => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),
-            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => Path.Join(installPath, @"StarRail_Data\Persistent\AudioLaucherRecord.txt"),
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_global or GameBiz.hkrpg_bilibili => Path.Join(installPath, @"StarRail_Data\Persistent\AudioLaucherRecord.txt"),
             _ => ""
         };
         if (!File.Exists(file))
@@ -331,8 +332,8 @@ internal class GameResourceService
             file = biz switch
             {
                 GameBiz.hk4e_global => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
-                GameBiz.hk4e_cn => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),
-                GameBiz.hkrpg_cn or GameBiz.hkrpg_global => Path.Join(installPath, @"StarRail_Data\Persistent\AudioLaucherRecord.txt"),
+                GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),
+                GameBiz.hkrpg_cn or GameBiz.hkrpg_global or GameBiz.hkrpg_bilibili => Path.Join(installPath, @"StarRail_Data\Persistent\AudioLaucherRecord.txt"),
                 _ => ""
             };
         }
@@ -356,9 +357,9 @@ internal class GameResourceService
         {
             var file = biz switch
             {
-                GameBiz.hk4e_cn => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
+                GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
                 GameBiz.hk4e_global => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),
-                GameBiz.hkrpg_cn or GameBiz.hkrpg_global => Path.Join(installPath, @"StarRail_Data\Persistent\AudioLaucherRecord.txt"),
+                GameBiz.hkrpg_cn or GameBiz.hkrpg_global or GameBiz.hkrpg_bilibili => Path.Join(installPath, @"StarRail_Data\Persistent\AudioLaucherRecord.txt"),
                 _ => ""
             };
             Directory.CreateDirectory(Path.GetDirectoryName(file)!);

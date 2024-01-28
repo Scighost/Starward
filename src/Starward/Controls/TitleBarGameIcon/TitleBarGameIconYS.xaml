@@ -38,6 +38,9 @@
                 <MenuFlyoutItem Command="{x:Bind ClickCommand}"
                                 CommandParameter="{x:Bind sc:GameBiz.hk4e_cloud}"
                                 Text="China Cloud" />
+                <MenuFlyoutItem Command="{x:Bind ClickCommand}"
+                                CommandParameter="{x:Bind sc:GameBiz.hk4e_bilibili}"
+                                Text="Bilibili" />
             </MenuFlyout>
         </Button.ContextFlyout>
     </Button>

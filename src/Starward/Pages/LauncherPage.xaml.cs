@@ -317,7 +317,7 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            if (AppConfig.DisableGameNoticeRedHot || AppConfig.DisableGameAccountSwitcher)
+            if (AppConfig.DisableGameNoticeRedHot || AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibiliServer())
             {
                 Image_GameNoticesAlert.Visibility = Visibility.Collapsed;
                 return;
@@ -419,7 +419,9 @@ public sealed partial class LauncherPage : PageBase
     }
 
 
-
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsSwitchClientButtonEnable))]
+    private GameBiz configGameBiz;
 
 
 
@@ -467,6 +469,8 @@ public sealed partial class LauncherPage : PageBase
 
     public bool IsRepairGameButtonEnable => IsGameSupportCompleteRepair && ((LocalGameVersion != null && !IsGameExeExists) || (LocalGameVersion == null && IsGameExeExists));
 
+
+    public bool IsSwitchClientButtonEnable => ConfigGameBiz.ToGame() != GameBiz.None && ConfigGameBiz != CurrentGameBiz;
 
 
     [ObservableProperty]
@@ -534,7 +538,7 @@ public sealed partial class LauncherPage : PageBase
                 }
                 return;
             }
-            LocalGameVersion = await _gameResourceService.GetGameLocalVersionAsync(CurrentGameBiz);
+            (LocalGameVersion, ConfigGameBiz) = await _gameResourceService.GetLocalGameVersionAndBizAsync(CurrentGameBiz);
             UpdateGameButtonStyle();
             (LatestGameVersion, PreInstallGameVersion) = await _gameResourceService.GetGameResourceVersionAsync(CurrentGameBiz);
             if (IsPreInstallButtonEnable)
@@ -776,7 +780,7 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            if (AppConfig.DisableGameAccountSwitcher)
+            if (AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibiliServer())
             {
                 StackPanel_Account.Visibility = Visibility.Collapsed;
                 return;
@@ -1287,6 +1291,24 @@ public sealed partial class LauncherPage : PageBase
         }
     }
 
+
+
+    [RelayCommand]
+    private void SwitchClient()
+    {
+        if (IsUpdateGameButtonEnable)
+        {
+            if (_gameResourceService.GetGameInstallPath(ConfigGameBiz) is null)
+            {
+                AppConfig.SetGameInstallPath(ConfigGameBiz, InstallPath);
+            }
+            WeakReferenceMessenger.Default.Send(new ChangeGameBizMessage(ConfigGameBiz));
+        }
+        else
+        {
+            MainWindow.Current.OverlayFrameNavigateTo(typeof(SwitchClientPage), CurrentGameBiz);
+        }
+    }
 
 
 

@@ -35,6 +35,9 @@
                 <MenuFlyoutItem Command="{x:Bind ClickCommand}"
                                 CommandParameter="{x:Bind sc:GameBiz.hkrpg_global}"
                                 Text="Global" />
+                <MenuFlyoutItem Command="{x:Bind ClickCommand}"
+                                CommandParameter="{x:Bind sc:GameBiz.hkrpg_bilibili}"
+                                Text="Bilibili" />
             </MenuFlyout>
         </Button.ContextFlyout>
     </Button>

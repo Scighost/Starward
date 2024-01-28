@@ -297,6 +297,25 @@
                         </StackPanel>
                     </Button>
 
+                    <!--  Switch Client  -->
+                    <Button Name="Button_SwitchClient"
+                            Height="40"
+                            HorizontalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind SwitchClientCommand}"
+                            CornerRadius="20,0,0,20"
+                            FontSize="14"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsSwitchClientButtonEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      Glyph="&#xE8B1;" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_SwitchClient}" />
+                        </StackPanel>
+                    </Button>
+
                     <!--  Game Setting  -->
                     <Button Width="40"
                             Height="40"
@@ -706,7 +725,7 @@
                                                 <FontIcon Glyph="&#xEBD3;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
-                                        <MenuFlyoutItem Text="{x:Bind lang:Lang.LauncherPage_SwitchClient}">
+                                        <MenuFlyoutItem Command="{x:Bind SwitchClientCommand}" Text="{x:Bind lang:Lang.LauncherPage_SwitchClient}">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xE8B1;" />
                                             </MenuFlyoutItem.Icon>

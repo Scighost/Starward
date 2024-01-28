@@ -292,6 +292,8 @@ public sealed partial class FileSettingPage : PageBase
     [ObservableProperty]
     private string webCacheSize = "0.00 KB";
 
+    [ObservableProperty]
+    private string gameCacheSize = "0.00 KB";
 
 
     private async Task UpdateCacheSizeAsync()
@@ -302,6 +304,7 @@ public sealed partial class FileSettingPage : PageBase
             LogCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "log"));
             ImageCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "cache"));
             WebCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "webview"));
+            GameCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "game"));
         }
         catch (Exception ex)
         {
@@ -344,6 +347,7 @@ public sealed partial class FileSettingPage : PageBase
             await DeleteFolderAsync(Path.Combine(local, "cache"));
             await DeleteFolderAsync(Path.Combine(local, "webview"));
             await DeleteFolderAsync(Path.Combine(local, "update"));
+            await DeleteFolderAsync(Path.Combine(local, "game"));
             CachedImage.ClearCache();
         }
         catch (Exception ex)

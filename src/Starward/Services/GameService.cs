@@ -20,6 +20,8 @@ internal class GameService
 
     private readonly GameResourceService _gameResourceService;
 
+
+
     public GameService(ILogger<GameService> logger, GameResourceService gameResourceService)
     {
         _logger = logger;
@@ -27,59 +29,6 @@ internal class GameService
     }
 
 
-
-#if false
-
-
-
-    public string? GetGameInstallPath(GameBiz biz)
-    {
-        var path = AppConfig.GetGameInstallPath(biz);
-        if (string.IsNullOrWhiteSpace(path))
-        {
-            path = GachaLogClient.GetGameInstallPathFromRegistry(biz);
-        }
-        if (Directory.Exists(path))
-        {
-            return path;
-        }
-        else
-        {
-            _logger.LogWarning("Game uninstalled path not found ({biz})", biz);
-            AppConfig.SetGameInstallPath(biz, null);
-            return null;
-        }
-    }
-
-
-    public bool IsGameExeExists(GameBiz biz)
-    {
-        var path = GetGameInstallPath(biz);
-        if (path != null)
-        {
-            var exe = Path.Combine(path, GetGameExeName(biz));
-            return File.Exists(exe);
-        }
-        return false;
-    }
-
-
-    public static string GetGameExeName(GameBiz biz)
-    {
-        return biz switch
-        {
-            GameBiz.hk4e_cn => "YuanShen.exe",
-            GameBiz.hk4e_global => "GenshinImpact.exe",
-            GameBiz.hk4e_cloud => "Genshin Impact Cloud Game.exe",
-            _ => biz.ToGame() switch
-            {
-                GameBiz.StarRail => "StarRail.exe",
-                GameBiz.Honkai3rd => "BH3.exe",
-                _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
-            },
-        };
-    }
-#endif
 
 
     public string? GetGameScreenshotPath(GameBiz biz)

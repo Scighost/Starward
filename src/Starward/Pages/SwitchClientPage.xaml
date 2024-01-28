@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PageBase x:Class="Starward.Pages.SwitchClientPage"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:lang="using:Starward.Language"
+                xmlns:local="using:Starward.Pages"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                x:DefaultBindMode="OneWay"
+                mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource CustomAcrylicBrush}">
+
+
+
+        <StackPanel Margin="48">
+
+            <TextBlock FontSize="20"
+                       FontWeight="Bold"
+                       Text="{x:Bind lang:Lang.LauncherPage_SwitchClient}" />
+
+            <TextBlock Margin="0,24,0,0"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.SwitchClientPage_FeatureDescription}"
+                       TextWrapping="Wrap" />
+
+
+            <StackPanel Margin="0,24,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="24">
+                <TextBlock VerticalAlignment="Center"
+                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                           Text="{x:Bind FromGameBizName}" />
+                <FontIcon VerticalAlignment="Center"
+                          FontSize="16"
+                          Glyph="&#xEBE7;" />
+                <ComboBox Height="32"
+                          MinWidth="240"
+                          Padding="18.5,0,0,0"
+                          ItemsSource="{x:Bind TargetGameBizs}"
+                          PlaceholderText="{x:Bind lang:Lang.SwitchClientPage_SelectTargetGameServer}"
+                          SelectedItem="{x:Bind SelectedTargetGameBiz, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button x:Name="Button_Prepair"
+                        MinWidth="80"
+                        Command="{x:Bind PrepareForSwitchClientCommand}"
+                        Content="{x:Bind lang:Lang.Common_Confirm}"
+                        Style="{ThemeResource AccentButtonStyle}" />
+            </StackPanel>
+
+            <TextBlock Margin="0,24,0,0" Text="{x:Bind StateText}" />
+
+            <StackPanel Margin="0,24,0,0"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xF16A;"
+                          Visibility="{x:Bind ProgressBytesText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                <TextBlock Text="{x:Bind ProgressBytesText}" />
+            </StackPanel>
+            <StackPanel Margin="0,12,0,0"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xEC4A;"
+                          Visibility="{x:Bind SpeedText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                <TextBlock Text="{x:Bind SpeedText}" />
+            </StackPanel>
+            <StackPanel Margin="0,12,0,0"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE823;"
+                          Visibility="{x:Bind RemainTimeText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                <TextBlock Text="{x:Bind RemainTimeText}" />
+            </StackPanel>
+
+            <StackPanel Margin="0,24,0,0"
+                        Orientation="Horizontal"
+                        Spacing="24">
+                <Button Name="Button_StartSwitch"
+                        MinWidth="100"
+                        Command="{x:Bind StartSwitchClientCommand}"
+                        Content="{x:Bind lang:Lang.SwitchClientPage_StartSwitching}"
+                        IsEnabled="{x:Bind IsPrepared}"
+                        Style="{ThemeResource AccentButtonStyle}" />
+                <Button MinWidth="100"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Command="{x:Bind CloseCommand}"
+                        Content="{x:Bind lang:Lang.Common_Cancel}"
+                        IsEnabled="{x:Bind CanCancel}" />
+            </StackPanel>
+
+            <TextBlock Margin="0,16,0,0"
+                       Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                       Text="{x:Bind ErrorText}"
+                       TextWrapping="Wrap" />
+
+        </StackPanel>
+
+
+
+
+    </Grid>
+
+</local:PageBase>

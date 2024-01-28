@@ -103,6 +103,7 @@ public sealed partial class MainPage : PageBase
         WeakReferenceMessenger.Default.Register<GameStartMessage>(this, (_, _) => PauseVideo());
         WeakReferenceMessenger.Default.Register<UpdateBackgroundImageMessage>(this, (_, m) => _ = UpdateBackgroundImageAsync(m.Force));
         WeakReferenceMessenger.Default.Register<MainPageNavigateMessage>(this, (_, m) => NavigateTo(m.Page, m.Param, m.TransitionInfo));
+        WeakReferenceMessenger.Default.Register<ChangeGameBizMessage>(this, (_, m) => ChangeGameBiz(m.GameBiz));
     }
 
 
@@ -165,6 +166,7 @@ public sealed partial class MainPage : PageBase
         GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn => "China",
         GameBiz.hk4e_global or GameBiz.hkrpg_global => "Global",
         GameBiz.hk4e_cloud => "China Cloud",
+        GameBiz.hk4e_bilibili or GameBiz.hkrpg_bilibili => "Bilibili",
         GameBiz.bh3_global => "Europe & Americas",
         GameBiz.bh3_tw => "Traditional Chinese",
         GameBiz.bh3_jp => "Japan",

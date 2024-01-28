@@ -155,13 +155,15 @@
                        Text="{x:Bind lang:Lang.FileSettingPage_Cache}" />
             <StackPanel Margin="0,8,0,0"
                         Orientation="Horizontal"
-                        Spacing="8">
+                        Spacing="16">
                 <TextBlock>
                     <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.FileSettingPage_Log}" />
                     <LineBreak />
                     <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.FileSettingPage_Image}" />
                     <LineBreak />
                     <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.FileSettingPage_Browser}" />
+                    <LineBreak />
+                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.FileSettingPage_GameResource}" />
                 </TextBlock>
                 <TextBlock>
                     <Run Text="{x:Bind LogCacheSize}" />
@@ -169,6 +171,8 @@
                     <Run Text="{x:Bind ImageCacheSize}" />
                     <LineBreak />
                     <Run Text="{x:Bind WebCacheSize}" />
+                    <LineBreak />
+                    <Run Text="{x:Bind GameCacheSize}" />
                 </TextBlock>
             </StackPanel>
             <!--  open log folder  -->

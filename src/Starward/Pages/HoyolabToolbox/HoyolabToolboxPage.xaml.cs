@@ -54,7 +54,8 @@ public sealed partial class HoyolabToolboxPage : PageBase
         {
             gameBiz = biz switch
             {
-                GameBiz.hk4e_cloud => GameBiz.hk4e_cn,
+                GameBiz.hk4e_cloud or GameBiz.hk4e_bilibili => GameBiz.hk4e_cn,
+                GameBiz.hkrpg_bilibili => GameBiz.hkrpg_cn,
                 _ => biz
             };
             _gameRecordService.IsHoyolab = gameBiz.IsGlobalServer();

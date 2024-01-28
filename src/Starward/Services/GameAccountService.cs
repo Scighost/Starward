@@ -37,7 +37,7 @@ internal class GameAccountService
         var key = biz.GetGameRegistryKey();
         var keyName = (int)biz switch
         {
-            11 or 21 or 31 => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
+            11 or 21 or 31 or 14 or 24 => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
             13 => GameRegistry.MIHOYOSDK_ADL_0,
             12 or 22 or (>= 32 and <= 36) => GameRegistry.MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
@@ -78,7 +78,7 @@ internal class GameAccountService
 
     private IEnumerable<int> GetUidsFromRegistry(GameBiz biz)
     {
-        if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+        if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_bilibili)
         {
             string key = biz.GetGameRegistryKey().Replace(@"HKEY_CURRENT_USER\", "");
             List<string> usds = Registry.CurrentUser.OpenSubKey(key)?.GetValueNames()?.Where(x => x.StartsWith("USD_"))?.ToList() ?? [];
@@ -172,7 +172,7 @@ internal class GameAccountService
         var key = account.GameBiz.GetGameRegistryKey();
         var keyName = (int)account.GameBiz switch
         {
-            11 or 21 or 31 => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
+            11 or 21 or 31 or 14 or 24 => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
             13 => GameRegistry.MIHOYOSDK_ADL_0,
             12 or 22 or (>= 32 and <= 36) => GameRegistry.MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {account.GameBiz}"),
