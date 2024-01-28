@@ -305,7 +305,7 @@
     <value>Tải xuống đã tạm dừng</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
-    <value>Không có bản ghi Gacha</value>
+    <value>Không có bản ghi gacha</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
     <value>Cập nhật bản ghi</value>
@@ -314,7 +314,7 @@
     <value>Cập nhật (URL đã lưu)</value>
   </data>
   <data name="GachaLogPage_UpdateAll" xml:space="preserve">
-    <value>Cập nhật (Tất cả)</value>
+    <value>Cập nhật (tất cả)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>Nhập URL</value>
@@ -1342,33 +1342,33 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Cài đặt lại trò chơi</value>
   </data>
   <data name="LauncherPage_SwitchClient" xml:space="preserve">
-    <value>Switch Client</value>
+    <value>Chuyển đổi Client</value>
   </data>
   <data name="FileSettingPage_GameResource" xml:space="preserve">
-    <value>Game Resource</value>
+    <value>Tài nguyên trò chơi</value>
   </data>
   <data name="SwitchClientPage_SelectTargetGameServer" xml:space="preserve">
-    <value>Select target game server</value>
+    <value>Chọn máy chủ đích trò chơi</value>
   </data>
   <data name="SwitchClientPage_FeatureDescription" xml:space="preserve">
-    <value>This feature can quickly switch the client to the corresponding server, only needing to download some resources during the first switch.</value>
+    <value>Tính năng này có thể nhanh chóng chuyển đổi Client sang máy chủ tương ứng, chỉ cần tải xuống một số tài nguyên trong lần chuyển đổi đầu tiên.</value>
   </data>
   <data name="SwitchClientPage_StartSwitching" xml:space="preserve">
-    <value>Start Switching</value>
+    <value>Bắt đầu chuyển đổi</value>
   </data>
   <data name="SwitchClientPage_TheLocalGameVersionIsNotTheLatest" xml:space="preserve">
-    <value>The local game version is not the latest.</value>
+    <value>Phiên bản trò chơi đã cài đặt không phải là phiên bản mới nhất.</value>
   </data>
   <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
-    <value>The target server version is different from the local version.</value>
+    <value>Phiên bản máy chủ đích khác với phiên bản đã cài đặt.</value>
   </data>
   <data name="SwitchClientPage_ReadyToSwitchClient" xml:space="preserve">
-    <value>Ready to switch client</value>
+    <value>Sẵn sàng để chuyển đổi Client</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryAgain" xml:space="preserve">
-    <value>File verification failed, please try again.</value>
+    <value>Xác minh tập tin thất bại, vui lòng thử lại sau.</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
-    <value>File verification failed, please try to repair game resources.</value>
+    <value>Xác minh tập tin không thành công, vui lòng thử sửa chữa tài nguyên trò chơi.</value>
   </data>
 </root>
