@@ -223,4 +223,7 @@
   <data name="StarRailQueryType_TrailblazePower" xml:space="preserve">
     <value>开拓力</value>
   </data>
+  <data name="GameServer_BilibiliServer" xml:space="preserve">
+    <value>Bilibili Server</value>
+  </data>
 </root>
