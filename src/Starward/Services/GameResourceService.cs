@@ -120,7 +120,6 @@ internal class GameResourceService
         {
             return GameBiz.None;
         }
-        Version? version = null;
         GameBiz gameBiz = GameBiz.None;
         var config = Path.Join(installPath, "config.ini");
         if (File.Exists(config))

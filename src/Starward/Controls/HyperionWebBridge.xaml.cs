@@ -22,7 +22,7 @@ namespace Starward.Controls;
 public sealed partial class HyperionWebBridge : UserControl
 {
 
-    private const string AppVersion = "2.53.1";
+    private const string AppVersion = "2.58.2";
 
     private static string DeviceId = Guid.NewGuid().ToString("D");
 
@@ -332,8 +332,9 @@ public sealed partial class HyperionWebBridge : UserControl
             Data = new()
             {
                 ["x-rpc-client_type"] = "5",
-                ["x-rpc-device_id"] = cookieDic.GetValueOrDefault("_MHYUUID") ?? "",
                 ["x-rpc-app_version"] = AppVersion,
+                ["x-rpc_device_fp"] = cookieDic.GetValueOrDefault("DEVICEFP") ?? "",
+                ["x-rpc-device_id"] = cookieDic.GetValueOrDefault("_MHYUUID") ?? "",
             },
         };
     }

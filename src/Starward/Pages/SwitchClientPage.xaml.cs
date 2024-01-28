@@ -338,6 +338,7 @@ public sealed partial class SwitchClientPage : PageBase
         }
         catch (Exception ex)
         {
+            _logger.LogInformation(ex, "Prepare for switch client");
             StateText = Lang.DownloadGamePage_SomethingError;
             ErrorText = ex.Message;
         }

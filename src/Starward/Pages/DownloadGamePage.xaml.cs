@@ -470,7 +470,7 @@ public sealed partial class DownloadGamePage : PageBase
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "On state or progress changed");
         }
     }
 

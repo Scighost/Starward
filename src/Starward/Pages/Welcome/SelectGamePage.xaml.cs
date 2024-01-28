@@ -173,11 +173,13 @@ public sealed partial class SelectGamePage : PageBase
                 ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_cn.ToGameServer(), Tag = GameBiz.hk4e_cn });
                 ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_global.ToGameServer(), Tag = GameBiz.hk4e_global });
                 ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_cloud.ToGameServer(), Tag = GameBiz.hk4e_cloud });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_bilibili.ToGameServer(), Tag = GameBiz.hk4e_bilibili });
             }
             if (item.Tag is GameBiz.StarRail)
             {
                 ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hkrpg_cn.ToGameServer(), Tag = GameBiz.hkrpg_cn });
                 ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hkrpg_global.ToGameServer(), Tag = GameBiz.hkrpg_global });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hkrpg_bilibili.ToGameServer(), Tag = GameBiz.hkrpg_bilibili });
             }
         }
     }
