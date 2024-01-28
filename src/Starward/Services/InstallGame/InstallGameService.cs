@@ -112,6 +112,9 @@ internal abstract class InstallGameService
     protected List<DownloadFileTask> downloadTasks;
 
 
+    protected GameSDK? gameSDK;
+
+
     protected LauncherGameResource launcherGameResource;
 
 
@@ -225,6 +228,7 @@ internal abstract class InstallGameService
                     State = InstallGameState.Prepare;
                     await PrepareForDownloadAsync().ConfigureAwait(false);
                 }
+                PrepareBilibiliServerGameSDK();
             }
 
             if (_inState is InstallGameState.Download)
@@ -252,6 +256,8 @@ internal abstract class InstallGameService
                 State = InstallGameState.Decompress;
                 await DecompressAndApplyDiffPackagesAsync(cancellationTokenSource.Token).ConfigureAwait(false);
             }
+
+            DecompressBilibiliServerGameSDK();
 
             await ClearDeprecatedFilesAsync().ConfigureAwait(false);
 
@@ -285,7 +291,7 @@ internal abstract class InstallGameService
     {
         _logger.LogInformation("Prepare for download.");
 
-        var localVersion = await _gameResourceService.GetGameLocalVersionAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
+        var localVersion = await _gameResourceService.GetLocalGameVersionAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
         launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz).ConfigureAwait(false);
         (Version? latestVersion, Version? preDownloadVersion) = await _gameResourceService.GetGameResourceVersionAsync(CurrentGameBiz).ConfigureAwait(false);
         GameResource? gameResource = null;
@@ -472,6 +478,50 @@ internal abstract class InstallGameService
         }).ConfigureAwait(false);
 
         downloadTasks = list;
+    }
+
+
+    /// <summary>
+    /// B服SDK
+    /// </summary>
+    protected void PrepareBilibiliServerGameSDK()
+    {
+        if (!IsPreInstall && CurrentGameBiz.IsBilibiliServer())
+        {
+            gameSDK = launcherGameResource.Sdk;
+            if (gameSDK is not null)
+            {
+                _logger.LogInformation("Bilibili sdk version: {version}", gameSDK.Version);
+                downloadTasks.Add(new DownloadFileTask
+                {
+                    FileName = Path.GetFileName(gameSDK.Path),
+                    Url = gameSDK.Path,
+                    Size = gameSDK.PackageSize,
+                    MD5 = gameSDK.Md5,
+                });
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// 解压B服SDK
+    /// </summary>
+    protected void DecompressBilibiliServerGameSDK()
+    {
+        if (!IsPreInstall && CurrentGameBiz.IsBilibiliServer())
+        {
+            if (gameSDK is not null)
+            {
+                string file = Path.Combine(InstallPath, Path.GetFileName(gameSDK.Path));
+                if (File.Exists(file))
+                {
+                    _logger.LogInformation("Decompress Bilibili sdk: {file}", file);
+                    ZipFile.ExtractToDirectory(file, InstallPath, true);
+                    File.Delete(file);
+                }
+            }
+        }
     }
 
 
@@ -720,13 +770,30 @@ internal abstract class InstallGameService
     protected async Task WriteConfigFileAsync()
     {
         string version = launcherGameResource.Game.Latest.Version;
+        string sdk_version = gameSDK?.Version ?? "";
+        string cps = "", channel = "1", sub_channel = "1";
+        if (CurrentGameBiz.IsBilibiliServer())
+        {
+            cps = "bilibili";
+            channel = "14";
+            sub_channel = "0";
+        }
+        else if (CurrentGameBiz.IsChinaServer())
+        {
+            cps = "mihoyo";
+        }
+        else if (CurrentGameBiz.IsGlobalServer())
+        {
+            cps = "hoyoverse";
+        }
         string config = $"""
             [General]
-            channel=1
-            cps=
+            channel={channel}
+            cps={cps}
             game_version={version}
-            sub_channel=1
-            sdk_version=
+            sub_channel={sub_channel}
+            sdk_version={sdk_version}
+            game_biz={CurrentGameBiz}
             """;
         _logger.LogInformation("Write config.ini (game_version={version})", version);
         await File.WriteAllTextAsync(Path.Combine(InstallPath, "config.ini"), config).ConfigureAwait(false);

@@ -1,6 +1,6 @@
 ﻿namespace Starward.Services.InstallGame;
 
-internal class DownloadFileTask
+public class DownloadFileTask
 {
 
     public string FileName { get; set; }

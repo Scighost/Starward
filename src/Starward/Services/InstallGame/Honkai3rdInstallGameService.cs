@@ -52,6 +52,7 @@ internal class Honkai3rdInstallGameService : InstallGameService
                     State = InstallGameState.Prepare;
                     await PrepareForDownloadAsync().ConfigureAwait(false);
                 }
+                PrepareBilibiliServerGameSDK();
             }
 
             if (_inState is InstallGameState.Download)
@@ -86,6 +87,8 @@ internal class Honkai3rdInstallGameService : InstallGameService
                 State = InstallGameState.Download;
                 await DownloadBH3BaseAsync(cancellationTokenSource.Token).ConfigureAwait(false);
             }
+
+            DecompressBilibiliServerGameSDK();
 
             await ClearDeprecatedFilesAsync().ConfigureAwait(false);
 
