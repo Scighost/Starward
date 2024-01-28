@@ -296,7 +296,7 @@
     <value>Остановить</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Распаковка непроверенных файлов может привести к повреждению игровых файлов</value>
+    <value>Пропуск проверки, может привести к повреждению игровых файлов.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>Пропустить проверку</value>
@@ -935,7 +935,7 @@
     <value>Подтвердить учетную запись</value>
   </data>
   <data name="DownloadGameService_RepairMode" xml:space="preserve">
-    <value>Восстановить игру</value>
+    <value>Режим Восстановления</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
     <value>Он занимает дополнительное место на диске при распаковке архива.</value>
@@ -1316,5 +1316,59 @@
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
     <value>Нет данных</value>
+  </data>
+  <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
+    <value>Проверить целостность файлов</value>
+  </data>
+  <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
+    <value>Сбой проверки</value>
+  </data>
+  <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
+    <value>Текущая версия не является последней версией ({0}).</value>
+  </data>
+  <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
+    <value>Нажмите на кнопку для восстановления файлов.</value>
+  </data>
+  <data name="AboutSettingPage_RepairFiles" xml:space="preserve">
+    <value>Восстановление файлов</value>
+  </data>
+  <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
+    <value>Проверка прошла успешно!</value>
+  </data>
+  <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
+    <value>{0} не удалось выполнить проверку файлов.</value>
+  </data>
+  <data name="LauncherPage_ReinstallGame" xml:space="preserve">
+    <value>Переустановить Игру</value>
+  </data>
+  <data name="LauncherPage_SwitchClient" xml:space="preserve">
+    <value>Сменить Клиента</value>
+  </data>
+  <data name="FileSettingPage_GameResource" xml:space="preserve">
+    <value>Игровой ресурс</value>
+  </data>
+  <data name="SwitchClientPage_SelectTargetGameServer" xml:space="preserve">
+    <value>Выберите игровой сервер</value>
+  </data>
+  <data name="SwitchClientPage_FeatureDescription" xml:space="preserve">
+    <value>Эта функция позволяет быстро переключить клиент на соответствующий сервер, при этом требуется загрузка некоторых ресурсов только во время первого переключения.</value>
+  </data>
+  <data name="SwitchClientPage_StartSwitching" xml:space="preserve">
+    <value>Начать переключение</value>
+  </data>
+  <data name="SwitchClientPage_TheLocalGameVersionIsNotTheLatest" xml:space="preserve">
+    <value>Локальная версия игры не является последней.</value>
+  </data>
+  <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
+    <value>Версия текущего сервера отличается от локальной версии.</value>
+  </data>
+  <data name="SwitchClientPage_ReadyToSwitchClient" xml:space="preserve">
+    <value>Готов переключить клиент</value>
+  </data>
+  <data name="SwitchClientPage_FileVerificationFailedPleaseTryAgain" xml:space="preserve">
+    <value>Проверка файлов не удалась. Пожалуйста, попробуйте ещё раз.</value>
+  </data>
+  <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
+    <value>Проверка файлов не удалась. Пожалуйста, попробуйте восстановить игровые ресурсы.</value>
   </data>
 </root>
