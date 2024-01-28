@@ -237,7 +237,7 @@ public sealed partial class AboutSettingPage : PageBase
                 Start-Sleep -Seconds 1;
 
                 if (CheckResource) {
-                    DownloadResource{{(EnablePreviewRelease ? " -$PreRelease" : "")}};
+                    DownloadResource{{(EnablePreviewRelease ? " -PreRelease" : "")}};
                     Start-Process -FilePath 'Starward.exe';
                 }
                 else {
