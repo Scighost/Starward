@@ -1221,7 +1221,7 @@
     <value>您可以在設定頁面中再次更改選項。</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
-    <value>您的個人資料存儲在下麵的資料夾中。 它非常重要，請不要隨意删除。</value>
+    <value>您的個人資料存儲在下面的資料夾中。 它非常重要，請不要隨意删除。</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
     <value>主題顏色</value>
