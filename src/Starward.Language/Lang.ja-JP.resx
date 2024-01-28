@@ -296,7 +296,7 @@
     <value>停止</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Skipping verification may result in corrupted game files.</value>
+    <value>検証をスキップすると、ゲームファイルが破損する可能性があります。</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>検証をスキップする</value>
@@ -1317,13 +1317,13 @@
     <value>データなし</value>
   </data>
   <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
-    <value>Verify File Integrity</value>
+    <value>ファイルの完全性を検証</value>
   </data>
   <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
-    <value>Verify failed</value>
+    <value>検証に失敗</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
-    <value>Current version is not the latest version ({0}).</value>
+    <value>現在のバージョンは、最新のバージョン({0})ではありません。</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
     <value>Click button to repair files.</value>
@@ -1338,16 +1338,16 @@
     <value>{0} files verify failed.</value>
   </data>
   <data name="LauncherPage_ReinstallGame" xml:space="preserve">
-    <value>Reinstall Game</value>
+    <value>ゲームの再インストール</value>
   </data>
   <data name="LauncherPage_SwitchClient" xml:space="preserve">
-    <value>Switch Client</value>
+    <value>クライアントの切り替え</value>
   </data>
   <data name="FileSettingPage_GameResource" xml:space="preserve">
-    <value>Game Resource</value>
+    <value>ゲームリソース</value>
   </data>
   <data name="SwitchClientPage_SelectTargetGameServer" xml:space="preserve">
-    <value>Select target game server</value>
+    <value>ターゲットのゲームサーバーを選択</value>
   </data>
   <data name="SwitchClientPage_FeatureDescription" xml:space="preserve">
     <value>This feature can quickly switch the client to the corresponding server, only needing to download some resources during the first switch.</value>
@@ -1359,15 +1359,15 @@
     <value>The local game version is not the latest.</value>
   </data>
   <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
-    <value>The target server version is different from the local version.</value>
+    <value>ターゲットサーバーのバージョンがローカルのバージョンと異なります。</value>
   </data>
   <data name="SwitchClientPage_ReadyToSwitchClient" xml:space="preserve">
-    <value>Ready to switch client</value>
+    <value>クライアントの切り替え準備ができています</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryAgain" xml:space="preserve">
-    <value>File verification failed, please try again.</value>
+    <value>ファイルの検証に失敗しました。再試行をしてください。</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
-    <value>File verification failed, please try to repair game resources.</value>
+    <value>ファイルの検証に失敗しました。ゲームリソースの修復をしてください。</value>
   </data>
 </root>
