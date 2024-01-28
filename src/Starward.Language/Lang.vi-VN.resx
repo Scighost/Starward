@@ -239,7 +239,7 @@
     <value>Không có quyền</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Vui lòng khởi động bằng quyền Quản Trị Viên (Administrator)</value>
+    <value>Vui lòng khởi động bằng quyền Quản Trị Viên</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
     <value>Bắt đầu</value>
@@ -341,7 +341,7 @@
     <value>Nhập từ file JSON</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
-    <value>Hiện thị Gacha người mới</value>
+    <value>Hiện thị gacha người mới</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
     <value>Xoá bản ghi</value>
@@ -662,7 +662,7 @@
     <value>Hình nền ứng dụng</value>
   </data>
   <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
-    <value>Hình nền tuỳ chọn (Hỗ trợ video)</value>
+    <value>Hình nền tuỳ chọn (hỗ trợ video)</value>
   </data>
   <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
     <value>Màu chủ đề động</value>
@@ -719,7 +719,7 @@
     <value>Vị trí hiện tại của thư mục chứa dữ liệu là:</value>
   </data>
   <data name="SettingPage_WouldLikeToReselectDataFolder" xml:space="preserve">
-    <value>Bạn có muốn chọn lại? (Bạn cần chuyển dữ liệu thủ công trước khi chọn)</value>
+    <value>Bạn có muốn chọn lại? (bạn cần chuyển dữ liệu thủ công trước khi chọn)</value>
   </data>
   <data name="Common_Yes" xml:space="preserve">
     <value>Có</value>
@@ -1118,7 +1118,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Gỡ cài đặt trò chơi</value>
   </data>
   <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
-    <value>Dọn Registry</value>
+    <value>Dọn registry</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
     <value>Xóa tập tin tạm thời</value>
@@ -1145,7 +1145,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Ủng hộ</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
-    <value>Giao thức URL (Thử nghiệm)</value>
+    <value>Giao thức URL (thử nghiệm)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
     <value>Những phần mềm khác có thể sử dụng một số tính năng của Starward thông qua giao thức URL.</value>
@@ -1339,7 +1339,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Xác minh tệp {0} không thành công.</value>
   </data>
   <data name="LauncherPage_ReinstallGame" xml:space="preserve">
-    <value>Reinstall Game</value>
+    <value>Cài đặt lại trò chơi</value>
   </data>
   <data name="LauncherPage_SwitchClient" xml:space="preserve">
     <value>Switch Client</value>
