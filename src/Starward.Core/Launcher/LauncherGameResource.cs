@@ -24,11 +24,44 @@ public class LauncherGameResource
     public List<DeprecatedPackage> DeprecatedPackages { get; set; }
 
     [JsonPropertyName("sdk")]
-    public object Sdk { get; set; }
+    public GameSDK Sdk { get; set; }
 
     [JsonPropertyName("deprecated_files")]
     public List<DeprecatedFile> DeprecatedFiles { get; set; }
 }
+
+public class GameSDK
+{
+    [JsonPropertyName("version")]
+    public string Version { get; set; }
+
+    [JsonPropertyName("path")]
+    public string Path { get; set; }
+
+    [JsonPropertyName("size")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public long Size { get; set; }
+
+    [JsonPropertyName("md5")]
+    public string Md5 { get; set; }
+
+    [JsonPropertyName("pkg_version")]
+    public string PkgVersion { get; set; }
+
+    [JsonPropertyName("desc")]
+    public string Desc { get; set; }
+
+    [JsonPropertyName("channel_id")]
+    public string ChannelId { get; set; }
+
+    [JsonPropertyName("sub_channel_id")]
+    public string SubChannelId { get; set; }
+
+    [JsonPropertyName("package_size")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public long PackageSize { get; set; }
+}
+
 
 public class DeprecatedFile
 {

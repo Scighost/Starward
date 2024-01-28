@@ -29,9 +29,9 @@ public static class EnumExtension
     {
         return (int)biz switch
         {
-            11 or 12 or 13 => GameBiz.GenshinImpact,
-            21 or 22 => GameBiz.StarRail,
-            >= 31 and <= 36 => GameBiz.Honkai3rd,
+            11 or 12 or 13 or 14 => GameBiz.GenshinImpact,
+            21 or 22 or 24 => GameBiz.StarRail,
+            >= 31 and <= 37 => GameBiz.Honkai3rd,
             _ => GameBiz.None,
         };
     }
@@ -56,8 +56,10 @@ public static class EnumExtension
             GameBiz.hk4e_cn => CoreLang.GameServer_ChinaServer,
             GameBiz.hk4e_global => CoreLang.GameServer_GlobalServer,
             GameBiz.hk4e_cloud => CoreLang.GameServer_ChinaCloudServer,
+            GameBiz.hk4e_bilibili => CoreLang.GameServer_BilibiliServer,
             GameBiz.hkrpg_cn => CoreLang.GameServer_ChinaServer,
             GameBiz.hkrpg_global => CoreLang.GameServer_GlobalServer,
+            GameBiz.hkrpg_bilibili => CoreLang.GameServer_BilibiliServer,
             GameBiz.bh3_cn => CoreLang.GameServer_ChinaServer,
             GameBiz.bh3_global => CoreLang.GameServer_EuropeAmericasServers,
             GameBiz.bh3_jp => CoreLang.GameServer_JapanServer,
@@ -73,7 +75,7 @@ public static class EnumExtension
     {
         return (int)biz switch
         {
-            11 or 13 or 21 or 31 => true,
+            11 or 13 or 14 or 21 or 24 or 31 => true,
             _ => false,
         };
     }
@@ -89,14 +91,24 @@ public static class EnumExtension
     }
 
 
+    public static bool IsBilibiliServer(this GameBiz biz)
+    {
+        return (int)biz switch
+        {
+            14 or 24 => true,
+            _ => false,
+        };
+    }
+
+
     public static string GetLauncherRegistryKey(this GameBiz biz)
     {
         return biz switch
         {
-            GameBiz.hk4e_cn => GameRegistry.LauncherPath_hk4e_cn,
+            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => GameRegistry.LauncherPath_hk4e_cn,
             GameBiz.hk4e_global => GameRegistry.LauncherPath_hk4e_global,
             GameBiz.hk4e_cloud => GameRegistry.LauncherPath_hk4e_cloud,
-            GameBiz.hkrpg_cn => GameRegistry.LauncherPath_hkrpg_cn,
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => GameRegistry.LauncherPath_hkrpg_cn,
             GameBiz.hkrpg_global => GameRegistry.LauncherPath_hkrpg_global,
             GameBiz.bh3_cn => GameRegistry.LauncherPath_bh3_cn,
             GameBiz.bh3_global => GameRegistry.LauncherPath_bh3_global,
@@ -114,10 +126,10 @@ public static class EnumExtension
     {
         return biz switch
         {
-            GameBiz.hk4e_cn => GameRegistry.GamePath_hk4e_cn,
+            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => GameRegistry.GamePath_hk4e_cn,
             GameBiz.hk4e_global => GameRegistry.GamePath_hk4e_global,
             GameBiz.hk4e_cloud => GameRegistry.GamePath_hk4e_cloud,
-            GameBiz.hkrpg_cn => GameRegistry.GamePath_hkrpg_cn,
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => GameRegistry.GamePath_hkrpg_cn,
             GameBiz.hkrpg_global => GameRegistry.GamePath_hkrpg_global,
             GameBiz.bh3_cn => GameRegistry.GamePath_bh3_cn,
             GameBiz.bh3_global => GameRegistry.GamePath_bh3_global,

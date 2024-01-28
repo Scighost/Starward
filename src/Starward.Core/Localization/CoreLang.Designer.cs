@@ -187,6 +187,15 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Bilibili Server 的本地化字符串。
+        /// </summary>
+        internal static string GameServer_BilibiliServer {
+            get {
+                return ResourceManager.GetString("GameServer_BilibiliServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 China Cloud Server 的本地化字符串。
         /// </summary>
         internal static string GameServer_ChinaCloudServer {

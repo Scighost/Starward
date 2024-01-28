@@ -28,6 +28,11 @@ public enum GameBiz
     /// </summary>
     hk4e_cloud = 13,
 
+    /// <summary>
+    /// Genshin Impact Bilibili
+    /// </summary>
+    hk4e_bilibili = 14,
+
 
     /// <summary>
     /// Star Rail
@@ -43,6 +48,16 @@ public enum GameBiz
     /// Star Rail Global
     /// </summary>
     hkrpg_global = 22,
+
+    /// <summary>
+    /// Star Rail Cloud
+    /// </summary>
+    //hkrpg_cloud = 23,
+
+    /// <summary>
+    /// Star Rail Bilibili
+    /// </summary>
+    hkrpg_bilibili = 24,
 
 
     /// <summary>

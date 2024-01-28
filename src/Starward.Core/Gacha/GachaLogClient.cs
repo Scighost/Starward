@@ -111,9 +111,9 @@ public abstract class GachaLogClient
         }
         var key = biz switch
         {
-            GameBiz.hk4e_cn => REG_KEY_YS_CN,
+            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => REG_KEY_YS_CN,
             GameBiz.hk4e_global => REG_KEY_YS_OS,
-            GameBiz.hkrpg_cn => REG_KEY_SR_CN,
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => REG_KEY_SR_CN,
             GameBiz.hkrpg_global => REG_KEY_SR_OS,
             GameBiz.bh3_cn => REG_KEY_BH3_CN,
             GameBiz.bh3_global => REG_KEY_BH3_GL,
@@ -147,9 +147,9 @@ public abstract class GachaLogClient
         }
         string file = gameBiz switch
         {
-            GameBiz.hk4e_cn => Path.Join(installPath, WEB_CACHE_PATH_YS_CN),
+            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => Path.Join(installPath, WEB_CACHE_PATH_YS_CN),
             GameBiz.hk4e_global => Path.Join(installPath, WEB_CACHE_PATH_YS_OS),
-            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => Path.Join(installPath, WEB_CACHE_SR_PATH),
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_global or GameBiz.hkrpg_bilibili => Path.Join(installPath, WEB_CACHE_SR_PATH),
             _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
         };
         DateTime lastWriteTime = DateTime.MinValue;
@@ -159,9 +159,9 @@ public abstract class GachaLogClient
         }
         string prefix = gameBiz switch
         {
-            GameBiz.hk4e_cn => @"YuanShen_Data\webCaches",
+            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => @"YuanShen_Data\webCaches",
             GameBiz.hk4e_global => @"GenshinImpact_Data\webCaches",
-            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => @"StarRail_Data\webCaches",
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_global or GameBiz.hkrpg_bilibili => @"StarRail_Data\webCaches",
             _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
         };
         string webCache = Path.Join(installPath, prefix);
@@ -185,9 +185,9 @@ public abstract class GachaLogClient
     {
         return gameBiz switch
         {
-            GameBiz.hk4e_cn or GameBiz.hk4e_cloud => SPAN_WEB_PREFIX_YS_CN,
+            GameBiz.hk4e_cn or GameBiz.hk4e_cloud or GameBiz.hk4e_bilibili => SPAN_WEB_PREFIX_YS_CN,
             GameBiz.hk4e_global => SPAN_WEB_PREFIX_YS_OS,
-            GameBiz.hkrpg_cn => SPAN_WEB_PREFIX_SR_CN,
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => SPAN_WEB_PREFIX_SR_CN,
             GameBiz.hkrpg_global => SPAN_WEB_PREFIX_SR_OS,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
         };
