@@ -935,7 +935,7 @@
     <value>Подтвердить учетную запись</value>
   </data>
   <data name="DownloadGameService_RepairMode" xml:space="preserve">
-    <value>Восстановить игру</value>
+    <value>Режим Восстановления</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
     <value>Он занимает дополнительное место на диске при распаковке архива.</value>
@@ -1345,30 +1345,30 @@
     <value>Сменить Клиента</value>
   </data>
   <data name="FileSettingPage_GameResource" xml:space="preserve">
-    <value>Game Resource</value>
+    <value>Игровой ресурс</value>
   </data>
   <data name="SwitchClientPage_SelectTargetGameServer" xml:space="preserve">
-    <value>Select target game server</value>
+    <value>Выберите игровой сервер</value>
   </data>
   <data name="SwitchClientPage_FeatureDescription" xml:space="preserve">
-    <value>This feature can quickly switch the client to the corresponding server, only needing to download some resources during the first switch.</value>
+    <value>Эта функция позволяет быстро переключить клиент на соответствующий сервер, при этом требуется загрузка некоторых ресурсов только во время первого переключения.</value>
   </data>
   <data name="SwitchClientPage_StartSwitching" xml:space="preserve">
-    <value>Start Switching</value>
+    <value>Начать переключение</value>
   </data>
   <data name="SwitchClientPage_TheLocalGameVersionIsNotTheLatest" xml:space="preserve">
-    <value>The local game version is not the latest.</value>
+    <value>Локальная версия игры не является последней.</value>
   </data>
   <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
-    <value>The target server version is different from the local version.</value>
+    <value>Версия текущего сервера отличается от локальной версии.</value>
   </data>
   <data name="SwitchClientPage_ReadyToSwitchClient" xml:space="preserve">
-    <value>Ready to switch client</value>
+    <value>Готов переключить клиент</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryAgain" xml:space="preserve">
-    <value>File verification failed, please try again.</value>
+    <value>Проверка файлов не удалась. Пожалуйста, попробуйте ещё раз.</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
-    <value>File verification failed, please try to repair game resources.</value>
+    <value>Проверка файлов не удалась. Пожалуйста, попробуйте восстановить игровые ресурсы.</value>
   </data>
 </root>
