@@ -938,7 +938,7 @@
     <value>修复模式</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
-    <value>解压时会占用额外的磁盘空间</value>
+    <value>解压时会占用额外的存储空间</value>
   </data>
   <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
     <value>技能树已激活</value>
