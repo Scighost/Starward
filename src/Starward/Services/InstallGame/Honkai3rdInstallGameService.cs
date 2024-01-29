@@ -2,7 +2,8 @@
 using Starward.Core;
 using Starward.Core.Launcher;
 using System;
-using System.IO;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -123,30 +124,39 @@ internal class Honkai3rdInstallGameService : InstallGameService
         TotalCount = 1;
         progressCount = 0;
 
-        string BH3Base = Path.Combine(InstallPath, "BH3Base.dll");
-        string BH3Base_tmp = BH3Base + "_tmp";
-        if (File.Exists(BH3Base))
-        {
-            File.Delete(BH3Base);
-        }
-        if (File.Exists(BH3Base_tmp))
-        {
-            File.Delete(BH3Base_tmp);
-        }
-
         string prefix = launcherGameResource.Game.Latest.DecompressedPath;
         string url = $"{prefix}/BH3Base.dll";
-        TotalBytes = await GetContentLengthAsync(url).ConfigureAwait(false) ?? 0;
 
+        var request = new HttpRequestMessage(HttpMethod.Get, url)
+        {
+            Version = HttpVersion.Version11,
+        };
+        var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
+        long? contentLength = response.Content.Headers.ContentLength;
+        string md5 = "";
+        if (response.Headers.TryGetValues("ETag", out var etags))
+        {
+            md5 = etags.FirstOrDefault() ?? "";
+        }
+        string contentMD5 = md5.Trim('"');
         var task = new DownloadFileTask
         {
             FileName = "BH3Base.dll",
-            MD5 = "",
+            MD5 = contentMD5,
             Size = TotalBytes,
             DownloadSize = 0,
             Url = url,
             IsSegment = false,
         };
+
+        bool success = await VerifyFileAsync(task, cancellationToken).ConfigureAwait(false);
+        if (success)
+        {
+            return;
+        }
+
+        TotalBytes = contentLength ?? 0;
         await DownloadFileAsync(task, cancellationToken, noTmp: true).ConfigureAwait(false);
     }
 

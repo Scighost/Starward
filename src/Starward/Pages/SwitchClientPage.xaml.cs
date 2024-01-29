@@ -357,6 +357,25 @@ public sealed partial class SwitchClientPage : PageBase
         toPkgVersions = await GetPkgVersionsAsync($"{toGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/pkg_version", cancellationToken);
         removeFiles = fromPkgVersions.ExceptBy(toPkgVersions.Select(x => x.MD5), x => x.MD5).ToList();
         addFiles = toPkgVersions.ExceptBy(fromPkgVersions.Select(x => x.MD5), x => x.MD5).ToList();
+
+        if (ToGameBiz.ToGame() is GameBiz.Honkai3rd)
+        {
+            var bh3base_from = await GetContentLengthAndMd5Async($"{fromGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/BH3Base.dll", cancellationToken);
+            var bh3base_to = await GetContentLengthAndMd5Async($"{toGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/BH3Base.dll", cancellationToken);
+            removeFiles.Add(new DownloadFileTask
+            {
+                FileName = "BH3Base.dll",
+                MD5 = bh3base_from.Md5,
+                Size = bh3base_from.Length ?? 0,
+            });
+            addFiles.Add(new DownloadFileTask
+            {
+                FileName = "BH3Base.dll",
+                MD5 = bh3base_to.Md5,
+                Size = bh3base_to.Length ?? 0,
+            });
+        }
+
         if (ToGameBiz.IsBilibiliServer() && toGameResource.Sdk is GameSDK sdk)
         {
             addFiles.Add(new DownloadFileTask
@@ -688,6 +707,27 @@ public sealed partial class SwitchClientPage : PageBase
             });
         }
         return list;
+    }
+
+
+
+
+    public async Task<(long? Length, string Md5)> GetContentLengthAndMd5Async(string url, CancellationToken cancellationToken)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, url)
+        {
+            Version = HttpVersion.Version11,
+        };
+        var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
+        long? contentLength = response.Content.Headers.ContentLength;
+        string md5 = "";
+        if (response.Headers.TryGetValues("ETag", out var etags))
+        {
+            md5 = etags.FirstOrDefault() ?? "";
+        }
+        string contentMD5 = md5.Trim('"');
+        return (contentLength, contentMD5);
     }
 
 
