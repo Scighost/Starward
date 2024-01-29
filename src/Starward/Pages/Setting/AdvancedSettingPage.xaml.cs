@@ -26,6 +26,7 @@ public sealed partial class AdvancedSettingPage : PageBase
     public AdvancedSettingPage()
     {
         this.InitializeComponent();
+        CheckUrlProtocol();
     }
 
 
