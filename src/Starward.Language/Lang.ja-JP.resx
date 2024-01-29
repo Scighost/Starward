@@ -1326,16 +1326,16 @@
     <value>現在のバージョンは、最新のバージョン({0})ではありません。</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
-    <value>Click button to repair files.</value>
+    <value>ボタンをクリックでファイルを修復します。</value>
   </data>
   <data name="AboutSettingPage_RepairFiles" xml:space="preserve">
-    <value>Repair Files</value>
+    <value>ファイルを修復</value>
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
-    <value>Verify successfully!</value>
+    <value>検証が成功しました!</value>
   </data>
   <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
-    <value>{0} files verify failed.</value>
+    <value>{0}個のファイルの検証に失敗しました。</value>
   </data>
   <data name="LauncherPage_ReinstallGame" xml:space="preserve">
     <value>ゲームの再インストール</value>
@@ -1350,13 +1350,13 @@
     <value>ターゲットのゲームサーバーを選択</value>
   </data>
   <data name="SwitchClientPage_FeatureDescription" xml:space="preserve">
-    <value>This feature can quickly switch the client to the corresponding server, only needing to download some resources during the first switch.</value>
+    <value>この機能によってクライアントに対応するサーバーに素早く切り替える事ができ、最初の切り替え時に必要になるのはリソースのダウンロードだけになります。</value>
   </data>
   <data name="SwitchClientPage_StartSwitching" xml:space="preserve">
-    <value>Start Switching</value>
+    <value>切り替えを開始</value>
   </data>
   <data name="SwitchClientPage_TheLocalGameVersionIsNotTheLatest" xml:space="preserve">
-    <value>The local game version is not the latest.</value>
+    <value>ローカルのゲームのバージョンは最新ではありません。</value>
   </data>
   <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
     <value>ターゲットサーバーのバージョンがローカルのバージョンと異なります。</value>
