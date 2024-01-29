@@ -421,6 +421,7 @@ public sealed partial class LauncherPage : PageBase
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsSwitchClientButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsUpdateGameButtonEnable))]
     private GameBiz configGameBiz;
 
 
@@ -464,7 +465,7 @@ public sealed partial class LauncherPage : PageBase
     public bool IsUpdateGameButtonEnable => LocalGameVersion != null && LatestGameVersion > LocalGameVersion;
 
 
-    public bool IsPreInstallButtonEnable => LocalGameVersion != null && PreInstallGameVersion != null;
+    public bool IsPreInstallButtonEnable => LocalGameVersion != null && PreInstallGameVersion != null && !IsSwitchClientButtonEnable;
 
 
     public bool IsRepairGameButtonEnable => IsGameSupportCompleteRepair && ((LocalGameVersion != null && !IsGameExeExists) || (LocalGameVersion == null && IsGameExeExists));
