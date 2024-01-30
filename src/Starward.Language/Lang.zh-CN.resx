@@ -1371,4 +1371,13 @@
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
     <value>文件校验失败，请尝试修复游戏资源。</value>
   </data>
+  <data name="GameResourcePage_LatestVersion" xml:space="preserve">
+    <value>最新版本</value>
+  </data>
+  <data name="GameResourcePage_FullPackages" xml:space="preserve">
+    <value>完整包</value>
+  </data>
+  <data name="GameResourcePage_DiffPackages" xml:space="preserve">
+    <value>差分包</value>
+  </data>
 </root>
