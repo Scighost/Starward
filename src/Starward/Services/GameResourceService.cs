@@ -196,7 +196,7 @@ internal class GameResourceService
             }
             else
             {
-                string file = Path.Combine(installPath, resource.PreDownloadGame.Latest.Name);
+                string file = Path.Combine(installPath, Path.GetFileName(resource.PreDownloadGame.Latest.Path));
                 if (!File.Exists(file))
                 {
                     return false;
