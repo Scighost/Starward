@@ -13,7 +13,19 @@
         <DataTemplate x:Key="PackageGroupsDataTemplate">
             <Expander HorizontalAlignment="Stretch" Background="{ThemeResource CustomOverlayAcrylicBrush}">
                 <Expander.Header>
-                    <TextBlock FontSize="16" Text="{Binding Name}" />
+                    <Grid>
+                        <TextBlock FontSize="16" Text="{Binding Name}" />
+                        <Button HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Click="Button_CopyUrl_Click"
+                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                            <Button.Content>
+                                <FontIcon FontSize="20"
+                                          Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                          Glyph="&#xE71B;" />
+                            </Button.Content>
+                        </Button>
+                    </Grid>
                 </Expander.Header>
                 <ItemsRepeater ItemsSource="{Binding Items}">
                     <ItemsRepeater.Layout>
@@ -50,11 +62,10 @@
                                                IsTextSelectionEnabled="True"
                                                Text="{Binding Md5}" />
                                 </StackPanel>
-                                <Button Name="Button_CopyUrl"
-                                        Grid.RowSpan="2"
+                                <Button Grid.RowSpan="2"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Command="{Binding CopyUrl}"
+                                        Click="Button_CopyUrl_Click"
                                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                                         Visibility="{Binding Url, Converter={StaticResource ObjectToVisibilityConverter}}">
                                     <Button.Content>

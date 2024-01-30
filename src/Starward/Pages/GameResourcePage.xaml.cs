@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml.Controls;
 using Starward.Core;
 using Starward.Core.Launcher;
 using Starward.Helpers;
@@ -9,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -182,6 +185,78 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
+
+
+
+    private async void Button_CopyUrl_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is Button button)
+            {
+                if (button.DataContext is PackageGroup group)
+                {
+                    if (group.Items is not null)
+                    {
+                        var sb = new StringBuilder();
+                        foreach (var item in group.Items)
+                        {
+                            if (!string.IsNullOrEmpty(item.Url))
+                            {
+                                sb.AppendLine(item.Url);
+                            }
+                        }
+                        string url = sb.ToString();
+                        if (!string.IsNullOrWhiteSpace(url))
+                        {
+                            ClipboardHelper.SetText(url);
+                            await CopySuccessAsync(button);
+                        }
+                    }
+                }
+                if (button.DataContext is PackageItem package)
+                {
+                    if (!string.IsNullOrEmpty(package.Url))
+                    {
+                        ClipboardHelper.SetText(package.Url);
+                        await CopySuccessAsync(button);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Copy url failed");
+        }
+    }
+
+
+
+    private async Task CopySuccessAsync(Button button)
+    {
+        try
+        {
+            button.IsEnabled = false;
+            if (button.Content is FontIcon icon)
+            {
+                // Accpet
+                icon.Glyph = "\uF78C";
+                await Task.Delay(1000);
+            }
+        }
+        finally
+        {
+            button.IsEnabled = true;
+            if (button.Content is FontIcon icon)
+            {
+                // Link
+                icon.Glyph = "\uE71B";
+            }
+        }
+    }
+
+
+
     [RelayCommand]
     private void Close()
     {
@@ -191,7 +266,7 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    public class PackageGroup
+    public partial class PackageGroup
     {
         public string Name { get; set; }
 
@@ -200,7 +275,7 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    public partial class PackageItem
+    public class PackageItem
     {
         public string FileName { get; set; }
 
@@ -234,23 +309,7 @@ public sealed partial class GameResourcePage : PageBase
                 return $"{size / KB:F2} KB";
             }
         }
-
-
-        [RelayCommand]
-        private void CopyUrl()
-        {
-            try
-            {
-                ClipboardHelper.SetText(Url);
-            }
-            catch { }
-        }
-
     }
-
-
-
-
 
 
 }
