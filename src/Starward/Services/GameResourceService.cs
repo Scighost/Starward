@@ -108,7 +108,6 @@ internal class GameResourceService
         {
             _logger.LogWarning("config.ini not found: {path}", config);
         }
-        _logger.LogInformation("Local game version is {version} (gameBiz: {biz})", version, biz);
         return (version, gameBiz);
     }
 

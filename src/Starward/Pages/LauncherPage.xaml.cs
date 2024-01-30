@@ -529,7 +529,7 @@ public sealed partial class LauncherPage : PageBase
         try
         {
             InstallPath = _gameResourceService.GetGameInstallPath(CurrentGameBiz);
-            _logger.LogInformation("Install path of {biz}: {path}", CurrentGameBiz, InstallPath);
+            _logger.LogInformation("Game install path of {biz}: {path}", CurrentGameBiz, InstallPath);
             IsGameExeExists = _gameResourceService.IsGameExeExists(CurrentGameBiz);
             if (CurrentGameBiz == GameBiz.hk4e_cloud)
             {
@@ -541,6 +541,7 @@ public sealed partial class LauncherPage : PageBase
                 return;
             }
             (LocalGameVersion, ConfigGameBiz) = await _gameResourceService.GetLocalGameVersionAndBizAsync(CurrentGameBiz);
+            _logger.LogInformation("Acutal version and gamebiz of {biz} is {version}, {configBiz}.", CurrentGameBiz, LocalGameVersion, ConfigGameBiz);
             UpdateGameButtonStyle();
             (LatestGameVersion, PreInstallGameVersion) = await _gameResourceService.GetGameResourceVersionAsync(CurrentGameBiz);
             if (IsPreInstallButtonEnable)
@@ -1418,7 +1419,6 @@ public sealed partial class LauncherPage : PageBase
     partial void OnInstallPathChanged(string? value)
     {
         AppConfig.SetGameInstallPath(CurrentGameBiz, value);
-        _logger.LogInformation("Game install path {biz}: {path}", CurrentGameBiz, value);
     }
 
 
@@ -1474,6 +1474,7 @@ public sealed partial class LauncherPage : PageBase
             {
                 return;
             }
+            _logger.LogInformation("Change game install path ({biz}): {path}", CurrentGameBiz, folder);
             InstallPath = folder;
             CheckGameVersion();
             UpdateGameState();
