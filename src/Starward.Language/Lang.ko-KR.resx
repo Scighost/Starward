@@ -1371,4 +1371,13 @@
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
     <value>리소스 확인 실패. 게임리소스 복구를 진행하세요.</value>
   </data>
+  <data name="GameResourcePage_LatestVersion" xml:space="preserve">
+    <value>Latest Version</value>
+  </data>
+  <data name="GameResourcePage_FullPackages" xml:space="preserve">
+    <value>Full Packages</value>
+  </data>
+  <data name="GameResourcePage_DiffPackages" xml:space="preserve">
+    <value>Diff Packages</value>
+  </data>
 </root>
