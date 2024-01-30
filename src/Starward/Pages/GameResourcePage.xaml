@@ -14,7 +14,9 @@
             <Expander HorizontalAlignment="Stretch" Background="{ThemeResource CustomOverlayAcrylicBrush}">
                 <Expander.Header>
                     <Grid>
-                        <TextBlock FontSize="16" Text="{Binding Name}" />
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Text="{Binding Name}" />
                         <Button HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Click="Button_CopyUrl_Click"
@@ -89,11 +91,19 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBlock Margin="48,0,0,0"
-                   VerticalAlignment="Center"
-                   FontSize="20"
-                   FontWeight="Bold"
-                   Text="{x:Bind lang:Lang.FileSettingPage_GameResource}" />
+        <StackPanel Margin="48,0,0,0"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="24">
+            <TextBlock VerticalAlignment="Center"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Text="{x:Bind lang:Lang.FileSettingPage_GameResource}" />
+            <TextBlock VerticalAlignment="Bottom"
+                       FontSize="16"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind GameServerName}" />
+        </StackPanel>
 
         <Button Margin="0,0,48,0"
                 HorizontalAlignment="Right"
@@ -115,6 +125,7 @@
                 <Style BasedOn="{StaticResource DefaultPivotHeaderItemStyle}" TargetType="PivotHeaderItem">
                     <Setter Property="Height" Value="36" />
                     <Setter Property="FontSize" Value="16" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
                 </Style>
             </Pivot.Resources>
             <PivotItem>
