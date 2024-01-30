@@ -1371,4 +1371,13 @@
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
     <value>Проверка файлов не удалась. Пожалуйста, попробуйте восстановить игровые ресурсы.</value>
   </data>
+  <data name="GameResourcePage_LatestVersion" xml:space="preserve">
+    <value>Latest Version</value>
+  </data>
+  <data name="GameResourcePage_FullPackages" xml:space="preserve">
+    <value>Full Packages</value>
+  </data>
+  <data name="GameResourcePage_DiffPackages" xml:space="preserve">
+    <value>Diff Packages</value>
+  </data>
 </root>
