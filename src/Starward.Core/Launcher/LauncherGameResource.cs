@@ -193,6 +193,10 @@ public class Segment
 
     [JsonPropertyName("md5")]
     public string Md5 { get; set; }
+
+    [JsonPropertyName("package_size")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public long PackageSize { get; set; }
 }
 
 public class VoicePack : IGamePackage

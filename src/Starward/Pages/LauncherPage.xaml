@@ -713,21 +713,29 @@
                                     Padding="10,0,12,0"
                                     BorderThickness="0"
                                     CornerRadius="0,18,18,0"
-                                    IsEnabled="{x:Bind IsSettingGameRepairButtonEnabled}"
                                     Style="{ThemeResource AccentButtonStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon FontSize="14" Glyph="&#xE70D;" />
                                 </StackPanel>
                                 <Button.Flyout>
                                     <MenuFlyout Placement="BottomEdgeAlignedRight">
-                                        <MenuFlyoutItem Command="{x:Bind ReinstallGameCommand}" Text="{x:Bind lang:Lang.LauncherPage_ReinstallGame}">
+                                        <MenuFlyoutItem Command="{x:Bind ReinstallGameCommand}"
+                                                        IsEnabled="{x:Bind IsSettingGameRepairButtonEnabled}"
+                                                        Text="{x:Bind lang:Lang.LauncherPage_ReinstallGame}">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xEBD3;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
-                                        <MenuFlyoutItem Command="{x:Bind SwitchClientCommand}" Text="{x:Bind lang:Lang.LauncherPage_SwitchClient}">
+                                        <MenuFlyoutItem Command="{x:Bind SwitchClientCommand}"
+                                                        IsEnabled="{x:Bind IsSettingGameRepairButtonEnabled}"
+                                                        Text="{x:Bind lang:Lang.LauncherPage_SwitchClient}">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xE8B1;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem Command="{x:Bind OpenGameResourcePageCommand}" Text="{x:Bind lang:Lang.FileSettingPage_GameResource}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xF012;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>

@@ -1393,6 +1393,14 @@ public sealed partial class LauncherPage : PageBase
     }
 
 
+
+    [RelayCommand]
+    private void OpenGameResourcePage()
+    {
+        MainWindow.Current.OverlayFrameNavigateTo(typeof(GameResourcePage), CurrentGameBiz);
+    }
+
+
     #endregion
 
 

@@ -439,7 +439,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 It takes additional disk space when unzip. 的本地化字符串。
+        ///   查找类似 It takes additional storage space when unzip. 的本地化字符串。
         /// </summary>
         public static string DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip {
             get {
@@ -1336,6 +1336,33 @@ namespace Starward.Language {
         public static string GachaStatsCard_Stats {
             get {
                 return ResourceManager.GetString("GachaStatsCard_Stats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Diff Packages 的本地化字符串。
+        /// </summary>
+        public static string GameResourcePage_DiffPackages {
+            get {
+                return ResourceManager.GetString("GameResourcePage_DiffPackages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Full Packages 的本地化字符串。
+        /// </summary>
+        public static string GameResourcePage_FullPackages {
+            get {
+                return ResourceManager.GetString("GameResourcePage_FullPackages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Latest Version 的本地化字符串。
+        /// </summary>
+        public static string GameResourcePage_LatestVersion {
+            get {
+                return ResourceManager.GetString("GameResourcePage_LatestVersion", resourceCulture);
             }
         }
         
