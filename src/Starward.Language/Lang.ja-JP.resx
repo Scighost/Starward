@@ -1371,12 +1371,12 @@
     <value>ファイルの検証に失敗しました。ゲームリソースの修復をしてください。</value>
   </data>
   <data name="GameResourcePage_LatestVersion" xml:space="preserve">
-    <value>Latest Version</value>
+    <value>最新バージョン</value>
   </data>
   <data name="GameResourcePage_FullPackages" xml:space="preserve">
-    <value>Full Packages</value>
+    <value>フルパッケージ</value>
   </data>
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
-    <value>Diff Packages</value>
+    <value>差分パッケージ</value>
   </data>
 </root>

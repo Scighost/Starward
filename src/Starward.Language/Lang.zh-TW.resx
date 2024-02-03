@@ -1001,10 +1001,10 @@
     <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
   <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
-    <value>隱私政策</value>
+    <value>私隱政策</value>
   </data>
   <data name="MainPage_Tips" xml:space="preserve">
-    <value>提示</value>
+    <value>小貼士</value>
   </data>
   <data name="SettingPage_CDNTips" xml:space="preserve">
     <value>部分地區的使用者可能會遇到網路異常，可嘗試切換 CDN 解決。</value>
@@ -1372,7 +1372,7 @@
     <value>檔案驗證失敗，請嘗試修復遊戲資源</value>
   </data>
   <data name="GameResourcePage_LatestVersion" xml:space="preserve">
-    <value>Latest Version</value>
+    <value>最新版本</value>
   </data>
   <data name="GameResourcePage_FullPackages" xml:space="preserve">
     <value>Full Packages</value>
