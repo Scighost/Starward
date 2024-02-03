@@ -9,7 +9,7 @@ Trình khởi chạy trò chơi trên PC của [HoYoverse](https://www.hoyoverse
 # Starward
 
 > **Starward** xuất phát từ khẩu hiệu của Star Rail: May This Journey Lead Us **Starward**, rất phù hợp để dùng làm tên ứng dụng.
-Starward là một launcher mã nguồn mở của bên thứ ba được phát triển để giải quyết những thiếu sót nói trên. Nó hỗ trợ tất cả các trò chơi 
+Starward là một trình khởi chạy mã nguồn mở của bên thứ ba được phát triển để giải quyết những thiếu sót nói trên. Nó hỗ trợ tất cả các trò chơi 
 trên PC của HoYoverse và nhằm mục đích thay thế hoàn toàn trình khởi chạy chính thức. Ngoài những chức năng cơ bản của trình khởi chạy chính thức, tôi cũng sẽ tích hợp thêm một số tính năng dựa trên nhu cầu cá nhân, chẳng hạn như:
 
 - Ghi lại thời gian chơi
