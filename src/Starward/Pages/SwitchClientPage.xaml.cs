@@ -355,8 +355,8 @@ public sealed partial class SwitchClientPage : PageBase
     {
         fromPkgVersions = await GetPkgVersionsAsync($"{fromGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/pkg_version", cancellationToken);
         toPkgVersions = await GetPkgVersionsAsync($"{toGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/pkg_version", cancellationToken);
-        removeFiles = fromPkgVersions.ExceptBy(toPkgVersions.Select(x => x.MD5), x => x.MD5).ToList();
-        addFiles = toPkgVersions.ExceptBy(fromPkgVersions.Select(x => x.MD5), x => x.MD5).ToList();
+        removeFiles = fromPkgVersions.ExceptBy(toPkgVersions.Select(GetUniqueIdentify), GetUniqueIdentify).ToList();
+        addFiles = toPkgVersions.ExceptBy(fromPkgVersions.Select(GetUniqueIdentify), GetUniqueIdentify).ToList();
 
         if (ToGameBiz.ToGame() is GameBiz.Honkai3rd)
         {
@@ -387,6 +387,13 @@ public sealed partial class SwitchClientPage : PageBase
                 IsSegment = true,
             });
         }
+    }
+
+
+
+    private static string GetUniqueIdentify(DownloadFileTask task)
+    {
+        return $"{task.FileName[(task.FileName.IndexOf('/') + 1)..]}{task.MD5}";
     }
 
 
@@ -448,7 +455,7 @@ public sealed partial class SwitchClientPage : PageBase
         }, async (task, token) =>
         {
             string path = Path.Combine(gameFolder, task.MD5);
-            using var fs = File.Open(path, FileMode.OpenOrCreate);
+            using var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
             if (fs.Length < task.Size)
             {
                 _logger.LogInformation("Download: FileName {name}, Url {url}", task.FileName, task.Url);
