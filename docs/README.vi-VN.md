@@ -1,3 +1,5 @@
+> Phiên bản của tài liệu này là **v0.10.7**. Nếu phiên bản chưa được cập nhật, vui lòng tham khảo [tài liệu gốc](../README.md).
+
 Trình khởi chạy trò chơi trên PC của [HoYoverse](https://www.hoyoverse.com) là một trong những phần mềm thương mại tệ nhất mà tôi từng thấy. Trải nghiệm người dùng tổng thể ở mức khá, nhưng nó hoạt động kém ở một số chi tiết nhất định:
 
 - Thiếu hỗ trợ cho tỷ lệ màn hình mở rộng cao, dẫn đến thiếu tính thẩm mỹ trên toàn bộ giao diện.
