@@ -1378,6 +1378,6 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Gói đầy đủ</value>
   </data>
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
-    <value>Diff Packages</value>
+    <value>Gói khác</value>
   </data>
 </root>
