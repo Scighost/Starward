@@ -1372,12 +1372,12 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Xác minh tập tin không thành công, vui lòng thử sửa chữa tài nguyên trò chơi.</value>
   </data>
   <data name="GameResourcePage_LatestVersion" xml:space="preserve">
-    <value>Latest Version</value>
+    <value>Phiên bản mới nhất</value>
   </data>
   <data name="GameResourcePage_FullPackages" xml:space="preserve">
-    <value>Full Packages</value>
+    <value>Gói đầy đủ</value>
   </data>
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
-    <value>Diff Packages</value>
+    <value>Gói khác</value>
   </data>
 </root>
