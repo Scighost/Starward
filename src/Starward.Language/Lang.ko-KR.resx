@@ -695,7 +695,7 @@
     <value>캐시파일 제거</value>
   </data>
   <data name="SettingPage_About" xml:space="preserve">
-    <value>About</value>
+    <value>정보</value>
   </data>
   <data name="SettingPage_ProjectHomepage" xml:space="preserve">
     <value>홈페이지</value>
@@ -1372,12 +1372,12 @@
     <value>리소스 확인 실패. 게임리소스 복구를 진행하세요.</value>
   </data>
   <data name="GameResourcePage_LatestVersion" xml:space="preserve">
-    <value>Latest Version</value>
+    <value>최신버전</value>
   </data>
   <data name="GameResourcePage_FullPackages" xml:space="preserve">
-    <value>Full Packages</value>
+    <value>전체 패키지</value>
   </data>
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
-    <value>Diff Packages</value>
+    <value>분할 패키지</value>
   </data>
 </root>
