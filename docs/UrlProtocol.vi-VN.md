@@ -1,3 +1,5 @@
+> Phiên bản của bài viết này là **v1**, nếu phiên bản bị tụt lại phía sau, vui lòng chọn [Original] (../urlProtocol.md).
+
 # Giao thức URL
 
 Các phần mềm khác thậm chí cả trang web cũng có thể sử dụng giao thức url `starward://` để gọi một số tính năng của Starward. Giao thức URL chỉ được đăng ký khi người dùng bật tính năng này trong trang cài đặt.
