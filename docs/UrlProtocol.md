@@ -30,3 +30,9 @@ starward://startgame/{game_biz}
 starward://playtime/{game_biz}
 ```
 
+### Test Url Protocol
+
+```
+starward://test/
+```
+Use this URL parameter to pop up a URL protocol testing window。
