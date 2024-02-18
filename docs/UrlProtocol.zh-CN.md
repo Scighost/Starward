@@ -10,13 +10,6 @@
 
 以下的参数 `game_biz` 是游戏参数，可在 [docs/Configuration.md](./Configuration.md#game-regions) 中查看。
 
-
-### 启动游戏
-
-```
-starward://startgame/{game_biz}
-```
-
 **可以使用的命令参数**
 
 |值|类型|描述|
@@ -25,9 +18,21 @@ starward://startgame/{game_biz}
 |install_path| `string` | 游戏本体所在的完整文件夹 |
 
 
+### 启动游戏
+
+```
+starward://startgame/{game_biz}
+```
+
 ### 记录游玩时间
 
 ```
 starward://playtime/{game_biz}
 ```
 
+### 测试URL协议 
+
+```
+starward://test/
+```
+使用这个url参数可以弹出url协议测试窗口
