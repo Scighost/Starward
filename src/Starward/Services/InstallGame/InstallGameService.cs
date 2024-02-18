@@ -824,6 +824,7 @@ internal abstract class InstallGameService
         {
             target_file = file_tmp;
         }
+        Directory.CreateDirectory(Path.GetDirectoryName(target_file)!);
         using var fs = File.Open(target_file, FileMode.OpenOrCreate);
         if (fs.Length < task.Size)
         {
