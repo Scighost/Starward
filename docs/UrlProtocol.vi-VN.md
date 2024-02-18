@@ -1,4 +1,4 @@
-> Phiên bản của bài viết này là **v1**, nếu phiên bản bị tụt lại phía sau, vui lòng chọn [Original] (../urlProtocol.md).
+> Phiên bản của bài viết này là **v1**, nếu phiên bản bị tụt lại phía sau, vui lòng chọn [Original](../urlProtocol.md).
 
 # Giao thức URL
 
