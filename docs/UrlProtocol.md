@@ -1,3 +1,4 @@
+English | [简体中文](./UrlProtocol.zh-CN.md) | [Tiếng Việt](./UrlProtocol.vi-VN.md)
 # URL Protocol
 
 Other software even website could use url protocol `starward` to call some features of Starward. The url protocol is registered only when the user enables this feature in setting page.
