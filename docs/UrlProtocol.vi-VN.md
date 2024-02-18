@@ -26,3 +26,10 @@ starward://startgame/{game_biz}
 ```
 starward://playtime/{game_biz}
 ```
+
+### Kiểm tra giao thức URL
+
+```
+starward://test/
+```
+Sử dụng tham số url này để bật lên cửa sổ kiểm tra giao thức url
