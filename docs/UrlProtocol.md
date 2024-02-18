@@ -10,18 +10,18 @@ Other software even website could use url protocol `starward` to call some featu
 
 The parameter `game_biz`  in the following is game region identifier and can be viewed in [docs/Configuration.md](./Configuration.md#game-regions).
 
-### Start game
-
-```
-starward://startgame/{game_biz}
-```
-
 **Acceptable query arguments**
 
 |Key|Type|Description|
 |---|---|---|
 |uid| `number` | Switch to specific account before startup. |
 |install_path| `string` | Full folder of game executable. |
+
+### Start game
+
+```
+starward://startgame/{game_biz}
+```
 
 
 ### Record playtime
