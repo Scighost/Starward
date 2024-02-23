@@ -333,13 +333,13 @@ public sealed partial class UpdatePage : PageBase
         {
             IsProgressTextVisible = false;
             IsProgressBarVisible = true;
-            ProgresBar_Update.IsIndeterminate = true;
+            ProgressBar_Update.IsIndeterminate = true;
         }
         if (_updateService.State is UpdateService.UpdateState.Pending)
         {
             IsProgressTextVisible = true;
             IsProgressBarVisible = true;
-            ProgresBar_Update.IsIndeterminate = false;
+            ProgressBar_Update.IsIndeterminate = false;
             UpdateProgressValue();
         }
         if (_updateService.State is UpdateService.UpdateState.Downloading)
@@ -348,7 +348,7 @@ public sealed partial class UpdatePage : PageBase
             Button_RemindLatter.IsEnabled = false;
             IsProgressBarVisible = true;
             IsProgressTextVisible = true;
-            ProgresBar_Update.IsIndeterminate = false;
+            ProgressBar_Update.IsIndeterminate = false;
             UpdateProgressValue();
         }
         if (_updateService.State is UpdateService.UpdateState.Moving)
@@ -357,14 +357,14 @@ public sealed partial class UpdatePage : PageBase
             Button_RemindLatter.IsEnabled = false;
             IsProgressBarVisible = true;
             IsProgressTextVisible = true;
-            ProgresBar_Update.IsIndeterminate = true;
+            ProgressBar_Update.IsIndeterminate = true;
             UpdateProgressValue();
         }
         if (_updateService.State is UpdateService.UpdateState.Finish)
         {
             IsProgressTextVisible = false;
-            ProgresBar_Update.IsIndeterminate = false;
-            ProgresBar_Update.Value = 100;
+            ProgressBar_Update.IsIndeterminate = false;
+            ProgressBar_Update.Value = 100;
         }
         if (_updateService.State is UpdateService.UpdateState.Stop)
         {
@@ -400,7 +400,7 @@ public sealed partial class UpdatePage : PageBase
         ProgressCountText = $"{_updateService.Progress_FileCountDownloaded}/{_updateService.Progress_FileCountToDownload}";
         var progress = (double)_updateService.Progress_BytesDownloaded / _updateService.Progress_BytesToDownload;
         ProgressPercentText = $"{progress:P1}";
-        ProgresBar_Update.Value = progress * 100;
+        ProgressBar_Update.Value = progress * 100;
     }
 
 

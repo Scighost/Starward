@@ -190,7 +190,7 @@
                        HorizontalAlignment="Right"
                        Text="{x:Bind ProgressPercentText}"
                        Visibility="{x:Bind IsProgressTextVisible}" />
-            <ProgressBar Name="ProgresBar_Update"
+            <ProgressBar Name="ProgressBar_Update"
                          Grid.Row="1"
                          Visibility="{x:Bind IsProgressBarVisible}"
                          Value="0" />
