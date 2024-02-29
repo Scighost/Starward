@@ -1184,7 +1184,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Mở tập tin nhật kí</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
-    <value>Ngoại hình</value>
+    <value>Hiển thị</value>
   </data>
   <data name="SettingPage_FileManagement" xml:space="preserve">
     <value>Quản lí tập tin</value>
