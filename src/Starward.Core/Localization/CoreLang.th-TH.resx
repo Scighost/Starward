@@ -206,7 +206,7 @@
     <value>Artifacts</value>
   </data>
   <data name="GenshinQueryType_Weapon" xml:space="preserve">
-    <value>Weapons</value>
+    <value>อาวุธ</value>
   </data>
   <data name="StarRailQueryType_StellarJade" xml:space="preserve">
     <value>Stellar Jade</value>
