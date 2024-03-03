@@ -295,7 +295,7 @@
     <value>หยุด</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Skipping verification may result in corrupted game files.</value>
+    <value>การข้ามการตรวจสอบไฟล์อาจทำให้ไฟล์เกมเสียหาย</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>ข้ามการตรวจสอบความสมบูรณ์ของไฟล์เกม</value>
@@ -1048,7 +1048,7 @@
     <value>ฐานข้อมูลสำรอง</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
-    <value>Backed up {0} new screenshots.</value>
+    <value>สำรองสกรีนช็อตใหม่แล้ว {0} ภาพ</value>
   </data>
   <data name="MainPage_GameNotices" xml:space="preserve">
     <value>Game Notices</value>
