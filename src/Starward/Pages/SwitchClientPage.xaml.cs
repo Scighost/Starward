@@ -242,6 +242,19 @@ public sealed partial class SwitchClientPage : PageBase
                 ErrorText = Lang.SwitchClientPage_TheLocalGameVersionIsNotTheLatest;
                 return;
             }
+            if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
+            {
+                string cn_data = Path.Join(installPath, "YuanShen_Data");
+                string os_data = Path.Join(installPath, "GenshinImpact_Data");
+                if (Directory.Exists(cn_data) && Directory.Exists(os_data))
+                {
+                    // 国服和国际服数据文件夹同时存在
+                    IsLocalGameVersionNotLatest = true;
+                    Button_Prepair.IsEnabled = false;
+                    ErrorText = Lang.SwitchClientPage_TheTowFoldersExistAtTheSameTime;
+                    return;
+                }
+            }
             UpdateTargetGameBizs();
         }
         catch (Exception ex)
@@ -632,6 +645,30 @@ public sealed partial class SwitchClientPage : PageBase
                 string package = Path.Combine(installPath, Path.GetFileName(sdk.Path));
                 sb.AppendLine($"$null = Expand-Archive -Path '{package}' -DestinationPath '{installPath}' -Force;");
                 sb.AppendLine($"$null = Remove-Item -Path '{package}' -Force;");
+            }
+            else if (!ToGameBiz.IsBilibiliServer())
+            {
+                string? dll = null;
+                if (ToGameBiz is GameBiz.hk4e_cn)
+                {
+                    dll = Path.Join(installPath, @"YuanShen_Data\Plugins\PCGameSDK.dll");
+                }
+                else if (ToGameBiz is GameBiz.hk4e_global)
+                {
+                    dll = Path.Join(installPath, @"GenshinImpact_Data\Plugins\PCGameSDK.dll");
+                }
+                else if (ToGameBiz.ToGame() is GameBiz.StarRail)
+                {
+                    dll = Path.Join(installPath, @"StarRail_Data\Plugins\PCGameSDK.dll");
+                }
+                if (!string.IsNullOrWhiteSpace(dll))
+                {
+                    sb.AppendLine($$"""
+                        if (Test-Path '{{dll}}') {
+                            $null = Remove-Item -Path '{{dll}}' -Force;
+                        }
+                        """);
+                }
             }
             _logger.LogInformation("Start switching client.");
             var p = Process.Start(new ProcessStartInfo
