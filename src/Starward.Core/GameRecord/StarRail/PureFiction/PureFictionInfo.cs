@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.StarRail.PureFiction;
 
-public class PureFictionInfo : IJsonOnDeserialized
+public class PureFictionInfo
 {
 
     [JsonPropertyName("uid")]
@@ -36,6 +36,9 @@ public class PureFictionInfo : IJsonOnDeserialized
     [JsonPropertyName("all_floor_detail")]
     public List<PureFictionFloorDetail> AllFloorDetail { get; set; }
 
+    /// <summary>
+    /// 第一个是当期，第二个是上期
+    /// </summary>
     [JsonPropertyName("groups")]
     public List<PureFictionMeta>? Metas { get; set; }
 
@@ -59,21 +62,5 @@ public class PureFictionInfo : IJsonOnDeserialized
     [JsonExtensionData]
     public Dictionary<string, object>? ExtensionData { get; set; }
 
-
-    public void OnDeserialized()
-    {
-        if (ScheduleId == 0 && Metas?.Count == 1)
-        {
-            ScheduleId = Metas[0].ScheduleId;
-        }
-        if (BeginTime == DateTime.MinValue && Metas?.Count == 1)
-        {
-            BeginTime = Metas[0].BeginTime;
-        }
-        if (EndTime == DateTime.MinValue && Metas?.Count == 1)
-        {
-            EndTime = Metas[0].EndTime;
-        }
-    }
 
 }

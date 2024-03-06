@@ -275,7 +275,7 @@ public class HoyolabClient : GameRecordClient
     /// <returns></returns>
     public override async Task<PureFictionInfo> GetPureFictionInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
     {
-        var url = $"https://bbs-api-os.hoyolab.com/game_record/app/hkrpg/api/challenge_story?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}&need_all=true";
+        var url = $"https://bbs-api-os.hoyolab.com/game_record/app/hkrpg/api/challenge_story?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}&isPrev=1&need_all=true";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(DS, CreateSecret2(url));
@@ -285,6 +285,21 @@ public class HoyolabClient : GameRecordClient
         request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
         var data = await CommonSendAsync<PureFictionInfo>(request, cancellationToken);
         data.Uid = role.Uid;
+        if (data.Metas?.Count > 0)
+        {
+            if (schedule == 1)
+            {
+                data.ScheduleId = data.Metas[0].ScheduleId;
+                data.BeginTime = data.Metas[0].BeginTime;
+                data.EndTime = data.Metas[0].EndTime;
+            }
+            if (schedule == 2 && data.Metas.Count > 1)
+            {
+                data.ScheduleId = data.Metas[1].ScheduleId;
+                data.BeginTime = data.Metas[1].BeginTime;
+                data.EndTime = data.Metas[1].EndTime;
+            }
+        }
         return data;
     }
 
