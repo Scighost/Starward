@@ -1379,4 +1379,7 @@
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
     <value>差分パッケージ</value>
   </data>
+  <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
+    <value>The folders YuanShen_Data and GenshinImpact_Data exist at the same time.</value>
+  </data>
 </root>
