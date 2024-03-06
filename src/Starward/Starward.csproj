@@ -40,7 +40,6 @@
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
 		<PackageReference Include="MiniExcel" Version="1.31.3" />
 		<PackageReference Include="NuGet.Versioning" Version="6.8.0" />
-		<PackageReference Include="ScottPlot.WinUI" Version="5.0.9-beta" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Starward.Assets" Version="0.4.7" />

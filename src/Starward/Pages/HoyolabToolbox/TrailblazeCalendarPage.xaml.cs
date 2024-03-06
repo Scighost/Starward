@@ -39,7 +39,6 @@ public sealed partial class TrailblazeCalendarPage : PageBase
     public TrailblazeCalendarPage()
     {
         this.InitializeComponent();
-        WinUiPlot_Historical.Interaction.ContextMenuItems = new ScottPlot.Control.ContextMenuItem[0];
     }
 
 
@@ -82,6 +81,10 @@ public sealed partial class TrailblazeCalendarPage : PageBase
 
     [ObservableProperty]
     private List<ColorRectChart.ChartLegend>? selectSeries;
+
+
+    [ObservableProperty]
+    private List<CalendarDayData> dayDataList;
 
 
 
@@ -240,9 +243,9 @@ public sealed partial class TrailblazeCalendarPage : PageBase
             var items_jade = _gameRecordService.GetTrailblazeCalendarDetailItems(data.Uid, data.Month, 1);
             var items_pass = _gameRecordService.GetTrailblazeCalendarDetailItems(data.Uid, data.Month, 2);
             int days = DateTime.DaysInMonth(int.Parse(data.Month[..4]), int.Parse(data.Month[4..]));
-            var x = Enumerable.Range(1, days).Select(x => (double)x).ToArray();
+            var x = Enumerable.Range(1, days).ToArray();
 
-            var stats_jade = new double[days];
+            var stats_jade = new int[days];
             foreach (var item in items_jade)
             {
                 var day = item.Time.Day;
@@ -252,7 +255,7 @@ public sealed partial class TrailblazeCalendarPage : PageBase
                 }
             }
 
-            var stats_pass = new double[days];
+            var stats_pass = new int[days];
             foreach (var item in items_pass)
             {
                 var day = item.Time.Day;
@@ -262,36 +265,23 @@ public sealed partial class TrailblazeCalendarPage : PageBase
                 }
             }
 
-            WinUiPlot_Historical.Plot.Clear();
-            WinUiPlot_Historical.Plot.Style.Background(ScottPlot.Colors.Transparent, ScottPlot.Colors.Transparent);
-            WinUiPlot_Historical.Plot.Style.ColorAxes(ScottPlot.Color.FromARGB(0xC5FFFFFF));
-            WinUiPlot_Historical.Plot.Style.ColorGrids(ScottPlot.Color.FromARGB(0x20FFFFFF));
-            var color_jade = ScottPlot.Color.FromARGB(0xFF66BCF2);
-            var color_pass = ScottPlot.Color.FromARGB(0xFFF2DE77);
-
-            WinUiPlot_Historical.Plot.LeftAxis.MajorTickColor = color_jade;
-            WinUiPlot_Historical.Plot.LeftAxis.MinorTickColor = color_jade;
-            WinUiPlot_Historical.Plot.LeftAxis.FrameLineStyle.Color = color_jade;
-            WinUiPlot_Historical.Plot.LeftAxis.MinorTickLength = 0;
-            WinUiPlot_Historical.Plot.LeftAxis.Min = 0;
-            WinUiPlot_Historical.Plot.LeftAxis.Max = stats_jade.Max() * 1.05;
-
-            WinUiPlot_Historical.Plot.RightAxis.MajorTickColor = color_pass;
-            WinUiPlot_Historical.Plot.RightAxis.MinorTickColor = color_pass;
-            WinUiPlot_Historical.Plot.RightAxis.FrameLineStyle.Color = color_pass;
-            WinUiPlot_Historical.Plot.RightAxis.MinorTickLength = 0;
-            WinUiPlot_Historical.Plot.RightAxis.Min = 0;
-            WinUiPlot_Historical.Plot.RightAxis.Max = stats_pass.Max() * 1.05;
-
-            WinUiPlot_Historical.Plot.BottomAxis.MinorTickLength = 0;
-
-            var scatter_jade = WinUiPlot_Historical.Plot.Add.Scatter(x, stats_jade, color_jade);
-            scatter_jade.Axes.YAxis = WinUiPlot_Historical.Plot.LeftAxis;
-            var scatter_pass = WinUiPlot_Historical.Plot.Add.Scatter(x, stats_pass, color_pass);
-            scatter_pass.Axes.YAxis = WinUiPlot_Historical.Plot.RightAxis;
-
-            WinUiPlot_Historical.Plot.SetAxisLimits(0.5, days + 0.5);
-            WinUiPlot_Historical.Refresh();
+            double max_jade = stats_jade.Max();
+            double max_pass = stats_pass.Max();
+            max_jade = max_jade == 0 ? double.MaxValue : max_jade;
+            max_pass = max_pass == 0 ? double.MaxValue : max_pass;
+            var list = new List<CalendarDayData>(days);
+            for (int i = 0; i < days; i++)
+            {
+                list.Add(new CalendarDayData
+                {
+                    Day = $"{data.Month[4..]}-{i + 1:D2}",
+                    Jade = stats_jade[i],
+                    Pass = stats_pass[i],
+                    JadeProgress = stats_jade[i] / max_jade,
+                    PassProgress = stats_pass[i] / max_pass,
+                });
+            }
+            DayDataList = list;
         }
         catch (Exception ex)
         {
@@ -300,9 +290,21 @@ public sealed partial class TrailblazeCalendarPage : PageBase
     }
 
 
-    private void WinUiPlot_Historical_PointerWheelChanged(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+
+
+    public class CalendarDayData
     {
-        e.Handled = true;
+
+        public string Day { get; set; }
+
+        public int Jade { get; set; }
+
+        public int Pass { get; set; }
+
+        public double JadeProgress { get; set; }
+
+        public double PassProgress { get; set; }
+
     }
 
 

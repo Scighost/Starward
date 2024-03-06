@@ -40,7 +40,6 @@ public sealed partial class TravelersDiaryPage : PageBase
     public TravelersDiaryPage()
     {
         this.InitializeComponent();
-        WinUiPlot_Historical.Interaction.ContextMenuItems = new ScottPlot.Control.ContextMenuItem[0];
     }
 
 
@@ -83,6 +82,10 @@ public sealed partial class TravelersDiaryPage : PageBase
 
     [ObservableProperty]
     private List<ColorRectChart.ChartLegend>? selectSeries;
+
+
+    [ObservableProperty]
+    private List<DiaryDayData> dayDataList;
 
 
 
@@ -230,9 +233,9 @@ public sealed partial class TravelersDiaryPage : PageBase
             var items_primogems = _gameRecordService.GetTravelersDiaryDetailItems(data.Uid, data.Year, data.Month, 1);
             var items_mora = _gameRecordService.GetTravelersDiaryDetailItems(data.Uid, data.Year, data.Month, 2);
             int days = DateTime.DaysInMonth(data.Year, data.Month);
-            var x = Enumerable.Range(1, days).Select(x => (double)x).ToArray();
+            var x = Enumerable.Range(1, days).ToArray();
 
-            var stats_primogems = new double[days];
+            var stats_primogems = new int[days];
             foreach (var item in items_primogems)
             {
                 var day = item.Time.Day;
@@ -242,7 +245,7 @@ public sealed partial class TravelersDiaryPage : PageBase
                 }
             }
 
-            var stats_mora = new double[days];
+            var stats_mora = new int[days];
             foreach (var item in items_mora)
             {
                 var day = item.Time.Day;
@@ -252,36 +255,23 @@ public sealed partial class TravelersDiaryPage : PageBase
                 }
             }
 
-            WinUiPlot_Historical.Plot.Clear();
-            WinUiPlot_Historical.Plot.Style.Background(ScottPlot.Colors.Transparent, ScottPlot.Colors.Transparent);
-            WinUiPlot_Historical.Plot.Style.ColorAxes(ScottPlot.Color.FromARGB(0xC5FFFFFF));
-            WinUiPlot_Historical.Plot.Style.ColorGrids(ScottPlot.Color.FromARGB(0x20FFFFFF));
-            var color_primo = ScottPlot.Color.FromARGB(0xFF66BCF2);
-            var color_mora = ScottPlot.Color.FromARGB(0xFFF2DE77);
-
-            WinUiPlot_Historical.Plot.LeftAxis.MajorTickColor = color_primo;
-            WinUiPlot_Historical.Plot.LeftAxis.MinorTickColor = color_primo;
-            WinUiPlot_Historical.Plot.LeftAxis.FrameLineStyle.Color = color_primo;
-            WinUiPlot_Historical.Plot.LeftAxis.MinorTickLength = 0;
-            WinUiPlot_Historical.Plot.LeftAxis.Min = 0;
-            WinUiPlot_Historical.Plot.LeftAxis.Max = stats_primogems.Max() * 1.05;
-
-            WinUiPlot_Historical.Plot.RightAxis.MajorTickColor = color_mora;
-            WinUiPlot_Historical.Plot.RightAxis.MinorTickColor = color_mora;
-            WinUiPlot_Historical.Plot.RightAxis.FrameLineStyle.Color = color_mora;
-            WinUiPlot_Historical.Plot.RightAxis.MinorTickLength = 0;
-            WinUiPlot_Historical.Plot.RightAxis.Min = 0;
-            WinUiPlot_Historical.Plot.RightAxis.Max = stats_mora.Max() * 1.05;
-
-            WinUiPlot_Historical.Plot.BottomAxis.MinorTickLength = 0;
-
-            var scatter_primogems = WinUiPlot_Historical.Plot.Add.Scatter(x, stats_primogems, color_primo);
-            scatter_primogems.Axes.YAxis = WinUiPlot_Historical.Plot.LeftAxis;
-            var scatter_mora = WinUiPlot_Historical.Plot.Add.Scatter(x, stats_mora, color_mora);
-            scatter_mora.Axes.YAxis = WinUiPlot_Historical.Plot.RightAxis;
-
-            WinUiPlot_Historical.Plot.SetAxisLimits(0.5, days + 0.5);
-            WinUiPlot_Historical.Refresh();
+            double max_primogems = stats_primogems.Max();
+            double max_mora = stats_mora.Max();
+            max_primogems = max_primogems == 0 ? double.MaxValue : max_primogems;
+            max_mora = max_mora == 0 ? double.MaxValue : max_mora;
+            var list = new List<DiaryDayData>(days);
+            for (int i = 0; i < days; i++)
+            {
+                list.Add(new DiaryDayData
+                {
+                    Day = $"{data.Month:D2}-{i + 1:D2}",
+                    Primogems = stats_primogems[i],
+                    Mora = stats_mora[i],
+                    PrimogemsProgress = stats_primogems[i] / max_primogems,
+                    MoraProgress = stats_mora[i] / max_mora,
+                });
+            }
+            DayDataList = list;
         }
         catch (Exception ex)
         {
@@ -290,9 +280,20 @@ public sealed partial class TravelersDiaryPage : PageBase
     }
 
 
-    private void WinUiPlot_Historical_PointerWheelChanged(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+
+    public class DiaryDayData
     {
-        e.Handled = true;
+
+        public string Day { get; set; }
+
+        public int Primogems { get; set; }
+
+        public int Mora { get; set; }
+
+        public double PrimogemsProgress { get; set; }
+
+        public double MoraProgress { get; set; }
+
     }
 
 
