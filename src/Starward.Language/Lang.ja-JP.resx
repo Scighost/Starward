@@ -1380,6 +1380,6 @@
     <value>差分パッケージ</value>
   </data>
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
-    <value>The folders YuanShen_Data and GenshinImpact_Data exist at the same time.</value>
+    <value>YuanShen_Dataのフォルダーと GenshinImpact_Dataのフォルダーの両方が存在します。</value>
   </data>
 </root>
