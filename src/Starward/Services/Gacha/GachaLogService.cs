@@ -208,6 +208,18 @@ internal abstract class GachaLogService
                             pity_4 = 0;
                         }
                     }
+                    stats.List_5.Insert(0, new GachaLogItemEx
+                    {
+                        Name = "? ? ?",
+                        Pity = stats.Pity_5,
+                        Time = DateTime.Now,
+                    });
+                    stats.List_4.Insert(0, new GachaLogItemEx
+                    {
+                        Name = "? ? ?",
+                        Pity = stats.Pity_4,
+                        Time = DateTime.Now,
+                    });
                 }
                 statsList.Add(stats);
             }
