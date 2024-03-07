@@ -3487,7 +3487,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 The folders YuanShen_Data and GenshinImpact_Data exist at the same time. 的本地化字符串。
+        ///   查找类似 The folders YuanShen_Data and GenshinImpact_Data cannot exist at the same time. 的本地化字符串。
         /// </summary>
         public static string SwitchClientPage_TheTowFoldersExistAtTheSameTime {
             get {
