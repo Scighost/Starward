@@ -1381,6 +1381,6 @@
     <value>差分包</value>
   </data>
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
-    <value>The folders YuanShen_Data and GenshinImpact_Data cannot exist at the same time.</value>
+    <value>文件夹 YuanShen_Data 和 GenshinImpact_Data 不能同时存在。</value>
   </data>
 </root>
