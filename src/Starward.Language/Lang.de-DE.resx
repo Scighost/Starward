@@ -1301,46 +1301,46 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Kontowechsel kann während des Spiels ausgeführt werden.</value>
   </data>
   <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
-    <value>Recommend enabling {0} and {1} in system settings for a better user experience.</value>
+    <value>Wir empfohlen {0} und {1} in den Systemeinstellungen für eine bessere Benutzererfahrung zu aktivieren.</value>
   </data>
   <data name="AppearanceSettingPage_TransparencyEffects" xml:space="preserve">
-    <value>Transparency effects</value>
+    <value>Transparenzeffekte</value>
   </data>
   <data name="AppearanceSettingPage_AnimationEffects" xml:space="preserve">
-    <value>Animation effects</value>
+    <value>Animationseffekte</value>
   </data>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
-    <value>Always failed to get gacha records?</value>
+    <value>Mein Abrufen von Gacha-Datensätzen klappt nie?</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
-    <value>No Data</value>
+    <value>Keine Daten</value>
   </data>
   <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
-    <value>Verify File Integrity</value>
+    <value>Dateiintegrität prüfen</value>
   </data>
   <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
-    <value>Verify failed</value>
+    <value>Verifizieren fehlgeschlagen</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
-    <value>Current version is not the latest version ({0}).</value>
+    <value>Die aktuelle Version ist nicht die neueste Version ({0}).</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
-    <value>Click button to repair files.</value>
+    <value>Klicken Sie auf die Schaltfläche, um Dateien zu reparieren.</value>
   </data>
   <data name="AboutSettingPage_RepairFiles" xml:space="preserve">
-    <value>Repair Files</value>
+    <value>Repariere Dateien</value>
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
-    <value>Verify successfully!</value>
+    <value>Überprüfung erfolgreich!</value>
   </data>
   <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
-    <value>{0} files verify failed.</value>
+    <value>{0} Dateien überprüfen fehlgeschlagen.</value>
   </data>
   <data name="LauncherPage_ReinstallGame" xml:space="preserve">
-    <value>Reinstall Game</value>
+    <value>Spiel erneut installieren</value>
   </data>
   <data name="LauncherPage_SwitchClient" xml:space="preserve">
-    <value>Switch Client</value>
+    <value>Client wechseln</value>
   </data>
   <data name="FileSettingPage_GameResource" xml:space="preserve">
     <value>Spielressourcen</value>
