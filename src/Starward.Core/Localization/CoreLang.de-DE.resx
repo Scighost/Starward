@@ -121,10 +121,10 @@
     <value>Character Event Warp</value>
   </data>
   <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>Character Event Wish</value>
+    <value>Limitiertes Banner</value>
   </data>
   <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>Character Event Wish - 2</value>
+    <value>Zweites limitiertes Banner</value>
   </data>
   <data name="GachaType_DepartureWarp" xml:space="preserve">
     <value>Departure Warp</value>
@@ -133,7 +133,7 @@
     <value>Light Cone Event Warp</value>
   </data>
   <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>Novice Wish</value>
+    <value>Anfänger Banner</value>
   </data>
   <data name="GachaType_PermanentWish" xml:space="preserve">
     <value>Permanent Wish</value>
@@ -142,22 +142,22 @@
     <value>Stellar Warp</value>
   </data>
   <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>Weapon Event Wish</value>
+    <value>Waffenbanner</value>
   </data>
   <data name="Gacha_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Cannot parse the warp record URL.</value>
+    <value>Kann die Warpdatensatz-URL nicht analysieren.</value>
   </data>
   <data name="Gacha_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Cannot parse the wish record URL.</value>
+    <value>Kann die Wunschlisten-Eintrag URL nicht analysieren.</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
-    <value>Events</value>
+    <value>Ereignisse</value>
   </data>
   <data name="PostType_Announcement" xml:space="preserve">
-    <value>Notices</value>
+    <value>Mitteilungen</value>
   </data>
   <data name="PostType_Information" xml:space="preserve">
-    <value>Info</value>
+    <value>Informationen</value>
   </data>
   <data name="Game_GenshinImpact" xml:space="preserve">
     <value>Genshin Impact</value>
@@ -169,47 +169,47 @@
     <value>Honkai Impact 3rd</value>
   </data>
   <data name="GameServer_ChinaServer" xml:space="preserve">
-    <value>China Server</value>
+    <value>China-Server</value>
   </data>
   <data name="GameServer_GlobalServer" xml:space="preserve">
-    <value>Global Server</value>
+    <value>Globaler Server</value>
   </data>
   <data name="GameServer_ChinaCloudServer" xml:space="preserve">
     <value>China Cloud Server</value>
   </data>
   <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
-    <value>Europe &amp; Americas Servers</value>
+    <value>Europa- und Amerikanische Server</value>
   </data>
   <data name="GameServer_JapanServer" xml:space="preserve">
-    <value>Japan Server</value>
+    <value>Japanische Server</value>
   </data>
   <data name="GameServer_KoreaServer" xml:space="preserve">
-    <value>Korea Server</value>
+    <value>Koreanische Server</value>
   </data>
   <data name="GameServer_SEAServer" xml:space="preserve">
-    <value>Southeast Asia Server</value>
+    <value>Südost-Asien-Server</value>
     <comment>Southeast Asia and Australia Server</comment>
   </data>
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
-    <value>Traditional Chinese Server</value>
+    <value>Traditioneller chinesischer Server</value>
   </data>
   <data name="GenshinQueryType_GenesisCrystal" xml:space="preserve">
-    <value>Genesis Crystals</value>
+    <value>Genesiskristalle</value>
   </data>
   <data name="GenshinQueryType_Primogem" xml:space="preserve">
     <value>Primogems</value>
   </data>
   <data name="GenshinQueryType_OriginalResin" xml:space="preserve">
-    <value>Original Resins</value>
+    <value>Ursprüngliches Harz</value>
   </data>
   <data name="GenshinQueryType_Artifact" xml:space="preserve">
-    <value>Artifacts</value>
+    <value>Artefakte</value>
   </data>
   <data name="GenshinQueryType_Weapon" xml:space="preserve">
-    <value>Weapons</value>
+    <value>Waffen</value>
   </data>
   <data name="StarRailQueryType_StellarJade" xml:space="preserve">
-    <value>Stellar Jade</value>
+    <value>Stellare Jade</value>
   </data>
   <data name="StarRailQueryType_OneiricShared" xml:space="preserve">
     <value>Oneiric Shared</value>
