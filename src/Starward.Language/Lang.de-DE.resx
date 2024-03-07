@@ -269,158 +269,158 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Netzwerkfehler</value>
   </data>
   <data name="DownloadGamePage_UnknownError" xml:space="preserve">
-    <value>Unknown Error</value>
+    <value>Unbekannter Fehler</value>
   </data>
   <data name="DownloadGamePage_Finished" xml:space="preserve">
-    <value>Finished</value>
+    <value>Abgeschlossen</value>
   </data>
   <data name="DownloadGamePage_Pause" xml:space="preserve">
-    <value>Pause</value>
+    <value>Pausieren</value>
   </data>
   <data name="DownloadGamePage_Skip" xml:space="preserve">
-    <value>Skip</value>
+    <value>Überspringen</value>
   </data>
   <data name="DownloadGamePage_VerifyFailed" xml:space="preserve">
-    <value>Verify Failed</value>
+    <value>Verifizieren fehlgeschlagen</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>Failed to verify the following file:</value>
+    <value>Fehler beim Überprüfen der folgenden Datei:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
-    <value>Redownload</value>
+    <value>Erneut Herunterladen</value>
   </data>
   <data name="DownloadGamePage_Ignore" xml:space="preserve">
-    <value>Ignore</value>
+    <value>Ignorieren</value>
   </data>
   <data name="DownloadGamePage_Stop" xml:space="preserve">
-    <value>Stop</value>
+    <value>Stoppen</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Skipping verification may result in corrupted game files.</value>
+    <value>Überspringen der Verifizierung kann zu beschädigten Spieldateien führen.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
-    <value>Skip Verification</value>
+    <value>Verifizierung überspringen</value>
   </data>
   <data name="DownloadGamePage_DownloadPaused" xml:space="preserve">
-    <value>Download Paused</value>
+    <value>Herunterladen pausiert</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
-    <value>No Gacha Records</value>
+    <value>Keine Gacha-Datensätze</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
-    <value>Update Records</value>
+    <value>Datensätze aktualisieren</value>
   </data>
   <data name="GachaLogPage_UpdateSavedURL" xml:space="preserve">
-    <value>Update (Saved URL)</value>
+    <value>Aktualisiere (Gespeichertes URL)</value>
   </data>
   <data name="GachaLogPage_UpdateAll" xml:space="preserve">
-    <value>Update (All)</value>
+    <value>Alles aktualisieren</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
-    <value>Input URL</value>
+    <value>URL eingeben</value>
   </data>
   <data name="Common_Setting" xml:space="preserve">
-    <value>Setting</value>
+    <value>Einstellung</value>
   </data>
   <data name="GachaLogPage_OtherSettings" xml:space="preserve">
-    <value>Other Settings</value>
+    <value>Andere Einstellungen</value>
   </data>
   <data name="GachaLogPage_CopyURL" xml:space="preserve">
-    <value>Copy URL</value>
+    <value>URL kopieren</value>
   </data>
   <data name="GachaLogPage_AuthkeyTimeoutAlwaysOccurs" xml:space="preserve">
-    <value>Authkey Timeout always occurs?</value>
+    <value>Tritt Authkey-Timeout immer auf?</value>
   </data>
   <data name="GachaLogPage_ClearURLCacheFiles" xml:space="preserve">
-    <value>Clear URL Cache Files</value>
+    <value>URL-Cache Dateien löschen</value>
   </data>
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
-    <value>Export as</value>
+    <value>Exportieren als</value>
   </data>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>Import from JSON</value>
+    <value>Aus JSON importieren</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
-    <value>Show Novice Gacha Type</value>
+    <value>Zeige Anfängerbanner</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>Delete Records</value>
+    <value>Lösche Aufzeichnungen</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Sprache</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>Cannot find saved URL of UID {0}.</value>
+    <value>Gespeichertes URL der UID {0} konnte nicht gefunden werden.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
-    <value>Game not installed</value>
+    <value>Spiel ist nicht installiert</value>
   </data>
   <data name="GachaLogPage_CannotFindURL" xml:space="preserve">
-    <value>Cannot find URL, please open the gacha records history page in game.</value>
+    <value>URL kann nicht gefunden werden, bitte öffne die Banner History im Spiel.</value>
   </data>
   <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
-    <value>Operation canceled</value>
+    <value>Vorgang abgebrochen</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
-    <value>Please open the gacha records page in game and try again.</value>
+    <value>Bitte öffne die Banner-Historie im Spiel und versuche es erneut.</value>
   </data>
   <data name="Common_Warning" xml:space="preserve">
-    <value>Warning</value>
+    <value>Warnung</value>
   </data>
   <data name="Common_Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Löschen</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>Deleted {0} gacha record(s) of UID {1}.</value>
+    <value>{0} Gacha-Eintragung(en) von UID {1} gelöscht.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>All gacha records of UID {0} will be deleted, and you won't able to undo this operation.</value>
+    <value>Alle gacha-Einträge von UID {0} werden gelöscht. Vorgang kann nicht rückgängig gemacht worden.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
-    <value>Wish Records</value>
+    <value>Gebetsaufzeichnungen</value>
   </data>
   <data name="GachaLogService_WarpRecords" xml:space="preserve">
-    <value>Warp Records</value>
+    <value>Warpaufzeichnungen</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>Getting UID</value>
+    <value>Lade UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>This account has no gacha records in the last 6 months.</value>
+    <value>Dieses Konto hat keine Gebet-Aufzeichnungen in den letzten 6 Monaten.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>Got {0} record(s), added {1} record(s).</value>
+    <value>{0} Datensatz(e), hinzugefügt {1} Datensatz(en).</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} wish record(s) successfully.</value>
+    <value>Importieren {0} Wunscheintrag(en) erfolgreich.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} warp record(s) successfully.</value>
+    <value>Importieren von {0} Warp-Einträge(n) erfolgreich.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
-    <value>Already the latest version</value>
+    <value>Das ist die neuste Version</value>
   </data>
   <data name="DownloadGameService_TooManyRetries" xml:space="preserve">
-    <value>Too many retries</value>
+    <value>Zu viele Versuche</value>
   </data>
   <data name="UpdateService_CannotUpdateAutomatically" xml:space="preserve">
-    <value>Cannot update automatically</value>
+    <value>Automatische Aktualisierung nicht möglich</value>
   </data>
   <data name="GameSettingPage_Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Benutzerdefiniert</value>
   </data>
   <data name="GameSettingPage_VeryLow" xml:space="preserve">
-    <value>Very Low</value>
+    <value>Sehr niedrig</value>
   </data>
   <data name="GameSettingPage_Low" xml:space="preserve">
-    <value>Low</value>
+    <value>Niedrig</value>
   </data>
   <data name="GameSettingPage_Medium" xml:space="preserve">
-    <value>Medium</value>
+    <value>Mittel</value>
   </data>
   <data name="GameSettingPage_High" xml:space="preserve">
     <value>Hoch</value>
@@ -573,52 +573,52 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Hintergrundeinstellungen</value>
   </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
-    <value>Use same background in all game region</value>
+    <value>Benutze denselben Hintergrund in allen Spielgebieten</value>
   </data>
   <data name="SettingPage_BgSizeTip" xml:space="preserve">
-    <value>Please select an image with a pixel size matches the application window; oversized images will reduce performance.</value>
+    <value>Bitte wählen Sie ein Bild mit einer angepasster Pixelgröße. Übergroße Bilder verringern die Performance.</value>
   </data>
   <data name="LauncherPage_StartGame" xml:space="preserve">
-    <value>Start Game</value>
+    <value>Spiel starten</value>
   </data>
   <data name="LauncherPage_GameIsRunning" xml:space="preserve">
-    <value>Game is Running</value>
+    <value>Spiel läuft gerade</value>
   </data>
   <data name="Common_Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Beginn</value>
   </data>
   <data name="LauncherPage_SelectInstallFolder" xml:space="preserve">
-    <value>Select Installation Folder</value>
+    <value>Installationsordner</value>
   </data>
   <data name="Common_Continue" xml:space="preserve">
-    <value>Continue</value>
+    <value>Fortsetzen</value>
   </data>
   <data name="LauncherPage_Reselect" xml:space="preserve">
-    <value>Reselect</value>
+    <value>Erneut auswählen</value>
   </data>
   <data name="LauncherPage_TheFollowingFolderContainsUnfinishedDownloadTasks" xml:space="preserve">
-    <value>The following folder contains unfinished download tasks:</value>
+    <value>Der folgende Ordner enthält unerledigte Download-Aufgaben:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
+    <value>Bitte wählen Sie einen leeren Ordner für die Installation des Spiels, oder suchen Sie den Ordner, in dem die ausführbare Datei {0} ist.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
-    <value>If it is not the latest version, please modify the config.ini file in the game installation directory.</value>
+    <value>Falls es nicht die neueste Version ist, ändern Sie bitte die Datei config.ini im Installationsverzeichnis des Spiels.</value>
   </data>
   <data name="LauncherPage_StartVerification" xml:space="preserve">
-    <value>Start to Verify</value>
+    <value>Verifizieren starten</value>
   </data>
   <data name="LauncherPage_WouldYouLikeToVerifyTheFiles" xml:space="preserve">
-    <value>Pre-install completed, would you like to verify the files?</value>
+    <value>Vorinstallation abgeschlossen, möchten Sie die Dateien überprüfen?</value>
   </data>
   <data name="MainPage_HowToSwitchGameRegion" xml:space="preserve">
-    <value>How to switch game region?</value>
+    <value>Wie wechselt man die Spielregion?</value>
   </data>
   <data name="MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft" xml:space="preserve">
-    <value>Click the right mouse button on the game icon on the left.</value>
+    <value>Klicken Sie mit der rechten Maustaste auf das Spielsymbol auf der linken Seite.</value>
   </data>
   <data name="MainPage_Launcer" xml:space="preserve">
-    <value>Launcher</value>
+    <value>Startprogramm</value>
   </data>
   <data name="MainPage_GameScreenshot" xml:space="preserve">
     <value>Screenshot</value>
@@ -627,102 +627,102 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Screenshot</value>
   </data>
   <data name="ScreenshotPage_OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
+    <value>Ordner öffnen</value>
   </data>
   <data name="SettingPage_Log" xml:space="preserve">
-    <value>Log</value>
+    <value>Protokoll</value>
   </data>
   <data name="SettingPage_ShowConsole" xml:space="preserve">
-    <value>Show Console</value>
+    <value>Konsole anzeigen</value>
   </data>
   <data name="SettingPage_AppSettings" xml:space="preserve">
-    <value>App Settings</value>
+    <value>App Einstellungen</value>
   </data>
   <data name="SettingPage_EffectiveAtNextStartup" xml:space="preserve">
-    <value>Effective at next startup</value>
+    <value>Wirksam beim nächsten Start</value>
   </data>
   <data name="SettingPage_OpenLogFolder" xml:space="preserve">
-    <value>Open Log Folder</value>
+    <value>Öffne Protokollordner</value>
   </data>
   <data name="SettingPage_WindowsSize" xml:space="preserve">
-    <value>Windows Size</value>
+    <value>Fenstergröße</value>
   </data>
   <data name="SettingPage_Normal" xml:space="preserve">
     <value>Normal</value>
     <comment>Window Size Normal</comment>
   </data>
   <data name="SettingPage_Small" xml:space="preserve">
-    <value>Small</value>
+    <value>Klein</value>
     <comment>Window Size Small</comment>
   </data>
   <data name="SettingPage_TestNetwork" xml:space="preserve">
-    <value>Test Network</value>
+    <value>Netzwerk testen</value>
   </data>
   <data name="SettingPage_AppBackground" xml:space="preserve">
-    <value>App Background</value>
+    <value>App-Hintergrund</value>
   </data>
   <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
-    <value>Custom Background (Support Video)</value>
+    <value>Benutzerdefinierter Hintergrund (Unterstützt Video)</value>
   </data>
   <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
-    <value>Dynamic Theme Color</value>
+    <value>Dynamische Themenfarbe</value>
   </data>
   <data name="SettingPage_CloudFlareConnectProperly" xml:space="preserve">
-    <value>The app will download the required resources from CloudFlare, so make sure it can connect properly.</value>
+    <value>Die App lädt die benötigten Ressourcen von CloudFlare, also stellen Sie sicher, dass sie, dass die Internetverbindung stabil ist.</value>
   </data>
   <data name="SettingPage_CheckForUpdate" xml:space="preserve">
-    <value>Check for Update</value>
+    <value>Nach Updates suchen</value>
   </data>
   <data name="SettingPage_CurrentVersion" xml:space="preserve">
-    <value>Current Version:</value>
+    <value>Aktuelle Version:</value>
   </data>
   <data name="SettingPage_JoinPreviewReleaseChannel" xml:space="preserve">
-    <value>Join Preview Release Channel</value>
+    <value>Beta beitreten</value>
   </data>
   <data name="SettingPage_FileManager" xml:space="preserve">
-    <value>File Manager</value>
+    <value>Dateimanager</value>
   </data>
   <data name="SettingPage_OpenDataFolder" xml:space="preserve">
-    <value>Open Data Folder</value>
+    <value>Datenordner öffnen</value>
   </data>
   <data name="SettingPage_ReselectDataFolder" xml:space="preserve">
-    <value>Reselect Data Folder</value>
+    <value>Datenverzeichnis erneut auswählen</value>
   </data>
   <data name="SettingPage_DeleteAllSettings" xml:space="preserve">
-    <value>Delete All Settings</value>
+    <value>Alle Einstellungen löschen</value>
   </data>
   <data name="SettingPage_ClearCachedFiles" xml:space="preserve">
-    <value>Clear Cached Files</value>
+    <value>Url-Cache Dateien löschen</value>
   </data>
   <data name="SettingPage_About" xml:space="preserve">
-    <value>About</value>
+    <value>Über</value>
   </data>
   <data name="SettingPage_ProjectHomepage" xml:space="preserve">
-    <value>Homepage</value>
+    <value>Startseite</value>
   </data>
   <data name="SettingPage_ReportIssue" xml:space="preserve">
-    <value>Report Issue</value>
+    <value>Problem melden</value>
   </data>
   <data name="SettingPage_ReleaseHistroy" xml:space="preserve">
-    <value>Release History</value>
+    <value>Veröffentlichungsverlauf</value>
   </data>
   <data name="SettingPage_ThisIsALogo" xml:space="preserve">
-    <value>This is a Logo</value>
+    <value>Das ist ein Logo</value>
   </data>
   <data name="SettingPage_Update" xml:space="preserve">
-    <value>Update</value>
+    <value>Aktualisieren</value>
   </data>
   <data name="SettingPage_TestCDNAsync_NetworkError" xml:space="preserve">
-    <value>Network Error</value>
+    <value>Netzwerkfehler</value>
   </data>
   <data name="SettingPage_TheCurrentLocationOfTheDataFolderIs" xml:space="preserve">
-    <value>The current location of the data folder is:</value>
+    <value>Der aktuelle Speicherort des Datenordners ist:</value>
   </data>
   <data name="SettingPage_WouldLikeToReselectDataFolder" xml:space="preserve">
-    <value>Would like to reselect? (You need to migrate the data files manually before selecting)</value>
+    <value>Möchten Sie erneut wählen? (Sie müssen die Datendateien manuell migrieren, bevor Sie auswählen können)</value>
   </data>
   <data name="Common_Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>Ja</value>
   </data>
   <data name="SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically" xml:space="preserve">
     <value>Nach dem Löschen wird die Software automatisch neu gestartet.</value>
@@ -880,104 +880,102 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Diesen Monat</value>
   </data>
   <data name="TravelersDiaryPage_AcquiredThisDay" xml:space="preserve">
-    <value>Acquired this day</value>
+    <value>An diesem Tag erworben</value>
   </data>
   <data name="TravelersDiaryPage_PrimogemsObtained" xml:space="preserve">
-    <value>Primogems obtained</value>
+    <value>Erhaltene Primogems</value>
   </data>
   <data name="SpiralAbyssPage_DeepestDescent" xml:space="preserve">
-    <value>Deepest Descent</value>
+    <value>Tiefster Abstieg</value>
   </data>
   <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
-    <value>Battles Fought</value>
+    <value>Schlachten gekämpft</value>
   </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
-    <value>times</value>
+    <value>zeiten</value>
     <comment>battle count 12 times</comment>
   </data>
   <data name="Common_Accept" xml:space="preserve">
-    <value>Accept</value>
+    <value>Annehmen</value>
   </data>
   <data name="Common_Reject" xml:space="preserve">
-    <value>Reject</value>
+    <value>Ablehnen</value>
   </data>
   <data name="HoyolabToolboxPage_WarningAgain" xml:space="preserve">
-    <value>Warning Again</value>
+    <value>Erneut warnen</value>
   </data>
   <data name="Common_Disclaimer" xml:space="preserve">
-    <value>Disclaimer</value>
+    <value>Haftungsausschluss</value>
   </data>
   <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
-    <value>The features of this page requires you to log in to your Hyperion/HoYoLAB account, and Starward will save your login credentials (Cookie) and impersonate you to send requests to miHoYo's server. This method is risky and we are not responsible if your account is abnormal or banned as a result.
-
-Do you accept the risk and continue to use it?</value>
+    <value>Die Funktionen dieser Seite erfordern, dass Sie sich in Ihr Hyperion/HoYoLAB-Konto einloggen, und Starward speichert Ihre Anmeldedaten (Cookie) und gibt sich für Sie aus, um Anfragen an den miHoYo-Server zu senden. Diese Methode ist riskant und wir sind nicht dafür verantwortlich, wenn Ihr Konto infolgedessen angegriffen oder gesperrt wird?</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
-    <value>Stellar Jade Sources</value>
+    <value>Stellar Jadequellen</value>
   </data>
   <data name="ForgottenHallPage_Period" xml:space="preserve">
-    <value>Period</value>
+    <value>Zeitraum</value>
   </data>
   <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
-    <value>Cycles used:</value>
+    <value>Benutzte Zyklen:</value>
   </data>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
-    <value>Team Setup</value>
+    <value>Team-Setup</value>
     <comment>example: forgotten hall team setup 1</comment>
   </data>
   <data name="Common_AccountError" xml:space="preserve">
-    <value>Account Error</value>
+    <value>Kontofehler</value>
   </data>
   <data name="Common_NetworkError" xml:space="preserve">
-    <value>Network Error</value>
+    <value>Netzwerkfehler</value>
   </data>
   <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
-    <value>Verify Account</value>
+    <value>Account verifizieren</value>
   </data>
   <data name="DownloadGameService_RepairMode" xml:space="preserve">
-    <value>Repair Mode</value>
+    <value>Reparaturmodus</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
-    <value>It takes additional storage space when unzip.</value>
+    <value>Nach entpacken wird mehr Speicher benötigt.</value>
   </data>
   <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
-    <value>Ability Tree Buffs Activated</value>
+    <value>Fähigkeitsbaum Buffs aktiviert</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
-    <value>Unlocked Curios</value>
+    <value>Entsperrtes Kuriosität</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
-    <value>Unlocked Blessings</value>
+    <value>Freigeschaltete Segen</value>
   </data>
   <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
-    <value>Number of Clears</value>
+    <value>Anzahl der Säuberung</value>
   </data>
   <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
-    <value>Highest Score</value>
+    <value>Höchste Punktzahl</value>
   </data>
   <data name="SimulatedUniversePage_ChallengedOn" xml:space="preserve">
-    <value>Challenged On</value>
+    <value>Herausfordert am</value>
   </data>
   <data name="SimulatedUniversePage_CharactersUsed" xml:space="preserve">
-    <value>Characters Used</value>
+    <value>Charaktere benutzt</value>
   </data>
   <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
-    <value>Cached Characters</value>
+    <value>Charaktere in simulierten Universum</value>
   </data>
   <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
-    <value>Curios Obtained</value>
+    <value>Erhaltene Kuriositäten</value>
   </data>
   <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
-    <value>Blessings Obtained</value>
+    <value>Segen erhalten</value>
   </data>
   <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
-    <value>Daily Data</value>
+    <value>Tagesdaten</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJade" xml:space="preserve">
-    <value>Stellar Jade</value>
+    <value>Stellare Jade</value>
   </data>
   <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
-    <value>Pass &amp; Special Pass</value>
+    <value>Pass &amp; Spezialpass</value>
   </data>
   <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
     <value>Primogems</value>
@@ -986,55 +984,55 @@ Do you accept the risk and continue to use it?</value>
     <value>Mora</value>
   </data>
   <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
-    <value>Floor {X}</value>
+    <value>Aktuelle Etage：{1}</value>
     <comment>Spiral Abyss Floor {X}</comment>
   </data>
   <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
-    <value>Chamber {X}</value>
+    <value>Kammer- {X}</value>
     <comment>Spiral Abyss Chamber {X}</comment>
   </data>
   <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
-    <value>Screenshot folder does not exist</value>
+    <value>Screenshot-Ordner ist nicht vorhanden</value>
   </data>
   <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
-    <value>The language of {0} gacha records has been changed to ({1}).</value>
+    <value>Die Sprache von {0} Gacha-Datensätzen wurde geändert in ({1}).</value>
     <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
   <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>Datenschutzbestimmungen</value>
   </data>
   <data name="MainPage_Tips" xml:space="preserve">
-    <value>Tips</value>
+    <value>Hinweise</value>
   </data>
   <data name="SettingPage_CDNTips" xml:space="preserve">
-    <value>Users in some areas may encounter network anomalies. You could solve this problem by switching CDNs.</value>
+    <value>Benutzer in einigen Bereichen stoßen möglicherweise auf Anomalien im Netzwerk. Sie könnten dieses Problem lösen, indem Sie CDN wechseln.</value>
   </data>
   <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
-    <value>Select Server</value>
+    <value>Wähle einen Server</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
     <value>System Tray Icon</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
-    <value>Exit Launcher When Closing Window</value>
+    <value>Launcher beim Schließen beenden</value>
   </data>
   <data name="Common_Exit" xml:space="preserve">
-    <value>Exit</value>
+    <value>Beenden</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>System Tray</value>
+    <value>Infobereich</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
-    <value>Installer</value>
+    <value>Installationsprogramm</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>You could choose to exit or hide window and minimize to system tray.</value>
+    <value>Sie können das Fenster beenden oder ausblenden und in das Systeminfobereich minimieren.</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
-    <value>Hide</value>
+    <value>Verbergen</value>
   </data>
   <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
-    <value>Backup Screenshots</value>
+    <value>Screenshots sichern</value>
   </data>
   <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
     <value>Backup-Ordner öffnen</value>
@@ -1087,220 +1085,220 @@ Do you accept the risk and continue to use it?</value>
     <value>System-Tray reparieren</value>
   </data>
   <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
-    <value>Fix the issue that cannot create system tray icon, this method will restart explorer.</value>
+    <value>Diese Methode wird den Explorer neu starten. Um den Fehler mit fehlendem Tray-Symbol zu beheben.</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
-    <value>Account Records</value>
+    <value>Account-Aufzeichnungen</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData" xml:space="preserve">
-    <value>Delete this Month's Data</value>
+    <value>Monatsdaten löschen</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Steps to get URL:</value>
+    <value>Schritte um die URL zu erhalten:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Open menu in game.
-- Click Feedback (Genshin) or Bug Report (Star Rail).
-- Copy the URL of web and paste into the box below.</value>
+    <value>- Menü im Spiel öffnen.
+- Klicken Sie auf Feedback (Genshin) oder Bug-Report (Star Rail).
+- Kopieren Sie die URL und fügen Sie sie in das untenstehende Feld ein.</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
-    <value>Note: Records language follows language setting in game and cannot be changed.</value>
+    <value>Hinweis: Die Aufzeichnungssprache folgt der Spracheinstellung im Spiel und kann nicht geändert werden.</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
-    <value>Would you like to delete records of {0} in {1}? This operation cannot be canceled.</value>
+    <value>Möchten Sie Datensätze von {0} in {1} löschen? Diese Operation kann nicht abgebrochen werden.</value>
     <comment>Would you like to delete records of Stellar Jade in 2023-08? This operation cannot be canceled.</comment>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
-    <value>Deleted {0} records of {1} in {2}.</value>
+    <value>{0} Einträge von {1} in {2} gelöscht.</value>
     <comment>Deleted 123 records of Stellar Jade in 2023-08.</comment>
   </data>
   <data name="LauncherPage_UninstallGame" xml:space="preserve">
-    <value>Uninstall Game</value>
+    <value>Spiel deinstallieren</value>
   </data>
   <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
-    <value>Clean Registry</value>
+    <value>Registry bereinigen</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
-    <value>Delete Temporary Files</value>
+    <value>Temporäre Dateien löschen</value>
   </data>
   <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
-    <value>Delete Game Assets</value>
+    <value>Spiel-Assets löschen</value>
   </data>
   <data name="UninstallGameDialog_StepTip" xml:space="preserve">
-    <value>Choose the steps of uninstallation. The uninstallation takes a long time, so please be patient.</value>
+    <value>Wählen Sie die Schritte zur Deinstallation aus. Die Deinstallation dauert eine Weile und deshalb haben Sie Geduld.</value>
   </data>
   <data name="UninstallGameDialog_OfficalLauncherTip" xml:space="preserve">
-    <value>The official launcher needs to be uninstalled by yourself.</value>
+    <value>Der offizielle Launcher muss von Ihnen selbst deinstalliert werden.</value>
   </data>
   <data name="LauncherPage_UninstallationError" xml:space="preserve">
-    <value>Uninstallation Error</value>
+    <value>Deinstallationsfehler</value>
   </data>
   <data name="LauncherPage_UninstallationCompleted" xml:space="preserve">
-    <value>Uninstallation Completed</value>
+    <value>Deinstallation abgeschlossen</value>
   </data>
   <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
-    <value>Please check the related logs.</value>
+    <value>Bitte überprüfen Sie die zugehörigen Protokolle.</value>
   </data>
   <data name="SettingPage_Donate" xml:space="preserve">
-    <value>Donate</value>
+    <value>Spenden</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
-    <value>URL Protocol (Experimental)</value>
+    <value>URL Protocol (Experimentell)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
-    <value>Other software can use some of Starward's features through the URL protocol.</value>
+    <value>Andere Software kann einige der Funktionen von Starward über das URL-Protokoll verwenden.</value>
   </data>
   <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
-    <value>Register URL Protocol</value>
+    <value>URL-Protokoll registrieren</value>
   </data>
   <data name="SettingPage_TestURLProtocol" xml:space="preserve">
     <value>Test URL Protocol</value>
   </data>
   <data name="LauncherPage_OpenInBrowser" xml:space="preserve">
-    <value>Open in Browser</value>
+    <value>Im Browser öffnen</value>
   </data>
   <data name="ImageViewPage_ZoomOut" xml:space="preserve">
-    <value>Zoom out</value>
+    <value>Verkleinern</value>
   </data>
   <data name="ImageViewPage_ZoomIn" xml:space="preserve">
-    <value>Zoom in</value>
+    <value>Vergrößern</value>
   </data>
   <data name="ImageViewPage_Rotate" xml:space="preserve">
-    <value>Rotate</value>
+    <value>Drehen</value>
   </data>
   <data name="Common_Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Kopieren</value>
   </data>
   <data name="Common_Open" xml:space="preserve">
-    <value>Open</value>
+    <value>Öffnen</value>
   </data>
   <data name="LauncherPage_StartupCount" xml:space="preserve">
-    <value>Startup Count</value>
+    <value>Spiel gestartet</value>
   </data>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
-    <value>Data Folder</value>
+    <value>Datenordner</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>Open Log File</value>
+    <value>Log-Datei öffnen</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
-    <value>Appearance</value>
+    <value>Erscheinungsbild</value>
   </data>
   <data name="SettingPage_FileManagement" xml:space="preserve">
-    <value>File Management</value>
+    <value>Dateiverwaltung</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
-    <value>Completed</value>
+    <value>Fertig</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
     <value>Links</value>
   </data>
   <data name="SettingPage_Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Fortgeschritten</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>This Day</value>
+    <value>Dieser Tag</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
-    <value>Close Window Option</value>
+    <value>Fensteroptionen schließen</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
-    <value>Minimize to system tray</value>
+    <value>In den Infobereich minimieren</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
-    <value>Exit completely</value>
+    <value>Komplett beenden</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>Close window but keep system tray</value>
+    <value>Fenster in Systeminfobereich minimieren</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
-    <value>Experience</value>
+    <value>Erfahrung</value>
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
-    <value>You could change the option again in setting page.</value>
+    <value>Sie können die Option in der Einstellungsseite erneut ändern.</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
-    <value>Your personal data is stored in the folder below. It is very important, please do not delete it casually.</value>
+    <value>Ihre persönlichen Daten werden im untenstehenden Ordner gespeichert. Löschen ist nicht empfehlenswert.</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
-    <value>Theme Color</value>
+    <value>Theme Farbe</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
-    <value>By default, the theme color is determined through the background image.</value>
+    <value>Standardmäßig wird die Farbe des Themes durch das Hintergrundbild bestimmt.</value>
   </data>
   <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
-    <value>Use System Theme Color</value>
+    <value>Farbe des Systemthemas verwenden</value>
   </data>
   <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
-    <value>Always display navigation sidebar icons</value>
+    <value>Navigationsleistensymbol immer anzeigen</value>
   </data>
   <data name="ExperienceSettingPage_Features" xml:space="preserve">
-    <value>Features</value>
+    <value>Funktionen</value>
   </data>
   <data name="ExperienceSettingPage_HideGameAccountSwitcher" xml:space="preserve">
-    <value>Hide game account switcher</value>
+    <value>Spielkontoschalter verbergen</value>
   </data>
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
-    <value>Disable red dot reminder for game notices</value>
+    <value>Rote Punkterinnerung für Spielnotizen deaktivieren</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
-    <value>Network Test</value>
+    <value>Netzwerk-Test</value>
   </data>
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
-    <value>Are you able to receive updates for Starward?</value>
+    <value>Kannst du Updates für Starward erhalten?</value>
   </data>
   <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
-    <value>Please select a folder to store your personal data, it is very important!</value>
+    <value>Bitte wählen Sie einen Ordner, um Ihre persönlichen Daten zu speichern, es ist sehr wichtig!</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToTaskbar" xml:space="preserve">
-    <value>Minimize to taskbar</value>
+    <value>In die Taskleiste minimieren</value>
   </data>
   <data name="ExperienceSettingPage_DoNothing" xml:space="preserve">
-    <value>Do nothing</value>
+    <value>Nichts machen</value>
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
-    <value>After Starting Game</value>
+    <value>Nach dem Start des Spiels</value>
   </data>
   <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
-    <value>Quick Cleared</value>
+    <value>Schnellbereinigt</value>
   </data>
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
-    <value>Pure Fiction</value>
+    <value>Reine Fiktion</value>
   </data>
   <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
-    <value>Help us translate Starward</value>
+    <value>Hilf uns, Starward zu übersetzen</value>
   </data>
   <data name="FileSettingPage_Cache" xml:space="preserve">
     <value>Cache</value>
   </data>
   <data name="FileSettingPage_Log" xml:space="preserve">
-    <value>Log</value>
+    <value>Protokoll</value>
   </data>
   <data name="FileSettingPage_Image" xml:space="preserve">
-    <value>Image</value>
+    <value>Bild</value>
   </data>
   <data name="FileSettingPage_Browser" xml:space="preserve">
     <value>Browser</value>
   </data>
   <data name="FileSettingPage_ClearCache" xml:space="preserve">
-    <value>Clear Cache</value>
+    <value>Cache leeren</value>
   </data>
   <data name="DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning" xml:space="preserve">
-    <value>The download task of {0} is already running.</value>
+    <value>Die Download-Aufgabe von {0} läuft bereits.</value>
     <comment>{0} is game name, like Genshin Impact.</comment>
   </data>
   <data name="DownloadGamePage_TheFolderDoesNotExist" xml:space="preserve">
-    <value>The folder does not exist.</value>
+    <value>Das Verzeichnis existiert nicht.</value>
   </data>
   <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
-    <value>Please do not select the root directory of a drive.</value>
+    <value>Bitte wählen Sie nicht das Hauptverzeichnis eines Laufwerks.</value>
   </data>
   <data name="LauncherPage_SavedAccount" xml:space="preserve">
-    <value>Saved account</value>
+    <value>Konto speichern</value>
   </data>
   <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
-    <value>Account switching cannot take effect while game is running.</value>
+    <value>Kontowechsel kann während des Spiels ausgeführt werden.</value>
   </data>
   <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
     <value>Recommend enabling {0} and {1} in system settings for a better user experience.</value>
@@ -1345,42 +1343,42 @@ Do you accept the risk and continue to use it?</value>
     <value>Switch Client</value>
   </data>
   <data name="FileSettingPage_GameResource" xml:space="preserve">
-    <value>Game Resource</value>
+    <value>Spielressourcen</value>
   </data>
   <data name="SwitchClientPage_SelectTargetGameServer" xml:space="preserve">
-    <value>Select target game server</value>
+    <value>Zielspielserver auswählen</value>
   </data>
   <data name="SwitchClientPage_FeatureDescription" xml:space="preserve">
-    <value>This feature can quickly switch the client to the corresponding server, only needing to download some resources during the first switch.</value>
+    <value>Diese Funktion kann den Client schnell auf den entsprechenden Server wechseln und benötigt nur einige Ressourcen während des ersten Wechsels herunterzuladen.</value>
   </data>
   <data name="SwitchClientPage_StartSwitching" xml:space="preserve">
-    <value>Start Switching</value>
+    <value>Wechsel starten</value>
   </data>
   <data name="SwitchClientPage_TheLocalGameVersionIsNotTheLatest" xml:space="preserve">
-    <value>The local game version is not the latest.</value>
+    <value>Die lokale Spielversion ist nicht die aktuellste.</value>
   </data>
   <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
-    <value>The target server version is different from the local version.</value>
+    <value>Die Zielserverversion unterscheidet sich von der lokalen Version.</value>
   </data>
   <data name="SwitchClientPage_ReadyToSwitchClient" xml:space="preserve">
-    <value>Ready to switch client</value>
+    <value>Bereit zum Client wechseln</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryAgain" xml:space="preserve">
-    <value>File verification failed, please try again.</value>
+    <value>Dateiüberprüfung fehlgeschlagen, bitte versuchen Sie es erneut.</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
-    <value>File verification failed, please try to repair game resources.</value>
+    <value>Dateiüberprüfung fehlgeschlagen, bitte versuche die Spielressourcen zu reparieren.</value>
   </data>
   <data name="GameResourcePage_LatestVersion" xml:space="preserve">
-    <value>Latest Version</value>
+    <value>Neueste Version</value>
   </data>
   <data name="GameResourcePage_FullPackages" xml:space="preserve">
-    <value>Full Packages</value>
+    <value>Vollständige Pakete</value>
   </data>
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
-    <value>Diff Packages</value>
+    <value>Vergleichspakete</value>
   </data>
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
-    <value>The folders YuanShen_Data and GenshinImpact_Data cannot exist at the same time.</value>
+    <value>Die Ordner YuanShen_Data und GenshinImpact_Data können nicht gleichzeitig existieren.</value>
   </data>
 </root>
