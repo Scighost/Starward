@@ -1381,6 +1381,6 @@
     <value>Различные Пакеты</value>
   </data>
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
-    <value>The folders YuanShen_Data and GenshinImpact_Data cannot exist at the same time.</value>
+    <value>Папки YuanShen_Data и GenshinImpact_Data не могут существовать одновременно.</value>
   </data>
 </root>
