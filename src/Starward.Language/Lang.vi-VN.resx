@@ -224,7 +224,7 @@
     <value>Huỷ</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>Ứng dụng sẽ được thoát sớm</value>
+    <value>Ứng dụng sẽ sớm thoát</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
     <value>Bắt đầu lặp lại</value>
@@ -257,7 +257,7 @@
     <value>Đang giải nén</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>Có lỗi gì đó</value>
+    <value>Có lỗi xảy ra</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
     <value>Thử lại</value>
@@ -296,7 +296,7 @@
     <value>Dừng</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Bỏ qua xác minh có thể dẫn đến các tập tin trò chơi bị hỏng.</value>
+    <value>Bỏ qua xác minh có thể sẽ để lại tập tin trò chơi bị hỏng.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>Bỏ qua xác minh</value>
@@ -376,14 +376,14 @@
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>Tất cả bản ghi gacha của UID {0} sẽ bị xoá, và hành động này là không thể hoàn tác.</value>
+    <value>Tất cả bản ghi gacha của UID {0} sẽ bị xoá, bạn sẽ không thể hoàn tác hành động này.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
-    <value>Bản ghi cầu nguyện</value>
+    <value>Bản ghi Cầu Nguyện</value>
   </data>
   <data name="GachaLogService_WarpRecords" xml:space="preserve">
-    <value>Bản ghi bước nhảy</value>
+    <value>Bản ghi Bước Nhảy</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
     <value>Đang nhận UID</value>
@@ -392,7 +392,7 @@
     <value>Tài khoản này không có bản ghi gacha trong 6 tháng gần nhất.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>Nhận {0} bản ghi, đã thêm {1} bản ghi.</value>
+    <value>Tìm được {0} bản ghi, đã thêm {1} bản ghi.</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
@@ -1184,7 +1184,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Mở tập tin nhật kí</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
-    <value>Ngoại hình</value>
+    <value>Hiển thị</value>
   </data>
   <data name="SettingPage_FileManagement" xml:space="preserve">
     <value>Quản lí tập tin</value>
@@ -1379,5 +1379,8 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
     <value>Gói khác</value>
+  </data>
+  <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
+    <value>The folders YuanShen_Data and GenshinImpact_Data cannot exist at the same time.</value>
   </data>
 </root>
