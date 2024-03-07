@@ -205,7 +205,7 @@
     <value>เลือกโฟลเดอร์</value>
   </data>
   <data name="SelectGamePage_SomeGame" xml:space="preserve">
-    <value>{Starward} รองรับเกมของ {miHoYo/HoYoverse} แค่บางเกมเท่านั้น โปรดเลือกเกมที่ต้องการจากด้านล่าง - สามารถเปลี่ยนเมื่อไหร่ก็ได้หลังจากเข้า Launcher </value>
+    <value>{Starward} รองรับเกมของ {miHoYo/HoYoverse} แค่บางเกมเท่านั้น โปรดเลือกเกมที่ต้องการจากด้านล่าง - สามารถเปลี่ยนเมื่อไหร่ก็ได้หลังจากเข้า Launcher</value>
   </data>
   <data name="SelectGamePage_TheLastStep" xml:space="preserve">
     <value>ขั้นตอนสุดท้ายแล้ว ~</value>
@@ -295,7 +295,7 @@
     <value>หยุด</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Skipping verification may result in corrupted game files.</value>
+    <value>การข้ามการตรวจสอบไฟล์อาจทำให้ไฟล์เกมเสียหาย</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>ข้ามการตรวจสอบความสมบูรณ์ของไฟล์เกม</value>
@@ -1048,39 +1048,39 @@
     <value>ฐานข้อมูลสำรอง</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
-    <value>Backed up {0} new screenshots.</value>
+    <value>สำรองสกรีนช็อตใหม่แล้ว {0} ภาพ</value>
   </data>
   <data name="MainPage_GameNotices" xml:space="preserve">
-    <value>Game Notices</value>
+    <value>ประกาศของเกม</value>
   </data>
   <data name="DownloadGamePage_Merging" xml:space="preserve">
-    <value>Merging</value>
+    <value>กำลังผสานอยู่</value>
   </data>
   <data name="LauncherPage_Required" xml:space="preserve">
-    <value>Required</value>
+    <value>ต้องระบุ</value>
     <comment>Nickname is required.</comment>
   </data>
   <data name="DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip" xml:space="preserve">
-    <value>Turn on if there's not enough free space for unzip.</value>
+    <value>เปิดหากมีพื้นที่ว่างไม่เพียงพอสำหรับการแตกไฟล์</value>
   </data>
   <data name="LauncherPage_ConfirmDelete" xml:space="preserve">
-    <value>Confirm Delete</value>
+    <value>ยืนยันการลบ</value>
   </data>
   <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
     <value>Currently logged in account</value>
   </data>
   <data name="Common_Attention" xml:space="preserve">
-    <value>Attention</value>
+    <value>คำเตือน</value>
   </data>
   <data name="LauncherPage_Replace" xml:space="preserve">
-    <value>Replace</value>
+    <value>แทน​ที่</value>
   </data>
   <data name="LauncherPage_SaveNew" xml:space="preserve">
-    <value>Save New</value>
+    <value>บันทึกใหม่</value>
     <comment>Account with uid {0} already exists, replace it or save new?</comment>
   </data>
   <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
-    <value>Account with uid {0} already exists, replace it or save new?</value>
+    <value>บัญชีที่มีรหัสผู้ใช้ {0} มีอยู่แล้ว, ต้องการแทนที่หรือบันทึกใหม่?</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
     <value>Repair System Tray</value>
@@ -1089,10 +1089,10 @@
     <value>Fix the issue that cannot create system tray icon, this method will restart explorer.</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
-    <value>Account Records</value>
+    <value>ประวัติบัญชี</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData" xml:space="preserve">
-    <value>Delete this Month's Data</value>
+    <value>ลบข้อมูลของเดือนนี้</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
     <value>Steps to get URL:</value>
@@ -1114,16 +1114,16 @@
     <comment>Deleted 123 records of Stellar Jade in 2023-08.</comment>
   </data>
   <data name="LauncherPage_UninstallGame" xml:space="preserve">
-    <value>Uninstall Game</value>
+    <value>ถอนการติดตั้งเกม</value>
   </data>
   <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
     <value>Clean Registry</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
-    <value>Delete Temporary Files</value>
+    <value>ลบไฟล์ชั่วคราว</value>
   </data>
   <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
-    <value>Delete Game Assets</value>
+    <value>ลบเนื้อหาเกม</value>
   </data>
   <data name="UninstallGameDialog_StepTip" xml:space="preserve">
     <value>Choose the steps of uninstallation. The uninstallation takes a long time, so please be patient.</value>
@@ -1132,16 +1132,16 @@
     <value>The official launcher needs to be uninstalled by yourself.</value>
   </data>
   <data name="LauncherPage_UninstallationError" xml:space="preserve">
-    <value>Uninstallation Error</value>
+    <value>เกิดข้อผิดพลาดในการถอนการติดตั้ง</value>
   </data>
   <data name="LauncherPage_UninstallationCompleted" xml:space="preserve">
-    <value>Uninstallation Completed</value>
+    <value>การถอนการติดตั้งเสร็จสมบูรณ์</value>
   </data>
   <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
     <value>Please check the related logs.</value>
   </data>
   <data name="SettingPage_Donate" xml:space="preserve">
-    <value>Donate</value>
+    <value>บริจาค/สนับสนุน</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
     <value>URL Protocol (Experimental)</value>
@@ -1156,28 +1156,28 @@
     <value>Test URL Protocol</value>
   </data>
   <data name="LauncherPage_OpenInBrowser" xml:space="preserve">
-    <value>Open in Browser</value>
+    <value>เปิดในบราวเซอร์</value>
   </data>
   <data name="ImageViewPage_ZoomOut" xml:space="preserve">
-    <value>Zoom out</value>
+    <value>ซูมออก</value>
   </data>
   <data name="ImageViewPage_ZoomIn" xml:space="preserve">
-    <value>Zoom in</value>
+    <value>ซูมเข้า</value>
   </data>
   <data name="ImageViewPage_Rotate" xml:space="preserve">
-    <value>Rotate</value>
+    <value>หมุน</value>
   </data>
   <data name="Common_Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>คัดลอก</value>
   </data>
   <data name="Common_Open" xml:space="preserve">
-    <value>Open</value>
+    <value>เปิด</value>
   </data>
   <data name="LauncherPage_StartupCount" xml:space="preserve">
     <value>Startup Count</value>
   </data>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
-    <value>Data Folder</value>
+    <value>โฟลเดอร์ข้อมูล</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
     <value>Open Log File</value>
@@ -1189,16 +1189,16 @@
     <value>File Management</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
-    <value>Completed</value>
+    <value>เสร็จสิ้น</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
-    <value>Links</value>
+    <value>ลิงค์</value>
   </data>
   <data name="SettingPage_Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>ตั้งค่าขั้นสูง</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>This Day</value>
+    <value>วันนี้</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
     <value>Close Window Option</value>
@@ -1213,7 +1213,7 @@
     <value>Close window but keep system tray</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
-    <value>Experience</value>
+    <value>ประสบการณ์</value>
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
@@ -1235,16 +1235,16 @@
     <value>Always display navigation sidebar icons</value>
   </data>
   <data name="ExperienceSettingPage_Features" xml:space="preserve">
-    <value>Features</value>
+    <value>ฟีเจอร์</value>
   </data>
   <data name="ExperienceSettingPage_HideGameAccountSwitcher" xml:space="preserve">
-    <value>Hide game account switcher</value>
+    <value>ซ่อนตัวสลับบัญชีของเกม</value>
   </data>
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
     <value>Disable red dot reminder for game notices</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
-    <value>Network Test</value>
+    <value>ทดสอบเครือข่าย</value>
   </data>
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
     <value>Are you able to receive updates for Starward?</value>
@@ -1256,10 +1256,10 @@
     <value>Minimize to taskbar</value>
   </data>
   <data name="ExperienceSettingPage_DoNothing" xml:space="preserve">
-    <value>Do nothing</value>
+    <value>ไม่ทำอะไร</value>
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
-    <value>After Starting Game</value>
+    <value>หลังจากเริ่มเกม</value>
   </data>
   <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
     <value>Quick Cleared</value>
@@ -1268,7 +1268,7 @@
     <value>Pure Fiction</value>
   </data>
   <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
-    <value>Help us translate Starward</value>
+    <value>ช่วยแปล Starward</value>
   </data>
   <data name="FileSettingPage_Cache" xml:space="preserve">
     <value>Cache</value>
@@ -1277,26 +1277,26 @@
     <value>Log</value>
   </data>
   <data name="FileSettingPage_Image" xml:space="preserve">
-    <value>Image</value>
+    <value>รูปภาพ</value>
   </data>
   <data name="FileSettingPage_Browser" xml:space="preserve">
-    <value>Browser</value>
+    <value>เบราว์เซอร์</value>
   </data>
   <data name="FileSettingPage_ClearCache" xml:space="preserve">
-    <value>Clear Cache</value>
+    <value>ล้างแคช</value>
   </data>
   <data name="DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning" xml:space="preserve">
     <value>The download task of {0} is already running.</value>
     <comment>{0} is game name, like Genshin Impact.</comment>
   </data>
   <data name="DownloadGamePage_TheFolderDoesNotExist" xml:space="preserve">
-    <value>The folder does not exist.</value>
+    <value>ไม่พบโฟลเดอร์</value>
   </data>
   <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
     <value>Please do not select the root directory of a drive.</value>
   </data>
   <data name="LauncherPage_SavedAccount" xml:space="preserve">
-    <value>Saved account</value>
+    <value>บัญชีที่บันทึกไว้</value>
   </data>
   <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
     <value>Account switching cannot take effect while game is running.</value>
@@ -1314,31 +1314,31 @@
     <value>Always failed to get gacha records?</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
-    <value>No Data</value>
+    <value>ไม่มีข้อมูล</value>
   </data>
   <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
-    <value>Verify File Integrity</value>
+    <value>ตรวจสอบความสมบูรณ์ของไฟล์</value>
   </data>
   <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
-    <value>Verify failed</value>
+    <value>การตรวจสอบความสมบูรณ์ของไฟล์เกมผิดพลาด</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
     <value>Current version is not the latest version ({0}).</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
-    <value>Click button to repair files.</value>
+    <value>กดปุ่มเพื่อซ่อมแซมไฟล์</value>
   </data>
   <data name="AboutSettingPage_RepairFiles" xml:space="preserve">
-    <value>Repair Files</value>
+    <value>ซ่อมไฟล์</value>
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
-    <value>Verify successfully!</value>
+    <value>ตรวจสอบสำเร็จ!</value>
   </data>
   <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
-    <value>{0} files verify failed.</value>
+    <value>การตรวจสอบไฟล์ {0} ไฟล์ล้มเหลว</value>
   </data>
   <data name="LauncherPage_ReinstallGame" xml:space="preserve">
-    <value>Reinstall Game</value>
+    <value>ติดตั้งเกมอีกครั้ง</value>
   </data>
   <data name="LauncherPage_SwitchClient" xml:space="preserve">
     <value>Switch Client</value>
@@ -1356,7 +1356,7 @@
     <value>Start Switching</value>
   </data>
   <data name="SwitchClientPage_TheLocalGameVersionIsNotTheLatest" xml:space="preserve">
-    <value>The local game version is not the latest.</value>
+    <value>เวอร์ชันเกมที่ติดตั้งไว้ในเครื่องไม่ใช่เวอร์ชันล่าสุด</value>
   </data>
   <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
     <value>The target server version is different from the local version.</value>
@@ -1371,12 +1371,15 @@
     <value>File verification failed, please try to repair game resources.</value>
   </data>
   <data name="GameResourcePage_LatestVersion" xml:space="preserve">
-    <value>Latest Version</value>
+    <value>เวอร์ชั่นล่าสุด</value>
   </data>
   <data name="GameResourcePage_FullPackages" xml:space="preserve">
     <value>Full Packages</value>
   </data>
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
-    <value>Diff Packages</value>
+    <value>แพ็คเกจที่แตกต่าง</value>
+  </data>
+  <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
+    <value>The folders YuanShen_Data and GenshinImpact_Data cannot exist at the same time.</value>
   </data>
 </root>
