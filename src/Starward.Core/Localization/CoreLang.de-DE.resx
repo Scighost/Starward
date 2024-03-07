@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>Character Event Warp</value>
+    <value>Figuren-Aktionswarp</value>
   </data>
   <data name="GachaType_CharacterEventWish" xml:space="preserve">
     <value>Limitiertes Banner</value>
@@ -127,19 +127,19 @@
     <value>Zweites limitiertes Banner</value>
   </data>
   <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>Departure Warp</value>
+    <value>Startwarp</value>
   </data>
   <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>Light Cone Event Warp</value>
+    <value>Lichtkegel-Aktionswarp</value>
   </data>
   <data name="GachaType_NoviceWish" xml:space="preserve">
     <value>Anfänger Banner</value>
   </data>
   <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>Permanent Wish</value>
+    <value>Standard Banner</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>Stellar Warp</value>
+    <value>Stellarwarp</value>
   </data>
   <data name="GachaType_WeaponEventWish" xml:space="preserve">
     <value>Waffenbanner</value>
@@ -212,16 +212,16 @@
     <value>Stellare Jade</value>
   </data>
   <data name="StarRailQueryType_OneiricShared" xml:space="preserve">
-    <value>Oneiric Shared</value>
+    <value>Traumsplitter</value>
   </data>
   <data name="StarRailQueryType_Relic" xml:space="preserve">
-    <value>Relic</value>
+    <value>Relikt</value>
   </data>
   <data name="StarRailQueryType_LightCone" xml:space="preserve">
-    <value>Light Cone</value>
+    <value>Lichtkegel</value>
   </data>
   <data name="StarRailQueryType_TrailblazePower" xml:space="preserve">
-    <value>Trailblaze Power</value>
+    <value>Trailblaze Kraft</value>
   </data>
   <data name="GameServer_BilibiliServer" xml:space="preserve">
     <value>Bilibili Server</value>
