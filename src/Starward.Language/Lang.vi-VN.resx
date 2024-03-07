@@ -1381,6 +1381,6 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Gói khác</value>
   </data>
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
-    <value>Thư mục YuanShen_Data và GenshinImpact_Data cùng tồn tại.</value>
+    <value>The folders YuanShen_Data and GenshinImpact_Data cannot exist at the same time.</value>
   </data>
 </root>
