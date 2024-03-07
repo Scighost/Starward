@@ -1380,4 +1380,7 @@
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
     <value>差分包</value>
   </data>
+  <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
+    <value>文件夹 YuanShen_Data 和 GenshinImpact_Data 不能同时存在。</value>
+  </data>
 </root>
