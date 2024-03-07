@@ -22,7 +22,7 @@ namespace Starward.Controls;
 public sealed partial class HyperionWebBridge : UserControl
 {
 
-    private const string AppVersion = "2.58.2";
+    private const string AppVersion = "2.68.1";
 
     private static string DeviceId = Guid.NewGuid().ToString("D");
 
