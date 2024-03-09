@@ -73,8 +73,9 @@ internal class GameService
 
     public Process? GetGameProcess(GameBiz biz)
     {
+        int currentSessionId = Process.GetCurrentProcess().SessionId;
         var name = GameResourceService.GetGameExeName(biz).Replace(".exe", "");
-        return Process.GetProcessesByName(name).FirstOrDefault();
+        return Process.GetProcessesByName(name).Where(x => x.SessionId == currentSessionId).FirstOrDefault();
     }
 
 
