@@ -106,6 +106,15 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Chronicled Wish 的本地化字符串。
+        /// </summary>
+        internal static string GachaType_ChronicledWish {
+            get {
+                return ResourceManager.GetString("GachaType_ChronicledWish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Departure Warp 的本地化字符串。
         /// </summary>
         internal static string GachaType_DepartureWarp {

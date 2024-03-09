@@ -26,7 +26,7 @@ internal class GenshinGachaService : GachaLogService
 
     protected override string GachaTableName { get; } = "GenshinGachaItem";
 
-    protected override IReadOnlyCollection<int> GachaTypes { get; } = new int[] { 200, 301, 302, 100 }.AsReadOnly();
+    protected override IReadOnlyCollection<int> GachaTypes { get; } = new int[] { 200, 301, 302, 500, 100 }.AsReadOnly();
 
 
 

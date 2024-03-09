@@ -8,7 +8,7 @@ public class GenshinGachaClient : GachaLogClient
 
 
 
-    protected override IReadOnlyCollection<GachaType> GachaTypes { get; init; } = new GachaType[] { (GachaType)100, (GachaType)200, (GachaType)301, (GachaType)302 }.AsReadOnly();
+    protected override IReadOnlyCollection<GachaType> GachaTypes { get; init; } = new GachaType[] { (GachaType)100, (GachaType)200, (GachaType)301, (GachaType)302, (GachaType)500 }.AsReadOnly();
 
 
 

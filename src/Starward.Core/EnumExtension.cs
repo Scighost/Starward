@@ -155,6 +155,7 @@ public static class EnumExtension
             GachaType.CharacterEventWish => CoreLang.GachaType_CharacterEventWish,
             GachaType.CharacterEventWish_2 => CoreLang.GachaType_CharacterEventWish_2,
             GachaType.WeaponEventWish => CoreLang.GachaType_WeaponEventWish,
+            GachaType.ChronicledWish => CoreLang.GachaType_ChronicledWish,
             _ => "",
         };
     }

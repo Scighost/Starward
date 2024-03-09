@@ -63,4 +63,9 @@ public enum GachaType
     [Description("角色活动祈愿-2")]
     CharacterEventWish_2 = 400,
 
+    /// <summary>
+    /// 集录祈愿
+    /// </summary>
+    [Description("集录祈愿")]
+    ChronicledWish = 500,
 }

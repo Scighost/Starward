@@ -173,6 +173,10 @@ internal abstract class GachaLogService
             foreach (int type in GachaTypes)
             {
                 var list = GetGroupGachaLogItems(allItems, (GachaType)type);
+                if (list.Count == 0)
+                {
+                    continue;
+                }
                 var stats = new GachaTypeStats
                 {
                     GachaType = (GachaType)type,
@@ -181,46 +185,43 @@ internal abstract class GachaLogService
                     Count_4 = list.Count(x => x.RankType == 4),
                     Count_3 = list.Count(x => x.RankType == 3),
                 };
-                if (stats.Count > 0)
+                stats.StartTime = list.First().Time;
+                stats.EndTime = list.Last().Time;
+                stats.Ratio_5 = (double)stats.Count_5 / stats.Count;
+                stats.Ratio_4 = (double)stats.Count_4 / stats.Count;
+                stats.Ratio_3 = (double)stats.Count_3 / stats.Count;
+                stats.List_5 = list.Where(x => x.RankType == 5).Reverse().ToList();
+                stats.List_4 = list.Where(x => x.RankType == 4).Reverse().ToList();
+                stats.Pity_5 = list.Last().Pity;
+                if (list.Last().RankType == 5)
                 {
-                    stats.StartTime = list.First().Time;
-                    stats.EndTime = list.Last().Time;
-                    stats.Ratio_5 = (double)stats.Count_5 / stats.Count;
-                    stats.Ratio_4 = (double)stats.Count_4 / stats.Count;
-                    stats.Ratio_3 = (double)stats.Count_3 / stats.Count;
-                    stats.List_5 = list.Where(x => x.RankType == 5).Reverse().ToList();
-                    stats.List_4 = list.Where(x => x.RankType == 4).Reverse().ToList();
-                    stats.Pity_5 = list.Last().Pity;
-                    if (list.Last().RankType == 5)
-                    {
-                        stats.Pity_5 = 0;
-                    }
-                    stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
-                    stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 4);
-
-                    int pity_4 = 0;
-                    foreach (var item in list)
-                    {
-                        pity_4++;
-                        if (item.RankType == 4)
-                        {
-                            item.Pity = pity_4;
-                            pity_4 = 0;
-                        }
-                    }
-                    stats.List_5.Insert(0, new GachaLogItemEx
-                    {
-                        Name = "? ? ?",
-                        Pity = stats.Pity_5,
-                        Time = DateTime.Now,
-                    });
-                    stats.List_4.Insert(0, new GachaLogItemEx
-                    {
-                        Name = "? ? ?",
-                        Pity = stats.Pity_4,
-                        Time = DateTime.Now,
-                    });
+                    stats.Pity_5 = 0;
                 }
+                stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
+                stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 4);
+
+                int pity_4 = 0;
+                foreach (var item in list)
+                {
+                    pity_4++;
+                    if (item.RankType == 4)
+                    {
+                        item.Pity = pity_4;
+                        pity_4 = 0;
+                    }
+                }
+                stats.List_5.Insert(0, new GachaLogItemEx
+                {
+                    Name = "? ? ?",
+                    Pity = stats.Pity_5,
+                    Time = DateTime.Now,
+                });
+                stats.List_4.Insert(0, new GachaLogItemEx
+                {
+                    Name = "? ? ?",
+                    Pity = stats.Pity_4,
+                    Time = DateTime.Now,
+                });
                 statsList.Add(stats);
             }
             groupStats = allItems.GroupBy(x => x.ItemId)
