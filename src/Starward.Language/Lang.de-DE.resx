@@ -190,7 +190,7 @@
     <value>OK</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>Wähle anderes</value>
+    <value>Ordner wählen</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
     <value>Abbrechen</value>
@@ -205,7 +205,7 @@
     <value>Ordner wählen</value>
   </data>
   <data name="SelectGamePage_SomeGame" xml:space="preserve">
-    <value>unterstützt einige {miHoYo/HoYoverse} Spiele, bitte wählen Sie Ihr Ziel unten aus, Sie können es auch jederzeit nach dem Start ändern.</value>
+    <value>{Starward} unterstützt einige {miHoYo/HoYoverse} Spiele, bitte wählen Sie Ihr Ziel unten aus, Sie können es auch jederzeit nach dem Start ändern.</value>
   </data>
   <data name="SelectGamePage_TheLastStep" xml:space="preserve">
     <value>Letzter Schritt ~</value>
