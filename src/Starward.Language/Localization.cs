@@ -7,6 +7,7 @@ public static class Localization
 
     public static readonly IReadOnlyCollection<(string Title, string LangCode)> LanguageList = new List<(string, string)>
     {
+        ("Deutsch (de-DE, @Ad_dy)", "de-DE"),
         ("English (en-US, @Scighost)", "en-US"),
         ("日本語 (ja-JP, @reindex-ot)", "ja-JP"),
         ("한국어 (ko-KR, @DE2SSE)", "ko-KR"),
@@ -18,5 +19,5 @@ public static class Localization
     }.AsReadOnly();
 
 
-
+![de translation](https://img.shields.io/badge/dynamic/json?color=blue&label=de&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27de%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)
 }
