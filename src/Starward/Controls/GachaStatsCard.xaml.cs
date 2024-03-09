@@ -110,14 +110,14 @@ public sealed partial class GachaStatsCard : UserControl
 
     private void TextBlock_GachaTypeText_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
     {
-        if (sender.FontSize == 16)
-        {
-            sender.FontSize = 14;
-        }
-        if (sender.FontSize == 14)
-        {
-            sender.FontSize = 12;
-        }
+        //if (sender.FontSize == 16)
+        //{
+        //    sender.FontSize = 14;
+        //}
+        //if (sender.FontSize == 14)
+        //{
+        //    sender.FontSize = 12;
+        //}
     }
 
 

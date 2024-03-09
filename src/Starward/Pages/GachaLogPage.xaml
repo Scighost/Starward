@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
 
 
-        <TextBlock Margin="24,0,0,0"
+        <TextBlock Margin="20,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="20"
@@ -179,7 +179,7 @@
             <Button Height="32"
                     BorderThickness="0"
                     Command="{x:Bind OpenItemStatsPaneCommand}"
-                    CornerRadius="16,0,0,16"
+                    CornerRadius="14,0,0,14"
                     IsEnabled="{x:Bind GachaItemStats, Converter={StaticResource ObjectToBoolConverter}}"
                     Style="{ThemeResource AccentButtonStyle}">
                 <FontIcon Margin="6,2,4,0"
@@ -214,31 +214,24 @@
                    PanePlacement="Right">
 
 
-            <ScrollViewer Visibility="{x:Bind GachaTypeStats1, Converter={StaticResource ObjectToVisibilityConverter}}">
-                <Grid Name="Grid_Star5List"
-                      Grid.Row="1"
-                      Margin="24,0,24,12"
-                      ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <sc:GachaStatsCard x:Name="GachaStatsCard_1"
-                                       Grid.Column="0"
-                                       WarpTypeStats="{x:Bind GachaTypeStats1}" />
-                    <sc:GachaStatsCard x:Name="GachaStatsCard_2"
-                                       Grid.Column="1"
-                                       WarpTypeStats="{x:Bind GachaTypeStats2}" />
-                    <sc:GachaStatsCard x:Name="GachaStatsCard_3"
-                                       Grid.Column="2"
-                                       WarpTypeStats="{x:Bind GachaTypeStats3}" />
-                    <sc:GachaStatsCard x:Name="GachaStatsCard_4"
-                                       Grid.Column="3"
-                                       Visibility="{x:Bind ShowNoviceGacha}"
-                                       WarpTypeStats="{x:Bind GachaTypeStats4}" />
-
+            <ScrollViewer x:Name="ScrollViewer_GachaStats"
+                          ScrollViewer.HorizontalScrollMode="Disabled"
+                          SizeChanged="ScrollViewer_GachaStats_SizeChanged">
+                <Grid x:Name="Grid_GachaStats"
+                      Margin="20,0,20,12"
+                      SizeChanged="Grid_GachaStats_SizeChanged">
+                    <ItemsControl x:Name="ItemsControl_GachaStats" ItemsSource="{x:Bind GachaTypeStatsCollection}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="12" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="sm:GachaTypeStats">
+                                <sc:GachaStatsCard PointerEntered="GachaStatsCard_PointerEntered" WarpTypeStats="{x:Bind}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </Grid>
             </ScrollViewer>
 

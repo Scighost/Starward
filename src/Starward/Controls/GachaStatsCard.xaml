@@ -43,9 +43,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <!--<RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />-->
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -71,7 +71,8 @@
 
         <TextBlock Grid.Row="1"
                    FontSize="12"
-                   Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   TextTrimming="CharacterEllipsis">
             <Run Text="{x:Bind WarpTypeStats.StartTime.ToString('yyyy/MM/dd HH:mm:ss', x:Null)}" />
             <Run Text="-" />
             <Run Text="{x:Bind WarpTypeStats.EndTime.ToString('yyyy/MM/dd HH:mm:ss', x:Null)}" />
@@ -79,45 +80,44 @@
 
         <MenuFlyoutSeparator Grid.Row="2" />
 
-        <TextBlock Grid.Row="3" Foreground="{ThemeResource Rarity4ForegroundBrush}">
+        <!--  4★ 保底  -->
+        <!--<TextBlock Grid.Row="3" Foreground="{ThemeResource Rarity4ForegroundBrush}">
             <Run Text="4★" />
-            <!--  4★ 保底  -->
             <Run Text="{x:Bind lang:Lang.GachaStatsCard_Pity}" />
         </TextBlock>
-
         <TextBlock Grid.Row="3"
                    HorizontalAlignment="Right"
                    Foreground="{ThemeResource Rarity4ForegroundBrush}"
-                   Text="{x:Bind WarpTypeStats.Pity_4}" />
+                   Text="{x:Bind WarpTypeStats.Pity_4}" />-->
 
-        <TextBlock Grid.Row="4" Foreground="{ThemeResource Rarity5ForegroundBrush}">
+        <!--  5★ 保底  -->
+        <!--<TextBlock Grid.Row="4" Foreground="{ThemeResource Rarity5ForegroundBrush}">
             <Run Text="5★" />
-            <!--  5★ 保底  -->
             <Run Text="{x:Bind lang:Lang.GachaStatsCard_Pity}" />
         </TextBlock>
         <TextBlock Grid.Row="4"
                    HorizontalAlignment="Right"
                    Foreground="{ThemeResource Rarity5ForegroundBrush}"
-                   Text="{x:Bind WarpTypeStats.Pity_5}" />
+                   Text="{x:Bind WarpTypeStats.Pity_5}" />-->
 
-        <TextBlock Grid.Row="5" Foreground="{ThemeResource Rarity2ForegroundBrush}">
+        <!--  5★ 平均  -->
+        <TextBlock Grid.Row="3" Foreground="{ThemeResource Rarity2ForegroundBrush}">
             <Run Text="5★" />
-            <!--  5★ 平均  -->
             <Run Text="{x:Bind lang:Lang.GachaStatsCard_Average}" />
         </TextBlock>
-        <TextBlock Grid.Row="5"
+        <TextBlock Grid.Row="3"
                    HorizontalAlignment="Right"
                    Foreground="{ThemeResource Rarity2ForegroundBrush}"
                    Text="{x:Bind WarpTypeStats.Average_5.ToString('F2', x:Null)}" />
 
-        <MenuFlyoutSeparator Grid.Row="6" />
+        <!--<MenuFlyoutSeparator Grid.Row="6" />-->
 
-        <TextBlock Grid.Row="7" Foreground="{ThemeResource Rarity5ForegroundBrush}">
+        <!--  5★ 统计  -->
+        <TextBlock Grid.Row="4" Foreground="{ThemeResource Rarity5ForegroundBrush}">
             <Run Text="5★" />
-            <!--  5★ 统计  -->
             <Run Text="{x:Bind lang:Lang.GachaStatsCard_Stats}" />
         </TextBlock>
-        <TextBlock Grid.Row="7"
+        <TextBlock Grid.Row="4"
                    HorizontalAlignment="Right"
                    Foreground="{ThemeResource Rarity5ForegroundBrush}"
                    HorizontalTextAlignment="Left">
@@ -125,12 +125,12 @@
             <Run Text="[" /><Run Text="{x:Bind WarpTypeStats.Ratio_5.ToString('P2', x:Null)}" /><Run Text="]" />
         </TextBlock>
 
-        <TextBlock Grid.Row="8" Foreground="{ThemeResource Rarity4ForegroundBrush}">
+        <!--  4★ 统计  -->
+        <TextBlock Grid.Row="5" Foreground="{ThemeResource Rarity4ForegroundBrush}">
             <Run Text="4★" />
-            <!--  4★ 统计  -->
             <Run Text="{x:Bind lang:Lang.GachaStatsCard_Stats}" />
         </TextBlock>
-        <TextBlock Grid.Row="8"
+        <TextBlock Grid.Row="5"
                    HorizontalAlignment="Right"
                    Foreground="{ThemeResource Rarity4ForegroundBrush}"
                    HorizontalTextAlignment="Left">
@@ -138,12 +138,12 @@
             <Run Text="[" /><Run Text="{x:Bind WarpTypeStats.Ratio_4.ToString('P2', x:Null)}" /><Run Text="]" />
         </TextBlock>
 
-        <TextBlock Grid.Row="9" Foreground="{ThemeResource Rarity3ForegroundBrush}">
+        <!--  3★ 统计  -->
+        <TextBlock Grid.Row="6" Foreground="{ThemeResource Rarity3ForegroundBrush}">
             <Run Text="3★" />
-            <!--  3★ 统计  -->
             <Run Text="{x:Bind lang:Lang.GachaStatsCard_Stats}" />
         </TextBlock>
-        <TextBlock Grid.Row="9"
+        <TextBlock Grid.Row="6"
                    HorizontalAlignment="Right"
                    Foreground="{ThemeResource Rarity3ForegroundBrush}"
                    HorizontalTextAlignment="Left">
@@ -151,9 +151,9 @@
             <Run Text="[" /><Run Text="{x:Bind WarpTypeStats.Ratio_3.ToString('P2', x:Null)}" /><Run Text="]" />
         </TextBlock>
 
-        <MenuFlyoutSeparator Grid.Row="10" Visibility="Collapsed" />
+        <MenuFlyoutSeparator Grid.Row="7" Visibility="Collapsed" />
 
-        <Pivot Grid.Row="11" SelectedIndex="{x:Bind Segmented_GachaItemList.SelectedIndex, Mode=TwoWay}">
+        <Pivot Grid.Row="8" SelectedIndex="{x:Bind Segmented_GachaItemList.SelectedIndex, Mode=TwoWay}">
             <Pivot.Resources>
                 <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
                 <Thickness x:Key="PivotHeaderItemMargin">12,0,12,0</Thickness>
@@ -270,7 +270,7 @@
         </Pivot>
 
         <labs:Segmented x:Name="Segmented_GachaItemList"
-                        Grid.Row="11"
+                        Grid.Row="8"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
                         SelectedIndex="0">

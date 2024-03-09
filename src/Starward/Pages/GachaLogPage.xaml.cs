@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
@@ -19,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -49,10 +51,7 @@ public sealed partial class GachaLogPage : PageBase
     public GachaLogPage()
     {
         this.InitializeComponent();
-        if (ShowNoviceGacha)
-        {
-            Grid_Star5List.ColumnDefinitions.Add(new ColumnDefinition());
-        }
+
     }
 
 
@@ -103,18 +102,18 @@ public sealed partial class GachaLogPage : PageBase
     partial void OnShowNoviceGachaChanged(bool value)
     {
         AppConfig.ShowNoviceGacha = value;
-        if (value && Grid_Star5List.ColumnDefinitions.Count == 3)
+        if (noviceGachaTypeStats != null && GachaTypeStatsCollection != null)
         {
-            Grid_Star5List.ColumnDefinitions.Add(new ColumnDefinition());
+            if (value && !GachaTypeStatsCollection.Contains(noviceGachaTypeStats))
+            {
+                GachaTypeStatsCollection.Add(noviceGachaTypeStats);
+            }
+            if (!value && GachaTypeStatsCollection.Contains(noviceGachaTypeStats))
+            {
+                GachaTypeStatsCollection.Remove(noviceGachaTypeStats);
+            }
         }
-        if (!value && Grid_Star5List.ColumnDefinitions.Count == 4)
-        {
-            Grid_Star5List.ColumnDefinitions.RemoveAt(3);
-        }
-        GachaStatsCard_1.ResetGachaTypeTextFontSize();
-        GachaStatsCard_2.ResetGachaTypeTextFontSize();
-        GachaStatsCard_3.ResetGachaTypeTextFontSize();
-        GachaStatsCard_4.ResetGachaTypeTextFontSize();
+        UpdateGachaStatsCardLayout();
     }
 
 
@@ -135,19 +134,12 @@ public sealed partial class GachaLogPage : PageBase
 
 
     [ObservableProperty]
-    private GachaTypeStats? gachaTypeStats1;
-
-    [ObservableProperty]
-    private GachaTypeStats? gachaTypeStats2;
-
-    [ObservableProperty]
-    private GachaTypeStats? gachaTypeStats3;
-
-    [ObservableProperty]
-    private GachaTypeStats? gachaTypeStats4;
+    private ObservableCollection<GachaTypeStats> gachaTypeStatsCollection;
 
     [ObservableProperty]
     private List<GachaLogItemEx>? gachaItemStats;
+
+    private GachaTypeStats? noviceGachaTypeStats;
 
     private int errorCount = 0;
 
@@ -195,22 +187,24 @@ public sealed partial class GachaLogPage : PageBase
         {
             if (uid is null or 0)
             {
-                GachaTypeStats1 = null;
-                GachaTypeStats2 = null;
-                GachaTypeStats3 = null;
-                GachaTypeStats4 = null;
+                GachaTypeStatsCollection = [];
+                noviceGachaTypeStats = null;
                 GachaItemStats = null;
                 StackPanel_Emoji.Visibility = Visibility.Visible;
             }
             else
             {
                 (var gachaStats, var itemStats) = _gachaLogService.GetGachaTypeStats(uid.Value);
-                GachaTypeStats1 = gachaStats.ElementAtOrDefault(0);
-                GachaTypeStats2 = gachaStats.ElementAtOrDefault(1);
-                GachaTypeStats3 = gachaStats.ElementAtOrDefault(2);
-                GachaTypeStats4 = gachaStats.ElementAtOrDefault(3);
+                noviceGachaTypeStats = gachaStats.FirstOrDefault(x => x.GachaType == GachaType.NoviceWish || x.GachaType == GachaType.StellarWarp);
+                if (noviceGachaTypeStats != null && !ShowNoviceGacha)
+                {
+                    gachaStats.Remove(noviceGachaTypeStats);
+                }
+                GachaTypeStatsCollection = [.. gachaStats];
                 GachaItemStats = itemStats;
                 StackPanel_Emoji.Visibility = Visibility.Collapsed;
+                Grid_GachaStats.SizeChanged -= Grid_GachaStats_SizeChanged;
+                Grid_GachaStats.SizeChanged += Grid_GachaStats_SizeChanged;
             }
         }
         catch (Exception ex)
@@ -233,6 +227,20 @@ public sealed partial class GachaLogPage : PageBase
             _logger.LogError(ex, "Update wiki data {gameBiz}", CurrentGameBiz);
         }
     }
+
+
+
+
+    [RelayCommand]
+    private void OpenItemStatsPane()
+    {
+        SplitView_Content.IsPaneOpen = true;
+    }
+
+
+
+
+    #region Get Gacha
 
 
 
@@ -414,6 +422,15 @@ public sealed partial class GachaLogPage : PageBase
     }
 
 
+    #endregion
+
+
+
+    #region Gacha Setting Panel
+
+
+
+
 
     [RelayCommand]
     private async Task CopyUrlAsync()
@@ -549,6 +566,13 @@ public sealed partial class GachaLogPage : PageBase
 
 
 
+    #endregion
+
+
+
+    #region Import & Export
+
+
 
     [RelayCommand]
     private async Task ExportGachaLogAsync(string format)
@@ -620,13 +644,110 @@ public sealed partial class GachaLogPage : PageBase
 
 
 
+    #endregion
 
 
-    [RelayCommand]
-    private void OpenItemStatsPane()
+
+    #region Layout
+
+
+    private void ScrollViewer_GachaStats_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        SplitView_Content.IsPaneOpen = true;
+        UpdateGachaStatsCardLayout();
     }
+
+
+    private void Grid_GachaStats_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        UpdateGachaStatsCardLayout();
+    }
+
+
+    private void GachaStatsCard_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        Grid_GachaStats.SizeChanged -= Grid_GachaStats_SizeChanged;
+        if (sender is FrameworkElement element)
+        {
+            UpdateGachaStatsCardLayout(element);
+        }
+    }
+
+
+
+    private void UpdateGachaStatsCardLayout(FrameworkElement? card = null)
+    {
+        ContentPresenter? container = null;
+        if (card is not null)
+        {
+            container = VisualTreeHelper.GetParent(card) as ContentPresenter;
+        }
+        const int CardWidth = 320;
+        try
+        {
+            int count = ItemsControl_GachaStats.Items.Count;
+            if (count > 0)
+            {
+                Debug.WriteLine(Grid_GachaStats.ActualWidth);
+                Debug.WriteLine(ScrollViewer_GachaStats.ViewportWidth - 48);
+                double width = (Grid_GachaStats.ActualWidth - (count - 1) * 12) / count;
+                Storyboard storyboard = new();
+                if (width >= CardWidth || container is null)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (ItemsControl_GachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
+                        {
+                            presenter.Width = width;
+                        }
+                    }
+                }
+                else
+                {
+                    width = (Grid_GachaStats.ActualWidth - (count - 1) * 12 - CardWidth) / (count - 1);
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (ItemsControl_GachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
+                        {
+                            DoubleAnimation ani;
+                            if (presenter == container)
+                            {
+                                ani = CreateDoubleAnimation(CardWidth);
+                            }
+                            else
+                            {
+                                ani = CreateDoubleAnimation(width);
+                            }
+                            Storyboard.SetTarget(ani, presenter);
+                            storyboard.Children.Add(ani);
+                        }
+                    }
+                }
+                storyboard.Begin();
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+    private DoubleAnimation CreateDoubleAnimation(double value)
+    {
+        DoubleAnimation animation = new()
+        {
+            To = value,
+            EnableDependentAnimation = true,
+            Duration = new Duration(TimeSpan.FromMilliseconds(150)),
+            EasingFunction = new CircleEase { EasingMode = EasingMode.EaseInOut }
+        };
+        Storyboard.SetTargetProperty(animation, nameof(Width));
+        return animation;
+    }
+
+
+
+    #endregion
 
 
 }
