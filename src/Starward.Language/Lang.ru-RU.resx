@@ -1263,7 +1263,7 @@
     <value>После запуска игры</value>
   </data>
   <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
-    <value>Быстрая очистка</value>
+    <value>Быстрая прохождение</value>
   </data>
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
     <value>Чистый вымысел</value>
