@@ -203,8 +203,6 @@ public sealed partial class GachaLogPage : PageBase
                 GachaTypeStatsCollection = [.. gachaStats];
                 GachaItemStats = itemStats;
                 StackPanel_Emoji.Visibility = Visibility.Collapsed;
-                Grid_GachaStats.SizeChanged -= Grid_GachaStats_SizeChanged;
-                Grid_GachaStats.SizeChanged += Grid_GachaStats_SizeChanged;
             }
         }
         catch (Exception ex)
@@ -657,7 +655,7 @@ public sealed partial class GachaLogPage : PageBase
     }
 
 
-    private void Grid_GachaStats_SizeChanged(object sender, SizeChangedEventArgs e)
+    private void GachaStatsCard_Loaded(object sender, RoutedEventArgs e)
     {
         UpdateGachaStatsCardLayout();
     }
@@ -665,7 +663,6 @@ public sealed partial class GachaLogPage : PageBase
 
     private void GachaStatsCard_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        Grid_GachaStats.SizeChanged -= Grid_GachaStats_SizeChanged;
         if (sender is FrameworkElement element)
         {
             UpdateGachaStatsCardLayout(element);
@@ -725,10 +722,7 @@ public sealed partial class GachaLogPage : PageBase
                 storyboard.Begin();
             }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 
