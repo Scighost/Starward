@@ -127,7 +127,7 @@
     <value>Zweites limitiertes Banner</value>
   </data>
   <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>Startwarp</value>
+    <value>Abreise-Warp</value>
   </data>
   <data name="GachaType_LightConeEventWarp" xml:space="preserve">
     <value>Lichtkegel-Aktionswarp</value>
@@ -227,6 +227,6 @@
     <value>Bilibili Server</value>
   </data>
   <data name="GachaType_ChronicledWish" xml:space="preserve">
-    <value>Chronicled Wish</value>
+    <value>Wiederkehrendes Banner</value>
   </data>
 </root>
