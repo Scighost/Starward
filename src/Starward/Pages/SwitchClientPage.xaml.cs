@@ -688,6 +688,7 @@ public sealed partial class SwitchClientPage : PageBase
 
             isCompleted = true;
             Button_StartSwitch.Content = Lang.SettingPage_Completed;
+            AppConfig.SetGameInstallPath(ToGameBiz, installPath);
         }
         catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
         {
