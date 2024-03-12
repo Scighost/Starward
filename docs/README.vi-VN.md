@@ -91,9 +91,6 @@ Và các thư viện bên thứ ba được sử dụng trong dự án này bao 
 
 ## Ảnh chụp màn hình
 
-<picture>
-    <source srcset="https://github.com/phucho0237/Starward/assets/88989555/c31fd567-941a-414e-85fc-1b6ef3c0605d" type="image/avif" />
-    <img src="https://github.com/phucho0237/Starward/assets/88989555/c31fd567-941a-414e-85fc-1b6ef3c0605d" />
-</picture>
+![image](https://github.com/Scighost/Starward/assets/88989555/732bbf01-c83e-4228-a3e3-e32671b66f9f)
 
-Hình nền từ [Pixiv@七言不绝诗](https://www.pixiv.net/artworks/113506129)
+Hình nền từ [Pixiv@コユコム](https://www.pixiv.net/en/artworks/113144644)
