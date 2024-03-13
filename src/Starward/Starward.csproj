@@ -30,7 +30,7 @@
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Core" Version="7.1.2" />
 		<PackageReference Include="Dapper" Version="2.1.35" />
 		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.124" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.2" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="8.0.0" />
