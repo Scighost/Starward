@@ -226,4 +226,7 @@
   <data name="GameServer_BilibiliServer" xml:space="preserve">
     <value>Bilbili服</value>
   </data>
+  <data name="GachaType_ChronicledWish" xml:space="preserve">
+    <value>Chronicled Wish</value>
+  </data>
 </root>

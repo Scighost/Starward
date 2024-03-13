@@ -226,4 +226,7 @@
   <data name="GameServer_BilibiliServer" xml:space="preserve">
     <value>Bilibili Сервер</value>
   </data>
+  <data name="GachaType_ChronicledWish" xml:space="preserve">
+    <value>Молитва Хроник</value>
+  </data>
 </root>
