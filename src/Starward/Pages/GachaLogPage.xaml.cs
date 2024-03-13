@@ -195,7 +195,7 @@ public sealed partial class GachaLogPage : PageBase
             else
             {
                 (var gachaStats, var itemStats) = _gachaLogService.GetGachaTypeStats(uid.Value);
-                noviceGachaTypeStats = gachaStats.FirstOrDefault(x => x.GachaType == GachaType.NoviceWish || x.GachaType == GachaType.StellarWarp);
+                noviceGachaTypeStats = gachaStats.FirstOrDefault(x => x.GachaType == GachaType.NoviceWish || x.GachaType == GachaType.DepartureWarp);
                 if (noviceGachaTypeStats != null && !ShowNoviceGacha)
                 {
                     gachaStats.Remove(noviceGachaTypeStats);
