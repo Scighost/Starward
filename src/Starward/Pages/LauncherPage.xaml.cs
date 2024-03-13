@@ -1411,7 +1411,7 @@ public sealed partial class LauncherPage : PageBase
 
 
 
-    public bool IsSettingGameRepairButtonEnabled => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && LocalGameVersion != null && IsGameExeExists;
+    public bool IsSettingGameRepairButtonEnabled => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && LocalGameVersion != null;
 
 
     [ObservableProperty]
