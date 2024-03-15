@@ -184,9 +184,9 @@ internal abstract class GachaLogService
                     Count_5 = list.Count(x => x.RankType == 5),
                     Count_4 = list.Count(x => x.RankType == 4),
                     Count_3 = list.Count(x => x.RankType == 3),
+                    StartTime = list.First().Time,
+                    EndTime = list.Last().Time
                 };
-                stats.StartTime = list.First().Time;
-                stats.EndTime = list.Last().Time;
                 stats.Ratio_5 = (double)stats.Count_5 / stats.Count;
                 stats.Ratio_4 = (double)stats.Count_4 / stats.Count;
                 stats.Ratio_3 = (double)stats.Count_3 / stats.Count;
@@ -210,18 +210,30 @@ internal abstract class GachaLogService
                         pity_4 = 0;
                     }
                 }
-                stats.List_5.Insert(0, new GachaLogItemEx
+
+                if ((GachaType)type == GachaType.NoviceWish && stats.Count == 20)
                 {
-                    Name = "? ? ?",
-                    Pity = stats.Pity_5,
-                    Time = DateTime.Now,
-                });
-                stats.List_4.Insert(0, new GachaLogItemEx
+                    continue;
+                }
+                else if ((GachaType)type == GachaType.DepartureWarp && stats.Count == 50)
                 {
-                    Name = "? ? ?",
-                    Pity = stats.Pity_4,
-                    Time = DateTime.Now,
-                });
+                    continue;
+                }
+                else
+                {
+                    stats.List_5.Insert(0, new GachaLogItemEx
+                    {
+                        Name = Lang.GachaStatsCard_Pity,
+                        Pity = stats.Pity_5,
+                        Time = DateTime.Now,
+                    });
+                    stats.List_4.Insert(0, new GachaLogItemEx
+                    {
+                        Name = Lang.GachaStatsCard_Pity,
+                        Pity = stats.Pity_4,
+                        Time = DateTime.Now,
+                    });
+                }
                 statsList.Add(stats);
             }
             groupStats = allItems.GroupBy(x => x.ItemId)
