@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -684,8 +683,6 @@ public sealed partial class GachaLogPage : PageBase
             int count = ItemsControl_GachaStats.Items.Count;
             if (count > 0)
             {
-                Debug.WriteLine(Grid_GachaStats.ActualWidth);
-                Debug.WriteLine(ScrollViewer_GachaStats.ViewportWidth - 48);
                 double width = (Grid_GachaStats.ActualWidth - (count - 1) * 12) / count;
                 Storyboard storyboard = new();
                 if (width >= CardWidth || container is null)

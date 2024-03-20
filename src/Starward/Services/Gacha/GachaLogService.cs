@@ -211,6 +211,7 @@ internal abstract class GachaLogService
                     }
                 }
 
+                statsList.Add(stats);
                 if ((GachaType)type == GachaType.NoviceWish && stats.Count == 20)
                 {
                     continue;
@@ -234,7 +235,6 @@ internal abstract class GachaLogService
                         Time = list.Last().Time,
                     });
                 }
-                statsList.Add(stats);
             }
             groupStats = allItems.GroupBy(x => x.ItemId)
                                  .Select(x => { var item = x.First(); item.ItemCount = x.Count(); return item; })
