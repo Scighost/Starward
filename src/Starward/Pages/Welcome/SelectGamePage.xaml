@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:labs="using:CommunityToolkit.Labs.WinUI"
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Pages.Welcome"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,19 +9,6 @@
              xmlns:sp="using:Starward.Pages"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
-
-    <Page.Resources>
-        <labs:TransitionHelper x:Key="LogoTransition">
-            <labs:TransitionConfig EasingMode="EaseInOut"
-                                   Id="logo"
-                                   ScaleMode="Scale" />
-        </labs:TransitionHelper>
-        <labs:StartTransitionAction x:Name="logoAction"
-                                    Source="{x:Bind Image_Logo}"
-                                    Target="{x:Bind Image_Logo_Action}"
-                                    Transition="{StaticResource LogoTransition}" />
-    </Page.Resources>
-
 
 
     <Grid>
@@ -54,7 +40,6 @@
                 <sc:CachedImage x:Name="Image_Logo"
                                 Width="240"
                                 HorizontalAlignment="Right"
-                                labs:TransitionHelper.Id="logo"
                                 Stretch="Uniform" />
                 <!--<TextBlock Name="TextBlock_Description"
                            HorizontalAlignment="Right"
@@ -152,16 +137,15 @@
             <sc:CachedImage x:Name="Image_Logo_Action"
                             Width="240"
                             HorizontalAlignment="Center"
-                            labs:TransitionHelper.Id="logo"
-                            Stretch="Uniform"
-                            Visibility="Collapsed" />
+                            Opacity="0"
+                            Stretch="Uniform" />
             <TextBlock Name="TextBlock_Slogan"
                        HorizontalAlignment="Center"
                        FontSize="20"
                        HorizontalTextAlignment="Center"
                        Opacity="0">
                 <TextBlock.OpacityTransition>
-                    <ScalarTransition Duration="0:0:1.5" />
+                    <ScalarTransition Duration="0:0:1" />
                 </TextBlock.OpacityTransition>
             </TextBlock>
             <TextBlock Name="TextBlock_HoYoSlogan"
@@ -171,7 +155,7 @@
                        HorizontalTextAlignment="Center"
                        Opacity="0">
                 <TextBlock.OpacityTransition>
-                    <ScalarTransition Duration="0:0:1.5" />
+                    <ScalarTransition Duration="0:0:1" />
                 </TextBlock.OpacityTransition>
             </TextBlock>
         </StackPanel>

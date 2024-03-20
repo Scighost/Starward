@@ -110,7 +110,13 @@ public sealed partial class SelectGamePage : PageBase
             AppConfig.SetLastRegionOfGame(GameBiz.None, SelectBiz);
             if (Grid_GameInfo.Opacity == 1)
             {
-                logoAction.Execute(this, null!);
+                var ani = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("logoAnimation", Image_Logo);
+                ani.Configuration = new BasicConnectedAnimationConfiguration();
+                ani.IsScaleAnimationEnabled = true;
+                ani.TryStart(Image_Logo_Action);
+
+                Image_Logo.Opacity = 0;
+                Image_Logo_Action.Opacity = 1;
                 TextBlock_Slogan.Opacity = 1;
                 TextBlock_HoYoSlogan.Opacity = 1;
                 Rectangle_Mask.Opacity = 1;
