@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>Character Event Warp</value>
+    <value>Evocazione Evento Personaggio</value>
   </data>
   <data name="GachaType_CharacterEventWish" xml:space="preserve">
     <value>Desiderio Evento Personaggio</value>
@@ -127,28 +127,28 @@
     <value>Desiderio Evento Personaggio - 2</value>
   </data>
   <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>Departure Warp</value>
+    <value>Evocazioni per novizi</value>
   </data>
   <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>Light Cone Event Warp</value>
+    <value>Evocazione Evento Cono Stellare</value>
   </data>
   <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>Desideri per viaggiatori novizi</value>
+    <value>Desideri per novizi</value>
   </data>
   <data name="GachaType_PermanentWish" xml:space="preserve">
     <value>Desiderio Standard</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>Stellar Warp</value>
+    <value>Evocazione Stellare</value>
   </data>
   <data name="GachaType_WeaponEventWish" xml:space="preserve">
     <value>Desiderio evento arma</value>
   </data>
   <data name="Gacha_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Cannot parse the warp record URL.</value>
+    <value>Impossibile analizzare l'URL registro evocazioni.</value>
   </data>
   <data name="Gacha_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Cannot parse the wish record URL.</value>
+    <value>Impossibile analizzare l'URL registro dei desideri.</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
     <value>Eventi</value>
@@ -194,13 +194,13 @@
     <value>Server Cinese Tradizionale</value>
   </data>
   <data name="GenshinQueryType_GenesisCrystal" xml:space="preserve">
-    <value>Genesis Crystals</value>
+    <value>Cristallo della genesi</value>
   </data>
   <data name="GenshinQueryType_Primogem" xml:space="preserve">
     <value>Primogemme</value>
   </data>
   <data name="GenshinQueryType_OriginalResin" xml:space="preserve">
-    <value>Original Resins</value>
+    <value>Resina primordiale</value>
   </data>
   <data name="GenshinQueryType_Artifact" xml:space="preserve">
     <value>Manufatti</value>
@@ -227,6 +227,6 @@
     <value>Server Bilibili</value>
   </data>
   <data name="GachaType_ChronicledWish" xml:space="preserve">
-    <value>Chronicled Wish</value>
+    <value>Desiderio delle cronache</value>
   </data>
 </root>
