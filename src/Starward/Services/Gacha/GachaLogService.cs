@@ -225,13 +225,13 @@ internal abstract class GachaLogService
                     {
                         Name = Lang.GachaStatsCard_Pity,
                         Pity = stats.Pity_5,
-                        Time = DateTime.Now,
+                        Time = list.Last().Time,
                     });
                     stats.List_4.Insert(0, new GachaLogItemEx
                     {
                         Name = Lang.GachaStatsCard_Pity,
                         Pity = stats.Pity_4,
-                        Time = DateTime.Now,
+                        Time = list.Last().Time,
                     });
                 }
                 statsList.Add(stats);
