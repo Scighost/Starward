@@ -1037,160 +1037,160 @@ Do you accept the risk and continue to use it?</value>
     <value>Backup Screenshots</value>
   </data>
   <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
-    <value>Open Backup Folder</value>
+    <value>Apri Cartella Backup</value>
   </data>
   <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
-    <value>Feature not Supported</value>
+    <value>Funzionalità non supportata</value>
   </data>
   <data name="SettingPage_LastBackup" xml:space="preserve">
-    <value>Last backup</value>
+    <value>Ultimo backup</value>
   </data>
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
     <value>Backup Database</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
-    <value>Backed up {0} new screenshots.</value>
+    <value>Ottenuti {0} nuovi screenshots.</value>
   </data>
   <data name="MainPage_GameNotices" xml:space="preserve">
-    <value>Game Notices</value>
+    <value>Avvisi Di Gioco</value>
   </data>
   <data name="DownloadGamePage_Merging" xml:space="preserve">
     <value>Merging</value>
   </data>
   <data name="LauncherPage_Required" xml:space="preserve">
-    <value>Required</value>
+    <value>Richiesto</value>
     <comment>Nickname is required.</comment>
   </data>
   <data name="DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip" xml:space="preserve">
-    <value>Turn on if there's not enough free space for unzip.</value>
+    <value>Attiva se non c'è abbastanza spazio libero per la decompressione.</value>
   </data>
   <data name="LauncherPage_ConfirmDelete" xml:space="preserve">
-    <value>Confirm Delete</value>
+    <value>Conferma Eliminazione</value>
   </data>
   <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
-    <value>Currently logged in account</value>
+    <value>Account Attivo</value>
   </data>
   <data name="Common_Attention" xml:space="preserve">
-    <value>Attention</value>
+    <value>Attenzione</value>
   </data>
   <data name="LauncherPage_Replace" xml:space="preserve">
-    <value>Replace</value>
+    <value>Sostituisci</value>
   </data>
   <data name="LauncherPage_SaveNew" xml:space="preserve">
-    <value>Save New</value>
+    <value>Salva nuovo</value>
     <comment>Account with uid {0} already exists, replace it or save new?</comment>
   </data>
   <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
-    <value>Account with uid {0} already exists, replace it or save new?</value>
+    <value>L'account con uid {0} esiste già, sostituirlo o salvare nuovo?</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
-    <value>Repair System Tray</value>
+    <value>Ripara il System Tray</value>
   </data>
   <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
-    <value>Fix the issue that cannot create system tray icon, this method will restart explorer.</value>
+    <value>Correggi il problema che non può creare l'icona nel system tray, questo metodo riavvierà l'exporer.</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
-    <value>Account Records</value>
+    <value>Registri Account</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData" xml:space="preserve">
-    <value>Delete this Month's Data</value>
+    <value>Elimina i dati di questo mese</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Steps to get URL:</value>
+    <value>Passi per ottenere l'URL:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Open menu in game.
-- Click Feedback (Genshin) or Bug Report (Star Rail).
-- Copy the URL of web and paste into the box below.</value>
+    <value>- Aprire il menu nel gioco.
+- Fare clic su Feedback (Genshin) o Bug Report (Star Rail).
+- Copiare l'URL del web e incollarlo nella casella sottostante.</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
-    <value>Note: Records language follows language setting in game and cannot be changed.</value>
+    <value>Nota: La lingua dei record segue l'impostazione della lingua nel gioco e non può essere modificata.</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
-    <value>Would you like to delete records of {0} in {1}? This operation cannot be canceled.</value>
+    <value>Vuoi eliminare i record di {0} in {1}? Questa operazione non può essere annullata.</value>
     <comment>Would you like to delete records of Stellar Jade in 2023-08? This operation cannot be canceled.</comment>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
-    <value>Deleted {0} records of {1} in {2}.</value>
+    <value>Eliminato {0} record di {1} in {2}.</value>
     <comment>Deleted 123 records of Stellar Jade in 2023-08.</comment>
   </data>
   <data name="LauncherPage_UninstallGame" xml:space="preserve">
-    <value>Uninstall Game</value>
+    <value>Disinstalla Gioco</value>
   </data>
   <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
-    <value>Clean Registry</value>
+    <value>Pulisci Registro</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
-    <value>Delete Temporary Files</value>
+    <value>Elimina File Temporanei</value>
   </data>
   <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
-    <value>Delete Game Assets</value>
+    <value>Elimina Risorse Di Gioco</value>
   </data>
   <data name="UninstallGameDialog_StepTip" xml:space="preserve">
-    <value>Choose the steps of uninstallation. The uninstallation takes a long time, so please be patient.</value>
+    <value>Scegli i passaggi di disinstallazione. La disinstallazione richiede molto tempo, quindi sii paziente.</value>
   </data>
   <data name="UninstallGameDialog_OfficalLauncherTip" xml:space="preserve">
-    <value>The official launcher needs to be uninstalled by yourself.</value>
+    <value>Il launcher ufficiale deve essere disinstallato manualmente.</value>
   </data>
   <data name="LauncherPage_UninstallationError" xml:space="preserve">
-    <value>Uninstallation Error</value>
+    <value>Errore Disinstallazione</value>
   </data>
   <data name="LauncherPage_UninstallationCompleted" xml:space="preserve">
-    <value>Uninstallation Completed</value>
+    <value>Disinstallazione Completata</value>
   </data>
   <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
-    <value>Please check the related logs.</value>
+    <value>Si prega di controllare i registri correlati.</value>
   </data>
   <data name="SettingPage_Donate" xml:space="preserve">
-    <value>Donate</value>
+    <value>Donazione</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
-    <value>URL Protocol (Experimental)</value>
+    <value>Protocollo URL (Sperimentale)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
-    <value>Other software can use some of Starward's features through the URL protocol.</value>
+    <value>Altri software possono utilizzare alcune funzionalità di Starward attraverso il protocollo URL.</value>
   </data>
   <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
-    <value>Register URL Protocol</value>
+    <value>Registra Protocollo URL</value>
   </data>
   <data name="SettingPage_TestURLProtocol" xml:space="preserve">
-    <value>Test URL Protocol</value>
+    <value>Testa Protocollo URL</value>
   </data>
   <data name="LauncherPage_OpenInBrowser" xml:space="preserve">
-    <value>Open in Browser</value>
+    <value>Apri nel browser</value>
   </data>
   <data name="ImageViewPage_ZoomOut" xml:space="preserve">
-    <value>Zoom out</value>
+    <value>Zoom indietro</value>
   </data>
   <data name="ImageViewPage_ZoomIn" xml:space="preserve">
-    <value>Zoom in</value>
+    <value>Zoom avanti</value>
   </data>
   <data name="ImageViewPage_Rotate" xml:space="preserve">
-    <value>Rotate</value>
+    <value>Ruota</value>
   </data>
   <data name="Common_Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Copia</value>
   </data>
   <data name="Common_Open" xml:space="preserve">
-    <value>Open</value>
+    <value>Apri</value>
   </data>
   <data name="LauncherPage_StartupCount" xml:space="preserve">
-    <value>Startup Count</value>
+    <value>Conteggio Startup</value>
   </data>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
-    <value>Data Folder</value>
+    <value>Cartella dati</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>Open Log File</value>
+    <value>Apri file di registro</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
-    <value>Appearance</value>
+    <value>Aspetto</value>
   </data>
   <data name="SettingPage_FileManagement" xml:space="preserve">
-    <value>File Management</value>
+    <value>Gestore file</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
-    <value>Completed</value>
+    <value>Completato</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
     <value>Indirizzi</value>
