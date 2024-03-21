@@ -1193,194 +1193,194 @@ Do you accept the risk and continue to use it?</value>
     <value>Completed</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
-    <value>Links</value>
+    <value>Indirizzi</value>
   </data>
   <data name="SettingPage_Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Avanzate</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>This Day</value>
+    <value>Oggi</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
-    <value>Close Window Option</value>
+    <value>Chiudi Opzione Finestra</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
-    <value>Minimize to system tray</value>
+    <value>Riduci ad icona sull'area di notifica</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
-    <value>Exit completely</value>
+    <value>Esci completamente</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>Close window but keep system tray</value>
+    <value>Chiudi la finestra ma tieni l'icona</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
-    <value>Experience</value>
+    <value>Esperienza</value>
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
-    <value>You could change the option again in setting page.</value>
+    <value>Puoi cambiare nuovamente l'opzione nelle impostazioni.</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
-    <value>Your personal data is stored in the folder below. It is very important, please do not delete it casually.</value>
+    <value>I tuoi dati personali sono memorizzati nella cartella sottostante. È molto importante, non cancellarli casualmente.</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
-    <value>Theme Color</value>
+    <value>Colore del tema</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
-    <value>By default, the theme color is determined through the background image.</value>
+    <value>Per impostazione predefinita, il colore del tema viene determinato attraverso l'immagine di sfondo.</value>
   </data>
   <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
-    <value>Use System Theme Color</value>
+    <value>Usa Colore Tema Di Sistema</value>
   </data>
   <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
-    <value>Always display navigation sidebar icons</value>
+    <value>Mostra sempre le icone della barra laterale</value>
   </data>
   <data name="ExperienceSettingPage_Features" xml:space="preserve">
-    <value>Features</value>
+    <value>Funzionalità</value>
   </data>
   <data name="ExperienceSettingPage_HideGameAccountSwitcher" xml:space="preserve">
-    <value>Hide game account switcher</value>
+    <value>Nascondi cambio account di gioco</value>
   </data>
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
-    <value>Disable red dot reminder for game notices</value>
+    <value>Disabilita il punto rosso per le notifiche di gioco</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
-    <value>Network Test</value>
+    <value>Test Di Rete</value>
   </data>
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
-    <value>Are you able to receive updates for Starward?</value>
+    <value>Sei in grado di ricevere aggiornamenti per Starward?</value>
   </data>
   <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
-    <value>Please select a folder to store your personal data, it is very important!</value>
+    <value>Seleziona una cartella per memorizzare i tuoi dati personali, è molto importante!</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToTaskbar" xml:space="preserve">
-    <value>Minimize to taskbar</value>
+    <value>Minimizza programma</value>
   </data>
   <data name="ExperienceSettingPage_DoNothing" xml:space="preserve">
-    <value>Do nothing</value>
+    <value>Non fare nulla</value>
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
-    <value>After Starting Game</value>
+    <value>Dopo L'Avvio Del Gioco</value>
   </data>
   <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
     <value>Quick Cleared</value>
   </data>
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
-    <value>Pure Fiction</value>
+    <value>Pura Finzione</value>
   </data>
   <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
-    <value>Help us translate Starward</value>
+    <value>Aiutaci a tradurre Starward</value>
   </data>
   <data name="FileSettingPage_Cache" xml:space="preserve">
     <value>Cache</value>
   </data>
   <data name="FileSettingPage_Log" xml:space="preserve">
-    <value>Log</value>
+    <value>Registro</value>
   </data>
   <data name="FileSettingPage_Image" xml:space="preserve">
-    <value>Image</value>
+    <value>Immagine</value>
   </data>
   <data name="FileSettingPage_Browser" xml:space="preserve">
     <value>Browser</value>
   </data>
   <data name="FileSettingPage_ClearCache" xml:space="preserve">
-    <value>Clear Cache</value>
+    <value>Cancella Cache</value>
   </data>
   <data name="DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning" xml:space="preserve">
-    <value>The download task of {0} is already running.</value>
+    <value>Il download di {0} è già in esecuzione.</value>
     <comment>{0} is game name, like Genshin Impact.</comment>
   </data>
   <data name="DownloadGamePage_TheFolderDoesNotExist" xml:space="preserve">
-    <value>The folder does not exist.</value>
+    <value>La cartella non esiste.</value>
   </data>
   <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
-    <value>Please do not select the root directory of a drive.</value>
+    <value>Per favore non selezionare la directory radice di un disco.</value>
   </data>
   <data name="LauncherPage_SavedAccount" xml:space="preserve">
-    <value>Saved account</value>
+    <value>Salva Account</value>
   </data>
   <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
-    <value>Account switching cannot take effect while game is running.</value>
+    <value>Il cambio account non può avere effetto mentre il gioco è in esecuzione.</value>
   </data>
   <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
-    <value>Recommend enabling {0} and {1} in system settings for a better user experience.</value>
+    <value>Consigliato di abilitare {0} e {1} nelle impostazioni di sistema per una migliore esperienza utente.</value>
   </data>
   <data name="AppearanceSettingPage_TransparencyEffects" xml:space="preserve">
-    <value>Transparency effects</value>
+    <value>Effetti di trasparenza</value>
   </data>
   <data name="AppearanceSettingPage_AnimationEffects" xml:space="preserve">
-    <value>Animation effects</value>
+    <value>Effetti animazione</value>
   </data>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
-    <value>Always failed to get gacha records?</value>
+    <value>Non sei in grado di ottenere i record gacha?</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
-    <value>No Data</value>
+    <value>Nessun dato</value>
   </data>
   <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
-    <value>Verify File Integrity</value>
+    <value>Verifica Integrità File</value>
   </data>
   <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
-    <value>Verify failed</value>
+    <value>Verifica Fallita</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
-    <value>Current version is not the latest version ({0}).</value>
+    <value>La versione corrente non è l'ultima versione ({0}).</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
-    <value>Click button to repair files.</value>
+    <value>Fare clic sul pulsante per riparare i file.</value>
   </data>
   <data name="AboutSettingPage_RepairFiles" xml:space="preserve">
-    <value>Repair Files</value>
+    <value>Ripara File</value>
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
-    <value>Verify successfully!</value>
+    <value>Verifica riuscita!</value>
   </data>
   <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
-    <value>{0} files verify failed.</value>
+    <value>Verifica file {0} non riuscita.</value>
   </data>
   <data name="LauncherPage_ReinstallGame" xml:space="preserve">
-    <value>Reinstall Game</value>
+    <value>Reinstalla Gioco</value>
   </data>
   <data name="LauncherPage_SwitchClient" xml:space="preserve">
-    <value>Switch Client</value>
+    <value>Cambia Client</value>
   </data>
   <data name="FileSettingPage_GameResource" xml:space="preserve">
     <value>Game Resource</value>
   </data>
   <data name="SwitchClientPage_SelectTargetGameServer" xml:space="preserve">
-    <value>Select target game server</value>
+    <value>Seleziona il server di gioco</value>
   </data>
   <data name="SwitchClientPage_FeatureDescription" xml:space="preserve">
-    <value>This feature can quickly switch the client to the corresponding server, only needing to download some resources during the first switch.</value>
+    <value>Questa funzione può passare rapidamente il client al server corrispondente, solo bisogno di scaricare alcune risorse durante il primo cambio.</value>
   </data>
   <data name="SwitchClientPage_StartSwitching" xml:space="preserve">
-    <value>Start Switching</value>
+    <value>Inizia Trasferimento</value>
   </data>
   <data name="SwitchClientPage_TheLocalGameVersionIsNotTheLatest" xml:space="preserve">
-    <value>The local game version is not the latest.</value>
+    <value>La versione del gioco locale non è la più recente.</value>
   </data>
   <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
-    <value>The target server version is different from the local version.</value>
+    <value>La versione del server è diversa dalla versione locale.</value>
   </data>
   <data name="SwitchClientPage_ReadyToSwitchClient" xml:space="preserve">
-    <value>Ready to switch client</value>
+    <value>Pronto per cambiare client</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryAgain" xml:space="preserve">
-    <value>File verification failed, please try again.</value>
+    <value>Verifica del file non riuscita, riprova.</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
-    <value>File verification failed, please try to repair game resources.</value>
+    <value>Verifica del file non riuscita, prova a riparare le risorse del gioco.</value>
   </data>
   <data name="GameResourcePage_LatestVersion" xml:space="preserve">
-    <value>Latest Version</value>
+    <value>Ultima versione</value>
   </data>
   <data name="GameResourcePage_FullPackages" xml:space="preserve">
-    <value>Full Packages</value>
+    <value>Pacchetti Completi</value>
   </data>
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
-    <value>Diff Packages</value>
+    <value>Diff Pacchetti</value>
   </data>
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
-    <value>The folders YuanShen_Data and GenshinImpact_Data cannot exist at the same time.</value>
+    <value>Le cartelle YuanShen_Data e GenshinImpact_Data non possono esistere allo stesso tempo.</value>
   </data>
 </root>
