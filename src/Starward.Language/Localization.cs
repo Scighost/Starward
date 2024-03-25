@@ -9,6 +9,7 @@ public static class Localization
     {
         ("Deutsch (de-DE, @Ad_dy)", "de-DE"),
         ("English (en-US, @Scighost)", "en-US"),
+        ("Italiano (it-IT, @OngakuGH)", "it-IT"),
         ("日本語 (ja-JP, @reindex-ot)", "ja-JP"),
         ("한국어 (ko-KR, @DE2SSE)", "ko-KR"),
         ("Русский (ru-RU, @DarkAssassin48)", "ru-RU"),

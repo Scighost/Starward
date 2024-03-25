@@ -118,345 +118,345 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
-    <value>Paketgröße:</value>
+    <value>Dimensione Pacchetto:</value>
   </data>
   <data name="DownloadGameDialog_Downloaded" xml:space="preserve">
-    <value>Heruntergeladen:</value>
+    <value>Scaricato:</value>
   </data>
   <data name="DownloadGameDialog_FreeSpace" xml:space="preserve">
-    <value>Verfügbarer Speicherplatz:</value>
+    <value>Spazio Disponibile:</value>
   </data>
   <data name="DownloadGameDialog_RequiredSpaceForUnzipping" xml:space="preserve">
-    <value>Benötigter Platz:</value>
+    <value>Spazio Richiesto:</value>
   </data>
   <data name="DownloadGameDialog_RepairMode" xml:space="preserve">
-    <value>Reparaturmodus:</value>
+    <value>Modalità Riparazione:</value>
   </data>
   <data name="DownloadGameDialog_VoiceLanguage" xml:space="preserve">
-    <value>Audiosprache:</value>
+    <value>Lingua Voci:</value>
   </data>
   <data name="Language_Chinese" xml:space="preserve">
-    <value>Chinesisch</value>
+    <value>Cinese</value>
   </data>
   <data name="Language_English" xml:space="preserve">
-    <value>Englisch</value>
+    <value>Inglese</value>
   </data>
   <data name="Language_Japanese" xml:space="preserve">
-    <value>Japanisch</value>
+    <value>Giapponese</value>
   </data>
   <data name="Language_Korean" xml:space="preserve">
-    <value>Koreanisch</value>
+    <value>Coreano</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>Diese Funktion befindet sich in der Testphase. Sollte eine Spieldatei beschädigt sein, verwenden Sie bitte den offiziellen Launcher, um sie zu reparieren.</value>
+    <value>Questa funzione è in fase di test. Se ci sono file di gioco danneggiati, si prega di utilizzare il launcher ufficiale per ripararlo.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
-    <value>Möglicherweise verfügbarer Speicherplatz ist nicht genug</value>
+    <value>Lo spazio disponibile non è sufficiente</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
-    <value>Mitleid ⊙▂⊙</value>
+    <value>Pity</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
-    <value>Durchschnitt</value>
+    <value>Medio</value>
   </data>
   <data name="GachaStatsCard_Stats" xml:space="preserve">
-    <value>Statistiken</value>
+    <value>Statistiche</value>
   </data>
   <data name="SelectDirectoryPage_NiceToMeetYou" xml:space="preserve">
-    <value>Schön, dich zu treffen ~</value>
+    <value>Piacere di vederti ~</value>
   </data>
   <data name="SelectDirectoryPage_SelectFolder" xml:space="preserve">
-    <value>Ordner wählen</value>
+    <value>Seleziona Cartella</value>
   </data>
   <data name="SelectDirectoryPage_SelectLanguage" xml:space="preserve">
-    <value>Sprache auswählen</value>
+    <value>Seleziona Lingua</value>
   </data>
   <data name="SelectDirectoryPage_SelectGame" xml:space="preserve">
-    <value>Spiel auswählen</value>
+    <value>Seleziona Gioco</value>
   </data>
   <data name="SelectDirectoryPage_RecommendFolder" xml:space="preserve">
-    <value>Die App-Daten werden im folgenden Ordner standardmäßig gespeichert:</value>
+    <value>I dati dell'app verranno salvati nella seguente cartella predefinita:</value>
   </data>
   <data name="SelectDirectoryPage_WouldYouLikeToChooseThisFolder" xml:space="preserve">
-    <value>Möchtest du diesen Ordner auswählen?</value>
+    <value>Vuoi scegliere questa cartella?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>Dieser Ordner wird nach dem Software-Update automatisch gelöscht</value>
+    <value>Questa cartella verrà automaticamente eliminata dopo l'aggiornamento del software</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
-    <value>Keine Schreibberechtigung</value>
+    <value>Nessun permesso di scrittura</value>
   </data>
   <data name="SelectDirectoryPage_OK" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>Ordner wählen</value>
+    <value>Scegli un'altra</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>Annulla</value>
   </data>
   <data name="SelectDirectoryPage_FirstUse" xml:space="preserve">
-    <value>Es scheint Ihr erstes Mal mit {Starward} zu sein.</value>
+    <value>Sembra essere la tua prima volta che usi {Starward}.</value>
   </data>
   <data name="SelectGamePage_GoToLauncher" xml:space="preserve">
-    <value>Zum Launcher wechseln</value>
+    <value>Vai al Launcher</value>
   </data>
   <data name="SelectGamePage_SelectFolder" xml:space="preserve">
-    <value>Ordner wählen</value>
+    <value>Seleziona Cartella</value>
   </data>
   <data name="SelectGamePage_SomeGame" xml:space="preserve">
-    <value>{Starward} unterstützt einige {miHoYo/HoYoverse} Spiele, bitte wählen Sie Ihr Ziel unten aus, Sie können es auch jederzeit nach dem Start ändern.</value>
+    <value>{Starward} supporta alcuni giochi {miHoYo/HoYoverse}, seleziona quello interessato qui sotto, puoi anche cambiarlo in qualsiasi momento dopo aver avviato il launcher.</value>
   </data>
   <data name="SelectGamePage_TheLastStep" xml:space="preserve">
-    <value>Letzter Schritt ~</value>
+    <value>L'ultimo passaggio ~</value>
   </data>
   <data name="DownloadGamePage_CloseSoftware" xml:space="preserve">
-    <value>Software schließen</value>
+    <value>Chiudi Programma</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
-    <value>Das Herunterladen kann nach dem nächsten Start fortgesetzt werden;
-Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldatei beschädigt.</value>
+    <value>Il download può essere ripreso dopo il prossimo avvio;
+la chiusura del programma durante la decompressione causerà la corruzione dei file di gioco.</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
-    <value>Schließen</value>
+    <value>Chiudi</value>
   </data>
   <data name="Common_Cancel" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>Annulla</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>Software wird bald beendet</value>
+    <value>Il software verrà chiuso a breve</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
-    <value>Start wiederholen</value>
+    <value>Ripeti Avvio</value>
   </data>
   <data name="Common_Confirm" xml:space="preserve">
-    <value>Bestätigen</value>
+    <value>Conferma</value>
   </data>
   <data name="DownloadGamePage_ParameterError" xml:space="preserve">
-    <value>Parameterfehler</value>
+    <value>Errore Parametro</value>
   </data>
   <data name="DownloadGamePage_NoPermission" xml:space="preserve">
-    <value>Keine Berechtigung</value>
+    <value>Nessun permesso</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Bitte starten Sie als Administrator</value>
+    <value>Si prega di avviare come amministratore</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Avvia</value>
   </data>
   <data name="DownloadGamePage_Preparing" xml:space="preserve">
-    <value>Vorbereitung</value>
+    <value>In preparazione</value>
   </data>
   <data name="DownloadGamePage_Downloading" xml:space="preserve">
-    <value>Lade herunter</value>
+    <value>Download in corso</value>
   </data>
   <data name="DownloadGamePage_Verifying" xml:space="preserve">
-    <value>Verifizieren</value>
+    <value>Verifica in corso</value>
   </data>
   <data name="DownloadGamePage_Decompressing" xml:space="preserve">
-    <value>Dekomprimiert</value>
+    <value>Decompressione in corso</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>Etwas ist schief gelaufen</value>
+    <value>Qualcosa è andato storto</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
-    <value>Wiederholen</value>
+    <value>Riprova</value>
   </data>
   <data name="DownloadGamePage_OpenLog" xml:space="preserve">
-    <value>Protokoll öffnen</value>
+    <value>Apri Registro</value>
   </data>
   <data name="DownloadGamePage_NetworkError" xml:space="preserve">
-    <value>Netzwerkfehler</value>
+    <value>Errore di rete</value>
   </data>
   <data name="DownloadGamePage_UnknownError" xml:space="preserve">
-    <value>Unbekannter Fehler</value>
+    <value>Errore Sconosciuto</value>
   </data>
   <data name="DownloadGamePage_Finished" xml:space="preserve">
-    <value>Abgeschlossen</value>
+    <value>Completato</value>
   </data>
   <data name="DownloadGamePage_Pause" xml:space="preserve">
-    <value>Pausieren</value>
+    <value>Pausa</value>
   </data>
   <data name="DownloadGamePage_Skip" xml:space="preserve">
-    <value>Überspringen</value>
+    <value>Ignora</value>
   </data>
   <data name="DownloadGamePage_VerifyFailed" xml:space="preserve">
-    <value>Verifizieren fehlgeschlagen</value>
+    <value>Verifica Fallita</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>Fehler beim Überprüfen der folgenden Datei:</value>
+    <value>Impossibile verificare il seguente file:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
-    <value>Erneut Herunterladen</value>
+    <value>Scarica di nuovo</value>
   </data>
   <data name="DownloadGamePage_Ignore" xml:space="preserve">
-    <value>Ignorieren</value>
+    <value>Ignora</value>
   </data>
   <data name="DownloadGamePage_Stop" xml:space="preserve">
-    <value>Stoppen</value>
+    <value>Arresta</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Überspringen der Verifizierung kann zu beschädigten Spieldateien führen.</value>
+    <value>La verifica saltata può causare file di gioco danneggiati.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
-    <value>Verifizierung überspringen</value>
+    <value>Salta Verifica</value>
   </data>
   <data name="DownloadGamePage_DownloadPaused" xml:space="preserve">
-    <value>Herunterladen pausiert</value>
+    <value>Download In Pausa</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
-    <value>Keine Gacha-Datensätze</value>
+    <value>Nessun Registro Gacha</value>
   </data>
   <data name="GachaLogPage_UpdateRecords" xml:space="preserve">
-    <value>Datensätze aktualisieren</value>
+    <value>Aggiorna Record</value>
   </data>
   <data name="GachaLogPage_UpdateSavedURL" xml:space="preserve">
-    <value>Aktualisiere (Gespeichertes URL)</value>
+    <value>Aggiorna (URL salvato)</value>
   </data>
   <data name="GachaLogPage_UpdateAll" xml:space="preserve">
-    <value>Alles aktualisieren</value>
+    <value>Aggiorna (Tutto)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
-    <value>URL eingeben</value>
+    <value>Ingresso URL</value>
   </data>
   <data name="Common_Setting" xml:space="preserve">
-    <value>Einstellung</value>
+    <value>Impostazioni</value>
   </data>
   <data name="GachaLogPage_OtherSettings" xml:space="preserve">
-    <value>Andere Einstellungen</value>
+    <value>Altre Opzioni</value>
   </data>
   <data name="GachaLogPage_CopyURL" xml:space="preserve">
-    <value>URL kopieren</value>
+    <value>Copia URL</value>
   </data>
   <data name="GachaLogPage_AuthkeyTimeoutAlwaysOccurs" xml:space="preserve">
-    <value>Tritt Authkey-Timeout immer auf?</value>
+    <value>Si verifica sempre il timeout di Authkey?</value>
   </data>
   <data name="GachaLogPage_ClearURLCacheFiles" xml:space="preserve">
-    <value>URL-Cache Dateien löschen</value>
+    <value>Pulisci File Cache URL</value>
   </data>
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
-    <value>Exportieren als</value>
+    <value>Esporta come</value>
   </data>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>Aus JSON importieren</value>
+    <value>Importa da JSON</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
-    <value>Zeige Anfängerbanner</value>
+    <value>Mostra Tipo Gacha per Novizi</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>Lösche Aufzeichnungen</value>
+    <value>Elimina Record</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
-    <value>Sprache</value>
+    <value>Lingua</value>
   </data>
   <data name="GachaLogPage_CannotFindSavedURLOfUid" xml:space="preserve">
-    <value>Gespeichertes URL der UID {0} konnte nicht gefunden werden.</value>
+    <value>Impossibile trovare l'URL salvato del tuo UID {0}.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogPage_GameNotInstalled" xml:space="preserve">
-    <value>Spiel ist nicht installiert</value>
+    <value>Gioco non installato</value>
   </data>
   <data name="GachaLogPage_CannotFindURL" xml:space="preserve">
-    <value>URL kann nicht gefunden werden, bitte öffne die Banner Aufzeichnungen im Spiel.</value>
+    <value>Impossibile trovare l'URL, si prega di aprire la pagina della cronologia gacha nel gioco.</value>
   </data>
   <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
-    <value>Vorgang abgebrochen</value>
+    <value>Operazione annullata</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
-    <value>Bitte öffne die Banner-Aufzeichnungen im Spiel und versuche es erneut.</value>
+    <value>Si prega di aprire la pagina dei record gacha nel gioco e riprovare.</value>
   </data>
   <data name="Common_Warning" xml:space="preserve">
-    <value>Warnung</value>
+    <value>Avviso</value>
   </data>
   <data name="Common_Delete" xml:space="preserve">
-    <value>Löschen</value>
+    <value>Cancella</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>{0} Gacha-Eintragung(en) von UID {1} gelöscht.</value>
+    <value>Eliminato {0} gacha record di UID {1}.</value>
     <comment>{0} = {count} ,  {1} = {uid}</comment>
   </data>
   <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>Alle Gacha-Einträge von UID {0} werden gelöscht. Vorgang kann nicht rückgängig gemacht worden.</value>
+    <value>Tutti i record di gacha di UID {0} verranno cancellati, non potrai annullare questa operazione.</value>
     <comment>{0} = {uid}</comment>
   </data>
   <data name="GachaLogService_WishRecords" xml:space="preserve">
-    <value>Gebetsaufzeichnungen</value>
+    <value>Registro Desideri</value>
   </data>
   <data name="GachaLogService_WarpRecords" xml:space="preserve">
-    <value>Warpaufzeichnungen</value>
+    <value>Registro Warp</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>Lade UID</value>
+    <value>Ottieni UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>Dieses Konto hat keine Gebet-Aufzeichnungen in den letzten 6 Monaten.</value>
+    <value>Questo account non ha alcun record gacha degli ultimi 6 mesi.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>Hole {0} Einträge, fügte {1} Einträge.</value>
+    <value>Ottenuto {0} record, aggiunto {1} record.</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
-    <value>Importieren {0} Wunscheintrag(gungen) erfolgreich.</value>
+    <value>Importa {0} record(s) desiderati con successo.</value>
   </data>
   <data name="StarRailGachaService_ImportWarpRecordsSuccessfully" xml:space="preserve">
-    <value>Importieren von {0} Warp-Eintrag(gungen) erfolgreich.</value>
+    <value>Importa {0} record(s) di teletrasporto con successo.</value>
   </data>
   <data name="DownloadGameService_AlreadyTheLatestVersion" xml:space="preserve">
-    <value>Das ist die neuste Version</value>
+    <value>Già l'ultima versione</value>
   </data>
   <data name="DownloadGameService_TooManyRetries" xml:space="preserve">
-    <value>Zu viele Versuche</value>
+    <value>Troppi tentativi</value>
   </data>
   <data name="UpdateService_CannotUpdateAutomatically" xml:space="preserve">
-    <value>Automatische Aktualisierung nicht möglich</value>
+    <value>Impossibile aggiornare automaticamente</value>
   </data>
   <data name="GameSettingPage_Custom" xml:space="preserve">
-    <value>Benutzerdefiniert</value>
+    <value>Personalizzato</value>
   </data>
   <data name="GameSettingPage_VeryLow" xml:space="preserve">
-    <value>Sehr niedrig</value>
+    <value>Molto basso</value>
   </data>
   <data name="GameSettingPage_Low" xml:space="preserve">
-    <value>Niedrig</value>
+    <value>Basso</value>
   </data>
   <data name="GameSettingPage_Medium" xml:space="preserve">
-    <value>Mittel</value>
+    <value>Medio</value>
   </data>
   <data name="GameSettingPage_High" xml:space="preserve">
-    <value>Hoch</value>
+    <value>Alto</value>
   </data>
   <data name="GameSettingPage_VeryHigh" xml:space="preserve">
-    <value>Sehr hoch</value>
+    <value>Molto alto</value>
   </data>
   <data name="GameSettingPage_Off" xml:space="preserve">
-    <value>Aus</value>
+    <value>Disattivato</value>
   </data>
   <data name="GameSettingPage_StartArguments" xml:space="preserve">
-    <value>Startargumente</value>
+    <value>Argomenti di avvio</value>
   </data>
   <data name="GameSettingPage_Resolution" xml:space="preserve">
-    <value>Auflösung</value>
+    <value>Risoluzione</value>
   </data>
   <data name="GameSettingPage_FullScreen" xml:space="preserve">
-    <value>Vollbild</value>
+    <value>Schermo intero</value>
   </data>
   <data name="GameSettingPage_CustomResolution" xml:space="preserve">
-    <value>Benutzerdefinierte Auflösung</value>
+    <value>Risoluzione personalizzata</value>
   </data>
   <data name="GameSettingPage_VoiceLanguage" xml:space="preserve">
-    <value>Audiosprache</value>
+    <value>Lingua della voce</value>
   </data>
   <data name="GameSettingPage_VoiceLanguageDescription" xml:space="preserve">
-    <value>Wähle entsprechende Ressourcenpakete und, vermeide unnötiges Speicherplatz verbrauch</value>
+    <value>Imposta questo valore prima di avviare il gioco per la prima volta per evitare il download di alcune risorse vocali</value>
   </data>
   <data name="GameSettingPage_GraphicsSetting" xml:space="preserve">
-    <value>Grafikeinstellungen</value>
+    <value>Impostazione grafica</value>
   </data>
   <data name="GameSettingPage_GraphicsQualityPreset" xml:space="preserve">
-    <value>Grafikqualität Voreinstellung</value>
+    <value>Impostazione qualità grafica predefinita</value>
   </data>
   <data name="GameSettingPage_RenderScale" xml:space="preserve">
-    <value>Renderskala</value>
+    <value>Scala di rendering</value>
   </data>
   <data name="GameSettingPage_FPS" xml:space="preserve">
     <value>FPS</value>
@@ -465,517 +465,519 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>V-Sync</value>
   </data>
   <data name="GameSettingPage_AntiAliasing" xml:space="preserve">
-    <value>Anti-Aliasing</value>
+    <value>Anti-aliasing</value>
   </data>
   <data name="GameSettingPage_ShadowQuality" xml:space="preserve">
-    <value>Schattenqualität</value>
+    <value>Qualità delle ombre</value>
   </data>
   <data name="GameSettingPage_ReflectionQuality" xml:space="preserve">
-    <value>Reflexionsqualität</value>
+    <value>Qualità delle riflessioni</value>
   </data>
   <data name="GameSettingPage_CharacterQuality" xml:space="preserve">
-    <value>Charakterqualität</value>
+    <value>Qualità dei personaggi</value>
   </data>
   <data name="GameSettingPage_EnvironmentDetail" xml:space="preserve">
-    <value>Umgebungsdetails</value>
+    <value>Dettaglio dell'ambiente</value>
   </data>
   <data name="GameSettingPage_BloomEffect" xml:space="preserve">
-    <value>Bloomeffekt</value>
+    <value>Effetto Bloom</value>
   </data>
   <data name="GameSettingPage_LightQuality" xml:space="preserve">
-    <value>Lichtqualität</value>
+    <value>Qualità della luce</value>
   </data>
   <data name="Common_Apply" xml:space="preserve">
-    <value>Anwenden</value>
+    <value>Applica</value>
   </data>
   <data name="GameSettingPage_GameNotInstalled" xml:space="preserve">
-    <value>Spiel ist nicht installiert</value>
+    <value>Gioco non installato</value>
   </data>
   <data name="GameSettingPage_FPSWarning" xml:space="preserve">
-    <value>Die Einstellung der FPS auf 120 wird die Grafikeinstellungen im Spiel unbrauchbar machen</value>
+    <value>Impostare gli FPS a 120 renderà inutilizzabili le impostazioni grafiche in gioco</value>
   </data>
   <data name="GameSettingPage_SettingNotEffect" xml:space="preserve">
-    <value>Die während des Spiels angewendeten Einstellungen werden nicht wirksam</value>
+    <value>Le impostazioni applicate mentre il gioco è in esecuzione non hanno effetto</value>
   </data>
   <data name="GameSettingPage_ResolutionMustBeGreaterThan0" xml:space="preserve">
-    <value>Die Auflösung muss größer als 0 sein</value>
+    <value>La risoluzione deve essere maggiore di 0</value>
   </data>
   <data name="GameSettingPage_StartArgumentDesc" xml:space="preserve">
-    <value>Informationen über Startparameter finden Sie unter {Unity Standalone Player Command Line Arguments}</value>
+    <value>Per informazioni sui parametri di avvio vedere {Unity Standalone Player Command Line Arguments}</value>
   </data>
   <data name="GameSettingPage_On" xml:space="preserve">
-    <value>Ein</value>
+    <value>Attivo</value>
   </data>
   <data name="LauncherPage_InstallGame" xml:space="preserve">
-    <value>Spiel installieren</value>
+    <value>Installa Gioco</value>
   </data>
   <data name="LauncherPage_UpdateGame" xml:space="preserve">
-    <value>Spiel aktualisieren</value>
+    <value>Aggiorna Gioco</value>
   </data>
   <data name="LauncherPage_PlayTime" xml:space="preserve">
-    <value>Spielzeit</value>
+    <value>Tempo Di Gioco</value>
   </data>
   <data name="Common_Refresh" xml:space="preserve">
-    <value>Aktualisieren</value>
+    <value>Aggiorna</value>
   </data>
   <data name="LauncherPage_ThisWeek" xml:space="preserve">
-    <value>Diese Woche</value>
+    <value>Questa Settimana</value>
   </data>
   <data name="LauncherPage_ThisMonth" xml:space="preserve">
-    <value>Dieser Monat</value>
+    <value>Questo Mese</value>
   </data>
   <data name="LauncherPage_LastTime" xml:space="preserve">
-    <value>Zuletzt</value>
+    <value>Ultima Volta</value>
   </data>
   <data name="LauncherPage_PreInstall" xml:space="preserve">
-    <value>Vorinstallieren</value>
+    <value>Pre-Installa</value>
   </data>
   <data name="LauncherPage_CurrentAccount" xml:space="preserve">
-    <value>Aktuell angemeldete Konto</value>
+    <value>Account Attivo</value>
   </data>
   <data name="LauncherPage_SwitchAccount" xml:space="preserve">
-    <value>Konto wechseln</value>
+    <value>Cambia Account</value>
   </data>
   <data name="LauncherPage_AccountInformation" xml:space="preserve">
-    <value>Kontoinformationen</value>
+    <value>Informazioni Account</value>
   </data>
   <data name="LauncherPage_Nickname" xml:space="preserve">
-    <value>Spitzname</value>
+    <value>Soprannome</value>
   </data>
   <data name="Common_Save" xml:space="preserve">
-    <value>Speichern</value>
+    <value>Salva</value>
   </data>
   <data name="LauncherPage_GameSetting" xml:space="preserve">
-    <value>Spiel Einstellung</value>
+    <value>Impostazioni Di Gioco</value>
   </data>
   <data name="LauncherPage_InstallFolder" xml:space="preserve">
-    <value>Installationsordner</value>
+    <value>Cartella Di Installazione</value>
   </data>
   <data name="LauncherPage_Locate" xml:space="preserve">
-    <value>Lokalisiere</value>
+    <value>Individua</value>
   </data>
   <data name="LauncherPage_RepairGame" xml:space="preserve">
-    <value>Spiele reparieren</value>
+    <value>Ripara Gioco</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>Benutzerdefinierte Startparameter</value>
+    <value>Eseguibile Di Avvio Personalizzato</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
-    <value>Auswählen</value>
+    <value>Seleziona</value>
   </data>
   <data name="LauncherPage_ShowGameAnnouncement" xml:space="preserve">
-    <value>Zeige Spielankündigung</value>
+    <value>Mostra Annunci Di Gioco</value>
   </data>
   <data name="LauncherPage_IgnoreRunningGameProcess" xml:space="preserve">
-    <value>Ignoriere laufenden Spielprozess</value>
+    <value>Ignora Processo Di Gioco In Esecuzione</value>
   </data>
   <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
-    <value>Hintergrundeinstellungen</value>
+    <value>Impostazioni Sfondo</value>
   </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
-    <value>Benutze denselben Hintergrund in allen Spielgebieten</value>
+    <value>Usa lo stesso sfondo per tutte le regioni di gioco</value>
   </data>
   <data name="SettingPage_BgSizeTip" xml:space="preserve">
-    <value>Bitte wählen Sie ein Bild mit einer angepasster Pixelgröße. Übergroße Bilder verringern die Performance.</value>
+    <value>Si prega di selezionare un'immagine con una dimensione di pixel uguale alla finestra dell'applicazione; immagini di maggiori dimensioni ridurranno le prestazioni.</value>
   </data>
   <data name="LauncherPage_StartGame" xml:space="preserve">
-    <value>Spiel starten</value>
+    <value>Avvia gioco</value>
   </data>
   <data name="LauncherPage_GameIsRunning" xml:space="preserve">
-    <value>Spiel läuft gerade</value>
+    <value>Gioco in esecuzione</value>
   </data>
   <data name="Common_Start" xml:space="preserve">
-    <value>Beginn</value>
+    <value>Avvia</value>
   </data>
   <data name="LauncherPage_SelectInstallFolder" xml:space="preserve">
-    <value>Installationsordner</value>
+    <value>Seleziona Cartella Di Installazione</value>
   </data>
   <data name="Common_Continue" xml:space="preserve">
-    <value>Fortsetzen</value>
+    <value>Continua</value>
   </data>
   <data name="LauncherPage_Reselect" xml:space="preserve">
-    <value>Erneut auswählen</value>
+    <value>Riseleziona</value>
   </data>
   <data name="LauncherPage_TheFollowingFolderContainsUnfinishedDownloadTasks" xml:space="preserve">
-    <value>Der folgende Ordner enthält unerledigte Download-Aufgaben:</value>
+    <value>La seguente cartella contiene attività di download non terminate:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Bitte wählen Sie einen leeren Ordner für die Installation des Spiels, oder suchen Sie den Ordner, in dem die ausführbare Datei {0} ist.</value>
+    <value>Selezionare una cartella vuota per installare il gioco, oppure individua la cartella in cui il file eseguibile {0} è.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
-    <value>Falls es nicht die neueste Version ist, ändern Sie bitte die Datei config.ini im Installationsverzeichnis des Spiels.</value>
+    <value>Se non è l'ultima versione, si prega di modificare il file config.ini nella directory di installazione del gioco.</value>
   </data>
   <data name="LauncherPage_StartVerification" xml:space="preserve">
-    <value>Verifizieren starten</value>
+    <value>Inizia a Verificare</value>
   </data>
   <data name="LauncherPage_WouldYouLikeToVerifyTheFiles" xml:space="preserve">
-    <value>Vorinstallation abgeschlossen, möchten Sie die Dateien überprüfen?</value>
+    <value>Pre-installazione completata, vuoi verificare i file?</value>
   </data>
   <data name="MainPage_HowToSwitchGameRegion" xml:space="preserve">
-    <value>Wie wechselt man die Spielregion?</value>
+    <value>Come cambiare regione di gioco?</value>
   </data>
   <data name="MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft" xml:space="preserve">
-    <value>Klicken Sie mit der rechten Maustaste auf das Spielsymbol auf der linken Seite.</value>
+    <value>Fare clic sul pulsante destro del mouse sull'icona del gioco a sinistra.</value>
   </data>
   <data name="MainPage_Launcer" xml:space="preserve">
-    <value>Übersicht</value>
+    <value>Launcher</value>
   </data>
   <data name="MainPage_GameScreenshot" xml:space="preserve">
-    <value>Screenshot</value>
+    <value>Foto salvate</value>
   </data>
   <data name="ScreenshotPage_GameScreenshot" xml:space="preserve">
-    <value>Screenshot</value>
+    <value>Foto salvate</value>
   </data>
   <data name="ScreenshotPage_OpenFolder" xml:space="preserve">
-    <value>Ordner öffnen</value>
+    <value>Apri cartella</value>
   </data>
   <data name="SettingPage_Log" xml:space="preserve">
-    <value>Protokoll</value>
+    <value>Registro</value>
   </data>
   <data name="SettingPage_ShowConsole" xml:space="preserve">
-    <value>Konsole anzeigen</value>
+    <value>Mostra Console</value>
   </data>
   <data name="SettingPage_AppSettings" xml:space="preserve">
-    <value>App Einstellungen</value>
+    <value>Impostazioni App</value>
   </data>
   <data name="SettingPage_EffectiveAtNextStartup" xml:space="preserve">
-    <value>Wirksam beim nächsten Start</value>
+    <value>Effettivo al prossimo avvio</value>
   </data>
   <data name="SettingPage_OpenLogFolder" xml:space="preserve">
-    <value>Öffne Protokollordner</value>
+    <value>Apri cartella dei Log</value>
   </data>
   <data name="SettingPage_WindowsSize" xml:space="preserve">
-    <value>Fenstergröße</value>
+    <value>Dimens. Finestra</value>
   </data>
   <data name="SettingPage_Normal" xml:space="preserve">
-    <value>Normal</value>
+    <value>Normale</value>
     <comment>Window Size Normal</comment>
   </data>
   <data name="SettingPage_Small" xml:space="preserve">
-    <value>Klein</value>
+    <value>Piccola</value>
     <comment>Window Size Small</comment>
   </data>
   <data name="SettingPage_TestNetwork" xml:space="preserve">
-    <value>Netzwerk testen</value>
+    <value>Test di Rete</value>
   </data>
   <data name="SettingPage_AppBackground" xml:space="preserve">
-    <value>App-Hintergrund</value>
+    <value>Sfondo App</value>
   </data>
   <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
-    <value>Benutzerdefinierter Hintergrund (Unterstützt Video)</value>
+    <value>Sfondo Personalizzato (Supporta Video)</value>
   </data>
   <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
-    <value>Dynamische Themenfarbe</value>
+    <value>Colore Tema Dinamico</value>
   </data>
   <data name="SettingPage_CloudFlareConnectProperly" xml:space="preserve">
-    <value>Die App lädt die benötigten Ressourcen von CloudFlare, also stellen Sie sicher, dass sie, dass die Internetverbindung stabil ist.</value>
+    <value>L'app scaricherà le risorse necessarie da CloudFlare, quindi assicurati che possa connettersi correttamente.</value>
   </data>
   <data name="SettingPage_CheckForUpdate" xml:space="preserve">
-    <value>Nach Updates suchen</value>
+    <value>Ricerca aggiornamenti</value>
   </data>
   <data name="SettingPage_CurrentVersion" xml:space="preserve">
-    <value>Aktuelle Version:</value>
+    <value>Versione attuale:</value>
   </data>
   <data name="SettingPage_JoinPreviewReleaseChannel" xml:space="preserve">
-    <value>Beta beitreten</value>
+    <value>Unisciti al Canale di Anteprima</value>
   </data>
   <data name="SettingPage_FileManager" xml:space="preserve">
-    <value>Dateimanager</value>
+    <value>Gestore file</value>
   </data>
   <data name="SettingPage_OpenDataFolder" xml:space="preserve">
-    <value>Datenordner öffnen</value>
+    <value>Apri Cartella Dati</value>
   </data>
   <data name="SettingPage_ReselectDataFolder" xml:space="preserve">
-    <value>Datenverzeichnis erneut auswählen</value>
+    <value>Riseleziona Cartella Dati</value>
   </data>
   <data name="SettingPage_DeleteAllSettings" xml:space="preserve">
-    <value>Alle Einstellungen löschen</value>
+    <value>Ripristina tutte le impostazioni</value>
   </data>
   <data name="SettingPage_ClearCachedFiles" xml:space="preserve">
-    <value>Url-Cache Dateien löschen</value>
+    <value>Pulisci File Cache</value>
   </data>
   <data name="SettingPage_About" xml:space="preserve">
-    <value>Über</value>
+    <value>Info</value>
   </data>
   <data name="SettingPage_ProjectHomepage" xml:space="preserve">
-    <value>Startseite</value>
+    <value>Pagina iniziale</value>
   </data>
   <data name="SettingPage_ReportIssue" xml:space="preserve">
-    <value>Problem melden</value>
+    <value>Report Issue</value>
   </data>
   <data name="SettingPage_ReleaseHistroy" xml:space="preserve">
-    <value>Veröffentlichungsverlauf</value>
+    <value>Cronologia Rilasci</value>
   </data>
   <data name="SettingPage_ThisIsALogo" xml:space="preserve">
-    <value>Das ist ein Logo</value>
+    <value>Questo è un Logo</value>
   </data>
   <data name="SettingPage_Update" xml:space="preserve">
-    <value>Aktualisieren</value>
+    <value>Aggiorna</value>
   </data>
   <data name="SettingPage_TestCDNAsync_NetworkError" xml:space="preserve">
-    <value>Netzwerkfehler</value>
+    <value>Errore di rete</value>
   </data>
   <data name="SettingPage_TheCurrentLocationOfTheDataFolderIs" xml:space="preserve">
-    <value>Der aktuelle Speicherort des Datenordners ist:</value>
+    <value>La posizione corrente della cartella dati è:</value>
   </data>
   <data name="SettingPage_WouldLikeToReselectDataFolder" xml:space="preserve">
-    <value>Möchten Sie erneut wählen? (Sie müssen die Datendateien manuell migrieren, bevor Sie auswählen können)</value>
+    <value>Vuoi riselezionare? (È necessario migrare manualmente i file di dati prima di selezionare)</value>
   </data>
   <data name="Common_Yes" xml:space="preserve">
-    <value>Ja</value>
+    <value>Sì</value>
   </data>
   <data name="SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically" xml:space="preserve">
-    <value>Nach dem Löschen wird die Software automatisch neu gestartet.</value>
+    <value>Dopo l'eliminazione, il software verrà riavviato automaticamente.</value>
   </data>
   <data name="UpdatePage_NewVersion" xml:space="preserve">
-    <value>Neue Version!</value>
+    <value>Nuova Versione!</value>
   </data>
   <data name="UpdatePage_Links" xml:space="preserve">
-    <value>Links:</value>
+    <value>Indirizzi:</value>
   </data>
   <data name="UpdatePage_BuiltTime" xml:space="preserve">
-    <value>Bauzeit:</value>
+    <value>Tempo di compilazione:</value>
   </data>
   <data name="UpdatePage_ReleaseChannel" xml:space="preserve">
-    <value>Release-Kanal:</value>
+    <value>Canale Di Rilascio:</value>
   </data>
   <data name="UpdatePage_Architecture" xml:space="preserve">
-    <value>Architektur:</value>
+    <value>Architettura:</value>
   </data>
   <data name="UpdatePage_DownloadInstaller" xml:space="preserve">
-    <value>Installationsprogramm herunterladen</value>
+    <value>Scarica Installer</value>
   </data>
   <data name="UpdatePage_DownloadPortable" xml:space="preserve">
-    <value>Portable Version</value>
+    <value>Scarica Portatile</value>
   </data>
   <data name="UpdatePage_RemindLatter" xml:space="preserve">
-    <value>Später erinnern</value>
+    <value>Ricordamelo più tardi</value>
   </data>
   <data name="UpdatePage_IgnoreThisVersion" xml:space="preserve">
-    <value>Diese Version ignorieren</value>
+    <value>Ignora questa versione</value>
   </data>
   <data name="UpdatePage_UpdateNow" xml:space="preserve">
-    <value>Jetzt aktualisieren</value>
+    <value>Aggiorna Adesso</value>
   </data>
   <data name="UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage" xml:space="preserve">
-    <value>Sie müssen das neue Versionspaket manuell herunterladen</value>
+    <value>È necessario scaricare manualmente la nuova versione del pacchetto</value>
   </data>
   <data name="UpdatePage_PreviewChannel" xml:space="preserve">
-    <value>Vorschau Kanal</value>
+    <value>Canale Anteprima</value>
   </data>
   <data name="UpdatePage_StableChannel" xml:space="preserve">
-    <value>Stabiler Kanal</value>
+    <value>Canale Stabile</value>
   </data>
   <data name="UpdatePage_DevChannel" xml:space="preserve">
-    <value>Dev-Kanal</value>
+    <value>Canale Dev</value>
   </data>
   <data name="SettingPage_ThemeColorDesc" xml:space="preserve">
-    <value>Berechnen Sie automatisch die Farbe des Themes basierend auf dem Hintergrundbild und verwenden Sie standardmäßig die Farbe des System-Designs.</value>
+    <value>Calcola automaticamente il colore del tema in base all'immagine di sfondo e usa il colore predefinito del tema di sistema.</value>
   </data>
   <data name="UpdatePage_ReleasePage" xml:space="preserve">
-    <value>Release-Seite</value>
+    <value>Data di Rilascio</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>Verwenden Sie ein Drittanbieter-Plugin, um zu starten. Spielzeit kann nicht aufgezeichnet werden, wenn aktiviert.</value>
+    <value>Usa un plugin di terze parti per avviare. Il tempo di gioco non può essere registrato quando abilitato.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Geben Sie die Sprache der Gacha-Datensätze an, wie zum Beispiel en-US.</value>
+    <value>Specificare la lingua dei record gacha, esempio en-US.</value>
     <comment>Replace en-US with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
-    <value>Sprache</value>
+    <value>Lingua</value>
   </data>
   <data name="SettingPage_FollowSystem" xml:space="preserve">
-    <value>Dem System folgen</value>
+    <value>Usa Il Sistema</value>
   </data>
   <data name="SelectDirectoryPage_ToStart" xml:space="preserve">
-    <value>Um zu starten, wählen Sie bitte einen Ordner aus, um die App-Daten zu speichern.</value>
+    <value>Per iniziare, seleziona una cartella per salvare i dati dell'app.</value>
   </data>
   <data name="GachaLogService_GetGachaProgressText" xml:space="preserve">
-    <value>Erhalten {0} mit Seite {1}</value>
+    <value>Ottenere {0} con la pagina {1}</value>
     <comment>{0} = {gachaType} ,  {1} = {page}</comment>
   </data>
   <data name="HyperionToolbox" xml:space="preserve">
-    <value>Hyperion Werkzeugkasten</value>
+    <value>Strumenti Hyperion</value>
   </data>
   <data name="HoYoLABToolbox" xml:space="preserve">
-    <value>HoYoLAB Werkzeugkasten</value>
+    <value>Strumenti HoYoLAB</value>
   </data>
   <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
-    <value>Einloggen</value>
+    <value>Accedi</value>
   </data>
   <data name="HoyolabToolboxPage_WebLogin" xml:space="preserve">
-    <value>Webanmeldung</value>
+    <value>Accesso Web</value>
   </data>
   <data name="HoyolabToolboxPage_InputCookie" xml:space="preserve">
-    <value>Cookie eingeben</value>
+    <value>Aggiungi Cookie</value>
   </data>
   <data name="HoyolabToolboxPage_RefreshInfo" xml:space="preserve">
-    <value>Info aktualisieren</value>
+    <value>Aggiorna Informazioni</value>
   </data>
   <data name="HoyolabToolboxPage_CopyCookie" xml:space="preserve">
-    <value>Cookie kopieren</value>
+    <value>Copia Cookie</value>
   </data>
   <data name="HoyolabToolboxPage_DeleteGameRole" xml:space="preserve">
-    <value>Spielrolle löschen</value>
+    <value>Delete Game Role</value>
   </data>
   <data name="HoyolabToolboxPage_SpiralAbyss" xml:space="preserve">
     <value>Spiral Abyss</value>
   </data>
   <data name="HoyolabToolboxPage_TravelersDiary" xml:space="preserve">
-    <value>Tagebuch des Reisenden</value>
+    <value>Traveler's Diary</value>
   </data>
   <data name="HoyolabToolboxPage_SimulatedUniverse" xml:space="preserve">
-    <value>Simulierte Universum</value>
+    <value>Simulated Universe</value>
   </data>
   <data name="HoyolabToolboxPage_ForgottenHall" xml:space="preserve">
-    <value>Vergessener Saal</value>
+    <value>Forgotten Hall</value>
   </data>
   <data name="HoyolabToolboxPage_TrailblazeMonthlyCalendar" xml:space="preserve">
-    <value>Monatskalender des Trailblazes</value>
+    <value>Trailblaze Monthly Calendar</value>
   </data>
   <data name="LoginPage_ClickThisButtonAfterLoggingIn" xml:space="preserve">
-    <value>Klicken Sie nach dem Anmelden auf diesen Knopf.</value>
+    <value>Click this button after logging in.</value>
   </data>
   <data name="LoginPage_AlreadyAddedGameRoles" xml:space="preserve">
-    <value>Bereits {0} Spielrollen hinzugefügt:
+    <value>Already added {0} game roles:
 {1}</value>
   </data>
   <data name="Common_Summary" xml:space="preserve">
-    <value>Zusammenfassung</value>
+    <value>Summary</value>
   </data>
   <data name="SpiralAbyssPage_Picked" xml:space="preserve">
-    <value>Genommen</value>
+    <value>Picked</value>
     <comment>avatar battle count stats</comment>
   </data>
   <data name="SpiralAbyssPage_CombatStats" xml:space="preserve">
-    <value>Kampfstatistik</value>
+    <value>Combat Stats</value>
   </data>
   <data name="SpiralAbyssPage_MostDefeats" xml:space="preserve">
-    <value>Meiste Niederlagen</value>
+    <value>Più Sconfitte</value>
   </data>
   <data name="SpiralAbyssPage_StrongestSingleStrike" xml:space="preserve">
-    <value>Stärkster Einzelschlag</value>
+    <value>Strongest Single Strike</value>
   </data>
   <data name="SpiralAbyssPage_MostDamageTaken" xml:space="preserve">
-    <value>Meiste erlittenen Schaden</value>
+    <value>Most Damage Taken</value>
   </data>
   <data name="SpiralAbyssPage_ElementalSkillsUnleashed" xml:space="preserve">
-    <value>Elementarfertigkeiten einsetze</value>
+    <value>Elemental Skills Unleashed</value>
   </data>
   <data name="SpiralAbyssPage_ElementalBrustsUnleashed" xml:space="preserve">
-    <value>Elementarfertigkeiten einsetze</value>
+    <value>Elemental Brusts Unleashed</value>
   </data>
   <data name="TravelersDiaryPage_GetDetails" xml:space="preserve">
-    <value>Details anzeigen</value>
+    <value>Dettagli</value>
     <comment>get primogems and mora details</comment>
   </data>
   <data name="TravelersDiaryPage_RealTimeData" xml:space="preserve">
-    <value>Daten in Echtzeit</value>
+    <value>Dati in tempo reale</value>
   </data>
   <data name="TravelersDiaryPage_HistoricalData" xml:space="preserve">
-    <value>Historische Daten</value>
+    <value>Stato storico</value>
   </data>
   <data name="TravelersDiaryPage_AcquiredThisMonth" xml:space="preserve">
-    <value>Diesen Monat</value>
+    <value>Acquisito questo mese</value>
   </data>
   <data name="TravelersDiaryPage_AcquiredThisDay" xml:space="preserve">
-    <value>An diesem Tag erworben</value>
+    <value>Acquired this day</value>
   </data>
   <data name="TravelersDiaryPage_PrimogemsObtained" xml:space="preserve">
-    <value>Erhaltene Primogems</value>
+    <value>Primogems obtained</value>
   </data>
   <data name="SpiralAbyssPage_DeepestDescent" xml:space="preserve">
-    <value>Tiefster Abstieg</value>
+    <value>Deepest Descent</value>
   </data>
   <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
-    <value>Schlachten gekämpft</value>
+    <value>Battles Fought</value>
   </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
-    <value>zeiten</value>
+    <value>times</value>
     <comment>battle count 12 times</comment>
   </data>
   <data name="Common_Accept" xml:space="preserve">
-    <value>Annehmen</value>
+    <value>Accept</value>
   </data>
   <data name="Common_Reject" xml:space="preserve">
-    <value>Ablehnen</value>
+    <value>Reject</value>
   </data>
   <data name="HoyolabToolboxPage_WarningAgain" xml:space="preserve">
-    <value>Erneut warnen</value>
+    <value>Warning Again</value>
   </data>
   <data name="Common_Disclaimer" xml:space="preserve">
-    <value>Haftungsausschluss</value>
+    <value>Disclaimer</value>
   </data>
   <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
-    <value>Die Funktionen dieser Seite erfordern, dass Sie sich in Ihr Hyperion/HoYoLAB-Konto einloggen, und Starward speichert Ihre Anmeldedaten (Cookie) und gibt sich für Sie aus, um Anfragen an den miHoYo-Server zu senden. Diese Methode ist riskant und wir sind nicht dafür verantwortlich, wenn Ihr Konto infolgedessen angegriffen oder gesperrt wird?</value>
+    <value>The features of this page requires you to log in to your Hyperion/HoYoLAB account, and Starward will save your login credentials (Cookie) and impersonate you to send requests to miHoYo's server. This method is risky and we are not responsible if your account is abnormal or banned as a result.
+
+Do you accept the risk and continue to use it?</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
-    <value>Stellar Jadequellen</value>
+    <value>Stellar Jade Sources</value>
   </data>
   <data name="ForgottenHallPage_Period" xml:space="preserve">
-    <value>Zeitraum</value>
+    <value>Period</value>
   </data>
   <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
-    <value>Benutzte Zyklen:</value>
+    <value>Cycles used:</value>
   </data>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
-    <value>Team-Setup</value>
+    <value>Team Setup</value>
     <comment>example: forgotten hall team setup 1</comment>
   </data>
   <data name="Common_AccountError" xml:space="preserve">
-    <value>Kontofehler</value>
+    <value>Account Error</value>
   </data>
   <data name="Common_NetworkError" xml:space="preserve">
-    <value>Netzwerkfehler</value>
+    <value>Network Error</value>
   </data>
   <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
-    <value>Account verifizieren</value>
+    <value>Verify Account</value>
   </data>
   <data name="DownloadGameService_RepairMode" xml:space="preserve">
-    <value>Reparaturmodus</value>
+    <value>Repair Mode</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
-    <value>Nach entpacken wird mehr Speicher benötigt.</value>
+    <value>It takes additional storage space when unzip.</value>
   </data>
   <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
-    <value>Fähigkeitsbaum Buffs aktiviert</value>
+    <value>Ability Tree Buffs Activated</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
-    <value>Entsperrtes Kuriosität</value>
+    <value>Unlocked Curios</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
-    <value>Freigeschaltete Segen</value>
+    <value>Unlocked Blessings</value>
   </data>
   <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
-    <value>Anzahl der Säuberung</value>
+    <value>Number of Clears</value>
   </data>
   <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
-    <value>Höchste Punktzahl</value>
+    <value>Highest Score</value>
   </data>
   <data name="SimulatedUniversePage_ChallengedOn" xml:space="preserve">
-    <value>Herausfordert am</value>
+    <value>Challenged On</value>
   </data>
   <data name="SimulatedUniversePage_CharactersUsed" xml:space="preserve">
-    <value>Charaktere benutzt</value>
+    <value>Characters Used</value>
   </data>
   <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
-    <value>Charaktere in simulierten Universum</value>
+    <value>Cached Characters</value>
   </data>
   <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
-    <value>Erhaltene Kuriositäten</value>
+    <value>Curios Obtained</value>
   </data>
   <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
-    <value>Segen erhalten</value>
+    <value>Blessings Obtained</value>
   </data>
   <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
-    <value>Tagesdaten</value>
+    <value>Daily Data</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJade" xml:space="preserve">
-    <value>Stellare Jade</value>
+    <value>Stellar Jade</value>
   </data>
   <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
-    <value>Pass &amp; Spezialpass</value>
+    <value>Pass &amp; Special Pass</value>
   </data>
   <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
     <value>Primogems</value>
@@ -984,401 +986,401 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Mora</value>
   </data>
   <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
-    <value>Aktuelle Etage：{1}</value>
+    <value>Floor {X}</value>
     <comment>Spiral Abyss Floor {X}</comment>
   </data>
   <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
-    <value>Kammer- {X}</value>
+    <value>Chamber {X}</value>
     <comment>Spiral Abyss Chamber {X}</comment>
   </data>
   <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
-    <value>Screenshot-Ordner ist nicht vorhanden</value>
+    <value>Screenshot folder does not exist</value>
   </data>
   <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
-    <value>Die Sprache von {0} Gacha-Datensätzen wurde geändert in ({1}).</value>
+    <value>The language of {0} gacha records has been changed to ({1}).</value>
     <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
   <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
-    <value>Datenschutzbestimmungen</value>
+    <value>Privacy Policy</value>
   </data>
   <data name="MainPage_Tips" xml:space="preserve">
-    <value>Hinweise</value>
+    <value>Tips</value>
   </data>
   <data name="SettingPage_CDNTips" xml:space="preserve">
-    <value>Benutzer in einigen Bereichen stoßen möglicherweise auf Anomalien im Netzwerk. Sie könnten dieses Problem lösen, indem Sie CDN wechseln.</value>
+    <value>Users in some areas may encounter network anomalies. You could solve this problem by switching CDNs.</value>
   </data>
   <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
-    <value>Wähle einen Server</value>
+    <value>Select Server</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
     <value>System Tray Icon</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
-    <value>Launcher beim Schließen beenden</value>
+    <value>Exit Launcher When Closing Window</value>
   </data>
   <data name="Common_Exit" xml:space="preserve">
-    <value>Beenden</value>
+    <value>Exit</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>Infobereich</value>
+    <value>System Tray</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
-    <value>Installationsprogramm</value>
+    <value>Installer</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>Sie können das Fenster beenden oder ausblenden und in das Systeminfobereich minimieren.</value>
+    <value>You could choose to exit or hide window and minimize to system tray.</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
-    <value>Verbergen</value>
+    <value>Hide</value>
   </data>
   <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
-    <value>Screenshots sichern</value>
+    <value>Backup Screenshots</value>
   </data>
   <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
-    <value>Backup-Ordner öffnen</value>
+    <value>Apri Cartella Backup</value>
   </data>
   <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
-    <value>Funktion nicht unterstützt</value>
+    <value>Funzionalità non supportata</value>
   </data>
   <data name="SettingPage_LastBackup" xml:space="preserve">
-    <value>Letzte Sicherung</value>
+    <value>Ultimo backup</value>
   </data>
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
-    <value>Datenbank sichern</value>
+    <value>Backup Database</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
-    <value>{0} neue Screenshots wurden gesichert.</value>
+    <value>Ottenuti {0} nuovi screenshots.</value>
   </data>
   <data name="MainPage_GameNotices" xml:space="preserve">
-    <value>Spielhinweise</value>
+    <value>Avvisi Di Gioco</value>
   </data>
   <data name="DownloadGamePage_Merging" xml:space="preserve">
-    <value>Zusammenführen</value>
+    <value>Merging</value>
   </data>
   <data name="LauncherPage_Required" xml:space="preserve">
-    <value>Benötigt</value>
+    <value>Richiesto</value>
     <comment>Nickname is required.</comment>
   </data>
   <data name="DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip" xml:space="preserve">
-    <value>Aktivieren, wenn nicht genügend freier Speicherplatz zum Entpacken vorhanden ist.</value>
+    <value>Attiva se non c'è abbastanza spazio libero per la decompressione.</value>
   </data>
   <data name="LauncherPage_ConfirmDelete" xml:space="preserve">
-    <value>Löschen bestätigen</value>
+    <value>Conferma Eliminazione</value>
   </data>
   <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
-    <value>Aktuell angemeldete Konto</value>
+    <value>Account Attivo</value>
   </data>
   <data name="Common_Attention" xml:space="preserve">
-    <value>Warnung</value>
+    <value>Attenzione</value>
   </data>
   <data name="LauncherPage_Replace" xml:space="preserve">
-    <value>Ersetzen</value>
+    <value>Sostituisci</value>
   </data>
   <data name="LauncherPage_SaveNew" xml:space="preserve">
-    <value>Neu speichern</value>
+    <value>Salva nuovo</value>
     <comment>Account with uid {0} already exists, replace it or save new?</comment>
   </data>
   <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
-    <value>Konto mit Uid {0} existiert bereits, ersetzen oder neu speichern?</value>
+    <value>L'account con uid {0} esiste già, sostituirlo o salvare nuovo?</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
-    <value>System-Tray reparieren</value>
+    <value>Ripara il System Tray</value>
   </data>
   <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
-    <value>Diese Methode wird den Explorer neu starten. Um den Fehler mit fehlendem Tray-Symbol zu beheben.</value>
+    <value>Correggi il problema che non può creare l'icona nel system tray, questo metodo riavvierà l'exporer.</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
-    <value>Account-Aufzeichnungen</value>
+    <value>Registri Account</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData" xml:space="preserve">
-    <value>Monatsdaten löschen</value>
+    <value>Elimina i dati di questo mese</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Schritte um die URL zu erhalten:</value>
+    <value>Passi per ottenere l'URL:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Menü im Spiel öffnen.
-- Klicken Sie auf Feedback (Genshin) oder Bug-Report (Star Rail).
-- Kopieren Sie die URL und fügen Sie sie in das untenstehende Feld ein.</value>
+    <value>- Aprire il menu nel gioco.
+- Fare clic su Feedback (Genshin) o Bug Report (Star Rail).
+- Copiare l'URL del web e incollarlo nella casella sottostante.</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
-    <value>Hinweis: Die Aufzeichnungssprache folgt der Spracheinstellung im Spiel und kann nicht geändert werden.</value>
+    <value>Nota: La lingua dei record segue l'impostazione della lingua nel gioco e non può essere modificata.</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
-    <value>Möchten Sie Datensätze von {0} in {1} löschen? Diese Operation kann nicht abgebrochen werden.</value>
+    <value>Vuoi eliminare i record di {0} in {1}? Questa operazione non può essere annullata.</value>
     <comment>Would you like to delete records of Stellar Jade in 2023-08? This operation cannot be canceled.</comment>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
-    <value>{0} Einträge von {1} in {2} gelöscht.</value>
+    <value>Eliminato {0} record di {1} in {2}.</value>
     <comment>Deleted 123 records of Stellar Jade in 2023-08.</comment>
   </data>
   <data name="LauncherPage_UninstallGame" xml:space="preserve">
-    <value>Spiel deinstallieren</value>
+    <value>Disinstalla Gioco</value>
   </data>
   <data name="UninstallGameDialog_CleanRegistry" xml:space="preserve">
-    <value>Registry bereinigen</value>
+    <value>Pulisci Registro</value>
   </data>
   <data name="UninstallGameDialog_DeleteTemporaryFiles" xml:space="preserve">
-    <value>Temporäre Dateien löschen</value>
+    <value>Elimina File Temporanei</value>
   </data>
   <data name="UninstallGameDialog_DeleteGameAssets" xml:space="preserve">
-    <value>Spiel-Assets löschen</value>
+    <value>Elimina Risorse Di Gioco</value>
   </data>
   <data name="UninstallGameDialog_StepTip" xml:space="preserve">
-    <value>Wählen Sie die Schritte zur Deinstallation aus. Die Deinstallation dauert eine Weile und deshalb haben Sie Geduld.</value>
+    <value>Scegli i passaggi di disinstallazione. La disinstallazione richiede molto tempo, quindi sii paziente.</value>
   </data>
   <data name="UninstallGameDialog_OfficalLauncherTip" xml:space="preserve">
-    <value>Der offizielle Launcher muss von Ihnen selbst deinstalliert werden.</value>
+    <value>Il launcher ufficiale deve essere disinstallato manualmente.</value>
   </data>
   <data name="LauncherPage_UninstallationError" xml:space="preserve">
-    <value>Deinstallationsfehler</value>
+    <value>Errore Disinstallazione</value>
   </data>
   <data name="LauncherPage_UninstallationCompleted" xml:space="preserve">
-    <value>Deinstallation abgeschlossen</value>
+    <value>Disinstallazione Completata</value>
   </data>
   <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
-    <value>Bitte überprüfen Sie die zugehörigen Protokolle.</value>
+    <value>Si prega di controllare i registri correlati.</value>
   </data>
   <data name="SettingPage_Donate" xml:space="preserve">
-    <value>Spenden</value>
+    <value>Donazione</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
-    <value>URL Protocol (Experimentell)</value>
+    <value>Protocollo URL (Sperimentale)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
-    <value>Andere Software kann einige der Funktionen von Starward über das URL-Protokoll verwenden.</value>
+    <value>Altri software possono utilizzare alcune funzionalità di Starward attraverso il protocollo URL.</value>
   </data>
   <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
-    <value>URL-Protokoll registrieren</value>
+    <value>Registra Protocollo URL</value>
   </data>
   <data name="SettingPage_TestURLProtocol" xml:space="preserve">
-    <value>Test URL Protocol</value>
+    <value>Testa Protocollo URL</value>
   </data>
   <data name="LauncherPage_OpenInBrowser" xml:space="preserve">
-    <value>Im Browser öffnen</value>
+    <value>Apri nel browser</value>
   </data>
   <data name="ImageViewPage_ZoomOut" xml:space="preserve">
-    <value>Verkleinern</value>
+    <value>Zoom indietro</value>
   </data>
   <data name="ImageViewPage_ZoomIn" xml:space="preserve">
-    <value>Vergrößern</value>
+    <value>Zoom avanti</value>
   </data>
   <data name="ImageViewPage_Rotate" xml:space="preserve">
-    <value>Drehen</value>
+    <value>Ruota</value>
   </data>
   <data name="Common_Copy" xml:space="preserve">
-    <value>Kopieren</value>
+    <value>Copia</value>
   </data>
   <data name="Common_Open" xml:space="preserve">
-    <value>Öffnen</value>
+    <value>Apri</value>
   </data>
   <data name="LauncherPage_StartupCount" xml:space="preserve">
-    <value>Spiel gestartet</value>
+    <value>Conteggio Startup</value>
   </data>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
-    <value>Datenordner</value>
+    <value>Cartella dati</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>Log-Datei öffnen</value>
+    <value>Apri file di registro</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
-    <value>Erscheinungsbild</value>
+    <value>Aspetto</value>
   </data>
   <data name="SettingPage_FileManagement" xml:space="preserve">
-    <value>Dateiverwaltung</value>
+    <value>Gestore file</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
-    <value>Fertig</value>
+    <value>Completato</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
-    <value>Links</value>
+    <value>Indirizzi</value>
   </data>
   <data name="SettingPage_Advanced" xml:space="preserve">
-    <value>Fortgeschritten</value>
+    <value>Avanzate</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>Dieser Tag</value>
+    <value>Oggi</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
-    <value>Fensteroptionen schließen</value>
+    <value>Chiudi Opzione Finestra</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
-    <value>In den Infobereich minimieren</value>
+    <value>Riduci ad icona sull'area di notifica</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
-    <value>Komplett beenden</value>
+    <value>Esci completamente</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>Fenster in Systeminfobereich minimieren</value>
+    <value>Chiudi la finestra ma tieni l'icona</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
-    <value>Erfahrung</value>
+    <value>Esperienza</value>
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
-    <value>Sie können die Option in der Einstellungsseite erneut ändern.</value>
+    <value>Puoi cambiare nuovamente l'opzione nelle impostazioni.</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
-    <value>Ihre persönlichen Daten werden im ausgewählten Ordner gespeichert. Löschen ist nicht empfehlenswert.</value>
+    <value>I tuoi dati personali sono memorizzati nella cartella sottostante. È molto importante, non cancellarli casualmente.</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
-    <value>Theme Farbe</value>
+    <value>Colore del tema</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColorDescription" xml:space="preserve">
-    <value>Standardmäßig wird die Farbe des Themes durch das Hintergrundbild bestimmt.</value>
+    <value>Per impostazione predefinita, il colore del tema viene determinato attraverso l'immagine di sfondo.</value>
   </data>
   <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
-    <value>Farbe des Systemthemas verwenden</value>
+    <value>Usa Colore Tema Di Sistema</value>
   </data>
   <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
-    <value>Navigationsleistensymbol immer anzeigen</value>
+    <value>Mostra sempre le icone della barra laterale</value>
   </data>
   <data name="ExperienceSettingPage_Features" xml:space="preserve">
-    <value>Funktionen</value>
+    <value>Funzionalità</value>
   </data>
   <data name="ExperienceSettingPage_HideGameAccountSwitcher" xml:space="preserve">
-    <value>Spielkontoschalter verbergen</value>
+    <value>Nascondi cambio account di gioco</value>
   </data>
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
-    <value>Rote Punkterinnerung für Spielnotizen deaktivieren</value>
+    <value>Disabilita il punto rosso per le notifiche di gioco</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
-    <value>Netzwerk-Test</value>
+    <value>Test Di Rete</value>
   </data>
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
-    <value>Kannst du Updates für Starward erhalten?</value>
+    <value>Sei in grado di ricevere aggiornamenti per Starward?</value>
   </data>
   <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
-    <value>Bitte wählen Sie einen Ordner, um Ihre persönlichen Daten zu speichern, es ist sehr wichtig!</value>
+    <value>Seleziona una cartella per memorizzare i tuoi dati personali, è molto importante!</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToTaskbar" xml:space="preserve">
-    <value>In die Taskleiste minimieren</value>
+    <value>Minimizza programma</value>
   </data>
   <data name="ExperienceSettingPage_DoNothing" xml:space="preserve">
-    <value>Nichts machen</value>
+    <value>Non fare nulla</value>
   </data>
   <data name="ExperienceSettingPage_AfterStartingGame" xml:space="preserve">
-    <value>Nach dem Start des Spiels</value>
+    <value>Dopo L'Avvio Del Gioco</value>
   </data>
   <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
-    <value>Schnellbereinigt</value>
+    <value>Quick Cleared</value>
   </data>
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
-    <value>Reine Fiktion</value>
+    <value>Pura Finzione</value>
   </data>
   <data name="AppearanceSettingPage_HelpUsTranslateStarward" xml:space="preserve">
-    <value>Hilf uns, Starward zu übersetzen</value>
+    <value>Aiutaci a tradurre Starward</value>
   </data>
   <data name="FileSettingPage_Cache" xml:space="preserve">
     <value>Cache</value>
   </data>
   <data name="FileSettingPage_Log" xml:space="preserve">
-    <value>Protokoll</value>
+    <value>Registro</value>
   </data>
   <data name="FileSettingPage_Image" xml:space="preserve">
-    <value>Bild</value>
+    <value>Immagine</value>
   </data>
   <data name="FileSettingPage_Browser" xml:space="preserve">
     <value>Browser</value>
   </data>
   <data name="FileSettingPage_ClearCache" xml:space="preserve">
-    <value>Cache leeren</value>
+    <value>Cancella Cache</value>
   </data>
   <data name="DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning" xml:space="preserve">
-    <value>Die Download-Aufgabe von {0} läuft bereits.</value>
+    <value>Il download di {0} è già in esecuzione.</value>
     <comment>{0} is game name, like Genshin Impact.</comment>
   </data>
   <data name="DownloadGamePage_TheFolderDoesNotExist" xml:space="preserve">
-    <value>Das Verzeichnis existiert nicht.</value>
+    <value>La cartella non esiste.</value>
   </data>
   <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
-    <value>Bitte wählen Sie nicht das Hauptverzeichnis eines Laufwerks.</value>
+    <value>Per favore non selezionare la directory radice di un disco.</value>
   </data>
   <data name="LauncherPage_SavedAccount" xml:space="preserve">
-    <value>Konto speichern</value>
+    <value>Salva Account</value>
   </data>
   <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
-    <value>Kontowechsel kann während des Spiels ausgeführt werden.</value>
+    <value>Il cambio account non può avere effetto mentre il gioco è in esecuzione.</value>
   </data>
   <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
-    <value>Wir empfohlen {0} und {1} in den Systemeinstellungen für eine bessere Benutzererfahrung zu aktivieren.</value>
+    <value>Consigliato di abilitare {0} e {1} nelle impostazioni di sistema per una migliore esperienza utente.</value>
   </data>
   <data name="AppearanceSettingPage_TransparencyEffects" xml:space="preserve">
-    <value>Transparenzeffekte</value>
+    <value>Effetti di trasparenza</value>
   </data>
   <data name="AppearanceSettingPage_AnimationEffects" xml:space="preserve">
-    <value>Animationseffekte</value>
+    <value>Effetti animazione</value>
   </data>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
-    <value>Mein Abrufen von Gacha-Datensätzen klappt nie?</value>
+    <value>Non sei in grado di ottenere i record gacha?</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
-    <value>Keine Daten</value>
+    <value>Nessun dato</value>
   </data>
   <data name="AboutSettingPage_VerifyFileIntegrity" xml:space="preserve">
-    <value>Dateiintegrität prüfen</value>
+    <value>Verifica Integrità File</value>
   </data>
   <data name="AboutSettingPage_VerifyFailed" xml:space="preserve">
-    <value>Verifizieren fehlgeschlagen</value>
+    <value>Verifica Fallita</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
-    <value>Die aktuelle Version ist nicht die neueste Version ({0}).</value>
+    <value>La versione corrente non è l'ultima versione ({0}).</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
-    <value>Klicken Sie auf die Schaltfläche, um Dateien zu reparieren.</value>
+    <value>Fare clic sul pulsante per riparare i file.</value>
   </data>
   <data name="AboutSettingPage_RepairFiles" xml:space="preserve">
-    <value>Repariere Dateien</value>
+    <value>Ripara File</value>
   </data>
   <data name="AboutSettingPage_VerifySuccessfully" xml:space="preserve">
-    <value>Überprüfung erfolgreich!</value>
+    <value>Verifica riuscita!</value>
   </data>
   <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
-    <value>{0} Dateien überprüfen fehlgeschlagen.</value>
+    <value>Verifica file {0} non riuscita.</value>
   </data>
   <data name="LauncherPage_ReinstallGame" xml:space="preserve">
-    <value>Spiel erneut installieren</value>
+    <value>Reinstalla Gioco</value>
   </data>
   <data name="LauncherPage_SwitchClient" xml:space="preserve">
-    <value>Client wechseln</value>
+    <value>Cambia Client</value>
   </data>
   <data name="FileSettingPage_GameResource" xml:space="preserve">
-    <value>Spielressourcen</value>
+    <value>Game Resource</value>
   </data>
   <data name="SwitchClientPage_SelectTargetGameServer" xml:space="preserve">
-    <value>Zielspielserver auswählen</value>
+    <value>Seleziona il server di gioco</value>
   </data>
   <data name="SwitchClientPage_FeatureDescription" xml:space="preserve">
-    <value>Diese Funktion kann den Client schnell auf den entsprechenden Server wechseln und benötigt nur einige Ressourcen während des ersten Wechsels herunterzuladen.</value>
+    <value>Questa funzione può passare rapidamente il client al server corrispondente, solo bisogno di scaricare alcune risorse durante il primo cambio.</value>
   </data>
   <data name="SwitchClientPage_StartSwitching" xml:space="preserve">
-    <value>Wechsel starten</value>
+    <value>Inizia Trasferimento</value>
   </data>
   <data name="SwitchClientPage_TheLocalGameVersionIsNotTheLatest" xml:space="preserve">
-    <value>Die lokale Spielversion ist nicht die aktuellste.</value>
+    <value>La versione del gioco locale non è la più recente.</value>
   </data>
   <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
-    <value>Die Zielserverversion unterscheidet sich von der lokalen Version.</value>
+    <value>La versione del server è diversa dalla versione locale.</value>
   </data>
   <data name="SwitchClientPage_ReadyToSwitchClient" xml:space="preserve">
-    <value>Bereit zum Client wechseln</value>
+    <value>Pronto per cambiare client</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryAgain" xml:space="preserve">
-    <value>Dateiüberprüfung fehlgeschlagen, bitte versuchen Sie es erneut.</value>
+    <value>Verifica del file non riuscita, riprova.</value>
   </data>
   <data name="SwitchClientPage_FileVerificationFailedPleaseTryToRepairGameResources" xml:space="preserve">
-    <value>Dateiüberprüfung fehlgeschlagen, bitte versuche die Spielressourcen zu reparieren.</value>
+    <value>Verifica del file non riuscita, prova a riparare le risorse del gioco.</value>
   </data>
   <data name="GameResourcePage_LatestVersion" xml:space="preserve">
-    <value>Neueste Version</value>
+    <value>Ultima versione</value>
   </data>
   <data name="GameResourcePage_FullPackages" xml:space="preserve">
-    <value>Vollständige Pakete</value>
+    <value>Pacchetti Completi</value>
   </data>
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
-    <value>Vergleichspakete</value>
+    <value>Diff Pacchetti</value>
   </data>
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
-    <value>Die Ordner YuanShen_Data und GenshinImpact_Data können nicht gleichzeitig existieren.</value>
+    <value>Le cartelle YuanShen_Data e GenshinImpact_Data non possono esistere allo stesso tempo.</value>
   </data>
 </root>

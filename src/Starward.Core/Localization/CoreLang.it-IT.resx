@@ -118,46 +118,46 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>Figuren-Aktionswarp</value>
+    <value>Evocazione Evento Personaggio</value>
   </data>
   <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>Limitiertes Banner</value>
+    <value>Desiderio Evento Personaggio</value>
   </data>
   <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>Zweites limitiertes Banner</value>
+    <value>Desiderio Evento Personaggio - 2</value>
   </data>
   <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>Abreise-Warp</value>
+    <value>Evocazioni per novizi</value>
   </data>
   <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>Lichtkegel-Aktionswarp</value>
+    <value>Evocazione Evento Cono Stellare</value>
   </data>
   <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>Anfänger Banner</value>
+    <value>Desideri per novizi</value>
   </data>
   <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>Standard Banner</value>
+    <value>Desiderio Standard</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>Stellarwarp</value>
+    <value>Evocazione Stellare</value>
   </data>
   <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>Waffenbanner</value>
+    <value>Desiderio evento arma</value>
   </data>
   <data name="Gacha_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Kann die Warpdatensatz-URL nicht analysieren.</value>
+    <value>Impossibile analizzare l'URL registro evocazioni.</value>
   </data>
   <data name="Gacha_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Kann die Wunschlisten-Eintrag URL nicht analysieren.</value>
+    <value>Impossibile analizzare l'URL registro dei desideri.</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
-    <value>Ereignisse</value>
+    <value>Eventi</value>
   </data>
   <data name="PostType_Announcement" xml:space="preserve">
-    <value>Mitteilungen</value>
+    <value>Notizie</value>
   </data>
   <data name="PostType_Information" xml:space="preserve">
-    <value>Informationen</value>
+    <value>Info</value>
   </data>
   <data name="Game_GenshinImpact" xml:space="preserve">
     <value>Genshin Impact</value>
@@ -169,64 +169,64 @@
     <value>Honkai Impact 3rd</value>
   </data>
   <data name="GameServer_ChinaServer" xml:space="preserve">
-    <value>China-Server</value>
+    <value>Server Cinese</value>
   </data>
   <data name="GameServer_GlobalServer" xml:space="preserve">
-    <value>Globaler Server</value>
+    <value>Server Globale</value>
   </data>
   <data name="GameServer_ChinaCloudServer" xml:space="preserve">
-    <value>China Cloud Server</value>
+    <value>Server Cloud Cinese</value>
   </data>
   <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
-    <value>Europa- und Amerikanische Server</value>
+    <value>Server Americani ed Europeo</value>
   </data>
   <data name="GameServer_JapanServer" xml:space="preserve">
-    <value>Japanische Server</value>
+    <value>Server Giapponese</value>
   </data>
   <data name="GameServer_KoreaServer" xml:space="preserve">
-    <value>Koreanische Server</value>
+    <value>Server Coreano</value>
   </data>
   <data name="GameServer_SEAServer" xml:space="preserve">
-    <value>Südost-Asien-Server</value>
+    <value>Server Sud-Est Asiatico</value>
     <comment>Southeast Asia and Australia Server</comment>
   </data>
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
-    <value>Traditioneller chinesischer Server</value>
+    <value>Server Cinese Tradizionale</value>
   </data>
   <data name="GenshinQueryType_GenesisCrystal" xml:space="preserve">
-    <value>Genesiskristalle</value>
+    <value>Cristallo della genesi</value>
   </data>
   <data name="GenshinQueryType_Primogem" xml:space="preserve">
-    <value>Primogems</value>
+    <value>Primogemme</value>
   </data>
   <data name="GenshinQueryType_OriginalResin" xml:space="preserve">
-    <value>Ursprüngliches Harz</value>
+    <value>Resina primordiale</value>
   </data>
   <data name="GenshinQueryType_Artifact" xml:space="preserve">
-    <value>Artefakte</value>
+    <value>Manufatti</value>
   </data>
   <data name="GenshinQueryType_Weapon" xml:space="preserve">
-    <value>Waffen</value>
+    <value>Armi</value>
   </data>
   <data name="StarRailQueryType_StellarJade" xml:space="preserve">
-    <value>Stellare Jade</value>
+    <value>Giada Stellare</value>
   </data>
   <data name="StarRailQueryType_OneiricShared" xml:space="preserve">
-    <value>Traumsplitter</value>
+    <value>Frammento Onirico</value>
   </data>
   <data name="StarRailQueryType_Relic" xml:space="preserve">
-    <value>Relikt</value>
+    <value>Reliquie</value>
   </data>
   <data name="StarRailQueryType_LightCone" xml:space="preserve">
-    <value>Lichtkegel</value>
+    <value>Cono Lucente</value>
   </data>
   <data name="StarRailQueryType_TrailblazePower" xml:space="preserve">
-    <value>Trailblaze Kraft</value>
+    <value>Energia Pionieristica</value>
   </data>
   <data name="GameServer_BilibiliServer" xml:space="preserve">
-    <value>Bilibili Server</value>
+    <value>Server Bilibili</value>
   </data>
   <data name="GachaType_ChronicledWish" xml:space="preserve">
-    <value>Kollektionsgebet</value>
+    <value>Desiderio delle cronache</value>
   </data>
 </root>
