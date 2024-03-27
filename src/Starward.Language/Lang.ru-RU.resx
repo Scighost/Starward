@@ -154,7 +154,7 @@
     <value>Недостаточно свободного места</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
-    <value>Гарант</value>
+    <value>Откручено</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
     <value>Среднее значение</value>
