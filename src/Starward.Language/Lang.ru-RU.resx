@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
-    <value>Размер пакета:</value>
+    <value>Размер:</value>
   </data>
   <data name="DownloadGameDialog_Downloaded" xml:space="preserve">
     <value>Скачано:</value>
@@ -127,13 +127,13 @@
     <value>Доступное место:</value>
   </data>
   <data name="DownloadGameDialog_RequiredSpaceForUnzipping" xml:space="preserve">
-    <value>Необходимое место:</value>
+    <value>Необходимо места:</value>
   </data>
   <data name="DownloadGameDialog_RepairMode" xml:space="preserve">
     <value>Режим ремонта:</value>
   </data>
   <data name="DownloadGameDialog_VoiceLanguage" xml:space="preserve">
-    <value>Язык Озвучки:</value>
+    <value>Язык голоса:</value>
   </data>
   <data name="Language_Chinese" xml:space="preserve">
     <value>Китайский</value>
@@ -148,10 +148,10 @@
     <value>Корейский</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>Эта функция находится в стадии тестирования. Если есть повреждение файлов игры, пожалуйста, используйте официальный лаунчер, чтобы восстановить его.</value>
+    <value>Эта функция находится на стадии тестирования. Если файлы игры повреждены, воспользуйтесь официальным лаунчером для их восстановления.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
-    <value>Недостаточно свободного места</value>
+    <value>Свободного места может быть недостаточно</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
     <value>Откручено</value>
@@ -214,8 +214,8 @@
     <value>Закрыть программу</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
-    <value>Загрузка может быть возобновлена после следующего запуска;
-закрытие программы во время распаковки приведет к повреждению файла игры.</value>
+    <value>Скачивание можно возобновить после следующего запуска.
+Закрытие программы во время распаковки приведет к повреждению файлов игры.</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
     <value>Закрыть</value>
@@ -224,10 +224,10 @@
     <value>Отменить</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>Программное обеспечение скоро выйдет</value>
+    <value>Программа скоро закроется</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
-    <value>Повторить Запуск</value>
+    <value>Повторить запуск</value>
   </data>
   <data name="Common_Confirm" xml:space="preserve">
     <value>Подтвердить</value>
@@ -242,13 +242,13 @@
     <value>Пожалуйста, запустите как администратор</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
-    <value>Запуск</value>
+    <value>Начать</value>
   </data>
   <data name="DownloadGamePage_Preparing" xml:space="preserve">
     <value>Подготовка</value>
   </data>
   <data name="DownloadGamePage_Downloading" xml:space="preserve">
-    <value>Загрузка</value>
+    <value>Скачивание</value>
   </data>
   <data name="DownloadGamePage_Verifying" xml:space="preserve">
     <value>Проверка</value>
@@ -287,7 +287,7 @@
     <value>Ошибка проверки следующего файла:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
-    <value>Повторно загрузить</value>
+    <value>Перескачать</value>
   </data>
   <data name="DownloadGamePage_Ignore" xml:space="preserve">
     <value>Пропустить</value>
@@ -302,7 +302,7 @@
     <value>Пропустить проверку</value>
   </data>
   <data name="DownloadGamePage_DownloadPaused" xml:space="preserve">
-    <value>Загрузка приостановлена</value>
+    <value>Скачивание приостановлено</value>
   </data>
   <data name="GachaLogPage_NoGachaRecords" xml:space="preserve">
     <value>Нет записей о гаче</value>
@@ -386,7 +386,7 @@
     <value>История Прижков</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>Получить uid</value>
+    <value>Получение UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
     <value>У этого аккаунта нет записей о гаче за последние 6 месяцев.</value>
@@ -447,7 +447,7 @@
     <value>Язык Озвучки</value>
   </data>
   <data name="GameSettingPage_VoiceLanguageDescription" xml:space="preserve">
-    <value>Установите это значение перед началом игры впервые, чтобы избежать загрузки некоторых голосовых ресурсов</value>
+    <value>Установите это значение перед первым запуском игры, чтобы избежать скачивания некоторых голосовых ресурсов</value>
   </data>
   <data name="GameSettingPage_GraphicsSetting" xml:space="preserve">
     <value>Настройки графики</value>
@@ -531,7 +531,7 @@
     <value>Предварительная установка</value>
   </data>
   <data name="LauncherPage_CurrentAccount" xml:space="preserve">
-    <value>Текущий аккаунт выбран</value>
+    <value>Использовать учётную запись для входа</value>
   </data>
   <data name="LauncherPage_SwitchAccount" xml:space="preserve">
     <value>Сменить аккаунт</value>
@@ -555,16 +555,16 @@
     <value>Найти</value>
   </data>
   <data name="LauncherPage_RepairGame" xml:space="preserve">
-    <value>Восстановить игру</value>
+    <value>Починить игру</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>Пользовательский запуск исполняемых файлов</value>
+    <value>Пользовательский исполняемый файл запуска</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>Выбрать</value>
   </data>
   <data name="LauncherPage_ShowGameAnnouncement" xml:space="preserve">
-    <value>Показать объявление о игре</value>
+    <value>Показывать объявления игры</value>
   </data>
   <data name="LauncherPage_IgnoreRunningGameProcess" xml:space="preserve">
     <value>Игнорировать запущенный процесс игры</value>
@@ -573,10 +573,10 @@
     <value>Настройка фона</value>
   </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
-    <value>Использовать одинаковый фон во всех игровых регионах</value>
+    <value>Используйте одинаковый фон во всех регионах игры</value>
   </data>
   <data name="SettingPage_BgSizeTip" xml:space="preserve">
-    <value>Пожалуйста, выберите изображение с размером пикселя соответствует окну приложения; чрезмерный размер изображения снизит производительность.</value>
+    <value>Выберите изображение, размер которого в пикселях соответствует окну приложения; изображения слишком большого размера снижают производительность.</value>
   </data>
   <data name="LauncherPage_StartGame" xml:space="preserve">
     <value>Запустить игру</value>
@@ -585,7 +585,7 @@
     <value>Игра уже запущена</value>
   </data>
   <data name="Common_Start" xml:space="preserve">
-    <value>Запуск</value>
+    <value>Начать</value>
   </data>
   <data name="LauncherPage_SelectInstallFolder" xml:space="preserve">
     <value>Выберите папку для установки</value>
@@ -594,13 +594,13 @@
     <value>Продолжить</value>
   </data>
   <data name="LauncherPage_Reselect" xml:space="preserve">
-    <value>Выбрать заново</value>
+    <value>Перевыбрать</value>
   </data>
   <data name="LauncherPage_TheFollowingFolderContainsUnfinishedDownloadTasks" xml:space="preserve">
-    <value>Следующая папка содержит незавершенные задачи загрузки:</value>
+    <value>В следующей папке содержатся незавершенные задачи скачивания:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Пожалуйста, выберите пустую папку для установки игры, или найдите папку, в которой находится исполняемый файл {0}.</value>
+    <value>Выберите пустую папку для установки игры или найдите папку, в которой находится исполняемый файл {0}.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>Если это не последняя версия, пожалуйста, измените файл config.ini в директории установки игры.</value>
@@ -609,10 +609,10 @@
     <value>Начать проверку</value>
   </data>
   <data name="LauncherPage_WouldYouLikeToVerifyTheFiles" xml:space="preserve">
-    <value>Предварительная установка завершена, вы хотите проверить файлы?</value>
+    <value>Предустановка завершена, хотите проверить файлы?</value>
   </data>
   <data name="MainPage_HowToSwitchGameRegion" xml:space="preserve">
-    <value>Как переключить игровой регион?</value>
+    <value>Как сменить регион игры?</value>
   </data>
   <data name="MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft" xml:space="preserve">
     <value>Щелкните правой кнопкой мыши по иконке игры слева.</value>
@@ -662,13 +662,13 @@
     <value>Фон приложения</value>
   </data>
   <data name="SettingPage_CustomBackgroundSupportVideo" xml:space="preserve">
-    <value>Пользовательский фон (Поддержка видео)</value>
+    <value>Настраиваемый фон (Можно видеофоны)</value>
   </data>
   <data name="SettingPage_DynamicThemeColor" xml:space="preserve">
     <value>Динамический цвет темы</value>
   </data>
   <data name="SettingPage_CloudFlareConnectProperly" xml:space="preserve">
-    <value>Приложение загрузит необходимые ресурсы с CloudFlare, поэтому убедитесь, что он может подключиться правильно.</value>
+    <value>Приложение скачает необходимые ресурсы с CloudFlare, поэтому убедитесь, что оно может правильно подключиться.</value>
   </data>
   <data name="SettingPage_CheckForUpdate" xml:space="preserve">
     <value>Проверить наличие обновления</value>
@@ -677,7 +677,7 @@
     <value>Текущая версия:</value>
   </data>
   <data name="SettingPage_JoinPreviewReleaseChannel" xml:space="preserve">
-    <value>Присоединиться к предварительной версии</value>
+    <value>Устанавливать предрелизы</value>
   </data>
   <data name="SettingPage_FileManager" xml:space="preserve">
     <value>Менеджер файлов</value>
@@ -686,16 +686,16 @@
     <value>Открыть папку данных</value>
   </data>
   <data name="SettingPage_ReselectDataFolder" xml:space="preserve">
-    <value>Выберите папку с данными</value>
+    <value>Перевыбрать папку с данными</value>
   </data>
   <data name="SettingPage_DeleteAllSettings" xml:space="preserve">
     <value>Удалить все настройки</value>
   </data>
   <data name="SettingPage_ClearCachedFiles" xml:space="preserve">
-    <value>Очистить кэш файлов</value>
+    <value>Очистить кэшированные файлы</value>
   </data>
   <data name="SettingPage_About" xml:space="preserve">
-    <value>О программе</value>
+    <value>О лаунчере</value>
   </data>
   <data name="SettingPage_ProjectHomepage" xml:space="preserve">
     <value>Главная страница</value>
@@ -710,16 +710,16 @@
     <value>Это логотип</value>
   </data>
   <data name="SettingPage_Update" xml:space="preserve">
-    <value>Обновление</value>
+    <value>Обновить</value>
   </data>
   <data name="SettingPage_TestCDNAsync_NetworkError" xml:space="preserve">
-    <value>Ошибка Сети</value>
+    <value>Сетевая ошибка</value>
   </data>
   <data name="SettingPage_TheCurrentLocationOfTheDataFolderIs" xml:space="preserve">
     <value>Текущее расположение папки с данными:</value>
   </data>
   <data name="SettingPage_WouldLikeToReselectDataFolder" xml:space="preserve">
-    <value>Хотите повторно выбрать? (Вам нужно перенести файлы данных вручную перед выбором)</value>
+    <value>Хотите перевыбрать? (Перед выбором необходимо вручную перенести файлы данных)</value>
   </data>
   <data name="Common_Yes" xml:space="preserve">
     <value>Да</value>
@@ -770,16 +770,16 @@
     <value>Канал разработчика</value>
   </data>
   <data name="SettingPage_ThemeColorDesc" xml:space="preserve">
-    <value>Автоматически вычислять цвет темы на основе фонового изображения, и по умолчанию использовать системный цвет темы.</value>
+    <value>Автоматически рассчитывать цвет темы на основе фонового изображения, и использовать цвет системной темы по умолчанию.</value>
   </data>
   <data name="UpdatePage_ReleasePage" xml:space="preserve">
     <value>Страница релиза</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>Использовать сторонний плагин, чтобы начать игру, и время игры не может быть записано.</value>
+    <value>Для начала воспользуйтесь сторонним плагином. Если эта функция включена, запись времени игры невозможна.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Укажите язык данных гача, например, en-US.</value>
+    <value>Укажите язык записей гачи, например en-US.</value>
     <comment>Replace en-US with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
@@ -789,7 +789,7 @@
     <value>Как в системе</value>
   </data>
   <data name="SelectDirectoryPage_ToStart" xml:space="preserve">
-    <value>Для начала, выберите папку для сохранения данных.</value>
+    <value>Для начала выберите папку для сохранения данных приложения.</value>
   </data>
   <data name="GachaLogService_GetGachaProgressText" xml:space="preserve">
     <value>Получено {0} со страницей {1}</value>
@@ -826,10 +826,10 @@
     <value>Заметки Путешественника</value>
   </data>
   <data name="HoyolabToolboxPage_SimulatedUniverse" xml:space="preserve">
-    <value>Виртуальная Вселенная</value>
+    <value>Виртуальная вселенная</value>
   </data>
   <data name="HoyolabToolboxPage_ForgottenHall" xml:space="preserve">
-    <value>Зал Забвения</value>
+    <value>Зал забвения</value>
   </data>
   <data name="HoyolabToolboxPage_TrailblazeMonthlyCalendar" xml:space="preserve">
     <value>Календарь Освоения</value>
@@ -858,7 +858,7 @@
     <value>Самый Мощный Удар</value>
   </data>
   <data name="SpiralAbyssPage_MostDamageTaken" xml:space="preserve">
-    <value>Макс. Полученного Урона</value>
+    <value>Макс. получено урона</value>
   </data>
   <data name="SpiralAbyssPage_ElementalSkillsUnleashed" xml:space="preserve">
     <value>Элементальные Навыки</value>
@@ -867,7 +867,7 @@
     <value> Выполнено Взрывов Стихий</value>
   </data>
   <data name="TravelersDiaryPage_GetDetails" xml:space="preserve">
-    <value>Получить детали</value>
+    <value>Подробности</value>
     <comment>get primogems and mora details</comment>
   </data>
   <data name="TravelersDiaryPage_RealTimeData" xml:space="preserve">
@@ -935,7 +935,7 @@
     <value>Подтвердить учетную запись</value>
   </data>
   <data name="DownloadGameService_RepairMode" xml:space="preserve">
-    <value>Режим Восстановления</value>
+    <value>Режим починки</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
     <value>Он занимает дополнительное место на диске при распаковке архива.</value>
@@ -965,10 +965,10 @@
     <value>Сохранённые персонажи</value>
   </data>
   <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
-    <value>Полученные диковины</value>
+    <value>Диковин получено</value>
   </data>
   <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
-    <value>Полученные благословения</value>
+    <value>Благословений получено</value>
   </data>
   <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
     <value>Данные за</value>
@@ -1010,7 +1010,7 @@
     <value>Пользователи в некоторых областях могут столкнуться с аномалиями сети. Вы можете решить эту проблему, переключив CDN.</value>
   </data>
   <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
-    <value>Выберите сервер</value>
+    <value>Выбрать сервер</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
     <value>Иконка в области уведомлений</value>
@@ -1068,7 +1068,7 @@
     <value>Подтвердить удаление</value>
   </data>
   <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
-    <value>Текущий аккаунт входа</value>
+    <value>Учётную запись используется для входа</value>
   </data>
   <data name="Common_Attention" xml:space="preserve">
     <value>Внимание</value>
@@ -1077,11 +1077,11 @@
     <value>Заменить</value>
   </data>
   <data name="LauncherPage_SaveNew" xml:space="preserve">
-    <value>Новое Сохранение</value>
+    <value>Сохранить как новую</value>
     <comment>Account with uid {0} already exists, replace it or save new?</comment>
   </data>
   <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
-    <value>Аккаунт с uid {0} уже существует, заменить его или сохранить новый?</value>
+    <value>Учётная запись с uid {0} уже существует, заменить её или сохранить как новую?</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
     <value>Починить область уведомлений системы</value>
@@ -1096,7 +1096,7 @@
     <value>Удалить данные за этот месяц</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Шаги, чтобы получить URL:</value>
+    <value>Шаги для получения URL:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
     <value>- Откройте меню в игре.
@@ -1104,7 +1104,7 @@
 - Скопируйте URL-адрес веб-сайта и вставьте в поле ниже.</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
-    <value>Примечание: Язык записи следует за языком в игре и не может быть изменен.</value>
+    <value>Примечание: Язык записей соответствует настройкам языка в игре и не может быть изменён.</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
     <value>Вы хотите удалить записи {0} в {1}? Эта операция не может быть отменена.</value>
@@ -1139,31 +1139,31 @@
     <value>Удаление завершено</value>
   </data>
   <data name="LauncherPage_PleaseCheckTheRelatedLogs" xml:space="preserve">
-    <value>Пожалуйста, проверьте соответствующие журналы.</value>
+    <value>Проверьте соответствующие логи.</value>
   </data>
   <data name="SettingPage_Donate" xml:space="preserve">
     <value>Пожертвовать</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
-    <value>URL Протокол (Экспериментальный)</value>
+    <value>Протокол URL (Экспериментально)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
-    <value>Другое программное обеспечение может использовать некоторые из функций Starward's через протокол URL.</value>
+    <value>Другие программы могут использовать некоторые функции Starward через протокол URL.</value>
   </data>
   <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
     <value>Зарегистрировать URL протокол</value>
   </data>
   <data name="SettingPage_TestURLProtocol" xml:space="preserve">
-    <value>Проверить URL протокол</value>
+    <value>Тест протокола URL</value>
   </data>
   <data name="LauncherPage_OpenInBrowser" xml:space="preserve">
     <value>Открыть в браузере</value>
   </data>
   <data name="ImageViewPage_ZoomOut" xml:space="preserve">
-    <value>Уменьшить</value>
+    <value>Отдалить</value>
   </data>
   <data name="ImageViewPage_ZoomIn" xml:space="preserve">
-    <value>Увеличить</value>
+    <value>Приблизить</value>
   </data>
   <data name="ImageViewPage_Rotate" xml:space="preserve">
     <value>Повернуть</value>
@@ -1181,7 +1181,7 @@
     <value>Папка с данными</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>Открыть файл журнала</value>
+    <value>Открыть файл с логами</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
     <value>Внешний вид</value>
@@ -1190,7 +1190,7 @@
     <value>Управление файлами</value>
   </data>
   <data name="SettingPage_Completed" xml:space="preserve">
-    <value>Применить</value>
+    <value>Готово</value>
   </data>
   <data name="AboutSettingPage_Links" xml:space="preserve">
     <value>Ссылки</value>
@@ -1199,7 +1199,7 @@
     <value>Дополнительно</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>В этот день</value>
+    <value>За день</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
     <value>Опция закрытия окна</value>
@@ -1218,7 +1218,7 @@
     <comment>means user experience</comment>
   </data>
   <data name="CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage" xml:space="preserve">
-    <value>Вы можете изменить эту опцию снова на странице настройки.</value>
+    <value>Вы можете изменить этот параметр на странице настроек.</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
     <value>Ваши личные данные хранятся в папке ниже. Это очень важно, пожалуйста, не удаляйте их случайно.</value>
@@ -1287,20 +1287,20 @@
     <value>Очистить Кэш</value>
   </data>
   <data name="DownloadGamePage_TheDownloadTaskOfGameIsAlreadyRunning" xml:space="preserve">
-    <value>Загрузка задачи {0} уже запущена.</value>
+    <value>Скачивание задачи {0} уже запущено.</value>
     <comment>{0} is game name, like Genshin Impact.</comment>
   </data>
   <data name="DownloadGamePage_TheFolderDoesNotExist" xml:space="preserve">
     <value>Эта папка не существует.</value>
   </data>
   <data name="LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive" xml:space="preserve">
-    <value>Пожалуйста, не выбирайте корневой каталог диска.</value>
+    <value>Не выбирайте корневой каталог диска.</value>
   </data>
   <data name="LauncherPage_SavedAccount" xml:space="preserve">
-    <value>Сохраненный аккаунт</value>
+    <value>Учётная запись сохранена</value>
   </data>
   <data name="LauncherPage_AccountSwitchingCannotTakeEffectWhileGameIsRunning" xml:space="preserve">
-    <value>Смена аккаунта не может вступить в силу во время игры.</value>
+    <value>Переключение учётной записи не может происходить во время игры.</value>
   </data>
   <data name="AppearanceSettingPage_BetterExperience" xml:space="preserve">
     <value>Рекомендуется включить {0} и {1} в системных настройках для лучшего использования.</value>
@@ -1312,7 +1312,7 @@
     <value>Эффекты анимации</value>
   </data>
   <data name="GachaLogPage_AlwaysFailedToGetGachaRecords" xml:space="preserve">
-    <value>Всегда не удаётся получить записи гачи?</value>
+    <value>Всегда не удавалось получить записи гачи?</value>
   </data>
   <data name="HoyolabToolboxPage_NoData" xml:space="preserve">
     <value>Нет данных</value>
@@ -1339,19 +1339,19 @@
     <value>{0} не удалось выполнить проверку файлов.</value>
   </data>
   <data name="LauncherPage_ReinstallGame" xml:space="preserve">
-    <value>Переустановить Игру</value>
+    <value>Переустановить игру</value>
   </data>
   <data name="LauncherPage_SwitchClient" xml:space="preserve">
-    <value>Сменить Клиента</value>
+    <value>Сменить клиент</value>
   </data>
   <data name="FileSettingPage_GameResource" xml:space="preserve">
     <value>Игровой ресурс</value>
   </data>
   <data name="SwitchClientPage_SelectTargetGameServer" xml:space="preserve">
-    <value>Выберите игровой сервер</value>
+    <value>Выбрать игровой сервер</value>
   </data>
   <data name="SwitchClientPage_FeatureDescription" xml:space="preserve">
-    <value>Эта функция позволяет быстро переключить клиент на соответствующий сервер, при этом требуется загрузка некоторых ресурсов только во время первого переключения.</value>
+    <value>Эта функция позволяет клиенту быстро переключиться на соответствующий сервер, при этом во время первого переключения необходимо скачать лишь некоторые ресурсы.</value>
   </data>
   <data name="SwitchClientPage_StartSwitching" xml:space="preserve">
     <value>Начать переключение</value>
@@ -1360,7 +1360,7 @@
     <value>Локальная версия игры не является последней.</value>
   </data>
   <data name="SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion" xml:space="preserve">
-    <value>Версия текущего сервера отличается от локальной версии.</value>
+    <value>Версия целевого сервера отличается от локальной версии.</value>
   </data>
   <data name="SwitchClientPage_ReadyToSwitchClient" xml:space="preserve">
     <value>Готов переключить клиент</value>
