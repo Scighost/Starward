@@ -163,16 +163,16 @@
     <value>Статистика</value>
   </data>
   <data name="SelectDirectoryPage_NiceToMeetYou" xml:space="preserve">
-    <value>Приятно встретиться с вами ~</value>
+    <value>Приятно познакомиться ~</value>
   </data>
   <data name="SelectDirectoryPage_SelectFolder" xml:space="preserve">
-    <value>Выберите папку</value>
+    <value>Выбрать папку</value>
   </data>
   <data name="SelectDirectoryPage_SelectLanguage" xml:space="preserve">
     <value>Выберите язык</value>
   </data>
   <data name="SelectDirectoryPage_SelectGame" xml:space="preserve">
-    <value>Выберите игру</value>
+    <value>Выбрать игру</value>
   </data>
   <data name="SelectDirectoryPage_RecommendFolder" xml:space="preserve">
     <value>Данные приложения будут сохранены в следующей папке по умолчанию:</value>
@@ -199,13 +199,13 @@
     <value>Кажется, вы впервые используете {Starward}.</value>
   </data>
   <data name="SelectGamePage_GoToLauncher" xml:space="preserve">
-    <value>Перейти в Launcher</value>
+    <value>Перейти в лаунчер</value>
   </data>
   <data name="SelectGamePage_SelectFolder" xml:space="preserve">
-    <value>Выберите папку</value>
+    <value>Выбрать папку</value>
   </data>
   <data name="SelectGamePage_SomeGame" xml:space="preserve">
-    <value>{Starward} поддерживает некоторые игры {miHoYo/HoYoverse}, пожалуйста, выберите вашу цель ниже, вы также можете изменить ее в любое время после входа в лаунчер.</value>
+    <value>{Starward} поддерживает некоторые игры {miHoYo/HoYoverse}, выберите игру ниже. После входа в лаунчер вы сможете менять игру в любое время.</value>
   </data>
   <data name="SelectGamePage_TheLastStep" xml:space="preserve">
     <value>Последний шаг ~</value>
@@ -786,7 +786,7 @@
     <value>Язык</value>
   </data>
   <data name="SettingPage_FollowSystem" xml:space="preserve">
-    <value>Использовать системой</value>
+    <value>Как в системе</value>
   </data>
   <data name="SelectDirectoryPage_ToStart" xml:space="preserve">
     <value>Для начала, выберите папку для сохранения данных.</value>
@@ -1013,22 +1013,22 @@
     <value>Выберите сервер</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
-    <value>Значок в системном трее</value>
+    <value>Иконка в области уведомлений</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
-    <value>Закрыть Лаунчер при закрытии окна</value>
+    <value>Полностью закрывать лаунчер при закрытии окна</value>
   </data>
   <data name="Common_Exit" xml:space="preserve">
     <value>Выход</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>Системный трей</value>
+    <value>Область уведомлений</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
-    <value>Установка</value>
+    <value>Установщик</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>Вы можете закрыть или скрыть окно и свернуть в системный трей.</value>
+    <value>Можно выбрать «закрыть», «скрыть» или «свернуть» окно в область уведомлений.</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
     <value>Скрыть</value>
@@ -1084,10 +1084,10 @@
     <value>Аккаунт с uid {0} уже существует, заменить его или сохранить новый?</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
-    <value>Починить системный трек</value>
+    <value>Починить область уведомлений системы</value>
   </data>
   <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
-    <value>Исправлена проблема, из-за которой не удалось создать иконку в системном трее, этот метод перезапустит проводник.</value>
+    <value>Устраняет проблему, из-за которой невозможно создать иконку в области уведомлений. Этот метод перезапустит проводник.</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
     <value>История расходов в аккаунте</value>
@@ -1205,13 +1205,13 @@
     <value>Опция закрытия окна</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
-    <value>Сворачивать в системный трей</value>
+    <value>Свернуть в область уведомлений</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
     <value>Выйти полностью</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>Закрыть окно, но сохранить системный трей</value>
+    <value>Закрыть окно, но оставить в области уведомлений</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
     <value>Опыт использования</value>
@@ -1230,7 +1230,7 @@
     <value>По умолчанию цвет темы определяется с помощью фонового изображения.</value>
   </data>
   <data name="AppearanceSettingPage_UseSystemThemeColor" xml:space="preserve">
-    <value>Использовать цвет темы системы</value>
+    <value>Как в системе</value>
   </data>
   <data name="AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons" xml:space="preserve">
     <value>Всегда отображать значки боковой панели навигации</value>
