@@ -229,4 +229,10 @@
   <data name="GachaType_ChronicledWish" xml:space="preserve">
     <value>集录祈愿</value>
   </data>
+  <data name="Game_ZZZ" xml:space="preserve">
+    <value>绝区零</value>
+  </data>
+  <data name="GameServer_ZZZCBT3" xml:space="preserve">
+    <value>喧响测试</value>
+  </data>
 </root>
