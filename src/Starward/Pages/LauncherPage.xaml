@@ -708,7 +708,8 @@
                                     <TextBlock Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
                                 </StackPanel>
                             </Button>
-                            <Button Grid.Column="1"
+                            <Button x:Name="Button_RepairDropDown"
+                                    Grid.Column="1"
                                     Height="36"
                                     Padding="10,0,12,0"
                                     BorderThickness="0"

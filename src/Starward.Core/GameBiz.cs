@@ -109,6 +109,6 @@ public enum GameBiz
     /// <summary>
     /// Zenless Zone Zero Global
     /// </summary>
-    nap_global = 42,
+    //nap_global = 42,
 
 }

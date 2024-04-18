@@ -20,6 +20,7 @@ public class GameRegistry
     public const string LauncherPath_bh3_kr = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\붕괴3rd";
     public const string LauncherPath_bh3_jp = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\崩壊3rd";
 
+    public const string LauncherPath_nap_cbt3 = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\HYP_standalone_1_1_nap_cn";
 
 
     public const string GamePath_hk4e_cn = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
@@ -36,6 +37,7 @@ public class GameRegistry
     public const string GamePath_bh3_kr = @"HKEY_CURRENT_USER\Software\miHoYo\붕괴3rd";
     public const string GamePath_bh3_jp = @"HKEY_CURRENT_USER\Software\miHoYo\崩壊3rd";
 
+    public const string GamePath_nap_cbt3 = @"HKEY_CURRENT_USER\Software\miHoYo\绝区零（Beta）";
 
 
     public const string GENERAL_DATA_h2389025596 = "GENERAL_DATA_h2389025596";

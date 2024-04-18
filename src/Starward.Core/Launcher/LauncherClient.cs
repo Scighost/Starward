@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json.Nodes;
 
 namespace Starward.Core.Launcher;
 
@@ -59,8 +60,63 @@ public class LauncherClient
             //GameBiz.nap_global => "",
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
+        if (biz is GameBiz.nap_cn)
+        {
+            return await GetZZZCBT3LauncherContentAsync(cancellationToken);
+        }
+        else
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            return await CommonSendAsync<LauncherContent>(request, cancellationToken);
+        }
+    }
+
+
+    public async Task<LauncherContent> GetZZZCBT3LauncherContentAsync(CancellationToken cancellationToken = default)
+    {
+        const string url = "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGameContent?launcher_id=PFKmM45gSW&game_id=ol93169Cmh&language=zh-cn";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
-        return await CommonSendAsync<LauncherContent>(request, cancellationToken);
+        var node = await CommonSendAsync<JsonNode>(request, cancellationToken);
+        var content = new LauncherContent { Banner = [], Post = [] };
+        foreach (JsonNode? item in node?["content"]?["banners"] as JsonArray ?? [])
+        {
+            string? img = item?["image"]?["url"]?.ToString()!;
+            if (string.IsNullOrWhiteSpace(img))
+            {
+                continue;
+            }
+            var banner = new LauncherBanner
+            {
+                Img = img,
+                BannerId = item?["id"]?.ToString()!,
+                Url = item?["image"]?["link"]?.ToString()!
+            };
+            content.Banner.Add(banner);
+        }
+        foreach (var item in node?["content"]?["posts"] as JsonArray ?? [])
+        {
+            string? title = item?["title"]?.ToString()!;
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                continue;
+            }
+            var post = new LauncherPost
+            {
+                PostId = item?["id"]?.ToString()!,
+                Type = item?["type"]?.ToString() switch
+                {
+                    "POST_TYPE_ACTIVITY" => PostType.POST_TYPE_ACTIVITY,
+                    "POST_TYPE_ANNOUNCE" => PostType.POST_TYPE_ANNOUNCE,
+                    "POST_TYPE_INFO" => PostType.POST_TYPE_INFO,
+                    _ => PostType.POST_TYPE_ACTIVITY,
+                },
+                Title = title,
+                Url = item?["link"]?.ToString()!,
+                ShowTime = item?["date"]?.ToString()!
+            };
+            content.Post.Add(post);
+        }
+        return content;
     }
 
 
@@ -77,6 +133,19 @@ public class LauncherClient
         return wrapper.BgImage;
     }
 
+
+    public async Task<string> GetZZZCBT3BackgroundAsync(GameBiz biz, CancellationToken cancellationToken = default)
+    {
+        var url = biz switch
+        {
+            GameBiz.nap_cn => "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getAllGameBasicInfo?launcher_id=PFKmM45gSW&language=zh-cn&game_id=ol93169Cmh",
+            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
+        };
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        var node = await CommonSendAsync<JsonNode>(request, cancellationToken);
+        string? img = node?["game_info_list"]?[0]?["backgrounds"]?[0]?["background"]?["url"]?.ToString();
+        return img ?? throw new miHoYoApiException(-1, "ZZZ CBT3 background image is null.");
+    }
 
 
 
@@ -128,6 +197,7 @@ public class LauncherClient
             GameBiz.hkrpg_global => $"https://sdk.hoyoverse.com/hkrpg/announcement/index.html?auth_appid=announcement&authkey_ver=1&bundle_id=hkrpg_global&channel_id=1&game=hkrpg&game_biz=hkrpg_global&lang={lang}&level=1&platform=pc&region=prod_official_asia&sdk_presentation_style=fullscreen&sdk_screen_transparent=true&sign_type=2&uid={uid}",
             GameBiz.bh3_cn => $"https://webstatic.mihoyo.com/bh3/announcement/index.html?auth_appid=announcement&authkey_ver=1&bundle_id=bh3_cn&channel_id=1&game=bh3&game_biz=bh3_cn&lang=zh-cn&level=88&platform=pc&region=android01&sdk_presentation_style=fullscreen&sdk_screen_transparent=true&sign_type=2&uid={uid}",
             GameBiz.bh3_global or GameBiz.bh3_jp or GameBiz.bh3_kr or GameBiz.bh3_overseas or GameBiz.bh3_tw => $"https://sdk.hoyoverse.com/bh3/announcement/index.html?auth_appid=announcement&authkey_ver=1&bundle_id=bh3_os&channel_id=1&game=bh3&game_biz=bh3_os&lang={lang}&level=88&platform=pc&region=overseas01&sdk_presentation_style=fullscreen&sdk_screen_transparent=true&sign_type=2&uid={uid}",
+            GameBiz.nap_cn => $"https://webstatic.mihoyo.com/nap/announcement/index.html?game=nap&game_biz=nap_cn&lang=zh-cn&bundle_id=nap_cn&channel_id=1&level=40&platform=pc&region=prod_cb01_cn&sdk_presentation_style=fullscreen&sdk_screen_transparent=true&uid={uid}",
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
     }
@@ -146,6 +216,7 @@ public class LauncherClient
             GameBiz.hkrpg_global => $"https://sg-hkrpg-api.hoyoverse.com/common/hkrpg_global/announcement/api/getAlertAnn?bundle_id=hkrpg_global&channel_id=1&game=hkrpg&game_biz=hkrpg_global&lang={lang}&level=1&platform=pc&region=prod_official_asia&uid={uid}",
             GameBiz.bh3_cn => $"https://api-takumi.mihoyo.com/common/bh3_cn/announcement/api/getAlertAnn?game=bh3&game_biz=bh3_cn&lang={lang}&bundle_id=bh3_cn&platform=pc&region=android01&level=88&channel_id=1&uid={uid}",
             GameBiz.bh3_global or GameBiz.bh3_jp or GameBiz.bh3_kr or GameBiz.bh3_overseas or GameBiz.bh3_tw => $"https://sg-public-api.hoyoverse.com/common/bh3_global/announcement/api/getAlertAnn?game=bh3&game_biz=bh3_global&lang={lang}&bundle_id=bh3_os&platform=pc&region=overseas01&level=88&channel_id=1&uid={uid}",
+            GameBiz.nap_cn => $"https://announcement-api.mihoyo.com/common/nap_cn/announcement/api/getAlertAnn?game=nap&game_biz=nap_cn&lang=zh-cn&bundle_id=nap_cn&channel_id=1&level=40&platform=pc&region=prod_cb01_cn&uid={uid}",
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);

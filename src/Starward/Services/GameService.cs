@@ -52,6 +52,7 @@ internal class GameService
                 GameBiz.GenshinImpact => "ScreenShot",
                 GameBiz.StarRail => @"StarRail_Data\ScreenShots",
                 GameBiz.Honkai3rd => @"ScreenShot",
+                GameBiz.ZZZ => @"ScreenShot",
                 _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
             };
             folder = Path.Join(folder, relativePath);

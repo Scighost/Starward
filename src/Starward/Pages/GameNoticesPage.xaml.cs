@@ -37,6 +37,8 @@ public sealed partial class GameNoticesPage : PageBase
     private readonly GameAccountService _gameAccountService = AppConfig.GetService<GameAccountService>();
 
 
+    private readonly LauncherClient _launcherClient = AppConfig.GetService<LauncherClient>();
+
 
     public GameNoticesPage()
     {
@@ -149,8 +151,15 @@ public sealed partial class GameNoticesPage : PageBase
             string? bg = null;
             try
             {
-                var content = await _launcherContentService.GetLauncherContentAsync(gameBiz);
-                bg = content.BackgroundImage?.Background;
+                if (gameBiz is GameBiz.nap_cn)
+                {
+                    bg = await _launcherClient.GetZZZCBT3BackgroundAsync(gameBiz);
+                }
+                else
+                {
+                    var content = await _launcherContentService.GetLauncherContentAsync(gameBiz);
+                    bg = content.BackgroundImage?.Background;
+                }
             }
             catch (Exception ex)
             {

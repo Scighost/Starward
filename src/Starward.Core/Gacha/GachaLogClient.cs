@@ -109,21 +109,28 @@ public abstract class GachaLogClient
         {
             return Registry.GetValue(REG_KEY_YS_CLOUD, "InstallPath", null) as string;
         }
-        var key = biz switch
+        else if (biz is GameBiz.nap_cn)
         {
-            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => REG_KEY_YS_CN,
-            GameBiz.hk4e_global => REG_KEY_YS_OS,
-            GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => REG_KEY_SR_CN,
-            GameBiz.hkrpg_global => REG_KEY_SR_OS,
-            GameBiz.bh3_cn => REG_KEY_BH3_CN,
-            GameBiz.bh3_global => REG_KEY_BH3_GL,
-            GameBiz.bh3_overseas => REG_KEY_BH3_OS,
-            GameBiz.bh3_tw => REG_KEY_BH3_TW,
-            GameBiz.bh3_kr => REG_KEY_BH3_KR,
-            GameBiz.bh3_jp => REG_KEY_BH3_JP,
-            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
-        };
-        return GetGameInstallPathFromRegistry(key);
+            return Registry.GetValue(@"HKEY_CURRENT_USER\Software\miHoYo\HYP\standalone\1_1\nap_cn\nap_cn", "GameInstallPath", null) as string;
+        }
+        else
+        {
+            var key = biz switch
+            {
+                GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => REG_KEY_YS_CN,
+                GameBiz.hk4e_global => REG_KEY_YS_OS,
+                GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => REG_KEY_SR_CN,
+                GameBiz.hkrpg_global => REG_KEY_SR_OS,
+                GameBiz.bh3_cn => REG_KEY_BH3_CN,
+                GameBiz.bh3_global => REG_KEY_BH3_GL,
+                GameBiz.bh3_overseas => REG_KEY_BH3_OS,
+                GameBiz.bh3_tw => REG_KEY_BH3_TW,
+                GameBiz.bh3_kr => REG_KEY_BH3_KR,
+                GameBiz.bh3_jp => REG_KEY_BH3_JP,
+                _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
+            };
+            return GetGameInstallPathFromRegistry(key);
+        }
     }
 
 

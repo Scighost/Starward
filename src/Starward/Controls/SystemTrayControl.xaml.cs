@@ -85,6 +85,7 @@ public sealed partial class SystemTrayControl : UserControl
                                 GameBiz.Honkai3rd => new BitmapImage(new("ms-appx:///Assets/Image/icon_bh3.jpg")),
                                 GameBiz.GenshinImpact => new BitmapImage(new("ms-appx:///Assets/Image/icon_ys.jpg")),
                                 GameBiz.StarRail => new BitmapImage(new("ms-appx:///Assets/Image/icon_sr.jpg")),
+                                GameBiz.ZZZ => new BitmapImage(new("ms-appx:///Assets/Image/icon_zzz.jpg")),
                                 _ => null!,
                             },
                         });

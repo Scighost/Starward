@@ -119,6 +119,10 @@ public class LauncherContentService
                 var image = await _launcherClient.GetCloudGameBackgroundAsync(gameBiz, tokenSource.Token);
                 url = image.Url;
             }
+            else if (gameBiz is GameBiz.nap_cn)
+            {
+                url = await _launcherClient.GetZZZCBT3BackgroundAsync(gameBiz, tokenSource.Token);
+            }
             else
             {
                 var content = await GetLauncherContentAsync(gameBiz, tokenSource.Token);

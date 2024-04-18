@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Win32;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Messages;
@@ -172,6 +173,7 @@ public sealed partial class MainPage : PageBase
         GameBiz.bh3_jp => "Japan",
         GameBiz.bh3_kr => "Korea",
         GameBiz.bh3_overseas => "Southeast Asia",
+        GameBiz.nap_cn => "CBT3",
         _ => ""
     };
 
@@ -179,6 +181,20 @@ public sealed partial class MainPage : PageBase
     private void InitializeGameBiz()
     {
         _logger.LogInformation("Last game region is {gamebiz}", CurrentGameBiz);
+        bool enableZZZ = false;
+        try
+        {
+            enableZZZ = Registry.GetValue(GameRegistry.LauncherPath_nap_cbt3, GameRegistry.InstallPath, null) is string;
+            if (enableZZZ)
+            {
+                GameIcon_ZZZ.Visibility = Visibility.Visible;
+            }
+        }
+        catch { }
+        if (!enableZZZ && CurrentGameBiz.ToGame() is GameBiz.ZZZ)
+        {
+            CurrentGameBiz = GameBiz.None;
+        }
         UpdateNavigationViewItemsText();
         if (CurrentGameBiz.ToGame() == GameBiz.None)
         {
@@ -230,6 +246,7 @@ public sealed partial class MainPage : PageBase
         GameIcon_BH3.Select(CurrentGameBiz);
         GameIcon_YS.Select(CurrentGameBiz);
         GameIcon_SR.Select(CurrentGameBiz);
+        GameIcon_ZZZ.Select(CurrentGameBiz);
     }
 
 
@@ -573,6 +590,15 @@ public sealed partial class MainPage : PageBase
             NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
             NavigationViewItem_SelfQuery.Visibility = Visibility.Collapsed;
         }
+        else if (CurrentGameBiz.ToGame() is GameBiz.ZZZ)
+        {
+            NavigationViewItem_Launcher.Visibility = Visibility.Visible;
+            NavigationViewItem_GameSetting.Visibility = Visibility.Collapsed;
+            NavigationViewItem_Screenshot.Visibility = Visibility.Collapsed;
+            NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
+            NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
+            NavigationViewItem_SelfQuery.Visibility = Visibility.Collapsed;
+        }
         else
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Visible;
@@ -654,7 +680,8 @@ public sealed partial class MainPage : PageBase
         }
         string? sourcePage = MainPage_Frame.CurrentSourcePageType?.Name, destPage = page?.Name;
         if (destPage is null or nameof(BlankPage)
-            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is nameof(GachaLogPage) or nameof(HoyolabToolboxPage) or nameof(SelfQueryPage)))
+            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is nameof(GachaLogPage) or nameof(HoyolabToolboxPage) or nameof(SelfQueryPage))
+            || CurrentGameBiz.ToGame() is GameBiz.ZZZ && destPage is not nameof(LauncherPage) and not nameof(GameNoticesPage))
         {
             page = typeof(LauncherPage);
             destPage = nameof(LauncherPage);

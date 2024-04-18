@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -23,10 +25,14 @@ internal class GameResourceService
     private readonly LauncherClient _launcherClient;
 
 
-    public GameResourceService(ILogger<GameResourceService> logger, LauncherClient launcherClient)
+    private readonly HttpClient _httpClient;
+
+
+    public GameResourceService(ILogger<GameResourceService> logger, LauncherClient launcherClient, HttpClient httpClient)
     {
         _logger = logger;
         _launcherClient = launcherClient;
+        _httpClient = httpClient;
     }
 
 
@@ -77,6 +83,7 @@ internal class GameResourceService
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => "YuanShen.exe",
             GameBiz.hk4e_global => "GenshinImpact.exe",
             GameBiz.hk4e_cloud => "Genshin Impact Cloud Game.exe",
+            GameBiz.nap_cn => "ZZZ.exe",
             _ => biz.ToGame() switch
             {
                 GameBiz.StarRail => "StarRail.exe",
@@ -119,6 +126,10 @@ internal class GameResourceService
         {
             return GameBiz.None;
         }
+        if (biz is GameBiz.nap_cn)
+        {
+            return GameBiz.nap_cn;
+        }
         GameBiz gameBiz = GameBiz.None;
         var config = Path.Join(installPath, "config.ini");
         if (File.Exists(config))
@@ -150,10 +161,23 @@ internal class GameResourceService
 
     public async Task<(Version? LatestVersion, Version? PreDownloadVersion)> GetGameResourceVersionAsync(GameBiz biz)
     {
-        var resource = await GetGameResourceAsync(biz);
-        _ = Version.TryParse(resource.Game?.Latest?.Version, out Version? latest);
-        _ = Version.TryParse(resource.PreDownloadGame?.Latest?.Version, out Version? preDownload);
-        return (latest, preDownload);
+        if (biz is GameBiz.nap_cn)
+        {
+            const string url = "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?game_ids%5B%5D=ol93169Cmh&launcher_id=PFKmM45gSW";
+            var str = await _httpClient.GetStringAsync(url);
+            var node = JsonNode.Parse(str);
+            var versionStr = node?["data"]?["game_packages"]?[0]?["main"]?["major"]?["version"]?.ToString();
+            Version.TryParse(versionStr, out Version? version);
+            return (version, null);
+        }
+        else
+        {
+
+            var resource = await GetGameResourceAsync(biz);
+            _ = Version.TryParse(resource.Game?.Latest?.Version, out Version? latest);
+            _ = Version.TryParse(resource.PreDownloadGame?.Latest?.Version, out Version? preDownload);
+            return (latest, preDownload);
+        }
     }
 
 

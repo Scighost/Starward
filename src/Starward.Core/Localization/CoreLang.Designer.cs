@@ -196,6 +196,15 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Zenless Zone Zero 的本地化字符串。
+        /// </summary>
+        internal static string Game_ZZZ {
+            get {
+                return ResourceManager.GetString("Game_ZZZ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Bilibili Server 的本地化字符串。
         /// </summary>
         internal static string GameServer_BilibiliServer {
@@ -273,6 +282,15 @@ namespace Starward.Core.Localization {
         internal static string GameServer_TraditionalChineseServer {
             get {
                 return ResourceManager.GetString("GameServer_TraditionalChineseServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 CBT3 的本地化字符串。
+        /// </summary>
+        internal static string GameServer_ZZZCBT3 {
+            get {
+                return ResourceManager.GetString("GameServer_ZZZCBT3", resourceCulture);
             }
         }
         

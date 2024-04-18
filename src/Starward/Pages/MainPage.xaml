@@ -181,6 +181,12 @@
                                         Height="36"
                                         Margin="4,0,4,0"
                                         Command="{x:Bind ChangeGameBizCommand}" />
+                <sct:TitleBarGameIconZZZ x:Name="GameIcon_ZZZ"
+                                         Width="36"
+                                         Height="36"
+                                         Margin="4,0,4,0"
+                                         Command="{x:Bind ChangeGameBizCommand}"
+                                         Visibility="Collapsed" />
                 <Border Height="32"
                         Margin="4,0,4,0"
                         Background="{ThemeResource DateTimePickerFlyoutButtonBackgroundPointerOver}"
