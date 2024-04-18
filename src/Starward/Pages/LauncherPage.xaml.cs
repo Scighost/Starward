@@ -387,20 +387,20 @@ public sealed partial class LauncherPage : PageBase
 
     private void UpdateGameButtonStyle()
     {
-        var accentStyle = Application.Current.Resources["AccentButtonStyle"] as Style;
-        var defaultStyle = Application.Current.Resources["DefaultButtonStyle"] as Style;
-        if (AppConfig.IsPlayingVideo)
-        {
-            Button_GameIsRunning.Style = defaultStyle;
-            Button_StartGame.Style = defaultStyle;
-            Button_DownloadGame.Style = defaultStyle;
-            Button_UpdateGame.Style = defaultStyle;
-            Button_RepairGame.Style = defaultStyle;
-            Button_PreDownloadGame.Style = defaultStyle;
-            AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
-        }
-        else
-        {
+        //var accentStyle = Application.Current.Resources["AccentButtonStyle"] as Style;
+        //var defaultStyle = Application.Current.Resources["DefaultButtonStyle"] as Style;
+        //if (AppConfig.IsPlayingVideo)
+        //{
+        //    Button_GameIsRunning.Style = defaultStyle;
+        //    Button_StartGame.Style = defaultStyle;
+        //    Button_DownloadGame.Style = defaultStyle;
+        //    Button_UpdateGame.Style = defaultStyle;
+        //    Button_RepairGame.Style = defaultStyle;
+        //    Button_PreDownloadGame.Style = defaultStyle;
+        //    AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
+        //}
+        //else
+        //{
             if (!CanStartGame || IsGameRunning)
             {
                 AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
@@ -409,13 +409,13 @@ public sealed partial class LauncherPage : PageBase
             {
                 AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextOnAccentFillColorPrimaryBrush"] as Brush;
             }
-            Button_GameIsRunning.Style = accentStyle;
-            Button_StartGame.Style = accentStyle;
-            Button_DownloadGame.Style = accentStyle;
-            Button_UpdateGame.Style = accentStyle;
-            Button_RepairGame.Style = accentStyle;
-            Button_PreDownloadGame.Style = accentStyle;
-        }
+        //    Button_GameIsRunning.Style = accentStyle;
+        //    Button_StartGame.Style = accentStyle;
+        //    Button_DownloadGame.Style = accentStyle;
+        //    Button_UpdateGame.Style = accentStyle;
+        //    Button_RepairGame.Style = accentStyle;
+        //    Button_PreDownloadGame.Style = accentStyle;
+        //}
     }
 
 
