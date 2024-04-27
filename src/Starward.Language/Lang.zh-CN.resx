@@ -776,7 +776,7 @@
     <value>发布页面</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>使用第三方插件代替启动，启用后无法记录游戏时间。</value>
+    <value>使用第三方插件启动，启用后无法记录游戏时间。</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>指定抽卡记录的语言，比如 zh-CN 。</value>
