@@ -1381,4 +1381,7 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
     <value>Die Ordner YuanShen_Data und GenshinImpact_Data können nicht gleichzeitig existieren.</value>
   </data>
+  <data name="GachaLogPage_ShowChronicledWish" xml:space="preserve">
+    <value>Show Chronicled Wish</value>
+  </data>
 </root>
