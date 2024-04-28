@@ -1384,6 +1384,6 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thư mục YuanShen_Data và GenshinImpact_Data cùng tồn tại.</value>
   </data>
   <data name="GachaLogPage_ShowChronicledWish" xml:space="preserve">
-    <value>Show Chronicled Wish</value>
+    <value>Hiện sử ký cầu nguyện</value>
   </data>
 </root>
