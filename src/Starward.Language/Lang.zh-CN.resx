@@ -341,7 +341,7 @@
     <value>从 JSON 导入</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
-    <value>显示新手卡池</value>
+    <value>展示新手卡池</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
     <value>删除记录</value>
