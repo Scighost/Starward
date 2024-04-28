@@ -63,6 +63,7 @@ public sealed partial class GachaLogPage : PageBase
             if (biz.ToGame() is GameBiz.GenshinImpact)
             {
                 EnableGenshinGachaItemStats = true;
+                ToggleSwitch_ShowChronicledWish.Visibility = Visibility.Visible;
                 _gachaLogService = AppConfig.GetService<GenshinGachaService>();
                 Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPaimon);
             }
@@ -117,6 +118,26 @@ public sealed partial class GachaLogPage : PageBase
 
 
     [ObservableProperty]
+    private bool showChronicledWish = AppConfig.ShowChronicledWish;
+    partial void OnShowChronicledWishChanged(bool value)
+    {
+        AppConfig.ShowChronicledWish = value;
+        if (chronicledWishStats != null && GachaTypeStatsCollection != null)
+        {
+            if (value && !GachaTypeStatsCollection.Contains(chronicledWishStats))
+            {
+                GachaTypeStatsCollection.Add(chronicledWishStats);
+            }
+            if (!value && GachaTypeStatsCollection.Contains(chronicledWishStats))
+            {
+                GachaTypeStatsCollection.Remove(chronicledWishStats);
+            }
+        }
+        UpdateGachaStatsCardLayout();
+    }
+
+
+    [ObservableProperty]
     private string? gachaLanguage = AppConfig.GachaLanguage;
     partial void OnGachaLanguageChanged(string? value)
     {
@@ -139,6 +160,8 @@ public sealed partial class GachaLogPage : PageBase
     private List<GachaLogItemEx>? gachaItemStats;
 
     private GachaTypeStats? noviceGachaTypeStats;
+
+    private GachaTypeStats? chronicledWishStats;
 
     private int errorCount = 0;
 
@@ -188,6 +211,7 @@ public sealed partial class GachaLogPage : PageBase
             {
                 GachaTypeStatsCollection = [];
                 noviceGachaTypeStats = null;
+                chronicledWishStats = null;
                 GachaItemStats = null;
                 StackPanel_Emoji.Visibility = Visibility.Visible;
             }
@@ -195,9 +219,14 @@ public sealed partial class GachaLogPage : PageBase
             {
                 (var gachaStats, var itemStats) = _gachaLogService.GetGachaTypeStats(uid.Value);
                 noviceGachaTypeStats = gachaStats.FirstOrDefault(x => x.GachaType == GachaType.NoviceWish || x.GachaType == GachaType.DepartureWarp);
+                chronicledWishStats = gachaStats.FirstOrDefault(x => x.GachaType == GachaType.ChronicledWish);
                 if (noviceGachaTypeStats != null && !ShowNoviceGacha)
                 {
                     gachaStats.Remove(noviceGachaTypeStats);
+                }
+                if (chronicledWishStats != null && !ShowChronicledWish)
+                {
+                    gachaStats.Remove(chronicledWishStats);
                 }
                 GachaTypeStatsCollection = [.. gachaStats];
                 GachaItemStats = itemStats;

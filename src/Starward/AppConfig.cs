@@ -324,6 +324,12 @@ internal static class AppConfig
         set => SetValue(value);
     }
 
+    public static bool ShowChronicledWish
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
 
     public static string? GachaLanguage
     {

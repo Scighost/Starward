@@ -158,10 +158,17 @@
                                     <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_ImportFromJson}" />
                                 </StackPanel>
                             </Button>
-                            <!--  显示新手卡池  -->
+                            <!--  展示新手卡池  -->
                             <ToggleSwitch IsOn="{x:Bind ShowNoviceGacha, Mode=TwoWay}"
                                           OffContent="{x:Bind lang:Lang.GachaLogPage_ShowNoviceGachaType}"
                                           OnContent="{x:Bind lang:Lang.GachaLogPage_ShowNoviceGachaType}" />
+                            <!--  展示集录祈愿  -->
+                            <ToggleSwitch x:Name="ToggleSwitch_ShowChronicledWish"
+                                          Margin="0,-8,0,0"
+                                          IsOn="{x:Bind ShowChronicledWish, Mode=TwoWay}"
+                                          OffContent="{x:Bind lang:Lang.GachaLogPage_ShowChronicledWish}"
+                                          OnContent="{x:Bind lang:Lang.GachaLogPage_ShowChronicledWish}"
+                                          Visibility="Collapsed" />
                             <Button Command="{x:Bind DeleteUidCommand}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon FontSize="14"

@@ -1383,4 +1383,7 @@ Do you accept the risk and continue to use it?</value>
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
     <value>The folders YuanShen_Data and GenshinImpact_Data cannot exist at the same time.</value>
   </data>
+  <data name="GachaLogPage_ShowChronicledWish" xml:space="preserve">
+    <value>Show Chronicled Wish</value>
+  </data>
 </root>

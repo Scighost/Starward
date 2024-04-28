@@ -1223,6 +1223,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Show Chronicled Wish 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_ShowChronicledWish {
+            get {
+                return ResourceManager.GetString("GachaLogPage_ShowChronicledWish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Show Novice Gacha Type 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_ShowNoviceGachaType {
