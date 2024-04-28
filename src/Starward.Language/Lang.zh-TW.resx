@@ -1383,4 +1383,7 @@
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
     <value>YuanShen_Data 與 GenshinImpact_Data 資料夾不能同時存在</value>
   </data>
+  <data name="GachaLogPage_ShowChronicledWish" xml:space="preserve">
+    <value>Show Chronicled Wish</value>
+  </data>
 </root>
