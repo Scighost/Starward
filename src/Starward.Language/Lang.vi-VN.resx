@@ -1383,4 +1383,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
     <value>Thư mục YuanShen_Data và GenshinImpact_Data cùng tồn tại.</value>
   </data>
+  <data name="GachaLogPage_ShowChronicledWish" xml:space="preserve">
+    <value>Show Chronicled Wish</value>
+  </data>
 </root>
