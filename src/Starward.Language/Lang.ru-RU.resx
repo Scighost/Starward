@@ -1384,6 +1384,6 @@
     <value>Папки YuanShen_Data и GenshinImpact_Data не могут существовать одновременно.</value>
   </data>
   <data name="GachaLogPage_ShowChronicledWish" xml:space="preserve">
-    <value>Show Chronicled Wish</value>
+    <value>Показать Молитва хроник</value>
   </data>
 </root>
