@@ -1383,6 +1383,6 @@
     <value>YuanShen_DataフォルダーとGenshinImpact_Dataフォルダーは同時に存在させる事はできません。</value>
   </data>
   <data name="GachaLogPage_ShowChronicledWish" xml:space="preserve">
-    <value>Show Chronicled Wish</value>
+    <value>集録祈願を表示</value>
   </data>
 </root>
