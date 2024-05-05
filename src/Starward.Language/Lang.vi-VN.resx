@@ -181,7 +181,7 @@
     <value>Bạn có muốn chọn thư mục này?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>Thư mục này sẽ tự động xoá sau khi ứng dụng được cập nhật</value>
+    <value>Thư mục này sẽ tự động bị xoá sau khi ứng dụng được cập nhật</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
     <value>Không có quyền ghi</value>
@@ -239,7 +239,7 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Không có quyền</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Vui lòng khởi động bằng quyền Quản Trị Viên</value>
+    <value>Vui lòng khởi động dưới quyền Quản Trị Viên</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
     <value>Bắt đầu</value>
@@ -296,7 +296,7 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Dừng</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Bỏ qua xác minh có thể sẽ khiến tập tin trò chơi bị hỏng.</value>
+    <value>Bỏ qua việc xác minh có thể sẽ khiến tập tin trò chơi bị hỏng.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>Bỏ qua xác minh</value>
@@ -341,7 +341,7 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Nhập từ file JSON</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
-    <value>Hiện thị gacha người mới</value>
+    <value>Hiển thị Gacha người mới</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
     <value>Xoá các bản ghi</value>
@@ -558,7 +558,7 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Sửa chữa trò chơi</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>Thực thi khởi động tuỳ chọn</value>
+    <value>Tuỳ chỉnh lệnh thực thi khởi động</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>Chọn</value>
@@ -576,7 +576,7 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Sử dụng chung hình nền ở tất cả khu vực trò chơi</value>
   </data>
   <data name="SettingPage_BgSizeTip" xml:space="preserve">
-    <value>Vui lòng chọn bức ảnh với kích thước pixel trùng với cửa số ứng dụng; ảnh quá cỡ sẽ làm giảm hiệu năng.</value>
+    <value>Vui lòng chọn bức ảnh có kích thước pixel trùng với cửa sổ ứng dụng; ảnh quá cỡ sẽ làm giảm hiệu năng.</value>
   </data>
   <data name="LauncherPage_StartGame" xml:space="preserve">
     <value>Bắt đầu trò chơi</value>
@@ -603,7 +603,7 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Vui lòng chọn một thư mục trống để cài đặt trò chơi, hoặc tìm thư mục chứa tập tin thực thi của {0}.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
-    <value>Nếu đây không phải là phiên bản mới nhất, vui lòng sửa đổi tập tin config.ini ở thư mục cài đặt game.</value>
+    <value>Nếu đây không phải phiên bản mới nhất, vui lòng sửa đổi tập tin config.ini ở thư mục cài đặt trò chơi.</value>
   </data>
   <data name="LauncherPage_StartVerification" xml:space="preserve">
     <value>Bắt đầu xác minh</value>
@@ -633,7 +633,7 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Nhật kí</value>
   </data>
   <data name="SettingPage_ShowConsole" xml:space="preserve">
-    <value>Hiện Console</value>
+    <value>Hiện Bảng điều khiển</value>
   </data>
   <data name="SettingPage_AppSettings" xml:space="preserve">
     <value>Cài đặt ứng dụng</value>
@@ -725,7 +725,7 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Có</value>
   </data>
   <data name="SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically" xml:space="preserve">
-    <value>Sau khi xoá, ứng dụng sẽ tự động khởi động lại.</value>
+    <value>Sau khi xoá, ứng dụng sẽ tự động được khởi động lại.</value>
   </data>
   <data name="UpdatePage_NewVersion" xml:space="preserve">
     <value>Phiên bản mới!</value>
@@ -761,7 +761,7 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Bạn cần phải tải xuống gói phiên bản mới thủ công</value>
   </data>
   <data name="UpdatePage_PreviewChannel" xml:space="preserve">
-    <value>Kênh trải nghiệm sớm</value>
+    <value>Kênh trải nghiệm trước</value>
   </data>
   <data name="UpdatePage_StableChannel" xml:space="preserve">
     <value>Kênh chính thức</value>
@@ -776,10 +776,10 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Trang phát hành</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>Thay vào đó, sử dụng plugin bên thứ ba để bắt đầu, và thời gian chơi có thể không được ghi lại khi được bật.</value>
+    <value>Thay vào đó, sử dụng plugin bên thứ ba để bắt đầu. Thời gian chơi có thể không được ghi lại khi được bật.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Chỉ định ngôn ngữ của bản ghi gacha, như là vi_VN.</value>
+    <value>Chỉ định ngôn ngữ của bản ghi gacha, chẳng hạn như vi_VN.</value>
     <comment>Replace en-US with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
@@ -1028,7 +1028,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Trình cài đặt</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>Bạn có thể chọn thoát hoặc ẩn cửa sổ và thu nhỏ xuống thanh hệ thống.</value>
+    <value>Bạn có thể chọn thoát ứng dụng hoặc ẩn cửa sổ và thu nhỏ xuống khay hệ thống.</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
     <value>Ẩn</value>
@@ -1040,7 +1040,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Mở thư mục sao lưu</value>
   </data>
   <data name="GameSettingPage_FeatureNotSupported" xml:space="preserve">
-    <value>Tính năng không được hỗ trợ</value>
+    <value>Tính năng chưa được hỗ trợ</value>
   </data>
   <data name="SettingPage_LastBackup" xml:space="preserve">
     <value>Bản sao lưu gần nhất</value>
