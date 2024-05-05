@@ -214,8 +214,8 @@
     <value>Đóng ứng dụng</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
-    <value>Tải xuống có thể được tiếp tục sau lần khởi động tiếp theo;
-đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập tin.</value>
+    <value>Việc tải xuống có thể được tiếp tục sau lần khởi động tiếp theo;
+việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập tin.</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
     <value>Đóng</value>
@@ -224,7 +224,7 @@
     <value>Huỷ</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>Ứng dụng sẽ sớm thoát</value>
+    <value>Ứng dụng sẽ sớm được thoát</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
     <value>Bắt đầu lặp lại</value>
@@ -284,7 +284,7 @@
     <value>Xác minh thất bại</value>
   </data>
   <data name="DownloadGamePage_TheFollowingFileVerifyFailed" xml:space="preserve">
-    <value>Xác minh những tập tin sau thất bại:</value>
+    <value>Thất bại khi xác minh những tập tin sau:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
     <value>Tải lại</value>
@@ -296,7 +296,7 @@
     <value>Dừng</value>
   </data>
   <data name="DownloadGamePage_SkipVerificationContent" xml:space="preserve">
-    <value>Bỏ qua xác minh có thể sẽ để lại tập tin trò chơi bị hỏng.</value>
+    <value>Bỏ qua xác minh có thể sẽ khiến tập tin trò chơi bị hỏng.</value>
   </data>
   <data name="DownloadGamePage_SkipVerification" xml:space="preserve">
     <value>Bỏ qua xác minh</value>
@@ -344,7 +344,7 @@
     <value>Hiện thị gacha người mới</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>Xoá bản ghi</value>
+    <value>Xoá các bản ghi</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
     <value>Ngôn ngữ</value>
@@ -386,7 +386,7 @@
     <value>Bản ghi Bước Nhảy</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>Đang nhận UID</value>
+    <value>Đang thu thập UID</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
     <value>Tài khoản này không có bản ghi gacha trong 6 tháng gần nhất.</value>
@@ -633,7 +633,7 @@
     <value>Nhật kí</value>
   </data>
   <data name="SettingPage_ShowConsole" xml:space="preserve">
-    <value>Hiện console</value>
+    <value>Hiện Console</value>
   </data>
   <data name="SettingPage_AppSettings" xml:space="preserve">
     <value>Cài đặt ứng dụng</value>
