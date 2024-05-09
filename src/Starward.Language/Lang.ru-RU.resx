@@ -919,7 +919,7 @@
     <value>Период</value>
   </data>
   <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
-    <value>Диковин открыто:</value>
+    <value>Использовано циклов:</value>
   </data>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
     <value>Отряд игрока</value>
