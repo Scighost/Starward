@@ -77,7 +77,7 @@ public class SelfQueryClient
             {
                 prefixUrl = "https://hk4e-api.mihoyo.com";
             }
-            if (url.StartsWith("https://webstatic-sea.hoyoverse.com/csc-service-center-fe/index.html"))
+            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html"))
             {
                 prefixUrl = "https://hk4e-api-os.hoyoverse.com";
             }
@@ -93,7 +93,7 @@ public class SelfQueryClient
             {
                 prefixUrl = "https://api-takumi.mihoyo.com";
             }
-            if (url.StartsWith("https://webstatic-sea.hoyoverse.com/csc-service-center-fe/index.html"))
+            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html"))
             {
                 prefixUrl = "https://api-os-takumi.hoyoverse.com";
             }
