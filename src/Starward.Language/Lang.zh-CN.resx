@@ -341,7 +341,7 @@
     <value>从 JSON 导入</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
-    <value>展示新手卡池</value>
+    <value>显示新手卡池</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
     <value>删除记录</value>
@@ -1385,5 +1385,11 @@
   </data>
   <data name="GachaLogPage_ShowChronicledWish" xml:space="preserve">
     <value>展示集录祈愿</value>
+  </data>
+  <data name="HoyolabToolboxPage_UpdateDeviceFingerprint" xml:space="preserve">
+    <value>更新设备指纹</value>
+  </data>
+  <data name="HoyolabToolboxPage_TheDeviceFingerprintIsAlreadyUpdated" xml:space="preserve">
+    <value>设备指纹已更新</value>
   </data>
 </root>
