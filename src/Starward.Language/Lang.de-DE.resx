@@ -1384,4 +1384,10 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
   <data name="GachaLogPage_ShowChronicledWish" xml:space="preserve">
     <value>Zeige chronischen Banner</value>
   </data>
+  <data name="HoyolabToolboxPage_UpdateDeviceFingerprint" xml:space="preserve">
+    <value>Update Device Fingerprint</value>
+  </data>
+  <data name="HoyolabToolboxPage_TheDeviceFingerprintIsAlreadyUpdated" xml:space="preserve">
+    <value>The device fingerprint is already updated.</value>
+  </data>
 </root>
