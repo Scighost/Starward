@@ -366,6 +366,20 @@
 
             </NavigationView.MenuItems>
 
+            <NavigationView.PaneFooter>
+                <NavigationViewItem x:Name="NavigationViewItem_UpdateDeviceInfo"
+                                    Margin="-2,0,0,-4"
+                                    Content="{x:Bind lang:Lang.HoyolabToolboxPage_UpdateDeviceFingerprint}"
+                                    Tapped="NavigationViewItem_UpdateDeviceInfo_Tapped">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE928;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.PaneFooter>
+
+
+
+
             <Frame Name="frame" />
 
         </NavigationView>

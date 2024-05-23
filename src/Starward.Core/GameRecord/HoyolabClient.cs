@@ -87,6 +87,19 @@ public class HoyolabClient : GameRecordClient
 
 
 
+    /// <summary>
+    /// 获取设备指纹信息
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<string> GetDeviceFpAsync(CancellationToken cancellationToken = default)
+    {
+        return await Task.FromResult(DeviceFp);
+    }
+
+
+
+
     #region Genshin
 
 

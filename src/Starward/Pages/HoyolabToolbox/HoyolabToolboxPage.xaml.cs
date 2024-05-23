@@ -59,6 +59,10 @@ public sealed partial class HoyolabToolboxPage : PageBase
                 _ => biz
             };
             _gameRecordService.IsHoyolab = gameBiz.IsGlobalServer();
+            if (gameBiz.IsGlobalServer())
+            {
+                NavigationViewItem_UpdateDeviceInfo.Visibility = Visibility.Collapsed;
+            }
             _gameRecordService.Language = System.Globalization.CultureInfo.CurrentUICulture.Name;
             InitializeNavigationViewItemVisibility();
         }
@@ -93,6 +97,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
         NavigateTo(typeof(BlankPage));
         await CheckAgreementAsync();
         LoadGameRoles();
+        await UpdateDeviceInfoAsync();
     }
 
 
@@ -463,7 +468,51 @@ public sealed partial class HoyolabToolboxPage : PageBase
 
 
 
+
     #endregion
+
+
+
+
+
+    #region Device Info
+
+
+
+
+    private async void NavigationViewItem_UpdateDeviceInfo_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    {
+        await UpdateDeviceInfoAsync(true);
+    }
+
+
+
+    private async Task UpdateDeviceInfoAsync(bool forceUpdate = false)
+    {
+        try
+        {
+            await _gameRecordService.UpdateDeviceFpAsync(forceUpdate);
+            if (forceUpdate)
+            {
+                NotificationBehavior.Instance.Success(Lang.HoyolabToolboxPage_TheDeviceFingerprintIsAlreadyUpdated);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update device info");
+            if (forceUpdate)
+            {
+                NotificationBehavior.Instance.Error(ex);
+            }
+        }
+    }
+
+
+
+
+
+    #endregion
+
 
 
 }

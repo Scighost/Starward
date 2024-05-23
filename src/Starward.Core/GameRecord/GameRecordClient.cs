@@ -34,10 +34,15 @@ public abstract class GameRecordClient
     protected const string x_rpc_device_fp = "x-rpc-device_fp";
     protected const string x_rpc_client_type = "x-rpc-client_type";
     protected const string x_rpc_language = "X-Rpc-Language";
-    protected static readonly string DeviceId = Guid.NewGuid().ToString("D");
 
     protected abstract string UAContent { get; }
     protected abstract string AppVersion { get; }
+
+
+    public string DeviceId { get; set; } = Guid.NewGuid().ToString("D");
+
+    public string DeviceFp { get; set; } = "0000000000000";
+
 
     #endregion
 
@@ -197,6 +202,14 @@ public abstract class GameRecordClient
     /// <returns></returns>
     public abstract Task<List<GameRecordRole>> GetAllGameRolesAsync(string cookie, CancellationToken cancellationToken = default);
 
+
+
+    /// <summary>
+    /// 获取设备指纹信息
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<string> GetDeviceFpAsync(CancellationToken cancellationToken = default);
 
 
 

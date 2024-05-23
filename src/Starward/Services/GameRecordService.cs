@@ -69,6 +69,39 @@ internal class GameRecordService
 
 
 
+    /// <summary>
+    /// 更新设备指纹信息
+    /// </summary>
+    /// <param name="forceUpdate"></param>
+    /// <returns></returns>
+    public async Task UpdateDeviceFpAsync(bool forceUpdate = false)
+    {
+        if (IsHoyolab)
+        {
+            return;
+        }
+        string? id = AppConfig.HyperionDeviceId;
+        string? fp = AppConfig.HyperionDeviceFp;
+        DateTimeOffset lastUpdateTime = AppConfig.HyperionDeviceFpLastUpdateTime;
+        if (!forceUpdate && !string.IsNullOrWhiteSpace(id) && !string.IsNullOrWhiteSpace(fp))
+        {
+            _gameRecordClient.DeviceId = id;
+            _gameRecordClient.DeviceFp = fp;
+        }
+        if (forceUpdate || DateTimeOffset.Now - lastUpdateTime > TimeSpan.FromDays(3))
+        {
+            await _gameRecordClient.GetDeviceFpAsync();
+            AppConfig.HyperionDeviceId = _gameRecordClient.DeviceId;
+            AppConfig.HyperionDeviceFp = _gameRecordClient.DeviceFp;
+            AppConfig.HyperionDeviceFpLastUpdateTime = DateTimeOffset.Now;
+        }
+    }
+
+
+
+
+
+
     #region Game Role
 
 

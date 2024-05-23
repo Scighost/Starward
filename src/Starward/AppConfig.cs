@@ -430,6 +430,31 @@ internal static class AppConfig
 
 
 
+    public static string? HyperionDeviceId
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
+
+    public static string? HyperionDeviceFp
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
+
+    public static DateTimeOffset HyperionDeviceFpLastUpdateTime
+    {
+        get => GetValue<DateTimeOffset>();
+        set => SetValue(value);
+    }
+
+
+
+
     #endregion
 
 

@@ -21,6 +21,7 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<PureFictionInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<SimulatedUniverseInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<SimulatedUniverseTime>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<DeviceFpResult>))]
 internal partial class GameRecordJsonContext : JsonSerializerContext
 {
 

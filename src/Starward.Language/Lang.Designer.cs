@@ -1792,6 +1792,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 The device fingerprint is already updated. 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_TheDeviceFingerprintIsAlreadyUpdated {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_TheDeviceFingerprintIsAlreadyUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Trailblaze Monthly Calendar 的本地化字符串。
         /// </summary>
         public static string HoyolabToolboxPage_TrailblazeMonthlyCalendar {
@@ -1806,6 +1815,15 @@ namespace Starward.Language {
         public static string HoyolabToolboxPage_TravelersDiary {
             get {
                 return ResourceManager.GetString("HoyolabToolboxPage_TravelersDiary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Update Device Fingerprint 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_UpdateDeviceFingerprint {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_UpdateDeviceFingerprint", resourceCulture);
             }
         }
         
