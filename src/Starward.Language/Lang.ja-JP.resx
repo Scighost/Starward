@@ -1385,4 +1385,10 @@
   <data name="GachaLogPage_ShowChronicledWish" xml:space="preserve">
     <value>集録祈願を表示</value>
   </data>
+  <data name="HoyolabToolboxPage_UpdateDeviceFingerprint" xml:space="preserve">
+    <value>Update Device Fingerprint</value>
+  </data>
+  <data name="HoyolabToolboxPage_TheDeviceFingerprintIsAlreadyUpdated" xml:space="preserve">
+    <value>The device fingerprint is already updated.</value>
+  </data>
 </root>
