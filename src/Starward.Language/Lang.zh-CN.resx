@@ -1398,4 +1398,10 @@
   <data name="HoyolabToolboxPage_BattleChronicle" xml:space="preserve">
     <value>战绩</value>
   </data>
+  <data name="CloudGameGachaWindow_OpenTheGachaRecordsPageInGameAndThenClickTheButtonOnTheRight" xml:space="preserve">
+    <value>在游戏中打开抽卡记录页面，然后点击右边的按键。</value>
+  </data>
+  <data name="GachaLogPage_ViaCloudGame" xml:space="preserve">
+    <value>通过云游戏获取</value>
+  </data>
 </root>
