@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -9,7 +8,6 @@ using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Helpers;
-using Starward.Messages;
 using Starward.Services;
 using System;
 using System.Collections.Generic;
@@ -124,17 +122,7 @@ public sealed partial class SpiralAbyssPage : PageBase
         catch (miHoYoApiException ex)
         {
             _logger.LogError(ex, "Refresh abyss data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
-            if (ex.ReturnCode is 1034 or 5003)
-            {
-                NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Warning, Lang.Common_AccountError, ex.Message, Lang.HoyolabToolboxPage_VerifyAccount, () =>
-                {
-                    WeakReferenceMessenger.Default.Send(new VerifyAccountMessage(gameRole!, "https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/deep?role_id={role_id}&server={server}"));
-                });
-            }
-            else
-            {
-                NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
-            }
+            HoyolabToolboxPage.HandleMiHoYoApiException(ex);
         }
         catch (HttpRequestException ex)
         {

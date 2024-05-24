@@ -1,5 +1,3 @@
-﻿using Starward.Core.GameRecord;
+﻿namespace Starward.Messages;
 
-namespace Starward.Messages;
-
-public record VerifyAccountMessage(GameRecordRole GameRole, string TargetUrl);
+public record VerifyAccountMessage();

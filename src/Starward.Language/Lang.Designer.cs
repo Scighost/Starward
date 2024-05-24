@@ -196,6 +196,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Image copied to clipboard 的本地化字符串。
+        /// </summary>
+        public static string BBSWebBridge_ImageCopiedToClipboard {
+            get {
+                return ResourceManager.GetString("BBSWebBridge_ImageCopiedToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 You could change the option again in setting page. 的本地化字符串。
         /// </summary>
         public static string CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage {
@@ -1678,6 +1687,15 @@ namespace Starward.Language {
         public static string HoYoLABToolbox {
             get {
                 return ResourceManager.GetString("HoYoLABToolbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Battle Chronicle 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_BattleChronicle {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_BattleChronicle", resourceCulture);
             }
         }
         

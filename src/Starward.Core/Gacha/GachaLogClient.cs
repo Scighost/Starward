@@ -345,7 +345,7 @@ public abstract class GachaLogClient
 
     public async Task<GenshinGachaWiki> GetGenshinGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
     {
-        lang = Util.FilterLanguage(lang);
+        lang = LanguageUtil.FilterLanguage(lang);
         GenshinGachaWiki wiki;
         if (gameBiz.IsChinaServer() && lang is "zh-cn")
         {
@@ -364,7 +364,7 @@ public abstract class GachaLogClient
 
     public async Task<StarRailGachaWiki> GetStarRailGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
     {
-        lang = Util.FilterLanguage(lang);
+        lang = LanguageUtil.FilterLanguage(lang);
         StarRailGachaWiki wiki;
         if (gameBiz.IsChinaServer() && lang is "zh-cn")
         {

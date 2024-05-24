@@ -1392,4 +1392,10 @@
   <data name="HoyolabToolboxPage_UpdateDeviceFingerprint" xml:space="preserve">
     <value>更新设备指纹</value>
   </data>
+  <data name="BBSWebBridge_ImageCopiedToClipboard" xml:space="preserve">
+    <value>图片已复制到剪贴板</value>
+  </data>
+  <data name="HoyolabToolboxPage_BattleChronicle" xml:space="preserve">
+    <value>战绩</value>
+  </data>
 </root>

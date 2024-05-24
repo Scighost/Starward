@@ -43,7 +43,7 @@ public class LauncherClient
 
     public async Task<LauncherContent> GetLauncherContentAsync(GameBiz biz, string? lang = null, CancellationToken cancellationToken = default)
     {
-        lang = Util.FilterLanguage(lang);
+        lang = LanguageUtil.FilterLanguage(lang);
         var url = biz switch
         {
             GameBiz.hk4e_cn or GameBiz.hk4e_cloud or GameBiz.hk4e_bilibili => "https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?filter_adv=false&key=eYd89JmJ&language=zh-cn&launcher_id=18",
@@ -187,7 +187,7 @@ public class LauncherClient
 
     public static string GetGameNoticesUrl(GameBiz biz, long uid, string? lang = null)
     {
-        lang = Util.FilterLanguage(lang);
+        lang = LanguageUtil.FilterLanguage(lang);
         uid = uid == 0 ? 100000000 : uid;
         return biz switch
         {
@@ -206,7 +206,7 @@ public class LauncherClient
 
     public async Task<bool> IsNoticesAlertAsync(GameBiz biz, long uid, string? lang = null, CancellationToken cancellationToken = default)
     {
-        lang = Util.FilterLanguage(lang);
+        lang = LanguageUtil.FilterLanguage(lang);
         uid = uid == 0 ? 100000000 : uid;
         string url = biz switch
         {

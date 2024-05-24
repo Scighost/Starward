@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.GameRecord;
@@ -43,23 +44,18 @@ public sealed partial class HoyolabToolboxPage : PageBase
 
 
 
-    private GameBiz gameBiz;
-
-
-
-
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         if (e.Parameter is GameBiz biz)
         {
-            gameBiz = biz switch
+            CurrentGameBiz = biz switch
             {
                 GameBiz.hk4e_cloud or GameBiz.hk4e_bilibili => GameBiz.hk4e_cn,
                 GameBiz.hkrpg_bilibili => GameBiz.hkrpg_cn,
                 _ => biz
             };
-            _gameRecordService.IsHoyolab = gameBiz.IsGlobalServer();
-            if (gameBiz.IsGlobalServer())
+            _gameRecordService.IsHoyolab = CurrentGameBiz.IsGlobalServer();
+            if (CurrentGameBiz.IsGlobalServer())
             {
                 NavigationViewItem_UpdateDeviceInfo.Visibility = Visibility.Collapsed;
             }
@@ -87,7 +83,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
         });
         WeakReferenceMessenger.Default.Register<VerifyAccountMessage>(this, (r, m) =>
         {
-            NavigateTo(typeof(HyperionWebBridgePage), new HyperionWebBridgePage.PageParameter(m.GameRole, m.TargetUrl));
+            ShowBBSWebBridge();
         });
         WeakReferenceMessenger.Default.Register<GameRecordPageNavigationGoBackMessage>(this, (r, m) =>
         {
@@ -210,17 +206,23 @@ public sealed partial class HoyolabToolboxPage : PageBase
 
     private void InitializeNavigationViewItemVisibility()
     {
-        if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+        if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
         {
+            NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
             NavigationViewItem_SpiralAbyss.Visibility = Visibility.Visible;
             NavigationViewItem_TravelersDiary.Visibility = Visibility.Visible;
+            // 原神战绩图片
+            Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/ced4deac2162690105bbc8baad2b51a3_4109616186965788891.png"));
         }
-        if (gameBiz.ToGame() is GameBiz.StarRail)
+        if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
         {
+            NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
             NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
             NavigationViewItem_ForgottenHall.Visibility = Visibility.Visible;
             NavigationViewItem_PureFiction.Visibility = Visibility.Visible;
             NavigationViewItem_TrailblazeMonthlyCalendar.Visibility = Visibility.Visible;
+            // 铁道战绩图片
+            Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/ade9545750299456a3fcbc8c3b63521d_2941971308029698042.png"));
         }
     }
 
@@ -249,7 +251,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
     private List<GameRecordRole> gameRoleList;
 
 
-    public string AvatarUrl => CurrentUser?.AvatarUrl ?? $"ms-appx:///Assets/Image/icon_{(gameBiz.IsGlobalServer() ? "hoyolab" : "hyperion")}.png";
+    public string AvatarUrl => CurrentUser?.AvatarUrl ?? $"ms-appx:///Assets/Image/icon_{(CurrentGameBiz.IsGlobalServer() ? "hoyolab" : "hyperion")}.png";
 
 
 
@@ -259,17 +261,17 @@ public sealed partial class HoyolabToolboxPage : PageBase
         {
             if (role != null)
             {
-                _gameRecordService.SetLastSelectGameRecordRole(gameBiz, role);
+                _gameRecordService.SetLastSelectGameRecordRole(CurrentGameBiz, role);
             }
-            role ??= _gameRecordService.GetLastSelectGameRecordRole(gameBiz);
-            var list = _gameRecordService.GetGameRoles(gameBiz);
+            role ??= _gameRecordService.GetLastSelectGameRecordRole(CurrentGameBiz);
+            var list = _gameRecordService.GetGameRoles(CurrentGameBiz);
             CurrentRole = role ?? list.FirstOrDefault();
             GameRoleList = list;
             CurrentUser = _gameRecordService.GetGameRecordUser(CurrentRole);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Load game roles ({gameBiz}).", gameBiz);
+            _logger.LogError(ex, "Load game roles ({gameBiz}).", CurrentGameBiz);
         }
     }
 
@@ -279,7 +281,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
     [RelayCommand]
     private void WebLogin()
     {
-        NavigateTo(typeof(LoginPage), gameBiz);
+        NavigateTo(typeof(LoginPage), CurrentGameBiz);
     }
 
 
@@ -324,7 +326,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
         if (e.AddedItems.FirstOrDefault() is GameRecordRole role)
         {
             CurrentRole = role;
-            _gameRecordService.SetLastSelectGameRecordRole(gameBiz, role);
+            _gameRecordService.SetLastSelectGameRecordRole(CurrentGameBiz, role);
             CurrentUser = _gameRecordService.GetGameRecordUser(CurrentRole);
             if (frame.SourcePageType?.Name is not nameof(LoginPage))
             {
@@ -401,7 +403,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
                 var user = await _gameRecordService.AddRecordUserAsync(cookie);
                 var roles = await _gameRecordService.AddGameRolesAsync(cookie);
                 NotificationBehavior.Instance.Success(null, string.Format(Lang.LoginPage_AlreadyAddedGameRoles, roles.Count, string.Join("\r\n", roles.Select(x => $"{x.Nickname}  {x.Uid}"))), 5000);
-                LoadGameRoles(roles.FirstOrDefault(x => x.GameBiz == gameBiz.ToString()));
+                LoadGameRoles(roles.FirstOrDefault(x => x.GameBiz == CurrentGameBiz.ToString()));
             }
         }
         catch (miHoYoApiException ex)
@@ -438,6 +440,10 @@ public sealed partial class HoyolabToolboxPage : PageBase
         {
             return;
         }
+        if (frame.SourcePageType == page)
+        {
+            return;
+        }
         frame.Navigate(page, parameter ?? CurrentRole);
     }
 
@@ -450,22 +456,56 @@ public sealed partial class HoyolabToolboxPage : PageBase
             var item = args.InvokedItemContainer as NavigationViewItem;
             if (item != null)
             {
-                var type = item.Tag switch
+                if (item.Tag is "BattleChronicle")
                 {
-                    nameof(SpiralAbyssPage) => typeof(SpiralAbyssPage),
-                    nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
-                    nameof(SimulatedUniversePage) => typeof(SimulatedUniversePage),
-                    nameof(ForgottenHallPage) => typeof(ForgottenHallPage),
-                    nameof(PureFictionPage) => typeof(PureFictionPage),
-                    nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
-                    _ => null,
-                };
-                NavigateTo(type);
+                    ShowBBSWebBridge();
+                }
+                else
+                {
+                    HideBBSWebBridge();
+                    if (args.InvokedItemContainer?.IsSelected ?? false)
+                    {
+                        return;
+                    }
+                    var type = item.Tag switch
+                    {
+                        nameof(SpiralAbyssPage) => typeof(SpiralAbyssPage),
+                        nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
+                        nameof(SimulatedUniversePage) => typeof(SimulatedUniversePage),
+                        nameof(ForgottenHallPage) => typeof(ForgottenHallPage),
+                        nameof(PureFictionPage) => typeof(PureFictionPage),
+                        nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
+                        _ => null,
+                    };
+
+                    NavigateTo(type);
+                }
             }
         }
         catch { }
     }
 
+
+
+    private void ShowBBSWebBridge()
+    {
+        Border_BBSWebBridge.Visibility = Visibility.Visible;
+        bbsWebBridge.WebPageClosed -= BbsWebBridge_WebPageClosed;
+        bbsWebBridge.WebPageClosed += BbsWebBridge_WebPageClosed;
+        _ = bbsWebBridge.LoadPageAsync();
+    }
+
+
+    private void BbsWebBridge_WebPageClosed(object? sender, object e)
+    {
+        HideBBSWebBridge();
+    }
+
+
+    private void HideBBSWebBridge()
+    {
+        Border_BBSWebBridge.Visibility = Visibility.Collapsed;
+    }
 
 
 
@@ -513,6 +553,24 @@ public sealed partial class HoyolabToolboxPage : PageBase
 
     #endregion
 
+
+
+
+
+    public static void HandleMiHoYoApiException(miHoYoApiException ex)
+    {
+        if (ex.ReturnCode is 1034 or 5003 or 10035 or 10041 or 10053)
+        {
+            NotificationBehavior.Instance.ShowWithButton(InfoBarSeverity.Warning, Lang.Common_AccountError, ex.Message, Lang.HoyolabToolboxPage_VerifyAccount, () =>
+            {
+                WeakReferenceMessenger.Default.Send(new VerifyAccountMessage());
+            });
+        }
+        else
+        {
+            NotificationBehavior.Instance.Warning(Lang.Common_AccountError, ex.Message);
+        }
+    }
 
 
 }

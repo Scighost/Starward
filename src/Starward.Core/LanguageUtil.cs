@@ -1,6 +1,6 @@
 ﻿namespace Starward.Core;
 
-internal static class Util
+public static class LanguageUtil
 {
 
     public static string FilterLanguage(string? lang)

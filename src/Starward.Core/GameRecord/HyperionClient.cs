@@ -12,9 +12,9 @@ public class HyperionClient : GameRecordClient
 {
 
 
-    protected override string UAContent => $"Mozilla/5.0 (Linux; Android 13; Pixel 5 Build/TQ3A.230901.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/118.0.0.0 Mobile Safari/537.36 miHoYoBBS/{AppVersion}";
+    public override string UAContent => $"Mozilla/5.0 (Linux; Android 13; Pixel 5 Build/TQ3A.230901.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/118.0.0.0 Mobile Safari/537.36 miHoYoBBS/{AppVersion}";
 
-    protected override string AppVersion => "2.71.1";
+    public override string AppVersion => "2.71.1";
 
     protected override string ApiSalt => "t0qEgfub6cvueAPgR5m9aQWWVciEer7v";
 

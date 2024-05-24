@@ -13,6 +13,7 @@
              mc:Ignorable="d">
 
     <Grid>
+
         <NavigationView Name="NavigationView_Toolbox"
                         IsBackButtonVisible="Collapsed"
                         IsPaneToggleButtonVisible="False"
@@ -261,6 +262,25 @@
 
             <NavigationView.MenuItems>
                 <NavigationViewItemSeparator />
+                <!--  战绩  -->
+                <NavigationViewItem Name="NavigationViewItem_BattleChronicle"
+                                    Tag="BattleChronicle"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="Image_BattleChronicle"
+                                   Width="20"
+                                   Source="ms-appx:///Assets/Image/ced4deac2162690105bbc8baad2b51a3_4109616186965788891.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_BattleChronicle}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
                 <!--  深境螺旋  -->
                 <NavigationViewItem Name="NavigationViewItem_SpiralAbyss"
                                     Tag="SpiralAbyssPage"
@@ -379,10 +399,22 @@
 
 
 
-
-            <Frame Name="frame" />
+            <Grid>
+                <Frame Name="frame" />
+                <Border x:Name="Border_BBSWebBridge"
+                        Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
+                        Visibility="Collapsed">
+                    <sc:BBSWebBridge x:Name="bbsWebBridge"
+                                     Width="400"
+                                     HorizontalAlignment="Center"
+                                     CornerRadius="0"
+                                     CurrentGameBiz="{x:Bind CurrentGameBiz}"
+                                     GameRecordRole="{x:Bind CurrentRole}" />
+                </Border>
+            </Grid>
 
         </NavigationView>
+
 
     </Grid>
 

@@ -35,16 +35,17 @@ public abstract class GameRecordClient
     protected const string x_rpc_client_type = "x-rpc-client_type";
     protected const string x_rpc_language = "X-Rpc-Language";
 
-    protected abstract string UAContent { get; }
-    protected abstract string AppVersion { get; }
+    #endregion
 
+
+
+    public abstract string UAContent { get; }
+
+    public abstract string AppVersion { get; }
 
     public string DeviceId { get; set; } = Guid.NewGuid().ToString("D");
 
     public string DeviceFp { get; set; } = "0000000000000";
-
-
-    #endregion
 
 
 

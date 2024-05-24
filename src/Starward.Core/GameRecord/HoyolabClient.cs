@@ -11,9 +11,9 @@ public class HoyolabClient : GameRecordClient
 {
 
 
-    protected override string UAContent => $"Mozilla/5.0 miHoYoBBSOversea/{AppVersion}";
+    public override string UAContent => $"Mozilla/5.0 (Linux; Android 13; Pixel 5 Build/TQ3A.230901.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/118.0.0.0 Mobile Safari/537.36 miHoYoBBSOversea/{AppVersion}";
 
-    protected override string AppVersion => "2.47.0";
+    public override string AppVersion => "2.54.0";
 
     protected override string ApiSalt => "okr4obncj8bw5a65hbnn5oo6ixjc3l9w";
 
@@ -21,7 +21,7 @@ public class HoyolabClient : GameRecordClient
 
 
     private string language;
-    public string Language { get => Util.FilterLanguage(language); set => language = Util.FilterLanguage(value); }
+    public string Language { get => LanguageUtil.FilterLanguage(language); set => language = LanguageUtil.FilterLanguage(value); }
 
 
 

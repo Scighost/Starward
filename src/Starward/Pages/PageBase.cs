@@ -8,7 +8,7 @@ public abstract class PageBase : Page
 {
 
 
-    public GameBiz CurrentGameBiz { get; private set; }
+    public GameBiz CurrentGameBiz { get; protected set; }
 
 
     public PageBase()
