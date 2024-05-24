@@ -129,9 +129,25 @@
                                 </Button>
                             </Grid>
                             <!--  导出为  -->
-                            <TextBlock Margin="0,8,0,0"
-                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       Text="{x:Bind lang:Lang.GachaLogPage_ExportAs}" />
+                            <StackPanel Margin="0,8,0,0"
+                                        Orientation="Horizontal"
+                                        Spacing="8">
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.GachaLogPage_ExportAs}" />
+                                <Button Padding="1"
+                                        VerticalAlignment="Bottom"
+                                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                    <FontIcon FontSize="12" Glyph="&#xE9CE;" />
+                                    <Button.Flyout>
+                                        <Flyout>
+                                            <TextBlock>
+                                                <Hyperlink NavigateUri="https://uigf.org/" UnderlineStyle="None">
+                                                    <Run Text="UIGF/SRGF" />
+                                                </Hyperlink>
+                                            </TextBlock>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
