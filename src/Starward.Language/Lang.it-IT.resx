@@ -1398,4 +1398,10 @@ Do you accept the risk and continue to use it?</value>
   <data name="HoyolabToolboxPage_BattleChronicle" xml:space="preserve">
     <value>Battle Chronicle</value>
   </data>
+  <data name="CloudGameGachaWindow_OpenTheGachaRecordsPageInGameAndThenClickTheButtonOnTheRight" xml:space="preserve">
+    <value>Open the gacha records page in game, and then click the button on the right.</value>
+  </data>
+  <data name="GachaLogPage_ViaCloudGame" xml:space="preserve">
+    <value>via Cloud Game</value>
+  </data>
 </root>
