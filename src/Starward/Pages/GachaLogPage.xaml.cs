@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,6 +14,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Helpers;
+using Starward.Messages;
 using Starward.Models;
 using Starward.Services;
 using Starward.Services.Gacha;
@@ -50,7 +52,6 @@ public sealed partial class GachaLogPage : PageBase
     public GachaLogPage()
     {
         this.InitializeComponent();
-
     }
 
 
@@ -72,6 +73,10 @@ public sealed partial class GachaLogPage : PageBase
                 EnableStarRailGachaItemStats = true;
                 _gachaLogService = AppConfig.GetService<StarRailGachaService>();
                 Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPom);
+            }
+            if (biz.IsGlobalServer())
+            {
+                MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
             }
         }
     }
@@ -166,11 +171,24 @@ public sealed partial class GachaLogPage : PageBase
     private int errorCount = 0;
 
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
+
+    protected override async void OnLoaded()
     {
         await Task.Delay(16);
+        WeakReferenceMessenger.Default.Register<UpdateGachaLogMessage>(this, (s, m) =>
+        {
+            MainWindow.Current.Show();
+            _ = UpdateGachaLogInternalAsync(m.Url);
+        });
         Initialize();
         await UpdateWikiDataAsync();
+    }
+
+
+
+    protected override void OnUnloaded()
+    {
+        WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
 
@@ -446,6 +464,20 @@ public sealed partial class GachaLogPage : PageBase
             NotificationBehavior.Instance.Error(ex);
         }
     }
+
+
+
+
+    [RelayCommand]
+    private void OpenCloudGameWindow()
+    {
+        try
+        {
+            new CloudGameGachaWindow { GameBiz = CurrentGameBiz }.Activate();
+        }
+        catch { }
+    }
+
 
 
     #endregion

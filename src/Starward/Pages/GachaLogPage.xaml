@@ -8,7 +8,6 @@
                 xmlns:sc="using:Starward.Controls"
                 xmlns:sm="using:Starward.Models"
                 x:DefaultBindMode="OneWay"
-                Loaded="Page_Loaded"
                 mc:Ignorable="d">
 
     <Grid>
@@ -56,6 +55,9 @@
                                         Text="{x:Bind lang:Lang.GachaLogPage_UpdateAll}" />
                         <!--  输入 URL  -->
                         <MenuFlyoutItem Command="{x:Bind InputUrlCommand}" Text="{x:Bind lang:Lang.GachaLogPage_InputURL}" />
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_CloudGame"
+                                        Command="{x:Bind OpenCloudGameWindowCommand}"
+                                        Text="{x:Bind lang:Lang.GachaLogPage_ViaCloudGame}" />
                     </MenuFlyout>
                 </SplitButton.Flyout>
             </SplitButton>

@@ -214,6 +214,16 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Open the gacha records page in game, and then click the button on the right. 的本地化字符串。
+        /// </summary>
+        public static string CloudGameGachaWindow_OpenTheGachaRecordsPageInGameAndThenClickTheButtonOnTheRight {
+            get {
+                return ResourceManager.GetString("CloudGameGachaWindow_OpenTheGachaRecordsPageInGameAndThenClickTheButtonOnTheRight" +
+                        "", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Accept 的本地化字符串。
         /// </summary>
         public static string Common_Accept {
@@ -1273,6 +1283,15 @@ namespace Starward.Language {
         public static string GachaLogPage_UpdateSavedURL {
             get {
                 return ResourceManager.GetString("GachaLogPage_UpdateSavedURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 via Cloud Game 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_ViaCloudGame {
+            get {
+                return ResourceManager.GetString("GachaLogPage_ViaCloudGame", resourceCulture);
             }
         }
         
