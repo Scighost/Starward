@@ -1387,13 +1387,13 @@
     <value>Показать Молитва хроник</value>
   </data>
   <data name="HoyolabToolboxPage_UpdateDeviceFingerprint" xml:space="preserve">
-    <value>Update Device Fingerprint</value>
+    <value>Обновить отпечаток устройства</value>
   </data>
   <data name="HoyolabToolboxPage_TheDeviceFingerprintIsAlreadyUpdated" xml:space="preserve">
-    <value>The device fingerprint is already updated.</value>
+    <value>Отпечаток устройства уже обновлён.</value>
   </data>
   <data name="BBSWebBridge_ImageCopiedToClipboard" xml:space="preserve">
-    <value>Image copied to clipboard</value>
+    <value>Изображение скопировано в буфер обмена</value>
   </data>
   <data name="HoyolabToolboxPage_BattleChronicle" xml:space="preserve">
     <value>Battle Chronicle</value>
@@ -1405,7 +1405,7 @@
     <value>via Cloud Game</value>
   </data>
   <data name="UpdateContentWindow_ClickToRefresh" xml:space="preserve">
-    <value>Click to Refresh</value>
+    <value>Нажмите, чтобы обновить</value>
   </data>
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
     <value>Recently Updated Content</value>
