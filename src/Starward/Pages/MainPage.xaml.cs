@@ -158,7 +158,7 @@ public sealed partial class MainPage : PageBase
             if (NuGetVersion.TryParse(AppConfig.AppVersion, out var version))
             {
                 NuGetVersion.TryParse(AppConfig.LastAppVersion, out var lastVersion);
-                if (version > lastVersion!)
+                if (version != lastVersion)
                 {
                     new UpdateContentWindow().Activate();
                 }

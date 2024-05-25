@@ -112,7 +112,7 @@ public sealed partial class UpdateContentWindow : WindowEx
             {
                 if (NuGetVersion.TryParse(release.TagName, out var version))
                 {
-                    if (version > lastVersion && version <= thisVersion)
+                    if ((version > lastVersion || thisVersion < lastVersion) && version <= thisVersion)
                     {
                         if (!version.IsPrerelease || (thisVersion.IsPrerelease && version.IsPrerelease))
                         {

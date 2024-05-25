@@ -20,17 +20,13 @@
         <Image Grid.ColumnSpan="2"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="ms-appx:///Assets/Image/BgRogueDlcQuestBannerBg1.png"
+               Source="ms-appx:///Assets/Image/ImgSevenDayBg.png"
                Stretch="UniformToFill" />
         <Image Grid.ColumnSpan="2"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Source="ms-appx:///Assets/Image/BgRogueDlcQuestBannerBg2.png"
-               Stretch="UniformToFill" />
-        <Image Grid.ColumnSpan="2"
+               Margin="-80,0,0,0"
                HorizontalAlignment="Left"
                VerticalAlignment="Bottom"
-               Source="ms-appx:///Assets/Image/BgRogueDlcQuestBannerBg3.png"
+               Source="ms-appx:///Assets/Image/ImgSevenDayAvatar.png"
                Stretch="Uniform" />
 
 
