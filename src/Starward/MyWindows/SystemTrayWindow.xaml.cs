@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml;
 using Starward.Helpers;
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -113,12 +112,6 @@ public sealed partial class SystemTrayWindow : WindowEx
         }
         catch { }
     }
-
-
-
-    [return: MarshalAs(UnmanagedType.Bool)]
-    [LibraryImport("uxtheme.dll", EntryPoint = "#138", SetLastError = true)]
-    private static partial bool ShouldSystemUseDarkMode();
 
 
 

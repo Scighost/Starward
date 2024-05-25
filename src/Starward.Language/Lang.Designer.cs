@@ -3704,6 +3704,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Click to Refresh 的本地化字符串。
+        /// </summary>
+        public static string UpdateContentWindow_ClickToRefresh {
+            get {
+                return ResourceManager.GetString("UpdateContentWindow_ClickToRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Recently Updated Content 的本地化字符串。
+        /// </summary>
+        public static string UpdateContentWindow_RecentlyUpdatedContent {
+            get {
+                return ResourceManager.GetString("UpdateContentWindow_RecentlyUpdatedContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Architecture: 的本地化字符串。
         /// </summary>
         public static string UpdatePage_Architecture {

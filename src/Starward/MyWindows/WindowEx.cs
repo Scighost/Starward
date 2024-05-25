@@ -4,13 +4,14 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Starward.Messages;
 using System;
+using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 using Windows.Graphics;
 using Windows.UI;
 
 namespace Starward.MyWindows;
 
-public abstract class WindowEx : Window
+public abstract partial class WindowEx : Window
 {
 
 
@@ -219,6 +220,12 @@ public abstract class WindowEx : Window
 
 
     #endregion
+
+
+
+    [return: MarshalAs(UnmanagedType.Bool)]
+    [LibraryImport("uxtheme.dll", EntryPoint = "#138", SetLastError = true)]
+    protected static partial bool ShouldSystemUseDarkMode();
 
 
 }

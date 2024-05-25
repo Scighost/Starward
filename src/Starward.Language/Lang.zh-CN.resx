@@ -1404,4 +1404,10 @@
   <data name="CloudGameGachaWindow_OpenTheGachaRecordsPageInGameAndThenClickTheButtonOnTheRight" xml:space="preserve">
     <value>在游戏中打开抽卡记录页面，然后点击右边的按键。</value>
   </data>
+  <data name="UpdateContentWindow_ClickToRefresh" xml:space="preserve">
+    <value>点击刷新</value>
+  </data>
+  <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
+    <value>最近更新内容</value>
+  </data>
 </root>

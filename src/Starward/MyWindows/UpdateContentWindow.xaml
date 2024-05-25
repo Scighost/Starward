@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:WindowEx x:Class="Starward.MyWindows.UpdateContentWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:lang="using:Starward.Language"
+                xmlns:local="using:Starward.MyWindows"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid" Loaded="RootGrid_Loaded">
+
+        <StackPanel x:Name="StackPanel_Loading"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="24">
+            <TextBlock HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="16"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.UpdateContentWindow_RecentlyUpdatedContent}" />
+            <ProgressRing Width="32"
+                          Height="32"
+                          IsActive="True" />
+        </StackPanel>
+
+
+        <StackPanel x:Name="StackPanel_Error"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="16"
+                    Visibility="Collapsed">
+            <TextBlock HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="16"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.DownloadGamePage_SomethingError}" />
+            <Button x:Name="Button_Retry"
+                    Width="40"
+                    Height="40"
+                    Padding="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="Button_Retry_Click"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <FontIcon Foreground="{ThemeResource TextFillColorSecondaryBrush}" Glyph="&#xE72C;" />
+            </Button>
+        </StackPanel>
+
+
+        <WebView2 x:Name="webview"
+                  Margin="0,32,0,0"
+                  DefaultBackgroundColor="Transparent"
+                  Visibility="Collapsed">
+            <WebView2.Resources>
+                <SolidColorBrush x:Key="BrushForThemeBackgroundColor" Color="Transparent" />
+            </WebView2.Resources>
+        </WebView2>
+
+    </Grid>
+
+</local:WindowEx>

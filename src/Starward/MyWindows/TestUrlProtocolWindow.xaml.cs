@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -66,12 +65,6 @@ public sealed partial class TestUrlProtocolWindow : WindowEx
         }
         return base.WindowSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
     }
-
-
-
-    [return: MarshalAs(UnmanagedType.Bool)]
-    [LibraryImport("uxtheme.dll", EntryPoint = "#138", SetLastError = true)]
-    private static partial bool ShouldSystemUseDarkMode();
 
 
 }

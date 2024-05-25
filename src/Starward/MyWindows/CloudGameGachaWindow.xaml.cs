@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Messages;
 using System;
-using System.Runtime.InteropServices;
 using System.Text.Json.Nodes;
 using System.Web;
 
@@ -128,12 +127,6 @@ public sealed partial class CloudGameGachaWindow : WindowEx
     }
 
 
-
-
-
-    [return: MarshalAs(UnmanagedType.Bool)]
-    [LibraryImport("uxtheme.dll", EntryPoint = "#138", SetLastError = true)]
-    private static partial bool ShouldSystemUseDarkMode();
 
 
 }

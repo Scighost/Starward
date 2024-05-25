@@ -145,7 +145,7 @@ public sealed partial class UpdatePage : PageBase
 
                     """;
                 string html = await _metadataClient.RenderGithubMarkdownAsync(markdown);
-                var cssFile = Path.Combine(AppContext.BaseDirectory, @"Assets\CSS\github-markdown-dark.css");
+                var cssFile = Path.Combine(AppContext.BaseDirectory, @"Assets\CSS\github-markdown.css");
                 string css = "";
                 if (File.Exists(cssFile))
                 {
@@ -157,7 +157,7 @@ public sealed partial class UpdatePage : PageBase
                     <head>
                     <base target="_blank">
                     <meta name="color-scheme" content="dark">
-                    {{(string.IsNullOrWhiteSpace(css) ? """<link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.min.css" type="text/css" rel="stylesheet" />""" : "")}}
+                    {{(string.IsNullOrWhiteSpace(css) ? """<link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css" type="text/css" rel="stylesheet" />""" : "")}}
                     <style>
                     body::-webkit-scrollbar {display: none;}
                     {{css}}
@@ -173,6 +173,7 @@ public sealed partial class UpdatePage : PageBase
                 await webview.EnsureCoreWebView2Async();
                 webview.NavigateToString(html);
                 Border_Markdown.Visibility = Visibility.Visible;
+                webview.CoreWebView2.Profile.PreferredColorScheme = Microsoft.Web.WebView2.Core.CoreWebView2PreferredColorScheme.Dark;
                 webview.CoreWebView2.Settings.AreDevToolsEnabled = false;
                 webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
                 webview.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;

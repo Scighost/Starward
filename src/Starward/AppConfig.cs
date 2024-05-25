@@ -454,6 +454,13 @@ internal static class AppConfig
 
 
 
+    public static string? LastAppVersion
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
 
     #endregion
 

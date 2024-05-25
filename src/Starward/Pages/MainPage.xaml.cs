@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Win32;
+using NuGet.Versioning;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Messages;
@@ -76,14 +77,13 @@ public sealed partial class MainPage : PageBase
 
 
 
-    protected override async void OnLoaded()
+    protected override void OnLoaded()
     {
         MainWindow.Current.KeyDown += MainPage_KeyDown;
         UpdateGameIcon();
-        await UpdateBackgroundImageAsync(true);
-#if !CI && !DEBUG
-        await CheckUpdateAsync();
-#endif
+        _ = UpdateBackgroundImageAsync(true);
+        _ = ShowRecentUpdateContentAsync();
+        _ = CheckUpdateAsync();
     }
 
 
@@ -113,12 +113,17 @@ public sealed partial class MainPage : PageBase
     {
         try
         {
+#if CI || DEBUG
+            return;
+#endif
+#pragma warning disable CS0162 // 检测到无法访问的代码
             await Task.Delay(1000);
             var release = await _updateService.CheckUpdateAsync(false);
             if (release != null)
             {
                 MainWindow.Current.OverlayFrameNavigateTo(typeof(UpdatePage), release);
             }
+#pragma warning restore CS0162 // 检测到无法访问的代码
         }
         catch (HttpRequestException ex)
         {
@@ -140,6 +145,27 @@ public sealed partial class MainPage : PageBase
             UpdateNavigationViewItemsText();
             NavigateTo(MainPage_Frame.SourcePageType);
         }
+    }
+
+
+
+    private async Task ShowRecentUpdateContentAsync()
+    {
+#if !CI
+        try
+        {
+            await Task.Delay(600);
+            if (NuGetVersion.TryParse(AppConfig.AppVersion, out var version))
+            {
+                NuGetVersion.TryParse(AppConfig.LastAppVersion, out var lastVersion);
+                if (version > lastVersion!)
+                {
+                    new UpdateContentWindow().Activate();
+                }
+            }
+        }
+        catch { }
+#endif
     }
 
 
