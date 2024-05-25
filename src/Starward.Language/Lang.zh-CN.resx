@@ -1404,4 +1404,10 @@
   <data name="GachaLogPage_ViaCloudGame" xml:space="preserve">
     <value>通过云游戏获取</value>
   </data>
+  <data name="UpdateContentWindow_ClickToRefresh" xml:space="preserve">
+    <value>点击刷新</value>
+  </data>
+  <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
+    <value>最近更新内容</value>
+  </data>
 </root>
