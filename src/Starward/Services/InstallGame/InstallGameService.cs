@@ -212,6 +212,7 @@ internal abstract class InstallGameService
             CanCancel = false;
             cancellationTokenSource?.Cancel();
             cancellationTokenSource = new CancellationTokenSource();
+            SetAllFileWriteable();
 
             if (_inState != InstallGameState.Download || skipVerify)
             {
@@ -280,6 +281,20 @@ internal abstract class InstallGameService
             InvokeStateOrProgressChanged(true, ex);
         }
     }
+
+
+    /// <summary>
+    /// 使所有文件可写
+    /// </summary>
+    protected void SetAllFileWriteable()
+    {
+        var files = Directory.GetFiles(InstallPath, "*", SearchOption.AllDirectories);
+        foreach (var file in files)
+        {
+            File.SetAttributes(file, FileAttributes.Normal);
+        }
+    }
+
 
 
     /// <summary>

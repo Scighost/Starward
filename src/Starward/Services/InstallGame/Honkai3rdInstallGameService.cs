@@ -37,6 +37,7 @@ internal class Honkai3rdInstallGameService : InstallGameService
             CanCancel = false;
             cancellationTokenSource?.Cancel();
             cancellationTokenSource = new CancellationTokenSource();
+            SetAllFileWriteable();
 
             if (_inState != InstallGameState.Download || skipVerify)
             {
