@@ -107,6 +107,7 @@ public sealed partial class UpdateContentWindow : WindowEx
 
             var releases = await _metadataClient.GetGithubReleaseAsync(1, 20);
             var markdown = new StringBuilder();
+            int count = 0;
             foreach (var release in releases)
             {
                 if (NuGetVersion.TryParse(release.TagName, out var version))
@@ -120,6 +121,7 @@ public sealed partial class UpdateContentWindow : WindowEx
                             markdown.AppendLine(release.Body);
                             markdown.AppendLine("<br>");
                             markdown.AppendLine();
+                            count++;
                         }
                     }
                 }
@@ -130,6 +132,11 @@ public sealed partial class UpdateContentWindow : WindowEx
                     markdown.AppendLine(release.Body);
                     markdown.AppendLine("<br>");
                     markdown.AppendLine();
+                    count++;
+                }
+                if (count >= 10)
+                {
+                    break;
                 }
             }
             if (markdown.Length == 0)

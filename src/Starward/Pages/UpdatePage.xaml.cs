@@ -139,8 +139,6 @@ public sealed partial class UpdatePage : PageBase
                 string markdown = $"""
                     # {release.Name}
 
-                    > Update at {release.PublishedAt.LocalDateTime:yyyy-MM-dd HH:mm:ss}
-
                     {release.Body}
 
                     """;
