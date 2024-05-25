@@ -1404,4 +1404,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="GachaLogPage_ViaCloudGame" xml:space="preserve">
     <value>via Cloud Game</value>
   </data>
+  <data name="UpdateContentWindow_ClickToRefresh" xml:space="preserve">
+    <value>Click to Refresh</value>
+  </data>
+  <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
+    <value>Recently Updated Content</value>
+  </data>
 </root>
