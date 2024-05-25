@@ -1382,4 +1382,31 @@
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
     <value>YuanShen_DataフォルダーとGenshinImpact_Dataフォルダーは同時に存在させる事はできません。</value>
   </data>
+  <data name="GachaLogPage_ShowChronicledWish" xml:space="preserve">
+    <value>集録祈願を表示</value>
+  </data>
+  <data name="HoyolabToolboxPage_UpdateDeviceFingerprint" xml:space="preserve">
+    <value>Update Device Fingerprint</value>
+  </data>
+  <data name="HoyolabToolboxPage_TheDeviceFingerprintIsAlreadyUpdated" xml:space="preserve">
+    <value>The device fingerprint is already updated.</value>
+  </data>
+  <data name="BBSWebBridge_ImageCopiedToClipboard" xml:space="preserve">
+    <value>Image copied to clipboard</value>
+  </data>
+  <data name="HoyolabToolboxPage_BattleChronicle" xml:space="preserve">
+    <value>Battle Chronicle</value>
+  </data>
+  <data name="CloudGameGachaWindow_OpenTheGachaRecordsPageInGameAndThenClickTheButtonOnTheRight" xml:space="preserve">
+    <value>Open the gacha records page in game, and then click the button on the right.</value>
+  </data>
+  <data name="GachaLogPage_ViaCloudGame" xml:space="preserve">
+    <value>via Cloud Game</value>
+  </data>
+  <data name="UpdateContentWindow_ClickToRefresh" xml:space="preserve">
+    <value>Click to Refresh</value>
+  </data>
+  <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
+    <value>Recently Updated Content</value>
+  </data>
 </root>
