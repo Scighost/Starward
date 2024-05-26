@@ -11,6 +11,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -84,7 +85,6 @@ public sealed partial class UpdateContentWindow : WindowEx
         NuGetVersion.TryParse(AppConfig.AppVersion, out thisVersion!);
         thisVersion ??= new NuGetVersion(999, 999, 999);
         await LoadPageAsync();
-        AppConfig.LastAppVersion = AppConfig.AppVersion;
     }
 
 
@@ -241,10 +241,19 @@ public sealed partial class UpdateContentWindow : WindowEx
             webview.CoreWebView2.NewWindowRequested -= CoreWebView2_NewWindowRequested;
             webview.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
             webview.NavigateToString(html);
+            AppConfig.LastAppVersion = AppConfig.AppVersion;
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Load recent update content");
+            TextBlock_Error.Text = Lang.Common_NetworkError;
+            StackPanel_Loading.Visibility = Visibility.Collapsed;
+            StackPanel_Error.Visibility = Visibility.Visible;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Load recent update content");
+            TextBlock_Error.Text = Lang.DownloadGamePage_UnknownError;
             StackPanel_Loading.Visibility = Visibility.Collapsed;
             StackPanel_Error.Visibility = Visibility.Visible;
         }
@@ -278,6 +287,17 @@ public sealed partial class UpdateContentWindow : WindowEx
     }
 
 
+    private void Button_RemindLatter_Click(Microsoft.UI.Xaml.Controls.SplitButton sender, Microsoft.UI.Xaml.Controls.SplitButtonClickEventArgs args)
+    {
+        Close();
+    }
 
 
+    private void Button_Ignore_Click(object sender, RoutedEventArgs e)
+    {
+        AppConfig.LastAppVersion = AppConfig.AppVersion;
+        Close();
+    }
+
+  
 }

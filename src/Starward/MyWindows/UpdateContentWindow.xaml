@@ -28,23 +28,42 @@
         <StackPanel x:Name="StackPanel_Error"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Spacing="16"
+                    Spacing="24"
                     Visibility="Collapsed">
-            <TextBlock HorizontalAlignment="Center"
+            <TextBlock x:Name="TextBlock_Error"
+                       HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        FontSize="16"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="{x:Bind lang:Lang.DownloadGamePage_SomethingError}" />
-            <Button x:Name="Button_Retry"
-                    Width="40"
-                    Height="40"
-                    Padding="0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Click="Button_Retry_Click"
-                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                <FontIcon Foreground="{ThemeResource TextFillColorSecondaryBrush}" Glyph="&#xE72C;" />
-            </Button>
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button x:Name="Button_Retry"
+                        Height="36"
+                        HorizontalAlignment="Left"
+                        BorderThickness="0"
+                        Click="Button_Retry_Click"
+                        CornerRadius="18">
+                    <TextBlock Margin="8,0,8,0"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.DownloadGamePage_Retry}" />
+                </Button>
+                <SplitButton Name="Button_RemindLatter"
+                             Height="36"
+                             BorderThickness="0"
+                             Click="Button_RemindLatter_Click"
+                             CornerRadius="18">
+                    <TextBlock Margin="4,0,0,0"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.UpdatePage_RemindLatter}" />
+                    <SplitButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Name="Button_Ignore"
+                                            Click="Button_Ignore_Click"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Text="{x:Bind lang:Lang.UpdatePage_IgnoreThisVersion}" />
+                        </MenuFlyout>
+                    </SplitButton.Flyout>
+                </SplitButton>
+            </StackPanel>
         </StackPanel>
 
 
