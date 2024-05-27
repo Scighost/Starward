@@ -249,7 +249,7 @@
                                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}">
                                                 <Run Text="{x:Bind lang:Lang.SimulatedUniversePage_ChallengedOn}" />
                                                 <Run Text="" />
-                                                <Run Text="{x:Bind FinishTime.ToString('yyyy/MM/dd HH:mm:ss', x:Null)}" />
+                                                <Run Text="{x:Bind FinishTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                             </TextBlock>
                                             <MenuFlyoutSeparator />
 

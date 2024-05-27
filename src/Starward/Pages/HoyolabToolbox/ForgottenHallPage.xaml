@@ -263,7 +263,7 @@
                                     <Run Text="{x:Bind lang:Lang.ForgottenHallPage_TeamSetup}" />
                                     <Run Text="1" />
                                     <Run Text="" />
-                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node1.ChallengeTime}" />
+                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node1.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                 </TextBlock>
 
                                 <ItemsRepeater Grid.Row="2"
@@ -306,7 +306,7 @@
                                     <Run Text="{x:Bind lang:Lang.ForgottenHallPage_TeamSetup}" />
                                     <Run Text="2" />
                                     <Run Text="" />
-                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node2.ChallengeTime}" />
+                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node2.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                 </TextBlock>
 
                                 <ItemsRepeater Grid.Row="4"
