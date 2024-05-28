@@ -133,7 +133,7 @@
     <value>Режим ремонта:</value>
   </data>
   <data name="DownloadGameDialog_VoiceLanguage" xml:space="preserve">
-    <value>Язык голоса:</value>
+    <value>Язык Озвучки:</value>
   </data>
   <data name="Language_Chinese" xml:space="preserve">
     <value>Китайский</value>
