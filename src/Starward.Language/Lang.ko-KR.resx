@@ -1402,12 +1402,12 @@
     <value>게임에서 뽑기기록 페이지를 열고 왼쪽의 버튼을 클릭하세요.</value>
   </data>
   <data name="GachaLogPage_ViaCloudGame" xml:space="preserve">
-    <value>via Cloud Game</value>
+    <value>클라우드에서 받기</value>
   </data>
   <data name="UpdateContentWindow_ClickToRefresh" xml:space="preserve">
-    <value>Click to Refresh</value>
+    <value>새로고침</value>
   </data>
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
-    <value>Recently Updated Content</value>
+    <value>최근 업데이트 내용</value>
   </data>
 </root>
