@@ -62,9 +62,9 @@ public sealed partial class GameResourcePage : PageBase
         try
         {
             launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz);
-            LatestVersion = launcherGameResource.Game.Latest.Version;
-            var list = GetGameResourcePackageGroups(launcherGameResource.Game);
-            if (CurrentGameBiz.IsBilibiliServer() && launcherGameResource.Sdk is not null)
+            LatestVersion = launcherGameResource.Resources.FirstOrDefault().Main.Major.Version;
+            var list = GetGameResourcePackageGroups(launcherGameResource.Resources.FirstOrDefault().Main);
+            if (CurrentGameBiz.IsBilibiliServer() && launcherGameResource.Sdk is not null)//TODO: Need to fill in the SDK
             {
                 list.Add(new PackageGroup
                 {
@@ -80,10 +80,10 @@ public sealed partial class GameResourcePage : PageBase
                 });
             }
             LatestPackageGroups = list;
-            if (launcherGameResource.PreDownloadGame is not null)
+            if (launcherGameResource.Resources.FirstOrDefault().PreDownload.Major is not null )
             {
-                PreInstallVersion = launcherGameResource.PreDownloadGame.Latest.Version;
-                PreInstallPackageGroups = GetGameResourcePackageGroups(launcherGameResource.PreDownloadGame);
+                PreInstallVersion = launcherGameResource.Resources.FirstOrDefault().PreDownload.Major.Version;
+                PreInstallPackageGroups = GetGameResourcePackageGroups(launcherGameResource.Resources.FirstOrDefault().PreDownload);
             }
         }
         catch (Exception ex)
@@ -95,7 +95,7 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    private List<PackageGroup> GetGameResourcePackageGroups(GameResource gameResource)
+    private List<PackageGroup> GetGameResourcePackageGroups(GameResources gameResource)
     {
         var list = new List<PackageGroup>();
         var fullPackageGroup = new PackageGroup
@@ -103,79 +103,80 @@ public sealed partial class GameResourcePage : PageBase
             Name = Lang.GameResourcePage_FullPackages,
             Items = new List<PackageItem>()
         };
-        if (string.IsNullOrWhiteSpace(gameResource.Latest.Path))
+        if (gameResource.Major.GamePkgs.Count > 1)
         {
             // segment
-            if (gameResource.Latest.Segments.FirstOrDefault() is Segment first)
+            if (gameResource.Major.GamePkgs.FirstOrDefault() is GamePkg first)
             {
                 fullPackageGroup.Items.Add(new PackageItem
                 {
-                    FileName = $"{Path.GetFileNameWithoutExtension(first.Path)}.*",
-                    Md5 = gameResource.Latest.Md5,
-                    PackageSize = gameResource.Latest.PackageSize,
-                    DecompressSize = gameResource.Latest.Size,
+                    FileName = $"{Path.GetFileNameWithoutExtension(first.Url)}.*",
                 });
             }
-            foreach (var segment in gameResource.Latest.Segments)
+            foreach (var segment in gameResource.Major.GamePkgs)
             {
                 fullPackageGroup.Items.Add(new PackageItem
                 {
-                    FileName = Path.GetFileName(segment.Path),
-                    Url = segment.Path,
+                    FileName = Path.GetFileName(segment.Url),
+                    Url = segment.Url,
                     Md5 = segment.Md5,
-                    PackageSize = segment.PackageSize,
+                    PackageSize = segment.Size,
+                    DecompressSize = segment.DecompressedSize,
                 });
             }
         }
         else
         {
             // no segment
-            var latest = gameResource.Latest;
+            var latest = gameResource.Major.GamePkgs.FirstOrDefault();
             fullPackageGroup.Items.Add(new PackageItem
             {
-                FileName = Path.GetFileName(latest.Path),
-                Url = latest.Path,
+                FileName = Path.GetFileName(latest.Url),
+                Url = latest.Url,
                 Md5 = latest.Md5,
-                PackageSize = latest.PackageSize,
-                DecompressSize = latest.Size,
+                PackageSize = latest.Size,
+                DecompressSize = latest.DecompressedSize,
             });
         }
-        foreach (var voice in gameResource.Latest.VoicePacks)
+        foreach (var voice in gameResource.Major.AudioPkgs)
         {
             fullPackageGroup.Items.Add(new PackageItem
             {
-                FileName = Path.GetFileName(voice.Path),
-                Url = voice.Path,
+                FileName = Path.GetFileName(voice.Url),
+                Url = voice.Url,
                 Md5 = voice.Md5,
-                PackageSize = voice.PackageSize,
-                DecompressSize = voice.Size,
+                PackageSize = voice.Size,
+                DecompressSize = voice.DecompressedSize,
             });
         }
         list.Add(fullPackageGroup);
-        foreach (var diff in gameResource.Diffs)
+        foreach (var diff in gameResource.Patches)
         {
             var diffPackageGroup = new PackageGroup
             {
                 Name = $"{Lang.GameResourcePage_DiffPackages}  {diff.Version}",
                 Items = new List<PackageItem>()
             };
-            diffPackageGroup.Items.Add(new PackageItem
-            {
-                FileName = Path.GetFileName(diff.Path),
-                Url = diff.Path,
-                Md5 = diff.Md5,
-                PackageSize = diff.PackageSize,
-                DecompressSize = diff.Size,
-            });
-            foreach (var voice in diff.VoicePacks)
+            foreach (var pkg in diff.GamePkgs)
             {
                 diffPackageGroup.Items.Add(new PackageItem
                 {
-                    FileName = Path.GetFileName(voice.Path),
-                    Url = voice.Path,
+                    FileName = Path.GetFileName(pkg.Url),
+                    Url = pkg.Url,
+                    Md5 = pkg.Md5,
+                    PackageSize = pkg.Size,
+                    DecompressSize = pkg.DecompressedSize,
+                });
+            }
+            foreach (var voice in diff.AudioPkgs)
+            {
+                diffPackageGroup.Items.Add(new PackageItem
+                {
+                    FileName = Path.GetFileName(voice.Url),
+                    Url = voice.Url,
                     Md5 = voice.Md5,
-                    PackageSize = voice.PackageSize,
-                    DecompressSize = voice.Size,
+                    PackageSize = voice.Size,
+                    DecompressSize = voice.DecompressedSize,
                 });
             }
             list.Add(diffPackageGroup);

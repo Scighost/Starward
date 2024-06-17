@@ -125,7 +125,7 @@ internal class Honkai3rdInstallGameService : InstallGameService
         TotalCount = 1;
         progressCount = 0;
 
-        string prefix = launcherGameResource.Game.Latest.DecompressedPath;
+        string prefix = launcherGameResource.Resources.FirstOrDefault().Main.Major.ResListUrl;
         string url = $"{prefix}/BH3Base.dll";
 
         var request = new HttpRequestMessage(HttpMethod.Get, url)

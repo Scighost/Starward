@@ -86,7 +86,7 @@ public sealed partial class SwitchClientPage : PageBase
     private Version? gameVersion;
 
     /// <summary>
-    /// ±¾µØÓÎÏ·°æ±¾²»ÊÇ×îÐÂµÄ
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½æ±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½
     /// </summary>
     [ObservableProperty]
     private bool isLocalGameVersionNotLatest;
@@ -105,7 +105,7 @@ public sealed partial class SwitchClientPage : PageBase
     private TargetGameBiz? selectedTargetGameBiz;
 
     /// <summary>
-    /// ±¾µØÓÎÏ·°æ±¾ÓëÄ¿±êÓÎÏ·°æ±¾²»Í¬
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½æ±¾ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Ï·ï¿½æ±¾ï¿½ï¿½Í¬
     /// </summary>
     [ObservableProperty]
     private bool isTowGameBizVersionDifferent;
@@ -235,7 +235,7 @@ public sealed partial class SwitchClientPage : PageBase
                 FromGameBiz = CurrentGameBiz;
             }
             fromGameResource = await _gameResourceService.GetGameResourceAsync(FromGameBiz);
-            if (GameVersion?.ToString() != fromGameResource.Game.Latest.Version)
+            if (GameVersion?.ToString() != fromGameResource.Resources.FirstOrDefault().Main.Major.Version)
             {
                 IsLocalGameVersionNotLatest = true;
                 Button_Prepair.IsEnabled = false;
@@ -248,7 +248,7 @@ public sealed partial class SwitchClientPage : PageBase
                 string os_data = Path.Join(installPath, "GenshinImpact_Data");
                 if (Directory.Exists(cn_data) && Directory.Exists(os_data))
                 {
-                    // ¹ú·þºÍ¹ú¼Ê·þÊý¾ÝÎÄ¼þ¼ÐÍ¬Ê±´æÔÚ
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½Í¹ï¿½ï¿½Ê·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Í¬Ê±ï¿½ï¿½ï¿½ï¿½
                     IsLocalGameVersionNotLatest = true;
                     Button_Prepair.IsEnabled = false;
                     ErrorText = Lang.SwitchClientPage_TheTowFoldersExistAtTheSameTime;
@@ -324,8 +324,8 @@ public sealed partial class SwitchClientPage : PageBase
             ErrorText = null;
             ToGameBiz = SelectedTargetGameBiz.GameBiz;
             toGameResource = await _gameResourceService.GetGameResourceAsync(SelectedTargetGameBiz.GameBiz);
-            toGameResourcePrefix = toGameResource.Game.Latest.DecompressedPath.TrimEnd('/');
-            if (fromGameResource?.Game.Latest.Version != toGameResource.Game.Latest.Version)
+            toGameResourcePrefix = toGameResource.Resources.FirstOrDefault().Main.Major.ResListUrl.TrimEnd('/');
+            if (fromGameResource?.Resources.FirstOrDefault().Main.Major.Version != toGameResource.Resources.FirstOrDefault().Main.Major.Version)
             {
                 StateText = Lang.DownloadGamePage_SomethingError;
                 ErrorText = Lang.SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion;
@@ -366,15 +366,15 @@ public sealed partial class SwitchClientPage : PageBase
 
     private async Task GetDownloadFilesAsync(CancellationToken cancellationToken)
     {
-        fromPkgVersions = await GetPkgVersionsAsync($"{fromGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/pkg_version", cancellationToken);
-        toPkgVersions = await GetPkgVersionsAsync($"{toGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/pkg_version", cancellationToken);
+        fromPkgVersions = await GetPkgVersionsAsync($"{fromGameResource.Resources.FirstOrDefault().Main.Major.ResListUrl.TrimEnd('/')}/pkg_version", cancellationToken);
+        toPkgVersions = await GetPkgVersionsAsync($"{toGameResource.Resources.FirstOrDefault().Main.Major.ResListUrl.TrimEnd('/')}/pkg_version", cancellationToken);
         removeFiles = fromPkgVersions.ExceptBy(toPkgVersions.Select(GetUniqueIdentify), GetUniqueIdentify).ToList();
         addFiles = toPkgVersions.ExceptBy(fromPkgVersions.Select(GetUniqueIdentify), GetUniqueIdentify).ToList();
 
         if (ToGameBiz.ToGame() is GameBiz.Honkai3rd)
         {
-            var bh3base_from = await GetContentLengthAndMd5Async($"{fromGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/BH3Base.dll", cancellationToken);
-            var bh3base_to = await GetContentLengthAndMd5Async($"{toGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/BH3Base.dll", cancellationToken);
+            var bh3base_from = await GetContentLengthAndMd5Async($"{fromGameResource.Resources.FirstOrDefault().Main.Major.ResListUrl.TrimEnd('/')}/BH3Base.dll", cancellationToken);
+            var bh3base_to = await GetContentLengthAndMd5Async($"{toGameResource.Resources.FirstOrDefault().Main.Major.ResListUrl.TrimEnd('/')}/BH3Base.dll", cancellationToken);
             removeFiles.Add(new DownloadFileTask
             {
                 FileName = "BH3Base.dll",
@@ -553,7 +553,7 @@ public sealed partial class SwitchClientPage : PageBase
 
     private async Task WriteConfigFileAsync()
     {
-        string version = toGameResource.Game.Latest.Version;
+        string version = toGameResource.Resources.FirstOrDefault().Main.Major.Version;
         string sdk_version = toGameResource.Sdk?.Version ?? "";
         string cps = "", channel = "1", sub_channel = "1";
         if (ToGameBiz.IsBilibiliServer())
