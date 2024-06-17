@@ -153,30 +153,31 @@ public class LauncherClient
     {
         var url = biz switch
         {
-            GameBiz.hk4e_cn => "https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/resource?channel_id=1&key=eYd89JmJ&launcher_id=18&sub_channel_id=1",
-            GameBiz.hk4e_global => $"https://sdk-os-static.mihoyo.com/hk4e_global/mdk/launcher/api/resource?channel_id=1&key=gcStgarh&launcher_id=10&sub_channel_id=0",
-            GameBiz.hk4e_bilibili => "https://hk4e-launcher-static.mihoyo.com/hk4e_cn/mdk/launcher/api/resource?channel_id=14&key=KAtdSsoQ&launcher_id=17&sub_channel_id=0",
-            GameBiz.hkrpg_cn => "https://api-launcher-static.mihoyo.com/hkrpg_cn/mdk/launcher/api/resource?channel_id=1&key=6KcVuOkbcqjJomjZ&launcher_id=33&sub_channel_id=1",
-            GameBiz.hkrpg_global => $"https://hkrpg-launcher-static.hoyoverse.com/hkrpg_global/mdk/launcher/api/resource?channel_id=1&key=vplOVX8Vn7cwG8yb&launcher_id=35&sub_channel_id=1",
-            GameBiz.hkrpg_bilibili => "https://api-launcher-static.mihoyo.com/hkrpg_cn/mdk/launcher/api/resource?channel_id=14&key=fSPJNRwFHRipkprW&launcher_id=28&sub_channel_id=0",
-            GameBiz.bh3_cn => $"https://bh3-launcher-static.mihoyo.com/bh3_cn/mdk/launcher/api/resource?channel_id=1&key=SyvuPnqL&launcher_id=4&sub_channel_id=1",
-            GameBiz.bh3_overseas => $"https://sdk-os-static.mihoyo.com/bh3_global/mdk/launcher/api/resource?channel_id=1&key=tEGNtVhN&launcher_id=9&sub_channel_id=1",
-            GameBiz.bh3_global => $"https://sdk-os-static.mihoyo.com/bh3_global/mdk/launcher/api/resource?key=dpz65xJ3&channel_id=1&launcher_id=10&sub_channel_id=1",
-            GameBiz.bh3_tw => $"https://sdk-os-static.mihoyo.com/bh3_global/mdk/launcher/api/resource?channel_id=1&key=demhUTcW&launcher_id=8&sub_channel_id=1",
-            GameBiz.bh3_kr => $"https://sdk-os-static.mihoyo.com/bh3_global/mdk/launcher/api/resource?channel_id=1&key=PRg571Xh&launcher_id=11&sub_channel_id=1",
-            GameBiz.bh3_jp => $"https://sdk-os-static.mihoyo.com/bh3_global/mdk/launcher/api/resource?channel_id=1&key=ojevZ0EyIyZNCy4n&launcher_id=19&sub_channel_id=6",
-            GameBiz.nap_cn => "https://nap-launcher-static.mihoyo.com/nap_cn/mdk/launcher/api/resource?channel_id=1&key=9HEb62Pw0qKYX4Mw&launcher_id=15&sub_channel_id=1",
-            //GameBiz.nap_global => "",
+            GameBiz.hk4e_cn => "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?launcher_id=jGHBHlcOq1&game_ids[]=1Z8W5NHUQb",
+            GameBiz.hk4e_global => $"https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?launcher_id=VYTpXlbWo8&game_ids[]=gopR6Cufr3",
+            GameBiz.hk4e_bilibili => "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?launcher_id=umfgRO5gh5",
+            GameBiz.hkrpg_cn => "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?launcher_id=jGHBHlcOq1&game_ids[]=64kMb5iAWu",
+            GameBiz.hkrpg_global => $"https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?launcher_id=VYTpXlbWo8&game_ids[]=4ziysqXOQ8",
+            GameBiz.hkrpg_bilibili => "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?launcher_id=6P5gHMNyK3",
+            GameBiz.bh3_cn => $"https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?launcher_id=jGHBHlcOq1&game_ids[]=osvnlOc0S8",
+            GameBiz.bh3_overseas => $"https://sdk-os-static.mihoyo.com/bh3_global/mdk/launcher/api/resource?channel_id=1&key=tEGNtVhN&launcher_id=9&sub_channel_id=1",// TODO: Fill in the new API
+            GameBiz.bh3_global => $"https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?launcher_id=VYTpXlbWo8&game_ids[]=5TIVvvcwtM",
+            GameBiz.bh3_tw => $"https://sdk-os-static.mihoyo.com/bh3_global/mdk/launcher/api/resource?channel_id=1&key=demhUTcW&launcher_id=8&sub_channel_id=1",// TODO: Fill in the new API
+            GameBiz.bh3_kr => $"https://sdk-os-static.mihoyo.com/bh3_global/mdk/launcher/api/resource?channel_id=1&key=PRg571Xh&launcher_id=11&sub_channel_id=1",// TODO: Fill in the new API
+            GameBiz.bh3_jp => $"https://sdk-os-static.mihoyo.com/bh3_global/mdk/launcher/api/resource?channel_id=1&key=ojevZ0EyIyZNCy4n&launcher_id=19&sub_channel_id=6",// TODO: Fill in the new API
+            GameBiz.nap_cn => "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?launcher_id=jGHBHlcOq1&game_ids[]=x6znKlJ0xK",
+            //GameBiz.nap_global => "https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?launcher_id=VYTpXlbWo8&game_ids[]=U5hbdsT9W7",
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         var resource = await CommonSendAsync<LauncherGameResource>(request, cancellationToken);
+        // 这个if块好像没啥用了
         if (biz is GameBiz.hkrpg_global)
         {
-            if (string.IsNullOrWhiteSpace(resource.Game.Latest.DecompressedPath) && !string.IsNullOrWhiteSpace(resource.Game.Latest.Path))
+            if (string.IsNullOrWhiteSpace(resource.Resources.FirstOrDefault().Main.Major.ResListUrl) && !string.IsNullOrWhiteSpace(resource.Resources.FirstOrDefault().Main.Major.GamePkgs.FirstOrDefault().Url))
             {
-                string path = resource.Game.Latest.Path;
-                resource.Game.Latest.DecompressedPath = path[..path.LastIndexOf('/')] + "/unzip";
+                string path = resource.Resources.FirstOrDefault().Main.Major.GamePkgs.FirstOrDefault().Url;
+                resource.Resources.FirstOrDefault().Main.Major.ResListUrl = path[..path.LastIndexOf('/')] + "/unzip";
             }
         }
         return resource;

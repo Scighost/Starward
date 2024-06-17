@@ -174,8 +174,8 @@ internal class GameResourceService
         {
 
             var resource = await GetGameResourceAsync(biz);
-            _ = Version.TryParse(resource.Game?.Latest?.Version, out Version? latest);
-            _ = Version.TryParse(resource.PreDownloadGame?.Latest?.Version, out Version? preDownload);
+            _ = Version.TryParse(resource.Resources.FirstOrDefault().Main?.Major?.Version, out Version? latest);
+            _ = Version.TryParse(resource.Resources.FirstOrDefault().PreDownload?.Major?.Version, out Version? preDownload);
             return (latest, preDownload);
         }
     }
@@ -190,12 +190,12 @@ internal class GameResourceService
             return false;
         }
         var resource = await GetGameResourceAsync(biz);
-        if (resource.PreDownloadGame != null)
+        if (resource.Resources.FirstOrDefault().PreDownload.Major != null)
         {
             (var localVersion, _) = await GetLocalGameVersionAndBizAsync(biz, installPath);
-            if (resource.PreDownloadGame.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
+            if (resource.Resources.FirstOrDefault().PreDownload.Patches?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackages diff)
             {
-                string file = Path.Combine(installPath, diff.Name);
+                string file = Path.Combine(installPath, Path.GetFileName(diff.GamePkgs.FirstOrDefault().Url));
                 if (!File.Exists(file))
                 {
                     return false;
@@ -205,9 +205,9 @@ internal class GameResourceService
                 {
                     if (flag.HasFlag(lang))
                     {
-                        if (diff.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
+                        if (diff.AudioPkgs.FirstOrDefault(x => x.Language == lang.ToDescription()) is AudioPkg pack)
                         {
-                            file = Path.Combine(installPath, pack.Name);
+                            file = Path.Combine(installPath, Path.GetFileName(pack.Url));
                             if (!File.Exists(file))
                             {
                                 return false;
@@ -219,7 +219,7 @@ internal class GameResourceService
             }
             else
             {
-                string file = Path.Combine(installPath, Path.GetFileName(resource.PreDownloadGame.Latest.Path));
+                string file = Path.Combine(installPath, Path.GetFileName(resource.Resources.FirstOrDefault().PreDownload.Major.GamePkgs.FirstOrDefault().Url));
                 if (!File.Exists(file))
                 {
                     return false;
@@ -229,9 +229,9 @@ internal class GameResourceService
                 {
                     if (flag.HasFlag(lang))
                     {
-                        if (resource.PreDownloadGame.Latest.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
+                        if (resource.Resources.FirstOrDefault().PreDownload.Major.AudioPkgs.FirstOrDefault(x => x.Language == lang.ToDescription()) is AudioPkg pack)
                         {
-                            file = Path.Combine(installPath, pack.Name);
+                            file = Path.Combine(installPath, Path.GetFileName(pack.Url));
                             if (!File.Exists(file))
                             {
                                 return false;
@@ -252,19 +252,19 @@ internal class GameResourceService
         (var localVersion, _) = await GetLocalGameVersionAndBizAsync(biz, installPath);
         (Version? latestVersion, Version? preDownloadVersion) = await GetGameResourceVersionAsync(biz);
         var resource = await GetGameResourceAsync(biz);
-        GameResource? gameResource = null;
+        GameResources? gameResource = null;
 
         if (localVersion is null || reinstall)
         {
-            gameResource = resource.Game;
+            gameResource = resource.Resources.FirstOrDefault().Main;
         }
         else if (preDownloadVersion != null)
         {
-            gameResource = resource.PreDownloadGame;
+            gameResource = resource.Resources.FirstOrDefault().PreDownload;
         }
         else if (latestVersion > localVersion)
         {
-            gameResource = resource.Game;
+            gameResource = resource.Resources.FirstOrDefault().Main;
         }
 
 
@@ -272,10 +272,10 @@ internal class GameResourceService
         {
             var downloadGameResource = new DownloadGameResource();
             downloadGameResource.FreeSpace = new DriveInfo(Path.GetPathRoot(Path.GetFullPath(installPath))!).AvailableFreeSpace;
-            if (gameResource.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
+            if (gameResource.Patches?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackages diff)
             {
-                downloadGameResource.Game = CheckDownloadPackage(diff, installPath);
-                foreach (var pack in diff.VoicePacks)
+                downloadGameResource.Game = CheckDownloadPackage(diff.GamePkgs.FirstOrDefault(), installPath);
+                foreach (var pack in diff.AudioPkgs)
                 {
                     var state = CheckDownloadPackage(pack, installPath);
                     state.Name = pack.Language;
@@ -284,22 +284,22 @@ internal class GameResourceService
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(gameResource.Latest.Path))
+                if (gameResource.Major.GamePkgs.Count >= 1)
                 {
                     var state = new DownloadPackageState
                     {
-                        PackageSize = gameResource.Latest.PackageSize,
-                        DecompressedSize = gameResource.Latest.Size,
+                        PackageSize = gameResource.Major.GamePkgs.Sum(x => x.Size),
+                        DecompressedSize = gameResource.Major.GamePkgs.Sum(x => x.DecompressedSize),
                     };
-                    var size = gameResource.Latest.Segments.Sum(x => CheckDownloadPackage(Path.GetFileName(x.Path), installPath));
+                    var size = gameResource.Major.GamePkgs.Sum(x => CheckDownloadPackage(Path.GetFileName(x.Url), installPath));
                     state.DownloadedSize = size;
                     downloadGameResource.Game = state;
                 }
-                else
+                /*else
                 {
-                    downloadGameResource.Game = CheckDownloadPackage(gameResource.Latest, installPath);
-                }
-                foreach (var pack in gameResource.Latest.VoicePacks)
+                    downloadGameResource.Game = CheckDownloadPackage(gameResource.Major.GamePkgs.FirstOrDefault(), installPath);
+                }*/
+                foreach (var pack in gameResource.Major.AudioPkgs)
                 {
                     var state = CheckDownloadPackage(pack, installPath);
                     state.Name = pack.Language;
@@ -318,10 +318,10 @@ internal class GameResourceService
     {
         var state = new DownloadPackageState
         {
-            Name = Path.GetFileName(package.Path),
-            Url = package.Path,
-            PackageSize = package.PackageSize,
-            DecompressedSize = package.Size,
+            Name = Path.GetFileName(package.Url),
+            Url = package.Url,
+            PackageSize = package.Size,
+            DecompressedSize = package.DecompressedSize,
         };
         string file = Path.Join(installPath, state.Name);
         string file_tmp = file + "_tmp";

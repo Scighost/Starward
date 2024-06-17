@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.Launcher;
 using Starward.SevenZip;
@@ -309,22 +309,22 @@ internal abstract class InstallGameService
         (var localVersion, _) = await _gameResourceService.GetLocalGameVersionAndBizAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
         launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz).ConfigureAwait(false);
         (Version? latestVersion, Version? preDownloadVersion) = await _gameResourceService.GetGameResourceVersionAsync(CurrentGameBiz).ConfigureAwait(false);
-        GameResource? gameResource = null;
+        GameResources? gameResource = null;
         if (localVersion is null || IsReInstall)
         {
             _logger.LogInformation("Install full game.");
-            gameResource = launcherGameResource.Game;
+            gameResource = launcherGameResource.Resources.FirstOrDefault().Main;
         }
         else if (preDownloadVersion != null)
         {
             _logger.LogInformation("Pre install game.");
             IsPreInstall = true;
-            gameResource = launcherGameResource.PreDownloadGame;
+            gameResource = launcherGameResource.Resources.FirstOrDefault().PreDownload;
         }
         else if (latestVersion > localVersion)
         {
             _logger.LogInformation("Update game.");
-            gameResource = launcherGameResource.Game;
+            gameResource = launcherGameResource.Resources.FirstOrDefault().Main;
         }
         if (gameResource is null)
         {
@@ -334,28 +334,29 @@ internal abstract class InstallGameService
 
         var list_package = new List<DownloadFileTask>();
 
-        if (gameResource.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
+        if (gameResource.Patches?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackages diff)
         {
             // 有差分包
+            // TODO: 未考虑GamePkgs多包体
             list_package.Add(new DownloadFileTask
             {
-                FileName = Path.GetFileName(diff.Path),
-                Url = diff.Path,
-                Size = diff.PackageSize,
-                MD5 = diff.Md5,
+                FileName = Path.GetFileName(diff.GamePkgs.FirstOrDefault().Url),
+                Url = diff.GamePkgs.FirstOrDefault().Url,
+                Size = diff.GamePkgs.FirstOrDefault().Size,
+                MD5 = diff.GamePkgs.FirstOrDefault().Md5,
             });
             VoiceLanguages = await _gameResourceService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
             foreach (var lang in Enum.GetValues<VoiceLanguage>())
             {
                 if (VoiceLanguages.HasFlag(lang))
                 {
-                    if (diff.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
+                    if (diff.AudioPkgs.FirstOrDefault(x => x.Language == lang.ToDescription()) is AudioPkg pack)
                     {
                         list_package.Add(new DownloadFileTask
                         {
-                            FileName = Path.GetFileName(pack.Path),
-                            Url = pack.Path,
-                            Size = pack.PackageSize,
+                            FileName = Path.GetFileName(pack.Url),
+                            Url = pack.Url,
+                            Size = pack.Size,
                             MD5 = pack.Md5
                         });
                     }
@@ -365,38 +366,37 @@ internal abstract class InstallGameService
         else
         {
             // 无差分包
-            if (string.IsNullOrWhiteSpace(gameResource.Latest.Path))
+            if (gameResource.Major.GamePkgs.Count > 1)
             {
-                // 原神本体分卷下载
-                list_package.AddRange(gameResource.Latest.Segments.Select(x => new DownloadFileTask
+                // 本体分卷下载
+                list_package.AddRange(gameResource.Major.GamePkgs.Select(x => new DownloadFileTask
                 {
-                    FileName = Path.GetFileName(x.Path),
-                    Url = x.Path,
+                    FileName = Path.GetFileName(x.Url),
+                    Url = x.Url,
                     MD5 = x.Md5,
                     IsSegment = true
                 }));
             }
             else
             {
-                list_package.Add(new DownloadFileTask
+                list_package.AddRange(gameResource.Major.GamePkgs.Select(x => new DownloadFileTask
                 {
-                    FileName = Path.GetFileName(gameResource.Latest.Path),
-                    Url = gameResource.Latest.Path,
-                    Size = gameResource.Latest.PackageSize,
-                    MD5 = gameResource.Latest.Md5
-                });
+                    FileName = Path.GetFileName(x.Url),
+                    Url = x.Url,
+                    MD5 = x.Md5,
+                }));
             }
             foreach (var lang in Enum.GetValues<VoiceLanguage>())
             {
                 if (VoiceLanguages.HasFlag(lang))
                 {
-                    if (gameResource.Latest.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
+                    if (gameResource.Major.AudioPkgs.FirstOrDefault(x => x.Language == lang.ToDescription()) is AudioPkg pack)
                     {
                         list_package.Add(new DownloadFileTask
                         {
-                            FileName = Path.GetFileName(pack.Path),
-                            Url = pack.Path,
-                            Size = pack.PackageSize,
+                            FileName = Path.GetFileName(pack.Url),
+                            Url = pack.Url,
+                            Size = pack.Size,
                             MD5 = pack.Md5
                         });
                     }
@@ -445,8 +445,8 @@ internal abstract class InstallGameService
     {
         _logger.LogInformation("Repair mode, prepare for repair.");
         launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz).ConfigureAwait(false);
-        GameResource gameResource = launcherGameResource.Game;
-        separateUrlPrefix = gameResource.Latest.DecompressedPath.TrimEnd('/');
+        GameResources gameResource = launcherGameResource.Resources.FirstOrDefault().Main;
+        separateUrlPrefix = gameResource.Major.ResListUrl.TrimEnd('/');
         separateResources = await GetPkgVersionsAsync($"{separateUrlPrefix}/pkg_version").ConfigureAwait(false);
     }
 
@@ -495,7 +495,7 @@ internal abstract class InstallGameService
         downloadTasks = list;
     }
 
-
+    // TODO: Adapt to the new SDK API
     /// <summary>
     /// B服SDK
     /// </summary>
@@ -589,7 +589,6 @@ internal abstract class InstallGameService
         }).ConfigureAwait(false);
     }
 
-
     /// <summary>
     /// 删除过期文件
     /// </summary>
@@ -600,7 +599,7 @@ internal abstract class InstallGameService
 
         await Task.Run(() =>
         {
-            foreach (var item in launcherGameResource.DeprecatedFiles)
+            /*foreach (var item in launcherGameResource.DeprecatedFiles)
             {
                 var file = Path.Combine(InstallPath, item.Name);
                 if (File.Exists(file))
@@ -617,7 +616,7 @@ internal abstract class InstallGameService
                     File.SetAttributes(file, FileAttributes.Normal);
                     File.Delete(file);
                 }
-            }
+            }*/
             foreach (var file in Directory.GetFiles(InstallPath, "*_tmp", SearchOption.AllDirectories))
             {
                 _logger.LogInformation("Delete temp file: {file}", file);
@@ -784,7 +783,7 @@ internal abstract class InstallGameService
     /// <returns></returns>
     protected async Task WriteConfigFileAsync()
     {
-        string version = launcherGameResource.Game.Latest.Version;
+        string version = launcherGameResource.Resources.FirstOrDefault().Main.Major.Version;
         string sdk_version = gameSDK?.Version ?? "";
         string cps = "", channel = "1", sub_channel = "1";
         if (CurrentGameBiz.IsBilibiliServer())
