@@ -183,7 +183,7 @@ public class LauncherClient
             //HSR_global        4ziysqXOQ8
             //ZZZ_global        VYTpXlbWo8
             //启动器ID           launcher_id
-            //国服启动器ID       jGHBHlcOq1 2024/6/18暂无更改
+            //国服启动器ID       jGHBHlcOq1 2024/6/18 暂无更改
             //Launcher global   VYTpXlbWo8 2024/6/18 no changes
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
