@@ -166,7 +166,7 @@ public class LauncherClient
             GameBiz.bh3_kr => $"https://sdk-os-static.mihoyo.com/bh3_global/mdk/launcher/api/resource?channel_id=1&key=PRg571Xh&launcher_id=11&sub_channel_id=1",
             GameBiz.bh3_jp => $"https://sdk-os-static.mihoyo.com/bh3_global/mdk/launcher/api/resource?channel_id=1&key=ojevZ0EyIyZNCy4n&launcher_id=19&sub_channel_id=6",
             GameBiz.nap_cn => "https://nap-launcher-static.mihoyo.com/nap_cn/mdk/launcher/api/resource?channel_id=1&key=9HEb62Pw0qKYX4Mw&launcher_id=15&sub_channel_id=1",
-            GameBiz.nap_global => "https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?game_ids[]=VYTpXlbWo8&launcher_id=VYTpXlbWo8",
+            //GameBiz.nap_global => "https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?game_ids[]=VYTpXlbWo8&launcher_id=VYTpXlbWo8",
             //nap_global is what I guessed based on data package capture result
             //nap_global 是我抓包抓出来的 不保真
             //https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?game_ids[]=64kMb5iAWu&launcher_id=jGHBHlcOq1
