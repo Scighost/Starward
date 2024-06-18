@@ -7,6 +7,10 @@ public class LauncherGameResource
     [JsonPropertyName("game_packages")]
     public List<Resource> Resources { get; set; }
 
+    // 下面这两行代码写了，但是没用上
+    public GameResources Main => Resources?.FirstOrDefault()?.Main;
+    public GameResources PreDownload => Resources?.FirstOrDefault()?.PreDownload;
+
     public GameSDK Sdk { get; set; } // TODO: Adapt to the new SDK API
 }
 

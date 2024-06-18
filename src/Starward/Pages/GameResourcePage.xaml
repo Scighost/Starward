@@ -1,68 +1,71 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <local:PageBase x:Class="Starward.Pages.GameResourcePage"
-                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                xmlns:lang="using:Starward.Language"
-                xmlns:local="using:Starward.Pages"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                x:DefaultBindMode="OneWay"
-                mc:Ignorable="d">
-
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:lang="using:Starward.Language"
+        xmlns:local="using:Starward.Pages"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:DefaultBindMode="OneWay"
+        mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="PackageGroupsDataTemplate">
-            <Expander HorizontalAlignment="Stretch" Background="{ThemeResource CustomOverlayAcrylicBrush}">
+            <Expander HorizontalAlignment="Stretch"
+                    Background="{ThemeResource CustomOverlayAcrylicBrush}">
                 <Expander.Header>
                     <Grid>
                         <TextBlock VerticalAlignment="Center"
-                                   FontSize="16"
-                                   Text="{Binding Name}" />
+                                FontSize="16"
+                                Text="{Binding Name}"/>
                         <Button HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Click="Button_CopyUrl_Click"
                                 Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                             <Button.Content>
                                 <FontIcon FontSize="20"
-                                          Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                          Glyph="&#xE71B;" />
+                                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                        Glyph="&#xE71B;"/>
                             </Button.Content>
                         </Button>
                     </Grid>
                 </Expander.Header>
                 <ItemsRepeater ItemsSource="{Binding Items}">
                     <ItemsRepeater.Layout>
-                        <StackLayout Spacing="16" />
+                        <StackLayout Spacing="16"/>
                     </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate>
                             <Grid RowSpacing="2">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <TextBlock FontSize="14"
-                                           IsTextSelectionEnabled="True"
-                                           Text="{Binding FileName}" />
+                                        IsTextSelectionEnabled="True"
+                                        Text="{Binding FileName}"/>
                                 <StackPanel Grid.Row="1"
-                                            Orientation="Horizontal"
-                                            Spacing="8">
+                                        Orientation="Horizontal"
+                                        Spacing="8">
                                     <FontIcon FontSize="12"
-                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                              Glyph="&#xF012;" />
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Glyph="&#xF012;"/>
                                     <TextBlock Width="80"
-                                               FontSize="12"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="{Binding PackageSizeString}" />
+                                            FontSize="12"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Text="{Binding PackageSizeString}"/>
                                     <FontIcon FontSize="12"
-                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                              Glyph="&#xE95E;" />
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Visibility="{Binding Md5, Converter={StaticResource ObjectToVisibilityConverter}}"
+                                            Glyph="&#xE95E;"/>
                                     <TextBlock FontSize="12"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="MD5" />
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Visibility="{Binding Md5, Converter={StaticResource ObjectToVisibilityConverter}}"
+                                            Text="MD5"/>
                                     <TextBlock FontSize="12"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               IsTextSelectionEnabled="True"
-                                               Text="{Binding Md5}" />
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Visibility="{Binding Md5, Converter={StaticResource ObjectToVisibilityConverter}}"
+                                            IsTextSelectionEnabled="True"
+                                            Text="{Binding Md5}"/>
                                 </StackPanel>
                                 <Button Grid.RowSpan="2"
                                         HorizontalAlignment="Right"
@@ -72,8 +75,8 @@
                                         Visibility="{Binding Url, Converter={StaticResource ObjectToVisibilityConverter}}">
                                     <Button.Content>
                                         <FontIcon FontSize="20"
-                                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                                  Glyph="&#xE71B;" />
+                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                Glyph="&#xE71B;"/>
                                     </Button.Content>
                                 </Button>
                             </Grid>
@@ -83,28 +86,25 @@
             </Expander>
         </DataTemplate>
     </Page.Resources>
-
-
-    <Grid Padding="0,48,0,0" Background="{ThemeResource CustomAcrylicBrush}">
+    <Grid Padding="0,48,0,0"
+            Background="{ThemeResource CustomAcrylicBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
-            <RowDefinition />
+            <RowDefinition Height="48"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-
         <StackPanel Margin="48,0,0,0"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal"
-                    Spacing="24">
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="24">
             <TextBlock VerticalAlignment="Center"
-                       FontSize="20"
-                       FontWeight="Bold"
-                       Text="{x:Bind lang:Lang.FileSettingPage_GameResource}" />
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Text="{x:Bind lang:Lang.FileSettingPage_GameResource}"/>
             <TextBlock VerticalAlignment="Bottom"
-                       FontSize="16"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="{x:Bind GameServerName}" />
+                    FontSize="16"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Text="{x:Bind GameServerName}"/>
         </StackPanel>
-
         <Button Margin="0,0,48,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
@@ -112,60 +112,53 @@
                 Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
             <Button.Content>
                 <FontIcon FontSize="20"
-                          FontWeight="Bold"
-                          Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                          Glyph="&#xE70D;" />
+                        FontWeight="Bold"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Glyph="&#xE70D;"/>
             </Button.Content>
         </Button>
-
         <Pivot Grid.Row="1">
             <Pivot.Resources>
                 <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
                 <Thickness x:Key="PivotHeaderItemMargin">48,0,0,0</Thickness>
-                <Style BasedOn="{StaticResource DefaultPivotHeaderItemStyle}" TargetType="PivotHeaderItem">
-                    <Setter Property="Height" Value="36" />
-                    <Setter Property="FontSize" Value="16" />
-                    <Setter Property="FontWeight" Value="SemiBold" />
+                <Style BasedOn="{StaticResource DefaultPivotHeaderItemStyle}"
+                        TargetType="PivotHeaderItem">
+                    <Setter Property="Height"
+                            Value="36"/>
+                    <Setter Property="FontSize"
+                            Value="16"/>
+                    <Setter Property="FontWeight"
+                            Value="SemiBold"/>
                 </Style>
             </Pivot.Resources>
             <PivotItem>
                 <PivotItem.Header>
-                    <TextBlock>
-                        <Run Text="{x:Bind lang:Lang.GameResourcePage_LatestVersion}" />
-                        <Run Text="" />
-                        <Run Text="{x:Bind LatestVersion}" />
-                    </TextBlock>
+                    <TextBlock> <Run Text="{x:Bind lang:Lang.GameResourcePage_LatestVersion}"/> <Run Text=""/> <Run Text="{x:Bind LatestVersion}"/></TextBlock>
                 </PivotItem.Header>
                 <ScrollViewer>
                     <ItemsRepeater Margin="48,0,48,24"
-                                   ItemTemplate="{StaticResource PackageGroupsDataTemplate}"
-                                   ItemsSource="{x:Bind LatestPackageGroups}">
+                            ItemTemplate="{StaticResource PackageGroupsDataTemplate}"
+                            ItemsSource="{x:Bind LatestPackageGroups}">
                         <ItemsRepeater.Layout>
-                            <StackLayout Spacing="8" />
+                            <StackLayout Spacing="8"/>
                         </ItemsRepeater.Layout>
                     </ItemsRepeater>
                 </ScrollViewer>
             </PivotItem>
             <PivotItem>
                 <PivotItem.Header>
-                    <TextBlock>
-                        <Run Text="{x:Bind lang:Lang.LauncherPage_PreInstall}" />
-                        <Run Text="" />
-                        <Run Text="{x:Bind PreInstallVersion}" />
-                    </TextBlock>
+                    <TextBlock> <Run Text="{x:Bind lang:Lang.LauncherPage_PreInstall}"/> <Run Text=""/> <Run Text="{x:Bind PreInstallVersion}"/></TextBlock>
                 </PivotItem.Header>
                 <ScrollViewer>
                     <ItemsRepeater Margin="48,0,48,24"
-                                   ItemTemplate="{StaticResource PackageGroupsDataTemplate}"
-                                   ItemsSource="{x:Bind PreInstallPackageGroups}">
+                            ItemTemplate="{StaticResource PackageGroupsDataTemplate}"
+                            ItemsSource="{x:Bind PreInstallPackageGroups}">
                         <ItemsRepeater.Layout>
-                            <StackLayout Spacing="8" />
+                            <StackLayout Spacing="8"/>
                         </ItemsRepeater.Layout>
                     </ItemsRepeater>
                 </ScrollViewer>
             </PivotItem>
         </Pivot>
-
     </Grid>
-
 </local:PageBase>

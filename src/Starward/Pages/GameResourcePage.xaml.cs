@@ -111,6 +111,8 @@ public sealed partial class GameResourcePage : PageBase
                 fullPackageGroup.Items.Add(new PackageItem
                 {
                     FileName = $"{Path.GetFileNameWithoutExtension(first.Url)}.*",
+                    PackageSize = gameResource.Major.GamePkgs.Sum(x => x.Size),
+                    DecompressSize = gameResource.Major.GamePkgs.Sum(x => x.DecompressedSize),
                 });
             }
             foreach (var segment in gameResource.Major.GamePkgs)
@@ -121,7 +123,6 @@ public sealed partial class GameResourcePage : PageBase
                     Url = segment.Url,
                     Md5 = segment.Md5,
                     PackageSize = segment.Size,
-                    DecompressSize = segment.DecompressedSize,
                 });
             }
         }
