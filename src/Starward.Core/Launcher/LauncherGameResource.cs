@@ -5,10 +5,10 @@ namespace Starward.Core.Launcher;
 public class LauncherGameResource
 {
     [JsonPropertyName("game_packages")]
-    public List<Resource> Resources { get; set; }
+    public List<GamePackagesWrapper> Resources { get; set; }
 }
 
-public class Resource
+public class GamePackagesWrapper
 {
     [JsonPropertyName("game")]
     public GameInfo Game { get; set; }
@@ -18,8 +18,6 @@ public class Resource
 
     [JsonPropertyName("pre_download")]
     public GameBranch PreDownload { get; set; }
-
-    public GameSDK Sdk { get; set; } // TODO: Adapt to the new SDK API
 }
 
 public class GameInfo
@@ -92,37 +90,25 @@ public class AudioPkg : IGamePackage
     public long DecompressedSize { get; set; }
 }
 
-// TODO: Adapt to the new SDK API
+public class LauncherGameSdk
+{
+    [JsonPropertyName("game_channel_sdks")]
+    public List<GameSDK> Resources { get; set; }
+}
+
 public class GameSDK
 {
+    [JsonPropertyName("game")]
+    public GameInfo Game { get; set; }
+
     [JsonPropertyName("version")]
     public string Version { get; set; }
 
-    [JsonPropertyName("path")]
-    public string Path { get; set; }
+    [JsonPropertyName("channel_sdk_pkg")]
+    public GamePkg Pkg { get; set; }
 
-    [JsonPropertyName("size")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public long Size { get; set; }
-
-    [JsonPropertyName("md5")]
-    public string Md5 { get; set; }
-
-    [JsonPropertyName("pkg_version")]
-    public string PkgVersion { get; set; }
-
-    [JsonPropertyName("desc")]
-    public string Desc { get; set; }
-
-    [JsonPropertyName("channel_id")]
-    public string ChannelId { get; set; }
-
-    [JsonPropertyName("sub_channel_id")]
-    public string SubChannelId { get; set; }
-
-    [JsonPropertyName("package_size")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public long PackageSize { get; set; }
+    [JsonPropertyName("pkg_version_file_name")]
+    public string VersionFileName { get; set; }
 }
 
 public interface IGamePackage

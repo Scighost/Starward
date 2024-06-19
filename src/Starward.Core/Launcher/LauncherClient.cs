@@ -147,9 +147,7 @@ public class LauncherClient
         return img ?? throw new miHoYoApiException(-1, "ZZZ CBT3 background image is null.");
     }
 
-
-
-    public async Task<Resource> GetLauncherGameResourceAsync(GameBiz biz, CancellationToken cancellationToken = default)
+    public async Task<GamePackagesWrapper> GetLauncherGameResourceAsync(GameBiz biz, CancellationToken cancellationToken = default)
     {
         var url = biz switch
         {
@@ -183,8 +181,22 @@ public class LauncherClient
         return resource;
     }
 
-
-
+    public async Task<GameSDK?> GetLauncherGameSdkAsync(GameBiz biz, CancellationToken cancellationToken = default)
+    {
+        var url = biz switch
+        {
+            GameBiz.hk4e_bilibili => "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGameChannelSDKs?channel=14&launcher_id=umfgRO5gh5&sub_channel=0",
+            GameBiz.hkrpg_bilibili => "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGameChannelSDKs?channel=14&launcher_id=6P5gHMNyK3&sub_channel=0",
+            _ => null,
+        };
+        GameSDK? resource = null;
+        if (!string.IsNullOrWhiteSpace(url))
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            resource = (await CommonSendAsync<LauncherGameSdk>(request, cancellationToken)).Resources.First();
+        }
+        return resource;
+    }
 
     public static string GetGameNoticesUrl(GameBiz biz, long uid, string? lang = null)
     {

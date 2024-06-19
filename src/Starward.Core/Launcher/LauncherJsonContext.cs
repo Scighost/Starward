@@ -5,6 +5,7 @@ namespace Starward.Core.Launcher;
 
 [JsonSerializable(typeof(miHoYoApiWrapper<LauncherContent>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<LauncherGameResource>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<LauncherGameSdk>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<CloudGameBackgroundWrapper>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<AlertAnn>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<JsonNode>))]

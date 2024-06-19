@@ -115,7 +115,8 @@ internal abstract class InstallGameService
     protected GameSDK? gameSDK;
 
 
-    protected Resource launcherGameResource;
+    protected GamePackagesWrapper launcherGameResource;
+
 
 
     protected CancellationTokenSource cancellationTokenSource;
@@ -229,7 +230,7 @@ internal abstract class InstallGameService
                     State = InstallGameState.Prepare;
                     await PrepareForDownloadAsync().ConfigureAwait(false);
                 }
-                PrepareBilibiliServerGameSDK();
+                await PrepareBilibiliServerGameSDKAsync();
             }
 
             if (_inState is InstallGameState.Download)
@@ -500,20 +501,20 @@ internal abstract class InstallGameService
     /// <summary>
     /// B服SDK
     /// </summary>
-    protected void PrepareBilibiliServerGameSDK()
+    protected async Task PrepareBilibiliServerGameSDKAsync()
     {
         if (!IsPreInstall && CurrentGameBiz.IsBilibiliServer())
         {
-            gameSDK = launcherGameResource.Sdk;
+            gameSDK = await _gameResourceService.GetGameSdkAsync(CurrentGameBiz).ConfigureAwait(false);
             if (gameSDK is not null)
             {
                 _logger.LogInformation("Bilibili sdk version: {version}", gameSDK.Version);
                 downloadTasks.Add(new DownloadFileTask
                 {
-                    FileName = Path.GetFileName(gameSDK.Path),
-                    Url = gameSDK.Path,
-                    Size = gameSDK.PackageSize,
-                    MD5 = gameSDK.Md5,
+                    FileName = Path.GetFileName(gameSDK.Pkg.Url),
+                    Url = gameSDK.Pkg.Url,
+                    Size = gameSDK.Pkg.Size,
+                    MD5 = gameSDK.Pkg.Url,
                 });
             }
         }
@@ -529,7 +530,7 @@ internal abstract class InstallGameService
         {
             if (gameSDK is not null)
             {
-                string file = Path.Combine(InstallPath, Path.GetFileName(gameSDK.Path));
+                string file = Path.Combine(InstallPath, Path.GetFileName(gameSDK.Pkg.Url));
                 if (File.Exists(file))
                 {
                     _logger.LogInformation("Decompress Bilibili sdk: {file}", file);
