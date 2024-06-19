@@ -61,7 +61,7 @@
                                                 sh:PointerCursor.CursorShape="Hand"
                                                 IsCacheEnabled="True"
                                                 IsRightTapEnabled="False"
-                                                Source="{Binding Img}"
+                                                Source="{Binding Image.Url}"
                                                 Stretch="UniformToFill"
                                                 Tapped="Image_Banner_Tapped" />
                             </DataTemplate>
@@ -151,7 +151,7 @@
                                                         </Grid.ColumnDefinitions>
                                                         <TextBlock VerticalAlignment="Center" TextTrimming="WordEllipsis">
                                                             <Hyperlink Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                                                       NavigateUri="{Binding Url}"
+                                                                       NavigateUri="{Binding Link}"
                                                                        UnderlineStyle="None">
                                                                 <Run Text="{Binding Title}" />
                                                             </Hyperlink>
@@ -159,7 +159,7 @@
                                                         <TextBlock Grid.Column="1"
                                                                    VerticalAlignment="Center"
                                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                                   Text="{Binding ShowTime}" />
+                                                                   Text="{Binding Date}" />
                                                     </Grid>
                                                 </DataTemplate>
                                             </ItemsRepeater.ItemTemplate>

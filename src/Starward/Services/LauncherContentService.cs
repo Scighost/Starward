@@ -40,10 +40,10 @@ public class LauncherContentService
 
 
 
-    public async Task<LauncherContent> GetLauncherContentAsync(GameBiz gameBiz, CancellationToken cancellationToken = default)
+    public async Task<ContentWrapper> GetLauncherContentAsync(GameBiz gameBiz, CancellationToken cancellationToken = default)
     {
         string lang = CultureInfo.CurrentUICulture.Name;
-        var content = MemoryCache.Instance.GetItem<LauncherContent>($"LauncherContent_{gameBiz}_{lang}", TimeSpan.FromSeconds(10));
+        var content = MemoryCache.Instance.GetItem<ContentWrapper>($"LauncherContent_{gameBiz}_{lang}", TimeSpan.FromSeconds(10));
         if (content != null)
         {
             return content;
@@ -119,19 +119,13 @@ public class LauncherContentService
                 var image = await _launcherClient.GetCloudGameBackgroundAsync(gameBiz, tokenSource.Token);
                 url = image.Url;
             }
-            else if (gameBiz is GameBiz.nap_cn)
+            /*else if (gameBiz is GameBiz.nap_cn)
             {
                 url = await _launcherClient.GetZZZCBT3BackgroundAsync(gameBiz, tokenSource.Token);
-            }
+            }*/
             else
             {
-                var content = await GetLauncherContentAsync(gameBiz, tokenSource.Token);
-                if (content.BackgroundImage is null)
-                {
-                    _logger.LogWarning("Background of mihoyo api is null ({gameBiz})", gameBiz);
-                    return GetFallbackBackgroundImage(gameBiz);
-                }
-                url = content.BackgroundImage.Background;
+                url = await _launcherClient.GetBackgroundAsync(gameBiz, tokenSource.Token);
             }
             name = Path.GetFileName(url);
             file = Path.Join(AppConfig.UserDataFolder, "bg", name);
