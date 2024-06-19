@@ -157,6 +157,7 @@ internal class GameResourceService
         return resource;
     }
 
+
     public async Task<GameSDK?> GetGameSdkAsync(GameBiz biz)
     {
         var resource = MemoryCache.Instance.GetItem<GameSDK>($"LauncherSdk_{biz}", TimeSpan.FromSeconds(10));
@@ -167,6 +168,7 @@ internal class GameResourceService
         }
         return resource;
     }
+
 
 
 
