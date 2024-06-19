@@ -4,18 +4,17 @@ namespace Starward.Core.Launcher;
 
 public class LauncherBanner
 {
-    [JsonPropertyName("banner_id")]
-    public string BannerId { get; set; }
+    [JsonPropertyName("image")]
+    public BannerImage Image { get; set; }
+}
 
-    [JsonPropertyName("name")]
-    public string Name { get; set; }
-
-    [JsonPropertyName("img")]
-    public string Img { get; set; }
+public class BannerImage
+{
 
     [JsonPropertyName("url")]
     public string Url { get; set; }
 
-    [JsonPropertyName("order")]
-    public string Order { get; set; }
+    [JsonPropertyName("link")]
+    public string Link { get; set; }
+
 }

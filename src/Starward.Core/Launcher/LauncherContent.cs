@@ -5,13 +5,34 @@ namespace Starward.Core.Launcher;
 public class LauncherContent
 {
 
-    [JsonPropertyName("adv")]
-    public BackgroundImage BackgroundImage { get; set; }
+    [JsonPropertyName("content")]
+    public ContentWrapper Content { get; set; }
 
-    [JsonPropertyName("banner")]
+}
+
+public class ContentWrapper
+{
+
+    [JsonPropertyName("banners")]
     public List<LauncherBanner> Banner { get; set; }
 
-    [JsonPropertyName("post")]
+    [JsonPropertyName("posts")]
     public List<LauncherPost> Post { get; set; }
+
+}
+
+public class LauncherBasicInfo
+{
+
+    [JsonPropertyName("game_info_list")]
+    public List<BasicInfoWrapper> BasicInfo { get; set; }
+
+}
+
+public class BasicInfoWrapper
+{
+
+    [JsonPropertyName("backgrounds")]
+    public List<BackgroundImageWrapper> Backgrounds { get; set; }
 
 }
