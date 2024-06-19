@@ -10,11 +10,9 @@ public class LauncherBanner
 
 public class BannerImage
 {
-
     [JsonPropertyName("url")]
     public string Url { get; set; }
 
     [JsonPropertyName("link")]
     public string Link { get; set; }
-
 }

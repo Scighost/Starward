@@ -10,8 +10,6 @@ public class BackgroundImage
 
 public class BackgroundImageWrapper
 {
-
     [JsonPropertyName("background")]
     public BackgroundImage BackgroundImage { get; set; }
-
 }
