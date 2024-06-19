@@ -383,6 +383,7 @@ internal abstract class InstallGameService
                 {
                     FileName = Path.GetFileName(x.Url),
                     Url = x.Url,
+                    Size = x.Size,
                     MD5 = x.Md5,
                 }));
             }
