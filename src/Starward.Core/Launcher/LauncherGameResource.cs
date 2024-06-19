@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Starward.Core.Launcher;
 
+
 public class LauncherGameResource
 {
     [JsonPropertyName("game_packages")]
@@ -109,6 +110,27 @@ public class GameSDK
 
     [JsonPropertyName("pkg_version_file_name")]
     public string VersionFileName { get; set; }
+}
+
+public class LauncherGameDeprecatedFiles
+{
+    [JsonPropertyName("deprecated_file_configs")]
+    public List<GameDeprecatedFilesWrapper> Resources { get; set; }
+}
+
+public class GameDeprecatedFilesWrapper
+{
+    [JsonPropertyName("game")]
+    public GameInfo Game { get; set; }
+
+    [JsonPropertyName("deprecated_files")]
+    public List<DeprecatedFile> DeprecatedFiles { get; set; }
+}
+
+public class DeprecatedFile
+{
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 }
 
 public interface IGamePackage

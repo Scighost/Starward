@@ -112,11 +112,10 @@ internal abstract class InstallGameService
     protected List<DownloadFileTask> downloadTasks;
 
 
-    protected GameSDK? gameSDK;
-
-
     protected GamePackagesWrapper launcherGameResource;
 
+
+    protected GameSDK? gameSDK;
 
 
     protected CancellationTokenSource cancellationTokenSource;
@@ -497,7 +496,7 @@ internal abstract class InstallGameService
         downloadTasks = list;
     }
 
-    // TODO: Adapt to the new SDK API
+
     /// <summary>
     /// B服SDK
     /// </summary>
@@ -591,6 +590,7 @@ internal abstract class InstallGameService
         }).ConfigureAwait(false);
     }
 
+
     /// <summary>
     /// 删除过期文件
     /// </summary>
@@ -598,10 +598,11 @@ internal abstract class InstallGameService
     protected async Task ClearDeprecatedFilesAsync()
     {
         _logger.LogInformation("Clear deprecated files.");
+        var launcherGameDeprecatedFiles = await _launcherClient.GetLauncherGameDeprecatedFilesAsync(CurrentGameBiz);
 
         await Task.Run(() =>
         {
-            /*foreach (var item in launcherGameResource.DeprecatedFiles)
+            foreach (var item in launcherGameDeprecatedFiles.DeprecatedFiles)
             {
                 var file = Path.Combine(InstallPath, item.Name);
                 if (File.Exists(file))
@@ -610,7 +611,7 @@ internal abstract class InstallGameService
                     File.Delete(file);
                 }
             }
-            foreach (var item in launcherGameResource.DeprecatedPackages)
+            /*foreach (var item in launcherGameResource.DeprecatedPackages)
             {
                 var file = Path.Combine(InstallPath, item.Name);
                 if (File.Exists(file))
