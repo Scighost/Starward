@@ -115,7 +115,7 @@ internal abstract class InstallGameService
     protected GameSDK? gameSDK;
 
 
-    protected LauncherGameResource launcherGameResource;
+    protected Resource launcherGameResource;
 
 
     protected CancellationTokenSource cancellationTokenSource;
@@ -309,22 +309,22 @@ internal abstract class InstallGameService
         (var localVersion, _) = await _gameResourceService.GetLocalGameVersionAndBizAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
         launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz).ConfigureAwait(false);
         (Version? latestVersion, Version? preDownloadVersion) = await _gameResourceService.GetGameResourceVersionAsync(CurrentGameBiz).ConfigureAwait(false);
-        GameResources? gameResource = null;
+        GameBranch? gameResource = null;
         if (localVersion is null || IsReInstall)
         {
             _logger.LogInformation("Install full game.");
-            gameResource = launcherGameResource.Resources.FirstOrDefault().Main;
+            gameResource = launcherGameResource.Main;
         }
         else if (preDownloadVersion != null)
         {
             _logger.LogInformation("Pre install game.");
             IsPreInstall = true;
-            gameResource = launcherGameResource.Resources.FirstOrDefault().PreDownload;
+            gameResource = launcherGameResource.PreDownload;
         }
         else if (latestVersion > localVersion)
         {
             _logger.LogInformation("Update game.");
-            gameResource = launcherGameResource.Resources.FirstOrDefault().Main;
+            gameResource = launcherGameResource.Main;
         }
         if (gameResource is null)
         {
@@ -340,10 +340,10 @@ internal abstract class InstallGameService
             // TODO: 未考虑GamePkgs多包体
             list_package.Add(new DownloadFileTask
             {
-                FileName = Path.GetFileName(diff.GamePkgs.FirstOrDefault().Url),
-                Url = diff.GamePkgs.FirstOrDefault().Url,
-                Size = diff.GamePkgs.FirstOrDefault().Size,
-                MD5 = diff.GamePkgs.FirstOrDefault().Md5,
+                FileName = Path.GetFileName(diff.GamePkgs.First().Url),
+                Url = diff.GamePkgs.First().Url,
+                Size = diff.GamePkgs.First().Size,
+                MD5 = diff.GamePkgs.First().Md5,
             });
             VoiceLanguages = await _gameResourceService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
             foreach (var lang in Enum.GetValues<VoiceLanguage>())
@@ -445,7 +445,7 @@ internal abstract class InstallGameService
     {
         _logger.LogInformation("Repair mode, prepare for repair.");
         launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz).ConfigureAwait(false);
-        GameResources gameResource = launcherGameResource.Resources.FirstOrDefault().Main;
+        GameBranch gameResource = launcherGameResource.Main;
         separateUrlPrefix = gameResource.Major.ResListUrl.TrimEnd('/');
         separateResources = await GetPkgVersionsAsync($"{separateUrlPrefix}/pkg_version").ConfigureAwait(false);
     }
@@ -783,7 +783,7 @@ internal abstract class InstallGameService
     /// <returns></returns>
     protected async Task WriteConfigFileAsync()
     {
-        string version = launcherGameResource.Resources.FirstOrDefault().Main.Major.Version;
+        string version = launcherGameResource.Main.Major.Version;
         string sdk_version = gameSDK?.Version ?? "";
         string cps = "", channel = "1", sub_channel = "1";
         if (CurrentGameBiz.IsBilibiliServer())

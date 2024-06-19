@@ -41,7 +41,7 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    private LauncherGameResource launcherGameResource;
+    private Resource launcherGameResource;
 
     [ObservableProperty]
     private string latestVersion;
@@ -62,9 +62,9 @@ public sealed partial class GameResourcePage : PageBase
         try
         {
             launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz);
-            LatestVersion = launcherGameResource.Resources.FirstOrDefault().Main.Major.Version;
-            var list = GetGameResourcePackageGroups(launcherGameResource.Resources.FirstOrDefault().Main);
-            if (CurrentGameBiz.IsBilibiliServer() && launcherGameResource.Sdk is not null)//TODO: Need to fill in the SDK
+            LatestVersion = launcherGameResource.Main.Major.Version;
+            var list = GetGameResourcePackageGroups(launcherGameResource.Main);
+            if (CurrentGameBiz.IsBilibiliServer() && launcherGameResource.Sdk is not null) // TODO: Adapt to the new SDK API
             {
                 list.Add(new PackageGroup
                 {
@@ -80,10 +80,10 @@ public sealed partial class GameResourcePage : PageBase
                 });
             }
             LatestPackageGroups = list;
-            if (launcherGameResource.Resources.FirstOrDefault().PreDownload.Major is not null )
+            if (launcherGameResource.PreDownload.Major is not null )
             {
-                PreInstallVersion = launcherGameResource.Resources.FirstOrDefault().PreDownload.Major.Version;
-                PreInstallPackageGroups = GetGameResourcePackageGroups(launcherGameResource.Resources.FirstOrDefault().PreDownload);
+                PreInstallVersion = launcherGameResource.PreDownload.Major.Version;
+                PreInstallPackageGroups = GetGameResourcePackageGroups(launcherGameResource.PreDownload);
             }
         }
         catch (Exception ex)
@@ -95,7 +95,7 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    private List<PackageGroup> GetGameResourcePackageGroups(GameResources gameResource)
+    private List<PackageGroup> GetGameResourcePackageGroups(GameBranch gameResource)
     {
         var list = new List<PackageGroup>();
         var fullPackageGroup = new PackageGroup
@@ -129,7 +129,7 @@ public sealed partial class GameResourcePage : PageBase
         else
         {
             // no segment
-            var latest = gameResource.Major.GamePkgs.FirstOrDefault();
+            var latest = gameResource.Major.GamePkgs.First();
             fullPackageGroup.Items.Add(new PackageItem
             {
                 FileName = Path.GetFileName(latest.Url),
