@@ -602,13 +602,16 @@ internal abstract class InstallGameService
 
         await Task.Run(() =>
         {
-            foreach (var item in launcherGameDeprecatedFiles.DeprecatedFiles)
+            if (launcherGameDeprecatedFiles != null)
             {
-                var file = Path.Combine(InstallPath, item.Name);
-                if (File.Exists(file))
+                foreach (var item in launcherGameDeprecatedFiles.DeprecatedFiles)
                 {
-                    File.SetAttributes(file, FileAttributes.Normal);
-                    File.Delete(file);
+                    var file = Path.Combine(InstallPath, item.Name);
+                    if (File.Exists(file))
+                    {
+                        File.SetAttributes(file, FileAttributes.Normal);
+                        File.Delete(file);
+                    }
                 }
             }
             /*foreach (var item in launcherGameResource.DeprecatedPackages)

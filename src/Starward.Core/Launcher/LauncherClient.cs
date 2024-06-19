@@ -184,7 +184,7 @@ public class LauncherClient
     }
 
 
-    public async Task<GameDeprecatedFilesWrapper> GetLauncherGameDeprecatedFilesAsync(GameBiz biz, CancellationToken cancellationToken = default)
+    public async Task<GameDeprecatedFilesWrapper?> GetLauncherGameDeprecatedFilesAsync(GameBiz biz, CancellationToken cancellationToken = default)
     {
         var url = biz switch
         {
@@ -205,7 +205,7 @@ public class LauncherClient
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);
-        var resource = (await CommonSendAsync<LauncherGameDeprecatedFiles>(request, cancellationToken)).Resources.First();
+        var resource = (await CommonSendAsync<LauncherGameDeprecatedFiles>(request, cancellationToken)).Resources.FirstOrDefault();
         return resource;
     }
 
