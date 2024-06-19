@@ -54,7 +54,7 @@ internal class Honkai3rdInstallGameService : InstallGameService
                     State = InstallGameState.Prepare;
                     await PrepareForDownloadAsync().ConfigureAwait(false);
                 }
-                PrepareBilibiliServerGameSDK();
+                await PrepareBilibiliServerGameSDKAsync();
             }
 
             if (_inState is InstallGameState.Download)

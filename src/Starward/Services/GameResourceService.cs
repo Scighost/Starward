@@ -146,13 +146,24 @@ internal class GameResourceService
 
 
 
-    public async Task<Resource> GetGameResourceAsync(GameBiz biz)
+    public async Task<GamePackagesWrapper> GetGameResourceAsync(GameBiz biz)
     {
-        var resource = MemoryCache.Instance.GetItem<Resource>($"LauncherResource_{biz}", TimeSpan.FromSeconds(10));
+        var resource = MemoryCache.Instance.GetItem<GamePackagesWrapper>($"LauncherResource_{biz}", TimeSpan.FromSeconds(10));
         if (resource is null)
         {
             resource = await _launcherClient.GetLauncherGameResourceAsync(biz);
             MemoryCache.Instance.SetItem($"LauncherResource_{biz}", resource);
+        }
+        return resource;
+    }
+
+    public async Task<GameSDK?> GetGameSdkAsync(GameBiz biz)
+    {
+        var resource = MemoryCache.Instance.GetItem<GameSDK>($"LauncherSdk_{biz}", TimeSpan.FromSeconds(10));
+        if (resource is null)
+        {
+            resource = await _launcherClient.GetLauncherGameSdkAsync(biz);
+            MemoryCache.Instance.SetItem($"LauncherSdk_{biz}", resource);
         }
         return resource;
     }

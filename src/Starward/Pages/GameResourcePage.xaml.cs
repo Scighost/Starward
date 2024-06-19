@@ -41,7 +41,9 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    private Resource launcherGameResource;
+    private GamePackagesWrapper launcherGameResource;
+
+    private GameSDK? launcherGameSdk;
 
     [ObservableProperty]
     private string latestVersion;
@@ -62,20 +64,21 @@ public sealed partial class GameResourcePage : PageBase
         try
         {
             launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz);
+            launcherGameSdk = await _gameResourceService.GetGameSdkAsync(CurrentGameBiz);
             LatestVersion = launcherGameResource.Main.Major.Version;
             var list = GetGameResourcePackageGroups(launcherGameResource.Main);
-            if (CurrentGameBiz.IsBilibiliServer() && launcherGameResource.Sdk is not null) // TODO: Adapt to the new SDK API
+            if (CurrentGameBiz.IsBilibiliServer() && launcherGameSdk is not null)
             {
                 list.Add(new PackageGroup
                 {
                     Name = "Bilibili SDK",
                     Items = [new PackageItem
                     {
-                        FileName = Path.GetFileName(launcherGameResource.Sdk.Path),
-                        Url = launcherGameResource.Sdk.Path,
-                        Md5 = launcherGameResource.Sdk.Md5,
-                        PackageSize = launcherGameResource.Sdk.PackageSize,
-                        DecompressSize = launcherGameResource.Sdk.Size,
+                        FileName = Path.GetFileName(launcherGameSdk.Pkg.Url),
+                        Url = launcherGameSdk.Pkg.Url,
+                        Md5 = launcherGameSdk.Pkg.Md5,
+                        PackageSize = launcherGameSdk.Pkg.Size,
+                        DecompressSize = launcherGameSdk.Pkg.DecompressedSize,
                     }],
                 });
             }

@@ -92,9 +92,11 @@ public sealed partial class SwitchClientPage : PageBase
     private bool isLocalGameVersionNotLatest;
 
 
-    private Resource fromGameResource;
+    private GamePackagesWrapper fromGameResource;
 
-    private Resource toGameResource;
+    private GamePackagesWrapper toGameResource;
+
+    private GameSDK? toGameSdk;
 
     private string toGameResourcePrefix;
 
@@ -324,6 +326,7 @@ public sealed partial class SwitchClientPage : PageBase
             ErrorText = null;
             ToGameBiz = SelectedTargetGameBiz.GameBiz;
             toGameResource = await _gameResourceService.GetGameResourceAsync(SelectedTargetGameBiz.GameBiz);
+            toGameSdk = await _gameResourceService.GetGameSdkAsync(SelectedTargetGameBiz.GameBiz);
             toGameResourcePrefix = toGameResource.Main.Major.ResListUrl.TrimEnd('/');
             if (fromGameResource?.Main.Major.Version != toGameResource.Main.Major.Version)
             {
@@ -389,14 +392,14 @@ public sealed partial class SwitchClientPage : PageBase
             });
         }
 
-        if (ToGameBiz.IsBilibiliServer() && toGameResource.Sdk is GameSDK sdk)
+        if (ToGameBiz.IsBilibiliServer() && toGameSdk is GameSDK sdk)
         {
             addFiles.Add(new DownloadFileTask
             {
-                FileName = Path.GetFileName(sdk.Path),
-                MD5 = sdk.Md5,
-                Size = sdk.PackageSize,
-                Url = sdk.Path,
+                FileName = Path.GetFileName(sdk.Pkg.Url),
+                MD5 = sdk.Pkg.Md5,
+                Size = sdk.Pkg.Size,
+                Url = sdk.Pkg.Url,
                 IsSegment = true,
             });
         }
@@ -554,7 +557,7 @@ public sealed partial class SwitchClientPage : PageBase
     private async Task WriteConfigFileAsync()
     {
         string version = toGameResource.Main.Major.Version;
-        string sdk_version = toGameResource.Sdk?.Version ?? "";
+        string sdk_version = toGameSdk?.Version ?? "";
         string cps = "", channel = "1", sub_channel = "1";
         if (ToGameBiz.IsBilibiliServer())
         {
@@ -640,9 +643,9 @@ public sealed partial class SwitchClientPage : PageBase
                 sb.AppendLine($"$null = New-Item -ItemType File -Path '{Path.GetFullPath(Path.Combine(installPath, item.FileName))}' -Force;");
                 sb.AppendLine($"$null = Copy-Item -Path '{Path.GetFullPath(Path.Combine(gameFolder, item.MD5))}' -Destination '{Path.GetFullPath(Path.Combine(installPath, item.FileName))}' -Force;");
             }
-            if (ToGameBiz.IsBilibiliServer() && toGameResource.Sdk is GameSDK sdk)
+            if (ToGameBiz.IsBilibiliServer() && toGameSdk is GameSDK sdk)
             {
-                string package = Path.Combine(installPath, Path.GetFileName(sdk.Path));
+                string package = Path.Combine(installPath, Path.GetFileName(sdk.Pkg.Url));
                 sb.AppendLine($"$null = Expand-Archive -Path '{package}' -DestinationPath '{installPath}' -Force;");
                 sb.AppendLine($"$null = Remove-Item -Path '{package}' -Force;");
             }
