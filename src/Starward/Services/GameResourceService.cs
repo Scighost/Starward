@@ -171,10 +171,9 @@ internal class GameResourceService
 
 
 
-
     public async Task<(Version? LatestVersion, Version? PreDownloadVersion)> GetGameResourceVersionAsync(GameBiz biz)
     {
-        if (biz is GameBiz.nap_cn)
+        /*if (biz is GameBiz.nap_cn)
         {
             const string url = "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?game_ids%5B%5D=ol93169Cmh&launcher_id=PFKmM45gSW";
             var str = await _httpClient.GetStringAsync(url);
@@ -184,13 +183,13 @@ internal class GameResourceService
             return (version, null);
         }
         else
-        {
+        {*/
 
             var resource = await GetGameResourceAsync(biz);
             _ = Version.TryParse(resource.Main?.Major?.Version, out Version? latest);
             _ = Version.TryParse(resource.PreDownload?.Major?.Version, out Version? preDownload);
             return (latest, preDownload);
-        }
+        //}
     }
 
 
