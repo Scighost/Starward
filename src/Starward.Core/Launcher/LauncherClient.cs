@@ -149,7 +149,7 @@ public class LauncherClient
 
 
 
-    public async Task<LauncherGameResource> GetLauncherGameResourceAsync(GameBiz biz, CancellationToken cancellationToken = default)
+    public async Task<Resource> GetLauncherGameResourceAsync(GameBiz biz, CancellationToken cancellationToken = default)
     {
         var url = biz switch
         {
@@ -170,14 +170,14 @@ public class LauncherClient
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);
-        var resource = await CommonSendAsync<LauncherGameResource>(request, cancellationToken);
+        var resource = (await CommonSendAsync<LauncherGameResource>(request, cancellationToken)).Resources.First();
         // 这个if块好像没啥用了
         if (biz is GameBiz.hkrpg_global)
         {
-            if (string.IsNullOrWhiteSpace(resource.Resources.FirstOrDefault().Main.Major.ResListUrl) && !string.IsNullOrWhiteSpace(resource.Resources.FirstOrDefault().Main.Major.GamePkgs.FirstOrDefault().Url))
+            if (string.IsNullOrWhiteSpace(resource.Main.Major.ResListUrl) && !string.IsNullOrWhiteSpace(resource.Main.Major.GamePkgs.First().Url))
             {
-                string path = resource.Resources.FirstOrDefault().Main.Major.GamePkgs.FirstOrDefault().Url;
-                resource.Resources.FirstOrDefault().Main.Major.ResListUrl = path[..path.LastIndexOf('/')] + "/unzip";
+                string path = resource.Main.Major.GamePkgs.First().Url;
+                resource.Main.Major.ResListUrl = path[..path.LastIndexOf('/')] + "/unzip";
             }
         }
         return resource;

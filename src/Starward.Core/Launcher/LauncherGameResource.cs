@@ -6,12 +6,6 @@ public class LauncherGameResource
 {
     [JsonPropertyName("game_packages")]
     public List<Resource> Resources { get; set; }
-
-    // 下面这两行代码写了，但是没用上
-    public GameResources Main => Resources?.FirstOrDefault()?.Main;
-    public GameResources PreDownload => Resources?.FirstOrDefault()?.PreDownload;
-
-    public GameSDK Sdk { get; set; } // TODO: Adapt to the new SDK API
 }
 
 public class Resource
@@ -20,10 +14,12 @@ public class Resource
     public GameInfo Game { get; set; }
 
     [JsonPropertyName("main")]
-    public GameResources Main { get; set; }
+    public GameBranch Main { get; set; }
 
     [JsonPropertyName("pre_download")]
-    public GameResources PreDownload { get; set; }
+    public GameBranch PreDownload { get; set; }
+
+    public GameSDK Sdk { get; set; } // TODO: Adapt to the new SDK API
 }
 
 public class GameInfo
@@ -35,7 +31,7 @@ public class GameInfo
     public string Biz { get; set; }
 }
 
-public class GameResources
+public class GameBranch
 {
     [JsonPropertyName("major")]
     public GamePackages Major { get; set; }
