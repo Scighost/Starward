@@ -146,9 +146,9 @@ internal class GameResourceService
 
 
 
-    public async Task<LauncherGameResource> GetGameResourceAsync(GameBiz biz)
+    public async Task<Resource> GetGameResourceAsync(GameBiz biz)
     {
-        var resource = MemoryCache.Instance.GetItem<LauncherGameResource>($"LauncherResource_{biz}", TimeSpan.FromSeconds(10));
+        var resource = MemoryCache.Instance.GetItem<Resource>($"LauncherResource_{biz}", TimeSpan.FromSeconds(10));
         if (resource is null)
         {
             resource = await _launcherClient.GetLauncherGameResourceAsync(biz);
@@ -174,8 +174,8 @@ internal class GameResourceService
         {
 
             var resource = await GetGameResourceAsync(biz);
-            _ = Version.TryParse(resource.Resources.FirstOrDefault().Main?.Major?.Version, out Version? latest);
-            _ = Version.TryParse(resource.Resources.FirstOrDefault().PreDownload?.Major?.Version, out Version? preDownload);
+            _ = Version.TryParse(resource.Main?.Major?.Version, out Version? latest);
+            _ = Version.TryParse(resource.PreDownload?.Major?.Version, out Version? preDownload);
             return (latest, preDownload);
         }
     }
@@ -190,12 +190,12 @@ internal class GameResourceService
             return false;
         }
         var resource = await GetGameResourceAsync(biz);
-        if (resource.Resources.FirstOrDefault().PreDownload.Major != null)
+        if (resource.PreDownload.Major != null)
         {
             (var localVersion, _) = await GetLocalGameVersionAndBizAsync(biz, installPath);
-            if (resource.Resources.FirstOrDefault().PreDownload.Patches?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackages diff)
+            if (resource.PreDownload.Patches?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackages diff)
             {
-                string file = Path.Combine(installPath, Path.GetFileName(diff.GamePkgs.FirstOrDefault().Url));
+                string file = Path.Combine(installPath, Path.GetFileName(diff.GamePkgs.First().Url));
                 if (!File.Exists(file))
                 {
                     return false;
@@ -219,7 +219,7 @@ internal class GameResourceService
             }
             else
             {
-                string file = Path.Combine(installPath, Path.GetFileName(resource.Resources.FirstOrDefault().PreDownload.Major.GamePkgs.FirstOrDefault().Url));
+                string file = Path.Combine(installPath, Path.GetFileName(resource.PreDownload.Major.GamePkgs.First().Url));
                 if (!File.Exists(file))
                 {
                     return false;
@@ -229,7 +229,7 @@ internal class GameResourceService
                 {
                     if (flag.HasFlag(lang))
                     {
-                        if (resource.Resources.FirstOrDefault().PreDownload.Major.AudioPkgs.FirstOrDefault(x => x.Language == lang.ToDescription()) is AudioPkg pack)
+                        if (resource.PreDownload.Major.AudioPkgs.FirstOrDefault(x => x.Language == lang.ToDescription()) is AudioPkg pack)
                         {
                             file = Path.Combine(installPath, Path.GetFileName(pack.Url));
                             if (!File.Exists(file))
@@ -252,19 +252,19 @@ internal class GameResourceService
         (var localVersion, _) = await GetLocalGameVersionAndBizAsync(biz, installPath);
         (Version? latestVersion, Version? preDownloadVersion) = await GetGameResourceVersionAsync(biz);
         var resource = await GetGameResourceAsync(biz);
-        GameResources? gameResource = null;
+        GameBranch? gameResource = null;
 
         if (localVersion is null || reinstall)
         {
-            gameResource = resource.Resources.FirstOrDefault().Main;
+            gameResource = resource.Main;
         }
         else if (preDownloadVersion != null)
         {
-            gameResource = resource.Resources.FirstOrDefault().PreDownload;
+            gameResource = resource.PreDownload;
         }
         else if (latestVersion > localVersion)
         {
-            gameResource = resource.Resources.FirstOrDefault().Main;
+            gameResource = resource.Main;
         }
 
 
@@ -274,7 +274,7 @@ internal class GameResourceService
             downloadGameResource.FreeSpace = new DriveInfo(Path.GetPathRoot(Path.GetFullPath(installPath))!).AvailableFreeSpace;
             if (gameResource.Patches?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackages diff)
             {
-                downloadGameResource.Game = CheckDownloadPackage(diff.GamePkgs.FirstOrDefault(), installPath);
+                downloadGameResource.Game = CheckDownloadPackage(diff.GamePkgs.First(), installPath);
                 foreach (var pack in diff.AudioPkgs)
                 {
                     var state = CheckDownloadPackage(pack, installPath);

@@ -92,9 +92,9 @@ public sealed partial class SwitchClientPage : PageBase
     private bool isLocalGameVersionNotLatest;
 
 
-    private LauncherGameResource fromGameResource;
+    private Resource fromGameResource;
 
-    private LauncherGameResource toGameResource;
+    private Resource toGameResource;
 
     private string toGameResourcePrefix;
 
@@ -235,7 +235,7 @@ public sealed partial class SwitchClientPage : PageBase
                 FromGameBiz = CurrentGameBiz;
             }
             fromGameResource = await _gameResourceService.GetGameResourceAsync(FromGameBiz);
-            if (GameVersion?.ToString() != fromGameResource.Resources.FirstOrDefault().Main.Major.Version)
+            if (GameVersion?.ToString() != fromGameResource.Main.Major.Version)
             {
                 IsLocalGameVersionNotLatest = true;
                 Button_Prepair.IsEnabled = false;
@@ -324,8 +324,8 @@ public sealed partial class SwitchClientPage : PageBase
             ErrorText = null;
             ToGameBiz = SelectedTargetGameBiz.GameBiz;
             toGameResource = await _gameResourceService.GetGameResourceAsync(SelectedTargetGameBiz.GameBiz);
-            toGameResourcePrefix = toGameResource.Resources.FirstOrDefault().Main.Major.ResListUrl.TrimEnd('/');
-            if (fromGameResource?.Resources.FirstOrDefault().Main.Major.Version != toGameResource.Resources.FirstOrDefault().Main.Major.Version)
+            toGameResourcePrefix = toGameResource.Main.Major.ResListUrl.TrimEnd('/');
+            if (fromGameResource?.Main.Major.Version != toGameResource.Main.Major.Version)
             {
                 StateText = Lang.DownloadGamePage_SomethingError;
                 ErrorText = Lang.SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion;
@@ -366,15 +366,15 @@ public sealed partial class SwitchClientPage : PageBase
 
     private async Task GetDownloadFilesAsync(CancellationToken cancellationToken)
     {
-        fromPkgVersions = await GetPkgVersionsAsync($"{fromGameResource.Resources.FirstOrDefault().Main.Major.ResListUrl.TrimEnd('/')}/pkg_version", cancellationToken);
-        toPkgVersions = await GetPkgVersionsAsync($"{toGameResource.Resources.FirstOrDefault().Main.Major.ResListUrl.TrimEnd('/')}/pkg_version", cancellationToken);
+        fromPkgVersions = await GetPkgVersionsAsync($"{fromGameResource.Main.Major.ResListUrl.TrimEnd('/')}/pkg_version", cancellationToken);
+        toPkgVersions = await GetPkgVersionsAsync($"{toGameResource.Main.Major.ResListUrl.TrimEnd('/')}/pkg_version", cancellationToken);
         removeFiles = fromPkgVersions.ExceptBy(toPkgVersions.Select(GetUniqueIdentify), GetUniqueIdentify).ToList();
         addFiles = toPkgVersions.ExceptBy(fromPkgVersions.Select(GetUniqueIdentify), GetUniqueIdentify).ToList();
 
         if (ToGameBiz.ToGame() is GameBiz.Honkai3rd)
         {
-            var bh3base_from = await GetContentLengthAndMd5Async($"{fromGameResource.Resources.FirstOrDefault().Main.Major.ResListUrl.TrimEnd('/')}/BH3Base.dll", cancellationToken);
-            var bh3base_to = await GetContentLengthAndMd5Async($"{toGameResource.Resources.FirstOrDefault().Main.Major.ResListUrl.TrimEnd('/')}/BH3Base.dll", cancellationToken);
+            var bh3base_from = await GetContentLengthAndMd5Async($"{fromGameResource.Main.Major.ResListUrl.TrimEnd('/')}/BH3Base.dll", cancellationToken);
+            var bh3base_to = await GetContentLengthAndMd5Async($"{toGameResource.Main.Major.ResListUrl.TrimEnd('/')}/BH3Base.dll", cancellationToken);
             removeFiles.Add(new DownloadFileTask
             {
                 FileName = "BH3Base.dll",
@@ -553,7 +553,7 @@ public sealed partial class SwitchClientPage : PageBase
 
     private async Task WriteConfigFileAsync()
     {
-        string version = toGameResource.Resources.FirstOrDefault().Main.Major.Version;
+        string version = toGameResource.Main.Major.Version;
         string sdk_version = toGameResource.Sdk?.Version ?? "";
         string cps = "", channel = "1", sub_channel = "1";
         if (ToGameBiz.IsBilibiliServer())
