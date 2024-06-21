@@ -133,7 +133,7 @@
     <value>Режим ремонта:</value>
   </data>
   <data name="DownloadGameDialog_VoiceLanguage" xml:space="preserve">
-    <value>Язык голоса:</value>
+    <value>Язык Озвучки:</value>
   </data>
   <data name="Language_Chinese" xml:space="preserve">
     <value>Китайский</value>
@@ -151,7 +151,7 @@
     <value>Эта функция находится на стадии тестирования. Если файлы игры повреждены, воспользуйтесь официальным лаунчером для их восстановления.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
-    <value>Свободного места может быть недостаточно</value>
+    <value>Недостаточно свободного места</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
     <value>Откручено</value>
@@ -287,7 +287,7 @@
     <value>Ошибка проверки следующего файла:</value>
   </data>
   <data name="DownloadGamePage_Redownload" xml:space="preserve">
-    <value>Перескачать</value>
+    <value>Перекачать</value>
   </data>
   <data name="DownloadGamePage_Ignore" xml:space="preserve">
     <value>Пропустить</value>
@@ -555,7 +555,7 @@
     <value>Найти</value>
   </data>
   <data name="LauncherPage_RepairGame" xml:space="preserve">
-    <value>Починить игру</value>
+    <value>Восстановить игру</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
     <value>Пользовательский исполняемый файл запуска</value>
