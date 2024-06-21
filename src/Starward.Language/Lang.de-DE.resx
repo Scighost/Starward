@@ -1385,27 +1385,27 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Zeige chronischen Banner</value>
   </data>
   <data name="HoyolabToolboxPage_UpdateDeviceFingerprint" xml:space="preserve">
-    <value>Update Device Fingerprint</value>
+    <value>Gerät Fingerabdruck aktualisieren</value>
   </data>
   <data name="HoyolabToolboxPage_TheDeviceFingerprintIsAlreadyUpdated" xml:space="preserve">
-    <value>The device fingerprint is already updated.</value>
+    <value>Der Fingerabdruck des Geräts wurde bereits aktualisiert.</value>
   </data>
   <data name="BBSWebBridge_ImageCopiedToClipboard" xml:space="preserve">
-    <value>Image copied to clipboard</value>
+    <value>Bild wurde in Zwischenablage kopiert</value>
   </data>
   <data name="HoyolabToolboxPage_BattleChronicle" xml:space="preserve">
-    <value>Battle Chronicle</value>
+    <value>Kampfchronik</value>
   </data>
   <data name="CloudGameGachaWindow_OpenTheGachaRecordsPageInGameAndThenClickTheButtonOnTheRight" xml:space="preserve">
-    <value>Open the gacha records page in game, and then click the button on the right.</value>
+    <value>Öffnen Sie die Gacha-Aufzeichnungsseite im Spiel und klicken Sie dann auf den Button auf der rechten Seite.</value>
   </data>
   <data name="GachaLogPage_ViaCloudGame" xml:space="preserve">
-    <value>via Cloud Game</value>
+    <value>via Cloud</value>
   </data>
   <data name="UpdateContentWindow_ClickToRefresh" xml:space="preserve">
-    <value>Click to Refresh</value>
+    <value>Zum Aktualisieren anklicken</value>
   </data>
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
-    <value>Recently Updated Content</value>
+    <value>Kürzlich aktualisierte Inhalte</value>
   </data>
 </root>

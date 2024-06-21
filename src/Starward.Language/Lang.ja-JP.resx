@@ -1386,27 +1386,27 @@
     <value>集録祈願を表示</value>
   </data>
   <data name="HoyolabToolboxPage_UpdateDeviceFingerprint" xml:space="preserve">
-    <value>Update Device Fingerprint</value>
+    <value>デバイスフィンガープリントを更新</value>
   </data>
   <data name="HoyolabToolboxPage_TheDeviceFingerprintIsAlreadyUpdated" xml:space="preserve">
-    <value>The device fingerprint is already updated.</value>
+    <value>デバイスフィンガープリントはすでに更新済みです。</value>
   </data>
   <data name="BBSWebBridge_ImageCopiedToClipboard" xml:space="preserve">
-    <value>Image copied to clipboard</value>
+    <value>クリップボードに画像をコピーしました</value>
   </data>
   <data name="HoyolabToolboxPage_BattleChronicle" xml:space="preserve">
-    <value>Battle Chronicle</value>
+    <value>戦績</value>
   </data>
   <data name="CloudGameGachaWindow_OpenTheGachaRecordsPageInGameAndThenClickTheButtonOnTheRight" xml:space="preserve">
-    <value>Open the gacha records page in game, and then click the button on the right.</value>
+    <value>ゲーム内のガチャの記録ページを開き、右側のボタンをクリックします。</value>
   </data>
   <data name="GachaLogPage_ViaCloudGame" xml:space="preserve">
-    <value>via Cloud Game</value>
+    <value>クラウドゲーム経由</value>
   </data>
   <data name="UpdateContentWindow_ClickToRefresh" xml:space="preserve">
-    <value>Click to Refresh</value>
+    <value>クリックで更新</value>
   </data>
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
-    <value>Recently Updated Content</value>
+    <value>最近更新されたコンテンツ</value>
   </data>
 </root>
