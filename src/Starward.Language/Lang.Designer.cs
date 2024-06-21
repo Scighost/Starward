@@ -1710,6 +1710,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Apocalyptic Shadow 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_ApocalypticShadow {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_ApocalypticShadow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Battle Chronicle 的本地化字符串。
         /// </summary>
         public static string HoyolabToolboxPage_BattleChronicle {
@@ -1800,7 +1809,7 @@ namespace Starward.Language {
                 return ResourceManager.GetString("HoyolabToolboxPage_PureFiction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   查找类似 Refresh Info 的本地化字符串。
         /// </summary>

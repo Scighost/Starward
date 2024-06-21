@@ -209,7 +209,7 @@ internal class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8];
+    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9];
 
 
     private const string Sql_v1 = """
@@ -582,6 +582,28 @@ internal class DatabaseService
             PRIMARY KEY (Uid, ScheduleId)
         );
         CREATE INDEX IF NOT EXISTS IX_PureFictionInfo_ScheduleId ON PureFictionInfo (ScheduleId);
+
+        PRAGMA USER_VERSION = 8;
+        COMMIT TRANSACTION;
+        """;
+    
+    private const string Sql_v9 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS ApocalypticShadowInfo
+        (
+            Uid        INTEGER NOT NULL,
+            ScheduleId INTEGER NOT NULL,
+            BeginTime  TEXT    NOT NULL,
+            EndTime    TEXT    NOT NULL,
+            StarNum    INTEGER NOT NULL,
+            MaxFloor   TEXT,
+            BattleNum  INTEGER NOT NULL,
+            HasData    INTEGER NOT NULL,
+            Value      TEXT    NOT NULL,
+            PRIMARY KEY (Uid, ScheduleId)
+        );
+        CREATE INDEX IF NOT EXISTS IX_ApocalypticShadowInfo_ScheduleId ON ApocalypticShadowInfo (ScheduleId);
 
         PRAGMA USER_VERSION = 8;
         COMMIT TRANSACTION;
