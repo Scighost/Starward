@@ -83,7 +83,7 @@ public sealed partial class GameResourcePage : PageBase
                 });
             }
             LatestPackageGroups = list;
-            if (launcherGameResource.PreDownload.Major is not null )
+            if (launcherGameResource.PreDownload.Major is not null)
             {
                 PreInstallVersion = launcherGameResource.PreDownload.Major.Version;
                 PreInstallPackageGroups = GetGameResourcePackageGroups(launcherGameResource.PreDownload);

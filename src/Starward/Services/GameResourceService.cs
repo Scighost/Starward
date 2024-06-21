@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -185,10 +184,10 @@ internal class GameResourceService
         else
         {*/
 
-            var resource = await GetGameResourceAsync(biz);
-            _ = Version.TryParse(resource.Main?.Major?.Version, out Version? latest);
-            _ = Version.TryParse(resource.PreDownload?.Major?.Version, out Version? preDownload);
-            return (latest, preDownload);
+        var resource = await GetGameResourceAsync(biz);
+        _ = Version.TryParse(resource.Main?.Major?.Version, out Version? latest);
+        _ = Version.TryParse(resource.PreDownload?.Major?.Version, out Version? preDownload);
+        return (latest, preDownload);
         //}
     }
 

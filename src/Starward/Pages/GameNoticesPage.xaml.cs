@@ -157,7 +157,8 @@ public sealed partial class GameNoticesPage : PageBase
                 }
                 else
                 {*/
-                    bg = await _launcherClient.GetBackgroundAsync(gameBiz);
+                string lang = CultureInfo.CurrentUICulture.Name;
+                bg = await _launcherClient.GetBackgroundAsync(gameBiz, lang);
                 //}
             }
             catch (Exception ex)

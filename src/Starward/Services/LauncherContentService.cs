@@ -125,7 +125,8 @@ public class LauncherContentService
             }*/
             else
             {
-                url = await _launcherClient.GetBackgroundAsync(gameBiz, tokenSource.Token);
+                string lang = CultureInfo.CurrentUICulture.Name;
+                url = await _launcherClient.GetBackgroundAsync(gameBiz, lang, tokenSource.Token);
             }
             name = Path.GetFileName(url);
             file = Path.Join(AppConfig.UserDataFolder, "bg", name);
