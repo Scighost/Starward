@@ -86,17 +86,15 @@ public sealed partial class SwitchClientPage : PageBase
     private Version? gameVersion;
 
     /// <summary>
-    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½æ±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½
+    /// ±¾µØÓÎÏ·°æ±¾²»ÊÇ×îÐÂµÄ
     /// </summary>
     [ObservableProperty]
     private bool isLocalGameVersionNotLatest;
 
 
-    private GamePackagesWrapper fromGameResource;
+    private LauncherGameResource fromGameResource;
 
-    private GamePackagesWrapper toGameResource;
-
-    private GameSDK? toGameSdk;
+    private LauncherGameResource toGameResource;
 
     private string toGameResourcePrefix;
 
@@ -107,7 +105,7 @@ public sealed partial class SwitchClientPage : PageBase
     private TargetGameBiz? selectedTargetGameBiz;
 
     /// <summary>
-    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½æ±¾ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Ï·ï¿½æ±¾ï¿½ï¿½Í¬
+    /// ±¾µØÓÎÏ·°æ±¾ÓëÄ¿±êÓÎÏ·°æ±¾²»Í¬
     /// </summary>
     [ObservableProperty]
     private bool isTowGameBizVersionDifferent;
@@ -237,7 +235,7 @@ public sealed partial class SwitchClientPage : PageBase
                 FromGameBiz = CurrentGameBiz;
             }
             fromGameResource = await _gameResourceService.GetGameResourceAsync(FromGameBiz);
-            if (GameVersion?.ToString() != fromGameResource.Main.Major.Version)
+            if (GameVersion?.ToString() != fromGameResource.Game.Latest.Version)
             {
                 IsLocalGameVersionNotLatest = true;
                 Button_Prepair.IsEnabled = false;
@@ -250,7 +248,7 @@ public sealed partial class SwitchClientPage : PageBase
                 string os_data = Path.Join(installPath, "GenshinImpact_Data");
                 if (Directory.Exists(cn_data) && Directory.Exists(os_data))
                 {
-                    // ï¿½ï¿½ï¿½ï¿½ï¿½Í¹ï¿½ï¿½Ê·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Í¬Ê±ï¿½ï¿½ï¿½ï¿½
+                    // ¹ú·þºÍ¹ú¼Ê·þÊý¾ÝÎÄ¼þ¼ÐÍ¬Ê±´æÔÚ
                     IsLocalGameVersionNotLatest = true;
                     Button_Prepair.IsEnabled = false;
                     ErrorText = Lang.SwitchClientPage_TheTowFoldersExistAtTheSameTime;
@@ -326,9 +324,8 @@ public sealed partial class SwitchClientPage : PageBase
             ErrorText = null;
             ToGameBiz = SelectedTargetGameBiz.GameBiz;
             toGameResource = await _gameResourceService.GetGameResourceAsync(SelectedTargetGameBiz.GameBiz);
-            toGameSdk = await _gameResourceService.GetGameSdkAsync(SelectedTargetGameBiz.GameBiz);
-            toGameResourcePrefix = toGameResource.Main.Major.ResListUrl.TrimEnd('/');
-            if (fromGameResource?.Main.Major.Version != toGameResource.Main.Major.Version)
+            toGameResourcePrefix = toGameResource.Game.Latest.DecompressedPath.TrimEnd('/');
+            if (fromGameResource?.Game.Latest.Version != toGameResource.Game.Latest.Version)
             {
                 StateText = Lang.DownloadGamePage_SomethingError;
                 ErrorText = Lang.SwitchClientPage_TheTargetServerVersionIsDifferentFromTheLocalVersion;
@@ -369,15 +366,15 @@ public sealed partial class SwitchClientPage : PageBase
 
     private async Task GetDownloadFilesAsync(CancellationToken cancellationToken)
     {
-        fromPkgVersions = await GetPkgVersionsAsync($"{fromGameResource.Main.Major.ResListUrl.TrimEnd('/')}/pkg_version", cancellationToken);
-        toPkgVersions = await GetPkgVersionsAsync($"{toGameResource.Main.Major.ResListUrl.TrimEnd('/')}/pkg_version", cancellationToken);
+        fromPkgVersions = await GetPkgVersionsAsync($"{fromGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/pkg_version", cancellationToken);
+        toPkgVersions = await GetPkgVersionsAsync($"{toGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/pkg_version", cancellationToken);
         removeFiles = fromPkgVersions.ExceptBy(toPkgVersions.Select(GetUniqueIdentify), GetUniqueIdentify).ToList();
         addFiles = toPkgVersions.ExceptBy(fromPkgVersions.Select(GetUniqueIdentify), GetUniqueIdentify).ToList();
 
         if (ToGameBiz.ToGame() is GameBiz.Honkai3rd)
         {
-            var bh3base_from = await GetContentLengthAndMd5Async($"{fromGameResource.Main.Major.ResListUrl.TrimEnd('/')}/BH3Base.dll", cancellationToken);
-            var bh3base_to = await GetContentLengthAndMd5Async($"{toGameResource.Main.Major.ResListUrl.TrimEnd('/')}/BH3Base.dll", cancellationToken);
+            var bh3base_from = await GetContentLengthAndMd5Async($"{fromGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/BH3Base.dll", cancellationToken);
+            var bh3base_to = await GetContentLengthAndMd5Async($"{toGameResource.Game.Latest.DecompressedPath.TrimEnd('/')}/BH3Base.dll", cancellationToken);
             removeFiles.Add(new DownloadFileTask
             {
                 FileName = "BH3Base.dll",
@@ -392,14 +389,14 @@ public sealed partial class SwitchClientPage : PageBase
             });
         }
 
-        if (ToGameBiz.IsBilibiliServer() && toGameSdk is GameSDK sdk)
+        if (ToGameBiz.IsBilibiliServer() && toGameResource.Sdk is GameSDK sdk)
         {
             addFiles.Add(new DownloadFileTask
             {
-                FileName = Path.GetFileName(sdk.Pkg.Url),
-                MD5 = sdk.Pkg.Md5,
-                Size = sdk.Pkg.Size,
-                Url = sdk.Pkg.Url,
+                FileName = Path.GetFileName(sdk.Path),
+                MD5 = sdk.Md5,
+                Size = sdk.PackageSize,
+                Url = sdk.Path,
                 IsSegment = true,
             });
         }
@@ -556,8 +553,8 @@ public sealed partial class SwitchClientPage : PageBase
 
     private async Task WriteConfigFileAsync()
     {
-        string version = toGameResource.Main.Major.Version;
-        string sdk_version = toGameSdk?.Version ?? "";
+        string version = toGameResource.Game.Latest.Version;
+        string sdk_version = toGameResource.Sdk?.Version ?? "";
         string cps = "", channel = "1", sub_channel = "1";
         if (ToGameBiz.IsBilibiliServer())
         {
@@ -643,9 +640,9 @@ public sealed partial class SwitchClientPage : PageBase
                 sb.AppendLine($"$null = New-Item -ItemType File -Path '{Path.GetFullPath(Path.Combine(installPath, item.FileName))}' -Force;");
                 sb.AppendLine($"$null = Copy-Item -Path '{Path.GetFullPath(Path.Combine(gameFolder, item.MD5))}' -Destination '{Path.GetFullPath(Path.Combine(installPath, item.FileName))}' -Force;");
             }
-            if (ToGameBiz.IsBilibiliServer() && toGameSdk is GameSDK sdk)
+            if (ToGameBiz.IsBilibiliServer() && toGameResource.Sdk is GameSDK sdk)
             {
-                string package = Path.Combine(installPath, Path.GetFileName(sdk.Pkg.Url));
+                string package = Path.Combine(installPath, Path.GetFileName(sdk.Path));
                 sb.AppendLine($"$null = Expand-Archive -Path '{package}' -DestinationPath '{installPath}' -Force;");
                 sb.AppendLine($"$null = Remove-Item -Path '{package}' -Force;");
             }

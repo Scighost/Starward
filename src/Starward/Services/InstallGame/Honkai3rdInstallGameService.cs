@@ -54,7 +54,7 @@ internal class Honkai3rdInstallGameService : InstallGameService
                     State = InstallGameState.Prepare;
                     await PrepareForDownloadAsync().ConfigureAwait(false);
                 }
-                await PrepareBilibiliServerGameSDKAsync();
+                PrepareBilibiliServerGameSDK();
             }
 
             if (_inState is InstallGameState.Download)
@@ -125,7 +125,7 @@ internal class Honkai3rdInstallGameService : InstallGameService
         TotalCount = 1;
         progressCount = 0;
 
-        string prefix = launcherGameResource.Main.Major.ResListUrl;
+        string prefix = launcherGameResource.Game.Latest.DecompressedPath;
         string url = $"{prefix}/BH3Base.dll";
 
         var request = new HttpRequestMessage(HttpMethod.Get, url)

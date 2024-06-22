@@ -271,8 +271,8 @@ public sealed partial class LauncherPage : PageBase
         {
             if (sender is FrameworkElement fe && fe.DataContext is LauncherBanner banner)
             {
-                _logger.LogInformation("Open banner: {url}", banner.Image.Link);
-                await Windows.System.Launcher.LaunchUriAsync(new Uri(banner.Image.Link));
+                _logger.LogInformation("Open banner {title}: {url}", banner.Name, banner.Url);
+                await Windows.System.Launcher.LaunchUriAsync(new Uri(banner.Url));
             }
         }
         catch { }

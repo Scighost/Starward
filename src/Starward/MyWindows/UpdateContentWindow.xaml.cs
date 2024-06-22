@@ -299,5 +299,5 @@ public sealed partial class UpdateContentWindow : WindowEx
         Close();
     }
 
-
+  
 }

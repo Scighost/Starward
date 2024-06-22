@@ -41,9 +41,7 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    private GamePackagesWrapper launcherGameResource;
-
-    private GameSDK? launcherGameSdk;
+    private LauncherGameResource launcherGameResource;
 
     [ObservableProperty]
     private string latestVersion;
@@ -64,29 +62,28 @@ public sealed partial class GameResourcePage : PageBase
         try
         {
             launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz);
-            launcherGameSdk = await _gameResourceService.GetGameSdkAsync(CurrentGameBiz);
-            LatestVersion = launcherGameResource.Main.Major.Version;
-            var list = GetGameResourcePackageGroups(launcherGameResource.Main);
-            if (CurrentGameBiz.IsBilibiliServer() && launcherGameSdk is not null)
+            LatestVersion = launcherGameResource.Game.Latest.Version;
+            var list = GetGameResourcePackageGroups(launcherGameResource.Game);
+            if (CurrentGameBiz.IsBilibiliServer() && launcherGameResource.Sdk is not null)
             {
                 list.Add(new PackageGroup
                 {
                     Name = "Bilibili SDK",
                     Items = [new PackageItem
                     {
-                        FileName = Path.GetFileName(launcherGameSdk.Pkg.Url),
-                        Url = launcherGameSdk.Pkg.Url,
-                        Md5 = launcherGameSdk.Pkg.Md5,
-                        PackageSize = launcherGameSdk.Pkg.Size,
-                        DecompressSize = launcherGameSdk.Pkg.DecompressedSize,
+                        FileName = Path.GetFileName(launcherGameResource.Sdk.Path),
+                        Url = launcherGameResource.Sdk.Path,
+                        Md5 = launcherGameResource.Sdk.Md5,
+                        PackageSize = launcherGameResource.Sdk.PackageSize,
+                        DecompressSize = launcherGameResource.Sdk.Size,
                     }],
                 });
             }
             LatestPackageGroups = list;
-            if (launcherGameResource.PreDownload.Major is not null)
+            if (launcherGameResource.PreDownloadGame is not null)
             {
-                PreInstallVersion = launcherGameResource.PreDownload.Major.Version;
-                PreInstallPackageGroups = GetGameResourcePackageGroups(launcherGameResource.PreDownload);
+                PreInstallVersion = launcherGameResource.PreDownloadGame.Latest.Version;
+                PreInstallPackageGroups = GetGameResourcePackageGroups(launcherGameResource.PreDownloadGame);
             }
         }
         catch (Exception ex)
@@ -98,7 +95,7 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    private List<PackageGroup> GetGameResourcePackageGroups(GameBranch gameResource)
+    private List<PackageGroup> GetGameResourcePackageGroups(GameResource gameResource)
     {
         var list = new List<PackageGroup>();
         var fullPackageGroup = new PackageGroup
@@ -106,81 +103,79 @@ public sealed partial class GameResourcePage : PageBase
             Name = Lang.GameResourcePage_FullPackages,
             Items = new List<PackageItem>()
         };
-        if (gameResource.Major.GamePkgs.Count > 1)
+        if (string.IsNullOrWhiteSpace(gameResource.Latest.Path))
         {
             // segment
-            if (gameResource.Major.GamePkgs.FirstOrDefault() is GamePkg first)
+            if (gameResource.Latest.Segments.FirstOrDefault() is Segment first)
             {
                 fullPackageGroup.Items.Add(new PackageItem
                 {
-                    FileName = $"{Path.GetFileNameWithoutExtension(first.Url)}.*",
-                    PackageSize = gameResource.Major.GamePkgs.Sum(x => x.Size),
-                    DecompressSize = gameResource.Major.GamePkgs.Sum(x => x.DecompressedSize),
+                    FileName = $"{Path.GetFileNameWithoutExtension(first.Path)}.*",
+                    Md5 = gameResource.Latest.Md5,
+                    PackageSize = gameResource.Latest.PackageSize,
+                    DecompressSize = gameResource.Latest.Size,
                 });
             }
-            foreach (var segment in gameResource.Major.GamePkgs)
+            foreach (var segment in gameResource.Latest.Segments)
             {
                 fullPackageGroup.Items.Add(new PackageItem
                 {
-                    FileName = Path.GetFileName(segment.Url),
-                    Url = segment.Url,
+                    FileName = Path.GetFileName(segment.Path),
+                    Url = segment.Path,
                     Md5 = segment.Md5,
-                    PackageSize = segment.Size,
+                    PackageSize = segment.PackageSize,
                 });
             }
         }
         else
         {
             // no segment
-            var latest = gameResource.Major.GamePkgs.First();
+            var latest = gameResource.Latest;
             fullPackageGroup.Items.Add(new PackageItem
             {
-                FileName = Path.GetFileName(latest.Url),
-                Url = latest.Url,
+                FileName = Path.GetFileName(latest.Path),
+                Url = latest.Path,
                 Md5 = latest.Md5,
-                PackageSize = latest.Size,
-                DecompressSize = latest.DecompressedSize,
+                PackageSize = latest.PackageSize,
+                DecompressSize = latest.Size,
             });
         }
-        foreach (var voice in gameResource.Major.AudioPkgs)
+        foreach (var voice in gameResource.Latest.VoicePacks)
         {
             fullPackageGroup.Items.Add(new PackageItem
             {
-                FileName = Path.GetFileName(voice.Url),
-                Url = voice.Url,
+                FileName = Path.GetFileName(voice.Path),
+                Url = voice.Path,
                 Md5 = voice.Md5,
-                PackageSize = voice.Size,
-                DecompressSize = voice.DecompressedSize,
+                PackageSize = voice.PackageSize,
+                DecompressSize = voice.Size,
             });
         }
         list.Add(fullPackageGroup);
-        foreach (var diff in gameResource.Patches)
+        foreach (var diff in gameResource.Diffs)
         {
             var diffPackageGroup = new PackageGroup
             {
                 Name = $"{Lang.GameResourcePage_DiffPackages}  {diff.Version}",
                 Items = new List<PackageItem>()
             };
-            foreach (var pkg in diff.GamePkgs)
+            diffPackageGroup.Items.Add(new PackageItem
+            {
+                FileName = Path.GetFileName(diff.Path),
+                Url = diff.Path,
+                Md5 = diff.Md5,
+                PackageSize = diff.PackageSize,
+                DecompressSize = diff.Size,
+            });
+            foreach (var voice in diff.VoicePacks)
             {
                 diffPackageGroup.Items.Add(new PackageItem
                 {
-                    FileName = Path.GetFileName(pkg.Url),
-                    Url = pkg.Url,
-                    Md5 = pkg.Md5,
-                    PackageSize = pkg.Size,
-                    DecompressSize = pkg.DecompressedSize,
-                });
-            }
-            foreach (var voice in diff.AudioPkgs)
-            {
-                diffPackageGroup.Items.Add(new PackageItem
-                {
-                    FileName = Path.GetFileName(voice.Url),
-                    Url = voice.Url,
+                    FileName = Path.GetFileName(voice.Path),
+                    Url = voice.Path,
                     Md5 = voice.Md5,
-                    PackageSize = voice.Size,
-                    DecompressSize = voice.DecompressedSize,
+                    PackageSize = voice.PackageSize,
+                    DecompressSize = voice.Size,
                 });
             }
             list.Add(diffPackageGroup);

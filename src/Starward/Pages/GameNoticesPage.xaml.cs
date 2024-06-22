@@ -151,15 +151,15 @@ public sealed partial class GameNoticesPage : PageBase
             string? bg = null;
             try
             {
-                /*if (gameBiz is GameBiz.nap_cn)
+                if (gameBiz is GameBiz.nap_cn)
                 {
                     bg = await _launcherClient.GetZZZCBT3BackgroundAsync(gameBiz);
                 }
                 else
-                {*/
-                string lang = CultureInfo.CurrentUICulture.Name;
-                bg = await _launcherClient.GetBackgroundAsync(gameBiz, lang);
-                //}
+                {
+                    var content = await _launcherContentService.GetLauncherContentAsync(gameBiz);
+                    bg = content.BackgroundImage?.Background;
+                }
             }
             catch (Exception ex)
             {
