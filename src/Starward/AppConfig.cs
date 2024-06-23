@@ -475,6 +475,13 @@ internal static class AppConfig
     }
 
 
+    public static bool IsGameBizSelectorPinned
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
+
 
     #endregion
 

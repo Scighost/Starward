@@ -104,6 +104,11 @@ public sealed partial class GameBizSelector : UserControl
                 }
             }
         }
+
+        if (AppConfig.IsGameBizSelectorPinned)
+        {
+            Pin();
+        }
     }
 
 
@@ -235,6 +240,7 @@ public sealed partial class GameBizSelector : UserControl
         if (IsPinned)
         {
             FontIcon_Pin.Glyph = IconUnpin;
+            Border_GameBizSelector.Translation = Vector3.Zero;
             if (!Popup_GameBizSelector.IsOpen)
             {
                 Border_FullMask.Opacity = 0;
@@ -254,6 +260,7 @@ public sealed partial class GameBizSelector : UserControl
             CurrentGameBizIcon = null;
             CurrentGameBizIcon = temp;
         }
+        AppConfig.IsGameBizSelectorPinned = IsPinned;
     }
 
 
