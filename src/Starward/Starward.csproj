@@ -29,14 +29,14 @@
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Core" Version="7.1.2" />
 		<PackageReference Include="Dapper" Version="2.1.35" />
 		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.131" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.5" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.6" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.1" />
+		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240512000" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
 		<PackageReference Include="MiniExcel" Version="1.32.1" />
 		<PackageReference Include="NuGet.Versioning" Version="6.10.0" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
