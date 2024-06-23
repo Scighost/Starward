@@ -213,16 +213,8 @@ public sealed partial class LauncherPage : PageBase
 
     private void InitializeBannerSize()
     {
-        if (AppConfig.WindowSizeMode == 0)
-        {
-            Grid_BannerAndPost.Width = 432;
-            RowDefinition_BannerAndPost.Height = new GridLength(200);
-        }
-        else
-        {
-            Grid_BannerAndPost.Width = 364;
-            RowDefinition_BannerAndPost.Height = new GridLength(168);
-        }
+        Grid_BannerAndPost.Width = 380;
+        RowDefinition_BannerAndPost.Height = new GridLength(176.23);
     }
 
 
@@ -407,14 +399,14 @@ public sealed partial class LauncherPage : PageBase
         //}
         //else
         //{
-        if (!CanStartGame || IsGameRunning)
-        {
-            AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
-        }
-        else
-        {
-            AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextOnAccentFillColorPrimaryBrush"] as Brush;
-        }
+        //if (!CanStartGame || IsGameRunning)
+        //{
+        //    AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
+        //}
+        //else
+        //{
+        //    AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextOnAccentFillColorPrimaryBrush"] as Brush;
+        //}
         //    Button_GameIsRunning.Style = accentStyle;
         //    Button_StartGame.Style = accentStyle;
         //    Button_DownloadGame.Style = accentStyle;

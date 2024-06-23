@@ -28,18 +28,22 @@
 
             <!--  Banner & Post  -->
             <Grid Name="Grid_BannerAndPost"
-                  Width="432"
-                  Margin="40,40,40,0"
+                  Width="380"
+                  Margin="60,0,0,40"
                   HorizontalAlignment="Left"
-                  VerticalAlignment="Center"
+                  VerticalAlignment="Bottom"
+                  Background="{ThemeResource CustomAcrylicBrush}"
+                  CornerRadius="8"
                   IsHitTestVisible="False"
                   Opacity="0"
-                  RowSpacing="24">
+                  RowSpacing="4"
+                  Shadow="{StaticResource ThemeShadow}"
+                  Translation="0,0,16">
                 <Grid.OpacityTransition>
                     <ScalarTransition />
                 </Grid.OpacityTransition>
                 <Grid.RowDefinitions>
-                    <RowDefinition x:Name="RowDefinition_BannerAndPost" Height="200" />
+                    <RowDefinition x:Name="RowDefinition_BannerAndPost" Height="176" />
                     <RowDefinition Height="124" />
                 </Grid.RowDefinitions>
                 <Grid Name="Grid_BannerContainer"
@@ -47,12 +51,10 @@
                       PointerExited="Grid_BannerContainer_PointerExited">
                     <!--  Banner  -->
                     <FlipView Name="FlipView_Banner"
-                              Background="{ThemeResource CustomAcrylicBrush}"
+                              Background="Transparent"
                               CornerRadius="8"
                               ItemsSource="{x:Bind BannerList}"
-                              Loaded="FlipView_Banner_Loaded"
-                              Shadow="{StaticResource ThemeShadow}"
-                              Translation="0,0,16">
+                              Loaded="FlipView_Banner_Loaded">
                         <FlipView.ItemTemplate>
                             <DataTemplate>
                                 <sc:CachedImage Name="Image_Banner"
@@ -81,11 +83,7 @@
                 </Grid>
 
                 <!--  Post  -->
-                <Border Grid.Row="1"
-                        Background="{ThemeResource CustomAcrylicBrush}"
-                        CornerRadius="8"
-                        Shadow="{StaticResource ThemeShadow}"
-                        Translation="0,0,16">
+                <Border Grid.Row="1" Translation="0,0,16">
 
                     <Pivot ItemsSource="{x:Bind LauncherPostGroupList}">
                         <Pivot.Resources>
@@ -150,10 +148,8 @@
                                                             <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
                                                         <TextBlock VerticalAlignment="Center" TextTrimming="WordEllipsis">
-                                                            <Hyperlink Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                                                       NavigateUri="{Binding Url}"
-                                                                       UnderlineStyle="None">
-                                                                <Run Text="{Binding Title}" />
+                                                            <Hyperlink NavigateUri="{Binding Url}" UnderlineStyle="None">
+                                                                <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{Binding Title}" />
                                                             </Hyperlink>
                                                         </TextBlock>
                                                         <TextBlock Grid.Column="1"
@@ -175,183 +171,54 @@
 
 
             <!--  Start Game  -->
-            <StackPanel Margin="40"
-                        HorizontalAlignment="Left"
+            <StackPanel Margin="0,0,40,40"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
-                        Canvas.ZIndex="1"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Spacing="12">
 
-                <!--  Start Game  -->
-                <Grid MinWidth="240"
-                      Margin="0,0,20,0"
-                      Background="{ThemeResource CustomAcrylicBrush}"
-                      CornerRadius="20"
-                      Shadow="{StaticResource ThemeShadow}"
-                      Translation="0,0,16">
 
-                    <!--  Game is Running  -->
-                    <Button Name="Button_GameIsRunning"
+
+                <!--  predownload  -->
+                <Border Height="40"
+                        Background="{ThemeResource CustomAcrylicBrush}"
+                        CornerRadius="20"
+                        Shadow="{StaticResource ThemeShadow}"
+                        Translation="0,0,16"
+                        Visibility="{x:Bind IsPreInstallButtonEnable}">
+                    <Button Name="Button_PreDownloadGame"
                             Height="40"
-                            HorizontalAlignment="Stretch"
                             BorderThickness="0"
-                            CornerRadius="20,0,0,20"
-                            FontSize="14"
-                            IsEnabled="False"
-                            Style="{ThemeResource AccentButtonStyle}"
-                            Visibility="{x:Bind IsGameRunning}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_GameIsRunning}" />
+                            Command="{x:Bind PreDownloadGameCommand}"
+                            CornerRadius="20"
+                            Style="{ThemeResource AccentButtonStyle}">
+                        <StackPanel Margin="4,0,4,0" Orientation="Horizontal">
                             <FontIcon Margin="0,2,0,0"
-                                      VerticalAlignment="Center"
-                                      FontSize="18"
-                                      FontWeight="Bold"
-                                      Glyph="&#xE76C;" />
-                            <FontIcon Margin="-22,2,0,0"
-                                      VerticalAlignment="Center"
-                                      FontSize="18"
-                                      FontWeight="Bold"
-                                      Glyph="&#xE76C;" />
-                        </StackPanel>
-                    </Button>
-
-                    <!--  Start Game  -->
-                    <Button Name="Button_StartGame"
-                            Height="40"
-                            HorizontalAlignment="Stretch"
-                            BorderThickness="0"
-                            Command="{x:Bind StartGameCommand}"
-                            CornerRadius="20,0,0,20"
-                            FontSize="14"
-                            IsEnabled="{x:Bind CanStartGame}"
-                            Style="{ThemeResource AccentButtonStyle}"
-                            Visibility="{x:Bind IsStartGameButtonEnable}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_StartGame}" />
-                            <FontIcon Margin="0,2,0,0"
-                                      VerticalAlignment="Center"
-                                      FontSize="18"
-                                      FontWeight="Bold"
-                                      Glyph="&#xE76C;" />
-                            <FontIcon Margin="-22,2,0,0"
-                                      VerticalAlignment="Center"
-                                      FontSize="18"
-                                      FontWeight="Bold"
-                                      Glyph="&#xE76C;" />
-                        </StackPanel>
-                    </Button>
-
-                    <!--  Download Game  -->
-                    <Button Name="Button_DownloadGame"
-                            Height="40"
-                            HorizontalAlignment="Stretch"
-                            BorderThickness="0"
-                            Command="{x:Bind DownloadGameCommand}"
-                            CornerRadius="20,0,0,20"
-                            FontSize="14"
-                            Style="{ThemeResource AccentButtonStyle}"
-                            Visibility="{x:Bind IsDownloadGameButtonEnable}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Margin="0,2,0,0"
-                                      VerticalAlignment="Center"
                                       FontSize="20"
-                                      Glyph="&#xEBD3;" />
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_InstallGame}" />
-                        </StackPanel>
-                    </Button>
-
-                    <!--  Update Game  -->
-                    <Button Name="Button_UpdateGame"
-                            Height="40"
-                            HorizontalAlignment="Stretch"
-                            BorderThickness="0"
-                            Command="{x:Bind DownloadGameCommand}"
-                            CornerRadius="20,0,0,20"
-                            FontSize="14"
-                            Style="{ThemeResource AccentButtonStyle}"
-                            Visibility="{x:Bind IsUpdateGameButtonEnable}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                      Glyph="&#xEBD3;"
+                                      Visibility="{x:Bind IsPreDownloadOK, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
                             <FontIcon Margin="0,2,0,0"
-                                      VerticalAlignment="Center"
-                                      FontSize="18"
-                                      Glyph="&#xE752;" />
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_UpdateGame}" />
+                                      FontSize="20"
+                                      Glyph="&#xE930;"
+                                      Visibility="{x:Bind IsPreDownloadOK}" />
+                            <TextBlock Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind lang:Lang.LauncherPage_PreInstall}" />
                         </StackPanel>
                     </Button>
-
-                    <!--  Repair Game  -->
-                    <Button Name="Button_RepairGame"
-                            Height="40"
-                            HorizontalAlignment="Stretch"
-                            BorderThickness="0"
-                            Command="{x:Bind RepairGameCommand}"
-                            CornerRadius="20,0,0,20"
-                            FontSize="14"
-                            Style="{ThemeResource AccentButtonStyle}"
-                            Visibility="{x:Bind IsRepairGameButtonEnable}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Margin="0,2,0,0"
-                                      VerticalAlignment="Center"
-                                      FontSize="18"
-                                      Glyph="&#xE90F;" />
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
-                        </StackPanel>
-                    </Button>
-
-                    <!--  Switch Client  -->
-                    <Button Name="Button_SwitchClient"
-                            Height="40"
-                            HorizontalAlignment="Stretch"
-                            BorderThickness="0"
-                            Command="{x:Bind SwitchClientCommand}"
-                            CornerRadius="20,0,0,20"
-                            FontSize="14"
-                            Style="{ThemeResource AccentButtonStyle}"
-                            Visibility="{x:Bind IsSwitchClientButtonEnable}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Margin="0,2,0,0"
-                                      VerticalAlignment="Center"
-                                      FontSize="18"
-                                      Glyph="&#xE8B1;" />
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_SwitchClient}" />
-                        </StackPanel>
-                    </Button>
-
-                    <!--  Game Setting  -->
-                    <Button Width="40"
-                            Height="40"
-                            Padding="0"
-                            HorizontalAlignment="Right"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Command="{x:Bind OpenGameSettingCommand}"
-                            CornerRadius="20">
-                        <AnimatedIcon Name="AnimatedIcon_GameSetting"
-                                      Width="20"
-                                      Height="20">
-                            <AnimatedIcon.Source>
-                                <av:AnimatedSettingsVisualSource />
-                            </AnimatedIcon.Source>
-                            <AnimatedIcon.FallbackIconSource>
-                                <FontIconSource Glyph="&#xE713;" />
-                            </AnimatedIcon.FallbackIconSource>
-                        </AnimatedIcon>
-                    </Button>
-
-                </Grid>
-
+                </Border>
 
 
                 <!--  Game Time  -->
                 <Border Name="Border_Playtime"
-                        Height="40"
-                        Margin="0,0,16,0"
+                        Height="44"
                         Background="{ThemeResource CustomAcrylicBrush}"
-                        CornerRadius="20"
+                        CornerRadius="22"
                         Shadow="{StaticResource ThemeShadow}"
                         Translation="0,0,16">
-                    <Button Height="40"
+                    <Button Height="44"
                             BorderThickness="0"
-                            CornerRadius="20">
+                            CornerRadius="22">
                         <StackPanel Margin="4,2,4,0"
                                     Orientation="Horizontal"
                                     Spacing="8">
@@ -414,35 +281,168 @@
                 </Border>
 
 
-                <!--  predownload  -->
-                <Border Height="40"
-                        Margin="0,0,16,0"
-                        Background="{ThemeResource CustomAcrylicBrush}"
-                        CornerRadius="20"
-                        Shadow="{StaticResource ThemeShadow}"
-                        Translation="0,0,16"
-                        Visibility="{x:Bind IsPreInstallButtonEnable}">
-                    <Button Name="Button_PreDownloadGame"
-                            Height="40"
+
+                <!--  Start Game  -->
+                <Grid Height="44"
+                      MinWidth="180"
+                      Background="{ThemeResource CustomAcrylicBrush}"
+                      CornerRadius="22"
+                      Shadow="{StaticResource ThemeShadow}"
+                      Translation="0,0,16">
+
+                    <!--  Game is Running  -->
+                    <Button Name="Button_GameIsRunning"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
                             BorderThickness="0"
-                            Command="{x:Bind PreDownloadGameCommand}"
-                            CornerRadius="20"
-                            Style="{ThemeResource AccentButtonStyle}">
-                        <StackPanel Margin="4,0,4,0" Orientation="Horizontal">
+                            FontSize="14"
+                            IsEnabled="False"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsGameRunning}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_GameIsRunning}" />
                             <FontIcon Margin="0,2,0,0"
-                                      FontSize="20"
-                                      Glyph="&#xEBD3;"
-                                      Visibility="{x:Bind IsPreDownloadOK, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
-                            <FontIcon Margin="0,2,0,0"
-                                      FontSize="20"
-                                      Glyph="&#xE930;"
-                                      Visibility="{x:Bind IsPreDownloadOK}" />
-                            <TextBlock Margin="8,0,0,0"
-                                       VerticalAlignment="Center"
-                                       Text="{x:Bind lang:Lang.LauncherPage_PreInstall}" />
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      FontWeight="Bold"
+                                      Glyph="&#xE76C;" />
+                            <FontIcon Margin="-22,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      FontWeight="Bold"
+                                      Glyph="&#xE76C;" />
                         </StackPanel>
                     </Button>
+
+                    <!--  Start Game  -->
+                    <Button Name="Button_StartGame"
+                            Padding="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind StartGameCommand}"
+                            FontSize="14"
+                            IsEnabled="{x:Bind CanStartGame}"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsStartGameButtonEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_StartGame}" />
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      FontWeight="Bold"
+                                      Glyph="&#xE76C;" />
+                            <FontIcon Margin="-22,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      FontWeight="Bold"
+                                      Glyph="&#xE76C;" />
+                        </StackPanel>
+                    </Button>
+
+                    <!--  Download Game  -->
+                    <Button Name="Button_DownloadGame"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind DownloadGameCommand}"
+                            FontSize="14"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsDownloadGameButtonEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="20"
+                                      Glyph="&#xEBD3;" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_InstallGame}" />
+                        </StackPanel>
+                    </Button>
+
+                    <!--  Update Game  -->
+                    <Button Name="Button_UpdateGame"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind DownloadGameCommand}"
+                            FontSize="14"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsUpdateGameButtonEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      Glyph="&#xE752;" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_UpdateGame}" />
+                        </StackPanel>
+                    </Button>
+
+                    <!--  Repair Game  -->
+                    <Button Name="Button_RepairGame"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind RepairGameCommand}"
+                            FontSize="14"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsRepairGameButtonEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      Glyph="&#xE90F;" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
+                        </StackPanel>
+                    </Button>
+
+                    <!--  Switch Client  -->
+                    <Button Name="Button_SwitchClient"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind SwitchClientCommand}"
+                            FontSize="14"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsSwitchClientButtonEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      Glyph="&#xE8B1;" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_SwitchClient}" />
+                        </StackPanel>
+                    </Button>
+
+
+                </Grid>
+
+
+                <!--  Game Setting  -->
+                <Border Width="44"
+                        Height="44"
+                        Background="{ThemeResource CustomAcrylicBrush}"
+                        CornerRadius="22"
+                        Shadow="{ThemeResource ThemeShadow}"
+                        Translation="0,0,16">
+                    <Button Padding="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind OpenGameSettingCommand}">
+                        <AnimatedIcon Name="AnimatedIcon_GameSetting"
+                                      Width="20"
+                                      Height="20"
+                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                            <AnimatedIcon.Source>
+                                <av:AnimatedSettingsVisualSource />
+                            </AnimatedIcon.Source>
+                            <AnimatedIcon.FallbackIconSource>
+                                <FontIconSource Glyph="&#xE713;" />
+                            </AnimatedIcon.FallbackIconSource>
+                        </AnimatedIcon>
+                    </Button>
                 </Border>
+
+
 
             </StackPanel>
 
@@ -450,7 +450,7 @@
             <!--  Account  -->
             <StackPanel Name="StackPanel_Account"
                         Height="40"
-                        Margin="40"
+                        Margin="0,0,40,100"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Orientation="Horizontal"

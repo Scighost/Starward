@@ -30,7 +30,8 @@
 
         <!--  acrylic backgroud  -->
         <Border Name="Border_TitleBarBackground"
-                Grid.RowSpan="2"
+                Width="56"
+                HorizontalAlignment="Left"
                 Background="{ThemeResource CustomAcrylicBrush}" />
 
 
