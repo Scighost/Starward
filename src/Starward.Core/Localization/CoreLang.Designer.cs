@@ -22,7 +22,7 @@ namespace Starward.Core.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CoreLang {
+    public class CoreLang {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Starward.Core.Localization {
         ///   返回此类使用的缓存的 ResourceManager 实例。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Starward.Core.Localization.CoreLang", typeof(CoreLang).Assembly);
@@ -51,7 +51,7 @@ namespace Starward.Core.Localization {
         ///   使用此强类型资源类的所有资源查找执行重写。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Cannot parse the warp record URL. 的本地化字符串。
         /// </summary>
-        internal static string Gacha_CannotParseTheWarpRecordURL {
+        public static string Gacha_CannotParseTheWarpRecordURL {
             get {
                 return ResourceManager.GetString("Gacha_CannotParseTheWarpRecordURL", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Cannot parse the wish record URL. 的本地化字符串。
         /// </summary>
-        internal static string Gacha_CannotParseTheWishRecordURL {
+        public static string Gacha_CannotParseTheWishRecordURL {
             get {
                 return ResourceManager.GetString("Gacha_CannotParseTheWishRecordURL", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Character Event Warp 的本地化字符串。
         /// </summary>
-        internal static string GachaType_CharacterEventWarp {
+        public static string GachaType_CharacterEventWarp {
             get {
                 return ResourceManager.GetString("GachaType_CharacterEventWarp", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Character Event Wish 的本地化字符串。
         /// </summary>
-        internal static string GachaType_CharacterEventWish {
+        public static string GachaType_CharacterEventWish {
             get {
                 return ResourceManager.GetString("GachaType_CharacterEventWish", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Character Event Wish - 2 的本地化字符串。
         /// </summary>
-        internal static string GachaType_CharacterEventWish_2 {
+        public static string GachaType_CharacterEventWish_2 {
             get {
                 return ResourceManager.GetString("GachaType_CharacterEventWish_2", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Chronicled Wish 的本地化字符串。
         /// </summary>
-        internal static string GachaType_ChronicledWish {
+        public static string GachaType_ChronicledWish {
             get {
                 return ResourceManager.GetString("GachaType_ChronicledWish", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Departure Warp 的本地化字符串。
         /// </summary>
-        internal static string GachaType_DepartureWarp {
+        public static string GachaType_DepartureWarp {
             get {
                 return ResourceManager.GetString("GachaType_DepartureWarp", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Light Cone Event Warp 的本地化字符串。
         /// </summary>
-        internal static string GachaType_LightConeEventWarp {
+        public static string GachaType_LightConeEventWarp {
             get {
                 return ResourceManager.GetString("GachaType_LightConeEventWarp", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Novice Wish 的本地化字符串。
         /// </summary>
-        internal static string GachaType_NoviceWish {
+        public static string GachaType_NoviceWish {
             get {
                 return ResourceManager.GetString("GachaType_NoviceWish", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Permanent Wish 的本地化字符串。
         /// </summary>
-        internal static string GachaType_PermanentWish {
+        public static string GachaType_PermanentWish {
             get {
                 return ResourceManager.GetString("GachaType_PermanentWish", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Stellar Warp 的本地化字符串。
         /// </summary>
-        internal static string GachaType_StellarWarp {
+        public static string GachaType_StellarWarp {
             get {
                 return ResourceManager.GetString("GachaType_StellarWarp", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Weapon Event Wish 的本地化字符串。
         /// </summary>
-        internal static string GachaType_WeaponEventWish {
+        public static string GachaType_WeaponEventWish {
             get {
                 return ResourceManager.GetString("GachaType_WeaponEventWish", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Genshin Impact 的本地化字符串。
         /// </summary>
-        internal static string Game_GenshinImpact {
+        public static string Game_GenshinImpact {
             get {
                 return ResourceManager.GetString("Game_GenshinImpact", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Honkai Impact 3rd 的本地化字符串。
         /// </summary>
-        internal static string Game_HonkaiImpact3rd {
+        public static string Game_HonkaiImpact3rd {
             get {
                 return ResourceManager.GetString("Game_HonkaiImpact3rd", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Honkai: Star Rail 的本地化字符串。
         /// </summary>
-        internal static string Game_HonkaiStarRail {
+        public static string Game_HonkaiStarRail {
             get {
                 return ResourceManager.GetString("Game_HonkaiStarRail", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Zenless Zone Zero 的本地化字符串。
         /// </summary>
-        internal static string Game_ZZZ {
+        public static string Game_ZZZ {
             get {
                 return ResourceManager.GetString("Game_ZZZ", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Bilibili Server 的本地化字符串。
         /// </summary>
-        internal static string GameServer_BilibiliServer {
+        public static string GameServer_BilibiliServer {
             get {
                 return ResourceManager.GetString("GameServer_BilibiliServer", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 China Cloud Server 的本地化字符串。
         /// </summary>
-        internal static string GameServer_ChinaCloudServer {
+        public static string GameServer_ChinaCloudServer {
             get {
                 return ResourceManager.GetString("GameServer_ChinaCloudServer", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 China Server 的本地化字符串。
         /// </summary>
-        internal static string GameServer_ChinaServer {
+        public static string GameServer_ChinaServer {
             get {
                 return ResourceManager.GetString("GameServer_ChinaServer", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Europe &amp; Americas Servers 的本地化字符串。
         /// </summary>
-        internal static string GameServer_EuropeAmericasServers {
+        public static string GameServer_EuropeAmericasServers {
             get {
                 return ResourceManager.GetString("GameServer_EuropeAmericasServers", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Global Server 的本地化字符串。
         /// </summary>
-        internal static string GameServer_GlobalServer {
+        public static string GameServer_GlobalServer {
             get {
                 return ResourceManager.GetString("GameServer_GlobalServer", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Japan Server 的本地化字符串。
         /// </summary>
-        internal static string GameServer_JapanServer {
+        public static string GameServer_JapanServer {
             get {
                 return ResourceManager.GetString("GameServer_JapanServer", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Korea Server 的本地化字符串。
         /// </summary>
-        internal static string GameServer_KoreaServer {
+        public static string GameServer_KoreaServer {
             get {
                 return ResourceManager.GetString("GameServer_KoreaServer", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Southeast Asia Server 的本地化字符串。
         /// </summary>
-        internal static string GameServer_SEAServer {
+        public static string GameServer_SEAServer {
             get {
                 return ResourceManager.GetString("GameServer_SEAServer", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Traditional Chinese Server 的本地化字符串。
         /// </summary>
-        internal static string GameServer_TraditionalChineseServer {
+        public static string GameServer_TraditionalChineseServer {
             get {
                 return ResourceManager.GetString("GameServer_TraditionalChineseServer", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 CBT3 的本地化字符串。
         /// </summary>
-        internal static string GameServer_ZZZCBT3 {
+        public static string GameServer_ZZZCBT3 {
             get {
                 return ResourceManager.GetString("GameServer_ZZZCBT3", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Artifacts 的本地化字符串。
         /// </summary>
-        internal static string GenshinQueryType_Artifact {
+        public static string GenshinQueryType_Artifact {
             get {
                 return ResourceManager.GetString("GenshinQueryType_Artifact", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Genesis Crystals 的本地化字符串。
         /// </summary>
-        internal static string GenshinQueryType_GenesisCrystal {
+        public static string GenshinQueryType_GenesisCrystal {
             get {
                 return ResourceManager.GetString("GenshinQueryType_GenesisCrystal", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Original Resins 的本地化字符串。
         /// </summary>
-        internal static string GenshinQueryType_OriginalResin {
+        public static string GenshinQueryType_OriginalResin {
             get {
                 return ResourceManager.GetString("GenshinQueryType_OriginalResin", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Primogems 的本地化字符串。
         /// </summary>
-        internal static string GenshinQueryType_Primogem {
+        public static string GenshinQueryType_Primogem {
             get {
                 return ResourceManager.GetString("GenshinQueryType_Primogem", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Weapons 的本地化字符串。
         /// </summary>
-        internal static string GenshinQueryType_Weapon {
+        public static string GenshinQueryType_Weapon {
             get {
                 return ResourceManager.GetString("GenshinQueryType_Weapon", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Events 的本地化字符串。
         /// </summary>
-        internal static string PostType_Activity {
+        public static string PostType_Activity {
             get {
                 return ResourceManager.GetString("PostType_Activity", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Notices 的本地化字符串。
         /// </summary>
-        internal static string PostType_Announcement {
+        public static string PostType_Announcement {
             get {
                 return ResourceManager.GetString("PostType_Announcement", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Info 的本地化字符串。
         /// </summary>
-        internal static string PostType_Information {
+        public static string PostType_Information {
             get {
                 return ResourceManager.GetString("PostType_Information", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Light Cone 的本地化字符串。
         /// </summary>
-        internal static string StarRailQueryType_LightCone {
+        public static string StarRailQueryType_LightCone {
             get {
                 return ResourceManager.GetString("StarRailQueryType_LightCone", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Oneiric Shared 的本地化字符串。
         /// </summary>
-        internal static string StarRailQueryType_OneiricShared {
+        public static string StarRailQueryType_OneiricShared {
             get {
                 return ResourceManager.GetString("StarRailQueryType_OneiricShared", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Relic 的本地化字符串。
         /// </summary>
-        internal static string StarRailQueryType_Relic {
+        public static string StarRailQueryType_Relic {
             get {
                 return ResourceManager.GetString("StarRailQueryType_Relic", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Stellar Jade 的本地化字符串。
         /// </summary>
-        internal static string StarRailQueryType_StellarJade {
+        public static string StarRailQueryType_StellarJade {
             get {
                 return ResourceManager.GetString("StarRailQueryType_StellarJade", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace Starward.Core.Localization {
         /// <summary>
         ///   查找类似 Trailblaze Power 的本地化字符串。
         /// </summary>
-        internal static string StarRailQueryType_TrailblazePower {
+        public static string StarRailQueryType_TrailblazePower {
             get {
                 return ResourceManager.GetString("StarRailQueryType_TrailblazePower", resourceCulture);
             }

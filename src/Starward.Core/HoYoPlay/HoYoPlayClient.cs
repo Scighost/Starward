@@ -12,7 +12,7 @@ public class HoYoPlayClient
 
 
 
-   
+
     public HoYoPlayClient(HttpClient? httpClient = null)
     {
         _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };

@@ -461,6 +461,20 @@ internal static class AppConfig
     }
 
 
+    public static GameBiz CurrentGameBiz
+    {
+        get => GetValue<GameBiz>();
+        set => SetValue(value);
+    }
+
+
+    public static string? SelectedGameBizs
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
 
     #endregion
 
@@ -566,11 +580,14 @@ internal static class AppConfig
     }
 
 
+    [Obsolete("已不用")]
     public static GameBiz GetLastRegionOfGame(GameBiz game)
     {
         return GetValue<GameBiz>(default, $"last_region_of_{game}");
     }
 
+
+    [Obsolete("已不用")]
     public static void SetLastRegionOfGame(GameBiz game, GameBiz value)
     {
         SetValue(value, $"last_region_of_{game}");
