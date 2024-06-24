@@ -21,12 +21,6 @@ public class ApocalypticShadowFloorDetail
     [JsonPropertyName("node_2")]
     public ApocalypticShadowNode Node2 { get; set; }
 
-    [JsonPropertyName("upper_boss_icon")]
-    public string UpperBossIcon { get; set; }
-
-    [JsonPropertyName("lower_boss_icon")]
-    public string LowerBossIcon { get; set; }
-
     [JsonPropertyName("maze_id")]
     public int MazeId { get; set; }
 

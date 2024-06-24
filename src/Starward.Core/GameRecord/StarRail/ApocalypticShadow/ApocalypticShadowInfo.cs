@@ -21,6 +21,12 @@ public class ApocalypticShadowInfo
     [JsonConverter(typeof(ForgottenHallTimeJsonConverter))]
     public DateTime EndTime { get; set; }
 
+    [JsonPropertyName("upper_boss_icon")]
+    public string UpperBossIcon { get; set; }
+
+    [JsonPropertyName("lower_boss_icon")]
+    public string LowerBossIcon { get; set; }
+
     [JsonPropertyName("star_num")]
     public int StarNum { get; set; }
 

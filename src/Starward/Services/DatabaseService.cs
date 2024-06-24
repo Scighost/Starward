@@ -596,6 +596,8 @@ internal class DatabaseService
             ScheduleId INTEGER NOT NULL,
             BeginTime  TEXT    NOT NULL,
             EndTime    TEXT    NOT NULL,
+            UpperBossIcon  TEXT    NOT NULL,
+            LowerBossIcon    TEXT    NOT NULL,
             StarNum    INTEGER NOT NULL,
             MaxFloor   TEXT,
             BattleNum  INTEGER NOT NULL,

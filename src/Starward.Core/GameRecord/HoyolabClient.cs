@@ -344,22 +344,16 @@ public class HoyolabClient : GameRecordClient
                 data.ScheduleId = data.Metas[0].ScheduleId;
                 data.BeginTime = data.Metas[0].BeginTime;
                 data.EndTime = data.Metas[0].EndTime;
-                foreach (var dict in data.AllFloorDetail)
-                {
-                    dict.UpperBossIcon = data.Metas[0].UpperBoss.Icon;
-                    dict.LowerBossIcon = data.Metas[0].LowerBoss.Icon;
-                }
+                data.UpperBossIcon = data.Metas[0].UpperBoss.Icon;
+                data.LowerBossIcon = data.Metas[0].LowerBoss.Icon;
             }
             if (schedule == 2 && data.Metas.Count > 1)
             {
                 data.ScheduleId = data.Metas[1].ScheduleId;
                 data.BeginTime = data.Metas[1].BeginTime;
                 data.EndTime = data.Metas[1].EndTime;
-                foreach (var dict in data.AllFloorDetail)
-                {
-                    dict.UpperBossIcon = data.Metas[1].UpperBoss.Icon;
-                    dict.LowerBossIcon = data.Metas[1].LowerBoss.Icon;
-                }
+                data.UpperBossIcon = data.Metas[0].UpperBoss.Icon;
+                data.LowerBossIcon = data.Metas[0].LowerBoss.Icon;
             }
         }
         return data;

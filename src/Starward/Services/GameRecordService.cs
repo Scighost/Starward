@@ -343,7 +343,7 @@ internal class GameRecordService
     public async Task<int> GetTravelersDiaryDetailAsync(GameRecordRole role, int month, int type, int limit = 100)
     {
         var detail = await _gameRecordClient.GetTravelsDiaryDetailAsync(role, month, type, limit);
-        if (detail.List is null || !detail.List.Any())
+        if (detail.List is null || detail.List.Count == 0)
         {
             return 0;
         }
@@ -606,6 +606,8 @@ internal class GameRecordService
             info.ScheduleId,
             info.BeginTime,
             info.EndTime,
+            info.UpperBossIcon,
+            info.LowerBossIcon,
             info.StarNum,
             info.MaxFloor,
             info.BattleNum,
@@ -614,8 +616,8 @@ internal class GameRecordService
         };
         using var dapper = _databaseService.CreateConnection();
         dapper.Execute("""
-            INSERT OR REPLACE INTO ApocalypticShadowInfo (Uid, ScheduleId, BeginTime, EndTime, StarNum, MaxFloor, BattleNum, HasData, Value)
-            VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @StarNum, @MaxFloor, @BattleNum, @HasData, @Value);
+            INSERT OR REPLACE INTO ApocalypticShadowInfo (Uid, ScheduleId, BeginTime, EndTime, UpperBossIcon, LowerBossIcon, StarNum, MaxFloor, BattleNum, HasData, Value)
+            VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @UpperBossIcon, @LowerBossIcon, @StarNum, @MaxFloor, @BattleNum, @HasData, @Value);
             """, obj);
         return info;
     }
@@ -630,7 +632,7 @@ internal class GameRecordService
         }
         using var dapper = _databaseService.CreateConnection();
         var list = dapper.Query<ApocalypticShadowInfo>("""
-            SELECT Uid, ScheduleId, BeginTime, EndTime,StarNum, MaxFloor, BattleNum, HasData FROM ApocalypticShadowInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
+            SELECT Uid, ScheduleId, BeginTime, EndTime, UpperBossIcon, LowerBossIcon, StarNum, MaxFloor, BattleNum, HasData FROM ApocalypticShadowInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
             """, new { role.Uid });
         return list.ToList();
     }
