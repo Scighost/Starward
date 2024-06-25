@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Launcher;
 using Starward.Messages;
@@ -59,6 +60,18 @@ public sealed partial class SwitchClientPage : PageBase
         _timer.Tick += _timer_Tick;
     }
 
+
+    [ObservableProperty]
+    private bool autorun = false;
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        if (e.Parameter is Tuple<GameBiz, bool> tuple)
+        {
+            CurrentGameBiz = tuple.Item1;
+            Autorun = tuple.Item2;
+        }
+    }
 
 
     private string gameFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\game");
@@ -300,6 +313,10 @@ public sealed partial class SwitchClientPage : PageBase
             list.Remove(from);
         }
         TargetGameBizs = list;
+        if (Autorun && FromGameBiz != CurrentGameBiz)
+        {
+            SelectedTargetGameBiz = list[list.FindIndex(item => item.GameBiz == CurrentGameBiz)];
+        }
     }
 
 
@@ -337,7 +354,10 @@ public sealed partial class SwitchClientPage : PageBase
             tokenSource = new CancellationTokenSource();
             await GetDownloadFilesAsync(tokenSource.Token);
             await MoveExistFilesAsync(tokenSource.Token);
-            await DownloadFilesAsync(tokenSource.Token);
+            if (!Autorun)
+            {
+                await DownloadFilesAsync(tokenSource.Token);
+            }
             CanCancel = false;
             await VerifyDownloadFilesAsync();
             await WriteConfigFileAsync();
@@ -351,7 +371,14 @@ public sealed partial class SwitchClientPage : PageBase
         }
         catch (Exception ex)
         {
-            _logger.LogInformation(ex, "Prepare for switch client");
+            if (ex.Message == Lang.SwitchClientPage_FileVerificationFailedNeedToDownloadResources)
+            {
+                Autorun = false;
+            }
+            else
+            {
+                _logger.LogInformation(ex, "Prepare for switch client");
+            }
             StateText = Lang.DownloadGamePage_SomethingError;
             ErrorText = ex.Message;
         }
@@ -359,6 +386,11 @@ public sealed partial class SwitchClientPage : PageBase
         {
             CanCancel = true;
             StopTimer();
+        }
+        if (Autorun)
+        {
+            await StartSwitchClientAsync();
+            Close();
         }
     }
 
@@ -515,7 +547,7 @@ public sealed partial class SwitchClientPage : PageBase
         });
         if (failed)
         {
-            throw new Exception(Lang.SwitchClientPage_FileVerificationFailedPleaseTryAgain);
+            throw new Exception(Autorun ? Lang.SwitchClientPage_FileVerificationFailedNeedToDownloadResources : Lang.SwitchClientPage_FileVerificationFailedPleaseTryAgain);
         }
     }
 
@@ -602,6 +634,7 @@ public sealed partial class SwitchClientPage : PageBase
         }
         try
         {
+            StateText = Lang.SwitchClientPage_Switching;
             if (_gameService.GetGameProcess(FromGameBiz) is not null)
             {
                 ErrorText = Lang.LauncherPage_GameIsRunning;
@@ -686,6 +719,7 @@ public sealed partial class SwitchClientPage : PageBase
 
             await VerifyMovedFilesAsync();
 
+            StateText = Lang.SettingPage_Completed;
             isCompleted = true;
             Button_StartSwitch.Content = Lang.SettingPage_Completed;
             AppConfig.SetGameInstallPath(ToGameBiz, installPath);

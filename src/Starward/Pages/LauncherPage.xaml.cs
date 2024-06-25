@@ -1325,7 +1325,7 @@ public sealed partial class LauncherPage : PageBase
 
 
     [RelayCommand]
-    private void SwitchClient()
+    private void SwitchClient(string autorun = "false")
     {
         if (IsUpdateGameButtonEnable)
         {
@@ -1337,10 +1337,10 @@ public sealed partial class LauncherPage : PageBase
         }
         else
         {
-            MainWindow.Current.OverlayFrameNavigateTo(typeof(SwitchClientPage), CurrentGameBiz);
+            MainWindow.Current.OverlayFrameNavigateTo(typeof(SwitchClientPage), new Tuple<GameBiz,bool>(CurrentGameBiz, autorun == "true"));
         }
     }
-
+    
 
 
     [RelayCommand]
