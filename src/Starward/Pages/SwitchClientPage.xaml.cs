@@ -709,7 +709,7 @@ public sealed partial class SwitchClientPage : PageBase
                 FileName = "PowerShell",
                 Arguments = sb.ToString(),
                 UseShellExecute = true,
-                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
                 Verb = "runas",
             });
             if (p != null)
