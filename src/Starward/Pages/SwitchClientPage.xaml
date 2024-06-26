@@ -93,7 +93,8 @@
                         Command="{x:Bind StartSwitchClientCommand}"
                         Content="{x:Bind lang:Lang.SwitchClientPage_StartSwitching}"
                         IsEnabled="{x:Bind IsPrepared}"
-                        Style="{ThemeResource AccentButtonStyle}" />
+                        Style="{ThemeResource AccentButtonStyle}"
+                        Visibility="{x:Bind Autorun, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
                 <Button MinWidth="100"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"

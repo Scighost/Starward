@@ -400,6 +400,7 @@
                             VerticalAlignment="Stretch"
                             BorderThickness="0"
                             Command="{x:Bind SwitchClientCommand}"
+                            CommandParameter="true"
                             FontSize="14"
                             Style="{ThemeResource AccentButtonStyle}"
                             Visibility="{x:Bind IsSwitchClientButtonEnable}">

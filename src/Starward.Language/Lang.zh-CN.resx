@@ -1410,4 +1410,10 @@
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
     <value>最近更新内容</value>
   </data>
+  <data name="SwitchClientPage_FileVerificationFailedNeedToDownloadResources" xml:space="preserve">
+    <value>文件校验失败，需要下载资源。点击确认以下载。</value>
+  </data>
+  <data name="SwitchClientPage_Switching" xml:space="preserve">
+    <value>切换中</value>
+  </data>
 </root>
