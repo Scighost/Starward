@@ -15,51 +15,37 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 
-namespace Starward.Services;
+namespace Starward.Services.Launcher;
 
-public class LauncherContentService
+
+/// <summary>
+/// 启动器背景图相关的内容
+/// </summary>
+internal class LauncherBackgroundService
 {
 
-    private readonly ILogger<LauncherContentService> _logger;
 
-    private readonly HttpClient _httpClient;
+    private readonly ILogger<LauncherBackgroundService> _logger;
 
-    private readonly LauncherClient _launcherClient;
 
     private readonly HoYoPlayService _hoYoPlayService;
 
 
-    public LauncherContentService(ILogger<LauncherContentService> logger, HttpClient httpClient, LauncherClient launcherClient, HoYoPlayService hoYoPlayService)
+    private readonly HttpClient _httpClient;
+
+
+    private readonly LauncherClient _launcherClient;
+
+
+
+    public LauncherBackgroundService(ILogger<LauncherBackgroundService> logger, HoYoPlayService hoYoPlayService, HttpClient httpClient, LauncherClient launcherClient)
     {
         _logger = logger;
+        _hoYoPlayService = hoYoPlayService;
         _httpClient = httpClient;
         _launcherClient = launcherClient;
-        _hoYoPlayService = hoYoPlayService;
     }
 
-
-
-
-
-    public async Task<LauncherContent> GetLauncherContentAsync(GameBiz gameBiz, CancellationToken cancellationToken = default)
-    {
-        string lang = CultureInfo.CurrentUICulture.Name;
-        var content = MemoryCache.Instance.GetItem<LauncherContent>($"LauncherContent_{gameBiz}_{lang}", TimeSpan.FromSeconds(10));
-        if (content != null)
-        {
-            return content;
-        }
-        content = await _launcherClient.GetLauncherContentAsync(gameBiz, lang, cancellationToken);
-        MemoryCache.Instance.SetItem($"LauncherContent_{gameBiz}_{lang}", content);
-        return content;
-    }
-
-
-
-    public async Task<bool> IsNoticesAlertAsync(GameBiz gameBiz, long uid, CancellationToken cancellationToken = default)
-    {
-        return await _launcherClient.IsNoticesAlertAsync(gameBiz, uid, CultureInfo.CurrentUICulture.Name, cancellationToken);
-    }
 
 
 
@@ -154,6 +140,20 @@ public class LauncherContentService
     }
 
 
+    private async Task<LauncherContent> GetLauncherContentAsync(GameBiz gameBiz, CancellationToken cancellationToken = default)
+    {
+        string lang = CultureInfo.CurrentUICulture.Name;
+        var content = MemoryCache.Instance.GetItem<LauncherContent>($"LauncherContent_{gameBiz}_{lang}", TimeSpan.FromSeconds(10));
+        if (content != null)
+        {
+            return content;
+        }
+        content = await _launcherClient.GetLauncherContentAsync(gameBiz, lang, cancellationToken);
+        MemoryCache.Instance.SetItem($"LauncherContent_{gameBiz}_{lang}", content);
+        return content;
+    }
+
+
 
     private string? GetFallbackBackgroundImage(GameBiz gameBiz)
     {
@@ -165,13 +165,7 @@ public class LauncherContentService
         else
         {
             string baseFolder = AppContext.BaseDirectory;
-            string? path = gameBiz.ToGame() switch
-            {
-                GameBiz.Honkai3rd => Path.Combine(baseFolder, @"Assets\Image\poster_honkai.png"),
-                GameBiz.GenshinImpact => Path.Combine(baseFolder, @"Assets\Image\poster_genshin.png"),
-                GameBiz.StarRail => Path.Combine(baseFolder, @"Assets\Image\poster_starrail.png"),
-                _ => null,
-            };
+            string path = Path.Combine(baseFolder, @"Assets\Image\UI_CutScene_1130320101A.png");
             if (File.Exists(path))
             {
                 return path;
@@ -182,7 +176,6 @@ public class LauncherContentService
             }
         }
     }
-
 
 
 
@@ -259,6 +252,7 @@ public class LauncherContentService
             _logger.LogError(ex, "Open custom background");
         }
     }
+
 
 
 

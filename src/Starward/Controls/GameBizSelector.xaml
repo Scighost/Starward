@@ -365,29 +365,29 @@
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                            Text="{x:Bind clang:CoreLang.GameServer_ChinaServer}" />
                                 <!--  国际服  -->
-                                <!--<ToggleSwitch Margin="0,0,-112,0"
-                                        OffContent=""
-                                        OnContent=""
-                                        Tag="{x:Bind core:GameBiz.hkrpg_global}" />
-                          <Image Width="20"
-                                 Height="20"
-                                 Source="{StaticResource hoyolab}" />
-                          <TextBlock Width="120"
-                                     VerticalAlignment="Center"
-                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                     Text="{x:Bind clang:CoreLang.GameServer_GlobalServer}" />-->
+                                <ToggleSwitch Margin="0,0,-112,0"
+                                              OffContent=""
+                                              OnContent=""
+                                              Tag="nap_global" />
+                                <Image Width="20"
+                                       Height="20"
+                                       Source="{StaticResource hoyolab}" />
+                                <TextBlock Width="120"
+                                           VerticalAlignment="Center"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="{x:Bind clang:CoreLang.GameServer_GlobalServer}" />
                                 <!--  哔哩哔哩服  -->
                                 <!--<ToggleSwitch Margin="0,0,-112,0"
-                                        OffContent=""
-                                        OnContent=""
-                                        Tag="{x:Bind core:GameBiz.hkrpg_bilibili}" />
-                          <Image Width="20"
-                                 Height="20"
-                                 Source="{StaticResource bilibili}" />
-                          <TextBlock Width="120"
-                                     VerticalAlignment="Center"
-                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                     Text="{x:Bind clang:CoreLang.GameServer_BilibiliServer}" />-->
+                                              OffContent=""
+                                              OnContent=""
+                                              Tag="nap_bilibili" />
+                                <Image Width="20"
+                                       Height="20"
+                                       Source="{StaticResource bilibili}" />
+                                <TextBlock Width="120"
+                                           VerticalAlignment="Center"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="{x:Bind clang:CoreLang.GameServer_BilibiliServer}" />-->
                             </StackPanel>
                         </StackPanel>
 

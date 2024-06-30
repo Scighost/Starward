@@ -4,35 +4,6 @@ namespace Starward.Core.HoYoPlay;
 
 
 /// <summary>
-/// 游戏 ID
-/// </summary>
-public class GameId
-{
-
-    [JsonPropertyName("id")]
-    public string Id { get; set; }
-
-
-    [JsonPropertyName("biz")]
-    public string Biz { get; set; }
-
-
-    public GameBiz ToGameBiz()
-    {
-        if (Enum.TryParse<GameBiz>(Biz, out var biz) && biz.ToGame() is not GameBiz.None)
-        {
-            return biz;
-        }
-        else
-        {
-            return GameBiz.None;
-        }
-    }
-
-}
-
-
-/// <summary>
 /// 游戏基本信息
 /// </summary>
 public class GameInfo : GameId

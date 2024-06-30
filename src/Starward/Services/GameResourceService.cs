@@ -95,27 +95,25 @@ internal class GameResourceService
 
 
 
-    public async Task<(Version?, GameBiz)> GetLocalGameVersionAndBizAsync(GameBiz biz, string? installPath = null)
+    public async Task<Version?> GetLocalGameVersionAsync(GameBiz biz, string? installPath = null)
     {
         installPath ??= GetGameInstallPath(biz);
         if (string.IsNullOrWhiteSpace(installPath))
         {
-            return (null, GameBiz.None);
+            return null;
         }
         Version? version = null;
-        GameBiz gameBiz = GameBiz.None;
         var config = Path.Join(installPath, "config.ini");
         if (File.Exists(config))
         {
             var str = await File.ReadAllTextAsync(config);
             Version.TryParse(Regex.Match(str, @"game_version=(.+)").Groups[1].Value, out version);
-            Enum.TryParse(Regex.Match(str, @"game_biz=(.+)").Groups[1].Value, out gameBiz);
         }
         else
         {
             _logger.LogWarning("config.ini not found: {path}", config);
         }
-        return (version, gameBiz);
+        return version;
     }
 
 
@@ -192,7 +190,7 @@ internal class GameResourceService
         var resource = await GetGameResourceAsync(biz);
         if (resource.PreDownloadGame != null)
         {
-            (var localVersion, _) = await GetLocalGameVersionAndBizAsync(biz, installPath);
+            var localVersion = await GetLocalGameVersionAsync(biz, installPath);
             if (resource.PreDownloadGame.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
             {
                 string file = Path.Combine(installPath, diff.Name);
@@ -249,7 +247,7 @@ internal class GameResourceService
 
     public async Task<DownloadGameResource?> CheckDownloadGameResourceAsync(GameBiz biz, string installPath, bool reinstall = false)
     {
-        (var localVersion, _) = await GetLocalGameVersionAndBizAsync(biz, installPath);
+        var localVersion = await GetLocalGameVersionAsync(biz, installPath);
         (Version? latestVersion, Version? preDownloadVersion) = await GetGameResourceVersionAsync(biz);
         var resource = await GetGameResourceAsync(biz);
         GameResource? gameResource = null;

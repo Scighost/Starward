@@ -32,7 +32,7 @@ public static class EnumExtension
             11 or 12 or 13 or 14 => GameBiz.GenshinImpact,
             21 or 22 or 24 => GameBiz.StarRail,
             >= 31 and <= 37 => GameBiz.Honkai3rd,
-            41 or 42 => GameBiz.ZZZ,
+            41 or 42 or 44 => GameBiz.ZZZ,
             _ => GameBiz.None,
         };
     }
@@ -68,7 +68,9 @@ public static class EnumExtension
             GameBiz.bh3_kr => CoreLang.GameServer_KoreaServer,
             GameBiz.bh3_overseas => CoreLang.GameServer_SEAServer,
             GameBiz.bh3_tw => CoreLang.GameServer_TraditionalChineseServer,
-            GameBiz.nap_cn => CoreLang.GameServer_ZZZCBT3,
+            GameBiz.nap_cn => CoreLang.GameServer_ChinaServer,
+            GameBiz.nap_global => CoreLang.GameServer_GlobalServer,
+            GameBiz.nap_bilibili => CoreLang.GameServer_BilibiliServer,
             _ => "",
         };
     }
@@ -78,7 +80,7 @@ public static class EnumExtension
     {
         return (int)biz switch
         {
-            11 or 13 or 14 or 21 or 24 or 31 => true,
+            11 or 13 or 14 or 21 or 24 or 31 or 41 => true,
             _ => false,
         };
     }
@@ -88,7 +90,7 @@ public static class EnumExtension
     {
         return (int)biz switch
         {
-            12 or 22 or (>= 32 and <= 36) => true,
+            12 or 22 or (>= 32 and <= 36) or 42 => true,
             _ => false,
         };
     }
@@ -98,10 +100,54 @@ public static class EnumExtension
     {
         return (int)biz switch
         {
-            14 or 24 => true,
+            14 or 24 or 44 => true,
             _ => false,
         };
     }
+
+
+
+    public static bool IsChinaOfficial(this GameBiz biz)
+    {
+        return biz switch
+        {
+            GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn or GameBiz.nap_cn => true,
+            _ => false,
+        };
+    }
+
+
+    public static bool IsGlobalOfficial(this GameBiz biz)
+    {
+        return biz switch
+        {
+            GameBiz.hk4e_global or GameBiz.hkrpg_global or GameBiz.bh3_global or GameBiz.nap_global => true,
+            GameBiz.bh3_jp or GameBiz.bh3_kr or GameBiz.bh3_overseas or GameBiz.bh3_tw => true,
+            _ => false,
+        };
+    }
+
+
+    public static bool IsBilibili(this GameBiz biz)
+    {
+        return biz switch
+        {
+            GameBiz.hk4e_bilibili or GameBiz.hkrpg_bilibili or GameBiz.nap_bilibili => true,
+            _ => false,
+        };
+    }
+
+
+    public static bool IsChinaCloud(this GameBiz biz)
+    {
+        return biz switch
+        {
+            GameBiz.hk4e_cloud => true,
+            _ => false,
+        };
+    }
+
+
 
 
     public static string GetLauncherRegistryKey(this GameBiz biz)

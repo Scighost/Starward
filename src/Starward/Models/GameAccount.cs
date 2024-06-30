@@ -43,9 +43,9 @@ public class GameAccount : ObservableObject
         set => SetProperty(ref _IsSaved, value);
     }
 
-    public static string LoginAccountText => Lang.LauncherPage_CurrentlyLoggedInAccount;
+    public string LoginAccountText => Lang.LauncherPage_CurrentlyLoggedInAccount;
 
-    public static string SaveAccountText => Lang.LauncherPage_SavedAccount;
+    public string SaveAccountText => Lang.LauncherPage_SavedAccount;
 
 
 }

@@ -7,6 +7,7 @@ using Starward.Core;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.GameRecord;
+using Starward.Core.HoYoPlay;
 using Starward.Core.Launcher;
 using Starward.Core.Metadata;
 using Starward.Core.SelfQuery;
@@ -14,6 +15,7 @@ using Starward.Models;
 using Starward.Services;
 using Starward.Services.Gacha;
 using Starward.Services.InstallGame;
+using Starward.Services.Launcher;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -238,6 +240,7 @@ internal static class AppConfig
             sc.AddSingleton<LauncherClient>();
             sc.AddSingleton<SelfQueryClient>();
             sc.AddSingleton<MetadataClient>();
+            sc.AddSingleton<HoYoPlayClient>();
 
             sc.AddSingleton<DatabaseService>();
             sc.AddSingleton<GameService>();
@@ -254,6 +257,9 @@ internal static class AppConfig
             sc.AddSingleton<Honkai3rdInstallGameService>();
             sc.AddSingleton<GenshinInstallGameService>();
             sc.AddSingleton<StarRailInstallGameService>();
+            sc.AddSingleton<HoYoPlayService>();
+            sc.AddSingleton<GameLauncherService>();
+            sc.AddSingleton<LauncherBackgroundService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))

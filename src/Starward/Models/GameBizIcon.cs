@@ -45,9 +45,9 @@ public partial class GameBizIcon : ObservableObject
         return gameBiz switch
         {
             GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn or GameBiz.nap_cn => "ms-appx:///Assets/Image/gameicon_hyperion.png",
-            GameBiz.hk4e_global or GameBiz.hkrpg_global => "ms-appx:///Assets/Image/gameicon_hoyolab.png",
+            GameBiz.hk4e_global or GameBiz.hkrpg_global or GameBiz.nap_global => "ms-appx:///Assets/Image/gameicon_hoyolab.png",
             GameBiz.hk4e_cloud => "ms-appx:///Assets/Image/gameicon_cloud.png",
-            GameBiz.hk4e_bilibili or GameBiz.hkrpg_bilibili => "ms-appx:///Assets/Image/gameicon_bilibili.png",
+            GameBiz.hk4e_bilibili or GameBiz.hkrpg_bilibili or GameBiz.nap_bilibili => "ms-appx:///Assets/Image/gameicon_bilibili.png",
             _ => "ms-appx:///Assets/Image/Transparent.png",
         };
     }

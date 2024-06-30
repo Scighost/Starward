@@ -95,14 +95,14 @@ public sealed partial class MainWindow : WindowEx
         {
             if (width * height == 0)
             {
-                (width, height) = (AppConfig.WindowSizeMode, AppConfig.EnableNavigationViewLeftCompact) switch
-                {
-                    //(0, true) => (1280, 740),
-                    //(0, false) => (1280, 768),
-                    //(_, true) => (1092, 636),
-                    //(_, false) => (1064, 648),
-                    _ => (1200, 675)
-                };
+                //(width, height) = (AppConfig.WindowSizeMode, AppConfig.EnableNavigationViewLeftCompact) switch
+                //{
+                //    (0, true) => (1280, 740),
+                //    (0, false) => (1280, 768),
+                //    (_, true) => (1092, 636),
+                //    (_, false) => (1064, 648),
+                //};
+                (width, height) = (1200, 676);
             }
             CenterInScreen(width, height);
         }

@@ -14,7 +14,7 @@ public class GameBackgroundInfo
 
 
     [JsonPropertyName("backgrounds")]
-    public GameBackground Backgrounds { get; set; }
+    public List<GameBackground> Backgrounds { get; set; }
 
 }
 

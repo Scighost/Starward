@@ -228,7 +228,7 @@ public sealed partial class GameSettingPage : PageBase
     {
         try
         {
-            (var localVersion, _) = await _gameResourceService.GetLocalGameVersionAndBizAsync(gameBiz);
+            var localVersion = await _gameResourceService.GetLocalGameVersionAsync(gameBiz);
             if (localVersion is null)
             {
                 if (gameBiz is GameBiz.hk4e_cloud)
