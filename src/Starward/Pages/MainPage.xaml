@@ -77,7 +77,7 @@
                 <!--  启动器  -->
                 <NavigationViewItem Name="NavigationViewItem_Launcher"
                                     IsSelected="True"
-                                    Tag="LauncherPage"
+                                    Tag="GameLauncherPage"
                                     ToolTipService.ToolTip="{x:Bind lang:Lang.MainPage_Launcer}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE80F;" />

@@ -32,7 +32,7 @@ using Windows.System;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace Starward.Pages.GameLauncher;
+namespace Starward.Pages;
 
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
@@ -121,16 +121,21 @@ public partial class GameLauncherPage : PageBase
 
     private void InitializeCurrentGameBiz()
     {
-#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
         try
         {
             StartGameArgument = AppConfig.GetStartArgument(CurrentGameBiz);
             EnableThirdPartyTool = AppConfig.GetEnableThirdPartyTool(CurrentGameBiz);
             ThirdPartyToolPath = AppConfig.GetThirdPartyToolPath(CurrentGameBiz);
+#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
             enableCustomBg = AppConfig.GetEnableCustomBg(CurrentGameBiz);
             OnPropertyChanged(nameof(EnableCustomBg));
-            CustomBg = AppConfig.GetCustomBg(CurrentGameBiz);
 #pragma warning restore MVVMTK0034 // Direct field reference to [ObservableProperty] backing field 
+            CustomBg = AppConfig.GetCustomBg(CurrentGameBiz);
+            if (CurrentGameBiz is GameBiz.hk4e_cloud)
+            {
+                Button_UninstallGame.IsEnabled = false;
+                Button_SettingRepairGame.IsEnabled = false;
+            }
         }
         catch { }
     }
@@ -157,8 +162,14 @@ public partial class GameLauncherPage : PageBase
     {
         try
         {
-            var content = await _hoYoPlayService.GetGameContentAsync(CurrentGameBiz);
-            GameBannerAndPost.GameContent = content;
+            if (CurrentGameBiz is GameBiz.hk4e_cloud)
+            {
+                GameBannerAndPost.GameContent = await _hoYoPlayService.GetGameContentAsync(GameBiz.hk4e_cn);
+            }
+            else
+            {
+                GameBannerAndPost.GameContent = await _hoYoPlayService.GetGameContentAsync(CurrentGameBiz);
+            }
         }
         catch (HttpRequestException ex)
         {
@@ -690,6 +701,12 @@ public partial class GameLauncherPage : PageBase
     {
         try
         {
+            if (CurrentGameBiz is GameBiz.hk4e_cloud)
+            {
+                await Launcher.LaunchUriAsync(new Uri("https://ys.mihoyo.com/cloud/#/download"));
+                return;
+            }
+
             if (await CheckRedirectInstanceAsync())
             {
                 return;

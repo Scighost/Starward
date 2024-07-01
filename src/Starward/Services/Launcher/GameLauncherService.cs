@@ -80,7 +80,7 @@ internal class GameLauncherService
         }
         if (Directory.Exists(path))
         {
-            return path;
+            return Path.GetFullPath(path);
         }
         else
         {

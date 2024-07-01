@@ -123,7 +123,7 @@ public sealed partial class GameNoticesPage : PageBase
                 string? param = node?["param"]?.ToString();
                 if (action is "close")
                 {
-                    WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(LauncherPage)));
+                    WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(GameLauncherPage)));
                 }
                 if (action is "url")
                 {

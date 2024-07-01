@@ -150,7 +150,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
                 }
                 else
                 {
-                    WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(LauncherPage)));
+                    WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(GameLauncherPage)));
                 }
             }
         }

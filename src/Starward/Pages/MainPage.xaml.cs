@@ -18,7 +18,6 @@ using NuGet.Versioning;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Messages;
-using Starward.Pages.GameLauncher;
 using Starward.Pages.HoyolabToolbox;
 using Starward.Pages.Setting;
 using Starward.Services;
@@ -200,7 +199,7 @@ public sealed partial class MainPage : PageBase
         }
         else
         {
-            NavigateTo(typeof(GameLauncher.GameLauncherPage));
+            NavigateTo(typeof(GameLauncherPage));
         }
     }
 
@@ -610,7 +609,7 @@ public sealed partial class MainPage : PageBase
                 }
                 var type = item.Tag switch
                 {
-                    nameof(LauncherPage) => typeof(GameLauncherPage),
+                    nameof(GameLauncherPage) => typeof(GameLauncherPage),
                     nameof(GameNoticesPage) => typeof(GameNoticesPage),
                     nameof(GameSettingPage) => typeof(GameSettingPage),
                     nameof(ScreenshotPage) => typeof(ScreenshotPage),
@@ -628,11 +627,6 @@ public sealed partial class MainPage : PageBase
     public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null)
     {
         string? destPage = page?.Name;
-        if (destPage is nameof(GenshinCloudLauncherPage) or nameof(LauncherPage))
-        {
-            page = typeof(GameLauncherPage);
-            destPage = nameof(GameLauncherPage);
-        }
         if (destPage is null or nameof(BlankPage)
             || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(ScreenshotPage))
             || CurrentGameBiz.ToGame() is GameBiz.ZZZ && destPage is not nameof(GameLauncherPage) and not nameof(GameNoticesPage))
@@ -644,14 +638,9 @@ public sealed partial class MainPage : PageBase
         {
             MainPage_NavigationView.SelectedItem = NavigationViewItem_Launcher;
         }
-        if (destPage is nameof(GameLauncherPage) && CurrentGameBiz is GameBiz.hk4e_cloud)
-        {
-            page = typeof(GenshinCloudLauncherPage);
-            destPage = nameof(GenshinCloudLauncherPage);
-        }
         _logger.LogInformation("Navigate to {page} with param {param}", destPage, param ?? CurrentGameBiz);
         MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());
-        if (destPage is nameof(GameLauncherPage) or nameof(GenshinCloudLauncherPage) or nameof(LauncherPage))
+        if (destPage is nameof(GameLauncherPage))
         {
             PlayVideo();
             Border_OverlayMask.Opacity = 0;
