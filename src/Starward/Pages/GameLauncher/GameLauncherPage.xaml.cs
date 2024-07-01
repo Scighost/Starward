@@ -51,13 +51,12 @@ public partial class GameLauncherPage : PageBase
 
     private readonly PlayTimeService _playTimeService = AppConfig.GetService<PlayTimeService>();
 
-    private readonly DatabaseService _databaseService = AppConfig.GetService<DatabaseService>();
-
-    private readonly GameResourceService _gameResourceService = AppConfig.GetService<GameResourceService>();
 
     private readonly GameAccountService _gameAccountService = AppConfig.GetService<GameAccountService>();
 
     private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
+
+    private readonly GamePackageService _gamePackageService = AppConfig.GetService<GamePackageService>();
 
 
     public GameLauncherPage()
@@ -88,7 +87,7 @@ public partial class GameLauncherPage : PageBase
             if (!AppConfig.LauncherPageFirstLoaded)
             {
                 // 避免加载窗口和缓存图片同时进行可能导致的崩溃
-                //await Task.Delay(200);
+                await Task.Delay(200);
                 AppConfig.LauncherPageFirstLoaded = true;
             }
             await UpdateGameContentAsync();
@@ -317,8 +316,7 @@ public partial class GameLauncherPage : PageBase
             PreInstallGameVersion = await _gameLauncherService.GetPreDownloadGameVersionAsync(CurrentGameBiz);
             if (IsPreInstallButtonEnable)
             {
-                // todo
-                IsPreDownloadOK = await _gameResourceService.CheckPreDownloadIsOKAsync(CurrentGameBiz);
+                IsPreDownloadOK = await _gamePackageService.CheckPreDownloadIsOKAsync(CurrentGameBiz);
             }
         }
         catch (Exception ex)
@@ -768,13 +766,13 @@ public partial class GameLauncherPage : PageBase
 
             InstallPath = temp_install_path;
 
-            var downloadResource = await _gameResourceService.CheckDownloadGameResourceAsync(CurrentGameBiz, InstallPath);
+            var downloadResource = await _gamePackageService.GetNeedDownloadGamePackageResourceAsync(CurrentGameBiz, InstallPath);
             if (downloadResource is null)
             {
                 CheckGameVersion();
                 return;
             }
-            var lang = await _gameResourceService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
+            var lang = await _gamePackageService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
             if (lang is VoiceLanguage.None)
             {
                 lang = VoiceLanguage.All;
@@ -784,8 +782,8 @@ public partial class GameLauncherPage : PageBase
             {
                 GameBiz = CurrentGameBiz,
                 LanguageType = lang,
-                GameResource = downloadResource,
-                PreDownloadMode = IsPreInstallButtonEnable
+                GameResource = _gamePackageService.GetDownloadGameResourceAsync(downloadResource, InstallPath),
+                PreDownloadMode = IsPreInstallButtonEnable,
             };
             var dialog = new ContentDialog
             {
@@ -846,7 +844,7 @@ public partial class GameLauncherPage : PageBase
                 };
                 if (await dialog.ShowAsync() is ContentDialogResult.Primary)
                 {
-                    var lang = await _gameResourceService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
+                    var lang = await _gamePackageService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
                     var exe = Process.GetCurrentProcess().MainModule?.FileName;
                     if (!File.Exists(exe))
                     {
@@ -880,7 +878,7 @@ public partial class GameLauncherPage : PageBase
     {
         try
         {
-            var lang = await _gameResourceService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
+            var lang = await _gamePackageService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
             var exe = Process.GetCurrentProcess().MainModule?.FileName;
             if (!File.Exists(exe))
             {
@@ -920,54 +918,6 @@ public partial class GameLauncherPage : PageBase
         }
     }
 
-
-
-    [RelayCommand]
-    protected virtual async Task ReinstallGameAsync()
-    {
-        try
-        {
-            var gameResource = await _gameResourceService.CheckDownloadGameResourceAsync(CurrentGameBiz, InstallPath!, true);
-            var lang = await _gameResourceService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
-            var exe = Process.GetCurrentProcess().MainModule?.FileName;
-            if (!File.Exists(exe))
-            {
-                exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
-            }
-            var control = new DownloadGameDialog
-            {
-                GameBiz = CurrentGameBiz,
-                GameResource = gameResource!,
-                LanguageType = lang,
-                ReinstallMode = true,
-            };
-            var dialog = new ContentDialog
-            {
-                Title = Lang.LauncherPage_ReinstallGame,
-                Content = control,
-                PrimaryButtonText = Lang.Common_Confirm,
-                SecondaryButtonText = Lang.Common_Cancel,
-                DefaultButton = ContentDialogButton.Primary,
-                XamlRoot = this.XamlRoot,
-            };
-            if (await dialog.ShowAsync() is not ContentDialogResult.Primary)
-            {
-                return;
-            }
-            lang = control.LanguageType;
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = exe,
-                UseShellExecute = true,
-                Arguments = $"""reinstall --biz {CurrentGameBiz} --loc "{InstallPath}" --lang {(int)lang} """,
-                Verb = "runas",
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Reinstall game");
-        }
-    }
 
 
 

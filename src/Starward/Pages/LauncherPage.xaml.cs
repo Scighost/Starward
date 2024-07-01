@@ -1292,7 +1292,6 @@ public sealed partial class LauncherPage : PageBase
                 GameBiz = CurrentGameBiz,
                 GameResource = gameResource!,
                 LanguageType = lang,
-                ReinstallMode = true,
             };
             var dialog = new ContentDialog
             {

@@ -118,7 +118,7 @@ public class GamePackageFile
     /// </summary>
     [JsonPropertyName("decompressed_size")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public long CompressedSize { get; set; }
+    public long DecompressedSize { get; set; }
 
 }
 

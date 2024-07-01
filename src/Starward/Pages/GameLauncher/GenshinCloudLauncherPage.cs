@@ -86,11 +86,6 @@ public partial class GenshinCloudLauncherPage : GameLauncherPage
     }
 
 
-    protected override Task ReinstallGameAsync()
-    {
-        return base.ReinstallGameAsync();
-    }
-
 
     protected override Task UninstallGameAsync()
     {

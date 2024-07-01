@@ -215,7 +215,7 @@ public class HoYoPlayClient
         {
             url += "&channel=1&sub_channel=1";
         }
-        return await CommonGetAsync<List<GameChannelSDK>>(url, "game_channel_sdk", cancellationToken);
+        return await CommonGetAsync<List<GameChannelSDK>>(url, "game_channel_sdks", cancellationToken);
     }
 
 
@@ -243,7 +243,7 @@ public class HoYoPlayClient
         {
             url += "&channel=1&sub_channel=1";
         }
-        return await CommonGetAsync<List<GameChannelSDK>>(url, "game_channel_sdk", cancellationToken);
+        return await CommonGetAsync<List<GameChannelSDK>>(url, "game_channel_sdks", cancellationToken);
     }
 
 
@@ -267,7 +267,7 @@ public class HoYoPlayClient
         {
             url += "&channel=1&sub_channel=1";
         }
-        var list = await CommonGetAsync<List<GameChannelSDK>>(url, "game_channel_sdk", cancellationToken);
+        var list = await CommonGetAsync<List<GameChannelSDK>>(url, "game_channel_sdks", cancellationToken);
         return list.FirstOrDefault();
     }
 

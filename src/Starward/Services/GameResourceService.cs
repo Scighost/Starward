@@ -4,6 +4,7 @@ using Starward.Core.Gacha;
 using Starward.Core.Launcher;
 using Starward.Models;
 using Starward.Services.Cache;
+using Starward.Services.Launcher;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,12 @@ internal class GameResourceService
 
 
     private readonly LauncherClient _launcherClient;
+
+
+    private readonly HoYoPlayService _hoYoPlayService;
+
+
+    private readonly GameLauncherService _gameLauncherService;
 
 
     private readonly HttpClient _httpClient;

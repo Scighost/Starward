@@ -630,6 +630,7 @@ public sealed partial class MainPage : PageBase
         string? destPage = page?.Name;
         if (destPage is nameof(GenshinCloudLauncherPage) or nameof(LauncherPage))
         {
+            page = typeof(GameLauncherPage);
             destPage = nameof(GameLauncherPage);
         }
         if (destPage is null or nameof(BlankPage)
@@ -647,11 +648,6 @@ public sealed partial class MainPage : PageBase
         {
             page = typeof(GenshinCloudLauncherPage);
             destPage = nameof(GenshinCloudLauncherPage);
-        }
-        if (destPage is nameof(GameLauncherPage) && CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && CurrentGameBiz.IsGlobalOfficial())
-        {
-            page = typeof(LauncherPage);
-            destPage = nameof(LauncherPage);
         }
         _logger.LogInformation("Navigate to {page} with param {param}", destPage, param ?? CurrentGameBiz);
         MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());

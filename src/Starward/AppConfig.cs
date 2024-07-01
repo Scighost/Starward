@@ -260,6 +260,7 @@ internal static class AppConfig
             sc.AddSingleton<HoYoPlayService>();
             sc.AddSingleton<GameLauncherService>();
             sc.AddSingleton<LauncherBackgroundService>();
+            sc.AddSingleton<GamePackageService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))

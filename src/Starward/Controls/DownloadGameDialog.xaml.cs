@@ -31,9 +31,6 @@ public sealed partial class DownloadGameDialog : UserControl
     public bool RepairMode { get; set; }
 
 
-    public bool ReinstallMode { get; set; }
-
-
 
     public DownloadGameDialog()
     {
@@ -177,16 +174,6 @@ public sealed partial class DownloadGameDialog : UserControl
             if (GameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
             {
                 ShowVoiceBoxes = true;
-            }
-        }
-        else if (ReinstallMode)
-        {
-            ShowAllInfo = true;
-            ShowRepairSwitcher = false;
-            if (GameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
-            {
-                ShowVoiceBoxes = true;
-                CanCheckVoiceBoxes = true;
             }
         }
         else

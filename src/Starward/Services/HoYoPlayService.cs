@@ -45,6 +45,8 @@ public class HoYoPlayService
     private ConcurrentDictionary<GameBiz, GamePackage> _gamePackage = new();
 
 
+    private ConcurrentDictionary<GameBiz, GameConfig> _gameConfig = new();
+
 
 
     public void ClearCache()
@@ -103,6 +105,11 @@ public class HoYoPlayService
             {
                 _gamePackage[item.GameId.ToGameBiz()] = item;
             }
+            List<GameConfig> configs = await _client.GetGameConfigAsync(launcherId, language);
+            foreach (GameConfig item in configs)
+            {
+                _gameConfig[item.GameId.ToGameBiz()] = item;
+            }
         }
         catch (Exception ex)
         {
@@ -138,6 +145,11 @@ public class HoYoPlayService
                 foreach (GamePackage item in packages)
                 {
                     _gamePackage[biz] = item;
+                }
+                List<GameConfig> configs = await _client.GetGameConfigAsync(launcherId, language);
+                foreach (GameConfig item in configs)
+                {
+                    _gameConfig[biz] = item;
                 }
             }
         }
@@ -305,6 +317,32 @@ public class HoYoPlayService
             }
         }
         return package;
+    }
+
+
+
+    public async Task<GameConfig> GetGameConfigAsync(GameBiz biz)
+    {
+        if (!_gameConfig.TryGetValue(biz, out GameConfig? config))
+        {
+            string lang = CultureInfo.CurrentUICulture.Name;
+            if (biz.IsBilibiliServer())
+            {
+                var list = await _client.GetGameConfigAsync(LauncherId.FromGameBiz(biz)!, lang);
+                config = list.First();
+                _gameConfig[biz] = config;
+            }
+            else
+            {
+                var list = await _client.GetGameConfigAsync(LauncherId.FromGameBiz(biz)!, lang);
+                foreach (var item in list)
+                {
+                    _gameConfig[item.GameId.ToGameBiz()] = item;
+                }
+                config = list.First(x => x.GameId.ToGameBiz() == biz);
+            }
+        }
+        return config;
     }
 
 
