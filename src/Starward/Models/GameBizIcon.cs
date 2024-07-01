@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Starward.Core;
+using System;
 
 
 namespace Starward.Models;
 
 
-public partial class GameBizIcon : ObservableObject
+public partial class GameBizIcon : ObservableObject, IEquatable<GameBizIcon>
 {
 
     public GameBiz GameBiz { get; set; }
@@ -64,6 +65,12 @@ public partial class GameBizIcon : ObservableObject
             GameBiz.bh3_tw => "TC",
             _ => "",
         };
+    }
+
+
+    public bool Equals(GameBizIcon? other)
+    {
+        return ReferenceEquals(this, other) || GameBiz == other?.GameBiz;
     }
 
 }

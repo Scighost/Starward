@@ -8,7 +8,9 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
 using Starward.Messages;
+using Starward.Models;
 using Starward.Services;
+using Starward.Services.Launcher;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -29,7 +31,7 @@ public sealed partial class SystemTrayControl : UserControl
 
     private readonly GameService _gameService = AppConfig.GetService<GameService>();
 
-    private readonly GameResourceService _gameResourceService = AppConfig.GetService<GameResourceService>();
+    private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
 
     private readonly PlayTimeService _playTimeService = AppConfig.GetService<PlayTimeService>();
 
@@ -44,7 +46,7 @@ public sealed partial class SystemTrayControl : UserControl
 
 
     [ObservableProperty]
-    private List<GameServerModel>? installedGames;
+    private List<GameBizIcon>? installedGames;
 
 
     private void SystemTrayControl_Loaded(object sender, RoutedEventArgs e)
@@ -58,18 +60,13 @@ public sealed partial class SystemTrayControl : UserControl
         this.Bindings.Update();
         try
         {
-            var list = new List<GameServerModel>();
+            var list = new List<GameBizIcon>();
             foreach (GameBiz biz in Enum.GetValues<GameBiz>())
             {
                 if (biz.ToGame() is not GameBiz.None)
                 {
-                    string? folder = _gameResourceService.GetGameInstallPath(biz);
+                    string? folder = _gameLauncherService.GetGameInstallPath(biz);
                     if (string.IsNullOrWhiteSpace(folder))
-                    {
-                        continue;
-                    }
-                    GameBiz configBiz = _gameResourceService.GetLocalGameBiz(biz);
-                    if (configBiz.ToGame() != GameBiz.None && configBiz != biz)
                     {
                         continue;
                     }
@@ -77,18 +74,7 @@ public sealed partial class SystemTrayControl : UserControl
                     string file = Path.Join(folder, name);
                     if (File.Exists(file))
                     {
-                        list.Add(new GameServerModel
-                        {
-                            GameBiz = biz,
-                            Icon = biz.ToGame() switch
-                            {
-                                GameBiz.Honkai3rd => new BitmapImage(new("ms-appx:///Assets/Image/icon_bh3.jpg")),
-                                GameBiz.GenshinImpact => new BitmapImage(new("ms-appx:///Assets/Image/icon_ys.jpg")),
-                                GameBiz.StarRail => new BitmapImage(new("ms-appx:///Assets/Image/icon_sr.jpg")),
-                                GameBiz.ZZZ => new BitmapImage(new("ms-appx:///Assets/Image/icon_zzz.jpg")),
-                                _ => null!,
-                            },
-                        });
+                        list.Add(new GameBizIcon { GameBiz = biz });
                     }
                 }
             }
@@ -118,14 +104,14 @@ public sealed partial class SystemTrayControl : UserControl
     {
         try
         {
-            if (sender is Button button && button.Tag is GameServerModel game)
+            if (sender is Button button && button.Tag is GameBizIcon icon)
             {
-                var process1 = _gameService.StartGame(game.GameBiz, AppConfig.IgnoreRunningGame);
+                var process1 = _gameService.StartGame(icon.GameBiz, AppConfig.IgnoreRunningGame);
                 if (process1 != null)
                 {
-                    WeakReferenceMessenger.Default.Send(new GameStartMessage(game.GameBiz));
+                    WeakReferenceMessenger.Default.Send(new GameStartMessage(icon.GameBiz));
                     _logger.LogInformation("Game started ({name}, {pid})", process1.ProcessName, process1.Id);
-                    _ = _playTimeService.StartProcessToLogAsync(game.GameBiz);
+                    _ = _playTimeService.StartProcessToLogAsync(icon.GameBiz);
                 }
             }
         }
