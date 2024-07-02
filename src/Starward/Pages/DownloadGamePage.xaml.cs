@@ -15,6 +15,7 @@ using Starward.Core;
 using Starward.Helpers;
 using Starward.Services;
 using Starward.Services.InstallGame;
+using Starward.Services.Launcher;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -40,7 +41,9 @@ public sealed partial class DownloadGamePage : PageBase
 
     private readonly ILogger<DownloadGamePage> _logger = AppConfig.GetLogger<DownloadGamePage>();
 
-    private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
+    //private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
+
+    private readonly LauncherBackgroundService _launcherBackgroundService = AppConfig.GetService<LauncherBackgroundService>();
 
     private readonly InstallGameService _installGameService;
 
@@ -243,17 +246,17 @@ public sealed partial class DownloadGamePage : PageBase
     {
         try
         {
-            var file = _launcherContentService.GetCachedBackgroundImage(gameBiz, true);
+            var file = _launcherBackgroundService.GetCachedBackgroundImage(gameBiz, true);
             if (!File.Exists(file))
             {
-                file = await _launcherContentService.GetBackgroundImageAsync(gameBiz, true);
+                file = await _launcherBackgroundService.GetBackgroundImageAsync(gameBiz, true);
             }
             if (file != null)
             {
                 using var fs = File.OpenRead(file);
                 var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
-                int decodeWidth = (int)decoder.PixelWidth;
-                int decodeHeight = (int)decoder.PixelHeight;
+                int decodeWidth = (int)ActualWidth;
+                int decodeHeight = (int)ActualHeight;
                 WriteableBitmap bitmap = new WriteableBitmap(decodeWidth, decodeHeight);
                 fs.Position = 0;
                 await bitmap.SetSourceAsync(fs.AsRandomAccessStream());

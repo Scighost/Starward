@@ -157,7 +157,16 @@ public sealed partial class SelectDirectoryPage : PageBase
     [RelayCommand]
     private void Next()
     {
-        WelcomeWindow.Current.NavigateTo(typeof(SelectGamePage), null!, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+        try
+        {
+            WelcomeWindow.Current.ApplySetting();
+            WelcomeWindow.Current.OpenMainWindow();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Go to launcher");
+        }
+
     }
 
 

@@ -139,7 +139,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_ChinaServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_ChinaOfficial}" />
                                 <!--  欧美服  -->
                                 <ToggleSwitch Margin="0,0,-112,0"
                                               OffContent=""
@@ -153,7 +153,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_EuropeAmericasServers}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_EuropeAmericas}" />
                                 <!--  日服服  -->
                                 <ToggleSwitch Margin="0,0,-112,0"
                                               OffContent=""
@@ -167,7 +167,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_JapanServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_Japan}" />
                             </StackPanel>
                             <StackPanel Margin="0,-8,0,0"
                                         Orientation="Horizontal"
@@ -183,11 +183,11 @@
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                            HorizontalTextAlignment="Center"
                                            IsTextScaleFactorEnabled="False"
-                                           Text="EA" />
+                                           Text="KR" />
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_KoreaServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_Korea}" />
                                 <!--  东南亚服  -->
                                 <ToggleSwitch Margin="0,0,-112,0"
                                               OffContent=""
@@ -201,7 +201,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_SEAServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_SoutheastAsia}" />
                                 <!--  繁中服  -->
                                 <ToggleSwitch Margin="0,0,-112,0"
                                               OffContent=""
@@ -215,7 +215,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_TraditionalChineseServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_TraditionalChinese}" />
                             </StackPanel>
                             <MenuFlyoutSeparator />
                             <!--  原神  -->
@@ -243,7 +243,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_ChinaServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_ChinaOfficial}" />
                                 <!--  国际服  -->
                                 <ToggleSwitch Margin="0,0,-112,0"
                                               OffContent=""
@@ -255,7 +255,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_GlobalServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_GlobalOfficial}" />
                                 <!--  哔哩哔哩服  -->
                                 <ToggleSwitch Margin="0,0,-112,0"
                                               OffContent=""
@@ -267,7 +267,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_BilibiliServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_Bilibili}" />
                             </StackPanel>
                             <StackPanel Margin="0,-8,0,0"
                                         Orientation="Horizontal"
@@ -283,7 +283,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_ChinaCloudServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_ChinaCloud}" />
                             </StackPanel>
                             <MenuFlyoutSeparator />
                             <!--  铁道  -->
@@ -311,7 +311,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_ChinaServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_ChinaOfficial}" />
                                 <!--  国际服  -->
                                 <ToggleSwitch Margin="0,0,-112,0"
                                               OffContent=""
@@ -323,7 +323,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_GlobalServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_GlobalOfficial}" />
                                 <!--  哔哩哔哩服  -->
                                 <ToggleSwitch Margin="0,0,-112,0"
                                               OffContent=""
@@ -335,7 +335,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_BilibiliServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_Bilibili}" />
                             </StackPanel>
                             <MenuFlyoutSeparator />
                             <!--  绝区零  -->
@@ -363,7 +363,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_ChinaServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_ChinaOfficial}" />
                                 <!--  国际服  -->
                                 <ToggleSwitch Margin="0,0,-112,0"
                                               OffContent=""
@@ -375,9 +375,9 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_GlobalServer}" />
+                                           Text="{x:Bind clang:CoreLang.GameServer_GlobalOfficial}" />
                                 <!--  哔哩哔哩服  -->
-                                <!--<ToggleSwitch Margin="0,0,-112,0"
+                                <ToggleSwitch Margin="0,0,-112,0"
                                               OffContent=""
                                               OnContent=""
                                               Tag="nap_bilibili" />
@@ -387,7 +387,7 @@
                                 <TextBlock Width="120"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind clang:CoreLang.GameServer_BilibiliServer}" />-->
+                                           Text="{x:Bind clang:CoreLang.GameServer_Bilibili}" />
                             </StackPanel>
                         </StackPanel>
 

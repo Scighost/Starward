@@ -61,8 +61,11 @@
                            FontSize="20"
                            FontWeight="SemiBold"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                           Text="{x:Bind lang:Lang.SettingPage_WindowsSize}" />
-                <StackPanel Orientation="Horizontal" Spacing="16">
+                           Text="{x:Bind lang:Lang.SettingPage_WindowsSize}"
+                           Visibility="Collapsed" />
+                <StackPanel Orientation="Horizontal"
+                            Spacing="16"
+                            Visibility="Collapsed">
                     <RadioButton Name="RadioButton_WindowSize_Normal"
                                  Click="RadioButton_WindowSize_Click"
                                  GroupName="WindowSize"

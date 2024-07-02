@@ -81,17 +81,18 @@ public sealed partial class WelcomeWindow : WindowEx
 
     public void ChangeWindowSize(int mode)
     {
-        WindowSizeMode = mode == 0 ? 0 : 1;
-        if (mode == 0)
-        {
-            WindowSizeMode = 0;
-            CenterInScreen(1280, 768);
-        }
-        else
-        {
-            WindowSizeMode = 1;
-            CenterInScreen(1064, 648);
-        }
+        CenterInScreen(1200, 676);
+        //WindowSizeMode = mode == 0 ? 0 : 1;
+        //if (mode == 0)
+        //{
+        //    WindowSizeMode = 0;
+        //    CenterInScreen(1280, 768);
+        //}
+        //else
+        //{
+        //    WindowSizeMode = 1;
+        //    CenterInScreen(1064, 648);
+        //}
     }
 
 

@@ -205,11 +205,29 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Bilibili 的本地化字符串。
+        /// </summary>
+        public static string GameServer_Bilibili {
+            get {
+                return ResourceManager.GetString("GameServer_Bilibili", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Bilibili Server 的本地化字符串。
         /// </summary>
         public static string GameServer_BilibiliServer {
             get {
                 return ResourceManager.GetString("GameServer_BilibiliServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 China Cloud 的本地化字符串。
+        /// </summary>
+        public static string GameServer_ChinaCloud {
+            get {
+                return ResourceManager.GetString("GameServer_ChinaCloud", resourceCulture);
             }
         }
         
@@ -223,11 +241,29 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 China Official 的本地化字符串。
+        /// </summary>
+        public static string GameServer_ChinaOfficial {
+            get {
+                return ResourceManager.GetString("GameServer_ChinaOfficial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 China Server 的本地化字符串。
         /// </summary>
         public static string GameServer_ChinaServer {
             get {
                 return ResourceManager.GetString("GameServer_ChinaServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Europe &amp; Americas 的本地化字符串。
+        /// </summary>
+        public static string GameServer_EuropeAmericas {
+            get {
+                return ResourceManager.GetString("GameServer_EuropeAmericas", resourceCulture);
             }
         }
         
@@ -241,6 +277,15 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Global Official 的本地化字符串。
+        /// </summary>
+        public static string GameServer_GlobalOfficial {
+            get {
+                return ResourceManager.GetString("GameServer_GlobalOfficial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Global Server 的本地化字符串。
         /// </summary>
         public static string GameServer_GlobalServer {
@@ -250,11 +295,29 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Japan 的本地化字符串。
+        /// </summary>
+        public static string GameServer_Japan {
+            get {
+                return ResourceManager.GetString("GameServer_Japan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Japan Server 的本地化字符串。
         /// </summary>
         public static string GameServer_JapanServer {
             get {
                 return ResourceManager.GetString("GameServer_JapanServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Korea 的本地化字符串。
+        /// </summary>
+        public static string GameServer_Korea {
+            get {
+                return ResourceManager.GetString("GameServer_Korea", resourceCulture);
             }
         }
         
@@ -273,6 +336,24 @@ namespace Starward.Core.Localization {
         public static string GameServer_SEAServer {
             get {
                 return ResourceManager.GetString("GameServer_SEAServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Southeast Asia 的本地化字符串。
+        /// </summary>
+        public static string GameServer_SoutheastAsia {
+            get {
+                return ResourceManager.GetString("GameServer_SoutheastAsia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Traditional Chinese 的本地化字符串。
+        /// </summary>
+        public static string GameServer_TraditionalChinese {
+            get {
+                return ResourceManager.GetString("GameServer_TraditionalChinese", resourceCulture);
             }
         }
         

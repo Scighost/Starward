@@ -1,9 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Starward.Core;
+using Starward.Messages;
 using Starward.Models;
 using System;
 using System.Collections.ObjectModel;
@@ -33,6 +35,7 @@ public sealed partial class GameBizSelector : UserControl
     public GameBizSelector()
     {
         this.InitializeComponent();
+        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
     }
 
 
@@ -289,5 +292,14 @@ public sealed partial class GameBizSelector : UserControl
         catch { }
     }
 
+
+
+    public void OnLanguageChanged(object? sender, LanguageChangedMessage message)
+    {
+        if (message.Completed)
+        {
+            this.Bindings.Update();
+        }
+    }
 
 }

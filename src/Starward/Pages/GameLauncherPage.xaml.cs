@@ -38,14 +38,14 @@ namespace Starward.Pages;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
-public partial class GameLauncherPage : PageBase
+public sealed partial class GameLauncherPage : PageBase
 {
 
-    protected readonly ILogger<GameLauncherPage> _logger = AppConfig.GetLogger<GameLauncherPage>();
+    private readonly ILogger<GameLauncherPage> _logger = AppConfig.GetLogger<GameLauncherPage>();
 
     private readonly GameService _gameService = AppConfig.GetService<GameService>();
 
-    protected readonly HoYoPlayService _hoYoPlayService = AppConfig.GetService<HoYoPlayService>();
+    private readonly HoYoPlayService _hoYoPlayService = AppConfig.GetService<HoYoPlayService>();
 
     private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
 
@@ -158,7 +158,7 @@ public partial class GameLauncherPage : PageBase
 
 
 
-    protected virtual async Task UpdateGameContentAsync()
+    private async Task UpdateGameContentAsync()
     {
         try
         {
@@ -256,22 +256,22 @@ public partial class GameLauncherPage : PageBase
     private bool isGameExeExists;
 
 
-    public virtual bool IsGameSupportCompleteRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && (CurrentGameBiz.ToGame() != GameBiz.Honkai3rd || (CurrentGameBiz.ToGame() == GameBiz.Honkai3rd && IsGameExeExists));
+    public bool IsGameSupportCompleteRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && (CurrentGameBiz.ToGame() != GameBiz.Honkai3rd || (CurrentGameBiz.ToGame() == GameBiz.Honkai3rd && IsGameExeExists));
 
 
-    public virtual bool IsStartGameButtonEnable => LocalGameVersion != null && LocalGameVersion >= LatestGameVersion && IsGameExeExists && !IsGameRunning;
+    public bool IsStartGameButtonEnable => LocalGameVersion != null && LocalGameVersion >= LatestGameVersion && IsGameExeExists && !IsGameRunning;
 
 
-    public virtual bool IsDownloadGameButtonEnable => (LocalGameVersion == null && !IsGameExeExists) || ((LocalGameVersion == null || !IsGameExeExists) && !IsGameSupportCompleteRepair);
+    public bool IsDownloadGameButtonEnable => (LocalGameVersion == null && !IsGameExeExists) || ((LocalGameVersion == null || !IsGameExeExists) && !IsGameSupportCompleteRepair);
 
 
-    public virtual bool IsUpdateGameButtonEnable => LocalGameVersion != null && LatestGameVersion > LocalGameVersion;
+    public bool IsUpdateGameButtonEnable => LocalGameVersion != null && LatestGameVersion > LocalGameVersion;
 
 
-    public virtual bool IsPreInstallButtonEnable => LocalGameVersion != null && PreInstallGameVersion != null;
+    public bool IsPreInstallButtonEnable => LocalGameVersion != null && PreInstallGameVersion != null;
 
 
-    public virtual bool IsRepairGameButtonEnable => IsGameSupportCompleteRepair && ((LocalGameVersion != null && !IsGameExeExists) || (LocalGameVersion == null && IsGameExeExists));
+    public bool IsRepairGameButtonEnable => IsGameSupportCompleteRepair && ((LocalGameVersion != null && !IsGameExeExists) || (LocalGameVersion == null && IsGameExeExists));
 
 
     [ObservableProperty]
@@ -697,7 +697,7 @@ public partial class GameLauncherPage : PageBase
 
 
     [RelayCommand]
-    protected virtual async Task DownloadGameAsync()
+    private async Task DownloadGameAsync()
     {
         try
         {
@@ -839,7 +839,7 @@ public partial class GameLauncherPage : PageBase
 
 
     [RelayCommand]
-    protected virtual async Task PreDownloadGameAsync()
+    private async Task PreDownloadGameAsync()
     {
         try
         {
@@ -891,7 +891,7 @@ public partial class GameLauncherPage : PageBase
 
 
     [RelayCommand]
-    protected virtual async Task RepairGameAsync()
+    private async Task RepairGameAsync()
     {
         try
         {
@@ -940,7 +940,7 @@ public partial class GameLauncherPage : PageBase
 
 
     [RelayCommand]
-    protected virtual async Task UninstallGameAsync()
+    private async Task UninstallGameAsync()
     {
         try
         {

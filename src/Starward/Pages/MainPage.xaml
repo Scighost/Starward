@@ -69,7 +69,7 @@
             </NavigationView.Resources>
 
             <NavigationView.PaneCustomContent>
-                <Border Height="56" />
+                <Border Height="52" />
             </NavigationView.PaneCustomContent>
 
             <NavigationView.MenuItems>
