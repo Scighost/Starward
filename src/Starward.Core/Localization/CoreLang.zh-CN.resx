@@ -235,4 +235,31 @@
   <data name="GameServer_ZZZCBT3" xml:space="preserve">
     <value>喧响测试</value>
   </data>
+  <data name="GameServer_ChinaOfficial" xml:space="preserve">
+    <value>中国官方</value>
+  </data>
+  <data name="GameServer_GlobalOfficial" xml:space="preserve">
+    <value>全球官方</value>
+  </data>
+  <data name="GameServer_ChinaCloud" xml:space="preserve">
+    <value>中国云游戏</value>
+  </data>
+  <data name="GameServer_Bilibili" xml:space="preserve">
+    <value>哔哩哔哩</value>
+  </data>
+  <data name="GameServer_EuropeAmericas" xml:space="preserve">
+    <value>欧美</value>
+  </data>
+  <data name="GameServer_Japan" xml:space="preserve">
+    <value>日本</value>
+  </data>
+  <data name="GameServer_Korea" xml:space="preserve">
+    <value>韩国</value>
+  </data>
+  <data name="GameServer_SoutheastAsia" xml:space="preserve">
+    <value>东南亚</value>
+  </data>
+  <data name="GameServer_TraditionalChinese" xml:space="preserve">
+    <value>港澳台</value>
+  </data>
 </root>
