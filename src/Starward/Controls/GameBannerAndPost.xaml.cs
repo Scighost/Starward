@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Starward.Core.HoYoPlay;
-using Starward.Core.Launcher;
 using Starward.Messages;
 using Starward.Models;
 using Starward.Pages;
@@ -162,10 +161,10 @@ public sealed partial class GameBannerAndPost : UserControl
     {
         try
         {
-            if (sender is FrameworkElement fe && fe.DataContext is LauncherBanner banner)
+            if (sender is FrameworkElement fe && fe.DataContext is GameBanner banner)
             {
-                await Launcher.LaunchUriAsync(new Uri(banner.Url));
-                _logger.LogInformation("Open banner {title}: {url}", banner.Name, banner.Url);
+                await Launcher.LaunchUriAsync(new Uri(banner.Image.Link));
+                _logger.LogInformation("Open banner: {url}", banner.Image.Link);
             }
         }
         catch { }
