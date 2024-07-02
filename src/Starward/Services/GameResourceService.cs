@@ -90,11 +90,11 @@ internal class GameResourceService
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => "YuanShen.exe",
             GameBiz.hk4e_global => "GenshinImpact.exe",
             GameBiz.hk4e_cloud => "Genshin Impact Cloud Game.exe",
-            GameBiz.nap_cn => "ZZZ.exe",
             _ => biz.ToGame() switch
             {
                 GameBiz.StarRail => "StarRail.exe",
                 GameBiz.Honkai3rd => "BH3.exe",
+                GameBiz.ZZZ => "ZenlessZoneZero.exe",
                 _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
             },
         };
