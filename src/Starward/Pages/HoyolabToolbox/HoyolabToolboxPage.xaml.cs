@@ -220,6 +220,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
             NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
             NavigationViewItem_ForgottenHall.Visibility = Visibility.Visible;
             NavigationViewItem_PureFiction.Visibility = Visibility.Visible;
+            NavigationViewItem_ApocalypticShadow.Visibility = Visibility.Visible;
             NavigationViewItem_TrailblazeMonthlyCalendar.Visibility = Visibility.Visible;
             // 铁道战绩图片
             Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/ade9545750299456a3fcbc8c3b63521d_2941971308029698042.png"));
@@ -474,6 +475,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
                         nameof(SimulatedUniversePage) => typeof(SimulatedUniversePage),
                         nameof(ForgottenHallPage) => typeof(ForgottenHallPage),
                         nameof(PureFictionPage) => typeof(PureFictionPage),
+                        nameof(ApocalypticShadowPage) => typeof(ApocalypticShadowPage),
                         nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
                         _ => null,
                     };

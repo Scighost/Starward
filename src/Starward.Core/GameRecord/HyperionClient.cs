@@ -2,6 +2,7 @@
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
+using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 
@@ -364,6 +365,50 @@ public class HyperionClient : GameRecordClient
                 data.ScheduleId = data.Metas[1].ScheduleId;
                 data.BeginTime = data.Metas[1].BeginTime;
                 data.EndTime = data.Metas[1].EndTime;
+            }
+        }
+        return data;
+    }
+
+
+    /// <summary>
+    /// 末日幻影
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="schedule">1当期，2上期</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<ApocalypticShadowInfo> GetApocalypticShadowInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    {
+        var url = $"https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/challenge_boss?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}&isPrev=1&need_all=true";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(X_Request_With, com_mihoyo_hyperion);
+        var data = await CommonSendAsync<ApocalypticShadowInfo>(request, cancellationToken);
+        data.Uid = role.Uid;
+        if (data.Metas?.Count > 0)
+        {
+            if (schedule == 1)
+            {
+                data.ScheduleId = data.Metas[0].ScheduleId;
+                data.BeginTime = data.Metas[0].BeginTime;
+                data.EndTime = data.Metas[0].EndTime;
+                data.UpperBossIcon = data.Metas[0].UpperBoss.Icon;
+                data.LowerBossIcon = data.Metas[0].LowerBoss.Icon;
+            }
+            if (schedule == 2 && data.Metas.Count > 1)
+            {
+                data.ScheduleId = data.Metas[1].ScheduleId;
+                data.BeginTime = data.Metas[1].BeginTime;
+                data.EndTime = data.Metas[1].EndTime;
+                data.UpperBossIcon = data.Metas[0].UpperBoss.Icon;
+                data.LowerBossIcon = data.Metas[0].LowerBoss.Icon;
             }
         }
         return data;
