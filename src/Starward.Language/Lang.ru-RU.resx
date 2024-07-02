@@ -1410,4 +1410,7 @@
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
     <value>Недавно обновленный контент</value>
   </data>
+  <data name="GameBizSelector_AutoSearch" xml:space="preserve">
+    <value>Auto Search</value>
+  </data>
 </root>
