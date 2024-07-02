@@ -108,20 +108,37 @@ public sealed partial class UpdateContentWindow : WindowEx
             var releases = await _metadataClient.GetGithubReleaseAsync(1, 20);
             var markdown = new StringBuilder();
             int count = 0;
+            bool preRelease = true;
             foreach (var release in releases)
             {
                 if (NuGetVersion.TryParse(release.TagName, out var version))
                 {
-                    if ((version > lastVersion || thisVersion < lastVersion) && version <= thisVersion)
+                    if (thisVersion.IsPrerelease && version.IsPrerelease && preRelease)
                     {
-                        if (!version.IsPrerelease || (thisVersion.IsPrerelease && version.IsPrerelease))
+                        markdown.AppendLine($"# {release.Name}");
+                        markdown.AppendLine();
+                        markdown.AppendLine(release.Body);
+                        markdown.AppendLine("<br>");
+                        markdown.AppendLine();
+                        count++;
+                    }
+                    else
+                    {
+                        if (!version.IsPrerelease)
                         {
-                            markdown.AppendLine($"# {release.Name}");
-                            markdown.AppendLine();
-                            markdown.AppendLine(release.Body);
-                            markdown.AppendLine("<br>");
-                            markdown.AppendLine();
-                            count++;
+                            preRelease = false;
+                        }
+                        if ((version > lastVersion || thisVersion < lastVersion) && version <= thisVersion)
+                        {
+                            if (!version.IsPrerelease)
+                            {
+                                markdown.AppendLine($"# {release.Name}");
+                                markdown.AppendLine();
+                                markdown.AppendLine(release.Body);
+                                markdown.AppendLine("<br>");
+                                markdown.AppendLine();
+                                count++;
+                            }
                         }
                     }
                 }
