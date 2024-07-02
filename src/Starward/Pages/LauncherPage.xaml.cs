@@ -26,6 +26,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Timers;
 using Windows.Storage;
@@ -644,6 +645,12 @@ public sealed partial class LauncherPage : PageBase
                     IsGameRunning = true;
                     var process2 = await _playTimeService.StartProcessToLogAsync(CurrentGameBiz);
                     GameProcess = process2 ?? process1;
+                }
+                using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+                WindowsPrincipal principal = new WindowsPrincipal(identity);
+                if (AppConfig.GetStartArgument(CurrentGameBiz)?.IndexOf("-popupwindow", StringComparison.OrdinalIgnoreCase) >= 0 && principal.IsInRole(WindowsBuiltInRole.Administrator))
+                {
+                    _ = Task.Run(() => GameService.PopupwindowMinimize(process1));
                 }
             }
         }
