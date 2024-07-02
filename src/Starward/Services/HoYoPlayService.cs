@@ -22,12 +22,21 @@ public class HoYoPlayService
 
     private readonly HttpClient _httpClient;
 
+    private readonly System.Timers.Timer _timer;
+
 
     public HoYoPlayService(ILogger<HoYoPlayService> logger, HoYoPlayClient client, HttpClient httpClient)
     {
         _logger = logger;
         _client = client;
         _httpClient = httpClient;
+        _timer = new System.Timers.Timer
+        {
+            AutoReset = true,
+            Enabled = true,
+            Interval = TimeSpan.FromMinutes(10).TotalMilliseconds,
+        };
+        _timer.Elapsed += async (_, _) => await PrepareDataAsync();
     }
 
 
@@ -64,6 +73,7 @@ public class HoYoPlayService
     {
         try
         {
+            ClearCache();
             string lang = CultureInfo.CurrentUICulture.Name;
             List<Task> tasks = [];
             tasks.Add(PrepareDataForServerAsync(LauncherId.ChinaOfficial, lang));

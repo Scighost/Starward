@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Starward.Helpers;
 using Starward.Messages;
+using Starward.Services;
 using System;
 using System.Globalization;
 
@@ -22,6 +23,7 @@ public sealed partial class AppearanceSettingPage : PageBase
 
     private readonly ILogger<AppearanceSettingPage> _logger = AppConfig.GetLogger<AppearanceSettingPage>();
 
+    private readonly HoYoPlayService _hoYoPlayService = AppConfig.GetService<HoYoPlayService>();
 
 
     public AppearanceSettingPage()
@@ -95,6 +97,7 @@ public sealed partial class AppearanceSettingPage : PageBase
                     UpdateExperienceDesc();
                     WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(lang!, CultureInfo.CurrentUICulture));
                     AppConfig.SaveConfiguration();
+                    _ = _hoYoPlayService.PrepareDataAsync();
                 }
             }
         }
