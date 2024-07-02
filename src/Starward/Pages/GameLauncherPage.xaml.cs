@@ -136,6 +136,11 @@ public sealed partial class GameLauncherPage : PageBase
                 Button_UninstallGame.IsEnabled = false;
                 Button_SettingRepairGame.IsEnabled = false;
             }
+            if (CurrentGameBiz.ToGame() is GameBiz.ZZZ)
+            {
+                Button_UninstallGame.IsEnabled = false;
+                Button_SettingRepairGame.IsEnabled = false;
+            }
         }
         catch { }
     }
@@ -256,7 +261,7 @@ public sealed partial class GameLauncherPage : PageBase
     private bool isGameExeExists;
 
 
-    public bool IsGameSupportCompleteRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && (CurrentGameBiz.ToGame() != GameBiz.Honkai3rd || (CurrentGameBiz.ToGame() == GameBiz.Honkai3rd && IsGameExeExists));
+    public bool IsGameSupportCompleteRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && CurrentGameBiz.ToGame() != GameBiz.ZZZ && (CurrentGameBiz.ToGame() != GameBiz.Honkai3rd || (CurrentGameBiz.ToGame() == GameBiz.Honkai3rd && IsGameExeExists));
 
 
     public bool IsStartGameButtonEnable => LocalGameVersion != null && LocalGameVersion >= LatestGameVersion && IsGameExeExists && !IsGameRunning;
@@ -475,7 +480,7 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            if (AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibiliServer() || CurrentGameBiz is GameBiz.nap_cn)
+            if (AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibiliServer() || CurrentGameBiz.ToGame() is GameBiz.ZZZ)
             {
                 StackPanel_Account.Visibility = Visibility.Collapsed;
                 return;
@@ -758,7 +763,7 @@ public sealed partial class GameLauncherPage : PageBase
                 {
                     Title = Lang.LauncherPage_SelectInstallFolder,
                     // 请选择一个空文件夹用于安装游戏，或者定位已安装游戏的文件夹。
-                    Content = string.Format(Lang.LauncherPage_SelectInstallFolderDesc, GameResourceService.GetGameExeName(CurrentGameBiz)),
+                    Content = string.Format(Lang.LauncherPage_SelectInstallFolderDesc, _gameLauncherService.GetGameExeName(CurrentGameBiz)),
                     PrimaryButtonText = Lang.Common_Select,
                     SecondaryButtonText = Lang.Common_Cancel,
                     DefaultButton = ContentDialogButton.Primary,

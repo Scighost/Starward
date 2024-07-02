@@ -7,10 +7,12 @@ using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Messages;
 using Starward.Models;
+using Starward.Services.Launcher;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using Windows.Graphics;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -66,7 +68,7 @@ public sealed partial class GameBizSelector : UserControl
             CurrentGameBiz = GameBiz.None;
         }
         string? bizs = AppConfig.SelectedGameBizs;
-
+        GameBizIcons.Clear();
         foreach (string str in bizs?.Split(',') ?? [])
         {
             if (Enum.TryParse(str, out GameBiz biz) && biz.ToGame() is not GameBiz.None)
@@ -103,6 +105,7 @@ public sealed partial class GameBizSelector : UserControl
                             toggleSwitch.IsOn = true;
                         }
                     }
+                    toggleSwitch.Toggled -= ToggleSwitch_GameBizSelector_Toggled;
                     toggleSwitch.Toggled += ToggleSwitch_GameBizSelector_Toggled;
                 }
             }
@@ -116,7 +119,32 @@ public sealed partial class GameBizSelector : UserControl
 
 
 
+    [RelayCommand]
+    public void AutoSearchGameBizs()
+    {
+        try
+        {
+            var service = AppConfig.GetService<GameLauncherService>();
+            var sb = new StringBuilder();
+            foreach (GameBiz biz in Enum.GetValues<GameBiz>())
+            {
+                if (biz.ToGame() is not GameBiz.None)
+                {
+                    if (service.IsGameExeExists(biz))
+                    {
+                        sb.Append(biz.ToString());
+                        sb.Append(',');
+                    }
+                }
+            }
+            AppConfig.SelectedGameBizs = sb.ToString().TrimEnd(',');
+            InitializeGameBiz(CurrentGameBiz);
+        }
+        catch (Exception ex)
+        {
 
+        }
+    }
 
 
     [RelayCommand]

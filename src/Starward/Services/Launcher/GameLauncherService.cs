@@ -204,7 +204,7 @@ internal class GameLauncherService
         else if (gameBiz.IsChinaOfficial() || gameBiz.IsGlobalOfficial() || gameBiz.IsBilibili())
         {
             var package = await _hoYoPlayService.GetGamePackageAsync(gameBiz);
-            return TryParseVersion(package.PreDownload.Major?.Version);
+            return TryParseVersion(package.PreDownload?.Major?.Version);
         }
         else
         {
@@ -278,7 +278,7 @@ internal class GameLauncherService
     public Process? GetGameProcess(GameBiz biz)
     {
         int currentSessionId = Process.GetCurrentProcess().SessionId;
-        var name = GameResourceService.GetGameExeName(biz).Replace(".exe", "");
+        var name = GetGameExeName(biz).Replace(".exe", "");
         return Process.GetProcessesByName(name).Where(x => x.SessionId == currentSessionId).FirstOrDefault();
     }
 
@@ -303,7 +303,7 @@ internal class GameLauncherService
             string? exe = null, arg = null, verb = null;
             if (Directory.Exists(installPath))
             {
-                var e = Path.Join(installPath, GameResourceService.GetGameExeName(biz));
+                var e = Path.Join(installPath, GetGameExeName(biz));
                 if (File.Exists(e))
                 {
                     exe = e;
@@ -326,7 +326,7 @@ internal class GameLauncherService
             if (string.IsNullOrWhiteSpace(exe))
             {
                 var folder = GetGameInstallPath(biz);
-                var name = GameResourceService.GetGameExeName(biz);
+                var name = GetGameExeName(biz);
                 exe = Path.Join(folder, name);
                 arg = AppConfig.GetStartArgument(biz)?.Trim();
                 verb = (biz is GameBiz.hk4e_cloud) ? "" : "runas";

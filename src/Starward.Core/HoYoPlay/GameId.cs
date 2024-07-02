@@ -43,7 +43,7 @@ public class GameId
             GameBiz.hkrpg_bilibili => new GameId { Id = "EdtUqXfCHh", Biz = "hkrpg_cn" },
             GameBiz.nap_cn => new GameId { Id = "x6znKlJ0xK", Biz = "nap_cn" },
             GameBiz.nap_global => new GameId { Id = "U5hbdsT9W7", Biz = "nap_global" },
-            GameBiz.nap_bilibili => new GameId { Id = "", Biz = "nap_bilibili" },
+            GameBiz.nap_bilibili => new GameId { Id = "HXAFlmYa17", Biz = "nap_bilibili" },
             _ => null,
         };
     }

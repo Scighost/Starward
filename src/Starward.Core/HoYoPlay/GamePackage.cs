@@ -22,7 +22,7 @@ public class GamePackage
     /// 预下载版本
     /// </summary>
     [JsonPropertyName("pre_download")]
-    public GamePackageVersion PreDownload { get; set; }
+    public GamePackageVersion? PreDownload { get; set; }
 
 }
 

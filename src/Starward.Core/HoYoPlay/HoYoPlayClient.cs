@@ -74,6 +74,7 @@ public class HoYoPlayClient
             LauncherId.GlobalOfficial => $"https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/{api}?launcher_id=VYTpXlbWo8&language={language}",
             LauncherId.BilibiliGenshin => $"https://hyp-api.mihoyo.com/hyp/hyp-connect/api/{api}?launcher_id=umfgRO5gh5&language={language}",
             LauncherId.BilibiliStarRail => $"https://hyp-api.mihoyo.com/hyp/hyp-connect/api/{api}?launcher_id=6P5gHMNyK3&language={language}",
+            LauncherId.BilibiliZZZ => $"https://hyp-api.mihoyo.com/hyp/hyp-connect/api/{api}?launcher_id=xV0f4r1GT0&language={language}",
             _ => throw new ArgumentOutOfRangeException(nameof(launcherId), "Unknown launcher id."),
         };
     }

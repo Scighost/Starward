@@ -15,7 +15,7 @@ public abstract class LauncherId
 
     public const string BilibiliStarRail = "6P5gHMNyK3";
 
-    public const string BilibiliZZZ = "6P5gHMNyK3";
+    public const string BilibiliZZZ = "xV0f4r1GT0";
 
 
     public static bool IsChinaOfficial(string launcherId)
@@ -56,6 +56,7 @@ public abstract class LauncherId
         {
             (GameBiz.hk4e_bilibili, BilibiliGenshin),
             (GameBiz.hkrpg_bilibili, BilibiliStarRail),
+            (GameBiz.nap_bilibili, BilibiliZZZ),
         };
     }
 }

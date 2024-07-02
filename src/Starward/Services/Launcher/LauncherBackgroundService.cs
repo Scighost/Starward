@@ -84,6 +84,28 @@ internal class LauncherBackgroundService
 
 
 
+    public async Task<string?> GetBackgroundImageUrlAsync(GameBiz gameBiz, CancellationToken cancellationToken = default)
+    {
+        string? url;
+        if (gameBiz.ToGame() is GameBiz.Honkai3rd && gameBiz.IsGlobalServer())
+        {
+            var content = await GetLauncherContentAsync(gameBiz, cancellationToken);
+            url = content.BackgroundImage?.Background;
+        }
+        else if (gameBiz is GameBiz.hk4e_cloud)
+        {
+            var background = await _hoYoPlayService.GetGameInfoAsync(GameBiz.hk4e_cn);
+            url = background.Display.Background.Url;
+        }
+        else
+        {
+            var background = await _hoYoPlayService.GetGameBackgroundAsync(gameBiz);
+            url = background.Backgrounds.FirstOrDefault()?.Background.Url;
+        }
+        return url;
+    }
+
+
 
     public async Task<string?> GetBackgroundImageAsync(GameBiz gameBiz, bool disableCustom = false)
     {
@@ -100,26 +122,11 @@ internal class LauncherBackgroundService
                 }
             }
 
-            string? url;
-            if (gameBiz.ToGame() is GameBiz.Honkai3rd && gameBiz.IsGlobalServer())
-            {
-                var content = await GetLauncherContentAsync(gameBiz, tokenSource.Token);
-                url = content.BackgroundImage?.Background;
-            }
-            else if (gameBiz is GameBiz.hk4e_cloud)
-            {
-                var background = await _hoYoPlayService.GetGameInfoAsync(GameBiz.hk4e_cn);
-                url = background.Display.Background.Url;
-            }
-            else
-            {
-                var background = await _hoYoPlayService.GetGameBackgroundAsync(gameBiz);
-                url = background.Backgrounds.FirstOrDefault()?.Background.Url;
-            }
+            string? url = await GetBackgroundImageUrlAsync(gameBiz, tokenSource.Token);
             if (string.IsNullOrWhiteSpace(url))
             {
-                url = GetFallbackBackgroundImage(gameBiz);
                 _logger.LogWarning("Background of mihoyo api is null ({gameBiz})", gameBiz);
+                return GetFallbackBackgroundImage(gameBiz);
             }
             name = Path.GetFileName(url);
             file = Path.Join(AppConfig.UserDataFolder, "bg", name);

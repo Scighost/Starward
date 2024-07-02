@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:clang="using:Starward.Core.Localization"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sh="using:Starward.Helpers"
@@ -392,6 +393,22 @@
                         </StackPanel>
 
                     </ScrollViewer>
+
+                    <Button Margin="12"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Command="{x:Bind AutoSearchGameBizsCommand}"
+                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16"
+                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                      Glyph="&#xE721;"
+                                      IsTextScaleFactorEnabled="False" />
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       IsTextScaleFactorEnabled="False"
+                                       Text="{x:Bind lang:Lang.GameBizSelector_AutoSearch}" />
+                        </StackPanel>
+                    </Button>
                 </Grid>
             </Popup>
         </Border>

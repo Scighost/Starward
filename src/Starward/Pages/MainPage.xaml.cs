@@ -21,6 +21,7 @@ using Starward.Messages;
 using Starward.Pages.HoyolabToolbox;
 using Starward.Pages.Setting;
 using Starward.Services;
+using Starward.Services.Launcher;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -52,7 +53,9 @@ public sealed partial class MainPage : PageBase
     private readonly ILogger<MainPage> _logger = AppConfig.GetLogger<MainPage>();
 
 
-    private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
+    //private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
+
+    private readonly LauncherBackgroundService _launcherBackgroundService = AppConfig.GetService<LauncherBackgroundService>();
 
 
     private readonly UpdateService _updateService = AppConfig.GetService<UpdateService>();
@@ -262,13 +265,13 @@ public sealed partial class MainPage : PageBase
     {
         try
         {
-            var file = _launcherContentService.GetCachedBackgroundImage(CurrentGameBiz);
+            var file = _launcherBackgroundService.GetCachedBackgroundImage(CurrentGameBiz);
             if (file != null)
             {
                 if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm")
                 {
                     AppConfig.IsPlayingVideo = true;
-                    BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
+                    BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"));
                     MainWindow.Current.ChangeAccentColor(null, null);
                 }
                 else
@@ -301,7 +304,7 @@ public sealed partial class MainPage : PageBase
             }
             else
             {
-                BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
+                BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"));
                 MainWindow.Current.ChangeAccentColor(null, null);
             }
         }
@@ -336,7 +339,7 @@ public sealed partial class MainPage : PageBase
             cancelSource = new();
             var source = cancelSource;
 
-            var file = await _launcherContentService.GetBackgroundImageAsync(CurrentGameBiz);
+            var file = await _launcherBackgroundService.GetBackgroundImageAsync(CurrentGameBiz);
             if (file != null)
             {
                 if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm")

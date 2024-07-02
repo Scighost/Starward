@@ -621,23 +621,18 @@ internal abstract class InstallGameService
 
         foreach (var task in downloadTasks)
         {
-            if (task.IsSegment)
+            var file = Path.Combine(InstallPath, task.FileName);
+            var files = Directory.GetFiles(InstallPath, $"{Path.GetFileNameWithoutExtension(task.FileName)}.*");
+            if (files.Length > 0)
             {
-                var files = Directory.GetFiles(InstallPath, $"{Path.GetFileNameWithoutExtension(task.FileName)}.*");
-                if (files.Length > 0)
-                {
-                    _logger.LogInformation("Decompress file: {files}", string.Join(Environment.NewLine, files.Select(Path.GetFileName)));
-                    await DecompressFileAsync(files).ConfigureAwait(false);
-                }
+                _logger.LogInformation("Decompress file: {files}", string.Join(Environment.NewLine, files.Select(Path.GetFileName)));
+                await DecompressFileAsync(files).ConfigureAwait(false);
             }
-            else
+            else if (File.Exists(file))
             {
                 _logger.LogInformation("Decompress {file}", task.FileName);
-                var file = Path.Combine(InstallPath, task.FileName);
-                if (File.Exists(file))
-                {
-                    await DecompressFileAsync(file).ConfigureAwait(false);
-                }
+                await DecompressFileAsync(file).ConfigureAwait(false);
+
             }
             await ApplyDiffPackageAsync().ConfigureAwait(false);
         }

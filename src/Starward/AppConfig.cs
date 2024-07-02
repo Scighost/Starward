@@ -257,6 +257,7 @@ internal static class AppConfig
             sc.AddSingleton<Honkai3rdInstallGameService>();
             sc.AddSingleton<GenshinInstallGameService>();
             sc.AddSingleton<StarRailInstallGameService>();
+            sc.AddSingleton<ZZZInstallGameService>();
             sc.AddSingleton<HoYoPlayService>();
             sc.AddSingleton<GameLauncherService>();
             sc.AddSingleton<LauncherBackgroundService>();
@@ -484,7 +485,7 @@ internal static class AppConfig
 
     public static bool IsGameBizSelectorPinned
     {
-        get => GetValue(true);
+        get => GetValue<bool>();
         set => SetValue(value);
     }
 

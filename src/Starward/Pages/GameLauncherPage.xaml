@@ -205,7 +205,8 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Orientation="Horizontal"
-                        Spacing="16">
+                        Spacing="16"
+                        Visibility="Collapsed">
 
                 <!--  account list  -->
                 <Grid Background="{ThemeResource CustomAcrylicBrush}"

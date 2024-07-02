@@ -1377,6 +1377,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Auto Search 的本地化字符串。
+        /// </summary>
+        public static string GameBizSelector_AutoSearch {
+            get {
+                return ResourceManager.GetString("GameBizSelector_AutoSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Diff Packages 的本地化字符串。
         /// </summary>
         public static string GameResourcePage_DiffPackages {
