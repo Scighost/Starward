@@ -16,8 +16,8 @@ using Starward.Core.Gacha;
 using Starward.Helpers;
 using Starward.Messages;
 using Starward.Models;
-using Starward.Services;
 using Starward.Services.Gacha;
+using Starward.Services.Launcher;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,7 +43,7 @@ public sealed partial class GachaLogPage : PageBase
 
     private readonly ILogger<GachaLogPage> _logger = AppConfig.GetLogger<GachaLogPage>();
 
-    private readonly GameResourceService _gameResourceService = AppConfig.GetService<GameResourceService>();
+    private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
 
     private GachaLogService _gachaLogService;
 
@@ -310,7 +310,7 @@ public sealed partial class GachaLogPage : PageBase
             }
             else
             {
-                var path = _gameResourceService.GetGameInstallPath(CurrentGameBiz);
+                var path = _gameLauncherService.GetGameInstallPath(CurrentGameBiz);
                 if (!Directory.Exists(path))
                 {
                     // 游戏未安装
@@ -580,7 +580,7 @@ public sealed partial class GachaLogPage : PageBase
     {
         try
         {
-            var installPath = _gameResourceService.GetGameInstallPath(CurrentGameBiz);
+            var installPath = _gameLauncherService.GetGameInstallPath(CurrentGameBiz);
             if (Directory.Exists(installPath))
             {
                 var path = GachaLogClient.GetGachaCacheFilePath(CurrentGameBiz, installPath);
@@ -608,7 +608,7 @@ public sealed partial class GachaLogPage : PageBase
     {
         try
         {
-            var installPath = _gameResourceService.GetGameInstallPath(CurrentGameBiz);
+            var installPath = _gameLauncherService.GetGameInstallPath(CurrentGameBiz);
             if (Directory.Exists(installPath))
             {
                 var path = GachaLogClient.GetGachaCacheFilePath(CurrentGameBiz, installPath);
