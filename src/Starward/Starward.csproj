@@ -38,13 +38,13 @@
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
 		<PackageReference Include="MiniExcel" Version="1.32.1" />
-		<PackageReference Include="NuGet.Versioning" Version="6.10.0" />
+		<PackageReference Include="NuGet.Versioning" Version="6.10.1" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
-		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="Starward.Assets" Version="0.4.9" />
+		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+		<PackageReference Include="Starward.Assets" Version="0.4.10" />
 		<PackageReference Include="Starward.NativeLib" Version="0.2.1" />
-		<PackageReference Include="Vanara.PInvoke.ComCtl32" Version="4.0.1" />
-		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="4.0.1" />
+		<PackageReference Include="Vanara.PInvoke.ComCtl32" Version="4.0.2" />
+		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="4.0.2" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
