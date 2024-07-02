@@ -73,7 +73,6 @@ public sealed partial class MainPage : PageBase
         compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
         InitializeGameBiz();
         RegisterMessage();
-        InitializeNavigationViewPaneDisplayMode();
     }
 
 
@@ -108,7 +107,6 @@ public sealed partial class MainPage : PageBase
     private void RegisterMessage()
     {
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
-        WeakReferenceMessenger.Default.Register<NavigationViewCompactChangedMessage>(this, InitializeNavigationViewPaneDisplayMode);
         WeakReferenceMessenger.Default.Register<GameStartMessage>(this, (_, _) => PauseVideo());
         WeakReferenceMessenger.Default.Register<UpdateBackgroundImageMessage>(this, (_, m) => _ = UpdateBackgroundImageAsync(m.Force));
         WeakReferenceMessenger.Default.Register<MainPageNavigateMessage>(this, (_, m) => NavigateTo(m.Page, m.Param, m.TransitionInfo));
@@ -501,24 +499,6 @@ public sealed partial class MainPage : PageBase
     #region Navigate
 
 
-
-    private void InitializeNavigationViewPaneDisplayMode(object? sender = null, NavigationViewCompactChangedMessage? message = null)
-    {
-        try
-        {
-            if (AppConfig.EnableNavigationViewLeftCompact)
-            {
-                MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
-                Grid_FrameContent.CornerRadius = new CornerRadius(8, 0, 0, 0);
-            }
-            else
-            {
-                MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
-                Grid_FrameContent.CornerRadius = new CornerRadius();
-            }
-        }
-        catch { }
-    }
 
 
     private void UpdateNavigationViewItemsText()

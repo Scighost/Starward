@@ -275,7 +275,8 @@
 
         <Grid Name="Grid_ApplyBackground"
               Grid.Row="1"
-              Background="{ThemeResource CustomOverlayAcrylicBrush}">
+              Background="{ThemeResource CustomOverlayAcrylicBrush}"
+              CornerRadius="8,0,0,0">
 
             <StackPanel Margin="24,0,24,0"
                         HorizontalAlignment="Left"

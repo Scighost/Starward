@@ -62,10 +62,6 @@ public sealed partial class GameSettingPage : PageBase
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        if (AppConfig.EnableNavigationViewLeftCompact)
-        {
-            Grid_ApplyBackground.CornerRadius = new CornerRadius(8, 0, 0, 0);
-        }
         InitializeResolutionItem();
         await InitializeGameSettingAsync();
     }
