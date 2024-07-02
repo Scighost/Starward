@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Starward.Helpers;
 using Starward.Messages;
@@ -29,7 +28,6 @@ public sealed partial class AppearanceSettingPage : PageBase
     {
         this.InitializeComponent();
         InitializeLanguage();
-        InitializeWinowSize();
         UpdateExperienceDesc();
     }
 
@@ -118,48 +116,6 @@ public sealed partial class AppearanceSettingPage : PageBase
 
 
 
-    #region Windows Size
-
-
-
-    private void InitializeWinowSize()
-    {
-        try
-        {
-            var index = AppConfig.WindowSizeMode;
-            RadioButton_WindowSize_Small.IsChecked = index != 0;
-            RadioButton_WindowSize_Normal.IsChecked = index == 0;
-        }
-        catch { }
-    }
-
-
-    private void RadioButton_WindowSize_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            if (sender is FrameworkElement fe)
-            {
-                var index = fe.Tag switch
-                {
-                    "small" => 1,
-                    _ => 0,
-                };
-                AppConfig.WindowSizeMode = index;
-                MainWindow.Current.ChangeWindowSize();
-                WeakReferenceMessenger.Default.Send(new WindowSizeModeChangedMessage(index));
-                AppConfig.SaveConfiguration();
-            }
-        }
-        catch { }
-    }
-
-
-
-    #endregion
-
-
-
 
     #region Theme Color
 
@@ -177,24 +133,6 @@ public sealed partial class AppearanceSettingPage : PageBase
 
     #endregion
 
-
-
-
-    #region NavigationView Compact
-
-
-    [ObservableProperty]
-    private bool enableNavigationViewLeftCompact = AppConfig.EnableNavigationViewLeftCompact;
-    partial void OnEnableNavigationViewLeftCompactChanged(bool value)
-    {
-        AppConfig.EnableNavigationViewLeftCompact = value;
-        MainWindow.Current.ChangeWindowSize();
-        WeakReferenceMessenger.Default.Send(new NavigationViewCompactChangedMessage(value));
-    }
-
-
-
-    #endregion
 
 
 
