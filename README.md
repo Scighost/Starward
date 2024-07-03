@@ -1,5 +1,4 @@
-**v0.10.7** | English | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/README.vi-VN.md) | [日本語](./docs/README.ja-JP.md) | [ภาษาไทย](./docs/README.th-TH.md) | [Русский](./docs/README.ru-RU.md)
-
+**v0.11.7** | English | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/README.vi-VN.md) | [日本語](./docs/README.ja-JP.md) | [ภาษาไทย](./docs/README.th-TH.md) | [Русский](./docs/README.ru-RU.md)
 
 The PC game launcher of [HoYoverse](https://www.hoyoverse.com) is one of the worst commercial software I have ever seen. The overall user experience is passable, but it performs terribly in certain details:
 
@@ -7,20 +6,18 @@ The PC game launcher of [HoYoverse](https://www.hoyoverse.com) is one of the wor
 - Resource verification utilizes a single thread, unable to effectively utilize multiple cores, leading to a significant waste of time.
 - Despite having a built-in browser engine, the interface design has remained unchanged for years, failing to capitalize on the flexibility of web pages and, instead, adding unnecessary bulk.
 
-
 # Starward
 
 > **Starward** comes from the slogan of Star Rail: May This Journey Lead Us **Starward**, which is very suitable to be used as an app name.
 
 Starward is an open-source third-party launcher developed to address the aforementioned shortcomings. It supports all PC games on of HoYoverse and aims to completely replace the official launcher. In addition to the basic functions of a launcher, I will also incorporate some additional features based on individual needs, such as:
 
--  Record game time
--  Switch game accounts
--  View game screenshots
--  Save gacha records
+- Record game time
+- Switch game accounts
+- View game screenshots
+- Save gacha records
 
 More features are left for you to explore...
-
 
 ## Install
 
@@ -31,7 +28,6 @@ First, your device needs to meet the following requirements:
 - For better experience, please enable **Transparency effects** and **Animation effects** in the system settings.
 
 Next, download the package for your CPU architecture from [GitHub Release](https://github.com/Scighost/Starward/releases). Extract it, then run `Starward.exe` and follow the prompts.
-
 
 ## Localization
 
@@ -50,20 +46,17 @@ Starward uses [Crowdin](https://crowdin.com/project/starward) for in-app text lo
 
 [Localization Guide](./docs/Localization.md)
 
-
 ## Development
 
 To compile the project locally, you need to install Visual Studio 2022 and select the following workloads:
 
--  .NET Desktop Development
--  C++ Desktop Development
--  Universal Windows Platform Development
-
+- .NET Desktop Development
+- Desktop Development With C++
+- Universal Windows Platform Development
 
 ## Donation
 
 Development is not easy. If you think Starward useful, you cloud donate me at https://donate.scighost.com.
-
 
 ## Thanks
 
@@ -97,12 +90,6 @@ And the third-party libraries used in this project include:
 -  [WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
 -  [WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
 
-
 ## Screenshot
 
-<picture>
-    <source srcset="https://github.com/Scighost/Starward/assets/61003590/34b7c31f-d8dc-4539-8fbb-12705676e382" type="image/avif" />
-    <img src="https://github.com/Scighost/Starward/assets/61003590/95a33d10-3dc3-4b3c-875d-d898e5eb2f50" />
-</picture>
-
-Background image is from [Pixiv@七言不绝诗](https://www.pixiv.net/artworks/113506129)
+<img src="https://github.com/Scighost/Starward/assets/119155053/5c5e5045-c4ce-4ba7-a2c1-8d78ac5ab6d3">

@@ -1,4 +1,4 @@
-> 本文的版本是 **v0.10.7.1**，若版本落后请以[原文](./Tips.md)为准。
+> 本文的版本是 **v0.11.7**，若版本落后请以[原文](./Tips.md)为准。
 
 # 小提示
 
@@ -6,23 +6,20 @@
 
 ## 快速返回到启动器页面
 
-双击标题栏中的游戏图标。
+点击导航栏的 **Home** 图标
 
 ## 切换服务器
 
-- 打开游戏设置
-- 点击**一键修复**右方的**小倒三角**
-- 选择切换客户端
-- 选择要切换的服务器
-- 点击**确认**
-- 等待下载资源包
-- 点击**开始切换**
-- 等待powershell窗口消失
-- 点击**完成**
+- 点击启动器左上角的游戏图标
+- 点击菜单按钮
+- 在弹出的界面中选择需要的服务器
+- 切换至所需要的服务器
+- 切换后点击游戏右侧的设置齿轮图标
+- 点击 **定位** 按钮选择游戏
 
-<img src="https://github.com/Scighost/Starward/assets/113306265/78b75c3a-c6e7-467e-b524-fd121861cca9" width="800px" />
-<img src="https://github.com/Scighost/Starward/assets/113306265/abe48a61-dc2a-4241-bda7-58e5af98edd6" width="800px" />
-<img src="https://github.com/Scighost/Starward/assets/113306265/7b60c47a-230d-4dc5-b47f-64cf8f478290" width="800px" />
+<img src="https://github.com/Scighost/Starward/assets/119155053/48014172-6cb6-4184-b255-a562291e9445" width="800px" />
+<img src="https://github.com/Scighost/Starward/assets/119155053/721e981d-d451-4da9-b430-0562b628b2a0" width="800px" />
+<img src="https://github.com/Scighost/Starward/assets/119155053/3cb6bf1f-d65a-466d-8ba3-0309f5e7e982" width="800px" />
 
 ## 转换抽卡记录的语言
 
