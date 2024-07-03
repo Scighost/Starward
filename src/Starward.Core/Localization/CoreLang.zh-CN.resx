@@ -262,4 +262,16 @@
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
     <value>港澳台</value>
   </data>
+  <data name="GachaType_StandardChannel" xml:space="preserve">
+    <value>常驻频段</value>
+  </data>
+  <data name="GachaType_ExclusiveChannel" xml:space="preserve">
+    <value>独家频段</value>
+  </data>
+  <data name="GachaType_WEngineChannel" xml:space="preserve">
+    <value>音擎频段</value>
+  </data>
+  <data name="GachaType_BangbooChannel" xml:space="preserve">
+    <value>邦布频段</value>
+  </data>
 </root>

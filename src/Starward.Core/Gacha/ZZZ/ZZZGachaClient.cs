@@ -1,25 +1,30 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
-namespace Starward.Core.Gacha.Genshin;
+namespace Starward.Core.Gacha.ZZZ;
 
-public class GenshinGachaClient : GachaLogClient
+public class ZZZGachaClient : GachaLogClient
 {
 
 
 
-    // todo
+
     protected override IReadOnlyCollection<GachaType> GachaTypes { get; init; } = new GachaType[] { (GachaType)100, (GachaType)200, (GachaType)301, (GachaType)302, (GachaType)500 }.AsReadOnly();
 
 
 
-    public GenshinGachaClient(HttpClient? httpClient = null) : base(httpClient)
+    public ZZZGachaClient(HttpClient? httpClient = null) : base(httpClient)
     {
 
     }
 
 
 
-    // todo
+
     protected override string GetGachaUrlPrefix(string gachaUrl, string? lang = null)
     {
         var match = Regex.Match(gachaUrl, @"(https://webstatic\.mihoyo\.com[!-z]+)");
@@ -68,7 +73,7 @@ public class GenshinGachaClient : GachaLogClient
 
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
-        return await GetGachaLogAsync<GenshinGachaItem>(gachaUrl, endId, lang, progress, cancellationToken);
+        return await GetGachaLogAsync<ZZZGachaItem>(gachaUrl, endId, lang, progress, cancellationToken);
     }
 
 
@@ -76,7 +81,7 @@ public class GenshinGachaClient : GachaLogClient
 
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaType gachaType, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
-        return await GetGachaLogAsync<GenshinGachaItem>(gachaUrl, gachaType, endId, lang, progress, cancellationToken);
+        return await GetGachaLogAsync<ZZZGachaItem>(gachaUrl, gachaType, endId, lang, progress, cancellationToken);
     }
 
 
@@ -85,8 +90,10 @@ public class GenshinGachaClient : GachaLogClient
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaLogQuery query, CancellationToken cancellationToken = default)
     {
         string prefix = GetGachaUrlPrefix(gachaUrl);
-        return await GetGachaLogByQueryAsync<GenshinGachaItem>(prefix, query, cancellationToken);
+        return await GetGachaLogByQueryAsync<ZZZGachaItem>(prefix, query, cancellationToken);
     }
+
+
 
 
 

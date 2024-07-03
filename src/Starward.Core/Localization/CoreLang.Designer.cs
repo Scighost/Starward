@@ -79,6 +79,15 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Bangboo Channel 的本地化字符串。
+        /// </summary>
+        public static string GachaType_BangbooChannel {
+            get {
+                return ResourceManager.GetString("GachaType_BangbooChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Character Event Warp 的本地化字符串。
         /// </summary>
         public static string GachaType_CharacterEventWarp {
@@ -124,6 +133,15 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Exclusive Channel 的本地化字符串。
+        /// </summary>
+        public static string GachaType_ExclusiveChannel {
+            get {
+                return ResourceManager.GetString("GachaType_ExclusiveChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Light Cone Event Warp 的本地化字符串。
         /// </summary>
         public static string GachaType_LightConeEventWarp {
@@ -151,6 +169,15 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Standard Channel 的本地化字符串。
+        /// </summary>
+        public static string GachaType_StandardChannel {
+            get {
+                return ResourceManager.GetString("GachaType_StandardChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Stellar Warp 的本地化字符串。
         /// </summary>
         public static string GachaType_StellarWarp {
@@ -165,6 +192,15 @@ namespace Starward.Core.Localization {
         public static string GachaType_WeaponEventWish {
             get {
                 return ResourceManager.GetString("GachaType_WeaponEventWish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 W-Engine Channel 的本地化字符串。
+        /// </summary>
+        public static string GachaType_WEngineChannel {
+            get {
+                return ResourceManager.GetString("GachaType_WEngineChannel", resourceCulture);
             }
         }
         

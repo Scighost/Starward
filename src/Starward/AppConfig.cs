@@ -6,6 +6,7 @@ using Serilog;
 using Starward.Core;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
+using Starward.Core.Gacha.ZZZ;
 using Starward.Core.GameRecord;
 using Starward.Core.HoYoPlay;
 using Starward.Core.Launcher;
@@ -234,6 +235,7 @@ internal static class AppConfig
 
             sc.AddSingleton<GenshinGachaClient>();
             sc.AddSingleton<StarRailGachaClient>();
+            sc.AddSingleton<ZZZGachaClient>();
             sc.AddSingleton<HyperionClient>();
             sc.AddSingleton<HyperionClient>();
             sc.AddSingleton<HoyolabClient>();
@@ -262,6 +264,7 @@ internal static class AppConfig
             sc.AddSingleton<GameLauncherService>();
             sc.AddSingleton<LauncherBackgroundService>();
             sc.AddSingleton<GamePackageService>();
+            sc.AddSingleton<ZZZGachaService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))

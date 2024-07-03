@@ -526,7 +526,7 @@ public sealed partial class MainPage : PageBase
             NavigationViewItem_Launcher.Visibility = Visibility.Visible;
             NavigationViewItem_GameSetting.Visibility = Visibility.Collapsed;
             NavigationViewItem_Screenshot.Visibility = Visibility.Collapsed;
-            NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
+            NavigationViewItem_GachaLog.Visibility = Visibility.Visible;
             NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
             NavigationViewItem_SelfQuery.Visibility = Visibility.Collapsed;
         }
@@ -550,6 +550,12 @@ public sealed partial class MainPage : PageBase
             // 跃迁记录
             ToolTipService.SetToolTip(NavigationViewItem_GachaLog, Lang.GachaLogService_WarpRecords);
             TextBlock_GachaLog.Text = Lang.GachaLogService_WarpRecords;
+        }
+        if (CurrentGameBiz.ToGame() is GameBiz.ZZZ)
+        {
+            // 调频记录
+            ToolTipService.SetToolTip(NavigationViewItem_GachaLog, Lang.GachaLogService_SignalSearchRecords);
+            TextBlock_GachaLog.Text = Lang.GachaLogService_SignalSearchRecords;
         }
         if (CurrentGameBiz.IsChinaServer())
         {
@@ -612,7 +618,7 @@ public sealed partial class MainPage : PageBase
         string? destPage = page?.Name;
         if (destPage is null or nameof(BlankPage)
             || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(ScreenshotPage))
-            || CurrentGameBiz.ToGame() is GameBiz.ZZZ && destPage is not nameof(GameLauncherPage) and not nameof(GameNoticesPage))
+            || CurrentGameBiz.ToGame() is GameBiz.ZZZ && destPage is not nameof(GameLauncherPage) and not nameof(GameNoticesPage) and not nameof(GachaLogPage))
         {
             page = typeof(GameLauncherPage);
             destPage = nameof(GameLauncherPage);

@@ -1323,6 +1323,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Signal Search Records 的本地化字符串。
+        /// </summary>
+        public static string GachaLogService_SignalSearchRecords {
+            get {
+                return ResourceManager.GetString("GachaLogService_SignalSearchRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 This account has no gacha records in the last 6 months. 的本地化字符串。
         /// </summary>
         public static string GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months {

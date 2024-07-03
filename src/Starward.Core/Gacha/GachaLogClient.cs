@@ -39,6 +39,18 @@ public abstract class GachaLogClient
     protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_SR_OS => "https://gs.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html"u8;
 
 
+    // todo
+    protected const string WEB_CACHE_ZZZ_PATH = @"ZenlessZoneZero_Data\webCaches\Cache\Cache_Data\data_2";
+
+    protected const string API_PREFIX_ZZZ_CN = "https://api-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
+    protected const string API_PREFIX_ZZZ_OS = "https://api-os-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
+
+    protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_ZZZ_CN => "https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha-v2/index.html"u8;
+    protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_ZZZ_OS => "https://gs.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html"u8;
+
+
+
+
 
     protected const string REG_KEY_BH3_CN = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\崩坏3";
     protected const string REG_KEY_BH3_OS = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Honkai Impact 3";
@@ -157,6 +169,7 @@ public abstract class GachaLogClient
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => Path.Join(installPath, WEB_CACHE_PATH_YS_CN),
             GameBiz.hk4e_global => Path.Join(installPath, WEB_CACHE_PATH_YS_OS),
             GameBiz.hkrpg_cn or GameBiz.hkrpg_global or GameBiz.hkrpg_bilibili => Path.Join(installPath, WEB_CACHE_SR_PATH),
+            GameBiz.nap_cn or GameBiz.nap_global or GameBiz.nap_bilibili => Path.Join(installPath, WEB_CACHE_ZZZ_PATH),
             _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
         };
         DateTime lastWriteTime = DateTime.MinValue;
@@ -169,6 +182,7 @@ public abstract class GachaLogClient
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => @"YuanShen_Data\webCaches",
             GameBiz.hk4e_global => @"GenshinImpact_Data\webCaches",
             GameBiz.hkrpg_cn or GameBiz.hkrpg_global or GameBiz.hkrpg_bilibili => @"StarRail_Data\webCaches",
+            GameBiz.nap_cn or GameBiz.nap_global or GameBiz.nap_bilibili => @"ZenlessZoneZero_Data\webCaches",
             _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
         };
         string webCache = Path.Join(installPath, prefix);
@@ -196,6 +210,8 @@ public abstract class GachaLogClient
             GameBiz.hk4e_global => SPAN_WEB_PREFIX_YS_OS,
             GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => SPAN_WEB_PREFIX_SR_CN,
             GameBiz.hkrpg_global => SPAN_WEB_PREFIX_SR_OS,
+            GameBiz.nap_cn or GameBiz.nap_bilibili => SPAN_WEB_PREFIX_ZZZ_CN,
+            GameBiz.nap_global => SPAN_WEB_PREFIX_ZZZ_OS,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
         };
     }
@@ -399,6 +415,26 @@ public abstract class GachaLogClient
         return wiki;
     }
 
+
+
+    // todo
+    public async Task<GenshinGachaWiki> GetZZZGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
+    {
+        lang = LanguageUtil.FilterLanguage(lang);
+        GenshinGachaWiki wiki;
+        if (gameBiz.IsChinaServer() && lang is "zh-cn")
+        {
+            const string url = "https://api-takumi.mihoyo.com/event/platsimulator/config?gids=2&game=hk4e";
+            wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);
+        }
+        else
+        {
+            string url = $"https://sg-public-api.hoyolab.com/event/simulatoros/config?lang={lang}";
+            wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);
+        }
+        wiki.Language = lang;
+        return wiki;
+    }
 
 
 

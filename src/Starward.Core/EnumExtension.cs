@@ -205,6 +205,10 @@ public static class EnumExtension
             GachaType.CharacterEventWish_2 => CoreLang.GachaType_CharacterEventWish_2,
             GachaType.WeaponEventWish => CoreLang.GachaType_WeaponEventWish,
             GachaType.ChronicledWish => CoreLang.GachaType_ChronicledWish,
+            GachaType.StandardChannel => CoreLang.GachaType_StandardChannel,
+            GachaType.ExclusiveChannel => CoreLang.GachaType_ExclusiveChannel,
+            GachaType.WEngineChannel => CoreLang.GachaType_WEngineChannel,
+            GachaType.BangbooChannel => CoreLang.GachaType_BangbooChannel,
             _ => "",
         };
     }

@@ -74,12 +74,22 @@ public sealed partial class GachaLogPage : PageBase
                 _gachaLogService = AppConfig.GetService<StarRailGachaService>();
                 Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPom);
             }
+            if (biz.ToGame() is GameBiz.ZZZ)
+            {
+                _gachaLogService = AppConfig.GetService<ZZZGachaService>();
+                IsZZZGachaStatsCardVisible = true;
+            }
             if (biz.IsGlobalServer())
             {
                 MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
             }
         }
     }
+
+
+    [ObservableProperty]
+    private bool isZZZGachaStatsCardVisible;
+
 
 
     [ObservableProperty]
@@ -741,43 +751,87 @@ public sealed partial class GachaLogPage : PageBase
         const int CardWidth = 320;
         try
         {
-            int count = ItemsControl_GachaStats.Items.Count;
-            if (count > 0)
+            if (ItemsControl_GachaStats != null)
             {
-                double width = (Grid_GachaStats.ActualWidth - (count - 1) * 12) / count;
-                Storyboard storyboard = new();
-                if (width >= CardWidth || container is null)
+                int count = ItemsControl_GachaStats.Items.Count;
+                if (count > 0)
                 {
-                    for (int i = 0; i < count; i++)
+                    double width = (Grid_GachaStats.ActualWidth - (count - 1) * 12) / count;
+                    Storyboard storyboard = new();
+                    if (width >= CardWidth || container is null)
                     {
-                        if (ItemsControl_GachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
+                        for (int i = 0; i < count; i++)
                         {
-                            presenter.Width = width;
+                            if (ItemsControl_GachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
+                            {
+                                presenter.Width = width;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    width = (Grid_GachaStats.ActualWidth - (count - 1) * 12 - CardWidth) / (count - 1);
-                    for (int i = 0; i < count; i++)
+                    else
                     {
-                        if (ItemsControl_GachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
+                        width = (Grid_GachaStats.ActualWidth - (count - 1) * 12 - CardWidth) / (count - 1);
+                        for (int i = 0; i < count; i++)
                         {
-                            DoubleAnimation ani;
-                            if (presenter == container)
+                            if (ItemsControl_GachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
                             {
-                                ani = CreateDoubleAnimation(CardWidth);
+                                DoubleAnimation ani;
+                                if (presenter == container)
+                                {
+                                    ani = CreateDoubleAnimation(CardWidth);
+                                }
+                                else
+                                {
+                                    ani = CreateDoubleAnimation(width);
+                                }
+                                Storyboard.SetTarget(ani, presenter);
+                                storyboard.Children.Add(ani);
                             }
-                            else
-                            {
-                                ani = CreateDoubleAnimation(width);
-                            }
-                            Storyboard.SetTarget(ani, presenter);
-                            storyboard.Children.Add(ani);
                         }
                     }
+                    storyboard.Begin();
                 }
-                storyboard.Begin();
+            }
+            if (ItemsControl_ZZZGachaStats != null)
+            {
+                int count = ItemsControl_ZZZGachaStats.Items.Count;
+                if (count > 0)
+                {
+                    double width = (Grid_GachaStats.ActualWidth - (count - 1) * 12) / count;
+                    Storyboard storyboard = new();
+                    if (width >= CardWidth || container is null)
+                    {
+                        for (int i = 0; i < count; i++)
+                        {
+                            if (ItemsControl_ZZZGachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
+                            {
+                                presenter.Width = width;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        width = (Grid_GachaStats.ActualWidth - (count - 1) * 12 - CardWidth) / (count - 1);
+                        for (int i = 0; i < count; i++)
+                        {
+                            if (ItemsControl_ZZZGachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
+                            {
+                                DoubleAnimation ani;
+                                if (presenter == container)
+                                {
+                                    ani = CreateDoubleAnimation(CardWidth);
+                                }
+                                else
+                                {
+                                    ani = CreateDoubleAnimation(width);
+                                }
+                                Storyboard.SetTarget(ani, presenter);
+                                storyboard.Children.Add(ani);
+                            }
+                        }
+                    }
+                    storyboard.Begin();
+                }
             }
         }
         catch { }
