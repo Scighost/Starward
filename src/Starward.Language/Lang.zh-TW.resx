@@ -1413,4 +1413,7 @@
   <data name="GameBizSelector_AutoSearch" xml:space="preserve">
     <value>自動查找</value>
   </data>
+  <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
+    <value>Signal Search Records</value>
+  </data>
 </root>
