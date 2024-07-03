@@ -239,7 +239,7 @@
     <value>Китай Официальный</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>Глобальный официальный</value>
+    <value>Глобальный</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
     <value>Китай облако</value>
