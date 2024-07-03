@@ -262,4 +262,16 @@
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
     <value>Traditional Chinese</value>
   </data>
+  <data name="GachaType_StandardChannel" xml:space="preserve">
+    <value>Standard Channel</value>
+  </data>
+  <data name="GachaType_ExclusiveChannel" xml:space="preserve">
+    <value>Exclusive Channel</value>
+  </data>
+  <data name="GachaType_WEngineChannel" xml:space="preserve">
+    <value>W-Engine Channel</value>
+  </data>
+  <data name="GachaType_BangbooChannel" xml:space="preserve">
+    <value>Bangboo Channel</value>
+  </data>
 </root>
