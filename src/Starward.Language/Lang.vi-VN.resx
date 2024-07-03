@@ -1413,4 +1413,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="GameBizSelector_AutoSearch" xml:space="preserve">
     <value>Auto Search</value>
   </data>
+  <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
+    <value>Signal Search Records</value>
+  </data>
 </root>
