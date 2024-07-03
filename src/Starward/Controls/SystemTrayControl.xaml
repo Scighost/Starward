@@ -21,10 +21,10 @@
                             Click="Button_StartGame_Click"
                             Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                             Tag="{Binding}">
-                        <Grid ColumnSpacing="12">
+                        <Grid ColumnSpacing="10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Border Width="28"
                                     Height="28"

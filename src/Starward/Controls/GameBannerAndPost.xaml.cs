@@ -62,7 +62,7 @@ public sealed partial class GameBannerAndPost : UserControl
             _GameContent = value;
             Banners = value.Banners;
             PostGroups = GamePostGroup.FromGameContent(value);
-            ShowBannerAndPost = true;
+            ShowBannerAndPost = AppConfig.EnableBannerAndPost;
         }
     }
 

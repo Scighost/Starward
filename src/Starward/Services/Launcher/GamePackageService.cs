@@ -103,7 +103,7 @@ internal class GamePackageService
             return false;
         }
         var package = await GetGamePackageAsync(biz);
-        if (package.PreDownload.Major != null)
+        if (package.PreDownload?.Major != null)
         {
             var localVersion = await _gameLauncherService.GetLocalGameVersionAsync(biz, installPath);
             VoiceLanguage language = await GetVoiceLanguageAsync(biz, installPath);
