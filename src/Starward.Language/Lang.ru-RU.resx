@@ -1411,6 +1411,9 @@
     <value>Недавно обновленный контент</value>
   </data>
   <data name="GameBizSelector_AutoSearch" xml:space="preserve">
-    <value>Auto Search</value>
+    <value>Авто поиск</value>
+  </data>
+  <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
+    <value>Записи поиска сигналов</value>
   </data>
 </root>
