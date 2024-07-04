@@ -99,7 +99,7 @@ public class ZZZGachaClient : GachaLogClient
     protected override async Task<List<T>> GetGachaLogByQueryAsync<T>(string gachaUrlPrefix, GachaLogQuery param, CancellationToken cancellationToken = default)
     {
         await Task.Delay(Random.Shared.Next(200, 300));
-        var url = $"{gachaUrlPrefix}&{param.ToZZZString}";
+        var url = $"{gachaUrlPrefix}&{param.ToZZZString()}";
         var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<GachaLogResult<T>>), GachaLogJsonContext.Default, cancellationToken) as miHoYoApiWrapper<GachaLogResult<T>>;
         if (wrapper is null)
         {
