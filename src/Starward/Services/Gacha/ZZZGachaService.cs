@@ -88,7 +88,7 @@ internal class ZZZGachaService : GachaLogService
                 var stats = new GachaTypeStats
                 {
                     GachaType = (GachaType)type,
-                    GachaTypeText = ((GachaTypes)type).ToZZZLocalization(),
+                    GachaTypeText = ((GachaType)type).ToZZZLocalization(),
                     Count = list.Count,
                     Count_5 = list.Count(x => x.RankType == 4),
                     Count_4 = list.Count(x => x.RankType == 3),

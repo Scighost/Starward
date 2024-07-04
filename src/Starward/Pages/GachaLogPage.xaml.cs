@@ -80,8 +80,8 @@ public sealed partial class GachaLogPage : PageBase
                 _gachaLogService = AppConfig.GetService<ZZZGachaService>();
                 IsZZZGachaStatsCardVisible = true;
                 MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
-                Button_Export.IsEnable = false;
-                Button_Import.IsEnable = false;
+                Button_Export.IsEnabled = false;
+                Button_Import.IsEnabled = false;
             }
             if (biz.IsGlobalServer())
             {
