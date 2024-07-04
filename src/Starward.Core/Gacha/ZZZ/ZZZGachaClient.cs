@@ -34,7 +34,7 @@ public class ZZZGachaClient : GachaLogClient
         {
             gachaUrl = match.Groups[1].Value;
             var auth = gachaUrl.Substring(gachaUrl.IndexOf('?')).Replace("#/log", "");
-            gachaUrl = API_PREFIX_YS_CN + auth;
+            gachaUrl = API_PREFIX_ZZZ_CN + auth;
             if (!string.IsNullOrWhiteSpace(lang))
             {
                 gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
@@ -46,7 +46,7 @@ public class ZZZGachaClient : GachaLogClient
         {
             gachaUrl = match.Groups[1].Value;
             var auth = gachaUrl.Substring(gachaUrl.IndexOf('?')).Replace("#/log", "");
-            gachaUrl = API_PREFIX_YS_OS + auth;
+            gachaUrl = API_PREFIX_ZZZ_OS + auth;
             if (!string.IsNullOrWhiteSpace(lang))
             {
                 gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
