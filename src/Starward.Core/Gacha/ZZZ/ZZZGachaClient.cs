@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Starward.Core.Gacha;
 
 namespace Starward.Core.Gacha.ZZZ;
 
@@ -12,8 +14,8 @@ public class ZZZGachaClient : GachaLogClient
 
 
 
-
-    protected override IReadOnlyCollection<GachaType> GachaTypes { get; init; } = new GachaType[] { (GachaType)100, (GachaType)200, (GachaType)301, (GachaType)302, (GachaType)500 }.AsReadOnly();
+    // todo
+    protected override IReadOnlyCollection<GachaType> GachaTypes { get; init; } = new GachaType[] { (GachaType)1, (GachaType)2, (GachaType)3, (GachaType)4 }.AsReadOnly();
 
 
 
@@ -24,7 +26,7 @@ public class ZZZGachaClient : GachaLogClient
 
 
 
-
+    // todo
     protected override string GetGachaUrlPrefix(string gachaUrl, string? lang = null)
     {
         var match = Regex.Match(gachaUrl, @"(https://webstatic\.mihoyo\.com[!-z]+)");
@@ -51,11 +53,11 @@ public class ZZZGachaClient : GachaLogClient
             }
             return gachaUrl;
         }
-        match = Regex.Match(gachaUrl, @"(https://hk4e-api[!-z]+)");
+        match = Regex.Match(gachaUrl, @"(https://public-operation-nap.mihoyo.com[!-z]+)");
         if (match.Success)
         {
             gachaUrl = match.Groups[1].Value;
-            gachaUrl = Regex.Replace(gachaUrl, @"&gacha_type=\d", "");
+            gachaUrl = Regex.Replace(gachaUrl, @"&real_gacha_type=\d", "");
             gachaUrl = Regex.Replace(gachaUrl, @"&page=\d", "");
             gachaUrl = Regex.Replace(gachaUrl, @"&size=\d", "");
             gachaUrl = Regex.Replace(gachaUrl, @"&end_id=\d", "");
@@ -94,7 +96,24 @@ public class ZZZGachaClient : GachaLogClient
     }
 
 
-
+    protected override async Task<List<T>> GetGachaLogByQueryAsync<T>(string gachaUrlPrefix, GachaLogQuery param, CancellationToken cancellationToken = default)
+    {
+        await Task.Delay(Random.Shared.Next(200, 300));
+        var url = $"{gachaUrlPrefix}&{param.ToZZZString}";
+        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<GachaLogResult<T>>), GachaLogJsonContext.Default, cancellationToken) as miHoYoApiWrapper<GachaLogResult<T>>;
+        if (wrapper is null)
+        {
+            return new List<T>();
+        }
+        else if (wrapper.Retcode != 0)
+        {
+            throw new miHoYoApiException(wrapper.Retcode, wrapper.Message);
+        }
+        else
+        {
+            return wrapper.Data.List;
+        }
+    }
 
 
 

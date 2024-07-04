@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
+using Starward.Converters;
 using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Helpers;
@@ -78,6 +79,9 @@ public sealed partial class GachaLogPage : PageBase
             {
                 _gachaLogService = AppConfig.GetService<ZZZGachaService>();
                 IsZZZGachaStatsCardVisible = true;
+                MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
+                Button_Export.IsEnable = false;
+                Button_Import.IsEnable = false;
             }
             if (biz.IsGlobalServer())
             {
