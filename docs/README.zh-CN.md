@@ -1,4 +1,4 @@
-> 本文的版本是 **v0.10.7**，若版本落后请以[原文](../README.md)为准。
+> 本文的版本是 **v0.11.7**，若版本落后请以[原文](../README.md)为准。
 
 
 [米哈游](https://www.mihoyo.com)的 PC 游戏启动器是我见到过最垃圾的商业软件之一，整体的使用体验尚可，但在部分细节方面做得非常糟糕：
@@ -100,9 +100,4 @@ Starward 使用 [Crowdin](https://crowdin.com/project/starward) 进行应用内�
 
 ## 截图
 
-<picture>
-    <source srcset="https://github.com/Scighost/Starward/assets/61003590/6647e600-f4d8-4f11-8b23-411f42551abc" type="image/avif" />
-    <img src="https://github.com/Scighost/Starward/assets/61003590/f778b829-35f7-45ab-b711-ece8b532450f" />
-</picture>
-
-背景图片来自 [Pixiv@コユコム](https://www.pixiv.net/artworks/114596167)
+<img src="https://github.com/Scighost/Starward/assets/119155053/b9595342-bb06-4b6b-852d-9c8a40abaea2">
