@@ -7,7 +7,6 @@ public class GenshinGachaClient : GachaLogClient
 
 
 
-    // todo
     protected override IReadOnlyCollection<GachaType> GachaTypes { get; init; } = new GachaType[] { (GachaType)100, (GachaType)200, (GachaType)301, (GachaType)302, (GachaType)500 }.AsReadOnly();
 
 
@@ -19,7 +18,6 @@ public class GenshinGachaClient : GachaLogClient
 
 
 
-    // todo
     protected override string GetGachaUrlPrefix(string gachaUrl, string? lang = null)
     {
         var match = Regex.Match(gachaUrl, @"(https://webstatic\.mihoyo\.com[!-z]+)");

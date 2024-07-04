@@ -181,6 +181,7 @@ internal abstract class GachaLogService
                 var stats = new GachaTypeStats
                 {
                     GachaType = (GachaType)type,
+                    GachaTypeText = ((GachaType)type).ToLocalization(),
                     Count = list.Count,
                     Count_5 = list.Count(x => x.RankType == 5),
                     Count_4 = list.Count(x => x.RankType == 4),

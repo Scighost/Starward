@@ -205,6 +205,15 @@ public static class EnumExtension
             GachaType.CharacterEventWish_2 => CoreLang.GachaType_CharacterEventWish_2,
             GachaType.WeaponEventWish => CoreLang.GachaType_WeaponEventWish,
             GachaType.ChronicledWish => CoreLang.GachaType_ChronicledWish,
+            _ => "",
+        };
+    }
+
+
+    public static string ToZZZLocalization(this GachaType gachaType)
+    {
+        return gachaType switch
+        {
             GachaType.StandardChannel => CoreLang.GachaType_StandardChannel,
             GachaType.ExclusiveChannel => CoreLang.GachaType_ExclusiveChannel,
             GachaType.WEngineChannel => CoreLang.GachaType_WEngineChannel,

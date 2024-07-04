@@ -69,27 +69,33 @@ public enum GachaType
     [Description("集录祈愿")]
     ChronicledWish = 500,
 
+
     /// <summary>
     /// 常驻频段
     /// </summary>
     [Description("常驻频段")]
-    StandardChannel = 1001,
+    StandardChannel = 1,
 
     /// <summary>
     /// 独家频段
     /// </summary>
     [Description("独家频段")]
-    ExclusiveChannel = 1002,
+    ExclusiveChannel = 2,
 
     /// <summary>
     /// 音擎频段
     /// </summary>
     [Description("音擎频段")]
-    WEngineChannel = 1003,
+    WEngineChannel = 3,
 
     /// <summary>
     /// 邦布频段
     /// </summary>
+    /// todo
     [Description("邦布频段")]
-    BangbooChannel = 1004,
+    BangbooChannel = 4,
+
+
 }
+
+
