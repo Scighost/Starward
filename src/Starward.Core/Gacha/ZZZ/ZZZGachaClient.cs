@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Text;
+﻿using System.Net.Http.Json;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Starward.Core.Gacha;
 
 namespace Starward.Core.Gacha.ZZZ;
 
@@ -26,7 +20,6 @@ public class ZZZGachaClient : GachaLogClient
 
 
 
-    // todo
     protected override string GetGachaUrlPrefix(string gachaUrl, string? lang = null)
     {
         var match = Regex.Match(gachaUrl, @"(https://webstatic\.mihoyo\.com[!-z]+)");
@@ -53,7 +46,7 @@ public class ZZZGachaClient : GachaLogClient
             }
             return gachaUrl;
         }
-        match = Regex.Match(gachaUrl, @"(https://public-operation-nap.mihoyo.com[!-z]+)");
+        match = Regex.Match(gachaUrl, @"(https://public-operation-nap[!-z]+)");
         if (match.Success)
         {
             gachaUrl = match.Groups[1].Value;

@@ -13,7 +13,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Windows.AppLifecycle;
 using Starward.Core;
 using Starward.Helpers;
-using Starward.Services;
 using Starward.Services.InstallGame;
 using Starward.Services.Launcher;
 using System;

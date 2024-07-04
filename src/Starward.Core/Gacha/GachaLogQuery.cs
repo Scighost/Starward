@@ -26,7 +26,8 @@ public struct GachaLogQuery
         return $"gacha_type={(int)GachaType}&page={Page}&size={Size}&end_id={EndId}";
     }
 
-    public string ToZZZString(){
+    public string ToZZZString()
+    {
         return $"real_gacha_type={(int)GachaType}&page={Page}&size={Size}&end_id={EndId}";
     }
 }

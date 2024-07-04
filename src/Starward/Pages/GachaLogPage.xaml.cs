@@ -11,7 +11,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
-using Starward.Converters;
 using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Helpers;

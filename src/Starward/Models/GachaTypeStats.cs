@@ -1,5 +1,4 @@
-﻿using Starward.Core;
-using Starward.Core.Gacha;
+﻿using Starward.Core.Gacha;
 using System;
 using System.Collections.Generic;
 

@@ -7,7 +7,6 @@ using Starward.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,7 +46,7 @@ internal class ZZZGachaService : GachaLogService
     {
         using var dapper = _database.CreateConnection();
         var list = dapper.Query<GachaLogItemEx>("""
-            SELECT item.*, info.Icon FROM ZZZGachaItem item LEFT JOIN ZZZGachaInfo info ON item.ItemId=info.Id WHERE Uid=@uid ORDER BY item.Id;
+            SELECT item.* FROM ZZZGachaItem item WHERE Uid=@uid ORDER BY item.Id;
             """, new { uid }).ToList();
         foreach (var type in GachaTypes)
         {
@@ -58,7 +57,6 @@ internal class ZZZGachaService : GachaLogService
             {
                 item.Index = ++index;
                 item.Pity = ++pity;
-                // todo
                 if (item.RankType == 4)
                 {
                     pity = 0;
@@ -68,6 +66,42 @@ internal class ZZZGachaService : GachaLogService
         return list;
     }
 
+
+
+    public override async Task<long> GetGachaLogAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
+    {
+        using var dapper = _database.CreateConnection();
+        // 正在获取 uid
+        progress?.Report(Lang.GachaLogService_GettingUid);
+        var uid = await _client.GetUidByGachaUrlAsync(url);
+        if (uid == 0)
+        {
+            // 该账号最近6个月没有抽卡记录
+            progress?.Report(Lang.GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months);
+        }
+        else
+        {
+            long endId = 0;
+            if (!all)
+            {
+                endId = dapper.QueryFirstOrDefault<long>($"SELECT Id FROM {GachaTableName} WHERE Uid = @Uid ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
+                _logger.LogInformation($"Last gacha log id of uid {uid} is {endId}");
+            }
+
+            var internalProgress = new Progress<(GachaType GachaType, int Page)>((x) => progress?.Report(string.Format(Lang.GachaLogService_GetGachaProgressText, x.GachaType.ToZZZLocalization(), x.Page)));
+            var list = (await _client.GetGachaLogAsync(url, endId, lang, internalProgress, cancellationToken)).ToList();
+            if (cancellationToken.IsCancellationRequested)
+            {
+                throw new TaskCanceledException();
+            }
+            var oldCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
+            InsertGachaLogItems(list);
+            var newCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
+            // 获取 {list.Count} 条记录，新增 {newCount - oldCount} 条记录
+            progress?.Report(string.Format(Lang.GachaLogService_GetGachaResult, list.Count, newCount - oldCount));
+        }
+        return uid;
+    }
 
 
     public override (List<GachaTypeStats> GachaStats, List<GachaLogItemEx> ItemStats) GetGachaTypeStats(long uid)
@@ -99,8 +133,8 @@ internal class ZZZGachaService : GachaLogService
                 stats.Ratio_5 = (double)stats.Count_5 / stats.Count;
                 stats.Ratio_4 = (double)stats.Count_4 / stats.Count;
                 stats.Ratio_3 = (double)stats.Count_3 / stats.Count;
-                stats.List_5 = list.Where(x => x.RankType == 5).Reverse().ToList();
-                stats.List_4 = list.Where(x => x.RankType == 4).Reverse().ToList();
+                stats.List_5 = list.Where(x => x.RankType == 4).Reverse().ToList();
+                stats.List_4 = list.Where(x => x.RankType == 3).Reverse().ToList();
                 stats.Pity_5 = list.Last().Pity;
                 if (list.Last().RankType == 4)
                 {
