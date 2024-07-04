@@ -10,7 +10,7 @@ public class GachaTypeStats
 
     public GachaType GachaType { get; set; }
 
-    public required string GachaTypeText { get; set; }
+    public string GachaTypeText { get; set; }
 
     public int Count { get; set; }
 
