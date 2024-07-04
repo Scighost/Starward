@@ -76,8 +76,9 @@ public sealed partial class GachaLogPage : PageBase
             }
             if (biz.ToGame() is GameBiz.ZZZ)
             {
-                _gachaLogService = AppConfig.GetService<ZZZGachaService>();
                 IsZZZGachaStatsCardVisible = true;
+                _gachaLogService = AppConfig.GetService<ZZZGachaService>();
+                Image_Emoji.Source = new BitmapImage(AppConfig.EmojiBangboo);
                 MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
                 Button_Export.IsEnabled = false;
                 Button_Import.IsEnabled = false;

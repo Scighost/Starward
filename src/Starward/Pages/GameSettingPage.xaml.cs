@@ -53,6 +53,7 @@ public sealed partial class GameSettingPage : PageBase
                 GameBiz.GenshinImpact => new BitmapImage(AppConfig.EmojiPaimon),
                 GameBiz.StarRail => new BitmapImage(AppConfig.EmojiPom),
                 GameBiz.Honkai3rd => new BitmapImage(AppConfig.EmojiAI),
+                GameBiz.ZZZ => new BitmapImage(AppConfig.EmojiBangboo),
                 _ => null,
             };
         }

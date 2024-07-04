@@ -70,6 +70,7 @@ internal static class AppConfig
 
     public static Uri EmojiAI = new Uri("ms-appx:///Assets/Image/bdfd19c3bdad27a395890755bb60b162.png");
 
+    public static Uri EmojiBangboo = new Uri("ms-appx:///Assets/Image/pamu.db6c2c7b.png");
 
     #endregion
 

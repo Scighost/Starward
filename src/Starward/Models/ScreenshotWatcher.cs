@@ -25,7 +25,8 @@ public class ScreenshotWatcher : ObservableObject, IDisposable
         _watcher.Created += FileSystemWatcher_Created;
         _watcher.Deleted += FileSystemWatcher_Deleted;
         _watcher.EnableRaisingEvents = true;
-        ImageList = new(new DirectoryInfo(folder).GetFiles("*.png").Select(x => new ScreenshotItem(x)).OrderByDescending(x => x.CreationTime));
+        var files = new DirectoryInfo(folder).GetFiles("*.png").Concat(new DirectoryInfo(folder).GetFiles("*.jpg")).ToList();
+        ImageList = new(files.Select(x => new ScreenshotItem(x)).OrderByDescending(x => x.CreationTime));
         var queryGroup = ImageList.GroupBy(x => x.CreationTime.ToString("yyyy-MM")).Select(x => new ScreenshotItemGroup(x.Key, x)).OrderByDescending(x => x.Header);
         ImageGroupList = new(queryGroup);
         ImageViewSource = new CollectionViewSource { Source = ImageGroupList, IsSourceGrouped = true };
