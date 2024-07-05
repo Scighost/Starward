@@ -251,15 +251,27 @@
     <value>Europe &amp; Americas</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
-    <value>Japan</value>
+    <value>Nhật Bản</value>
   </data>
   <data name="GameServer_Korea" xml:space="preserve">
-    <value>Korea</value>
+    <value>Hàn Quốc</value>
   </data>
   <data name="GameServer_SoutheastAsia" xml:space="preserve">
     <value>Southeast Asia</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
     <value>Traditional Chinese</value>
+  </data>
+  <data name="GachaType_StandardChannel" xml:space="preserve">
+    <value>Kênh Thường Trực</value>
+  </data>
+  <data name="GachaType_ExclusiveChannel" xml:space="preserve">
+    <value>Kênh Độc Quyền</value>
+  </data>
+  <data name="GachaType_WEngineChannel" xml:space="preserve">
+    <value>Kênh W-Engine</value>
+  </data>
+  <data name="GachaType_BangbooChannel" xml:space="preserve">
+    <value>Bangboo Channel</value>
   </data>
 </root>
