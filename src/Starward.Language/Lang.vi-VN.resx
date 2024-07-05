@@ -1411,6 +1411,9 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Nội dung cập nhật gần đây</value>
   </data>
   <data name="GameBizSelector_AutoSearch" xml:space="preserve">
-    <value>Auto Search</value>
+    <value>Tìm Kiếm Tự Động</value>
+  </data>
+  <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
+    <value>Lịch Sử Chỉnh Kênh</value>
   </data>
 </root>
