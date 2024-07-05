@@ -257,7 +257,7 @@
     <value>Hàn Quốc</value>
   </data>
   <data name="GameServer_SoutheastAsia" xml:space="preserve">
-    <value>Southeast Asia</value>
+    <value>Đông Nam Á</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
     <value>Traditional Chinese</value>
@@ -272,6 +272,6 @@
     <value>Kênh W-Engine</value>
   </data>
   <data name="GachaType_BangbooChannel" xml:space="preserve">
-    <value>Bangboo Channel</value>
+    <value>Kênh Bangboo</value>
   </data>
 </root>
