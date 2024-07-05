@@ -236,19 +236,19 @@
     <value>CBT3</value>
   </data>
   <data name="GameServer_ChinaOfficial" xml:space="preserve">
-    <value>China Official</value>
+    <value>Trung Quốc</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>Global Official</value>
+    <value>Toàn Cầu</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
-    <value>China Cloud</value>
+    <value>Cloud Trung Quốc</value>
   </data>
   <data name="GameServer_Bilibili" xml:space="preserve">
     <value>Bilibili</value>
   </data>
   <data name="GameServer_EuropeAmericas" xml:space="preserve">
-    <value>Europe &amp; Americas</value>
+    <value>Châu Âu &amp; Châu Mỹ</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
     <value>Nhật Bản</value>
@@ -260,7 +260,7 @@
     <value>Đông Nam Á</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
-    <value>Traditional Chinese</value>
+    <value>Tiếng Trung Phồn Thể</value>
   </data>
   <data name="GachaType_StandardChannel" xml:space="preserve">
     <value>Kênh Thường Trực</value>
