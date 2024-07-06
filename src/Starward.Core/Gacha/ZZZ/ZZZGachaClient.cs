@@ -8,8 +8,7 @@ public class ZZZGachaClient : GachaLogClient
 
 
 
-    // todo
-    protected override IReadOnlyCollection<GachaType> GachaTypes { get; init; } = new GachaType[] { (GachaType)1, (GachaType)2, (GachaType)3, (GachaType)4 }.AsReadOnly();
+    protected override IReadOnlyCollection<GachaType> GachaTypes { get; init; } = new GachaType[] { (GachaType)1, (GachaType)2, (GachaType)3, (GachaType)5 }.AsReadOnly();
 
 
 

@@ -20,8 +20,7 @@ internal class ZZZGachaService : GachaLogService
 
     protected override string GachaTableName { get; } = "ZZZGachaItem";
 
-    // todo
-    protected override IReadOnlyCollection<int> GachaTypes { get; } = new int[] { 1, 2, 3, 4 }.AsReadOnly();
+    protected override IReadOnlyCollection<int> GachaTypes { get; } = new int[] { 1, 2, 3, 5 }.AsReadOnly();
 
 
 
