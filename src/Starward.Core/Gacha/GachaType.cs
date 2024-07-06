@@ -91,9 +91,8 @@ public enum GachaType
     /// <summary>
     /// 邦布频段
     /// </summary>
-    /// todo
     [Description("邦布频段")]
-    BangbooChannel = 4,
+    BangbooChannel = 5,
 
 
 }

@@ -198,7 +198,7 @@ public class LauncherClient
             GameBiz.bh3_cn => $"https://webstatic.mihoyo.com/bh3/announcement/index.html?auth_appid=announcement&authkey_ver=1&bundle_id=bh3_cn&channel_id=1&game=bh3&game_biz=bh3_cn&lang=zh-cn&level=88&platform=pc&region=android01&sdk_presentation_style=fullscreen&sdk_screen_transparent=true&sign_type=2&uid={uid}",
             GameBiz.bh3_global or GameBiz.bh3_jp or GameBiz.bh3_kr or GameBiz.bh3_overseas or GameBiz.bh3_tw => $"https://sdk.hoyoverse.com/bh3/announcement/index.html?auth_appid=announcement&authkey_ver=1&bundle_id=bh3_os&channel_id=1&game=bh3&game_biz=bh3_os&lang={lang}&level=88&platform=pc&region=overseas01&sdk_presentation_style=fullscreen&sdk_screen_transparent=true&sign_type=2&uid={uid}",
             GameBiz.nap_cn or GameBiz.nap_bilibili => $"https://sdk.mihoyo.com/nap/announcement/index.html?auth_appid=announcement&authkey_ver=1&bundle_id=nap_cn&channel_id=1&game=nap&game_biz=nap_cn&lang=zh-cn&level=60&platform=pc&region=prod_gf_cn&sdk_presentation_style=fullscreen&sdk_screen_transparent=true&sign_type=2&uid={uid}&version=2.27",
-            GameBiz.nap_global => $"https://sdk.hoyoverse.com/nap/announcement/index.html?auth_appid=announcement&authkey_ver=1&bundle_id=nap_cn&channel_id=1&game=nap&game_biz=nap_cn&lang={lang}&level=60&platform=pc&region=os_asia&sdk_presentation_style=fullscreen&sdk_screen_transparent=true&sign_type=2&uid={uid}&version=2.27",
+            GameBiz.nap_global => $"https://sdk.hoyoverse.com/nap/announcement/index.html?auth_appid=announcement&authkey_ver=1&bundle_id=nap_global&channel_id=1&game=nap&game_biz=nap_global&lang={lang}&level=60&platform=pc&region=prod_gf_jp&sdk_presentation_style=fullscreen&sdk_screen_transparent=true&sign_type=2&uid={uid}&version=2.27",
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
     }
@@ -217,7 +217,8 @@ public class LauncherClient
             GameBiz.hkrpg_global => $"https://sg-hkrpg-api.hoyoverse.com/common/hkrpg_global/announcement/api/getAlertAnn?bundle_id=hkrpg_global&channel_id=1&game=hkrpg&game_biz=hkrpg_global&lang={lang}&level=1&platform=pc&region=prod_official_asia&uid={uid}",
             GameBiz.bh3_cn => $"https://api-takumi.mihoyo.com/common/bh3_cn/announcement/api/getAlertAnn?game=bh3&game_biz=bh3_cn&lang={lang}&bundle_id=bh3_cn&platform=pc&region=android01&level=88&channel_id=1&uid={uid}",
             GameBiz.bh3_global or GameBiz.bh3_jp or GameBiz.bh3_kr or GameBiz.bh3_overseas or GameBiz.bh3_tw => $"https://sg-public-api.hoyoverse.com/common/bh3_global/announcement/api/getAlertAnn?game=bh3&game_biz=bh3_global&lang={lang}&bundle_id=bh3_os&platform=pc&region=overseas01&level=88&channel_id=1&uid={uid}",
-            GameBiz.nap_cn => $"https://announcement-api.mihoyo.com/common/nap_cn/announcement/api/getAlertAnn?game=nap&game_biz=nap_cn&lang=zh-cn&bundle_id=nap_cn&channel_id=1&level=40&platform=pc&region=prod_cb01_cn&uid={uid}",
+            GameBiz.nap_cn or GameBiz.hk4e_bilibili => $"https://announcement-api.mihoyo.com/common/nap_cn/announcement/api/getAlertAnn?bundle_id=nap_cn&channel_id=1&game=nap&game_biz=nap_cn&lang=zh-cn&level=60&platform=pc&region=prod_gf_cn&uid={uid}",
+            GameBiz.nap_global => $"https://sg-announcement-api.hoyoverse.com/common/nap_global/announcement/api/getAlertAnn?bundle_id=nap_global&channel_id=1&game=nap&game_biz=nap_global&lang={lang}&level=60&platform=pc&region=prod_gf_jp&uid={uid}",
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);
