@@ -239,7 +239,7 @@
     <value>Китай Официальный</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>Глобальный официальный</value>
+    <value>Глобальный</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
     <value>Китай облако</value>
@@ -261,5 +261,17 @@
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
     <value>Традиционный Китайский</value>
+  </data>
+  <data name="GachaType_StandardChannel" xml:space="preserve">
+    <value>Стандартный канал</value>
+  </data>
+  <data name="GachaType_ExclusiveChannel" xml:space="preserve">
+    <value>Выделенный канал</value>
+  </data>
+  <data name="GachaType_WEngineChannel" xml:space="preserve">
+    <value>Канал Амплификаторов</value>
+  </data>
+  <data name="GachaType_BangbooChannel" xml:space="preserve">
+    <value>Канал банбу</value>
   </data>
 </root>

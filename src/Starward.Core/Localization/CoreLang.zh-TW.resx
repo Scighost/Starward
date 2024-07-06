@@ -239,7 +239,7 @@
     <value>China Official</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>Global Official</value>
+    <value>國際服</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
     <value>China Cloud</value>
@@ -251,15 +251,27 @@
     <value>Europe &amp; Americas</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
-    <value>Japan</value>
+    <value>日服</value>
   </data>
   <data name="GameServer_Korea" xml:space="preserve">
-    <value>Korea</value>
+    <value>韓服</value>
   </data>
   <data name="GameServer_SoutheastAsia" xml:space="preserve">
-    <value>Southeast Asia</value>
+    <value>東南亞服</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
-    <value>Traditional Chinese</value>
+    <value>正體中文</value>
+  </data>
+  <data name="GachaType_StandardChannel" xml:space="preserve">
+    <value>Standard Channel</value>
+  </data>
+  <data name="GachaType_ExclusiveChannel" xml:space="preserve">
+    <value>Exclusive Channel</value>
+  </data>
+  <data name="GachaType_WEngineChannel" xml:space="preserve">
+    <value>W-Engine Channel</value>
+  </data>
+  <data name="GachaType_BangbooChannel" xml:space="preserve">
+    <value>Bangboo Channel</value>
   </data>
 </root>
