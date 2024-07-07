@@ -236,19 +236,19 @@
     <value>喧響測試</value>
   </data>
   <data name="GameServer_ChinaOfficial" xml:space="preserve">
-    <value>China Official</value>
+    <value>中國官方</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
     <value>國際服</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
-    <value>China Cloud</value>
+    <value>中國雲端</value>
   </data>
   <data name="GameServer_Bilibili" xml:space="preserve">
     <value>Bilibili</value>
   </data>
   <data name="GameServer_EuropeAmericas" xml:space="preserve">
-    <value>Europe &amp; Americas</value>
+    <value>歐美服</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
     <value>日服</value>
@@ -272,6 +272,6 @@
     <value>W-Engine Channel</value>
   </data>
   <data name="GachaType_BangbooChannel" xml:space="preserve">
-    <value>Bangboo Channel</value>
+    <value>邦布頻道</value>
   </data>
 </root>
