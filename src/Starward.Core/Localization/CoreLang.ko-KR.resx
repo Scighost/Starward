@@ -236,13 +236,13 @@
     <value>CBT3</value>
   </data>
   <data name="GameServer_ChinaOfficial" xml:space="preserve">
-    <value>중국 서버</value>
+    <value>중국 (본토)</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
     <value>글로벌 서버</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
-    <value>중국 클라우드 서버</value>
+    <value>중국 (클라우드)</value>
   </data>
   <data name="GameServer_Bilibili" xml:space="preserve">
     <value>Bilbili 서버</value>
@@ -260,7 +260,7 @@
     <value>동남아시아</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
-    <value>Traditional Chinese</value>
+    <value>중국 (홍콩, 대만, 마카오)</value>
   </data>
   <data name="GachaType_StandardChannel" xml:space="preserve">
     <value>일반 채널</value>
