@@ -1411,6 +1411,9 @@
     <value>최근 업데이트 내용</value>
   </data>
   <data name="GameBizSelector_AutoSearch" xml:space="preserve">
-    <value>Auto Search</value>
+    <value>자동검색</value>
+  </data>
+  <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
+    <value>변조기록</value>
   </data>
 </root>
