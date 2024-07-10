@@ -1419,4 +1419,16 @@
   <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
     <value>调频记录</value>
   </data>
+  <data name="ApocalypticShadowPage_DefeatedBoss" xml:space="preserve">
+    <value>已击败首领</value>
+  </data>
+  <data name="ApocalypticShadowPage_HighestDifficultyCleared" xml:space="preserve">
+    <value>最高难度</value>
+  </data>
+  <data name="ForgottenHallPage_FarthestStage" xml:space="preserve">
+    <value>最高关卡</value>
+  </data>
+  <data name="ForgottenHallPage_TimesChallenged" xml:space="preserve">
+    <value>挑战次数</value>
+  </data>
 </root>
