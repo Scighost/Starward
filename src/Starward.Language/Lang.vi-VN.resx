@@ -181,7 +181,7 @@
     <value>Bạn có muốn chọn thư mục này?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>Thư mục này sẽ tự động bị xoá sau khi ứng dụng được cập nhật</value>
+    <value>Thư mục này sẽ tự động xoá sau khi ứng dụng được cập nhật</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
     <value>Không có quyền ghi</value>
@@ -236,10 +236,10 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Lỗi tham số</value>
   </data>
   <data name="DownloadGamePage_NoPermission" xml:space="preserve">
-    <value>Không có quyền</value>
+    <value>Không Có Quyền Hạn</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Vui lòng khởi động dưới quyền Quản Trị Viên</value>
+    <value>Vui lòng khởi động bằng quyền Quản Trị Viên (Administrator)</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
     <value>Bắt đầu</value>
@@ -1409,6 +1409,9 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
     <value>Nội dung cập nhật gần đây</value>
+  </data>
+  <data name="HoyolabToolboxPage_ApocalypticShadow" xml:space="preserve">
+    <value>Apocalyptic Shadow</value>
   </data>
   <data name="GameBizSelector_AutoSearch" xml:space="preserve">
     <value>Tìm Kiếm Tự Động</value>
