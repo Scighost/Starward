@@ -1,0 +1,743 @@
+﻿<local:PageBase x:Class="Starward.Pages.GameLauncherPage"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:av="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:lang="using:Starward.Language"
+                xmlns:local="using:Starward.Pages"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:sc="using:Starward.Controls"
+                xmlns:scv="using:Starward.Converters"
+                xmlns:sh="using:Starward.Helpers"
+                x:DefaultBindMode="OneWay"
+                mc:Ignorable="d">
+
+    <Page.Resources>
+        <scv:GameAccountUidStringConverter x:Key="GameAccountUidStringConverter" />
+    </Page.Resources>
+
+    <SplitView Name="SplitView_Content"
+               BorderThickness="0"
+               CornerRadius="12,0,0,12"
+               DisplayMode="Overlay"
+               OpenPaneLength="600"
+               PaneBackground="{ThemeResource CustomAcrylicBrush}"
+               PanePlacement="Right">
+
+        <Grid>
+
+            <!--  Banner & Post  -->
+            <sc:GameBannerAndPost x:Name="GameBannerAndPost"
+                                  Margin="60,0,0,40"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Bottom"
+                                  x:FieldModifier="protected" />
+
+
+            <!--  Start Game  -->
+            <StackPanel Margin="0,0,40,40"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal"
+                        Spacing="12">
+
+
+
+                <!--  predownload  -->
+                <Border Height="40"
+                        Background="{ThemeResource CustomAcrylicBrush}"
+                        CornerRadius="20"
+                        Shadow="{StaticResource ThemeShadow}"
+                        Translation="0,0,16"
+                        Visibility="{x:Bind IsPreInstallButtonEnable}">
+                    <Button Name="Button_PreDownloadGame"
+                            Height="40"
+                            BorderThickness="0"
+                            Command="{x:Bind PreDownloadGameCommand}"
+                            CornerRadius="20"
+                            Style="{ThemeResource AccentButtonStyle}">
+                        <StackPanel Margin="4,0,4,0" Orientation="Horizontal">
+                            <FontIcon Margin="0,2,0,0"
+                                      FontSize="20"
+                                      Glyph="&#xEBD3;"
+                                      Visibility="{x:Bind IsPreDownloadOK, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                            <FontIcon Margin="0,2,0,0"
+                                      FontSize="20"
+                                      Glyph="&#xE930;"
+                                      Visibility="{x:Bind IsPreDownloadOK}" />
+                            <TextBlock Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind lang:Lang.LauncherPage_PreInstall}" />
+                        </StackPanel>
+                    </Button>
+                </Border>
+
+
+
+                <!--  Game Time  -->
+                <sc:PlaytimeButton Height="44" CurrentGameBiz="{x:Bind CurrentGameBiz}" />
+
+
+
+                <!--  Start Game  -->
+                <Grid Height="44"
+                      MinWidth="180"
+                      Background="{ThemeResource CustomAcrylicBrush}"
+                      CornerRadius="22"
+                      Shadow="{StaticResource ThemeShadow}"
+                      Translation="0,0,16">
+
+                    <!--  Game is Running  -->
+                    <Button Name="Button_GameIsRunning"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            FontSize="14"
+                            IsEnabled="False"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsGameRunning}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_GameIsRunning}" />
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      FontWeight="Bold"
+                                      Glyph="&#xE76C;" />
+                            <FontIcon Margin="-22,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      FontWeight="Bold"
+                                      Glyph="&#xE76C;" />
+                        </StackPanel>
+                    </Button>
+
+                    <!--  Start Game  -->
+                    <Button Name="Button_StartGame"
+                            Padding="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind StartGameCommand}"
+                            FontSize="14"
+                            IsEnabled="{x:Bind CanStartGame}"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsStartGameButtonEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_StartGame}" />
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      FontWeight="Bold"
+                                      Glyph="&#xE76C;" />
+                            <FontIcon Margin="-22,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      FontWeight="Bold"
+                                      Glyph="&#xE76C;" />
+                        </StackPanel>
+                    </Button>
+
+                    <!--  Download Game  -->
+                    <Button Name="Button_DownloadGame"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind DownloadGameCommand}"
+                            FontSize="14"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsDownloadGameButtonEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="20"
+                                      Glyph="&#xEBD3;" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_InstallGame}" />
+                        </StackPanel>
+                    </Button>
+
+                    <!--  Update Game  -->
+                    <Button Name="Button_UpdateGame"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind DownloadGameCommand}"
+                            FontSize="14"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsUpdateGameButtonEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      Glyph="&#xE752;" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_UpdateGame}" />
+                        </StackPanel>
+                    </Button>
+
+                    <!--  Repair Game  -->
+                    <Button Name="Button_RepairGame"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderThickness="0"
+                            Command="{x:Bind RepairGameCommand}"
+                            FontSize="14"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind IsRepairGameButtonEnable}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Margin="0,2,0,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="18"
+                                      Glyph="&#xE90F;" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
+                        </StackPanel>
+                    </Button>
+
+                </Grid>
+
+
+
+            </StackPanel>
+
+
+            <!--  Account  -->
+            <StackPanel Name="StackPanel_Account"
+                        Height="40"
+                        Margin="0,0,40,100"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal"
+                        Spacing="16"
+                        Visibility="Collapsed">
+
+                <!--  account list  -->
+                <Grid Background="{ThemeResource CustomAcrylicBrush}"
+                      CornerRadius="20"
+                      Shadow="{StaticResource ThemeShadow}"
+                      Translation="0,0,16">
+                    <ComboBox Name="ComboBox_GameAccount"
+                              Height="40"
+                              MinWidth="200"
+                              BorderThickness="0"
+                              CornerRadius="0,20,20,0"
+                              ItemsSource="{x:Bind GameAccountList}"
+                              SelectedItem="{x:Bind SelectGameAccount, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="8,0,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock VerticalAlignment="Center">
+                                        <Run Text="{Binding Name}" />
+                                        <Run Text="" />
+                                        <Run FontSize="12"
+                                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                             Text="{Binding Uid}" />
+                                    </TextBlock>
+                                    <FontIcon Grid.Column="1"
+                                              Margin="8,0,0,0"
+                                              VerticalAlignment="Bottom"
+                                              FontSize="14"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE930;"
+                                              ToolTipService.ToolTip="{Binding LoginAccountText}"
+                                              Visibility="{Binding IsLogin}" />
+                                    <FontIcon Grid.Column="2"
+                                              Margin="8,0,0,0"
+                                              VerticalAlignment="Bottom"
+                                              FontSize="14"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE74E;"
+                                              ToolTipService.ToolTip="{Binding SaveAccountText}"
+                                              Visibility="{Binding IsSaved}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+
+                <!--  change account  -->
+                <Grid Background="{ThemeResource CustomAcrylicBrush}"
+                      CornerRadius="20"
+                      Shadow="{StaticResource ThemeShadow}"
+                      Translation="0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Height="40"
+                            BorderThickness="0"
+                            Command="{x:Bind ChangeGameAccountCommand}"
+                            CornerRadius="20,0,0,20">
+                        <TextBlock Margin="8,0,0,0" Text="{x:Bind lang:Lang.LauncherPage_SwitchAccount}" />
+                    </Button>
+                    <Button Grid.Column="1"
+                            Height="40"
+                            BorderThickness="0"
+                            CornerRadius="0,20,20,0"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            IsEnabled="{x:Bind SelectGameAccount, Converter={StaticResource ObjectToBoolConverter}}">
+                        <FontIcon Margin="0,0,4,0"
+                                  FontSize="14"
+                                  Glyph="&#xE70F;" />
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel MinWidth="200" Spacing="4">
+                                    <TextBlock FontSize="16"
+                                               FontWeight="SemiBold"
+                                               Text="{x:Bind lang:Lang.LauncherPage_AccountInformation}" />
+                                    <Button Width="0"
+                                            Height="0"
+                                            IsHitTestVisible="False" />
+                                    <TextBlock Text="{x:Bind lang:Lang.LauncherPage_Nickname}" />
+                                    <TextBox Name="TextBox_Nickname"
+                                             IsSpellCheckEnabled="False"
+                                             Text="{x:Bind SelectGameAccount.Name, Mode=TwoWay}" />
+                                    <TextBlock Margin="0,8,0,0" Text="Uid" />
+                                    <AutoSuggestBox x:Name="AutoSuggestBox_Uid"
+                                                    GotFocus="AutoSuggestBox_Uid_GotFocus"
+                                                    Loaded="AutoSuggestBox_Uid_Loaded"
+                                                    Text="{x:Bind SelectGameAccount.Uid, Converter={StaticResource GameAccountUidStringConverter}, Mode=TwoWay}"
+                                                    TextChanged="AutoSuggestBox_Uid_TextChanged" />
+                                    <StackPanel Margin="0,4,0,0"
+                                                Orientation="Horizontal"
+                                                Visibility="{x:Bind SelectGameAccount.IsLogin}">
+                                        <FontIcon Margin="4,0,0,1"
+                                                  VerticalAlignment="Bottom"
+                                                  FontSize="14"
+                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                  Glyph="&#xE930;" />
+                                        <TextBlock Margin="8,0,0,0"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   Text="{x:Bind lang:Lang.LauncherPage_CurrentlyLoggedInAccount}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Visibility="{x:Bind SelectGameAccount.IsSaved}">
+                                        <FontIcon Margin="4,0,0,1"
+                                                  VerticalAlignment="Bottom"
+                                                  FontSize="14"
+                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                  Glyph="&#xE74E;" />
+                                        <TextBlock Margin="8,0,0,0"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   Text="{x:Bind lang:Lang.LauncherPage_SavedAccount}" />
+                                    </StackPanel>
+                                    <Grid Margin="0,4,0,0"
+                                          HorizontalAlignment="Stretch"
+                                          Background="{ThemeResource CustomAcrylicBrush}"
+                                          CornerRadius="20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Height="40"
+                                                MinWidth="100"
+                                                HorizontalAlignment="Stretch"
+                                                Command="{x:Bind SaveGameAccountCommand}"
+                                                CornerRadius="20,0,0,20">
+                                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                                <FontIcon Name="FontIcon_SaveGameAccount"
+                                                          FontSize="16"
+                                                          Glyph="&#xE74E;" />
+                                                <TextBlock Text="{x:Bind lang:Lang.Common_Save}" />
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Grid.Column="1"
+                                                Height="40"
+                                                MinWidth="100"
+                                                HorizontalAlignment="Stretch"
+                                                CornerRadius="0,20,20,0">
+                                            <Button.Flyout>
+                                                <MenuFlyout>
+                                                    <MenuFlyoutItem Command="{x:Bind DeleteGameAccountCommand}"
+                                                                    Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                                                                    Text="{x:Bind lang:Lang.LauncherPage_ConfirmDelete}" />
+                                                </MenuFlyout>
+                                            </Button.Flyout>
+                                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                                <TextBlock Text="{x:Bind lang:Lang.Common_Delete}" />
+                                                <FontIcon FontSize="16" Glyph="&#xE74D;" />
+                                            </StackPanel>
+                                        </Button>
+                                    </Grid>
+
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </Grid>
+
+
+            </StackPanel>
+
+
+            <!--<sc:AccountSwitcher x:Name="AccountSwitcher"
+                                Height="40"
+                                Margin="0,0,40,100"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                CurrentGameBiz="{x:Bind CurrentGameBiz}" />-->
+
+
+
+            <StackPanel Margin="0,8,0,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
+                <!--  Game Setting  -->
+                <Button Width="40"
+                        Height="40"
+                        Margin="4"
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        Command="{x:Bind OpenCloseGameSettingCommand}"
+                        CornerRadius="8"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind lang:Lang.LauncherPage_GameSetting}">
+                    <FontIcon FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="&#xE713;"
+                              IsTextScaleFactorEnabled="False" />
+                </Button>
+
+            </StackPanel>
+
+
+
+        </Grid>
+
+
+
+        <!--  Game Setting  -->
+        <SplitView.Pane>
+
+            <ScrollViewer HorizontalScrollMode="Disabled">
+
+                <Grid>
+
+                    <StackPanel Margin="24,12,24,12">
+                        <TextBlock FontSize="20"
+                                   FontWeight="Bold"
+                                   Text="{x:Bind lang:Lang.LauncherPage_GameSetting}" />
+                        <!--  Game Install Path  -->
+                        <TextBlock Margin="0,12,0,0"
+                                   FontWeight="SemiBold"
+                                   Text="{x:Bind lang:Lang.LauncherPage_InstallFolder}" />
+                        <Grid Margin="-24,8,0,0" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Height="36"
+                                    Padding="24,0,16,0"
+                                    BorderThickness="0"
+                                    Command="{x:Bind ChangeGameInstallPathCommand}"
+                                    CornerRadius="0,18,18,0"
+                                    Style="{ThemeResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE838;" />
+                                    <TextBlock Text="{x:Bind lang:Lang.LauncherPage_Locate}" />
+                                </StackPanel>
+                            </Button>
+                            <Grid Grid.Column="1"
+                                  Height="36"
+                                  HorizontalAlignment="Left"
+                                  Background="{ThemeResource CustomAcrylicBrush}"
+                                  CornerRadius="18"
+                                  Visibility="{x:Bind InstallPath, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button Height="36"
+                                        Padding="16,0,8,1"
+                                        BorderThickness="0"
+                                        Command="{x:Bind OpenGameInstallFolderCommand}"
+                                        CornerRadius="0">
+                                    <TextBlock VerticalAlignment="Center"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+                                               Text="{x:Bind InstallPath}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="Wrap" />
+                                </Button>
+                                <Button Grid.Column="1"
+                                        Height="36"
+                                        BorderThickness="0"
+                                        Command="{x:Bind DeleteGameInstallPathCommand}"
+                                        CornerRadius="0">
+                                    <FontIcon Margin="0,2,2,0"
+                                              FontSize="16"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE711;" />
+                                </Button>
+                            </Grid>
+                        </Grid>
+
+                        <!--  repair game  -->
+                        <StackPanel Margin="-24,12,0,0"
+                                    Orientation="Horizontal"
+                                    Spacing="16">
+                            <Button x:Name="Button_SettingRepairGame"
+                                    Height="36"
+                                    Padding="24,0,16,0"
+                                    x:FieldModifier="protected"
+                                    BorderThickness="0"
+                                    Command="{x:Bind RepairGameCommand}"
+                                    CornerRadius="0,18,18,0"
+                                    Style="{ThemeResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE90F;" />
+                                    <TextBlock Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="Button_UninstallGame"
+                                    Height="36"
+                                    Padding="16,0,16,0"
+                                    x:FieldModifier="protected"
+                                    BorderThickness="0"
+                                    Command="{x:Bind UninstallGameCommand}"
+                                    CornerRadius="8,18,18,8"
+                                    Style="{ThemeResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Grid>
+                                        <FontIcon Width="20"
+                                                  Height="20"
+                                                  Glyph="&#xE74D;"
+                                                  Visibility="{x:Bind UninstallGameCommand.IsRunning, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                                        <ProgressRing Width="20"
+                                                      Height="20"
+                                                      Visibility="{x:Bind UninstallGameCommand.IsRunning, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    </Grid>
+                                    <TextBlock Text="{x:Bind lang:Lang.LauncherPage_UninstallGame}" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                        <Button Width="0"
+                                Height="0"
+                                IsHitTestVisible="False" />
+
+                        <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+
+                            <TextBlock FontWeight="SemiBold" Text="{x:Bind lang:Lang.GameSettingPage_StartArguments}" />
+                            <Button Margin="8,2,0,0"
+                                    Padding="2"
+                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                <FontIcon FontSize="14"
+                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                          Glyph="&#xE9CE;" />
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <TextBlock Name="TextBlock_StartArgumentDesc"
+                                                   MaxWidth="360"
+                                                   TextWrapping="Wrap" />
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                        </StackPanel>
+                        <TextBox MinWidth="320"
+                                 Margin="0,8,0,0"
+                                 HorizontalAlignment="Left"
+                                 IsEnabled="{x:Bind EnableThirdPartyTool, Converter={StaticResource BoolReversedConverter}}"
+                                 IsSpellCheckEnabled="False"
+                                 Text="{x:Bind StartGameArgument, Mode=TwoWay}"
+                                 TextWrapping="Wrap" />
+
+                        <!--  Third Party Tool  -->
+                        <ToggleSwitch Margin="0,12,0,0"
+                                      FontSize="14"
+                                      FontWeight="SemiBold"
+                                      IsOn="{x:Bind EnableThirdPartyTool, Mode=TwoWay}"
+                                      OffContent="{x:Bind lang:Lang.LauncherPage_CustomStartExecutable}"
+                                      OnContent="{x:Bind lang:Lang.LauncherPage_CustomStartExecutable}" />
+                        <Grid Margin="-24,0,0,0" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Height="36"
+                                    Padding="24,0,16,0"
+                                    BorderThickness="0"
+                                    Command="{x:Bind ChangeThirdPartyPathCommand}"
+                                    CornerRadius="0,18,18,0"
+                                    IsEnabled="{x:Bind EnableThirdPartyTool}"
+                                    Style="{ThemeResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE7FC;" />
+                                    <TextBlock Text="{x:Bind lang:Lang.Common_Select}" />
+                                </StackPanel>
+                            </Button>
+                            <Grid Grid.Column="1"
+                                  Height="36"
+                                  HorizontalAlignment="Left"
+                                  Background="{ThemeResource CustomAcrylicBrush}"
+                                  CornerRadius="18"
+                                  Visibility="{x:Bind ThirdPartyToolPath, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button Height="36"
+                                        Padding="16,0,8,1"
+                                        BorderThickness="0"
+                                        Command="{x:Bind OpenThirdPartyToolFolderCommand}"
+                                        CornerRadius="0">
+                                    <TextBlock VerticalAlignment="Center"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+                                               Text="{x:Bind ThirdPartyToolPath}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="Wrap" />
+                                </Button>
+                                <Button Grid.Column="1"
+                                        Height="36"
+                                        BorderThickness="0"
+                                        Command="{x:Bind DeleteThirdPartyToolPathCommand}"
+                                        CornerRadius="0">
+                                    <FontIcon Margin="0,2,2,0"
+                                              FontSize="16"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE711;" />
+                                </Button>
+                            </Grid>
+                        </Grid>
+
+                        <!--  显示游戏公告  -->
+                        <ToggleSwitch Margin="0,8,0,0"
+                                      IsOn="{x:Bind EnableBannerAndPost, Mode=TwoWay}"
+                                      OffContent="{x:Bind lang:Lang.LauncherPage_ShowGameAnnouncement}"
+                                      OnContent="{x:Bind lang:Lang.LauncherPage_ShowGameAnnouncement}" />
+                        <!--  忽略正在运行的游戏进程  -->
+                        <ToggleSwitch Margin="0,-4,0,0"
+                                      IsOn="{x:Bind IgnoreRunningGame, Mode=TwoWay}"
+                                      OffContent="{x:Bind lang:Lang.LauncherPage_IgnoreRunningGameProcess}"
+                                      OnContent="{x:Bind lang:Lang.LauncherPage_IgnoreRunningGameProcess}" />
+
+
+                        <TextBlock Margin="0,20,0,0"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Text="{x:Bind lang:Lang.LauncherPage_BackgroundSetting}" />
+
+                        <!--  Custom Bg  -->
+                        <ToggleSwitch Margin="0,8,0,0"
+                                      FontWeight="SemiBold"
+                                      IsOn="{x:Bind EnableCustomBg, Mode=TwoWay}"
+                                      OffContent="{x:Bind lang:Lang.SettingPage_CustomBackgroundSupportVideo}"
+                                      OnContent="{x:Bind lang:Lang.SettingPage_CustomBackgroundSupportVideo}" />
+                        <!--  请选择像素大小与应用窗口相匹配的图片，较大的图片会降低性能。  -->
+                        <TextBlock FontSize="12"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind lang:Lang.SettingPage_BgSizeTip}"
+                                   TextWrapping="Wrap" />
+                        <Grid Margin="-24,8,0,0" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Height="36"
+                                    Padding="24,0,16,0"
+                                    BorderThickness="0"
+                                    Command="{x:Bind ChangeCustomBgCommand}"
+                                    CornerRadius="0,18,18,0"
+                                    IsEnabled="{x:Bind EnableCustomBg}"
+                                    Style="{ThemeResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE91B;" />
+                                    <TextBlock Text="{x:Bind lang:Lang.Common_Select}" />
+                                </StackPanel>
+                            </Button>
+                            <Grid Grid.Column="1"
+                                  Height="36"
+                                  HorizontalAlignment="Left"
+                                  Background="{ThemeResource CustomAcrylicBrush}"
+                                  CornerRadius="18"
+                                  Visibility="{x:Bind CustomBg, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button Height="36"
+                                        BorderThickness="0"
+                                        Command="{x:Bind OpenCustomBgCommand}"
+                                        CornerRadius="0">
+                                    <TextBlock Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+                                               Text="{x:Bind CustomBg}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="Wrap" />
+                                </Button>
+                                <Button Grid.Column="1"
+                                        Height="36"
+                                        BorderThickness="0"
+                                        Command="{x:Bind DeleteCustomBgCommand}"
+                                        CornerRadius="0">
+                                    <FontIcon Margin="0,2,2,0"
+                                              FontSize="16"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE711;" />
+                                </Button>
+                            </Grid>
+                        </Grid>
+
+                        <!--  所有游戏使用相同的背景  -->
+                        <ToggleSwitch Margin="0,8,0,0"
+                                      IsOn="{x:Bind UseOneBg, Mode=TwoWay}"
+                                      OffContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}"
+                                      OnContent="{x:Bind lang:Lang.SettingPage_UseSameBackgroundInAllGameRegion}" />
+
+                        <!--  volume  -->
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    Command="{x:Bind MuteCommand}"
+                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                <FontIcon FontSize="16" Glyph="{x:Bind VideoBgVolumeButtonIcon}" />
+                            </Button>
+                            <Slider Grid.Column="1"
+                                    Width="200"
+                                    HorizontalAlignment="Left"
+                                    Maximum="100"
+                                    Minimum="0"
+                                    Value="{x:Bind VideoBgVolume, Mode=TwoWay}" />
+                        </Grid>
+
+
+                    </StackPanel>
+
+                    <!--  Close Pane Button  -->
+                    <Button Width="40"
+                            Height="40"
+                            Margin="0,12,4,0"
+                            Padding="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            BorderThickness="0"
+                            Command="{x:Bind OpenCloseGameSettingCommand}"
+                            CornerRadius="8"
+                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE711;"
+                                  IsTextScaleFactorEnabled="False" />
+                    </Button>
+
+                </Grid>
+
+            </ScrollViewer>
+
+        </SplitView.Pane>
+
+    </SplitView>
+
+
+</local:PageBase>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="Starward.Controls.PlaytimeButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:DefaultBindMode="OneWay"
+             Loaded="UserControl_Loaded"
+             mc:Ignorable="d">
+
+    <Border Name="Border_Playtime"
+            Height="44"
+            Background="{ThemeResource CustomAcrylicBrush}"
+            CornerRadius="22"
+            Shadow="{StaticResource ThemeShadow}"
+            Translation="0,0,16">
+        <Button Height="44"
+                BorderThickness="0"
+                CornerRadius="22">
+            <StackPanel Margin="4,2,4,0"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                <FontIcon FontSize="20"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE823;" />
+                <TextBlock FontWeight="SemiBold"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind PlayTimeTotal, Converter={StaticResource TimeSpanToStringConverter}}" />
+            </StackPanel>
+            <Button.Flyout>
+                <Flyout>
+                    <StackPanel MinWidth="180" Spacing="8">
+                        <TextBlock FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Text="{x:Bind lang:Lang.LauncherPage_PlayTime}" />
+                        <Grid ColumnSpacing="16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Spacing="8">
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_StartupCount}" />
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisDay}" />
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisWeek}" />
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisMonth}" />
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_LastTime}" />
+                                <TextBlock />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Spacing="8">
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind StartUpCount}" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind PlayTimeDay, Converter={StaticResource TimeSpanToStringConverter}}" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind PlayTimeWeek, Converter={StaticResource TimeSpanToStringConverter}}" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind PlayTimeMonth, Converter={StaticResource TimeSpanToStringConverter}}" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind PlayTimeLast, Converter={StaticResource TimeSpanToStringConverter}}" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind LastPlayTimeText}" />
+                            </StackPanel>
+                        </Grid>
+                        <Border Height="36"
+                                Margin="0,8,0,0"
+                                Background="{ThemeResource CustomAcrylicBrush}"
+                                CornerRadius="18">
+                            <Button Height="36"
+                                    HorizontalAlignment="Stretch"
+                                    BorderThickness="0"
+                                    Command="{x:Bind UpdatePlayTimeCommand}"
+                                    CornerRadius="18">
+                                <StackPanel Margin="12,0,12,0"
+                                            Orientation="Horizontal"
+                                            Spacing="8">
+                                    <FontIcon FontSize="14" Glyph="&#xE72C;" />
+                                    <TextBlock Text="{x:Bind lang:Lang.Common_Refresh}" />
+                                </StackPanel>
+                            </Button>
+                        </Border>
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+    </Border>
+
+</UserControl>

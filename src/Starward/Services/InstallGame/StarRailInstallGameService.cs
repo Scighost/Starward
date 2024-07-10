@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Starward.Core;
-using Starward.Core.Launcher;
+using Starward.Core.HoYoPlay;
+using Starward.Services.Launcher;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,8 +18,8 @@ internal class StarRailInstallGameService : InstallGameService
     public override GameBiz CurrentGame => GameBiz.StarRail;
 
 
-    public StarRailInstallGameService(ILogger<StarRailInstallGameService> logger, GameResourceService gameResourceService, LauncherClient launcherClient, HttpClient httpClient)
-        : base(logger, gameResourceService, launcherClient, httpClient)
+    public StarRailInstallGameService(ILogger<StarRailInstallGameService> logger, GameLauncherService gameLauncherService, GamePackageService gamePackageService, HoYoPlayClient hoyoPlayClient, HttpClient httpClient)
+        : base(logger, gameLauncherService, gamePackageService, hoyoPlayClient, httpClient)
     {
 
     }

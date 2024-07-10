@@ -1410,4 +1410,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
     <value>Nội dung cập nhật gần đây</value>
   </data>
+  <data name="GameBizSelector_AutoSearch" xml:space="preserve">
+    <value>Tìm Kiếm Tự Động</value>
+  </data>
+  <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
+    <value>Lịch Sử Chỉnh Kênh</value>
+  </data>
 </root>

@@ -21,6 +21,7 @@
             <BitmapImage x:Key="EmojiPaimon" UriSource="ms-appx:///Assets/Image/UI_EmotionIcon5.png" />
             <BitmapImage x:Key="EmojiPom" UriSource="ms-appx:///Assets/Image/20008.png" />
             <BitmapImage x:Key="EmojiAI" UriSource="ms-appx:///Assets/Image/bdfd19c3bdad27a395890755bb60b162.png" />
+            <BitmapImage x:Key="EmojiBangboo" UriSource="ms-appx:///Assets/Image/pamu.db6c2c7b.png" />
 
             <!--  Shadow  -->
             <ThemeShadow x:Key="ThemeShadow" />

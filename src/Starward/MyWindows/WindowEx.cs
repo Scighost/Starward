@@ -208,12 +208,12 @@ public abstract partial class WindowEx : Window
             if (element.ActualTheme is ElementTheme.Dark)
             {
                 element.RequestedTheme = ElementTheme.Light;
-                element.RequestedTheme = ElementTheme.Default;
+                element.RequestedTheme = ElementTheme.Dark;
             }
             if (element.ActualTheme is ElementTheme.Light)
             {
                 element.RequestedTheme = ElementTheme.Dark;
-                element.RequestedTheme = ElementTheme.Default;
+                element.RequestedTheme = ElementTheme.Light;
             }
         }
     }

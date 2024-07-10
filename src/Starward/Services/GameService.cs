@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using Starward.Core;
 using Starward.Models;
+using Starward.Services.Launcher;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -18,14 +19,14 @@ internal class GameService
     private readonly ILogger<GameService> _logger;
 
 
-    private readonly GameResourceService _gameResourceService;
+    private readonly GameLauncherService _gameLauncherService;
 
 
 
-    public GameService(ILogger<GameService> logger, GameResourceService gameResourceService)
+    public GameService(ILogger<GameService> logger, GameLauncherService gameLauncherService)
     {
         _logger = logger;
-        _gameResourceService = gameResourceService;
+        _gameLauncherService = gameLauncherService;
     }
 
 
@@ -46,7 +47,7 @@ internal class GameService
         }
         else
         {
-            folder = _gameResourceService.GetGameInstallPath(biz);
+            folder = _gameLauncherService.GetGameInstallPath(biz);
             var relativePath = biz.ToGame() switch
             {
                 GameBiz.GenshinImpact => "ScreenShot",
@@ -124,7 +125,7 @@ internal class GameService
             }
             if (string.IsNullOrWhiteSpace(exe))
             {
-                var folder = _gameResourceService.GetGameInstallPath(biz);
+                var folder = _gameLauncherService.GetGameInstallPath(biz);
                 var name = GameResourceService.GetGameExeName(biz);
                 exe = Path.Join(folder, name);
                 arg = AppConfig.GetStartArgument(biz)?.Trim();
@@ -180,6 +181,7 @@ internal class GameService
                     GameBiz.GenshinImpact => "ScreenShot",
                     GameBiz.StarRail => @"StarRail_Data\ScreenShots",
                     GameBiz.Honkai3rd => @"ScreenShot",
+                    GameBiz.ZZZ => @"ScreenShot",
                     _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
                 };
                 string folder = Path.Join(loc, relativePath);

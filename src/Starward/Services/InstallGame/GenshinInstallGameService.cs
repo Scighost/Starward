@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Starward.Core;
-using Starward.Core.Launcher;
+using Starward.Core.HoYoPlay;
+using Starward.Services.Launcher;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,8 +19,8 @@ internal class GenshinInstallGameService : InstallGameService
     public override GameBiz CurrentGame => GameBiz.GenshinImpact;
 
 
-    public GenshinInstallGameService(ILogger<GenshinInstallGameService> logger, GameResourceService gameResourceService, LauncherClient launcherClient, HttpClient httpClient)
-        : base(logger, gameResourceService, launcherClient, httpClient)
+    public GenshinInstallGameService(ILogger<GenshinInstallGameService> logger, GameLauncherService gameLauncherService, GamePackageService gamePackageService, HoYoPlayClient hoyoPlayClient, HttpClient httpClient)
+        : base(logger, gameLauncherService, gamePackageService, hoyoPlayClient, httpClient)
     {
 
     }
@@ -77,7 +78,7 @@ internal class GenshinInstallGameService : InstallGameService
                 Directory.Move(data_cn, data_os);
             }
         }
-        await _gameResourceService.SetVoiceLanguageAsync(CurrentGameBiz, InstallPath, VoiceLanguages).ConfigureAwait(false);
+        await _gamePackageService.SetVoiceLanguageAsync(CurrentGameBiz, InstallPath, VoiceLanguages).ConfigureAwait(false);
         await MoveAudioAssetsFromPersistentToStreamAssetsAsync().ConfigureAwait(false);
     }
 

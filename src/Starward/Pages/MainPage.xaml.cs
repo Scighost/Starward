@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
@@ -15,7 +14,6 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.Win32;
 using NuGet.Versioning;
 using Starward.Core;
 using Starward.Helpers;
@@ -23,17 +21,16 @@ using Starward.Messages;
 using Starward.Pages.HoyolabToolbox;
 using Starward.Pages.Setting;
 using Starward.Services;
+using Starward.Services.Launcher;
 using System;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
-using Windows.Graphics;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
@@ -56,10 +53,15 @@ public sealed partial class MainPage : PageBase
     private readonly ILogger<MainPage> _logger = AppConfig.GetLogger<MainPage>();
 
 
-    private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
+    //private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
+
+    private readonly LauncherBackgroundService _launcherBackgroundService = AppConfig.GetService<LauncherBackgroundService>();
 
 
     private readonly UpdateService _updateService = AppConfig.GetService<UpdateService>();
+
+
+    private readonly HoYoPlayService _hoyoPlayService = AppConfig.GetService<HoYoPlayService>();
 
 
     private readonly Compositor compositor;
@@ -71,8 +73,6 @@ public sealed partial class MainPage : PageBase
         compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
         InitializeGameBiz();
         RegisterMessage();
-        InitializeBackgroundImage();
-        InitializeNavigationViewPaneDisplayMode();
     }
 
 
@@ -80,12 +80,19 @@ public sealed partial class MainPage : PageBase
     protected override void OnLoaded()
     {
         MainWindow.Current.KeyDown += MainPage_KeyDown;
-        UpdateGameIcon();
+        InitializeBackgroundImage();
         _ = UpdateBackgroundImageAsync(true);
         _ = ShowRecentUpdateContentAsync();
         _ = CheckUpdateAsync();
+        _ = PrepareHoYoPlayDataAsync();
     }
 
+
+    private async Task PrepareHoYoPlayDataAsync()
+    {
+        await Task.Delay(3000);
+        await _hoyoPlayService.PrepareDataAsync();
+    }
 
 
     protected override void OnUnloaded()
@@ -100,11 +107,9 @@ public sealed partial class MainPage : PageBase
     private void RegisterMessage()
     {
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
-        WeakReferenceMessenger.Default.Register<NavigationViewCompactChangedMessage>(this, InitializeNavigationViewPaneDisplayMode);
         WeakReferenceMessenger.Default.Register<GameStartMessage>(this, (_, _) => PauseVideo());
         WeakReferenceMessenger.Default.Register<UpdateBackgroundImageMessage>(this, (_, m) => _ = UpdateBackgroundImageAsync(m.Force));
         WeakReferenceMessenger.Default.Register<MainPageNavigateMessage>(this, (_, m) => NavigateTo(m.Page, m.Param, m.TransitionInfo));
-        WeakReferenceMessenger.Default.Register<ChangeGameBizMessage>(this, (_, m) => ChangeGameBiz(m.GameBiz));
     }
 
 
@@ -175,52 +180,19 @@ public sealed partial class MainPage : PageBase
 
 
 
-    private GameBiz lastGameBiz;
-
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(CurrentGameServerText))]
-    private GameBiz currentGameBiz = AppConfig.GetLastRegionOfGame(GameBiz.None);
-    partial void OnCurrentGameBizChanged(GameBiz oldValue, GameBiz newValue)
-    {
-        AppConfig.SetLastRegionOfGame(GameBiz.None, newValue);
-        AppConfig.SetLastRegionOfGame(newValue.ToGame(), newValue);
-    }
-
-
-    public string CurrentGameServerText => CurrentGameBiz switch
-    {
-        GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn => "China",
-        GameBiz.hk4e_global or GameBiz.hkrpg_global => "Global",
-        GameBiz.hk4e_cloud => "China Cloud",
-        GameBiz.hk4e_bilibili or GameBiz.hkrpg_bilibili => "Bilibili",
-        GameBiz.bh3_global => "Europe & Americas",
-        GameBiz.bh3_tw => "Traditional Chinese",
-        GameBiz.bh3_jp => "Japan",
-        GameBiz.bh3_kr => "Korea",
-        GameBiz.bh3_overseas => "Southeast Asia",
-        GameBiz.nap_cn => "CBT3",
-        _ => ""
-    };
 
 
     private void InitializeGameBiz()
     {
-        _logger.LogInformation("Last game region is {gamebiz}", CurrentGameBiz);
-        bool enableZZZ = false;
-        try
-        {
-            enableZZZ = Registry.GetValue(GameRegistry.LauncherPath_nap_cbt3, GameRegistry.InstallPath, null) is string;
-            if (enableZZZ)
-            {
-                GameIcon_ZZZ.Visibility = Visibility.Visible;
-            }
-        }
-        catch { }
-        if (!enableZZZ && CurrentGameBiz.ToGame() is GameBiz.ZZZ)
+        CurrentGameBiz = AppConfig.CurrentGameBiz;
+        if (CurrentGameBiz.ToGame() is GameBiz.None)
         {
             CurrentGameBiz = GameBiz.None;
         }
+        _logger.LogInformation("Last game region is {gamebiz}", CurrentGameBiz);
+
+        GameBizSelector.InitializeGameBiz(CurrentGameBiz);
+
         UpdateNavigationViewItemsText();
         if (CurrentGameBiz.ToGame() == GameBiz.None)
         {
@@ -228,76 +200,27 @@ public sealed partial class MainPage : PageBase
         }
         else
         {
-            NavigateTo(typeof(LauncherPage));
+            NavigateTo(typeof(GameLauncherPage));
         }
     }
 
 
-    [RelayCommand]
-    private void ChangeGameBiz(GameBiz biz)
+
+    private void GameBizSelector_GameBizChanged(object sender, GameBiz biz)
     {
         _logger.LogInformation("Change game region to {gamebiz}", biz);
-        if (biz.ToGame() is GameBiz.None)
-        {
-            if (CurrentGameBiz.ToGame() == biz)
-            {
-                // double click, navigate to launcher page
-                NavigateTo(typeof(LauncherPage));
-                return;
-            }
-            else
-            {
-                GameBiz b = AppConfig.GetLastRegionOfGame(biz);
-                if (b.ToGame() is GameBiz.None)
-                {
-                    biz++;
-                }
-                else
-                {
-                    biz = b;
-                }
-            }
-        }
-        lastGameBiz = CurrentGameBiz;
         CurrentGameBiz = biz;
-        UpdateGameIcon();
         UpdateNavigationViewItemsText();
-        NavigateTo(MainPage_Frame.SourcePageType, gameBizChanged: true);
+        NavigateTo(MainPage_Frame.SourcePageType);
         _ = UpdateBackgroundImageAsync();
-    }
-
-
-    private void UpdateGameIcon()
-    {
-        GameIcon_BH3.Select(CurrentGameBiz);
-        GameIcon_YS.Select(CurrentGameBiz);
-        GameIcon_SR.Select(CurrentGameBiz);
-        GameIcon_ZZZ.Select(CurrentGameBiz);
-    }
-
-
-
-    private void Grid_SelectGame_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        UpdateDragRectangles();
+        AppConfig.CurrentGameBiz = biz;
     }
 
 
 
     public void UpdateDragRectangles()
     {
-        try
-        {
-            var scale = MainWindow.Current.UIScale;
-            var point = Grid_SelectGame.TransformToVisual(this).TransformPoint(new Windows.Foundation.Point());
-            var width = Grid_SelectGame.ActualWidth;
-            var height = Grid_SelectGame.ActualHeight;
-            int len = (int)(48 * scale);
-            var rect1 = new RectInt32(len, 0, (int)((point.X - 48) * scale), len);
-            var rect2 = new RectInt32((int)((point.X + width) * scale), 0, 100000, len);
-            MainWindow.Current.SetDragRectangles(rect1, rect2);
-        }
-        catch { }
+        GameBizSelector.UpdateDragRectangles();
     }
 
 
@@ -340,13 +263,13 @@ public sealed partial class MainPage : PageBase
     {
         try
         {
-            var file = _launcherContentService.GetCachedBackgroundImage(CurrentGameBiz);
+            var file = _launcherBackgroundService.GetCachedBackgroundImage(CurrentGameBiz);
             if (file != null)
             {
                 if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm")
                 {
                     AppConfig.IsPlayingVideo = true;
-                    BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
+                    BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"));
                     MainWindow.Current.ChangeAccentColor(null, null);
                 }
                 else
@@ -379,7 +302,7 @@ public sealed partial class MainPage : PageBase
             }
             else
             {
-                BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/StartUpBG2.png"));
+                BackgroundImage = new BitmapImage(new Uri("ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"));
                 MainWindow.Current.ChangeAccentColor(null, null);
             }
         }
@@ -414,7 +337,7 @@ public sealed partial class MainPage : PageBase
             cancelSource = new();
             var source = cancelSource;
 
-            var file = await _launcherContentService.GetBackgroundImageAsync(CurrentGameBiz);
+            var file = await _launcherBackgroundService.GetBackgroundImageAsync(CurrentGameBiz);
             if (file != null)
             {
                 if (Path.GetExtension(file) is ".flv" or ".mkv" or ".mov" or ".mp4" or ".webm")
@@ -577,24 +500,6 @@ public sealed partial class MainPage : PageBase
 
 
 
-    private void InitializeNavigationViewPaneDisplayMode(object? sender = null, NavigationViewCompactChangedMessage? message = null)
-    {
-        try
-        {
-            if (AppConfig.EnableNavigationViewLeftCompact)
-            {
-                MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
-                Grid_FrameContent.CornerRadius = new CornerRadius(8, 0, 0, 0);
-            }
-            else
-            {
-                MainPage_NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
-                Grid_FrameContent.CornerRadius = new CornerRadius();
-            }
-        }
-        catch { }
-    }
-
 
     private void UpdateNavigationViewItemsText()
     {
@@ -620,8 +525,8 @@ public sealed partial class MainPage : PageBase
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Visible;
             NavigationViewItem_GameSetting.Visibility = Visibility.Collapsed;
-            NavigationViewItem_Screenshot.Visibility = Visibility.Collapsed;
-            NavigationViewItem_GachaLog.Visibility = Visibility.Collapsed;
+            NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
+            NavigationViewItem_GachaLog.Visibility = Visibility.Visible;
             NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
             NavigationViewItem_SelfQuery.Visibility = Visibility.Collapsed;
         }
@@ -637,20 +542,30 @@ public sealed partial class MainPage : PageBase
         if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
         {
             // 祈愿记录
-            NavigationViewItem_GachaLog.Content = Lang.GachaLogService_WishRecords;
+            ToolTipService.SetToolTip(NavigationViewItem_GachaLog, Lang.GachaLogService_WishRecords);
+            TextBlock_GachaLog.Text = Lang.GachaLogService_WishRecords;
         }
         if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
         {
             // 跃迁记录
-            NavigationViewItem_GachaLog.Content = Lang.GachaLogService_WarpRecords;
+            ToolTipService.SetToolTip(NavigationViewItem_GachaLog, Lang.GachaLogService_WarpRecords);
+            TextBlock_GachaLog.Text = Lang.GachaLogService_WarpRecords;
+        }
+        if (CurrentGameBiz.ToGame() is GameBiz.ZZZ)
+        {
+            // 调频记录
+            ToolTipService.SetToolTip(NavigationViewItem_GachaLog, Lang.GachaLogService_SignalSearchRecords);
+            TextBlock_GachaLog.Text = Lang.GachaLogService_SignalSearchRecords;
         }
         if (CurrentGameBiz.IsChinaServer())
         {
-            NavigationViewItem_HoyolabToolbox.Content = Lang.HyperionToolbox;
+            ToolTipService.SetToolTip(NavigationViewItem_HoyolabToolbox, Lang.HyperionToolbox);
+            TextBlock_HoyolabToolbox.Text = Lang.HyperionToolbox;
         }
         if (CurrentGameBiz.IsGlobalServer())
         {
-            NavigationViewItem_HoyolabToolbox.Content = Lang.HoYoLABToolbox;
+            ToolTipService.SetToolTip(NavigationViewItem_HoyolabToolbox, Lang.HoYoLABToolbox);
+            TextBlock_HoyolabToolbox.Text = Lang.HoYoLABToolbox;
         }
     }
 
@@ -683,7 +598,7 @@ public sealed partial class MainPage : PageBase
                 }
                 var type = item.Tag switch
                 {
-                    nameof(LauncherPage) => typeof(LauncherPage),
+                    nameof(GameLauncherPage) => typeof(GameLauncherPage),
                     nameof(GameNoticesPage) => typeof(GameNoticesPage),
                     nameof(GameSettingPage) => typeof(GameSettingPage),
                     nameof(ScreenshotPage) => typeof(ScreenshotPage),
@@ -698,77 +613,38 @@ public sealed partial class MainPage : PageBase
     }
 
 
-    public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null, bool gameBizChanged = false)
+    public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null)
     {
-        if (gameBizChanged)
-        {
-            gameBizChanged = lastGameBiz.ToGame() != GameBiz.None && lastGameBiz.ToGame() != CurrentGameBiz.ToGame();
-        }
-        string? sourcePage = MainPage_Frame.CurrentSourcePageType?.Name, destPage = page?.Name;
+        string? destPage = page?.Name;
         if (destPage is null or nameof(BlankPage)
-            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is nameof(GachaLogPage) or nameof(HoyolabToolboxPage) or nameof(SelfQueryPage))
-            || CurrentGameBiz.ToGame() is GameBiz.ZZZ && destPage is not nameof(LauncherPage) and not nameof(GameNoticesPage))
+            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(ScreenshotPage))
+            || CurrentGameBiz.ToGame() is GameBiz.ZZZ && destPage is not nameof(GameLauncherPage) and not nameof(GameNoticesPage) and not nameof(GachaLogPage) and not nameof(ScreenshotPage))
         {
-            page = typeof(LauncherPage);
-            destPage = nameof(LauncherPage);
+            page = typeof(GameLauncherPage);
+            destPage = nameof(GameLauncherPage);
         }
-        else if (!gameBizChanged && (destPage is nameof(GameNoticesPage) || (sourcePage is nameof(GameNoticesPage) && destPage is nameof(LauncherPage))))
+        if (destPage is nameof(GameLauncherPage))
         {
-            infoOverride = new SuppressNavigationTransitionInfo();
-        }
-        if (destPage is nameof(LauncherPage))
-        {
-            MainPage_NavigationView.SelectedItem = MainPage_NavigationView.MenuItems.FirstOrDefault();
+            MainPage_NavigationView.SelectedItem = NavigationViewItem_Launcher;
         }
         _logger.LogInformation("Navigate to {page} with param {param}", destPage, param ?? CurrentGameBiz);
-        infoOverride ??= GetNavigationTransitionInfo(gameBizChanged);
-        MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, infoOverride);
-        if (destPage is nameof(LauncherPage))
+        MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());
+        if (destPage is nameof(GameLauncherPage))
         {
             PlayVideo();
-            Image_FrameBackground.Opacity = 1;
+            Border_OverlayMask.Opacity = 0;
         }
         else if (destPage is nameof(GameNoticesPage) or nameof(BlankPage))
         {
             PauseVideo();
-            Image_FrameBackground.Opacity = 1;
+            Border_OverlayMask.Opacity = 0;
         }
         else
         {
             PauseVideo();
-            Image_FrameBackground.Opacity = 0;
+            Border_OverlayMask.Opacity = 1;
         }
     }
-
-
-    private NavigationTransitionInfo GetNavigationTransitionInfo(bool changeGameBiz)
-    {
-        if (changeGameBiz)
-        {
-            GameBiz lastGame = lastGameBiz.ToGame(), currentGame = CurrentGameBiz.ToGame();
-            if (lastGame is GameBiz.Honkai3rd)
-            {
-                lastGame = 0;
-            }
-            if (currentGame is GameBiz.Honkai3rd)
-            {
-                currentGame = 0;
-            }
-            if (currentGame > lastGame)
-            {
-                return new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight };
-            }
-            else
-            {
-                return new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft };
-            }
-        }
-        else
-        {
-            return new DrillInNavigationTransitionInfo();
-        }
-    }
-
 
 
 
@@ -801,9 +677,15 @@ public sealed partial class MainPage : PageBase
 
 
 
+
+
+
+
+
+
+
+
     #endregion
-
-
 
 
 }

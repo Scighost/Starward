@@ -6,6 +6,7 @@
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sm="using:Starward.Models"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
@@ -13,26 +14,33 @@
 
         <ItemsControl ItemsSource="{x:Bind InstalledGames}">
             <ItemsControl.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="sm:GameBizIcon">
                     <Button Name="Button_StartGame"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Left"
                             Click="Button_StartGame_Click"
                             Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                             Tag="{Binding}">
-                        <Grid ColumnSpacing="12">
+                        <Grid ColumnSpacing="10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Border Width="28"
                                     Height="28"
                                     CornerRadius="4">
-                                <Image Source="{Binding Icon}" />
+                                <Image Width="28" Height="28">
+                                    <Image.Source>
+                                        <BitmapImage DecodePixelHeight="28"
+                                                     DecodePixelType="Logical"
+                                                     DecodePixelWidth="28"
+                                                     UriSource="{x:Bind GameIcon}" />
+                                    </Image.Source>
+                                </Image>
                             </Border>
                             <TextBlock Grid.Column="1"
                                        VerticalAlignment="Center"
-                                       Text="{Binding GameServer}"
+                                       Text="{x:Bind ServerName}"
                                        TextTrimming="None" />
                         </Grid>
                     </Button>

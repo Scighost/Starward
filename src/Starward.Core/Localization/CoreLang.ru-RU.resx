@@ -235,4 +235,43 @@
   <data name="GameServer_ZZZCBT3" xml:space="preserve">
     <value>CBT3</value>
   </data>
+  <data name="GameServer_ChinaOfficial" xml:space="preserve">
+    <value>Китай Официальный</value>
+  </data>
+  <data name="GameServer_GlobalOfficial" xml:space="preserve">
+    <value>Глобальный</value>
+  </data>
+  <data name="GameServer_ChinaCloud" xml:space="preserve">
+    <value>Китай облако</value>
+  </data>
+  <data name="GameServer_Bilibili" xml:space="preserve">
+    <value>Bilibili</value>
+  </data>
+  <data name="GameServer_EuropeAmericas" xml:space="preserve">
+    <value>Европа и Америка</value>
+  </data>
+  <data name="GameServer_Japan" xml:space="preserve">
+    <value>Япония</value>
+  </data>
+  <data name="GameServer_Korea" xml:space="preserve">
+    <value>Корея</value>
+  </data>
+  <data name="GameServer_SoutheastAsia" xml:space="preserve">
+    <value>Юго-Восточная Азия</value>
+  </data>
+  <data name="GameServer_TraditionalChinese" xml:space="preserve">
+    <value>Традиционный Китайский</value>
+  </data>
+  <data name="GachaType_StandardChannel" xml:space="preserve">
+    <value>Стандартный канал</value>
+  </data>
+  <data name="GachaType_ExclusiveChannel" xml:space="preserve">
+    <value>Выделенный канал</value>
+  </data>
+  <data name="GachaType_WEngineChannel" xml:space="preserve">
+    <value>Канал Амплификаторов</value>
+  </data>
+  <data name="GachaType_BangbooChannel" xml:space="preserve">
+    <value>Канал банбу</value>
+  </data>
 </root>

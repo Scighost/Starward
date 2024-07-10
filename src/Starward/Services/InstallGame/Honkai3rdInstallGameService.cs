@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Starward.Core;
-using Starward.Core.Launcher;
+using Starward.Core.HoYoPlay;
+using Starward.Services.Launcher;
 using System;
 using System.Linq;
 using System.Net;
@@ -16,8 +17,8 @@ internal class Honkai3rdInstallGameService : InstallGameService
     public override GameBiz CurrentGame => GameBiz.Honkai3rd;
 
 
-    public Honkai3rdInstallGameService(ILogger<Honkai3rdInstallGameService> logger, GameResourceService gameResourceService, LauncherClient launcherClient, HttpClient httpClient)
-        : base(logger, gameResourceService, launcherClient, httpClient)
+    public Honkai3rdInstallGameService(ILogger<Honkai3rdInstallGameService> logger, GameLauncherService gameLauncherService, GamePackageService gamePackageService, HoYoPlayClient hoyoPlayClient, HttpClient httpClient)
+        : base(logger, gameLauncherService, gamePackageService, hoyoPlayClient, httpClient)
     {
 
     }
@@ -54,7 +55,7 @@ internal class Honkai3rdInstallGameService : InstallGameService
                     State = InstallGameState.Prepare;
                     await PrepareForDownloadAsync().ConfigureAwait(false);
                 }
-                PrepareBilibiliServerGameSDK();
+                await PrepareBilibiliServerGameSDKAsync();
             }
 
             if (_inState is InstallGameState.Download)
@@ -125,7 +126,7 @@ internal class Honkai3rdInstallGameService : InstallGameService
         TotalCount = 1;
         progressCount = 0;
 
-        string prefix = launcherGameResource.Game.Latest.DecompressedPath;
+        string prefix = gamePackage.Main.Major!.ResListUrl;
         string url = $"{prefix}/BH3Base.dll";
 
         var request = new HttpRequestMessage(HttpMethod.Get, url)

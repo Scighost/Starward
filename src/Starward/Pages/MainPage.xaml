@@ -6,41 +6,73 @@
                 xmlns:local="using:Starward.Pages"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:s="using:Starward"
-                xmlns:sct="using:Starward.Controls.TitleBarGameIcon"
+                xmlns:sc="using:Starward.Controls"
+                xmlns:sh="using:Starward.Helpers"
                 x:DefaultBindMode="OneWay"
                 mc:Ignorable="d">
 
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
 
 
 
         <!--  background image  -->
         <Image Name="Image_Content"
-               Grid.RowSpan="2"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Bottom"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
                Source="{x:Bind BackgroundImage}"
                Stretch="UniformToFill" />
 
 
+        <Rectangle Width="400"
+                   Height="400"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   IsHitTestVisible="False">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Offset="0.5" Color="#00000000" />
+                    <GradientStop Offset="1" Color="#60000000" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Rectangle Width="100"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Stretch"
+                   IsHitTestVisible="False">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Offset="0" Color="#00000000" />
+                    <GradientStop Offset="1" Color="#60000000" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
         <!--  acrylic backgroud  -->
         <Border Name="Border_TitleBarBackground"
-                Grid.RowSpan="2"
+                Width="56"
+                HorizontalAlignment="Left"
                 Background="{ThemeResource CustomAcrylicBrush}" />
+
+
+        <Border Name="Border_OverlayMask"
+                Background="{ThemeResource CustomAcrylicBrush}"
+                Opacity="0">
+            <Border.OpacityTransition>
+                <ScalarTransition />
+            </Border.OpacityTransition>
+        </Border>
 
 
 
         <NavigationView Name="MainPage_NavigationView"
-                        Grid.RowSpan="2"
+                        CompactPaneLength="56"
                         IsBackButtonVisible="Collapsed"
+                        IsPaneToggleButtonVisible="False"
                         IsSettingsVisible="False"
                         ItemInvoked="NavigationView_ItemInvoked"
-                        PaneDisplayMode="LeftMinimal">
+                        PaneDisplayMode="LeftCompact">
             <NavigationView.Resources>
                 <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
                 <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
@@ -48,85 +80,118 @@
             </NavigationView.Resources>
 
             <NavigationView.PaneCustomContent>
-                <Border Height="4" />
+                <Border Height="52" />
             </NavigationView.PaneCustomContent>
 
             <NavigationView.MenuItems>
+                <NavigationViewItemSeparator />
+                <!--  启动器  -->
                 <NavigationViewItem Name="NavigationViewItem_Launcher"
-                                    Content="{x:Bind lang:Lang.MainPage_Launcer}"
                                     IsSelected="True"
-                                    Tag="LauncherPage">
+                                    Tag="GameLauncherPage"
+                                    ToolTipService.ToolTip="{x:Bind lang:Lang.MainPage_Launcer}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE80F;" />
                     </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <Border Height="40">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.MainPage_Launcer}" />
+                        </Border>
+                    </NavigationViewItem.Content>
                 </NavigationViewItem>
-                <!--<NavigationViewItem Name="NavigationViewItem_GameAnnounce"
-                                    Content="{x:Bind lang:Lang.MainPage_GameNotices}"
-                                    Tag="GameNoticesPage">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE789;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>-->
+                <!--  游戏设置  -->
                 <NavigationViewItem Name="NavigationViewItem_GameSetting"
-                                    Content="{x:Bind lang:Lang.LauncherPage_GameSetting}"
-                                    Tag="GameSettingPage">
+                                    Tag="GameSettingPage"
+                                    ToolTipService.ToolTip="{x:Bind lang:Lang.LauncherPage_GameSetting}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7FC;" />
                     </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <Border Height="40">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_GameSetting}" />
+                        </Border>
+                    </NavigationViewItem.Content>
                 </NavigationViewItem>
+                <!--  游戏截图  -->
                 <NavigationViewItem Name="NavigationViewItem_Screenshot"
-                                    Content="{x:Bind lang:Lang.MainPage_GameScreenshot}"
-                                    Tag="ScreenshotPage">
+                                    Tag="ScreenshotPage"
+                                    ToolTipService.ToolTip="{x:Bind lang:Lang.MainPage_GameScreenshot}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE91B;" />
                     </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <Border Height="40">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.MainPage_GameScreenshot}" />
+                        </Border>
+                    </NavigationViewItem.Content>
                 </NavigationViewItem>
+                <!--  抽卡记录  -->
                 <NavigationViewItem Name="NavigationViewItem_GachaLog" Tag="GachaLogPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF4A5;" />
                     </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <Border Height="40">
+                            <TextBlock x:Name="TextBlock_GachaLog" VerticalAlignment="Center" />
+                        </Border>
+                    </NavigationViewItem.Content>
                 </NavigationViewItem>
+                <!--  工具箱  -->
                 <NavigationViewItem Name="NavigationViewItem_HoyolabToolbox" Tag="HoyolabToolboxPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF133;" />
                     </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <Border Height="40">
+                            <TextBlock x:Name="TextBlock_HoyolabToolbox" VerticalAlignment="Center" />
+                        </Border>
+                    </NavigationViewItem.Content>
                 </NavigationViewItem>
+                <!--  账号记录  -->
                 <NavigationViewItem Name="NavigationViewItem_SelfQuery"
-                                    Content="{x:Bind lang:Lang.SelfQueryPage_AccountRecords}"
-                                    Tag="SelfQueryPage">
+                                    Tag="SelfQueryPage"
+                                    ToolTipService.ToolTip="{x:Bind lang:Lang.SelfQueryPage_AccountRecords}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8C7;" />
                     </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <Border Height="40">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.SelfQueryPage_AccountRecords}" />
+                        </Border>
+                    </NavigationViewItem.Content>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 
             <NavigationView.FooterMenuItems>
+                <!--  小提示  -->
                 <NavigationViewItem Name="NavigationViewItem_Tips"
-                                    Content="{x:Bind lang:Lang.MainPage_Tips}"
-                                    Tag="Tips">
+                                    Tag="Tips"
+                                    ToolTipService.ToolTip="{x:Bind lang:Lang.MainPage_Tips}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE82F;" />
                     </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <Border Height="40">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.MainPage_Tips}" />
+                        </Border>
+                    </NavigationViewItem.Content>
                 </NavigationViewItem>
+                <!--  设置  -->
                 <NavigationViewItem Name="NavigationViewItem_Setting"
-                                    Content="{x:Bind lang:Lang.SettingPage_AppSettings}"
-                                    Tag="SettingPage">
+                                    Tag="SettingPage"
+                                    ToolTipService.ToolTip="{x:Bind lang:Lang.SettingPage_AppSettings}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE713;" />
                     </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <Border Height="40">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.SettingPage_AppSettings}" />
+                        </Border>
+                    </NavigationViewItem.Content>
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
 
             <Grid Name="Grid_FrameContent" Margin="0,48,0,0">
-                <Image Name="Image_FrameBackground"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Bottom"
-                       Source="{x:Bind BackgroundImage}"
-                       Stretch="UniformToFill">
-                    <Image.OpacityTransition>
-                        <ScalarTransition />
-                    </Image.OpacityTransition>
-                </Image>
                 <ProgressBar Name="ProgressBar_LoadBackground"
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Bottom"
@@ -139,86 +204,8 @@
 
 
 
-        <!--  title bar  -->
-        <Border Name="Border_TitleText">
-            <StackPanel Margin="56,0,0,0"
-                        Orientation="Horizontal"
-                        Spacing="4">
-                <Image Width="20"
-                       Height="20"
-                       Source="ms-appx:///Assets/logo_80.png" />
-                <TextBlock Margin="8,0,0,0"
-                           VerticalAlignment="Center"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="Starward" />
-                <TextBlock VerticalAlignment="Center"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="{x:Bind s:AppConfig.AppVersion}" />
-            </StackPanel>
-        </Border>
+        <sc:GameBizSelector x:Name="GameBizSelector" GameBizChanged="GameBizSelector_GameBizChanged" />
 
-
-
-        <!--  change game biz  -->
-        <Grid Name="Grid_SelectGame"
-              HorizontalAlignment="Center"
-              SizeChanged="Grid_SelectGame_SizeChanged">
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                <sct:TitleBarGameIconBH3 x:Name="GameIcon_BH3"
-                                         Width="36"
-                                         Height="36"
-                                         Margin="4,0,4,0"
-                                         Command="{x:Bind ChangeGameBizCommand}" />
-                <sct:TitleBarGameIconYS x:Name="GameIcon_YS"
-                                        Width="36"
-                                        Height="36"
-                                        Margin="4,0,4,0"
-                                        Command="{x:Bind ChangeGameBizCommand}" />
-                <sct:TitleBarGameIconSR x:Name="GameIcon_SR"
-                                        Width="36"
-                                        Height="36"
-                                        Margin="4,0,4,0"
-                                        Command="{x:Bind ChangeGameBizCommand}" />
-                <sct:TitleBarGameIconZZZ x:Name="GameIcon_ZZZ"
-                                         Width="36"
-                                         Height="36"
-                                         Margin="4,0,4,0"
-                                         Command="{x:Bind ChangeGameBizCommand}"
-                                         Visibility="Collapsed" />
-                <Border Height="32"
-                        Margin="4,0,4,0"
-                        Background="{ThemeResource DateTimePickerFlyoutButtonBackgroundPointerOver}"
-                        CornerRadius="16">
-                    <Button Height="32"
-                            MinWidth="68"
-                            Padding="0"
-                            BorderThickness="0"
-                            CornerRadius="16"
-                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                        <TextBlock Margin="12,0,12,0"
-                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="{x:Bind CurrentGameServerText}" />
-                        <Button.Flyout>
-                            <Flyout>
-                                <StackPanel MaxWidth="220" Spacing="4">
-                                    <!--  如何切换游戏服务器？  -->
-                                    <TextBlock Name="TextBlock_SwitchRegionTitle"
-                                               FontWeight="SemiBold"
-                                               Text="{x:Bind lang:Lang.MainPage_HowToSwitchGameRegion}" />
-                                    <TextBlock Name="TextBlock_SwitchRegionContent"
-                                               FontSize="12"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="{x:Bind lang:Lang.MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft}"
-                                               TextWrapping="Wrap" />
-                                </StackPanel>
-                            </Flyout>
-                        </Button.Flyout>
-                    </Button>
-                </Border>
-            </StackPanel>
-        </Grid>
 
 
 

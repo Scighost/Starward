@@ -1,5 +1,4 @@
-﻿using Starward.Core;
-using Starward.Core.Gacha;
+﻿using Starward.Core.Gacha;
 using System;
 using System.Collections.Generic;
 
@@ -10,7 +9,7 @@ public class GachaTypeStats
 
     public GachaType GachaType { get; set; }
 
-    public string GachaTypeText => GachaType.ToLocalization();
+    public string GachaTypeText { get; set; }
 
     public int Count { get; set; }
 

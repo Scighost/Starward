@@ -51,6 +51,7 @@ internal abstract class GachaLogService
         {
             GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_cloud => Lang.GachaLogService_WishRecords,
             GameBiz.hkrpg_cn or GameBiz.hkrpg_global => Lang.GachaLogService_WarpRecords,
+            GameBiz.nap_cn or GameBiz.nap_global or GameBiz.nap_bilibili => Lang.GachaLogService_SignalSearchRecords,
             _ => ""
         };
     }
@@ -180,6 +181,7 @@ internal abstract class GachaLogService
                 var stats = new GachaTypeStats
                 {
                     GachaType = (GachaType)type,
+                    GachaTypeText = ((GachaType)type).ToLocalization(),
                     Count = list.Count,
                     Count_5 = list.Count(x => x.RankType == 5),
                     Count_4 = list.Count(x => x.RankType == 4),

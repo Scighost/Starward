@@ -9,6 +9,7 @@ using Starward.Core.Launcher;
 using Starward.Messages;
 using Starward.Models;
 using Starward.Services;
+using Starward.Services.Launcher;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -31,13 +32,11 @@ public sealed partial class GameNoticesPage : PageBase
     private readonly ILogger<GameNoticesPage> _logger = AppConfig.GetLogger<GameNoticesPage>();
 
 
-    private readonly LauncherContentService _launcherContentService = AppConfig.GetService<LauncherContentService>();
+    private readonly LauncherBackgroundService _launcherBackgroundService = AppConfig.GetService<LauncherBackgroundService>();
 
 
     private readonly GameAccountService _gameAccountService = AppConfig.GetService<GameAccountService>();
 
-
-    private readonly LauncherClient _launcherClient = AppConfig.GetService<LauncherClient>();
 
 
     public GameNoticesPage()
@@ -75,7 +74,7 @@ public sealed partial class GameNoticesPage : PageBase
     {
         try
         {
-            string? bg = await _launcherContentService.GetBackgroundImageAsync(gameBiz, disableCustom: true);
+            string? bg = await _launcherBackgroundService.GetBackgroundImageAsync(gameBiz, disableCustom: true);
             if (Uri.TryCreate(bg, UriKind.RelativeOrAbsolute, out var uri))
             {
                 Image_Bg.Source = new BitmapImage(uri);
@@ -123,7 +122,7 @@ public sealed partial class GameNoticesPage : PageBase
                 string? param = node?["param"]?.ToString();
                 if (action is "close")
                 {
-                    WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(LauncherPage)));
+                    WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(GameLauncherPage)));
                 }
                 if (action is "url")
                 {
@@ -151,15 +150,7 @@ public sealed partial class GameNoticesPage : PageBase
             string? bg = null;
             try
             {
-                if (gameBiz is GameBiz.nap_cn)
-                {
-                    bg = await _launcherClient.GetZZZCBT3BackgroundAsync(gameBiz);
-                }
-                else
-                {
-                    var content = await _launcherContentService.GetLauncherContentAsync(gameBiz);
-                    bg = content.BackgroundImage?.Background;
-                }
+                bg = await _launcherBackgroundService.GetBackgroundImageUrlAsync(gameBiz);
             }
             catch (Exception ex)
             {
@@ -179,6 +170,7 @@ public sealed partial class GameNoticesPage : PageBase
                         root.style.backgroundRepeat = "no-repeat";
                         root.style.backgroundPosition = "left bottom";
                         root.style.backgroundSize = "cover";
+                        //root.style.background = transparent;
                         let home = document.getElementsByClassName("home");
                         let mask = document.getElementsByClassName("home__mask");
                         if (mask.length > 0) {

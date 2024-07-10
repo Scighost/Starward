@@ -7,13 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
-using Windows.System;
 
 namespace Starward.Services;
 
@@ -26,14 +26,15 @@ public class LauncherContentService
 
     private readonly LauncherClient _launcherClient;
 
+    private readonly HoYoPlayService _hoYoPlayService;
 
 
-
-    public LauncherContentService(ILogger<LauncherContentService> logger, HttpClient httpClient, LauncherClient launcherClient)
+    public LauncherContentService(ILogger<LauncherContentService> logger, HttpClient httpClient, LauncherClient launcherClient, HoYoPlayService hoYoPlayService)
     {
         _logger = logger;
         _httpClient = httpClient;
         _launcherClient = launcherClient;
+        _hoYoPlayService = hoYoPlayService;
     }
 
 
@@ -113,25 +114,26 @@ public class LauncherContentService
                 }
             }
 
-            string url;
-            if (gameBiz is GameBiz.hk4e_cloud)
+            string? url;
+            if (gameBiz.ToGame() is GameBiz.Honkai3rd && gameBiz.IsGlobalServer())
             {
-                var image = await _launcherClient.GetCloudGameBackgroundAsync(gameBiz, tokenSource.Token);
-                url = image.Url;
+                var content = await GetLauncherContentAsync(gameBiz, tokenSource.Token);
+                url = content.BackgroundImage?.Background;
             }
-            else if (gameBiz is GameBiz.nap_cn)
+            else if (gameBiz is GameBiz.hk4e_cloud)
             {
-                url = await _launcherClient.GetZZZCBT3BackgroundAsync(gameBiz, tokenSource.Token);
+                var background = await _hoYoPlayService.GetGameInfoAsync(GameBiz.hk4e_cn);
+                url = background.Display.Background.Url;
             }
             else
             {
-                var content = await GetLauncherContentAsync(gameBiz, tokenSource.Token);
-                if (content.BackgroundImage is null)
-                {
-                    _logger.LogWarning("Background of mihoyo api is null ({gameBiz})", gameBiz);
-                    return GetFallbackBackgroundImage(gameBiz);
-                }
-                url = content.BackgroundImage.Background;
+                var background = await _hoYoPlayService.GetGameBackgroundAsync(gameBiz);
+                url = background.Backgrounds.FirstOrDefault()?.Background.Url;
+            }
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                url = GetFallbackBackgroundImage(gameBiz);
+                _logger.LogWarning("Background of mihoyo api is null ({gameBiz})", gameBiz);
             }
             name = Path.GetFileName(url);
             file = Path.Join(AppConfig.UserDataFolder, "bg", name);
@@ -249,7 +251,7 @@ public class LauncherContentService
             if (File.Exists(file))
             {
                 _logger.LogError("Open image or video file '{file}'", file);
-                await Launcher.LaunchUriAsync(new Uri(file));
+                await Windows.System.Launcher.LaunchUriAsync(new Uri(file));
             }
         }
         catch (Exception ex)

@@ -135,7 +135,8 @@
                                         Orientation="Horizontal"
                                         Spacing="8">
                                 <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.GachaLogPage_ExportAs}" />
-                                <Button Padding="1"
+                                <Button x:Name="Button_Export"
+                                        Padding="1"
                                         VerticalAlignment="Bottom"
                                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                                     <FontIcon FontSize="12" Glyph="&#xE9CE;" />
@@ -167,7 +168,9 @@
                                         Content="Json"
                                         CornerRadius="0,4,4,0" />
                             </Grid>
-                            <Button HorizontalAlignment="Stretch" Command="{x:Bind ImportGachaLogCommand}">
+                            <Button x:Name="Button_Import"
+                                    HorizontalAlignment="Stretch"
+                                    Command="{x:Bind ImportGachaLogCommand}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon Margin="0,2,0,0"
                                               FontSize="16"
@@ -243,7 +246,9 @@
                           ScrollViewer.HorizontalScrollMode="Disabled"
                           SizeChanged="ScrollViewer_GachaStats_SizeChanged">
                 <Grid x:Name="Grid_GachaStats" Margin="20,0,20,12">
-                    <ItemsControl x:Name="ItemsControl_GachaStats" ItemsSource="{x:Bind GachaTypeStatsCollection}">
+                    <ItemsControl x:Name="ItemsControl_GachaStats"
+                                  x:Load="{x:Bind IsZZZGachaStatsCardVisible, Converter={StaticResource BoolReversedConverter}}"
+                                  ItemsSource="{x:Bind GachaTypeStatsCollection}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal" Spacing="12" />
@@ -254,6 +259,22 @@
                                 <sc:GachaStatsCard Loaded="GachaStatsCard_Loaded"
                                                    PointerEntered="GachaStatsCard_PointerEntered"
                                                    WarpTypeStats="{x:Bind}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl x:Name="ItemsControl_ZZZGachaStats"
+                                  x:Load="{x:Bind IsZZZGachaStatsCardVisible}"
+                                  ItemsSource="{x:Bind GachaTypeStatsCollection}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="12" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="sm:GachaTypeStats">
+                                <sc:ZZZGachaStatsCard Loaded="GachaStatsCard_Loaded"
+                                                      PointerEntered="GachaStatsCard_PointerEntered"
+                                                      WarpTypeStats="{x:Bind}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

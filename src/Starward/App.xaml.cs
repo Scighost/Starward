@@ -7,6 +7,7 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.AppLifecycle;
+using Starward.Helpers;
 using System;
 using System.Globalization;
 using System.IO;
@@ -204,6 +205,16 @@ public partial class App : Application
             }
         }
         return null;
+    }
+
+
+
+    public new void Exit()
+    {
+        CloseMainWindow();
+        CloseSystemTray();
+        WindowManager.CloseAll();
+        Application.Current.Exit();
     }
 
 

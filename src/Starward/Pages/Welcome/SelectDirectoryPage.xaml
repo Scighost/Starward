@@ -101,7 +101,7 @@
         </Button>
 
 
-        <!--  Select Game  -->
+        <!--  Go to Launcher  -->
         <Button Name="Button_Next"
                 Grid.Column="1"
                 Height="40"
@@ -119,7 +119,7 @@
                         Orientation="Horizontal"
                         Spacing="16">
                 <!--  选择游戏  -->
-                <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.SelectDirectoryPage_SelectGame}" />
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.SelectGamePage_GoToLauncher}" />
                 <FontIcon VerticalAlignment="Bottom"
                           FontSize="16"
                           FontWeight="SemiBold"

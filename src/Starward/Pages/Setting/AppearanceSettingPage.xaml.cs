@@ -1,10 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Starward.Helpers;
 using Starward.Messages;
+using Starward.Services;
 using System;
 using System.Globalization;
 
@@ -23,13 +23,13 @@ public sealed partial class AppearanceSettingPage : PageBase
 
     private readonly ILogger<AppearanceSettingPage> _logger = AppConfig.GetLogger<AppearanceSettingPage>();
 
+    private readonly HoYoPlayService _hoYoPlayService = AppConfig.GetService<HoYoPlayService>();
 
 
     public AppearanceSettingPage()
     {
         this.InitializeComponent();
         InitializeLanguage();
-        InitializeWinowSize();
         UpdateExperienceDesc();
     }
 
@@ -97,6 +97,7 @@ public sealed partial class AppearanceSettingPage : PageBase
                     UpdateExperienceDesc();
                     WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(lang!, CultureInfo.CurrentUICulture));
                     AppConfig.SaveConfiguration();
+                    _ = _hoYoPlayService.PrepareDataAsync();
                 }
             }
         }
@@ -118,48 +119,6 @@ public sealed partial class AppearanceSettingPage : PageBase
 
 
 
-    #region Windows Size
-
-
-
-    private void InitializeWinowSize()
-    {
-        try
-        {
-            var index = AppConfig.WindowSizeMode;
-            RadioButton_WindowSize_Small.IsChecked = index != 0;
-            RadioButton_WindowSize_Normal.IsChecked = index == 0;
-        }
-        catch { }
-    }
-
-
-    private void RadioButton_WindowSize_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            if (sender is FrameworkElement fe)
-            {
-                var index = fe.Tag switch
-                {
-                    "small" => 1,
-                    _ => 0,
-                };
-                AppConfig.WindowSizeMode = index;
-                MainWindow.Current.ChangeWindowSize();
-                WeakReferenceMessenger.Default.Send(new WindowSizeModeChangedMessage(index));
-                AppConfig.SaveConfiguration();
-            }
-        }
-        catch { }
-    }
-
-
-
-    #endregion
-
-
-
 
     #region Theme Color
 
@@ -177,24 +136,6 @@ public sealed partial class AppearanceSettingPage : PageBase
 
     #endregion
 
-
-
-
-    #region NavigationView Compact
-
-
-    [ObservableProperty]
-    private bool enableNavigationViewLeftCompact = AppConfig.EnableNavigationViewLeftCompact;
-    partial void OnEnableNavigationViewLeftCompactChanged(bool value)
-    {
-        AppConfig.EnableNavigationViewLeftCompact = value;
-        MainWindow.Current.ChangeWindowSize();
-        WeakReferenceMessenger.Default.Send(new NavigationViewCompactChangedMessage(value));
-    }
-
-
-
-    #endregion
 
 
 

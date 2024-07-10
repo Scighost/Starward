@@ -53,6 +53,7 @@ public sealed partial class GameSettingPage : PageBase
                 GameBiz.GenshinImpact => new BitmapImage(AppConfig.EmojiPaimon),
                 GameBiz.StarRail => new BitmapImage(AppConfig.EmojiPom),
                 GameBiz.Honkai3rd => new BitmapImage(AppConfig.EmojiAI),
+                GameBiz.ZZZ => new BitmapImage(AppConfig.EmojiBangboo),
                 _ => null,
             };
         }
@@ -62,10 +63,6 @@ public sealed partial class GameSettingPage : PageBase
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        if (AppConfig.EnableNavigationViewLeftCompact)
-        {
-            Grid_ApplyBackground.CornerRadius = new CornerRadius(8, 0, 0, 0);
-        }
         InitializeResolutionItem();
         await InitializeGameSettingAsync();
     }
@@ -228,7 +225,7 @@ public sealed partial class GameSettingPage : PageBase
     {
         try
         {
-            (var localVersion, _) = await _gameResourceService.GetLocalGameVersionAndBizAsync(gameBiz);
+            var localVersion = await _gameResourceService.GetLocalGameVersionAsync(gameBiz);
             if (localVersion is null)
             {
                 if (gameBiz is GameBiz.hk4e_cloud)

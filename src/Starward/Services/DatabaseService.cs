@@ -611,6 +611,31 @@ internal class DatabaseService
         COMMIT TRANSACTION;
         """;
 
+    private const string Sql_v9 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS ZZZGachaItem
+        (
+            Uid       INTEGER NOT NULL,
+            Id        INTEGER NOT NULL,
+            Name      TEXT    NOT NULL,
+            Time      TEXT    NOT NULL,
+            ItemId    INTEGER NOT NULL,
+            ItemType  TEXT    NOT NULL,
+            RankType  INTEGER NOT NULL,
+            GachaType INTEGER NOT NULL,
+            Count     INTEGER NOT NULL,
+            Lang      TEXT,
+            PRIMARY KEY (Uid, Id)
+        );
+        CREATE INDEX IF NOT EXISTS IX_ZZZGachaItem_Id ON ZZZGachaItem (Id);
+        CREATE INDEX IF NOT EXISTS IX_ZZZGachaItem_RankType ON ZZZGachaItem (RankType);
+        CREATE INDEX IF NOT EXISTS IX_ZZZGachaItem_GachaType ON ZZZGachaItem (GachaType);
+
+        PRAGMA USER_VERSION = 8;
+        COMMIT TRANSACTION;
+        """;
+
     #endregion
 
 

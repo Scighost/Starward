@@ -40,6 +40,7 @@ namespace Starward.Pages;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 [INotifyPropertyChanged]
+[Obsolete("", false)]
 public sealed partial class LauncherPage : PageBase
 {
 
@@ -213,16 +214,8 @@ public sealed partial class LauncherPage : PageBase
 
     private void InitializeBannerSize()
     {
-        if (AppConfig.WindowSizeMode == 0)
-        {
-            Grid_BannerAndPost.Width = 432;
-            RowDefinition_BannerAndPost.Height = new GridLength(200);
-        }
-        else
-        {
-            Grid_BannerAndPost.Width = 364;
-            RowDefinition_BannerAndPost.Height = new GridLength(168);
-        }
+        Grid_BannerAndPost.Width = 380;
+        RowDefinition_BannerAndPost.Height = new GridLength(176.23);
     }
 
 
@@ -407,14 +400,14 @@ public sealed partial class LauncherPage : PageBase
         //}
         //else
         //{
-        if (!CanStartGame || IsGameRunning)
-        {
-            AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
-        }
-        else
-        {
-            AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextOnAccentFillColorPrimaryBrush"] as Brush;
-        }
+        //if (!CanStartGame || IsGameRunning)
+        //{
+        //    AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
+        //}
+        //else
+        //{
+        //    AnimatedIcon_GameSetting.Foreground = Application.Current.Resources["TextOnAccentFillColorPrimaryBrush"] as Brush;
+        //}
         //    Button_GameIsRunning.Style = accentStyle;
         //    Button_StartGame.Style = accentStyle;
         //    Button_DownloadGame.Style = accentStyle;
@@ -546,7 +539,7 @@ public sealed partial class LauncherPage : PageBase
                 }
                 return;
             }
-            (LocalGameVersion, ConfigGameBiz) = await _gameResourceService.GetLocalGameVersionAndBizAsync(CurrentGameBiz);
+            LocalGameVersion = await _gameResourceService.GetLocalGameVersionAsync(CurrentGameBiz);
             _logger.LogInformation("Acutal version and gamebiz of {biz} is {version}, {configBiz}.", CurrentGameBiz, LocalGameVersion, ConfigGameBiz);
             UpdateGameButtonStyle();
             (LatestGameVersion, PreInstallGameVersion) = await _gameResourceService.GetGameResourceVersionAsync(CurrentGameBiz);
@@ -1300,7 +1293,6 @@ public sealed partial class LauncherPage : PageBase
                 GameBiz = CurrentGameBiz,
                 GameResource = gameResource!,
                 LanguageType = lang,
-                ReinstallMode = true,
             };
             var dialog = new ContentDialog
             {
@@ -1345,7 +1337,7 @@ public sealed partial class LauncherPage : PageBase
         }
         else
         {
-            MainWindow.Current.OverlayFrameNavigateTo(typeof(SwitchClientPage), CurrentGameBiz);
+            //MainWindow.Current.OverlayFrameNavigateTo(typeof(SwitchClientPage), CurrentGameBiz);
         }
     }
 

@@ -6,7 +6,9 @@ using Serilog;
 using Starward.Core;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
+using Starward.Core.Gacha.ZZZ;
 using Starward.Core.GameRecord;
+using Starward.Core.HoYoPlay;
 using Starward.Core.Launcher;
 using Starward.Core.Metadata;
 using Starward.Core.SelfQuery;
@@ -14,6 +16,7 @@ using Starward.Models;
 using Starward.Services;
 using Starward.Services.Gacha;
 using Starward.Services.InstallGame;
+using Starward.Services.Launcher;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -67,6 +70,7 @@ internal static class AppConfig
 
     public static Uri EmojiAI = new Uri("ms-appx:///Assets/Image/bdfd19c3bdad27a395890755bb60b162.png");
 
+    public static Uri EmojiBangboo = new Uri("ms-appx:///Assets/Image/pamu.db6c2c7b.png");
 
     #endregion
 
@@ -232,12 +236,14 @@ internal static class AppConfig
 
             sc.AddSingleton<GenshinGachaClient>();
             sc.AddSingleton<StarRailGachaClient>();
+            sc.AddSingleton<ZZZGachaClient>();
             sc.AddSingleton<HyperionClient>();
             sc.AddSingleton<HyperionClient>();
             sc.AddSingleton<HoyolabClient>();
             sc.AddSingleton<LauncherClient>();
             sc.AddSingleton<SelfQueryClient>();
             sc.AddSingleton<MetadataClient>();
+            sc.AddSingleton<HoYoPlayClient>();
 
             sc.AddSingleton<DatabaseService>();
             sc.AddSingleton<GameService>();
@@ -254,6 +260,12 @@ internal static class AppConfig
             sc.AddSingleton<Honkai3rdInstallGameService>();
             sc.AddSingleton<GenshinInstallGameService>();
             sc.AddSingleton<StarRailInstallGameService>();
+            sc.AddSingleton<ZZZInstallGameService>();
+            sc.AddSingleton<HoYoPlayService>();
+            sc.AddSingleton<GameLauncherService>();
+            sc.AddSingleton<LauncherBackgroundService>();
+            sc.AddSingleton<GamePackageService>();
+            sc.AddSingleton<ZZZGachaService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))
@@ -461,6 +473,27 @@ internal static class AppConfig
     }
 
 
+    public static GameBiz CurrentGameBiz
+    {
+        get => GetValue<GameBiz>();
+        set => SetValue(value);
+    }
+
+
+    public static string? SelectedGameBizs
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
+    public static bool IsGameBizSelectorPinned
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
 
     #endregion
 
@@ -566,11 +599,14 @@ internal static class AppConfig
     }
 
 
+    [Obsolete("已不用")]
     public static GameBiz GetLastRegionOfGame(GameBiz game)
     {
         return GetValue<GameBiz>(default, $"last_region_of_{game}");
     }
 
+
+    [Obsolete("已不用")]
     public static void SetLastRegionOfGame(GameBiz game, GameBiz value)
     {
         SetValue(value, $"last_region_of_{game}");

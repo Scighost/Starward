@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Starward.Core;
-using Starward.Core.Launcher;
+using Starward.Core.HoYoPlay;
+using Starward.Services.Launcher;
 using Starward.SevenZip;
 using System;
 using System.Collections.Generic;
@@ -25,10 +26,13 @@ internal abstract class InstallGameService
     protected readonly ILogger<InstallGameService> _logger;
 
 
-    protected readonly GameResourceService _gameResourceService;
+    protected readonly GameLauncherService _gameLauncherService;
 
 
-    protected readonly LauncherClient _launcherClient;
+    protected readonly GamePackageService _gamePackageService;
+
+
+    protected readonly HoYoPlayClient _hoyoPlayClient;
 
 
     protected readonly HttpClient _httpClient;
@@ -36,13 +40,7 @@ internal abstract class InstallGameService
 
 
 
-    protected InstallGameService(ILogger<InstallGameService> logger, GameResourceService gameResourceService, LauncherClient launcherClient, HttpClient httpClient)
-    {
-        _logger = logger;
-        _gameResourceService = gameResourceService;
-        _launcherClient = launcherClient;
-        _httpClient = httpClient;
-    }
+
 
 
 
@@ -112,14 +110,25 @@ internal abstract class InstallGameService
     protected List<DownloadFileTask> downloadTasks;
 
 
-    protected GameSDK? gameSDK;
+    protected GameChannelSDK? gameChannelSDK;
 
 
-    protected LauncherGameResource launcherGameResource;
+    protected GamePackage gamePackage;
 
 
     protected CancellationTokenSource cancellationTokenSource;
 
+
+
+
+    protected InstallGameService(ILogger<InstallGameService> logger, GameLauncherService gameLauncherService, GamePackageService gamePackageService, HoYoPlayClient hoyoPlayClient, HttpClient httpClient)
+    {
+        _logger = logger;
+        _gameLauncherService = gameLauncherService;
+        _gamePackageService = gamePackageService;
+        _hoyoPlayClient = hoyoPlayClient;
+        _httpClient = httpClient;
+    }
 
 
 
@@ -229,7 +238,7 @@ internal abstract class InstallGameService
                     State = InstallGameState.Prepare;
                     await PrepareForDownloadAsync().ConfigureAwait(false);
                 }
-                PrepareBilibiliServerGameSDK();
+                await PrepareBilibiliServerGameSDKAsync();
             }
 
             if (_inState is InstallGameState.Download)
@@ -306,26 +315,8 @@ internal abstract class InstallGameService
     {
         _logger.LogInformation("Prepare for download.");
 
-        (var localVersion, _) = await _gameResourceService.GetLocalGameVersionAndBizAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
-        launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz).ConfigureAwait(false);
-        (Version? latestVersion, Version? preDownloadVersion) = await _gameResourceService.GetGameResourceVersionAsync(CurrentGameBiz).ConfigureAwait(false);
-        GameResource? gameResource = null;
-        if (localVersion is null || IsReInstall)
-        {
-            _logger.LogInformation("Install full game.");
-            gameResource = launcherGameResource.Game;
-        }
-        else if (preDownloadVersion != null)
-        {
-            _logger.LogInformation("Pre install game.");
-            IsPreInstall = true;
-            gameResource = launcherGameResource.PreDownloadGame;
-        }
-        else if (latestVersion > localVersion)
-        {
-            _logger.LogInformation("Update game.");
-            gameResource = launcherGameResource.Game;
-        }
+        gamePackage = await _gamePackageService.GetGamePackageAsync(CurrentGameBiz);
+        var gameResource = await _gamePackageService.GetNeedDownloadGamePackageResourceAsync(CurrentGameBiz, InstallPath);
         if (gameResource is null)
         {
             _logger.LogWarning("Game resource is null.");
@@ -334,77 +325,38 @@ internal abstract class InstallGameService
 
         var list_package = new List<DownloadFileTask>();
 
-        if (gameResource.Diffs?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is DiffPackage diff)
+        foreach (var item in gameResource.GamePackages)
         {
-            // 有差分包
             list_package.Add(new DownloadFileTask
             {
-                FileName = Path.GetFileName(diff.Path),
-                Url = diff.Path,
-                Size = diff.PackageSize,
-                MD5 = diff.Md5,
+                FileName = Path.GetFileName(item.Url),
+                Url = item.Url,
+                Size = item.Size,
+                MD5 = item.MD5,
             });
-            VoiceLanguages = await _gameResourceService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
-            foreach (var lang in Enum.GetValues<VoiceLanguage>())
-            {
-                if (VoiceLanguages.HasFlag(lang))
-                {
-                    if (diff.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
-                    {
-                        list_package.Add(new DownloadFileTask
-                        {
-                            FileName = Path.GetFileName(pack.Path),
-                            Url = pack.Path,
-                            Size = pack.PackageSize,
-                            MD5 = pack.Md5
-                        });
-                    }
-                }
-            }
         }
-        else
+        if (VoiceLanguages is VoiceLanguage.None)
         {
-            // 无差分包
-            if (string.IsNullOrWhiteSpace(gameResource.Latest.Path))
+            VoiceLanguages = await _gamePackageService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
+        }
+        foreach (var lang in Enum.GetValues<VoiceLanguage>())
+        {
+            if (VoiceLanguages.HasFlag(lang))
             {
-                // 原神本体分卷下载
-                list_package.AddRange(gameResource.Latest.Segments.Select(x => new DownloadFileTask
+                if (gameResource.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile pack)
                 {
-                    FileName = Path.GetFileName(x.Path),
-                    Url = x.Path,
-                    MD5 = x.Md5,
-                    IsSegment = true
-                }));
-            }
-            else
-            {
-                list_package.Add(new DownloadFileTask
-                {
-                    FileName = Path.GetFileName(gameResource.Latest.Path),
-                    Url = gameResource.Latest.Path,
-                    Size = gameResource.Latest.PackageSize,
-                    MD5 = gameResource.Latest.Md5
-                });
-            }
-            foreach (var lang in Enum.GetValues<VoiceLanguage>())
-            {
-                if (VoiceLanguages.HasFlag(lang))
-                {
-                    if (gameResource.Latest.VoicePacks.FirstOrDefault(x => x.Language == lang.ToDescription()) is VoicePack pack)
+                    list_package.Add(new DownloadFileTask
                     {
-                        list_package.Add(new DownloadFileTask
-                        {
-                            FileName = Path.GetFileName(pack.Path),
-                            Url = pack.Path,
-                            Size = pack.PackageSize,
-                            MD5 = pack.Md5
-                        });
-                    }
+                        FileName = Path.GetFileName(pack.Url),
+                        Url = pack.Url,
+                        Size = pack.Size,
+                        MD5 = pack.MD5
+                    });
                 }
             }
         }
 
-        await _gameResourceService.SetVoiceLanguageAsync(CurrentGameBiz, InstallPath, VoiceLanguages).ConfigureAwait(false);
+        await _gamePackageService.SetVoiceLanguageAsync(CurrentGameBiz, InstallPath, VoiceLanguages).ConfigureAwait(false);
 
         // 包大小
         await Parallel.ForEachAsync(list_package, async (task, _) =>
@@ -444,9 +396,8 @@ internal abstract class InstallGameService
     protected virtual async Task PrepareForRepairAsync()
     {
         _logger.LogInformation("Repair mode, prepare for repair.");
-        launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz).ConfigureAwait(false);
-        GameResource gameResource = launcherGameResource.Game;
-        separateUrlPrefix = gameResource.Latest.DecompressedPath.TrimEnd('/');
+        gamePackage = await _gamePackageService.GetGamePackageAsync(CurrentGameBiz);
+        separateUrlPrefix = gamePackage.Main.Major!.ResListUrl.TrimEnd('/');
         separateResources = await GetPkgVersionsAsync($"{separateUrlPrefix}/pkg_version").ConfigureAwait(false);
     }
 
@@ -499,21 +450,29 @@ internal abstract class InstallGameService
     /// <summary>
     /// B服SDK
     /// </summary>
-    protected void PrepareBilibiliServerGameSDK()
+    protected async Task PrepareBilibiliServerGameSDKAsync()
     {
         if (!IsPreInstall && CurrentGameBiz.IsBilibiliServer())
         {
-            gameSDK = launcherGameResource.Sdk;
-            if (gameSDK is not null)
+            if (gameChannelSDK is null)
             {
-                _logger.LogInformation("Bilibili sdk version: {version}", gameSDK.Version);
-                downloadTasks.Add(new DownloadFileTask
+                var launcherId = LauncherId.FromGameBiz(CurrentGameBiz);
+                var gameId = GameId.FromGameBiz(CurrentGameBiz);
+                if (launcherId != null && gameId != null)
                 {
-                    FileName = Path.GetFileName(gameSDK.Path),
-                    Url = gameSDK.Path,
-                    Size = gameSDK.PackageSize,
-                    MD5 = gameSDK.Md5,
-                });
+                    gameChannelSDK = await _hoyoPlayClient.GetGameChannelSDKAsync(launcherId, "en-us", gameId);
+                    if (gameChannelSDK is not null)
+                    {
+                        _logger.LogInformation("Bilibili sdk version: {version}", gameChannelSDK.Version);
+                        downloadTasks.Add(new DownloadFileTask
+                        {
+                            FileName = Path.GetFileName(gameChannelSDK.ChannelSDKPackage.Url),
+                            Url = gameChannelSDK.ChannelSDKPackage.Url,
+                            Size = gameChannelSDK.ChannelSDKPackage.Size,
+                            MD5 = gameChannelSDK.ChannelSDKPackage.MD5,
+                        });
+                    }
+                }
             }
         }
     }
@@ -526,9 +485,9 @@ internal abstract class InstallGameService
     {
         if (!IsPreInstall && CurrentGameBiz.IsBilibiliServer())
         {
-            if (gameSDK is not null)
+            if (gameChannelSDK is not null)
             {
-                string file = Path.Combine(InstallPath, Path.GetFileName(gameSDK.Path));
+                string file = Path.Combine(InstallPath, Path.GetFileName(gameChannelSDK.ChannelSDKPackage.Url));
                 if (File.Exists(file))
                 {
                     _logger.LogInformation("Decompress Bilibili sdk: {file}", file);
@@ -598,24 +557,24 @@ internal abstract class InstallGameService
     {
         _logger.LogInformation("Clear deprecated files.");
 
-        await Task.Run(() =>
+        await Task.Run(async () =>
         {
-            foreach (var item in launcherGameResource.DeprecatedFiles)
+            var launcherId = LauncherId.FromGameBiz(CurrentGameBiz);
+            var gameId = GameId.FromGameBiz(CurrentGameBiz);
+            if (launcherId != null && gameId != null)
             {
-                var file = Path.Combine(InstallPath, item.Name);
-                if (File.Exists(file))
+                var fileConfig = await _hoyoPlayClient.GetGameDeprecatedFileConfigAsync(launcherId, "en-us", gameId);
+                if (fileConfig != null)
                 {
-                    File.SetAttributes(file, FileAttributes.Normal);
-                    File.Delete(file);
-                }
-            }
-            foreach (var item in launcherGameResource.DeprecatedPackages)
-            {
-                var file = Path.Combine(InstallPath, item.Name);
-                if (File.Exists(file))
-                {
-                    File.SetAttributes(file, FileAttributes.Normal);
-                    File.Delete(file);
+                    foreach (var item in fileConfig.DeprecatedFiles)
+                    {
+                        var file = Path.Combine(InstallPath, item.Name);
+                        if (File.Exists(file))
+                        {
+                            File.SetAttributes(file, FileAttributes.Normal);
+                            File.Delete(file);
+                        }
+                    }
                 }
             }
             foreach (var file in Directory.GetFiles(InstallPath, "*_tmp", SearchOption.AllDirectories))
@@ -662,23 +621,18 @@ internal abstract class InstallGameService
 
         foreach (var task in downloadTasks)
         {
-            if (task.IsSegment)
+            var file = Path.Combine(InstallPath, task.FileName);
+            var files = Directory.GetFiles(InstallPath, $"{Path.GetFileNameWithoutExtension(task.FileName)}.*");
+            if (files.Length > 0)
             {
-                var files = Directory.GetFiles(InstallPath, $"{Path.GetFileNameWithoutExtension(task.FileName)}.*");
-                if (files.Length > 0)
-                {
-                    _logger.LogInformation("Decompress file: {files}", string.Join(Environment.NewLine, files.Select(Path.GetFileName)));
-                    await DecompressFileAsync(files).ConfigureAwait(false);
-                }
+                _logger.LogInformation("Decompress file: {files}", string.Join(Environment.NewLine, files.Select(Path.GetFileName)));
+                await DecompressFileAsync(files).ConfigureAwait(false);
             }
-            else
+            else if (File.Exists(file))
             {
                 _logger.LogInformation("Decompress {file}", task.FileName);
-                var file = Path.Combine(InstallPath, task.FileName);
-                if (File.Exists(file))
-                {
-                    await DecompressFileAsync(file).ConfigureAwait(false);
-                }
+                await DecompressFileAsync(file).ConfigureAwait(false);
+
             }
             await ApplyDiffPackageAsync().ConfigureAwait(false);
         }
@@ -784,8 +738,8 @@ internal abstract class InstallGameService
     /// <returns></returns>
     protected async Task WriteConfigFileAsync()
     {
-        string version = launcherGameResource.Game.Latest.Version;
-        string sdk_version = gameSDK?.Version ?? "";
+        string version = gamePackage.Main.Major?.Version ?? "";
+        string sdk_version = gameChannelSDK?.Version ?? "";
         string cps = "", channel = "1", sub_channel = "1";
         if (CurrentGameBiz.IsBilibiliServer())
         {
