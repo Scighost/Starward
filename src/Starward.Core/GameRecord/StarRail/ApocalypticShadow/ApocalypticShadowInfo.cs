@@ -49,18 +49,11 @@ public class ApocalypticShadowInfo
     public List<ApocalypticShadowMeta>? Metas { get; set; }
 
     [JsonIgnore]
-    public string? Name
+    public ApocalypticShadowMeta? Meta
     {
         get
         {
-            if (Metas?.FirstOrDefault(x => x.ScheduleId == this.ScheduleId) is ApocalypticShadowMeta meta)
-            {
-                return meta.Name;
-            }
-            else
-            {
-                return null;
-            }
+            return Metas?.FirstOrDefault(x => x.ScheduleId == this.ScheduleId);
         }
     }
 

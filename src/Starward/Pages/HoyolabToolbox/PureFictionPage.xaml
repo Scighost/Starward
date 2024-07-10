@@ -163,23 +163,23 @@
                                    FontSize="16"
                                    Text="{x:Bind CurrentPureFiction.StarNum}" />
                     </StackPanel>
-                    <!--  最深抵达  -->
+                    <!--  最高关卡  -->
                     <TextBlock Name="TextBlock_Deepest"
                                Grid.Column="1"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
                                IsTextTrimmedChanged="TextBlock_Deepest_IsTextTrimmedChanged"
                                TextTrimming="CharacterEllipsis">
-                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.SpiralAbyssPage_DeepestDescent}" />
+                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ForgottenHallPage_FarthestStage}" />
                         <Run Text="" />
                         <Run Text="{x:Bind CurrentPureFiction.MaxFloor}" />
                     </TextBlock>
-                    <!--  战斗次数  -->
+                    <!--  挑战次数  -->
                     <TextBlock Name="TextBlock_Battles"
                                Grid.Column="2"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center">
-                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.SpiralAbyssPage_BattlesFought}" />
+                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ForgottenHallPage_TimesChallenged}" />
                         <Run Text="" />
                         <Run Text="{x:Bind CurrentPureFiction.BattleNum}" />
                     </TextBlock>

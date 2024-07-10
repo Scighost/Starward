@@ -28,20 +28,20 @@
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Core" Version="7.1.2" />
 		<PackageReference Include="Dapper" Version="2.1.35" />
-		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.131" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.6" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.0" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.7" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
-		<PackageReference Include="MiniExcel" Version="1.32.1" />
+		<PackageReference Include="MiniExcel" Version="1.33.0" />
 		<PackageReference Include="NuGet.Versioning" Version="6.10.1" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-		<PackageReference Include="Starward.Assets" Version="0.4.11" />
+		<PackageReference Include="Starward.Assets" Version="0.4.12" />
 		<PackageReference Include="Starward.NativeLib" Version="0.2.1" />
 		<PackageReference Include="Vanara.PInvoke.ComCtl32" Version="4.0.2" />
 		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="4.0.2" />
@@ -57,26 +57,6 @@
 		<Content Update="Assets\**">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <CustomAdditionalCompileInputs Remove="Pages\HoyolabToolbox\ApocalypticShadowPage.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Resource Remove="Pages\HoyolabToolbox\ApocalypticShadowPage.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Assets Remove="Pages\HoyolabToolbox\ApocalypticShadowPage.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="Pages\HoyolabToolbox\ApocalypticShadowPage.xaml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Assets Remove="Pages\HoyolabToolbox\ApocalypticShadowPage.xaml.cs" />
 	</ItemGroup>
 
 </Project>

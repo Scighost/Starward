@@ -124,6 +124,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Defeated Boss 的本地化字符串。
+        /// </summary>
+        public static string ApocalypticShadowPage_DefeatedBoss {
+            get {
+                return ResourceManager.GetString("ApocalypticShadowPage_DefeatedBoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Highest Difficulty Cleared 的本地化字符串。
+        /// </summary>
+        public static string ApocalypticShadowPage_HighestDifficultyCleared {
+            get {
+                return ResourceManager.GetString("ApocalypticShadowPage_HighestDifficultyCleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Always display navigation sidebar icons 的本地化字符串。
         /// </summary>
         public static string AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons {
@@ -1035,6 +1053,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Farthest Stage 的本地化字符串。
+        /// </summary>
+        public static string ForgottenHallPage_FarthestStage {
+            get {
+                return ResourceManager.GetString("ForgottenHallPage_FarthestStage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Period 的本地化字符串。
         /// </summary>
         public static string ForgottenHallPage_Period {
@@ -1058,6 +1085,15 @@ namespace Starward.Language {
         public static string ForgottenHallPage_TeamSetup {
             get {
                 return ResourceManager.GetString("ForgottenHallPage_TeamSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Times Challenged 的本地化字符串。
+        /// </summary>
+        public static string ForgottenHallPage_TimesChallenged {
+            get {
+                return ResourceManager.GetString("ForgottenHallPage_TimesChallenged", resourceCulture);
             }
         }
         
@@ -1827,7 +1863,7 @@ namespace Starward.Language {
                 return ResourceManager.GetString("HoyolabToolboxPage_PureFiction", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   查找类似 Refresh Info 的本地化字符串。
         /// </summary>
