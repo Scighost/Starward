@@ -6,6 +6,7 @@ using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
+using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System;
@@ -342,7 +343,7 @@ internal class GameRecordService
     public async Task<int> GetTravelersDiaryDetailAsync(GameRecordRole role, int month, int type, int limit = 100)
     {
         var detail = await _gameRecordClient.GetTravelsDiaryDetailAsync(role, month, type, limit);
-        if (detail.List is null || !detail.List.Any())
+        if (detail.List is null || detail.List.Count == 0)
         {
             return 0;
         }
@@ -579,6 +580,76 @@ internal class GameRecordService
             return null;
         }
         return JsonSerializer.Deserialize<PureFictionInfo>(value);
+    }
+
+
+
+    #endregion
+
+
+
+
+    #region Apocalyptic Shadow
+
+
+
+    public async Task<ApocalypticShadowInfo> RefreshApocalypticShadowInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    {
+        var info = await _gameRecordClient.GetApocalypticShadowInfoAsync(role, schedule);
+        if (info.ScheduleId == 0)
+        {
+            return info;
+        }
+        var obj = new
+        {
+            info.Uid,
+            info.ScheduleId,
+            info.BeginTime,
+            info.EndTime,
+            info.UpperBossIcon,
+            info.LowerBossIcon,
+            info.StarNum,
+            info.MaxFloor,
+            info.BattleNum,
+            info.HasData,
+            Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+        };
+        using var dapper = _databaseService.CreateConnection();
+        dapper.Execute("""
+            INSERT OR REPLACE INTO ApocalypticShadowInfo (Uid, ScheduleId, BeginTime, EndTime, UpperBossIcon, LowerBossIcon, StarNum, MaxFloor, BattleNum, HasData, Value)
+            VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @UpperBossIcon, @LowerBossIcon, @StarNum, @MaxFloor, @BattleNum, @HasData, @Value);
+            """, obj);
+        return info;
+    }
+
+
+
+    public List<ApocalypticShadowInfo> GetApocalypticShadowInfoList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<ApocalypticShadowInfo>();
+        }
+        using var dapper = _databaseService.CreateConnection();
+        var list = dapper.Query<ApocalypticShadowInfo>("""
+            SELECT Uid, ScheduleId, BeginTime, EndTime, UpperBossIcon, LowerBossIcon, StarNum, MaxFloor, BattleNum, HasData FROM ApocalypticShadowInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
+            """, new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public ApocalypticShadowInfo? GetApocalypticShadowInfo(GameRecordRole role, int scheduleId)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        var value = dapper.QueryFirstOrDefault<string>("""
+            SELECT Value FROM ApocalypticShadowInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
+            """, new { role.Uid, scheduleId });
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+        return JsonSerializer.Deserialize<ApocalypticShadowInfo>(value);
     }
 
 

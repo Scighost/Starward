@@ -59,4 +59,24 @@
 		</Content>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <CustomAdditionalCompileInputs Remove="Pages\HoyolabToolbox\ApocalypticShadowPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Remove="Pages\HoyolabToolbox\ApocalypticShadowPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Assets Remove="Pages\HoyolabToolbox\ApocalypticShadowPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Pages\HoyolabToolbox\ApocalypticShadowPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Assets Remove="Pages\HoyolabToolbox\ApocalypticShadowPage.xaml.cs" />
+	</ItemGroup>
+
 </Project>

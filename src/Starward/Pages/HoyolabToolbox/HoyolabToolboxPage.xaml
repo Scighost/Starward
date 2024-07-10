@@ -366,6 +366,23 @@
                         </Grid>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
+                <!--  末日幻影  -->
+                <NavigationViewItem Name="NavigationViewItem_ApocalypticShadow"
+                                    Tag="ApocalypticShadowPage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/ApocalypticShadow.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_ApocalypticShadow}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
                 <!--  开拓月历  -->
                 <NavigationViewItem Name="NavigationViewItem_TrailblazeMonthlyCalendar"
                                     Tag="TrailblazeCalendarPage"

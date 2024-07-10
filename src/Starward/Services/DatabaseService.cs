@@ -586,6 +586,30 @@ internal class DatabaseService
         PRAGMA USER_VERSION = 8;
         COMMIT TRANSACTION;
         """;
+    
+    private const string Sql_v9 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS ApocalypticShadowInfo
+        (
+            Uid        INTEGER NOT NULL,
+            ScheduleId INTEGER NOT NULL,
+            BeginTime  TEXT    NOT NULL,
+            EndTime    TEXT    NOT NULL,
+            UpperBossIcon  TEXT    NOT NULL,
+            LowerBossIcon    TEXT    NOT NULL,
+            StarNum    INTEGER NOT NULL,
+            MaxFloor   TEXT,
+            BattleNum  INTEGER NOT NULL,
+            HasData    INTEGER NOT NULL,
+            Value      TEXT    NOT NULL,
+            PRIMARY KEY (Uid, ScheduleId)
+        );
+        CREATE INDEX IF NOT EXISTS IX_ApocalypticShadowInfo_ScheduleId ON ApocalypticShadowInfo (ScheduleId);
+
+        PRAGMA USER_VERSION = 8;
+        COMMIT TRANSACTION;
+        """;
 
     private const string Sql_v9 = """
         BEGIN TRANSACTION;
