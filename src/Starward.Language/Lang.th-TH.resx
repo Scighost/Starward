@@ -1409,7 +1409,13 @@
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
     <value>Recently Updated Content</value>
   </data>
+  <data name="HoyolabToolboxPage_ApocalypticShadow" xml:space="preserve">
+    <value>Apocalyptic Shadow</value>
+  </data>
   <data name="GameBizSelector_AutoSearch" xml:space="preserve">
     <value>Auto Search</value>
+  </data>
+  <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
+    <value>Signal Search Records</value>
   </data>
 </root>
