@@ -1410,6 +1410,9 @@
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
     <value>최근 업데이트 내용</value>
   </data>
+  <data name="HoyolabToolboxPage_ApocalypticShadow" xml:space="preserve">
+    <value>종말의 환영</value>
+  </data>
   <data name="GameBizSelector_AutoSearch" xml:space="preserve">
     <value>자동검색</value>
   </data>
