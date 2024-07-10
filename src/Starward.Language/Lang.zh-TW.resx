@@ -1419,4 +1419,16 @@
   <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
     <value>調頻紀錄</value>
   </data>
+  <data name="ApocalypticShadowPage_DefeatedBoss" xml:space="preserve">
+    <value>Defeated Boss</value>
+  </data>
+  <data name="ApocalypticShadowPage_HighestDifficultyCleared" xml:space="preserve">
+    <value>Highest Difficulty Cleared</value>
+  </data>
+  <data name="ForgottenHallPage_FarthestStage" xml:space="preserve">
+    <value>Farthest Stage</value>
+  </data>
+  <data name="ForgottenHallPage_TimesChallenged" xml:space="preserve">
+    <value>Times Challenged</value>
+  </data>
 </root>
