@@ -41,7 +41,7 @@ public sealed partial class GameBizSelector : UserControl
     }
 
 
-   
+
     public GameBiz CurrentGameBiz { get; set; }
 
 
@@ -256,6 +256,7 @@ public sealed partial class GameBizSelector : UserControl
         if (!IsPinned)
         {
             Border_GameBizSelector.Translation = new Vector3(0, -100, 0);
+            UpdateDragRectangles();
         }
     }
 
