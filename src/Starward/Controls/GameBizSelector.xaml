@@ -456,13 +456,16 @@
                                     VerticalAlignment="Top"
                                     sh:PointerCursor.CursorShape="Hand"
                                     BorderThickness="0"
-                                    Click="Button_GameBizSelector_Click"
                                     CornerRadius="8"
+                                    DoubleTapped="Button_GameBizSelector_DoubleTapped"
+                                    IsDoubleTapEnabled="True"
+                                    IsTapEnabled="True"
                                     PointerEntered="Button_GameBizSelector_PointerEntered"
                                     PointerExited="Button_GameBizSelector_PointerExited"
                                     Shadow="{ThemeResource ThemeShadow}"
                                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                                     Tag="{Binding GameBiz}"
+                                    Tapped="Button_GameBizSelector_Tapped"
                                     Translation="0,0,16">
                                 <Grid>
                                     <Image Width="40" Height="40">

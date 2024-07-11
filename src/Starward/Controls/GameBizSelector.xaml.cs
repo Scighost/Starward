@@ -31,7 +31,7 @@ public sealed partial class GameBizSelector : UserControl
     private const string IconUnpin = "\uE77A";
 
 
-    public event EventHandler<GameBiz>? GameBizChanged;
+    public event EventHandler<(GameBiz, bool DoubleTapped)>? GameBizChanged;
 
 
     public GameBizSelector()
@@ -41,7 +41,7 @@ public sealed partial class GameBizSelector : UserControl
     }
 
 
-
+   
     public GameBiz CurrentGameBiz { get; set; }
 
 
@@ -164,7 +164,7 @@ public sealed partial class GameBizSelector : UserControl
 
 
 
-    private void Button_GameBizSelector_Click(object sender, RoutedEventArgs e)
+    private void Button_GameBizSelector_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
         if (sender is Button button && button.DataContext is GameBizIcon icon)
         {
@@ -188,7 +188,37 @@ public sealed partial class GameBizSelector : UserControl
                 UpdateDragRectangles();
             }
 
-            GameBizChanged?.Invoke(this, icon.GameBiz);
+            GameBizChanged?.Invoke(this, (icon.GameBiz, false));
+        }
+    }
+
+
+
+    private void Button_GameBizSelector_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+    {
+        if (sender is Button button && button.DataContext is GameBizIcon icon)
+        {
+            if (CurrentGameBizIcon is not null)
+            {
+                CurrentGameBizIcon.CurrentGameBiz = false;
+                CurrentGameBizIcon.MaskOpacity = 1;
+            }
+
+            CurrentGameBizIcon = icon;
+            CurrentGameBiz = icon.GameBiz;
+            icon.CurrentGameBiz = true;
+            icon.MaskOpacity = 0;
+
+            Border_FullMask.Opacity = 0;
+            Border_FullMask.IsHitTestVisible = false;
+            Popup_GameBizSelector.IsOpen = false;
+            if (!IsPinned)
+            {
+                Border_GameBizSelector.Translation = new Vector3(0, -100, 0);
+                UpdateDragRectangles();
+            }
+
+            GameBizChanged?.Invoke(this, (icon.GameBiz, true));
         }
     }
 

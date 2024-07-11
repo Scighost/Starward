@@ -206,14 +206,21 @@ public sealed partial class MainPage : PageBase
 
 
 
-    private void GameBizSelector_GameBizChanged(object sender, GameBiz biz)
+    private void GameBizSelector_GameBizChanged(object sender, (GameBiz biz, bool doubleTapped) args)
     {
-        _logger.LogInformation("Change game region to {gamebiz}", biz);
-        CurrentGameBiz = biz;
+        _logger.LogInformation("Change game region to {gamebiz}", args.biz);
+        CurrentGameBiz = args.biz;
         UpdateNavigationViewItemsText();
-        NavigateTo(MainPage_Frame.SourcePageType);
+        if (args.doubleTapped)
+        {
+            NavigateTo(typeof(GameLauncherPage));
+        }
+        else
+        {
+            NavigateTo(MainPage_Frame.SourcePageType);
+        }
         _ = UpdateBackgroundImageAsync();
-        AppConfig.CurrentGameBiz = biz;
+        AppConfig.CurrentGameBiz = args.biz;
     }
 
 
