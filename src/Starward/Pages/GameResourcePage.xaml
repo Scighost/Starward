@@ -11,7 +11,7 @@
 
     <Page.Resources>
         <DataTemplate x:Key="PackageGroupsDataTemplate">
-            <Expander HorizontalAlignment="Stretch" Background="{ThemeResource CustomOverlayAcrylicBrush}">
+            <Expander HorizontalAlignment="Stretch" Background="#40000000">
                 <Expander.Header>
                     <Grid>
                         <TextBlock VerticalAlignment="Center"

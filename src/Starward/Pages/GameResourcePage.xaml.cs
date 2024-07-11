@@ -3,13 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Starward.Core;
-using Starward.Core.Launcher;
+using Starward.Core.HoYoPlay;
 using Starward.Helpers;
-using Starward.Services;
+using Starward.Services.Launcher;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,7 +26,9 @@ public sealed partial class GameResourcePage : PageBase
 
     private readonly ILogger<GameResourcePage> _logger = AppConfig.GetLogger<GameResourcePage>();
 
-    private readonly GameResourceService _gameResourceService = AppConfig.GetService<GameResourceService>();
+    private readonly GamePackageService _gamePackageService = AppConfig.GetService<GamePackageService>();
+
+    private readonly HoYoPlayClient _hoyoPlayClient = AppConfig.GetService<HoYoPlayClient>();
 
 
     public GameResourcePage()
@@ -41,7 +42,7 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    private LauncherGameResource launcherGameResource;
+    private GamePackage gamePackage;
 
     [ObservableProperty]
     private string latestVersion;
@@ -61,29 +62,33 @@ public sealed partial class GameResourcePage : PageBase
     {
         try
         {
-            launcherGameResource = await _gameResourceService.GetGameResourceAsync(CurrentGameBiz);
-            LatestVersion = launcherGameResource.Game.Latest.Version;
-            var list = GetGameResourcePackageGroups(launcherGameResource.Game);
-            if (CurrentGameBiz.IsBilibiliServer() && launcherGameResource.Sdk is not null)
+            gamePackage = await _gamePackageService.GetGamePackageAsync(CurrentGameBiz);
+            LatestVersion = gamePackage.Main.Major!.Version;
+            var list = GetGameResourcePackageGroups(gamePackage.Main);
+            if (CurrentGameBiz.IsBilibiliServer())
             {
-                list.Add(new PackageGroup
+                var sdk = await _hoyoPlayClient.GetGameChannelSDKAsync(LauncherId.FromGameBiz(CurrentGameBiz)!, "", GameId.FromGameBiz(CurrentGameBiz)!);
+                if (sdk is not null)
                 {
-                    Name = "Bilibili SDK",
-                    Items = [new PackageItem
+                    list.Add(new PackageGroup
                     {
-                        FileName = Path.GetFileName(launcherGameResource.Sdk.Path),
-                        Url = launcherGameResource.Sdk.Path,
-                        Md5 = launcherGameResource.Sdk.Md5,
-                        PackageSize = launcherGameResource.Sdk.PackageSize,
-                        DecompressSize = launcherGameResource.Sdk.Size,
-                    }],
-                });
+                        Name = "Bilibili SDK",
+                        Items = [new PackageItem
+                        {
+                            FileName = Path.GetFileName(sdk.ChannelSDKPackage.Url),
+                            Url = sdk.ChannelSDKPackage.Url,
+                            Md5 = sdk.ChannelSDKPackage.MD5,
+                            PackageSize = sdk.ChannelSDKPackage.Size,
+                            DecompressSize = sdk.ChannelSDKPackage.DecompressedSize,
+                        }],
+                    });
+                }
             }
             LatestPackageGroups = list;
-            if (launcherGameResource.PreDownloadGame is not null)
+            if (!string.IsNullOrWhiteSpace(gamePackage.PreDownload?.Major?.Version))
             {
-                PreInstallVersion = launcherGameResource.PreDownloadGame.Latest.Version;
-                PreInstallPackageGroups = GetGameResourcePackageGroups(launcherGameResource.PreDownloadGame);
+                PreInstallVersion = gamePackage.PreDownload.Major.Version;
+                PreInstallPackageGroups = GetGameResourcePackageGroups(gamePackage.PreDownload);
             }
         }
         catch (Exception ex)
@@ -95,7 +100,7 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    private List<PackageGroup> GetGameResourcePackageGroups(GameResource gameResource)
+    private List<PackageGroup> GetGameResourcePackageGroups(GamePackageVersion gameResource)
     {
         var list = new List<PackageGroup>();
         var fullPackageGroup = new PackageGroup
@@ -103,79 +108,57 @@ public sealed partial class GameResourcePage : PageBase
             Name = Lang.GameResourcePage_FullPackages,
             Items = new List<PackageItem>()
         };
-        if (string.IsNullOrWhiteSpace(gameResource.Latest.Path))
+        foreach (var item in gameResource.Major?.GamePackages ?? [])
         {
-            // segment
-            if (gameResource.Latest.Segments.FirstOrDefault() is Segment first)
-            {
-                fullPackageGroup.Items.Add(new PackageItem
-                {
-                    FileName = $"{Path.GetFileNameWithoutExtension(first.Path)}.*",
-                    Md5 = gameResource.Latest.Md5,
-                    PackageSize = gameResource.Latest.PackageSize,
-                    DecompressSize = gameResource.Latest.Size,
-                });
-            }
-            foreach (var segment in gameResource.Latest.Segments)
-            {
-                fullPackageGroup.Items.Add(new PackageItem
-                {
-                    FileName = Path.GetFileName(segment.Path),
-                    Url = segment.Path,
-                    Md5 = segment.Md5,
-                    PackageSize = segment.PackageSize,
-                });
-            }
-        }
-        else
-        {
-            // no segment
-            var latest = gameResource.Latest;
             fullPackageGroup.Items.Add(new PackageItem
             {
-                FileName = Path.GetFileName(latest.Path),
-                Url = latest.Path,
-                Md5 = latest.Md5,
-                PackageSize = latest.PackageSize,
-                DecompressSize = latest.Size,
+                FileName = Path.GetFileName(item.Url),
+                Url = item.Url,
+                Md5 = item.MD5,
+                PackageSize = item.Size,
+                DecompressSize = item.DecompressedSize,
             });
         }
-        foreach (var voice in gameResource.Latest.VoicePacks)
+        foreach (var item in gameResource.Major?.AudioPackages ?? [])
         {
             fullPackageGroup.Items.Add(new PackageItem
             {
-                FileName = Path.GetFileName(voice.Path),
-                Url = voice.Path,
-                Md5 = voice.Md5,
-                PackageSize = voice.PackageSize,
-                DecompressSize = voice.Size,
+                FileName = Path.GetFileName(item.Url),
+                Url = item.Url,
+                Md5 = item.MD5,
+                PackageSize = item.Size,
+                DecompressSize = item.DecompressedSize,
             });
         }
         list.Add(fullPackageGroup);
-        foreach (var diff in gameResource.Diffs)
+
+        foreach (var patch in gameResource.Patches ?? [])
         {
             var diffPackageGroup = new PackageGroup
             {
-                Name = $"{Lang.GameResourcePage_DiffPackages}  {diff.Version}",
+                Name = $"{Lang.GameResourcePage_DiffPackages}  {patch.Version}",
                 Items = new List<PackageItem>()
             };
-            diffPackageGroup.Items.Add(new PackageItem
-            {
-                FileName = Path.GetFileName(diff.Path),
-                Url = diff.Path,
-                Md5 = diff.Md5,
-                PackageSize = diff.PackageSize,
-                DecompressSize = diff.Size,
-            });
-            foreach (var voice in diff.VoicePacks)
+            foreach (var item in patch.GamePackages ?? [])
             {
                 diffPackageGroup.Items.Add(new PackageItem
                 {
-                    FileName = Path.GetFileName(voice.Path),
-                    Url = voice.Path,
-                    Md5 = voice.Md5,
-                    PackageSize = voice.PackageSize,
-                    DecompressSize = voice.Size,
+                    FileName = Path.GetFileName(item.Url),
+                    Url = item.Url,
+                    Md5 = item.MD5,
+                    PackageSize = item.Size,
+                    DecompressSize = item.DecompressedSize,
+                });
+            }
+            foreach (var item in patch.AudioPackages ?? [])
+            {
+                diffPackageGroup.Items.Add(new PackageItem
+                {
+                    FileName = Path.GetFileName(item.Url),
+                    Url = item.Url,
+                    Md5 = item.MD5,
+                    PackageSize = item.Size,
+                    DecompressSize = item.DecompressedSize,
                 });
             }
             list.Add(diffPackageGroup);
@@ -206,7 +189,7 @@ public sealed partial class GameResourcePage : PageBase
                                 sb.AppendLine(item.Url);
                             }
                         }
-                        string url = sb.ToString();
+                        string url = sb.ToString().TrimEnd();
                         if (!string.IsNullOrWhiteSpace(url))
                         {
                             ClipboardHelper.SetText(url);
@@ -266,7 +249,7 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    public partial class PackageGroup
+    public class PackageGroup
     {
         public string Name { get; set; }
 

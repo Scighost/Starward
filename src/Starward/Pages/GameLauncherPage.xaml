@@ -420,6 +420,23 @@
                               Glyph="&#xE789;"
                               IsTextScaleFactorEnabled="False" />
                 </Button>
+                <!--  Game Package  -->
+                <Button Width="40"
+                        Height="40"
+                        Margin="4"
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        Command="{x:Bind OpenGamePackageWindowCommand}"
+                        CornerRadius="8"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind lang:Lang.FileSettingPage_GameResource}">
+                    <FontIcon FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="&#xF012;"
+                              IsTextScaleFactorEnabled="False" />
+                </Button>
 
             </StackPanel>
 
