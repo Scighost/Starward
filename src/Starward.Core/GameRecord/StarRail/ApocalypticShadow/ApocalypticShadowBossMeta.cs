@@ -1,5 +1,4 @@
-﻿using Starward.Core.GameRecord.StarRail.ForgottenHall;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.StarRail.ApocalypticShadow;
 

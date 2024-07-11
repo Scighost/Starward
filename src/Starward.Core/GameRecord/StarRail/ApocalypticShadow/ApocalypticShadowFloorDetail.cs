@@ -26,7 +26,7 @@ public class ApocalypticShadowFloorDetail
 
     [JsonPropertyName("is_fast")]
     public bool IsFast { get; set; }
-    
+
     [JsonPropertyName("last_update_time")]
     [JsonConverter(typeof(ForgottenHallTimeJsonConverter))]
     public DateTime LastUpdateTime { get; set; }

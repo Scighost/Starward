@@ -4,7 +4,6 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Pages.Welcome;
 using Starward.Services;
 using System;
-using System.IO;
 using Vanara.PInvoke;
 using Windows.Graphics;
 

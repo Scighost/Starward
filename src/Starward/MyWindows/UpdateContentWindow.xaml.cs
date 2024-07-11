@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -14,7 +13,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Vanara.PInvoke;
 using Windows.Graphics;
 using Windows.System;
 

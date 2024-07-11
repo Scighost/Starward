@@ -1,8 +1,8 @@
 ﻿using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
+using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
-using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System.Text.Json.Serialization;
