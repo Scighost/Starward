@@ -80,7 +80,8 @@ public sealed partial class GachaLogPage : PageBase
                 _gachaLogService = AppConfig.GetService<ZZZGachaService>();
                 Image_Emoji.Source = new BitmapImage(AppConfig.EmojiBangboo);
                 MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
-                Button_Export.IsEnabled = false;
+                Button_Export_Excel.IsEnabled = false;
+                Button_Export_JSON.IsEnabled = false;
                 Button_Import.IsEnabled = false;
             }
             if (biz.IsGlobalServer())

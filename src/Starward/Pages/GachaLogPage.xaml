@@ -135,8 +135,7 @@
                                         Orientation="Horizontal"
                                         Spacing="8">
                                 <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.GachaLogPage_ExportAs}" />
-                                <Button x:Name="Button_Export"
-                                        Padding="1"
+                                <Button Padding="1"
                                         VerticalAlignment="Bottom"
                                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                                     <FontIcon FontSize="12" Glyph="&#xE9CE;" />
@@ -156,12 +155,14 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <Button HorizontalAlignment="Stretch"
+                                <Button x:Name="Button_Export_Excel"
+                                        HorizontalAlignment="Stretch"
                                         Command="{x:Bind ExportGachaLogCommand}"
                                         CommandParameter="excel"
                                         Content="Excel"
                                         CornerRadius="4,0,0,4" />
-                                <Button Grid.Column="1"
+                                <Button x:Name="Button_Export_JSON"
+                                        Grid.Column="1"
                                         HorizontalAlignment="Stretch"
                                         Command="{x:Bind ExportGachaLogCommand}"
                                         CommandParameter="json"
