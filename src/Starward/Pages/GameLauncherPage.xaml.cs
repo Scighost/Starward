@@ -1077,12 +1077,6 @@ public sealed partial class GameLauncherPage : PageBase
     }
 
 
-    [RelayCommand]
-    private void OpenCloseGameSetting()
-    {
-        SplitView_Content.IsPaneOpen = !SplitView_Content.IsPaneOpen;
-    }
-
 
     [RelayCommand]
     private async Task ChangeGameInstallPathAsync()
@@ -1291,6 +1285,29 @@ public sealed partial class GameLauncherPage : PageBase
     }
 
 
+
+
+    #endregion
+
+
+
+
+    #region Side Menu
+
+
+
+    [RelayCommand]
+    private void OpenCloseGameSetting()
+    {
+        SplitView_Content.IsPaneOpen = !SplitView_Content.IsPaneOpen;
+    }
+
+
+    [RelayCommand]
+    private void OpenGameNoticesWindow()
+    {
+        WindowManager.Active(new GameNoticesWindow { GameBiz = CurrentGameBiz });
+    }
 
 
     #endregion

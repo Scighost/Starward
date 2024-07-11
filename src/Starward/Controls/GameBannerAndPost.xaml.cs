@@ -5,10 +5,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Helpers;
 using Starward.Messages;
 using Starward.Models;
-using Starward.Pages;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,6 +28,9 @@ public sealed partial class GameBannerAndPost : UserControl
 
     private Microsoft.UI.Dispatching.DispatcherQueueTimer _bannerTimer;
 
+
+
+    public GameBiz GameBiz { get; set; }
 
 
     public GameBannerAndPost()
@@ -223,7 +227,7 @@ public sealed partial class GameBannerAndPost : UserControl
     [RelayCommand]
     private void NavigateToGameNoticesPage()
     {
-        WeakReferenceMessenger.Default.Send(new MainPageNavigateMessage(typeof(GameNoticesPage)));
+        WindowManager.Active(new GameNoticesWindow { GameBiz = GameBiz });
     }
 
 

@@ -31,7 +31,8 @@
                                   Margin="60,0,0,40"
                                   HorizontalAlignment="Left"
                                   VerticalAlignment="Bottom"
-                                  x:FieldModifier="protected" />
+                                  x:FieldModifier="protected"
+                                  GameBiz="{x:Bind CurrentGameBiz}" />
 
 
             <!--  Start Game  -->
@@ -380,6 +381,7 @@
 
 
 
+            <!--  Side Menu  -->
             <StackPanel Margin="0,8,0,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
@@ -398,6 +400,24 @@
                     <FontIcon FontSize="16"
                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                               Glyph="&#xE713;"
+                              IsTextScaleFactorEnabled="False" />
+                </Button>
+                <!--  Game Notices  -->
+                <Button Width="40"
+                        Height="40"
+                        Margin="4"
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        Command="{x:Bind OpenGameNoticesWindowCommand}"
+                        CornerRadius="8"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind lang:Lang.MainPage_GameNotices}"
+                        Visibility="Collapsed">
+                    <FontIcon FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="&#xE789;"
                               IsTextScaleFactorEnabled="False" />
                 </Button>
 
