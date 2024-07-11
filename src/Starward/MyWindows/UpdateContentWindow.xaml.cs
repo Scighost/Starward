@@ -52,9 +52,7 @@ public sealed partial class UpdateContentWindow : WindowEx
         }
         SystemBackdrop = new DesktopAcrylicBackdrop();
         AdaptTitleBarButtonColorToActuallTheme();
-        nint hInstance = Kernel32.GetModuleHandle(null).DangerousGetHandle();
-        nint hIcon = User32.LoadIcon(hInstance, "#32512").DangerousGetHandle();
-        AppWindow.SetIcon(Win32Interop.GetIconIdFromIcon(hIcon));
+        SetIcon();
         CenterInScreen();
     }
 

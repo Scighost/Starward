@@ -138,6 +138,21 @@ public abstract partial class WindowEx : Window
 
 
 
+    public void SetIcon(string? iconPath = null)
+    {
+        if (string.IsNullOrWhiteSpace(iconPath))
+        {
+            nint hInstance = Kernel32.GetModuleHandle(null).DangerousGetHandle();
+            nint hIcon = User32.LoadIcon(hInstance, "#32512").DangerousGetHandle();
+            AppWindow.SetIcon(Win32Interop.GetIconIdFromIcon(hIcon));
+        }
+        else
+        {
+            AppWindow.SetIcon(iconPath);
+        }
+    }
+
+
 
     #endregion
 

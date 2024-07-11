@@ -34,7 +34,7 @@ public sealed partial class InstallGameWindow : WindowEx
         Title = "Starward - Install Game";
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
-        AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo_dl.ico"));
+        SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\logo_dl.ico"));
         CenterInScreen(720, 404);
         AdaptTitleBarButtonColorToActuallTheme();
         if (AppWindow.Presenter is OverlappedPresenter presenter)
