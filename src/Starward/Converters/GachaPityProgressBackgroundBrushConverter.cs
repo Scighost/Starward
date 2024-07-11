@@ -24,7 +24,7 @@ internal class GachaPityProgressBackgroundBrushConverter : IValueConverter
             var brush = new LinearGradientBrush { StartPoint = new Point(0, 0), EndPoint = new Point(1, 0), Opacity = 0.4 };
             int point = 74;
             double guarantee = 90;
-            if (type is GachaType.WeaponEventWish or GachaType.LightConeEventWarp)
+            if (type is GachaType.WeaponEventWish or GachaType.LightConeEventWarp or GachaType.WEngineChannel)
             {
                 point = 63;
                 guarantee = 80;

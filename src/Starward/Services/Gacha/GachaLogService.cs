@@ -226,12 +226,14 @@ internal abstract class GachaLogService
                 {
                     stats.List_5.Insert(0, new GachaLogItemEx
                     {
+                        GachaType = (GachaType)type,
                         Name = Lang.GachaStatsCard_Pity,
                         Pity = stats.Pity_5,
                         Time = list.Last().Time,
                     });
                     stats.List_4.Insert(0, new GachaLogItemEx
                     {
+                        GachaType = (GachaType)type,
                         Name = Lang.GachaStatsCard_Pity,
                         Pity = stats.Pity_4,
                         Time = list.Last().Time,
