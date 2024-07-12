@@ -635,7 +635,7 @@ public sealed partial class MainPage : PageBase
             MainPage_NavigationView.SelectedItem = NavigationViewItem_Launcher;
         }
         _logger.LogInformation("Navigate to {page} with param {param}", destPage, param ?? CurrentGameBiz);
-        MainPage_Frame.Navigate(page, param ?? CurrentGameBiz, new DrillInNavigationTransitionInfo());
+        MainPage_Frame.Navigate(page, param ?? CurrentGameBiz);
         if (destPage is nameof(GameLauncherPage))
         {
             PlayVideo();
