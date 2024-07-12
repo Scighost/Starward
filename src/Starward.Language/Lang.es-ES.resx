@@ -118,40 +118,40 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
-    <value>Package Size:</value>
+    <value>Tamaño del paquete:</value>
   </data>
   <data name="DownloadGameDialog_Downloaded" xml:space="preserve">
-    <value>Downloaded:</value>
+    <value>Descargado:</value>
   </data>
   <data name="DownloadGameDialog_FreeSpace" xml:space="preserve">
-    <value>Available Space:</value>
+    <value>Espacio disponible:</value>
   </data>
   <data name="DownloadGameDialog_RequiredSpaceForUnzipping" xml:space="preserve">
-    <value>Required Space:</value>
+    <value>Espacio requerido:</value>
   </data>
   <data name="DownloadGameDialog_RepairMode" xml:space="preserve">
-    <value>Repair Mode:</value>
+    <value>Reparar:</value>
   </data>
   <data name="DownloadGameDialog_VoiceLanguage" xml:space="preserve">
-    <value>Voice Language:</value>
+    <value>Idioma del audio:</value>
   </data>
   <data name="Language_Chinese" xml:space="preserve">
-    <value>Chinese</value>
+    <value>Chino</value>
   </data>
   <data name="Language_English" xml:space="preserve">
-    <value>English</value>
+    <value>Inglés</value>
   </data>
   <data name="Language_Japanese" xml:space="preserve">
-    <value>Japanese</value>
+    <value>Japonés</value>
   </data>
   <data name="Language_Korean" xml:space="preserve">
-    <value>Korean</value>
+    <value>Coreano</value>
   </data>
   <data name="DownloadGameDialog_TestWarning" xml:space="preserve">
-    <value>This feature is in the testing stage. If there is any game file damage, please use the official launcher to repair it.</value>
+    <value>Esta característica está en fase de pruebas. Si hay algún daño en los archivos del juego, por favor utilice el lanzador oficial para repararlo.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
-    <value>Available space may be not enough</value>
+    <value>El espacio disponible puede no ser suficiente</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
     <value>Pity</value>
@@ -163,74 +163,74 @@
     <value>Stats</value>
   </data>
   <data name="SelectDirectoryPage_NiceToMeetYou" xml:space="preserve">
-    <value>Nice to Meet You ~</value>
+    <value>Encantado de conocerte ~</value>
   </data>
   <data name="SelectDirectoryPage_SelectFolder" xml:space="preserve">
-    <value>Select Folder</value>
+    <value>Seleccionar Carpeta</value>
   </data>
   <data name="SelectDirectoryPage_SelectLanguage" xml:space="preserve">
-    <value>Select Language</value>
+    <value>Elegir idioma</value>
   </data>
   <data name="SelectDirectoryPage_SelectGame" xml:space="preserve">
-    <value>Select Game</value>
+    <value>Seleccionar un juego</value>
   </data>
   <data name="SelectDirectoryPage_RecommendFolder" xml:space="preserve">
-    <value>The app data will be saved at following folder by default:</value>
+    <value>Los datos de la aplicación se guardarán en la siguiente carpeta por defecto:</value>
   </data>
   <data name="SelectDirectoryPage_WouldYouLikeToChooseThisFolder" xml:space="preserve">
-    <value>Would you like to choose this folder?</value>
+    <value>¿Te gustaría elegir esta carpeta?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>This folder will be automatically deleted after the software update</value>
+    <value>Esta carpeta se eliminará automáticamente después de la actualización</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
-    <value>No write permission</value>
+    <value>Sin permisos de escritura</value>
   </data>
   <data name="SelectDirectoryPage_OK" xml:space="preserve">
-    <value>OK</value>
+    <value>Aceptar</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
-    <value>Choose Another</value>
+    <value>Elegir otra</value>
   </data>
   <data name="SelectDirectoryPage_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="SelectDirectoryPage_FirstUse" xml:space="preserve">
-    <value>It seems to be your first time using {Starward}.</value>
+    <value>Parece ser tu primera vez usando {Starward}.</value>
   </data>
   <data name="SelectGamePage_GoToLauncher" xml:space="preserve">
-    <value>Go to Launcher</value>
+    <value>Ir al lanzador</value>
   </data>
   <data name="SelectGamePage_SelectFolder" xml:space="preserve">
-    <value>Select Folder</value>
+    <value>Seleccionar Carpeta</value>
   </data>
   <data name="SelectGamePage_SomeGame" xml:space="preserve">
-    <value>{Starward} supports some {miHoYo/HoYoverse} games, please select your target below, you can also change it at any time after entering the launcher.</value>
+    <value>{Starward} soporta algunos juegos de {miHoYo/HoYoverse}, por favor selecciona uno a continuación, también puedes cambiarlo en cualquier momento después de entrar al lanzador.</value>
   </data>
   <data name="SelectGamePage_TheLastStep" xml:space="preserve">
-    <value>The last step ~</value>
+    <value>El último paso ~</value>
   </data>
   <data name="DownloadGamePage_CloseSoftware" xml:space="preserve">
-    <value>Close Software</value>
+    <value>Cerrar el programa</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContent" xml:space="preserve">
-    <value>Downloading can be resumed after the next startup;
-closing the program during decompression will cause game file corruption.</value>
+    <value>La descarga se puede reanudar después del siguiente inicio;
+cerrar el programa durante la descompresión causará corrupciones en los archivos del juego.</value>
   </data>
   <data name="DownloadGamePage_Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Cerrar</value>
   </data>
   <data name="Common_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>Software will be exited soon</value>
+    <value>El programa se cerrará pronto</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
     <value>Repeat Start</value>
   </data>
   <data name="Common_Confirm" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Confirmar</value>
   </data>
   <data name="DownloadGamePage_ParameterError" xml:space="preserve">
     <value>Parameter Error</value>
@@ -239,34 +239,34 @@ closing the program during decompression will cause game file corruption.</value
     <value>No Permission</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Please start as administrator</value>
+    <value>Por favor inicie como administrador</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Empezar</value>
   </data>
   <data name="DownloadGamePage_Preparing" xml:space="preserve">
-    <value>Preparing</value>
+    <value>Preparando</value>
   </data>
   <data name="DownloadGamePage_Downloading" xml:space="preserve">
-    <value>Downloading</value>
+    <value>Descargando</value>
   </data>
   <data name="DownloadGamePage_Verifying" xml:space="preserve">
-    <value>Verifying</value>
+    <value>Verificando</value>
   </data>
   <data name="DownloadGamePage_Decompressing" xml:space="preserve">
-    <value>Decompressing</value>
+    <value>Descomprimiendo</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>Something went wrong</value>
+    <value>Algo salió mal</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
-    <value>Retry</value>
+    <value>Reintentar</value>
   </data>
   <data name="DownloadGamePage_OpenLog" xml:space="preserve">
-    <value>Open Log</value>
+    <value>Abrir registro</value>
   </data>
   <data name="DownloadGamePage_NetworkError" xml:space="preserve">
-    <value>Network Error</value>
+    <value>Error de Red</value>
   </data>
   <data name="DownloadGamePage_UnknownError" xml:space="preserve">
     <value>Unknown Error</value>
@@ -405,55 +405,55 @@ closing the program during decompression will cause game file corruption.</value
     <value>Already the latest version</value>
   </data>
   <data name="DownloadGameService_TooManyRetries" xml:space="preserve">
-    <value>Too many retries</value>
+    <value>Demasiados reintentos</value>
   </data>
   <data name="UpdateService_CannotUpdateAutomatically" xml:space="preserve">
-    <value>Cannot update automatically</value>
+    <value>No se puede actualizar automáticamente</value>
   </data>
   <data name="GameSettingPage_Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Personalizado</value>
   </data>
   <data name="GameSettingPage_VeryLow" xml:space="preserve">
-    <value>Very Low</value>
+    <value>Muy bajos</value>
   </data>
   <data name="GameSettingPage_Low" xml:space="preserve">
-    <value>Low</value>
+    <value>Bajos</value>
   </data>
   <data name="GameSettingPage_Medium" xml:space="preserve">
-    <value>Medium</value>
+    <value>Medios</value>
   </data>
   <data name="GameSettingPage_High" xml:space="preserve">
-    <value>High</value>
+    <value>Altos</value>
   </data>
   <data name="GameSettingPage_VeryHigh" xml:space="preserve">
-    <value>Very High</value>
+    <value>Muy altos</value>
   </data>
   <data name="GameSettingPage_Off" xml:space="preserve">
-    <value>Off</value>
+    <value>Apagado</value>
   </data>
   <data name="GameSettingPage_StartArguments" xml:space="preserve">
-    <value>Start Arguments</value>
+    <value>Argumentos de lanzamiento</value>
   </data>
   <data name="GameSettingPage_Resolution" xml:space="preserve">
-    <value>Resolution</value>
+    <value>Resolución</value>
   </data>
   <data name="GameSettingPage_FullScreen" xml:space="preserve">
-    <value>Full Screen</value>
+    <value>Pantalla completa</value>
   </data>
   <data name="GameSettingPage_CustomResolution" xml:space="preserve">
-    <value>Custom Resolution</value>
+    <value>Resolución personalizada</value>
   </data>
   <data name="GameSettingPage_VoiceLanguage" xml:space="preserve">
-    <value>Voice Language</value>
+    <value>Idioma del audio</value>
   </data>
   <data name="GameSettingPage_VoiceLanguageDescription" xml:space="preserve">
-    <value>Set this value before starting the game for the first time to avoid downloading some voice resources</value>
+    <value>Establezca este valor antes de comenzar el juego por primera vez para evitar descargar algunos recursos de voz</value>
   </data>
   <data name="GameSettingPage_GraphicsSetting" xml:space="preserve">
-    <value>Graphics Setting</value>
+    <value>Ajustes gráficos</value>
   </data>
   <data name="GameSettingPage_GraphicsQualityPreset" xml:space="preserve">
-    <value>Graphics Quality Preset</value>
+    <value>Calidad de imagen</value>
   </data>
   <data name="GameSettingPage_RenderScale" xml:space="preserve">
     <value>Render Scale</value>
@@ -462,118 +462,118 @@ closing the program during decompression will cause game file corruption.</value
     <value>FPS</value>
   </data>
   <data name="GameSettingPage_VSync" xml:space="preserve">
-    <value>V-Sync</value>
+    <value>Sincronización vertical</value>
   </data>
   <data name="GameSettingPage_AntiAliasing" xml:space="preserve">
     <value>Anti-Aliasing</value>
   </data>
   <data name="GameSettingPage_ShadowQuality" xml:space="preserve">
-    <value>Shadow Quality</value>
+    <value>Calidad de las sombras</value>
   </data>
   <data name="GameSettingPage_ReflectionQuality" xml:space="preserve">
-    <value>Reflection Quality</value>
+    <value>Calidad de reflejos</value>
   </data>
   <data name="GameSettingPage_CharacterQuality" xml:space="preserve">
-    <value>Character Quality</value>
+    <value>Calidad gráfica de personajes</value>
   </data>
   <data name="GameSettingPage_EnvironmentDetail" xml:space="preserve">
-    <value>Environment Detail</value>
+    <value>Calidad de la escena</value>
   </data>
   <data name="GameSettingPage_BloomEffect" xml:space="preserve">
-    <value>Bloom Effect</value>
+    <value>Efecto Bloom</value>
   </data>
   <data name="GameSettingPage_LightQuality" xml:space="preserve">
-    <value>Light Quality</value>
+    <value>Calidad de las luces</value>
   </data>
   <data name="Common_Apply" xml:space="preserve">
-    <value>Apply</value>
+    <value>Aplicar</value>
   </data>
   <data name="GameSettingPage_GameNotInstalled" xml:space="preserve">
-    <value>Game not Installed</value>
+    <value>Juego no instalado</value>
   </data>
   <data name="GameSettingPage_FPSWarning" xml:space="preserve">
-    <value>Setting the FPS to 120 will make the in-game graphics settings unusable</value>
+    <value>Establecer los FPS a 120 hará que la configuración de gráficos en el juego no sea usable</value>
   </data>
   <data name="GameSettingPage_SettingNotEffect" xml:space="preserve">
-    <value>The settings applied while the game is running do not take effect</value>
+    <value>Los ajustes aplicados mientras el juego se está ejecutando no tienen efecto</value>
   </data>
   <data name="GameSettingPage_ResolutionMustBeGreaterThan0" xml:space="preserve">
-    <value>Resolution must be greater than 0</value>
+    <value>La resolución debe ser mayor a 0</value>
   </data>
   <data name="GameSettingPage_StartArgumentDesc" xml:space="preserve">
-    <value>For information on startup parameters see {Unity Standalone Player Command Line Arguments}</value>
+    <value>Para información sobre los parámetros de lanzamiento, vea {Unity Standalone Player Command Line Arguments}</value>
   </data>
   <data name="GameSettingPage_On" xml:space="preserve">
-    <value>On</value>
+    <value>Encendido</value>
   </data>
   <data name="LauncherPage_InstallGame" xml:space="preserve">
-    <value>Install Game</value>
+    <value>Instalar juego</value>
   </data>
   <data name="LauncherPage_UpdateGame" xml:space="preserve">
-    <value>Update Game</value>
+    <value>Actualizar juego</value>
   </data>
   <data name="LauncherPage_PlayTime" xml:space="preserve">
-    <value>Play Time</value>
+    <value>Tiempo de juego</value>
   </data>
   <data name="Common_Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Recargar</value>
   </data>
   <data name="LauncherPage_ThisWeek" xml:space="preserve">
-    <value>This Week</value>
+    <value>Esta semana</value>
   </data>
   <data name="LauncherPage_ThisMonth" xml:space="preserve">
-    <value>This Month</value>
+    <value>Este mes</value>
   </data>
   <data name="LauncherPage_LastTime" xml:space="preserve">
-    <value>Last Time</value>
+    <value>Última vez</value>
   </data>
   <data name="LauncherPage_PreInstall" xml:space="preserve">
-    <value>Pre-Install</value>
+    <value>Preinstalar</value>
   </data>
   <data name="LauncherPage_CurrentAccount" xml:space="preserve">
-    <value>Current Login Account</value>
+    <value>Cuenta de inicio de sesión actual</value>
   </data>
   <data name="LauncherPage_SwitchAccount" xml:space="preserve">
-    <value>Switch Account</value>
+    <value>Cambiar Cuenta</value>
   </data>
   <data name="LauncherPage_AccountInformation" xml:space="preserve">
-    <value>Account Information</value>
+    <value>Información de la cuenta</value>
   </data>
   <data name="LauncherPage_Nickname" xml:space="preserve">
-    <value>Nickname</value>
+    <value>Nombre de usuario</value>
   </data>
   <data name="Common_Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Guardar</value>
   </data>
   <data name="LauncherPage_GameSetting" xml:space="preserve">
-    <value>Game Setting</value>
+    <value>Ajustes del juego</value>
   </data>
   <data name="LauncherPage_InstallFolder" xml:space="preserve">
-    <value>Installation Folder</value>
+    <value>Carpeta de instalación</value>
   </data>
   <data name="LauncherPage_Locate" xml:space="preserve">
-    <value>Locate</value>
+    <value>Localizar</value>
   </data>
   <data name="LauncherPage_RepairGame" xml:space="preserve">
-    <value>Repair Game</value>
+    <value>Reparar juego</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>Custom Startup Executable</value>
+    <value>Ejecutable de inicio personalizado</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
-    <value>Select</value>
+    <value>Seleccionar</value>
   </data>
   <data name="LauncherPage_ShowGameAnnouncement" xml:space="preserve">
-    <value>Show Game Announcement</value>
+    <value>Mostrar anuncios del juego</value>
   </data>
   <data name="LauncherPage_IgnoreRunningGameProcess" xml:space="preserve">
-    <value>Ignore Running Game Process</value>
+    <value>Ignorar que el juego se está ejecutando</value>
   </data>
   <data name="LauncherPage_BackgroundSetting" xml:space="preserve">
-    <value>Background Setting</value>
+    <value>Ajustes del fondo</value>
   </data>
   <data name="SettingPage_UseSameBackgroundInAllGameRegion" xml:space="preserve">
-    <value>Use same background in all game region</value>
+    <value>Usar el mismo fondo en todas las regiones del juego</value>
   </data>
   <data name="SettingPage_BgSizeTip" xml:space="preserve">
     <value>Please select an image with a pixel size matches the application window; oversized images will reduce performance.</value>
