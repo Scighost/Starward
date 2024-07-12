@@ -1,9 +1,11 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.Launcher;
 using Starward.Helpers;
+using Starward.Messages;
 using Starward.Models;
 using Starward.Services;
 using Starward.Services.Launcher;
@@ -53,6 +55,7 @@ public sealed partial class GameNoticesWindow : WindowEx
         this.InitializeComponent();
         SystemBackdrop = new TransparentBackdrop();
         InitializeWindow();
+        Closed += (_, _) => WeakReferenceMessenger.Default.Send(new GameNoticesWindowClosedMessage());
     }
 
 

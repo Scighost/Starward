@@ -115,6 +115,7 @@ public sealed partial class GameLauncherPage : PageBase
             _ = UpdateGameNoticesAlertAsync();
         });
         WeakReferenceMessenger.Default.Register<GameNoticeRedHotDisabledChanged>(this, (_, _) => _ = UpdateGameNoticesAlertAsync());
+        WeakReferenceMessenger.Default.Register<GameNoticesWindowClosedMessage>(this, (_, _) => _ = UpdateGameNoticesAlertAsync());
     }
 
 
