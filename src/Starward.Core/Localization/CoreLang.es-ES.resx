@@ -151,13 +151,13 @@
     <value>Cannot parse the wish record URL.</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
-    <value>Events</value>
+    <value>Eventos</value>
   </data>
   <data name="PostType_Announcement" xml:space="preserve">
-    <value>Notices</value>
+    <value>Avisos</value>
   </data>
   <data name="PostType_Information" xml:space="preserve">
-    <value>Info</value>
+    <value>Información</value>
   </data>
   <data name="Game_GenshinImpact" xml:space="preserve">
     <value>Genshin Impact</value>
@@ -169,65 +169,65 @@
     <value>Honkai Impact 3rd</value>
   </data>
   <data name="GameServer_ChinaServer" xml:space="preserve">
-    <value>China Server</value>
+    <value>Servidor de China</value>
   </data>
   <data name="GameServer_GlobalServer" xml:space="preserve">
-    <value>Global Server</value>
+    <value>Servidor Global</value>
   </data>
   <data name="GameServer_ChinaCloudServer" xml:space="preserve">
-    <value>China Cloud Server</value>
+    <value>Servidor de China en la nube</value>
   </data>
   <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
-    <value>Europe &amp; Americas Servers</value>
+    <value>Servidores de Europa y América</value>
   </data>
   <data name="GameServer_JapanServer" xml:space="preserve">
-    <value>Japan Server</value>
+    <value>Servidor de Japón</value>
   </data>
   <data name="GameServer_KoreaServer" xml:space="preserve">
-    <value>Korea Server</value>
+    <value>Servidor de Corea</value>
   </data>
   <data name="GameServer_SEAServer" xml:space="preserve">
-    <value>Southeast Asia Server</value>
+    <value>Servidor del Sudeste Asiático</value>
     <comment>Southeast Asia and Australia Server</comment>
   </data>
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
-    <value>Traditional Chinese Server</value>
+    <value>Servidor de Chino Tradicional</value>
   </data>
   <data name="GenshinQueryType_GenesisCrystal" xml:space="preserve">
-    <value>Genesis Crystals</value>
+    <value>Cristales génesis</value>
   </data>
   <data name="GenshinQueryType_Primogem" xml:space="preserve">
-    <value>Primogems</value>
+    <value>Protogemas</value>
   </data>
   <data name="GenshinQueryType_OriginalResin" xml:space="preserve">
-    <value>Original Resins</value>
+    <value>Resinas originales</value>
   </data>
   <data name="GenshinQueryType_Artifact" xml:space="preserve">
-    <value>Artifacts</value>
+    <value>Artefactos</value>
   </data>
   <data name="GenshinQueryType_Weapon" xml:space="preserve">
-    <value>Weapons</value>
+    <value>Armas</value>
   </data>
   <data name="StarRailQueryType_StellarJade" xml:space="preserve">
-    <value>Stellar Jade</value>
+    <value>Jade estelar</value>
   </data>
   <data name="StarRailQueryType_OneiricShared" xml:space="preserve">
-    <value>Oneiric Shared</value>
+    <value>Esquirla onírica</value>
   </data>
   <data name="StarRailQueryType_Relic" xml:space="preserve">
-    <value>Relic</value>
+    <value>Artefacto</value>
   </data>
   <data name="StarRailQueryType_LightCone" xml:space="preserve">
-    <value>Light Cone</value>
+    <value>Cono de luz</value>
   </data>
   <data name="StarRailQueryType_TrailblazePower" xml:space="preserve">
-    <value>Trailblaze Power</value>
+    <value>Poder trazacaminos</value>
   </data>
   <data name="GameServer_BilibiliServer" xml:space="preserve">
-    <value>Bilibili Server</value>
+    <value>Servidor de Bilibili</value>
   </data>
   <data name="GachaType_ChronicledWish" xml:space="preserve">
-    <value>Chronicled Wish</value>
+    <value>Gachapón recopilatorio</value>
   </data>
   <data name="Game_ZZZ" xml:space="preserve">
     <value>Zenless Zone Zero</value>
@@ -236,19 +236,19 @@
     <value>CBT3</value>
   </data>
   <data name="GameServer_ChinaOfficial" xml:space="preserve">
-    <value>China Official</value>
+    <value>Servidor Chino Oficial</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>Global Official</value>
+    <value>Servidor Global Oficial</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
-    <value>China Cloud</value>
+    <value>Servidor Chino en la nube</value>
   </data>
   <data name="GameServer_Bilibili" xml:space="preserve">
-    <value>Bilibili</value>
+    <value>Servidor de Bilibili</value>
   </data>
   <data name="GameServer_EuropeAmericas" xml:space="preserve">
-    <value>Europe &amp; Americas</value>
+    <value>Servidor Europeo y Americano</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
     <value>Japan</value>
