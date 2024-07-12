@@ -1410,10 +1410,25 @@
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
     <value>Недавно обновленный контент</value>
   </data>
+  <data name="HoyolabToolboxPage_ApocalypticShadow" xml:space="preserve">
+    <value>Иллюзия конца</value>
+  </data>
   <data name="GameBizSelector_AutoSearch" xml:space="preserve">
     <value>Авто поиск</value>
   </data>
   <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
     <value>Записи поиска сигналов</value>
+  </data>
+  <data name="ApocalypticShadowPage_DefeatedBoss" xml:space="preserve">
+    <value>Побеждённые боссы</value>
+  </data>
+  <data name="ApocalypticShadowPage_HighestDifficultyCleared" xml:space="preserve">
+    <value>Макс. пройдённый уровень сложности</value>
+  </data>
+  <data name="ForgottenHallPage_FarthestStage" xml:space="preserve">
+    <value>Максимальный уровень</value>
+  </data>
+  <data name="ForgottenHallPage_TimesChallenged" xml:space="preserve">
+    <value>Количество испытаний</value>
   </data>
 </root>
