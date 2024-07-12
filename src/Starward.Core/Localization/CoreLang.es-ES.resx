@@ -118,37 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>Character Event Warp</value>
+    <value>Salto de evento de personaje</value>
   </data>
   <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>Character Event Wish</value>
+    <value>Gachapón promocional de personaje</value>
   </data>
   <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>Character Event Wish - 2</value>
+    <value>Gachapón promocional de personaje - 2</value>
   </data>
   <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>Departure Warp</value>
+    <value>Salto de partida</value>
   </data>
   <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>Light Cone Event Warp</value>
+    <value>Salto de evento de cono de luz</value>
   </data>
   <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>Novice Wish</value>
+    <value>Gachapón para principiantes</value>
   </data>
   <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>Permanent Wish</value>
+    <value>Gachapón permanente</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>Stellar Warp</value>
+    <value>Salto estelar</value>
   </data>
   <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>Weapon Event Wish</value>
+    <value>Gachapón promocional de armas</value>
   </data>
   <data name="Gacha_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Cannot parse the warp record URL.</value>
+    <value>No se puede analizar la URL del registro de saltos.</value>
   </data>
   <data name="Gacha_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Cannot parse the wish record URL.</value>
+    <value>No se puede analizar la URL de los registros del gachapón.</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
     <value>Eventos</value>
@@ -236,42 +236,42 @@
     <value>CBT3</value>
   </data>
   <data name="GameServer_ChinaOfficial" xml:space="preserve">
-    <value>Servidor Chino Oficial</value>
+    <value>Chino Oficial</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>Servidor Global Oficial</value>
+    <value>Global Oficial</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
-    <value>Servidor Chino en la nube</value>
+    <value>Chino en la nube</value>
   </data>
   <data name="GameServer_Bilibili" xml:space="preserve">
-    <value>Servidor de Bilibili</value>
+    <value>Bilibili</value>
   </data>
   <data name="GameServer_EuropeAmericas" xml:space="preserve">
-    <value>Servidor Europeo y Americano</value>
+    <value>Europa y América</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
-    <value>Japan</value>
+    <value>Japonés</value>
   </data>
   <data name="GameServer_Korea" xml:space="preserve">
-    <value>Korea</value>
+    <value>Coreano</value>
   </data>
   <data name="GameServer_SoutheastAsia" xml:space="preserve">
-    <value>Southeast Asia</value>
+    <value>Sudeste Asiático</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
-    <value>Traditional Chinese</value>
+    <value>Chino Tradicional</value>
   </data>
   <data name="GachaType_StandardChannel" xml:space="preserve">
-    <value>Standard Channel</value>
+    <value>Canal Estable</value>
   </data>
   <data name="GachaType_ExclusiveChannel" xml:space="preserve">
-    <value>Exclusive Channel</value>
+    <value>Canal Exclusivo</value>
   </data>
   <data name="GachaType_WEngineChannel" xml:space="preserve">
-    <value>W-Engine Channel</value>
+    <value>Canal Amplificado</value>
   </data>
   <data name="GachaType_BangbooChannel" xml:space="preserve">
-    <value>Bangboo Channel</value>
+    <value>Canal Bangbú</value>
   </data>
 </root>
