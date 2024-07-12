@@ -157,7 +157,7 @@
     <value>Pity</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
-    <value>Average</value>
+    <value>Promedio</value>
   </data>
   <data name="GachaStatsCard_Stats" xml:space="preserve">
     <value>Stats</value>
@@ -576,31 +576,31 @@ cerrar el programa durante la descompresión causará corrupciones en los archiv
     <value>Usar el mismo fondo en todas las regiones del juego</value>
   </data>
   <data name="SettingPage_BgSizeTip" xml:space="preserve">
-    <value>Please select an image with a pixel size matches the application window; oversized images will reduce performance.</value>
+    <value>Seleccione una imagen con un tamaño de píxeles que coincida con el tamaño de la ventana; imágenes de más grandes reducirán el rendimiento.</value>
   </data>
   <data name="LauncherPage_StartGame" xml:space="preserve">
-    <value>Start Game</value>
+    <value>Comenzar juego</value>
   </data>
   <data name="LauncherPage_GameIsRunning" xml:space="preserve">
-    <value>Game is Running</value>
+    <value>Juego ejecutándose</value>
   </data>
   <data name="Common_Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Comenzar</value>
   </data>
   <data name="LauncherPage_SelectInstallFolder" xml:space="preserve">
-    <value>Select Installation Folder</value>
+    <value>Seleccione la carpeta de instalación</value>
   </data>
   <data name="Common_Continue" xml:space="preserve">
-    <value>Continue</value>
+    <value>Continuar</value>
   </data>
   <data name="LauncherPage_Reselect" xml:space="preserve">
-    <value>Reselect</value>
+    <value>Reseleccionar</value>
   </data>
   <data name="LauncherPage_TheFollowingFolderContainsUnfinishedDownloadTasks" xml:space="preserve">
-    <value>The following folder contains unfinished download tasks:</value>
+    <value>La siguiente carpeta contiene tareas de descarga incompletas:</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
+    <value>Por favor, seleccione una carpeta vacía para instalar el juego, o busque la carpeta donde esté el archivo ejecutable {0}.</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>If it is not the latest version, please modify the config.ini file in the game installation directory.</value>
@@ -752,47 +752,47 @@ cerrar el programa durante la descompresión causará corrupciones en los archiv
     <value>Remind me Later</value>
   </data>
   <data name="UpdatePage_IgnoreThisVersion" xml:space="preserve">
-    <value>Ignore this Version</value>
+    <value>Ignorar esta versión</value>
   </data>
   <data name="UpdatePage_UpdateNow" xml:space="preserve">
-    <value>Update Now</value>
+    <value>Actualizar ahora</value>
   </data>
   <data name="UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage" xml:space="preserve">
-    <value>You need to manually download the new version package</value>
+    <value>Necesitas descargar manualmente la nueva versión</value>
   </data>
   <data name="UpdatePage_PreviewChannel" xml:space="preserve">
-    <value>Preview Channel</value>
+    <value>Canal de pruebas</value>
   </data>
   <data name="UpdatePage_StableChannel" xml:space="preserve">
-    <value>Stable Channel</value>
+    <value>Canal estable</value>
   </data>
   <data name="UpdatePage_DevChannel" xml:space="preserve">
-    <value>Dev Channel</value>
+    <value>Canal de desarrollo</value>
   </data>
   <data name="SettingPage_ThemeColorDesc" xml:space="preserve">
-    <value>Automatically calculate the theme color based on the background image, and use the system theme color by default.</value>
+    <value>Calcula automáticamente el color del tema basándose en la imagen de fondo, y usa el color del tema del sistema por defecto.</value>
   </data>
   <data name="UpdatePage_ReleasePage" xml:space="preserve">
-    <value>Release Page</value>
+    <value>Página de lanzamiento</value>
   </data>
   <data name="LauncherPage_ThirdPartyToolDesc" xml:space="preserve">
-    <value>Use a third-party plugin to start instead. Game time cannot be recorded when enabled.</value>
+    <value>Utilice un plugin de terceros para iniciar el juego. El tiempo de juego no se puede contar cuando está habilitado.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Specify the language of gacha records, such as en-US.</value>
+    <value>Especifique el idioma de los registros del gacha, como: es-ES.</value>
     <comment>Replace en-US with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Idioma</value>
   </data>
   <data name="SettingPage_FollowSystem" xml:space="preserve">
-    <value>Follow System</value>
+    <value>Definido por el sistema</value>
   </data>
   <data name="SelectDirectoryPage_ToStart" xml:space="preserve">
-    <value>To start, please select a folder to save your app data.</value>
+    <value>Para empezar, seleccione una carpeta para guardar los datos de la aplicación.</value>
   </data>
   <data name="GachaLogService_GetGachaProgressText" xml:space="preserve">
-    <value>Getting {0} with page {1}</value>
+    <value>Obteniendo {0} con la página {1}</value>
     <comment>{0} = {gachaType} ,  {1} = {page}</comment>
   </data>
   <data name="HyperionToolbox" xml:space="preserve">
@@ -802,19 +802,19 @@ cerrar el programa durante la descompresión causará corrupciones en los archiv
     <value>HoYoLAB Toolbox</value>
   </data>
   <data name="HoyolabToolboxPage_LogIn" xml:space="preserve">
-    <value>Log in</value>
+    <value>Iniciar sesión</value>
   </data>
   <data name="HoyolabToolboxPage_WebLogin" xml:space="preserve">
-    <value>Web Login</value>
+    <value>Inicio de sesión web</value>
   </data>
   <data name="HoyolabToolboxPage_InputCookie" xml:space="preserve">
-    <value>Input Cookie</value>
+    <value>Colocar cookies</value>
   </data>
   <data name="HoyolabToolboxPage_RefreshInfo" xml:space="preserve">
     <value>Refresh Info</value>
   </data>
   <data name="HoyolabToolboxPage_CopyCookie" xml:space="preserve">
-    <value>Copy Cookie</value>
+    <value>Copiar cookies</value>
   </data>
   <data name="HoyolabToolboxPage_DeleteGameRole" xml:space="preserve">
     <value>Delete Game Role</value>
