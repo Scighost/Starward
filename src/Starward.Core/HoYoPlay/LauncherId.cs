@@ -32,7 +32,7 @@ public abstract class LauncherId
 
     public static bool IsBilibili(string launcherId)
     {
-        return launcherId is BilibiliGenshin or BilibiliStarRail;
+        return launcherId is BilibiliGenshin or BilibiliStarRail or BilibiliZZZ;
     }
 
 
