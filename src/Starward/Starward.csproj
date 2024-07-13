@@ -34,7 +34,7 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
-		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
+		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.8" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
 		<PackageReference Include="MiniExcel" Version="1.33.0" />
