@@ -1420,15 +1420,15 @@
     <value>調頻紀錄</value>
   </data>
   <data name="ApocalypticShadowPage_DefeatedBoss" xml:space="preserve">
-    <value>Defeated Boss</value>
+    <value>已擊敗首領</value>
   </data>
   <data name="ApocalypticShadowPage_HighestDifficultyCleared" xml:space="preserve">
-    <value>Highest Difficulty Cleared</value>
+    <value>最高難度</value>
   </data>
   <data name="ForgottenHallPage_FarthestStage" xml:space="preserve">
-    <value>Farthest Stage</value>
+    <value>最高關卡</value>
   </data>
   <data name="ForgottenHallPage_TimesChallenged" xml:space="preserve">
-    <value>Times Challenged</value>
+    <value>挑戰次數</value>
   </data>
 </root>
