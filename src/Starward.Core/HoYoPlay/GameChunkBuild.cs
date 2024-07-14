@@ -15,6 +15,10 @@ public class GameChunkBuild
     public string Tag { get; set; }
 
 
+    [JsonPropertyName("manifests")]
+    public List<GameChunkManifest> Manifests { get; set; }
+
+
 }
 
 

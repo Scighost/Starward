@@ -484,4 +484,36 @@ public class HoYoPlayClient
 
 
 
+    /// <summary>
+    /// Chunk 下载模式清单
+    /// </summary>
+    /// <param name="gameBranch"></param>
+    /// <param name="gameBranchPackage"></param>
+    /// <param name="version"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public async Task<GameChunkBuild> GetGameChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, string version, CancellationToken cancellationToken = default)
+    {
+        string? url = null;
+        if (gameBranch.GameId.ToGameBiz().IsChinaServer())
+        {
+            url = "https://api-takumi.mihoyo.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf5qt290cg";
+        }
+        if (gameBranch.GameId.ToGameBiz().IsGlobalServer())
+        {
+            url = "https://sg-public-api.hoyoverse.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf6vlr1reo";
+        }
+        if (url is null)
+        {
+            throw new ArgumentOutOfRangeException(nameof(gameBranch), $"Unknown game biz ({gameBranch.GameId.Biz}).");
+        }
+        url += $"&branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}&tag={version}";
+        return await CommonGetAsync<GameChunkBuild>(url, cancellationToken);
+    }
+
+
+
+
+
 }
