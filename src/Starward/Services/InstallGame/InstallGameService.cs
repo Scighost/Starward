@@ -267,7 +267,10 @@ internal abstract class InstallGameService
                 await DecompressAndApplyDiffPackagesAsync(cancellationTokenSource.Token).ConfigureAwait(false);
             }
 
-            DecompressBilibiliServerGameSDK();
+            if (!IsPreInstall)
+            {
+                DecompressBilibiliServerGameSDK();
+            }
 
             await ClearDeprecatedFilesAsync().ConfigureAwait(false);
 
