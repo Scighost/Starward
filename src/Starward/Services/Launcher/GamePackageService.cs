@@ -128,7 +128,7 @@ internal class GamePackageService
         installPath ??= _gameLauncherService.GetGameInstallPath(biz);
         Version? localVersion = await _gameLauncherService.GetLocalGameVersionAsync(biz, installPath);
         Version? latestVersion = await _gameLauncherService.GetLatestGameVersionAsync(biz);
-        if (latestVersion is null || localVersion >= latestVersion)
+        if (latestVersion is null)
         {
             return null;
         }
@@ -137,7 +137,7 @@ internal class GamePackageService
         {
             return package.Main.Major;
         }
-        if (localVersion < latestVersion)
+        else if (localVersion < latestVersion)
         {
             if (package.Main.Patches.FirstOrDefault(x => x.Version == localVersion.ToString()) is GamePackageResource resource)
             {
@@ -146,6 +146,17 @@ internal class GamePackageService
             else
             {
                 return package.Main.Major;
+            }
+        }
+        else if (package.PreDownload is not null)
+        {
+            if (package.PreDownload.Patches.FirstOrDefault(x => x.Version == localVersion.ToString()) is GamePackageResource resource)
+            {
+                return resource;
+            }
+            else
+            {
+                return package.PreDownload.Major;
             }
         }
         return null;
