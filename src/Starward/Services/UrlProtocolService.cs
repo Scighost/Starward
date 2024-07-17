@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using Starward.Core;
 using Starward.Models;
+using Starward.Models.GameSetting;
 using System;
 using System.IO;
 using System.Linq;
@@ -112,6 +113,44 @@ internal class UrlProtocolService
                         throw new ArgumentException($"Cannot parse the game biz '{uri.AbsolutePath.Trim('/')}'");
                     }
                     return true;
+                }
+                if (uri.Host is "gameconfig")
+                {
+                    if(Enum.TryParse(uri.AbsolutePath.Trim('/'), out GameBiz biz))
+                    {
+                        var kvs = HttpUtility.ParseQueryString(uri.Query);
+                        string? widthStr = kvs["width"];
+                        string? heightStr = kvs["height"];
+                        string? isfullscreenStr = kvs["isfullscreen"];
+                        var gameSettingService = AppConfig.GetService<GameSettingService>();
+                        var gameResourceService = AppConfig.GetService<GameResourceService>();
+
+                        if (!gameResourceService.IsGameExeExists(biz))
+                        {
+                            log.LogWarning("Game {biz} is not installed.", biz);
+                            return false;
+                        }
+                        else
+                        {
+                            GraphicsSettings_PCResolution_h431323223? graphicsSettings = gameSettingService.GetGameResolutionSetting(biz);
+                            if (graphicsSettings != null)
+                            {
+                                if (int.TryParse(widthStr, out int width))
+                                {
+                                    graphicsSettings.Width = width;
+                                }
+                                if (int.TryParse(heightStr, out int height))
+                                {
+                                    graphicsSettings.Height = height;
+                                }
+                                if (bool.TryParse(isfullscreenStr, out bool fullscreen))
+                                {
+                                    graphicsSettings.IsFullScreen = fullscreen;
+                                }
+                                gameSettingService.SetGameResolutionSetting(biz, graphicsSettings);
+                            }   
+                        }
+                    }
                 }
             }
         }
