@@ -29,7 +29,10 @@ The parameter `game_biz`  in the following is game region identifier and can be 
 | bh3_kr            | 34    | Honkai 3rd (Korea)                      |
 | bh3_overseas      | 35    | Honkai 3rd (Southeast Asia)             |
 | bh3_tw            | 36    | Honkai 3rd (Traditional Chinese)        |
-
+| **ZZZ**           | 40    | Zenless Zone Zero                       |
+| nap_cn            | 41    | Zenless Zone Zero (Mainland China)      |
+| nap_global        | 42    | Zenless Zone Zero (Global)              |
+| nap_bilibili      | 44    | Zenless Zone Zero (Bilibili)            |
 
 ### Start game
 
@@ -39,10 +42,10 @@ starward://startgame/{game_biz}
 
 **Acceptable query arguments**
 
-|Key|Type|Description|
-|---|---|---|
-|uid| `number` | Switch to specific account before startup. |
-|install_path| `string` | Full folder of game executable. |
+| Key          | Type     | Description                                |
+| ------------ | -------- | ------------------------------------------ |
+| uid          | `number` | Switch to specific account before startup. |
+| install_path | `string` | Full folder of game executable.            |
 
 
 ### Record playtime
