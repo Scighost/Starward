@@ -124,7 +124,6 @@ internal class UrlProtocolService
                         string? isfullscreenStr = kvs["isfullscreen"];
                         var gameSettingService = AppConfig.GetService<GameSettingService>();
                         var gameResourceService = AppConfig.GetService<GameResourceService>();
-
                         if (!gameResourceService.IsGameExeExists(biz))
                         {
                             log.LogWarning("Game {biz} is not installed.", biz);
@@ -133,19 +132,23 @@ internal class UrlProtocolService
                         else
                         {
                             GraphicsSettings_PCResolution_h431323223? graphicsSettings = gameSettingService.GetGameResolutionSetting(biz);
+                            log.LogDebug("{biz} GraphicsSettings: {graphicsSettings}", biz, graphicsSettings);
                             if (graphicsSettings != null)
                             {
                                 if (int.TryParse(widthStr, out int width))
                                 {
                                     graphicsSettings.Width = width;
+                                    log.LogInformation("{biz} Width change to {width}.", biz, width);
                                 }
                                 if (int.TryParse(heightStr, out int height))
                                 {
                                     graphicsSettings.Height = height;
+                                    log.LogInformation("{biz} Height change to {height}.", biz, height);
                                 }
-                                if (bool.TryParse(isfullscreenStr, out bool fullscreen))
+                                if (bool.TryParse(isfullscreenStr, out bool isfullscreen))
                                 {
-                                    graphicsSettings.IsFullScreen = fullscreen;
+                                    graphicsSettings.IsFullScreen = isfullscreen;
+                                    log.LogInformation("{biz} isfullscreen change to {isfullscreen}.", biz, isfullscreen);
                                 }
                                 gameSettingService.SetGameResolutionSetting(biz, graphicsSettings);
                             }   
