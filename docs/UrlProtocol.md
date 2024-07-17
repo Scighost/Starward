@@ -53,3 +53,17 @@ starward://startgame/{game_biz}
 ```
 starward://playtime/{game_biz}
 ```
+
+### Game Config Change
+    
+```
+starward://gameconfig/{game_biz}
+``` 
+
+**Acceptable query arguments**
+
+| Key          | Type      | Description                |
+| ------------ | --------- | -------------------------- |
+| width        | `number`  | Width of game resolution.  |
+| height       | `string`  | Height of game resolution. |
+| isfullscreen | `boolean` | Fullscreen mode.           |
