@@ -65,5 +65,5 @@ starward://gameconfig/{game_biz}
 | Key          | Type      | Description                |
 | ------------ | --------- | -------------------------- |
 | width        | `number`  | Width of game resolution.  |
-| height       | `string`  | Height of game resolution. |
+| height       | `number`  | Height of game resolution. |
 | isfullscreen | `boolean` | Fullscreen mode.           |
