@@ -531,7 +531,7 @@ public sealed partial class MainPage : PageBase
         else if (CurrentGameBiz.ToGame() is GameBiz.ZZZ)
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Visible;
-            NavigationViewItem_GameSetting.Visibility = Visibility.Collapsed;
+            NavigationViewItem_GameSetting.Visibility = Visibility.Visible;
             NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
             NavigationViewItem_GachaLog.Visibility = Visibility.Visible;
             NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;

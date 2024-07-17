@@ -22,6 +22,8 @@ public class GameRegistry
 
     public const string LauncherPath_nap_cbt3 = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\HYP_standalone_1_1_nap_cn";
 
+    public const string LauncherPath_HYP_1_1_cn = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\HYP_1_1_cn";
+ 
 
     public const string GamePath_hk4e_cn = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
     public const string GamePath_hk4e_global = @"HKEY_CURRENT_USER\Software\miHoYo\Genshin Impact";
@@ -38,6 +40,10 @@ public class GameRegistry
     public const string GamePath_bh3_jp = @"HKEY_CURRENT_USER\Software\miHoYo\崩壊3rd";
 
     public const string GamePath_nap_cbt3 = @"HKEY_CURRENT_USER\Software\miHoYo\绝区零（Beta）";
+    public const string GamePath_nap_cn = @"HKEY_CURRENT_USER\Software\miHoYo\绝区零";
+
+    //这条暂不清楚怎么归类
+    public const string GamePath_HYP_1_1_cn = @"HKEY_CURRENT_USER\SOFTWARE\miHoYo\HYP\1_1";
 
 
     public const string GENERAL_DATA_h2389025596 = "GENERAL_DATA_h2389025596";
