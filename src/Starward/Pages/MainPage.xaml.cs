@@ -624,8 +624,8 @@ public sealed partial class MainPage : PageBase
     {
         string? destPage = page?.Name;
         if (destPage is null or nameof(BlankPage)
-            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(ScreenshotPage))
-            || CurrentGameBiz.ToGame() is GameBiz.ZZZ && destPage is not nameof(GameLauncherPage) and not nameof(GameNoticesPage) and not nameof(GachaLogPage) and not nameof(ScreenshotPage))
+            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(ScreenshotPage)))
+        //  || CurrentGameBiz.ToGame() is GameBiz.ZZZ && destPage is not nameof(GameLauncherPage) and not nameof(GameNoticesPage) and not nameof(GachaLogPage) and not nameof(ScreenshotPage))
         {
             page = typeof(GameLauncherPage);
             destPage = nameof(GameLauncherPage);

@@ -101,9 +101,15 @@ internal class GameSettingService
             Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
         }
-        if (biz.ToGame() is GameBiz.GenshinImpact or GameBiz.ZZZ)
+        if (biz.ToGame() is GameBiz.GenshinImpact)
         {
             Registry.SetValue(keyPath, Screenmanager_Is_Fullscreen_mode_h3981298716, model.IsFullScreen ? 1 : 0);
+            Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
+            Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
+        }
+        if (biz.ToGame() is GameBiz.ZZZ)
+        {
+            Registry.SetValue(keyPath, Screenmanager_Fullscreen_mode_h3630240806, model.IsFullScreen ? 1 : 3);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
         }
