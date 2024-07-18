@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Starward.Services.Download;
 
-internal class DownloadFile
+internal class InstallGameItem
 {
 
     public string FileName { get; set; }
@@ -34,6 +30,9 @@ internal class DownloadFile
 
 
     public bool WriteAsTempFile { get; set; }
+
+
+    public InstallGameItemType Type { get; set; }
 
 
 }
