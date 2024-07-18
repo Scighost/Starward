@@ -66,9 +66,19 @@ internal class GameSettingService
                 return JsonSerializer.Deserialize<GraphicsSettings_PCResolution_h431323223>(str);
             }
         }
-        if (biz.ToGame() is GameBiz.GenshinImpact or GameBiz.ZZZ)
+        if (biz.ToGame() is GameBiz.GenshinImpact)
         {
             var fullScreen = (int)(Registry.GetValue(keyPath, Screenmanager_Is_Fullscreen_mode_h3981298716, 0) ?? 0) != 0;
+            var width = (int)(Registry.GetValue(keyPath, Screenmanager_Resolution_Width_h182942802, 0) ?? 0);
+            var height = (int)(Registry.GetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, 0) ?? 0);
+            if (width * height > 0)
+            {
+                return new GraphicsSettings_PCResolution_h431323223 { Width = width, Height = height, IsFullScreen = fullScreen };
+            }
+        }
+        if (biz.ToGame() is GameBiz.ZZZ)
+        {
+            var fullScreen = (int)(Registry.GetValue(keyPath, Screenmanager_Fullscreen_mode_h3630240806, 0) ?? 0) != 3;
             var width = (int)(Registry.GetValue(keyPath, Screenmanager_Resolution_Width_h182942802, 0) ?? 0);
             var height = (int)(Registry.GetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, 0) ?? 0);
             if (width * height > 0)
