@@ -1426,7 +1426,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Độ Khó Vượt Ải Cao Nhất</value>
   </data>
   <data name="ForgottenHallPage_FarthestStage" xml:space="preserve">
-    <value>Farthest Stage</value>
+    <value>Giai đoạn xa nhất</value>
   </data>
   <data name="ForgottenHallPage_TimesChallenged" xml:space="preserve">
     <value>Số lần khiêu chiến</value>
