@@ -5,6 +5,8 @@ internal enum InstallGameState
 
     None,
 
+    Prepared,
+
     Queue,
 
     Download,

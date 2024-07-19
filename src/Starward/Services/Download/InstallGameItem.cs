@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Starward.Services.Download;
 
 internal class InstallGameItem
 {
+
+
+    public InstallGameItemType Type { get; set; }
+
 
     public string FileName { get; set; }
 
@@ -12,6 +17,12 @@ internal class InstallGameItem
 
 
     public string Path { get; set; }
+
+
+    public List<string> PackageFiles { get; set; }
+
+
+    public string TargetPath { get; set; }
 
 
     public bool IsFolder { get; set; }
@@ -32,7 +43,10 @@ internal class InstallGameItem
     public bool WriteAsTempFile { get; set; }
 
 
-    public InstallGameItemType Type { get; set; }
+    public void EnsureValid()
+    {
+
+    }
 
 
 }
