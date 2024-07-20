@@ -41,6 +41,7 @@ public class GameRegistry
 
     public const string GamePath_nap_cbt3 = @"HKEY_CURRENT_USER\Software\miHoYo\绝区零（Beta）";
     public const string GamePath_nap_cn = @"HKEY_CURRENT_USER\Software\miHoYo\绝区零";
+    public const string GamePath_nap_global = @"HKEY_CURRENT_USER\Software\miHoYo\ZenlessZoneZero";
 
     //这条暂不清楚怎么归类
     public const string GamePath_HYP_1_1_cn = @"HKEY_CURRENT_USER\SOFTWARE\miHoYo\HYP\1_1";
