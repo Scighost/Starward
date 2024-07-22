@@ -5,7 +5,7 @@ namespace Starward.Core.HoYoPlay;
 /// <summary>
 /// 游戏 ID
 /// </summary>
-public class GameId
+public class GameId : IEquatable<GameId>
 {
 
     [JsonPropertyName("id")]
@@ -46,6 +46,12 @@ public class GameId
             GameBiz.nap_bilibili => new GameId { Id = "HXAFlmYa17", Biz = "nap_bilibili" },
             _ => null,
         };
+    }
+
+
+    public bool Equals(GameId? other)
+    {
+        return this.Id == other?.Id;
     }
 
 

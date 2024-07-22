@@ -124,7 +124,7 @@ public class HoYoPlayClient
     {
         string url = BuildUrl("getAllGameBasicInfo", launcherId, language) + $"&game_id={gameId.Id}";
         var list = await CommonGetAsync<List<GameBackgroundInfo>>(url, "game_info_list", cancellationToken);
-        return list.FirstOrDefault();
+        return list.FirstOrDefault(x => x.GameId == gameId);
     }
 
 
@@ -194,7 +194,7 @@ public class HoYoPlayClient
     {
         string url = BuildUrl("getGamePackages", launcherId, language) + $"&game_ids[]={gameId.Id}";
         var list = await CommonGetAsync<List<GamePackage>>(url, "game_packages", cancellationToken);
-        return list.FirstOrDefault();
+        return list.FirstOrDefault(x => x.GameId == gameId);
     }
 
 
@@ -269,7 +269,7 @@ public class HoYoPlayClient
             url += "&channel=1&sub_channel=1";
         }
         var list = await CommonGetAsync<List<GameChannelSDK>>(url, "game_channel_sdks", cancellationToken);
-        return list.FirstOrDefault();
+        return list.FirstOrDefault(x => x.GameId == gameId);
     }
 
 
@@ -345,7 +345,7 @@ public class HoYoPlayClient
             url += "&channel=1&sub_channel=1";
         }
         var list = await CommonGetAsync<List<GameDeprecatedFileConfig>>(url, "deprecated_file_configs", cancellationToken);
-        return list.FirstOrDefault();
+        return list.FirstOrDefault(x => x.GameId == gameId);
     }
 
 
@@ -397,7 +397,7 @@ public class HoYoPlayClient
     {
         string url = BuildUrl("getGameConfigs", launcherId, language) + $"&game_id[]={gameId.Id}";
         var list = await CommonGetAsync<List<GameConfig>>(url, "launch_configs", cancellationToken);
-        return list.FirstOrDefault();
+        return list.FirstOrDefault(x => x.GameId == gameId);
     }
 
 
@@ -450,7 +450,7 @@ public class HoYoPlayClient
     {
         string url = BuildUrl("getGameBranches", launcherId, language) + $"&game_id[]={gameId.Id}";
         var list = await CommonGetAsync<List<GameBranch>>(url, "game_branches", cancellationToken);
-        return list.FirstOrDefault();
+        return list.FirstOrDefault(x => x.GameId == gameId);
     }
 
 
