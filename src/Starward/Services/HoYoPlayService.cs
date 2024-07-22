@@ -357,6 +357,25 @@ public class HoYoPlayService
 
 
 
+    public async Task<List<GameDeprecatedFile>> GetGameDeprecatedFilesAsync(GameBiz biz)
+    {
+        if (biz.ToGame() is GameBiz.Honkai3rd && biz.IsGlobalOfficial())
+        {
+            biz = GameBiz.bh3_global;
+        }
+        var launcherId = LauncherId.FromGameBiz(biz);
+        var gameId = GameId.FromGameBiz(biz);
+        if (launcherId != null && gameId != null)
+        {
+            var fileConfig = await _client.GetGameDeprecatedFileConfigAsync(launcherId, "en-us", gameId);
+            if (fileConfig != null)
+            {
+                return fileConfig.DeprecatedFiles;
+            }
+        }
+        return [];
+    }
+
 
 
 }

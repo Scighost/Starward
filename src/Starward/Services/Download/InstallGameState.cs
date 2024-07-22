@@ -5,18 +5,31 @@ internal enum InstallGameState
 
     None,
 
-    Prepared,
-
-    Queue,
-
     Download,
 
     Verify,
 
     Decompress,
 
+    Clean,
+
     Finish,
 
     Error,
+
+}
+
+
+
+internal enum InstallGameTask
+{
+
+    Install,
+
+    Repair,
+
+    Predownload,
+
+    Update,
 
 }
