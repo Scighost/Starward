@@ -25,9 +25,6 @@ internal class InstallGameItem
     public string TargetPath { get; set; }
 
 
-    public bool IsFolder { get; set; }
-
-
     public long Size { get; set; }
 
 
@@ -37,15 +34,12 @@ internal class InstallGameItem
     public string MD5 { get; set; }
 
 
-    public Range Range { get; set; }
-
-
     public bool WriteAsTempFile { get; set; }
 
 
     public void EnsureValid()
     {
-
+        // todo
     }
 
 

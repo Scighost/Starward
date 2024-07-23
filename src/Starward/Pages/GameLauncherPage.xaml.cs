@@ -1318,13 +1318,6 @@ public sealed partial class GameLauncherPage : PageBase
     }
 
 
-    [RelayCommand]
-    private void TestInstallGameWindow()
-    {
-        WindowManager.Active(new TestInstallWindow { GameBiz = CurrentGameBiz });
-    }
-
-
     #endregion
 
 

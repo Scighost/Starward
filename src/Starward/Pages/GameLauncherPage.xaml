@@ -437,23 +437,7 @@
                               Glyph="&#xF012;"
                               IsTextScaleFactorEnabled="False" />
                 </Button>
-                <!--  Test  -->
-                <Button Width="40"
-                        Height="40"
-                        Margin="4"
-                        Padding="0"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        BorderThickness="0"
-                        Command="{x:Bind TestInstallGameWindowCommand}"
-                        CornerRadius="8"
-                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                        ToolTipService.ToolTip="Test">
-                    <FontIcon FontSize="16"
-                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                              Glyph="&#xEBE8;"
-                              IsTextScaleFactorEnabled="False" />
-                </Button>
+
 
             </StackPanel>
 

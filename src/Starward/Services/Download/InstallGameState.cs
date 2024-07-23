@@ -18,18 +18,3 @@ internal enum InstallGameState
     Error,
 
 }
-
-
-
-internal enum InstallGameTask
-{
-
-    Install,
-
-    Repair,
-
-    Predownload,
-
-    Update,
-
-}
