@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 
 namespace Starward.Services.Download;
 
-internal abstract class InstallGameService
+internal class InstallGameService
 {
 
 
@@ -40,16 +40,27 @@ internal abstract class InstallGameService
 
 
 
+    public InstallGameService(ILogger<InstallGameService> logger, HttpClient httpClient, GameLauncherService launcherService, GamePackageService packageService, HoYoPlayService hoYoPlayService)
+    {
+        _logger = logger;
+        _httpClient = httpClient;
+        _launcherService = launcherService;
+        _packageService = packageService;
+        _hoYoPlayService = hoYoPlayService;
+    }
+
+
+
     public GameBiz CurrentGameBiz { get; protected set; }
 
 
 
-    public abstract bool CanRepairGameFiles { get; }
+    public virtual bool CanRepairGameFiles { get; }
 
 
 
 
-    public abstract bool CanRepairAudioFiles { get; }
+    public virtual bool CanRepairAudioFiles { get; }
 
 
     public EventHandler<InstallGameState> InstallGameStateChanged;
@@ -73,6 +84,9 @@ internal abstract class InstallGameService
 
 
     protected InstallGameTask _installTask;
+
+
+    protected GamePackage _gamePackage;
 
 
     protected List<InstallGameItem> _gamePackageItems;
@@ -104,6 +118,11 @@ internal abstract class InstallGameService
         var temp = Path.Combine(installPath, Random.Shared.Next(1000_0000, int.MaxValue).ToString());
         File.Create(temp).Dispose();
         File.Delete(temp);
+        var files = Directory.GetFiles(installPath, "*", SearchOption.AllDirectories);
+        foreach (var file in files)
+        {
+            File.SetAttributes(file, FileAttributes.Normal);
+        }
         CurrentGameBiz = gameBiz;
         _installPath = installPath;
         _initialized = true;
@@ -114,9 +133,9 @@ internal abstract class InstallGameService
 
     public virtual async Task StartInstallGameAsync(CancellationToken cancellationToken = default)
     {
-        var package = await _packageService.GetGamePackageAsync(CurrentGameBiz);
+        _gamePackage = await _packageService.GetGamePackageAsync(CurrentGameBiz);
         _gamePackageItems = new List<InstallGameItem>();
-        foreach (var item in package.Main.Major!.GamePackages)
+        foreach (var item in _gamePackage.Main.Major!.GamePackages)
         {
             _gamePackageItems.Add(new InstallGameItem
             {
@@ -131,7 +150,7 @@ internal abstract class InstallGameService
             });
         }
         _audioPackageItems = new List<InstallGameItem>();
-        foreach (var item in await GetAudioPackageFilesFromGameResourceAsync(package.Main.Major!))
+        foreach (var item in await GetAudioPackageFilesFromGameResourceAsync(_gamePackage.Main.Major!))
         {
             _audioPackageItems.Add(new InstallGameItem
             {
@@ -163,8 +182,8 @@ internal abstract class InstallGameService
 
     public virtual async Task StartRepairGameAsync(CancellationToken cancellationToken = default)
     {
-        var package = await _packageService.GetGamePackageAsync(CurrentGameBiz);
-        var prefix = package.Main.Major!.ResListUrl;
+        _gamePackage = await _packageService.GetGamePackageAsync(CurrentGameBiz);
+        var prefix = _gamePackage.Main.Major!.ResListUrl;
         if (string.IsNullOrWhiteSpace(prefix))
         {
             throw new NotSupportedException($"Repairing game ({CurrentGameBiz}) is not supported.");
@@ -183,20 +202,20 @@ internal abstract class InstallGameService
 
     public virtual async Task StartPredownloadAsync(CancellationToken cancellationToken = default)
     {
-        var package = await _packageService.GetGamePackageAsync(CurrentGameBiz);
+        _gamePackage = await _packageService.GetGamePackageAsync(CurrentGameBiz);
         GamePackageResource resource;
         var localVersion = await _launcherService.GetLocalGameVersionAsync(CurrentGameBiz, _installPath);
-        if (package.PreDownload is null)
+        if (_gamePackage.PreDownload is null)
         {
             throw new InvalidOperationException($"Predownload of ({CurrentGameBiz}) is not enabled.");
         }
-        if (package.PreDownload.Patches.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackageResource _resource_temp)
+        if (_gamePackage.PreDownload.Patches.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackageResource _resource_temp)
         {
             resource = _resource_temp;
         }
         else
         {
-            resource = package.PreDownload.Major!;
+            resource = _gamePackage.PreDownload.Major!;
         }
         _gamePackageItems = new List<InstallGameItem>();
         foreach (var item in resource.GamePackages)
@@ -245,16 +264,16 @@ internal abstract class InstallGameService
 
     public virtual async Task StartUpdateGameAsync(CancellationToken cancellationToken = default)
     {
-        var package = await _packageService.GetGamePackageAsync(CurrentGameBiz);
+        _gamePackage = await _packageService.GetGamePackageAsync(CurrentGameBiz);
         GamePackageResource resource;
         var localVersion = await _launcherService.GetLocalGameVersionAsync(CurrentGameBiz, _installPath);
-        if (package.Main.Patches.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackageResource _resource_tmp)
+        if (_gamePackage.Main.Patches.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackageResource _resource_tmp)
         {
             resource = _resource_tmp;
         }
         else
         {
-            resource = package.Main.Major!;
+            resource = _gamePackage.Main.Major!;
         }
         _gamePackageItems = new List<InstallGameItem>();
         foreach (var item in resource.GamePackages)
@@ -406,7 +425,42 @@ internal abstract class InstallGameService
                 File.Delete(path);
             }
         }
+        await WriteConfigFileAsync();
         CurrentTaskFinished();
+    }
+
+
+
+    protected async Task WriteConfigFileAsync()
+    {
+        string version = _gamePackage.Main.Major?.Version ?? "";
+        string sdk_version = "";
+        string cps = "", channel = "1", sub_channel = "1";
+        if (CurrentGameBiz.IsBilibiliServer())
+        {
+            cps = "bilibili";
+            channel = "14";
+            sub_channel = "0";
+        }
+        else if (CurrentGameBiz.IsChinaServer())
+        {
+            cps = "mihoyo";
+        }
+        else if (CurrentGameBiz.IsGlobalServer())
+        {
+            cps = "hoyoverse";
+        }
+        string config = $"""
+            [General]
+            channel={channel}
+            cps={cps}
+            game_version={version}
+            sub_channel={sub_channel}
+            sdk_version={sdk_version}
+            game_biz={CurrentGameBiz}
+            """;
+        _logger.LogInformation("Write config.ini (game_version={version})", version);
+        await File.WriteAllTextAsync(Path.Combine(_installPath, "config.ini"), config).ConfigureAwait(false);
     }
 
 
