@@ -266,6 +266,8 @@ internal static class AppConfig
             sc.AddSingleton<LauncherBackgroundService>();
             sc.AddSingleton<GamePackageService>();
             sc.AddSingleton<ZZZGachaService>();
+            sc.AddTransient<Services.Download.InstallGameService>();
+            sc.AddTransient<Services.Download.GenshinInstallGameService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))
