@@ -378,4 +378,20 @@ public class HoYoPlayService
 
 
 
+    public async Task<GameChannelSDK?> GetGameChannelSDKAsync(GameBiz biz)
+    {
+        if (biz.ToGame() is GameBiz.Honkai3rd && biz.IsGlobalOfficial())
+        {
+            biz = GameBiz.bh3_global;
+        }
+        var launcherId = LauncherId.FromGameBiz(biz);
+        var gameId = GameId.FromGameBiz(biz);
+        if (launcherId != null && gameId != null)
+        {
+            return await _client.GetGameChannelSDKAsync(launcherId, "en-us", gameId);
+        }
+        return null;
+    }
+
+
 }

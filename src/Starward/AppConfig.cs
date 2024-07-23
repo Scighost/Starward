@@ -266,7 +266,7 @@ internal static class AppConfig
             sc.AddSingleton<LauncherBackgroundService>();
             sc.AddSingleton<GamePackageService>();
             sc.AddSingleton<ZZZGachaService>();
-            sc.AddSingleton<Services.Download.InstallGameService>();
+            sc.AddTransient<Services.Download.InstallGameService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))
