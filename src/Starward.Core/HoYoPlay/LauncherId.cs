@@ -41,7 +41,7 @@ public abstract class LauncherId
         return biz switch
         {
             GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn or GameBiz.nap_cn => ChinaOfficial,
-            GameBiz.hk4e_global or GameBiz.hkrpg_global or GameBiz.nap_global => GlobalOfficial,
+            GameBiz.hk4e_global or GameBiz.hkrpg_global or GameBiz.bh3_global or GameBiz.nap_global => GlobalOfficial,
             GameBiz.hk4e_bilibili => BilibiliGenshin,
             GameBiz.hkrpg_bilibili => BilibiliStarRail,
             GameBiz.nap_bilibili => BilibiliZZZ,

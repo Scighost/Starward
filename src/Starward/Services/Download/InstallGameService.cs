@@ -323,7 +323,7 @@ internal class InstallGameService
     {
         var sb = new StringBuilder();
         var config = await _hoYoPlayService.GetGameConfigAsync(CurrentGameBiz);
-        if (config is not null && !string.IsNullOrWhiteSpace(config.AudioPackageScanDir))
+        if (!string.IsNullOrWhiteSpace(config?.AudioPackageScanDir))
         {
             string file = Path.Join(_installPath, config.AudioPackageScanDir);
             if (File.Exists(file))
@@ -344,7 +344,7 @@ internal class InstallGameService
     protected async Task SetAudioLanguageAsync(string lang)
     {
         var config = await _hoYoPlayService.GetGameConfigAsync(CurrentGameBiz);
-        if (config is not null && !string.IsNullOrWhiteSpace(config.AudioPackageScanDir))
+        if (!string.IsNullOrWhiteSpace(config?.AudioPackageScanDir))
         {
             string file = Path.Join(_installPath, config.AudioPackageScanDir);
             Directory.CreateDirectory(Path.GetDirectoryName(file)!);
@@ -973,7 +973,7 @@ internal class InstallGameService
         if (fs.Length != item.Size)
         {
             fs.Dispose();
-            File.Delete(file);
+            File.Delete(file_target);
             _verifyFailedItems.Enqueue(item);
             return;
         }
@@ -990,14 +990,14 @@ internal class InstallGameService
         fs.Dispose();
         if (string.Equals(Convert.ToHexString(hash!), item.MD5, StringComparison.OrdinalIgnoreCase))
         {
-            if (item.WriteAsTempFile)
+            if (file_target.EndsWith("_tmp", StringComparison.OrdinalIgnoreCase))
             {
-                File.Move(file, item.Path, true);
+                File.Move(file_target, file, true);
             }
         }
         else
         {
-            File.Delete(file);
+            File.Delete(file_target);
             _verifyFailedItems.Enqueue(item);
         }
     }
