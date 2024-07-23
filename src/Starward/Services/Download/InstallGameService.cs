@@ -51,39 +51,56 @@ internal class InstallGameService
 
 
 
+
+
     public GameBiz CurrentGameBiz { get; protected set; }
 
 
-
-    public virtual bool CanRepairGameFiles { get; }
-
-
-
-
-    public virtual bool CanRepairAudioFiles { get; }
-
-
-    public EventHandler<InstallGameState> InstallGameStateChanged;
-
-
-    public EventHandler<Exception> Error;
+    private InstallGameState _state;
+    public InstallGameState State
+    {
+        get => _state;
+        set
+        {
+            _state = value;
+            StateChanged?.Invoke(this, value);
+        }
+    }
 
 
+    public EventHandler<InstallGameState> StateChanged;
 
 
-    public InstallGameState State { get; protected set; }
+    public EventHandler<Exception> InstallFailed;
 
 
-    protected InstallGameState _pausedState;
+    protected void OnInstallFailed(Exception ex)
+    {
+        _pausedState = State;
+        State = InstallGameState.Error;
+        InstallFailed?.Invoke(this, ex);
+    }
 
 
-    protected string _installPath;
+
+
+
+
+
+    #region Internal Property
+
 
 
     protected bool _initialized;
 
 
+    protected string _installPath;
+
+
     protected InstallGameTask _installTask;
+
+
+    protected InstallGameState _pausedState;
 
 
     protected GamePackage _gamePackage;
@@ -110,6 +127,15 @@ internal class InstallGameService
     protected CancellationTokenSource? _cancellationTokenSource;
 
 
+
+    #endregion
+
+
+
+
+
+
+    #region Initialize & Start
 
 
 
@@ -140,66 +166,12 @@ internal class InstallGameService
     public virtual async Task StartInstallGameAsync(CancellationToken cancellationToken = default)
     {
         _gamePackage = await _packageService.GetGamePackageAsync(CurrentGameBiz);
-        _gamePackageItems = new List<InstallGameItem>();
-        foreach (var item in _gamePackage.Main.Major!.GamePackages)
-        {
-            _gamePackageItems.Add(new InstallGameItem
-            {
-                Type = InstallGameItemType.Download,
-                FileName = Path.GetFileName(item.Url),
-                Path = Path.Combine(_installPath, Path.GetFileName(item.Url)),
-                Url = item.Url,
-                MD5 = item.MD5,
-                Size = item.Size,
-                DecompressedSize = item.DecompressedSize,
-                WriteAsTempFile = true,
-            });
-        }
-        _audioPackageItems = new List<InstallGameItem>();
-        foreach (var item in await GetAudioPackageFilesFromGameResourceAsync(_gamePackage.Main.Major!))
-        {
-            _audioPackageItems.Add(new InstallGameItem
-            {
-                Type = InstallGameItemType.Download,
-                FileName = Path.GetFileName(item.Url),
-                Path = Path.Combine(_installPath, Path.GetFileName(item.Url)),
-                Url = item.Url,
-                MD5 = item.MD5,
-                Size = item.Size,
-                DecompressedSize = item.DecompressedSize,
-                WriteAsTempFile = true,
-            });
-        }
-        _installTask = InstallGameTask.Install;
-        foreach (var item in _gamePackageItems)
-        {
-            _installItemQueue.Enqueue(item);
-        }
-        foreach (var item in _audioPackageItems)
-        {
-            _installItemQueue.Enqueue(item);
-        }
+        await PrepareDownloadGamePackageResourceAsync(_gamePackage.Main.Major!);
         if (CurrentGameBiz.IsBilibili())
         {
-            _channelSDK = await _hoYoPlayService.GetGameChannelSDKAsync(CurrentGameBiz);
-            if (_channelSDK is not null)
-            {
-                string name = Path.GetFileName(_channelSDK.ChannelSDKPackage.Url);
-                _gameSDKItem = new InstallGameItem
-                {
-                    Type = InstallGameItemType.Download,
-                    FileName = name,
-                    Path = Path.Combine(_installPath, name),
-                    MD5 = _channelSDK.ChannelSDKPackage.MD5,
-                    Size = _channelSDK.ChannelSDKPackage.Size,
-                    DecompressedSize = _channelSDK.ChannelSDKPackage.DecompressedSize,
-                    Url = _channelSDK.ChannelSDKPackage.Url,
-                    WriteAsTempFile = true,
-                };
-                _installItemQueue.Enqueue(_gameSDKItem);
-            }
+            await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Download);
         }
-
+        _installTask = InstallGameTask.Install;
         StartTask(InstallGameState.Download);
     }
 
@@ -223,23 +195,7 @@ internal class InstallGameService
         }
         if (CurrentGameBiz.IsBilibili())
         {
-            _channelSDK = await _hoYoPlayService.GetGameChannelSDKAsync(CurrentGameBiz);
-            if (_channelSDK is not null)
-            {
-                string name = Path.GetFileName(_channelSDK.ChannelSDKPackage.Url);
-                _gameSDKItem = new InstallGameItem
-                {
-                    Type = InstallGameItemType.Download,
-                    FileName = name,
-                    Path = Path.Combine(_installPath, name),
-                    MD5 = _channelSDK.ChannelSDKPackage.MD5,
-                    Size = _channelSDK.ChannelSDKPackage.Size,
-                    DecompressedSize = _channelSDK.ChannelSDKPackage.DecompressedSize,
-                    Url = _channelSDK.ChannelSDKPackage.Url,
-                    WriteAsTempFile = false,
-                };
-                _installItemQueue.Enqueue(_gameSDKItem);
-            }
+            await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Verify);
         }
         StartTask(InstallGameState.Verify);
     }
@@ -264,45 +220,8 @@ internal class InstallGameService
         {
             resource = _gamePackage.PreDownload.Major!;
         }
-        _gamePackageItems = new List<InstallGameItem>();
-        foreach (var item in resource.GamePackages)
-        {
-            _gamePackageItems.Add(new InstallGameItem
-            {
-                Type = InstallGameItemType.Download,
-                FileName = Path.GetFileName(item.Url),
-                Path = Path.Combine(_installPath, Path.GetFileName(item.Url)),
-                Url = item.Url,
-                MD5 = item.MD5,
-                Size = item.Size,
-                DecompressedSize = item.DecompressedSize,
-                WriteAsTempFile = true,
-            });
-        }
-        _audioPackageItems = new List<InstallGameItem>();
-        foreach (var item in await GetAudioPackageFilesFromGameResourceAsync(resource))
-        {
-            _audioPackageItems.Add(new InstallGameItem
-            {
-                Type = InstallGameItemType.Download,
-                FileName = Path.GetFileName(item.Url),
-                Path = Path.Combine(_installPath, Path.GetFileName(item.Url)),
-                Url = item.Url,
-                MD5 = item.MD5,
-                Size = item.Size,
-                DecompressedSize = item.DecompressedSize,
-                WriteAsTempFile = true,
-            });
-        }
+        await PrepareDownloadGamePackageResourceAsync(resource);
         _installTask = InstallGameTask.Predownload;
-        foreach (var item in _gamePackageItems)
-        {
-            _installItemQueue.Enqueue(item);
-        }
-        foreach (var item in _audioPackageItems)
-        {
-            _installItemQueue.Enqueue(item);
-        }
         StartTask(InstallGameState.Download);
     }
 
@@ -322,37 +241,29 @@ internal class InstallGameService
         {
             resource = _gamePackage.Main.Major!;
         }
+        await PrepareDownloadGamePackageResourceAsync(resource);
+        if (CurrentGameBiz.IsBilibili())
+        {
+            await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Download);
+        }
+        _installTask = InstallGameTask.Update;
+        StartTask(InstallGameState.Download);
+    }
+
+
+
+    protected async Task PrepareDownloadGamePackageResourceAsync(GamePackageResource resource)
+    {
         _gamePackageItems = new List<InstallGameItem>();
         foreach (var item in resource.GamePackages)
         {
-            _gamePackageItems.Add(new InstallGameItem
-            {
-                Type = InstallGameItemType.Download,
-                FileName = Path.GetFileName(item.Url),
-                Path = Path.Combine(_installPath, Path.GetFileName(item.Url)),
-                Url = item.Url,
-                MD5 = item.MD5,
-                Size = item.Size,
-                DecompressedSize = item.DecompressedSize,
-                WriteAsTempFile = true,
-            });
+            _gamePackageItems.Add(GamePackageFileToInstallGameItem(item));
         }
         _audioPackageItems = new List<InstallGameItem>();
         foreach (var item in await GetAudioPackageFilesFromGameResourceAsync(resource))
         {
-            _audioPackageItems.Add(new InstallGameItem
-            {
-                Type = InstallGameItemType.Download,
-                FileName = Path.GetFileName(item.Url),
-                Path = Path.Combine(_installPath, Path.GetFileName(item.Url)),
-                Url = item.Url,
-                MD5 = item.MD5,
-                Size = item.Size,
-                DecompressedSize = item.DecompressedSize,
-                WriteAsTempFile = true,
-            });
+            _audioPackageItems.Add(GamePackageFileToInstallGameItem(item));
         }
-        _installTask = InstallGameTask.Update;
         foreach (var item in _gamePackageItems)
         {
             _installItemQueue.Enqueue(item);
@@ -361,30 +272,30 @@ internal class InstallGameService
         {
             _installItemQueue.Enqueue(item);
         }
-        if (CurrentGameBiz.IsBilibili())
-        {
-            _channelSDK = await _hoYoPlayService.GetGameChannelSDKAsync(CurrentGameBiz);
-            if (_channelSDK is not null)
-            {
-                string name = Path.GetFileName(_channelSDK.ChannelSDKPackage.Url);
-                _gameSDKItem = new InstallGameItem
-                {
-                    Type = InstallGameItemType.Download,
-                    FileName = name,
-                    Path = Path.Combine(_installPath, name),
-                    MD5 = _channelSDK.ChannelSDKPackage.MD5,
-                    Size = _channelSDK.ChannelSDKPackage.Size,
-                    DecompressedSize = _channelSDK.ChannelSDKPackage.DecompressedSize,
-                    Url = _channelSDK.ChannelSDKPackage.Url,
-                    WriteAsTempFile = true,
-                };
-                _installItemQueue.Enqueue(_gameSDKItem);
-            }
-        }
-        StartTask(InstallGameState.Download);
     }
 
 
+
+    protected async Task PrepareBilibiliChannelSDKAsync(InstallGameItemType type)
+    {
+        _channelSDK = await _hoYoPlayService.GetGameChannelSDKAsync(CurrentGameBiz);
+        if (_channelSDK is not null)
+        {
+            string name = Path.GetFileName(_channelSDK.ChannelSDKPackage.Url);
+            _gameSDKItem = new InstallGameItem
+            {
+                Type = type,
+                FileName = name,
+                Path = Path.Combine(_installPath, name),
+                MD5 = _channelSDK.ChannelSDKPackage.MD5,
+                Size = _channelSDK.ChannelSDKPackage.Size,
+                DecompressedSize = _channelSDK.ChannelSDKPackage.DecompressedSize,
+                Url = _channelSDK.ChannelSDKPackage.Url,
+                WriteAsTempFile = true,
+            };
+            _installItemQueue.Enqueue(_gameSDKItem);
+        }
+    }
 
 
 
@@ -406,8 +317,6 @@ internal class InstallGameService
         }
         return list;
     }
-
-
 
 
 
@@ -451,6 +360,23 @@ internal class InstallGameService
 
 
 
+    protected InstallGameItem GamePackageFileToInstallGameItem(GamePackageFile file)
+    {
+        return new InstallGameItem
+        {
+            Type = InstallGameItemType.Download,
+            FileName = Path.GetFileName(file.Url),
+            Path = Path.Combine(_installPath, Path.GetFileName(file.Url)),
+            Url = file.Url,
+            MD5 = file.MD5,
+            Size = file.Size,
+            DecompressedSize = file.DecompressedSize,
+            WriteAsTempFile = true,
+        };
+    }
+
+
+
     protected async Task<List<InstallGameItem>> GetPkgVersionsAsync(string prefix, string pkgName)
     {
         prefix = prefix.TrimEnd('/') + '/';
@@ -480,120 +406,15 @@ internal class InstallGameService
 
 
 
-    protected async Task CleanGameDeprecatedFilesAsync()
-    {
-        State = InstallGameState.Clean;
-        foreach (var file in Directory.GetFiles(_installPath, "*_tmp", SearchOption.AllDirectories))
-        {
-            File.Delete(file);
-        }
-        foreach (var file in await _hoYoPlayService.GetGameDeprecatedFilesAsync(CurrentGameBiz))
-        {
-            var path = Path.Combine(_installPath, file.Name);
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-        }
-        await WriteConfigFileAsync();
-        CurrentTaskFinished();
-    }
+
+    #endregion
 
 
 
-    protected async Task WriteConfigFileAsync()
-    {
-        string version = _gamePackage.Main.Major?.Version ?? "";
-        string sdk_version = _channelSDK?.Version ?? "";
-        string cps = "", channel = "1", sub_channel = "1";
-        if (CurrentGameBiz.IsBilibili())
-        {
-            cps = "bilibili";
-            channel = "14";
-            sub_channel = "0";
-        }
-        else if (CurrentGameBiz.IsChinaOfficial())
-        {
-            cps = "mihoyo";
-        }
-        else if (CurrentGameBiz.IsGlobalOfficial())
-        {
-            cps = "hoyoverse";
-        }
-        string config = $"""
-            [General]
-            channel={channel}
-            cps={cps}
-            game_version={version}
-            sub_channel={sub_channel}
-            sdk_version={sdk_version}
-            game_biz={CurrentGameBiz}
-            """;
-        _logger.LogInformation("Write config.ini (game_version={version})", version);
-        await File.WriteAllTextAsync(Path.Combine(_installPath, "config.ini"), config).ConfigureAwait(false);
-    }
 
 
 
-    protected void Finish()
-    {
-        State = InstallGameState.Finish;
-        InstallGameStateChanged?.Invoke(this, InstallGameState.Finish);
-    }
-
-
-
-    protected void StartTask(InstallGameState state)
-    {
-        if (state is InstallGameState.Download)
-        {
-            _totalBytes = _installItemQueue.Sum(x => x.Size);
-            _finishBytes = _installItemQueue.Sum(GetFileLength);
-        }
-        else if (state is InstallGameState.Verify)
-        {
-            _totalBytes = _installItemQueue.Sum(x => x.Size);
-            _finishBytes = 0;
-        }
-        else if (state is InstallGameState.Decompress)
-        {
-            _totalBytes = _installItemQueue.Sum(x => x.Size);
-            _finishBytes = 0;
-        }
-        else if (state is InstallGameState.Clean)
-        {
-            _totalBytes = 0;
-            _finishBytes = 0;
-        }
-        else if (state is InstallGameState.Finish)
-        {
-            _totalBytes = 0;
-            _finishBytes = 0;
-        }
-        State = state;
-        _cancellationTokenSource = new CancellationTokenSource();
-        for (int i = 0; i < Environment.ProcessorCount; i++)
-        {
-            _ = ExecuteTaskAsync(_cancellationTokenSource.Token);
-        }
-    }
-
-
-
-    private static long GetFileLength(InstallGameItem item)
-    {
-        string file = item.Path;
-        string file_tmp = item.Path + "_tmp";
-        if (File.Exists(file))
-        {
-            return new FileInfo(file).Length;
-        }
-        else if (File.Exists(file_tmp))
-        {
-            return new FileInfo(file_tmp).Length;
-        }
-        return 0;
-    }
+    #region Control Method
 
 
 
@@ -648,6 +469,78 @@ internal class InstallGameService
 
 
 
+    #endregion
+
+
+
+
+
+
+    #region State Convert
+
+
+
+
+    protected void StartTask(InstallGameState state)
+    {
+        if (state is InstallGameState.Download)
+        {
+            _totalCount = _installItemQueue.Count;
+            _finishCount = 0;
+            _totalBytes = _installItemQueue.Sum(x => x.Size);
+            _finishBytes = _installItemQueue.Sum(GetFileLength);
+        }
+        else if (state is InstallGameState.Verify)
+        {
+            _totalCount = _installItemQueue.Count;
+            _finishCount = 0;
+            _totalBytes = _installItemQueue.Sum(x => x.Size);
+            _finishBytes = 0;
+        }
+        else if (state is InstallGameState.Decompress)
+        {
+            _totalCount = _installItemQueue.Count;
+            _finishCount = 0;
+            _totalBytes = _installItemQueue.Sum(x => x.Size);
+            _finishBytes = 0;
+        }
+        else if (state is InstallGameState.Clean)
+        {
+            _totalBytes = 0;
+            _finishBytes = 0;
+        }
+        else if (state is InstallGameState.Finish)
+        {
+            _totalBytes = 0;
+            _finishBytes = 0;
+        }
+        State = state;
+        _cancellationTokenSource = new CancellationTokenSource();
+        for (int i = 0; i < Environment.ProcessorCount; i++)
+        {
+            _ = ExecuteTaskItemAsync(_cancellationTokenSource.Token);
+        }
+    }
+
+
+
+    private static long GetFileLength(InstallGameItem item)
+    {
+        string file = item.Path;
+        string file_tmp = item.Path + "_tmp";
+        if (File.Exists(file))
+        {
+            return new FileInfo(file).Length;
+        }
+        else if (File.Exists(file_tmp))
+        {
+            return new FileInfo(file_tmp).Length;
+        }
+        return 0;
+    }
+
+
+
 
     private void CurrentTaskFinished()
     {
@@ -669,7 +562,7 @@ internal class InstallGameService
         catch (Exception ex)
         {
             _logger.LogError(ex, nameof(CurrentTaskFinished));
-            Error?.Invoke(this, ex);
+            OnInstallFailed(ex);
         }
     }
 
@@ -837,6 +730,71 @@ internal class InstallGameService
 
 
 
+    protected async Task CleanGameDeprecatedFilesAsync()
+    {
+        State = InstallGameState.Clean;
+        foreach (var file in Directory.GetFiles(_installPath, "*_tmp", SearchOption.AllDirectories))
+        {
+            File.Delete(file);
+        }
+        foreach (var file in await _hoYoPlayService.GetGameDeprecatedFilesAsync(CurrentGameBiz))
+        {
+            var path = Path.Combine(_installPath, file.Name);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+        await WriteConfigFileAsync();
+        CurrentTaskFinished();
+    }
+
+
+
+    protected async Task WriteConfigFileAsync()
+    {
+        string version = _gamePackage.Main.Major?.Version ?? "";
+        string sdk_version = _channelSDK?.Version ?? "";
+        string cps = "", channel = "1", sub_channel = "1";
+        if (CurrentGameBiz.IsBilibili())
+        {
+            cps = "bilibili";
+            channel = "14";
+            sub_channel = "0";
+        }
+        else if (CurrentGameBiz.IsChinaOfficial())
+        {
+            cps = "mihoyo";
+        }
+        else if (CurrentGameBiz.IsGlobalOfficial())
+        {
+            cps = "hoyoverse";
+        }
+        string config = $"""
+            [General]
+            channel={channel}
+            cps={cps}
+            game_version={version}
+            sub_channel={sub_channel}
+            sdk_version={sdk_version}
+            game_biz={CurrentGameBiz}
+            """;
+        _logger.LogInformation("Write config.ini (game_version={version})", version);
+        await File.WriteAllTextAsync(Path.Combine(_installPath, "config.ini"), config).ConfigureAwait(false);
+    }
+
+
+
+    protected void Finish()
+    {
+        State = InstallGameState.Finish;
+        StateChanged?.Invoke(this, InstallGameState.Finish);
+    }
+
+
+
+
+    #endregion
 
 
 
@@ -844,7 +802,7 @@ internal class InstallGameService
 
 
 
-    #region Install Internal
+    #region Execute Item (Download, Verify, Decompress, Patch)
 
 
 
@@ -883,8 +841,7 @@ internal class InstallGameService
 
 
 
-
-    protected async Task ExecuteTaskAsync(CancellationToken cancellationToken = default)
+    protected async Task ExecuteTaskItemAsync(CancellationToken cancellationToken = default)
     {
         try
         {
@@ -904,12 +861,15 @@ internal class InstallGameService
                             break;
                         case InstallGameItemType.Download:
                             await DownloadItemAsync(item, cancellationToken);
+                            Interlocked.Increment(ref _finishCount);
                             break;
                         case InstallGameItemType.Verify:
                             await VerifyItemAsync(item, cancellationToken);
+                            Interlocked.Increment(ref _finishCount);
                             break;
                         case InstallGameItemType.Decompress:
                             await DecompressItemAsync(item, cancellationToken);
+                            Interlocked.Increment(ref _finishCount);
                             break;
                         default:
                             break;
@@ -919,7 +879,7 @@ internal class InstallGameService
                 {
                     // network error
                     _installItemQueue.Enqueue(item);
-                    await Task.Delay(1000);
+                    await Task.Delay(1000, CancellationToken.None);
                 }
                 catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
                 {
@@ -931,9 +891,8 @@ internal class InstallGameService
         }
         catch (Exception ex)
         {
-            State = InstallGameState.Error;
-            _logger.LogError(ex, nameof(ExecuteTaskAsync));
-            Error?.Invoke(this, ex);
+            _logger.LogError(ex, nameof(ExecuteTaskItemAsync));
+            OnInstallFailed(ex);
         }
         finally
         {
