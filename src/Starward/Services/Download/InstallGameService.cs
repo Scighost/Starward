@@ -52,9 +52,18 @@ internal abstract class InstallGameService
     public abstract bool CanRepairAudioFiles { get; }
 
 
+    public EventHandler<InstallGameState> InstallGameStateChanged;
+
+
+    public EventHandler<Exception> Error;
+
+
 
 
     public InstallGameState State { get; protected set; }
+
+
+    protected InstallGameState _pausedState;
 
 
     protected string _installPath;
@@ -72,10 +81,14 @@ internal abstract class InstallGameService
     protected List<InstallGameItem> _audioPackageItems;
 
 
-    private List<InstallGameItem> _gameFileItems;
+    protected List<InstallGameItem> _gameFileItems;
 
 
-    private ConcurrentQueue<InstallGameItem> _verifyFailedItems = new();
+    protected ConcurrentQueue<InstallGameItem> _verifyFailedItems = new();
+
+
+    protected CancellationTokenSource? _cancellationTokenSource;
+
 
 
 
@@ -102,11 +115,10 @@ internal abstract class InstallGameService
     public virtual async Task StartInstallGameAsync(CancellationToken cancellationToken = default)
     {
         var package = await _packageService.GetGamePackageAsync(CurrentGameBiz);
-        var files = await GetAudioPackageFilesFromGameResourceAsync(package.Main.Major!);
-        List<InstallGameItem> list = [];
-        foreach (var item in _packageResouce.GamePackages)
+        _gamePackageItems = new List<InstallGameItem>();
+        foreach (var item in package.Main.Major!.GamePackages)
         {
-            list.Add(new InstallGameItem
+            _gamePackageItems.Add(new InstallGameItem
             {
                 Type = InstallGameItemType.Download,
                 FileName = Path.GetFileName(item.Url),
@@ -118,9 +130,10 @@ internal abstract class InstallGameService
                 WriteAsTempFile = true,
             });
         }
+        _audioPackageItems = new List<InstallGameItem>();
         foreach (var item in await GetAudioPackageFilesFromGameResourceAsync(package.Main.Major!))
         {
-            list.Add(new InstallGameItem
+            _audioPackageItems.Add(new InstallGameItem
             {
                 Type = InstallGameItemType.Download,
                 FileName = Path.GetFileName(item.Url),
@@ -132,9 +145,12 @@ internal abstract class InstallGameService
                 WriteAsTempFile = true,
             });
         }
-        _packageItems = list;
         _installTask = InstallGameTask.Install;
-        foreach (var item in _packageItems)
+        foreach (var item in _gamePackageItems)
+        {
+            _installItemQueue.Enqueue(item);
+        }
+        foreach (var item in _audioPackageItems)
         {
             _installItemQueue.Enqueue(item);
         }
@@ -145,9 +161,21 @@ internal abstract class InstallGameService
 
 
 
-    public virtual Task StartRepairGameAsync(CancellationToken cancellationToken = default)
+    public virtual async Task StartRepairGameAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotSupportedException();
+        var package = await _packageService.GetGamePackageAsync(CurrentGameBiz);
+        var prefix = package.Main.Major!.ResListUrl;
+        if (string.IsNullOrWhiteSpace(prefix))
+        {
+            throw new NotSupportedException($"Repairing game ({CurrentGameBiz}) is not supported.");
+        }
+        _gameFileItems = await GetPkgVersionsAsync(prefix, "pkg_versoin");
+        _installTask = InstallGameTask.Repair;
+        foreach (var item in _gameFileItems)
+        {
+            _installItemQueue.Enqueue(item);
+        }
+        StartTask(InstallGameState.Verify);
     }
 
 
@@ -156,25 +184,24 @@ internal abstract class InstallGameService
     public virtual async Task StartPredownloadAsync(CancellationToken cancellationToken = default)
     {
         var package = await _packageService.GetGamePackageAsync(CurrentGameBiz);
-        List<InstallGameItem> list = [];
         GamePackageResource resource;
         var localVersion = await _launcherService.GetLocalGameVersionAsync(CurrentGameBiz, _installPath);
         if (package.PreDownload is null)
         {
             throw new InvalidOperationException($"Predownload of ({CurrentGameBiz}) is not enabled.");
         }
-        if (package.PreDownload.Patches.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackageResource resource1)
+        if (package.PreDownload.Patches.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackageResource _resource_temp)
         {
-            resource = resource1;
+            resource = _resource_temp;
         }
         else
         {
             resource = package.PreDownload.Major!;
         }
-        _packageResouce = resource;
-        foreach (var item in _packageResouce.GamePackages)
+        _gamePackageItems = new List<InstallGameItem>();
+        foreach (var item in resource.GamePackages)
         {
-            list.Add(new InstallGameItem
+            _gamePackageItems.Add(new InstallGameItem
             {
                 Type = InstallGameItemType.Download,
                 FileName = Path.GetFileName(item.Url),
@@ -186,9 +213,10 @@ internal abstract class InstallGameService
                 WriteAsTempFile = true,
             });
         }
+        _audioPackageItems = new List<InstallGameItem>();
         foreach (var item in await GetAudioPackageFilesFromGameResourceAsync(resource))
         {
-            list.Add(new InstallGameItem
+            _audioPackageItems.Add(new InstallGameItem
             {
                 Type = InstallGameItemType.Download,
                 FileName = Path.GetFileName(item.Url),
@@ -200,9 +228,12 @@ internal abstract class InstallGameService
                 WriteAsTempFile = true,
             });
         }
-        _packageItems = list;
         _installTask = InstallGameTask.Predownload;
-        foreach (var item in _packageItems)
+        foreach (var item in _gamePackageItems)
+        {
+            _installItemQueue.Enqueue(item);
+        }
+        foreach (var item in _audioPackageItems)
         {
             _installItemQueue.Enqueue(item);
         }
@@ -215,21 +246,20 @@ internal abstract class InstallGameService
     public virtual async Task StartUpdateGameAsync(CancellationToken cancellationToken = default)
     {
         var package = await _packageService.GetGamePackageAsync(CurrentGameBiz);
-        List<InstallGameItem> list = new();
         GamePackageResource resource;
         var localVersion = await _launcherService.GetLocalGameVersionAsync(CurrentGameBiz, _installPath);
-        if (package.Main.Patches.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackageResource resource1)
+        if (package.Main.Patches.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackageResource _resource_tmp)
         {
-            resource = resource1;
+            resource = _resource_tmp;
         }
         else
         {
             resource = package.Main.Major!;
         }
-        _packageResouce = resource;
-        foreach (var item in _packageResouce.GamePackages)
+        _gamePackageItems = new List<InstallGameItem>();
+        foreach (var item in resource.GamePackages)
         {
-            list.Add(new InstallGameItem
+            _gamePackageItems.Add(new InstallGameItem
             {
                 Type = InstallGameItemType.Download,
                 FileName = Path.GetFileName(item.Url),
@@ -241,9 +271,10 @@ internal abstract class InstallGameService
                 WriteAsTempFile = true,
             });
         }
+        _audioPackageItems = new List<InstallGameItem>();
         foreach (var item in await GetAudioPackageFilesFromGameResourceAsync(resource))
         {
-            list.Add(new InstallGameItem
+            _audioPackageItems.Add(new InstallGameItem
             {
                 Type = InstallGameItemType.Download,
                 FileName = Path.GetFileName(item.Url),
@@ -255,9 +286,12 @@ internal abstract class InstallGameService
                 WriteAsTempFile = true,
             });
         }
-        _packageItems = list;
         _installTask = InstallGameTask.Update;
-        foreach (var item in _packageItems)
+        foreach (var item in _gamePackageItems)
+        {
+            _installItemQueue.Enqueue(item);
+        }
+        foreach (var item in _audioPackageItems)
         {
             _installItemQueue.Enqueue(item);
         }
@@ -331,6 +365,34 @@ internal abstract class InstallGameService
 
 
 
+    protected async Task<List<InstallGameItem>> GetPkgVersionsAsync(string prefix, string pkgName)
+    {
+        prefix = prefix.TrimEnd('/') + '/';
+        var list = new List<InstallGameItem>();
+        var str = await _httpClient.GetStringAsync(prefix + pkgName).ConfigureAwait(false);
+        var lines = str.Split('\n');
+        foreach (var line in lines)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
+            var node = JsonNode.Parse(line.Trim());
+            var remoteName = node?["remoteName"]?.ToString()?.TrimStart('/')!;
+            list.Add(new InstallGameItem
+            {
+                Type = InstallGameItemType.Verify,
+                FileName = Path.GetFileName(remoteName),
+                Path = Path.Combine(_installPath, remoteName),
+                MD5 = node?["md5"]?.ToString()!,
+                Size = (long)(node?["fileSize"] ?? 0),
+                Url = prefix + remoteName,
+            });
+        }
+        return list;
+    }
+
+
 
     protected async Task CleanGameDeprecatedFilesAsync()
     {
@@ -351,7 +413,8 @@ internal abstract class InstallGameService
 
     protected void Finish()
     {
-
+        State = InstallGameState.Finish;
+        InstallGameStateChanged?.Invoke(this, InstallGameState.Finish);
     }
 
 
@@ -384,9 +447,10 @@ internal abstract class InstallGameService
             _finishBytes = 0;
         }
         State = state;
+        _cancellationTokenSource = new CancellationTokenSource();
         for (int i = 0; i < Environment.ProcessorCount; i++)
         {
-            _ = ExecuteTaskAsync();
+            _ = ExecuteTaskAsync(_cancellationTokenSource.Token);
         }
     }
 
@@ -408,30 +472,34 @@ internal abstract class InstallGameService
     }
 
 
-    public async Task Continue()
+
+
+    public void Continue()
     {
         try
         {
-
+            StartTask(State);
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, nameof(Continue));
         }
     }
 
 
 
 
-    public async Task Pause()
+    public void Pause()
     {
         try
         {
-
+            _pausedState = State;
+            State = InstallGameState.None;
+            _cancellationTokenSource?.Cancel();
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, nameof(Pause));
         }
     }
 
@@ -447,7 +515,7 @@ internal abstract class InstallGameService
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, nameof(ClearState));
         }
     }
 
@@ -461,175 +529,156 @@ internal abstract class InstallGameService
         {
             if (_installTask is InstallGameTask.Install or InstallGameTask.Update)
             {
-                // download -> verify -> decompress -> clean
-                if (State is InstallGameState.Download)
-                {
-                    foreach (var item in _packageItems)
-                    {
-                        item.Type = InstallGameItemType.Verify;
-                        _installItemQueue.Enqueue(item);
-                    }
-                    StartTask(InstallGameState.Verify);
-                }
-                if (State is InstallGameState.Verify)
-                {
-                    if (_verifyFailedItems.IsEmpty)
-                    {
-
-                        foreach (var item in _packageItems)
-                        {
-                            item.Type = InstallGameItemType.Decompress;
-                            _installItemQueue.Enqueue(item);
-                        }
-                        StartTask(InstallGameState.Decompress);
-                    }
-                    else
-                    {
-                        while (_verifyFailedItems.TryDequeue(out InstallGameItem? item))
-                        {
-                            item.Type = InstallGameItemType.Download;
-                            _installItemQueue.Enqueue(item);
-                        }
-                        StartTask(InstallGameState.Download);
-                    }
-                }
-                if (State is InstallGameState.Decompress)
-                {
-                    _ = CleanGameDeprecatedFilesAsync();
-                }
-                if (State is InstallGameState.Clean)
-                {
-                    Finish();
-                }
+                OnInstallOrUpdateTaskFinished();
             }
-
-            if (_installTask is InstallGameTask.Repair)
+            else if (_installTask is InstallGameTask.Repair)
             {
-                // verify -> download -> clean
-                if (State is InstallGameState.Verify)
-                {
-                    while (_verifyFailedItems.TryDequeue(out InstallGameItem? item))
-                    {
-                        item.Type = InstallGameItemType.Download;
-                        _installItemQueue.Enqueue(item);
-                    }
-                    StartTask(InstallGameState.Download);
-                }
-                if (State is InstallGameState.Download)
-                {
-                    foreach (var item in _packageItems)
-                    {
-                        item.Type = InstallGameItemType.Verify;
-                        _installItemQueue.Enqueue(item);
-                    }
-                    StartTask(InstallGameState.Verify);
-                }
-                if (State is InstallGameState.Decompress)
-                {
-                    _ = CleanGameDeprecatedFilesAsync();
-                }
-                if (State is InstallGameState.Clean)
-                {
-                    Finish();
-                }
+                OnRepairTaskFinished();
             }
-
-            if (_installTask is InstallGameTask.Predownload)
+            else if (_installTask is InstallGameTask.Predownload)
             {
-                // download -> verify
-                if (State is InstallGameState.Download)
-                {
-                    foreach (var item in _packageItems)
-                    {
-                        item.Type = InstallGameItemType.Verify;
-                        _installItemQueue.Enqueue(item);
-                    }
-                    StartTask(InstallGameState.Verify);
-                }
-                if (State is InstallGameState.Verify)
-                {
-                    if (_verifyFailedItems.IsEmpty)
-                    {
-                        foreach (var item in _packageItems)
-                        {
-                            item.Type = InstallGameItemType.Decompress;
-                            _installItemQueue.Enqueue(item);
-                        }
-                        StartTask(InstallGameState.Decompress);
-                    }
-                    else
-                    {
-                        while (_verifyFailedItems.TryDequeue(out InstallGameItem? item))
-                        {
-                            item.Type = InstallGameItemType.Download;
-                            _installItemQueue.Enqueue(item);
-                        }
-                        StartTask(InstallGameState.Download);
-                    }
-                }
-                if (State is InstallGameState.Decompress)
-                {
-                    _ = CleanGameDeprecatedFilesAsync();
-                }
-                if (State is InstallGameState.Clean)
-                {
-                    Finish();
-                }
-            }
-
-            if (_installTask is InstallGameTask.Update)
-            {
-                // download -> verify -> decompress -> clean
+                OnPredownloadTaskFinished();
             }
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, nameof(CurrentTaskFinished));
+            Error?.Invoke(this, ex);
         }
     }
 
 
 
 
-    protected async Task<List<InstallGameItem>> GetDecompressInstallGameItemsAsync()
+    protected void OnInstallOrUpdateTaskFinished()
     {
-        List<InstallGameItem> list = [];
-        if (_packageResouce is not null)
+        // download -> verify -> decompress -> clean
+        if (State is InstallGameState.Download)
         {
-            var game = new InstallGameItem
+            FromDownloadToVerify();
+        }
+        if (State is InstallGameState.Verify)
+        {
+            if (_verifyFailedItems.IsEmpty)
             {
-                Type = InstallGameItemType.Decompress,
-                TargetPath = _installPath,
-                PackageFiles = _packageResouce.GamePackages.Select(x => Path.Combine(_installPath, Path.GetFileName(x.Url))).ToList(),
-                Size = _packageResouce.GamePackages.Sum(x => x.Size),
-                DecompressedSize = _packageResouce.GamePackages.Sum(x => x.DecompressedSize),
-            };
-            list.Add(game);
-            var audios = await GetAudioPackageFilesFromGameResourceAsync(_packageResouce);
-            foreach (var audio in audios)
+                FromVerifyToDecompress();
+            }
+            else
             {
-                list.Add(new InstallGameItem
-                {
-                    Type = InstallGameItemType.Decompress,
-                    TargetPath = _installPath,
-                    PackageFiles = [Path.Combine(_installPath, Path.GetFileName(audio.Url))],
-                    Size = audio.Size,
-                    DecompressedSize = audio.DecompressedSize
-                });
+                FromVerifyToDownload();
             }
         }
-        else
+        if (State is InstallGameState.Decompress)
         {
-            while (_installItemQueue.TryDequeue(out InstallGameItem? item))
-            {
-                item.Type = InstallGameItemType.Decompress;
-                item.TargetPath = _installPath;
-                item.PackageFiles = [item.Path];
-                list.Add(item);
-            };
+            _ = CleanGameDeprecatedFilesAsync();
         }
-        return list;
+        if (State is InstallGameState.Clean)
+        {
+            Finish();
+        }
     }
+
+
+
+    protected void OnRepairTaskFinished()
+    {
+        // verify -> download -> clean
+        if (State is InstallGameState.Verify)
+        {
+            if (!_verifyFailedItems.IsEmpty)
+            {
+                FromVerifyToDownload();
+            }
+        }
+        if (State is InstallGameState.Download)
+        {
+            _ = CleanGameDeprecatedFilesAsync();
+        }
+        if (State is InstallGameState.Clean)
+        {
+            Finish();
+        }
+    }
+
+
+
+    protected void OnPredownloadTaskFinished()
+    {
+        // download -> verify
+        if (State is InstallGameState.Download)
+        {
+            FromDownloadToVerify();
+        }
+        else if (State is InstallGameState.Verify)
+        {
+            if (!_verifyFailedItems.IsEmpty)
+            {
+                FromVerifyToDownload();
+            }
+            else
+            {
+                Finish();
+            }
+        }
+    }
+
+
+
+    protected void FromDownloadToVerify()
+    {
+        foreach (var item in _gamePackageItems)
+        {
+            item.Type = InstallGameItemType.Verify;
+            _installItemQueue.Enqueue(item);
+        }
+        foreach (var item in _audioPackageItems)
+        {
+            item.Type = InstallGameItemType.Verify;
+            _installItemQueue.Enqueue(item);
+        }
+        StartTask(InstallGameState.Verify);
+    }
+
+
+
+    protected void FromVerifyToDownload()
+    {
+        while (_verifyFailedItems.TryDequeue(out InstallGameItem? item))
+        {
+            item.Type = InstallGameItemType.Download;
+            _installItemQueue.Enqueue(item);
+        }
+        StartTask(InstallGameState.Download);
+    }
+
+
+
+    protected void FromVerifyToDecompress()
+    {
+        var game = new InstallGameItem
+        {
+            Type = InstallGameItemType.Decompress,
+            TargetPath = _installPath,
+            PackageFiles = _gamePackageItems.Select(x => x.Path).ToList(),
+            Size = _gamePackageItems.Sum(x => x.Size),
+            DecompressedSize = _gamePackageItems.Sum(x => x.DecompressedSize),
+        };
+        _installItemQueue.Enqueue(game);
+        foreach (var item in _audioPackageItems)
+        {
+            item.Type = InstallGameItemType.Decompress;
+            item.TargetPath = _installPath;
+            _installItemQueue.Enqueue(item);
+        }
+        StartTask(InstallGameState.Decompress);
+    }
+
+
+
+
+
+
+
 
 
 
@@ -673,7 +722,7 @@ internal abstract class InstallGameService
 
 
 
-    protected async Task ExecuteTaskAsync()
+    protected async Task ExecuteTaskAsync(CancellationToken cancellationToken = default)
     {
         try
         {
@@ -692,39 +741,35 @@ internal abstract class InstallGameService
                         case InstallGameItemType.None:
                             break;
                         case InstallGameItemType.Download:
-                            await DownloadItemAsync(item);
+                            await DownloadItemAsync(item, cancellationToken);
                             break;
                         case InstallGameItemType.Verify:
-                            await VerifyItemAsync(item);
+                            await VerifyItemAsync(item, cancellationToken);
                             break;
                         case InstallGameItemType.Decompress:
-                            await DecompressItemAsync(item);
+                            await DecompressItemAsync(item, cancellationToken);
                             break;
                         default:
                             break;
                     }
                 }
-                catch (HttpRequestException ex)
+                catch (Exception ex) when (ex is HttpRequestException or SocketException or HttpIOException or IOException { Message: "Received an unexpected EOF or 0 bytes from the transport stream." })
                 {
-
+                    // network error
+                    _installItemQueue.Enqueue(item);
+                    await Task.Delay(1000);
                 }
-                catch (SocketException ex)
+                catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
                 {
-
-                }
-                catch (HttpIOException ex)
-                {
-
-                }
-                catch (IOException ex)
-                {
-                    // Received an unexpected EOF or 0 bytes from the transport stream.
+                    // cacel
+                    _installItemQueue.Enqueue(item);
                 }
             }
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, nameof(ExecuteTaskAsync));
+            Error?.Invoke(this, ex);
         }
         finally
         {
@@ -786,11 +831,27 @@ internal abstract class InstallGameService
     protected async Task VerifyItemAsync(InstallGameItem item, CancellationToken cancellationToken = default)
     {
         const int BUFFER_SIZE = 1 << 20;
-        string file = item.WriteAsTempFile ? item.Path + "_tmp" : item.Path;
-        using var fs = File.OpenRead(file);
+        string file = item.Path;
+        string file_tmp = item.Path + "_tmp";
+        string file_target;
+        if (File.Exists(file))
+        {
+            file_target = file;
+        }
+        else if (File.Exists(file_tmp))
+        {
+            file_target = file_tmp;
+        }
+        else
+        {
+            file_target = item.WriteAsTempFile ? file_tmp : file;
+        }
+        using var fs = File.OpenRead(file_target);
         if (fs.Length != item.Size)
         {
-            return false;
+            File.Delete(file);
+            _verifyFailedItems.Enqueue(item);
+            return;
         }
         int length = 0;
         var hashProvider = MD5.Create();
