@@ -178,7 +178,6 @@ internal class InstallGameService
 
 
 
-
     public virtual async Task StartRepairGameAsync(CancellationToken cancellationToken = default)
     {
         _gamePackage = await _packageService.GetGamePackageAsync(CurrentGameBiz);
@@ -188,7 +187,6 @@ internal class InstallGameService
             throw new NotSupportedException($"Repairing game ({CurrentGameBiz}) is not supported.");
         }
         _gameFileItems = await GetPkgVersionsAsync(prefix, "pkg_version");
-        _installTask = InstallGameTask.Repair;
         foreach (var item in _gameFileItems)
         {
             _installItemQueue.Enqueue(item);
@@ -197,6 +195,7 @@ internal class InstallGameService
         {
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Verify);
         }
+        _installTask = InstallGameTask.Repair;
         StartTask(InstallGameState.Verify);
     }
 
