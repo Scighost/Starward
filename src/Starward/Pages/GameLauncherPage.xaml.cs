@@ -1318,6 +1318,18 @@ public sealed partial class GameLauncherPage : PageBase
     }
 
 
+    [RelayCommand]
+    private async Task DebugAsync()
+    {
+        var dialog = new InstallGameDialog
+        {
+            CurrentGameBiz = CurrentGameBiz,
+            XamlRoot = this.XamlRoot,
+        };
+        await dialog.ShowAsync();
+    }
+
+
     #endregion
 
 
