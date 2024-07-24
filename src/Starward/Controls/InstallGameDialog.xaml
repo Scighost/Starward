@@ -83,7 +83,7 @@
                     Margin="0,8,0,0"
                     Orientation="Horizontal"
                     Spacing="8">
-            <TextBlock FontSize="12"
+            <TextBlock FontSize="14"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False"
                        Text="">
@@ -93,7 +93,7 @@
             </TextBlock>
             <AppBarSeparator Padding="2" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
             <TextBlock x:Name="TextBlock_AvailableSpace"
-                       FontSize="12"
+                       FontSize="14"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False">
                 <Run Text="Space Available" />
@@ -110,12 +110,12 @@
                     Margin="0,8,0,0"
                     Orientation="Horizontal"
                     Visibility="Collapsed">
-            <TextBlock FontSize="12"
+            <TextBlock FontSize="14"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False"
                        Text="No write permission, please restart as administrator." />
             <TextBlock Margin="6,0,0,0"
-                       FontSize="12"
+                       FontSize="14"
                        IsTextScaleFactorEnabled="False">
                 <Hyperlink x:Name="Hyperlink_Restart"
                            Click="Hyperlink_Restart_Click"

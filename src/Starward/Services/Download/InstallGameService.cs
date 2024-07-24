@@ -81,10 +81,10 @@ internal class InstallGameService
     }
 
 
-    public EventHandler<InstallGameState> StateChanged;
+    public event EventHandler<InstallGameState> StateChanged;
 
 
-    public EventHandler<Exception> InstallFailed;
+    public event EventHandler<Exception> InstallFailed;
 
 
     protected void OnInstallFailed(Exception ex)
