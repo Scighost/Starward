@@ -21,6 +21,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.Extensions;
 
 namespace Starward.Services.Download;
 
@@ -49,6 +50,18 @@ internal class InstallGameService
         _hoYoPlayService = hoYoPlayService;
     }
 
+
+
+
+    public static InstallGameService FromGameBiz(GameBiz gameBiz)
+    {
+        return gameBiz.ToGame() switch
+        {
+            GameBiz.GenshinImpact => AppConfig.GetService<GenshinInstallGameService>(),
+            GameBiz.StarRail or GameBiz.Honkai3rd or GameBiz.ZZZ => AppConfig.GetService<InstallGameService>(),
+            _ => throw new ArgumentOutOfRangeException(nameof(gameBiz), $"Game ({gameBiz}) is not supported."),
+        };
+    }
 
 
 
@@ -136,6 +149,69 @@ internal class InstallGameService
 
 
     #region Initialize & Start
+
+
+
+
+
+
+    public bool CheckAccessPermission(string installPath)
+    {
+        try
+        {
+            var temp = Path.Combine(installPath, Random.Shared.Next(1000_0000, int.MaxValue).ToString());
+            File.Create(temp).Dispose();
+            File.Delete(temp);
+            return true;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return false;
+        }
+    }
+
+
+
+
+
+    public async Task<long> GetGamePackageDecompressedSizeAsync(GameBiz gameBiz, string? installPath = null)
+    {
+        long size = 0;
+        string lang = "";
+        var package = await _packageService.GetGamePackageAsync(gameBiz);
+        size += package.Main.Major!.GamePackages.Sum(x => x.DecompressedSize);
+        if (!string.IsNullOrWhiteSpace(installPath))
+        {
+            var sb = new StringBuilder();
+            var config = await _hoYoPlayService.GetGameConfigAsync(CurrentGameBiz);
+            if (!string.IsNullOrWhiteSpace(config?.AudioPackageScanDir))
+            {
+                string file = Path.Join(installPath, config.AudioPackageScanDir);
+                if (File.Exists(file))
+                {
+                    var lines = await File.ReadAllLinesAsync(file);
+                    if (lines.Any(x => x.Contains("Chinese"))) { sb.Append("zh-cn"); }
+                    if (lines.Any(x => x.Contains("English(US)"))) { sb.Append("en-us"); }
+                    if (lines.Any(x => x.Contains("Japanese"))) { sb.Append("ja-jp"); }
+                    if (lines.Any(x => x.Contains("Korean"))) { sb.Append("ko-kr"); }
+                }
+            }
+            lang = sb.ToString();
+        }
+        if (string.IsNullOrWhiteSpace(lang))
+        {
+            lang = LanguageUtil.FilterLanguage(CultureInfo.CurrentUICulture.Name);
+        }
+        foreach (var item in package.Main.Major.AudioPackages ?? [])
+        {
+            if (!string.IsNullOrWhiteSpace(item.Language) && lang.Contains(item.Language))
+            {
+                size += item.DecompressedSize;
+            }
+        }
+        return size;
+    }
+
 
 
 
@@ -767,7 +843,7 @@ internal class InstallGameService
         }
         else if (CurrentGameBiz.IsGlobalOfficial())
         {
-            cps = "hoyoverse";
+            cps = "hyp_hoyoverse";
         }
         string config = $"""
             [General]
