@@ -27,6 +27,7 @@ public sealed partial class InstallGameDialog : ContentDialog
 
     private readonly ILogger<InstallGameDialog> _logger = AppConfig.GetLogger<InstallGameDialog>();
 
+
     private InstallGameService _installGameService;
 
 
@@ -149,7 +150,8 @@ public sealed partial class InstallGameDialog : ContentDialog
         try
         {
             _installGameService.Initialize(CurrentGameBiz, InstallationPath);
-            await _installGameService.StartInstallGameAsync();
+            await _installGameService.StartRepairGameAsync();
+            InstallGameManager.Instance.AddInstallService(_installGameService);
             this.Hide();
         }
         catch (Exception ex)

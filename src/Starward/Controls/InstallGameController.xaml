@@ -5,12 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="using:Starward.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
-    <Button Padding="0"
+    <Button x:Name="Button_Controller"
+            Padding="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+            Visibility="Collapsed">
         <Grid>
             <FontIcon FontSize="16"
                       Glyph="&#xEBD3;"
@@ -19,77 +22,85 @@
 
         <Button.Flyout>
             <Flyout Placement="RightEdgeAlignedBottom">
-                <Grid Width="240" Height="200">
+                <Flyout.FlyoutPresenterStyle>
+                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                        <!--<Setter Property="MaxHeight" Value="758" />-->
+                    </Style>
+                </Flyout.FlyoutPresenterStyle>
+                <Grid Width="240">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <Grid Height="44">
-                        <Grid Width="44"
-                              Height="44"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
-                              CornerRadius="8">
-                            <Image Width="44"
-                                   Height="44"
-                                   Source="ms-appx:///Assets/Image/icon_ys.jpg" />
-                            <Image Width="22"
-                                   Height="22"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Bottom"
-                                   Source="ms-appx:///Assets/Image/gameicon_hyperion.png" />
+                    <ItemsControl Grid.Row="1" ItemsSource="{x:Bind InstallServices}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="8" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Height="44">
+                                    <Grid Width="44"
+                                          Height="44"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Top"
+                                          CornerRadius="8">
+                                        <Image Width="44"
+                                               Height="44"
+                                               Source="{Binding Icon.GameIcon}" />
+                                        <Image Width="22"
+                                               Height="22"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Bottom"
+                                               Source="{Binding Icon.ServerIcon}" />
 
-                        </Grid>
+                                    </Grid>
 
 
-                        <ProgressBar MinHeight="4"
-                                     Margin="56,0,0,0"
-                                     HorizontalAlignment="Stretch"
-                                     VerticalAlignment="Bottom"
-                                     Value="40">
-                            <ProgressBar.Resources>
-                                <x:Double x:Key="ProgressBarTrackHeight">4</x:Double>
-                                <CornerRadius x:Key="ProgressBarTrackCornerRadius">4</CornerRadius>
-                            </ProgressBar.Resources>
-                        </ProgressBar>
+                                    <ProgressBar MinHeight="4"
+                                                 Margin="56,0,0,0"
+                                                 HorizontalAlignment="Stretch"
+                                                 VerticalAlignment="Bottom"
+                                                 Value="{Binding Progress}">
+                                        <ProgressBar.Resources>
+                                            <x:Double x:Key="ProgressBarTrackHeight">4</x:Double>
+                                            <CornerRadius x:Key="ProgressBarTrackCornerRadius">4</CornerRadius>
+                                        </ProgressBar.Resources>
+                                    </ProgressBar>
 
-                        <TextBlock Margin="56,0,0,0"
-                                   FontSize="12"
-                                   Text="Downloading" />
+                                    <TextBlock Margin="56,0,0,0"
+                                               FontSize="12"
+                                               Text="{Binding StateText}" />
 
-                        <TextBlock Margin="56,0,0,10"
-                                   VerticalAlignment="Bottom"
-                                   FontSize="12"
-                                   Text="21.35/43.56 GB" />
+                                    <TextBlock Margin="56,0,0,10"
+                                               VerticalAlignment="Bottom"
+                                               FontSize="12"
+                                               Text="{Binding ProgressText}" />
 
-                        <StackPanel HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Orientation="Horizontal">
-                            <Button Width="28"
-                                    Height="28"
-                                    Padding="0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                                <FontIcon FontSize="16"
-                                          Glyph="&#xE768;"
-                                          IsTextScaleFactorEnabled="False" />
-                            </Button>
-                            <Button Width="28"
-                                    Height="28"
-                                    Padding="0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                                    Visibility="Collapsed">
-                                <FontIcon FontSize="16"
-                                          Glyph="&#xEA39;"
-                                          IsTextScaleFactorEnabled="False" />
-                            </Button>
-                        </StackPanel>
+                                    <StackPanel HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal">
+                                        <Button Width="28"
+                                                Height="28"
+                                                Padding="0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Command="{Binding ActionButtonCommand}"
+                                                IsEnabled="{Binding IsActionButtonEnabled}"
+                                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                            <FontIcon FontSize="16"
+                                                      Glyph="{Binding ButtonGlyph}"
+                                                      IsTextScaleFactorEnabled="False" />
+                                        </Button>
+                                    </StackPanel>
 
-                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
 
                 </Grid>
             </Flyout>

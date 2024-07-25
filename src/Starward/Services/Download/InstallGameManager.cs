@@ -1,10 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.Logging;
-using Starward.Core;
-using Starward.Helpers;
-using Starward.Models;
+﻿using Starward.Core;
+using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Starward.Services.Download;
@@ -13,25 +9,18 @@ internal class InstallGameManager
 {
 
 
-    private readonly ILogger<InstallGameManager> _logger;
+    private readonly ConcurrentDictionary<GameBiz, InstallGameStateModel> _services = new();
 
 
-    private readonly ConcurrentDictionary<GameBiz, InstallGameService> _services;
-
-
-    private readonly Stack<InstallGameService> _servicesStack;
-
-    public InstallGameManager(ILogger<InstallGameManager> logger)
+    public InstallGameManager()
     {
-        _logger = logger;
         _services = new();
-        _servicesStack = new();
     }
 
 
+    private static InstallGameManager _instance;
+    public static InstallGameManager Instance => _instance ??= new();
 
-
-    public InstallGameService CurrentInstallService { get; private set; }
 
 
 
@@ -43,6 +32,11 @@ internal class InstallGameManager
 
 
 
+    public event EventHandler<InstallGameStateModel> InstallTaskAdded;
+
+
+
+    public event EventHandler<InstallGameStateModel> InstallTaskRemoved;
 
 
 
@@ -51,7 +45,16 @@ internal class InstallGameManager
 
     public bool TryGetInstallService(GameBiz gameBiz, [NotNullWhen(true)] out InstallGameService? service)
     {
-        return _services.TryGetValue(gameBiz, out service);
+        if (_services.TryGetValue(gameBiz, out var model))
+        {
+            service = model.Service;
+            return true;
+        }
+        else
+        {
+            service = null;
+            return false;
+        }
     }
 
 
@@ -59,10 +62,13 @@ internal class InstallGameManager
 
     public void AddInstallService(InstallGameService service)
     {
-        CurrentInstallService?.Pause();
-        _servicesStack.Push(service);
-        _services[service.CurrentGameBiz] = service;
-        CurrentInstallService = service;
+        var model = new InstallGameStateModel(service);
+        _services[service.CurrentGameBiz] = model;
+        model.InstallFinished -= Model_InstallFinished;
+        model.InstallFinished += Model_InstallFinished;
+        model.InstallFailed -= Model_InstallFailed;
+        model.InstallFailed += Model_InstallFailed;
+        InstallTaskAdded?.Invoke(this, model);
     }
 
 
@@ -71,88 +77,26 @@ internal class InstallGameManager
 
 
 
-
-}
-
-
-
-public partial class InstallGameStateModel : ObservableObject
-{
-
-
-    private const string PlayGlyph = "\uE768";
-
-
-    private const string PauseGlyph = "\uE769";
-
-
-
-    private InstallGameService _service;
-
-
-    internal InstallGameStateModel(InstallGameService service)
+    private void Model_InstallFinished(object? sender, EventArgs e)
     {
-        _service = service;
-        GameBiz = _service.CurrentGameBiz;
-        Icon = new GameBizIcon { GameBiz = _service.CurrentGameBiz };
-        _service.StateChanged += _service_StateChanged;
-        _service.InstallFailed += _service_InstallFailed;
-    }
-
-
-
-    public GameBiz GameBiz { get; set; }
-
-
-    public GameBizIcon Icon { get; set; }
-
-
-    [ObservableProperty]
-    private string _StateText;
-
-
-    [ObservableProperty]
-    private string _ButtonGlyph;
-
-
-    [ObservableProperty]
-    private double _Progress;
-
-
-
-    private void _service_StateChanged(object? sender, InstallGameState e)
-    {
-        switch (e)
+        if (sender is InstallGameStateModel model)
         {
-            case InstallGameState.None:
-                StateText = "Paused";
-                break;
-            case InstallGameState.Download:
-                StateText = "Downloading";
-                break;
-            case InstallGameState.Verify:
-                StateText = "Verifying";
-                break;
-            case InstallGameState.Decompress:
-                StateText = "Decompressing";
-                break;
-            case InstallGameState.Clean:
-                break;
-            case InstallGameState.Finish:
-                StateText = "Finished";
-                break;
-            case InstallGameState.Error:
-                StateText = "Error";
-                break;
-            default:
-                break;
+            model.Service.ClearState();
+            _services.TryRemove(model.GameBiz, out _);
+            model.InstallFinished -= Model_InstallFinished;
+            model.InstallFailed -= Model_InstallFailed;
+            InstallTaskRemoved?.Invoke(this, model);
         }
     }
 
 
-    private void _service_InstallFailed(object? sender, System.Exception e)
+
+    private void Model_InstallFailed(object? sender, EventArgs e)
     {
-        NotificationBehavior.Instance.Error(e, $"Game ({GameBiz.ToGameName()} - {GameBiz.ToGameServer()}) install failed.");
+        if (sender is InstallGameStateModel model)
+        {
+
+        }
     }
 
 

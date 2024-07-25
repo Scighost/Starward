@@ -21,7 +21,6 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
-using Vanara.Extensions;
 
 namespace Starward.Services.Download;
 
@@ -89,8 +88,11 @@ internal class InstallGameService
 
     protected void OnInstallFailed(Exception ex)
     {
-        _pausedState = State;
-        State = InstallGameState.Error;
+        if (State != InstallGameState.Error)
+        {
+            _pausedState = State;
+            State = InstallGameState.Error;
+        }
         InstallFailed?.Invoke(this, ex);
     }
 
@@ -498,7 +500,10 @@ internal class InstallGameService
     {
         try
         {
-            Debug.WriteLine("Continue");
+            if (State != InstallGameState.None && State != InstallGameState.Error && State != InstallGameState.Finish)
+            {
+                return;
+            }
             StartTask(_pausedState);
         }
         catch (Exception ex)
@@ -514,7 +519,10 @@ internal class InstallGameService
     {
         try
         {
-            Debug.WriteLine("Pause");
+            if (State is InstallGameState.None)
+            {
+                return;
+            }
             _pausedState = State;
             State = InstallGameState.None;
             _cancellationTokenSource?.Cancel();
@@ -560,10 +568,54 @@ internal class InstallGameService
     {
         if (state is InstallGameState.Download)
         {
-            _totalCount = _installItemQueue.Count;
+            _totalCount = 0;
             _finishCount = 0;
-            _totalBytes = _installItemQueue.Sum(x => x.Size);
-            _finishBytes = _installItemQueue.Sum(GetFileLength);
+            _totalBytes = 0;
+            _finishBytes = 0;
+            foreach (var item in _gamePackageItems ?? [])
+            {
+                _totalCount++;
+                _totalBytes += item.Size;
+                long length = GetFileLength(item);
+                _finishBytes += length;
+                if (length == item.Size)
+                {
+                    _finishCount++;
+                }
+            }
+            foreach (var item in _audioPackageItems ?? [])
+            {
+                _totalCount++;
+                _totalBytes += item.Size;
+                long length = GetFileLength(item);
+                _finishBytes += length;
+                if (length == item.Size)
+                {
+                    _finishCount++;
+                }
+            }
+            foreach (var item in _gameFileItems ?? [])
+            {
+                _totalCount++;
+                _totalBytes += item.Size;
+                long length = GetFileLength(item);
+                _finishBytes += length;
+                if (length == item.Size)
+                {
+                    _finishCount++;
+                }
+            }
+            if (_gameSDKItem is not null)
+            {
+                _totalCount++;
+                _totalBytes += _gameSDKItem.Size;
+                long length = GetFileLength(_gameSDKItem);
+                _finishBytes += length;
+                if (length == _gameSDKItem.Size)
+                {
+                    _finishCount++;
+                }
+            }
         }
         else if (state is InstallGameState.Verify)
         {
@@ -913,6 +965,10 @@ internal class InstallGameService
 
 
 
+    private static SemaphoreSlim _verifyGlobalSemaphore = new SemaphoreSlim(Environment.ProcessorCount);
+
+
+    private SemaphoreSlim _decompressSemaphore = new SemaphoreSlim(1);
 
 
 
@@ -943,14 +999,26 @@ internal class InstallGameService
                             Interlocked.Increment(ref _finishCount);
                             break;
                         case InstallGameItemType.Decompress:
-                            await DecompressItemAsync(item, cancellationToken);
-                            Interlocked.Increment(ref _finishCount);
+                            try
+                            {
+                                await _decompressSemaphore.WaitAsync();
+                                await DecompressItemAsync(item, cancellationToken);
+                                Interlocked.Increment(ref _finishCount);
+                            }
+                            catch
+                            {
+                                throw;
+                            }
+                            finally
+                            {
+                                _decompressSemaphore.Release();
+                            }
                             break;
                         default:
                             break;
                     }
                 }
-                catch (Exception ex) when (ex is HttpRequestException or SocketException or HttpIOException or IOException { Message: "Received an unexpected EOF or 0 bytes from the transport stream." })
+                catch (Exception ex) when (ex is HttpRequestException or SocketException or HttpIOException or IOException { InnerException: SocketException } or IOException { Message: "Received an unexpected EOF or 0 bytes from the transport stream." })
                 {
                     // network error
                     _installItemQueue.Enqueue(item);
@@ -1045,36 +1113,48 @@ internal class InstallGameService
             _verifyFailedItems.Enqueue(item);
             return;
         }
-        using var fs = File.OpenRead(file_target);
-        if (fs.Length != item.Size)
+        try
         {
-            fs.Dispose();
-            File.Delete(file_target);
-            _verifyFailedItems.Enqueue(item);
-            return;
-        }
-        int length = 0;
-        var hashProvider = MD5.Create();
-        var buffer = new byte[BUFFER_SIZE];
-        while ((length = await fs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
-        {
-            hashProvider.TransformBlock(buffer, 0, length, buffer, 0);
-            Interlocked.Add(ref _finishBytes, length);
-        }
-        hashProvider.TransformFinalBlock(buffer, 0, length);
-        var hash = hashProvider.Hash;
-        fs.Dispose();
-        if (string.Equals(Convert.ToHexString(hash!), item.MD5, StringComparison.OrdinalIgnoreCase))
-        {
-            if (file_target.EndsWith("_tmp", StringComparison.OrdinalIgnoreCase))
+            await _verifyGlobalSemaphore.WaitAsync(cancellationToken);
+            using var fs = File.OpenRead(file_target);
+            if (fs.Length != item.Size)
             {
-                File.Move(file_target, file, true);
+                fs.Dispose();
+                File.Delete(file_target);
+                _verifyFailedItems.Enqueue(item);
+                return;
+            }
+            int length = 0;
+            var hashProvider = MD5.Create();
+            var buffer = new byte[BUFFER_SIZE];
+            while ((length = await fs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
+            {
+                hashProvider.TransformBlock(buffer, 0, length, buffer, 0);
+                Interlocked.Add(ref _finishBytes, length);
+            }
+            hashProvider.TransformFinalBlock(buffer, 0, length);
+            var hash = hashProvider.Hash;
+            fs.Dispose();
+            if (string.Equals(Convert.ToHexString(hash!), item.MD5, StringComparison.OrdinalIgnoreCase))
+            {
+                if (file_target.EndsWith("_tmp", StringComparison.OrdinalIgnoreCase))
+                {
+                    File.Move(file_target, file, true);
+                }
+            }
+            else
+            {
+                File.Delete(file_target);
+                _verifyFailedItems.Enqueue(item);
             }
         }
-        else
+        catch
         {
-            File.Delete(file_target);
-            _verifyFailedItems.Enqueue(item);
+            throw;
+        }
+        finally
+        {
+            _verifyGlobalSemaphore.Release();
         }
     }
 
@@ -1141,6 +1221,7 @@ internal class InstallGameService
 
     protected async Task ApplyDiffFilesAsync(string installPath)
     {
+
         var delete = Path.Combine(installPath, "deletefiles.txt");
         if (File.Exists(delete))
         {
