@@ -392,7 +392,7 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Dieses Konto hat keine Gebet-Aufzeichnungen in den letzten 6 Monaten.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>Hole {0} Einträge, fügte {1} Einträge.</value>
+    <value>Es werden {0} Einträge geholt, Es werden hinzugefügt {1} Einträge.</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
@@ -1408,7 +1408,25 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
     <value>Kürzlich aktualisierte Inhalte</value>
   </data>
+  <data name="HoyolabToolboxPage_ApocalypticShadow" xml:space="preserve">
+    <value>Apokalyptischer Schatten</value>
+  </data>
   <data name="GameBizSelector_AutoSearch" xml:space="preserve">
-    <value>Auto Search</value>
+    <value>Auto-Suche</value>
+  </data>
+  <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
+    <value>Signalsuche-Datensätze</value>
+  </data>
+  <data name="ApocalypticShadowPage_DefeatedBoss" xml:space="preserve">
+    <value>Niedergeschlagener Bosse</value>
+  </data>
+  <data name="ApocalypticShadowPage_HighestDifficultyCleared" xml:space="preserve">
+    <value>Höchste Schwierigkeit bestanden</value>
+  </data>
+  <data name="ForgottenHallPage_FarthestStage" xml:space="preserve">
+    <value>Entfernteste Phase</value>
+  </data>
+  <data name="ForgottenHallPage_TimesChallenged" xml:space="preserve">
+    <value>Male herausgefordert</value>
   </data>
 </root>
