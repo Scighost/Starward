@@ -67,7 +67,11 @@ public partial class InstallGameStateModel : ObservableObject
 
 
     [ObservableProperty]
-    private double _Progress;
+    private double _ProgressValue;
+
+
+    [ObservableProperty]
+    private string _ProgressValueText;
 
 
     [ObservableProperty]
@@ -133,12 +137,12 @@ public partial class InstallGameStateModel : ObservableObject
                     StateText = Lang.DownloadGamePage_Downloading;
                     if (Service.TotalBytes == 0)
                     {
-                        Progress = 100;
+                        ProgressValue = 100;
                         ProgressText = "";
                     }
                     else
                     {
-                        Progress = 100d * Service.FinishBytes / Service.TotalBytes;
+                        ProgressValue = 100d * Service.FinishBytes / Service.TotalBytes;
                         ProgressText = $"{Service.FinishBytes / GB:F2}/{Service.TotalBytes / GB:F2} GB";
                     }
                     ButtonGlyph = PauseGlyph;
@@ -147,17 +151,17 @@ public partial class InstallGameStateModel : ObservableObject
                     StateText = Lang.DownloadGamePage_Verifying;
                     if (Service.TotalCount == 0)
                     {
-                        Progress = 100;
+                        ProgressValue = 100;
                         ProgressText = "";
                     }
                     else if (Service.InstallTask is InstallGameTask.Repair)
                     {
-                        Progress = 100d * Service.FinishCount / Service.TotalCount;
+                        ProgressValue = 100d * Service.FinishCount / Service.TotalCount;
                         ProgressText = $"{Service.FinishCount}/{Service.TotalCount}";
                     }
                     else
                     {
-                        Progress = 100d * Service.FinishBytes / Service.TotalBytes;
+                        ProgressValue = 100d * Service.FinishBytes / Service.TotalBytes;
                         ProgressText = $"{Service.FinishBytes / GB:F2}/{Service.TotalBytes / GB:F2} GB";
                     }
                     ButtonGlyph = PauseGlyph;
@@ -166,12 +170,12 @@ public partial class InstallGameStateModel : ObservableObject
                     StateText = Lang.DownloadGamePage_Decompressing;
                     if (Service.TotalBytes == 0)
                     {
-                        Progress = 100;
+                        ProgressValue = 100;
                         ProgressText = "";
                     }
                     else
                     {
-                        Progress = 100d * Service.FinishBytes / Service.TotalBytes;
+                        ProgressValue = 100d * Service.FinishBytes / Service.TotalBytes;
                         ProgressText = $"{Service.FinishBytes / GB:F2}/{Service.TotalBytes / GB:F2} GB";
                     }
                     IsContinueOrPauseButtonEnabled = false;
@@ -183,7 +187,7 @@ public partial class InstallGameStateModel : ObservableObject
                     break;
                 case InstallGameState.Finish:
                     StateText = Lang.DownloadGamePage_Finished;
-                    Progress = 100;
+                    ProgressValue = 100;
                     ProgressText = "";
                     IsContinueOrPauseButtonEnabled = false;
                     ButtonGlyph = PlayGlyph;
@@ -197,6 +201,7 @@ public partial class InstallGameStateModel : ObservableObject
                 default:
                     break;
             }
+            ProgressValueText = $"{ProgressValue / 100:P2}";
             ComputeSpeed(Service.State);
         }
         catch { }
@@ -209,33 +214,36 @@ public partial class InstallGameStateModel : ObservableObject
         try
         {
             long ts = Stopwatch.GetTimestamp();
-            long bytes = Service.FinishBytes;
-            _speedBytesPerSecond = Math.Clamp((double)(bytes - _lastFinishedBytes) / (ts - _lastTimestamp) * Stopwatch.Frequency, 0, long.MaxValue);
-            _lastFinishedBytes = bytes;
-            _lastTimestamp = ts;
-            if (state is InstallGameState.None or InstallGameState.Finish or InstallGameState.Error)
+            if (ts - _lastTimestamp >= Stopwatch.Frequency)
             {
-                SpeedText = null;
-                RemainingTimeText = null;
-            }
-            else
-            {
-                if (_speedBytesPerSecond >= MB)
+                long bytes = Service.FinishBytes;
+                _speedBytesPerSecond = Math.Clamp((double)(bytes - _lastFinishedBytes) / (ts - _lastTimestamp) * Stopwatch.Frequency, 0, long.MaxValue);
+                _lastFinishedBytes = bytes;
+                _lastTimestamp = ts;
+                if (state is InstallGameState.None or InstallGameState.Finish or InstallGameState.Error)
                 {
-                    SpeedText = $"{_speedBytesPerSecond / MB:F2} MB/s";
-                }
-                else
-                {
-                    SpeedText = $"{_speedBytesPerSecond / KB:F2} KB/s";
-                }
-                if (_speedBytesPerSecond == 0)
-                {
+                    SpeedText = null;
                     RemainingTimeText = null;
                 }
                 else
                 {
-                    var seconds = (Service.TotalBytes - Service.FinishBytes) / _speedBytesPerSecond;
-                    RemainingTimeText = TimeSpan.FromSeconds(seconds).ToString(@"hh\:mm\:ss");
+                    if (_speedBytesPerSecond >= MB)
+                    {
+                        SpeedText = $"{_speedBytesPerSecond / MB:F2} MB/s";
+                    }
+                    else
+                    {
+                        SpeedText = $"{_speedBytesPerSecond / KB:F2} KB/s";
+                    }
+                    if (_speedBytesPerSecond == 0)
+                    {
+                        RemainingTimeText = null;
+                    }
+                    else
+                    {
+                        var seconds = (Service.TotalBytes - Service.FinishBytes) / _speedBytesPerSecond;
+                        RemainingTimeText = TimeSpan.FromSeconds(seconds).ToString(@"hh\:mm\:ss");
+                    }
                 }
             }
         }
@@ -253,7 +261,7 @@ public partial class InstallGameStateModel : ObservableObject
 
     private void Service_InstallFailed(object? sender, Exception e)
     {
-        NotificationBehavior.Instance.Error(e, $"Game ({GameBiz.ToGameName()} - {GameBiz.ToGameServer()}) install failed.");
+        NotificationBehavior.Instance.Error(e, $"Game ({GameBiz.ToGameName()} - {GameBiz.ToGameServer()}) install failed.", 0);
 
     }
 

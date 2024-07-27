@@ -46,6 +46,13 @@ public sealed partial class InstallGameController : UserControl
     private ObservableCollection<InstallGameStateModel> _installServices = new();
 
 
+    [ObservableProperty]
+    private bool _ProgressIsIndeterminate;
+
+
+    [ObservableProperty]
+    private double _ProgressValue;
+
 
     private void _installGameManager_InstallTaskAdded(object? sender, InstallGameStateModel e)
     {
@@ -94,9 +101,26 @@ public sealed partial class InstallGameController : UserControl
         try
         {
             _semaphoreSlim.Wait();
+            long totalBytes = 0;
+            long finishedBytes = 0;
+            _installGameManager.UpdateSpeedState();
             foreach (var model in InstallServices)
             {
                 model.UpdateState();
+                if (model.Service.State is InstallGameState.Download)
+                {
+                    totalBytes += model.Service.TotalBytes;
+                    finishedBytes += model.Service.FinishBytes;
+                }
+            }
+            if (totalBytes > 0)
+            {
+                ProgressIsIndeterminate = false;
+                ProgressValue = 100d * finishedBytes / totalBytes;
+            }
+            else
+            {
+                ProgressIsIndeterminate = true;
             }
         }
         finally
@@ -111,7 +135,14 @@ public sealed partial class InstallGameController : UserControl
     {
         if (sender is Grid grid)
         {
-            grid.Opacity = 1;
+            if (grid.FindName("StackPanel_ActionButton") is StackPanel stackPanel)
+            {
+                stackPanel.Opacity = 1;
+            }
+            if (grid.FindName("TextBlock_ProgressValue") is TextBlock textBlock)
+            {
+                textBlock.Opacity = 0;
+            }
         }
     }
 
@@ -121,9 +152,27 @@ public sealed partial class InstallGameController : UserControl
     {
         if (sender is Grid grid)
         {
-            grid.Opacity = 0;
+            if (grid.FindName("StackPanel_ActionButton") is StackPanel stackPanel)
+            {
+                stackPanel.Opacity = 0;
+            }
+            if (grid.FindName("TextBlock_ProgressValue") is TextBlock textBlock)
+            {
+                textBlock.Opacity = 1;
+            }
         }
     }
 
+
+    private void Flyout_InstallGame_Opened(object sender, object e)
+    {
+        _timer.Interval = TimeSpan.FromSeconds(0.1);
+    }
+
+
+    private void Flyout_InstallGame_Closed(object sender, object e)
+    {
+        _timer.Interval = TimeSpan.FromSeconds(1);
+    }
 
 }

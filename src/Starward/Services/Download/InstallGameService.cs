@@ -998,20 +998,8 @@ internal class InstallGameService
                             Interlocked.Increment(ref _finishCount);
                             break;
                         case InstallGameItemType.Decompress:
-                            try
-                            {
-                                await _decompressSemaphore.WaitAsync();
-                                await DecompressItemAsync(item, cancellationToken);
-                                Interlocked.Increment(ref _finishCount);
-                            }
-                            catch
-                            {
-                                throw;
-                            }
-                            finally
-                            {
-                                _decompressSemaphore.Release();
-                            }
+                            await DecompressItemAsync(item, cancellationToken);
+                            Interlocked.Increment(ref _finishCount);
                             break;
                         default:
                             break;
@@ -1071,7 +1059,6 @@ internal class InstallGameService
         using var fs = File.Open(file_target, FileMode.OpenOrCreate);
         if (fs.Length < item.Size)
         {
-            _logger.LogInformation("Download: FileName {name}, Url {url}", item.FileName, item.Url);
             fs.Position = fs.Length;
             var request = new HttpRequestMessage(HttpMethod.Get, item.Url) { Version = HttpVersion.Version11 };
             request.Headers.Range = new RangeHeaderValue(fs.Length, null);
@@ -1084,8 +1071,13 @@ internal class InstallGameService
             {
                 await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken).ConfigureAwait(false);
                 Interlocked.Add(ref _finishBytes, length);
+                Interlocked.Add(ref InstallGameManager.DownloadBytesInSecond, length);
+                if (InstallGameManager.IsExceedSpeedLimit)
+                {
+                    long t = Stopwatch.GetTimestamp() / (Stopwatch.Frequency / 1000) % 1000;
+                    await Task.Delay((int)(1000 - t), cancellationToken);
+                }
             }
-            _logger.LogInformation("Download Successfully: FileName {name}", item.FileName);
         }
     }
 
@@ -1163,54 +1155,67 @@ internal class InstallGameService
 
     protected async Task DecompressItemAsync(InstallGameItem item, CancellationToken cancellationToken = default)
     {
-        using var fs = new FileSliceStream(item.PackageFiles);
-        if (item.PackageFiles[0].Contains(".7z", StringComparison.CurrentCultureIgnoreCase))
+        try
         {
-            await Task.Run(() =>
+            await _decompressSemaphore.WaitAsync();
+            using var fs = new FileSliceStream(item.PackageFiles);
+            if (item.PackageFiles[0].Contains(".7z", StringComparison.CurrentCultureIgnoreCase))
             {
-                using var extra = new ArchiveFile(fs);
-                double ratio = (double)fs.Length / extra.Entries.Sum(x => (long)x.Size);
-                long sum = 0;
-                extra.ExtractProgress += (_, e) =>
+                await Task.Run(() =>
                 {
-                    long size = (long)(e.Read * ratio);
-                    _finishBytes += size;
-                    sum += size;
-                };
-                extra.Extract(item.TargetPath, true);
-                _finishBytes += fs.Length - sum;
-            }).ConfigureAwait(false);
-        }
-        else
-        {
-            await Task.Run(async () =>
+                    using var extra = new ArchiveFile(fs);
+                    double ratio = (double)fs.Length / extra.Entries.Sum(x => (long)x.Size);
+                    long sum = 0;
+                    extra.ExtractProgress += (_, e) =>
+                    {
+                        long size = (long)(e.Read * ratio);
+                        _finishBytes += size;
+                        sum += size;
+                    };
+                    extra.Extract(item.TargetPath, true);
+                    _finishBytes += fs.Length - sum;
+                }).ConfigureAwait(false);
+            }
+            else
             {
-                long sum = 0;
-                using var zip = new ZipArchive(fs, ZipArchiveMode.Read, true);
-                foreach (var entry in zip.Entries)
+                await Task.Run(async () =>
                 {
-                    if ((entry.ExternalAttributes & 0x10) > 0)
+                    long sum = 0;
+                    using var zip = new ZipArchive(fs, ZipArchiveMode.Read, true);
+                    foreach (var entry in zip.Entries)
                     {
-                        var target = Path.Combine(item.TargetPath, entry.FullName);
-                        Directory.CreateDirectory(target);
+                        if ((entry.ExternalAttributes & 0x10) > 0)
+                        {
+                            var target = Path.Combine(item.TargetPath, entry.FullName);
+                            Directory.CreateDirectory(target);
+                        }
+                        else
+                        {
+                            var target = Path.Combine(item.TargetPath, entry.FullName);
+                            Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                            entry.ExtractToFile(target, true);
+                            _finishBytes += entry.CompressedLength;
+                            sum += entry.CompressedLength;
+                        }
                     }
-                    else
-                    {
-                        var target = Path.Combine(item.TargetPath, entry.FullName);
-                        Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-                        entry.ExtractToFile(target, true);
-                        _finishBytes += entry.CompressedLength;
-                        sum += entry.CompressedLength;
-                    }
-                }
-                _finishBytes += fs.Length - sum;
-                await ApplyDiffFilesAsync(item.TargetPath);
-            }).ConfigureAwait(false);
+                    _finishBytes += fs.Length - sum;
+                    await ApplyDiffFilesAsync(item.TargetPath);
+                }).ConfigureAwait(false);
+            }
+            fs.Dispose();
+            foreach (var file in item.PackageFiles)
+            {
+                File.Delete(file);
+            }
         }
-        fs.Dispose();
-        foreach (var file in item.PackageFiles)
+        catch
         {
-            File.Delete(file);
+            throw;
+        }
+        finally
+        {
+            _decompressSemaphore.Release();
+
         }
     }
 

@@ -1,7 +1,9 @@
 ﻿using Starward.Core;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 
 namespace Starward.Services.Download;
 
@@ -12,7 +14,7 @@ internal class InstallGameManager
     private readonly ConcurrentDictionary<GameBiz, InstallGameStateModel> _services = new();
 
 
-    public InstallGameManager()
+    private InstallGameManager()
     {
         _services = new();
     }
@@ -23,12 +25,26 @@ internal class InstallGameManager
 
 
 
-
-    public double Speed { get; set; }
-
+    public static long DownloadBytesInSecond;
 
 
-    public double SpeedLimit { get; set; }
+    public static long SpeedLimitBytesPerSecond { get; set; } = long.MaxValue;
+
+
+    public static bool IsExceedSpeedLimit => Interlocked.Read(ref DownloadBytesInSecond) >= SpeedLimitBytesPerSecond;
+
+
+    private long _lastTimeStamp;
+
+
+    public void UpdateSpeedState()
+    {
+        long ts = Stopwatch.GetTimestamp();
+        if (ts - _lastTimeStamp >= Stopwatch.Frequency)
+        {
+            DownloadBytesInSecond = 0;
+        }
+    }
 
 
 
@@ -37,8 +53,6 @@ internal class InstallGameManager
 
 
     public event EventHandler<InstallGameStateModel> InstallTaskRemoved;
-
-
 
 
 
@@ -56,7 +70,6 @@ internal class InstallGameManager
             return false;
         }
     }
-
 
 
 
@@ -97,6 +110,7 @@ internal class InstallGameManager
 
         }
     }
+
 
 
     private void Model_InstallCanceled(object? sender, EventArgs e)
