@@ -77,6 +77,7 @@ public sealed partial class InstallGameController : UserControl
             {
                 _timer.Stop();
                 Button_Controller.Visibility = Visibility.Collapsed;
+                Flyout_InstallGame.Hide();
             }
         }
         finally
@@ -101,6 +102,26 @@ public sealed partial class InstallGameController : UserControl
         finally
         {
             _semaphoreSlim.Release();
+        }
+    }
+
+
+
+    private void Grid_ActionButtonOverlay_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Grid grid)
+        {
+            grid.Opacity = 1;
+        }
+    }
+
+
+
+    private void Grid_ActionButtonOverlay_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Grid grid)
+        {
+            grid.Opacity = 0;
         }
     }
 

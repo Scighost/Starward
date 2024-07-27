@@ -68,12 +68,10 @@ internal class InstallGameManager
         model.InstallFinished += Model_InstallFinished;
         model.InstallFailed -= Model_InstallFailed;
         model.InstallFailed += Model_InstallFailed;
+        model.InstallCanceled -= Model_InstallCanceled;
+        model.InstallCanceled += Model_InstallCanceled;
         InstallTaskAdded?.Invoke(this, model);
     }
-
-
-
-
 
 
 
@@ -85,6 +83,7 @@ internal class InstallGameManager
             _services.TryRemove(model.GameBiz, out _);
             model.InstallFinished -= Model_InstallFinished;
             model.InstallFailed -= Model_InstallFailed;
+            model.InstallCanceled -= Model_InstallCanceled;
             InstallTaskRemoved?.Invoke(this, model);
         }
     }
@@ -99,6 +98,20 @@ internal class InstallGameManager
         }
     }
 
+
+    private void Model_InstallCanceled(object? sender, EventArgs e)
+    {
+        if (sender is InstallGameStateModel model)
+        {
+            model.Service.Pause();
+            model.Service.ClearState();
+            _services.TryRemove(model.GameBiz, out _);
+            model.InstallFinished -= Model_InstallFinished;
+            model.InstallFailed -= Model_InstallFailed;
+            model.InstallCanceled -= Model_InstallCanceled;
+            InstallTaskRemoved?.Invoke(this, model);
+        }
+    }
 
 
 

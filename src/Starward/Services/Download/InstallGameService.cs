@@ -68,6 +68,9 @@ internal class InstallGameService
     public GameBiz CurrentGameBiz { get; protected set; }
 
 
+    public InstallGameTask InstallTask { get; protected set; }
+
+
     private InstallGameState _state;
     public InstallGameState State
     {
@@ -110,9 +113,6 @@ internal class InstallGameService
 
 
     protected string _installPath;
-
-
-    protected InstallGameTask _installTask;
 
 
     protected InstallGameState _pausedState;
@@ -249,7 +249,7 @@ internal class InstallGameService
         {
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Download);
         }
-        _installTask = InstallGameTask.Install;
+        InstallTask = InstallGameTask.Install;
         StartTask(InstallGameState.Download);
     }
 
@@ -273,7 +273,7 @@ internal class InstallGameService
         {
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Verify);
         }
-        _installTask = InstallGameTask.Repair;
+        InstallTask = InstallGameTask.Repair;
         StartTask(InstallGameState.Verify);
     }
 
@@ -298,7 +298,7 @@ internal class InstallGameService
             resource = _gamePackage.PreDownload.Major!;
         }
         await PrepareDownloadGamePackageResourceAsync(resource);
-        _installTask = InstallGameTask.Predownload;
+        InstallTask = InstallGameTask.Predownload;
         StartTask(InstallGameState.Download);
     }
 
@@ -323,7 +323,7 @@ internal class InstallGameService
         {
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Download);
         }
-        _installTask = InstallGameTask.Update;
+        InstallTask = InstallGameTask.Update;
         StartTask(InstallGameState.Download);
     }
 
@@ -673,15 +673,15 @@ internal class InstallGameService
     {
         try
         {
-            if (_installTask is InstallGameTask.Install or InstallGameTask.Update)
+            if (InstallTask is InstallGameTask.Install or InstallGameTask.Update)
             {
                 OnInstallOrUpdateTaskFinished();
             }
-            else if (_installTask is InstallGameTask.Repair)
+            else if (InstallTask is InstallGameTask.Repair)
             {
                 OnRepairTaskFinished();
             }
-            else if (_installTask is InstallGameTask.Predownload)
+            else if (InstallTask is InstallGameTask.Predownload)
             {
                 OnPredownloadTaskFinished();
             }
@@ -922,7 +922,6 @@ internal class InstallGameService
 
 
     #endregion
-
 
 
 

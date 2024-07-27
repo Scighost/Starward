@@ -150,7 +150,7 @@ public sealed partial class InstallGameDialog : ContentDialog
         try
         {
             _installGameService.Initialize(CurrentGameBiz, InstallationPath);
-            await _installGameService.StartRepairGameAsync();
+            await _installGameService.StartInstallGameAsync();
             InstallGameManager.Instance.AddInstallService(_installGameService);
             this.Hide();
         }

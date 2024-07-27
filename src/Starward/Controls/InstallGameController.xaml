@@ -21,13 +21,13 @@
         </Grid>
 
         <Button.Flyout>
-            <Flyout Placement="RightEdgeAlignedBottom">
+            <Flyout x:Name="Flyout_InstallGame" Placement="RightEdgeAlignedBottom">
                 <Flyout.FlyoutPresenterStyle>
                     <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                         <!--<Setter Property="MaxHeight" Value="758" />-->
                     </Style>
                 </Flyout.FlyoutPresenterStyle>
-                <Grid Width="240">
+                <Grid Width="320">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
@@ -36,16 +36,27 @@
                     <ItemsControl Grid.Row="1" ItemsSource="{x:Bind InstallServices}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Spacing="8" />
+                                <StackPanel Spacing="12" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Grid Height="44">
-                                    <Grid Width="44"
+                                <Grid Height="44"
+                                      ColumnSpacing="16"
+                                      RowSpacing="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.RowSpan="3"
+                                          Width="44"
                                           Height="44"
-                                          HorizontalAlignment="Left"
-                                          VerticalAlignment="Top"
                                           CornerRadius="8">
                                         <Image Width="44"
                                                Height="44"
@@ -59,10 +70,17 @@
                                     </Grid>
 
 
-                                    <ProgressBar MinHeight="4"
-                                                 Margin="56,0,0,0"
+                                    <TextBlock Grid.Column="1"
+                                               FontSize="14"
+                                               IsTextScaleFactorEnabled="False"
+                                               Text="{Binding StateText}" />
+
+                                    <ProgressBar Grid.Row="1"
+                                                 Grid.Column="1"
+                                                 MinHeight="4"
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Bottom"
+                                                 Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                                                  Value="{Binding Progress}">
                                         <ProgressBar.Resources>
                                             <x:Double x:Key="ProgressBarTrackHeight">4</x:Double>
@@ -70,31 +88,66 @@
                                         </ProgressBar.Resources>
                                     </ProgressBar>
 
-                                    <TextBlock Margin="56,0,0,0"
-                                               FontSize="12"
-                                               Text="{Binding StateText}" />
 
-                                    <TextBlock Margin="56,0,0,10"
-                                               VerticalAlignment="Bottom"
-                                               FontSize="12"
-                                               Text="{Binding ProgressText}" />
-
-                                    <StackPanel HorizontalAlignment="Right"
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal">
-                                        <Button Width="28"
-                                                Height="28"
-                                                Padding="0"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                Command="{Binding ActionButtonCommand}"
-                                                IsEnabled="{Binding IsActionButtonEnabled}"
-                                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                                            <FontIcon FontSize="16"
-                                                      Glyph="{Binding ButtonGlyph}"
-                                                      IsTextScaleFactorEnabled="False" />
-                                        </Button>
+                                    <StackPanel Grid.Row="2"
+                                                Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                Spacing="4">
+                                        <TextBlock FontSize="12"
+                                                   IsTextScaleFactorEnabled="False"
+                                                   Text="{Binding ProgressText}" />
+                                        <AppBarSeparator Padding="2" Visibility="{Binding SpeedText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                        <TextBlock FontSize="12"
+                                                   IsTextScaleFactorEnabled="False"
+                                                   Text="{Binding SpeedText}"
+                                                   Visibility="{Binding SpeedText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                        <AppBarSeparator Padding="2" Visibility="{Binding RemainingTimeText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                        <TextBlock FontSize="12"
+                                                   IsTextScaleFactorEnabled="False"
+                                                   Text="{Binding RemainingTimeText}"
+                                                   Visibility="{Binding RemainingTimeText, Converter={StaticResource ObjectToVisibilityConverter}}" />
                                     </StackPanel>
+
+                                    <Grid x:Name="Grid_ActionButtonOverlay"
+                                          Grid.RowSpan="3"
+                                          Grid.ColumnSpan="2"
+                                          Background="Transparent"
+                                          Opacity="0"
+                                          PointerEntered="Grid_ActionButtonOverlay_PointerEntered"
+                                          PointerExited="Grid_ActionButtonOverlay_PointerExited">
+                                        <Grid.OpacityTransition>
+                                            <ScalarTransition />
+                                        </Grid.OpacityTransition>
+                                        <StackPanel Margin="0,-6,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Orientation="Horizontal"
+                                                    Spacing="4">
+                                            <Button Width="28"
+                                                    Height="28"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch"
+                                                    Command="{Binding ContinueOrPauseCommand}"
+                                                    IsEnabled="{Binding IsContinueOrPauseButtonEnabled}"
+                                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                                <FontIcon FontSize="14"
+                                                          Glyph="{Binding ButtonGlyph}"
+                                                          IsTextScaleFactorEnabled="False" />
+                                            </Button>
+                                            <Button Width="28"
+                                                    Height="28"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch"
+                                                    Command="{Binding CancelCommand}"
+                                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                                <FontIcon FontSize="14"
+                                                          Glyph="&#xE711;"
+                                                          IsTextScaleFactorEnabled="False" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
 
                                 </Grid>
                             </DataTemplate>
