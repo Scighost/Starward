@@ -69,11 +69,30 @@ public sealed partial class InstallGameDialog : ContentDialog
         try
         {
             _installGameService = InstallGameService.FromGameBiz(CurrentGameBiz);
-            UnzipSpaceBytes = await _installGameService.GetGamePackageDecompressedSizeAsync(CurrentGameBiz);
+            string? path = AppConfig.DefaultGameInstallationPath;
+            if (Directory.Exists(path))
+            {
+                string folder = Path.Combine(path, CurrentGameBiz.ToString());
+                InstallationPath = folder;
+                if (CanCreateDirectory(folder))
+                {
+                    await ChangeInstallationPathInternalAsync(folder);
+                }
+                else
+                {
+                    Button_Installation.IsEnabled = false;
+                    StackPanel_FreeSpace.Visibility = Visibility.Collapsed;
+                    TextBlock_NoPermission.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                UnzipSpaceBytes = await _installGameService.GetGamePackageDecompressedSizeAsync(CurrentGameBiz);
+            }
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Initialize install game dialog {biz}.", CurrentGameBiz);
         }
     }
 
@@ -88,6 +107,21 @@ public sealed partial class InstallGameDialog : ContentDialog
 
 
 
+    private bool CanCreateDirectory(string path)
+    {
+        try
+        {
+            Directory.CreateDirectory(path);
+            return true;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return false;
+        }
+    }
+
+
+
     [RelayCommand]
     private async Task ChangeInstallationPathAsync()
     {
@@ -97,11 +131,14 @@ public sealed partial class InstallGameDialog : ContentDialog
 
 
 
-    private async Task ChangeInstallationPathInternalAsync()
+    private async Task ChangeInstallationPathInternalAsync(string? path = null)
     {
         try
         {
-            var path = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
+            if (!Directory.Exists(path))
+            {
+                path = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
+            }
             if (Directory.Exists(path))
             {
                 TextBlock_InstallationPath.FontSize = 14;
@@ -109,7 +146,7 @@ public sealed partial class InstallGameDialog : ContentDialog
                 if (_installGameService.CheckAccessPermission(path))
                 {
                     StackPanel_FreeSpace.Visibility = Visibility.Visible;
-                    StackPanel_NoPermission.Visibility = Visibility.Collapsed;
+                    TextBlock_NoPermission.Visibility = Visibility.Collapsed;
 
                     AvailableSpaceBytes = new DriveInfo(path).AvailableFreeSpace;
                     UnzipSpaceBytes = await _installGameService.GetGamePackageDecompressedSizeAsync(CurrentGameBiz);
@@ -130,7 +167,7 @@ public sealed partial class InstallGameDialog : ContentDialog
                 {
                     Button_Installation.IsEnabled = false;
                     StackPanel_FreeSpace.Visibility = Visibility.Collapsed;
-                    StackPanel_NoPermission.Visibility = Visibility.Visible;
+                    TextBlock_NoPermission.Visibility = Visibility.Visible;
                 }
             }
         }

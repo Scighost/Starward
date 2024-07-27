@@ -496,6 +496,21 @@ internal static class AppConfig
     }
 
 
+    public static string? DefaultGameInstallationPath
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
+    public static int SpeedLimitKBPerSecond
+    {
+        get => GetValue(0);
+        set => SetValue(value);
+    }
+    
+
+
 
     #endregion
 

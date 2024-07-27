@@ -105,25 +105,20 @@
 
 
         <!--  No Permission  -->
-        <StackPanel x:Name="StackPanel_NoPermission"
-                    Grid.Row="2"
-                    Margin="0,8,0,0"
-                    Orientation="Horizontal"
-                    Visibility="Collapsed">
-            <TextBlock FontSize="14"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       IsTextScaleFactorEnabled="False"
-                       Text="No write permission, please restart as administrator." />
-            <TextBlock Margin="6,0,0,0"
-                       FontSize="14"
-                       IsTextScaleFactorEnabled="False">
-                <Hyperlink x:Name="Hyperlink_Restart"
-                           Click="Hyperlink_Restart_Click"
-                           UnderlineStyle="None">
-                    <Run Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="Restart" />
-                </Hyperlink>
-            </TextBlock>
-        </StackPanel>
+        <TextBlock x:Name="TextBlock_NoPermission"
+                   Grid.Row="2"
+                   Margin="0,8,0,0"
+                   FontSize="14"
+                   IsTextScaleFactorEnabled="False"
+                   Visibility="Collapsed">
+            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="No write permission, please restart as administrator." />
+            <Run Text="" />
+            <Hyperlink x:Name="Hyperlink_Restart"
+                       Click="Hyperlink_Restart_Click"
+                       UnderlineStyle="None">
+                <Run Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="Click to Restart" />
+            </Hyperlink>
+        </TextBlock>
 
 
 

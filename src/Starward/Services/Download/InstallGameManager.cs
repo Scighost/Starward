@@ -17,6 +17,8 @@ internal class InstallGameManager
     private InstallGameManager()
     {
         _services = new();
+        long speed = AppConfig.SpeedLimitKBPerSecond * 1024;
+        SpeedLimitBytesPerSecond = speed == 0 ? long.MaxValue : speed;
     }
 
 
@@ -28,7 +30,7 @@ internal class InstallGameManager
     public static long DownloadBytesInSecond;
 
 
-    public static long SpeedLimitBytesPerSecond { get; set; } = long.MaxValue;
+    public static long SpeedLimitBytesPerSecond { get; set; }
 
 
     public static bool IsExceedSpeedLimit => Interlocked.Read(ref DownloadBytesInSecond) >= SpeedLimitBytesPerSecond;
