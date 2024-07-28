@@ -1431,10 +1431,10 @@
     <value>エキスパート挑戦の回数</value>
   </data>
   <data name="InstallGameDialog_SelectInstallationPath" xml:space="preserve">
-    <value>Select Installation Path</value>
+    <value>インストール先のパス</value>
   </data>
   <data name="Common_Change" xml:space="preserve">
-    <value>Change</value>
+    <value>変更</value>
   </data>
   <data name="InstallGameDialog_SpaceRequiredToUnzip" xml:space="preserve">
     <value>Space Required to Unzip</value>
@@ -1446,10 +1446,10 @@
     <value>No write permission, please restart as administrator.</value>
   </data>
   <data name="InstallGameDialog_ClickToRestart" xml:space="preserve">
-    <value>Click to Restart</value>
+    <value>クリックで再起動</value>
   </data>
   <data name="InstallGameDialog_DesktopShortcut" xml:space="preserve">
-    <value>Desktop Shortcut</value>
+    <value>デスクトップのショートカット</value>
   </data>
   <data name="InstallGameDialog_Installed" xml:space="preserve">
     <value>Installed?</value>
@@ -1458,7 +1458,7 @@
     <value>Locate Game</value>
   </data>
   <data name="InstallGameDialog_StartInstallation" xml:space="preserve">
-    <value>Start Installation</value>
+    <value>インストール開始</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPath" xml:space="preserve">
     <value>Default Game Installation Path</value>
@@ -1488,9 +1488,9 @@
     <value>No Write Permission</value>
   </data>
   <data name="Common_Restart" xml:space="preserve">
-    <value>Restart</value>
+    <value>再起動</value>
   </data>
   <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
-    <value>Please restart as administrator.</value>
+    <value>管理者権限で起動してください。</value>
   </data>
 </root>
