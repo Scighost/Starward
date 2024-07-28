@@ -1437,13 +1437,13 @@
     <value>変更</value>
   </data>
   <data name="InstallGameDialog_SpaceRequiredToUnzip" xml:space="preserve">
-    <value>Space Required to Unzip</value>
+    <value>解凍に必要な容量</value>
   </data>
   <data name="InstallGameDialog_SpaceAvailable" xml:space="preserve">
-    <value>Space Available</value>
+    <value>空き容量</value>
   </data>
   <data name="InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator" xml:space="preserve">
-    <value>No write permission, please restart as administrator.</value>
+    <value>書き込み権限がありません。管理者権限で再起動してください。</value>
   </data>
   <data name="InstallGameDialog_ClickToRestart" xml:space="preserve">
     <value>クリックで再起動</value>
@@ -1452,45 +1452,45 @@
     <value>デスクトップのショートカット</value>
   </data>
   <data name="InstallGameDialog_Installed" xml:space="preserve">
-    <value>Installed?</value>
+    <value>インストール済みですか?</value>
   </data>
   <data name="InstallGameDialog_LocateGame" xml:space="preserve">
-    <value>Locate Game</value>
+    <value>ゲームのインストール先</value>
   </data>
   <data name="InstallGameDialog_StartInstallation" xml:space="preserve">
     <value>インストール開始</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPath" xml:space="preserve">
-    <value>Default Game Installation Path</value>
+    <value>既定のインストール先のパス</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPathDescription" xml:space="preserve">
-    <value>The games will be installed in different subfolders, changing the default path will not move the installed game files.</value>
+    <value>ゲームは別のサブフォルダーにインストールされます。既定のパスを変更してもインストールされたゲームファイルは移動されません。</value>
   </data>
   <data name="DownloadSettingPage_SpeedLimit" xml:space="preserve">
-    <value>Speed Limit</value>
+    <value>速度制限</value>
   </data>
   <data name="DownloadSettingPage_TheNumber0MeansNoSpeedLimit" xml:space="preserve">
-    <value>The number 0 means no speed limit.</value>
+    <value>0は速度制限をしません。</value>
   </data>
   <data name="SettingPage_Download" xml:space="preserve">
-    <value>Download</value>
+    <value>ダウンロード</value>
   </data>
   <data name="DownloadGamePage_Paused" xml:space="preserve">
-    <value>Paused</value>
+    <value>一時停止</value>
   </data>
   <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
-    <value>Download task completed</value>
+    <value>ダウンロードタスクが完了しました</value>
   </data>
   <data name="InstallGameManager_DownloadTaskFailed" xml:space="preserve">
-    <value>Download task failed</value>
+    <value>ダウンロードタスクが失敗しました</value>
   </data>
   <data name="GameLauncherPage_NoWritePermission" xml:space="preserve">
-    <value>No Write Permission</value>
+    <value>書き込み権限がありません</value>
   </data>
   <data name="Common_Restart" xml:space="preserve">
     <value>再起動</value>
   </data>
   <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
-    <value>管理者権限で起動してください。</value>
+    <value>管理者権限で再起動してください。</value>
   </data>
 </root>
