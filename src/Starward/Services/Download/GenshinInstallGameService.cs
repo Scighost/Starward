@@ -44,7 +44,7 @@ internal class GenshinInstallGameService : InstallGameService
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Verify);
         }
         await MoveAudioAssetsFromPersistentToStreamAssetsAsync();
-        _installTask = InstallGameTask.Repair;
+        InstallTask = InstallGameTask.Repair;
         StartTask(InstallGameState.Verify);
     }
 
@@ -69,7 +69,7 @@ internal class GenshinInstallGameService : InstallGameService
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Download);
         }
         await MoveAudioAssetsFromPersistentToStreamAssetsAsync();
-        _installTask = InstallGameTask.Update;
+        InstallTask = InstallGameTask.Update;
         StartTask(InstallGameState.Download);
     }
 

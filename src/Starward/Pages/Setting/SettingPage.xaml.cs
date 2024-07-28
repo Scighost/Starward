@@ -100,6 +100,7 @@ public sealed partial class SettingPage : PageBase
                     {
                         nameof(AboutSettingPage) => typeof(AboutSettingPage),
                         nameof(AppearanceSettingPage) => typeof(AppearanceSettingPage),
+                        nameof(DownloadSettingPage) => typeof(DownloadSettingPage),
                         nameof(ExperienceSettingPage) => typeof(ExperienceSettingPage),
                         nameof(FileSettingPage) => typeof(FileSettingPage),
                         nameof(AdvancedSettingPage) => typeof(AdvancedSettingPage),

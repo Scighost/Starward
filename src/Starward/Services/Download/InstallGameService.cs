@@ -5,6 +5,7 @@ using Starward.Services.InstallGame;
 using Starward.Services.Launcher;
 using Starward.SevenZip;
 using System;
+using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -52,8 +53,23 @@ internal class InstallGameService
 
 
 
+    public static InstallGameService FromGameBiz(GameBiz gameBiz)
+    {
+        return gameBiz.ToGame() switch
+        {
+            GameBiz.GenshinImpact => AppConfig.GetService<GenshinInstallGameService>(),
+            GameBiz.StarRail or GameBiz.Honkai3rd or GameBiz.ZZZ => AppConfig.GetService<InstallGameService>(),
+            _ => throw new ArgumentOutOfRangeException(nameof(gameBiz), $"Game ({gameBiz}) is not supported."),
+        };
+    }
+
+
+
 
     public GameBiz CurrentGameBiz { get; protected set; }
+
+
+    public InstallGameTask InstallTask { get; protected set; }
 
 
     private InstallGameState _state;
@@ -68,17 +84,21 @@ internal class InstallGameService
     }
 
 
-    public EventHandler<InstallGameState> StateChanged;
+    public event EventHandler<InstallGameState> StateChanged;
 
 
-    public EventHandler<Exception> InstallFailed;
+    public event EventHandler<Exception> InstallFailed;
 
 
     protected void OnInstallFailed(Exception ex)
     {
-        _pausedState = State;
-        State = InstallGameState.Error;
-        InstallFailed?.Invoke(this, ex);
+        if (State != InstallGameState.Error)
+        {
+            _pausedState = State;
+            State = InstallGameState.Error;
+            _cancellationTokenSource?.Cancel();
+            InstallFailed?.Invoke(this, ex);
+        }
     }
 
 
@@ -95,9 +115,6 @@ internal class InstallGameService
 
 
     protected string _installPath;
-
-
-    protected InstallGameTask _installTask;
 
 
     protected InstallGameState _pausedState;
@@ -140,21 +157,87 @@ internal class InstallGameService
 
 
 
-    public void Initialize(GameBiz gameBiz, string installPath)
+
+
+    public bool CheckAccessPermission(string installPath)
+    {
+        try
+        {
+            var temp = Path.Combine(installPath, Random.Shared.Next(1000_0000, int.MaxValue).ToString());
+            File.Create(temp).Dispose();
+            File.Delete(temp);
+            return true;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return false;
+        }
+    }
+
+
+
+
+
+    public async Task<long> GetGamePackageDecompressedSizeAsync(GameBiz gameBiz, string? installPath = null)
+    {
+        long size = 0;
+        string lang = "";
+        var package = await _packageService.GetGamePackageAsync(gameBiz);
+        size += package.Main.Major!.GamePackages.Sum(x => x.DecompressedSize);
+        if (!string.IsNullOrWhiteSpace(installPath))
+        {
+            var sb = new StringBuilder();
+            var config = await _hoYoPlayService.GetGameConfigAsync(CurrentGameBiz);
+            if (!string.IsNullOrWhiteSpace(config?.AudioPackageScanDir))
+            {
+                string file = Path.Join(installPath, config.AudioPackageScanDir);
+                if (File.Exists(file))
+                {
+                    var lines = await File.ReadAllLinesAsync(file);
+                    if (lines.Any(x => x.Contains("Chinese"))) { sb.Append("zh-cn"); }
+                    if (lines.Any(x => x.Contains("English(US)"))) { sb.Append("en-us"); }
+                    if (lines.Any(x => x.Contains("Japanese"))) { sb.Append("ja-jp"); }
+                    if (lines.Any(x => x.Contains("Korean"))) { sb.Append("ko-kr"); }
+                }
+            }
+            lang = sb.ToString();
+        }
+        if (string.IsNullOrWhiteSpace(lang))
+        {
+            lang = LanguageUtil.FilterLanguage(CultureInfo.CurrentUICulture.Name);
+        }
+        foreach (var item in package.Main.Major.AudioPackages ?? [])
+        {
+            if (!string.IsNullOrWhiteSpace(item.Language) && lang.Contains(item.Language))
+            {
+                size += item.DecompressedSize;
+            }
+        }
+        return size;
+    }
+
+
+
+
+
+    public async Task InitializeAsync(GameBiz gameBiz, string installPath)
     {
         if (gameBiz.ToGame() is GameBiz.None)
         {
             throw new ArgumentOutOfRangeException(nameof(gameBiz), gameBiz, $"GameBiz ({gameBiz}) is invalid.");
         }
-        Directory.CreateDirectory(installPath);
-        var temp = Path.Combine(installPath, Random.Shared.Next(1000_0000, int.MaxValue).ToString());
-        File.Create(temp).Dispose();
-        File.Delete(temp);
-        var files = Directory.GetFiles(installPath, "*", SearchOption.AllDirectories);
-        foreach (var file in files)
+        await Task.Run(() =>
         {
-            File.SetAttributes(file, FileAttributes.Normal);
-        }
+            Directory.CreateDirectory(installPath);
+            var temp = Path.Combine(installPath, Random.Shared.Next(1000_0000, int.MaxValue).ToString());
+            File.Create(temp).Dispose();
+            File.Delete(temp);
+            var files = Directory.GetFiles(installPath, "*", SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+            }
+        });
         CurrentGameBiz = gameBiz;
         _installPath = installPath;
         _initialized = true;
@@ -171,7 +254,7 @@ internal class InstallGameService
         {
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Download);
         }
-        _installTask = InstallGameTask.Install;
+        InstallTask = InstallGameTask.Install;
         StartTask(InstallGameState.Download);
     }
 
@@ -195,7 +278,7 @@ internal class InstallGameService
         {
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Verify);
         }
-        _installTask = InstallGameTask.Repair;
+        InstallTask = InstallGameTask.Repair;
         StartTask(InstallGameState.Verify);
     }
 
@@ -220,7 +303,7 @@ internal class InstallGameService
             resource = _gamePackage.PreDownload.Major!;
         }
         await PrepareDownloadGamePackageResourceAsync(resource);
-        _installTask = InstallGameTask.Predownload;
+        InstallTask = InstallGameTask.Predownload;
         StartTask(InstallGameState.Download);
     }
 
@@ -245,7 +328,7 @@ internal class InstallGameService
         {
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Download);
         }
-        _installTask = InstallGameTask.Update;
+        InstallTask = InstallGameTask.Update;
         StartTask(InstallGameState.Download);
     }
 
@@ -422,7 +505,10 @@ internal class InstallGameService
     {
         try
         {
-            Debug.WriteLine("Continue");
+            if (State != InstallGameState.None && State != InstallGameState.Error && State != InstallGameState.Finish)
+            {
+                return;
+            }
             StartTask(_pausedState);
         }
         catch (Exception ex)
@@ -438,7 +524,10 @@ internal class InstallGameService
     {
         try
         {
-            Debug.WriteLine("Pause");
+            if (State is InstallGameState.None)
+            {
+                return;
+            }
             _pausedState = State;
             State = InstallGameState.None;
             _cancellationTokenSource?.Cancel();
@@ -484,10 +573,54 @@ internal class InstallGameService
     {
         if (state is InstallGameState.Download)
         {
-            _totalCount = _installItemQueue.Count;
+            _totalCount = 0;
             _finishCount = 0;
-            _totalBytes = _installItemQueue.Sum(x => x.Size);
-            _finishBytes = _installItemQueue.Sum(GetFileLength);
+            _totalBytes = 0;
+            _finishBytes = 0;
+            foreach (var item in _gamePackageItems ?? [])
+            {
+                _totalCount++;
+                _totalBytes += item.Size;
+                long length = GetFileLength(item);
+                _finishBytes += length;
+                if (length == item.Size)
+                {
+                    _finishCount++;
+                }
+            }
+            foreach (var item in _audioPackageItems ?? [])
+            {
+                _totalCount++;
+                _totalBytes += item.Size;
+                long length = GetFileLength(item);
+                _finishBytes += length;
+                if (length == item.Size)
+                {
+                    _finishCount++;
+                }
+            }
+            foreach (var item in _gameFileItems ?? [])
+            {
+                _totalCount++;
+                _totalBytes += item.Size;
+                long length = GetFileLength(item);
+                _finishBytes += length;
+                if (length == item.Size)
+                {
+                    _finishCount++;
+                }
+            }
+            if (_gameSDKItem is not null)
+            {
+                _totalCount++;
+                _totalBytes += _gameSDKItem.Size;
+                long length = GetFileLength(_gameSDKItem);
+                _finishBytes += length;
+                if (length == _gameSDKItem.Size)
+                {
+                    _finishCount++;
+                }
+            }
         }
         else if (state is InstallGameState.Verify)
         {
@@ -545,15 +678,15 @@ internal class InstallGameService
     {
         try
         {
-            if (_installTask is InstallGameTask.Install or InstallGameTask.Update)
+            if (InstallTask is InstallGameTask.Install or InstallGameTask.Update)
             {
                 OnInstallOrUpdateTaskFinished();
             }
-            else if (_installTask is InstallGameTask.Repair)
+            else if (InstallTask is InstallGameTask.Repair)
             {
                 OnRepairTaskFinished();
             }
-            else if (_installTask is InstallGameTask.Predownload)
+            else if (InstallTask is InstallGameTask.Predownload)
             {
                 OnPredownloadTaskFinished();
             }
@@ -767,7 +900,7 @@ internal class InstallGameService
         }
         else if (CurrentGameBiz.IsGlobalOfficial())
         {
-            cps = "hoyoverse";
+            cps = "hyp_hoyoverse";
         }
         string config = $"""
             [General]
@@ -786,15 +919,17 @@ internal class InstallGameService
 
     protected void Finish()
     {
-        State = InstallGameState.Finish;
-        StateChanged?.Invoke(this, InstallGameState.Finish);
+        if (State != InstallGameState.Finish)
+        {
+            State = InstallGameState.Finish;
+            StateChanged?.Invoke(this, InstallGameState.Finish);
+        }
     }
 
 
 
 
     #endregion
-
 
 
 
@@ -837,6 +972,10 @@ internal class InstallGameService
 
 
 
+    private static SemaphoreSlim _verifyGlobalSemaphore = new SemaphoreSlim(Environment.ProcessorCount);
+
+
+    private SemaphoreSlim _decompressSemaphore = new SemaphoreSlim(1);
 
 
 
@@ -874,7 +1013,7 @@ internal class InstallGameService
                             break;
                     }
                 }
-                catch (Exception ex) when (ex is HttpRequestException or SocketException or HttpIOException or IOException { Message: "Received an unexpected EOF or 0 bytes from the transport stream." })
+                catch (Exception ex) when (ex is HttpRequestException or SocketException or HttpIOException or IOException { InnerException: SocketException } or IOException { Message: "Received an unexpected EOF or 0 bytes from the transport stream." })
                 {
                     // network error
                     _installItemQueue.Enqueue(item);
@@ -925,24 +1064,35 @@ internal class InstallGameService
         {
             file_target = item.WriteAsTempFile ? file_tmp : file;
         }
-        using var fs = File.Open(file_target, FileMode.OpenOrCreate);
-        if (fs.Length < item.Size)
+        var buffer = ArrayPool<byte>.Shared.Rent(BUFFER_SIZE);
+        try
         {
-            _logger.LogInformation("Download: FileName {name}, Url {url}", item.FileName, item.Url);
-            fs.Position = fs.Length;
-            var request = new HttpRequestMessage(HttpMethod.Get, item.Url) { Version = HttpVersion.Version11 };
-            request.Headers.Range = new RangeHeaderValue(fs.Length, null);
-            using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
-            using var hs = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-            var buffer = new byte[BUFFER_SIZE];
-            int length;
-            while ((length = await hs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
+            using var fs = File.Open(file_target, FileMode.OpenOrCreate);
+            if (fs.Length < item.Size)
             {
-                await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken).ConfigureAwait(false);
-                Interlocked.Add(ref _finishBytes, length);
+                fs.Position = fs.Length;
+                var request = new HttpRequestMessage(HttpMethod.Get, item.Url) { Version = HttpVersion.Version11 };
+                request.Headers.Range = new RangeHeaderValue(fs.Length, null);
+                using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+                using var hs = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+                int length;
+                while ((length = await hs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
+                {
+                    await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken).ConfigureAwait(false);
+                    Interlocked.Add(ref _finishBytes, length);
+                    Interlocked.Add(ref InstallGameManager.DownloadBytesInSecond, length);
+                    if (InstallGameManager.IsExceedSpeedLimit)
+                    {
+                        long t = Stopwatch.GetTimestamp() / (Stopwatch.Frequency / 1000) % 1000;
+                        await Task.Delay((int)(1000 - t), cancellationToken);
+                    }
+                }
             }
-            _logger.LogInformation("Download Successfully: FileName {name}", item.FileName);
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(buffer);
         }
     }
 
@@ -969,36 +1119,45 @@ internal class InstallGameService
             _verifyFailedItems.Enqueue(item);
             return;
         }
-        using var fs = File.OpenRead(file_target);
-        if (fs.Length != item.Size)
+        var buffer = ArrayPool<byte>.Shared.Rent(BUFFER_SIZE);
+        try
         {
-            fs.Dispose();
-            File.Delete(file_target);
-            _verifyFailedItems.Enqueue(item);
-            return;
-        }
-        int length = 0;
-        var hashProvider = MD5.Create();
-        var buffer = new byte[BUFFER_SIZE];
-        while ((length = await fs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
-        {
-            hashProvider.TransformBlock(buffer, 0, length, buffer, 0);
-            Interlocked.Add(ref _finishBytes, length);
-        }
-        hashProvider.TransformFinalBlock(buffer, 0, length);
-        var hash = hashProvider.Hash;
-        fs.Dispose();
-        if (string.Equals(Convert.ToHexString(hash!), item.MD5, StringComparison.OrdinalIgnoreCase))
-        {
-            if (file_target.EndsWith("_tmp", StringComparison.OrdinalIgnoreCase))
+            await _verifyGlobalSemaphore.WaitAsync(cancellationToken);
+            using var fs = File.OpenRead(file_target);
+            if (fs.Length != item.Size)
             {
-                File.Move(file_target, file, true);
+                fs.Dispose();
+                File.Delete(file_target);
+                _verifyFailedItems.Enqueue(item);
+                return;
+            }
+            int length = 0;
+            var hashProvider = MD5.Create();
+            while ((length = await fs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
+            {
+                hashProvider.TransformBlock(buffer, 0, length, buffer, 0);
+                Interlocked.Add(ref _finishBytes, length);
+            }
+            hashProvider.TransformFinalBlock(buffer, 0, length);
+            var hash = hashProvider.Hash;
+            fs.Dispose();
+            if (string.Equals(Convert.ToHexString(hash!), item.MD5, StringComparison.OrdinalIgnoreCase))
+            {
+                if (file_target.EndsWith("_tmp", StringComparison.OrdinalIgnoreCase))
+                {
+                    File.Move(file_target, file, true);
+                }
+            }
+            else
+            {
+                File.Delete(file_target);
+                _verifyFailedItems.Enqueue(item);
             }
         }
-        else
+        finally
         {
-            File.Delete(file_target);
-            _verifyFailedItems.Enqueue(item);
+            ArrayPool<byte>.Shared.Return(buffer);
+            _verifyGlobalSemaphore.Release();
         }
     }
 
@@ -1008,54 +1167,63 @@ internal class InstallGameService
 
     protected async Task DecompressItemAsync(InstallGameItem item, CancellationToken cancellationToken = default)
     {
-        using var fs = new FileSliceStream(item.PackageFiles);
-        if (item.PackageFiles[0].Contains(".7z", StringComparison.CurrentCultureIgnoreCase))
+        try
         {
-            await Task.Run(() =>
+            await _decompressSemaphore.WaitAsync();
+            using var fs = new FileSliceStream(item.PackageFiles);
+            if (item.PackageFiles[0].Contains(".7z", StringComparison.CurrentCultureIgnoreCase))
             {
-                using var extra = new ArchiveFile(fs);
-                double ratio = (double)fs.Length / extra.Entries.Sum(x => (long)x.Size);
-                long sum = 0;
-                extra.ExtractProgress += (_, e) =>
+                await Task.Run(() =>
                 {
-                    long size = (long)(e.Read * ratio);
-                    _finishBytes += size;
-                    sum += size;
-                };
-                extra.Extract(item.TargetPath, true);
-                _finishBytes += fs.Length - sum;
-            }).ConfigureAwait(false);
-        }
-        else
-        {
-            await Task.Run(async () =>
+                    using var extra = new ArchiveFile(fs);
+                    double ratio = (double)fs.Length / extra.Entries.Sum(x => (long)x.Size);
+                    long sum = 0;
+                    extra.ExtractProgress += (_, e) =>
+                    {
+                        long size = (long)(e.Read * ratio);
+                        _finishBytes += size;
+                        sum += size;
+                    };
+                    extra.Extract(item.TargetPath, true);
+                    _finishBytes += fs.Length - sum;
+                }).ConfigureAwait(false);
+            }
+            else
             {
-                long sum = 0;
-                using var zip = new ZipArchive(fs, ZipArchiveMode.Read, true);
-                foreach (var entry in zip.Entries)
+                await Task.Run(async () =>
                 {
-                    if ((entry.ExternalAttributes & 0x10) > 0)
+                    long sum = 0;
+                    using var zip = new ZipArchive(fs, ZipArchiveMode.Read, true);
+                    foreach (var entry in zip.Entries)
                     {
-                        var target = Path.Combine(item.TargetPath, entry.FullName);
-                        Directory.CreateDirectory(target);
+                        if ((entry.ExternalAttributes & 0x10) > 0)
+                        {
+                            var target = Path.Combine(item.TargetPath, entry.FullName);
+                            Directory.CreateDirectory(target);
+                        }
+                        else
+                        {
+                            var target = Path.Combine(item.TargetPath, entry.FullName);
+                            Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                            entry.ExtractToFile(target, true);
+                            _finishBytes += entry.CompressedLength;
+                            sum += entry.CompressedLength;
+                        }
                     }
-                    else
-                    {
-                        var target = Path.Combine(item.TargetPath, entry.FullName);
-                        Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-                        entry.ExtractToFile(target, true);
-                        _finishBytes += entry.CompressedLength;
-                        sum += entry.CompressedLength;
-                    }
-                }
-                _finishBytes += fs.Length - sum;
-                await ApplyDiffFilesAsync(item.TargetPath);
-            }).ConfigureAwait(false);
+                    _finishBytes += fs.Length - sum;
+                    await ApplyDiffFilesAsync(item.TargetPath);
+                }).ConfigureAwait(false);
+            }
+            fs.Dispose();
+            foreach (var file in item.PackageFiles)
+            {
+                File.Delete(file);
+            }
         }
-        fs.Dispose();
-        foreach (var file in item.PackageFiles)
+        finally
         {
-            File.Delete(file);
+            _decompressSemaphore.Release();
+
         }
     }
 
@@ -1065,6 +1233,7 @@ internal class InstallGameService
 
     protected async Task ApplyDiffFilesAsync(string installPath)
     {
+
         var delete = Path.Combine(installPath, "deletefiles.txt");
         if (File.Exists(delete))
         {

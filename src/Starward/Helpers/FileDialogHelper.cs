@@ -181,8 +181,9 @@ internal static class FileDialogHelper
         {
             var picker = new FolderPicker
             {
-                SuggestedStartLocation = PickerLocationId.ComputerFolder
+                SuggestedStartLocation = PickerLocationId.ComputerFolder,
             };
+            picker.FileTypeFilter.Add("*");
             InitializeWithWindow.Initialize(picker, parentWindow);
             var file = await picker.PickSingleFolderAsync();
             return file?.Path;

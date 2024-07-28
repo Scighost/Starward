@@ -162,11 +162,18 @@
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 
+            <NavigationView.PaneFooter>
+                <sc:InstallGameController Width="48"
+                                          Height="40"
+                                          Margin="4,0,4,0" />
+            </NavigationView.PaneFooter>
+
             <NavigationView.FooterMenuItems>
                 <!--  小提示  -->
                 <NavigationViewItem Name="NavigationViewItem_Tips"
                                     Tag="Tips"
-                                    ToolTipService.ToolTip="{x:Bind lang:Lang.MainPage_Tips}">
+                                    ToolTipService.ToolTip="{x:Bind lang:Lang.MainPage_Tips}"
+                                    Visibility="Collapsed">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE82F;" />
                     </NavigationViewItem.Icon>
@@ -190,6 +197,8 @@
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
+
+
 
             <Grid Name="Grid_FrameContent" Margin="0,48,0,0">
                 <ProgressBar Name="ProgressBar_LoadBackground"
