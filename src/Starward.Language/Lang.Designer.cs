@@ -287,6 +287,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Change 的本地化字符串。
+        /// </summary>
+        public static string Common_Change {
+            get {
+                return ResourceManager.GetString("Common_Change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Confirm 的本地化字符串。
         /// </summary>
         public static string Common_Confirm {
@@ -382,6 +391,15 @@ namespace Starward.Language {
         public static string Common_Reject {
             get {
                 return ResourceManager.GetString("Common_Reject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Restart 的本地化字符串。
+        /// </summary>
+        public static string Common_Restart {
+            get {
+                return ResourceManager.GetString("Common_Restart", resourceCulture);
             }
         }
         
@@ -684,6 +702,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Paused 的本地化字符串。
+        /// </summary>
+        public static string DownloadGamePage_Paused {
+            get {
+                return ResourceManager.GetString("DownloadGamePage_Paused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please start as administrator 的本地化字符串。
         /// </summary>
         public static string DownloadGamePage_PleaseStartAsAdministrator {
@@ -869,6 +896,42 @@ namespace Starward.Language {
         public static string DownloadGameService_TooManyRetries {
             get {
                 return ResourceManager.GetString("DownloadGameService_TooManyRetries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Default Game Installation Path 的本地化字符串。
+        /// </summary>
+        public static string DownloadSettingPage_DefaultGameInstallationPath {
+            get {
+                return ResourceManager.GetString("DownloadSettingPage_DefaultGameInstallationPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The games will be installed in different subfolders, changing the default path will not move the installed game files. 的本地化字符串。
+        /// </summary>
+        public static string DownloadSettingPage_DefaultGameInstallationPathDescription {
+            get {
+                return ResourceManager.GetString("DownloadSettingPage_DefaultGameInstallationPathDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Speed Limit 的本地化字符串。
+        /// </summary>
+        public static string DownloadSettingPage_SpeedLimit {
+            get {
+                return ResourceManager.GetString("DownloadSettingPage_SpeedLimit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The number 0 means no speed limit. 的本地化字符串。
+        /// </summary>
+        public static string DownloadSettingPage_TheNumber0MeansNoSpeedLimit {
+            get {
+                return ResourceManager.GetString("DownloadSettingPage_TheNumber0MeansNoSpeedLimit", resourceCulture);
             }
         }
         
@@ -1431,6 +1494,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 No Write Permission 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_NoWritePermission {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_NoWritePermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please restart as administrator. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_PleaseRestartAsAdministrator {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_PleaseRestartAsAdministrator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Diff Packages 的本地化字符串。
         /// </summary>
         public static string GameResourcePage_DiffPackages {
@@ -1987,6 +2068,105 @@ namespace Starward.Language {
         public static string ImageViewPage_ZoomOut {
             get {
                 return ResourceManager.GetString("ImageViewPage_ZoomOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Click to Restart 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_ClickToRestart {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_ClickToRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Desktop Shortcut 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_DesktopShortcut {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_DesktopShortcut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Installed? 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_Installed {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_Installed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Locate Game 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_LocateGame {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_LocateGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No write permission, please restart as administrator. 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select Installation Path 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_SelectInstallationPath {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_SelectInstallationPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Space Available 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_SpaceAvailable {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_SpaceAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Space Required to Unzip 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_SpaceRequiredToUnzip {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_SpaceRequiredToUnzip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start Installation 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_StartInstallation {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_StartInstallation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download task completed 的本地化字符串。
+        /// </summary>
+        public static string InstallGameManager_DownloadTaskCompleted {
+            get {
+                return ResourceManager.GetString("InstallGameManager_DownloadTaskCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download task failed 的本地化字符串。
+        /// </summary>
+        public static string InstallGameManager_DownloadTaskFailed {
+            get {
+                return ResourceManager.GetString("InstallGameManager_DownloadTaskFailed", resourceCulture);
             }
         }
         
@@ -2989,6 +3169,15 @@ namespace Starward.Language {
         public static string SettingPage_Donate {
             get {
                 return ResourceManager.GetString("SettingPage_Donate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_Download {
+            get {
+                return ResourceManager.GetString("SettingPage_Download", resourceCulture);
             }
         }
         

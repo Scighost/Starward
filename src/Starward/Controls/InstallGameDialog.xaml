@@ -3,6 +3,7 @@
                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:lang="using:Starward.Language"
                xmlns:local="using:Starward.Controls"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                x:DefaultBindMode="OneWay"
@@ -33,7 +34,7 @@
         <TextBlock FontSize="18"
                    FontWeight="Bold"
                    IsTextScaleFactorEnabled="False"
-                   Text="Select Installation Path" />
+                   Text="{x:Bind lang:Lang.InstallGameDialog_SelectInstallationPath}" />
 
 
 
@@ -71,7 +72,7 @@
                 <TextBlock FontSize="14"
                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                            IsTextScaleFactorEnabled="False"
-                           Text="Change" />
+                           Text="{x:Bind lang:Lang.Common_Change}" />
             </Button>
         </Grid>
 
@@ -87,7 +88,7 @@
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False"
                        Text="">
-                <Run Text="Space Required to Unzip" />
+                <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceRequiredToUnzip}" />
                 <Run Text="" />
                 <Run Text="{x:Bind UnzipSpaceText}" />
             </TextBlock>
@@ -96,7 +97,7 @@
                        FontSize="14"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False">
-                <Run Text="Space Available" />
+                <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceAvailable}" />
                 <Run Text="" />
                 <Run Text="{x:Bind AvailableSpaceText}" />
             </TextBlock>
@@ -111,12 +112,12 @@
                    FontSize="14"
                    IsTextScaleFactorEnabled="False"
                    Visibility="Collapsed">
-            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="No write permission, please restart as administrator." />
+            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator}" />
             <Run Text="" />
             <Hyperlink x:Name="Hyperlink_Restart"
                        Click="Hyperlink_Restart_Click"
                        UnderlineStyle="None">
-                <Run Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="Click to Restart" />
+                <Run Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_ClickToRestart}" />
             </Hyperlink>
         </TextBlock>
 
@@ -125,7 +126,8 @@
         <!--  Shortcut  -->
         <StackPanel Grid.Row="3"
                     Margin="0,12,0,0"
-                    Orientation="Horizontal">
+                    Orientation="Horizontal"
+                    Visibility="Collapsed">
             <CheckBox Padding="8,0,0,0" VerticalContentAlignment="Center">
                 <CheckBox.Resources>
                     <x:Double x:Key="CheckBoxSize">16</x:Double>
@@ -133,7 +135,7 @@
                 <TextBlock FontSize="14"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            IsTextScaleFactorEnabled="False"
-                           Text="Desktop Shortcut" />
+                           Text="{x:Bind lang:Lang.InstallGameDialog_DesktopShortcut}" />
             </CheckBox>
         </StackPanel>
 
@@ -149,7 +151,7 @@
                        FontSize="14"
                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                        IsTextScaleFactorEnabled="False"
-                       Text="Installed?" />
+                       Text="{x:Bind lang:Lang.InstallGameDialog_Installed}" />
             <TextBlock Margin="6,0,0,0"
                        VerticalAlignment="Center"
                        IsTextScaleFactorEnabled="False">
@@ -158,13 +160,13 @@
                            UnderlineStyle="None">
                     <Run FontSize="14"
                          Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                         Text="Locate Game" />
+                         Text="{x:Bind lang:Lang.InstallGameDialog_LocateGame}" />
                 </Hyperlink>
             </TextBlock>
             <Button x:Name="Button_Installation"
                     Margin="16,0,0,0"
                     Command="{x:Bind StartInstallationCommand}"
-                    Content="Start Installation"
+                    Content="{x:Bind lang:Lang.InstallGameDialog_StartInstallation}"
                     FontSize="14"
                     FontWeight="SemiBold"
                     IsEnabled="False"

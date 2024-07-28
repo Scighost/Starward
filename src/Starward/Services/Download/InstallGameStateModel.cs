@@ -129,7 +129,7 @@ public partial class InstallGameStateModel : ObservableObject
             switch (Service.State)
             {
                 case InstallGameState.None:
-                    StateText = "Paused";
+                    StateText = Lang.DownloadGamePage_Paused;
                     ButtonGlyph = PlayGlyph;
                     break;
                 case InstallGameState.Download:

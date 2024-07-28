@@ -52,7 +52,7 @@
                         <FontIcon Glyph="&#xEC7A;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Download" Tag="DownloadSettingPage">
+                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_Download}" Tag="DownloadSettingPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEBD3;" />
                     </NavigationViewItem.Icon>

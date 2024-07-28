@@ -17,10 +17,10 @@
             <!--  default install path  -->
             <TextBlock FontSize="20"
                        FontWeight="SemiBold"
-                       Text="Default Game Installation Path" />
+                       Text="{x:Bind lang:Lang.DownloadSettingPage_DefaultGameInstallationPath}" />
             <TextBlock Margin="0,12,0,0"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="The games will be installed in different subfolders, changing the default path will not move the installed game files."
+                       Text="{x:Bind lang:Lang.DownloadSettingPage_DefaultGameInstallationPathDescription}"
                        TextWrapping="Wrap" />
             <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
                 <!--  locate folder  -->
@@ -69,15 +69,16 @@
             </StackPanel>
 
 
+            <Button Width="0" Height="0" />
 
             <!--  speed limit  -->
             <TextBlock Margin="0,20,0,0"
                        FontSize="20"
                        FontWeight="SemiBold"
-                       Text="Speed Limit" />
+                       Text="{x:Bind lang:Lang.DownloadSettingPage_SpeedLimit}" />
             <TextBlock Margin="0,12,0,0"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="The number 0 means no speed limit."
+                       Text="{x:Bind lang:Lang.DownloadSettingPage_TheNumber0MeansNoSpeedLimit}"
                        TextWrapping="Wrap" />
             <StackPanel Margin="0,12,0,0"
                         Orientation="Horizontal"

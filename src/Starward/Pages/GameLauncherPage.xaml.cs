@@ -255,6 +255,7 @@ public sealed partial class GameLauncherPage : PageBase
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsStartGameButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsInstallGameButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsUpdateGameButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsPreInstallButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsRepairGameButtonEnable))]
@@ -737,10 +738,10 @@ public sealed partial class GameLauncherPage : PageBase
                 catch (UnauthorizedAccessException) { }
                 var dialog = new ContentDialog
                 {
-                    Title = "No Write Permission",
-                    Content = "",
-                    PrimaryButtonText = "Restart",
-                    CloseButtonText = "Cacnel",
+                    Title = Lang.GameLauncherPage_NoWritePermission,
+                    Content = Lang.GameLauncherPage_PleaseRestartAsAdministrator,
+                    PrimaryButtonText = Lang.Common_Restart,
+                    CloseButtonText = Lang.Common_Cancel,
                     DefaultButton = ContentDialogButton.Primary,
                     XamlRoot = this.XamlRoot,
                 };

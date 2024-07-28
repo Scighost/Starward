@@ -431,7 +431,8 @@
                         Command="{x:Bind DebugCommand}"
                         CornerRadius="8"
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                        ToolTipService.ToolTip="Test">
+                        ToolTipService.ToolTip="Test"
+                        Visibility="Collapsed">
                     <FontIcon FontSize="16"
                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                               Glyph="&#xEBE8;"
