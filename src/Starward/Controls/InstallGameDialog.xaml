@@ -91,7 +91,7 @@
                 <Run Text="" />
                 <Run Text="{x:Bind UnzipSpaceText}" />
             </TextBlock>
-            <AppBarSeparator Padding="2" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+            <AppBarSeparator Padding="2" />
             <TextBlock x:Name="TextBlock_AvailableSpace"
                        FontSize="14"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"

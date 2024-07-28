@@ -508,7 +508,7 @@ internal static class AppConfig
         get => GetValue(0);
         set => SetValue(value);
     }
-    
+
 
 
 

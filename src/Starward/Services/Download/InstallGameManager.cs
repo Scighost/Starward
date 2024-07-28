@@ -1,4 +1,7 @@
-﻿using Starward.Core;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Starward.Core;
+using Starward.Helpers;
+using Starward.Messages;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -100,16 +103,18 @@ internal class InstallGameManager
             model.InstallFailed -= Model_InstallFailed;
             model.InstallCanceled -= Model_InstallCanceled;
             InstallTaskRemoved?.Invoke(this, model);
+            WeakReferenceMessenger.Default.Send(new InstallGameFinishedMessage(model.GameBiz));
+            NotificationBehavior.Instance.Success($"Game ({model.GameBiz.ToGameName()} - {model.GameBiz.ToGameServer()}) installed successfully.", null, 0);
         }
     }
 
 
 
-    private void Model_InstallFailed(object? sender, EventArgs e)
+    private void Model_InstallFailed(object? sender, Exception e)
     {
         if (sender is InstallGameStateModel model)
         {
-
+            NotificationBehavior.Instance.Error(e, $"Game ({model.GameBiz.ToGameName()} - {model.GameBiz.ToGameServer()}) install failed.", 0);
         }
     }
 

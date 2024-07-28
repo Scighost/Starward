@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Starward.Core;
-using Starward.Helpers;
 using Starward.Models;
 using System;
 using System.Diagnostics;
@@ -51,10 +50,10 @@ public partial class InstallGameStateModel : ObservableObject
     public event EventHandler InstallFinished;
 
 
-    public event EventHandler InstallFailed;
-
-
     public event EventHandler InstallCanceled;
+
+
+    public event EventHandler<Exception> InstallFailed;
 
 
 
@@ -196,7 +195,6 @@ public partial class InstallGameStateModel : ObservableObject
                 case InstallGameState.Error:
                     StateText = Lang.DownloadGamePage_UnknownError;
                     ButtonGlyph = PlayGlyph;
-                    InstallFailed?.Invoke(this, EventArgs.Empty);
                     break;
                 default:
                     break;
@@ -261,8 +259,7 @@ public partial class InstallGameStateModel : ObservableObject
 
     private void Service_InstallFailed(object? sender, Exception e)
     {
-        NotificationBehavior.Instance.Error(e, $"Game ({GameBiz.ToGameName()} - {GameBiz.ToGameServer()}) install failed.", 0);
-
+        InstallFailed?.Invoke(this, e);
     }
 
 

@@ -5,6 +5,7 @@ using Starward.Services.InstallGame;
 using Starward.Services.Launcher;
 using Starward.SevenZip;
 using System;
+using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -95,8 +96,9 @@ internal class InstallGameService
         {
             _pausedState = State;
             State = InstallGameState.Error;
+            _cancellationTokenSource?.Cancel();
+            InstallFailed?.Invoke(this, ex);
         }
-        InstallFailed?.Invoke(this, ex);
     }
 
 
@@ -218,21 +220,24 @@ internal class InstallGameService
 
 
 
-    public void Initialize(GameBiz gameBiz, string installPath)
+    public async Task InitializeAsync(GameBiz gameBiz, string installPath)
     {
         if (gameBiz.ToGame() is GameBiz.None)
         {
             throw new ArgumentOutOfRangeException(nameof(gameBiz), gameBiz, $"GameBiz ({gameBiz}) is invalid.");
         }
-        Directory.CreateDirectory(installPath);
-        var temp = Path.Combine(installPath, Random.Shared.Next(1000_0000, int.MaxValue).ToString());
-        File.Create(temp).Dispose();
-        File.Delete(temp);
-        var files = Directory.GetFiles(installPath, "*", SearchOption.AllDirectories);
-        foreach (var file in files)
+        await Task.Run(() =>
         {
-            File.SetAttributes(file, FileAttributes.Normal);
-        }
+            Directory.CreateDirectory(installPath);
+            var temp = Path.Combine(installPath, Random.Shared.Next(1000_0000, int.MaxValue).ToString());
+            File.Create(temp).Dispose();
+            File.Delete(temp);
+            var files = Directory.GetFiles(installPath, "*", SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+            }
+        });
         CurrentGameBiz = gameBiz;
         _installPath = installPath;
         _initialized = true;
@@ -914,8 +919,11 @@ internal class InstallGameService
 
     protected void Finish()
     {
-        State = InstallGameState.Finish;
-        StateChanged?.Invoke(this, InstallGameState.Finish);
+        if (State != InstallGameState.Finish)
+        {
+            State = InstallGameState.Finish;
+            StateChanged?.Invoke(this, InstallGameState.Finish);
+        }
     }
 
 
@@ -1056,28 +1064,35 @@ internal class InstallGameService
         {
             file_target = item.WriteAsTempFile ? file_tmp : file;
         }
-        using var fs = File.Open(file_target, FileMode.OpenOrCreate);
-        if (fs.Length < item.Size)
+        var buffer = ArrayPool<byte>.Shared.Rent(BUFFER_SIZE);
+        try
         {
-            fs.Position = fs.Length;
-            var request = new HttpRequestMessage(HttpMethod.Get, item.Url) { Version = HttpVersion.Version11 };
-            request.Headers.Range = new RangeHeaderValue(fs.Length, null);
-            using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
-            using var hs = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-            var buffer = new byte[BUFFER_SIZE];
-            int length;
-            while ((length = await hs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
+            using var fs = File.Open(file_target, FileMode.OpenOrCreate);
+            if (fs.Length < item.Size)
             {
-                await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken).ConfigureAwait(false);
-                Interlocked.Add(ref _finishBytes, length);
-                Interlocked.Add(ref InstallGameManager.DownloadBytesInSecond, length);
-                if (InstallGameManager.IsExceedSpeedLimit)
+                fs.Position = fs.Length;
+                var request = new HttpRequestMessage(HttpMethod.Get, item.Url) { Version = HttpVersion.Version11 };
+                request.Headers.Range = new RangeHeaderValue(fs.Length, null);
+                using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+                using var hs = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+                int length;
+                while ((length = await hs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
                 {
-                    long t = Stopwatch.GetTimestamp() / (Stopwatch.Frequency / 1000) % 1000;
-                    await Task.Delay((int)(1000 - t), cancellationToken);
+                    await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken).ConfigureAwait(false);
+                    Interlocked.Add(ref _finishBytes, length);
+                    Interlocked.Add(ref InstallGameManager.DownloadBytesInSecond, length);
+                    if (InstallGameManager.IsExceedSpeedLimit)
+                    {
+                        long t = Stopwatch.GetTimestamp() / (Stopwatch.Frequency / 1000) % 1000;
+                        await Task.Delay((int)(1000 - t), cancellationToken);
+                    }
                 }
             }
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(buffer);
         }
     }
 
@@ -1104,6 +1119,7 @@ internal class InstallGameService
             _verifyFailedItems.Enqueue(item);
             return;
         }
+        var buffer = ArrayPool<byte>.Shared.Rent(BUFFER_SIZE);
         try
         {
             await _verifyGlobalSemaphore.WaitAsync(cancellationToken);
@@ -1117,7 +1133,6 @@ internal class InstallGameService
             }
             int length = 0;
             var hashProvider = MD5.Create();
-            var buffer = new byte[BUFFER_SIZE];
             while ((length = await fs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
             {
                 hashProvider.TransformBlock(buffer, 0, length, buffer, 0);
@@ -1139,12 +1154,9 @@ internal class InstallGameService
                 _verifyFailedItems.Enqueue(item);
             }
         }
-        catch
-        {
-            throw;
-        }
         finally
         {
+            ArrayPool<byte>.Shared.Return(buffer);
             _verifyGlobalSemaphore.Release();
         }
     }
@@ -1207,10 +1219,6 @@ internal class InstallGameService
             {
                 File.Delete(file);
             }
-        }
-        catch
-        {
-            throw;
         }
         finally
         {

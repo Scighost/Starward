@@ -69,25 +69,32 @@ public sealed partial class InstallGameDialog : ContentDialog
         try
         {
             _installGameService = InstallGameService.FromGameBiz(CurrentGameBiz);
-            string? path = AppConfig.DefaultGameInstallationPath;
-            if (Directory.Exists(path))
+            if (Directory.Exists(InstallationPath))
             {
-                string folder = Path.Combine(path, CurrentGameBiz.ToString());
-                InstallationPath = folder;
-                if (CanCreateDirectory(folder))
-                {
-                    await ChangeInstallationPathInternalAsync(folder);
-                }
-                else
-                {
-                    Button_Installation.IsEnabled = false;
-                    StackPanel_FreeSpace.Visibility = Visibility.Collapsed;
-                    TextBlock_NoPermission.Visibility = Visibility.Visible;
-                }
+                await ChangeInstallationPathInternalAsync(InstallationPath);
             }
             else
             {
-                UnzipSpaceBytes = await _installGameService.GetGamePackageDecompressedSizeAsync(CurrentGameBiz);
+                string? path = AppConfig.DefaultGameInstallationPath;
+                if (Directory.Exists(path))
+                {
+                    string folder = Path.Combine(path, CurrentGameBiz.ToString());
+                    InstallationPath = folder;
+                    if (CanCreateDirectory(folder))
+                    {
+                        await ChangeInstallationPathInternalAsync(folder);
+                    }
+                    else
+                    {
+                        Button_Installation.IsEnabled = false;
+                        StackPanel_FreeSpace.Visibility = Visibility.Collapsed;
+                        TextBlock_NoPermission.Visibility = Visibility.Visible;
+                    }
+                }
+                else
+                {
+                    UnzipSpaceBytes = await _installGameService.GetGamePackageDecompressedSizeAsync(CurrentGameBiz);
+                }
             }
         }
         catch (Exception ex)
@@ -186,14 +193,16 @@ public sealed partial class InstallGameDialog : ContentDialog
     {
         try
         {
-            _installGameService.Initialize(CurrentGameBiz, InstallationPath);
+            await _installGameService.InitializeAsync(CurrentGameBiz, InstallationPath);
             await _installGameService.StartInstallGameAsync();
             InstallGameManager.Instance.AddInstallService(_installGameService);
+            AppConfig.SetGameInstallPath(CurrentGameBiz, InstallationPath);
             this.Hide();
         }
         catch (Exception ex)
         {
-
+            NotificationBehavior.Instance.Error(ex, "Start installation failed.", 10000);
+            _logger.LogError(ex, "Start installation {biz} failed.", CurrentGameBiz);
         }
     }
 
@@ -235,7 +244,7 @@ public sealed partial class InstallGameDialog : ContentDialog
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "restart");
         }
     }
 
@@ -246,9 +255,21 @@ public sealed partial class InstallGameDialog : ContentDialog
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="args"></param>
-    private void Hyperlink_LocateGame_Click(Microsoft.UI.Xaml.Documents.Hyperlink sender, Microsoft.UI.Xaml.Documents.HyperlinkClickEventArgs args)
+    private async void Hyperlink_LocateGame_Click(Microsoft.UI.Xaml.Documents.Hyperlink sender, Microsoft.UI.Xaml.Documents.HyperlinkClickEventArgs args)
     {
-
+        try
+        {
+            var path = await FileDialogHelper.PickFolderAsync(MainWindow.Current.WindowHandle);
+            if (Directory.Exists(path))
+            {
+                AppConfig.SetGameInstallPath(CurrentGameBiz, path);
+                this.Hide();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Locate game");
+        }
     }
 
 

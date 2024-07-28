@@ -1,8 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Starward.Messages;
 using Starward.Services.Download;
 using System;
 using System.Collections.ObjectModel;
@@ -38,6 +40,12 @@ public sealed partial class InstallGameController : UserControl
         _timer = DispatcherQueue.CreateTimer();
         _timer.Interval = TimeSpan.FromSeconds(1);
         _timer.Tick += _timer_Tick;
+        WeakReferenceMessenger.Default.Register<ShowInstallGameControllerFlyoutMessage>(this, (_, _) =>
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            Button_Controller.Visibility = Visibility.Visible;
+            Flyout_InstallGame.ShowAt(Button_Controller);
+        }));
     }
 
 
@@ -54,18 +62,27 @@ public sealed partial class InstallGameController : UserControl
     private double _ProgressValue;
 
 
-    private void _installGameManager_InstallTaskAdded(object? sender, InstallGameStateModel e)
+    [ObservableProperty]
+    private bool _ProgressActive;
+
+
+    private async void _installGameManager_InstallTaskAdded(object? sender, InstallGameStateModel e)
     {
         try
         {
-            _semaphoreSlim.Wait();
+            await _semaphoreSlim.WaitAsync();
             _timer.Start();
             Button_Controller.Visibility = Visibility.Visible;
             if (!InstallServices.Contains(e))
             {
+                e.InstallFailed -= Model_InstallFailed;
+                e.InstallFailed += Model_InstallFailed;
                 InstallServices.Add(e);
+                UpdateSpeedState();
+                Flyout_InstallGame.ShowAt(Button_Controller);
             }
         }
+        catch { }
         finally
         {
             _semaphoreSlim.Release();
@@ -74,12 +91,13 @@ public sealed partial class InstallGameController : UserControl
 
 
 
-    private void _installGameManager_InstallTaskRemoved(object? sender, InstallGameStateModel e)
+    private async void _installGameManager_InstallTaskRemoved(object? sender, InstallGameStateModel e)
     {
         try
         {
-            _semaphoreSlim.Wait();
+            await _semaphoreSlim.WaitAsync();
             InstallServices.Remove(e);
+            e.InstallFailed -= Model_InstallFailed;
             if (InstallServices.Count == 0)
             {
                 _timer.Stop();
@@ -96,32 +114,12 @@ public sealed partial class InstallGameController : UserControl
 
 
 
-    private void _timer_Tick(DispatcherQueueTimer sender, object args)
+    private async void _timer_Tick(DispatcherQueueTimer sender, object args)
     {
         try
         {
-            _semaphoreSlim.Wait();
-            long totalBytes = 0;
-            long finishedBytes = 0;
-            _installGameManager.UpdateSpeedState();
-            foreach (var model in InstallServices)
-            {
-                model.UpdateState();
-                if (model.Service.State is InstallGameState.Download)
-                {
-                    totalBytes += model.Service.TotalBytes;
-                    finishedBytes += model.Service.FinishBytes;
-                }
-            }
-            if (totalBytes > 0)
-            {
-                ProgressIsIndeterminate = false;
-                ProgressValue = 100d * finishedBytes / totalBytes;
-            }
-            else
-            {
-                ProgressIsIndeterminate = true;
-            }
+            await _semaphoreSlim.WaitAsync();
+            UpdateSpeedState();
         }
         finally
         {
@@ -129,6 +127,51 @@ public sealed partial class InstallGameController : UserControl
         }
     }
 
+
+
+    private void UpdateSpeedState()
+    {
+        long totalBytes = 0;
+        long finishedBytes = 0;
+        bool determinate = false;
+        _installGameManager.UpdateSpeedState();
+        foreach (var model in InstallServices)
+        {
+            model.UpdateState();
+            if (model.Service.State is InstallGameState.Download)
+            {
+                totalBytes += model.Service.TotalBytes;
+                finishedBytes += model.Service.FinishBytes;
+            }
+            if (model.Service.State is not InstallGameState.Verify and not InstallGameState.Decompress and not InstallGameState.Clean)
+            {
+                determinate = true;
+            }
+        }
+        if (totalBytes > 0)
+        {
+            ProgressIsIndeterminate = false;
+            ProgressValue = 100d * finishedBytes / totalBytes;
+        }
+        else if (determinate)
+        {
+            ProgressIsIndeterminate = false;
+        }
+        else
+        {
+            ProgressIsIndeterminate = true;
+        }
+    }
+
+
+
+    private void Model_InstallFailed(object? sender, Exception e)
+    {
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            Image_Alert.Visibility = Visibility.Visible;
+        });
+    }
 
 
     private void Grid_ActionButtonOverlay_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -167,6 +210,7 @@ public sealed partial class InstallGameController : UserControl
     private void Flyout_InstallGame_Opened(object sender, object e)
     {
         _timer.Interval = TimeSpan.FromSeconds(0.1);
+        Image_Alert.Visibility = Visibility.Collapsed;
     }
 
 

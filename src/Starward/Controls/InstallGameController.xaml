@@ -12,6 +12,8 @@
             Padding="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
             Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
             Visibility="Collapsed">
         <Grid>
@@ -27,6 +29,14 @@
                     <x:Double x:Key="ProgressRingStrokeThickness">2</x:Double>
                 </ProgressRing.Resources>
             </ProgressRing>
+            <Image x:Name="Image_Alert"
+                   Width="24"
+                   Height="24"
+                   Margin="0,-4,-4,0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Source="ms-appx:///Assets/Image/alert.png"
+                   Visibility="Collapsed" />
         </Grid>
 
         <Button.Flyout>
@@ -91,7 +101,7 @@
                                                  HorizontalAlignment="Stretch"
                                                  VerticalAlignment="Bottom"
                                                  Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                                 Value="{Binding Progress}">
+                                                 Value="{Binding ProgressValue}">
                                         <ProgressBar.Resources>
                                             <x:Double x:Key="ProgressBarTrackHeight">4</x:Double>
                                             <CornerRadius x:Key="ProgressBarTrackCornerRadius">4</CornerRadius>

@@ -56,7 +56,7 @@
                                    TextWrapping="Wrap" />
                     </Button>
                     <Button Grid.Column="1"
-                            Height="36"
+                            Height="40"
                             BorderThickness="0"
                             Command="{x:Bind DeleteDefaultInstallPathCommand}"
                             CornerRadius="0">
