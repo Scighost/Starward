@@ -77,7 +77,8 @@ public class SelfQueryClient
             {
                 prefixUrl = "https://hk4e-api.mihoyo.com";
             }
-            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html"))
+            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html") 
+                || url.StartsWith("https://cs.hoyoverse.com/static/hoyoverse-new-csc-service-hall-fe/index.html"))
             {
                 prefixUrl = "https://public-operation-hk4e-sg.hoyoverse.com";
             }
