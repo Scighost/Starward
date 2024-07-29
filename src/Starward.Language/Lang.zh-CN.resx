@@ -1494,4 +1494,19 @@
   <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
     <value>请以管理员身份重新启动</value>
   </data>
+  <data name="InstallGameDialog_SymbolicLink" xml:space="preserve">
+    <value>符号链接</value>
+  </data>
+  <data name="InstallGameDialog_SymbolicLinkDescription" xml:space="preserve">
+    <value>使用符号链接功能，占用极小的额外存储空间，以安装多个不同区服的游戏客户端。</value>
+  </data>
+  <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
+    <value>链接目标：</value>
+  </data>
+  <data name="GameLauncherPage_SymbolicLinkNotSupportPredownload" xml:space="preserve">
+    <value>当前区服不支持预下载，请在符号链接的目标区服完成预下载。</value>
+  </data>
+  <data name="GameLauncherPage_SymbolicLinkUpdateToLatest" xml:space="preserve">
+    <value>请把符号链接的目标区服更新到最新版本后，再更新本区服的游戏文件。</value>
+  </data>
 </root>

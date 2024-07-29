@@ -85,7 +85,7 @@
                     Margin="0,8,0,0"
                     Orientation="Horizontal"
                     Spacing="8">
-            <TextBlock FontSize="14"
+            <TextBlock FontSize="12"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False"
                        Text="">
@@ -95,7 +95,7 @@
             </TextBlock>
             <AppBarSeparator Padding="2" />
             <TextBlock x:Name="TextBlock_AvailableSpace"
-                       FontSize="14"
+                       FontSize="12"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False">
                 <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceAvailable}" />
@@ -110,7 +110,7 @@
         <TextBlock x:Name="TextBlock_NoPermission"
                    Grid.Row="2"
                    Margin="0,8,0,0"
-                   FontSize="14"
+                   FontSize="12"
                    IsTextScaleFactorEnabled="False"
                    Visibility="Collapsed">
             <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator}" />
@@ -166,7 +166,7 @@
                    TextWrapping="Wrap"
                    Visibility="{x:Bind SymbolicLink, Converter={StaticResource BoolToVisibilityConverter}}">
             <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_SymbolicLinkDescription}" />
-            <Run Text="" />
+            <LineBreak />
             <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LinkTarget}" />
             <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind SymbolicLinkTargetText}" />
         </TextBlock>

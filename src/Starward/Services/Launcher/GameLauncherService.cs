@@ -190,33 +190,35 @@ internal class GameLauncherService
 
 
     /// <summary>
-    /// 符号链接路径
+    /// 符号链接信息
     /// </summary>
     /// <param name="gameBiz"></param>
     /// <returns></returns>
-    public async Task<string?> GetSymbolicLinkPathAsync(GameBiz gameBiz, string? installPath = null)
+    public async Task<(GameBiz, string?)> GetSymbolicLinkInfoAsync(GameBiz gameBiz, string? installPath = null)
     {
         installPath ??= GetGameInstallPath(gameBiz);
         if (gameBiz is GameBiz.hk4e_cloud)
         {
-            return null;
+            return (GameBiz.None, null);
         }
         else
         {
             if (string.IsNullOrWhiteSpace(installPath))
             {
-                return null;
+                return (GameBiz.None, null);
             }
             var config = Path.Join(installPath, "config.ini");
             if (File.Exists(config))
             {
                 var str = await File.ReadAllTextAsync(config);
-                return Regex.Match(str, @"symboliclink_path=(.+)").Groups[1].Value;
+                Enum.TryParse(Regex.Match(str, @"symboliclink_gamebiz=(.+)").Groups[1].Value, out GameBiz biz);
+                var path = Regex.Match(str, @"symboliclink_path=(.+)").Groups[1].Value;
+                return (biz, path);
             }
             else
             {
                 _logger.LogWarning("config.ini not found: {path}", config);
-                return null;
+                return (GameBiz.None, null);
             }
         }
     }

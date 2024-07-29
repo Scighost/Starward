@@ -121,6 +121,9 @@ internal class InstallGameService
     protected string? _symbolicLinkPath;
 
 
+    protected GameBiz _symbolicLinkGameBiz;
+
+
     protected InstallGameState _pausedState;
 
 
@@ -348,6 +351,7 @@ internal class InstallGameService
             throw new DirectoryNotFoundException($"Cannot find installation path of game ({linkGameBiz}).");
         }
         _symbolicLinkPath = linkInstallPath;
+        _symbolicLinkGameBiz = linkGameBiz;
         var prefix = _gamePackage.Main.Major!.ResListUrl;
         var linkPrefix = linkPackage.Main.Major!.ResListUrl;
         if (string.IsNullOrWhiteSpace(prefix))
@@ -1022,6 +1026,7 @@ internal class InstallGameService
         {
             config = $"""
                 {config}
+                symboliclink_gamebiz={_symbolicLinkGameBiz}
                 symboliclink_path={_symbolicLinkPath}
                 """;
         }

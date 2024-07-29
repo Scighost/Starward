@@ -1512,6 +1512,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 The current server does not support pre-download. Please complete pre-download in the target server of the symbolic link. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_SymbolicLinkNotSupportPredownload {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_SymbolicLinkNotSupportPredownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please update the target server of the symbolic link to the latest version before updating the game files in this server. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_SymbolicLinkUpdateToLatest {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_SymbolicLinkUpdateToLatest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Diff Packages 的本地化字符串。
         /// </summary>
         public static string GameResourcePage_DiffPackages {

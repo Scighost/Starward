@@ -159,7 +159,7 @@ public sealed partial class InstallGameDialog : ContentDialog
                         var path = _gameLauncherService.GetGameInstallPath(biz);
                         var version = await _gameLauncherService.GetLocalGameVersionAsync(biz, path);
                         var exe = _gameLauncherService.IsGameExeExists(biz, path);
-                        var link = await _gameLauncherService.GetSymbolicLinkPathAsync(biz, path);
+                        (_, var link) = await _gameLauncherService.GetSymbolicLinkInfoAsync(biz, path);
                         if (path != null && version != null && exe && string.IsNullOrWhiteSpace(link))
                         {
                             SymbolicLinkTarget = biz;

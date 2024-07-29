@@ -10,7 +10,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Vanara.PInvoke;
 
 namespace Starward.Services.Download;
 
@@ -86,6 +85,7 @@ internal class GenshinInstallGameService : InstallGameService
             throw new DirectoryNotFoundException($"Cannot find installation path of game ({linkGameBiz}).");
         }
         _symbolicLinkPath = linkInstallPath;
+        _symbolicLinkGameBiz = linkGameBiz;
         var prefix = _gamePackage.Main.Major!.ResListUrl;
         var linkPrefix = linkPackage.Main.Major!.ResListUrl;
         if (string.IsNullOrWhiteSpace(prefix))
