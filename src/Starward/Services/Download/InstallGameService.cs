@@ -58,7 +58,8 @@ internal class InstallGameService
         return gameBiz.ToGame() switch
         {
             GameBiz.GenshinImpact => AppConfig.GetService<GenshinInstallGameService>(),
-            GameBiz.StarRail or GameBiz.Honkai3rd or GameBiz.ZZZ => AppConfig.GetService<InstallGameService>(),
+            GameBiz.StarRail => AppConfig.GetService<StarRailInstallGameService>(),
+            GameBiz.Honkai3rd or GameBiz.ZZZ => AppConfig.GetService<InstallGameService>(),
             _ => throw new ArgumentOutOfRangeException(nameof(gameBiz), $"Game ({gameBiz}) is not supported."),
         };
     }
@@ -115,6 +116,9 @@ internal class InstallGameService
 
 
     protected string _installPath;
+
+
+    protected string? _symbolicLinkPath;
 
 
     protected InstallGameState _pausedState;
@@ -334,6 +338,51 @@ internal class InstallGameService
 
 
 
+    public virtual async Task StartSymbolicLinkAsync(GameBiz linkGameBiz, CancellationToken cancellationToken = default)
+    {
+        _gamePackage = await _packageService.GetGamePackageAsync(CurrentGameBiz);
+        var linkPackage = await _packageService.GetGamePackageAsync(linkGameBiz);
+        string? linkInstallPath = _launcherService.GetGameInstallPath(linkGameBiz);
+        if (!Directory.Exists(linkInstallPath))
+        {
+            throw new DirectoryNotFoundException($"Cannot find installation path of game ({linkGameBiz}).");
+        }
+        _symbolicLinkPath = linkInstallPath;
+        var prefix = _gamePackage.Main.Major!.ResListUrl;
+        var linkPrefix = linkPackage.Main.Major!.ResListUrl;
+        if (string.IsNullOrWhiteSpace(prefix))
+        {
+            throw new NotSupportedException($"Sybolic linking game ({CurrentGameBiz}) is not supported.");
+        }
+        _gameFileItems = await GetPkgVersionsAsync(prefix, "pkg_version");
+        var linkGameFilesItem = await GetPkgVersionsAsync(linkPrefix, "pkg_version");
+        var same = _gameFileItems.IntersectBy(linkGameFilesItem.Select(x => (x.Path, x.MD5)), x => (x.Path, x.MD5)).ToList();
+        var diff = _gameFileItems.ExceptBy(linkGameFilesItem.Select(x => (x.Path, x.MD5)), x => (x.Path, x.MD5)).ToList();
+        foreach (var item in same)
+        {
+            item.Type = InstallGameItemType.Symbol;
+            item.SymbolSource = Path.Combine(linkInstallPath, Path.GetRelativePath(_installPath, item.Path));
+            if (item.FileName == _launcherService.GetGameExeName(CurrentGameBiz))
+            {
+                item.Type = InstallGameItemType.Verify;
+            }
+            _installItemQueue.Enqueue(item);
+        }
+        foreach (var item in diff)
+        {
+            item.Type = InstallGameItemType.Verify;
+            _installItemQueue.Enqueue(item);
+        }
+        if (CurrentGameBiz.IsBilibili())
+        {
+            await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Verify);
+        }
+        InstallTask = InstallGameTask.Symbol;
+        StartTask(InstallGameState.Verify);
+    }
+
+
+
     protected async Task PrepareDownloadGamePackageResourceAsync(GamePackageResource resource)
     {
         _gamePackageItems = new List<InstallGameItem>();
@@ -373,7 +422,7 @@ internal class InstallGameService
                 Size = _channelSDK.ChannelSDKPackage.Size,
                 DecompressedSize = _channelSDK.ChannelSDKPackage.DecompressedSize,
                 Url = _channelSDK.ChannelSDKPackage.Url,
-                WriteAsTempFile = true,
+                WriteAsTempFile = false,
             };
             _installItemQueue.Enqueue(_gameSDKItem);
         }
@@ -573,52 +622,62 @@ internal class InstallGameService
     {
         if (state is InstallGameState.Download)
         {
-            _totalCount = 0;
-            _finishCount = 0;
-            _totalBytes = 0;
-            _finishBytes = 0;
-            foreach (var item in _gamePackageItems ?? [])
+            if (InstallTask is InstallGameTask.Symbol)
             {
-                _totalCount++;
-                _totalBytes += item.Size;
-                long length = GetFileLength(item);
-                _finishBytes += length;
-                if (length == item.Size)
-                {
-                    _finishCount++;
-                }
+                _totalCount = _installItemQueue.Count;
+                _finishCount = 0;
+                _totalBytes = _installItemQueue.Sum(x => x.Size);
+                _finishBytes = 0;
             }
-            foreach (var item in _audioPackageItems ?? [])
+            else
             {
-                _totalCount++;
-                _totalBytes += item.Size;
-                long length = GetFileLength(item);
-                _finishBytes += length;
-                if (length == item.Size)
+                _totalCount = 0;
+                _finishCount = 0;
+                _totalBytes = 0;
+                _finishBytes = 0;
+                foreach (var item in _gamePackageItems ?? [])
                 {
-                    _finishCount++;
+                    _totalCount++;
+                    _totalBytes += item.Size;
+                    long length = GetFileLength(item);
+                    _finishBytes += length;
+                    if (length == item.Size)
+                    {
+                        _finishCount++;
+                    }
                 }
-            }
-            foreach (var item in _gameFileItems ?? [])
-            {
-                _totalCount++;
-                _totalBytes += item.Size;
-                long length = GetFileLength(item);
-                _finishBytes += length;
-                if (length == item.Size)
+                foreach (var item in _audioPackageItems ?? [])
                 {
-                    _finishCount++;
+                    _totalCount++;
+                    _totalBytes += item.Size;
+                    long length = GetFileLength(item);
+                    _finishBytes += length;
+                    if (length == item.Size)
+                    {
+                        _finishCount++;
+                    }
                 }
-            }
-            if (_gameSDKItem is not null)
-            {
-                _totalCount++;
-                _totalBytes += _gameSDKItem.Size;
-                long length = GetFileLength(_gameSDKItem);
-                _finishBytes += length;
-                if (length == _gameSDKItem.Size)
+                foreach (var item in _gameFileItems ?? [])
                 {
-                    _finishCount++;
+                    _totalCount++;
+                    _totalBytes += item.Size;
+                    long length = GetFileLength(item);
+                    _finishBytes += length;
+                    if (length == item.Size)
+                    {
+                        _finishCount++;
+                    }
+                }
+                if (_gameSDKItem is not null)
+                {
+                    _totalCount++;
+                    _totalBytes += _gameSDKItem.Size;
+                    long length = GetFileLength(_gameSDKItem);
+                    _finishBytes += length;
+                    if (length == _gameSDKItem.Size)
+                    {
+                        _finishCount++;
+                    }
                 }
             }
         }
@@ -690,6 +749,10 @@ internal class InstallGameService
             {
                 OnPredownloadTaskFinished();
             }
+            else if (InstallTask is InstallGameTask.Symbol)
+            {
+                OnSymbolTaskFinished();
+            }
         }
         catch (Exception ex)
         {
@@ -746,8 +809,8 @@ internal class InstallGameService
                 if (_gameSDKItem is not null)
                 {
                     _gameSDKItem.Type = InstallGameItemType.Decompress;
-                    _gameSDKItem.PackageFiles = [_gameSDKItem.Path];
-                    _gameSDKItem.TargetPath = _installPath;
+                    _gameSDKItem.DecompressPackageFiles = [_gameSDKItem.Path];
+                    _gameSDKItem.DecompressPath = _installPath;
                     _installItemQueue.Enqueue(_gameSDKItem);
                 }
                 StartTask(InstallGameState.Decompress);
@@ -758,8 +821,8 @@ internal class InstallGameService
             if (_gameSDKItem is not null)
             {
                 _gameSDKItem.Type = InstallGameItemType.Decompress;
-                _gameSDKItem.PackageFiles = [_gameSDKItem.Path];
-                _gameSDKItem.TargetPath = _installPath;
+                _gameSDKItem.DecompressPackageFiles = [_gameSDKItem.Path];
+                _gameSDKItem.DecompressPath = _installPath;
                 _installItemQueue.Enqueue(_gameSDKItem);
             }
             StartTask(InstallGameState.Decompress);
@@ -793,6 +856,50 @@ internal class InstallGameService
             {
                 Finish();
             }
+        }
+    }
+
+
+
+    protected void OnSymbolTaskFinished()
+    {
+        // verify -> download -> decompress (SDK) -> clean
+        if (State is InstallGameState.Verify)
+        {
+            if (!_verifyFailedItems.IsEmpty)
+            {
+                FromVerifyToDownload();
+            }
+            else
+            {
+                if (_gameSDKItem is not null)
+                {
+                    _gameSDKItem.Type = InstallGameItemType.Decompress;
+                    _gameSDKItem.DecompressPackageFiles = [_gameSDKItem.Path];
+                    _gameSDKItem.DecompressPath = _installPath;
+                    _installItemQueue.Enqueue(_gameSDKItem);
+                }
+                StartTask(InstallGameState.Decompress);
+            }
+        }
+        else if (State is InstallGameState.Download)
+        {
+            if (_gameSDKItem is not null)
+            {
+                _gameSDKItem.Type = InstallGameItemType.Decompress;
+                _gameSDKItem.DecompressPackageFiles = [_gameSDKItem.Path];
+                _gameSDKItem.DecompressPath = _installPath;
+                _installItemQueue.Enqueue(_gameSDKItem);
+            }
+            StartTask(InstallGameState.Decompress);
+        }
+        else if (State is InstallGameState.Decompress)
+        {
+            _ = CleanGameDeprecatedFilesAsync();
+        }
+        else if (State is InstallGameState.Clean)
+        {
+            Finish();
         }
     }
 
@@ -837,8 +944,8 @@ internal class InstallGameService
         var game = new InstallGameItem
         {
             Type = InstallGameItemType.Decompress,
-            TargetPath = _installPath,
-            PackageFiles = _gamePackageItems.Select(x => x.Path).ToList(),
+            DecompressPath = _installPath,
+            DecompressPackageFiles = _gamePackageItems.Select(x => x.Path).ToList(),
             Size = _gamePackageItems.Sum(x => x.Size),
             DecompressedSize = _gamePackageItems.Sum(x => x.DecompressedSize),
         };
@@ -846,15 +953,15 @@ internal class InstallGameService
         foreach (var item in _audioPackageItems)
         {
             item.Type = InstallGameItemType.Decompress;
-            item.PackageFiles = [item.Path];
-            item.TargetPath = _installPath;
+            item.DecompressPackageFiles = [item.Path];
+            item.DecompressPath = _installPath;
             _installItemQueue.Enqueue(item);
         }
         if (_gameSDKItem is not null)
         {
             _gameSDKItem.Type = InstallGameItemType.Decompress;
-            _gameSDKItem.PackageFiles = [_gameSDKItem.Path];
-            _gameSDKItem.TargetPath = _installPath;
+            _gameSDKItem.DecompressPackageFiles = [_gameSDKItem.Path];
+            _gameSDKItem.DecompressPath = _installPath;
             _installItemQueue.Enqueue(_gameSDKItem);
         }
         StartTask(InstallGameState.Decompress);
@@ -911,6 +1018,13 @@ internal class InstallGameService
             sdk_version={sdk_version}
             game_biz={CurrentGameBiz}
             """;
+        if (!string.IsNullOrWhiteSpace(_symbolicLinkPath))
+        {
+            config = $"""
+                {config}
+                symboliclink_path={_symbolicLinkPath}
+                """;
+        }
         _logger.LogInformation("Write config.ini (game_version={version})", version);
         await File.WriteAllTextAsync(Path.Combine(_installPath, "config.ini"), config).ConfigureAwait(false);
     }
@@ -1007,6 +1121,10 @@ internal class InstallGameService
                             break;
                         case InstallGameItemType.Decompress:
                             await DecompressItemAsync(item, cancellationToken);
+                            Interlocked.Increment(ref _finishCount);
+                            break;
+                        case InstallGameItemType.Symbol:
+                            await SymbolItemAsync(item, cancellationToken);
                             Interlocked.Increment(ref _finishCount);
                             break;
                         default:
@@ -1170,8 +1288,8 @@ internal class InstallGameService
         try
         {
             await _decompressSemaphore.WaitAsync();
-            using var fs = new FileSliceStream(item.PackageFiles);
-            if (item.PackageFiles[0].Contains(".7z", StringComparison.CurrentCultureIgnoreCase))
+            using var fs = new FileSliceStream(item.DecompressPackageFiles);
+            if (item.DecompressPackageFiles[0].Contains(".7z", StringComparison.CurrentCultureIgnoreCase))
             {
                 await Task.Run(() =>
                 {
@@ -1184,7 +1302,7 @@ internal class InstallGameService
                         _finishBytes += size;
                         sum += size;
                     };
-                    extra.Extract(item.TargetPath, true);
+                    extra.Extract(item.DecompressPath, true);
                     _finishBytes += fs.Length - sum;
                 }).ConfigureAwait(false);
             }
@@ -1198,12 +1316,12 @@ internal class InstallGameService
                     {
                         if ((entry.ExternalAttributes & 0x10) > 0)
                         {
-                            var target = Path.Combine(item.TargetPath, entry.FullName);
+                            var target = Path.Combine(item.DecompressPath, entry.FullName);
                             Directory.CreateDirectory(target);
                         }
                         else
                         {
-                            var target = Path.Combine(item.TargetPath, entry.FullName);
+                            var target = Path.Combine(item.DecompressPath, entry.FullName);
                             Directory.CreateDirectory(Path.GetDirectoryName(target)!);
                             entry.ExtractToFile(target, true);
                             _finishBytes += entry.CompressedLength;
@@ -1211,11 +1329,11 @@ internal class InstallGameService
                         }
                     }
                     _finishBytes += fs.Length - sum;
-                    await ApplyDiffFilesAsync(item.TargetPath);
+                    await ApplyDiffFilesAsync(item.DecompressPath);
                 }).ConfigureAwait(false);
             }
             fs.Dispose();
-            foreach (var file in item.PackageFiles)
+            foreach (var file in item.DecompressPackageFiles)
             {
                 File.Delete(file);
             }
@@ -1280,6 +1398,78 @@ internal class InstallGameService
                 }
             }
             File.Delete(hdifffiles);
+        }
+    }
+
+
+
+
+    protected async Task SymbolItemAsync(InstallGameItem item, CancellationToken cancellationToken = default)
+    {
+        const int BUFFER_SIZE = 1 << 20;
+        string file_source = item.SymbolSource;
+        string file_target = item.Path;
+
+        if (item.SkipVerifyWhenSymbol)
+        {
+            if (File.Exists(file_source))
+            {
+                if (File.Exists(file_target))
+                {
+                    File.Delete(file_target);
+                }
+                Directory.CreateDirectory(Path.GetDirectoryName(file_target)!);
+                File.CreateSymbolicLink(file_target, file_source);
+            }
+            return;
+        }
+        else
+        {
+            if (!File.Exists(file_source))
+            {
+                _verifyFailedItems.Enqueue(item);
+                return;
+            }
+        }
+        var buffer = ArrayPool<byte>.Shared.Rent(BUFFER_SIZE);
+        try
+        {
+
+            await _verifyGlobalSemaphore.WaitAsync(cancellationToken);
+            using var fs = File.OpenRead(file_source);
+            if (fs.Length != item.Size)
+            {
+                _verifyFailedItems.Enqueue(item);
+                return;
+            }
+            int length = 0;
+            var hashProvider = MD5.Create();
+            while ((length = await fs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
+            {
+                hashProvider.TransformBlock(buffer, 0, length, buffer, 0);
+                Interlocked.Add(ref _finishBytes, length);
+            }
+            hashProvider.TransformFinalBlock(buffer, 0, length);
+            var hash = hashProvider.Hash;
+            fs.Dispose();
+            if (string.Equals(Convert.ToHexString(hash!), item.MD5, StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(file_target))
+                {
+                    File.Delete(file_target);
+                }
+                Directory.CreateDirectory(Path.GetDirectoryName(file_target)!);
+                File.CreateSymbolicLink(file_target, file_source);
+            }
+            else
+            {
+                _verifyFailedItems.Enqueue(item);
+            }
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(buffer);
+            _verifyGlobalSemaphore.Release();
         }
     }
 

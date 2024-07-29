@@ -7,9 +7,11 @@ using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Services.Download;
+using Starward.Services.Launcher;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -27,6 +29,7 @@ public sealed partial class InstallGameDialog : ContentDialog
 
     private readonly ILogger<InstallGameDialog> _logger = AppConfig.GetLogger<InstallGameDialog>();
 
+    private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
 
     private InstallGameService _installGameService;
 
@@ -47,6 +50,10 @@ public sealed partial class InstallGameDialog : ContentDialog
 
 
     [ObservableProperty]
+    public bool isSupportSymbolicLink;
+
+
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(UnzipSpaceText))]
     private long unzipSpaceBytes;
 
@@ -61,6 +68,39 @@ public sealed partial class InstallGameDialog : ContentDialog
 
 
 
+    [ObservableProperty]
+    private bool desktopShortcut;
+
+
+    [ObservableProperty]
+    private bool symbolicLink;
+    partial void OnSymbolicLinkChanged(bool value)
+    {
+        if (value && !IsAdmin())
+        {
+            Button_Installation.IsEnabled = false;
+            StackPanel_FreeSpace.Visibility = Visibility.Collapsed;
+            TextBlock_NoPermission.Visibility = Visibility.Visible;
+        }
+        else if (string.IsNullOrWhiteSpace(InstallationPath))
+        {
+            Button_Installation.IsEnabled = false;
+            StackPanel_FreeSpace.Visibility = Visibility.Visible;
+            TextBlock_NoPermission.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            _ = ChangeInstallationPathInternalAsync(InstallationPath);
+        }
+    }
+
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SymbolicLinkTargetText))]
+    private GameBiz symbolicLinkTarget;
+
+
+    public string SymbolicLinkTargetText => $"{SymbolicLinkTarget.ToGameName()} - {SymbolicLinkTarget.ToGameServer()}";
 
 
 
@@ -69,6 +109,7 @@ public sealed partial class InstallGameDialog : ContentDialog
         try
         {
             _installGameService = InstallGameService.FromGameBiz(CurrentGameBiz);
+            await InitializeSymbolicLinkAsync();
             if (Directory.Exists(InstallationPath))
             {
                 await ChangeInstallationPathInternalAsync(InstallationPath);
@@ -105,6 +146,37 @@ public sealed partial class InstallGameDialog : ContentDialog
 
 
 
+    private async Task InitializeSymbolicLinkAsync()
+    {
+        try
+        {
+            if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
+            {
+                foreach (var biz in Enum.GetValues<GameBiz>())
+                {
+                    if (biz.ToGame() == CurrentGameBiz.ToGame() && biz != CurrentGameBiz && biz != GameBiz.hk4e_cloud)
+                    {
+                        var path = _gameLauncherService.GetGameInstallPath(biz);
+                        var version = await _gameLauncherService.GetLocalGameVersionAsync(biz, path);
+                        var exe = _gameLauncherService.IsGameExeExists(biz, path);
+                        var link = await _gameLauncherService.GetSymbolicLinkPathAsync(biz, path);
+                        if (path != null && version != null && exe && string.IsNullOrWhiteSpace(link))
+                        {
+                            SymbolicLinkTarget = biz;
+                            IsSupportSymbolicLink = true;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Initialize symbolic link");
+        }
+    }
+
+
 
     private void ContentDialog_Unloaded(object sender, RoutedEventArgs e)
     {
@@ -125,6 +197,15 @@ public sealed partial class InstallGameDialog : ContentDialog
         {
             return false;
         }
+    }
+
+
+
+    private bool IsAdmin()
+    {
+        using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+        WindowsPrincipal principal = new WindowsPrincipal(identity);
+        return principal.IsInRole(WindowsBuiltInRole.Administrator);
     }
 
 
@@ -194,7 +275,14 @@ public sealed partial class InstallGameDialog : ContentDialog
         try
         {
             await _installGameService.InitializeAsync(CurrentGameBiz, InstallationPath);
-            await _installGameService.StartInstallGameAsync();
+            if (SymbolicLink)
+            {
+                await _installGameService.StartSymbolicLinkAsync(SymbolicLinkTarget);
+            }
+            else
+            {
+                await _installGameService.StartInstallGameAsync();
+            }
             InstallGameManager.Instance.AddInstallService(_installGameService);
             AppConfig.SetGameInstallPath(CurrentGameBiz, InstallationPath);
             this.Hide();

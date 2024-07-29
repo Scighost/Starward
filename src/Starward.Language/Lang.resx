@@ -1494,4 +1494,13 @@ Do you accept the risk and continue to use it?</value>
   <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
     <value>Please restart as administrator.</value>
   </data>
+  <data name="InstallGameDialog_SymbolicLink" xml:space="preserve">
+    <value>Symbolic Link</value>
+  </data>
+  <data name="InstallGameDialog_SymbolicLinkDescription" xml:space="preserve">
+    <value>Use the symbolic link to install game clients in different servers, taking up very little additional storage space.</value>
+  </data>
+  <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
+    <value>Link target:</value>
+  </data>
 </root>

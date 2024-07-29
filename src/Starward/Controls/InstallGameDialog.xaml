@@ -27,6 +27,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
 
@@ -123,12 +124,15 @@
 
 
 
-        <!--  Shortcut  -->
         <StackPanel Grid.Row="3"
                     Margin="0,12,0,0"
                     Orientation="Horizontal"
-                    Visibility="Collapsed">
-            <CheckBox Padding="8,0,0,0" VerticalContentAlignment="Center">
+                    Spacing="16">
+            <!--  Shortcut  -->
+            <CheckBox Padding="8,0,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{x:Bind DesktopShortcut, Mode=TwoWay}"
+                      Visibility="Collapsed">
                 <CheckBox.Resources>
                     <x:Double x:Key="CheckBoxSize">16</x:Double>
                 </CheckBox.Resources>
@@ -137,14 +141,41 @@
                            IsTextScaleFactorEnabled="False"
                            Text="{x:Bind lang:Lang.InstallGameDialog_DesktopShortcut}" />
             </CheckBox>
+            <!--  Symbolic Link  -->
+            <CheckBox Padding="8,0,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{x:Bind SymbolicLink, Mode=TwoWay}"
+                      Visibility="{x:Bind IsSupportSymbolicLink}">
+                <CheckBox.Resources>
+                    <x:Double x:Key="CheckBoxSize">16</x:Double>
+                </CheckBox.Resources>
+                <TextBlock FontSize="14"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="{x:Bind lang:Lang.InstallGameDialog_SymbolicLink}" />
+            </CheckBox>
         </StackPanel>
 
 
 
+        <!--  Symbolic Link Desc  -->
+        <TextBlock Grid.Row="4"
+                   Margin="0,8,0,0"
+                   FontSize="12"
+                   IsTextScaleFactorEnabled="False"
+                   TextWrapping="Wrap"
+                   Visibility="{x:Bind SymbolicLink, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_SymbolicLinkDescription}" />
+            <Run Text="" />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LinkTarget}" />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind SymbolicLinkTargetText}" />
+        </TextBlock>
+
+
 
         <!--  Locate & Install  -->
-        <StackPanel Grid.Row="4"
-                    Margin="0,16,0,0"
+        <StackPanel Grid.Row="5"
+                    Margin="0,20,0,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center"

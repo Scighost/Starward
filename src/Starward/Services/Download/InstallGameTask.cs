@@ -11,4 +11,6 @@ internal enum InstallGameTask
 
     Update,
 
+    Symbol,
+
 }

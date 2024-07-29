@@ -2099,6 +2099,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Link target: 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_LinkTarget {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_LinkTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Locate Game 的本地化字符串。
         /// </summary>
         public static string InstallGameDialog_LocateGame {
@@ -2149,6 +2158,24 @@ namespace Starward.Language {
         public static string InstallGameDialog_StartInstallation {
             get {
                 return ResourceManager.GetString("InstallGameDialog_StartInstallation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Symbolic Link 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_SymbolicLink {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_SymbolicLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Use the symbolic link to install game clients in different servers, taking up very little additional storage space. 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_SymbolicLinkDescription {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_SymbolicLinkDescription", resourceCulture);
             }
         }
         

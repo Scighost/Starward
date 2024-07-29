@@ -25,6 +25,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Timers;
 using Windows.Storage;
@@ -276,6 +277,9 @@ public sealed partial class GameLauncherPage : PageBase
     private bool isGameExeExists;
 
 
+    private bool isSymbolicLink;
+
+
     public bool IsGameSupportRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && CurrentGameBiz.ToGame() != GameBiz.ZZZ;
 
 
@@ -307,6 +311,7 @@ public sealed partial class GameLauncherPage : PageBase
             _logger.LogInformation("Game install path of {biz}: {path}", CurrentGameBiz, InstallPath);
             IsGameExeExists = _gameLauncherService.IsGameExeExists(CurrentGameBiz);
             LocalGameVersion = await _gameLauncherService.GetLocalGameVersionAsync(CurrentGameBiz);
+            isSymbolicLink = Directory.Exists(await _gameLauncherService.GetSymbolicLinkPathAsync(CurrentGameBiz));
             _logger.LogInformation("Acutal version and gamebiz of {biz} is {version}.", CurrentGameBiz, LocalGameVersion);
             LatestGameVersion = await _gameLauncherService.GetLatestGameVersionAsync(CurrentGameBiz);
             PreInstallGameVersion = await _gameLauncherService.GetPreDownloadGameVersionAsync(CurrentGameBiz);
@@ -728,14 +733,24 @@ public sealed partial class GameLauncherPage : PageBase
         {
             if (Directory.Exists(InstallPath))
             {
-                try
+                if (isSymbolicLink)
                 {
-                    string temp = Path.Combine(InstallPath, Random.Shared.Next(1000_0000, int.MaxValue).ToString());
-                    File.Create(temp).Dispose();
-                    File.Delete(temp);
-                    return true;
+                    if (IsAdmin())
+                    {
+                        return true;
+                    }
                 }
-                catch (UnauthorizedAccessException) { }
+                else
+                {
+                    try
+                    {
+                        string temp = Path.Combine(InstallPath, Random.Shared.Next(1000_0000, int.MaxValue).ToString());
+                        File.Create(temp).Dispose();
+                        File.Delete(temp);
+                        return true;
+                    }
+                    catch (UnauthorizedAccessException) { }
+                }
                 var dialog = new ContentDialog
                 {
                     Title = Lang.GameLauncherPage_NoWritePermission,
@@ -776,6 +791,14 @@ public sealed partial class GameLauncherPage : PageBase
         return false;
     }
 
+
+
+    private bool IsAdmin()
+    {
+        using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+        WindowsPrincipal principal = new WindowsPrincipal(identity);
+        return principal.IsInRole(WindowsBuiltInRole.Administrator);
+    }
 
 
 
