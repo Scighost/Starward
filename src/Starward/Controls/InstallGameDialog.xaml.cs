@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Vanara.Extensions;
 using Vanara.PInvoke;
 
+
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -259,6 +260,8 @@ public sealed partial class InstallGameDialog : ContentDialog
                     StackPanel_FreeSpace.Visibility = Visibility.Visible;
                     TextBlock_NoPermission.Visibility = Visibility.Collapsed;
                     TextBlock_LinkWarning.Visibility = Visibility.Collapsed;
+                    StackPanel_FreeSpace.Visibility = Visibility.Visible;
+                    TextBlock_NoPermission.Visibility = Visibility.Collapsed;
 
                     AvailableSpaceBytes = new DriveInfo(path).AvailableFreeSpace;
                     UnzipSpaceBytes = await _installGameService.GetGamePackageDecompressedSizeAsync(CurrentGameBiz);
