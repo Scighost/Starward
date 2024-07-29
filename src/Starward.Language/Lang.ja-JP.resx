@@ -1494,27 +1494,27 @@
     <value>管理者権限で再起動してください。</value>
   </data>
   <data name="InstallGameDialog_CreateHardLink" xml:space="preserve">
-    <value>Create Hard Link</value>
+    <value>ハードリンクを作成</value>
   </data>
   <data name="InstallGameDialog_HardLinkDescription" xml:space="preserve">
     <value>Creating hard link to install game clients in different servers, taking up very little additional storage space.</value>
   </data>
   <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
-    <value>Link target:</value>
+    <value>リンク先:</value>
   </data>
   <data name="GameLauncherPage_HardLinkNotSupportPredownload" xml:space="preserve">
-    <value>The current server does not support pre-download. Please complete pre-download in the target server of the hard link.</value>
+    <value>現在のサーバーは事前ダウンロードをサポートしていません。ターゲットサーバーのハードリンクを使用して事前ダウンロードを完了してください。</value>
   </data>
   <data name="GameLauncherPage_HardLinkUpdateToLatest" xml:space="preserve">
     <value>Please update the target server of the hard link to the latest version before updating the game files in this server.</value>
   </data>
   <data name="InstallGameDialog_LinkPath" xml:space="preserve">
-    <value>Link Path:</value>
+    <value>リンクパス:</value>
   </data>
   <data name="InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath" xml:space="preserve">
-    <value>The path you select must be on the same drive as the link path.</value>
+    <value>選択するパスはリンクパスと同じドライブにある必要があります。</value>
   </data>
   <data name="LauncherPage_HardLink" xml:space="preserve">
-    <value>Hard Link</value>
+    <value>ハードリンク</value>
   </data>
 </root>
