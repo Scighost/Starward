@@ -55,4 +55,25 @@ public class GameId : IEquatable<GameId>
     }
 
 
+    public override bool Equals(object? obj)
+    {
+        return this.Equals(obj as GameId);
+    }
+
+
+    public override int GetHashCode()
+    {
+        return this.Id.GetHashCode();
+    }
+
+
+    public static bool operator ==(GameId? left, GameId? right)
+    {
+        return left?.Id == right?.Id;
+    }
+
+
+    public static bool operator !=(GameId? left, GameId? right) => !(left == right);
+
+
 }

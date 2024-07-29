@@ -11,4 +11,6 @@ internal enum InstallGameItemType
 
     Decompress,
 
+    HardLink,
+
 }

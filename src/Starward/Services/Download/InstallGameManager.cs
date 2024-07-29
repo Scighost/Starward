@@ -144,6 +144,7 @@ internal class InstallGameManager
             InstallGameTask.Repair => Lang.LauncherPage_RepairGame,
             InstallGameTask.Predownload => Lang.LauncherPage_PreInstall,
             InstallGameTask.Update => Lang.LauncherPage_UpdateGame,
+            InstallGameTask.HardLink => Lang.LauncherPage_HardLink,
             _ => "",
         };
     }

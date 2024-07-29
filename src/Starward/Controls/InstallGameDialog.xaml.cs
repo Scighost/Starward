@@ -7,10 +7,16 @@ using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Services.Download;
+using Starward.Services.Launcher;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Threading.Tasks;
+using Vanara.Extensions;
+using Vanara.PInvoke;
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,6 +33,7 @@ public sealed partial class InstallGameDialog : ContentDialog
 
     private readonly ILogger<InstallGameDialog> _logger = AppConfig.GetLogger<InstallGameDialog>();
 
+    private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
 
     private InstallGameService _installGameService;
 
@@ -47,6 +54,10 @@ public sealed partial class InstallGameDialog : ContentDialog
 
 
     [ObservableProperty]
+    public bool isSupportHardLink;
+
+
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(UnzipSpaceText))]
     private long unzipSpaceBytes;
 
@@ -61,6 +72,45 @@ public sealed partial class InstallGameDialog : ContentDialog
 
 
 
+    [ObservableProperty]
+    private bool desktopShortcut;
+
+
+    [ObservableProperty]
+    private bool hardLink;
+    partial void OnHardLinkChanged(bool value)
+    {
+        if (value && !IsAdmin())
+        {
+            Button_Installation.IsEnabled = false;
+            StackPanel_FreeSpace.Visibility = Visibility.Collapsed;
+            TextBlock_NoPermission.Visibility = Visibility.Visible;
+            TextBlock_LinkWarning.Visibility = Visibility.Collapsed;
+        }
+        else if (string.IsNullOrWhiteSpace(InstallationPath))
+        {
+            Button_Installation.IsEnabled = false;
+            StackPanel_FreeSpace.Visibility = Visibility.Visible;
+            TextBlock_NoPermission.Visibility = Visibility.Collapsed;
+            TextBlock_LinkWarning.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            _ = ChangeInstallationPathInternalAsync(InstallationPath);
+        }
+    }
+
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HardLinkTargetText))]
+    private GameBiz hardLinkTarget;
+
+
+    [ObservableProperty]
+    private string hardLinkPath;
+
+
+    public string HardLinkTargetText => $"{HardLinkTarget.ToGameName()} - {HardLinkTarget.ToGameServer()}";
 
 
 
@@ -69,6 +119,7 @@ public sealed partial class InstallGameDialog : ContentDialog
         try
         {
             _installGameService = InstallGameService.FromGameBiz(CurrentGameBiz);
+            await InitializeHardLinkAsync();
             if (Directory.Exists(InstallationPath))
             {
                 await ChangeInstallationPathInternalAsync(InstallationPath);
@@ -89,6 +140,7 @@ public sealed partial class InstallGameDialog : ContentDialog
                         Button_Installation.IsEnabled = false;
                         StackPanel_FreeSpace.Visibility = Visibility.Collapsed;
                         TextBlock_NoPermission.Visibility = Visibility.Visible;
+                        TextBlock_LinkWarning.Visibility = Visibility.Collapsed;
                     }
                 }
                 else
@@ -103,6 +155,38 @@ public sealed partial class InstallGameDialog : ContentDialog
         }
     }
 
+
+
+    private async Task InitializeHardLinkAsync()
+    {
+        try
+        {
+            if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
+            {
+                foreach (var biz in Enum.GetValues<GameBiz>())
+                {
+                    if (biz.ToGame() == CurrentGameBiz.ToGame() && biz != CurrentGameBiz && biz != GameBiz.hk4e_cloud)
+                    {
+                        var path = _gameLauncherService.GetGameInstallPath(biz);
+                        var version = await _gameLauncherService.GetLocalGameVersionAsync(biz, path);
+                        var exe = _gameLauncherService.IsGameExeExists(biz, path);
+                        (_, var link) = await _gameLauncherService.GetHardLinkInfoAsync(biz, path);
+                        if (path != null && version != null && exe && string.IsNullOrWhiteSpace(link))
+                        {
+                            HardLinkTarget = biz;
+                            HardLinkPath = path;
+                            IsSupportHardLink = true;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Initialize symbolic link");
+        }
+    }
 
 
 
@@ -125,6 +209,15 @@ public sealed partial class InstallGameDialog : ContentDialog
         {
             return false;
         }
+    }
+
+
+
+    private bool IsAdmin()
+    {
+        using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+        WindowsPrincipal principal = new WindowsPrincipal(identity);
+        return principal.IsInRole(WindowsBuiltInRole.Administrator);
     }
 
 
@@ -152,6 +245,21 @@ public sealed partial class InstallGameDialog : ContentDialog
                 InstallationPath = path;
                 if (_installGameService.CheckAccessPermission(path))
                 {
+                    if (HardLink)
+                    {
+                        if (Path.GetPathRoot(HardLinkPath) != Path.GetPathRoot(path))
+                        {
+                            Button_Installation.IsEnabled = false;
+                            StackPanel_FreeSpace.Visibility = Visibility.Collapsed;
+                            TextBlock_NoPermission.Visibility = Visibility.Collapsed;
+                            TextBlock_LinkWarning.Visibility = Visibility.Visible;
+                            return;
+                        }
+                    }
+
+                    StackPanel_FreeSpace.Visibility = Visibility.Visible;
+                    TextBlock_NoPermission.Visibility = Visibility.Collapsed;
+                    TextBlock_LinkWarning.Visibility = Visibility.Collapsed;
                     StackPanel_FreeSpace.Visibility = Visibility.Visible;
                     TextBlock_NoPermission.Visibility = Visibility.Collapsed;
 
@@ -175,6 +283,7 @@ public sealed partial class InstallGameDialog : ContentDialog
                     Button_Installation.IsEnabled = false;
                     StackPanel_FreeSpace.Visibility = Visibility.Collapsed;
                     TextBlock_NoPermission.Visibility = Visibility.Visible;
+                    TextBlock_LinkWarning.Visibility = Visibility.Collapsed;
                 }
             }
         }
@@ -194,9 +303,20 @@ public sealed partial class InstallGameDialog : ContentDialog
         try
         {
             await _installGameService.InitializeAsync(CurrentGameBiz, InstallationPath);
-            await _installGameService.StartInstallGameAsync();
+            if (HardLink)
+            {
+                await _installGameService.StartHardLinkAsync(HardLinkTarget);
+            }
+            else
+            {
+                await _installGameService.StartInstallGameAsync();
+            }
             InstallGameManager.Instance.AddInstallService(_installGameService);
             AppConfig.SetGameInstallPath(CurrentGameBiz, InstallationPath);
+            if (DesktopShortcut)
+            {
+                CreateDesktopShortcut();
+            }
             this.Hide();
         }
         catch (Exception ex)
@@ -204,6 +324,82 @@ public sealed partial class InstallGameDialog : ContentDialog
             NotificationBehavior.Instance.Error(ex, "Start installation failed.", 10000);
             _logger.LogError(ex, "Start installation {biz} failed.", CurrentGameBiz);
         }
+    }
+
+
+
+
+    private void CreateDesktopShortcut()
+    {
+        try
+        {
+            string name = $"{CurrentGameBiz.ToGameName()} - {CurrentGameBiz.ToGameServer()}.lnk";
+            var savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), name);
+            string exe;
+            if (AppConfig.IsPortable)
+            {
+                string? baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('/', '\\'));
+                exe = Path.Join(baseDir, "Starward.exe");
+            }
+            else
+            {
+                var temp = Process.GetCurrentProcess().MainModule?.FileName;
+                if (!File.Exists(temp))
+                {
+                    temp = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+                }
+                exe = temp;
+            }
+            string? icon = GetIconPath(CurrentGameBiz);
+            if (File.Exists(exe) && File.Exists(icon))
+            {
+                Ole32.CoCreateInstance(new Guid("00021401-0000-0000-C000-000000000046"), null, Ole32.CLSCTX.CLSCTX_INPROC_SERVER, new Guid("000214F9-0000-0000-C000-000000000046"), out object ppv);
+                if (ppv is Shell32.IShellLinkW shellLink)
+                {
+                    shellLink.SetPath(exe);
+                    shellLink.SetArguments($"startgame --biz {CurrentGameBiz}");
+                    shellLink.SetIconLocation(icon, 0);
+                    shellLink.QueryInterface(new Guid("0000010b-0000-0000-C000-000000000046"), out object? ppf);
+                    if (ppf is IPersistFile file)
+                    {
+                        file.Save(savePath, true);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Create desktop shortcut");
+        }
+    }
+
+
+
+
+    private static string? GetIconPath(GameBiz gameBiz)
+    {
+        try
+        {
+            var source = gameBiz.ToGame() switch
+            {
+                GameBiz.Honkai3rd => @"Assets\Image\icon_bh3.ico",
+                GameBiz.GenshinImpact => @"Assets\Image\icon_ys.ico",
+                GameBiz.StarRail => @"Assets\Image\icon_sr.ico",
+                GameBiz.ZZZ => @"Assets\Image\icon_zzz.ico",
+                _ => "",
+            };
+            source = Path.Combine(AppContext.BaseDirectory, source);
+            if (File.Exists(source))
+            {
+                var target = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\icon");
+                Directory.CreateDirectory(target);
+                target = Path.Combine(target, Path.GetFileName(source));
+                File.Move(source, target, true);
+                return target;
+            }
+        }
+        catch { }
+        return null;
     }
 
 
@@ -279,6 +475,27 @@ public sealed partial class InstallGameDialog : ContentDialog
     {
         sender.FontSize = 12;
     }
+
+
+
+
+    [ComImport]
+    [Guid("0000010b-0000-0000-C000-000000000046")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    public interface IPersistFile
+    {
+        // IPersist portion
+        void GetClassID(out Guid pClassID);
+
+        // IPersistFile portion
+        [PreserveSig]
+        int IsDirty();
+        void Load([MarshalAs(UnmanagedType.LPWStr)] string pszFileName, int dwMode);
+        void Save([MarshalAs(UnmanagedType.LPWStr)] string? pszFileName, [MarshalAs(UnmanagedType.Bool)] bool fRemember);
+        void SaveCompleted([MarshalAs(UnmanagedType.LPWStr)] string pszFileName);
+        void GetCurFile([MarshalAs(UnmanagedType.LPWStr)] out string ppszFileName);
+    }
+
 
 
 }

@@ -27,6 +27,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
 
@@ -84,7 +85,7 @@
                     Margin="0,8,0,0"
                     Orientation="Horizontal"
                     Spacing="8">
-            <TextBlock FontSize="14"
+            <TextBlock FontSize="12"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False"
                        Text="">
@@ -94,7 +95,7 @@
             </TextBlock>
             <AppBarSeparator Padding="2" />
             <TextBlock x:Name="TextBlock_AvailableSpace"
-                       FontSize="14"
+                       FontSize="12"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False">
                 <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceAvailable}" />
@@ -109,7 +110,7 @@
         <TextBlock x:Name="TextBlock_NoPermission"
                    Grid.Row="2"
                    Margin="0,8,0,0"
-                   FontSize="14"
+                   FontSize="12"
                    IsTextScaleFactorEnabled="False"
                    Visibility="Collapsed">
             <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator}" />
@@ -122,13 +123,28 @@
         </TextBlock>
 
 
+        <!--  Link Warning  -->
+        <TextBlock x:Name="TextBlock_LinkWarning"
+                   Grid.Row="2"
+                   Margin="0,8,0,0"
+                   FontSize="12"
+                   Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                   IsTextScaleFactorEnabled="False"
+                   Text="{x:Bind lang:Lang.InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath}"
+                   TextWrapping="Wrap"
+                   Visibility="Collapsed" />
 
-        <!--  Shortcut  -->
+
+
         <StackPanel Grid.Row="3"
                     Margin="0,12,0,0"
                     Orientation="Horizontal"
-                    Visibility="Collapsed">
-            <CheckBox Padding="8,0,0,0" VerticalContentAlignment="Center">
+                    Spacing="16">
+            <!--  Shortcut  -->
+            <CheckBox Padding="8,0,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{x:Bind DesktopShortcut, Mode=TwoWay}"
+                      Visibility="Visible">
                 <CheckBox.Resources>
                     <x:Double x:Key="CheckBoxSize">16</x:Double>
                 </CheckBox.Resources>
@@ -137,14 +153,44 @@
                            IsTextScaleFactorEnabled="False"
                            Text="{x:Bind lang:Lang.InstallGameDialog_DesktopShortcut}" />
             </CheckBox>
+            <!--  Hard Link  -->
+            <CheckBox Padding="8,0,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{x:Bind HardLink, Mode=TwoWay}"
+                      Visibility="{x:Bind IsSupportHardLink}">
+                <CheckBox.Resources>
+                    <x:Double x:Key="CheckBoxSize">16</x:Double>
+                </CheckBox.Resources>
+                <TextBlock FontSize="14"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="{x:Bind lang:Lang.InstallGameDialog_CreateHardLink}" />
+            </CheckBox>
         </StackPanel>
 
 
 
+        <!--  Hard Link Desc  -->
+        <TextBlock Grid.Row="4"
+                   Margin="0,8,0,0"
+                   FontSize="12"
+                   IsTextScaleFactorEnabled="False"
+                   TextWrapping="Wrap"
+                   Visibility="{x:Bind HardLink, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_HardLinkDescription}" />
+            <LineBreak />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LinkTarget}" />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind HardLinkTargetText}" />
+            <LineBreak />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LinkPath}" />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind HardLinkPath}" />
+        </TextBlock>
+
+
 
         <!--  Locate & Install  -->
-        <StackPanel Grid.Row="4"
-                    Margin="0,16,0,0"
+        <StackPanel Grid.Row="5"
+                    Margin="0,20,0,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center"

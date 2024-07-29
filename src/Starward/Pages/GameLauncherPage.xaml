@@ -54,7 +54,7 @@
                     <Button Name="Button_PreDownloadGame"
                             Height="40"
                             BorderThickness="0"
-                            Command="{x:Bind PreDownloadGameCommand}"
+                            Command="{x:Bind PredownloadCommand}"
                             CornerRadius="20"
                             Style="{ThemeResource AccentButtonStyle}">
                         <StackPanel Margin="4,0,4,0" Orientation="Horizontal">

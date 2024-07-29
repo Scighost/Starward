@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Starward.Core;
 using Starward.Models;
 using Starward.Services;
+using Starward.Services.Launcher;
 using System;
 
 namespace Starward;
@@ -46,6 +47,17 @@ public static class Program
                 var gameService = AppConfig.GetService<GameService>();
                 int result = gameService.UninstallGame(biz, loc!, steps);
                 Environment.Exit(result);
+                return;
+            }
+
+            if (args[0].ToLower() is "startgame")
+            {
+                GameBiz biz = AppConfig.Configuration.GetValue<GameBiz>("biz");
+                var p = AppConfig.GetService<GameLauncherService>().StartGame(biz, true);
+                if (p != null)
+                {
+                    AppConfig.GetService<PlayTimeService>().StartProcessToLogAsync(biz).GetAwaiter().GetResult();
+                }
                 return;
             }
 

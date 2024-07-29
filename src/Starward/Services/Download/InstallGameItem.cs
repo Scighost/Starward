@@ -18,10 +18,10 @@ internal class InstallGameItem
     public string Path { get; set; }
 
 
-    public List<string> PackageFiles { get; set; }
+    public List<string> DecompressPackageFiles { get; set; }
 
 
-    public string TargetPath { get; set; }
+    public string DecompressPath { get; set; }
 
 
     public long Size { get; set; }
@@ -34,6 +34,12 @@ internal class InstallGameItem
 
 
     public bool WriteAsTempFile { get; set; }
+
+
+    public string HardLinkSource { get; set; }
+
+
+    public bool HardLinkSkipVerify { get; set; }
 
 
     public void EnsureValid()

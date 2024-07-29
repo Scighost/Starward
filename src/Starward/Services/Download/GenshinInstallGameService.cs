@@ -75,6 +75,77 @@ internal class GenshinInstallGameService : InstallGameService
 
 
 
+    public override async Task StartHardLinkAsync(GameBiz linkGameBiz, CancellationToken cancellationToken = default)
+    {
+        _gamePackage = await _packageService.GetGamePackageAsync(CurrentGameBiz);
+        var linkPackage = await _packageService.GetGamePackageAsync(linkGameBiz);
+        string? linkInstallPath = _launcherService.GetGameInstallPath(linkGameBiz);
+        if (!Directory.Exists(linkInstallPath))
+        {
+            throw new DirectoryNotFoundException($"Cannot find installation path of game ({linkGameBiz}).");
+        }
+        _hardLinkPath = linkInstallPath;
+        _hardLinkGameBiz = linkGameBiz;
+        var prefix = _gamePackage.Main.Major!.ResListUrl;
+        var linkPrefix = linkPackage.Main.Major!.ResListUrl;
+        if (string.IsNullOrWhiteSpace(prefix))
+        {
+            throw new NotSupportedException($"Hard linking game ({CurrentGameBiz}) is not supported.");
+        }
+        if (Path.GetPathRoot(_installPath) != Path.GetPathRoot(linkInstallPath))
+        {
+            throw new NotSupportedException("Hard linking between different drives is not supported.");
+        }
+        _gameFileItems = await GetPkgVersionsAsync(prefix, "pkg_version");
+        _gameFileItems.AddRange(await GetAudioPkgVersionsAsync(prefix));
+        var linkGameFilesItem = await GetPkgVersionsAsync(linkPrefix, "pkg_version");
+        linkGameFilesItem.AddRange(await GetAudioPkgVersionsAsync(linkPrefix));
+
+        if (CurrentGameBiz.IsChinaOfficial() || CurrentGameBiz.IsBilibili())
+        {
+            foreach (var item in linkGameFilesItem)
+            {
+                item.Path = item.Path.Replace("GenshinImpact_Data", "YuanShen_Data");
+            }
+        }
+        if (CurrentGameBiz.IsGlobalOfficial())
+        {
+            foreach (var item in linkGameFilesItem)
+            {
+                item.Path = item.Path.Replace("YuanShen_Data", "GenshinImpact_Data");
+            }
+        }
+        var same = _gameFileItems.IntersectBy(linkGameFilesItem.Select(x => (x.Path, x.MD5)), x => (x.Path, x.MD5)).ToList();
+        var diff = _gameFileItems.ExceptBy(linkGameFilesItem.Select(x => (x.Path, x.MD5)), x => (x.Path, x.MD5)).ToList();
+        foreach (var item in same)
+        {
+            item.Type = InstallGameItemType.HardLink;
+            item.HardLinkSource = Path.Combine(linkInstallPath, Path.GetRelativePath(_installPath, item.Path));
+            if (linkGameBiz.IsChinaOfficial() || linkGameBiz.IsBilibili())
+            {
+                item.HardLinkSource = item.HardLinkSource.Replace("GenshinImpact_Data", "YuanShen_Data");
+            }
+            if (linkGameBiz.IsGlobalOfficial())
+            {
+                item.HardLinkSource = item.HardLinkSource.Replace("YuanShen_Data", "GenshinImpact_Data");
+            }
+            _installItemQueue.Enqueue(item);
+        }
+        foreach (var item in diff)
+        {
+            item.Type = InstallGameItemType.Verify;
+            _installItemQueue.Enqueue(item);
+        }
+        if (CurrentGameBiz.IsBilibili())
+        {
+            await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Verify);
+        }
+        InstallTask = InstallGameTask.HardLink;
+        StartTask(InstallGameState.Verify);
+    }
+
+
+
     private async Task<List<InstallGameItem>> GetAudioPkgVersionsAsync(string prefix)
     {
         string lang = await GetAudioLanguageAsync();
