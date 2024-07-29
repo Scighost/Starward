@@ -75,7 +75,7 @@ internal class GenshinInstallGameService : InstallGameService
 
 
 
-    public override async Task StartSymbolicLinkAsync(GameBiz linkGameBiz, CancellationToken cancellationToken = default)
+    public override async Task StartHardLinkAsync(GameBiz linkGameBiz, CancellationToken cancellationToken = default)
     {
         _gamePackage = await _packageService.GetGamePackageAsync(CurrentGameBiz);
         var linkPackage = await _packageService.GetGamePackageAsync(linkGameBiz);
@@ -84,13 +84,17 @@ internal class GenshinInstallGameService : InstallGameService
         {
             throw new DirectoryNotFoundException($"Cannot find installation path of game ({linkGameBiz}).");
         }
-        _symbolicLinkPath = linkInstallPath;
-        _symbolicLinkGameBiz = linkGameBiz;
+        _hardLinkPath = linkInstallPath;
+        _hardLinkGameBiz = linkGameBiz;
         var prefix = _gamePackage.Main.Major!.ResListUrl;
         var linkPrefix = linkPackage.Main.Major!.ResListUrl;
         if (string.IsNullOrWhiteSpace(prefix))
         {
-            throw new NotSupportedException($"Sybolic linking game ({CurrentGameBiz}) is not supported.");
+            throw new NotSupportedException($"Hard linking game ({CurrentGameBiz}) is not supported.");
+        }
+        if (Path.GetPathRoot(_installPath) != Path.GetPathRoot(linkInstallPath))
+        {
+            throw new NotSupportedException("Hard linking between different drives is not supported.");
         }
         _gameFileItems = await GetPkgVersionsAsync(prefix, "pkg_version");
         _gameFileItems.AddRange(await GetAudioPkgVersionsAsync(prefix));
@@ -115,19 +119,15 @@ internal class GenshinInstallGameService : InstallGameService
         var diff = _gameFileItems.ExceptBy(linkGameFilesItem.Select(x => (x.Path, x.MD5)), x => (x.Path, x.MD5)).ToList();
         foreach (var item in same)
         {
-            item.Type = InstallGameItemType.Symbol;
-            item.SymbolSource = Path.Combine(linkInstallPath, Path.GetRelativePath(_installPath, item.Path));
+            item.Type = InstallGameItemType.HardLink;
+            item.HardLinkSource = Path.Combine(linkInstallPath, Path.GetRelativePath(_installPath, item.Path));
             if (linkGameBiz.IsChinaOfficial() || linkGameBiz.IsBilibili())
             {
-                item.SymbolSource = item.SymbolSource.Replace("GenshinImpact_Data", "YuanShen_Data");
+                item.HardLinkSource = item.HardLinkSource.Replace("GenshinImpact_Data", "YuanShen_Data");
             }
             if (linkGameBiz.IsGlobalOfficial())
             {
-                item.SymbolSource = item.SymbolSource.Replace("YuanShen_Data", "GenshinImpact_Data");
-            }
-            if (item.FileName == _launcherService.GetGameExeName(CurrentGameBiz))
-            {
-                item.Type = InstallGameItemType.Verify;
+                item.HardLinkSource = item.HardLinkSource.Replace("YuanShen_Data", "GenshinImpact_Data");
             }
             _installItemQueue.Enqueue(item);
         }
@@ -140,7 +140,7 @@ internal class GenshinInstallGameService : InstallGameService
         {
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Verify);
         }
-        InstallTask = InstallGameTask.Symbol;
+        InstallTask = InstallGameTask.HardLink;
         StartTask(InstallGameState.Verify);
     }
 

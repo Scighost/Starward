@@ -36,10 +36,10 @@ internal class InstallGameItem
     public bool WriteAsTempFile { get; set; }
 
 
-    public string SymbolSource { get; set; }
+    public string HardLinkSource { get; set; }
 
 
-    public bool SkipVerifyWhenSymbol { get; set; }
+    public bool HardLinkSkipVerify { get; set; }
 
 
     public void EnsureValid()

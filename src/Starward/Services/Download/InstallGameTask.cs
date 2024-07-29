@@ -11,6 +11,6 @@ internal enum InstallGameTask
 
     Update,
 
-    Symbol,
+    HardLink,
 
 }

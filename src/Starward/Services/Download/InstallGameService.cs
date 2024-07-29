@@ -22,6 +22,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 
 namespace Starward.Services.Download;
 
@@ -118,10 +119,10 @@ internal class InstallGameService
     protected string _installPath;
 
 
-    protected string? _symbolicLinkPath;
+    protected string? _hardLinkPath;
 
 
-    protected GameBiz _symbolicLinkGameBiz;
+    protected GameBiz _hardLinkGameBiz;
 
 
     protected InstallGameState _pausedState;
@@ -341,7 +342,7 @@ internal class InstallGameService
 
 
 
-    public virtual async Task StartSymbolicLinkAsync(GameBiz linkGameBiz, CancellationToken cancellationToken = default)
+    public virtual async Task StartHardLinkAsync(GameBiz linkGameBiz, CancellationToken cancellationToken = default)
     {
         _gamePackage = await _packageService.GetGamePackageAsync(CurrentGameBiz);
         var linkPackage = await _packageService.GetGamePackageAsync(linkGameBiz);
@@ -350,13 +351,17 @@ internal class InstallGameService
         {
             throw new DirectoryNotFoundException($"Cannot find installation path of game ({linkGameBiz}).");
         }
-        _symbolicLinkPath = linkInstallPath;
-        _symbolicLinkGameBiz = linkGameBiz;
+        if (Path.GetPathRoot(_installPath) != Path.GetPathRoot(linkInstallPath))
+        {
+            throw new NotSupportedException("Hard linking between different drives is not supported.");
+        }
+        _hardLinkPath = linkInstallPath;
+        _hardLinkGameBiz = linkGameBiz;
         var prefix = _gamePackage.Main.Major!.ResListUrl;
         var linkPrefix = linkPackage.Main.Major!.ResListUrl;
         if (string.IsNullOrWhiteSpace(prefix))
         {
-            throw new NotSupportedException($"Sybolic linking game ({CurrentGameBiz}) is not supported.");
+            throw new NotSupportedException($"Hard linking game ({CurrentGameBiz}) is not supported.");
         }
         _gameFileItems = await GetPkgVersionsAsync(prefix, "pkg_version");
         var linkGameFilesItem = await GetPkgVersionsAsync(linkPrefix, "pkg_version");
@@ -364,12 +369,8 @@ internal class InstallGameService
         var diff = _gameFileItems.ExceptBy(linkGameFilesItem.Select(x => (x.Path, x.MD5)), x => (x.Path, x.MD5)).ToList();
         foreach (var item in same)
         {
-            item.Type = InstallGameItemType.Symbol;
-            item.SymbolSource = Path.Combine(linkInstallPath, Path.GetRelativePath(_installPath, item.Path));
-            if (item.FileName == _launcherService.GetGameExeName(CurrentGameBiz))
-            {
-                item.Type = InstallGameItemType.Verify;
-            }
+            item.Type = InstallGameItemType.HardLink;
+            item.HardLinkSource = Path.Combine(linkInstallPath, Path.GetRelativePath(_installPath, item.Path));
             _installItemQueue.Enqueue(item);
         }
         foreach (var item in diff)
@@ -381,7 +382,7 @@ internal class InstallGameService
         {
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Verify);
         }
-        InstallTask = InstallGameTask.Symbol;
+        InstallTask = InstallGameTask.HardLink;
         StartTask(InstallGameState.Verify);
     }
 
@@ -626,7 +627,7 @@ internal class InstallGameService
     {
         if (state is InstallGameState.Download)
         {
-            if (InstallTask is InstallGameTask.Symbol)
+            if (InstallTask is InstallGameTask.HardLink)
             {
                 _totalCount = _installItemQueue.Count;
                 _finishCount = 0;
@@ -753,7 +754,7 @@ internal class InstallGameService
             {
                 OnPredownloadTaskFinished();
             }
-            else if (InstallTask is InstallGameTask.Symbol)
+            else if (InstallTask is InstallGameTask.HardLink)
             {
                 OnSymbolTaskFinished();
             }
@@ -1022,12 +1023,12 @@ internal class InstallGameService
             sdk_version={sdk_version}
             game_biz={CurrentGameBiz}
             """;
-        if (!string.IsNullOrWhiteSpace(_symbolicLinkPath))
+        if (!string.IsNullOrWhiteSpace(_hardLinkPath))
         {
             config = $"""
                 {config}
-                symboliclink_gamebiz={_symbolicLinkGameBiz}
-                symboliclink_path={_symbolicLinkPath}
+                hardlink_gamebiz={_hardLinkGameBiz}
+                hardlink_path={_hardLinkPath}
                 """;
         }
         _logger.LogInformation("Write config.ini (game_version={version})", version);
@@ -1128,8 +1129,8 @@ internal class InstallGameService
                             await DecompressItemAsync(item, cancellationToken);
                             Interlocked.Increment(ref _finishCount);
                             break;
-                        case InstallGameItemType.Symbol:
-                            await SymbolItemAsync(item, cancellationToken);
+                        case InstallGameItemType.HardLink:
+                            await HardLinkItemAsync(item, cancellationToken);
                             Interlocked.Increment(ref _finishCount);
                             break;
                         default:
@@ -1409,13 +1410,13 @@ internal class InstallGameService
 
 
 
-    protected async Task SymbolItemAsync(InstallGameItem item, CancellationToken cancellationToken = default)
+    protected async Task HardLinkItemAsync(InstallGameItem item, CancellationToken cancellationToken = default)
     {
         const int BUFFER_SIZE = 1 << 20;
-        string file_source = item.SymbolSource;
+        string file_source = item.HardLinkSource;
         string file_target = item.Path;
 
-        if (item.SkipVerifyWhenSymbol)
+        if (item.HardLinkSkipVerify)
         {
             if (File.Exists(file_source))
             {
@@ -1424,7 +1425,7 @@ internal class InstallGameService
                     File.Delete(file_target);
                 }
                 Directory.CreateDirectory(Path.GetDirectoryName(file_target)!);
-                File.CreateSymbolicLink(file_target, file_source);
+                Kernel32.CreateHardLink(file_target, file_source);
             }
             return;
         }
@@ -1439,7 +1440,6 @@ internal class InstallGameService
         var buffer = ArrayPool<byte>.Shared.Rent(BUFFER_SIZE);
         try
         {
-
             await _verifyGlobalSemaphore.WaitAsync(cancellationToken);
             using var fs = File.OpenRead(file_source);
             if (fs.Length != item.Size)
@@ -1464,7 +1464,7 @@ internal class InstallGameService
                     File.Delete(file_target);
                 }
                 Directory.CreateDirectory(Path.GetDirectoryName(file_target)!);
-                File.CreateSymbolicLink(file_target, file_source);
+                Kernel32.CreateHardLink(file_target, file_source);
             }
             else
             {

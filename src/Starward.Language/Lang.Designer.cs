@@ -1494,6 +1494,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 The current server does not support pre-download. Please complete pre-download in the target server of the hard link. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_HardLinkNotSupportPredownload {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_HardLinkNotSupportPredownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please update the target server of the hard link to the latest version before updating the game files in this server. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_HardLinkUpdateToLatest {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_HardLinkUpdateToLatest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 No Write Permission 的本地化字符串。
         /// </summary>
         public static string GameLauncherPage_NoWritePermission {
@@ -1508,24 +1526,6 @@ namespace Starward.Language {
         public static string GameLauncherPage_PleaseRestartAsAdministrator {
             get {
                 return ResourceManager.GetString("GameLauncherPage_PleaseRestartAsAdministrator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 The current server does not support pre-download. Please complete pre-download in the target server of the symbolic link. 的本地化字符串。
-        /// </summary>
-        public static string GameLauncherPage_SymbolicLinkNotSupportPredownload {
-            get {
-                return ResourceManager.GetString("GameLauncherPage_SymbolicLinkNotSupportPredownload", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Please update the target server of the symbolic link to the latest version before updating the game files in this server. 的本地化字符串。
-        /// </summary>
-        public static string GameLauncherPage_SymbolicLinkUpdateToLatest {
-            get {
-                return ResourceManager.GetString("GameLauncherPage_SymbolicLinkUpdateToLatest", resourceCulture);
             }
         }
         
@@ -2099,6 +2099,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Create Hard Link 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_CreateHardLink {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_CreateHardLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Desktop Shortcut 的本地化字符串。
         /// </summary>
         public static string InstallGameDialog_DesktopShortcut {
@@ -2108,11 +2117,29 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Creating hard link to install game clients in different servers, taking up very little additional storage space. 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_HardLinkDescription {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_HardLinkDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Installed? 的本地化字符串。
         /// </summary>
         public static string InstallGameDialog_Installed {
             get {
                 return ResourceManager.GetString("InstallGameDialog_Installed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Link Path: 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_LinkPath {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_LinkPath", resourceCulture);
             }
         }
         
@@ -2180,20 +2207,11 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Symbolic Link 的本地化字符串。
+        ///   查找类似 The path you select must be on the same drive as the link path. 的本地化字符串。
         /// </summary>
-        public static string InstallGameDialog_SymbolicLink {
+        public static string InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath {
             get {
-                return ResourceManager.GetString("InstallGameDialog_SymbolicLink", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Use the symbolic link to install game clients in different servers, taking up very little additional storage space. 的本地化字符串。
-        /// </summary>
-        public static string InstallGameDialog_SymbolicLinkDescription {
-            get {
-                return ResourceManager.GetString("InstallGameDialog_SymbolicLinkDescription", resourceCulture);
+                return ResourceManager.GetString("InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath", resourceCulture);
             }
         }
         
@@ -2356,6 +2374,15 @@ namespace Starward.Language {
         public static string LauncherPage_GameSetting {
             get {
                 return ResourceManager.GetString("LauncherPage_GameSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hard Link 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_HardLink {
+            get {
+                return ResourceManager.GetString("LauncherPage_HardLink", resourceCulture);
             }
         }
         

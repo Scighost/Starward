@@ -123,6 +123,18 @@
         </TextBlock>
 
 
+        <!--  Link Warning  -->
+        <TextBlock x:Name="TextBlock_LinkWarning"
+                   Grid.Row="2"
+                   Margin="0,8,0,0"
+                   FontSize="12"
+                   Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                   IsTextScaleFactorEnabled="False"
+                   Text="{x:Bind lang:Lang.InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath}"
+                   TextWrapping="Wrap"
+                   Visibility="Collapsed" />
+
+
 
         <StackPanel Grid.Row="3"
                     Margin="0,12,0,0"
@@ -132,7 +144,7 @@
             <CheckBox Padding="8,0,0,0"
                       VerticalContentAlignment="Center"
                       IsChecked="{x:Bind DesktopShortcut, Mode=TwoWay}"
-                      Visibility="Collapsed">
+                      Visibility="Visible">
                 <CheckBox.Resources>
                     <x:Double x:Key="CheckBoxSize">16</x:Double>
                 </CheckBox.Resources>
@@ -141,34 +153,37 @@
                            IsTextScaleFactorEnabled="False"
                            Text="{x:Bind lang:Lang.InstallGameDialog_DesktopShortcut}" />
             </CheckBox>
-            <!--  Symbolic Link  -->
+            <!--  Hard Link  -->
             <CheckBox Padding="8,0,0,0"
                       VerticalContentAlignment="Center"
-                      IsChecked="{x:Bind SymbolicLink, Mode=TwoWay}"
-                      Visibility="{x:Bind IsSupportSymbolicLink}">
+                      IsChecked="{x:Bind HardLink, Mode=TwoWay}"
+                      Visibility="{x:Bind IsSupportHardLink}">
                 <CheckBox.Resources>
                     <x:Double x:Key="CheckBoxSize">16</x:Double>
                 </CheckBox.Resources>
                 <TextBlock FontSize="14"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            IsTextScaleFactorEnabled="False"
-                           Text="{x:Bind lang:Lang.InstallGameDialog_SymbolicLink}" />
+                           Text="{x:Bind lang:Lang.InstallGameDialog_CreateHardLink}" />
             </CheckBox>
         </StackPanel>
 
 
 
-        <!--  Symbolic Link Desc  -->
+        <!--  Hard Link Desc  -->
         <TextBlock Grid.Row="4"
                    Margin="0,8,0,0"
                    FontSize="12"
                    IsTextScaleFactorEnabled="False"
                    TextWrapping="Wrap"
-                   Visibility="{x:Bind SymbolicLink, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_SymbolicLinkDescription}" />
+                   Visibility="{x:Bind HardLink, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_HardLinkDescription}" />
             <LineBreak />
             <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LinkTarget}" />
-            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind SymbolicLinkTargetText}" />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind HardLinkTargetText}" />
+            <LineBreak />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LinkPath}" />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind HardLinkPath}" />
         </TextBlock>
 
 

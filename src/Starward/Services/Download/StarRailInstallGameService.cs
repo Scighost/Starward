@@ -21,7 +21,7 @@ internal class StarRailInstallGameService : InstallGameService
 
 
 
-    public override async Task StartSymbolicLinkAsync(GameBiz linkGameBiz, CancellationToken cancellationToken = default)
+    public override async Task StartHardLinkAsync(GameBiz linkGameBiz, CancellationToken cancellationToken = default)
     {
         _gamePackage = await _packageService.GetGamePackageAsync(CurrentGameBiz);
         var linkPackage = await _packageService.GetGamePackageAsync(linkGameBiz);
@@ -30,13 +30,17 @@ internal class StarRailInstallGameService : InstallGameService
         {
             throw new DirectoryNotFoundException($"Cannot find installation path of game ({linkGameBiz}).");
         }
-        _symbolicLinkPath = linkInstallPath;
-        _symbolicLinkGameBiz = linkGameBiz;
+        if (Path.GetPathRoot(_installPath) != Path.GetPathRoot(linkInstallPath))
+        {
+            throw new NotSupportedException("Hard linking between different drives is not supported.");
+        }
+        _hardLinkPath = linkInstallPath;
+        _hardLinkGameBiz = linkGameBiz;
         var prefix = _gamePackage.Main.Major!.ResListUrl;
         var linkPrefix = linkPackage.Main.Major!.ResListUrl;
         if (string.IsNullOrWhiteSpace(prefix))
         {
-            throw new NotSupportedException($"Sybolic linking game ({CurrentGameBiz}) is not supported.");
+            throw new NotSupportedException($"Hard linking game ({CurrentGameBiz}) is not supported.");
         }
         _gameFileItems = await GetPkgVersionsAsync(prefix, "pkg_version");
         var linkGameFilesItem = await GetPkgVersionsAsync(linkPrefix, "pkg_version");
@@ -44,12 +48,8 @@ internal class StarRailInstallGameService : InstallGameService
         var diff = _gameFileItems.ExceptBy(linkGameFilesItem.Select(x => (x.Path, x.MD5)), x => (x.Path, x.MD5)).ToList();
         foreach (var item in same)
         {
-            item.Type = InstallGameItemType.Symbol;
-            item.SymbolSource = Path.Combine(linkInstallPath, Path.GetRelativePath(_installPath, item.Path));
-            if (item.FileName == _launcherService.GetGameExeName(CurrentGameBiz))
-            {
-                item.Type = InstallGameItemType.Verify;
-            }
+            item.Type = InstallGameItemType.HardLink;
+            item.HardLinkSource = Path.Combine(linkInstallPath, Path.GetRelativePath(_installPath, item.Path));
             _installItemQueue.Enqueue(item);
         }
         foreach (var item in diff)
@@ -62,10 +62,10 @@ internal class StarRailInstallGameService : InstallGameService
         {
             var item = new InstallGameItem
             {
-                Type = InstallGameItemType.Symbol,
-                SkipVerifyWhenSymbol = true,
+                Type = InstallGameItemType.HardLink,
+                HardLinkSkipVerify = true,
                 FileName = Path.GetFileName(audioFile),
-                SymbolSource = audioFile,
+                HardLinkSource = audioFile,
                 Path = Path.Combine(_installPath, Path.GetRelativePath(linkInstallPath, audioFile)),
             };
             _installItemQueue.Enqueue(item);
@@ -74,7 +74,7 @@ internal class StarRailInstallGameService : InstallGameService
         {
             await PrepareBilibiliChannelSDKAsync(InstallGameItemType.Verify);
         }
-        InstallTask = InstallGameTask.Symbol;
+        InstallTask = InstallGameTask.HardLink;
         StartTask(InstallGameState.Verify);
     }
 
