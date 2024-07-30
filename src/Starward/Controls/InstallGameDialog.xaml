@@ -144,7 +144,7 @@
             <CheckBox Padding="8,0,0,0"
                       VerticalContentAlignment="Center"
                       IsChecked="{x:Bind DesktopShortcut, Mode=TwoWay}"
-                      Visibility="Visible">
+                      Visibility="Collapsed">
                 <CheckBox.Resources>
                     <x:Double x:Key="CheckBoxSize">16</x:Double>
                 </CheckBox.Resources>
