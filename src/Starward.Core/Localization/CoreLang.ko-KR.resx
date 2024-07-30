@@ -236,30 +236,42 @@
     <value>CBT3</value>
   </data>
   <data name="GameServer_ChinaOfficial" xml:space="preserve">
-    <value>China Official</value>
+    <value>중국 (본토)</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>Global Official</value>
+    <value>글로벌 서버</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
-    <value>China Cloud</value>
+    <value>중국 (클라우드)</value>
   </data>
   <data name="GameServer_Bilibili" xml:space="preserve">
-    <value>Bilibili</value>
+    <value>Bilbili 서버</value>
   </data>
   <data name="GameServer_EuropeAmericas" xml:space="preserve">
-    <value>Europe &amp; Americas</value>
+    <value>유럽 &amp; 아메리카 서버</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
-    <value>Japan</value>
+    <value>일본</value>
   </data>
   <data name="GameServer_Korea" xml:space="preserve">
-    <value>Korea</value>
+    <value>대한민국</value>
   </data>
   <data name="GameServer_SoutheastAsia" xml:space="preserve">
-    <value>Southeast Asia</value>
+    <value>동남아시아</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
-    <value>Traditional Chinese</value>
+    <value>중국 (홍콩, 대만, 마카오)</value>
+  </data>
+  <data name="GachaType_StandardChannel" xml:space="preserve">
+    <value>일반 채널</value>
+  </data>
+  <data name="GachaType_ExclusiveChannel" xml:space="preserve">
+    <value>독점 채널</value>
+  </data>
+  <data name="GachaType_WEngineChannel" xml:space="preserve">
+    <value>W-엔진</value>
+  </data>
+  <data name="GachaType_BangbooChannel" xml:space="preserve">
+    <value>방부</value>
   </data>
 </root>

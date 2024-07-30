@@ -1430,4 +1430,91 @@
   <data name="ForgottenHallPage_TimesChallenged" xml:space="preserve">
     <value>エキスパート挑戦の回数</value>
   </data>
+  <data name="InstallGameDialog_SelectInstallationPath" xml:space="preserve">
+    <value>インストール先のパス</value>
+  </data>
+  <data name="Common_Change" xml:space="preserve">
+    <value>変更</value>
+  </data>
+  <data name="InstallGameDialog_SpaceRequiredToUnzip" xml:space="preserve">
+    <value>解凍に必要な容量</value>
+  </data>
+  <data name="InstallGameDialog_SpaceAvailable" xml:space="preserve">
+    <value>空き容量</value>
+  </data>
+  <data name="InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator" xml:space="preserve">
+    <value>書き込み権限がありません。管理者権限で再起動してください。</value>
+  </data>
+  <data name="InstallGameDialog_ClickToRestart" xml:space="preserve">
+    <value>クリックで再起動</value>
+  </data>
+  <data name="InstallGameDialog_DesktopShortcut" xml:space="preserve">
+    <value>デスクトップのショートカット</value>
+  </data>
+  <data name="InstallGameDialog_Installed" xml:space="preserve">
+    <value>インストール済みですか?</value>
+  </data>
+  <data name="InstallGameDialog_LocateGame" xml:space="preserve">
+    <value>ゲームのインストール先</value>
+  </data>
+  <data name="InstallGameDialog_StartInstallation" xml:space="preserve">
+    <value>インストール開始</value>
+  </data>
+  <data name="DownloadSettingPage_DefaultGameInstallationPath" xml:space="preserve">
+    <value>既定のインストール先のパス</value>
+  </data>
+  <data name="DownloadSettingPage_DefaultGameInstallationPathDescription" xml:space="preserve">
+    <value>ゲームは別のサブフォルダーにインストールされます。既定のパスを変更してもインストールされたゲームファイルは移動されません。</value>
+  </data>
+  <data name="DownloadSettingPage_SpeedLimit" xml:space="preserve">
+    <value>速度制限</value>
+  </data>
+  <data name="DownloadSettingPage_TheNumber0MeansNoSpeedLimit" xml:space="preserve">
+    <value>0は速度制限をしません。</value>
+  </data>
+  <data name="SettingPage_Download" xml:space="preserve">
+    <value>ダウンロード</value>
+  </data>
+  <data name="DownloadGamePage_Paused" xml:space="preserve">
+    <value>一時停止</value>
+  </data>
+  <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
+    <value>ダウンロードタスクが完了しました</value>
+  </data>
+  <data name="InstallGameManager_DownloadTaskFailed" xml:space="preserve">
+    <value>ダウンロードタスクが失敗しました</value>
+  </data>
+  <data name="GameLauncherPage_NoWritePermission" xml:space="preserve">
+    <value>書き込み権限がありません</value>
+  </data>
+  <data name="Common_Restart" xml:space="preserve">
+    <value>再起動</value>
+  </data>
+  <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
+    <value>管理者権限で再起動してください。</value>
+  </data>
+  <data name="InstallGameDialog_CreateHardLink" xml:space="preserve">
+    <value>ハードリンクを作成</value>
+  </data>
+  <data name="InstallGameDialog_HardLinkDescription" xml:space="preserve">
+    <value>Creating hard link to install game clients in different servers, taking up very little additional storage space.</value>
+  </data>
+  <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
+    <value>リンク先:</value>
+  </data>
+  <data name="GameLauncherPage_HardLinkNotSupportPredownload" xml:space="preserve">
+    <value>現在のサーバーは事前ダウンロードをサポートしていません。ターゲットサーバーのハードリンクを使用して事前ダウンロードを完了してください。</value>
+  </data>
+  <data name="GameLauncherPage_HardLinkUpdateToLatest" xml:space="preserve">
+    <value>Please update the target server of the hard link to the latest version before updating the game files in this server.</value>
+  </data>
+  <data name="InstallGameDialog_LinkPath" xml:space="preserve">
+    <value>リンクパス:</value>
+  </data>
+  <data name="InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath" xml:space="preserve">
+    <value>選択するパスはリンクパスと同じドライブにある必要があります。</value>
+  </data>
+  <data name="LauncherPage_HardLink" xml:space="preserve">
+    <value>ハードリンク</value>
+  </data>
 </root>
