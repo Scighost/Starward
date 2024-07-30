@@ -1420,102 +1420,102 @@
     <value>변조기록</value>
   </data>
   <data name="ApocalypticShadowPage_DefeatedBoss" xml:space="preserve">
-    <value>Defeated Boss</value>
+    <value>처치한 우두머리</value>
   </data>
   <data name="ApocalypticShadowPage_HighestDifficultyCleared" xml:space="preserve">
-    <value>Highest Difficulty Cleared</value>
+    <value>최고난이도</value>
   </data>
   <data name="ForgottenHallPage_FarthestStage" xml:space="preserve">
-    <value>Farthest Stage</value>
+    <value>최고기록</value>
   </data>
   <data name="ForgottenHallPage_TimesChallenged" xml:space="preserve">
-    <value>Times Challenged</value>
+    <value>도전 횟수</value>
   </data>
   <data name="InstallGameDialog_SelectInstallationPath" xml:space="preserve">
-    <value>Select Installation Path</value>
+    <value>설치경로를 선택하세요.</value>
   </data>
   <data name="Common_Change" xml:space="preserve">
-    <value>Change</value>
+    <value>변경</value>
   </data>
   <data name="InstallGameDialog_SpaceRequiredToUnzip" xml:space="preserve">
-    <value>Space Required to Unzip</value>
+    <value>압축해제에 필요한 용량</value>
   </data>
   <data name="InstallGameDialog_SpaceAvailable" xml:space="preserve">
-    <value>Space Available</value>
+    <value>디스크 잔여용량</value>
   </data>
   <data name="InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator" xml:space="preserve">
-    <value>No write permission, please restart as administrator.</value>
+    <value>쓰기 권한이 없습니다. 관리자 권한으로 다시 실행해주세요.</value>
   </data>
   <data name="InstallGameDialog_ClickToRestart" xml:space="preserve">
-    <value>Click to Restart</value>
+    <value>클릭하여 다시시작</value>
   </data>
   <data name="InstallGameDialog_DesktopShortcut" xml:space="preserve">
-    <value>Desktop Shortcut</value>
+    <value>바탕화면 바로가기</value>
   </data>
   <data name="InstallGameDialog_Installed" xml:space="preserve">
-    <value>Installed?</value>
+    <value>설치됨?</value>
   </data>
   <data name="InstallGameDialog_LocateGame" xml:space="preserve">
-    <value>Locate Game</value>
+    <value>설치경로 선택</value>
   </data>
   <data name="InstallGameDialog_StartInstallation" xml:space="preserve">
-    <value>Start Installation</value>
+    <value>설치 시작</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPath" xml:space="preserve">
-    <value>Default Game Installation Path</value>
+    <value>기본 설치 경로</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPathDescription" xml:space="preserve">
-    <value>The games will be installed in different subfolders, changing the default path will not move the installed game files.</value>
+    <value>게임이 서로 다른 하위 폴더에 설치됩니다. 기본 설치경로를 변경해도 게임파일이 이동 되지 않습니다.</value>
   </data>
   <data name="DownloadSettingPage_SpeedLimit" xml:space="preserve">
-    <value>Speed Limit</value>
+    <value>속도 제한</value>
   </data>
   <data name="DownloadSettingPage_TheNumber0MeansNoSpeedLimit" xml:space="preserve">
-    <value>The number 0 means no speed limit.</value>
+    <value>속도 제한을 해제하시려면 0을 입력하세요.</value>
   </data>
   <data name="SettingPage_Download" xml:space="preserve">
-    <value>Download</value>
+    <value>다운로드</value>
   </data>
   <data name="DownloadGamePage_Paused" xml:space="preserve">
-    <value>Paused</value>
+    <value>일시 정지됨</value>
   </data>
   <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
-    <value>Download task completed</value>
+    <value>다운로드 완료</value>
   </data>
   <data name="InstallGameManager_DownloadTaskFailed" xml:space="preserve">
-    <value>Download task failed</value>
+    <value>다운로드 실패</value>
   </data>
   <data name="GameLauncherPage_NoWritePermission" xml:space="preserve">
-    <value>No Write Permission</value>
+    <value>쓰기 권한이 없습니다.</value>
   </data>
   <data name="Common_Restart" xml:space="preserve">
-    <value>Restart</value>
+    <value>다시시작</value>
   </data>
   <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
-    <value>Please restart as administrator.</value>
+    <value>관리자 권한으로 다시 실행해주세요.</value>
   </data>
   <data name="InstallGameDialog_CreateHardLink" xml:space="preserve">
-    <value>Create Hard Link</value>
+    <value>하드 링크 생성</value>
   </data>
   <data name="InstallGameDialog_HardLinkDescription" xml:space="preserve">
-    <value>Creating hard link to install game clients in different servers, taking up very little additional storage space.</value>
+    <value>하드링크를 생성해 적은 추가 디스크 공간으로 서로 다른 서버의 클라이언트를 설치할 수 있습니다.</value>
   </data>
   <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
-    <value>Link target:</value>
+    <value>링크 대상: </value>
   </data>
   <data name="GameLauncherPage_HardLinkNotSupportPredownload" xml:space="preserve">
-    <value>The current server does not support pre-download. Please complete pre-download in the target server of the hard link.</value>
+    <value>해당 서버는 사전 다운로드 기능을 지원하지 않습니다. 하드링크의 대상 서버에서 사전다운로드를 진행하세요.</value>
   </data>
   <data name="GameLauncherPage_HardLinkUpdateToLatest" xml:space="preserve">
-    <value>Please update the target server of the hard link to the latest version before updating the game files in this server.</value>
+    <value>하드링크의 대상서버에서 업데이트를 진행 후 해당 서버의 업데이트를 진행 해 주세요.</value>
   </data>
   <data name="InstallGameDialog_LinkPath" xml:space="preserve">
-    <value>Link Path:</value>
+    <value>링크 경로: </value>
   </data>
   <data name="InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath" xml:space="preserve">
-    <value>The path you select must be on the same drive as the link path.</value>
+    <value>선택한 경로와 링크의 경로가 같은 드라이브에 위치해야 합니다.</value>
   </data>
   <data name="LauncherPage_HardLink" xml:space="preserve">
-    <value>Hard Link</value>
+    <value>하드링크</value>
   </data>
 </root>
