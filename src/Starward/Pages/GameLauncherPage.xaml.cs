@@ -25,14 +25,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Timers;
-using Vanara;
-using Vanara.Extensions;
-using Vanara.PInvoke;
 using Windows.Storage;
 using Windows.System;
 
@@ -291,7 +286,7 @@ public sealed partial class GameLauncherPage : PageBase
     public bool IsGameSupportRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && CurrentGameBiz.ToGame() != GameBiz.ZZZ;
 
 
-    public bool IsStartGameButtonEnable => LocalGameVersion != null && LocalGameVersion >= LatestGameVersion && IsGameExeExists;
+    public bool IsStartGameButtonEnable => LocalGameVersion != null && LocalGameVersion >= LatestGameVersion && IsGameExeExists && !IsGameRunning;
 
 
     public bool IsInstallGameButtonEnable => LocalGameVersion == null || !IsGameExeExists;
@@ -1663,7 +1658,7 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-          
+
         }
         catch (Exception ex)
         {
