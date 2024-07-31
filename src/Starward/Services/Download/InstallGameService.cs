@@ -21,6 +21,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading;
+using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 
@@ -1203,14 +1204,17 @@ internal class InstallGameService
                 int length;
                 while ((length = await hs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
                 {
+                    RateLimitLease lease;
+                    do
+                    {
+                        lease = await InstallGameManager.rateLimiter.AcquireAsync(buffer.Length, cancellationToken).ConfigureAwait(false);
+                        if (!lease.IsAcquired)
+                        {
+                            await Task.Delay(1, cancellationToken).ConfigureAwait(false);
+                        }
+                    } while (!lease.IsAcquired);
                     await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken).ConfigureAwait(false);
                     Interlocked.Add(ref _finishBytes, length);
-                    Interlocked.Add(ref InstallGameManager.DownloadBytesInSecond, length);
-                    if (InstallGameManager.IsExceedSpeedLimit)
-                    {
-                        long t = Stopwatch.GetTimestamp() / (Stopwatch.Frequency / 1000) % 1000;
-                        await Task.Delay((int)(1000 - t), cancellationToken);
-                    }
                 }
             }
         }
