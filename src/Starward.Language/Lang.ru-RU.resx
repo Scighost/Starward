@@ -1474,48 +1474,48 @@
     <value>Цифра 0 означает отсутствие ограничений скорости.</value>
   </data>
   <data name="SettingPage_Download" xml:space="preserve">
-    <value>Скачать</value>
+    <value>Загрузка</value>
   </data>
   <data name="DownloadGamePage_Paused" xml:space="preserve">
     <value>Пауза</value>
   </data>
   <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
-    <value>Download task completed</value>
+    <value>Загрузка завершена</value>
   </data>
   <data name="InstallGameManager_DownloadTaskFailed" xml:space="preserve">
-    <value>Download task failed</value>
+    <value>Ошибка загрузки</value>
   </data>
   <data name="GameLauncherPage_NoWritePermission" xml:space="preserve">
-    <value>No Write Permission</value>
+    <value>Нет разрешения на запись</value>
   </data>
   <data name="Common_Restart" xml:space="preserve">
-    <value>Restart</value>
+    <value>Перезагрузка</value>
   </data>
   <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
-    <value>Please restart as administrator.</value>
+    <value>Пожалуйста, перезапустите как администратор.</value>
   </data>
   <data name="InstallGameDialog_CreateHardLink" xml:space="preserve">
-    <value>Create Hard Link</value>
+    <value>Создать жесткую ссылку</value>
   </data>
   <data name="InstallGameDialog_HardLinkDescription" xml:space="preserve">
-    <value>Creating hard link to install game clients in different servers, taking up very little additional storage space.</value>
+    <value>Создание жесткой ссылки для установки игровых клиентов на разных серверах, занимает очень мало свободного места.</value>
   </data>
   <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
-    <value>Link target:</value>
+    <value>Цель ссылки:</value>
   </data>
   <data name="GameLauncherPage_HardLinkNotSupportPredownload" xml:space="preserve">
-    <value>The current server does not support pre-download. Please complete pre-download in the target server of the hard link.</value>
+    <value>Текущий сервер не поддерживает предварительную загрузку. Пожалуйста, завершите предварительную загрузку в целевом сервере жесткой ссылки.</value>
   </data>
   <data name="GameLauncherPage_HardLinkUpdateToLatest" xml:space="preserve">
-    <value>Please update the target server of the hard link to the latest version before updating the game files in this server.</value>
+    <value>Пожалуйста, обновите целевой сервер жесткой ссылки на последнюю версию перед обновлением игровых файлов на этом сервере.</value>
   </data>
   <data name="InstallGameDialog_LinkPath" xml:space="preserve">
-    <value>Link Path:</value>
+    <value>Путь к ссылке:</value>
   </data>
   <data name="InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath" xml:space="preserve">
-    <value>The path you select must be on the same drive as the link path.</value>
+    <value>Выбранный путь должен быть на том же диске, что и путь к ссылке.</value>
   </data>
   <data name="LauncherPage_HardLink" xml:space="preserve">
-    <value>Hard Link</value>
+    <value>Жёсткая ссылка</value>
   </data>
 </root>
