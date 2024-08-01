@@ -408,7 +408,7 @@
     <value>リトライの回数が多すぎます</value>
   </data>
   <data name="UpdateService_CannotUpdateAutomatically" xml:space="preserve">
-    <value>自動的にアップデートできません</value>
+    <value>自動でアップデートできません</value>
   </data>
   <data name="GameSettingPage_Custom" xml:space="preserve">
     <value>カスタム</value>
@@ -1497,7 +1497,7 @@
     <value>ハードリンクを作成</value>
   </data>
   <data name="InstallGameDialog_HardLinkDescription" xml:space="preserve">
-    <value>Creating hard link to install game clients in different servers, taking up very little additional storage space.</value>
+    <value>異なるサーバーにゲームクライアントをインストールするためのハードリンクを作成します。追加のストレージ容量は僅かです。</value>
   </data>
   <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
     <value>リンク先:</value>
@@ -1506,7 +1506,7 @@
     <value>現在のサーバーは事前ダウンロードをサポートしていません。ターゲットサーバーのハードリンクを使用して事前ダウンロードを完了してください。</value>
   </data>
   <data name="GameLauncherPage_HardLinkUpdateToLatest" xml:space="preserve">
-    <value>Please update the target server of the hard link to the latest version before updating the game files in this server.</value>
+    <value>このサーバーのゲームファイルをアップデートする前に、ハードリンク先のサーバーを最新のバージョンにアップデートしてください。</value>
   </data>
   <data name="InstallGameDialog_LinkPath" xml:space="preserve">
     <value>リンクパス:</value>
