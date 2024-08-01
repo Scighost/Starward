@@ -46,7 +46,7 @@ public class StarRailGachaClient : GachaLogClient
             }
             return gachaUrl;
         }
-        match = Regex.Match(gachaUrl, @"(https://api[!-z]+)");
+        match = Regex.Match(gachaUrl, @"(https://public-operation-hkrpg[!-z]+)");
         if (match.Success)
         {
             gachaUrl = match.Groups[1].Value;
