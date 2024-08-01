@@ -5,7 +5,6 @@ using Starward.Helpers;
 using Starward.Services.Download;
 using System;
 using System.IO;
-using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
@@ -70,15 +69,9 @@ public sealed partial class DownloadSettingPage : PageBase
     private int speedLimit = AppConfig.SpeedLimitKBPerSecond;
     partial void OnSpeedLimitChanged(int value)
     {
-        InstallGameManager.SpeedLimitBytesPerSecond = value == 0 ? int.MaxValue : value * 1024;
-        InstallGameManager.rateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
-        {
-            TokensPerPeriod = InstallGameManager.SpeedLimitBytesPerSecond,
-            ReplenishmentPeriod = TimeSpan.FromSeconds(1),
-            TokenLimit = InstallGameManager.SpeedLimitBytesPerSecond,
-            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-            AutoReplenishment = true
-        });
+        int speed = value == 0 ? int.MaxValue : value * 1024;
+        InstallGameManager.SpeedLimitBytesPerSecond = speed;
+        InstallGameManager.GlobalRateLimiter = InstallGameManager.GetRateLimiter(speed);
         AppConfig.SpeedLimitKBPerSecond = value;
     }
 

@@ -4,9 +4,10 @@ using Starward.Helpers;
 using Starward.Messages;
 using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.RateLimiting;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Starward.Services.Download;
 
@@ -22,14 +23,7 @@ internal class InstallGameManager
         _services = new();
         int speed = AppConfig.SpeedLimitKBPerSecond * 1024;
         SpeedLimitBytesPerSecond = speed == 0 ? int.MaxValue : speed;
-        rateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
-        {
-            TokensPerPeriod = SpeedLimitBytesPerSecond,
-            ReplenishmentPeriod = TimeSpan.FromSeconds(1),
-            TokenLimit = SpeedLimitBytesPerSecond,
-            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-            AutoReplenishment = true
-        });
+        GlobalRateLimiter = GetRateLimiter(SpeedLimitBytesPerSecond);
     }
 
 
@@ -38,27 +32,18 @@ internal class InstallGameManager
 
 
 
-    public static long DownloadBytesInSecond;
-
-
     public static int SpeedLimitBytesPerSecond { get; set; }
 
 
-    public static RateLimiter rateLimiter;
+    public static TokenBucketRateLimiter GlobalRateLimiter;
 
 
-    private long _lastTimeStamp;
+    public static bool IsEnableSpeedLimit => SpeedLimitBytesPerSecond != int.MaxValue;
 
 
-    public void UpdateSpeedState()
-    {
-        long ts = Stopwatch.GetTimestamp();
-        if (ts - _lastTimeStamp >= Stopwatch.Frequency)
-        {
-            DownloadBytesInSecond = 0;
-        }
-    }
-
+    // BUFFER_SIZE越大限速时保留速度也会越大，可以用来抵消迷之原因造成的超速¿
+    // speedLimit<=2MB/s → 4Bytes else 16KB
+    public static int BUFFER_SIZE => (SpeedLimitBytesPerSecond <= (1 << 21)) ? (1 << 4) : (1 << 10);
 
 
     public event EventHandler<InstallGameStateModel> InstallTaskAdded;
@@ -67,6 +52,37 @@ internal class InstallGameManager
 
     public event EventHandler<InstallGameStateModel> InstallTaskRemoved;
 
+
+
+
+    public static TokenBucketRateLimiter GetRateLimiter(int speedLimitBytesPerSecond)
+    {
+        // 小于speedLimitBytesPerSecond的最大能被BUFFER_SIZE整除的值
+        var speedLimitBytesPerPeriod = Math.Max(speedLimitBytesPerSecond / 25 / BUFFER_SIZE * BUFFER_SIZE, BUFFER_SIZE);
+        return new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
+        {
+            TokenLimit = speedLimitBytesPerPeriod,
+            // 0.04: 将每秒切割为上面的25份，间隔越小速度越精准。
+            // 因补充令牌逻辑运行耗时远大于期望，若间隔极小，将无法达到最高限速。
+            ReplenishmentPeriod = TimeSpan.FromSeconds(Math.Max(BUFFER_SIZE / (double)speedLimitBytesPerSecond, 0.04)),
+            TokensPerPeriod = speedLimitBytesPerPeriod,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            AutoReplenishment = true
+        });
+    }
+
+
+
+    public static async Task GetLeaseAsync(TokenBucketRateLimiter rateLimiter, int length, CancellationToken cancellationToken)
+    {
+        RateLimitLease lease;
+        do
+        {
+            lease = await rateLimiter.AcquireAsync(length, cancellationToken).ConfigureAwait(false);
+            if (!lease.IsAcquired && lease.TryGetMetadata(MetadataName.RetryAfter, out TimeSpan retryAfter))
+                await Task.Delay((int)Math.Max(Math.Sqrt(retryAfter.TotalMilliseconds), 1), cancellationToken).ConfigureAwait(false);
+        } while (!lease.IsAcquired);
+    }
 
 
 
