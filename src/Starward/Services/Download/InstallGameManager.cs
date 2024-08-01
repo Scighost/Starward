@@ -21,12 +21,11 @@ internal class InstallGameManager
     {
         _services = new();
         int speed = AppConfig.SpeedLimitKBPerSecond * 1024;
-        SpeedLimitBytesPerSecond = speed == 0 ? int.MaxValue : speed;
         rateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
         {
-            TokensPerPeriod = SpeedLimitBytesPerSecond,
-            ReplenishmentPeriod = TimeSpan.FromSeconds(1),
-            TokenLimit = SpeedLimitBytesPerSecond,
+            TokensPerPeriod = SpeedLimitBytesPerPeriod,
+            ReplenishmentPeriod = SpeedLimitReplenishmentPeriod,
+            TokenLimit = SpeedLimitBytesPerPeriod,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
             AutoReplenishment = true
         });
@@ -44,7 +43,15 @@ internal class InstallGameManager
     public static int SpeedLimitBytesPerSecond { get; set; }
 
 
-    public static RateLimiter rateLimiter;
+    public static int SpeedLimitBytesPerPeriod => Math.Max((int)Math.Floor((double)SpeedLimitBytesPerSecond / 40), 1 << 14);
+
+
+    // 25: 将每秒切割为上面的40份，间隔越小速度越精准。
+    // 因为buffer较小，间隔极小的话请求令牌的速度将大于补充令牌逻辑运行的时间，导致无论限速多少实际速度只会在1MB/s左右。
+    public static TimeSpan SpeedLimitReplenishmentPeriod => SpeedLimitBytesPerPeriod == 1 << 14 ? TimeSpan.FromSeconds((1 << 14) / (double)SpeedLimitBytesPerSecond) : TimeSpan.FromMilliseconds(25);
+
+
+    public static TokenBucketRateLimiter rateLimiter;
 
 
     private long _lastTimeStamp;

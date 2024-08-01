@@ -1205,14 +1205,13 @@ internal class InstallGameService
                 while ((length = await hs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
                 {
                     RateLimitLease lease;
-                    do
-                    {
-                        lease = await InstallGameManager.rateLimiter.AcquireAsync(buffer.Length, cancellationToken).ConfigureAwait(false);
-                        if (!lease.IsAcquired)
+                    if (InstallGameManager.SpeedLimitBytesPerSecond != int.MaxValue)
+                        do
                         {
-                            await Task.Delay(1, cancellationToken).ConfigureAwait(false);
-                        }
-                    } while (!lease.IsAcquired);
+                            lease = await InstallGameManager.rateLimiter.AcquireAsync(length, cancellationToken).ConfigureAwait(false);
+                            if (!lease.IsAcquired)
+                                await Task.Delay(1, cancellationToken).ConfigureAwait(false);
+                        } while (!lease.IsAcquired);
                     await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken).ConfigureAwait(false);
                     Interlocked.Add(ref _finishBytes, length);
                 }

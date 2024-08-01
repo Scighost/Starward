@@ -73,9 +73,9 @@ public sealed partial class DownloadSettingPage : PageBase
         InstallGameManager.SpeedLimitBytesPerSecond = value == 0 ? int.MaxValue : value * 1024;
         InstallGameManager.rateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
         {
-            TokensPerPeriod = InstallGameManager.SpeedLimitBytesPerSecond,
-            ReplenishmentPeriod = TimeSpan.FromSeconds(1),
-            TokenLimit = InstallGameManager.SpeedLimitBytesPerSecond,
+            TokensPerPeriod = InstallGameManager.SpeedLimitBytesPerPeriod,
+            ReplenishmentPeriod = InstallGameManager.SpeedLimitReplenishmentPeriod,
+            TokenLimit = InstallGameManager.SpeedLimitBytesPerPeriod,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
             AutoReplenishment = true
         });
