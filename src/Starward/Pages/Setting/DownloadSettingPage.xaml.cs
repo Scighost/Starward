@@ -70,7 +70,7 @@ public sealed partial class DownloadSettingPage : PageBase
     private int speedLimit = AppConfig.SpeedLimitKBPerSecond;
     partial void OnSpeedLimitChanged(int value)
     {
-        InstallGameManager.SpeedLimitBytesPerSecond = value == 0 ? int.MaxValue : value * 1024;
+        InstallGameManager.SpeedLimitBytesPerSecond = value <= 0 ? int.MaxValue : value * 1024;
         InstallGameManager.rateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
         {
             TokensPerPeriod = InstallGameManager.SpeedLimitBytesPerPeriod,
