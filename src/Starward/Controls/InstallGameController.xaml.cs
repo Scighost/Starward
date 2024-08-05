@@ -134,7 +134,6 @@ public sealed partial class InstallGameController : UserControl
         long totalBytes = 0;
         long finishedBytes = 0;
         bool determinate = false;
-        _installGameManager.UpdateSpeedState();
         foreach (var model in InstallServices)
         {
             model.UpdateState();

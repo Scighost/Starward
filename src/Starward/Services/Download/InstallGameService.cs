@@ -21,6 +21,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading;
+using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 
@@ -245,7 +246,7 @@ internal class InstallGameService
             {
                 File.SetAttributes(file, FileAttributes.Normal);
             }
-        });
+        }).ConfigureAwait(false);
         CurrentGameBiz = gameBiz;
         _installPath = installPath;
         _initialized = true;
@@ -714,7 +715,7 @@ internal class InstallGameService
         _cancellationTokenSource = new CancellationTokenSource();
         for (int i = 0; i < Environment.ProcessorCount; i++)
         {
-            _ = ExecuteTaskItemAsync(_cancellationTokenSource.Token);
+            _ = ExecuteTaskItemAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
         }
     }
 
@@ -981,7 +982,7 @@ internal class InstallGameService
         {
             File.Delete(file);
         }
-        foreach (var file in await _hoYoPlayService.GetGameDeprecatedFilesAsync(CurrentGameBiz))
+        foreach (var file in await _hoYoPlayService.GetGameDeprecatedFilesAsync(CurrentGameBiz).ConfigureAwait(false))
         {
             var path = Path.Combine(_installPath, file.Name);
             if (File.Exists(path))
@@ -989,7 +990,7 @@ internal class InstallGameService
                 File.Delete(path);
             }
         }
-        await WriteConfigFileAsync();
+        await WriteConfigFileAsync().ConfigureAwait(false);
         CurrentTaskFinished();
     }
 
@@ -1118,19 +1119,19 @@ internal class InstallGameService
                         case InstallGameItemType.None:
                             break;
                         case InstallGameItemType.Download:
-                            await DownloadItemAsync(item, cancellationToken);
+                            await DownloadItemAsync(item, cancellationToken).ConfigureAwait(false);
                             Interlocked.Increment(ref _finishCount);
                             break;
                         case InstallGameItemType.Verify:
-                            await VerifyItemAsync(item, cancellationToken);
+                            await VerifyItemAsync(item, cancellationToken).ConfigureAwait(false);
                             Interlocked.Increment(ref _finishCount);
                             break;
                         case InstallGameItemType.Decompress:
-                            await DecompressItemAsync(item, cancellationToken);
+                            await DecompressItemAsync(item, cancellationToken).ConfigureAwait(false);
                             Interlocked.Increment(ref _finishCount);
                             break;
                         case InstallGameItemType.HardLink:
-                            await HardLinkItemAsync(item, cancellationToken);
+                            await HardLinkItemAsync(item, cancellationToken).ConfigureAwait(false);
                             Interlocked.Increment(ref _finishCount);
                             break;
                         default:
@@ -1141,7 +1142,7 @@ internal class InstallGameService
                 {
                     // network error
                     _installItemQueue.Enqueue(item);
-                    await Task.Delay(1000, CancellationToken.None);
+                    await Task.Delay(1000, CancellationToken.None).ConfigureAwait(false);
                 }
                 catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
                 {
@@ -1171,7 +1172,7 @@ internal class InstallGameService
 
     protected async Task DownloadItemAsync(InstallGameItem item, CancellationToken cancellationToken = default)
     {
-        const int BUFFER_SIZE = 1 << 14;
+        const int BUFFER_SIZE = 1 << 10;
         string file = item.Path;
         string file_tmp = item.Path + "_tmp";
         string file_target;
@@ -1203,14 +1204,14 @@ internal class InstallGameService
                 int length;
                 while ((length = await hs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
                 {
+                    RateLimitLease lease = await InstallGameManager.RateLimiter.AcquireAsync(length, cancellationToken).ConfigureAwait(false);
+                    while (!lease.IsAcquired)
+                    {
+                        await Task.Delay(1, cancellationToken).ConfigureAwait(false);
+                        lease = await InstallGameManager.RateLimiter.AcquireAsync(length, cancellationToken).ConfigureAwait(false);
+                    }
                     await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken).ConfigureAwait(false);
                     Interlocked.Add(ref _finishBytes, length);
-                    Interlocked.Add(ref InstallGameManager.DownloadBytesInSecond, length);
-                    if (InstallGameManager.IsExceedSpeedLimit)
-                    {
-                        long t = Stopwatch.GetTimestamp() / (Stopwatch.Frequency / 1000) % 1000;
-                        await Task.Delay((int)(1000 - t), cancellationToken);
-                    }
                 }
             }
         }
@@ -1246,7 +1247,7 @@ internal class InstallGameService
         var buffer = ArrayPool<byte>.Shared.Rent(BUFFER_SIZE);
         try
         {
-            await _verifyGlobalSemaphore.WaitAsync(cancellationToken);
+            await _verifyGlobalSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
             using var fs = File.OpenRead(file_target);
             if (fs.Length != item.Size)
             {
@@ -1293,7 +1294,7 @@ internal class InstallGameService
     {
         try
         {
-            await _decompressSemaphore.WaitAsync();
+            await _decompressSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
             using var fs = new FileSliceStream(item.DecompressPackageFiles);
             if (item.DecompressPackageFiles[0].Contains(".7z", StringComparison.CurrentCultureIgnoreCase))
             {
@@ -1310,7 +1311,7 @@ internal class InstallGameService
                     };
                     extra.Extract(item.DecompressPath, true);
                     _finishBytes += fs.Length - sum;
-                }).ConfigureAwait(false);
+                }, cancellationToken).ConfigureAwait(false);
             }
             else
             {
@@ -1335,8 +1336,8 @@ internal class InstallGameService
                         }
                     }
                     _finishBytes += fs.Length - sum;
-                    await ApplyDiffFilesAsync(item.DecompressPath);
-                }).ConfigureAwait(false);
+                    await ApplyDiffFilesAsync(item.DecompressPath).ConfigureAwait(false);
+                }, cancellationToken).ConfigureAwait(false);
             }
             fs.Dispose();
             foreach (var file in item.DecompressPackageFiles)
@@ -1440,7 +1441,7 @@ internal class InstallGameService
         var buffer = ArrayPool<byte>.Shared.Rent(BUFFER_SIZE);
         try
         {
-            await _verifyGlobalSemaphore.WaitAsync(cancellationToken);
+            await _verifyGlobalSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
             using var fs = File.OpenRead(file_source);
             if (fs.Length != item.Size)
             {

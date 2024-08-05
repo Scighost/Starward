@@ -69,7 +69,7 @@ public sealed partial class DownloadSettingPage : PageBase
     private int speedLimit = AppConfig.SpeedLimitKBPerSecond;
     partial void OnSpeedLimitChanged(int value)
     {
-        InstallGameManager.SpeedLimitBytesPerSecond = value == 0 ? long.MaxValue : value * 1024;
+        InstallGameManager.SetRateLimit(value * 1024);
         AppConfig.SpeedLimitKBPerSecond = value;
     }
 

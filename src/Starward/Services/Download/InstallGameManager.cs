@@ -4,9 +4,8 @@ using Starward.Helpers;
 using Starward.Messages;
 using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading;
+using System.Threading.RateLimiting;
 
 namespace Starward.Services.Download;
 
@@ -20,8 +19,7 @@ internal class InstallGameManager
     private InstallGameManager()
     {
         _services = new();
-        long speed = AppConfig.SpeedLimitKBPerSecond * 1024;
-        SpeedLimitBytesPerSecond = speed == 0 ? long.MaxValue : speed;
+        SetRateLimit(AppConfig.SpeedLimitKBPerSecond * 1024);
     }
 
 
@@ -30,26 +28,31 @@ internal class InstallGameManager
 
 
 
-    public static long DownloadBytesInSecond;
+    public static TokenBucketRateLimiter RateLimiter { get; private set; }
 
 
-    public static long SpeedLimitBytesPerSecond { get; set; }
 
-
-    public static bool IsExceedSpeedLimit => Interlocked.Read(ref DownloadBytesInSecond) >= SpeedLimitBytesPerSecond;
-
-
-    private long _lastTimeStamp;
-
-
-    public void UpdateSpeedState()
+    public static void SetRateLimit(int bytesPerSecond)
     {
-        long ts = Stopwatch.GetTimestamp();
-        if (ts - _lastTimeStamp >= Stopwatch.Frequency)
+        if (bytesPerSecond <= 0)
         {
-            DownloadBytesInSecond = 0;
+            bytesPerSecond = int.MaxValue;
         }
+        else if (bytesPerSecond < (1 << 14))
+        {
+            bytesPerSecond = 1 << 14;
+        }
+        RateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
+        {
+            TokenLimit = bytesPerSecond,
+            ReplenishmentPeriod = TimeSpan.FromSeconds(1),
+            TokensPerPeriod = bytesPerSecond,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            AutoReplenishment = true
+        });
     }
+
+
 
 
 
