@@ -71,8 +71,8 @@ public sealed partial class DownloadSettingPage : PageBase
     {
         int speed = value <= 0 ? int.MaxValue : value * 1024;
         InstallGameManager.SpeedLimitBytesPerSecond = speed;
-        InstallGameManager.GlobalRateLimiter = InstallGameManager.GetRateLimiter(speed);
         AppConfig.SpeedLimitKBPerSecond = value;
+        InstallGameManager.SetRateLimit();
     }
 
 

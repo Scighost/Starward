@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Messages;
@@ -23,7 +23,7 @@ internal class InstallGameManager
         _services = new();
         int speed = AppConfig.SpeedLimitKBPerSecond * 1024;
         SpeedLimitBytesPerSecond = speed == 0 ? int.MaxValue : speed;
-        GlobalRateLimiter = GetRateLimiter(SpeedLimitBytesPerSecond);
+        SetRateLimit();
     }
 
 
@@ -35,14 +35,14 @@ internal class InstallGameManager
     public static int SpeedLimitBytesPerSecond { get; set; }
 
 
-    public static TokenBucketRateLimiter GlobalRateLimiter;
+    public static TokenBucketRateLimiter RateLimiter { get; private set; }
 
 
     public static bool IsEnableSpeedLimit => SpeedLimitBytesPerSecond != int.MaxValue;
 
 
     // BUFFER_SIZE越大限速时保留速度也会越大，可以用来抵消迷之原因造成的超速¿
-    // speedLimit<=2MB/s → 4Bytes else 16KB
+    // speedLimit<=2MB/s → 16Bytes else 1KB
     public static int BUFFER_SIZE => (SpeedLimitBytesPerSecond <= (1 << 21)) ? (1 << 4) : (1 << 10);
 
 
@@ -54,34 +54,27 @@ internal class InstallGameManager
 
 
 
+    public static event EventHandler LimitStateChanged;
 
-    public static TokenBucketRateLimiter GetRateLimiter(int speedLimitBytesPerSecond)
+
+
+
+    public static void SetRateLimit()
     {
         // 小于speedLimitBytesPerSecond的最大能被BUFFER_SIZE整除的值
-        var speedLimitBytesPerPeriod = Math.Max(speedLimitBytesPerSecond / 25 / BUFFER_SIZE * BUFFER_SIZE, BUFFER_SIZE);
-        return new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
+        var speedLimitBytesPerPeriod = Math.Max(SpeedLimitBytesPerSecond / 25 / BUFFER_SIZE * BUFFER_SIZE, BUFFER_SIZE);
+        RateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
         {
             TokenLimit = speedLimitBytesPerPeriod,
             // 0.04: 将每秒切割为上面的25份，间隔越小速度越精准。
             // 因补充令牌逻辑运行耗时远大于期望，若间隔极小，将无法达到最高限速。
-            ReplenishmentPeriod = TimeSpan.FromSeconds(Math.Max(BUFFER_SIZE / (double)speedLimitBytesPerSecond, 0.04)),
+            ReplenishmentPeriod = TimeSpan.FromSeconds(Math.Max(BUFFER_SIZE / (double)SpeedLimitBytesPerSecond, 0.04)),
             TokensPerPeriod = speedLimitBytesPerPeriod,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
             AutoReplenishment = true
         });
-    }
-
-
-
-    public static async Task GetLeaseAsync(TokenBucketRateLimiter rateLimiter, int length, CancellationToken cancellationToken)
-    {
-        RateLimitLease lease;
-        do
-        {
-            lease = await rateLimiter.AcquireAsync(length, cancellationToken).ConfigureAwait(false);
-            if (!lease.IsAcquired && lease.TryGetMetadata(MetadataName.RetryAfter, out TimeSpan retryAfter))
-                await Task.Delay((int)Math.Max(Math.Sqrt(retryAfter.TotalMilliseconds), 1), cancellationToken).ConfigureAwait(false);
-        } while (!lease.IsAcquired);
+        if (LimitStateChanged != null && LimitStateChanged.GetInvocationList().Length > 0)
+            Task.Run(() => LimitStateChanged.Invoke(null, EventArgs.Empty));
     }
 
 
@@ -112,6 +105,8 @@ internal class InstallGameManager
         model.InstallFailed += Model_InstallFailed;
         model.InstallCanceled -= Model_InstallCanceled;
         model.InstallCanceled += Model_InstallCanceled;
+        LimitStateChanged -= model._manager_LimitStateChanged;
+        LimitStateChanged += model._manager_LimitStateChanged;
         InstallTaskAdded?.Invoke(this, model);
     }
 
@@ -126,6 +121,7 @@ internal class InstallGameManager
             model.InstallFinished -= Model_InstallFinished;
             model.InstallFailed -= Model_InstallFailed;
             model.InstallCanceled -= Model_InstallCanceled;
+            LimitStateChanged -= model._manager_LimitStateChanged;
             InstallTaskRemoved?.Invoke(this, model);
             WeakReferenceMessenger.Default.Send(new InstallGameFinishedMessage(model.GameBiz));
             NotificationBehavior.Instance.Success(Lang.InstallGameManager_DownloadTaskCompleted, $"{InstallTaskToString(model.Service.InstallTask)} - {model.GameBiz.ToGameName()} - {model.GameBiz.ToGameServer()}", 0);
@@ -154,6 +150,7 @@ internal class InstallGameManager
             model.InstallFinished -= Model_InstallFinished;
             model.InstallFailed -= Model_InstallFailed;
             model.InstallCanceled -= Model_InstallCanceled;
+            LimitStateChanged -= model._manager_LimitStateChanged;
             InstallTaskRemoved?.Invoke(this, model);
         }
     }

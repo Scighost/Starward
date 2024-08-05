@@ -44,7 +44,7 @@ public class GenshinGachaClient : GachaLogClient
             }
             return gachaUrl;
         }
-        match = Regex.Match(gachaUrl, @"(https://hk4e-api[!-z]+)");
+        match = Regex.Match(gachaUrl, @"(https://public-operation-hk4e[!-z]+)");
         if (match.Success)
         {
             gachaUrl = match.Groups[1].Value;

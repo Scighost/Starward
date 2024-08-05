@@ -135,18 +135,6 @@ public partial class InstallGameStateModel : ObservableObject
 
     public void UpdateState()
     {
-        if (Service.HTTP_BUFFER_SIZE != InstallGameManager.BUFFER_SIZE || Service.IsEnableSpeedLimit != InstallGameManager.IsEnableSpeedLimit)
-        {
-            Interlocked.Exchange(ref Service.HTTP_BUFFER_SIZE, InstallGameManager.BUFFER_SIZE);
-            Service.IsEnableSpeedLimit = InstallGameManager.IsEnableSpeedLimit;
-            Service.Pause();
-            Task.Run(() =>
-            {
-                Task.WhenAll(Service.TaskItems).Wait();
-                Service.Continue();
-                InstallStarted?.Invoke(this, EventArgs.Empty);
-            });
-        }
         try
         {
             IsContinueOrPauseButtonEnabled = true;
@@ -282,6 +270,7 @@ public partial class InstallGameStateModel : ObservableObject
     private void _service_StateChanged(object? sender, InstallGameState e)
     {
         uiContext.Post(_ => UpdateState(), null);
+        
     }
 
 
@@ -292,4 +281,17 @@ public partial class InstallGameStateModel : ObservableObject
     }
 
 
+
+    public void _manager_LimitStateChanged(object? sender, EventArgs e)
+    {
+        if (Service.State is InstallGameState.Download && Service.HTTP_BUFFER_SIZE != InstallGameManager.BUFFER_SIZE || Service.IsEnableSpeedLimit != InstallGameManager.IsEnableSpeedLimit)
+        {
+            Service.Pause();
+            Task.WhenAll(Service.TaskItems).Wait();
+            Service.HTTP_BUFFER_SIZE = InstallGameManager.BUFFER_SIZE;
+            Service.IsEnableSpeedLimit = InstallGameManager.IsEnableSpeedLimit; 
+            Service.Continue();
+            InstallStarted?.Invoke(this, EventArgs.Empty);
+        }
+    }
 }
