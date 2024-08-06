@@ -6,6 +6,7 @@ public class GameRegistry
 
     public const string InstallPath = "InstallPath";
 
+    // Outdated launcher
     public const string LauncherPath_hk4e_cn = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神";
     public const string LauncherPath_hk4e_global = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Genshin Impact";
     public const string LauncherPath_hk4e_cloud = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\云·原神";
@@ -22,9 +23,13 @@ public class GameRegistry
 
     public const string LauncherPath_nap_cbt3 = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\HYP_standalone_1_1_nap_cn";
 
-    public const string LauncherPath_HYP_1_1_cn = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\HYP_1_1_cn";
- 
+    // New launcher
+    public const string LauncherPath_HYP_cn = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\HYP_1_1_cn";
+    public const string LauncherPath_HYP_os = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\HYP_1_0_global";
 
+
+
+    // Game Config
     public const string GamePath_hk4e_cn = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
     public const string GamePath_hk4e_global = @"HKEY_CURRENT_USER\Software\miHoYo\Genshin Impact";
     public const string GamePath_hk4e_cloud = @"HKEY_CURRENT_USER\Software\miHoYo\云·原神";
@@ -43,8 +48,9 @@ public class GameRegistry
     public const string GamePath_nap_cn = @"HKEY_CURRENT_USER\Software\miHoYo\绝区零";
     public const string GamePath_nap_global = @"HKEY_CURRENT_USER\Software\miHoYo\ZenlessZoneZero";
 
-    //这条暂不清楚怎么归类
-    public const string GamePath_HYP_1_1_cn = @"HKEY_CURRENT_USER\SOFTWARE\miHoYo\HYP\1_1";
+    // Launcher Config
+    public const string GamePath_HYP_cn = @"HKEY_CURRENT_USER\SOFTWARE\miHoYo\HYP\1_1";
+    public const string GamePath_HYP_os = @"HKEY_CURRENT_USER\SOFTWARE\Cognosphere\HYP\1_0";
 
 
     public const string GENERAL_DATA_h2389025596 = "GENERAL_DATA_h2389025596";
