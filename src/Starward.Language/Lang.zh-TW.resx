@@ -1432,90 +1432,90 @@
     <value>挑戰次數</value>
   </data>
   <data name="InstallGameDialog_SelectInstallationPath" xml:space="preserve">
-    <value>Select Installation Path</value>
+    <value>選擇安裝路徑</value>
   </data>
   <data name="Common_Change" xml:space="preserve">
-    <value>Change</value>
+    <value>更改</value>
   </data>
   <data name="InstallGameDialog_SpaceRequiredToUnzip" xml:space="preserve">
-    <value>Space Required to Unzip</value>
+    <value>解壓縮所需空間</value>
   </data>
   <data name="InstallGameDialog_SpaceAvailable" xml:space="preserve">
-    <value>Space Available</value>
+    <value>可用空間</value>
   </data>
   <data name="InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator" xml:space="preserve">
-    <value>No write permission, please restart as administrator.</value>
+    <value>沒有寫入權限，請以管理員身分重新啟動。</value>
   </data>
   <data name="InstallGameDialog_ClickToRestart" xml:space="preserve">
-    <value>Click to Restart</value>
+    <value>點擊重新啟動</value>
   </data>
   <data name="InstallGameDialog_DesktopShortcut" xml:space="preserve">
-    <value>Desktop Shortcut</value>
+    <value>桌面捷徑</value>
   </data>
   <data name="InstallGameDialog_Installed" xml:space="preserve">
-    <value>Installed?</value>
+    <value>已安裝？</value>
   </data>
   <data name="InstallGameDialog_LocateGame" xml:space="preserve">
-    <value>Locate Game</value>
+    <value>定位遊戲</value>
   </data>
   <data name="InstallGameDialog_StartInstallation" xml:space="preserve">
-    <value>Start Installation</value>
+    <value>開始安裝</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPath" xml:space="preserve">
-    <value>Default Game Installation Path</value>
+    <value>預設安裝路徑</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPathDescription" xml:space="preserve">
-    <value>The games will be installed in different subfolders, changing the default path will not move the installed game files.</value>
+    <value>遊戲將安裝在不同的子資料夾中，修改預設路徑不會移動已安裝的遊戲檔案。</value>
   </data>
   <data name="DownloadSettingPage_SpeedLimit" xml:space="preserve">
-    <value>Speed Limit</value>
+    <value>速度限制</value>
   </data>
   <data name="DownloadSettingPage_TheNumber0MeansNoSpeedLimit" xml:space="preserve">
-    <value>The number 0 means no speed limit.</value>
+    <value>數字 0 代表不限速</value>
   </data>
   <data name="SettingPage_Download" xml:space="preserve">
-    <value>Download</value>
+    <value>下載</value>
   </data>
   <data name="DownloadGamePage_Paused" xml:space="preserve">
-    <value>Paused</value>
+    <value>已暫停</value>
   </data>
   <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
-    <value>Download task completed</value>
+    <value>下載任務已完成</value>
   </data>
   <data name="InstallGameManager_DownloadTaskFailed" xml:space="preserve">
-    <value>Download task failed</value>
+    <value>下載任務失敗</value>
   </data>
   <data name="GameLauncherPage_NoWritePermission" xml:space="preserve">
-    <value>No Write Permission</value>
+    <value>沒有寫入權限</value>
   </data>
   <data name="Common_Restart" xml:space="preserve">
-    <value>Restart</value>
+    <value>重新啟動</value>
   </data>
   <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
-    <value>Please restart as administrator.</value>
+    <value>請以管理員身分重新啟動</value>
   </data>
   <data name="InstallGameDialog_CreateHardLink" xml:space="preserve">
-    <value>Create Hard Link</value>
+    <value>建立硬連結</value>
   </data>
   <data name="InstallGameDialog_HardLinkDescription" xml:space="preserve">
-    <value>Creating hard link to install game clients in different servers, taking up very little additional storage space.</value>
+    <value>建立硬鏈接，佔用極小的額外儲存空間，以安裝多個不同區服的遊戲用戶端。</value>
   </data>
   <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
-    <value>Link target:</value>
+    <value>連結目標：</value>
   </data>
   <data name="GameLauncherPage_HardLinkNotSupportPredownload" xml:space="preserve">
-    <value>The current server does not support pre-download. Please complete pre-download in the target server of the hard link.</value>
+    <value>目前區服不支援預先下載，請在硬連結的目標區服完成預先下載。</value>
   </data>
   <data name="GameLauncherPage_HardLinkUpdateToLatest" xml:space="preserve">
-    <value>Please update the target server of the hard link to the latest version before updating the game files in this server.</value>
+    <value>請將硬連結的目標區服更新到最新版本後，再更新本區服的遊戲檔案。</value>
   </data>
   <data name="InstallGameDialog_LinkPath" xml:space="preserve">
-    <value>Link Path:</value>
+    <value>連結路徑：</value>
   </data>
   <data name="InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath" xml:space="preserve">
-    <value>The path you select must be on the same drive as the link path.</value>
+    <value>選擇的路徑必須位於與連結路徑相同的磁碟機上</value>
   </data>
   <data name="LauncherPage_HardLink" xml:space="preserve">
-    <value>Hard Link</value>
+    <value>硬連結</value>
   </data>
 </root>
