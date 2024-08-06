@@ -266,6 +266,9 @@ internal static class AppConfig
             sc.AddSingleton<LauncherBackgroundService>();
             sc.AddSingleton<GamePackageService>();
             sc.AddSingleton<ZZZGachaService>();
+            sc.AddTransient<Services.Download.InstallGameService>();
+            sc.AddTransient<Services.Download.GenshinInstallGameService>();
+            sc.AddTransient<Services.Download.StarRailInstallGameService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))
@@ -492,6 +495,21 @@ internal static class AppConfig
         get => GetValue<bool>();
         set => SetValue(value);
     }
+
+
+    public static string? DefaultGameInstallationPath
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
+    public static int SpeedLimitKBPerSecond
+    {
+        get => GetValue(0);
+        set => SetValue(value);
+    }
+
 
 
 

@@ -20,7 +20,7 @@ public abstract class GachaLogClient
     protected const string WEB_CACHE_PATH_YS_OS = @"GenshinImpact_Data\webCaches\Cache\Cache_Data\data_2";
 
     protected const string API_PREFIX_YS_CN = "https://public-operation-hk4e.mihoyo.com/gacha_info/api/getGachaLog";
-    protected const string API_PREFIX_YS_OS = "https://hk4e-api-os.hoyoverse.com/gacha_info/api/getGachaLog";
+    protected const string API_PREFIX_YS_OS = "https://public-operation-hk4e-sg.hoyoverse.com/gacha_info/api/getGachaLog";
 
     protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_YS_CN => "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v3/index.html"u8;
     protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_YS_OS => "https://gs.hoyoverse.com/genshin/event/e20190909gacha-v3/index.html"u8;
@@ -32,8 +32,8 @@ public abstract class GachaLogClient
 
     protected const string WEB_CACHE_SR_PATH = @"StarRail_Data\webCaches\Cache\Cache_Data\data_2";
 
-    protected const string API_PREFIX_SR_CN = "https://api-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
-    protected const string API_PREFIX_SR_OS = "https://api-os-takumi.mihoyo.com/common/gacha_record/api/getGachaLog";
+    protected const string API_PREFIX_SR_CN = "https://public-operation-hkrpg.mihoyo.com/common/gacha_record/api/getGachaLog";
+    protected const string API_PREFIX_SR_OS = "https://public-operation-hkrpg-sg.hoyoverse.com/common/gacha_record/api/getGachaLog";
 
     protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_SR_CN => "https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha-v2/index.html"u8;
     protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_SR_OS => "https://gs.hoyoverse.com/hkrpg/event/e20211215gacha-v2/index.html"u8;

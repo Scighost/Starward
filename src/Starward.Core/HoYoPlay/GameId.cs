@@ -5,7 +5,7 @@ namespace Starward.Core.HoYoPlay;
 /// <summary>
 /// 游戏 ID
 /// </summary>
-public class GameId
+public class GameId : IEquatable<GameId>
 {
 
     [JsonPropertyName("id")]
@@ -47,6 +47,33 @@ public class GameId
             _ => null,
         };
     }
+
+
+    public bool Equals(GameId? other)
+    {
+        return this.Id == other?.Id;
+    }
+
+
+    public override bool Equals(object? obj)
+    {
+        return this.Equals(obj as GameId);
+    }
+
+
+    public override int GetHashCode()
+    {
+        return this.Id.GetHashCode();
+    }
+
+
+    public static bool operator ==(GameId? left, GameId? right)
+    {
+        return left?.Id == right?.Id;
+    }
+
+
+    public static bool operator !=(GameId? left, GameId? right) => !(left == right);
 
 
 }

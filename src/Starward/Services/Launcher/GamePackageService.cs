@@ -225,7 +225,7 @@ internal class GamePackageService
         }
         VoiceLanguage flag = VoiceLanguage.None;
         var config = await _hoYoPlayService.GetGameConfigAsync(biz);
-        if (config is not null && !string.IsNullOrWhiteSpace(config.AudioPackageScanDir))
+        if (!string.IsNullOrWhiteSpace(config?.AudioPackageScanDir))
         {
             string file = Path.Join(installPath, config.AudioPackageScanDir);
             if (File.Exists(file))
@@ -250,7 +250,7 @@ internal class GamePackageService
             return;
         }
         var config = await _hoYoPlayService.GetGameConfigAsync(biz);
-        if (config is not null && !string.IsNullOrWhiteSpace(config.AudioPackageScanDir))
+        if (!string.IsNullOrWhiteSpace(config?.AudioPackageScanDir))
         {
             string file = Path.Join(installPath, config.AudioPackageScanDir);
             Directory.CreateDirectory(Path.GetDirectoryName(file)!);

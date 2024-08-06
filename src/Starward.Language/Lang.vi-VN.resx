@@ -181,7 +181,7 @@
     <value>Bạn có muốn chọn thư mục này?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>Thư mục này sẽ tự động bị xoá sau khi ứng dụng được cập nhật</value>
+    <value>Thư mục này sẽ tự động xoá sau khi ứng dụng được cập nhật</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
     <value>Không có quyền ghi</value>
@@ -236,10 +236,10 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Lỗi tham số</value>
   </data>
   <data name="DownloadGamePage_NoPermission" xml:space="preserve">
-    <value>Không có quyền</value>
+    <value>Không Có Quyền Hạn</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>Vui lòng khởi động dưới quyền Quản Trị Viên</value>
+    <value>Vui lòng khởi động bằng quyền Quản Trị Viên (Administrator)</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
     <value>Bắt đầu</value>
@@ -1410,10 +1410,112 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="UpdateContentWindow_RecentlyUpdatedContent" xml:space="preserve">
     <value>Nội dung cập nhật gần đây</value>
   </data>
+  <data name="HoyolabToolboxPage_ApocalypticShadow" xml:space="preserve">
+    <value>Ảo ảnh tận thế</value>
+  </data>
   <data name="GameBizSelector_AutoSearch" xml:space="preserve">
     <value>Tìm Kiếm Tự Động</value>
   </data>
   <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
     <value>Lịch Sử Chỉnh Kênh</value>
+  </data>
+  <data name="ApocalypticShadowPage_DefeatedBoss" xml:space="preserve">
+    <value>Đã đánh bại</value>
+  </data>
+  <data name="ApocalypticShadowPage_HighestDifficultyCleared" xml:space="preserve">
+    <value>Độ Khó Vượt Ải Cao Nhất</value>
+  </data>
+  <data name="ForgottenHallPage_FarthestStage" xml:space="preserve">
+    <value>Giai đoạn xa nhất</value>
+  </data>
+  <data name="ForgottenHallPage_TimesChallenged" xml:space="preserve">
+    <value>Số lần khiêu chiến</value>
+  </data>
+  <data name="InstallGameDialog_SelectInstallationPath" xml:space="preserve">
+    <value>Select Installation Path</value>
+  </data>
+  <data name="Common_Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="InstallGameDialog_SpaceRequiredToUnzip" xml:space="preserve">
+    <value>Space Required to Unzip</value>
+  </data>
+  <data name="InstallGameDialog_SpaceAvailable" xml:space="preserve">
+    <value>Space Available</value>
+  </data>
+  <data name="InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator" xml:space="preserve">
+    <value>No write permission, please restart as administrator.</value>
+  </data>
+  <data name="InstallGameDialog_ClickToRestart" xml:space="preserve">
+    <value>Click to Restart</value>
+  </data>
+  <data name="InstallGameDialog_DesktopShortcut" xml:space="preserve">
+    <value>Desktop Shortcut</value>
+  </data>
+  <data name="InstallGameDialog_Installed" xml:space="preserve">
+    <value>Installed?</value>
+  </data>
+  <data name="InstallGameDialog_LocateGame" xml:space="preserve">
+    <value>Locate Game</value>
+  </data>
+  <data name="InstallGameDialog_StartInstallation" xml:space="preserve">
+    <value>Start Installation</value>
+  </data>
+  <data name="DownloadSettingPage_DefaultGameInstallationPath" xml:space="preserve">
+    <value>Default Game Installation Path</value>
+  </data>
+  <data name="DownloadSettingPage_DefaultGameInstallationPathDescription" xml:space="preserve">
+    <value>The games will be installed in different subfolders, changing the default path will not move the installed game files.</value>
+  </data>
+  <data name="DownloadSettingPage_SpeedLimit" xml:space="preserve">
+    <value>Speed Limit</value>
+  </data>
+  <data name="DownloadSettingPage_TheNumber0MeansNoSpeedLimit" xml:space="preserve">
+    <value>The number 0 means no speed limit.</value>
+  </data>
+  <data name="SettingPage_Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DownloadGamePage_Paused" xml:space="preserve">
+    <value>Paused</value>
+  </data>
+  <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
+    <value>Download task completed</value>
+  </data>
+  <data name="InstallGameManager_DownloadTaskFailed" xml:space="preserve">
+    <value>Download task failed</value>
+  </data>
+  <data name="GameLauncherPage_NoWritePermission" xml:space="preserve">
+    <value>No Write Permission</value>
+  </data>
+  <data name="Common_Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
+    <value>Please restart as administrator.</value>
+  </data>
+  <data name="InstallGameDialog_CreateHardLink" xml:space="preserve">
+    <value>Create Hard Link</value>
+  </data>
+  <data name="InstallGameDialog_HardLinkDescription" xml:space="preserve">
+    <value>Creating hard link to install game clients in different servers, taking up very little additional storage space.</value>
+  </data>
+  <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
+    <value>Link target:</value>
+  </data>
+  <data name="GameLauncherPage_HardLinkNotSupportPredownload" xml:space="preserve">
+    <value>The current server does not support pre-download. Please complete pre-download in the target server of the hard link.</value>
+  </data>
+  <data name="GameLauncherPage_HardLinkUpdateToLatest" xml:space="preserve">
+    <value>Please update the target server of the hard link to the latest version before updating the game files in this server.</value>
+  </data>
+  <data name="InstallGameDialog_LinkPath" xml:space="preserve">
+    <value>Link Path:</value>
+  </data>
+  <data name="InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath" xml:space="preserve">
+    <value>The path you select must be on the same drive as the link path.</value>
+  </data>
+  <data name="LauncherPage_HardLink" xml:space="preserve">
+    <value>Hard Link</value>
   </data>
 </root>

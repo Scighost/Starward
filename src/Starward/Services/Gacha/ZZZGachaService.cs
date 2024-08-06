@@ -140,7 +140,7 @@ internal class ZZZGachaService : GachaLogService
                     stats.Pity_5 = 0;
                 }
                 stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
-                stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 4);
+                stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 3);
 
                 int pity_4 = 0;
                 foreach (var item in list)

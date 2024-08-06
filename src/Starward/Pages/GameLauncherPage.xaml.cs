@@ -16,6 +16,7 @@ using Starward.Helpers;
 using Starward.Messages;
 using Starward.Models;
 using Starward.Services;
+using Starward.Services.Download;
 using Starward.Services.Launcher;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Timers;
 using Windows.Storage;
@@ -116,6 +118,13 @@ public sealed partial class GameLauncherPage : PageBase
         });
         WeakReferenceMessenger.Default.Register<GameNoticeRedHotDisabledChanged>(this, (_, _) => _ = UpdateGameNoticesAlertAsync());
         WeakReferenceMessenger.Default.Register<GameNoticesWindowClosedMessage>(this, (_, _) => _ = UpdateGameNoticesAlertAsync());
+        WeakReferenceMessenger.Default.Register<InstallGameFinishedMessage>(this, (_, m) =>
+        {
+            if (m.GameBiz == CurrentGameBiz)
+            {
+                CheckGameVersion();
+            }
+        });
     }
 
 
@@ -233,17 +242,24 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
-    #region Start Game
+    #region Game Version
 
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsInstallGameButtonEnable))]
+    private string? installPath;
+    partial void OnInstallPathChanged(string? value)
+    {
+        AppConfig.SetGameInstallPath(CurrentGameBiz, value);
+    }
 
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsStartGameButtonEnable))]
-    [NotifyPropertyChangedFor(nameof(IsDownloadGameButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsInstallGameButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsUpdateGameButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsPreInstallButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsRepairGameButtonEnable))]
-    [NotifyPropertyChangedFor(nameof(IsGameSupportCompleteRepair))]
     private Version? localGameVersion;
 
     [ObservableProperty]
@@ -257,18 +273,23 @@ public sealed partial class GameLauncherPage : PageBase
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsStartGameButtonEnable))]
-    [NotifyPropertyChangedFor(nameof(IsDownloadGameButtonEnable))]
-    [NotifyPropertyChangedFor(nameof(IsRepairGameButtonEnable))]
+    [NotifyPropertyChangedFor(nameof(IsInstallGameButtonEnable))]
     private bool isGameExeExists;
 
 
-    public bool IsGameSupportCompleteRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && CurrentGameBiz.ToGame() != GameBiz.ZZZ && (CurrentGameBiz.ToGame() != GameBiz.Honkai3rd || (CurrentGameBiz.ToGame() == GameBiz.Honkai3rd && IsGameExeExists));
+    private GameBiz hardLinkGameBiz;
+
+
+    private string? hardLinkPath;
+
+
+    public bool IsGameSupportRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && CurrentGameBiz.ToGame() != GameBiz.ZZZ;
 
 
     public bool IsStartGameButtonEnable => LocalGameVersion != null && LocalGameVersion >= LatestGameVersion && IsGameExeExists && !IsGameRunning;
 
 
-    public bool IsDownloadGameButtonEnable => (LocalGameVersion == null && !IsGameExeExists) || ((LocalGameVersion == null || !IsGameExeExists) && !IsGameSupportCompleteRepair);
+    public bool IsInstallGameButtonEnable => LocalGameVersion == null || !IsGameExeExists;
 
 
     public bool IsUpdateGameButtonEnable => LocalGameVersion != null && LatestGameVersion > LocalGameVersion;
@@ -277,11 +298,50 @@ public sealed partial class GameLauncherPage : PageBase
     public bool IsPreInstallButtonEnable => LocalGameVersion != null && PreInstallGameVersion != null;
 
 
-    public bool IsRepairGameButtonEnable => IsGameSupportCompleteRepair && ((LocalGameVersion != null && !IsGameExeExists) || (LocalGameVersion == null && IsGameExeExists));
+    public bool IsRepairGameButtonEnable => IsGameSupportRepair;
+
 
 
     [ObservableProperty]
     private bool isPreDownloadOK;
+
+
+    private async void CheckGameVersion()
+    {
+        try
+        {
+            InstallPath = _gameLauncherService.GetGameInstallPath(CurrentGameBiz);
+            _logger.LogInformation("Game install path of {biz}: {path}", CurrentGameBiz, InstallPath);
+            IsGameExeExists = _gameLauncherService.IsGameExeExists(CurrentGameBiz);
+            LocalGameVersion = await _gameLauncherService.GetLocalGameVersionAsync(CurrentGameBiz);
+            (hardLinkGameBiz, hardLinkPath) = await _gameLauncherService.GetHardLinkInfoAsync(CurrentGameBiz);
+            _logger.LogInformation("Acutal version and gamebiz of {biz} is {version}.", CurrentGameBiz, LocalGameVersion);
+            LatestGameVersion = await _gameLauncherService.GetLatestGameVersionAsync(CurrentGameBiz);
+            PreInstallGameVersion = await _gameLauncherService.GetPreDownloadGameVersionAsync(CurrentGameBiz);
+            if (IsPreInstallButtonEnable)
+            {
+                IsPreDownloadOK = await _gamePackageService.CheckPreDownloadIsOKAsync(CurrentGameBiz);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Check game version");
+        }
+    }
+
+
+
+
+    #endregion
+
+
+
+
+    #region Start Game
+
+
+
+
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsStartGameButtonEnable))]
@@ -314,31 +374,6 @@ public sealed partial class GameLauncherPage : PageBase
         {
             _logger.LogInformation("Game process exited");
             DispatcherQueue.TryEnqueue(GetGameAccount);
-        }
-    }
-
-
-
-
-    private async void CheckGameVersion()
-    {
-        try
-        {
-            InstallPath = _gameLauncherService.GetGameInstallPath(CurrentGameBiz);
-            _logger.LogInformation("Game install path of {biz}: {path}", CurrentGameBiz, InstallPath);
-            IsGameExeExists = _gameLauncherService.IsGameExeExists(CurrentGameBiz);
-            LocalGameVersion = await _gameLauncherService.GetLocalGameVersionAsync(CurrentGameBiz);
-            _logger.LogInformation("Acutal version and gamebiz of {biz} is {version}.", CurrentGameBiz, LocalGameVersion);
-            LatestGameVersion = await _gameLauncherService.GetLatestGameVersionAsync(CurrentGameBiz);
-            PreInstallGameVersion = await _gameLauncherService.GetPreDownloadGameVersionAsync(CurrentGameBiz);
-            if (IsPreInstallButtonEnable)
-            {
-                IsPreDownloadOK = await _gamePackageService.CheckPreDownloadIsOKAsync(CurrentGameBiz);
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Check game version");
         }
     }
 
@@ -672,6 +707,312 @@ public sealed partial class GameLauncherPage : PageBase
         }
         catch { }
     }
+
+
+
+    #endregion
+
+
+
+
+    #region New Install Game
+
+
+
+
+    [ObservableProperty]
+    private InstallGameStateModel _installGameModel;
+
+
+    [ObservableProperty]
+    private InstallGameStateModel _predownloadModel;
+
+
+
+
+    private async Task<bool> CheckWritePermissionAsync()
+    {
+        try
+        {
+            if (Directory.Exists(InstallPath))
+            {
+                if (Directory.Exists(hardLinkPath))
+                {
+                    if (IsAdmin())
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        string temp = Path.Combine(InstallPath, Random.Shared.Next(1000_0000, int.MaxValue).ToString());
+                        File.Create(temp).Dispose();
+                        File.Delete(temp);
+                        return true;
+                    }
+                    catch (UnauthorizedAccessException) { }
+                }
+                var dialog = new ContentDialog
+                {
+                    Title = Lang.GameLauncherPage_NoWritePermission,
+                    Content = Lang.GameLauncherPage_PleaseRestartAsAdministrator,
+                    PrimaryButtonText = Lang.Common_Restart,
+                    CloseButtonText = Lang.Common_Cancel,
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = this.XamlRoot,
+                };
+                if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+                {
+                    string? exe = Process.GetCurrentProcess().MainModule?.FileName;
+                    if (!File.Exists(exe))
+                    {
+                        exe = Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+                    }
+                    if (File.Exists(exe))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = exe,
+                            UseShellExecute = true,
+                            Verb = "runas",
+                        });
+                        Environment.Exit(0);
+                    }
+                }
+            }
+        }
+        catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
+        {
+
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Check write permission: {path}", InstallPath);
+        }
+        return false;
+    }
+
+
+
+    private static bool IsAdmin()
+    {
+        using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+        WindowsPrincipal principal = new WindowsPrincipal(identity);
+        return principal.IsInRole(WindowsBuiltInRole.Administrator);
+    }
+
+
+
+    private async Task<bool> IsHardLinkTargetLatestVersionAsync()
+    {
+        try
+        {
+            if (hardLinkGameBiz.ToGame() == CurrentGameBiz.ToGame() && hardLinkGameBiz != CurrentGameBiz)
+            {
+                var version = await _gameLauncherService.GetLocalGameVersionAsync(hardLinkGameBiz);
+                return version >= LatestGameVersion;
+            }
+        }
+        catch { }
+        return false;
+    }
+
+
+
+    [RelayCommand]
+    private async Task InstallGameAsync()
+    {
+        try
+        {
+            if (CurrentGameBiz is GameBiz.hk4e_cloud)
+            {
+                await Launcher.LaunchUriAsync(new Uri("https://ys.mihoyo.com/cloud/#/download"));
+                return;
+            }
+
+            if (InstallGameManager.Instance.TryGetInstallService(CurrentGameBiz, out var _))
+            {
+                WeakReferenceMessenger.Default.Send(new ShowInstallGameControllerFlyoutMessage());
+                return;
+            }
+
+            var dialog = new InstallGameDialog
+            {
+                CurrentGameBiz = this.CurrentGameBiz,
+                InstallationPath = this.InstallPath!,
+                XamlRoot = this.XamlRoot,
+            };
+            await dialog.ShowAsync();
+            CheckGameVersion();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Install game");
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task PredownloadAsync()
+    {
+        try
+        {
+            if (InstallGameManager.Instance.TryGetInstallService(CurrentGameBiz, out var _))
+            {
+                WeakReferenceMessenger.Default.Send(new ShowInstallGameControllerFlyoutMessage());
+                return;
+            }
+
+            if (Directory.Exists(hardLinkPath))
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = Lang.LauncherPage_HardLink,
+                    Content = Lang.GameLauncherPage_HardLinkNotSupportPredownload,
+                    PrimaryButtonText = Lang.Common_Confirm,
+                    CloseButtonText = Lang.Common_Cancel,
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = this.XamlRoot,
+                };
+                if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+                {
+                    if (InstallGameManager.Instance.TryGetInstallService(hardLinkGameBiz, out var _))
+                    {
+                        WeakReferenceMessenger.Default.Send(new ShowInstallGameControllerFlyoutMessage());
+                        return;
+                    }
+                    if (await CheckWritePermissionAsync())
+                    {
+                        var service = InstallGameService.FromGameBiz(hardLinkGameBiz);
+                        await service.InitializeAsync(hardLinkGameBiz, _gameLauncherService.GetGameInstallPath(hardLinkGameBiz)!);
+                        await service.StartPredownloadAsync();
+                        InstallGameManager.Instance.AddInstallService(service);
+                    }
+                }
+                return;
+            }
+
+            if (await CheckWritePermissionAsync())
+            {
+                var service = InstallGameService.FromGameBiz(CurrentGameBiz);
+                await service.InitializeAsync(CurrentGameBiz, InstallPath!);
+                await service.StartPredownloadAsync();
+                InstallGameManager.Instance.AddInstallService(service);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Predownload");
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task UpdateAsync()
+    {
+        try
+        {
+            if (InstallGameManager.Instance.TryGetInstallService(CurrentGameBiz, out var _))
+            {
+                WeakReferenceMessenger.Default.Send(new ShowInstallGameControllerFlyoutMessage());
+                return;
+            }
+
+            if (Directory.Exists(hardLinkPath))
+            {
+                if (await IsHardLinkTargetLatestVersionAsync())
+                {
+                    if (await CheckWritePermissionAsync())
+                    {
+                        var service = InstallGameService.FromGameBiz(CurrentGameBiz);
+                        await service.InitializeAsync(CurrentGameBiz, InstallPath!);
+                        await service.StartHardLinkAsync(hardLinkGameBiz);
+                        InstallGameManager.Instance.AddInstallService(service);
+                    }
+                }
+                else
+                {
+                    var dialog = new ContentDialog
+                    {
+                        Title = Lang.LauncherPage_HardLink,
+                        Content = Lang.GameLauncherPage_HardLinkUpdateToLatest,
+                        PrimaryButtonText = Lang.Common_Confirm,
+                        CloseButtonText = Lang.Common_Cancel,
+                        DefaultButton = ContentDialogButton.Primary,
+                        XamlRoot = this.XamlRoot,
+                    };
+                    if (await dialog.ShowAsync() is ContentDialogResult.Primary)
+                    {
+                        if (InstallGameManager.Instance.TryGetInstallService(hardLinkGameBiz, out var _))
+                        {
+                            WeakReferenceMessenger.Default.Send(new ShowInstallGameControllerFlyoutMessage());
+                            return;
+                        }
+                        if (await CheckWritePermissionAsync())
+                        {
+                            var service = InstallGameService.FromGameBiz(hardLinkGameBiz);
+                            await service.InitializeAsync(hardLinkGameBiz, _gameLauncherService.GetGameInstallPath(hardLinkGameBiz)!);
+                            await service.StartUpdateGameAsync();
+                            InstallGameManager.Instance.AddInstallService(service);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (await CheckWritePermissionAsync())
+                {
+                    var service = InstallGameService.FromGameBiz(CurrentGameBiz);
+                    await service.InitializeAsync(CurrentGameBiz, InstallPath!);
+                    await service.StartUpdateGameAsync();
+                    InstallGameManager.Instance.AddInstallService(service);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update");
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task RepairAsync()
+    {
+        try
+        {
+            if (InstallGameManager.Instance.TryGetInstallService(CurrentGameBiz, out var _))
+            {
+                WeakReferenceMessenger.Default.Send(new ShowInstallGameControllerFlyoutMessage());
+                return;
+            }
+
+            if (await CheckWritePermissionAsync())
+            {
+                var service = InstallGameService.FromGameBiz(CurrentGameBiz);
+                await service.InitializeAsync(CurrentGameBiz, InstallPath!);
+                if (Directory.Exists(hardLinkPath))
+                {
+                    await service.StartHardLinkAsync(hardLinkGameBiz);
+                }
+                else
+                {
+                    await service.StartRepairGameAsync();
+                }
+                InstallGameManager.Instance.AddInstallService(service);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Repair");
+        }
+    }
+
 
 
 
@@ -1035,12 +1376,6 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
-    [ObservableProperty]
-    private string? installPath;
-    partial void OnInstallPathChanged(string? value)
-    {
-        AppConfig.SetGameInstallPath(CurrentGameBiz, value);
-    }
 
 
     [ObservableProperty]
@@ -1315,6 +1650,20 @@ public sealed partial class GameLauncherPage : PageBase
     private void OpenGamePackageWindow()
     {
         MainWindow.Current.OverlayFrameNavigateTo(typeof(GameResourcePage), CurrentGameBiz);
+    }
+
+
+    [RelayCommand]
+    private async Task DebugAsync()
+    {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
 
