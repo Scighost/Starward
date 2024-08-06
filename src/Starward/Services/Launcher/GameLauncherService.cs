@@ -190,6 +190,41 @@ internal class GameLauncherService
 
 
     /// <summary>
+    /// 硬链接信息
+    /// </summary>
+    /// <param name="gameBiz"></param>
+    /// <returns></returns>
+    public async Task<(GameBiz, string?)> GetHardLinkInfoAsync(GameBiz gameBiz, string? installPath = null)
+    {
+        installPath ??= GetGameInstallPath(gameBiz);
+        if (gameBiz is GameBiz.hk4e_cloud)
+        {
+            return (GameBiz.None, null);
+        }
+        else
+        {
+            if (string.IsNullOrWhiteSpace(installPath))
+            {
+                return (GameBiz.None, null);
+            }
+            var config = Path.Join(installPath, "config.ini");
+            if (File.Exists(config))
+            {
+                var str = await File.ReadAllTextAsync(config);
+                Enum.TryParse(Regex.Match(str, @"hardlink_gamebiz=(.+)").Groups[1].Value, out GameBiz biz);
+                var path = Regex.Match(str, @"hardlink_path=(.+)").Groups[1].Value;
+                return (biz, path);
+            }
+            else
+            {
+                _logger.LogWarning("config.ini not found: {path}", config);
+                return (GameBiz.None, null);
+            }
+        }
+    }
+
+
+    /// <summary>
     /// 预下载版本
     /// </summary>
     /// <param name="gameBiz"></param>

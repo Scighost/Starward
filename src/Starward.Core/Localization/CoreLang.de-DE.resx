@@ -236,19 +236,19 @@
     <value>Geschlossene Betatest 3</value>
   </data>
   <data name="GameServer_ChinaOfficial" xml:space="preserve">
-    <value>China Official</value>
+    <value>China</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>Global Official</value>
+    <value>Globaler Server</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
-    <value>China Cloud</value>
+    <value>Chinesische Cloud Server</value>
   </data>
   <data name="GameServer_Bilibili" xml:space="preserve">
     <value>Bilibili</value>
   </data>
   <data name="GameServer_EuropeAmericas" xml:space="preserve">
-    <value>Europe &amp; Americas</value>
+    <value>Europa &amp; Amerika</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
     <value>Japan</value>
@@ -257,9 +257,21 @@
     <value>Korea</value>
   </data>
   <data name="GameServer_SoutheastAsia" xml:space="preserve">
-    <value>Southeast Asia</value>
+    <value>Südostasien</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
-    <value>Traditional Chinese</value>
+    <value>Traditioneller chinesischer Server</value>
+  </data>
+  <data name="GachaType_StandardChannel" xml:space="preserve">
+    <value>Standardkanal</value>
+  </data>
+  <data name="GachaType_ExclusiveChannel" xml:space="preserve">
+    <value>Exklusiver Kanal</value>
+  </data>
+  <data name="GachaType_WEngineChannel" xml:space="preserve">
+    <value>W-Motor-Kanal</value>
+  </data>
+  <data name="GachaType_BangbooChannel" xml:space="preserve">
+    <value>Bangboo-Kanal</value>
   </data>
 </root>

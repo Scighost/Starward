@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sp:PageBase x:Class="Starward.Pages.Setting.DownloadSettingPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Pages.Setting"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sp="using:Starward.Pages"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel Margin="0,0,48,0">
+
+
+            <!--  default install path  -->
+            <TextBlock FontSize="20"
+                       FontWeight="SemiBold"
+                       Text="{x:Bind lang:Lang.DownloadSettingPage_DefaultGameInstallationPath}" />
+            <TextBlock Margin="0,12,0,0"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.DownloadSettingPage_DefaultGameInstallationPathDescription}"
+                       TextWrapping="Wrap" />
+            <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                <!--  locate folder  -->
+                <Button Height="40"
+                        Padding="16,0,16,0"
+                        BorderThickness="0"
+                        Command="{x:Bind ChangeDefaultInstallPathCommand}"
+                        CornerRadius="8,20,20,8"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE8DE;" />
+                        <TextBlock Text="{x:Bind lang:Lang.LauncherPage_Locate}" />
+                    </StackPanel>
+                </Button>
+                <Grid Height="40"
+                      Margin="16,0,0,0"
+                      Background="{ThemeResource CustomAcrylicBrush}"
+                      CornerRadius="20"
+                      Visibility="{x:Bind DefaultInstallPath, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Height="40"
+                            Padding="16,0,8,1"
+                            BorderThickness="0"
+                            Command="{x:Bind OpenDefaultInstallPathCommand}"
+                            CornerRadius="0">
+                        <TextBlock VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind DefaultInstallPath}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="Wrap" />
+                    </Button>
+                    <Button Grid.Column="1"
+                            Height="40"
+                            BorderThickness="0"
+                            Command="{x:Bind DeleteDefaultInstallPathCommand}"
+                            CornerRadius="0">
+                        <FontIcon Margin="0,2,2,0"
+                                  FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE711;" />
+                    </Button>
+                </Grid>
+            </StackPanel>
+
+
+            <Button Width="0" Height="0" />
+
+            <!--  speed limit  -->
+            <TextBlock Margin="0,20,0,0"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Text="{x:Bind lang:Lang.DownloadSettingPage_SpeedLimit}" />
+            <TextBlock Margin="0,12,0,0"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.DownloadSettingPage_TheNumber0MeansNoSpeedLimit}"
+                       TextWrapping="Wrap" />
+            <StackPanel Margin="0,12,0,0"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                <NumberBox MinWidth="100"
+                           Minimum="0"
+                           Value="{x:Bind SpeedLimit, Mode=TwoWay}" />
+                <TextBlock VerticalAlignment="Center" Text="KB/s" />
+            </StackPanel>
+
+
+
+        </StackPanel>
+    </ScrollViewer>
+
+</sp:PageBase>

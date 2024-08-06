@@ -137,9 +137,12 @@ internal class FileSliceStream : Stream
 
             }
 
-            foreach (var fs in _fileStreams)
+            if (_fileStreams is not null)
             {
-                fs.Dispose();
+                foreach (var fs in _fileStreams)
+                {
+                    fs.Dispose();
+                }
             }
 
             disposedValue = true;

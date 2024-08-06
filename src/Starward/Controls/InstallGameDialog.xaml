@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog x:Class="Starward.Controls.InstallGameDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:lang="using:Starward.Language"
+               xmlns:local="using:Starward.Controls"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               x:DefaultBindMode="OneWay"
+               Background="{ThemeResource CustomAcrylicBrush}"
+               BorderThickness="0"
+               CornerRadius="8"
+               Loaded="ContentDialog_Loaded"
+               Unloaded="ContentDialog_Unloaded"
+               mc:Ignorable="d">
+
+    <ContentDialog.Resources>
+        <x:Double x:Key="ContentDialogMaxWidth">1200</x:Double>
+        <Thickness x:Key="ContentDialogPadding">0</Thickness>
+        <StaticResource x:Key="ContentDialogTopOverlay" ResourceKey="ControlFillColorTransparentBrush" />
+    </ContentDialog.Resources>
+
+    <Grid Width="540" Padding="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <!--  Title  -->
+        <TextBlock FontSize="18"
+                   FontWeight="Bold"
+                   IsTextScaleFactorEnabled="False"
+                   Text="{x:Bind lang:Lang.InstallGameDialog_SelectInstallationPath}" />
+
+
+
+        <!--  Path  -->
+        <Grid Grid.Row="1"
+              Height="36"
+              Margin="0,24,0,0"
+              Background="{ThemeResource DateTimePickerFlyoutButtonBackgroundPointerOver}"
+              CornerRadius="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="TextBlock_InstallationPath"
+                       Margin="12,4,12,4"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       IsTextTrimmedChanged="TextBlock_InstallationPath_IsTextTrimmedChanged"
+                       MaxLines="2"
+                       Text="{x:Bind InstallationPath}"
+                       TextTrimming="CharacterEllipsis"
+                       TextWrapping="Wrap" />
+            <!--  Change Path  -->
+            <Button Grid.Column="1"
+                    Padding="12,0,12,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Stretch"
+                    BorderThickness="0"
+                    Command="{x:Bind ChangeInstallationPathCommand}"
+                    CornerRadius="8"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <TextBlock FontSize="14"
+                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="{x:Bind lang:Lang.Common_Change}" />
+            </Button>
+        </Grid>
+
+
+
+        <!--  Free Space  -->
+        <StackPanel x:Name="StackPanel_FreeSpace"
+                    Grid.Row="2"
+                    Margin="0,8,0,0"
+                    Orientation="Horizontal"
+                    Spacing="8">
+            <TextBlock FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="">
+                <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceRequiredToUnzip}" />
+                <Run Text="" />
+                <Run Text="{x:Bind UnzipSpaceText}" />
+            </TextBlock>
+            <AppBarSeparator Padding="2" />
+            <TextBlock x:Name="TextBlock_AvailableSpace"
+                       FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False">
+                <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceAvailable}" />
+                <Run Text="" />
+                <Run Text="{x:Bind AvailableSpaceText}" />
+            </TextBlock>
+        </StackPanel>
+
+
+
+        <!--  No Permission  -->
+        <TextBlock x:Name="TextBlock_NoPermission"
+                   Grid.Row="2"
+                   Margin="0,8,0,0"
+                   FontSize="12"
+                   IsTextScaleFactorEnabled="False"
+                   Visibility="Collapsed">
+            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator}" />
+            <Run Text="" />
+            <Hyperlink x:Name="Hyperlink_Restart"
+                       Click="Hyperlink_Restart_Click"
+                       UnderlineStyle="None">
+                <Run Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_ClickToRestart}" />
+            </Hyperlink>
+        </TextBlock>
+
+
+        <!--  Link Warning  -->
+        <TextBlock x:Name="TextBlock_LinkWarning"
+                   Grid.Row="2"
+                   Margin="0,8,0,0"
+                   FontSize="12"
+                   Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                   IsTextScaleFactorEnabled="False"
+                   Text="{x:Bind lang:Lang.InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath}"
+                   TextWrapping="Wrap"
+                   Visibility="Collapsed" />
+
+
+
+        <StackPanel Grid.Row="3"
+                    Margin="0,12,0,0"
+                    Orientation="Horizontal"
+                    Spacing="16">
+            <!--  Shortcut  -->
+            <CheckBox Padding="8,0,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{x:Bind DesktopShortcut, Mode=TwoWay}"
+                      Visibility="Collapsed">
+                <CheckBox.Resources>
+                    <x:Double x:Key="CheckBoxSize">16</x:Double>
+                </CheckBox.Resources>
+                <TextBlock FontSize="14"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="{x:Bind lang:Lang.InstallGameDialog_DesktopShortcut}" />
+            </CheckBox>
+            <!--  Hard Link  -->
+            <CheckBox Padding="8,0,0,0"
+                      VerticalContentAlignment="Center"
+                      IsChecked="{x:Bind HardLink, Mode=TwoWay}"
+                      Visibility="{x:Bind IsSupportHardLink}">
+                <CheckBox.Resources>
+                    <x:Double x:Key="CheckBoxSize">16</x:Double>
+                </CheckBox.Resources>
+                <TextBlock FontSize="14"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="{x:Bind lang:Lang.InstallGameDialog_CreateHardLink}" />
+            </CheckBox>
+        </StackPanel>
+
+
+
+        <!--  Hard Link Desc  -->
+        <TextBlock Grid.Row="4"
+                   Margin="0,8,0,0"
+                   FontSize="12"
+                   IsTextScaleFactorEnabled="False"
+                   TextWrapping="Wrap"
+                   Visibility="{x:Bind HardLink, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_HardLinkDescription}" />
+            <LineBreak />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LinkTarget}" />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind HardLinkTargetText}" />
+            <LineBreak />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LinkPath}" />
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind HardLinkPath}" />
+        </TextBlock>
+
+
+
+        <!--  Locate & Install  -->
+        <StackPanel Grid.Row="5"
+                    Margin="0,20,0,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center"
+                       FontSize="14"
+                       Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.InstallGameDialog_Installed}" />
+            <TextBlock Margin="6,0,0,0"
+                       VerticalAlignment="Center"
+                       IsTextScaleFactorEnabled="False">
+                <Hyperlink x:Name="Hyperlink_LocateGame"
+                           Click="Hyperlink_LocateGame_Click"
+                           UnderlineStyle="None">
+                    <Run FontSize="14"
+                         Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                         Text="{x:Bind lang:Lang.InstallGameDialog_LocateGame}" />
+                </Hyperlink>
+            </TextBlock>
+            <Button x:Name="Button_Installation"
+                    Margin="16,0,0,0"
+                    Command="{x:Bind StartInstallationCommand}"
+                    Content="{x:Bind lang:Lang.InstallGameDialog_StartInstallation}"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    IsEnabled="False"
+                    IsTextScaleFactorEnabled="False"
+                    Style="{ThemeResource AccentButtonStyle}" />
+        </StackPanel>
+
+
+
+
+        <!--  Close Button  -->
+        <Button Width="32"
+                Height="32"
+                Margin="-20"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                BorderThickness="0"
+                Command="{x:Bind CloseCommand}"
+                CornerRadius="8"
+                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+            <FontIcon FontSize="16"
+                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                      Glyph="&#xE711;"
+                      IsTextScaleFactorEnabled="False" />
+        </Button>
+
+
+    </Grid>
+
+</ContentDialog>

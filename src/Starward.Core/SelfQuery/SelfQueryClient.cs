@@ -73,13 +73,13 @@ public class SelfQueryClient
         authQuery = new Uri(url).Query;
         if (gameBiz.ToGame() is GameBiz.GenshinImpact)
         {
-            if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html"))
+            if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html") || url.StartsWith("https://webstatic.mihoyo.com/static/mihoyo-new-csc-service-hall-fe/index.html"))
             {
                 prefixUrl = "https://hk4e-api.mihoyo.com";
             }
-            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html"))
+            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html") || url.StartsWith("https://cs.hoyoverse.com/static/hoyoverse-new-csc-service-hall-fe/index.html"))
             {
-                prefixUrl = "https://hk4e-api-os.hoyoverse.com";
+                prefixUrl = "https://public-operation-hk4e-sg.hoyoverse.com";
             }
             if (string.IsNullOrWhiteSpace(prefixUrl))
             {

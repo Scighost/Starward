@@ -331,8 +331,12 @@ public class HoYoPlayService
 
 
 
-    public async Task<GameConfig> GetGameConfigAsync(GameBiz biz)
+    public async Task<GameConfig?> GetGameConfigAsync(GameBiz biz)
     {
+        if (biz.ToGame() is GameBiz.Honkai3rd && biz.IsGlobalOfficial())
+        {
+            return null;
+        }
         if (!_gameConfig.TryGetValue(biz, out GameConfig? config))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
@@ -349,7 +353,7 @@ public class HoYoPlayService
                 {
                     _gameConfig[item.GameId.ToGameBiz()] = item;
                 }
-                config = list.First(x => x.GameId.ToGameBiz() == biz);
+                config = list.FirstOrDefault(x => x.GameId.ToGameBiz() == biz);
             }
         }
         return config;
@@ -357,6 +361,41 @@ public class HoYoPlayService
 
 
 
+    public async Task<List<GameDeprecatedFile>> GetGameDeprecatedFilesAsync(GameBiz biz)
+    {
+        if (biz.ToGame() is GameBiz.Honkai3rd && biz.IsGlobalOfficial())
+        {
+            biz = GameBiz.bh3_global;
+        }
+        var launcherId = LauncherId.FromGameBiz(biz);
+        var gameId = GameId.FromGameBiz(biz);
+        if (launcherId != null && gameId != null)
+        {
+            var fileConfig = await _client.GetGameDeprecatedFileConfigAsync(launcherId, "en-us", gameId);
+            if (fileConfig != null)
+            {
+                return fileConfig.DeprecatedFiles;
+            }
+        }
+        return [];
+    }
+
+
+
+    public async Task<GameChannelSDK?> GetGameChannelSDKAsync(GameBiz biz)
+    {
+        if (biz.ToGame() is GameBiz.Honkai3rd && biz.IsGlobalOfficial())
+        {
+            biz = GameBiz.bh3_global;
+        }
+        var launcherId = LauncherId.FromGameBiz(biz);
+        var gameId = GameId.FromGameBiz(biz);
+        if (launcherId != null && gameId != null)
+        {
+            return await _client.GetGameChannelSDKAsync(launcherId, "en-us", gameId);
+        }
+        return null;
+    }
 
 
 }
