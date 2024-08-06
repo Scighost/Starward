@@ -9,6 +9,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
+using Vanara.PInvoke;
 
 namespace Starward.Services;
 
@@ -279,6 +281,33 @@ internal class GameService
                 Directory.Delete(parent, true);
             }
             _logger.LogInformation("Deleted folder {folder}", folder);
+        }
+    }
+
+
+
+    private static void WaitWindow(Process process)
+    {
+        while (process.MainWindowHandle == IntPtr.Zero)
+        {
+            Thread.Sleep(1000);
+            process.Refresh();
+        }
+    }
+
+
+
+    public static void PopupwindowMinimize(Process process)
+    {
+        WaitWindow(process);
+        IntPtr hWnd = process.MainWindowHandle;
+        if (hWnd != IntPtr.Zero)
+        {
+            int style = User32.GetWindowLong(hWnd, User32.WindowLongFlags.GWL_STYLE);
+            style |= (int)User32.WindowStyles.WS_MINIMIZEBOX;
+            User32.SetWindowLong(hWnd, User32.WindowLongFlags.GWL_STYLE, style);
+            // 刷新窗口状态，但会修改窗口位置。因为修改的较早，一般修改后游戏会自行刷新窗口状态
+            //User32.SetWindowPos(hWnd, IntPtr.Zero, 0, 0, 0, 0, User32.SetWindowPosFlags.SWP_NOMOVE | User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOZORDER | User32.SetWindowPosFlags.SWP_FRAMECHANGED);
         }
     }
 
