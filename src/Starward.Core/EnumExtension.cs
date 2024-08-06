@@ -165,6 +165,8 @@ public static class EnumExtension
             GameBiz.bh3_kr => GameRegistry.LauncherPath_bh3_kr,
             GameBiz.bh3_overseas => GameRegistry.LauncherPath_bh3_overseas,
             GameBiz.bh3_tw => GameRegistry.LauncherPath_bh3_tw,
+            GameBiz.nap_cn => GameRegistry.LauncherPath_HYP_cn,
+            GameBiz.nap_global => GameRegistry.LauncherPath_HYP_os,
             _ => "HKEY_LOCAL_MACHINE",
         };
     }
@@ -186,6 +188,8 @@ public static class EnumExtension
             GameBiz.bh3_kr => GameRegistry.GamePath_bh3_kr,
             GameBiz.bh3_overseas => GameRegistry.GamePath_bh3_overseas,
             GameBiz.bh3_tw => GameRegistry.GamePath_bh3_tw,
+            GameBiz.nap_cn => GameRegistry.GamePath_nap_cn,
+            GameBiz.nap_global => GameRegistry.GamePath_nap_global,
             _ => "HKEY_CURRENT_USER",
         };
     }

@@ -76,6 +76,16 @@ internal class GameSettingService
                 return new GraphicsSettings_PCResolution_h431323223 { Width = width, Height = height, IsFullScreen = fullScreen };
             }
         }
+        if (biz.ToGame() is GameBiz.ZZZ)
+        {
+            var fullScreen = (int)(Registry.GetValue(keyPath, Screenmanager_Fullscreen_mode_h3630240806, 0) ?? 0) != 3;
+            var width = (int)(Registry.GetValue(keyPath, Screenmanager_Resolution_Width_h182942802, 0) ?? 0);
+            var height = (int)(Registry.GetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, 0) ?? 0);
+            if (width * height > 0)
+            {
+                return new GraphicsSettings_PCResolution_h431323223 { Width = width, Height = height, IsFullScreen = fullScreen };
+            }
+        }
         _logger.LogInformation("Resolution of game {biz} is null", biz);
         return null;
     }
@@ -104,6 +114,12 @@ internal class GameSettingService
         if (biz.ToGame() is GameBiz.GenshinImpact)
         {
             Registry.SetValue(keyPath, Screenmanager_Is_Fullscreen_mode_h3981298716, model.IsFullScreen ? 1 : 0);
+            Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
+            Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
+        }
+        if (biz.ToGame() is GameBiz.ZZZ)
+        {
+            Registry.SetValue(keyPath, Screenmanager_Fullscreen_mode_h3630240806, model.IsFullScreen ? 1 : 3);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
         }
