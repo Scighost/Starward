@@ -5,9 +5,8 @@ using Starward.Messages;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.RateLimiting;
 using System.Threading;
-using System.Threading.Tasks;
+using System.Threading.RateLimiting;
 
 namespace Starward.Services.Download;
 
@@ -32,18 +31,13 @@ internal class InstallGameManager
 
 
 
-    public static int SpeedLimitBytesPerSecond { get; set; }
+    public static long SpeedLimitBytesPerSecond;
 
 
     public static TokenBucketRateLimiter RateLimiter { get; private set; }
 
 
-    public static bool IsEnableSpeedLimit => SpeedLimitBytesPerSecond != int.MaxValue;
-
-
-    // BUFFER_SIZE越大限速时保留速度也会越大，可以用来抵消迷之原因造成的超速¿
-    // speedLimit<=2MB/s → 16Bytes else 1KB
-    public static int BUFFER_SIZE => (SpeedLimitBytesPerSecond <= (1 << 21)) ? (1 << 4) : (1 << 10);
+    public static bool IsEnableSpeedLimit => Interlocked.Read(ref SpeedLimitBytesPerSecond) != int.MaxValue;
 
 
     public event EventHandler<InstallGameStateModel> InstallTaskAdded;
@@ -54,27 +48,20 @@ internal class InstallGameManager
 
 
 
-    public static event EventHandler LimitStateChanged;
-
-
-
 
     public static void SetRateLimit()
     {
-        // 小于speedLimitBytesPerSecond的最大能被BUFFER_SIZE整除的值
-        var speedLimitBytesPerPeriod = Math.Max(SpeedLimitBytesPerSecond / 25 / BUFFER_SIZE * BUFFER_SIZE, BUFFER_SIZE);
+        var speedLimitBytesPerPeriod = (int)SpeedLimitBytesPerSecond / 25;
         RateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
         {
             TokenLimit = speedLimitBytesPerPeriod,
             // 0.04: 将每秒切割为上面的25份，间隔越小速度越精准。
             // 因补充令牌逻辑运行耗时远大于期望，若间隔极小，将无法达到最高限速。
-            ReplenishmentPeriod = TimeSpan.FromSeconds(Math.Max(BUFFER_SIZE / (double)SpeedLimitBytesPerSecond, 0.04)),
+            ReplenishmentPeriod = TimeSpan.FromSeconds(0.04),
             TokensPerPeriod = speedLimitBytesPerPeriod,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
             AutoReplenishment = true
         });
-        if (LimitStateChanged != null && LimitStateChanged.GetInvocationList().Length > 0)
-            Task.Run(() => LimitStateChanged.Invoke(null, EventArgs.Empty));
     }
 
 
@@ -105,8 +92,6 @@ internal class InstallGameManager
         model.InstallFailed += Model_InstallFailed;
         model.InstallCanceled -= Model_InstallCanceled;
         model.InstallCanceled += Model_InstallCanceled;
-        LimitStateChanged -= model._manager_LimitStateChanged;
-        LimitStateChanged += model._manager_LimitStateChanged;
         InstallTaskAdded?.Invoke(this, model);
     }
 
@@ -121,7 +106,6 @@ internal class InstallGameManager
             model.InstallFinished -= Model_InstallFinished;
             model.InstallFailed -= Model_InstallFailed;
             model.InstallCanceled -= Model_InstallCanceled;
-            LimitStateChanged -= model._manager_LimitStateChanged;
             InstallTaskRemoved?.Invoke(this, model);
             WeakReferenceMessenger.Default.Send(new InstallGameFinishedMessage(model.GameBiz));
             NotificationBehavior.Instance.Success(Lang.InstallGameManager_DownloadTaskCompleted, $"{InstallTaskToString(model.Service.InstallTask)} - {model.GameBiz.ToGameName()} - {model.GameBiz.ToGameServer()}", 0);
@@ -150,7 +134,6 @@ internal class InstallGameManager
             model.InstallFinished -= Model_InstallFinished;
             model.InstallFailed -= Model_InstallFailed;
             model.InstallCanceled -= Model_InstallCanceled;
-            LimitStateChanged -= model._manager_LimitStateChanged;
             InstallTaskRemoved?.Invoke(this, model);
         }
     }

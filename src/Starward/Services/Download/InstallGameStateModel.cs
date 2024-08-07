@@ -244,8 +244,16 @@ public partial class InstallGameStateModel : ObservableObject
                     }
                     else
                     {
-                        _recentSpeed.RemoveAll(value => Math.Abs(value - _speedBytesPerSecond) / _speedBytesPerSecond > 0.25);
-                        _recentSpeed.RemoveRange(0, Math.Max(_recentSpeed.Count - 9, 0));
+                        if (InstallGameManager.IsEnableSpeedLimit)
+                        {
+                            _recentSpeed.RemoveAll(value => Math.Abs(value - _speedBytesPerSecond) / _speedBytesPerSecond > 0.05);
+                            _recentSpeed.RemoveRange(0, Math.Max(_recentSpeed.Count - 59, 0));
+                        }
+                        else
+                        {
+                            _recentSpeed.RemoveAll(value => Math.Abs(value - _speedBytesPerSecond) / _speedBytesPerSecond > 0.25);
+                            _recentSpeed.RemoveRange(0, Math.Max(_recentSpeed.Count - 9, 0));
+                        }
                         _recentSpeed.Add(_speedBytesPerSecond);
                         averageSpeed = _recentSpeed.Average();
                         var seconds = (Service.TotalBytes - Service.FinishBytes) / averageSpeed;
@@ -270,7 +278,6 @@ public partial class InstallGameStateModel : ObservableObject
     private void _service_StateChanged(object? sender, InstallGameState e)
     {
         uiContext.Post(_ => UpdateState(), null);
-        
     }
 
 
@@ -281,17 +288,4 @@ public partial class InstallGameStateModel : ObservableObject
     }
 
 
-
-    public void _manager_LimitStateChanged(object? sender, EventArgs e)
-    {
-        if (Service.State is InstallGameState.Download && Service.HTTP_BUFFER_SIZE != InstallGameManager.BUFFER_SIZE || Service.IsEnableSpeedLimit != InstallGameManager.IsEnableSpeedLimit)
-        {
-            Service.Pause();
-            Task.WhenAll(Service.TaskItems).Wait();
-            Service.HTTP_BUFFER_SIZE = InstallGameManager.BUFFER_SIZE;
-            Service.IsEnableSpeedLimit = InstallGameManager.IsEnableSpeedLimit; 
-            Service.Continue();
-            InstallStarted?.Invoke(this, EventArgs.Empty);
-        }
-    }
 }

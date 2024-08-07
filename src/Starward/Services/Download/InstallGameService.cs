@@ -21,7 +21,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading;
-using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 
@@ -1073,14 +1072,6 @@ internal class InstallGameService
 
 
 
-    public long HTTP_BUFFER_SIZE = InstallGameManager.BUFFER_SIZE;
-
-
-
-    public bool IsEnableSpeedLimit = InstallGameManager.IsEnableSpeedLimit;
-
-
-
     protected int _totalCount;
     public int TotalCount => _totalCount;
 
@@ -1203,9 +1194,7 @@ internal class InstallGameService
         {
             file_target = item.WriteAsTempFile ? file_tmp : file;
         }
-        var httpBuffer = ArrayPool<byte>.Shared.Rent((int)Interlocked.Read(ref HTTP_BUFFER_SIZE));
         var buffer = ArrayPool<byte>.Shared.Rent(BUFFER_SIZE);
-        int bufferOffset = 0;
         try
         {
             using var fs = File.Open(file_target, FileMode.OpenOrCreate);
@@ -1218,43 +1207,34 @@ internal class InstallGameService
                 response.EnsureSuccessStatusCode();
                 using var hs = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
                 int length;
-                while ((length = await hs.ReadAsync(IsEnableSpeedLimit ? httpBuffer : buffer, cancellationToken).ConfigureAwait(false)) != 0)
+                while ((length = await hs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
                 {
-                    if (IsEnableSpeedLimit)
+                    if (InstallGameManager.IsEnableSpeedLimit)
                     {
-                        RateLimitLease lease;
-                        do
+                        int totalWritten = 0;
+                        while (totalWritten < length)
                         {
-                            lease = await InstallGameManager.RateLimiter.AcquireAsync(length, cancellationToken).ConfigureAwait(false);
-                            if (!lease.IsAcquired && lease.TryGetMetadata(MetadataName.RetryAfter, out TimeSpan retryAfter))
-                                await Task.Delay((int)Math.Max(Math.Sqrt(retryAfter.TotalMilliseconds), 1), cancellationToken).ConfigureAwait(false);
-                        } while (!lease.IsAcquired);
-                        int remainingSpace = buffer.Length - bufferOffset;
-                        if (length > remainingSpace)
-                        {
-                            Buffer.BlockCopy(httpBuffer, 0, buffer, bufferOffset, remainingSpace);
-                            await fs.WriteAsync(buffer.AsMemory(0, buffer.Length), cancellationToken).ConfigureAwait(false);
-                            Buffer.BlockCopy(httpBuffer, remainingSpace, buffer, 0, length - remainingSpace);
-                            bufferOffset = length - remainingSpace;
-                        }
-                        else
-                        {
-                            Buffer.BlockCopy(httpBuffer, 0, buffer, bufferOffset, length);
-                            bufferOffset += length;
+                            int remaining = length - totalWritten;
+                            if (TokenBucketRateLimiterExtension.TryAcquire(InstallGameManager.RateLimiter, remaining, out int tokensAcquired, out _))
+                                await Task.Delay(1, cancellationToken).ConfigureAwait(false);
+                            else
+                            {
+                                await fs.WriteAsync(buffer.AsMemory(totalWritten, tokensAcquired), cancellationToken).ConfigureAwait(false);
+                                totalWritten += tokensAcquired;
+                                Interlocked.Add(ref _finishBytes, tokensAcquired);
+                            }
                         }
                     }
                     else
+                    {
                         await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken).ConfigureAwait(false);
-                    Interlocked.Add(ref _finishBytes, length);
+                        Interlocked.Add(ref _finishBytes, length);
+                    }
                 }
-                // Write any remaining data in buffer
-                if (bufferOffset > 0)
-                    await fs.WriteAsync(buffer.AsMemory(0, bufferOffset), cancellationToken).ConfigureAwait(false);
             }
         }
         finally
         {
-            ArrayPool<byte>.Shared.Return(httpBuffer);
             ArrayPool<byte>.Shared.Return(buffer);
         }
     }
