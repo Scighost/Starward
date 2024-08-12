@@ -1432,7 +1432,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Số lần khiêu chiến</value>
   </data>
   <data name="InstallGameDialog_SelectInstallationPath" xml:space="preserve">
-    <value>Lựa chọn thư mục cài đặt</value>
+    <value>Lựa Chọn Thư Mục Cài Đặt</value>
   </data>
   <data name="Common_Change" xml:space="preserve">
     <value>Thay đổi</value>
@@ -1441,7 +1441,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Không gian giải nén</value>
   </data>
   <data name="InstallGameDialog_SpaceAvailable" xml:space="preserve">
-    <value>Dung lượng hiện tại</value>
+    <value>Dung lượng khả thi</value>
   </data>
   <data name="InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator" xml:space="preserve">
     <value>Không có quyền ghi, vui lòng khởi động lại bằng quyền Quản Trị Viên (Administrator).</value>
@@ -1456,10 +1456,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Đã cài đặt?</value>
   </data>
   <data name="InstallGameDialog_LocateGame" xml:space="preserve">
-    <value>Locate Game</value>
+    <value>Tìm Trò Chơi</value>
   </data>
   <data name="InstallGameDialog_StartInstallation" xml:space="preserve">
-    <value>Bắt đầu cài đặt</value>
+    <value>Bắt Đầu Cài Đặt</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPath" xml:space="preserve">
     <value>Đường dẫn cài đặt mặc định</value>
@@ -1495,27 +1495,27 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Vui lòng khởi động bằng quyền Quản Trị Viên (Administrator).</value>
   </data>
   <data name="InstallGameDialog_CreateHardLink" xml:space="preserve">
-    <value>Create Hard Link</value>
+    <value>Tạo Liên Kết Cứng</value>
   </data>
   <data name="InstallGameDialog_HardLinkDescription" xml:space="preserve">
-    <value>Creating hard link to install game clients in different servers, taking up very little additional storage space.</value>
+    <value>Tạo liên kết cứng để cài đặt trò chơi trên các máy chủ khác nhau, chỉ tốn rất ít không gian lưu trữ bổ sung.</value>
   </data>
   <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
-    <value>Link target:</value>
+    <value>Mục tiêu liên kết:</value>
   </data>
   <data name="GameLauncherPage_HardLinkNotSupportPredownload" xml:space="preserve">
-    <value>The current server does not support pre-download. Please complete pre-download in the target server of the hard link.</value>
+    <value>Máy chủ hiện tại không hỗ trợ tải trước. Vui lòng hoàn thành việc tải trước trên máy chủ mục tiêu của liên kết cứng.</value>
   </data>
   <data name="GameLauncherPage_HardLinkUpdateToLatest" xml:space="preserve">
-    <value>Please update the target server of the hard link to the latest version before updating the game files in this server.</value>
+    <value>Vui lòng cập nhật máy chủ mục tiêu của liên kết cứng lên phiên bản mới nhất trước khi cập nhật các tệp trò chơi trên máy chủ này.</value>
   </data>
   <data name="InstallGameDialog_LinkPath" xml:space="preserve">
-    <value>Link Path:</value>
+    <value>Đường dẫn liên kết:</value>
   </data>
   <data name="InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath" xml:space="preserve">
-    <value>The path you select must be on the same drive as the link path.</value>
+    <value>Đường dẫn bạn chọn cần phải có cùng ổ đĩa với đường dẫn liên kết.</value>
   </data>
   <data name="LauncherPage_HardLink" xml:space="preserve">
-    <value>Hard Link</value>
+    <value>Liên Kết Cứng</value>
   </data>
 </root>
