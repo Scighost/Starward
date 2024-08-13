@@ -61,7 +61,8 @@ internal class InstallGameService
         {
             GameBiz.GenshinImpact => AppConfig.GetService<GenshinInstallGameService>(),
             GameBiz.StarRail => AppConfig.GetService<StarRailInstallGameService>(),
-            GameBiz.Honkai3rd or GameBiz.ZZZ => AppConfig.GetService<InstallGameService>(),
+            GameBiz.Honkai3rd => AppConfig.GetService<InstallGameService>(),
+            GameBiz.ZZZ => AppConfig.GetService<ZZZInstallGameService>(),
             _ => throw new ArgumentOutOfRangeException(nameof(gameBiz), $"Game ({gameBiz}) is not supported."),
         };
     }

@@ -146,11 +146,6 @@ public sealed partial class GameLauncherPage : PageBase
                 Button_UninstallGame.IsEnabled = false;
                 Button_SettingRepairGame.IsEnabled = false;
             }
-            if (CurrentGameBiz.ToGame() is GameBiz.ZZZ)
-            {
-                Button_UninstallGame.IsEnabled = false;
-                Button_SettingRepairGame.IsEnabled = false;
-            }
         }
         catch { }
     }
@@ -283,7 +278,7 @@ public sealed partial class GameLauncherPage : PageBase
     private string? hardLinkPath;
 
 
-    public bool IsGameSupportRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && CurrentGameBiz.ToGame() != GameBiz.ZZZ;
+    public bool IsGameSupportRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud;
 
 
     public bool IsStartGameButtonEnable => LocalGameVersion != null && LocalGameVersion >= LatestGameVersion && IsGameExeExists && !IsGameRunning;
