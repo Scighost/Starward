@@ -1497,7 +1497,7 @@
     <value>ハードリンクを作成</value>
   </data>
   <data name="InstallGameDialog_HardLinkDescription" xml:space="preserve">
-    <value>異なるサーバーにゲームクライアントをインストールするためのハードリンクを作成します。追加のストレージ容量は僅かです。</value>
+    <value>異なるサーバーのゲームクライアントをインストールするためのハードリンクを作成します。わずかな追加ストレージのみを使用します。</value>
   </data>
   <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
     <value>リンク先:</value>
