@@ -758,7 +758,7 @@ internal class InstallGameService
             }
             else if (InstallTask is InstallGameTask.HardLink)
             {
-                OnSymbolTaskFinished();
+                OnHardLinkTaskFinished();
             }
         }
         catch (Exception ex)
@@ -868,7 +868,7 @@ internal class InstallGameService
 
 
 
-    protected void OnSymbolTaskFinished()
+    protected void OnHardLinkTaskFinished()
     {
         // verify -> download -> decompress (SDK) -> clean
         if (State is InstallGameState.Verify)
