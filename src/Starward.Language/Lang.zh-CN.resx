@@ -1518,4 +1518,16 @@
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>硬链接</value>
   </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>下载模式（实验性功能）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>流式下载模式具有更少的磁盘空间占用和更快的下载和解压速度。（崩坏三只支持传统下载模式）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>傳統下載方式（先下載後解壓縮）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>串流下載模式（邊下載邊解壓縮）</value>
+  </data>
 </root>

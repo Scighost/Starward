@@ -6,6 +6,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.RateLimiting;
+using Starward.Models;
 
 namespace Starward.Services.Download;
 
@@ -20,6 +21,7 @@ internal class InstallGameManager
     {
         _services = new();
         SetRateLimit(AppConfig.SpeedLimitKBPerSecond * 1024);
+        DownloadMode = AppConfig.DownloadMode;
     }
 
 
@@ -29,6 +31,10 @@ internal class InstallGameManager
 
 
     public static TokenBucketRateLimiter RateLimiter { get; private set; }
+
+    public static int TokenLimit { get; private set; }
+
+    public static DownloadModeOption DownloadMode { get; private set; }
 
 
 
@@ -50,6 +56,15 @@ internal class InstallGameManager
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
             AutoReplenishment = true
         });
+        TokenLimit = bytesPerSecond;
+    }
+
+
+
+
+    public static void SetDownloadMode(DownloadModeOption downloadModeOption)
+    {
+        DownloadMode = downloadModeOption;
     }
 
 

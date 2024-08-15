@@ -1518,4 +1518,16 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Hard Link</value>
   </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>Chế độ tải xuống (Thử nghiệm)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>Chế độ tải xuống trực tuyến chiếm ít dung lượng đĩa hơn và cung cấp tốc độ tải xuống và giải nén nhanh hơn. (Honkai Impact 3rd chỉ hỗ trợ chế độ tải xuống truyền thống)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>Chế độ tải truyền thống (tải trước rồi giải nén)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>Chế độ tải trực tuyến (giải nén trong khi tải xuống)</value>
+  </data>
 </root>

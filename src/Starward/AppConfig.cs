@@ -511,6 +511,13 @@ internal static class AppConfig
     }
 
 
+    public static DownloadModeOption DownloadMode
+    {
+        get => GetValue(DownloadModeOption.TraditionalMode);
+        set => SetValue(value);
+    }
+
+
 
 
     #endregion

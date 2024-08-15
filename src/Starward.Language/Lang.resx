@@ -1518,4 +1518,16 @@ Do you accept the risk and continue to use it?</value>
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Hard Link</value>
   </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>Download Mode (Experimental)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>Streaming download mode takes up less disk space and provides faster download and decompression speeds. (Honkai Impact 3rd only supports traditional download mode)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>Traditional download mode (download first and then decompress)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>Streaming download mode (decompress while downloading)</value>
+  </data>
 </root>

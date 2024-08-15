@@ -1518,4 +1518,16 @@
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>하드링크</value>
   </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>다운로드 모드(실험적)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>스트리밍 다운로드 모드는 디스크 공간을 덜 차지하고 더 빠른 다운로드 및 압축 해제 속도를 제공합니다. (Honkai Impact 3rd는 기존 다운로드 모드만 지원합니다)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>기존 다운로드 모드(먼저 다운로드한 후 압축 해제)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>스트리밍 다운로드 모드(다운로드하는 동안 압축 해제)</value>
+  </data>
 </root>

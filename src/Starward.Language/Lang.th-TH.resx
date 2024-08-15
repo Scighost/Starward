@@ -1517,4 +1517,16 @@
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Hard Link</value>
   </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>โหมดดาวน์โหลด (ทดลอง)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>โหมดการดาวน์โหลดแบบสตรีมมิ่งใช้พื้นที่ดิสก์น้อยลงและให้ความเร็วในการดาวน์โหลดและคลายการบีบอัดที่เร็วขึ้น (Honkai Impact 3rd รองรับเฉพาะโหมดดาวน์โหลดแบบดั้งเดิมเท่านั้น)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>โหมดการดาวน์โหลดแบบดั้งเดิม (ดาวน์โหลดก่อนแล้วจึงขยายขนาด)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>โหมดดาวน์โหลดสตรีมมิ่ง (ขยายขนาดขณะดาวน์โหลด)</value>
+  </data>
 </root>

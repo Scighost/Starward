@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DirectoryNotFoundExceptionMessage" xml:space="preserve">
+        <value>试图访问不在磁盘上的路径：{0}</value>
+    </data>
+    <data name="ZipEntryFileNameNotFoundExceptionMessage" xml:space="preserve">
+        <value>ZIP实体文件头中的名称无效，无法找到文件名称：{0}</value>
+    </data>
+    <data name="CrcVerificationFailedExceptionMessage" xml:space="preserve">
+        <value>文件CRC校验失败：{0}</value>
+    </data>
+    <data name="ZipFileTestFailedExceptionMessage" xml:space="preserve">
+        <value>ZIP文件测试失败：{0}，原因：{1}</value>
+    </data>
+    <data name="FeatureNotSupportedExceptionMessage" xml:space="preserve">
+        <value>该压缩文件使用了不受此库支持的特性，原因：{0}</value>
+    </data>
+    <data name="ZipFileTestFailedExceptionCentralDirectoryMessage" xml:space="preserve">
+        <value>ZIP实体文件头测试失败，原因：{0}</value>
+    </data>
+    <data name="HttpServerNotSupportedPartialDownloadExceptionMessage" xml:space="preserve">
+        <value>该HTTP服务器可能不支持分段下载功能。</value>
+    </data>
+    <data name="HttpStatusCodeInvalidExceptionMessage" xml:space="preserve">
+        <value>HTTP服务器返回的响应代码无效，无效代码：{0}，描述：{1}</value>
+    </data>
+    <data name="HttpMediaTypeMismatchExceptionMessage" xml:space="preserve">
+        <value>HTTP服务器返回的文件类型不是当前需要的文件类型。</value>
+    </data>
+    <data name="HttpFileModifiedDuringPartialDownloadMessage" xml:space="preserve">
+        <value>HTTP服务器上的文件在分段下载时被修改了。</value>
+    </data>
+    <data name="ZipEntryNotIsFileArgumentExceptionMessage" xml:space="preserve">
+        <value>ZipEntry实例必须为文件。</value>
+    </data>
+    <data name="HttpBodyLengthNotMatchExceptionMessage" xml:space="preserve">
+        <value>HTTP请求体的实际大小与请求头中的相关参数不匹配。</value>
+    </data>
+</root>

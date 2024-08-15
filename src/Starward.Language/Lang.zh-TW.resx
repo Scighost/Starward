@@ -1465,7 +1465,7 @@
     <value>Default Game Installation Path</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPathDescription" xml:space="preserve">
-    <value>The games will be installed in different subfolders, changing the default path will not move the installed game files.</value>
+    <value>串流下載模式佔用更少的磁碟空間，並提供更快的下載和解壓速度。 （崩壞3rd僅支援傳統下載模式）</value>
   </data>
   <data name="DownloadSettingPage_SpeedLimit" xml:space="preserve">
     <value>Speed Limit</value>
@@ -1517,5 +1517,17 @@
   </data>
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Hard Link</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>下載模式（實驗）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>串流下載模式佔用更少的磁碟空間，並提供更快的下載和解壓速度。 （崩壞3rd僅支援傳統下載模式）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>传统下载模式（先下载后解压）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>流式下载模式（边下载边解压）</value>
   </data>
 </root>

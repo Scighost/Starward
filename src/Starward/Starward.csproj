@@ -52,6 +52,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Starward.Core.ZipStreamDownload\Starward.Core.ZipStreamDownload.csproj" />
 		<ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
 		<ProjectReference Include="..\Starward.Language\Starward.Language.csproj" />
 	</ItemGroup>
@@ -60,6 +61,10 @@
 		<Content Update="Assets\**">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Assets Remove="Models\DownloadModeOption.cs" />
 	</ItemGroup>
 
 </Project>

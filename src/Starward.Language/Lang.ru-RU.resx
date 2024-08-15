@@ -1518,4 +1518,16 @@
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Жёсткая ссылка</value>
   </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>Режим загрузки (экспериментальный)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>Режим потоковой загрузки занимает меньше места на диске и обеспечивает более высокую скорость загрузки и распаковки. (Honkai Impact 3rd поддерживает только традиционный режим загрузки)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>Традиционный режим загрузки (сначала загрузка, а затем распаковка)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>Режим потоковой загрузки (распаковка во время загрузки)</value>
+  </data>
 </root>

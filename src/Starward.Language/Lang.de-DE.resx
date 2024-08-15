@@ -1516,4 +1516,16 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Hard Link</value>
   </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>Download-Modus (experimentell)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>Der Streaming-Download-Modus benötigt weniger Speicherplatz und bietet schnellere Download- und Dekomprimierungsgeschwindigkeiten. (Honkai Impact 3rd unterstützt nur den traditionellen Download-Modus)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>Traditioneller Download-Modus (zuerst herunterladen und dann dekomprimieren)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>Streaming-Download-Modus (während des Downloads dekomprimieren)</value>
+  </data>
 </root>

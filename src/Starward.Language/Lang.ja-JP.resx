@@ -1517,4 +1517,16 @@
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>ハードリンク</value>
   </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>ダウンロード モード (実験的)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>ストリーミング ダウンロード モードでは、使用するディスク容量が少なくなり、ダウンロードと解凍の速度が速くなります。 (崩壊3rdは従来のダウンロードモードのみをサポートします)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>従来のダウンロード モード (最初にダウンロードしてから解凍)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>ストリーミングダウンロードモード（ダウンロード中に解凍）</value>
+  </data>
 </root>

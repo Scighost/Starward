@@ -1,7 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml.Controls;
 using Starward.Helpers;
+using Starward.Models;
 using Starward.Services.Download;
 using System;
 using System.IO;
@@ -29,6 +31,7 @@ public sealed partial class DownloadSettingPage : PageBase
     {
         this.InitializeComponent();
         InitializeDefaultInstallPath();
+        InitializeDownloadModeOption();
     }
 
 
@@ -124,4 +127,66 @@ public sealed partial class DownloadSettingPage : PageBase
 
 
 
+    protected override void OnLoaded()
+    {
+        ComboBox_DownloadModeOption.SelectionChanged += ComboBox_DownloadModeOption_SelectionChanged;
+    }
+
+
+
+    protected override void OnUnloaded()
+    {
+        ComboBox_DownloadModeOption.SelectionChanged -= ComboBox_DownloadModeOption_SelectionChanged;
+    }
+
+
+
+    #region Download Mode Option
+
+
+
+    private void InitializeDownloadModeOption()
+    {
+        try
+        {
+            var option = AppConfig.DownloadMode;
+            if (option is DownloadModeOption.TraditionalMode)
+            {
+                ComboBox_DownloadModeOption.SelectedIndex = 0;
+            }
+            else if (option is DownloadModeOption.FullStreamMode)
+            {
+                ComboBox_DownloadModeOption.SelectedIndex = 1;
+            }
+        }
+        catch { }
+    }
+
+
+
+    private void ComboBox_DownloadModeOption_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        try
+        {
+            if (ComboBox_DownloadModeOption.SelectedItem is ComboBoxItem item)
+            {
+                var downloadMode = item.Tag switch
+                {
+                    DownloadModeOption option => option,
+                    _ => DownloadModeOption.TraditionalMode,
+                };
+                InstallGameManager.SetDownloadMode(downloadMode);
+                AppConfig.DownloadMode = downloadMode;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Change Download Mode Option");
+        }
+    }
+
+
+
+
+    #endregion
 }
