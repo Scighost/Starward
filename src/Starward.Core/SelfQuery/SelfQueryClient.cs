@@ -221,6 +221,30 @@ public class SelfQueryClient
 
 
 
+    public async Task<List<StarRailQueryItem>> GetStarRailQueryItemsAsync(StarRailQueryType type, long endId, int size = 20, DateTime? beginTime = null, DateTime? endTime = null, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        string url = type switch
+        {
+            StarRailQueryType.Stellar => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Stellar/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            StarRailQueryType.Dreams => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Dreams/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            StarRailQueryType.Relic => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Relic/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            StarRailQueryType.Cone => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Cone/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            StarRailQueryType.Power => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Power/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            _ => throw new ArgumentOutOfRangeException($"Unknown query type ({type})", nameof(type)),
+        };
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<StarRailQueryItem>>(url, cancellationToken);
+        var list = wrapper.List ?? new List<StarRailQueryItem>(0);
+        foreach (var item in list)
+        {
+            item.Type = type;
+        }
+        return list;
+    }
+
+
+
+
     #endregion
 
 

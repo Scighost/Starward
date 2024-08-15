@@ -267,7 +267,7 @@ public sealed partial class SelfQueryPage : PageBase
 
 
     [RelayCommand]
-    private async Task InputURLAsync()
+    private async Task<bool> InputURLAsync()
     {
         try
         {
@@ -313,6 +313,7 @@ public sealed partial class SelfQueryPage : PageBase
                             UidList.Add(QueryUserInfo.Uid);
                         }
                         SelectUid = QueryUserInfo.Uid;
+                        return true;
                     }
                 }
             }
@@ -322,6 +323,7 @@ public sealed partial class SelfQueryPage : PageBase
             _logger.LogError(ex, "Input url");
             NotificationBehavior.Instance.Error(ex, "Input URL");
         }
+        return false;
     }
 
 
@@ -336,6 +338,10 @@ public sealed partial class SelfQueryPage : PageBase
         {
             if (sender is Button button && button.DataContext is TypeStats stats)
             {
+                if (stats.IsUpdating)
+                {
+                    return;
+                }
                 stats.IsUpdating = true;
                 if (gameBiz.ToGame() is GameBiz.GenshinImpact)
                 {
@@ -356,7 +362,7 @@ public sealed partial class SelfQueryPage : PageBase
 
 
 
-    private async Task UpdateGenshinQueryItemsAsync(TypeStats stats, GenshinQueryType type)
+    private async Task UpdateGenshinQueryItemsAsync(TypeStats stats, GenshinQueryType type, bool all = false)
     {
         try
         {
@@ -366,10 +372,13 @@ public sealed partial class SelfQueryPage : PageBase
             }
             catch (Exception ex) when (ex.Message is "Not initialized.")
             {
-                await InputURLAsync();
+                if (!await InputURLAsync())
+                {
+                    return;
+                }
             }
             var progress = new Progress<int>(i => stats.Page = i);
-            (stats.Add, stats.Sub) = await _selfQueryService.UpdateGenshinQueryItemsAsync(type, progress, tokenSource.Token);
+            (stats.Add, stats.Sub) = await _selfQueryService.UpdateGenshinQueryItemsAsync(type, progress, all, tokenSource.Token);
             TypeStatsChanged((int)type);
         }
         catch (TaskCanceledException ex)
@@ -385,7 +394,7 @@ public sealed partial class SelfQueryPage : PageBase
 
 
 
-    private async Task UpdateStarRailQueryItemsAsync(TypeStats stats, StarRailQueryType type)
+    private async Task UpdateStarRailQueryItemsAsync(TypeStats stats, StarRailQueryType type, bool all = false)
     {
         try
         {
@@ -395,10 +404,13 @@ public sealed partial class SelfQueryPage : PageBase
             }
             catch (Exception ex) when (ex.Message is "Not initialized.")
             {
-                await InputURLAsync();
+                if (!await InputURLAsync())
+                {
+                    return;
+                }
             }
             var progress = new Progress<int>(i => stats.Page = i);
-            (stats.Add, stats.Sub) = await _selfQueryService.UpdateStarRailQueryItemsAsync(type, progress, tokenSource.Token);
+            (stats.Add, stats.Sub) = await _selfQueryService.UpdateStarRailQueryItemsAsync(type, progress, all, tokenSource.Token);
             TypeStatsChanged((int)type);
         }
         catch (TaskCanceledException ex)
@@ -538,6 +550,43 @@ public sealed partial class SelfQueryPage : PageBase
         {
             NotificationBehavior.Instance.Error(ex);
             _logger.LogError(ex, "Delete records");
+        }
+    }
+
+
+    [RelayCommand(AllowConcurrentExecutions = true)]
+    private async Task UpdateAllQueryItemsAsync()
+    {
+
+        try
+        {
+            if (SelectUid is null)
+            {
+                return;
+            }
+            if (SelectTypeStats is null)
+            {
+                return;
+            }
+            var stats = SelectTypeStats;
+            if (stats.IsUpdating)
+            {
+                return;
+            }
+            stats.IsUpdating = true;
+            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            {
+                await UpdateGenshinQueryItemsAsync(stats, (GenshinQueryType)stats.Type, true);
+            }
+            if (gameBiz.ToGame() is GameBiz.StarRail)
+            {
+                await UpdateStarRailQueryItemsAsync(stats, (StarRailQueryType)stats.Type, true);
+            }
+            stats.IsUpdating = false;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update all query items");
         }
     }
 

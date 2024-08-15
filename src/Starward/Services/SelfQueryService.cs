@@ -93,13 +93,23 @@ internal class SelfQueryService
 
 
 
-    private int InsertGenshinQueryItems(long uid, GenshinQueryType type, List<GenshinQueryItem> items)
+    private int InsertGenshinQueryItems(long uid, GenshinQueryType type, List<GenshinQueryItem> items, bool all = false)
     {
         using var dapper = _databaseService.CreateConnection();
         int oldCount = dapper.QueryFirstOrDefault<int>("""
             SELECT COUNT(*) FROM GenshinQueryItem WHERE Uid=@uid AND Type=@type;
             """, new { uid, type });
         using var t = dapper.BeginTransaction();
+        if (all)
+        {
+            var months = items.GroupBy(x => (x.DateTime.Year, x.DateTime.Month)).Select(x => $"{x.Key.Year}-{x.Key.Month:D2}").Distinct().ToList();
+            foreach (var month in months)
+            {
+                dapper.Execute($"""
+                DELETE FROM GenshinQueryItem WHERE Uid=@uid AND Type=@type AND DateTime LIKE @time;
+                """, new { uid, type, time = month + "%" }, t);
+            }
+        }
         dapper.Execute("""
             INSERT OR REPLACE INTO GenshinQueryItem (Uid, Id, AddNum, Reason, DateTime, Type, Icon, Level, Quality, Name)
             VALUES (@Uid, @Id, @AddNum, @Reason, @DateTime, @Type, @Icon, @Level, @Quality, @Name);
@@ -116,7 +126,7 @@ internal class SelfQueryService
 
 
 
-    public async Task<(long Add, long Sub)> UpdateGenshinQueryItemsAsync(GenshinQueryType type, IProgress<int> progress, CancellationToken cancellationToken = default)
+    public async Task<(long Add, long Sub)> UpdateGenshinQueryItemsAsync(GenshinQueryType type, IProgress<int> progress, bool all = false, CancellationToken cancellationToken = default)
     {
         _selfQueryClient.EnsureInitialized();
         long uid = _selfQueryClient.UserInfo?.Uid ?? 0;
@@ -134,12 +144,12 @@ internal class SelfQueryService
                 break;
             }
             endId = temp_list[19].Id;
-            if (endId <= lastId)
+            if (!all && endId <= lastId)
             {
                 break;
             }
         }
-        InsertGenshinQueryItems(uid, type, list);
+        InsertGenshinQueryItems(uid, type, list, all);
         return GetGenshinQueryItemsNumSum(uid, type);
     }
 
@@ -177,27 +187,37 @@ internal class SelfQueryService
 
 
 
-    private DateTime GetStarRailLastTime(long uid, StarRailQueryType type)
+    private long GetStarRailLastId(long uid, StarRailQueryType type)
     {
         using var dapper = _databaseService.CreateConnection();
-        return dapper.QueryFirstOrDefault<DateTime>("""
-            SELECT Time FROM StarRailQueryItem WHERE Uid=@uid AND Type=@type ORDER BY Time DESC LIMIT 1;
+        return dapper.QueryFirstOrDefault<long>("""
+            SELECT Id FROM StarRailQueryItem WHERE Uid=@uid AND Type=@type ORDER BY Id DESC LIMIT 1;
             """, new { uid, type });
     }
 
 
 
 
-    private int InsertStarRailQueryItems(long uid, StarRailQueryType type, List<StarRailQueryItem> items)
+    private int InsertStarRailQueryItems(long uid, StarRailQueryType type, List<StarRailQueryItem> items, bool all = false)
     {
         using var dapper = _databaseService.CreateConnection();
         int oldCount = dapper.QueryFirstOrDefault<int>("""
             SELECT COUNT(*) FROM StarRailQueryItem WHERE Uid=@uid AND Type=@type;
             """, new { uid, type });
         using var t = dapper.BeginTransaction();
+        if (all)
+        {
+            var months = items.GroupBy(x => (x.Time.Year, x.Time.Month)).Select(x => $"{x.Key.Year}-{x.Key.Month:D2}").Distinct().ToList();
+            foreach (var month in months)
+            {
+                dapper.Execute($"""
+                DELETE FROM StarRailQueryItem WHERE Uid=@uid AND Type=@type AND Time LIKE @time;
+                """, new { uid, type, time = month + "%" }, t);
+            }
+        }
         dapper.Execute("""
-            INSERT OR REPLACE INTO StarRailQueryItem(Uid, Type, Action, AddNum, Time, RelicName, RelicLevel, RelicRarity, EquipmentName, EquipmentLevel, EquipmentRarity)
-            VALUES (@Uid, @Type, @Action, @AddNum, @Time, @RelicName, @RelicLevel, @RelicRarity, @EquipmentName, @EquipmentLevel, @EquipmentRarity);
+            INSERT OR REPLACE INTO StarRailQueryItem(Id, Uid, Type, Action, AddNum, Time, RelicName, RelicLevel, RelicRarity, EquipmentName, EquipmentLevel, EquipmentRarity)
+            VALUES (@Id, @Uid, @Type, @Action, @AddNum, @Time, @RelicName, @RelicLevel, @RelicRarity, @EquipmentName, @EquipmentLevel, @EquipmentRarity);
             """, items, t);
         t.Commit();
         int newCount = dapper.QueryFirstOrDefault<int>("""
@@ -209,34 +229,30 @@ internal class SelfQueryService
 
 
 
-    public async Task<(long Add, long Sub)> UpdateStarRailQueryItemsAsync(StarRailQueryType type, IProgress<int> progress, CancellationToken cancellationToken = default)
+    public async Task<(long Add, long Sub)> UpdateStarRailQueryItemsAsync(StarRailQueryType type, IProgress<int> progress, bool all = false, CancellationToken cancellationToken = default)
     {
         _selfQueryClient.EnsureInitialized();
         long uid = _selfQueryClient.UserInfo?.Uid ?? 0;
         using var dapper = _databaseService.CreateConnection();
-        DateTime lastTime = GetStarRailLastTime(uid, type);
-        DateTime endTime = DateTime.MinValue;
+        long lastId = GetStarRailLastId(uid, type);
         var list = new List<StarRailQueryItem>(20);
+        long endId = 0;
         for (int i = 1; ; i++)
         {
             progress.Report(i);
-            var temp_list = await _selfQueryClient.GetStarRailQueryItemsAsync(type, i, 100, cancellationToken);
-            if (temp_list.Count < 100)
-            {
-                temp_list = temp_list.Where(x => x.Time > lastTime).ToList();
-                list.AddRange(temp_list);
-                break;
-            }
-            endTime = temp_list[99].Time;
-            if (endTime <= lastTime)
-            {
-                temp_list = temp_list.Where(x => x.Time > lastTime).ToList();
-                list.AddRange(temp_list);
-                break;
-            }
+            var temp_list = await _selfQueryClient.GetStarRailQueryItemsAsync(type, endId, 20, null, null, cancellationToken);
             list.AddRange(temp_list);
+            if (temp_list.Count < 20)
+            {
+                break;
+            }
+            endId = temp_list[19].Id;
+            if (!all && endId <= lastId)
+            {
+                break;
+            }
         }
-        InsertStarRailQueryItems(uid, type, list);
+        InsertStarRailQueryItems(uid, type, list, all);
         return GetStarRailQueryItemsNumSum(uid, type);
     }
 

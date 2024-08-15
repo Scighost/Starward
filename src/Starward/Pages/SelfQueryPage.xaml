@@ -166,6 +166,7 @@
                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                            Text="{x:Bind MonthSubNum, Converter={StaticResource SelfQueryStatsNumberConverter}}" />
                 <Button Command="{x:Bind DeleteCurrentMonthDataCommand}" Content="{x:Bind lang:Lang.SelfQueryPage_DeleteThisMonthSData}" />
+                <Button Command="{x:Bind UpdateAllQueryItemsCommand}" Content="{x:Bind lang:Lang.SelfQueryPage_RetrieveAllData}" />
             </StackPanel>
             <ListView Name="ListView_QueryItems_Genshin"
                       Grid.Row="1"
