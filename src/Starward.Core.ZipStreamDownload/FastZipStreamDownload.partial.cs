@@ -332,7 +332,7 @@ public partial class FastZipStreamDownload(DirectoryInfo targetDirectoryInfo, Di
             }
 
             if (_exceptionCount > 0) success = false;
-            if (success && extractFiles && AutoDeleteCentralDirectoryDataFile)
+            if (success && AutoDeleteCentralDirectoryDataFile)
             {
                 centralDirectoryDataFile.Close();
                 centralDirectoryDataFileInfo.Delete();
