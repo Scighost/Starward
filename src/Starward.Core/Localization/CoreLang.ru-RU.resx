@@ -275,21 +275,21 @@
     <value>Канал банбу</value>
   </data>
   <data name="ZZZQueryType_Monochrome" xml:space="preserve">
-    <value>Monochrome</value>
+    <value>Монохром</value>
   </data>
   <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
-    <value>Ploychrome</value>
+    <value>Полихром</value>
   </data>
   <data name="ZZZQueryType_Bundle" xml:space="preserve">
-    <value>Bundle</value>
+    <value>Набор</value>
   </data>
   <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
-    <value>Battery Charge</value>
+    <value>Зарядка аккумулятора</value>
   </data>
   <data name="ZZZQueryType_WEngine" xml:space="preserve">
-    <value>W-Engine</value>
+    <value>Амплификатор</value>
   </data>
   <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
-    <value>Drive Disc</value>
+    <value>Драйв-диск</value>
   </data>
 </root>
