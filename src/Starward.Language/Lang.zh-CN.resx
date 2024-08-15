@@ -1525,10 +1525,10 @@
     <value>流式下载模式具有更少的磁盘空间占用和更快的下载和解压速度。（崩坏三只支持传统下载模式）</value>
   </data>
   <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
-    <value>傳統下載方式（先下載後解壓縮）</value>
+    <value>传统下载模式（先下载后解压）</value>
   </data>
   <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
-    <value>串流下載模式（邊下載邊解壓縮）</value>
+    <value>流式下载模式（边下载边解压）</value>
   </data>
   <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
     <value>重新获取所有数据</value>

@@ -1525,9 +1525,9 @@
     <value>串流下載模式佔用更少的磁碟空間，並提供更快的下載和解壓速度。 （崩壞3rd僅支援傳統下載模式）</value>
   </data>
   <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
-    <value>传统下载模式（先下载后解压）</value>
+    <value>傳統下載方式（先下載後解壓縮）</value>
   </data>
   <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
-    <value>流式下载模式（边下载边解压）</value>
+    <value>串流下載模式（邊下載邊解壓縮）</value>
   </data>
 </root>
