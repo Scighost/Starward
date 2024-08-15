@@ -1517,4 +1517,7 @@
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Hard Link</value>
   </data>
+  <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
+    <value>Retrieve All Data</value>
+  </data>
 </root>
