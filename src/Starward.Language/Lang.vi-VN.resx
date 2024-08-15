@@ -1518,4 +1518,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Liên Kết Cứng</value>
   </data>
+  <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
+    <value>Retrieve All Data</value>
+  </data>
 </root>
