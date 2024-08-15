@@ -1518,4 +1518,7 @@
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Жёсткая ссылка</value>
   </data>
+  <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
+    <value>Retrieve All Data</value>
+  </data>
 </root>
