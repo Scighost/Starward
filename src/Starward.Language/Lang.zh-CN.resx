@@ -1518,4 +1518,7 @@
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>硬链接</value>
   </data>
+  <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
+    <value>重新获取所有数据</value>
+  </data>
 </root>
