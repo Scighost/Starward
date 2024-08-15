@@ -75,7 +75,7 @@ public class SelfQueryClient
         {
             if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html") || url.StartsWith("https://webstatic.mihoyo.com/static/mihoyo-new-csc-service-hall-fe/index.html"))
             {
-                prefixUrl = "https://hk4e-api.mihoyo.com";
+                prefixUrl = "https://public-operation-hk4e.mihoyo.com";
             }
             if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html") || url.StartsWith("https://cs.hoyoverse.com/static/hoyoverse-new-csc-service-hall-fe/index.html"))
             {
@@ -102,6 +102,22 @@ public class SelfQueryClient
                 throw new ArgumentException($"Input url is invalid.", nameof(url));
             }
             await GetStarRailUserInfoAsync(cancellationToken);
+        }
+        if (gameBiz.ToGame() is GameBiz.ZZZ)
+        {
+            if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html") || url.StartsWith("https://webstatic.mihoyo.com/static/mihoyo-new-csc-service-hall-fe/index.html"))
+            {
+                prefixUrl = "https://public-operation-nap.mihoyo.com";
+            }
+            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html") || url.StartsWith("https://cs.hoyoverse.com/static/hoyoverse-new-csc-service-hall-fe/index.html"))
+            {
+                prefixUrl = "https://public-operation-nap-sg.hoyoverse.com";
+            }
+            if (string.IsNullOrWhiteSpace(prefixUrl))
+            {
+                throw new ArgumentException($"Input url is invalid.", nameof(url));
+            }
+            await GetZZZUserInfoAsync(cancellationToken);
         }
         if (UserInfo is null)
         {
@@ -198,29 +214,6 @@ public class SelfQueryClient
 
 
 
-    public async Task<List<StarRailQueryItem>> GetStarRailQueryItemsAsync(StarRailQueryType type, int page, int pageSize = 100, CancellationToken cancellationToken = default)
-    {
-        EnsureInitialized();
-        string url = type switch
-        {
-            StarRailQueryType.Stellar => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Stellar/GetList{authQuery}&page={page}&page_size={pageSize}",
-            StarRailQueryType.Dreams => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Dreams/GetList{authQuery}&page={page}&page_size={pageSize}",
-            StarRailQueryType.Relic => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Relic/GetList{authQuery}&page={page}&page_size={pageSize}",
-            StarRailQueryType.Cone => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Cone/GetList{authQuery}&page={page}&page_size={pageSize}",
-            StarRailQueryType.Power => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Power/GetList{authQuery}&page={page}&page_size={pageSize}",
-            _ => throw new ArgumentOutOfRangeException($"Unknown query type ({type})", nameof(type)),
-        };
-        var wrapper = await CommonGetAsync<SelfQueryListWrapper<StarRailQueryItem>>(url, cancellationToken);
-        var list = wrapper.List ?? new List<StarRailQueryItem>(0);
-        foreach (var item in list)
-        {
-            item.Type = type;
-        }
-        return list;
-    }
-
-
-
     public async Task<List<StarRailQueryItem>> GetStarRailQueryItemsAsync(StarRailQueryType type, long endId, int size = 20, DateTime? beginTime = null, DateTime? endTime = null, CancellationToken cancellationToken = default)
     {
         EnsureInitialized();
@@ -247,6 +240,50 @@ public class SelfQueryClient
 
     #endregion
 
+
+
+
+    #region ZZZ
+
+
+
+    public async Task<SelfQueryUserInfo> GetZZZUserInfoAsync(CancellationToken cancellationToken = default)
+    {
+        string url = $"{prefixUrl}/common/nap_self_help_query/UserInfo/GetUserInfo{authQuery}";
+        UserInfo ??= await CommonGetAsync<SelfQueryUserInfo>(url, cancellationToken);
+        UserInfo.GameBiz = gameBiz;
+        return UserInfo;
+    }
+
+
+
+    public async Task<List<ZZZQueryItem>> GetZZZQueryItemsAsync(ZZZQueryType type, long endId, int size = 20, DateTime? beginTime = null, DateTime? endTime = null, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        string url = type switch
+        {
+            ZZZQueryType.Monochrome => $"{prefixUrl}/common/nap_self_help_query/Coin/GetList{authQuery}&coin_type=monochrome_film&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            ZZZQueryType.Ploychrome => $"{prefixUrl}/common/nap_self_help_query/Coin/GetList{authQuery}&coin_type=film&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            ZZZQueryType.PurchaseGift => $"{prefixUrl}/common/nap_self_help_query/Coin/GetList{authQuery}&coin_type=purchase_gift&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            ZZZQueryType.Battery => $"{prefixUrl}/common/nap_self_help_query/Battery/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            ZZZQueryType.Engine => $"{prefixUrl}/common/nap_self_help_query/Engine/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            ZZZQueryType.Disk => $"{prefixUrl}/common/nap_self_help_query/Disk/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            ZZZQueryType.BattlePass => $"{prefixUrl}/common/nap_self_help_query/Coin/GetList{authQuery}&coin_type=battle_pass&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
+            _ => throw new ArgumentOutOfRangeException($"Unknown query type ({type})", nameof(type)),
+        };
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<ZZZQueryItem>>(url, cancellationToken);
+        var list = wrapper.List ?? new List<ZZZQueryItem>(0);
+        foreach (var item in list)
+        {
+            item.Type = type;
+        }
+        return list;
+    }
+
+
+
+
+    #endregion
 
 
 

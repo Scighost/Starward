@@ -263,4 +263,109 @@ internal class SelfQueryService
     #endregion
 
 
+
+
+    #region ZZZ
+
+
+
+    public List<long> GetZZZUids()
+    {
+        using var dapper = _databaseService.CreateConnection();
+        return dapper.Query<long>("SELECT DISTINCT Uid FROM ZZZQueryItem;").ToList();
+    }
+
+
+
+    public (long Add, long Sub) GetZZZQueryItemsNumSum(long uid, ZZZQueryType type)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        long add = dapper.QueryFirstOrDefault<long>("""
+            SELECT IFNULL(SUM(AddNum), 0) FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type AND AddNum>0;
+            """, new { uid, type });
+        long sub = dapper.QueryFirstOrDefault<long>("""
+            SELECT IFNULL(SUM(AddNum), 0) FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type AND AddNum<0;
+            """, new { uid, type });
+        return (add, sub);
+    }
+
+
+
+
+    private long GetZZZLastId(long uid, ZZZQueryType type)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        return dapper.QueryFirstOrDefault<long>("""
+            SELECT Id FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type ORDER BY Id DESC LIMIT 1;
+            """, new { uid, type });
+    }
+
+
+
+
+    private int InsertZZZQueryItems(long uid, ZZZQueryType type, List<ZZZQueryItem> items, bool all = false)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        int oldCount = dapper.QueryFirstOrDefault<int>("""
+            SELECT COUNT(*) FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type;
+            """, new { uid, type });
+        using var t = dapper.BeginTransaction();
+        if (all)
+        {
+            var months = items.GroupBy(x => (x.DateTime.Year, x.DateTime.Month)).Select(x => $"{x.Key.Year}-{x.Key.Month:D2}").Distinct().ToList();
+            foreach (var month in months)
+            {
+                dapper.Execute($"""
+                DELETE FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type AND DateTime LIKE @time;
+                """, new { uid, type, time = month + "%" }, t);
+            }
+        }
+        dapper.Execute("""
+            INSERT OR REPLACE INTO ZZZQueryItem(Id, Uid, Type, Reason, AddNum, DateTime, EquipName, EquipRarity, EquipLevel, WeaponName, WeaponRarity, WeaponLevel, ClientIp, ActionName, CardType, ItemName)
+            VALUES (@Id, @Uid, @Type, @Reason, @AddNum, @DateTime, @EquipName, @EquipRarity, @EquipLevel, @WeaponName, @WeaponRarity, @WeaponLevel, @ClientIp, @ActionName, @CardType, @ItemName);
+            """, items, t);
+        t.Commit();
+        int newCount = dapper.QueryFirstOrDefault<int>("""
+            SELECT COUNT(*) FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type;
+            """, new { uid, type });
+        return newCount - oldCount;
+    }
+
+
+
+
+
+
+    public async Task<(long Add, long Sub)> UpdateZZZQueryItemsAsync(ZZZQueryType type, IProgress<int> progress, bool all = false, CancellationToken cancellationToken = default)
+    {
+        _selfQueryClient.EnsureInitialized();
+        long uid = _selfQueryClient.UserInfo?.Uid ?? 0;
+        using var dapper = _databaseService.CreateConnection();
+        long lastId = GetZZZLastId(uid, type);
+        long endId = 0;
+        var list = new List<ZZZQueryItem>(20);
+        for (int i = 1; ; i++)
+        {
+            progress.Report(i);
+            var temp_list = await _selfQueryClient.GetZZZQueryItemsAsync(type, endId, 20, null, null, cancellationToken);
+            list.AddRange(temp_list);
+            if (temp_list.Count < 20)
+            {
+                break;
+            }
+            endId = temp_list[19].Id;
+            if (!all && endId <= lastId)
+            {
+                break;
+            }
+        }
+        InsertZZZQueryItems(uid, type, list, all);
+        return GetZZZQueryItemsNumSum(uid, type);
+    }
+
+
+
+    #endregion
+
+
 }

@@ -271,4 +271,20 @@ public static class EnumExtension
 
 
 
+    public static string ToLocalization(this ZZZQueryType  zZZQueryType)
+    {
+        return zZZQueryType switch
+        {
+            ZZZQueryType.Monochrome => CoreLang.ZZZQueryType_Monochrome,
+            ZZZQueryType.Ploychrome => CoreLang.ZZZQueryType_Ploychrome,
+            ZZZQueryType.PurchaseGift => CoreLang.ZZZQueryType_Bundle,
+            ZZZQueryType.Battery => CoreLang.ZZZQueryType_BatteryCharge,
+            ZZZQueryType.Engine => CoreLang.ZZZQueryType_WEngine,
+            ZZZQueryType.Disk => CoreLang.ZZZQueryType_DriveDisc,
+            _ => "",
+        };
+    }
+
+
+
 }
