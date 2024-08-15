@@ -51,6 +51,10 @@ internal class ForgottenHallTimeJsonConverter : JsonConverter<DateTime>
             };
             writer.WriteRawValue(JsonSerializer.Serialize(time, typeof(ForgottenHallTime), GameRecordJsonContext.Default));
         }
+        else
+        {
+            writer.WriteNullValue();
+        }
     }
 
 }

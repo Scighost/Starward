@@ -6,7 +6,8 @@ namespace Starward.Core.SelfQuery;
 public class StarRailQueryItem
 {
 
-    [JsonIgnore]
+    [JsonPropertyName("id")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public long Id { get; set; }
 
 

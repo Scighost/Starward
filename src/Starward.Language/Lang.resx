@@ -1530,4 +1530,7 @@ Do you accept the risk and continue to use it?</value>
   <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
     <value>Streaming download mode (decompress while downloading)</value>
   </data>
+  <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
+    <value>Retrieve All Data</value>
+  </data>
 </root>

@@ -3119,6 +3119,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Retrieve All Data 的本地化字符串。
+        /// </summary>
+        public static string SelfQueryPage_RetrieveAllData {
+            get {
+                return ResourceManager.GetString("SelfQueryPage_RetrieveAllData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Steps to get URL: 的本地化字符串。
         /// </summary>
         public static string SelfQueryPage_StepsToGetURL {

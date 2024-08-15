@@ -209,7 +209,7 @@ internal class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9];
+    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10];
 
 
     private const string Sql_v1 = """
@@ -624,6 +624,41 @@ internal class DatabaseService
             PRIMARY KEY (Uid, ScheduleId)
         );
         CREATE INDEX IF NOT EXISTS IX_ApocalypticShadowInfo_ScheduleId ON ApocalypticShadowInfo (ScheduleId);
+
+        PRAGMA USER_VERSION = 9;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v10 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS ZZZQueryItem
+        (
+            Id           INTEGER NOT NULL,
+            Uid          INTEGER NOT NULL,
+            Type         INTEGER NOT NULL,
+            Reason       TEXT,
+            AddNum       INTEGER NOT NULL,
+            DateTime     TEXT,
+            EquipName    TEXT,
+            EquipRarity  INTEGER NOT NULL,
+            EquipLevel   INTEGER NOT NULL,
+            WeaponName   TEXT,
+            WeaponRarity INTEGER NOT NULL,
+            WeaponLevel  INTEGER NOT NULL,
+            ClientIp     TEXT,
+            ActionName   TEXT,
+            CardType     INTEGER NOT NULL,
+            ItemName     TEXT,
+            PRIMARY KEY (Uid, Id)
+        );
+
+
+        CREATE INDEX IF NOT EXISTS IX_ZZZQueryItem_Id ON ZZZQueryItem (Id);
+        CREATE INDEX IF NOT EXISTS IX_ZZZQueryItem_Type ON ZZZQueryItem (Type);
+        CREATE INDEX IF NOT EXISTS IX_ZZZQueryItem_Reason ON ZZZQueryItem (Reason);
+        CREATE INDEX IF NOT EXISTS IX_ZZZQueryItem_AddNum ON ZZZQueryItem (AddNum);
+        CREATE INDEX IF NOT EXISTS IX_ZZZQueryItem_DateTime ON ZZZQueryItem (DateTime);
 
         PRAGMA USER_VERSION = 9;
         COMMIT TRANSACTION;

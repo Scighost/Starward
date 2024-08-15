@@ -161,7 +161,7 @@ public sealed partial class InstallGameDialog : ContentDialog
     {
         try
         {
-            if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
+            if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail or GameBiz.ZZZ)
             {
                 foreach (var biz in Enum.GetValues<GameBiz>())
                 {

@@ -166,6 +166,7 @@
                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                            Text="{x:Bind MonthSubNum, Converter={StaticResource SelfQueryStatsNumberConverter}}" />
                 <Button Command="{x:Bind DeleteCurrentMonthDataCommand}" Content="{x:Bind lang:Lang.SelfQueryPage_DeleteThisMonthSData}" />
+                <Button Command="{x:Bind UpdateAllQueryItemsCommand}" Content="{x:Bind lang:Lang.SelfQueryPage_RetrieveAllData}" />
             </StackPanel>
             <ListView Name="ListView_QueryItems_Genshin"
                       Grid.Row="1"
@@ -208,7 +209,7 @@
                                        VerticalAlignment="Center"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        Text="{x:Bind Time.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
-                            <TextBlock Width="220"
+                            <TextBlock Width="240"
                                        VerticalAlignment="Center"
                                        Text="{x:Bind Action}"
                                        TextWrapping="Wrap" />
@@ -220,6 +221,38 @@
                                        VerticalAlignment="Center"
                                        Text="{x:Bind RelicName}"
                                        Visibility="{x:Bind RelicName, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                            <TextBlock VerticalAlignment="Center"
+                                       Foreground="{x:Bind AddNum, Converter={StaticResource SelfQueryStatsNumberBrushConverter}}"
+                                       Text="{x:Bind AddNum, Converter={StaticResource SelfQueryStatsNumberConverter}}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView Name="ListView_QueryItems_ZZZ"
+                      Grid.Row="1"
+                      Padding="0,0,0,12"
+                      ItemsSource="{x:Bind ZZZQueryItemList}"
+                      SelectionMode="None"
+                      Visibility="Collapsed">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="scs:ZZZQueryItem">
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <TextBlock Width="160"
+                                       VerticalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Bind DateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                            <TextBlock Width="220"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind Reason}"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Width="220"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind EquipName}"
+                                       Visibility="{x:Bind EquipName, Converter={StaticResource WhiteSpaceStringToVisibilityConverter}}" />
+                            <TextBlock Width="220"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind WeaponName}"
+                                       Visibility="{x:Bind WeaponName, Converter={StaticResource WhiteSpaceStringToVisibilityConverter}}" />
                             <TextBlock VerticalAlignment="Center"
                                        Foreground="{x:Bind AddNum, Converter={StaticResource SelfQueryStatsNumberBrushConverter}}"
                                        Text="{x:Bind AddNum, Converter={StaticResource SelfQueryStatsNumberConverter}}" />

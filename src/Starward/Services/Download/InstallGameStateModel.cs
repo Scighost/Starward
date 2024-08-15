@@ -252,7 +252,11 @@ public partial class InstallGameStateModel : ObservableObject
 
     private void _service_StateChanged(object? sender, InstallGameState e)
     {
-        UpdateState();
+        try
+        {
+            MainWindow.Current.DispatcherQueue.TryEnqueue(UpdateState);
+        }
+        catch { }
     }
 
 

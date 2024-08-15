@@ -269,6 +269,7 @@ internal static class AppConfig
             sc.AddTransient<Services.Download.InstallGameService>();
             sc.AddTransient<Services.Download.GenshinInstallGameService>();
             sc.AddTransient<Services.Download.StarRailInstallGameService>();
+            sc.AddTransient<Services.Download.ZZZInstallGameService>();
 
             _serviceProvider = sc.BuildServiceProvider();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))
