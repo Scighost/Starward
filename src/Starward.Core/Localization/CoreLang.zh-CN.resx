@@ -274,4 +274,22 @@
   <data name="GachaType_BangbooChannel" xml:space="preserve">
     <value>邦布频段</value>
   </data>
+  <data name="ZZZQueryType_Monochrome" xml:space="preserve">
+    <value>菲林底片</value>
+  </data>
+  <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
+    <value>菲林</value>
+  </data>
+  <data name="ZZZQueryType_Bundle" xml:space="preserve">
+    <value>礼包</value>
+  </data>
+  <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
+    <value>电量</value>
+  </data>
+  <data name="ZZZQueryType_WEngine" xml:space="preserve">
+    <value>音擎</value>
+  </data>
+  <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
+    <value>驱动盘</value>
+  </data>
 </root>
