@@ -1516,4 +1516,7 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Hardlink</value>
   </data>
+  <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
+    <value>Retrieve All Data</value>
+  </data>
 </root>
