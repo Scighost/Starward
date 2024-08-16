@@ -1210,18 +1210,12 @@ internal class InstallGameService
                 int length;
                 while ((length = await hs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
                 {
-                    if (InstallGameManager.IsEnableSpeedLimit)
-                    {
-                        int totalTokens = 0;
-                        while (totalTokens < length)
-                        {
-                            int remaining = length - totalTokens;
-                            if (TokenBucketRateLimiterExtension.TryAcquire(InstallGameManager.RateLimiter, remaining, out int tokensAcquired, out _))
-                                await Task.Delay(1, cancellationToken).ConfigureAwait(false);
-                            else
-                                totalTokens += tokensAcquired;
-                        }
-                    }
+                    int totalTokens = 0;
+                    while (InstallGameManager.IsEnableSpeedLimit && totalTokens < length)
+                        if (!TokenBucketRateLimiterExtension.TryAcquire(InstallGameManager.RateLimiter, length - totalTokens, out int tokensAcquired, out _))
+                            await Task.Delay(1, cancellationToken).ConfigureAwait(false);
+                        else
+                            totalTokens += tokensAcquired;
                     await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken).ConfigureAwait(false);
                     Interlocked.Add(ref _finishBytes, length);
                 }

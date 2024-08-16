@@ -7,12 +7,11 @@ namespace Starward.Services.Download;
 
 internal static class TokenBucketRateLimiterExtension
 {
-    // IMPORTANT: acquired can be none 0 values if false is returned
     public static bool TryAcquire(this TokenBucketRateLimiter rateLimiter, int permits, out int acquired, out TimeSpan retryAfter)
     {
         acquired = Math.Min(permits, (int)Volatile.Read(ref PrivateGetTokenCount(rateLimiter)));
         lock (PrivateGetLock(rateLimiter))
-            return rateLimiter.AttemptAcquire(acquired).TryGetMetadata(MetadataName.RetryAfter, out retryAfter);
+            return !rateLimiter.AttemptAcquire(acquired).TryGetMetadata(MetadataName.RetryAfter, out retryAfter);
     }
 
     // private object Lock → _queue
