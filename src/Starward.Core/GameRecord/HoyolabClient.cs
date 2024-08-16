@@ -14,7 +14,7 @@ public class HoyolabClient : GameRecordClient
 
     public override string UAContent => $"Mozilla/5.0 (Linux; Android 13; Pixel 5 Build/TQ3A.230901.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/118.0.0.0 Mobile Safari/537.36 miHoYoBBSOversea/{AppVersion}";
 
-    public override string AppVersion => "2.54.0";
+    public override string AppVersion => "2.59.0";
 
     protected override string ApiSalt => "okr4obncj8bw5a65hbnn5oo6ixjc3l9w";
 
@@ -83,6 +83,7 @@ public class HoyolabClient : GameRecordClient
         var list = new List<GameRecordRole>();
         list.AddRange(await GetGenshinGameRolesAsync(cookie, cancellationToken));
         list.AddRange(await GetStarRailGameRolesAsync(cookie, cancellationToken));
+        list.AddRange(await GetZZZGameRolesAsync(cookie, cancellationToken));
         return list;
     }
 
@@ -458,5 +459,33 @@ public class HoyolabClient : GameRecordClient
 
     #endregion
 
+
+    #region ZZZ
+
+    /// <summary>
+    /// Get ZZZ Role
+    /// </summary>
+    /// <param name="cookie"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">输入的 <c>cookie</c> 为空</exception>
+    public override async Task<List<GameRecordRole>> GetZZZGameRolesAsync(string cookie, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(cookie))
+        {
+            throw new ArgumentNullException(nameof(cookie));
+        }
+        
+        const string url = "https://api-account-os.hoyolab.com/binding/api/getUserGameRolesByCookieToken?game_biz=nap_global";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, cookie);
+        request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
+        request.Headers.Add(Referer, "https://act.hoyolab.com");
+        var data = await CommonSendAsync<GameRecordRoleWrapper>(request, cancellationToken);
+        data.List?.ForEach(x => x.Cookie = cookie);
+        return data.List ?? new List<GameRecordRole>();
+    }
+
+    #endregion
 
 }

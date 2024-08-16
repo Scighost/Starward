@@ -369,6 +369,20 @@ public abstract class GameRecordClient
     #endregion
 
 
+    #region ZZZ
+    
+    /// <summary>
+    /// Get ZZZ Role
+    /// </summary>
+    /// <param name="cookie"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">输入的 <c>cookie</c> 为空</exception>
+    public abstract Task<List<GameRecordRole>> GetZZZGameRolesAsync(string cookie, CancellationToken cancellationToken = default);
+
+    #endregion
+
+
     // 寰宇蝗灾
     // https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/rogue_locust?server=prod_gf_cn&role_id={uid}&need_detail=true
 
