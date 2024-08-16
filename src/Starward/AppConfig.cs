@@ -229,7 +229,9 @@ internal static class AppConfig
             sc.AddLogging(c => c.AddSerilog(Log.Logger));
             sc.AddTransient(_ =>
             {
-                var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
+                //See: https://learn.microsoft.com/zh-cn/dotnet/fundamentals/runtime-libraries/system-net-http-httpclienthandler
+                //See: https://learn.microsoft.com/zh-cn/dotnet/api/system.net.http.socketshttphandler?view=net-8.0
+                var client = new HttpClient(new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
                 client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppVersion}");
                 return client;
             });
