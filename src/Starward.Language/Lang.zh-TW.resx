@@ -1465,7 +1465,7 @@
     <value>Default Game Installation Path</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPathDescription" xml:space="preserve">
-    <value>串流下載模式佔用更少的磁碟空間，並提供更快的下載和解壓速度。 （崩壞3rd僅支援傳統下載模式）</value>
+    <value>The games will be installed in different subfolders, changing the default path will not move the installed game files.</value>
   </data>
   <data name="DownloadSettingPage_SpeedLimit" xml:space="preserve">
     <value>Speed Limit</value>
