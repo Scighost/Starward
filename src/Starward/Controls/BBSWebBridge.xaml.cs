@@ -168,10 +168,10 @@ public sealed partial class BBSWebBridge : UserControl
                 {
                     (true, GameBiz.GenshinImpact) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=2",
                     (true, GameBiz.StarRail) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=6",
-                    (true, GameBiz.ZZZ) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=8",
+                    (true, GameBiz.ZZZ) => "https://act.hoyolab.com/app/mihoyo-zzz-game-record/index.html",
                     (false, GameBiz.GenshinImpact) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=2",
                     (false, GameBiz.StarRail) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=6",
-                    (false, GameBiz.ZZZ) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=8",
+                    (false, GameBiz.ZZZ) => "https://act.mihoyo.com/app/mihoyo-zzz-game-record/index.html",
                     _ => null,
                 };
                 if (url is not null)
@@ -645,19 +645,19 @@ public sealed partial class BBSWebBridge : UserControl
     private class JsParam
     {
         /// <summary>
-        /// ·½·¨Ãû³Æ
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         [JsonPropertyName("method")]
         public string Method { get; set; }
 
         /// <summary>
-        /// Êý¾Ý ¿ÉÒÔÎª¿Õ
+        /// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½
         /// </summary>
         [JsonPropertyName("payload")]
         public JsonNode? Payload { get; set; }
 
         /// <summary>
-        /// »Øµ÷µÄÃû³Æ£¬µ÷ÓÃ JavaScript:mhyWebBridge Ê±×÷ÎªÊ×¸ö²ÎÊý´«Èë
+        /// ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ JavaScript:mhyWebBridge Ê±ï¿½ï¿½Îªï¿½×¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         [JsonPropertyName("callback")]
         public string? Callback { get; set; }
@@ -668,19 +668,19 @@ public sealed partial class BBSWebBridge : UserControl
     private class JsResult
     {
         /// <summary>
-        /// ´úÂë
+        /// ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         [JsonPropertyName("retcode")]
         public int Code { get; set; }
 
         /// <summary>
-        /// ÏûÏ¢
+        /// ï¿½ï¿½Ï¢
         /// </summary>
         [JsonPropertyName("message")]
         public string Message { get; set; } = string.Empty;
 
         /// <summary>
-        /// Êý¾Ý
+        /// ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         [JsonPropertyName("data")]
         public Dictionary<string, object> Data { get; set; } = default!;
