@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Starward.Core;
 using Starward.Models;
@@ -6,7 +6,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Starward.Services.Download;
@@ -100,8 +99,6 @@ public partial class InstallGameStateModel : ObservableObject
     public double _speedBytesPerSecond;
 
     private List<double> _recentSpeed = [];
-
-    private readonly SynchronizationContext uiContext = SynchronizationContext.Current!;
 
 
 
@@ -277,7 +274,11 @@ public partial class InstallGameStateModel : ObservableObject
 
     private void _service_StateChanged(object? sender, InstallGameState e)
     {
-        uiContext.Post(_ => UpdateState(), null);
+        try
+        {
+            MainWindow.Current.DispatcherQueue.TryEnqueue(UpdateState);
+        }
+        catch { }
     }
 
 

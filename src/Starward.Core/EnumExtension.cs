@@ -165,6 +165,8 @@ public static class EnumExtension
             GameBiz.bh3_kr => GameRegistry.LauncherPath_bh3_kr,
             GameBiz.bh3_overseas => GameRegistry.LauncherPath_bh3_overseas,
             GameBiz.bh3_tw => GameRegistry.LauncherPath_bh3_tw,
+            GameBiz.nap_cn or GameBiz.nap_bilibili => GameRegistry.LauncherPath_HYP_cn,
+            GameBiz.nap_global => GameRegistry.LauncherPath_HYP_os,
             _ => "HKEY_LOCAL_MACHINE",
         };
     }
@@ -186,6 +188,8 @@ public static class EnumExtension
             GameBiz.bh3_kr => GameRegistry.GamePath_bh3_kr,
             GameBiz.bh3_overseas => GameRegistry.GamePath_bh3_overseas,
             GameBiz.bh3_tw => GameRegistry.GamePath_bh3_tw,
+            GameBiz.nap_cn or GameBiz.nap_bilibili => GameRegistry.GamePath_nap_cn,
+            GameBiz.nap_global => GameRegistry.GamePath_nap_global,
             _ => "HKEY_CURRENT_USER",
         };
     }
@@ -261,6 +265,22 @@ public static class EnumExtension
             StarRailQueryType.Relic => CoreLang.StarRailQueryType_Relic,
             StarRailQueryType.Cone => CoreLang.StarRailQueryType_LightCone,
             StarRailQueryType.Power => CoreLang.StarRailQueryType_TrailblazePower,
+            _ => "",
+        };
+    }
+
+
+
+    public static string ToLocalization(this ZZZQueryType  zZZQueryType)
+    {
+        return zZZQueryType switch
+        {
+            ZZZQueryType.Monochrome => CoreLang.ZZZQueryType_Monochrome,
+            ZZZQueryType.Ploychrome => CoreLang.ZZZQueryType_Ploychrome,
+            ZZZQueryType.PurchaseGift => CoreLang.ZZZQueryType_Bundle,
+            ZZZQueryType.Battery => CoreLang.ZZZQueryType_BatteryCharge,
+            ZZZQueryType.Engine => CoreLang.ZZZQueryType_WEngine,
+            ZZZQueryType.Disk => CoreLang.ZZZQueryType_DriveDisc,
             _ => "",
         };
     }

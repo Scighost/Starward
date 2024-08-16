@@ -37,17 +37,17 @@
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.8" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
-		<PackageReference Include="MiniExcel" Version="1.33.0" />
+		<PackageReference Include="MiniExcel" Version="1.34.0" />
 		<PackageReference Include="NuGet.Versioning" Version="6.10.1" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
 		<PackageReference Include="Starward.Assets" Version="0.4.13" />
 		<PackageReference Include="Starward.NativeLib" Version="0.2.1" />
 		<PackageReference Include="System.Threading.RateLimiting" Version="8.0.0" />
-		<PackageReference Include="Vanara.PInvoke.ComCtl32" Version="4.0.2" />
-		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="4.0.2" />
-		<PackageReference Include="Vanara.PInvoke.Ole" Version="4.0.2" />
-		<PackageReference Include="Vanara.PInvoke.Shell32" Version="4.0.2" />
+		<PackageReference Include="Vanara.PInvoke.ComCtl32" Version="4.0.3" />
+		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="4.0.3" />
+		<PackageReference Include="Vanara.PInvoke.Ole" Version="4.0.3" />
+		<PackageReference Include="Vanara.PInvoke.Shell32" Version="4.0.3" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 

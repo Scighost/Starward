@@ -31,7 +31,6 @@
                                   Margin="60,0,0,40"
                                   HorizontalAlignment="Left"
                                   VerticalAlignment="Bottom"
-                                  x:FieldModifier="protected"
                                   GameBiz="{x:Bind CurrentGameBiz}" />
 
 
@@ -520,7 +519,6 @@
                             <Button x:Name="Button_SettingRepairGame"
                                     Height="36"
                                     Padding="24,0,16,0"
-                                    x:FieldModifier="protected"
                                     BorderThickness="0"
                                     Command="{x:Bind RepairCommand}"
                                     CornerRadius="0,18,18,0"
@@ -533,7 +531,6 @@
                             <Button x:Name="Button_UninstallGame"
                                     Height="36"
                                     Padding="16,0,16,0"
-                                    x:FieldModifier="protected"
                                     BorderThickness="0"
                                     Command="{x:Bind UninstallGameCommand}"
                                     CornerRadius="8,18,18,8"

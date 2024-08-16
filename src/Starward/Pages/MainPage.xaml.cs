@@ -531,11 +531,11 @@ public sealed partial class MainPage : PageBase
         else if (CurrentGameBiz.ToGame() is GameBiz.ZZZ)
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Visible;
-            NavigationViewItem_GameSetting.Visibility = Visibility.Collapsed;
+            NavigationViewItem_GameSetting.Visibility = Visibility.Visible;
             NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
             NavigationViewItem_GachaLog.Visibility = Visibility.Visible;
             NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
-            NavigationViewItem_SelfQuery.Visibility = Visibility.Collapsed;
+            NavigationViewItem_SelfQuery.Visibility = Visibility.Visible;
         }
         else
         {
@@ -625,7 +625,7 @@ public sealed partial class MainPage : PageBase
         string? destPage = page?.Name;
         if (destPage is null or nameof(BlankPage)
             || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(ScreenshotPage))
-            || CurrentGameBiz.ToGame() is GameBiz.ZZZ && destPage is not nameof(GameLauncherPage) and not nameof(GameNoticesPage) and not nameof(GachaLogPage) and not nameof(ScreenshotPage))
+            || CurrentGameBiz.ToGame() is GameBiz.ZZZ && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(GachaLogPage) and not nameof(ScreenshotPage) and not nameof(SelfQueryPage))
         {
             page = typeof(GameLauncherPage);
             destPage = nameof(GameLauncherPage);
