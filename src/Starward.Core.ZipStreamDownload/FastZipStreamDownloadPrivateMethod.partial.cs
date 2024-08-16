@@ -82,7 +82,7 @@ public partial class FastZipStreamDownload
         catch
         {
             await extractedFileStream.DisposeAsync().ConfigureAwait(false);
-            if (extractedFileInfo.Exists) extractedFileInfo.Delete();
+            extractedFileInfo.Delete();
             throw;
         }
         entryTaskData.ExtractedFileStream = extractedFileStream;
