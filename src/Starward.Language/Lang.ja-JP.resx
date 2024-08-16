@@ -1416,7 +1416,7 @@
     <value>自動検索</value>
   </data>
   <data name="GachaLogService_SignalSearchRecords" xml:space="preserve">
-    <value>シグナルの記録</value>
+    <value>変調の記録</value>
   </data>
   <data name="ApocalypticShadowPage_DefeatedBoss" xml:space="preserve">
     <value>討伐済みのボス</value>
