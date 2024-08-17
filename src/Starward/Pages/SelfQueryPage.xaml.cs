@@ -54,6 +54,7 @@ public sealed partial class SelfQueryPage : PageBase
         GameBiz.GenshinImpact => "ms-appx:///Assets/Image/icon_ys.jpg",
         GameBiz.StarRail => "ms-appx:///Assets/Image/icon_sr.jpg",
         GameBiz.Honkai3rd => "ms-appx:///Assets/Image/icon_bh3.jpg",
+        GameBiz.ZZZ => "ms-appx:///Assets/Image/icon_zzz.jpg",
         _ => "",
     };
 
@@ -75,6 +76,10 @@ public sealed partial class SelfQueryPage : PageBase
             if (biz.ToGame() is GameBiz.StarRail)
             {
                 ListView_QueryItems_StarRail.Visibility = Visibility.Visible;
+            }
+            if (biz.ToGame() is GameBiz.ZZZ)
+            {
+                ListView_QueryItems_ZZZ.Visibility = Visibility.Visible;
             }
             gameBiz = biz;
         }
@@ -120,6 +125,7 @@ public sealed partial class SelfQueryPage : PageBase
         {
             GenshinQueryItemList = null;
             StarRailQueryItemList = null;
+            ZZZQueryItemList = null;
         }
         else
         {
@@ -142,6 +148,9 @@ public sealed partial class SelfQueryPage : PageBase
 
     [ObservableProperty]
     private List<StarRailQueryItem>? starRailQueryItemList;
+
+    [ObservableProperty]
+    private List<ZZZQueryItem>? zZZQueryItemList;
 
 
     [ObservableProperty]
@@ -177,6 +186,10 @@ public sealed partial class SelfQueryPage : PageBase
             if (gameBiz.ToGame() is GameBiz.StarRail)
             {
                 UidList = new(_selfQueryService.GetStarRailUids());
+            }
+            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            {
+                UidList = new(_selfQueryService.GetZZZUids());
             }
             var info = _selfQueryService.UserInfo;
             if (info != null && info.GameBiz.ToGame() == gameBiz.ToGame())
@@ -254,6 +267,25 @@ public sealed partial class SelfQueryPage : PageBase
                 }
                 TypeStatsList = list;
             }
+            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            {
+                var list = new List<TypeStats>();
+                using var dapper = _databaseService.CreateConnection();
+                foreach (var i in Enumerable.Range(1, 6))
+                {
+                    var type = (ZZZQueryType)i;
+                    (long add, long sub) = _selfQueryService.GetZZZQueryItemsNumSum(uid, type);
+                    list.Add(new TypeStats
+                    {
+                        Type = (int)type,
+                        Icon = TypeToIcon(type),
+                        Add = add,
+                        Sub = sub,
+                        Name = type.ToLocalization(),
+                    });
+                }
+                TypeStatsList = list;
+            }
         }
         catch (Exception ex)
         {
@@ -267,7 +299,7 @@ public sealed partial class SelfQueryPage : PageBase
 
 
     [RelayCommand]
-    private async Task InputURLAsync()
+    private async Task<bool> InputURLAsync()
     {
         try
         {
@@ -313,6 +345,7 @@ public sealed partial class SelfQueryPage : PageBase
                             UidList.Add(QueryUserInfo.Uid);
                         }
                         SelectUid = QueryUserInfo.Uid;
+                        return true;
                     }
                 }
             }
@@ -322,6 +355,7 @@ public sealed partial class SelfQueryPage : PageBase
             _logger.LogError(ex, "Input url");
             NotificationBehavior.Instance.Error(ex, "Input URL");
         }
+        return false;
     }
 
 
@@ -336,6 +370,10 @@ public sealed partial class SelfQueryPage : PageBase
         {
             if (sender is Button button && button.DataContext is TypeStats stats)
             {
+                if (stats.IsUpdating)
+                {
+                    return;
+                }
                 stats.IsUpdating = true;
                 if (gameBiz.ToGame() is GameBiz.GenshinImpact)
                 {
@@ -344,6 +382,10 @@ public sealed partial class SelfQueryPage : PageBase
                 if (gameBiz.ToGame() is GameBiz.StarRail)
                 {
                     await UpdateStarRailQueryItemsAsync(stats, (StarRailQueryType)stats.Type);
+                }
+                if (gameBiz.ToGame() is GameBiz.ZZZ)
+                {
+                    await UpdateZZZQueryItemsAsync(stats, (ZZZQueryType)stats.Type);
                 }
                 stats.IsUpdating = false;
             }
@@ -356,7 +398,7 @@ public sealed partial class SelfQueryPage : PageBase
 
 
 
-    private async Task UpdateGenshinQueryItemsAsync(TypeStats stats, GenshinQueryType type)
+    private async Task UpdateGenshinQueryItemsAsync(TypeStats stats, GenshinQueryType type, bool all = false)
     {
         try
         {
@@ -366,10 +408,13 @@ public sealed partial class SelfQueryPage : PageBase
             }
             catch (Exception ex) when (ex.Message is "Not initialized.")
             {
-                await InputURLAsync();
+                if (!await InputURLAsync())
+                {
+                    return;
+                }
             }
             var progress = new Progress<int>(i => stats.Page = i);
-            (stats.Add, stats.Sub) = await _selfQueryService.UpdateGenshinQueryItemsAsync(type, progress, tokenSource.Token);
+            (stats.Add, stats.Sub) = await _selfQueryService.UpdateGenshinQueryItemsAsync(type, progress, all, tokenSource.Token);
             TypeStatsChanged((int)type);
         }
         catch (TaskCanceledException ex)
@@ -385,7 +430,7 @@ public sealed partial class SelfQueryPage : PageBase
 
 
 
-    private async Task UpdateStarRailQueryItemsAsync(TypeStats stats, StarRailQueryType type)
+    private async Task UpdateStarRailQueryItemsAsync(TypeStats stats, StarRailQueryType type, bool all = false)
     {
         try
         {
@@ -395,10 +440,13 @@ public sealed partial class SelfQueryPage : PageBase
             }
             catch (Exception ex) when (ex.Message is "Not initialized.")
             {
-                await InputURLAsync();
+                if (!await InputURLAsync())
+                {
+                    return;
+                }
             }
             var progress = new Progress<int>(i => stats.Page = i);
-            (stats.Add, stats.Sub) = await _selfQueryService.UpdateStarRailQueryItemsAsync(type, progress, tokenSource.Token);
+            (stats.Add, stats.Sub) = await _selfQueryService.UpdateStarRailQueryItemsAsync(type, progress, all, tokenSource.Token);
             TypeStatsChanged((int)type);
         }
         catch (TaskCanceledException ex)
@@ -409,6 +457,38 @@ public sealed partial class SelfQueryPage : PageBase
         {
             _logger.LogError(ex, "Update star rail query items");
             NotificationBehavior.Instance.Error(ex, "Update Star Rail account history.");
+        }
+    }
+
+
+
+    private async Task UpdateZZZQueryItemsAsync(TypeStats stats, ZZZQueryType type, bool all = false)
+    {
+        try
+        {
+            try
+            {
+                _selfQueryService.EnsureInitialized();
+            }
+            catch (Exception ex) when (ex.Message is "Not initialized.")
+            {
+                if (!await InputURLAsync())
+                {
+                    return;
+                }
+            }
+            var progress = new Progress<int>(i => stats.Page = i);
+            (stats.Add, stats.Sub) = await _selfQueryService.UpdateZZZQueryItemsAsync(type, progress, all, tokenSource.Token);
+            TypeStatsChanged((int)type);
+        }
+        catch (TaskCanceledException ex)
+        {
+            _logger.LogWarning(ex, "Update ZZZ query items");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update zzz query items");
+            NotificationBehavior.Instance.Error(ex, "Update ZZZ account history.");
         }
     }
 
@@ -437,6 +517,12 @@ public sealed partial class SelfQueryPage : PageBase
             {
                 TypeStatsMonthList = dapper.Query<string>("""
                     SELECT DISTINCT STRFTIME('%Y-%m', Time) FROM StarRailQueryItem WHERE Type=@type ORDER BY Time DESC;
+                    """, new { uid, type }).ToList();
+            }
+            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            {
+                TypeStatsMonthList = dapper.Query<string>("""
+                    SELECT DISTINCT STRFTIME('%Y-%m', DateTime) FROM ZZZQueryItem WHERE Type=@type ORDER BY DateTime DESC;
                     """, new { uid, type }).ToList();
             }
             SelectTypeStatsMonth = TypeStatsMonthList?.FirstOrDefault();
@@ -475,6 +561,14 @@ public sealed partial class SelfQueryPage : PageBase
                 MonthAddNum = StarRailQueryItemList.Where(x => x.AddNum > 0).Sum(x => x.AddNum);
                 MonthSubNum = StarRailQueryItemList.Where(x => x.AddNum < 0).Sum(x => x.AddNum);
             }
+            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            {
+                ZZZQueryItemList = dapper.Query<ZZZQueryItem>("""
+                    SELECT * FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type AND DateTime LIKE @month ORDER BY DateTime DESC;
+                    """, new { uid, type, month = month + "%" }).ToList();
+                MonthAddNum = ZZZQueryItemList.Where(x => x.AddNum > 0).Sum(x => x.AddNum);
+                MonthSubNum = ZZZQueryItemList.Where(x => x.AddNum < 0).Sum(x => x.AddNum);
+            }
         }
         catch (Exception ex)
         {
@@ -504,6 +598,10 @@ public sealed partial class SelfQueryPage : PageBase
             {
                 type = ((StarRailQueryType)SelectTypeStats.Type).ToLocalization();
             }
+            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            {
+                type = ((ZZZQueryType)SelectTypeStats.Type).ToLocalization();
+            }
             var dialog = new ContentDialog
             {
                 Title = Lang.SelfQueryPage_DeleteThisMonthSData,
@@ -530,6 +628,12 @@ public sealed partial class SelfQueryPage : PageBase
                         DELETE FROM StarRailQueryItem WHERE Uid=@uid AND Type=@Type AND Time LIKE @time;
                         """, new { uid, SelectTypeStats.Type, time = month + "%" });
                 }
+                if (gameBiz.ToGame() is GameBiz.ZZZ)
+                {
+                    count = dapper.Execute("""
+                        DELETE FROM ZZZQueryItem WHERE Uid=@uid AND Type=@Type AND DateTime LIKE @time;
+                        """, new { uid, SelectTypeStats.Type, time = month + "%" });
+                }
                 NotificationBehavior.Instance.Success(string.Format(Lang.SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful, count, type, month));
                 TypeStatsChanged(SelectTypeStats.Type);
             }
@@ -538,6 +642,47 @@ public sealed partial class SelfQueryPage : PageBase
         {
             NotificationBehavior.Instance.Error(ex);
             _logger.LogError(ex, "Delete records");
+        }
+    }
+
+
+    [RelayCommand(AllowConcurrentExecutions = true)]
+    private async Task UpdateAllQueryItemsAsync()
+    {
+
+        try
+        {
+            if (SelectUid is null)
+            {
+                return;
+            }
+            if (SelectTypeStats is null)
+            {
+                return;
+            }
+            var stats = SelectTypeStats;
+            if (stats.IsUpdating)
+            {
+                return;
+            }
+            stats.IsUpdating = true;
+            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            {
+                await UpdateGenshinQueryItemsAsync(stats, (GenshinQueryType)stats.Type, true);
+            }
+            if (gameBiz.ToGame() is GameBiz.StarRail)
+            {
+                await UpdateStarRailQueryItemsAsync(stats, (StarRailQueryType)stats.Type, true);
+            }
+            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            {
+                await UpdateZZZQueryItemsAsync(stats, (ZZZQueryType)stats.Type, true);
+            }
+            stats.IsUpdating = false;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update all query items");
         }
     }
 
@@ -572,6 +717,20 @@ public sealed partial class SelfQueryPage : PageBase
     }
 
 
+
+    private static string TypeToIcon(ZZZQueryType type)
+    {
+        return type switch
+        {
+            ZZZQueryType.Monochrome => "ms-appx:///Assets/Image/IconCurrency02.png",
+            ZZZQueryType.Ploychrome => "ms-appx:///Assets/Image/IconCurrency.png",
+            ZZZQueryType.PurchaseGift => "ms-appx:///Assets/Image/GiftpackWegineBig.png",
+            ZZZQueryType.Battery => "ms-appx:///Assets/Image/IconStamina.png",
+            ZZZQueryType.Engine => "ms-appx:///Assets/Image/3593482e8866f0529e8a247772e02cf4_5418014644502214835.png",
+            ZZZQueryType.Disk => "ms-appx:///Assets/Image/222103265483a5389ab8e589a81b8f29_6239774837764585524.png",
+            _ => "",
+        };
+    }
 
 
 

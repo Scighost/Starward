@@ -527,5 +527,59 @@ namespace Starward.Core.Localization {
                 return ResourceManager.GetString("StarRailQueryType_TrailblazePower", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Battery Charge 的本地化字符串。
+        /// </summary>
+        public static string ZZZQueryType_BatteryCharge {
+            get {
+                return ResourceManager.GetString("ZZZQueryType_BatteryCharge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Bundle 的本地化字符串。
+        /// </summary>
+        public static string ZZZQueryType_Bundle {
+            get {
+                return ResourceManager.GetString("ZZZQueryType_Bundle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Drive Disc 的本地化字符串。
+        /// </summary>
+        public static string ZZZQueryType_DriveDisc {
+            get {
+                return ResourceManager.GetString("ZZZQueryType_DriveDisc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Monochrome 的本地化字符串。
+        /// </summary>
+        public static string ZZZQueryType_Monochrome {
+            get {
+                return ResourceManager.GetString("ZZZQueryType_Monochrome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Ploychrome 的本地化字符串。
+        /// </summary>
+        public static string ZZZQueryType_Ploychrome {
+            get {
+                return ResourceManager.GetString("ZZZQueryType_Ploychrome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 W-Engine 的本地化字符串。
+        /// </summary>
+        public static string ZZZQueryType_WEngine {
+            get {
+                return ResourceManager.GetString("ZZZQueryType_WEngine", resourceCulture);
+            }
+        }
     }
 }

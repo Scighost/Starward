@@ -61,7 +61,8 @@ internal class InstallGameService
         {
             GameBiz.GenshinImpact => AppConfig.GetService<GenshinInstallGameService>(),
             GameBiz.StarRail => AppConfig.GetService<StarRailInstallGameService>(),
-            GameBiz.Honkai3rd or GameBiz.ZZZ => AppConfig.GetService<InstallGameService>(),
+            GameBiz.Honkai3rd => AppConfig.GetService<InstallGameService>(),
+            GameBiz.ZZZ => AppConfig.GetService<ZZZInstallGameService>(),
             _ => throw new ArgumentOutOfRangeException(nameof(gameBiz), $"Game ({gameBiz}) is not supported."),
         };
     }
@@ -757,7 +758,7 @@ internal class InstallGameService
             }
             else if (InstallTask is InstallGameTask.HardLink)
             {
-                OnSymbolTaskFinished();
+                OnHardLinkTaskFinished();
             }
         }
         catch (Exception ex)
@@ -867,7 +868,7 @@ internal class InstallGameService
 
 
 
-    protected void OnSymbolTaskFinished()
+    protected void OnHardLinkTaskFinished()
     {
         // verify -> download -> decompress (SDK) -> clean
         if (State is InstallGameState.Verify)
