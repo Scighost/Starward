@@ -168,6 +168,7 @@ public partial class FastZipStreamDownload
             }
             while (true)
             {
+                var retry = false;
                 try
                 {
                     var zipFileDownloadThreadLocal =
@@ -200,6 +201,7 @@ public partial class FastZipStreamDownload
                             try
                             {
                                 await Task.Delay(_autoRetryDelayMillisecond, cancellationToken);
+                                retry = true;
                                 continue;
                             }
                             catch
@@ -220,7 +222,7 @@ public partial class FastZipStreamDownload
                 }
                 finally
                 {
-                    Interlocked.Increment(ref _entryDownloadTaskCount);
+                    if (!retry) Interlocked.Increment(ref _entryDownloadTaskCount);
                 }
                 break;
             }
