@@ -1207,6 +1207,8 @@ internal class InstallGameService
     protected int _concurrentExecuteThreadCount;
     public int ConcurrentExecuteThreadCount => _concurrentExecuteThreadCount;
 
+    protected int _downloadThreadCount;
+
     protected int _streamDownloadThreadCount;
 
 
@@ -1241,17 +1243,28 @@ internal class InstallGameService
                         }
                         catch (TaskCanceledException)
                         {
-                            // cacel
+                            // cancel
                             _installItemQueue.Enqueue(item);
                             return;
                         }
                     }
-                    //多个线程同时进入时，保证最终只有一个进程能够继续。
+                    //多个线程同时进入时，保证最终只有一个线程能够继续。
                     if (item is { Type: InstallGameItemType.StreamDownload })
                     {
+                        //等待传统下载任务结束
+                        if (_downloadThreadCount > 0)
+                        {
+                            await Task.Delay(100, cancellationToken);
+                            continue;
+                        }
                         if (Interlocked.Increment(ref _streamDownloadThreadCount) > 1)
                             Interlocked.Decrement(ref _streamDownloadThreadCount);
-                        else break;
+                        else
+                        {
+                            //如果有其他传统下载任务正在进行，则等待其结束再进行流式下载
+                            if (_downloadThreadCount > 0) Interlocked.Decrement(ref _streamDownloadThreadCount);
+                            else break;
+                        }
                     } else break;
                 }
                 try
@@ -1261,7 +1274,15 @@ internal class InstallGameService
                         case InstallGameItemType.None:
                             break;
                         case InstallGameItemType.Download:
-                            await DownloadItemAsync(item, cancellationToken).ConfigureAwait(false);
+                            Interlocked.Increment(ref _downloadThreadCount);
+                            try
+                            {
+                                await DownloadItemAsync(item, cancellationToken).ConfigureAwait(false);
+                            }
+                            finally
+                            {
+                                Interlocked.Decrement(ref _downloadThreadCount);
+                            }
                             Interlocked.Increment(ref _finishCount);
                             break;
                         case InstallGameItemType.StreamDownload:
