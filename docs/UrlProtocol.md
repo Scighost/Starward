@@ -4,10 +4,9 @@ Other software even website could use url protocol `starward` to call some featu
 
 ![URL Protocol](https://user-images.githubusercontent.com/61003590/278273851-7c614cde-d8c4-403b-876e-cecc3570f684.png)
 
-
 ## Available features
 
-The parameter `game_biz`  in the following is game region identifier and can be viewed in [GameBiz.cs](https://github.com/Scighost/Starward/blob/main/src/Starward.Core/GameBiz.cs).
+The parameter `game_biz` in the following is game region identifier and can be viewed in [GameBiz.cs](https://github.com/Scighost/Starward/blob/main/src/Starward.Core/GameBiz.cs).
 
 | game_biz          | Value | Description                             |
 | ----------------- | ----- | --------------------------------------- |
@@ -36,7 +35,7 @@ The parameter `game_biz`  in the following is game region identifier and can be 
 
 ### Start game
 
-```
+```url
 starward://startgame/{game_biz}
 ```
 
@@ -47,18 +46,17 @@ starward://startgame/{game_biz}
 | uid          | `number` | Switch to specific account before startup. |
 | install_path | `string` | Full folder of game executable.            |
 
-
 ### Record playtime
 
-```
+```url
 starward://playtime/{game_biz}
 ```
 
 ### Game Config Change
-    
-```
+
+```url
 starward://gameconfig/{game_biz}
-``` 
+```
 
 **Acceptable query arguments**
 
