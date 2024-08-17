@@ -45,8 +45,6 @@ public partial class FastZipStreamDownload
 
     private int _entryTaskCount;
 
-    private int _exceptionCount;
-
     private void CleanEntryTasks()
     {
         _fileVerifyTaskQueue.Clear();
@@ -56,7 +54,6 @@ public partial class FastZipStreamDownload
         _entryExtractAndFileCrcVerifyTaskQueue.Clear();
         _entryExtractAndFileCrcVerifyTaskCount = 0;
         _entryTaskCount = 0;
-        _exceptionCount = 0;
     }
 
     private void AddEntryTask(ZipEntry entry)
@@ -98,17 +95,37 @@ public partial class FastZipStreamDownload
     {
         try
         {
+            cancellationToken.ThrowIfCancellationRequested();
+            using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             var taskList = new List<Task>(
                 _existingFileVerifyThreadCount + _downloadThreadCount + _extractAndCrcVerifyThreadCount);
             for (var i = 0; i < _existingFileVerifyThreadCount; i++)
-                taskList.Add(FileVerifyTaskMethod(cancellationToken));
+                taskList.Add(FileVerifyTaskMethod(cancellationTokenSource.Token));
             for (var i = 0; i < _downloadThreadCount; i++)
                 taskList.Add(EntryDownloadTaskMethod(zipFileDownloadFactory, EnableFullStreamDownload,
-                    cancellationToken));
+                    cancellationTokenSource.Token));
             for (var i = 0; i < _extractAndCrcVerifyThreadCount; i++)
                 taskList.Add(EntryExtractAndFileCrcVerifyTaskMethod(EnableFullStreamDownload, extractFiles,
-                    cancellationToken));
-            await Task.WhenAll(taskList).ConfigureAwait(false);
+                    cancellationTokenSource.Token));
+            taskList.ForEach(t => t.ConfigureAwait(false).GetAwaiter().OnCompleted(() =>
+            {
+                // ReSharper disable once AccessToDisposedClosure
+                if (t.IsFaulted) cancellationTokenSource.CancelAsync();
+            }));
+            var whenAllTask = Task.WhenAll(taskList);
+            try
+            {
+                await whenAllTask.ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignored
+            }
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            if (whenAllTask.Exception == null || whenAllTask.Exception.InnerExceptions.Count == 0) return;
+            var innerExceptions = whenAllTask.Exception.InnerExceptions;
+            if (innerExceptions.Count == 1) throw innerExceptions[0];
+            if (innerExceptions.Count > 1) throw new AggregateException(innerExceptions);
         }
         finally
         {
@@ -142,11 +159,13 @@ public partial class FastZipStreamDownload
             }
             catch (Exception e)
             {
-                Interlocked.Increment(ref _exceptionCount);
                 Interlocked.Increment(ref _entryDownloadTaskCount);
                 Interlocked.Increment(ref _entryExtractAndFileCrcVerifyTaskCount);
 
                 ProgressReport(ProcessingStageEnum.None, true, exception: e, entry: taskData.Entry);
+                _entriesExceptionDictionary[taskData.Entry] = e;
+
+                if (e is OperationCanceledException or TaskCanceledException) return;
             }
             finally
             {
@@ -184,7 +203,6 @@ public partial class FastZipStreamDownload
                 catch (HttpFileModifiedDuringPartialDownload)
                 {
                     //文件在下载过程中被修改了
-                    _fileVerifyTaskCount = _entryExtractAndFileCrcVerifyTaskCount = int.MaxValue;
                     if (taskData.ExtractedFileStream != null)
                         await taskData.ExtractedFileStream.DisposeAsync().ConfigureAwait(false);
                     if (taskData.CompressedFileStream != null)
@@ -210,15 +228,17 @@ public partial class FastZipStreamDownload
                             }
                         }
                     }
-                    Interlocked.Increment(ref _exceptionCount);
                     Interlocked.Increment(ref _entryExtractAndFileCrcVerifyTaskCount);
 
                     ProgressReport(ProcessingStageEnum.None, true, exception: e, entry: taskData.Entry);
+                    _entriesExceptionDictionary[taskData.Entry] = e;
 
                     if (taskData.ExtractedFileStream != null)
                         await taskData.ExtractedFileStream.DisposeAsync().ConfigureAwait(false);
                     if (taskData.CompressedFileStream != null)
                         await taskData.CompressedFileStream.DisposeAsync().ConfigureAwait(false);
+
+                    if (e is OperationCanceledException or TaskCanceledException) return;
                 }
                 finally
                 {
@@ -249,9 +269,10 @@ public partial class FastZipStreamDownload
             }
             catch (Exception e)
             {
-                Interlocked.Increment(ref _exceptionCount);
-
                 ProgressReport(ProcessingStageEnum.None, true, exception: e, entry: taskData.Entry);
+                _entriesExceptionDictionary[taskData.Entry] = e;
+
+                if (e is OperationCanceledException or TaskCanceledException) return;
             }
             finally
             {

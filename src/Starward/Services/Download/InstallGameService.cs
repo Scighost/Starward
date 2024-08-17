@@ -1319,15 +1319,9 @@ internal class InstallGameService
                     _installItemQueue.Enqueue(item);
                     await Task.Delay(1000, CancellationToken.None).ConfigureAwait(false);
                 }
-                catch (Exception ex) when
-                    (ex is OperationCanceledException or TaskCanceledException or
-                         HttpRequestException { Message: "The request was aborted." } ||
-                     (ex is AggregateException exception && exception.InnerExceptions.All(
-                         iex => iex is OperationCanceledException or TaskCanceledException or
-                             HttpRequestException
-                                 { Message: "The request was aborted." })))
+                catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException or HttpRequestException { Message: "The request was aborted." })
                 {
-                    // cacel
+                    // cancel
                     _installItemQueue.Enqueue(item);
                     return;
                 }
@@ -1472,13 +1466,10 @@ internal class InstallGameService
 
         if (progress.DownloadBytesTotal != null) _finishBytes = finishBytesBase + progress.DownloadBytesTotal.Value;
 
-        if (progress.Exception != null) throw progress.Exception;
+        var exceptions = fastZipStreamDownload.EntriesExceptionDictionary.Values.ToList();
 
-        var exceptions = progress.EntriesStatus.Values
-            .Select(s => s.Exception)
-            .Where(e => e != null).ToArray();
-        if (exceptions.Length == 1) throw exceptions.First()!;
-        if (exceptions.Length > 1) throw new AggregateException(exceptions!);
+        if (exceptions.Count == 1) throw exceptions.First();
+        if (exceptions.Count > 1) throw new AggregateException(exceptions);
 
         var lastState = State;
         State = InstallGameState.Decompress;

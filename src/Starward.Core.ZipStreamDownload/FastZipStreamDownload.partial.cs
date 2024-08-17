@@ -1,4 +1,5 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
+﻿using System.Collections.Concurrent;
+using ICSharpCode.SharpZipLib.Zip;
 using Starward.Core.ZipStreamDownload.Exceptions;
 using Starward.Core.ZipStreamDownload.Extensions;
 using Starward.Core.ZipStreamDownload.Http.Exceptions;
@@ -169,11 +170,24 @@ public partial class FastZipStreamDownload(DirectoryInfo targetDirectoryInfo, Di
     }
 
     /// <summary>
+    /// 当前的实体异常列表
+    /// </summary>
+    public IReadOnlyDictionary<ZipEntry, Exception> EntriesExceptionDictionary => _entriesExceptionDictionary;
+
+    /// <summary>
     /// （内部）自动重试等待时间（单位：毫秒）
     /// </summary>
     private int _autoRetryDelayMillisecond = 1000;
 
-    private int _downloadZipFileIsRuning;
+    /// <summary>
+    /// （内部）ZIP文件下载是否正在执行
+    /// </summary>
+    private int _downloadZipFileIsRunning;
+
+    /// <summary>
+    /// （内部）当前的实体异常列表
+    /// </summary>
+    private readonly ConcurrentDictionary<ZipEntry, Exception> _entriesExceptionDictionary = new();
 
     /// <summary>
     /// 创建一个ZIP流式解压类的实例
@@ -220,19 +234,22 @@ public partial class FastZipStreamDownload(DirectoryInfo targetDirectoryInfo, Di
         ThrowException.ThrowDirectoryNotFoundExceptionIfDirectoryNotExists(TempDirectoryInfo);
 
         //不允许执行多次
-        if (Interlocked.Increment(ref _downloadZipFileIsRuning) > 1)
+        if (Interlocked.Increment(ref _downloadZipFileIsRunning) > 1)
         {
-            Interlocked.Decrement(ref _downloadZipFileIsRuning);
+            Interlocked.Decrement(ref _downloadZipFileIsRunning);
             throw new InvalidOperationException();
         }
+
+        _entriesExceptionDictionary.Clear();
+
         try
         {
             await CoreAsync().ConfigureAwait(false);
+            ProgressReport(ProcessingStageEnum.None, true); //报告全局进度
         }
         finally
         {
-            Interlocked.Decrement(ref _downloadZipFileIsRuning);
-            ProgressReport(ProcessingStageEnum.None, true); //报告全局进度
+            Interlocked.Decrement(ref _downloadZipFileIsRunning);
         }
         return;
 
@@ -262,20 +279,16 @@ public partial class FastZipStreamDownload(DirectoryInfo targetDirectoryInfo, Di
             {
                 centralDirectoryDataFileInfo.Delete(); //删除中央目录文件，下次重新获取
                 ProgressReport(ProcessingStageEnum.DownloadingCentralDirectoryDataFile, true, exception: e);
-                return;
+                throw;
             }
-
-            var success = true;
 
             //创建临时目录和解压目录结构
             var directoryEntries =
                 await centralDirectoryDataFile.GetDirectoryEntriesAsync(cancellationToken).ConfigureAwait(false);
             ProgressReport(ProcessingStageEnum.CreatingDirectory, false, entries: directoryEntries); //报告全局进度
-            //var retryTimes = 0;
-            for (var index = 0; index < directoryEntries.Count; index++)
+            foreach (var entry in directoryEntries)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var entry = directoryEntries[index];
                 try
                 {
                     CreateDirectoryByEntry(entry, extractFiles, (processingStage, completed) =>
@@ -283,19 +296,13 @@ public partial class FastZipStreamDownload(DirectoryInfo targetDirectoryInfo, Di
                         ProgressReport(processingStage, completed, entry: entry); //报告实体进度
                     });
                     ProgressReport(ProcessingStageEnum.None, true, entry: entry); //报告实体进度
-                    //retryTimes = 0;
                 }
                 catch (Exception e)
                 {
-                    /*if (retryTimes++ < _autoRetryTimesOnNetworkError)
-                    {
-                        await Task.Delay(_autoRetryDelayMillisecond, cancellationToken).ConfigureAwait(false);
-                        index--;
-                        continue;
-                    }*/
-
-                    success = false;
                     ProgressReport(ProcessingStageEnum.None, true, exception: e, entry: entry); //报告实体进度
+                    _entriesExceptionDictionary[entry] = e;
+
+                    if (e is OperationCanceledException or TaskCanceledException) throw;
                 }
             }
 
@@ -322,17 +329,17 @@ public partial class FastZipStreamDownload(DirectoryInfo targetDirectoryInfo, Di
                 centralDirectoryDataFileInfo.Delete(); //删除中央目录文件，下次重新获取
                 ProgressReport(ProcessingStageEnum.DownloadingAndExtractingFile, true, entries: fileEntries,
                     exception: e); //报告全局进度
-                success = false;
+                throw;
             }
             catch (Exception e)
             {
                 ProgressReport(ProcessingStageEnum.DownloadingAndExtractingFile, true, entries: fileEntries,
                     exception: e); //报告全局进度
-                success = false;
+                throw;
             }
 
-            if (_exceptionCount > 0) success = false;
-            if (success && AutoDeleteCentralDirectoryDataFile)
+            if (_entriesExceptionDictionary.IsEmpty
+                && !cancellationToken.IsCancellationRequested && AutoDeleteCentralDirectoryDataFile)
             {
                 centralDirectoryDataFile.Close();
                 centralDirectoryDataFileInfo.Delete();

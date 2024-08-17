@@ -17,7 +17,7 @@ public class FastZipStreamDownloadProgressUtils
         /// <summary>
         /// 当前处理阶段
         /// </summary>
-        public Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProcessingStageEnum ProcessingStage { get; internal set; }
+        public FastZipStreamDownload.ProcessingStageEnum ProcessingStage { get; internal set; }
 
         /// <summary>
         /// 当前任务是否完成
@@ -98,7 +98,7 @@ public class FastZipStreamDownloadProgressUtils
     /// <summary>
     /// 获取传递给<see cref="Starward.Core.ZipStreamDownload.FastZipStreamDownload"/>的Progress属性的实例。
     /// </summary>
-    public IProgress<Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProgressChangedArgs> Progress { get; }
+    public IProgress<FastZipStreamDownload.ProgressChangedArgs> Progress { get; }
 
     /// <summary>
     /// 进度改变事件
@@ -109,8 +109,8 @@ public class FastZipStreamDownloadProgressUtils
     /// <summary>
     /// 当前的整体状态
     /// </summary>
-    public Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProcessingStageEnum CurrentProcessingStage { get; private set; } =
-        Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProcessingStageEnum.None;
+    public FastZipStreamDownload.ProcessingStageEnum CurrentProcessingStage { get; private set; } =
+        FastZipStreamDownload.ProcessingStageEnum.None;
 
     /// <summary>
     /// 各实体的当前状态
@@ -237,7 +237,7 @@ public class FastZipStreamDownloadProgressUtils
         _speedRefreshTask = Task.Run(() =>
             SpeedRefresh(progressRefreshCancellationToken), progressRefreshCancellationToken);
 
-        Progress = new Progress<Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProgressChangedArgs>(ProgressUpdate);
+        Progress = new Progress<FastZipStreamDownload.ProgressChangedArgs>(ProgressUpdate);
     }
 
     ~FastZipStreamDownloadProgressUtils()
@@ -251,7 +251,7 @@ public class FastZipStreamDownloadProgressUtils
     /// 进度更新方法
     /// </summary>
     /// <param name="args">进度报告参数</param>
-    private void ProgressUpdate(Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProgressChangedArgs args)
+    private void ProgressUpdate(FastZipStreamDownload.ProgressChangedArgs args)
     {
         if (args.Entry == null)
         {
@@ -259,12 +259,12 @@ public class FastZipStreamDownloadProgressUtils
             Exception = args.Exception;
             switch (args.ProcessingStage)
             {
-                case Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProcessingStageEnum.CreatingDirectory:
+                case FastZipStreamDownload.ProcessingStageEnum.CreatingDirectory:
                 {
                     if (args.Entries != null) _directoryEntries = args.Entries;
                     break;
                 }
-                case Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProcessingStageEnum.DownloadingAndExtractingFile:
+                case FastZipStreamDownload.ProcessingStageEnum.DownloadingAndExtractingFile:
                 {
                     if (args.Entries != null) _fileEntries = args.Entries;
                     break;
@@ -364,7 +364,7 @@ public class FastZipStreamDownloadProgressUtils
     /// 根据进度报告参数设置实体状态
     /// </summary>
     /// <param name="args">进度报告参数</param>
-    private void SetEntryStatus(Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProgressChangedArgs args)
+    private void SetEntryStatus(FastZipStreamDownload.ProgressChangedArgs args)
     {
         if (args.Entry == null) return;
         var entryStatus = _entriesStatus.GetOrAdd(args.Entry, _ => new EntryStatus());
@@ -374,15 +374,15 @@ public class FastZipStreamDownloadProgressUtils
 
         switch (args.ProcessingStage)
         {
-            case Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProcessingStageEnum.VerifyingExistingFile:
+            case FastZipStreamDownload.ProcessingStageEnum.VerifyingExistingFile:
             {
                 if (args.BytesCompleted != null) entryStatus.VerifyBytesCompleted = args.BytesCompleted;
                 if (args.BytesTotal != null) entryStatus.VerifyBytesTotal = args.BytesTotal;
                 if (args.Completed) entryStatus.VerifyCompleted = true;
                 break;
             }
-            case Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProcessingStageEnum.DownloadingFile or
-                Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProcessingStageEnum.StreamExtractingFile:
+            case FastZipStreamDownload.ProcessingStageEnum.DownloadingFile or
+                FastZipStreamDownload.ProcessingStageEnum.StreamExtractingFile:
             {
                 if (args.BytesCompleted != null)
                     entryStatus.DownloadBytesCompletedIfVerified = entryStatus.DownloadBytesCompleted = args.BytesCompleted;
@@ -390,7 +390,7 @@ public class FastZipStreamDownloadProgressUtils
                 if (args.Completed) entryStatus.DownloadCompleted = true;
                 break;
             }
-            case Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProcessingStageEnum.ExtractingFile:
+            case FastZipStreamDownload.ProcessingStageEnum.ExtractingFile:
             {
                 if (args.BytesCompleted != null)
                     entryStatus.ExtractBytesCompletedIfVerified = entryStatus.ExtractBytesCompleted = args.BytesCompleted;
@@ -398,14 +398,14 @@ public class FastZipStreamDownloadProgressUtils
                 if (args.Completed) entryStatus.ExtractCompleted = true;
                 break;
             }
-            case Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProcessingStageEnum.CrcVerifyingFile:
+            case FastZipStreamDownload.ProcessingStageEnum.CrcVerifyingFile:
             {
                 if (args.BytesCompleted != null) entryStatus.CrcVerifyBytesCompleted = args.BytesCompleted;
                 if (args.BytesTotal != null) entryStatus.CrcVerifyBytesTotal = args.BytesTotal;
                 if (args.Completed) entryStatus.CrcVerifyCompleted = true;
                 break;
             }
-            case Starward.Core.ZipStreamDownload.FastZipStreamDownload.ProcessingStageEnum.None:
+            case FastZipStreamDownload.ProcessingStageEnum.None:
             {
                 if (!entryStatus.DownloadCompleted)
                     entryStatus.DownloadBytesCompletedIfVerified = args.Entry.CompressedSize;
