@@ -153,6 +153,7 @@ internal class UrlProtocolService
                                 gameSettingService.SetGameResolutionSetting(biz, graphicsSettings);
                             }   
                         }
+                        return true;
                     }
                 }
             }
