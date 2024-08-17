@@ -168,10 +168,10 @@ public sealed partial class BBSWebBridge : UserControl
                 {
                     (true, GameBiz.GenshinImpact) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=2",
                     (true, GameBiz.StarRail) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=6",
-                    (true, GameBiz.ZZZ) => "https://act.hoyolab.com/app/mihoyo-zzz-game-record/index.html",
+                    (true, GameBiz.ZZZ) => "https://act.hoyolab.com/app/mihoyo-zzz-game-record/m.html",
                     (false, GameBiz.GenshinImpact) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=2",
                     (false, GameBiz.StarRail) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=6",
-                    (false, GameBiz.ZZZ) => "https://act.mihoyo.com/app/mihoyo-zzz-game-record/index.html",
+                    (false, GameBiz.ZZZ) => "https://act.mihoyo.com/app/mihoyo-zzz-game-record/m.html",
                     _ => null,
                 };
                 if (url is not null)
