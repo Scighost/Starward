@@ -121,11 +121,11 @@ public partial class FastZipStreamDownload
             {
                 // ignored
             }
-            cancellationTokenSource.Token.ThrowIfCancellationRequested();
             if (whenAllTask.Exception == null || whenAllTask.Exception.InnerExceptions.Count == 0) return;
             var innerExceptions = whenAllTask.Exception.InnerExceptions;
             if (innerExceptions.Count == 1) throw innerExceptions[0];
             if (innerExceptions.Count > 1) throw new AggregateException(innerExceptions);
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
         }
         finally
         {
