@@ -62,13 +62,16 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
 
     private Stream _responseReadStream;
 
+    private readonly Uri _ipAddressUri;
+
     private SingleFileHttpPartialDownloadStream(HttpClient httpClient,
         HttpResponseMessage responseMessage, Stream responseReadStream,
-        Uri fileUri, string? mediaType, long? fileLength, DateTimeOffset? fileLastModifiedTime)
+        Uri fileUri, Uri ipAddressUri, string? mediaType, long? fileLength, DateTimeOffset? fileLastModifiedTime)
     {
         ValidatePartialHttpResponseMessage(responseMessage, mediaType, fileLength, fileLastModifiedTime);
         _httpClient = httpClient;
         FileUri = fileUri;
+        _ipAddressUri = ipAddressUri;
         _mediaType = mediaType;
         _responseMessage = responseMessage;
         _responseReadStream = responseReadStream;
@@ -85,13 +88,14 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         long? startBytes, long? endBytes, string? mediaType, long? fileLength, DateTimeOffset? fileLastModifiedTime)
     {
         ValidateStartBytesAndEndBytes(startBytes, endBytes, fileLength);
-        var responseMessage = httpClient.GetPartial(fileUri, startBytes, endBytes + (startBytes.HasValue ? -1 : 0),
-            mediaType);
+        var ipAddressUri = fileUri.GetIpAddressUri();
+        var responseMessage = httpClient.GetPartial(ipAddressUri, fileUri.Host, startBytes,
+            endBytes + (startBytes.HasValue ? -1 : 0), mediaType);
         try
         {
             var responseReadStream = responseMessage.Content.ReadAsStream();
             var instance = new SingleFileHttpPartialDownloadStream(httpClient, responseMessage, responseReadStream,
-                fileUri, mediaType, fileLength, fileLastModifiedTime);
+                fileUri, ipAddressUri, mediaType, fileLength, fileLastModifiedTime);
             return instance;
         }
         catch
@@ -106,14 +110,15 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         CancellationToken cancellationToken = default)
     {
         ValidateStartBytesAndEndBytes(startBytes, endBytes, fileLength);
-        var responseMessage = await httpClient.GetPartialAsync(fileUri, startBytes,
+        var ipAddressUri = await fileUri.GetIpAddressUriAsync(cancellationToken);
+        var responseMessage = await httpClient.GetPartialAsync(ipAddressUri, fileUri.Host, startBytes,
             endBytes + (startBytes.HasValue ? -1 : 0), mediaType, cancellationToken).ConfigureAwait(false);
         try
         {
             var responseReadStream = await responseMessage.Content.ReadAsStreamAsync(cancellationToken)
                 .ConfigureAwait(false);
             var instance = new SingleFileHttpPartialDownloadStream(httpClient, responseMessage, responseReadStream,
-                fileUri, mediaType, fileLength, fileLastModifiedTime);
+                fileUri, ipAddressUri, mediaType, fileLength, fileLastModifiedTime);
             return instance;
         }
         catch
@@ -127,7 +132,8 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
     {
         var (newStartBytes, newEndBytes) = ValidateAndGetStartBytesAndEndBytes(startBytes, endBytes);
         if (StartBytes == newStartBytes && EndBytes == newEndBytes) return false;
-        var responseMessage = _httpClient.GetPartial(FileUri, newStartBytes, newEndBytes - 1, _mediaType);
+        var responseMessage = _httpClient.GetPartial(_ipAddressUri, FileUri.Host, newStartBytes,
+            newEndBytes - 1, _mediaType);
         try
         {
             ValidatePartialHttpResponseMessage(responseMessage, _mediaType, FileLength, FileLastModifiedTime);
@@ -164,8 +170,8 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
     {
         var (newStartBytes, newEndBytes) = ValidateAndGetStartBytesAndEndBytes(startBytes, endBytes);
         if (StartBytes == newStartBytes && EndBytes == newEndBytes) return false;
-        var responseMessage = await _httpClient.GetPartialAsync(FileUri, newStartBytes, newEndBytes - 1, _mediaType,
-            cancellationToken).ConfigureAwait(false);
+        var responseMessage = await _httpClient.GetPartialAsync(_ipAddressUri, FileUri.Host, newStartBytes,
+            newEndBytes - 1, _mediaType, cancellationToken).ConfigureAwait(false);
         try
         {
             ValidatePartialHttpResponseMessage(responseMessage, _mediaType, FileLength, FileLastModifiedTime);
