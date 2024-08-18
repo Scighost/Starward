@@ -30,7 +30,7 @@ public abstract class HttpPartialDownloadStream : Stream
 
     public long FileLength { get; protected init; }
 
-    public DateTimeOffset FileLastModifiedTime { get; protected init; }
+    public DateTimeOffset? FileLastModifiedTime { get; protected set; }
 
     /// <summary>
     /// 标识此类释放已经释放资源

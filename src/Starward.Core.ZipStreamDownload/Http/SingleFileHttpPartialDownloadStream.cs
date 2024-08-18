@@ -78,7 +78,7 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         StartBytes = contentRange.From!.Value;
         EndBytes = contentRange.To!.Value + 1;
         FileLength = contentRange.Length!.Value;
-        FileLastModifiedTime = contentHeaders.LastModified!.Value;
+        if (contentHeaders.LastModified.HasValue) FileLastModifiedTime = contentHeaders.LastModified.Value;
     }
 
     public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
@@ -150,9 +150,12 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
             throw;
         }
         _responseMessage = responseMessage;
-        var contentRange = responseMessage.Content.Headers.ContentRange!;
+        var contentHeaders = responseMessage.Content.Headers;
+        var contentRange = contentHeaders.ContentRange!;
         StartBytes = contentRange.From!.Value;
         EndBytes = contentRange.To!.Value + 1;
+        if (FileLastModifiedTime == null && contentHeaders.LastModified != null)
+            FileLastModifiedTime = contentHeaders.LastModified;
         return true;
     }
 
@@ -377,8 +380,6 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
             contentRange.To is null or < 0 || contentRange.To < contentRange.From ||
             contentRange.To > contentRange.Length || contentRange.From > contentRange.Length)
             HttpServerNotSupportedPartialDownloadException.Throw();
-        if (responseHeaders.LastModified == null)
-            HttpServerNotSupportedPartialDownloadException.Throw();
 
         if (responseHeaders.ContentLength != null &&
             responseHeaders.ContentLength != contentRange.To - contentRange.From + 1)
@@ -387,7 +388,8 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         if (contentRangeLength != null && contentRangeLength != (long)contentRange.Length!)
             HttpFileModifiedDuringPartialDownload.Throw();
 
-        if (lastModified != null && lastModified != responseHeaders.LastModified)
+        if (lastModified != null && responseHeaders.LastModified != null &&
+            lastModified != responseHeaders.LastModified)
             HttpFileModifiedDuringPartialDownload.Throw();
     }
 
