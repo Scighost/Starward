@@ -34,6 +34,6 @@ public class HttpServerNotSupportedPartialDownloadException : HttpPartialDownloa
     internal static void Throw()
     {
         throw new HttpServerNotSupportedPartialDownloadException(
-            string.Format(ExceptionMessages.ZipEntryFileNameNotFoundExceptionMessage));
+            ExceptionMessages.HttpServerNotSupportedPartialDownloadExceptionMessage);
     }
 }
