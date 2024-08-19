@@ -33,8 +33,9 @@ public class HttpMediaTypeMismatchException : HttpPartialDownloadException
     /// <exception cref="HttpMediaTypeMismatchException">当HTTP服务器返回的文件类型和所需类型不匹配时引发此异常。</exception>
     internal static void ThrowIfMediaTypeMismatch(HttpContentHeaders contentHeaders, string? mediaType)
     {
-        if (string.IsNullOrEmpty(mediaType) &&
+        if (!string.IsNullOrEmpty(mediaType) &&
             contentHeaders.ContentType != null &&
+            contentHeaders.ContentType.MediaType != "application/octet-stream" &&
             contentHeaders.ContentType.MediaType != mediaType)
             throw new HttpMediaTypeMismatchException(ExceptionMessages.HttpMediaTypeMismatchExceptionMessage);
     }
