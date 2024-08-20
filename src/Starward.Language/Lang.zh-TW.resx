@@ -1479,6 +1479,9 @@
   <data name="DownloadGamePage_Paused" xml:space="preserve">
     <value>Paused</value>
   </data>
+  <data name="DownloadGamePage_Pausing" xml:space="preserve">
+    <value>暫停中</value>
+  </data>
   <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
     <value>Download task completed</value>
   </data>

@@ -17,4 +17,6 @@ internal enum InstallGameState
 
     Error,
 
+    Cancel,
+
 }

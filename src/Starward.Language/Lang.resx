@@ -1479,6 +1479,9 @@ Do you accept the risk and continue to use it?</value>
   <data name="DownloadGamePage_Paused" xml:space="preserve">
     <value>Paused</value>
   </data>
+  <data name="DownloadGamePage_Pausing" xml:space="preserve">
+    <value>Pausing</value>
+  </data>
   <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
     <value>Download task completed</value>
   </data>

@@ -709,6 +709,15 @@ namespace Starward.Language {
                 return ResourceManager.GetString("DownloadGamePage_Paused", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   查找类似 Pausing 的本地化字符串。
+        /// </summary>
+        public static string DownloadGamePage_Pausing {
+            get {
+                return ResourceManager.GetString("DownloadGamePage_Pausing", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   查找类似 Please start as administrator 的本地化字符串。

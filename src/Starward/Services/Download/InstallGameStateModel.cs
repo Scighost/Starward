@@ -196,6 +196,11 @@ public partial class InstallGameStateModel : ObservableObject
                     StateText = Lang.DownloadGamePage_UnknownError;
                     ButtonGlyph = PlayGlyph;
                     break;
+                case InstallGameState.Cancel:
+                    StateText = Lang.DownloadGamePage_Pausing;
+                    ButtonGlyph = PlayGlyph;
+                    IsContinueOrPauseButtonEnabled = false;
+                    break;
                 default:
                     break;
             }

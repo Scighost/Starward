@@ -666,7 +666,8 @@ internal class InstallGameService
     {
         try
         {
-            if (State != InstallGameState.None && State != InstallGameState.Error && State != InstallGameState.Finish)
+            if (State == InstallGameState.Cancel ||
+                (State != InstallGameState.None && State != InstallGameState.Error && State != InstallGameState.Finish))
             {
                 return;
             }
@@ -685,13 +686,22 @@ internal class InstallGameService
     {
         try
         {
-            if (State is InstallGameState.None)
+            if (State is InstallGameState.None or InstallGameState.Cancel)
             {
                 return;
             }
             _pausedState = State;
-            State = InstallGameState.None;
+            State = InstallGameState.Cancel;
             _cancellationTokenSource?.Cancel();
+            Task.Run(async () =>
+            {
+                while (ConcurrentExecuteThreadCount > 0)
+                {
+                    await Task.Delay(100);
+                }
+            }).ConfigureAwait(false).GetAwaiter().OnCompleted(() => {
+                State = InstallGameState.None;
+            });
         }
         catch (Exception ex)
         {
@@ -1460,9 +1470,8 @@ internal class InstallGameService
         };
 
 
-        await Task.Run(() =>
-            fastZipStreamDownload.DownloadZipFileAsync(zipFileDownloadFactory, extractFiles: true,
-                cancellationToken: cancellationToken), cancellationToken).ConfigureAwait(false);
+        await fastZipStreamDownload.DownloadZipFileAsync(zipFileDownloadFactory, extractFiles: true,
+            cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (progress.DownloadBytesTotal != null) _finishBytes = finishBytesBase + progress.DownloadBytesTotal.Value;
 
@@ -1471,10 +1480,8 @@ internal class InstallGameService
         if (exceptions.Count == 1) throw exceptions.First();
         if (exceptions.Count > 1) throw new AggregateException(exceptions);
 
-        var lastState = State;
-        State = InstallGameState.Decompress;
+
         await ApplyDiffFilesAsync(item.DecompressPath).ConfigureAwait(false);
-        State = lastState;
     }
 
 
