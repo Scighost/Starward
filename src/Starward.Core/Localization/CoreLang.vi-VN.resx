@@ -275,10 +275,10 @@
     <value>Kênh Bangboo</value>
   </data>
   <data name="ZZZQueryType_Monochrome" xml:space="preserve">
-    <value>Monochrome</value>
+    <value>Film Trắng Đen</value>
   </data>
   <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
-    <value>Ploychrome</value>
+    <value>Film Màu</value>
   </data>
   <data name="ZZZQueryType_Bundle" xml:space="preserve">
     <value>Bundle</value>
