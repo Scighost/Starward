@@ -284,12 +284,12 @@
     <value>Bundle</value>
   </data>
   <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
-    <value>Battery Charge</value>
+    <value>Pin Năng Lượng</value>
   </data>
   <data name="ZZZQueryType_WEngine" xml:space="preserve">
     <value>W-Engine</value>
   </data>
   <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
-    <value>Drive Disc</value>
+    <value>Đĩa</value>
   </data>
 </root>
