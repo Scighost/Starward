@@ -20,7 +20,7 @@ public partial class FastZipStreamDownload
 
         public required FileInfo ExtractedFileInfo { get; init; }
 
-        public Stream? ExtractedFileStream { get; set; }
+        public required FileInfo ExtractedFileTempInfo { get; init; }
 
         public required DirectoryInfo CompressedFileDirectoryInfo { get; init; }
 
@@ -83,7 +83,8 @@ public partial class FastZipStreamDownload
             CompressedFileDirectoryInfo = tempDirectoryInfo,
             CompressedFileInfo = compressedFileInfo,
             ExtractedFileDirectoryInfo = targetDirectoryInfo,
-            ExtractedFileInfo = targetFileInfo
+            ExtractedFileInfo = targetFileInfo,
+            ExtractedFileTempInfo = new FileInfo($"{targetFileInfo.FullName}_tmp")
         };
 
         _fileVerifyTaskQueue.Enqueue(entryData);
@@ -205,8 +206,6 @@ public partial class FastZipStreamDownload
                 catch (HttpFileModifiedDuringPartialDownload)
                 {
                     //文件在下载过程中被修改了
-                    if (taskData.ExtractedFileStream != null)
-                        await taskData.ExtractedFileStream.DisposeAsync().ConfigureAwait(false);
                     if (taskData.CompressedFileStream != null)
                         await taskData.CompressedFileStream.DisposeAsync().ConfigureAwait(false);
                     throw;
@@ -235,8 +234,6 @@ public partial class FastZipStreamDownload
                     ProgressReport(ProcessingStageEnum.None, true, exception: e, entry: taskData.Entry);
                     _entriesExceptionDictionary[taskData.Entry] = e;
 
-                    if (taskData.ExtractedFileStream != null)
-                        await taskData.ExtractedFileStream.DisposeAsync().ConfigureAwait(false);
                     if (taskData.CompressedFileStream != null)
                         await taskData.CompressedFileStream.DisposeAsync().ConfigureAwait(false);
 
@@ -267,7 +264,11 @@ public partial class FastZipStreamDownload
             {
                 if (!enableFullStreamDownload && extractFiles)
                     await EntryExtract(taskData, cancellationToken).ConfigureAwait(false);
-                if (CheckCrcExtracted) await FileCrcVerify(taskData, cancellationToken).ConfigureAwait(false);
+                var crcCheckResult = true;
+                if (CheckCrcExtracted) crcCheckResult =
+                    await FileCrcVerify(taskData, cancellationToken).ConfigureAwait(false);
+                if (crcCheckResult)
+                    taskData.ExtractedFileTempInfo.MoveTo(taskData.ExtractedFileInfo.FullName, true);
             }
             catch (Exception e)
             {
@@ -280,8 +281,6 @@ public partial class FastZipStreamDownload
             {
                 Interlocked.Increment(ref _entryExtractAndFileCrcVerifyTaskCount);
 
-                if (taskData.ExtractedFileStream != null)
-                    await taskData.ExtractedFileStream.DisposeAsync().ConfigureAwait(false);
                 if (taskData.CompressedFileStream != null)
                     await taskData.CompressedFileStream.DisposeAsync().ConfigureAwait(false);
             }

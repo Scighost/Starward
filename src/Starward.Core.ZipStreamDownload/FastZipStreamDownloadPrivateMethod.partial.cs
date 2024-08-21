@@ -58,34 +58,42 @@ public partial class FastZipStreamDownload
         CancellationToken cancellationToken = default)
     {
         var entry = entryTaskData.Entry;
-        var extractedFileInfo = entryTaskData.ExtractedFileInfo;
+        var extractedFileTempInfo = entryTaskData.ExtractedFileTempInfo;
 
 
         long downloadBytesCompleted = 0;
         long? downloadBytesTotal = null;
         ProgressStageChangeCallback(false, downloadBytesCompleted, downloadBytesTotal);
-        var extractedFileStream = extractedFileInfo.Open(FileMode.CreateNew, FileAccess.ReadWrite);
+        extractedFileTempInfo.Delete();
+        var extractedFileTempWriteStream = extractedFileTempInfo.Open(new FileStreamOptions
+        {
+            Mode = FileMode.CreateNew,
+            Access = FileAccess.Write,
+            PreallocationSize = entry.Size,
+            Options = FileOptions.WriteThrough
+        });
+        await using var _ = extractedFileTempWriteStream.ConfigureAwait(false);
         try
         {
             var inputStream = await zipFileDownload.GetInputStreamAsync(entry,
-                    new Progress<ZipFileDownload.ProgressChangedArgs>(args =>
-                    {
-                        downloadBytesCompleted = args.DownloadBytesCompleted;
-                        downloadBytesTotal = args.DownloadBytesTotal;
-                        ProgressStageChangeCallback(false, downloadBytesCompleted, downloadBytesTotal);
-                    }), cancellationToken).ConfigureAwait(false);
+                new Progress<ZipFileDownload.ProgressChangedArgs>(args =>
+                {
+                    downloadBytesCompleted = args.DownloadBytesCompleted;
+                    downloadBytesTotal = args.DownloadBytesTotal;
+                    ProgressStageChangeCallback(false, downloadBytesCompleted, downloadBytesTotal);
+                }), cancellationToken).ConfigureAwait(false);
             await using var ___ = inputStream.ConfigureAwait(false);
-            await inputStream.CopyToAsync(extractedFileStream, cancellationToken).ConfigureAwait(false);
-            await extractedFileStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-            extractedFileInfo.CreationTimeUtc = extractedFileInfo.LastWriteTimeUtc = entry.DateTime;
+            await inputStream.CopyToAsync(extractedFileTempWriteStream, cancellationToken).ConfigureAwait(false);
+            await extractedFileTempWriteStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            extractedFileTempInfo.CreationTimeUtc = extractedFileTempInfo.LastWriteTimeUtc = entry.DateTime;
         }
         catch
         {
-            await extractedFileStream.DisposeAsync().ConfigureAwait(false);
-            extractedFileInfo.Delete();
+            await extractedFileTempWriteStream.DisposeAsync().ConfigureAwait(false);
+            extractedFileTempInfo.Delete();
             throw;
         }
-        entryTaskData.ExtractedFileStream = extractedFileStream;
+
         ProgressStageChangeCallback(true, downloadBytesCompleted, downloadBytesTotal);
         return;
 
@@ -141,7 +149,7 @@ public partial class FastZipStreamDownload
         var entry = entryTaskData.Entry;
         var compressedFileInfo = entryTaskData.CompressedFileInfo;
         var compressedFileStream = entryTaskData.CompressedFileStream!;
-        var extractedFileInfo = entryTaskData.ExtractedFileInfo;
+        var extractedFileTempInfo = entryTaskData.ExtractedFileTempInfo;
 
         ProgressStageChangeCallback(false, 0, entry.Size);
         using var zipFile = new ZipFile(compressedFileStream);
@@ -159,26 +167,34 @@ public partial class FastZipStreamDownload
         }
 
         var copiedBytesCount = 0L;
-
-        var extractedFileStream = extractedFileInfo.Open(FileMode.CreateNew, FileAccess.ReadWrite);
+        extractedFileTempInfo.Delete();
+        var extractedFileTempWriteStream = extractedFileTempInfo.Open(new FileStreamOptions
+        {
+            Mode = FileMode.CreateNew,
+            Access = FileAccess.Write,
+            PreallocationSize = entry.Size,
+            Options = FileOptions.WriteThrough
+        });
+        await using var _ = extractedFileTempWriteStream.ConfigureAwait(false);
         try
         {
             var inputStream = zipFile.GetInputStream(0);
             await using var ____ = inputStream.ConfigureAwait(false);
-            await inputStream.CopyToAsync(extractedFileStream, new Progress<long>(count =>
+            await inputStream.CopyToAsync(extractedFileTempWriteStream, new Progress<long>(count =>
             {
                 copiedBytesCount = count;
                 ProgressStageChangeCallback(false, copiedBytesCount, entry.Size);
             }), cancellationToken).ConfigureAwait(false);
-            await extractedFileStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-            extractedFileInfo.CreationTimeUtc = extractedFileInfo.LastWriteTimeUtc = entry.DateTime;
-        } catch
+            await extractedFileTempWriteStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            extractedFileTempInfo.CreationTimeUtc = extractedFileTempInfo.LastWriteTimeUtc = entry.DateTime;
+        }
+        catch
         {
-            await extractedFileStream.DisposeAsync().ConfigureAwait(false);
-            extractedFileInfo.Delete();
+            await extractedFileTempWriteStream.DisposeAsync().ConfigureAwait(false);
+            extractedFileTempInfo.Delete();
             throw;
         }
-        entryTaskData.ExtractedFileStream = extractedFileStream;
+
         ProgressStageChangeCallback(true, copiedBytesCount, entry.Size);
         return;
 
@@ -190,30 +206,30 @@ public partial class FastZipStreamDownload
         }
     }
 
-    private async Task FileCrcVerify(EntryTaskData entryTaskData, CancellationToken cancellationToken = default)
+    private async Task<bool> FileCrcVerify(EntryTaskData entryTaskData, CancellationToken cancellationToken = default)
     {
         var entry = entryTaskData.Entry;
-        var extractedFileInfo = entryTaskData.ExtractedFileInfo;
-        var extractedFileStream = entryTaskData.ExtractedFileStream!;
+        var extractedFileTempInfo = entryTaskData.ExtractedFileTempInfo;
 
+        var extractedFileLength = extractedFileTempInfo.Length;
 
-        var extractedFileLength = extractedFileStream.Length;
         ProgressStageChangeCallback(false, 0, extractedFileLength);
-        extractedFileStream.Seek(0, SeekOrigin.Begin);
         var bytesCount = 0L;
-        if (entry.Crc != await GetCrcAsync(extractedFileStream, new Progress<long>(count =>
+
+        var result = true;
+        if (entry.Crc != await GetCrcAsync(extractedFileTempInfo, new Progress<long>(count =>
             {
                 bytesCount = count;
                 ProgressStageChangeCallback(false, count, extractedFileLength);
             }), cancellationToken).ConfigureAwait(false))
         {
-            extractedFileStream.Close();
-            extractedFileInfo.Delete();
+            result = false;
+            extractedFileTempInfo.Delete();
             CrcVerificationFailedException.ThrowByZipEntryName(entry.Name);
         }
 
         ProgressStageChangeCallback(true, bytesCount, extractedFileLength);
-        return;
+        return result;
 
 
         void ProgressStageChangeCallback(bool completed, long? progress = null, long? byteCount = null)
@@ -308,7 +324,13 @@ public partial class FastZipStreamDownload
         long? downloadByteCount = null;
         processingStageChangedCallback(ProcessingStageEnum.DownloadingCentralDirectoryDataFile,
             false, progress, downloadByteCount);
-        var fileStream = fileInfo.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite);
+        var fileStream = fileInfo.Open(new FileStreamOptions
+        {
+            Mode = FileMode.OpenOrCreate,
+            Access = FileAccess.ReadWrite,
+            Options = FileOptions.SequentialScan
+        });
+        await using var _ = fileStream.ConfigureAwait(false);
         try
         {
             fileStream.SetLength(0);
@@ -342,7 +364,12 @@ public partial class FastZipStreamDownload
         IProgress<long>? progress = null,
         CancellationToken cancellationToken = default)
     {
-        var fileStream = fileInfo.Open(FileMode.Open, FileAccess.Read);
+        var fileStream = fileInfo.Open(new FileStreamOptions
+        {
+            Mode = FileMode.Open,
+            Access = FileAccess.Read,
+            Options = FileOptions.SequentialScan
+        });
         await using var _ = fileStream.ConfigureAwait(false);
         return await GetCrcAsync(fileStream, progress, cancellationToken).ConfigureAwait(false);
     }
