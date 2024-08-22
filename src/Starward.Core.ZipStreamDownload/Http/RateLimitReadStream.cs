@@ -45,26 +45,26 @@ internal class RateLimitReadStream(Stream innerStream, Func<RateLimiterOption> r
 
     public override int Read(byte[] buffer, int offset, int count)
     {
-        WaitAcquired(count);
+        count = WaitAcquired(count);
         return innerStream.Read(buffer, offset, count);
     }
 
     public override int Read(Span<byte> buffer)
     {
-        WaitAcquired(buffer.Length);
-        return innerStream.Read(buffer);
+        var count = WaitAcquired(buffer.Length);
+        return innerStream.Read(buffer[..count]);
     }
 
     public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
     {
-        await WaitAcquiredAsync(count, cancellationToken).ConfigureAwait(false);
+        count = await WaitAcquiredAsync(count, cancellationToken).ConfigureAwait(false);
         return await innerStream.ReadAsync(buffer, offset, count, cancellationToken).ConfigureAwait(false);
     }
 
     public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
     {
-        await WaitAcquiredAsync(buffer.Length, cancellationToken).ConfigureAwait(false);
-        return await innerStream.ReadAsync(buffer, cancellationToken).ConfigureAwait(false);
+        var count = await WaitAcquiredAsync(buffer.Length, cancellationToken).ConfigureAwait(false);
+        return await innerStream.ReadAsync(buffer[..count], cancellationToken).ConfigureAwait(false);
     }
 
     public override int ReadByte()
@@ -75,9 +75,9 @@ internal class RateLimitReadStream(Stream innerStream, Func<RateLimiterOption> r
 
     public override long Seek(long offset, SeekOrigin origin) => innerStream.Seek(offset, origin);
 
-    private void WaitAcquired(int permitCount = 1) => WaitAcquiredAsync(permitCount).GetAwaiter().GetResult();
+    private int WaitAcquired(int permitCount = 1) => WaitAcquiredAsync(permitCount).GetAwaiter().GetResult();
 
-    private async Task WaitAcquiredAsync(int permitCount = 1, CancellationToken cancellationToken = default)
+    private async Task<int> WaitAcquiredAsync(int permitCount = 1, CancellationToken cancellationToken = default)
     {
         while (true)
         {
@@ -89,11 +89,7 @@ internal class RateLimitReadStream(Stream innerStream, Func<RateLimiterOption> r
 
                 var lease = await rateLimiterOption.RateLimiter.AcquireAsync(permitCountLimited, cancellationToken)
                     .ConfigureAwait(false);
-                if (lease.IsAcquired) permitCount -= permitCountLimited;
-
-                if (permitCount == 0) break;
-
-                if (lease.IsAcquired) continue;
+                if (lease.IsAcquired) return permitCountLimited;
                 if (lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
                     await Task.Delay(retryAfter, cancellationToken).ConfigureAwait(false);
                 else await Task.Delay(100, cancellationToken).ConfigureAwait(false);
@@ -103,6 +99,7 @@ internal class RateLimitReadStream(Stream innerStream, Func<RateLimiterOption> r
                 break;
             }
         }
+        return permitCount;
     }
 
     #region 不支持的方法
