@@ -345,7 +345,7 @@ public partial class FastZipStreamDownload
             await fileStream.FlushAsync(cancellationToken).ConfigureAwait(false);
             processingStageChangedCallback(ProcessingStageEnum.DownloadingCentralDirectoryDataFile,
                 true, progress, downloadByteCount);
-            return new ZipFile(fileStream);
+            return new ZipFile(fileStream, false);
         }
         finally
         {
