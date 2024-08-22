@@ -1246,6 +1246,7 @@ internal class InstallGameService
     public int ConcurrentExecuteThreadCount => _concurrentExecuteThreadCount;
 
 
+
     private static SemaphoreSlim _verifyGlobalSemaphore = new SemaphoreSlim(Environment.ProcessorCount);
 
 
