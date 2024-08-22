@@ -414,11 +414,19 @@ internal class InstallGameService
             .Select(GamePackageFileToInstallGameItem).ToList();
         foreach (var item in _gamePackageItems)
         {
-            _installItemQueue.Enqueue(item);
+            if (item.Type == InstallGameItemType.StreamDownload)
+            {
+                _streamDownloadInstallItemQueue.Enqueue(item);
+            }
+            else _installItemQueue.Enqueue(item);
         }
         foreach (var item in _audioPackageItems)
         {
-            _installItemQueue.Enqueue(item);
+            if (item.Type == InstallGameItemType.StreamDownload)
+            {
+                _streamDownloadInstallItemQueue.Enqueue(item);
+            }
+            else _installItemQueue.Enqueue(item);
         }
     }
 
@@ -761,7 +769,12 @@ internal class InstallGameService
                 {
                     _totalCount++;
                     _totalBytes += item.Size;
-                    long length = GetFileLength(item);
+                    long length = 0;
+                    if (item.Type == InstallGameItemType.StreamDownload)
+                    {
+                        if (!_streamDownloadInstallItemQueue.Contains(item))
+                            length = item.Size;
+                    } else length = GetFileLength(item);
                     _finishBytes += length;
                     if (length == item.Size)
                     {
@@ -772,7 +785,12 @@ internal class InstallGameService
                 {
                     _totalCount++;
                     _totalBytes += item.Size;
-                    long length = GetFileLength(item);
+                    long length = 0;
+                    if (item.Type == InstallGameItemType.StreamDownload)
+                    {
+                        if (!_streamDownloadInstallItemQueue.Contains(item))
+                            length = item.Size;
+                    } else length = GetFileLength(item);
                     _finishBytes += length;
                     if (length == item.Size)
                     {
@@ -829,6 +847,11 @@ internal class InstallGameService
         }
         State = state;
         _cancellationTokenSource = new CancellationTokenSource();
+        if (_streamDownloadInstallItemQueue.Count > 0)
+        {
+            _ = StreamDownloadExecuteTaskItemAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
+            return;
+        }
         for (int i = 0; i < Environment.ProcessorCount; i++)
         {
             _ = ExecuteTaskItemAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
@@ -1041,7 +1064,7 @@ internal class InstallGameService
             item.Type = InstallGameItemType.Verify;
             _installItemQueue.Enqueue(item);
         }
-        if (_gameSDKItem is not null && _gameSDKItem.Type != InstallGameItemType.StreamDownload)
+        if (_gameSDKItem is not null)
         {
             _gameSDKItem.Type = InstallGameItemType.Verify;
             _installItemQueue.Enqueue(_gameSDKItem);
@@ -1089,7 +1112,7 @@ internal class InstallGameService
             item.DecompressPath = _installPath;
             _installItemQueue.Enqueue(item);
         }
-        if (_gameSDKItem is not null && _gameSDKItem.Type != InstallGameItemType.StreamDownload)
+        if (_gameSDKItem is not null)
         {
             _gameSDKItem.Type = InstallGameItemType.Decompress;
             _gameSDKItem.DecompressPackageFiles = [_gameSDKItem.Path];
@@ -1194,6 +1217,11 @@ internal class InstallGameService
 
 
 
+    protected Queue<InstallGameItem> _streamDownloadInstallItemQueue = new();
+
+
+
+
     protected int _totalCount;
     public int TotalCount => _totalCount;
 
@@ -1217,11 +1245,6 @@ internal class InstallGameService
     protected int _concurrentExecuteThreadCount;
     public int ConcurrentExecuteThreadCount => _concurrentExecuteThreadCount;
 
-    protected int _downloadThreadCount;
-
-    protected int _streamDownloadThreadCount;
-
-
 
     private static SemaphoreSlim _verifyGlobalSemaphore = new SemaphoreSlim(Environment.ProcessorCount);
 
@@ -1242,41 +1265,6 @@ internal class InstallGameService
 
             while (_installItemQueue.TryDequeue(out InstallGameItem? item))
             {
-                while (true)
-                {
-                    //此处阻塞，保证在进行流式下载时不进行其他操作。
-                    while (_streamDownloadThreadCount > 0)
-                    {
-                        try
-                        {
-                            await Task.Delay(100, cancellationToken);
-                        }
-                        catch (TaskCanceledException)
-                        {
-                            // cancel
-                            _installItemQueue.Enqueue(item);
-                            return;
-                        }
-                    }
-                    //多个线程同时进入时，保证最终只有一个线程能够继续。
-                    if (item is { Type: InstallGameItemType.StreamDownload })
-                    {
-                        //等待传统下载任务结束
-                        if (_downloadThreadCount > 0)
-                        {
-                            await Task.Delay(100, cancellationToken);
-                            continue;
-                        }
-                        if (Interlocked.Increment(ref _streamDownloadThreadCount) > 1)
-                            Interlocked.Decrement(ref _streamDownloadThreadCount);
-                        else
-                        {
-                            //如果有其他传统下载任务正在进行，则等待其结束再进行流式下载
-                            if (_downloadThreadCount > 0) Interlocked.Decrement(ref _streamDownloadThreadCount);
-                            else break;
-                        }
-                    } else break;
-                }
                 try
                 {
                     switch (item.Type)
@@ -1284,27 +1272,7 @@ internal class InstallGameService
                         case InstallGameItemType.None:
                             break;
                         case InstallGameItemType.Download:
-                            Interlocked.Increment(ref _downloadThreadCount);
-                            try
-                            {
-                                await DownloadItemAsync(item, cancellationToken).ConfigureAwait(false);
-                            }
-                            finally
-                            {
-                                Interlocked.Decrement(ref _downloadThreadCount);
-                            }
-                            Interlocked.Increment(ref _finishCount);
-                            break;
-                        case InstallGameItemType.StreamDownload:
-                            try
-                            {
-                                //流式下载本身就是多线程下载/解压模式，再叠加一层多线程，线程翻倍导致效率问题，甚至被服务器识别为攻击行为。
-                                await StreamDownloadItemAsync(item, cancellationToken).ConfigureAwait(false);
-                            }
-                            finally
-                            {
-                                Interlocked.Decrement(ref _streamDownloadThreadCount);
-                            }
+                            await DownloadItemAsync(item, cancellationToken).ConfigureAwait(false);
                             Interlocked.Increment(ref _finishCount);
                             break;
                         case InstallGameItemType.Verify:
@@ -1329,7 +1297,7 @@ internal class InstallGameService
                     _installItemQueue.Enqueue(item);
                     await Task.Delay(1000, CancellationToken.None).ConfigureAwait(false);
                 }
-                catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException or HttpRequestException { Message: "The request was aborted." })
+                catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
                 {
                     // cancel
                     _installItemQueue.Enqueue(item);
@@ -1348,6 +1316,60 @@ internal class InstallGameService
             if (_concurrentExecuteThreadCount == 0)
             {
                 CurrentTaskFinished();
+            }
+        }
+    }
+
+
+
+
+    protected async Task StreamDownloadExecuteTaskItemAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            Interlocked.Increment(ref _concurrentExecuteThreadCount);
+            if (_concurrentExecuteThreadCount > 1)
+            {
+                return;
+            }
+
+            while (_streamDownloadInstallItemQueue.TryPeek(out InstallGameItem? item))
+            {
+                var needDequeue = true;
+                try
+                {
+                    await StreamDownloadItemAsync(item, cancellationToken).ConfigureAwait(false);
+                    Interlocked.Increment(ref _finishCount);
+                }
+                catch (Exception ex) when (ex is HttpRequestException or SocketException or HttpIOException or IOException { InnerException: SocketException } or IOException { Message: "Received an unexpected EOF or 0 bytes from the transport stream." })
+                {
+                    needDequeue = false;
+                    // network error
+                    await Task.Delay(1000, CancellationToken.None).ConfigureAwait(false);
+                }
+                catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException or HttpRequestException { Message: "The request was aborted." })
+                {
+                    needDequeue = false;
+                    // cancel
+                    return;
+                }
+                finally
+                {
+                    if (needDequeue) _streamDownloadInstallItemQueue.TryDequeue(out item);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, nameof(StreamDownloadExecuteTaskItemAsync));
+            OnInstallFailed(ex);
+        }
+        finally
+        {
+            Interlocked.Decrement(ref _concurrentExecuteThreadCount);
+            if (_concurrentExecuteThreadCount == 0 && !cancellationToken.IsCancellationRequested)
+            {
+                StartTask(InstallGameState.Download);
             }
         }
     }
