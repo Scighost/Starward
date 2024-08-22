@@ -124,18 +124,17 @@ internal class VolumesFileHttpPartialDownloadStream : HttpPartialDownloadStream
         ValidateBufferArguments(buffer, offset, count);
         SeekActually();
         var needCount = GetReadCount(count);
-        var readCount = 0;
         long endPosition = 0;
         foreach (var stream in _singleDownloadStreamStartToEndArray)
         {
             var startPosition = endPosition;
             endPosition += stream.Length;
             if (Position < startPosition || Position >= endPosition) continue;
-            var singleCount = stream.Read(buffer, readCount, needCount - readCount);
+            var singleCount = stream.Read(buffer, offset, needCount);
             AddPositionActually(singleCount);
-            if ((readCount += singleCount) == needCount) break;
+            return singleCount;
         }
-        return readCount;
+        return 0;
     }
 
     public override int Read(Span<byte> buffer)
@@ -143,18 +142,17 @@ internal class VolumesFileHttpPartialDownloadStream : HttpPartialDownloadStream
         ThrowIfThisIsDisposed();
         SeekActually();
         var needCount = GetReadCount(buffer.Length);
-        var readCount = 0;
         long endPosition = 0;
         foreach (var stream in _singleDownloadStreamStartToEndArray)
         {
             var startPosition = endPosition;
             endPosition += stream.Length;
             if (Position < startPosition || Position >= endPosition) continue;
-            var singleCount = stream.Read(buffer.Slice(readCount, needCount - readCount));
+            var singleCount = stream.Read(buffer[..needCount]);
             AddPositionActually(singleCount);
-            if ((readCount += singleCount) == needCount) break;
+            return singleCount;
         }
-        return readCount;
+        return 0;
     }
 
     public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
@@ -162,19 +160,17 @@ internal class VolumesFileHttpPartialDownloadStream : HttpPartialDownloadStream
         ThrowIfThisIsDisposed();
         await SeekActuallyAsync(cancellationToken).ConfigureAwait(false);
         var needCount = GetReadCount(buffer.Length);
-        var readCount = 0;
         long endPosition = 0;
         foreach (var stream in _singleDownloadStreamStartToEndArray)
         {
             var startPosition = endPosition;
             endPosition += stream.Length;
             if (Position < startPosition || Position >= endPosition) continue;
-            var singleCount = await stream.ReadAsync(buffer.Slice(readCount, needCount - readCount),
-                cancellationToken).ConfigureAwait(false);
+            var singleCount = await stream.ReadAsync(buffer[..needCount], cancellationToken).ConfigureAwait(false);
             AddPositionActually(singleCount);
-            if ((readCount += singleCount) == needCount) break;
+            return singleCount;
         }
-        return readCount;
+        return 0;
     }
 
     public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
@@ -183,19 +179,18 @@ internal class VolumesFileHttpPartialDownloadStream : HttpPartialDownloadStream
         ValidateBufferArguments(buffer, offset, count);
         await SeekActuallyAsync(cancellationToken).ConfigureAwait(false);
         var needCount = GetReadCount(buffer.Length);
-        var readCount = 0;
         long endPosition = 0;
         foreach (var stream in _singleDownloadStreamStartToEndArray)
         {
             var startPosition = endPosition;
             endPosition += stream.Length;
             if (Position < startPosition || Position >= endPosition) continue;
-            var singleCount = await stream.ReadAsync(buffer, readCount, needCount - readCount, cancellationToken)
+            var singleCount = await stream.ReadAsync(buffer, offset, needCount, cancellationToken)
                 .ConfigureAwait(false);
             AddPositionActually(singleCount);
-            if ((readCount += singleCount) == needCount) break;
+            return singleCount;
         }
-        return readCount;
+        return 0;
     }
 
     protected override void Dispose(bool disposing)

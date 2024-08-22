@@ -221,7 +221,7 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         ValidateBufferArguments(buffer, offset, count);
         SeekActually();
         if ((count = GetReadCount(count)) == 0) return 0;
-        _responseReadStream.ReadExactly(buffer, offset, count);
+        count = _responseReadStream.Read(buffer, offset, count);
         AddPositionActually(count);
         return count;
     }
@@ -232,7 +232,7 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         SeekActually();
         int count;
         if ((count = GetReadCount(buffer.Length)) == 0) return 0;
-        _responseReadStream.ReadExactly(buffer[..count]);
+        count = _responseReadStream.Read(buffer[..count]);
         AddPositionActually(count);
         return count;
     }
@@ -244,7 +244,7 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         ValidateBufferArguments(buffer, offset, count);
         await SeekActuallyAsync(cancellationToken).ConfigureAwait(false);
         if ((count = GetReadCount(count)) == 0) return 0;
-        await _responseReadStream.ReadExactlyAsync(buffer, offset, count, cancellationToken)
+        count = await _responseReadStream.ReadAsync(buffer, offset, count, cancellationToken)
             .ConfigureAwait(false);
         AddPositionActually(count);
         return count;
@@ -256,7 +256,7 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         await SeekActuallyAsync(cancellationToken).ConfigureAwait(false);
         int count;
         if ((count = GetReadCount(buffer.Length)) == 0) return 0;
-        await _responseReadStream.ReadExactlyAsync(buffer[..count], cancellationToken).ConfigureAwait(false);
+        count = await _responseReadStream.ReadAsync(buffer[..count], cancellationToken).ConfigureAwait(false);
         AddPositionActually(count);
         return count;
     }
