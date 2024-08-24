@@ -1928,6 +1928,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Imaginarium Theater 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_ImaginariumTheater {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_ImaginariumTheater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Input Cookie 的本地化字符串。
         /// </summary>
         public static string HoyolabToolboxPage_InputCookie {
@@ -2086,6 +2095,150 @@ namespace Starward.Language {
         public static string ImageViewPage_ZoomOut {
             get {
                 return ResourceManager.GetString("ImageViewPage_ZoomOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Act {0} 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_Act0 {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_Act0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Best Record 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_BestRecord {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_BestRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Easy Mode 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_EasyMode {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_EasyMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fantasia Flowers Used 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_FantasiaFlowersUsed {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_FantasiaFlowersUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hard Mode 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_HardMode {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_HardMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Highest Damage Dealt 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_HighestDamageDealt {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_HighestDamageDealt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Most Opponents Defeated 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_MostOpponentsDefeated {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_MostOpponentsDefeated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mystery Cache 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_MysteryCache {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_MysteryCache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Normal Mode 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_NormalMode {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_NormalMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Past Performances 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_PastPerformances {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_PastPerformances", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Star Challenge Stellas 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_StarChallengeStellas {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_StarChallengeStellas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Supporting Cast Characters Assist Other Players 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_SupportingCastCharactersAssistOtherPlayers {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_SupportingCastCharactersAssistOtherPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Team that Completed the Performance Fastest 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_TeamThatCompletedThePerformanceFastest {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_TeamThatCompletedThePerformanceFastest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Total Performance Duration 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_TotalPerformanceDuration {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_TotalPerformanceDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Triggered External Audience Support 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_TriggeredExternalAudienceSupport {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_TriggeredExternalAudienceSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Wondrous Boon 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_WondrousBoon {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_WondrousBoon", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using Starward.Core.GameRecord.Genshin.SpiralAbyss;
+﻿using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
+using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
@@ -24,6 +25,7 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<SimulatedUniverseInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<SimulatedUniverseTime>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<DeviceFpResult>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<ImaginariumTheaterWarpper>))]
 internal partial class GameRecordJsonContext : JsonSerializerContext
 {
 
