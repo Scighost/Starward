@@ -1522,7 +1522,7 @@
     <value>Получить все данные</value>
   </data>
   <data name="HoyolabToolboxPage_ImaginariumTheater" xml:space="preserve">
-    <value>Imaginarium Theater</value>
+    <value>Театр «Воображариум»</value>
   </data>
   <data name="ImaginariumTheaterPage_EasyMode" xml:space="preserve">
     <value>Easy Mode</value>
@@ -1531,7 +1531,7 @@
     <value>Normal Mode</value>
   </data>
   <data name="ImaginariumTheaterPage_HardMode" xml:space="preserve">
-    <value>Hard Mode</value>
+    <value>Тяжёлый</value>
   </data>
   <data name="ImaginariumTheaterPage_Act0" xml:space="preserve">
     <value>Act {0}</value>
