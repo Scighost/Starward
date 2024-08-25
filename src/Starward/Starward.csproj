@@ -41,7 +41,7 @@
 		<PackageReference Include="NuGet.Versioning" Version="6.10.1" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-		<PackageReference Include="Starward.Assets" Version="0.4.13" />
+		<PackageReference Include="Starward.Assets" Version="0.4.14" />
 		<PackageReference Include="Starward.NativeLib" Version="0.2.1" />
 		<PackageReference Include="System.Threading.RateLimiting" Version="8.0.0" />
 		<PackageReference Include="Vanara.PInvoke.ComCtl32" Version="4.0.3" />
