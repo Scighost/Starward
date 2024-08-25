@@ -298,6 +298,23 @@
                         </Grid>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
+                <!--  幻想真境剧诗  -->
+                <NavigationViewItem Name="NavigationViewItem_ImaginariumTheater"
+                                    Tag="ImaginariumTheaterPage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/UI_MapIcon_RoleCombat.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_ImaginariumTheater}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
                 <!--  旅行者札记  -->
                 <NavigationViewItem Name="NavigationViewItem_TravelersDiary"
                                     Tag="TravelersDiaryPage"

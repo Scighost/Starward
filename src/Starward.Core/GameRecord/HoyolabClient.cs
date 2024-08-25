@@ -1,4 +1,5 @@
-﻿using Starward.Core.GameRecord.Genshin.SpiralAbyss;
+﻿using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
+using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
@@ -223,6 +224,42 @@ public class HoyolabClient : GameRecordClient
         }
         return data;
     }
+
+
+
+    /// <summary>
+    /// 幻想真境剧诗
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<List<ImaginariumTheaterInfo>> GetImaginariumTheaterInfosAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        var url = $"https://bbs-api-os.hoyolab.com/game_record/app/genshin/api/role_combat?server={role.Region}&role_id={role.Uid}&need_detail=true";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(Referer, "https://act.hoyolab.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
+        var warpper = await CommonSendAsync<ImaginariumTheaterWarpper>(request, cancellationToken);
+        foreach (var item in warpper.Data)
+        {
+            item.Uid = role.Uid;
+            item.ScheduleId = item.Schedule.ScheduleId;
+            item.StartTime = item.Schedule.StartDateTime;
+            item.EndTime = item.Schedule.EndDateTime;
+            item.DifficultyId = item.Stat.DifficultyId;
+            item.MaxRoundId = item.Stat.MaxRoundId;
+            item.Heraldry = item.Stat.Heraldry;
+            item.MedalNum = item.Stat.MedalNum;
+        }
+        return warpper.Data;
+    }
+
 
 
     #endregion

@@ -8,6 +8,8 @@ using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
+
 #if !DEBUG
 using System.Net.Http.Json;
 #endif
@@ -274,6 +276,17 @@ public abstract class GameRecordClient
     public abstract Task<TravelersDiaryDetail> GetTravelsDiaryDetailAsync(GameRecordRole role, int month, int type, int limit = 100, CancellationToken cancellationToken = default);
 
 
+
+    /// <summary>
+    /// 幻想真境剧诗
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<List<ImaginariumTheaterInfo>> GetImaginariumTheaterInfosAsync(GameRecordRole role, CancellationToken cancellationToken = default);
+
+
+
     #endregion
 
 
@@ -374,6 +387,9 @@ public abstract class GameRecordClient
 
     // 黄金与机械
     // https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/rogue_nous?server=prod_gf_cn&role_id={uid}&need_detail=true
+
+    // 幻想真境剧诗
+    // https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/role_combat?server=cn_gf01&role_id={uid}&active=1&need_detail=true
 
 
 }
