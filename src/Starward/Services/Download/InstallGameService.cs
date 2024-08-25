@@ -690,12 +690,13 @@ internal class InstallGameService
 
 
 
-    public void Pause()
+    public void Pause(Action? onPaused = null)
     {
         try
         {
             if (State is InstallGameState.None or InstallGameState.Cancel)
             {
+                if (State == InstallGameState.None) onPaused?.Invoke();
                 return;
             }
             _pausedState = State;
@@ -707,8 +708,9 @@ internal class InstallGameService
                 {
                     await Task.Delay(100);
                 }
-            }).ConfigureAwait(false).GetAwaiter().OnCompleted(() => {
+            }).ConfigureAwait(true).GetAwaiter().OnCompleted(() => {
                 State = InstallGameState.None;
+                onPaused?.Invoke();
             });
         }
         catch (Exception ex)

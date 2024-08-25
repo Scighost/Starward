@@ -566,6 +566,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Cancelling 的本地化字符串。
+        /// </summary>
+        public static string DownloadGamePage_Cancelling {
+            get {
+                return ResourceManager.GetString("DownloadGamePage_Cancelling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Close 的本地化字符串。
         /// </summary>
         public static string DownloadGamePage_Close {
@@ -709,7 +718,7 @@ namespace Starward.Language {
                 return ResourceManager.GetString("DownloadGamePage_Paused", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   查找类似 Pausing 的本地化字符串。
         /// </summary>

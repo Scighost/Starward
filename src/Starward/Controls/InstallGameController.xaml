@@ -173,6 +173,7 @@
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch"
                                                     Command="{Binding CancelCommand}"
+                                                    IsEnabled="{Binding IsCancelButtonEnabled}"
                                                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                                                 <FontIcon FontSize="14"
                                                           Glyph="&#xE711;"

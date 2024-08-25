@@ -142,13 +142,15 @@ internal class InstallGameManager
     {
         if (sender is InstallGameStateModel model)
         {
-            model.Service.Pause();
-            model.Service.ClearState();
-            _services.TryRemove(model.GameBiz, out _);
-            model.InstallFinished -= Model_InstallFinished;
-            model.InstallFailed -= Model_InstallFailed;
-            model.InstallCanceled -= Model_InstallCanceled;
-            InstallTaskRemoved?.Invoke(this, model);
+            model.Service.Pause(() =>
+            {
+                model.Service.ClearState();
+                _services.TryRemove(model.GameBiz, out _);
+                model.InstallFinished -= Model_InstallFinished;
+                model.InstallFailed -= Model_InstallFailed;
+                model.InstallCanceled -= Model_InstallCanceled;
+                InstallTaskRemoved?.Invoke(this, model);
+            });
         }
     }
 
