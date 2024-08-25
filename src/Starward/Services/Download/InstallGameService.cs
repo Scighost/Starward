@@ -1474,7 +1474,8 @@ internal class InstallGameService
             EnableFullStreamDownload = true,
             CheckDateTimeVerifyingExistingFile = checkDateTimeVerifying,
             CheckCrcVerifyingExistingFile = checkCrcVerifying,
-            Progress = progress.Progress,
+            DownloadThreadCount = 20,
+            Progress = progress.Progress
         };
 
         var downloadingStarted = false;
