@@ -511,7 +511,7 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            if (AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibiliServer() || CurrentGameBiz.ToGame() is GameBiz.ZZZ)
+            if (AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibiliServer())
             {
                 StackPanel_Account.Visibility = Visibility.Collapsed;
                 return;

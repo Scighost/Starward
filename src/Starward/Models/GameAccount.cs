@@ -11,8 +11,8 @@ public class GameAccount : ObservableObject
 
     public GameBiz GameBiz { get; set; }
 
-    private int _Uid;
-    public int Uid
+    private long _Uid;
+    public long Uid
     {
         get => _Uid;
         set => SetProperty(ref _Uid, value);
