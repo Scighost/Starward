@@ -1525,13 +1525,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Nhà Hát Giả Tưởng</value>
   </data>
   <data name="ImaginariumTheaterPage_EasyMode" xml:space="preserve">
-    <value>Easy Mode</value>
+    <value>Dễ</value>
   </data>
   <data name="ImaginariumTheaterPage_NormalMode" xml:space="preserve">
-    <value>Normal Mode</value>
+    <value>Thường</value>
   </data>
   <data name="ImaginariumTheaterPage_HardMode" xml:space="preserve">
-    <value>Hard Mode</value>
+    <value>Khó</value>
   </data>
   <data name="ImaginariumTheaterPage_Act0" xml:space="preserve">
     <value>Màn {0}</value>
@@ -1571,6 +1571,6 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Trợ giúp kì diệu</value>
   </data>
   <data name="ImaginariumTheaterPage_MysteryCache" xml:space="preserve">
-    <value>Mystery Cache</value>
+    <value>Quà Thần Bí</value>
   </data>
 </root>
