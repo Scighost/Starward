@@ -1522,19 +1522,19 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Retrieve All Data</value>
   </data>
   <data name="HoyolabToolboxPage_ImaginariumTheater" xml:space="preserve">
-    <value>Imaginarium Theater</value>
+    <value>Nhà Hát Giả Tưởng</value>
   </data>
   <data name="ImaginariumTheaterPage_EasyMode" xml:space="preserve">
-    <value>Easy Mode</value>
+    <value>Dễ</value>
   </data>
   <data name="ImaginariumTheaterPage_NormalMode" xml:space="preserve">
-    <value>Normal Mode</value>
+    <value>Thường</value>
   </data>
   <data name="ImaginariumTheaterPage_HardMode" xml:space="preserve">
-    <value>Hard Mode</value>
+    <value>Khó</value>
   </data>
   <data name="ImaginariumTheaterPage_Act0" xml:space="preserve">
-    <value>Act {0}</value>
+    <value>Màn {0}</value>
     <comment>Imaginarium Theater Act {0}</comment>
   </data>
   <data name="ImaginariumTheaterPage_PastPerformances" xml:space="preserve">
@@ -1547,7 +1547,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Star Challenge Stellas</value>
   </data>
   <data name="ImaginariumTheaterPage_FantasiaFlowersUsed" xml:space="preserve">
-    <value>Fantasia Flowers Used</value>
+    <value>Hoa Ảo Kịch đã sử dụng</value>
   </data>
   <data name="ImaginariumTheaterPage_TriggeredExternalAudienceSupport" xml:space="preserve">
     <value>Triggered External Audience Support</value>
@@ -1568,9 +1568,9 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Team that Completed the Performance Fastest</value>
   </data>
   <data name="ImaginariumTheaterPage_WondrousBoon" xml:space="preserve">
-    <value>Wondrous Boon</value>
+    <value>Trợ giúp kì diệu</value>
   </data>
   <data name="ImaginariumTheaterPage_MysteryCache" xml:space="preserve">
-    <value>Mystery Cache</value>
+    <value>Quà Thần Bí</value>
   </data>
 </root>
