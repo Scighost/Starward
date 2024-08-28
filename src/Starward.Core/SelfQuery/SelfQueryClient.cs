@@ -64,7 +64,7 @@ public class SelfQueryClient
         {
             throw new ArgumentNullException(nameof(url));
         }
-        string game_biz = Regex.Match(url, "game_biz=([^&]+)").Groups[1].Value;
+        string game_biz = Regex.Match(url, "game_biz=([^&#]+)").Groups[1].Value;
         if (game_biz != gameBiz.ToString())
         {
             throw new ArgumentException($"Input url doesn't match the game region ({gameBiz}).", nameof(url));
