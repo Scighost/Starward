@@ -27,6 +27,9 @@ internal class InstallGameManager
     public static InstallGameManager Instance => _instance ??= new();
 
 
+    public bool HasTask => _services.Count > 0;
+
+
 
     public static TokenBucketRateLimiter RateLimiter { get; private set; }
 
