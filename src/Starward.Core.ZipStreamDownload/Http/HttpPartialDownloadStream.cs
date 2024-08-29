@@ -33,6 +33,12 @@ public abstract class HttpPartialDownloadStream : Stream
     public DateTimeOffset? FileLastModifiedTime { get; protected set; }
 
     /// <summary>
+    /// 当网络错误时进行自动重试的选项
+    /// <remarks>取值范围(0,20)，默认10</remarks>
+    /// </summary>
+    public AutoRetryOptions AutoRetryOptions { get; protected init; }
+
+    /// <summary>
     /// 标识此类释放已经释放资源
     /// </summary>
     private bool _disposed;

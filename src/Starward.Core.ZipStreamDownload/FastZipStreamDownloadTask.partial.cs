@@ -188,62 +188,41 @@ public partial class FastZipStreamDownload
                 await Task.Delay(10, cancellationToken).ConfigureAwait(false);
                 continue;
             }
-            while (true)
+
+            try
             {
-                var retry = false;
-                try
-                {
-                    var zipFileDownloadThreadLocal =
-                        new ThreadLocal<ZipFileDownload>(zipFileDownloadFactory.GetInstance);
-                    if (enableFullStreamDownload)
-                        await EntryDownloadStream(zipFileDownloadThreadLocal.Value!, taskData, cancellationToken)
-                            .ConfigureAwait(false);
-                    else
-                        await EntryDownloadCompressedFile(zipFileDownloadThreadLocal.Value!, taskData, cancellationToken)
-                            .ConfigureAwait(false);
-                    _entryExtractAndFileCrcVerifyTaskQueue.Enqueue(taskData);
-                }
-                catch (HttpFileModifiedDuringPartialDownload)
-                {
-                    //文件在下载过程中被修改了
-                    if (taskData.CompressedFileStream != null)
-                        await taskData.CompressedFileStream.DisposeAsync().ConfigureAwait(false);
-                    throw;
-                }
-                catch (Exception e)
-                {
-                    if (e is HttpRequestException or SocketException or HttpIOException or IOException)
-                    {
-                        taskData.RetryTimes++;
-                        if (taskData.RetryTimes <= _autoRetryTimesOnNetworkError)
-                        {
-                            try
-                            {
-                                await Task.Delay(_autoRetryDelayMillisecond, cancellationToken).ConfigureAwait(false);
-                                retry = true;
-                                continue;
-                            }
-                            catch
-                            {
-                                // ignored
-                            }
-                        }
-                    }
-                    Interlocked.Increment(ref _entryExtractAndFileCrcVerifyTaskCount);
+                var zipFileDownloadThreadLocal =
+                    new ThreadLocal<ZipFileDownload>(zipFileDownloadFactory.GetInstance);
+                if (enableFullStreamDownload)
+                    await EntryDownloadStream(zipFileDownloadThreadLocal.Value!, taskData, cancellationToken)
+                        .ConfigureAwait(false);
+                else
+                    await EntryDownloadCompressedFile(zipFileDownloadThreadLocal.Value!, taskData, cancellationToken)
+                        .ConfigureAwait(false);
+                _entryExtractAndFileCrcVerifyTaskQueue.Enqueue(taskData);
+            }
+            catch (HttpFileModifiedDuringPartialDownload)
+            {
+                //文件在下载过程中被修改了
+                if (taskData.CompressedFileStream != null)
+                    await taskData.CompressedFileStream.DisposeAsync().ConfigureAwait(false);
+                throw;
+            }
+            catch (Exception e)
+            {
+                Interlocked.Increment(ref _entryExtractAndFileCrcVerifyTaskCount);
 
-                    ProgressReport(ProcessingStageEnum.None, true, exception: e, entry: taskData.Entry);
-                    _entriesExceptionDictionary[taskData.Entry] = e;
+                ProgressReport(ProcessingStageEnum.None, true, exception: e, entry: taskData.Entry);
+                _entriesExceptionDictionary[taskData.Entry] = e;
 
-                    if (taskData.CompressedFileStream != null)
-                        await taskData.CompressedFileStream.DisposeAsync().ConfigureAwait(false);
+                if (taskData.CompressedFileStream != null)
+                    await taskData.CompressedFileStream.DisposeAsync().ConfigureAwait(false);
 
-                    if (e is OperationCanceledException or TaskCanceledException) return;
-                }
-                finally
-                {
-                    if (!retry) Interlocked.Increment(ref _entryDownloadTaskCount);
-                }
-                break;
+                if (e is OperationCanceledException or TaskCanceledException) return;
+            }
+            finally
+            {
+                Interlocked.Increment(ref _entryDownloadTaskCount);
             }
         }
     }

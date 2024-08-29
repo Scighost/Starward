@@ -52,6 +52,11 @@ public class VolumesFileZipFileDownloadFactory(HttpClient httpClient) : IZipFile
     public Func<RateLimiterOption>? DownloadBytesRateLimiterOptionBuilder { get; set; }
 
     /// <summary>
+    /// 自动重试选项
+    /// </summary>
+    public AutoRetryOptions AutoRetryOptions { get; } = new();
+
+    /// <summary>
     /// 获取一个用于分卷文件下载的<see cref="ZipFileDownload"/>类的新实例。
     /// </summary>
     /// <returns><see cref="ZipFileDownload"/>的实例</returns>
@@ -59,6 +64,6 @@ public class VolumesFileZipFileDownloadFactory(HttpClient httpClient) : IZipFile
     public ZipFileDownload GetInstance()
         => new(async (startBytes, endBytes) =>
             await VolumesFileHttpPartialDownloadStream.GetInstanceAsync(httpClient,
-                ZipFileUriList ?? throw new InvalidOperationException(), startBytes, endBytes,
+                ZipFileUriList ?? throw new InvalidOperationException(), startBytes, endBytes, AutoRetryOptions,
                 ZipFileDownload.MediaType).ConfigureAwait(false), DownloadBytesRateLimiterOptionBuilder);
 }

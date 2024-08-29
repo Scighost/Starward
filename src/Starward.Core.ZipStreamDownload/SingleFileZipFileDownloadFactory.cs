@@ -30,6 +30,11 @@ public class SingleFileZipFileDownloadFactory(HttpClient httpClient) : IZipFileD
     public Func<RateLimiterOption>? DownloadBytesRateLimiterOptionBuilder { get; set; }
 
     /// <summary>
+    /// 自动重试选项
+    /// </summary>
+    public AutoRetryOptions AutoRetryOptions { get; } = new();
+
+    /// <summary>
     /// 获取一个用于单文件下载的<see cref="ZipFileDownload"/>类的新实例。
     /// </summary>
     /// <returns><see cref="ZipFileDownload"/>的实例</returns>
@@ -37,6 +42,6 @@ public class SingleFileZipFileDownloadFactory(HttpClient httpClient) : IZipFileD
     public ZipFileDownload GetInstance()
         => new(async (startBytes, endBytes) =>
             await SingleFileHttpPartialDownloadStream.GetInstanceAsync(httpClient,
-                ZipFileUri ?? throw new InvalidOperationException(), startBytes, endBytes, ZipFileDownload.MediaType)
-                .ConfigureAwait(false), DownloadBytesRateLimiterOptionBuilder);
+                ZipFileUri ?? throw new InvalidOperationException(), startBytes, endBytes, AutoRetryOptions,
+                ZipFileDownload.MediaType).ConfigureAwait(false), DownloadBytesRateLimiterOptionBuilder);
 }

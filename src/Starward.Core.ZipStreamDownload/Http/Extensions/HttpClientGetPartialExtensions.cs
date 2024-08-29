@@ -233,15 +233,6 @@ internal static class HttpClientGetPartialExtensions
     /// <param name="cancellationToken">取消操作的令牌。</param>
     /// <returns>返回一个任务，可获取一个<see cref="HttpResponseMessage"/>的实例，表示HTTP分段下载的响应消息。</returns>
     /// <exception cref="ArgumentNullException">请求为空。</exception>
-    /// <exception cref="NotSupportedException">
-    /// HTTP版本为2.0或更高版本，或者版本策略设置为<see cref="HttpVersionPolicy.RequestVersionOrHigher"/>。
-    /// -或者-
-    /// 从<see cref="HttpContent"/>派生的自定义类不会重写
-    /// <see cref="HttpContent.SerializeToStream(Stream,System.Net.TransportContext?,CancellationToken)"/>方法。
-    /// -或者-
-    /// 自定义<see cref="HttpMessageHandler"/>不会覆盖
-    /// <see cref="HttpMessageHandler.Send(HttpRequestMessage,CancellationToken)"/>方法。
-    /// </exception>
     /// <exception cref="InvalidOperationException">请求消息已由<see cref="HttpClient"/>实例发送。</exception>
     /// <exception cref="HttpRequestException">由于网络连接、DNS故障或服务器证书验证等潜在问题，请求失败。</exception>
     /// <exception cref="TaskCanceledException">

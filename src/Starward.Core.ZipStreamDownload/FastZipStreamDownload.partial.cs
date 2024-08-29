@@ -135,49 +135,9 @@ public partial class FastZipStreamDownload(DirectoryInfo targetDirectoryInfo, Di
     private int _extractAndCrcVerifyThreadCount = Math.Max(Environment.ProcessorCount, 30);
 
     /// <summary>
-    /// 当网络错误时可允许的最大重试次数
-    /// <remarks>取值范围(0,20)，默认10</remarks>
-    /// </summary>
-    public int AutoRetryTimesOnNetworkError
-    {
-        get => _autoRetryTimesOnNetworkError;
-        set
-        {
-            ArgumentOutOfRangeException.ThrowIfLessThan(value, 1);
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, 20);
-            _autoRetryTimesOnNetworkError = value;
-        }
-    }
-
-    /// <summary>
-    /// （内部）当网络错误时可允许的最大重试次数
-    /// </summary>
-    private int _autoRetryTimesOnNetworkError = 10;
-
-    /// <summary>
-    /// 自动重试等待时间（单位：毫秒）
-    /// <remarks>取值范围(0,2000)，默认1000</remarks>
-    /// </summary>
-    public int AutoRetryDelayMillisecond
-    {
-        get => _autoRetryDelayMillisecond;
-        set
-        {
-            ArgumentOutOfRangeException.ThrowIfLessThan(value, 1);
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, 20);
-            _autoRetryDelayMillisecond = value;
-        }
-    }
-
-    /// <summary>
     /// 当前的实体异常列表
     /// </summary>
     public IReadOnlyDictionary<ZipEntry, Exception> EntriesExceptionDictionary => _entriesExceptionDictionary;
-
-    /// <summary>
-    /// （内部）自动重试等待时间（单位：毫秒）
-    /// </summary>
-    private int _autoRetryDelayMillisecond = 1000;
 
     /// <summary>
     /// （内部）ZIP文件下载是否正在执行
