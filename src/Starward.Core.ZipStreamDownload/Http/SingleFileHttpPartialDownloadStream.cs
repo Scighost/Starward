@@ -110,7 +110,7 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         CancellationToken cancellationToken = default)
     {
         ValidateStartBytesAndEndBytes(startBytes, endBytes, fileLength);
-        var ipAddressUri = await fileUri.GetIpAddressUriAsync(cancellationToken);
+        var ipAddressUri = await fileUri.GetIpAddressUriAsync(cancellationToken).ConfigureAwait(false);
         var responseMessage = await httpClient.GetPartialAsync(ipAddressUri, fileUri.Host, startBytes,
             endBytes + (startBytes.HasValue ? -1 : 0), mediaType, cancellationToken).ConfigureAwait(false);
         try

@@ -219,7 +219,7 @@ public partial class FastZipStreamDownload
                         {
                             try
                             {
-                                await Task.Delay(_autoRetryDelayMillisecond, cancellationToken);
+                                await Task.Delay(_autoRetryDelayMillisecond, cancellationToken).ConfigureAwait(false);
                                 retry = true;
                                 continue;
                             }
