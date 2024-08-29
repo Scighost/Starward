@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Net.Sockets;
 using ICSharpCode.SharpZipLib.Zip;
 using Starward.Core.ZipStreamDownload.Exceptions;
 using Starward.Core.ZipStreamDownload.Extensions;
@@ -27,8 +26,6 @@ public partial class FastZipStreamDownload
         public required FileInfo CompressedFileInfo { get; init; }
 
         public Stream? CompressedFileStream { get; set; }
-
-        public int RetryTimes { get; set; }
     }
 
     private readonly ConcurrentQueue<EntryTaskData> _fileVerifyTaskQueue = new();
