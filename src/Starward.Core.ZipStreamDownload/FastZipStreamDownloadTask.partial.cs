@@ -145,23 +145,18 @@ public partial class FastZipStreamDownload
                 continue;
             }
 
+            var skipFollowupTasks = true;
             try
             {
                 if (await FileVerify(taskData, cancellationToken).ConfigureAwait(false))
-                    _entryDownloadTaskQueue.Enqueue(taskData);
-                else
                 {
-                    Interlocked.Increment(ref _entryDownloadTaskCount);
-                    Interlocked.Increment(ref _entryExtractAndFileCrcVerifyTaskCount);
-
-                    ProgressReport(ProcessingStageEnum.None, true, entry: taskData.Entry);
+                    _entryDownloadTaskQueue.Enqueue(taskData);
+                    skipFollowupTasks = false;
                 }
+                else ProgressReport(ProcessingStageEnum.None, true, entry: taskData.Entry);
             }
             catch (Exception e)
             {
-                Interlocked.Increment(ref _entryDownloadTaskCount);
-                Interlocked.Increment(ref _entryExtractAndFileCrcVerifyTaskCount);
-
                 ProgressReport(ProcessingStageEnum.None, true, exception: e, entry: taskData.Entry);
                 _entriesExceptionDictionary[taskData.Entry] = e;
 
@@ -169,6 +164,11 @@ public partial class FastZipStreamDownload
             }
             finally
             {
+                if (skipFollowupTasks)
+                {
+                    Interlocked.Increment(ref _entryDownloadTaskCount);
+                    Interlocked.Increment(ref _entryExtractAndFileCrcVerifyTaskCount);
+                }
                 Interlocked.Increment(ref _fileVerifyTaskCount);
             }
         }
@@ -186,6 +186,7 @@ public partial class FastZipStreamDownload
                 continue;
             }
 
+            var skipFollowupTasks = true;
             try
             {
                 var zipFileDownloadThreadLocal =
@@ -197,6 +198,7 @@ public partial class FastZipStreamDownload
                     await EntryDownloadCompressedFile(zipFileDownloadThreadLocal.Value!, taskData, cancellationToken)
                         .ConfigureAwait(false);
                 _entryExtractAndFileCrcVerifyTaskQueue.Enqueue(taskData);
+                skipFollowupTasks = false;
             }
             catch (HttpFileModifiedDuringPartialDownload)
             {
@@ -207,8 +209,6 @@ public partial class FastZipStreamDownload
             }
             catch (Exception e)
             {
-                Interlocked.Increment(ref _entryExtractAndFileCrcVerifyTaskCount);
-
                 ProgressReport(ProcessingStageEnum.None, true, exception: e, entry: taskData.Entry);
                 _entriesExceptionDictionary[taskData.Entry] = e;
 
@@ -219,6 +219,8 @@ public partial class FastZipStreamDownload
             }
             finally
             {
+                if (skipFollowupTasks)
+                    Interlocked.Increment(ref _entryExtractAndFileCrcVerifyTaskCount);
                 Interlocked.Increment(ref _entryDownloadTaskCount);
             }
         }
