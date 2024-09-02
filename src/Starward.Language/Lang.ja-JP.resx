@@ -1558,7 +1558,7 @@
     <value>Total Performance Duration</value>
   </data>
   <data name="ImaginariumTheaterPage_HighestDamageDealt" xml:space="preserve">
-    <value>Highest Damage Dealt</value>
+    <value>最高ダメージ</value>
   </data>
   <data name="ImaginariumTheaterPage_MostOpponentsDefeated" xml:space="preserve">
     <value>Most Opponents Defeated</value>
