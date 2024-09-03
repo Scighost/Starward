@@ -66,9 +66,8 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
     private readonly Uri _ipAddressUri;
 
     private SingleFileHttpPartialDownloadStream(HttpClient httpClient,
-        HttpResponseMessage responseMessage, Stream responseReadStream,
-        Uri fileUri, Uri ipAddressUri, AutoRetryOptions autoRetryOptions, string? mediaType, long? fileLength,
-        DateTimeOffset? fileLastModifiedTime)
+        HttpResponseMessage responseMessage, Stream responseReadStream, Uri fileUri, Uri ipAddressUri,
+        AutoRetryOptions autoRetryOptions, string? mediaType, long? fileLength, DateTimeOffset? fileLastModifiedTime)
     {
         ValidatePartialHttpResponseMessage(responseMessage, mediaType, fileLength, fileLastModifiedTime);
         _httpClient = httpClient;
@@ -87,9 +86,9 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         if (contentHeaders.LastModified.HasValue) FileLastModifiedTime = contentHeaders.LastModified.Value;
     }
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions, string? mediaType, long? fileLength,
-        DateTimeOffset? fileLastModifiedTime)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions,
+        string? mediaType, long? fileLength, DateTimeOffset? fileLastModifiedTime)
     {
         ValidateStartBytesAndEndBytes(startBytes, endBytes, fileLength);
         var ipAddressUri = fileUri.GetIpAddressUri();
@@ -101,8 +100,8 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         {
             try
             {
-                return Core(httpClient, fileUri, startBytes, endBytes + (startBytes.HasValue ? -1 : 0),
-                    autoRetryOptions, mediaType, fileLength, fileLastModifiedTime, ipAddressUri);
+                return Core(httpClient, fileUri, ipAddressUri, startBytes, endBytes + (startBytes.HasValue ? -1 : 0),
+                    autoRetryOptions, mediaType, fileLength, fileLastModifiedTime);
             }
             catch (Exception e) when(e is HttpRequestException or SocketException or HttpIOException or IOException)
             {
@@ -112,9 +111,9 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
             }
         }
 
-        static SingleFileHttpPartialDownloadStream Core(HttpClient httpClient, Uri fileUri, long? startBytes,
-            long? endBytes, AutoRetryOptions autoRetryOptions, string? mediaType, long? fileLength,
-            DateTimeOffset? fileLastModifiedTime, Uri ipAddressUri)
+        static SingleFileHttpPartialDownloadStream Core(HttpClient httpClient, Uri fileUri, Uri ipAddressUri,
+            long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions, string? mediaType, long? fileLength,
+            DateTimeOffset? fileLastModifiedTime)
         {
             HttpResponseMessage responseMessage;
             if (httpClient.DefaultRequestVersion >= System.Net.HttpVersion.Version20 ||
@@ -138,12 +137,12 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         }
     }
 
-    public static async Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions, string? mediaType, long? fileLength,
-        DateTimeOffset? fileLastModifiedTime, CancellationToken cancellationToken = default)
+    public static async Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions,
+        string? mediaType, long? fileLength, DateTimeOffset? fileLastModifiedTime, CancellationToken cancellationToken = default)
     {
         ValidateStartBytesAndEndBytes(startBytes, endBytes, fileLength);
-        var ipAddressUri = await fileUri.GetIpAddressUriAsync(cancellationToken).ConfigureAwait(false);
+        var ipAddressUri = await fileUri.GetIpAddressUriAsync().ConfigureAwait(false);
 
         var retryTimes = 0;
         var autoRetryTimesOnNetworkError = autoRetryOptions.RetryTimesOnNetworkError;
@@ -152,9 +151,9 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         {
             try
             {
-                return await CoreAsync(httpClient, fileUri, startBytes, endBytes + (startBytes.HasValue ? -1 : 0),
-                    autoRetryOptions, mediaType, fileLength, fileLastModifiedTime, ipAddressUri, cancellationToken)
-                    .ConfigureAwait(false);
+                return await CoreAsync(httpClient, fileUri, ipAddressUri, startBytes,
+                        endBytes + (startBytes.HasValue ? -1 : 0), autoRetryOptions, mediaType, fileLength,
+                        fileLastModifiedTime, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e) when(e is HttpRequestException or SocketException or HttpIOException or IOException)
             {
@@ -165,8 +164,8 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
         }
 
         static async Task<SingleFileHttpPartialDownloadStream> CoreAsync(HttpClient httpClient, Uri fileUri,
-            long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions, string? mediaType, long? fileLength,
-            DateTimeOffset? fileLastModifiedTime, Uri ipAddressUri, CancellationToken cancellationToken = default)
+            Uri ipAddressUri, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions, string? mediaType,
+            long? fileLength, DateTimeOffset? fileLastModifiedTime, CancellationToken cancellationToken = default)
         {
             var responseMessage = await httpClient.GetPartialAsync(ipAddressUri, fileUri.Host, startBytes, endBytes,
                 mediaType, cancellationToken).ConfigureAwait(false);
@@ -716,199 +715,212 @@ internal sealed class SingleFileHttpPartialDownloadStream : HttpPartialDownloadS
 
     #region 重载方法
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        AutoRetryOptions autoRetryOptions)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, AutoRetryOptions autoRetryOptions)
         => GetInstance(httpClient, fileUri, null, null, autoRetryOptions, null, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri)
         => GetInstance(httpClient, fileUri, null, null, new AutoRetryOptions(), null, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions)
         => GetInstance(httpClient, fileUri, startBytes, endBytes, autoRetryOptions, null, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes)
         => GetInstance(httpClient, fileUri, startBytes, endBytes, new AutoRetryOptions(), null, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes, AutoRetryOptions autoRetryOptions)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, AutoRetryOptions autoRetryOptions)
         => GetInstance(httpClient, fileUri, startBytes, null, autoRetryOptions, null, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes)
         => GetInstance(httpClient, fileUri, startBytes, null, new AutoRetryOptions(), null, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions, string? mediaType)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions,
+        string? mediaType)
         => GetInstance(httpClient, fileUri, startBytes, endBytes, autoRetryOptions, mediaType, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, string? mediaType)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, string? mediaType)
         => GetInstance(httpClient, fileUri, startBytes, endBytes, new AutoRetryOptions(), mediaType, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes, AutoRetryOptions autoRetryOptions, string? mediaType)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, AutoRetryOptions autoRetryOptions, string? mediaType)
         => GetInstance(httpClient, fileUri, startBytes, null, autoRetryOptions, mediaType, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes, string? mediaType)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, string? mediaType)
         => GetInstance(httpClient, fileUri, startBytes, null, new AutoRetryOptions(), mediaType, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        AutoRetryOptions autoRetryOptions, string? mediaType)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, AutoRetryOptions autoRetryOptions, string? mediaType)
         => GetInstance(httpClient, fileUri, null, null, autoRetryOptions, mediaType, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri, string? mediaType)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, string? mediaType)
         => GetInstance(httpClient, fileUri, null, null, new AutoRetryOptions(), mediaType, null, null);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        string? mediaType, long? fileLength, AutoRetryOptions autoRetryOptions, DateTimeOffset? fileLastModifiedTime)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, string? mediaType, long? fileLength, AutoRetryOptions autoRetryOptions,
+        DateTimeOffset? fileLastModifiedTime)
         => GetInstance(httpClient, fileUri, null, null, autoRetryOptions, mediaType, fileLength, fileLastModifiedTime);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        string? mediaType, long? fileLength, DateTimeOffset? fileLastModifiedTime)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, string? mediaType, long? fileLength, DateTimeOffset? fileLastModifiedTime)
         => GetInstance(httpClient, fileUri, null, null, new AutoRetryOptions(), mediaType, fileLength,
             fileLastModifiedTime);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions, long? fileLength,
-        DateTimeOffset? fileLastModifiedTime)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions,
+        long? fileLength, DateTimeOffset? fileLastModifiedTime)
         => GetInstance(httpClient, fileUri, startBytes, endBytes, autoRetryOptions, null, fileLength,
             fileLastModifiedTime);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, long? fileLength, DateTimeOffset? fileLastModifiedTime)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, long? fileLength,
+        DateTimeOffset? fileLastModifiedTime)
         => GetInstance(httpClient, fileUri, startBytes, endBytes, new AutoRetryOptions(), null, fileLength,
             fileLastModifiedTime);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? startBytes, AutoRetryOptions autoRetryOptions, long? fileLength, DateTimeOffset? fileLastModifiedTime)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, AutoRetryOptions autoRetryOptions, long? fileLength,
+        DateTimeOffset? fileLastModifiedTime)
         => GetInstance(httpClient, fileUri, startBytes, null, autoRetryOptions, null, fileLength, fileLastModifiedTime);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri,
-        long? fileLength, DateTimeOffset? fileLastModifiedTime)
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? fileLength, DateTimeOffset? fileLastModifiedTime)
         => GetInstance(httpClient, fileUri, null, null, new AutoRetryOptions(), null, fileLength, fileLastModifiedTime);
 
-    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient, Uri fileUri, long? startBytes,
-        long? endBytes, string? mediaType, long? fileLength,
+    public static SingleFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, string? mediaType, long? fileLength,
         DateTimeOffset? fileLastModifiedTime)
         => GetInstance(httpClient, fileUri, startBytes, endBytes, new AutoRetryOptions(), mediaType, fileLength,
             fileLastModifiedTime);
 
 
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        AutoRetryOptions autoRetryOptions, CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, AutoRetryOptions autoRetryOptions,
+        CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, null, null, autoRetryOptions, null, null, null, cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, null, null, new AutoRetryOptions(), null, null, null,
             cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions,
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions,
         CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, endBytes, autoRetryOptions,
             null, null, null, cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes,
+        CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, endBytes, new AutoRetryOptions(), null, null, null,
             cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, AutoRetryOptions autoRetryOptions, CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, AutoRetryOptions autoRetryOptions,
+        CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, null, autoRetryOptions, null, null, null,
             cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, null, new AutoRetryOptions(), null, null, null,
             cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions, string? mediaType,
-        CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions,
+        string? mediaType, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, endBytes, autoRetryOptions, mediaType, null, null,
             cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, string? mediaType, CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, string? mediaType,
+        CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, endBytes, new AutoRetryOptions(), mediaType, null, null,
             cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, AutoRetryOptions autoRetryOptions, string? mediaType,
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, AutoRetryOptions autoRetryOptions, string? mediaType,
         CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, null, autoRetryOptions, mediaType, null, null,
             cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, string? mediaType, CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, string? mediaType,
+        CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, null, new AutoRetryOptions(), mediaType, null, null,
             cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        AutoRetryOptions autoRetryOptions, string? mediaType, CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, AutoRetryOptions autoRetryOptions, string? mediaType,
+        CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, null, null, autoRetryOptions, mediaType, null, null,
             cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        string? mediaType, CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, string? mediaType, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, null, null, new AutoRetryOptions(), mediaType, null, null,
             cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        AutoRetryOptions autoRetryOptions, string? mediaType, long? fileLength, DateTimeOffset? fileLastModifiedTime,
-        CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, AutoRetryOptions autoRetryOptions, string? mediaType, long? fileLength,
+        DateTimeOffset? fileLastModifiedTime, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, null, null, autoRetryOptions, mediaType, fileLength,
             fileLastModifiedTime, cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        string? mediaType, long? fileLength, DateTimeOffset? fileLastModifiedTime,
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, string? mediaType, long? fileLength, DateTimeOffset? fileLastModifiedTime,
         CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, null, null, new AutoRetryOptions(), mediaType, fileLength,
             fileLastModifiedTime, cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions, long? fileLength,
-        DateTimeOffset? fileLastModifiedTime, CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions,
+        long? fileLength, DateTimeOffset? fileLastModifiedTime, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, endBytes, autoRetryOptions, null, fileLength,
             fileLastModifiedTime, cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, long? fileLength, DateTimeOffset? fileLastModifiedTime,
-        CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, long? fileLength,
+        DateTimeOffset? fileLastModifiedTime, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, endBytes, new AutoRetryOptions(), null, fileLength,
             fileLastModifiedTime, cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, AutoRetryOptions autoRetryOptions, long? fileLength, DateTimeOffset? fileLastModifiedTime,
-        CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, AutoRetryOptions autoRetryOptions, long? fileLength,
+        DateTimeOffset? fileLastModifiedTime, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, null, autoRetryOptions, null, fileLength,
             fileLastModifiedTime, cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? fileLength, DateTimeOffset? fileLastModifiedTime,
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? fileLength, DateTimeOffset? fileLastModifiedTime,
         CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, null, new AutoRetryOptions(), null, fileLength,
             fileLastModifiedTime, cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        AutoRetryOptions autoRetryOptions, long? fileLength, DateTimeOffset? fileLastModifiedTime,
-        CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, AutoRetryOptions autoRetryOptions, long? fileLength,
+        DateTimeOffset? fileLastModifiedTime, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, null, null, autoRetryOptions, null, fileLength, fileLastModifiedTime,
             cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? fileLength, DateTimeOffset? fileLastModifiedTime, CancellationToken cancellationToken = default)
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? fileLength, DateTimeOffset? fileLastModifiedTime,
+        CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, null, null, new AutoRetryOptions(), null, fileLength,
             fileLastModifiedTime, cancellationToken);
 
-    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient, Uri fileUri,
-        long? startBytes, long? endBytes, string? mediaType, long? fileLength,
+    public static Task<SingleFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
+        HttpPartialDownloadStreamUri fileUri, long? startBytes, long? endBytes, string? mediaType, long? fileLength,
         DateTimeOffset? fileLastModifiedTime, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUri, startBytes, endBytes, new AutoRetryOptions(), mediaType, fileLength,
             fileLastModifiedTime, cancellationToken);

@@ -15,14 +15,14 @@ public class SingleFileZipFileDownloadFactory(HttpClient httpClient) : IZipFileD
     [StringSyntax(StringSyntaxAttribute.Uri)]
     public string? ZipFileUrl
     {
-        get => ZipFileUri?.ToString();
-        set => ZipFileUri = value == null ? null : new Uri(value);
+        get => _zipFileUri?.ToString();
+        set => _zipFileUri = value == null ? null : new HttpPartialDownloadStreamUri(value, _httpPartialDnsResolve);
     }
 
     /// <summary>
     /// ZIP文件URL的URI对象。
     /// </summary>
-    public Uri? ZipFileUri { get; set; }
+    public Uri? ZipFileUri => _zipFileUri?.Uri;
 
     /// <summary>
     /// 获取或设置一个一个返回<see cref="RateLimiterOption"/>实例的委托，表示按字节下载限速的限速器的选项。
@@ -35,6 +35,16 @@ public class SingleFileZipFileDownloadFactory(HttpClient httpClient) : IZipFileD
     public AutoRetryOptions AutoRetryOptions { get; } = new();
 
     /// <summary>
+    /// ZIP文件URL（内部，<see cref="HttpPartialDownloadStreamUri"/>类型）。
+    /// </summary>
+    private HttpPartialDownloadStreamUri? _zipFileUri;
+
+    /// <summary>
+    /// 一个<see cref="HttpPartialDnsResolve"/>的实例，用于DNS解析、IP地址测试和缓存。
+    /// </summary>
+    private readonly HttpPartialDnsResolve _httpPartialDnsResolve = new();
+
+    /// <summary>
     /// 获取一个用于单文件下载的<see cref="ZipFileDownload"/>类的新实例。
     /// </summary>
     /// <returns><see cref="ZipFileDownload"/>的实例</returns>
@@ -42,6 +52,6 @@ public class SingleFileZipFileDownloadFactory(HttpClient httpClient) : IZipFileD
     public ZipFileDownload GetInstance()
         => new(async (startBytes, endBytes) =>
             await SingleFileHttpPartialDownloadStream.GetInstanceAsync(httpClient,
-                ZipFileUri ?? throw new InvalidOperationException(), startBytes, endBytes, AutoRetryOptions,
+                _zipFileUri ?? throw new InvalidOperationException(), startBytes, endBytes, AutoRetryOptions,
                 ZipFileDownload.MediaType).ConfigureAwait(false), DownloadBytesRateLimiterOptionBuilder);
 }

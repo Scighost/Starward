@@ -3,12 +3,13 @@ using System.Net.Http.Headers;
 
 namespace Starward.Core.ZipStreamDownload.Http;
 
-internal class VolumesFileHttpPartialDownloadStream : HttpPartialDownloadStream
+internal sealed class VolumesFileHttpPartialDownloadStream : HttpPartialDownloadStream
 {
-    public class SingleFileInit(Uri fileUri, long? fileLength = null, DateTimeOffset? fileLastModifiedTime = null)
+    public class SingleFileInit(HttpPartialDownloadStreamUri fileUri, long? fileLength = null,
+        DateTimeOffset? fileLastModifiedTime = null)
     {
 
-        public Uri FileUri { get; } = fileUri;
+        public HttpPartialDownloadStreamUri FileUri { get; } = fileUri;
 
         public long? FileLength { get; } = fileLength;
 
@@ -348,38 +349,39 @@ internal class VolumesFileHttpPartialDownloadStream : HttpPartialDownloadStream
         => GetInstance(httpClient, files, null, null, new AutoRetryOptions(), null);
 
     public static VolumesFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions,
-        string? mediaType)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, long? startBytes, long? endBytes,
+        AutoRetryOptions autoRetryOptions, string? mediaType)
         => GetInstance(httpClient, fileUris.Select(f => new SingleFileInit(f)), startBytes, endBytes, autoRetryOptions,
             mediaType);
 
     public static VolumesFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, long? startBytes, long? endBytes, string? mediaType)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, long? startBytes, long? endBytes, string? mediaType)
         => GetInstance(httpClient, fileUris.Select(f => new SingleFileInit(f)), startBytes, endBytes,
             new AutoRetryOptions(), mediaType);
 
     public static VolumesFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, long? startBytes, long? endBytes,
+        AutoRetryOptions autoRetryOptions)
         => GetInstance(httpClient, fileUris, startBytes, endBytes, autoRetryOptions, null);
 
     public static VolumesFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, long? startBytes, long? endBytes)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, long? startBytes, long? endBytes)
         => GetInstance(httpClient, fileUris, startBytes, endBytes, new AutoRetryOptions(), null);
 
     public static VolumesFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, AutoRetryOptions autoRetryOptions, string? mediaType)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, AutoRetryOptions autoRetryOptions, string? mediaType)
         => GetInstance(httpClient, fileUris, null, null, autoRetryOptions, mediaType);
 
     public static VolumesFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, string? mediaType)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, string? mediaType)
         => GetInstance(httpClient, fileUris, null, null, new AutoRetryOptions(), mediaType);
 
     public static VolumesFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, AutoRetryOptions autoRetryOptions)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, AutoRetryOptions autoRetryOptions)
         => GetInstance(httpClient, fileUris, null, null, autoRetryOptions, null);
 
     public static VolumesFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
-        IEnumerable<Uri> fileUris)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris)
         => GetInstance(httpClient, fileUris, null, null, new AutoRetryOptions(), null);
 
     public static VolumesFileHttpPartialDownloadStream GetInstance(HttpClient httpClient,
@@ -417,42 +419,45 @@ internal class VolumesFileHttpPartialDownloadStream : HttpPartialDownloadStream
         => GetInstanceAsync(httpClient, files, null, null, new AutoRetryOptions(), null, cancellationToken);
 
     public static Task<VolumesFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions,
-        string? mediaType, CancellationToken cancellationToken = default)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, long? startBytes, long? endBytes,
+        AutoRetryOptions autoRetryOptions, string? mediaType, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUris.Select(f => new SingleFileInit(f)), startBytes, endBytes,
             autoRetryOptions, mediaType, cancellationToken);
 
     public static Task<VolumesFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, long? startBytes, long? endBytes, string? mediaType,
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, long? startBytes, long? endBytes, string? mediaType,
         CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUris.Select(f => new SingleFileInit(f)), startBytes, endBytes,
             new AutoRetryOptions(), mediaType, cancellationToken);
 
     public static Task<VolumesFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, long? startBytes, long? endBytes, AutoRetryOptions autoRetryOptions,
-        CancellationToken cancellationToken = default)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, long? startBytes, long? endBytes,
+        AutoRetryOptions autoRetryOptions, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUris, startBytes, endBytes, autoRetryOptions, null, cancellationToken);
 
     public static Task<VolumesFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, long? startBytes, long? endBytes, CancellationToken cancellationToken = default)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, long? startBytes, long? endBytes,
+        CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUris, startBytes, endBytes, new AutoRetryOptions(), null,
             cancellationToken);
 
     public static Task<VolumesFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, AutoRetryOptions autoRetryOptions, string? mediaType,
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, AutoRetryOptions autoRetryOptions, string? mediaType,
         CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUris, null, null, autoRetryOptions, mediaType, cancellationToken);
 
     public static Task<VolumesFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, string? mediaType, CancellationToken cancellationToken = default)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, string? mediaType,
+        CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUris, null, null, new AutoRetryOptions(), mediaType, cancellationToken);
 
     public static Task<VolumesFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, AutoRetryOptions autoRetryOptions, CancellationToken cancellationToken = default)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, AutoRetryOptions autoRetryOptions,
+        CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUris, null, null, autoRetryOptions, null, cancellationToken);
 
     public static Task<VolumesFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,
-        IEnumerable<Uri> fileUris, CancellationToken cancellationToken = default)
+        IEnumerable<HttpPartialDownloadStreamUri> fileUris, CancellationToken cancellationToken = default)
         => GetInstanceAsync(httpClient, fileUris, null, null, new AutoRetryOptions(), null, cancellationToken);
 
     public static Task<VolumesFileHttpPartialDownloadStream> GetInstanceAsync(HttpClient httpClient,

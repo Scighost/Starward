@@ -14,15 +14,16 @@ public class VolumesFileZipFileDownloadFactory(HttpClient httpClient) : IZipFile
     /// <remarks>必须按照分卷顺序传入。</remarks>
     public List<string>? ZipFileUrlList
     {
-        get => ZipFileUriList?.Select(u => u.ToString()).ToList();
-        set => ZipFileUriList = value?.Select(u => new Uri(u)).ToList();
+        get => _zipFileUriList?.Select(u => u.ToString()).ToList();
+        set => _zipFileUriList = value?.Select(u => new HttpPartialDownloadStreamUri(u, _httpPartialDnsResolve))
+            .ToList();
     }
 
     /// <summary>
     /// 分卷ZIP文件的URL的URI对象的列表。
     /// </summary>
     /// <remarks>必须按照分卷顺序传入。</remarks>
-    public List<Uri>? ZipFileUriList { get; set; }
+    public List<Uri>? ZipFileUriList => _zipFileUriList?.Select(u => u.Uri).ToList();
 
     /// <summary>
     /// ZIP文件URL的URI对象。
@@ -32,7 +33,7 @@ public class VolumesFileZipFileDownloadFactory(HttpClient httpClient) : IZipFile
     {
         get
         {
-            var url = ZipFileUriList?.FirstOrDefault()?.ToString();
+            var url = _zipFileUriList?.FirstOrDefault()?.ToString();
             if (url == null) return null;
             var querySplit = url.IndexOf('?'); //去除Query。
             var query = "";
@@ -57,6 +58,16 @@ public class VolumesFileZipFileDownloadFactory(HttpClient httpClient) : IZipFile
     public AutoRetryOptions AutoRetryOptions { get; } = new();
 
     /// <summary>
+    /// 分卷ZIP文件的URL的URI对象的列表（内部，<see cref="HttpPartialDownloadStreamUri"/>类型）。
+    /// </summary>
+    private List<HttpPartialDownloadStreamUri>? _zipFileUriList;
+
+    /// <summary>
+    /// 一个<see cref="HttpPartialDnsResolve"/>的实例，用于DNS解析、IP地址测试和缓存。
+    /// </summary>
+    private readonly HttpPartialDnsResolve _httpPartialDnsResolve = new();
+
+    /// <summary>
     /// 获取一个用于分卷文件下载的<see cref="ZipFileDownload"/>类的新实例。
     /// </summary>
     /// <returns><see cref="ZipFileDownload"/>的实例</returns>
@@ -64,6 +75,6 @@ public class VolumesFileZipFileDownloadFactory(HttpClient httpClient) : IZipFile
     public ZipFileDownload GetInstance()
         => new(async (startBytes, endBytes) =>
             await VolumesFileHttpPartialDownloadStream.GetInstanceAsync(httpClient,
-                ZipFileUriList ?? throw new InvalidOperationException(), startBytes, endBytes, AutoRetryOptions,
+                _zipFileUriList ?? throw new InvalidOperationException(), startBytes, endBytes, AutoRetryOptions,
                 ZipFileDownload.MediaType).ConfigureAwait(false), DownloadBytesRateLimiterOptionBuilder);
 }
