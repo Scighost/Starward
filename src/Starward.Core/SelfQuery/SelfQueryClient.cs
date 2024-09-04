@@ -95,7 +95,7 @@ public class SelfQueryClient
             }
             if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html"))
             {
-                prefixUrl = "https://api-os-takumi.hoyoverse.com";
+                prefixUrl = "https://public-operation-hkrpg-sg.hoyoverse.com";
             }
             if (string.IsNullOrWhiteSpace(prefixUrl))
             {
