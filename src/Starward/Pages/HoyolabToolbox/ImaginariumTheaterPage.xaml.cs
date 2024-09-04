@@ -161,6 +161,7 @@ public sealed partial class ImaginariumTheaterPage : PageBase
             1 => Lang.ImaginariumTheaterPage_EasyMode,
             2 => Lang.ImaginariumTheaterPage_NormalMode,
             3 => Lang.ImaginariumTheaterPage_HardMode,
+            4 => Lang.ImaginariumTheaterPage_VisionaryMode,
             _ => "",
         };
     }
@@ -199,6 +200,7 @@ public sealed partial class ImaginariumTheaterPage : PageBase
     private static BitmapImage Medal1;
     private static BitmapImage Medal2;
     private static BitmapImage Medal3;
+    private static BitmapImage Medal4;
 
     public static BitmapImage? HeraldryImage(int heraldry)
     {
@@ -208,6 +210,7 @@ public sealed partial class ImaginariumTheaterPage : PageBase
             1 => Medal1 ?? new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_1.png")),
             2 => Medal2 ?? new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_2.png")),
             3 => Medal3 ?? new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_3.png")),
+            4 => Medal4 ?? new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_4.png")),
             _ => null,
         };
     }
@@ -222,7 +225,30 @@ public sealed partial class ImaginariumTheaterPage : PageBase
             1 => "3",
             2 => "6",
             3 => "8",
+            4 => "10",
             _ => "-",
+        };
+    }
+
+
+
+    public static Visibility IsBrilliantBlessingVisibility(int? level)
+    {
+        return level switch
+        {
+            null or 0 => Visibility.Collapsed,
+            _ => Visibility.Visible,
+        };
+    }
+
+
+
+    public static double BrilliantBlessingBuffOpacity(int level)
+    {
+        return level switch
+        {
+            0 => 0.3,
+            _ => 1,
         };
     }
 

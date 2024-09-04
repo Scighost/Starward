@@ -122,11 +122,11 @@
                         <Image Grid.Row="1"
                                Width="20"
                                Height="20"
-                               Margin="56,0,0,0"
+                               Margin="64,0,0,0"
                                HorizontalAlignment="Left"
                                Source="{StaticResource StarIcon_1}" />
                         <TextBlock Grid.Row="1"
-                                   Margin="80,0,0,2"
+                                   Margin="88,0,0,2"
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    IsTextScaleFactorEnabled="False">
@@ -140,7 +140,7 @@
         <ScrollViewer Grid.RowSpan="2"
                       Grid.Column="1"
                       Visibility="{x:Bind CurrentTheater, Converter={StaticResource ObjectToVisibilityConverter}}">
-            <StackPanel Margin="24" Spacing="8">
+            <StackPanel Margin="12,24,24,24" Spacing="8">
                 <Grid>
                     <!--  统计周期  -->
                     <TextBlock HorizontalAlignment="Right" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
@@ -384,7 +384,8 @@
                       Background="{ThemeResource CustomOverlayAcrylicBrush}"
                       CornerRadius="8"
                       Shadow="{ThemeResource ThemeShadow}"
-                      Translation="0,0,16">
+                      Translation="0,0,16"
+                      Visibility="{x:Bind CurrentTheater.Detail.RoundsData, Converter={StaticResource CollectionToVisibilityConverter}}">
                     <ItemsRepeater ItemsSource="{x:Bind CurrentTheater.Detail.RoundsData}">
                         <ItemsRepeater.Layout>
                             <StackLayout Spacing="16" />
@@ -422,13 +423,14 @@
                                     <!--  阵容  -->
                                     <ItemsRepeater Grid.Row="1"
                                                    HorizontalAlignment="Left"
+                                                   VerticalAlignment="Top"
                                                    ItemsSource="{x:Bind Avatars}">
                                         <ItemsRepeater.Layout>
                                             <StackLayout Orientation="Horizontal" Spacing="12" />
                                         </ItemsRepeater.Layout>
                                         <ItemsRepeater.ItemTemplate>
                                             <DataTemplate x:DataType="scggi:ImaginariumTheaterAvatar">
-                                                <Grid Width="80">
+                                                <Grid Width="80" Height="97">
                                                     <sc:CachedImage IsCacheEnabled="True" Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
                                                     <sc:CachedImage VerticalAlignment="Top"
                                                                     CornerRadius="0,0,12,0"
@@ -448,97 +450,199 @@
                                     </ItemsRepeater>
                                     <!--  Buff  -->
                                     <StackPanel Grid.Row="1"
-                                                Grid.RowSpan="2"
                                                 Grid.Column="1"
                                                 HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                Spacing="4">
+                                                VerticalAlignment="Top"
+                                                Spacing="8">
+                                        <!--  辉彩祝福  -->
+                                        <Grid RowSpacing="4" Visibility="{x:Bind local:ImaginariumTheaterPage.IsBrilliantBlessingVisibility(SplendourBuff.Summary.TotalLevel)}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock VerticalAlignment="Center"
+                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                       Text="{x:Bind lang:Lang.ImaginariumTheaterPage_BrilliantBlessing}" />
+                                            <sc:ColorfulTextBlock Grid.Row="1"
+                                                                  FontSize="12"
+                                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                  Text="{x:Bind SplendourBuff.Summary.Desc}"
+                                                                  TextWrapping="Wrap" />
+                                            <StackPanel Grid.Row="2"
+                                                        Orientation="Horizontal"
+                                                        Spacing="16">
+                                                <StackPanel>
+                                                    <Image Width="32"
+                                                           Height="32"
+                                                           Source="ms-appx:///Assets/Image/UI_Icon_RoleCombat_Buff_Blessing_LevelUp.png" />
+                                                    <TextBlock HorizontalAlignment="Center"
+                                                               FontSize="12"
+                                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                                        <Run Text="Lv." /><Run Text="{x:Bind SplendourBuff.Summary.TotalLevel}" />
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                <ItemsControl ItemsSource="{x:Bind SplendourBuff.Buffs}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Horizontal" Spacing="16" />
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate x:DataType="scggi:ImaginariumTheaterSplendourBuffItem">
+                                                            <StackPanel>
+                                                                <sc:CachedImage Width="32"
+                                                                                Height="32"
+                                                                                Opacity="{x:Bind local:ImaginariumTheaterPage.BrilliantBlessingBuffOpacity(Level)}"
+                                                                                Source="{x:Bind Icon}">
+                                                                    <ToolTipService.ToolTip>
+                                                                        <ToolTip>
+                                                                            <StackPanel Margin="8" Spacing="12">
+                                                                                <StackPanel Orientation="Horizontal" Spacing="12">
+                                                                                    <sc:CachedImage Width="32"
+                                                                                                    Height="32"
+                                                                                                    Source="{x:Bind Icon}" />
+                                                                                    <TextBlock HorizontalAlignment="Center"
+                                                                                               VerticalAlignment="Center"
+                                                                                               FontSize="14"
+                                                                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                                                                        <Run Text="Lv." /><Run Text="{x:Bind Level}" />
+                                                                                    </TextBlock>
+                                                                                    <TextBlock VerticalAlignment="Center"
+                                                                                               FontSize="14"
+                                                                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                                               Text="{x:Bind Name}" />
+                                                                                </StackPanel>
+                                                                                <ItemsControl ItemsSource="{x:Bind LevelEffect}">
+                                                                                    <ItemsControl.ItemsPanel>
+                                                                                        <ItemsPanelTemplate>
+                                                                                            <StackPanel Spacing="12" />
+                                                                                        </ItemsPanelTemplate>
+                                                                                    </ItemsControl.ItemsPanel>
+                                                                                    <ItemsControl.ItemTemplate>
+                                                                                        <DataTemplate x:DataType="scggi:ImaginariumTheaterSplendourBuffEffect">
+                                                                                            <Grid ColumnSpacing="8">
+                                                                                                <Grid.ColumnDefinitions>
+                                                                                                    <ColumnDefinition Width="Auto" />
+                                                                                                    <ColumnDefinition />
+                                                                                                </Grid.ColumnDefinitions>
+                                                                                                <TextBlock FontSize="12"
+                                                                                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                                                           Text="●" />
+                                                                                                <sc:ColorfulTextBlock Grid.Column="1"
+                                                                                                                      FontSize="12"
+                                                                                                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                                                                      Text="{x:Bind Desc}"
+                                                                                                                      TextWrapping="Wrap" />
+                                                                                            </Grid>
+                                                                                        </DataTemplate>
+                                                                                    </ItemsControl.ItemTemplate>
+                                                                                </ItemsControl>
+                                                                            </StackPanel>
+                                                                        </ToolTip>
+                                                                    </ToolTipService.ToolTip>
+                                                                </sc:CachedImage>
+                                                                <TextBlock HorizontalAlignment="Center"
+                                                                           FontSize="12"
+                                                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                                                    <Run Text="Lv." /><Run Text="{x:Bind Level}" />
+                                                                </TextBlock>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                        </Grid>
                                         <!--  奇妙助益  -->
-                                        <TextBlock HorizontalAlignment="Left"
-                                                   FontSize="12"
-                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                   Visibility="{x:Bind Buffs, Converter={StaticResource CollectionToVisibilityConverter}}">
-                                            <Run Text="{x:Bind lang:Lang.ImaginariumTheaterPage_WondrousBoon}" />
-                                            <Run Text="" />
-                                            <Run Text="x" />
-                                            <Run Text="{x:Bind Buffs.Count}" />
-                                        </TextBlock>
-                                        <ItemsControl HorizontalAlignment="Left" ItemsSource="{x:Bind Buffs}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal" Spacing="4" />
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate x:DataType="scggi:ImaginariumTheaterBuff">
-                                                    <sc:CachedImage Width="24"
-                                                                    Height="24"
-                                                                    Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
-                                                                    CornerRadius="24"
-                                                                    Source="{x:Bind Icon}">
-                                                        <ToolTipService.ToolTip>
-                                                            <StackPanel MaxWidth="220" Margin="8">
-                                                                <sc:CachedImage Width="60"
-                                                                                Height="60"
-                                                                                Source="{x:Bind Icon}" />
-                                                                <TextBlock Margin="0,8,0,0"
-                                                                           HorizontalAlignment="Center"
-                                                                           FontSize="16"
-                                                                           Text="{x:Bind Name}" />
-                                                                <sc:ColorfulTextBlock Margin="0,12,0,0"
-                                                                                      FontSize="14"
-                                                                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                                                      Text="{x:Bind Desc}"
-                                                                                      TextWrapping="Wrap" />
-                                                            </StackPanel>
-                                                        </ToolTipService.ToolTip>
-                                                    </sc:CachedImage>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                        <Grid RowSpacing="4" Visibility="{x:Bind Buffs, Converter={StaticResource CollectionToVisibilityConverter}}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                                <Run Text="{x:Bind lang:Lang.ImaginariumTheaterPage_WondrousBoon}" />
+                                                <Run Text="" />
+                                                <Run Text="x" />
+                                                <Run Text="{x:Bind Buffs.Count}" />
+                                            </TextBlock>
+                                            <ItemsControl Grid.Row="1" ItemsSource="{x:Bind Buffs}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" Spacing="4" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="scggi:ImaginariumTheaterBuff">
+                                                        <sc:CachedImage Width="32"
+                                                                        Height="32"
+                                                                        Source="{x:Bind Icon}">
+                                                            <ToolTipService.ToolTip>
+                                                                <StackPanel MaxWidth="220" Margin="8">
+                                                                    <sc:CachedImage Width="60"
+                                                                                    Height="60"
+                                                                                    Source="{x:Bind Icon}" />
+                                                                    <TextBlock Margin="0,8,0,0"
+                                                                               HorizontalAlignment="Center"
+                                                                               FontSize="16"
+                                                                               Text="{x:Bind Name}" />
+                                                                    <sc:ColorfulTextBlock Margin="0,12,0,0"
+                                                                                          FontSize="14"
+                                                                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                                          Text="{x:Bind Desc}"
+                                                                                          TextWrapping="Wrap" />
+                                                                </StackPanel>
+                                                            </ToolTipService.ToolTip>
+                                                        </sc:CachedImage>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
                                         <!--  神秘收获  -->
-                                        <TextBlock HorizontalAlignment="Left"
-                                                   FontSize="12"
-                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                   Visibility="{x:Bind ChoiceCards, Converter={StaticResource CollectionToVisibilityConverter}}">
-                                            <Run Text="{x:Bind lang:Lang.ImaginariumTheaterPage_MysteryCache}" />
-                                            <Run Text="" />
-                                            <Run Text="x" />
-                                            <Run Text="{x:Bind ChoiceCards.Count}" />
-                                        </TextBlock>
-                                        <ItemsControl HorizontalAlignment="Left" ItemsSource="{x:Bind ChoiceCards}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal" Spacing="4" />
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate x:DataType="scggi:ImaginariumTheaterBuff">
-                                                    <sc:CachedImage Width="24"
-                                                                    Height="24"
-                                                                    Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
-                                                                    CornerRadius="24"
-                                                                    Source="{x:Bind Icon}">
-                                                        <ToolTipService.ToolTip>
-                                                            <StackPanel MaxWidth="220" Margin="8">
-                                                                <sc:CachedImage Width="60"
-                                                                                Height="60"
-                                                                                Source="{x:Bind Icon}" />
-                                                                <TextBlock Margin="0,8,0,0"
-                                                                           HorizontalAlignment="Center"
-                                                                           FontSize="16"
-                                                                           Text="{x:Bind Name}" />
-                                                                <sc:ColorfulTextBlock Margin="0,12,0,0"
-                                                                                      FontSize="14"
-                                                                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                                                      Text="{x:Bind Desc}"
-                                                                                      TextWrapping="Wrap" />
-                                                            </StackPanel>
-                                                        </ToolTipService.ToolTip>
-                                                    </sc:CachedImage>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                        <Grid RowSpacing="4" Visibility="{x:Bind ChoiceCards, Converter={StaticResource CollectionToVisibilityConverter}}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                                <Run Text="{x:Bind lang:Lang.ImaginariumTheaterPage_MysteryCache}" />
+                                                <Run Text="" />
+                                                <Run Text="x" />
+                                                <Run Text="{x:Bind ChoiceCards.Count}" />
+                                            </TextBlock>
+                                            <ItemsControl Grid.Row="1"
+                                                          HorizontalAlignment="Left"
+                                                          ItemsSource="{x:Bind ChoiceCards}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" Spacing="4" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="scggi:ImaginariumTheaterBuff">
+                                                        <sc:CachedImage Width="32"
+                                                                        Height="32"
+                                                                        Source="{x:Bind Icon}">
+                                                            <ToolTipService.ToolTip>
+                                                                <StackPanel MaxWidth="220" Margin="8">
+                                                                    <sc:CachedImage Width="60"
+                                                                                    Height="60"
+                                                                                    Source="{x:Bind Icon}" />
+                                                                    <TextBlock Margin="0,8,0,0"
+                                                                               HorizontalAlignment="Center"
+                                                                               FontSize="16"
+                                                                               Text="{x:Bind Name}" />
+                                                                    <sc:ColorfulTextBlock Margin="0,12,0,0"
+                                                                                          FontSize="14"
+                                                                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                                          Text="{x:Bind Desc}"
+                                                                                          TextWrapping="Wrap" />
+                                                                </StackPanel>
+                                                            </ToolTipService.ToolTip>
+                                                        </sc:CachedImage>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
