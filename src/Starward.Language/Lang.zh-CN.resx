@@ -1573,4 +1573,10 @@
   <data name="ImaginariumTheaterPage_MysteryCache" xml:space="preserve">
     <value>神秘收获</value>
   </data>
+  <data name="ImaginariumTheaterPage_VisionaryMode" xml:space="preserve">
+    <value>卓越模式</value>
+  </data>
+  <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
+    <value>辉彩祝福</value>
+  </data>
 </root>
