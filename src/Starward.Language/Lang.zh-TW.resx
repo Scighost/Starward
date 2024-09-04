@@ -1336,7 +1336,7 @@
     <value>驗證成功！</value>
   </data>
   <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
-    <value>｛0｝個檔案驗證失敗</value>
+    <value>{0} 個檔案驗證失敗</value>
   </data>
   <data name="LauncherPage_ReinstallGame" xml:space="preserve">
     <value>重新安裝遊戲</value>
@@ -1572,5 +1572,11 @@
   </data>
   <data name="ImaginariumTheaterPage_MysteryCache" xml:space="preserve">
     <value>神秘收穫</value>
+  </data>
+  <data name="ImaginariumTheaterPage_VisionaryMode" xml:space="preserve">
+    <value>Visionary Mode</value>
+  </data>
+  <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
+    <value>Brilliant Blessing</value>
   </data>
 </root>
