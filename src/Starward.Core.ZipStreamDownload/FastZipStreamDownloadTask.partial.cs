@@ -91,18 +91,21 @@ public partial class FastZipStreamDownload
     private async Task WaitExecuteEntryTasksAsync(IZipFileDownloadFactory zipFileDownloadFactory,
         bool extractFiles, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+        var existingFileVerifyThreadCount = Math.Min(_entryTaskCount, _existingFileVerifyThreadCount);
+        var downloadThreadCount = Math.Min(_entryTaskCount, _downloadThreadCount);
+        var extractAndCrcVerifyThreadCount = Math.Min(_entryTaskCount, _extractAndCrcVerifyThreadCount);
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
             using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             var taskList = new List<Task>(
-                _existingFileVerifyThreadCount + _downloadThreadCount + _extractAndCrcVerifyThreadCount);
-            for (var i = 0; i < _existingFileVerifyThreadCount; i++)
+                existingFileVerifyThreadCount + downloadThreadCount + extractAndCrcVerifyThreadCount);
+            for (var i = 0; i < existingFileVerifyThreadCount; i++)
                 taskList.Add(FileVerifyTaskMethod(cancellationTokenSource.Token));
-            for (var i = 0; i < _downloadThreadCount; i++)
+            for (var i = 0; i < downloadThreadCount; i++)
                 taskList.Add(EntryDownloadTaskMethod(zipFileDownloadFactory, EnableFullStreamDownload,
                     cancellationTokenSource.Token));
-            for (var i = 0; i < _extractAndCrcVerifyThreadCount; i++)
+            for (var i = 0; i < extractAndCrcVerifyThreadCount; i++)
                 taskList.Add(EntryExtractAndFileCrcVerifyTaskMethod(EnableFullStreamDownload, extractFiles,
                     cancellationTokenSource.Token));
             taskList.ForEach(t => t.ConfigureAwait(false).GetAwaiter().OnCompleted(() =>
