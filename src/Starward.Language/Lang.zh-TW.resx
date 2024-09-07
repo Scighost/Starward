@@ -1181,7 +1181,7 @@
     <value>資料夾</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>開啟日誌資料夾</value>
+    <value>開啟日誌文件</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
     <value>外觀</value>
