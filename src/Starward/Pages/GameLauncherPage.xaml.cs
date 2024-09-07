@@ -250,6 +250,10 @@ public sealed partial class GameLauncherPage : PageBase
 
 
     [ObservableProperty]
+    private bool isInstallPathRemovableTipEnabled;
+
+
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsStartGameButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsInstallGameButtonEnable))]
     [NotifyPropertyChangedFor(nameof(IsUpdateGameButtonEnable))]
@@ -306,6 +310,10 @@ public sealed partial class GameLauncherPage : PageBase
         try
         {
             InstallPath = _gameLauncherService.GetGameInstallPath(CurrentGameBiz);
+            if (AppConfig.GetGameInstallPathRemovable(CurrentGameBiz) && !Directory.Exists(InstallPath))
+            {
+                IsInstallPathRemovableTipEnabled = true;
+            }
             _logger.LogInformation("Game install path of {biz}: {path}", CurrentGameBiz, InstallPath);
             IsGameExeExists = _gameLauncherService.IsGameExeExists(CurrentGameBiz);
             LocalGameVersion = await _gameLauncherService.GetLocalGameVersionAsync(CurrentGameBiz);
@@ -1421,6 +1429,7 @@ public sealed partial class GameLauncherPage : PageBase
             }
             _logger.LogInformation("Change game install path ({biz}): {path}", CurrentGameBiz, folder);
             InstallPath = folder;
+            AppConfig.SetGameInstallPathRemovable(CurrentGameBiz, DriveHelper.IsDeviceRemovableOrOnUSB(folder));
             CheckGameVersion();
             UpdateGameState();
         }
@@ -1493,6 +1502,7 @@ public sealed partial class GameLauncherPage : PageBase
     private void DeleteGameInstallPath()
     {
         InstallPath = null;
+        AppConfig.SetGameInstallPathRemovable(CurrentGameBiz, false);
         CheckGameVersion();
     }
 

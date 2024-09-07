@@ -61,7 +61,15 @@ internal class GameResourceService
         }
         else
         {
-            AppConfig.SetGameInstallPath(biz, null);
+            if (!string.IsNullOrWhiteSpace(path) && AppConfig.GetGameInstallPathRemovable(biz))
+            {
+                return path;
+            }
+            else
+            {
+                AppConfig.SetGameInstallPath(biz, null);
+                AppConfig.SetGameInstallPathRemovable(biz, false);
+            }
             return null;
         }
     }

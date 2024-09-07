@@ -572,6 +572,16 @@ internal static class AppConfig
     }
 
 
+    public static bool GetGameInstallPathRemovable(GameBiz biz)
+    {
+        return GetValue<bool>(default, $"install_path_removable_{biz}");
+    }
+
+    public static void SetGameInstallPathRemovable(GameBiz biz, bool value)
+    {
+        SetValue(value, $"install_path_removable_{biz}");
+    }
+
 
     public static bool GetEnableThirdPartyTool(GameBiz biz)
     {
