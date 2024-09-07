@@ -55,6 +55,12 @@ public class ImaginariumTheaterRoundsData
     [JsonPropertyName("enemies")]
     public List<ImaginariumTheaterEnemy> Enemies { get; set; }
 
+    /// <summary>
+    /// 辉彩祝福
+    /// </summary>
+    [JsonPropertyName("splendour_buff")]
+    public ImaginariumTheaterSplendourBuff SplendourBuff { get; set; }
+
 
     [JsonExtensionData]
     public Dictionary<string, object>? ExtensionData { get; set; }
