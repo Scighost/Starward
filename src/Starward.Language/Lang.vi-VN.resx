@@ -1579,4 +1579,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
     <value>Chúc Phúc Rực Rỡ</value>
   </data>
+  <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
+    <value>Removable storage device not connected.</value>
+  </data>
 </root>
