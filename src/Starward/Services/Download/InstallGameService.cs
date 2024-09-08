@@ -862,14 +862,14 @@ internal class InstallGameService
                 _ = StreamDownloadExecuteTaskItemAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
                 return;
             }
-            var tsaks = new Task[Environment.ProcessorCount];
+            var tasks = new Task[Environment.ProcessorCount];
             for (int i = 0; i < Environment.ProcessorCount; i++)
             {
-                tsaks[i] = ExecuteTaskItemAsync(_cancellationTokenSource.Token);
+                tasks[i] = ExecuteTaskItemAsync(_cancellationTokenSource.Token);
             }
             try
             {
-                await Task.WhenAll(tsaks).ConfigureAwait(false);
+                await Task.WhenAll(tasks).ConfigureAwait(false);
             }
             finally
             {
