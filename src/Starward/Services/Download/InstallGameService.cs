@@ -722,14 +722,14 @@ internal class InstallGameService
         async Task RunTasksAsync()
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            var tasts = new Task[Environment.ProcessorCount];
+            var tasks = new Task[Environment.ProcessorCount];
             for (int i = 0; i < Environment.ProcessorCount; i++)
             {
-                tasts[i] = ExecuteTaskItemAsync(_cancellationTokenSource.Token);
+                tasks[i] = ExecuteTaskItemAsync(_cancellationTokenSource.Token);
             }
             try
             {
-                await Task.WhenAll(tasts).ConfigureAwait(false);
+                await Task.WhenAll(tasks).ConfigureAwait(false);
             }
             finally
             {
