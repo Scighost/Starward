@@ -627,6 +627,8 @@ internal class InstallGameService
 
     protected void StartTask(InstallGameState state)
     {
+        if (State != InstallGameState.None) return;
+
         if (state is InstallGameState.Download)
         {
             if (InstallTask is InstallGameTask.HardLink)
@@ -725,8 +727,14 @@ internal class InstallGameService
             {
                 tsaks[i] = ExecuteTaskItemAsync(_cancellationTokenSource.Token);
             }
-            await Task.WhenAll(tsaks).ConfigureAwait(false);
-            CurrentTaskFinished();
+            try
+            {
+                await Task.WhenAll(tsaks).ConfigureAwait(false);
+            }
+            finally
+            {
+                CurrentTaskFinished();
+            }
         }
     }
 
@@ -1115,12 +1123,7 @@ internal class InstallGameService
     {
         try
         {
-            var concurrentExecuteThreadCount = Interlocked.Increment(ref _concurrentExecuteThreadCount);
-            if (concurrentExecuteThreadCount > Environment.ProcessorCount)
-            {
-                return;
-            }
-
+            Interlocked.Increment(ref _concurrentExecuteThreadCount);
             while (_installItemQueue.TryDequeue(out InstallGameItem? item))
             {
                 try
