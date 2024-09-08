@@ -627,7 +627,7 @@ internal class InstallGameService
 
     protected void StartTask(InstallGameState state)
     {
-        if (State != InstallGameState.None) return;
+        if (_concurrentExecuteThreadCount > 0) return;
 
         if (state is InstallGameState.Download)
         {
