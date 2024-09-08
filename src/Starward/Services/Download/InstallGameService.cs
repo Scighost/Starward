@@ -752,6 +752,8 @@ internal class InstallGameService
 
     protected void StartTask(InstallGameState state)
     {
+        if (State != InstallGameState.None) return;
+
         if (state is InstallGameState.Download)
         {
             if (InstallTask is InstallGameTask.HardLink)
@@ -848,15 +850,31 @@ internal class InstallGameService
             _finishBytes = 0;
         }
         State = state;
-        _cancellationTokenSource = new CancellationTokenSource();
-        if (_streamDownloadInstallItemQueue.Count > 0)
+
+        _ = RunTasksAsync(); //不需要ConfigureAwait，因为返回值丢弃，且无需调用“.GetAwaiter().OnCompleted()”
+        return;
+
+        async Task RunTasksAsync()
         {
-            _ = StreamDownloadExecuteTaskItemAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
-            return;
-        }
-        for (int i = 0; i < Environment.ProcessorCount; i++)
-        {
-            _ = ExecuteTaskItemAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
+            _cancellationTokenSource = new CancellationTokenSource();
+            if (_streamDownloadInstallItemQueue.Count > 0)
+            {
+                _ = StreamDownloadExecuteTaskItemAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
+                return;
+            }
+            var tsaks = new Task[Environment.ProcessorCount];
+            for (int i = 0; i < Environment.ProcessorCount; i++)
+            {
+                tsaks[i] = ExecuteTaskItemAsync(_cancellationTokenSource.Token);
+            }
+            try
+            {
+                await Task.WhenAll(tsaks).ConfigureAwait(false);
+            }
+            finally
+            {
+                CurrentTaskFinished();
+            }
         }
     }
 
@@ -1261,11 +1279,6 @@ internal class InstallGameService
         try
         {
             Interlocked.Increment(ref _concurrentExecuteThreadCount);
-            if (_concurrentExecuteThreadCount > Environment.ProcessorCount)
-            {
-                return;
-            }
-
             while (_installItemQueue.TryDequeue(out InstallGameItem? item))
             {
                 try
@@ -1316,10 +1329,6 @@ internal class InstallGameService
         finally
         {
             Interlocked.Decrement(ref _concurrentExecuteThreadCount);
-            if (_concurrentExecuteThreadCount == 0)
-            {
-                CurrentTaskFinished();
-            }
         }
     }
 
@@ -1331,10 +1340,6 @@ internal class InstallGameService
         try
         {
             Interlocked.Increment(ref _concurrentExecuteThreadCount);
-            if (_concurrentExecuteThreadCount > 1)
-            {
-                return;
-            }
 
             while (_streamDownloadInstallItemQueue.TryPeek(out InstallGameItem? item))
             {
@@ -1370,10 +1375,6 @@ internal class InstallGameService
         finally
         {
             Interlocked.Decrement(ref _concurrentExecuteThreadCount);
-            if (_concurrentExecuteThreadCount == 0 && !cancellationToken.IsCancellationRequested)
-            {
-                StartTask(InstallGameState.Download);
-            }
         }
     }
 
