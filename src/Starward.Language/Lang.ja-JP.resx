@@ -1533,7 +1533,7 @@
     <value>ハードモード</value>
   </data>
   <data name="ImaginariumTheaterPage_Act0" xml:space="preserve">
-    <value>第 {0} 章</value>
+    <value>第 {0} 幕</value>
     <comment>Imaginarium Theater Act {0}</comment>
   </data>
   <data name="ImaginariumTheaterPage_PastPerformances" xml:space="preserve">
@@ -1573,12 +1573,12 @@
     <value>ミステリーボーナス</value>
   </data>
   <data name="ImaginariumTheaterPage_VisionaryMode" xml:space="preserve">
-    <value>Visionary Mode</value>
+    <value>視覚モード</value>
   </data>
   <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
-    <value>Brilliant Blessing</value>
+    <value>輝彩の祝福</value>
   </data>
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
-    <value>Removable storage device not connected.</value>
+    <value>リムーバブルストレージデバイスが接続されていません。</value>
   </data>
 </root>
