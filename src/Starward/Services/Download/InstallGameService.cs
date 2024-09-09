@@ -859,8 +859,7 @@ internal class InstallGameService
             _cancellationTokenSource = new CancellationTokenSource();
             if (_streamDownloadInstallItemQueue.Count > 0)
             {
-                _ = StreamDownloadExecuteTaskItemAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
-                return;
+                await StreamDownloadExecuteTaskItemAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
             }
             var tasks = new Task[Environment.ProcessorCount];
             for (int i = 0; i < Environment.ProcessorCount; i++)
