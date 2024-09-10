@@ -1574,4 +1574,13 @@
   <data name="ImaginariumTheaterPage_MysteryCache" xml:space="preserve">
     <value>Таинственные приобретения</value>
   </data>
+  <data name="ImaginariumTheaterPage_VisionaryMode" xml:space="preserve">
+    <value>Превосходный режим</value>
+  </data>
+  <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
+    <value>Сияющее благословение</value>
+  </data>
+  <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
+    <value>Съемное устройство хранения не подключено.</value>
+  </data>
 </root>

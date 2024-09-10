@@ -1181,7 +1181,7 @@
     <value>資料夾</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>開啟日誌資料夾</value>
+    <value>開啟日誌文件</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
     <value>外觀</value>
@@ -1519,58 +1519,67 @@
     <value>硬連結</value>
   </data>
   <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
-    <value>Retrieve All Data</value>
+    <value>重新取得所有數據</value>
   </data>
   <data name="HoyolabToolboxPage_ImaginariumTheater" xml:space="preserve">
-    <value>Imaginarium Theater</value>
+    <value>幻想真境劇詩</value>
   </data>
   <data name="ImaginariumTheaterPage_EasyMode" xml:space="preserve">
-    <value>Easy Mode</value>
+    <value>簡單模式</value>
   </data>
   <data name="ImaginariumTheaterPage_NormalMode" xml:space="preserve">
-    <value>Normal Mode</value>
+    <value>普通模式</value>
   </data>
   <data name="ImaginariumTheaterPage_HardMode" xml:space="preserve">
-    <value>Hard Mode</value>
+    <value>困難模式</value>
   </data>
   <data name="ImaginariumTheaterPage_Act0" xml:space="preserve">
-    <value>Act {0}</value>
+    <value>第 {0} 幕</value>
     <comment>Imaginarium Theater Act {0}</comment>
   </data>
   <data name="ImaginariumTheaterPage_PastPerformances" xml:space="preserve">
-    <value>Past Performances</value>
+    <value>演出回顧</value>
   </data>
   <data name="ImaginariumTheaterPage_BestRecord" xml:space="preserve">
-    <value>Best Record</value>
+    <value>最佳紀錄</value>
   </data>
   <data name="ImaginariumTheaterPage_StarChallengeStellas" xml:space="preserve">
-    <value>Star Challenge Stellas</value>
+    <value>明星挑戰星章</value>
   </data>
   <data name="ImaginariumTheaterPage_FantasiaFlowersUsed" xml:space="preserve">
-    <value>Fantasia Flowers Used</value>
+    <value>消耗幻劇之花</value>
   </data>
   <data name="ImaginariumTheaterPage_TriggeredExternalAudienceSupport" xml:space="preserve">
-    <value>Triggered External Audience Support</value>
+    <value>觸發場外觀眾聲援</value>
   </data>
   <data name="ImaginariumTheaterPage_SupportingCastCharactersAssistOtherPlayers" xml:space="preserve">
-    <value>Supporting Cast Characters Assist Other Players</value>
+    <value>助演角色支援其他玩家</value>
   </data>
   <data name="ImaginariumTheaterPage_TotalPerformanceDuration" xml:space="preserve">
-    <value>Total Performance Duration</value>
+    <value>演出總時長</value>
   </data>
   <data name="ImaginariumTheaterPage_HighestDamageDealt" xml:space="preserve">
-    <value>Highest Damage Dealt</value>
+    <value>最高傷害輸出</value>
   </data>
   <data name="ImaginariumTheaterPage_MostOpponentsDefeated" xml:space="preserve">
-    <value>Most Opponents Defeated</value>
+    <value>擊敗最多敵人</value>
   </data>
   <data name="ImaginariumTheaterPage_TeamThatCompletedThePerformanceFastest" xml:space="preserve">
-    <value>Team that Completed the Performance Fastest</value>
+    <value>最快完成演出隊伍</value>
   </data>
   <data name="ImaginariumTheaterPage_WondrousBoon" xml:space="preserve">
-    <value>Wondrous Boon</value>
+    <value>奇妙助益</value>
   </data>
   <data name="ImaginariumTheaterPage_MysteryCache" xml:space="preserve">
-    <value>Mystery Cache</value>
+    <value>神秘收穫</value>
+  </data>
+  <data name="ImaginariumTheaterPage_VisionaryMode" xml:space="preserve">
+    <value>Visionary Mode</value>
+  </data>
+  <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
+    <value>Brilliant Blessing</value>
+  </data>
+  <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
+    <value>Removable storage device not connected.</value>
   </data>
 </root>
