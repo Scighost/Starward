@@ -1522,64 +1522,64 @@
     <value>모두 새로고침</value>
   </data>
   <data name="HoyolabToolboxPage_ImaginariumTheater" xml:space="preserve">
-    <value>Imaginarium Theater</value>
+    <value>현실 속 환상극</value>
   </data>
   <data name="ImaginariumTheaterPage_EasyMode" xml:space="preserve">
-    <value>Easy Mode</value>
+    <value>쉬움 모드</value>
   </data>
   <data name="ImaginariumTheaterPage_NormalMode" xml:space="preserve">
-    <value>Normal Mode</value>
+    <value>일반 모드</value>
   </data>
   <data name="ImaginariumTheaterPage_HardMode" xml:space="preserve">
-    <value>Hard Mode</value>
+    <value>어려움 모드</value>
   </data>
   <data name="ImaginariumTheaterPage_Act0" xml:space="preserve">
-    <value>Act {0}</value>
+    <value>제 {0} 막</value>
     <comment>Imaginarium Theater Act {0}</comment>
   </data>
   <data name="ImaginariumTheaterPage_PastPerformances" xml:space="preserve">
-    <value>Past Performances</value>
+    <value>공연 회고</value>
   </data>
   <data name="ImaginariumTheaterPage_BestRecord" xml:space="preserve">
-    <value>Best Record</value>
+    <value>최고 기록</value>
   </data>
   <data name="ImaginariumTheaterPage_StarChallengeStellas" xml:space="preserve">
-    <value>Star Challenge Stellas</value>
+    <value>스타 도전의 별</value>
   </data>
   <data name="ImaginariumTheaterPage_FantasiaFlowersUsed" xml:space="preserve">
-    <value>Fantasia Flowers Used</value>
+    <value>환상극의 꽃 소모</value>
   </data>
   <data name="ImaginariumTheaterPage_TriggeredExternalAudienceSupport" xml:space="preserve">
-    <value>Triggered External Audience Support</value>
+    <value>관중의 응원 발동</value>
   </data>
   <data name="ImaginariumTheaterPage_SupportingCastCharactersAssistOtherPlayers" xml:space="preserve">
-    <value>Supporting Cast Characters Assist Other Players</value>
+    <value>조연 캐릭터가 다른 플레이어 지원</value>
   </data>
   <data name="ImaginariumTheaterPage_TotalPerformanceDuration" xml:space="preserve">
-    <value>Total Performance Duration</value>
+    <value>총 공연 시간</value>
   </data>
   <data name="ImaginariumTheaterPage_HighestDamageDealt" xml:space="preserve">
-    <value>Highest Damage Dealt</value>
+    <value>가장 많은 피해</value>
   </data>
   <data name="ImaginariumTheaterPage_MostOpponentsDefeated" xml:space="preserve">
-    <value>Most Opponents Defeated</value>
+    <value>가장 많은 적 처치</value>
   </data>
   <data name="ImaginariumTheaterPage_TeamThatCompletedThePerformanceFastest" xml:space="preserve">
-    <value>Team that Completed the Performance Fastest</value>
+    <value>가장 빨리 공연을 완료한 파티</value>
   </data>
   <data name="ImaginariumTheaterPage_WondrousBoon" xml:space="preserve">
-    <value>Wondrous Boon</value>
+    <value>기묘한 버프</value>
   </data>
   <data name="ImaginariumTheaterPage_MysteryCache" xml:space="preserve">
-    <value>Mystery Cache</value>
+    <value>신비한 수확</value>
   </data>
   <data name="ImaginariumTheaterPage_VisionaryMode" xml:space="preserve">
-    <value>Visionary Mode</value>
+    <value>초월 모드</value>
   </data>
   <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
     <value>Brilliant Blessing</value>
   </data>
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
-    <value>Removable storage device not connected.</value>
+    <value>이동식 디스크가 연결 되지 않음</value>
   </data>
 </root>
