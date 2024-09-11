@@ -1528,7 +1528,7 @@
     <value>쉬움 모드</value>
   </data>
   <data name="ImaginariumTheaterPage_NormalMode" xml:space="preserve">
-    <value>일반 모드</value>
+    <value>보통 모드</value>
   </data>
   <data name="ImaginariumTheaterPage_HardMode" xml:space="preserve">
     <value>어려움 모드</value>
@@ -1577,7 +1577,7 @@
     <value>초월 모드</value>
   </data>
   <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
-    <value>Brilliant Blessing</value>
+    <value>찬란한 축복</value>
   </data>
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
     <value>이동식 디스크가 연결 되지 않음</value>
