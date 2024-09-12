@@ -64,7 +64,7 @@ public class SelfQueryClient
         {
             throw new ArgumentNullException(nameof(url));
         }
-        string game_biz = Regex.Match(url, "game_biz=([^&]+)").Groups[1].Value;
+        string game_biz = Regex.Match(url, "game_biz=([^&#]+)").Groups[1].Value;
         if (game_biz != gameBiz.ToString())
         {
             throw new ArgumentException($"Input url doesn't match the game region ({gameBiz}).", nameof(url));
@@ -95,7 +95,7 @@ public class SelfQueryClient
             }
             if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html"))
             {
-                prefixUrl = "https://api-os-takumi.hoyoverse.com";
+                prefixUrl = "https://public-operation-hkrpg-sg.hoyoverse.com";
             }
             if (string.IsNullOrWhiteSpace(prefixUrl))
             {

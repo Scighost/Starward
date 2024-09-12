@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="Starward.Controls.ColorfulTextBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Starward.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <TextBlock x:Name="ThisTextBlock"
+               HorizontalAlignment="{x:Bind HorizontalAlignment}"
+               VerticalAlignment="{x:Bind VerticalAlignment}"
+               FontFamily="{x:Bind FontFamily}"
+               FontSize="{x:Bind FontSize}"
+               FontWeight="{x:Bind FontWeight}"
+               Foreground="{x:Bind Foreground}"
+               IsTextSelectionEnabled="{x:Bind IsTextScaleFactorEnabled}"
+               TextWrapping="{x:Bind TextWrapping}" />
+
+</UserControl>

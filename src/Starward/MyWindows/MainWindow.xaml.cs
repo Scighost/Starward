@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Controls;
 using Starward.Models;
+using Starward.Services.Download;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -145,7 +146,14 @@ public sealed partial class MainWindow : WindowEx
             }
             if (option is CloseWindowOption.Close)
             {
-                App.Current.CloseMainWindow();
+                if (InstallGameManager.Instance.HasTask)
+                {
+                    Hide();
+                }
+                else
+                {
+                    App.Current.CloseMainWindow();
+                }
             }
         }
         catch { }

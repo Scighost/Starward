@@ -84,7 +84,15 @@ internal class GameLauncherService
         }
         else
         {
-            AppConfig.SetGameInstallPath(gameBiz, null);
+            if (!string.IsNullOrWhiteSpace(path) && AppConfig.GetGameInstallPathRemovable(gameBiz))
+            {
+                return path;
+            }
+            else
+            {
+                AppConfig.SetGameInstallPath(gameBiz, null);
+                AppConfig.SetGameInstallPathRemovable(gameBiz, false);
+            }
             return null;
         }
     }

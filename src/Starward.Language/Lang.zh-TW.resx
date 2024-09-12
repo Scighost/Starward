@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -1181,7 +1181,7 @@
     <value>資料夾</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>開啟日誌資料夾</value>
+    <value>開啟日誌文件</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
     <value>外觀</value>
@@ -1336,7 +1336,7 @@
     <value>驗證成功！</value>
   </data>
   <data name="DownloadGamePage_0FilesVerifyFailed" xml:space="preserve">
-    <value>｛0｝個檔案驗證失敗</value>
+    <value>{0} 個檔案驗證失敗</value>
   </data>
   <data name="LauncherPage_ReinstallGame" xml:space="preserve">
     <value>重新安裝遊戲</value>
@@ -1432,90 +1432,154 @@
     <value>挑戰次數</value>
   </data>
   <data name="InstallGameDialog_SelectInstallationPath" xml:space="preserve">
-    <value>Select Installation Path</value>
+    <value>選擇安裝路徑</value>
   </data>
   <data name="Common_Change" xml:space="preserve">
-    <value>Change</value>
+    <value>更改</value>
   </data>
   <data name="InstallGameDialog_SpaceRequiredToUnzip" xml:space="preserve">
-    <value>Space Required to Unzip</value>
+    <value>解壓縮所需空間</value>
   </data>
   <data name="InstallGameDialog_SpaceAvailable" xml:space="preserve">
-    <value>Space Available</value>
+    <value>可用空間</value>
   </data>
   <data name="InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator" xml:space="preserve">
-    <value>No write permission, please restart as administrator.</value>
+    <value>沒有寫入權限，請以管理員身分重新啟動。</value>
   </data>
   <data name="InstallGameDialog_ClickToRestart" xml:space="preserve">
-    <value>Click to Restart</value>
+    <value>點擊重新啟動</value>
   </data>
   <data name="InstallGameDialog_DesktopShortcut" xml:space="preserve">
-    <value>Desktop Shortcut</value>
+    <value>桌面捷徑</value>
   </data>
   <data name="InstallGameDialog_Installed" xml:space="preserve">
-    <value>Installed?</value>
+    <value>已安裝？</value>
   </data>
   <data name="InstallGameDialog_LocateGame" xml:space="preserve">
-    <value>Locate Game</value>
+    <value>定位遊戲</value>
   </data>
   <data name="InstallGameDialog_StartInstallation" xml:space="preserve">
-    <value>Start Installation</value>
+    <value>開始安裝</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPath" xml:space="preserve">
-    <value>Default Game Installation Path</value>
+    <value>預設安裝路徑</value>
   </data>
   <data name="DownloadSettingPage_DefaultGameInstallationPathDescription" xml:space="preserve">
-    <value>The games will be installed in different subfolders, changing the default path will not move the installed game files.</value>
+    <value>遊戲將安裝在不同的子資料夾中，修改預設路徑不會移動已安裝的遊戲檔案。</value>
   </data>
   <data name="DownloadSettingPage_SpeedLimit" xml:space="preserve">
-    <value>Speed Limit</value>
+    <value>速度限制</value>
   </data>
   <data name="DownloadSettingPage_TheNumber0MeansNoSpeedLimit" xml:space="preserve">
-    <value>The number 0 means no speed limit.</value>
+    <value>數字 0 代表不限速</value>
   </data>
   <data name="SettingPage_Download" xml:space="preserve">
-    <value>Download</value>
+    <value>下載</value>
   </data>
   <data name="DownloadGamePage_Paused" xml:space="preserve">
-    <value>Paused</value>
+    <value>已暫停</value>
   </data>
   <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
-    <value>Download task completed</value>
+    <value>下載任務已完成</value>
   </data>
   <data name="InstallGameManager_DownloadTaskFailed" xml:space="preserve">
-    <value>Download task failed</value>
+    <value>下載任務失敗</value>
   </data>
   <data name="GameLauncherPage_NoWritePermission" xml:space="preserve">
-    <value>No Write Permission</value>
+    <value>沒有寫入權限</value>
   </data>
   <data name="Common_Restart" xml:space="preserve">
-    <value>Restart</value>
+    <value>重新啟動</value>
   </data>
   <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
-    <value>Please restart as administrator.</value>
+    <value>請以管理員身分重新啟動</value>
   </data>
   <data name="InstallGameDialog_CreateHardLink" xml:space="preserve">
-    <value>Create Hard Link</value>
+    <value>建立硬連結</value>
   </data>
   <data name="InstallGameDialog_HardLinkDescription" xml:space="preserve">
-    <value>Creating hard link to install game clients in different servers, taking up very little additional storage space.</value>
+    <value>建立硬鏈接，佔用極小的額外儲存空間，以安裝多個不同區服的遊戲用戶端。</value>
   </data>
   <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
-    <value>Link target:</value>
+    <value>連結目標：</value>
   </data>
   <data name="GameLauncherPage_HardLinkNotSupportPredownload" xml:space="preserve">
-    <value>The current server does not support pre-download. Please complete pre-download in the target server of the hard link.</value>
+    <value>目前區服不支援預先下載，請在硬連結的目標區服完成預先下載。</value>
   </data>
   <data name="GameLauncherPage_HardLinkUpdateToLatest" xml:space="preserve">
-    <value>Please update the target server of the hard link to the latest version before updating the game files in this server.</value>
+    <value>請將硬連結的目標區服更新到最新版本後，再更新本區服的遊戲檔案。</value>
   </data>
   <data name="InstallGameDialog_LinkPath" xml:space="preserve">
-    <value>Link Path:</value>
+    <value>連結路徑：</value>
   </data>
   <data name="InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath" xml:space="preserve">
-    <value>The path you select must be on the same drive as the link path.</value>
+    <value>選擇的路徑必須位於與連結路徑相同的磁碟機上</value>
   </data>
   <data name="LauncherPage_HardLink" xml:space="preserve">
-    <value>Hard Link</value>
+    <value>硬連結</value>
+  </data>
+  <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
+    <value>重新取得所有數據</value>
+  </data>
+  <data name="HoyolabToolboxPage_ImaginariumTheater" xml:space="preserve">
+    <value>幻想真境劇詩</value>
+  </data>
+  <data name="ImaginariumTheaterPage_EasyMode" xml:space="preserve">
+    <value>簡單模式</value>
+  </data>
+  <data name="ImaginariumTheaterPage_NormalMode" xml:space="preserve">
+    <value>普通模式</value>
+  </data>
+  <data name="ImaginariumTheaterPage_HardMode" xml:space="preserve">
+    <value>困難模式</value>
+  </data>
+  <data name="ImaginariumTheaterPage_Act0" xml:space="preserve">
+    <value>第 {0} 幕</value>
+    <comment>Imaginarium Theater Act {0}</comment>
+  </data>
+  <data name="ImaginariumTheaterPage_PastPerformances" xml:space="preserve">
+    <value>演出回顧</value>
+  </data>
+  <data name="ImaginariumTheaterPage_BestRecord" xml:space="preserve">
+    <value>最佳紀錄</value>
+  </data>
+  <data name="ImaginariumTheaterPage_StarChallengeStellas" xml:space="preserve">
+    <value>明星挑戰星章</value>
+  </data>
+  <data name="ImaginariumTheaterPage_FantasiaFlowersUsed" xml:space="preserve">
+    <value>消耗幻劇之花</value>
+  </data>
+  <data name="ImaginariumTheaterPage_TriggeredExternalAudienceSupport" xml:space="preserve">
+    <value>觸發場外觀眾聲援</value>
+  </data>
+  <data name="ImaginariumTheaterPage_SupportingCastCharactersAssistOtherPlayers" xml:space="preserve">
+    <value>助演角色支援其他玩家</value>
+  </data>
+  <data name="ImaginariumTheaterPage_TotalPerformanceDuration" xml:space="preserve">
+    <value>演出總時長</value>
+  </data>
+  <data name="ImaginariumTheaterPage_HighestDamageDealt" xml:space="preserve">
+    <value>最高傷害輸出</value>
+  </data>
+  <data name="ImaginariumTheaterPage_MostOpponentsDefeated" xml:space="preserve">
+    <value>擊敗最多敵人</value>
+  </data>
+  <data name="ImaginariumTheaterPage_TeamThatCompletedThePerformanceFastest" xml:space="preserve">
+    <value>最快完成演出隊伍</value>
+  </data>
+  <data name="ImaginariumTheaterPage_WondrousBoon" xml:space="preserve">
+    <value>奇妙助益</value>
+  </data>
+  <data name="ImaginariumTheaterPage_MysteryCache" xml:space="preserve">
+    <value>神秘收穫</value>
+  </data>
+  <data name="ImaginariumTheaterPage_VisionaryMode" xml:space="preserve">
+    <value>Visionary Mode</value>
+  </data>
+  <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
+    <value>Brilliant Blessing</value>
+  </data>
+  <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
+    <value>Removable storage device not connected.</value>
   </data>
 </root>

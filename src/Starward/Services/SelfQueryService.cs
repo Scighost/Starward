@@ -280,12 +280,22 @@ internal class SelfQueryService
     public (long Add, long Sub) GetZZZQueryItemsNumSum(long uid, ZZZQueryType type)
     {
         using var dapper = _databaseService.CreateConnection();
-        long add = dapper.QueryFirstOrDefault<long>("""
-            SELECT IFNULL(SUM(AddNum), 0) FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type AND AddNum>0;
-            """, new { uid, type });
-        long sub = dapper.QueryFirstOrDefault<long>("""
-            SELECT IFNULL(SUM(AddNum), 0) FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type AND AddNum<0;
-            """, new { uid, type });
+        long add = 0, sub = 0;
+        if (type is ZZZQueryType.PurchaseGift)
+        {
+            add = dapper.QueryFirstOrDefault<long>("""
+                SELECT COUNT(*) FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type;
+                """, new { uid, type });
+        }
+        else
+        {
+            add = dapper.QueryFirstOrDefault<long>("""
+                SELECT IFNULL(SUM(AddNum), 0) FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type AND AddNum>0;
+                """, new { uid, type });
+            sub = dapper.QueryFirstOrDefault<long>("""
+                SELECT IFNULL(SUM(AddNum), 0) FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type AND AddNum<0;
+                """, new { uid, type });
+        }
         return (add, sub);
     }
 

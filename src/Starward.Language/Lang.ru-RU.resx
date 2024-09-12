@@ -1518,4 +1518,69 @@
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Жёсткая ссылка</value>
   </data>
+  <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
+    <value>Получить все данные</value>
+  </data>
+  <data name="HoyolabToolboxPage_ImaginariumTheater" xml:space="preserve">
+    <value>Театр «Воображариум»</value>
+  </data>
+  <data name="ImaginariumTheaterPage_EasyMode" xml:space="preserve">
+    <value>Легкий</value>
+  </data>
+  <data name="ImaginariumTheaterPage_NormalMode" xml:space="preserve">
+    <value>Обычный</value>
+  </data>
+  <data name="ImaginariumTheaterPage_HardMode" xml:space="preserve">
+    <value>Тяжёлый</value>
+  </data>
+  <data name="ImaginariumTheaterPage_Act0" xml:space="preserve">
+    <value>Акт {0}</value>
+    <comment>Imaginarium Theater Act {0}</comment>
+  </data>
+  <data name="ImaginariumTheaterPage_PastPerformances" xml:space="preserve">
+    <value>Предыдущая фаза</value>
+  </data>
+  <data name="ImaginariumTheaterPage_BestRecord" xml:space="preserve">
+    <value>Рекорд</value>
+  </data>
+  <data name="ImaginariumTheaterPage_StarChallengeStellas" xml:space="preserve">
+    <value>Звёзды за Звёздное испытание</value>
+  </data>
+  <data name="ImaginariumTheaterPage_FantasiaFlowersUsed" xml:space="preserve">
+    <value>Использовано Цветков фантазии</value>
+  </data>
+  <data name="ImaginariumTheaterPage_TriggeredExternalAudienceSupport" xml:space="preserve">
+    <value>Активирована поддержка сторонних зрителей</value>
+  </data>
+  <data name="ImaginariumTheaterPage_SupportingCastCharactersAssistOtherPlayers" xml:space="preserve">
+    <value>Персонажи поддержки помогли другим игрокам</value>
+  </data>
+  <data name="ImaginariumTheaterPage_TotalPerformanceDuration" xml:space="preserve">
+    <value>Время выступления</value>
+  </data>
+  <data name="ImaginariumTheaterPage_HighestDamageDealt" xml:space="preserve">
+    <value>Макс. нанесённый урон</value>
+  </data>
+  <data name="ImaginariumTheaterPage_MostOpponentsDefeated" xml:space="preserve">
+    <value>Макс. поверженных противников</value>
+  </data>
+  <data name="ImaginariumTheaterPage_TeamThatCompletedThePerformanceFastest" xml:space="preserve">
+    <value>
+Отряд, закончивший представление быстрее всех</value>
+  </data>
+  <data name="ImaginariumTheaterPage_WondrousBoon" xml:space="preserve">
+    <value>Удивительные усиления</value>
+  </data>
+  <data name="ImaginariumTheaterPage_MysteryCache" xml:space="preserve">
+    <value>Таинственные приобретения</value>
+  </data>
+  <data name="ImaginariumTheaterPage_VisionaryMode" xml:space="preserve">
+    <value>Превосходный режим</value>
+  </data>
+  <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
+    <value>Сияющее благословение</value>
+  </data>
+  <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
+    <value>Съемное устройство хранения не подключено.</value>
+  </data>
 </root>

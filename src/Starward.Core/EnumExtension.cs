@@ -271,7 +271,7 @@ public static class EnumExtension
 
 
 
-    public static string ToLocalization(this ZZZQueryType  zZZQueryType)
+    public static string ToLocalization(this ZZZQueryType zZZQueryType)
     {
         return zZZQueryType switch
         {
