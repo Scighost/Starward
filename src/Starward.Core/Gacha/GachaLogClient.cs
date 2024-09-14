@@ -116,17 +116,17 @@ public abstract class GachaLogClient
     [SupportedOSPlatform("windows")]
     public static string? GetGameInstallPathFromRegistry(GameBiz biz)
     {
-        if (biz is GameBiz.hk4e_cloud)
+        if (biz == GameBiz.clgm_cn)
         {
             return Registry.GetValue(REG_KEY_YS_CLOUD, "InstallPath", null) as string;
         }
-        else if (biz is GameBiz.nap_cn)
+        else if (biz == GameBiz.nap_cn)
         {
             return Registry.GetValue(@"HKEY_CURRENT_USER\Software\miHoYo\HYP\standalone\1_1\nap_cn\nap_cn", "GameInstallPath", null) as string;
         }
         else
         {
-            var key = biz switch
+            var key = biz.Value switch
             {
                 GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => REG_KEY_YS_CN,
                 GameBiz.hk4e_global => REG_KEY_YS_OS,
@@ -134,8 +134,8 @@ public abstract class GachaLogClient
                 GameBiz.hkrpg_global => REG_KEY_SR_OS,
                 GameBiz.bh3_cn => REG_KEY_BH3_CN,
                 GameBiz.bh3_global => REG_KEY_BH3_GL,
-                GameBiz.bh3_overseas => REG_KEY_BH3_OS,
-                GameBiz.bh3_tw => REG_KEY_BH3_TW,
+                GameBiz.bh3_os => REG_KEY_BH3_OS,
+                GameBiz.bh3_asia => REG_KEY_BH3_TW,
                 GameBiz.bh3_kr => REG_KEY_BH3_KR,
                 GameBiz.bh3_jp => REG_KEY_BH3_JP,
                 _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
@@ -159,11 +159,11 @@ public abstract class GachaLogClient
 
     public static string GetGachaCacheFilePath(GameBiz gameBiz, string? installPath)
     {
-        if (gameBiz is GameBiz.hk4e_cloud)
+        if (gameBiz == GameBiz.clgm_cn)
         {
             return Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"GenshinImpactCloudGame\config\logs\MiHoYoSDK.log");
         }
-        string file = gameBiz switch
+        string file = gameBiz.Value switch
         {
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => Path.Join(installPath, WEB_CACHE_PATH_YS_CN),
             GameBiz.hk4e_global => Path.Join(installPath, WEB_CACHE_PATH_YS_OS),
@@ -176,7 +176,7 @@ public abstract class GachaLogClient
         {
             lastWriteTime = File.GetLastWriteTime(file);
         }
-        string prefix = gameBiz switch
+        string prefix = gameBiz.Value switch
         {
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => @"YuanShen_Data\webCaches",
             GameBiz.hk4e_global => @"GenshinImpact_Data\webCaches",
@@ -203,9 +203,9 @@ public abstract class GachaLogClient
 
     private static ReadOnlySpan<byte> GetGachaUrlPattern(GameBiz gameBiz)
     {
-        return gameBiz switch
+        return gameBiz.Value switch
         {
-            GameBiz.hk4e_cn or GameBiz.hk4e_cloud or GameBiz.hk4e_bilibili => SPAN_WEB_PREFIX_YS_CN,
+            GameBiz.hk4e_cn or GameBiz.clgm_cn or GameBiz.hk4e_bilibili => SPAN_WEB_PREFIX_YS_CN,
             GameBiz.hk4e_global => SPAN_WEB_PREFIX_YS_OS,
             GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => SPAN_WEB_PREFIX_SR_CN,
             GameBiz.hkrpg_global => SPAN_WEB_PREFIX_SR_OS,
@@ -362,7 +362,7 @@ public abstract class GachaLogClient
     {
         lang = LanguageUtil.FilterLanguage(lang);
         GenshinGachaWiki wiki;
-        if (gameBiz.IsChinaServer() && lang is "zh-cn")
+        if (gameBiz.IsChinaOfficial() && lang is "zh-cn")
         {
             const string url = "https://api-takumi.mihoyo.com/event/platsimulator/config?gids=2&game=hk4e";
             wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);
@@ -381,7 +381,7 @@ public abstract class GachaLogClient
     {
         lang = LanguageUtil.FilterLanguage(lang);
         StarRailGachaWiki wiki;
-        if (gameBiz.IsChinaServer() && lang is "zh-cn")
+        if (gameBiz.IsChinaOfficial() && lang is "zh-cn")
         {
             const string url = "https://api-takumi.mihoyo.com/event/rpgsimulator/config?game=hkrpg";
             wiki = await CommonGetAsync<StarRailGachaWiki>(url, cancellationToken);
@@ -417,11 +417,12 @@ public abstract class GachaLogClient
 
 
     // todo
+    [Obsolete("Not finished", true)]
     public async Task<GenshinGachaWiki> GetZZZGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
     {
         lang = LanguageUtil.FilterLanguage(lang);
         GenshinGachaWiki wiki;
-        if (gameBiz.IsChinaServer() && lang is "zh-cn")
+        if (gameBiz.IsChinaOfficial() && lang is "zh-cn")
         {
             const string url = "https://api-takumi.mihoyo.com/event/platsimulator/config?gids=2&game=hk4e";
             wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);

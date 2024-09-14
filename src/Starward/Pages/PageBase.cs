@@ -8,7 +8,7 @@ public abstract class PageBase : Page
 {
 
 
-    public GameBiz CurrentGameBiz { get; protected set; }
+    public GameBiz CurrentGameBiz { get; protected set; } = GameBiz.None;
 
 
     public PageBase()

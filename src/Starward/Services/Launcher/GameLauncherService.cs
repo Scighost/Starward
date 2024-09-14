@@ -107,7 +107,7 @@ internal class GameLauncherService
         }
         else if (gameBiz.IsGlobalOfficial())
         {
-            if (gameBiz.ToGame() is GameBiz.Honkai3rd)
+            if (gameBiz.ToGame() == GameBiz.bh3)
             {
                 return GachaLogClient.GetGameInstallPathFromRegistry(gameBiz);
             }
@@ -139,7 +139,7 @@ internal class GameLauncherService
     /// <returns></returns>
     public async Task<Version?> GetLatestGameVersionAsync(GameBiz gameBiz)
     {
-        if (gameBiz.IsGlobalOfficial() && gameBiz.ToGame() is GameBiz.Honkai3rd)
+        if (gameBiz.IsGlobalOfficial() && gameBiz.ToGame() == GameBiz.bh3)
         {
             var resource = await _launcherClient.GetLauncherGameResourceAsync(gameBiz);
             return TryParseVersion(resource.Game.Latest.Version);
@@ -164,7 +164,7 @@ internal class GameLauncherService
     public async Task<Version?> GetLocalGameVersionAsync(GameBiz gameBiz, string? installPath = null)
     {
         installPath ??= GetGameInstallPath(gameBiz);
-        if (gameBiz is GameBiz.hk4e_cloud)
+        if (gameBiz == GameBiz.clgm_cn)
         {
             var exe = Path.Join(installPath, GetGameExeName(gameBiz));
             if (File.Exists(exe))
@@ -205,7 +205,7 @@ internal class GameLauncherService
     public async Task<(GameBiz, string?)> GetHardLinkInfoAsync(GameBiz gameBiz, string? installPath = null)
     {
         installPath ??= GetGameInstallPath(gameBiz);
-        if (gameBiz is GameBiz.hk4e_cloud)
+        if (gameBiz == GameBiz.clgm_cn)
         {
             return (GameBiz.None, null);
         }
@@ -219,7 +219,7 @@ internal class GameLauncherService
             if (File.Exists(config))
             {
                 var str = await File.ReadAllTextAsync(config);
-                Enum.TryParse(Regex.Match(str, @"hardlink_gamebiz=(.+)").Groups[1].Value, out GameBiz biz);
+                GameBiz biz = Regex.Match(str, @"hardlink_gamebiz=(.+)").Groups[1].Value;
                 var path = Regex.Match(str, @"hardlink_path=(.+)").Groups[1].Value;
                 return (biz, path);
             }
@@ -239,7 +239,7 @@ internal class GameLauncherService
     /// <returns></returns>
     public async Task<Version?> GetPreDownloadGameVersionAsync(GameBiz gameBiz)
     {
-        if (gameBiz.IsGlobalOfficial() && gameBiz.ToGame() is GameBiz.Honkai3rd)
+        if (gameBiz.IsGlobalOfficial() && gameBiz.ToGame() == GameBiz.bh3)
         {
             var resource = await _launcherClient.GetLauncherGameResourceAsync(gameBiz);
             return TryParseVersion(resource.PreDownloadGame?.Latest.Version);
@@ -278,16 +278,16 @@ internal class GameLauncherService
     /// <returns></returns>
     public string GetGameExeName(GameBiz gameBiz)
     {
-        return gameBiz switch
+        return gameBiz.Value switch
         {
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => "YuanShen.exe",
             GameBiz.hk4e_global => "GenshinImpact.exe",
-            GameBiz.hk4e_cloud => "Genshin Impact Cloud Game.exe",
-            _ => gameBiz.ToGame() switch
+            GameBiz.clgm_cn => "Genshin Impact Cloud Game.exe",
+            _ => gameBiz.ToGame().Value switch
             {
-                GameBiz.StarRail => "StarRail.exe",
-                GameBiz.Honkai3rd => "BH3.exe",
-                GameBiz.ZZZ => "ZenlessZoneZero.exe",
+                GameBiz.hkrpg => "StarRail.exe",
+                GameBiz.bh3 => "BH3.exe",
+                GameBiz.nap => "ZenlessZoneZero.exe",
                 _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
             },
         };
@@ -372,7 +372,7 @@ internal class GameLauncherService
                 var name = GetGameExeName(biz);
                 exe = Path.Join(folder, name);
                 arg = AppConfig.GetStartArgument(biz)?.Trim();
-                verb = (biz is GameBiz.hk4e_cloud) ? "" : "runas";
+                verb = (biz == GameBiz.clgm_cn) ? "" : "runas";
                 if (!File.Exists(exe))
                 {
                     _logger.LogWarning("Game exe not found: {path}", exe);

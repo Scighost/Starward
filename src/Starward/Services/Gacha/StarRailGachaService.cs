@@ -21,7 +21,7 @@ internal class StarRailGachaService : GachaLogService
 {
 
 
-    protected override GameBiz GameBiz { get; } = GameBiz.StarRail;
+    protected override GameBiz GameBiz { get; } = GameBiz.hkrpg;
 
     protected override string GachaTableName { get; } = "StarRailGachaItem";
 

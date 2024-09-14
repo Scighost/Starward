@@ -38,7 +38,7 @@ public abstract class LauncherId
 
     public static string? FromGameBiz(GameBiz biz)
     {
-        return biz switch
+        return biz.Value switch
         {
             GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn or GameBiz.nap_cn => ChinaOfficial,
             GameBiz.hk4e_global or GameBiz.hkrpg_global or GameBiz.bh3_global or GameBiz.nap_global => GlobalOfficial,

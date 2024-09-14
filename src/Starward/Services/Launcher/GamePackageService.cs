@@ -39,7 +39,7 @@ internal class GamePackageService
 
     public async Task<GamePackage> GetGamePackageAsync(GameBiz biz)
     {
-        if (biz.ToGame() is GameBiz.Honkai3rd && biz.IsGlobalOfficial())
+        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalOfficial())
         {
             var res = await _launcherClient.GetLauncherGameResourceAsync(biz);
             var package = new GamePackage
@@ -214,7 +214,7 @@ internal class GamePackageService
 
     public async Task<VoiceLanguage> GetVoiceLanguageAsync(GameBiz biz, string? installPath = null)
     {
-        if (biz.ToGame() is GameBiz.Honkai3rd)
+        if (biz.ToGame() == GameBiz.bh3)
         {
             return VoiceLanguage.None;
         }
@@ -245,7 +245,7 @@ internal class GamePackageService
 
     public async Task SetVoiceLanguageAsync(GameBiz biz, string installPath, VoiceLanguage lang)
     {
-        if (biz.ToGame() is GameBiz.Honkai3rd)
+        if (biz.ToGame() == GameBiz.bh3)
         {
             return;
         }

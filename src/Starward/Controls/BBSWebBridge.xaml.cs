@@ -72,7 +72,7 @@ public sealed partial class BBSWebBridge : UserControl
 
 
 
-    public GameBiz CurrentGameBiz { get; set; }
+    public GameBiz CurrentGameBiz { get; set; } = GameBiz.None;
 
 
 
@@ -111,7 +111,7 @@ public sealed partial class BBSWebBridge : UserControl
             {
                 return;
             }
-            if (CurrentGameBiz.IsGlobalServer())
+            if (CurrentGameBiz.IsGlobalOfficial())
             {
                 _gameRecordClient = AppConfig.GetService<HoyolabClient>();
             }
@@ -151,7 +151,7 @@ public sealed partial class BBSWebBridge : UserControl
             if (coreWebView2.Source is "about:blank" || force)
             {
                 var manager = coreWebView2.CookieManager;
-                var cookies = await manager.GetCookiesAsync(CurrentGameBiz.IsGlobalServer() ? "https://act.hoyolab.com" : "https://webstatic.mihoyo.com");
+                var cookies = await manager.GetCookiesAsync(CurrentGameBiz.IsGlobalOfficial() ? "https://act.hoyolab.com" : "https://webstatic.mihoyo.com");
                 foreach (var cookie in cookies)
                 {
                     manager.DeleteCookie(cookie);
@@ -161,17 +161,17 @@ public sealed partial class BBSWebBridge : UserControl
                 ParseCookie();
                 foreach (var cookie in cookieDic)
                 {
-                    manager.AddOrUpdateCookie(manager.CreateCookie(cookie.Key, cookie.Value, CurrentGameBiz.IsGlobalServer() ? ".hoyolab.com" : ".mihoyo.com", "/"));
+                    manager.AddOrUpdateCookie(manager.CreateCookie(cookie.Key, cookie.Value, CurrentGameBiz.IsGlobalOfficial() ? ".hoyolab.com" : ".mihoyo.com", "/"));
                 }
 
-                string? url = (CurrentGameBiz.IsGlobalServer(), CurrentGameBiz.ToGame()) switch
+                string? url = (CurrentGameBiz.IsGlobalOfficial(), CurrentGameBiz.ToGame().Value) switch
                 {
-                    (true, GameBiz.GenshinImpact) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=2",
-                    (true, GameBiz.StarRail) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=6",
-                    (true, GameBiz.ZZZ) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=8",
-                    (false, GameBiz.GenshinImpact) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=2",
-                    (false, GameBiz.StarRail) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=6",
-                    (false, GameBiz.ZZZ) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=8",
+                    (true, GameBiz.hk4e) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=2",
+                    (true, GameBiz.hkrpg) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=6",
+                    (true, GameBiz.nap) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=8",
+                    (false, GameBiz.hk4e) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=2",
+                    (false, GameBiz.hkrpg) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=6",
+                    (false, GameBiz.nap) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=8",
                     _ => null,
                 };
                 if (url is not null)
@@ -556,7 +556,7 @@ public sealed partial class BBSWebBridge : UserControl
     private JsResult? GetDynamicSecrectV1(JsParam param)
     {
         string ApiSalt;
-        if (CurrentGameBiz.IsGlobalServer())
+        if (CurrentGameBiz.IsGlobalOfficial())
         {
             ApiSalt = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w";
         }
@@ -600,7 +600,7 @@ public sealed partial class BBSWebBridge : UserControl
     private JsResult? GetDynamicSecrectV2(JsParam param)
     {
         string ApiSalt2;
-        if (CurrentGameBiz.IsGlobalServer())
+        if (CurrentGameBiz.IsGlobalOfficial())
         {
             ApiSalt2 = "h4c1d6ywfq5bsbnbhm1bzq7bxzzv6srt";
         }

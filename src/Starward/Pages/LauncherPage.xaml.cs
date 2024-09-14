@@ -148,12 +148,12 @@ public sealed partial class LauncherPage : PageBase
             OnPropertyChanged(nameof(EnableCustomBg));
             CustomBg = AppConfig.GetCustomBg(CurrentGameBiz);
 
-            if (CurrentGameBiz is GameBiz.hk4e_cloud)
+            if (CurrentGameBiz == GameBiz.clgm_cn)
             {
                 Button_UninstallGame.IsEnabled = false;
                 Grid_BannerAndPost.HorizontalAlignment = HorizontalAlignment.Right;
             }
-            if (CurrentGameBiz is GameBiz.nap_cn)
+            if (CurrentGameBiz == GameBiz.nap_cn)
             {
                 Button_RepairDropDown.IsEnabled = false;
                 Button_UninstallGame.IsEnabled = false;
@@ -316,7 +316,7 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            if (AppConfig.DisableGameNoticeRedHot || AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibiliServer())
+            if (AppConfig.DisableGameNoticeRedHot || AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibili())
             {
                 Image_GameNoticesAlert.Visibility = Visibility.Collapsed;
                 return;
@@ -452,7 +452,7 @@ public sealed partial class LauncherPage : PageBase
     private bool isGameExeExists;
 
 
-    public bool IsGameSupportCompleteRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && (CurrentGameBiz.ToGame() != GameBiz.Honkai3rd || (CurrentGameBiz.ToGame() == GameBiz.Honkai3rd && IsGameExeExists));
+    public bool IsGameSupportCompleteRepair => CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.clgm_cn && (CurrentGameBiz.ToGame() != GameBiz.bh3 || (CurrentGameBiz.ToGame() == GameBiz.bh3 && IsGameExeExists));
 
 
     public bool IsStartGameButtonEnable => LocalGameVersion != null && LocalGameVersion >= LatestGameVersion && IsGameExeExists && !IsGameRunning;
@@ -530,7 +530,7 @@ public sealed partial class LauncherPage : PageBase
             InstallPath = _gameResourceService.GetGameInstallPath(CurrentGameBiz);
             _logger.LogInformation("Game install path of {biz}: {path}", CurrentGameBiz, InstallPath);
             IsGameExeExists = _gameResourceService.IsGameExeExists(CurrentGameBiz);
-            if (CurrentGameBiz == GameBiz.hk4e_cloud)
+            if (CurrentGameBiz == GameBiz.clgm_cn)
             {
                 if (Directory.Exists(InstallPath))
                 {
@@ -782,7 +782,7 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            if (AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibiliServer() || CurrentGameBiz is GameBiz.nap_cn)
+            if (AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibili() || CurrentGameBiz == GameBiz.nap_cn)
             {
                 StackPanel_Account.Visibility = Visibility.Collapsed;
                 return;
@@ -1008,13 +1008,13 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            if (CurrentGameBiz is GameBiz.hk4e_cloud)
+            if (CurrentGameBiz == GameBiz.clgm_cn)
             {
                 await Launcher.LaunchUriAsync(new Uri("https://mhyy.mihoyo.com/"));
                 return;
             }
 
-            if (CurrentGameBiz is GameBiz.nap_cn)
+            if (CurrentGameBiz == GameBiz.nap_cn)
             {
                 await LauncherZZZCBTLauncherAsync();
                 return;
@@ -1229,7 +1229,7 @@ public sealed partial class LauncherPage : PageBase
     {
         try
         {
-            if (CurrentGameBiz is GameBiz.nap_cn)
+            if (CurrentGameBiz == GameBiz.nap_cn)
             {
                 await LauncherZZZCBTLauncherAsync();
                 return;
@@ -1439,7 +1439,7 @@ public sealed partial class LauncherPage : PageBase
 
 
 
-    public bool IsSettingGameRepairButtonEnabled => CurrentGameBiz.ToGame() != GameBiz.ZZZ && CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.hk4e_cloud && LocalGameVersion != null;
+    public bool IsSettingGameRepairButtonEnabled => CurrentGameBiz.ToGame() != GameBiz.nap && CurrentGameBiz.ToGame() != GameBiz.None && CurrentGameBiz != GameBiz.clgm_cn && LocalGameVersion != null;
 
 
     [ObservableProperty]

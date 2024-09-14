@@ -48,14 +48,14 @@ public sealed partial class HoyolabToolboxPage : PageBase
     {
         if (e.Parameter is GameBiz biz)
         {
-            CurrentGameBiz = biz switch
+            CurrentGameBiz = biz.Value switch
             {
-                GameBiz.hk4e_cloud or GameBiz.hk4e_bilibili => GameBiz.hk4e_cn,
+                GameBiz.clgm_cn or GameBiz.hk4e_bilibili => GameBiz.hk4e_cn,
                 GameBiz.hkrpg_bilibili => GameBiz.hkrpg_cn,
                 _ => biz
             };
-            _gameRecordService.IsHoyolab = CurrentGameBiz.IsGlobalServer();
-            if (CurrentGameBiz.IsGlobalServer())
+            _gameRecordService.IsHoyolab = CurrentGameBiz.IsGlobalOfficial();
+            if (CurrentGameBiz.IsGlobalOfficial())
             {
                 NavigationViewItem_UpdateDeviceInfo.Visibility = Visibility.Collapsed;
             }
@@ -206,7 +206,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
 
     private void InitializeNavigationViewItemVisibility()
     {
-        if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
+        if (CurrentGameBiz.ToGame() == GameBiz.hk4e)
         {
             NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
             NavigationViewItem_SpiralAbyss.Visibility = Visibility.Visible;
@@ -215,7 +215,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
             // 原神战绩图片
             Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/ced4deac2162690105bbc8baad2b51a3_4109616186965788891.png"));
         }
-        if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
+        if (CurrentGameBiz.ToGame() == GameBiz.hkrpg)
         {
             NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
             NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
@@ -253,7 +253,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
     private List<GameRecordRole> gameRoleList;
 
 
-    public string AvatarUrl => CurrentUser?.AvatarUrl ?? $"ms-appx:///Assets/Image/icon_{(CurrentGameBiz.IsGlobalServer() ? "hoyolab" : "hyperion")}.png";
+    public string AvatarUrl => CurrentUser?.AvatarUrl ?? $"ms-appx:///Assets/Image/icon_{(CurrentGameBiz.IsGlobalOfficial() ? "hoyolab" : "hyperion")}.png";
 
 
 

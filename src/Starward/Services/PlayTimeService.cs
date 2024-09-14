@@ -295,7 +295,7 @@ internal class PlayTimeService
                 }
                 foreach (var process in processes)
                 {
-                    if (biz.ToGame() is GameBiz.Honkai3rd && process.MainWindowHandle == 0)
+                    if (biz.ToGame() == GameBiz.bh3 && process.MainWindowHandle == 0)
                     {
                         _logger.LogInformation("Game process ({biz}, {gamePid}) has no window", biz, process.Id);
                         continue;

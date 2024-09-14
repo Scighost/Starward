@@ -49,12 +49,12 @@ public sealed partial class SelfQueryPage : PageBase
     private GameBiz gameBiz;
 
 
-    public string GameIcon => gameBiz.ToGame() switch
+    public string GameIcon => gameBiz.ToGame().Value switch
     {
-        GameBiz.GenshinImpact => "ms-appx:///Assets/Image/icon_ys.jpg",
-        GameBiz.StarRail => "ms-appx:///Assets/Image/icon_sr.jpg",
-        GameBiz.Honkai3rd => "ms-appx:///Assets/Image/icon_bh3.jpg",
-        GameBiz.ZZZ => "ms-appx:///Assets/Image/icon_zzz.jpg",
+        GameBiz.hk4e => "ms-appx:///Assets/Image/icon_ys.jpg",
+        GameBiz.hkrpg => "ms-appx:///Assets/Image/icon_sr.jpg",
+        GameBiz.bh3 => "ms-appx:///Assets/Image/icon_bh3.jpg",
+        GameBiz.nap => "ms-appx:///Assets/Image/icon_zzz.jpg",
         _ => "",
     };
 
@@ -65,19 +65,19 @@ public sealed partial class SelfQueryPage : PageBase
         base.OnNavigatedTo(e);
         if (e.Parameter is GameBiz biz)
         {
-            if (biz is GameBiz.hk4e_cloud)
+            if (biz == GameBiz.clgm_cn)
             {
                 biz = GameBiz.hk4e_cn;
             }
-            if (biz.ToGame() is GameBiz.GenshinImpact)
+            if (biz.ToGame() == GameBiz.hk4e)
             {
                 ListView_QueryItems_Genshin.Visibility = Visibility.Visible;
             }
-            if (biz.ToGame() is GameBiz.StarRail)
+            if (biz.ToGame() == GameBiz.hkrpg)
             {
                 ListView_QueryItems_StarRail.Visibility = Visibility.Visible;
             }
-            if (biz.ToGame() is GameBiz.ZZZ)
+            if (biz.ToGame() == GameBiz.nap)
             {
                 ListView_QueryItems_ZZZ.Visibility = Visibility.Visible;
             }
@@ -179,15 +179,15 @@ public sealed partial class SelfQueryPage : PageBase
     {
         try
         {
-            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            if (gameBiz.ToGame() == GameBiz.hk4e)
             {
                 UidList = new(_selfQueryService.GetGenshinUids());
             }
-            if (gameBiz.ToGame() is GameBiz.StarRail)
+            if (gameBiz.ToGame() == GameBiz.hkrpg)
             {
                 UidList = new(_selfQueryService.GetStarRailUids());
             }
-            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            if (gameBiz.ToGame() == GameBiz.nap)
             {
                 UidList = new(_selfQueryService.GetZZZUids());
             }
@@ -229,7 +229,7 @@ public sealed partial class SelfQueryPage : PageBase
                 return;
             }
             long uid = SelectUid.Value;
-            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            if (gameBiz.ToGame() == GameBiz.hk4e)
             {
                 var list = new List<TypeStats>();
                 using var dapper = _databaseService.CreateConnection();
@@ -248,7 +248,7 @@ public sealed partial class SelfQueryPage : PageBase
                 }
                 TypeStatsList = list;
             }
-            if (gameBiz.ToGame() is GameBiz.StarRail)
+            if (gameBiz.ToGame() == GameBiz.hkrpg)
             {
                 var list = new List<TypeStats>();
                 using var dapper = _databaseService.CreateConnection();
@@ -267,7 +267,7 @@ public sealed partial class SelfQueryPage : PageBase
                 }
                 TypeStatsList = list;
             }
-            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            if (gameBiz.ToGame() == GameBiz.nap)
             {
                 var list = new List<TypeStats>();
                 using var dapper = _databaseService.CreateConnection();
@@ -375,15 +375,15 @@ public sealed partial class SelfQueryPage : PageBase
                     return;
                 }
                 stats.IsUpdating = true;
-                if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+                if (gameBiz.ToGame() == GameBiz.hk4e)
                 {
                     await UpdateGenshinQueryItemsAsync(stats, (GenshinQueryType)stats.Type);
                 }
-                if (gameBiz.ToGame() is GameBiz.StarRail)
+                if (gameBiz.ToGame() == GameBiz.hkrpg)
                 {
                     await UpdateStarRailQueryItemsAsync(stats, (StarRailQueryType)stats.Type);
                 }
-                if (gameBiz.ToGame() is GameBiz.ZZZ)
+                if (gameBiz.ToGame() == GameBiz.nap)
                 {
                     await UpdateZZZQueryItemsAsync(stats, (ZZZQueryType)stats.Type);
                 }
@@ -507,19 +507,19 @@ public sealed partial class SelfQueryPage : PageBase
             }
             long uid = SelectUid.Value;
             using var dapper = _databaseService.CreateConnection();
-            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            if (gameBiz.ToGame() == GameBiz.hk4e)
             {
                 TypeStatsMonthList = dapper.Query<string>("""
                     SELECT DISTINCT STRFTIME('%Y-%m', DateTime) FROM GenshinQueryItem WHERE Type=@type ORDER BY DateTime DESC;
                     """, new { uid, type }).ToList();
             }
-            if (gameBiz.ToGame() is GameBiz.StarRail)
+            if (gameBiz.ToGame() == GameBiz.hkrpg)
             {
                 TypeStatsMonthList = dapper.Query<string>("""
                     SELECT DISTINCT STRFTIME('%Y-%m', Time) FROM StarRailQueryItem WHERE Type=@type ORDER BY Time DESC;
                     """, new { uid, type }).ToList();
             }
-            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            if (gameBiz.ToGame() == GameBiz.nap)
             {
                 TypeStatsMonthList = dapper.Query<string>("""
                     SELECT DISTINCT STRFTIME('%Y-%m', DateTime) FROM ZZZQueryItem WHERE Type=@type ORDER BY DateTime DESC;
@@ -545,7 +545,7 @@ public sealed partial class SelfQueryPage : PageBase
             }
             long uid = SelectUid.Value;
             using var dapper = _databaseService.CreateConnection();
-            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            if (gameBiz.ToGame() == GameBiz.hk4e)
             {
                 GenshinQueryItemList = dapper.Query<GenshinQueryItem>("""
                     SELECT * FROM GenshinQueryItem WHERE Uid=@uid AND Type=@type AND DateTime LIKE @month ORDER BY DateTime DESC;
@@ -553,7 +553,7 @@ public sealed partial class SelfQueryPage : PageBase
                 MonthAddNum = GenshinQueryItemList.Where(x => x.AddNum > 0).Sum(x => x.AddNum);
                 MonthSubNum = GenshinQueryItemList.Where(x => x.AddNum < 0).Sum(x => x.AddNum);
             }
-            if (gameBiz.ToGame() is GameBiz.StarRail)
+            if (gameBiz.ToGame() == GameBiz.hkrpg)
             {
                 StarRailQueryItemList = dapper.Query<StarRailQueryItem>("""
                     SELECT * FROM StarRailQueryItem WHERE Uid=@uid AND Type=@type AND Time LIKE @month ORDER BY Time DESC;
@@ -561,7 +561,7 @@ public sealed partial class SelfQueryPage : PageBase
                 MonthAddNum = StarRailQueryItemList.Where(x => x.AddNum > 0).Sum(x => x.AddNum);
                 MonthSubNum = StarRailQueryItemList.Where(x => x.AddNum < 0).Sum(x => x.AddNum);
             }
-            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            if (gameBiz.ToGame() == GameBiz.nap)
             {
                 var list = ZZZQueryItemList = dapper.Query<ZZZQueryItem>("""
                     SELECT * FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type AND DateTime LIKE @month ORDER BY DateTime DESC;
@@ -598,15 +598,15 @@ public sealed partial class SelfQueryPage : PageBase
             long uid = SelectUid.Value;
             string type = "";
             string month = SelectTypeStatsMonth;
-            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            if (gameBiz.ToGame() == GameBiz.hk4e)
             {
                 type = ((GenshinQueryType)SelectTypeStats.Type).ToLocalization();
             }
-            if (gameBiz.ToGame() is GameBiz.StarRail)
+            if (gameBiz.ToGame() == GameBiz.hkrpg)
             {
                 type = ((StarRailQueryType)SelectTypeStats.Type).ToLocalization();
             }
-            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            if (gameBiz.ToGame() == GameBiz.nap)
             {
                 type = ((ZZZQueryType)SelectTypeStats.Type).ToLocalization();
             }
@@ -624,19 +624,19 @@ public sealed partial class SelfQueryPage : PageBase
                 _logger.LogInformation($"Ready to delete records of {type} in {month}.");
                 using var dapper = _databaseService.CreateConnection();
                 int count = 0;
-                if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+                if (gameBiz.ToGame() == GameBiz.hk4e)
                 {
                     count = dapper.Execute("""
                         DELETE FROM GenshinQueryItem WHERE Uid=@uid AND Type=@Type AND DateTime LIKE @time;
                         """, new { uid, SelectTypeStats.Type, time = month + "%" });
                 }
-                if (gameBiz.ToGame() is GameBiz.StarRail)
+                if (gameBiz.ToGame() == GameBiz.hkrpg)
                 {
                     count = dapper.Execute("""
                         DELETE FROM StarRailQueryItem WHERE Uid=@uid AND Type=@Type AND Time LIKE @time;
                         """, new { uid, SelectTypeStats.Type, time = month + "%" });
                 }
-                if (gameBiz.ToGame() is GameBiz.ZZZ)
+                if (gameBiz.ToGame() == GameBiz.nap)
                 {
                     count = dapper.Execute("""
                         DELETE FROM ZZZQueryItem WHERE Uid=@uid AND Type=@Type AND DateTime LIKE @time;
@@ -674,15 +674,15 @@ public sealed partial class SelfQueryPage : PageBase
                 return;
             }
             stats.IsUpdating = true;
-            if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+            if (gameBiz.ToGame() == GameBiz.hk4e)
             {
                 await UpdateGenshinQueryItemsAsync(stats, (GenshinQueryType)stats.Type, true);
             }
-            if (gameBiz.ToGame() is GameBiz.StarRail)
+            if (gameBiz.ToGame() == GameBiz.hkrpg)
             {
                 await UpdateStarRailQueryItemsAsync(stats, (StarRailQueryType)stats.Type, true);
             }
-            if (gameBiz.ToGame() is GameBiz.ZZZ)
+            if (gameBiz.ToGame() == GameBiz.nap)
             {
                 await UpdateZZZQueryItemsAsync(stats, (ZZZQueryType)stats.Type, true);
             }

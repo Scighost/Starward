@@ -48,12 +48,12 @@ public sealed partial class GameSettingPage : PageBase
         if (e.Parameter is GameBiz biz)
         {
             gameBiz = biz;
-            Image_Emoji.Source = gameBiz.ToGame() switch
+            Image_Emoji.Source = gameBiz.ToGame().Value switch
             {
-                GameBiz.GenshinImpact => new BitmapImage(AppConfig.EmojiPaimon),
-                GameBiz.StarRail => new BitmapImage(AppConfig.EmojiPom),
-                GameBiz.Honkai3rd => new BitmapImage(AppConfig.EmojiAI),
-                GameBiz.ZZZ => new BitmapImage(AppConfig.EmojiBangboo),
+                GameBiz.bh3 => new BitmapImage(AppConfig.EmojiAI),
+                GameBiz.hk4e => new BitmapImage(AppConfig.EmojiPaimon),
+                GameBiz.hkrpg => new BitmapImage(AppConfig.EmojiPom),
+                GameBiz.nap => new BitmapImage(AppConfig.EmojiBangboo),
                 _ => null,
             };
         }
@@ -228,7 +228,7 @@ public sealed partial class GameSettingPage : PageBase
             var localVersion = await _gameResourceService.GetLocalGameVersionAsync(gameBiz);
             if (localVersion is null)
             {
-                if (gameBiz is GameBiz.hk4e_cloud)
+                if (gameBiz == GameBiz.clgm_cn)
                 {
                     TextBlock_GameNotInstalled.Text = Lang.GameSettingPage_FeatureNotSupported;
                 }
@@ -236,11 +236,11 @@ public sealed partial class GameSettingPage : PageBase
                 return;
             }
             IsBaseSettingEnable = true;
-            if (gameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
+            if (gameBiz.ToGame().Value is GameBiz.hk4e or GameBiz.hkrpg)
             {
                 IsLanguageSettingEnable = true;
             }
-            if (gameBiz.ToGame() is GameBiz.StarRail)
+            if (gameBiz.ToGame() == GameBiz.hkrpg)
             {
                 IsGraphicsSettingEnable = true;
             }

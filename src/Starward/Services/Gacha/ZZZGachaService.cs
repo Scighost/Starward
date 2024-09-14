@@ -16,7 +16,7 @@ internal class ZZZGachaService : GachaLogService
 {
 
 
-    protected override GameBiz GameBiz { get; } = GameBiz.ZZZ;
+    protected override GameBiz GameBiz { get; } = GameBiz.nap;
 
     protected override string GachaTableName { get; } = "ZZZGachaItem";
 

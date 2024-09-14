@@ -87,12 +87,12 @@ internal class LauncherBackgroundService
     public async Task<string?> GetBackgroundImageUrlAsync(GameBiz gameBiz, CancellationToken cancellationToken = default)
     {
         string? url;
-        if (gameBiz.ToGame() is GameBiz.Honkai3rd && gameBiz.IsGlobalServer())
+        if (gameBiz.ToGame() == GameBiz.bh3 && gameBiz.IsGlobalOfficial())
         {
             var content = await GetLauncherContentAsync(gameBiz, cancellationToken);
             url = content.BackgroundImage?.Background;
         }
-        else if (gameBiz is GameBiz.hk4e_cloud)
+        else if (gameBiz == GameBiz.clgm_cn)
         {
             var background = await _hoYoPlayService.GetGameInfoAsync(GameBiz.hk4e_cn);
             url = background.Display.Background.Url;

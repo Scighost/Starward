@@ -47,9 +47,9 @@ internal abstract class GachaLogService
 
     public static string GetGachaLogText(GameBiz biz)
     {
-        return biz switch
+        return biz.Value switch
         {
-            GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_cloud => Lang.GachaLogService_WishRecords,
+            GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.clgm_cn => Lang.GachaLogService_WishRecords,
             GameBiz.hkrpg_cn or GameBiz.hkrpg_global => Lang.GachaLogService_WarpRecords,
             GameBiz.nap_cn or GameBiz.nap_global or GameBiz.nap_bilibili => Lang.GachaLogService_SignalSearchRecords,
             _ => ""

@@ -35,7 +35,7 @@ internal class GameService
     public string? GetGameScreenshotPath(GameBiz biz)
     {
         string? folder = null;
-        if (biz is GameBiz.hk4e_cloud)
+        if (biz == GameBiz.clgm_cn)
         {
             var config = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"GenshinImpactCloudGame\config\config.ini");
             if (File.Exists(config))
@@ -48,12 +48,12 @@ internal class GameService
         else
         {
             folder = _gameLauncherService.GetGameInstallPath(biz);
-            var relativePath = biz.ToGame() switch
+            var relativePath = biz.ToGame().Value switch
             {
-                GameBiz.GenshinImpact => "ScreenShot",
-                GameBiz.StarRail => @"StarRail_Data\ScreenShots",
-                GameBiz.Honkai3rd => @"ScreenShot",
-                GameBiz.ZZZ => @"ScreenShot",
+                GameBiz.hk4e => "ScreenShot",
+                GameBiz.hkrpg => @"StarRail_Data\ScreenShots",
+                GameBiz.bh3 => @"ScreenShot",
+                GameBiz.nap => @"ScreenShot",
                 _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
             };
             folder = Path.Join(folder, relativePath);
@@ -129,7 +129,7 @@ internal class GameService
                 var name = GameResourceService.GetGameExeName(biz);
                 exe = Path.Join(folder, name);
                 arg = AppConfig.GetStartArgument(biz)?.Trim();
-                verb = (biz is GameBiz.hk4e_cloud) ? "" : "runas";
+                verb = (biz == GameBiz.clgm_cn) ? "" : "runas";
                 if (!File.Exists(exe))
                 {
                     _logger.LogWarning("Game exe not found: {path}", exe);
@@ -176,12 +176,12 @@ internal class GameService
             if (steps.HasFlag(UninstallStep.BackupScreenshot) && Directory.Exists(AppConfig.UserDataFolder))
             {
                 _logger.LogInformation("Start to backup screenshot");
-                string relativePath = gameBiz.ToGame() switch
+                string relativePath = gameBiz.ToGame().Value switch
                 {
-                    GameBiz.GenshinImpact => "ScreenShot",
-                    GameBiz.StarRail => @"StarRail_Data\ScreenShots",
-                    GameBiz.Honkai3rd => @"ScreenShot",
-                    GameBiz.ZZZ => @"ScreenShot",
+                    GameBiz.hk4e => "ScreenShot",
+                    GameBiz.hkrpg => @"StarRail_Data\ScreenShots",
+                    GameBiz.bh3 => @"ScreenShot",
+                    GameBiz.nap => @"ScreenShot",
                     _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
                 };
                 string folder = Path.Join(loc, relativePath);

@@ -60,9 +60,9 @@ public sealed partial class SystemTrayControl : UserControl
         try
         {
             var list = new List<GameBizIcon>();
-            foreach (GameBiz biz in Enum.GetValues<GameBiz>())
+            foreach (GameBiz biz in GameBiz.AllGameBizs)
             {
-                if (biz.ToGame() is not GameBiz.None)
+                if (biz.IsValid())
                 {
                     string? folder = _gameLauncherService.GetGameInstallPath(biz);
                     if (string.IsNullOrWhiteSpace(folder))
@@ -149,7 +149,7 @@ public sealed partial class SystemTrayControl : UserControl
 
         public string GameName => GameBiz.ToGameName();
 
-        public string GameServer => GameBiz.ToGameServer();
+        public string GameServer => GameBiz.ToGameServerName();
 
         public bool Equals(GameServerModel? other)
         {

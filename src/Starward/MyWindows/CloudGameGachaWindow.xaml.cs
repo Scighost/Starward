@@ -51,11 +51,11 @@ public sealed partial class CloudGameGachaWindow : WindowEx
         try
         {
             // todo WinAppSDK 升级到 1.5 后，为云游戏的网页缓存设置单独的文件夹
-            if (GameBiz.ToGame() is GameBiz.GenshinImpact)
+            if (GameBiz.ToGame() == GameBiz.hk4e)
             {
                 webview.Source = new Uri("https://ys.mihoyo.com/cloud/");
             }
-            if (GameBiz.ToGame() is GameBiz.StarRail)
+            if (GameBiz.ToGame() == GameBiz.hkrpg)
             {
                 webview.Source = new Uri("https://sr.mihoyo.com/cloud/");
             }
@@ -107,10 +107,10 @@ public sealed partial class CloudGameGachaWindow : WindowEx
 
     private static string? GetMatchUrl(GameBiz gameBiz, string html)
     {
-        string? prefix = gameBiz.ToGame() switch
+        string? prefix = gameBiz.ToGame().Value switch
         {
-            GameBiz.GenshinImpact => SPAN_WEB_PREFIX_YS_CN,
-            GameBiz.StarRail => SPAN_WEB_PREFIX_SR_CN,
+            GameBiz.hk4e => SPAN_WEB_PREFIX_YS_CN,
+            GameBiz.hkrpg => SPAN_WEB_PREFIX_SR_CN,
             _ => null
         };
         if (prefix is not null)

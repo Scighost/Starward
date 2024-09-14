@@ -465,17 +465,17 @@ public class HoYoPlayClient
     public async Task<GameChunkBuild> GetGameChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
     {
         string? url = null;
-        if (gameBranch.GameId.ToGameBiz().IsChinaServer())
+        if (gameBranch.GameId.GameBiz.IsChinaOfficial())
         {
             url = "https://api-takumi.mihoyo.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf5qt290cg";
         }
-        if (gameBranch.GameId.ToGameBiz().IsGlobalServer())
+        if (gameBranch.GameId.GameBiz.IsGlobalOfficial())
         {
             url = "https://sg-public-api.hoyoverse.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf6vlr1reo";
         }
         if (url is null)
         {
-            throw new ArgumentOutOfRangeException(nameof(gameBranch), $"Unknown game biz ({gameBranch.GameId.Biz}).");
+            throw new ArgumentOutOfRangeException(nameof(gameBranch), $"Unknown game biz ({gameBranch.GameId.GameBiz}).");
         }
         url += $"&branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
         return await CommonGetAsync<GameChunkBuild>(url, cancellationToken);
@@ -496,17 +496,17 @@ public class HoYoPlayClient
     public async Task<GameChunkBuild> GetGameChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, string version, CancellationToken cancellationToken = default)
     {
         string? url = null;
-        if (gameBranch.GameId.ToGameBiz().IsChinaServer())
+        if (gameBranch.GameId.GameBiz.IsChinaOfficial())
         {
             url = "https://api-takumi.mihoyo.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf5qt290cg";
         }
-        if (gameBranch.GameId.ToGameBiz().IsGlobalServer())
+        if (gameBranch.GameId.GameBiz.IsGlobalOfficial())
         {
             url = "https://sg-public-api.hoyoverse.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf6vlr1reo";
         }
         if (url is null)
         {
-            throw new ArgumentOutOfRangeException(nameof(gameBranch), $"Unknown game biz ({gameBranch.GameId.Biz}).");
+            throw new ArgumentOutOfRangeException(nameof(gameBranch), $"Unknown game biz ({gameBranch.GameId.GameBiz}).");
         }
         url += $"&branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}&tag={version}";
         return await CommonGetAsync<GameChunkBuild>(url, cancellationToken);

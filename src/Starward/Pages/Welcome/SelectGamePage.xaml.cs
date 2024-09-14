@@ -152,9 +152,9 @@ public sealed partial class SelectGamePage : PageBase
     private void InitializeGameComboBox()
     {
         ComboBox_Game.Items.Clear();
-        ComboBox_Game.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_cn.ToGameName(), Tag = GameBiz.Honkai3rd });
-        ComboBox_Game.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_cn.ToGameName(), Tag = GameBiz.GenshinImpact });
-        ComboBox_Game.Items.Add(new ComboBoxItem { Content = GameBiz.hkrpg_cn.ToGameName(), Tag = GameBiz.StarRail });
+        ComboBox_Game.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.bh3_cn).ToGameName(), Tag = GameBiz.bh3 });
+        ComboBox_Game.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.hk4e_cn).ToGameName(), Tag = GameBiz.hk4e });
+        ComboBox_Game.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.hkrpg_cn).ToGameName(), Tag = GameBiz.hkrpg });
     }
 
 
@@ -165,27 +165,27 @@ public sealed partial class SelectGamePage : PageBase
         ComboBox_GameServer.Items.Clear();
         if (e.AddedItems.FirstOrDefault() is ComboBoxItem item)
         {
-            if (item.Tag is GameBiz.Honkai3rd)
+            if (item.Tag == GameBiz.bh3)
             {
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_cn.ToGameServer(), Tag = GameBiz.bh3_cn });
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_global.ToGameServer(), Tag = GameBiz.bh3_global });
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_jp.ToGameServer(), Tag = GameBiz.bh3_jp });
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_kr.ToGameServer(), Tag = GameBiz.bh3_kr });
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_overseas.ToGameServer(), Tag = GameBiz.bh3_overseas });
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.bh3_tw.ToGameServer(), Tag = GameBiz.bh3_tw });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.bh3_cn).ToGameServerName(), Tag = GameBiz.bh3_cn });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.bh3_global).ToGameServerName(), Tag = GameBiz.bh3_global });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.bh3_jp).ToGameServerName(), Tag = GameBiz.bh3_jp });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.bh3_kr).ToGameServerName(), Tag = GameBiz.bh3_kr });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.bh3_os).ToGameServerName(), Tag = GameBiz.bh3_os });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.bh3_asia).ToGameServerName(), Tag = GameBiz.bh3_asia });
             }
-            if (item.Tag is GameBiz.GenshinImpact)
+            if (item.Tag is GameBiz.hk4e)
             {
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_cn.ToGameServer(), Tag = GameBiz.hk4e_cn });
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_global.ToGameServer(), Tag = GameBiz.hk4e_global });
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_cloud.ToGameServer(), Tag = GameBiz.hk4e_cloud });
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hk4e_bilibili.ToGameServer(), Tag = GameBiz.hk4e_bilibili });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.hk4e_cn).ToGameServerName(), Tag = GameBiz.hk4e_cn });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.hk4e_global).ToGameServerName(), Tag = GameBiz.hk4e_global });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.clgm_cn).ToGameServerName(), Tag = GameBiz.clgm_cn });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.hk4e_bilibili).ToGameServerName(), Tag = GameBiz.hk4e_bilibili });
             }
-            if (item.Tag is GameBiz.StarRail)
+            if (item.Tag is GameBiz.hkrpg)
             {
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hkrpg_cn.ToGameServer(), Tag = GameBiz.hkrpg_cn });
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hkrpg_global.ToGameServer(), Tag = GameBiz.hkrpg_global });
-                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = GameBiz.hkrpg_bilibili.ToGameServer(), Tag = GameBiz.hkrpg_bilibili });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.hkrpg_cn).ToGameServerName(), Tag = GameBiz.hkrpg_cn });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.hkrpg_global).ToGameServerName(), Tag = GameBiz.hkrpg_global });
+                ComboBox_GameServer.Items.Add(new ComboBoxItem { Content = ((GameBiz)GameBiz.hkrpg_bilibili).ToGameServerName(), Tag = GameBiz.hkrpg_bilibili });
             }
         }
     }
@@ -202,7 +202,7 @@ public sealed partial class SelectGamePage : PageBase
 
     private void ChangeGameBiz(string bizStr)
     {
-        if (Enum.TryParse<GameBiz>(bizStr, out var biz))
+        if (GameBiz.TryParse(bizStr, out GameBiz biz))
         {
             _logger.LogInformation("Change game region to {gamebiz}", biz);
             SelectBiz = biz;
@@ -237,7 +237,7 @@ public sealed partial class SelectGamePage : PageBase
         var sw = Stopwatch.StartNew();
         try
         {
-            var game_info = games.FirstOrDefault(x => x.GameBiz == SelectBiz);
+            var game_info = games.FirstOrDefault((Func<GameInfo, bool>)(x => x.GameBiz == SelectBiz));
             if (game_info is null)
             {
                 Grid_GameInfo.Opacity = 0;

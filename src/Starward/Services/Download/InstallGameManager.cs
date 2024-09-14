@@ -110,7 +110,7 @@ internal class InstallGameManager
             model.InstallCanceled -= Model_InstallCanceled;
             InstallTaskRemoved?.Invoke(this, model);
             WeakReferenceMessenger.Default.Send(new InstallGameFinishedMessage(model.GameBiz));
-            NotificationBehavior.Instance.Success(Lang.InstallGameManager_DownloadTaskCompleted, $"{InstallTaskToString(model.Service.InstallTask)} - {model.GameBiz.ToGameName()} - {model.GameBiz.ToGameServer()}", 0);
+            NotificationBehavior.Instance.Success(Lang.InstallGameManager_DownloadTaskCompleted, $"{InstallTaskToString(model.Service.InstallTask)} - {model.GameBiz.ToGameName()} - {model.GameBiz.ToGameServerName()}", 0);
         }
     }
 
@@ -120,7 +120,7 @@ internal class InstallGameManager
     {
         if (sender is InstallGameStateModel model)
         {
-            NotificationBehavior.Instance.Error(e, $"{Lang.InstallGameManager_DownloadTaskFailed} ({InstallTaskToString(model.Service.InstallTask)} - {model.GameBiz.ToGameName()} - {model.GameBiz.ToGameServer()})", 0);
+            NotificationBehavior.Instance.Error(e, $"{Lang.InstallGameManager_DownloadTaskFailed} ({InstallTaskToString(model.Service.InstallTask)} - {model.GameBiz.ToGameName()} - {model.GameBiz.ToGameServerName()})", 0);
         }
     }
 

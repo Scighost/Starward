@@ -30,8 +30,8 @@ public static class Program
             if (args[0].ToLower() is "playtime")
             {
                 int pid = AppConfig.Configuration.GetValue<int>("pid");
-                GameBiz biz = AppConfig.Configuration.GetValue<GameBiz>("biz");
-                if (pid > 0 && biz > 0)
+                GameBiz biz = (GameBiz)AppConfig.Configuration.GetValue<string>("biz");
+                if (pid > 0 && biz.IsValid())
                 {
                     var playtime = AppConfig.GetService<PlayTimeService>();
                     playtime.LogPlayTimeAsync(biz, pid).GetAwaiter().GetResult();
@@ -41,7 +41,7 @@ public static class Program
 
             if (args[0].ToLower() is "uninstall")
             {
-                GameBiz biz = AppConfig.Configuration.GetValue<GameBiz>("biz");
+                GameBiz biz = (GameBiz)AppConfig.Configuration.GetValue<string>("biz");
                 string? loc = AppConfig.Configuration.GetValue<string>("loc");
                 UninstallStep steps = AppConfig.Configuration.GetValue<UninstallStep>("steps");
                 var gameService = AppConfig.GetService<GameService>();
@@ -52,7 +52,7 @@ public static class Program
 
             if (args[0].ToLower() is "startgame")
             {
-                GameBiz biz = AppConfig.Configuration.GetValue<GameBiz>("biz");
+                GameBiz biz = (GameBiz)AppConfig.Configuration.GetValue<string>("biz");
                 var p = AppConfig.GetService<GameLauncherService>().StartGame(biz, true);
                 if (p != null)
                 {

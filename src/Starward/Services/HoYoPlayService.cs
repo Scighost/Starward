@@ -98,27 +98,27 @@ public class HoYoPlayService
             List<GameInfo> infos = await _client.GetGameInfoAsync(launcherId, language);
             foreach (GameInfo item in infos)
             {
-                _gameInfo[item.ToGameBiz()] = item;
+                _gameInfo[item.GameBiz] = item;
             }
             List<GameBackgroundInfo> backgrounds = await _client.GetGameBackgroundAsync(launcherId, language);
             foreach (GameBackgroundInfo item in backgrounds)
             {
-                _gameBackground[item.GameId.ToGameBiz()] = item;
+                _gameBackground[item.GameId.GameBiz] = item;
             }
             foreach (var item in infos)
             {
                 GameContent content = await _client.GetGameContentAsync(launcherId, language, item);
-                _gameContent[content.GameId.ToGameBiz()] = content;
+                _gameContent[content.GameId.GameBiz] = content;
             }
             List<GamePackage> packages = await _client.GetGamePackageAsync(launcherId, language);
             foreach (GamePackage item in packages)
             {
-                _gamePackage[item.GameId.ToGameBiz()] = item;
+                _gamePackage[item.GameId.GameBiz] = item;
             }
             List<GameConfig> configs = await _client.GetGameConfigAsync(launcherId, language);
             foreach (GameConfig item in configs)
             {
-                _gameConfig[item.GameId.ToGameBiz()] = item;
+                _gameConfig[item.GameId.GameBiz] = item;
             }
         }
         catch (Exception ex)
@@ -221,7 +221,7 @@ public class HoYoPlayService
         List<GameBiz> bizs = new();
         foreach (string str in AppConfig.SelectedGameBizs?.Split(',') ?? [])
         {
-            if (Enum.TryParse(str, out GameBiz biz) && biz.ToGame() is not GameBiz.None)
+            if (GameBiz.TryParse(str, out GameBiz biz))
             {
                 bizs.Add(biz);
             }
@@ -237,7 +237,7 @@ public class HoYoPlayService
         if (!_gameInfo.TryGetValue(biz, out GameInfo? info))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            if (biz.IsBilibiliServer())
+            if (biz.IsBilibili())
             {
                 var list = await _client.GetGameInfoAsync(LauncherId.FromGameBiz(biz)!, lang);
                 info = list.First();
@@ -248,9 +248,9 @@ public class HoYoPlayService
                 var list = await _client.GetGameInfoAsync(LauncherId.FromGameBiz(biz)!, lang);
                 foreach (var item in list)
                 {
-                    _gameInfo[item.ToGameBiz()] = item;
+                    _gameInfo[item.GameBiz] = item;
                 }
-                info = list.First(x => x.Biz == biz.ToString());
+                info = list.First(x => x.GameBiz == biz.ToString());
             }
         }
         return info;
@@ -263,7 +263,7 @@ public class HoYoPlayService
         if (!_gameBackground.TryGetValue(biz, out GameBackgroundInfo? background))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            if (biz.IsBilibiliServer())
+            if (biz.IsBilibili())
             {
                 var list = await _client.GetGameBackgroundAsync(LauncherId.FromGameBiz(biz)!, lang);
                 background = list.First();
@@ -274,9 +274,9 @@ public class HoYoPlayService
                 var list = await _client.GetGameBackgroundAsync(LauncherId.FromGameBiz(biz)!, lang);
                 foreach (var item in list)
                 {
-                    _gameBackground[item.GameId.ToGameBiz()] = item;
+                    _gameBackground[item.GameId.GameBiz] = item;
                 }
-                background = list.First(x => x.GameId.ToGameBiz() == biz);
+                background = list.First(x => x.GameId.GameBiz == biz);
             }
         }
         return background;
@@ -289,7 +289,7 @@ public class HoYoPlayService
         if (!_gameContent.TryGetValue(biz, out GameContent? content))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            if (biz.IsBilibiliServer())
+            if (biz.IsBilibili())
             {
                 content = await _client.GetGameContentAsync(LauncherId.FromGameBiz(biz)!, lang, GameId.FromGameBiz(biz)!);
                 _gameContent[biz] = content;
@@ -310,7 +310,7 @@ public class HoYoPlayService
         if (!_gamePackage.TryGetValue(biz, out GamePackage? package))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            if (biz.IsBilibiliServer())
+            if (biz.IsBilibili())
             {
                 var list = await _client.GetGamePackageAsync(LauncherId.FromGameBiz(biz)!, lang);
                 package = list.First();
@@ -321,9 +321,9 @@ public class HoYoPlayService
                 var list = await _client.GetGamePackageAsync(LauncherId.FromGameBiz(biz)!, lang);
                 foreach (var item in list)
                 {
-                    _gamePackage[item.GameId.ToGameBiz()] = item;
+                    _gamePackage[item.GameId.GameBiz] = item;
                 }
-                package = list.First(x => x.GameId.ToGameBiz() == biz);
+                package = list.First(x => x.GameId.GameBiz == biz);
             }
         }
         return package;
@@ -333,14 +333,14 @@ public class HoYoPlayService
 
     public async Task<GameConfig?> GetGameConfigAsync(GameBiz biz)
     {
-        if (biz.ToGame() is GameBiz.Honkai3rd && biz.IsGlobalOfficial())
+        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalOfficial())
         {
             return null;
         }
         if (!_gameConfig.TryGetValue(biz, out GameConfig? config))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            if (biz.IsBilibiliServer())
+            if (biz.IsBilibili())
             {
                 var list = await _client.GetGameConfigAsync(LauncherId.FromGameBiz(biz)!, lang);
                 config = list.First();
@@ -351,9 +351,9 @@ public class HoYoPlayService
                 var list = await _client.GetGameConfigAsync(LauncherId.FromGameBiz(biz)!, lang);
                 foreach (var item in list)
                 {
-                    _gameConfig[item.GameId.ToGameBiz()] = item;
+                    _gameConfig[item.GameId.GameBiz] = item;
                 }
-                config = list.FirstOrDefault(x => x.GameId.ToGameBiz() == biz);
+                config = list.FirstOrDefault(x => x.GameId.GameBiz == biz);
             }
         }
         return config;
@@ -363,7 +363,7 @@ public class HoYoPlayService
 
     public async Task<List<GameDeprecatedFile>> GetGameDeprecatedFilesAsync(GameBiz biz)
     {
-        if (biz.ToGame() is GameBiz.Honkai3rd && biz.IsGlobalOfficial())
+        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalOfficial())
         {
             biz = GameBiz.bh3_global;
         }
@@ -384,7 +384,7 @@ public class HoYoPlayService
 
     public async Task<GameChannelSDK?> GetGameChannelSDKAsync(GameBiz biz)
     {
-        if (biz.ToGame() is GameBiz.Honkai3rd && biz.IsGlobalOfficial())
+        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalOfficial())
         {
             biz = GameBiz.bh3_global;
         }

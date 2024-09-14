@@ -38,7 +38,7 @@ public sealed partial class GameResourcePage : PageBase
 
 
 
-    public string GameServerName => $"{CurrentGameBiz.ToGameName()} - {CurrentGameBiz.ToGameServer()}";
+    public string GameServerName => $"{CurrentGameBiz.ToGameName()} - {CurrentGameBiz.ToGameServerName()}";
 
 
 
@@ -65,7 +65,7 @@ public sealed partial class GameResourcePage : PageBase
             gamePackage = await _gamePackageService.GetGamePackageAsync(CurrentGameBiz);
             LatestVersion = gamePackage.Main.Major!.Version;
             var list = GetGameResourcePackageGroups(gamePackage.Main);
-            if (CurrentGameBiz.IsBilibiliServer())
+            if (CurrentGameBiz.IsBilibili())
             {
                 var sdk = await _hoyoPlayClient.GetGameChannelSDKAsync(LauncherId.FromGameBiz(CurrentGameBiz)!, "", GameId.FromGameBiz(CurrentGameBiz)!);
                 if (sdk is not null)

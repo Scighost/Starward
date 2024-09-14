@@ -61,20 +61,20 @@ public sealed partial class GachaLogPage : PageBase
         if (e.Parameter is GameBiz biz)
         {
             GachaTypeText = GachaLogService.GetGachaLogText(biz);
-            if (biz.ToGame() is GameBiz.GenshinImpact)
+            if (biz.ToGame() == GameBiz.hk4e)
             {
                 EnableGenshinGachaItemStats = true;
                 ToggleSwitch_ShowChronicledWish.Visibility = Visibility.Visible;
                 _gachaLogService = AppConfig.GetService<GenshinGachaService>();
                 Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPaimon);
             }
-            if (biz.ToGame() is GameBiz.StarRail)
+            if (biz.ToGame() == GameBiz.hkrpg)
             {
                 EnableStarRailGachaItemStats = true;
                 _gachaLogService = AppConfig.GetService<StarRailGachaService>();
                 Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPom);
             }
-            if (biz.ToGame() is GameBiz.ZZZ)
+            if (biz.ToGame() == GameBiz.nap)
             {
                 IsZZZGachaStatsCardVisible = true;
                 _gachaLogService = AppConfig.GetService<ZZZGachaService>();
@@ -84,7 +84,7 @@ public sealed partial class GachaLogPage : PageBase
                 Button_Export_JSON.IsEnabled = false;
                 Button_Import.IsEnabled = false;
             }
-            if (biz.IsGlobalServer())
+            if (biz.IsGlobalOfficial())
             {
                 MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
             }
@@ -251,7 +251,7 @@ public sealed partial class GachaLogPage : PageBase
             else
             {
                 (var gachaStats, var itemStats) = _gachaLogService.GetGachaTypeStats(uid.Value);
-                if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
+                if (CurrentGameBiz.ToGame().Value is GameBiz.hk4e or GameBiz.hkrpg)
                 {
                     noviceGachaTypeStats = gachaStats.FirstOrDefault(x => x.GachaType == GachaType.NoviceWish || x.GachaType == GachaType.DepartureWarp);
                     chronicledWishStats = gachaStats.FirstOrDefault(x => x.GachaType == GachaType.ChronicledWish);

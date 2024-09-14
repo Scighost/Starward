@@ -14,7 +14,7 @@ namespace Starward.Services.InstallGame;
 internal class Honkai3rdInstallGameService : InstallGameService
 {
 
-    public override GameBiz CurrentGame => GameBiz.Honkai3rd;
+    public override GameBiz CurrentGame => GameBiz.bh3;
 
 
     public Honkai3rdInstallGameService(ILogger<Honkai3rdInstallGameService> logger, GameLauncherService gameLauncherService, GamePackageService gamePackageService, HoYoPlayClient hoyoPlayClient, HttpClient httpClient)
