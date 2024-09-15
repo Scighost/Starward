@@ -133,7 +133,7 @@ internal class GameAccountService
         account.IsSaved = true;
         using var dapper = _database.CreateConnection();
         dapper.Execute("INSERT OR REPLACE INTO GameAccount (SHA256, GameBiz, Uid, Name, Value, Time) VALUES (@SHA256, @GameBiz, @Uid, @Name, @Value, @Time);", account);
-        _logger.LogInformation("Save account {name} ({biz}) successfully!", account.Name, (object)account.GameBiz);
+        _logger.LogInformation("Save account {name} ({biz}) successfully!", account.Name, account.GameBiz);
     }
 
 
@@ -141,8 +141,8 @@ internal class GameAccountService
     public void DeleteGameAccount(GameAccount account)
     {
         using var dapper = _database.CreateConnection();
-        dapper.Execute("DELETE FROM GameAccount WHERE SHA256=@SHA256;", account);
-        _logger.LogInformation("Delete account {name} ({biz}) successfully!", account.Name, (object)account.GameBiz);
+        dapper.Execute("DELETE FROM GameAccount WHERE GameBiz=@GameBiz AND SHA256=@SHA256;", account);
+        _logger.LogInformation("Delete account {name} ({biz}) successfully!", account.Name, account.GameBiz);
     }
 
 

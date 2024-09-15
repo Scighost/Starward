@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
+using Starward.Core;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System;
@@ -32,6 +33,7 @@ internal class DatabaseService
         SqlMapper.AddTypeHandler(new DapperSqlMapper.TravelersDiaryPrimogemsMonthGroupStatsListHandler());
         SqlMapper.AddTypeHandler(new DapperSqlMapper.TrailblazeCalendarMonthDataGroupByListHandler());
         SqlMapper.AddTypeHandler(new DapperSqlMapper.StringListHandler());
+        SqlMapper.AddTypeHandler(new DapperSqlMapper.GameBizHandler());
     }
 
 
@@ -773,6 +775,20 @@ internal class DatabaseService
             public override void SetValue(IDbDataParameter parameter, List<string>? value)
             {
                 parameter.Value = JsonSerializer.Serialize(value, JsonSerializerOptions);
+            }
+        }
+
+
+        public class GameBizHandler : SqlMapper.TypeHandler<GameBiz>
+        {
+            public override GameBiz? Parse(object value)
+            {
+                return new GameBiz(value as string);
+            }
+
+            public override void SetValue(IDbDataParameter parameter, GameBiz? value)
+            {
+                parameter.Value = value?.ToString() ?? "";
             }
         }
 
