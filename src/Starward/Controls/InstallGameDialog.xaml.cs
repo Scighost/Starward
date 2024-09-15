@@ -103,7 +103,7 @@ public sealed partial class InstallGameDialog : ContentDialog
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HardLinkTargetText))]
-    private GameBiz hardLinkTarget = GameBiz.None;
+    private GameBiz hardLinkTarget;
 
 
     [ObservableProperty]

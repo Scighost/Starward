@@ -72,7 +72,7 @@ public sealed partial class BBSWebBridge : UserControl
 
 
 
-    public GameBiz CurrentGameBiz { get; set; } = GameBiz.None;
+    public GameBiz CurrentGameBiz { get; set; }
 
 
 

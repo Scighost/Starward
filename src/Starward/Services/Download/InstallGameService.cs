@@ -232,7 +232,7 @@ internal class InstallGameService
 
     public async Task InitializeAsync(GameBiz gameBiz, string installPath)
     {
-        if (!gameBiz.IsValid())
+        if (!gameBiz.IsKnown())
         {
             throw new ArgumentOutOfRangeException(nameof(gameBiz), gameBiz, $"GameBiz ({gameBiz}) is invalid.");
         }

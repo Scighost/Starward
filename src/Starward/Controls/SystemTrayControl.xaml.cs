@@ -62,7 +62,7 @@ public sealed partial class SystemTrayControl : UserControl
             var list = new List<GameBizIcon>();
             foreach (GameBiz biz in GameBiz.AllGameBizs)
             {
-                if (biz.IsValid())
+                if (biz.IsKnown())
                 {
                     string? folder = _gameLauncherService.GetGameInstallPath(biz);
                     if (string.IsNullOrWhiteSpace(folder))

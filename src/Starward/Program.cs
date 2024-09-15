@@ -31,7 +31,7 @@ public static class Program
             {
                 int pid = AppConfig.Configuration.GetValue<int>("pid");
                 GameBiz biz = (GameBiz)AppConfig.Configuration.GetValue<string>("biz");
-                if (pid > 0 && biz.IsValid())
+                if (pid > 0 && biz.IsKnown())
                 {
                     var playtime = AppConfig.GetService<PlayTimeService>();
                     playtime.LogPlayTimeAsync(biz, pid).GetAwaiter().GetResult();

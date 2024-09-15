@@ -81,7 +81,7 @@ public record GameBiz
     public static bool TryParse(string? value, out GameBiz gameBiz)
     {
         gameBiz = new(value);
-        return gameBiz.IsValid();
+        return gameBiz.IsKnown();
     }
 
 
@@ -98,7 +98,7 @@ public static class GameBizExtension
 {
 
 
-    public static bool IsValid(this GameBiz? gameBiz) => gameBiz?.Value switch
+    public static bool IsKnown(this GameBiz? gameBiz) => gameBiz?.Value switch
     {
         GameBiz.bh3_cn or GameBiz.bh3_global => true,
         GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_bilibili => true,

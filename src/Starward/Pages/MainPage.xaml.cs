@@ -185,7 +185,7 @@ public sealed partial class MainPage : PageBase
     private void InitializeGameBiz()
     {
         CurrentGameBiz = AppConfig.CurrentGameBiz;
-        if (!CurrentGameBiz.IsValid())
+        if (!CurrentGameBiz.IsKnown())
         {
             CurrentGameBiz = GameBiz.None;
         }
@@ -510,7 +510,7 @@ public sealed partial class MainPage : PageBase
 
     private void UpdateNavigationViewItemsText()
     {
-        if (!CurrentGameBiz.IsValid())
+        if (!CurrentGameBiz.IsKnown())
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Collapsed;
             NavigationViewItem_GameSetting.Visibility = Visibility.Collapsed;

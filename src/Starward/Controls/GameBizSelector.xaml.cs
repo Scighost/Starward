@@ -42,7 +42,7 @@ public sealed partial class GameBizSelector : UserControl
 
 
 
-    public GameBiz CurrentGameBiz { get; set; } = GameBiz.None;
+    public GameBiz CurrentGameBiz { get; set; }
 
 
 
@@ -63,10 +63,6 @@ public sealed partial class GameBizSelector : UserControl
     public void InitializeGameBiz(GameBiz gameBiz)
     {
         CurrentGameBiz = gameBiz;
-        if (CurrentGameBiz.ToGame() == GameBiz.None)
-        {
-            CurrentGameBiz = GameBiz.None;
-        }
         string? bizs = AppConfig.SelectedGameBizs;
         GameBizIcons.Clear();
         foreach (string str in bizs?.Split(',') ?? [])
@@ -84,7 +80,7 @@ public sealed partial class GameBizSelector : UserControl
             CurrentGameBizIcon.CurrentGameBiz = true;
             CurrentGameBizIcon.MaskOpacity = 0;
         }
-        else if (CurrentGameBiz.ToGame() != GameBiz.None)
+        else if (CurrentGameBiz.IsKnown())
         {
             CurrentGameBizIcon = new GameBizIcon { GameBiz = CurrentGameBiz };
         }

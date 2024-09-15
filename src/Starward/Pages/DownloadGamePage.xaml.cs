@@ -170,7 +170,7 @@ public sealed partial class DownloadGamePage : PageBase
             await instance.RedirectActivationToAsync(AppInstance.GetCurrent().GetActivatedEventArgs());
             Environment.Exit(0);
         }
-        if (!gameBiz.IsValid() || gameBiz == GameBiz.clgm_cn || _installGameService is null)
+        if (!gameBiz.IsKnown() || gameBiz == GameBiz.clgm_cn || _installGameService is null)
         {
             instance.UnregisterKey();
             var dialog = new ContentDialog

@@ -45,7 +45,7 @@ public class SelfQueryClient
 
 
 
-    private GameBiz gameBiz = GameBiz.None;
+    private GameBiz gameBiz;
 
     private string? authQuery;
 
@@ -139,7 +139,7 @@ public class SelfQueryClient
 
     public void EnsureInitialized()
     {
-        if (!gameBiz.IsValid()
+        if (!gameBiz.IsKnown()
             || UserInfo is null
             || string.IsNullOrWhiteSpace(authQuery)
             || string.IsNullOrWhiteSpace(prefixUrl))

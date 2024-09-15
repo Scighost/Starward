@@ -9,7 +9,7 @@ namespace Starward.Models;
 public partial class GameBizIcon : ObservableObject, IEquatable<GameBizIcon>
 {
 
-    public GameBiz GameBiz { get; set; } = GameBiz.None;
+    public GameBiz GameBiz { get; set; }
 
     public string GameIcon => GameBizToIcon(GameBiz);
 
