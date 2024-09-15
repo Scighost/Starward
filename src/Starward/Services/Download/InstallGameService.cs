@@ -627,6 +627,8 @@ internal class InstallGameService
 
     protected void StartTask(InstallGameState state)
     {
+        if (_concurrentExecuteThreadCount > 0) return;
+
         if (state is InstallGameState.Download)
         {
             if (InstallTask is InstallGameTask.HardLink)
@@ -713,10 +715,26 @@ internal class InstallGameService
             _finishBytes = 0;
         }
         State = state;
-        _cancellationTokenSource = new CancellationTokenSource();
-        for (int i = 0; i < Environment.ProcessorCount; i++)
+
+        _ = RunTasksAsync(); //不需要ConfigureAwait，因为返回值丢弃，且无需调用“.GetAwaiter().OnCompleted()”
+        return;
+
+        async Task RunTasksAsync()
         {
-            _ = ExecuteTaskItemAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
+            _cancellationTokenSource = new CancellationTokenSource();
+            var tasks = new Task[Environment.ProcessorCount];
+            for (int i = 0; i < Environment.ProcessorCount; i++)
+            {
+                tasks[i] = ExecuteTaskItemAsync(_cancellationTokenSource.Token);
+            }
+            try
+            {
+                await Task.WhenAll(tasks).ConfigureAwait(false);
+            }
+            finally
+            {
+                CurrentTaskFinished();
+            }
         }
     }
 
@@ -1106,11 +1124,6 @@ internal class InstallGameService
         try
         {
             Interlocked.Increment(ref _concurrentExecuteThreadCount);
-            if (_concurrentExecuteThreadCount > Environment.ProcessorCount)
-            {
-                return;
-            }
-
             while (_installItemQueue.TryDequeue(out InstallGameItem? item))
             {
                 try
@@ -1161,10 +1174,6 @@ internal class InstallGameService
         finally
         {
             Interlocked.Decrement(ref _concurrentExecuteThreadCount);
-            if (_concurrentExecuteThreadCount == 0)
-            {
-                CurrentTaskFinished();
-            }
         }
     }
 
