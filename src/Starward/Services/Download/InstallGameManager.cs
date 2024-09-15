@@ -1,10 +1,11 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Messages;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.RateLimiting;
 
 namespace Starward.Services.Download;
@@ -19,7 +20,9 @@ internal class InstallGameManager
     private InstallGameManager()
     {
         _services = new();
-        SetRateLimit(AppConfig.SpeedLimitKBPerSecond * 1024);
+        int speed = AppConfig.SpeedLimitKBPerSecond * 1024;
+        SpeedLimitBytesPerSecond = speed == 0 ? int.MaxValue : speed;
+        SetRateLimit();
     }
 
 
@@ -31,32 +34,13 @@ internal class InstallGameManager
 
 
 
+    public static long SpeedLimitBytesPerSecond;
+
+
     public static TokenBucketRateLimiter RateLimiter { get; private set; }
 
 
-
-    public static void SetRateLimit(int bytesPerSecond)
-    {
-        if (bytesPerSecond <= 0)
-        {
-            bytesPerSecond = int.MaxValue;
-        }
-        else if (bytesPerSecond < (1 << 14))
-        {
-            bytesPerSecond = 1 << 14;
-        }
-        RateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
-        {
-            TokenLimit = bytesPerSecond,
-            ReplenishmentPeriod = TimeSpan.FromSeconds(1),
-            TokensPerPeriod = bytesPerSecond,
-            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-            AutoReplenishment = true
-        });
-    }
-
-
-
+    public static bool IsEnableSpeedLimit => Interlocked.Read(ref SpeedLimitBytesPerSecond) != int.MaxValue;
 
 
     public event EventHandler<InstallGameStateModel> InstallTaskAdded;
@@ -65,6 +49,23 @@ internal class InstallGameManager
 
     public event EventHandler<InstallGameStateModel> InstallTaskRemoved;
 
+
+
+
+    public static void SetRateLimit()
+    {
+        var speedLimitBytesPerPeriod = (int)SpeedLimitBytesPerSecond / 25;
+        RateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
+        {
+            TokenLimit = speedLimitBytesPerPeriod,
+            // 0.04: 将每秒切割为上面的25份，间隔越小速度越精准。
+            // 因补充令牌逻辑运行耗时远大于期望，若间隔极小，将无法达到最高限速。
+            ReplenishmentPeriod = TimeSpan.FromSeconds(0.04),
+            TokensPerPeriod = speedLimitBytesPerPeriod,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            AutoReplenishment = true
+        });
+    }
 
 
 

@@ -1,9 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Starward.Core;
 using Starward.Models;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Starward.Services.Download;
 
@@ -95,6 +98,8 @@ public partial class InstallGameStateModel : ObservableObject
 
     public double _speedBytesPerSecond;
 
+    private List<double> _recentSpeed = [];
+
 
 
     [RelayCommand]
@@ -102,8 +107,12 @@ public partial class InstallGameStateModel : ObservableObject
     {
         if (ButtonGlyph is PlayGlyph)
         {
-            Service.Continue();
-            InstallStarted?.Invoke(this, EventArgs.Empty);
+            Task.Run(() =>
+            {
+                Task.WhenAll(Service.TaskItems).Wait();
+                Service.Continue();
+                InstallStarted?.Invoke(this, EventArgs.Empty);
+            });
         }
         else if (ButtonGlyph is PauseGlyph)
         {
@@ -215,6 +224,7 @@ public partial class InstallGameStateModel : ObservableObject
             if (ts - _lastTimestamp >= Stopwatch.Frequency)
             {
                 long bytes = Service.FinishBytes;
+                double averageSpeed = 0;
                 _speedBytesPerSecond = Math.Clamp((double)(bytes - _lastFinishedBytes) / (ts - _lastTimestamp) * Stopwatch.Frequency, 0, long.MaxValue);
                 _lastFinishedBytes = bytes;
                 _lastTimestamp = ts;
@@ -225,22 +235,34 @@ public partial class InstallGameStateModel : ObservableObject
                 }
                 else
                 {
-                    if (_speedBytesPerSecond >= MB)
-                    {
-                        SpeedText = $"{_speedBytesPerSecond / MB:F2} MB/s";
-                    }
-                    else
-                    {
-                        SpeedText = $"{_speedBytesPerSecond / KB:F2} KB/s";
-                    }
                     if (_speedBytesPerSecond == 0)
                     {
                         RemainingTimeText = null;
                     }
                     else
                     {
-                        var seconds = (Service.TotalBytes - Service.FinishBytes) / _speedBytesPerSecond;
+                        if (InstallGameManager.IsEnableSpeedLimit)
+                        {
+                            _recentSpeed.RemoveAll(value => Math.Abs(value - _speedBytesPerSecond) / _speedBytesPerSecond > 0.05);
+                            _recentSpeed.RemoveRange(0, Math.Max(_recentSpeed.Count - 59, 0));
+                        }
+                        else
+                        {
+                            _recentSpeed.RemoveAll(value => Math.Abs(value - _speedBytesPerSecond) / _speedBytesPerSecond > 0.25);
+                            _recentSpeed.RemoveRange(0, Math.Max(_recentSpeed.Count - 9, 0));
+                        }
+                        _recentSpeed.Add(_speedBytesPerSecond);
+                        averageSpeed = _recentSpeed.Average();
+                        var seconds = (Service.TotalBytes - Service.FinishBytes) / averageSpeed;
                         RemainingTimeText = TimeSpan.FromSeconds(seconds).ToString(@"hh\:mm\:ss");
+                    }
+                    if (_speedBytesPerSecond >= MB)
+                    {
+                        SpeedText = $"{averageSpeed / MB:F2} MB/s";
+                    }
+                    else
+                    {
+                        SpeedText = $"{averageSpeed / KB:F2} KB/s";
                     }
                 }
             }

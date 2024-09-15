@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Services.InstallGame;
@@ -21,7 +21,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading;
-using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 
@@ -625,6 +624,12 @@ internal class InstallGameService
 
 
 
+
+    protected List<Task> _taskItems;
+    public List<Task> TaskItems => _taskItems;
+
+
+
     protected void StartTask(InstallGameState state)
     {
         if (_concurrentExecuteThreadCount > 0) return;
@@ -715,7 +720,6 @@ internal class InstallGameService
             _finishBytes = 0;
         }
         State = state;
-
         _ = RunTasksAsync(); //不需要ConfigureAwait，因为返回值丢弃，且无需调用“.GetAwaiter().OnCompleted()”
         return;
 
@@ -1164,12 +1168,13 @@ internal class InstallGameService
                     _installItemQueue.Enqueue(item);
                     return;
                 }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, nameof(ExecuteTaskItemAsync));
+                    _installItemQueue.Enqueue(item);
+                    OnInstallFailed(ex);
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, nameof(ExecuteTaskItemAsync));
-            OnInstallFailed(ex);
         }
         finally
         {
@@ -1182,7 +1187,7 @@ internal class InstallGameService
 
     protected async Task DownloadItemAsync(InstallGameItem item, CancellationToken cancellationToken = default)
     {
-        const int BUFFER_SIZE = 1 << 10;
+        const int BUFFER_SIZE = 1 << 14;
         string file = item.Path;
         string file_tmp = item.Path + "_tmp";
         string file_target;
@@ -1214,12 +1219,12 @@ internal class InstallGameService
                 int length;
                 while ((length = await hs.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) != 0)
                 {
-                    RateLimitLease lease = await InstallGameManager.RateLimiter.AcquireAsync(length, cancellationToken).ConfigureAwait(false);
-                    while (!lease.IsAcquired)
-                    {
-                        await Task.Delay(1, cancellationToken).ConfigureAwait(false);
-                        lease = await InstallGameManager.RateLimiter.AcquireAsync(length, cancellationToken).ConfigureAwait(false);
-                    }
+                    int totalTokens = 0;
+                    while (InstallGameManager.IsEnableSpeedLimit && totalTokens < length)
+                        if (!TokenBucketRateLimiterExtension.TryAcquire(InstallGameManager.RateLimiter, length - totalTokens, out int tokensAcquired, out _))
+                            await Task.Delay(1, cancellationToken).ConfigureAwait(false);
+                        else
+                            totalTokens += tokensAcquired;
                     await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken).ConfigureAwait(false);
                     Interlocked.Add(ref _finishBytes, length);
                 }

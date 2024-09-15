@@ -5,6 +5,7 @@ using Starward.Helpers;
 using Starward.Services.Download;
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
@@ -69,8 +70,10 @@ public sealed partial class DownloadSettingPage : PageBase
     private int speedLimit = AppConfig.SpeedLimitKBPerSecond;
     partial void OnSpeedLimitChanged(int value)
     {
-        InstallGameManager.SetRateLimit(value * 1024);
+        int speed = value <= 0 ? int.MaxValue : value * 1024;
+        Interlocked.Exchange(ref InstallGameManager.SpeedLimitBytesPerSecond, speed);
         AppConfig.SpeedLimitKBPerSecond = value;
+        InstallGameManager.SetRateLimit();
     }
 
 
