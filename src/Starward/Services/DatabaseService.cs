@@ -652,15 +652,28 @@ internal class DatabaseService
             ItemName     TEXT,
             PRIMARY KEY (Uid, Id)
         );
-
-
         CREATE INDEX IF NOT EXISTS IX_ZZZQueryItem_Id ON ZZZQueryItem (Id);
         CREATE INDEX IF NOT EXISTS IX_ZZZQueryItem_Type ON ZZZQueryItem (Type);
         CREATE INDEX IF NOT EXISTS IX_ZZZQueryItem_Reason ON ZZZQueryItem (Reason);
         CREATE INDEX IF NOT EXISTS IX_ZZZQueryItem_AddNum ON ZZZQueryItem (AddNum);
         CREATE INDEX IF NOT EXISTS IX_ZZZQueryItem_DateTime ON ZZZQueryItem (DateTime);
 
-        PRAGMA USER_VERSION = 9;
+        CREATE TABLE IF NOT EXISTS ImaginariumTheaterInfo
+        (
+            Uid          INTEGER NOT NULL,
+            ScheduleId   INTEGER NOT NULL,
+            StartTime    TEXT,
+            EndTime      TEXT,
+            DifficultyId INTEGER NOT NULL,
+            MaxRoundId   INTEGER NOT NULL,
+            Heraldry     INTEGER NOT NULL,
+            MedalNum     INTEGER NOT NULL,
+            Value        TEXT,
+            PRIMARY KEY (Uid, ScheduleId)
+        );
+        CREATE INDEX IF NOT EXISTS IX_ImaginariumTheaterInfo_ScheduleId ON ImaginariumTheaterInfo (ScheduleId);
+
+        PRAGMA USER_VERSION = 10;
         COMMIT TRANSACTION;
         """;
 

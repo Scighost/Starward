@@ -34,6 +34,19 @@
                                   GameBiz="{x:Bind CurrentGameBiz}" />
 
 
+            <!--  Install Path Removable Tip  -->
+            <InfoBar Width="384"
+                     Margin="58,0,0,132"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Center"
+                     IsOpen="{x:Bind IsInstallPathRemovableTipEnabled}"
+                     Severity="Warning">
+                <TextBlock IsTextScaleFactorEnabled="False"
+                           Text="{x:Bind lang:Lang.GameLauncherPage_RemovableStorageDeviceNotConnected}"
+                           TextWrapping="Wrap" />
+            </InfoBar>
+
+
             <!--  Start Game  -->
             <StackPanel Margin="0,0,40,40"
                         HorizontalAlignment="Right"

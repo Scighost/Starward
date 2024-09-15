@@ -210,6 +210,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
         {
             NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
             NavigationViewItem_SpiralAbyss.Visibility = Visibility.Visible;
+            NavigationViewItem_ImaginariumTheater.Visibility = Visibility.Visible;
             NavigationViewItem_TravelersDiary.Visibility = Visibility.Visible;
             // 原神战绩图片
             Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/ced4deac2162690105bbc8baad2b51a3_4109616186965788891.png"));
@@ -471,6 +472,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
                     var type = item.Tag switch
                     {
                         nameof(SpiralAbyssPage) => typeof(SpiralAbyssPage),
+                        nameof(ImaginariumTheaterPage) => typeof(ImaginariumTheaterPage),
                         nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
                         nameof(SimulatedUniversePage) => typeof(SimulatedUniversePage),
                         nameof(ForgottenHallPage) => typeof(ForgottenHallPage),

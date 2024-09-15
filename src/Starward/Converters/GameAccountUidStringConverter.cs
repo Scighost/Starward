@@ -9,20 +9,20 @@ public class GameAccountUidStringConverter : IValueConverter
     {
         return value switch
         {
-            int uid when uid > 0 => uid.ToString(),
+            long uid when uid > 0 => uid.ToString(),
             _ => string.Empty
         };
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        if (int.TryParse(value as string, out int uid))
+        if (long.TryParse(value as string, out long uid))
         {
             return uid;
         }
         else
         {
-            return 0;
+            return 0L;
         }
     }
 }

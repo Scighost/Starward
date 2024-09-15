@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.GameRecord;
+using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
@@ -372,6 +373,86 @@ internal class GameRecordService
         return dapper.Query<TravelersDiaryAwardItem>("SELECT * FROM TravelersDiaryAwardItem WHERE Uid=@uid AND Year=@year AND Month=@month AND Type=@type ORDER BY Time;", new { uid, year, month, type }).ToList();
     }
 
+
+
+
+
+    #endregion
+
+
+
+
+    #region Imaginarium Theater
+
+
+
+    /// <summary>
+    /// 幻想真境剧诗
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task RefreshImaginariumTheaterInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        var infos = await _gameRecordClient.GetImaginariumTheaterInfosAsync(role, cancellationToken);
+        if (infos.Count == 0)
+        {
+            return;
+        }
+        using var dapper = _databaseService.CreateConnection();
+        using var t = dapper.BeginTransaction();
+        foreach (var info in infos)
+        {
+            var obj = new
+            {
+                info.Uid,
+                info.ScheduleId,
+                info.StartTime,
+                info.EndTime,
+                info.DifficultyId,
+                info.MaxRoundId,
+                info.Heraldry,
+                info.MedalNum,
+                Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+            };
+            dapper.Execute("""
+            INSERT OR REPLACE INTO ImaginariumTheaterInfo (Uid, ScheduleId, StartTime, EndTime, DifficultyId, MaxRoundId, Heraldry, MedalNum, Value)
+            VALUES (@Uid, @ScheduleId, @StartTime, @EndTime, @DifficultyId, @MaxRoundId, @Heraldry, @MedalNum, @Value);
+            """, obj, t);
+        }
+        t.Commit();
+    }
+
+
+
+
+    public List<ImaginariumTheaterInfo> GetImaginariumTheaterInfoList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<ImaginariumTheaterInfo>();
+        }
+        using var dapper = _databaseService.CreateConnection();
+        var list = dapper.Query<ImaginariumTheaterInfo>("""
+            SELECT Uid, ScheduleId, StartTime, EndTime, DifficultyId, MaxRoundId, Heraldry, MedalNum FROM ImaginariumTheaterInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
+            """, new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public ImaginariumTheaterInfo? GetImaginariumTheaterInfo(GameRecordRole role, int scheduleId)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        var value = dapper.QueryFirstOrDefault<string>("""
+            SELECT Value FROM ImaginariumTheaterInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
+            """, new { role.Uid, scheduleId });
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+        return JsonSerializer.Deserialize<ImaginariumTheaterInfo>(value);
+    }
 
 
 

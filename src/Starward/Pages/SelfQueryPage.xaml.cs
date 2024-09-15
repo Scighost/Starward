@@ -563,9 +563,17 @@ public sealed partial class SelfQueryPage : PageBase
             }
             if (gameBiz.ToGame() is GameBiz.ZZZ)
             {
-                ZZZQueryItemList = dapper.Query<ZZZQueryItem>("""
+                var list = ZZZQueryItemList = dapper.Query<ZZZQueryItem>("""
                     SELECT * FROM ZZZQueryItem WHERE Uid=@uid AND Type=@type AND DateTime LIKE @month ORDER BY DateTime DESC;
                     """, new { uid, type, month = month + "%" }).ToList();
+                if (type is (int)ZZZQueryType.PurchaseGift)
+                {
+                    foreach (var item in list)
+                    {
+                        item.Reason = item.ItemName;
+                    }
+                }
+                ZZZQueryItemList = list;
                 MonthAddNum = ZZZQueryItemList.Where(x => x.AddNum > 0).Sum(x => x.AddNum);
                 MonthSubNum = ZZZQueryItemList.Where(x => x.AddNum < 0).Sum(x => x.AddNum);
             }

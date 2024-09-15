@@ -313,6 +313,7 @@ public sealed partial class InstallGameDialog : ContentDialog
             }
             InstallGameManager.Instance.AddInstallService(_installGameService);
             AppConfig.SetGameInstallPath(CurrentGameBiz, InstallationPath);
+            AppConfig.SetGameInstallPathRemovable(CurrentGameBiz, DriveHelper.IsDeviceRemovableOrOnUSB(InstallationPath));
             if (DesktopShortcut)
             {
                 CreateDesktopShortcut();
@@ -459,6 +460,7 @@ public sealed partial class InstallGameDialog : ContentDialog
             if (Directory.Exists(path))
             {
                 AppConfig.SetGameInstallPath(CurrentGameBiz, path);
+                AppConfig.SetGameInstallPathRemovable(CurrentGameBiz, DriveHelper.IsDeviceRemovableOrOnUSB(path));
                 this.Hide();
             }
         }
