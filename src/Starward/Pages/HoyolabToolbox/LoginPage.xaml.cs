@@ -47,13 +47,13 @@ public sealed partial class LoginPage : PageBase
 
     private string GetGameBizUrl()
     {
-        if (CurrentGameBiz.IsChinaServer())
+        if (CurrentGameBiz.IsChinaOfficial())
         {
-            return CurrentGameBiz.ToGame() switch
+            return CurrentGameBiz.ToGame().Value switch
             {
-                GameBiz.GenshinImpact => $"{URL_CN}ys",
-                GameBiz.StarRail => $"{URL_CN}sr",
-                GameBiz.Honkai3rd => $"{URL_CN}bh3",
+                GameBiz.bh3 => $"{URL_CN}bh3",
+                GameBiz.hk4e => $"{URL_CN}ys",
+                GameBiz.hkrpg => $"{URL_CN}sr",
                 _ => URL_CN,
             };
         }

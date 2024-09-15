@@ -10,7 +10,7 @@ internal class ZZZInstallGameService : InstallGameService
 {
 
 
-    public override GameBiz CurrentGame => GameBiz.ZZZ;
+    public override GameBiz CurrentGame => GameBiz.nap;
 
 
     public ZZZInstallGameService(ILogger<ZZZInstallGameService> logger, GameLauncherService gameLauncherService, GamePackageService gamePackageService, HoYoPlayClient hoyoPlayClient, HttpClient httpClient)

@@ -93,16 +93,16 @@ internal class GameResourceService
 
     public static string GetGameExeName(GameBiz biz)
     {
-        return biz switch
+        return biz.Value switch
         {
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => "YuanShen.exe",
             GameBiz.hk4e_global => "GenshinImpact.exe",
-            GameBiz.hk4e_cloud => "Genshin Impact Cloud Game.exe",
-            _ => biz.ToGame() switch
+            GameBiz.clgm_cn => "Genshin Impact Cloud Game.exe",
+            _ => biz.ToGame().Value switch
             {
-                GameBiz.StarRail => "StarRail.exe",
-                GameBiz.Honkai3rd => "BH3.exe",
-                GameBiz.ZZZ => "ZenlessZoneZero.exe",
+                GameBiz.hkrpg => "StarRail.exe",
+                GameBiz.bh3 => "BH3.exe",
+                GameBiz.nap => "ZenlessZoneZero.exe",
                 _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
             },
         };
@@ -139,7 +139,7 @@ internal class GameResourceService
         {
             return GameBiz.None;
         }
-        if (biz is GameBiz.nap_cn)
+        if (biz == GameBiz.nap_cn)
         {
             return GameBiz.nap_cn;
         }
@@ -148,7 +148,7 @@ internal class GameResourceService
         if (File.Exists(config))
         {
             var str = File.ReadAllText(config);
-            Enum.TryParse(Regex.Match(str, @"game_biz=(.+)").Groups[1].Value, out gameBiz);
+            gameBiz = Regex.Match(str, @"game_biz=(.+)").Groups[1].Value;
         }
         else
         {
@@ -174,7 +174,7 @@ internal class GameResourceService
 
     public async Task<(Version? LatestVersion, Version? PreDownloadVersion)> GetGameResourceVersionAsync(GameBiz biz)
     {
-        if (biz is GameBiz.nap_cn)
+        if (biz == GameBiz.nap_cn)
         {
             const string url = "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?game_ids%5B%5D=ol93169Cmh&launcher_id=PFKmM45gSW";
             var str = await _httpClient.GetStringAsync(url);
@@ -377,7 +377,7 @@ internal class GameResourceService
         {
             return VoiceLanguage.None;
         }
-        var file = biz switch
+        var file = biz.Value switch
         {
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
             GameBiz.hk4e_global => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),
@@ -386,7 +386,7 @@ internal class GameResourceService
         };
         if (!File.Exists(file))
         {
-            file = biz switch
+            file = biz.Value switch
             {
                 GameBiz.hk4e_global => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
                 GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),
@@ -410,9 +410,9 @@ internal class GameResourceService
 
     public async Task SetVoiceLanguageAsync(GameBiz biz, string installPath, VoiceLanguage lang)
     {
-        if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
+        if (biz.Value is GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
         {
-            var file = biz switch
+            var file = biz.Value switch
             {
                 GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => Path.Join(installPath, @"YuanShen_Data\Persistent\audio_lang_14"),
                 GameBiz.hk4e_global => Path.Join(installPath, @"GenshinImpact_Data\Persistent\audio_lang_14"),

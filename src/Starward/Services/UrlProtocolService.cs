@@ -64,7 +64,7 @@ internal class UrlProtocolService
                 }
                 if (uri.Host is "startgame")
                 {
-                    if (Enum.TryParse(uri.AbsolutePath.Trim('/'), out GameBiz biz))
+                    if (GameBiz.TryParse(uri.AbsolutePath.Trim('/'), out GameBiz biz))
                     {
                         var kvs = HttpUtility.ParseQueryString(uri.Query);
                         string? uidStr = kvs["uid"];
@@ -102,7 +102,7 @@ internal class UrlProtocolService
                 }
                 if (uri.Host is "playtime")
                 {
-                    if (Enum.TryParse(uri.AbsolutePath.Trim('/'), out GameBiz biz))
+                    if (GameBiz.TryParse(uri.AbsolutePath.Trim('/'), out GameBiz biz))
                     {
                         var kvs = HttpUtility.ParseQueryString(uri.Query);
                         await AppConfig.GetService<PlayTimeService>().StartProcessToLogAsync(biz);

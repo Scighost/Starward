@@ -15,7 +15,7 @@ internal class StarRailInstallGameService : InstallGameService
 {
 
 
-    public override GameBiz CurrentGame => GameBiz.StarRail;
+    public override GameBiz CurrentGame => GameBiz.hkrpg;
 
 
     public StarRailInstallGameService(ILogger<StarRailInstallGameService> logger, GameLauncherService gameLauncherService, GamePackageService gamePackageService, HoYoPlayClient hoyoPlayClient, HttpClient httpClient)

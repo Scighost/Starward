@@ -22,7 +22,7 @@ internal class GenshinGachaService : GachaLogService
 
 
 
-    protected override GameBiz GameBiz { get; } = GameBiz.GenshinImpact;
+    protected override GameBiz GameBiz { get; } = GameBiz.hk4e;
 
     protected override string GachaTableName { get; } = "GenshinGachaItem";
 

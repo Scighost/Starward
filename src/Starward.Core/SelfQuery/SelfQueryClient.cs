@@ -71,7 +71,7 @@ public class SelfQueryClient
         }
         this.gameBiz = gameBiz;
         authQuery = new Uri(url).Query;
-        if (gameBiz.ToGame() is GameBiz.GenshinImpact)
+        if (gameBiz.ToGame() == GameBiz.hk4e)
         {
             if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html") || url.StartsWith("https://webstatic.mihoyo.com/static/mihoyo-new-csc-service-hall-fe/index.html"))
             {
@@ -87,7 +87,7 @@ public class SelfQueryClient
             }
             await GetGenshinUserInfoAsync(cancellationToken);
         }
-        if (gameBiz.ToGame() is GameBiz.StarRail)
+        if (gameBiz.ToGame() == GameBiz.hkrpg)
         {
             if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html"))
             {
@@ -103,7 +103,7 @@ public class SelfQueryClient
             }
             await GetStarRailUserInfoAsync(cancellationToken);
         }
-        if (gameBiz.ToGame() is GameBiz.ZZZ)
+        if (gameBiz.ToGame() == GameBiz.nap)
         {
             if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html") || url.StartsWith("https://webstatic.mihoyo.com/static/mihoyo-new-csc-service-hall-fe/index.html"))
             {
@@ -139,7 +139,7 @@ public class SelfQueryClient
 
     public void EnsureInitialized()
     {
-        if (gameBiz is GameBiz.None
+        if (!gameBiz.IsKnown()
             || UserInfo is null
             || string.IsNullOrWhiteSpace(authQuery)
             || string.IsNullOrWhiteSpace(prefixUrl))

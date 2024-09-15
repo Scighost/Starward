@@ -115,12 +115,12 @@ public class LauncherContentService
             }
 
             string? url;
-            if (gameBiz.ToGame() is GameBiz.Honkai3rd && gameBiz.IsGlobalServer())
+            if (gameBiz.ToGame() == GameBiz.bh3 && gameBiz.IsGlobalOfficial())
             {
                 var content = await GetLauncherContentAsync(gameBiz, tokenSource.Token);
                 url = content.BackgroundImage?.Background;
             }
-            else if (gameBiz is GameBiz.hk4e_cloud)
+            else if (gameBiz == GameBiz.clgm_cn)
             {
                 var background = await _hoYoPlayService.GetGameInfoAsync(GameBiz.hk4e_cn);
                 url = background.Display.Background.Url;
@@ -165,11 +165,11 @@ public class LauncherContentService
         else
         {
             string baseFolder = AppContext.BaseDirectory;
-            string? path = gameBiz.ToGame() switch
+            string? path = gameBiz.ToGame().Value switch
             {
-                GameBiz.Honkai3rd => Path.Combine(baseFolder, @"Assets\Image\poster_honkai.png"),
-                GameBiz.GenshinImpact => Path.Combine(baseFolder, @"Assets\Image\poster_genshin.png"),
-                GameBiz.StarRail => Path.Combine(baseFolder, @"Assets\Image\poster_starrail.png"),
+                GameBiz.bh3 => Path.Combine(baseFolder, @"Assets\Image\poster_honkai.png"),
+                GameBiz.hk4e => Path.Combine(baseFolder, @"Assets\Image\poster_genshin.png"),
+                GameBiz.hkrpg => Path.Combine(baseFolder, @"Assets\Image\poster_starrail.png"),
                 _ => null,
             };
             if (File.Exists(path))

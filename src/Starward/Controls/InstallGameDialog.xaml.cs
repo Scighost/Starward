@@ -110,7 +110,7 @@ public sealed partial class InstallGameDialog : ContentDialog
     private string hardLinkPath;
 
 
-    public string HardLinkTargetText => $"{HardLinkTarget.ToGameName()} - {HardLinkTarget.ToGameServer()}";
+    public string HardLinkTargetText => $"{HardLinkTarget.ToGameName()} - {HardLinkTarget.ToGameServerName()}";
 
 
 
@@ -161,11 +161,11 @@ public sealed partial class InstallGameDialog : ContentDialog
     {
         try
         {
-            if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail or GameBiz.ZZZ)
+            if (CurrentGameBiz.ToGame().Value is GameBiz.hk4e or GameBiz.hkrpg or GameBiz.nap)
             {
-                foreach (var biz in Enum.GetValues<GameBiz>())
+                foreach (var biz in GameBiz.AllGameBizs)
                 {
-                    if (biz.ToGame() == CurrentGameBiz.ToGame() && biz != CurrentGameBiz && biz != GameBiz.hk4e_cloud)
+                    if (biz.ToGame() == CurrentGameBiz.ToGame() && biz != CurrentGameBiz && biz != GameBiz.clgm_cn)
                     {
                         var path = _gameLauncherService.GetGameInstallPath(biz);
                         var version = await _gameLauncherService.GetLocalGameVersionAsync(biz, path);
@@ -334,7 +334,7 @@ public sealed partial class InstallGameDialog : ContentDialog
     {
         try
         {
-            string name = $"{CurrentGameBiz.ToGameName()} - {CurrentGameBiz.ToGameServer()}.lnk";
+            string name = $"{CurrentGameBiz.ToGameName()} - {CurrentGameBiz.ToGameServerName()}.lnk";
             var savePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), name);
             string exe;
             if (AppConfig.IsPortable)
@@ -381,12 +381,12 @@ public sealed partial class InstallGameDialog : ContentDialog
     {
         try
         {
-            var source = gameBiz.ToGame() switch
+            var source = gameBiz.ToGame().Value switch
             {
-                GameBiz.Honkai3rd => @"Assets\Image\icon_bh3.ico",
-                GameBiz.GenshinImpact => @"Assets\Image\icon_ys.ico",
-                GameBiz.StarRail => @"Assets\Image\icon_sr.ico",
-                GameBiz.ZZZ => @"Assets\Image\icon_zzz.ico",
+                GameBiz.bh3 => @"Assets\Image\icon_bh3.ico",
+                GameBiz.hk4e => @"Assets\Image\icon_ys.ico",
+                GameBiz.hkrpg => @"Assets\Image\icon_sr.ico",
+                GameBiz.nap => @"Assets\Image\icon_zzz.ico",
                 _ => "",
             };
             source = Path.Combine(AppContext.BaseDirectory, source);

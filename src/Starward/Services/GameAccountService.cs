@@ -35,11 +35,12 @@ internal class GameAccountService
     public GameAccount? GetGameAccountsFromRegistry(GameBiz biz)
     {
         var key = biz.GetGameRegistryKey();
-        var keyName = (int)biz switch
+        var keyName = (biz.IsChinaOfficial(), biz.IsGlobalOfficial(), biz.IsBilibili(), biz.IsChinaCloud()) switch
         {
-            11 or 21 or 31 or 14 or 24 or 41 or 44 => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
-            13 => GameRegistry.MIHOYOSDK_ADL_0,
-            12 or 22 or (>= 32 and <= 36) or 42 => GameRegistry.MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810,
+            (true, false, false, false) => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
+            (false, false, true, false) => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
+            (false, false, false, true) => GameRegistry.MIHOYOSDK_ADL_0,
+            (false, true, false, false) => GameRegistry.MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810,
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
 
@@ -53,15 +54,15 @@ internal class GameAccountService
                 Value = adl,
                 IsLogin = true,
             };
-            if (biz.ToGame() is GameBiz.StarRail)
+            if (biz.ToGame() == GameBiz.hkrpg)
             {
                 account.Uid = (int)(Registry.GetValue(key, GameRegistry.App_LastUserID_h2841727341, 0) ?? 0);
             }
-            else if (biz.ToGame() is GameBiz.Honkai3rd)
+            else if (biz.ToGame() == GameBiz.bh3)
             {
                 account.Uid = (int)(Registry.GetValue(key, GameRegistry.GENERAL_DATA_V2_LastLoginUserId_h47158221, 0) ?? 0);
             }
-            else if (biz is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+            else if (biz.Value is GameBiz.hk4e_cn or GameBiz.hk4e_global)
             {
                 byte[]? uidBytes = Registry.GetValue(key, GameRegistry.__LastUid___h2153286551, 0) as byte[];
                 if (uidBytes is not null)
@@ -140,7 +141,7 @@ internal class GameAccountService
     public void DeleteGameAccount(GameAccount account)
     {
         using var dapper = _database.CreateConnection();
-        dapper.Execute("DELETE FROM GameAccount WHERE SHA256=@SHA256;", account);
+        dapper.Execute("DELETE FROM GameAccount WHERE GameBiz=@GameBiz AND SHA256=@SHA256;", account);
         _logger.LogInformation("Delete account {name} ({biz}) successfully!", account.Name, account.GameBiz);
     }
 
@@ -150,27 +151,30 @@ internal class GameAccountService
     public void ChangeGameAccount(GameAccount account)
     {
         var key = account.GameBiz.GetGameRegistryKey();
-        var keyName = (int)account.GameBiz switch
+        var biz = account.GameBiz;
+        var keyName = (biz.IsChinaOfficial(), biz.IsGlobalOfficial(), biz.IsBilibili(), biz.IsChinaCloud()) switch
         {
-            11 or 21 or 31 or 14 or 24 or 41 or 44 => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
-            13 => GameRegistry.MIHOYOSDK_ADL_0,
-            12 or 22 or (>= 32 and <= 36) or 42 => GameRegistry.MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810,
-            _ => throw new ArgumentOutOfRangeException($"Unknown region {account.GameBiz}"),
+            (true, false, false, false) => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
+            (false, false, true, false) => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
+            (false, false, false, true) => GameRegistry.MIHOYOSDK_ADL_0,
+            (false, true, false, false) => GameRegistry.MIHOYOSDK_ADL_PROD_OVERSEA_h1158948810,
+            _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
+
         Registry.SetValue(key, keyName, account.Value);
-        if (account.GameBiz.ToGame() is GameBiz.StarRail)
+        if (account.GameBiz.ToGame() == GameBiz.hkrpg)
         {
             Registry.SetValue(key, GameRegistry.App_LastUserID_h2841727341, (int)account.Uid, RegistryValueKind.DWord);
         }
-        if (account.GameBiz.ToGame() is GameBiz.Honkai3rd)
+        if (account.GameBiz.ToGame() == GameBiz.bh3)
         {
             Registry.SetValue(key, GameRegistry.GENERAL_DATA_V2_LastLoginUserId_h47158221, (int)account.Uid, RegistryValueKind.DWord);
         }
-        if (account.GameBiz.ToGame() is GameBiz.GenshinImpact)
+        if (account.GameBiz.ToGame() == GameBiz.hk4e)
         {
             Registry.SetValue(key, GameRegistry.__LastUid___h2153286551, Encoding.UTF8.GetBytes($"{account.Uid}\0"));
         }
-        _logger.LogInformation("Change account {name} ({biz}) successfully!", account.Name, account.GameBiz);
+        _logger.LogInformation("Change account {name} ({biz}) successfully!", account.Name, (object)account.GameBiz);
     }
 
 

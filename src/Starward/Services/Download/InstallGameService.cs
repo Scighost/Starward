@@ -57,12 +57,12 @@ internal class InstallGameService
 
     public static InstallGameService FromGameBiz(GameBiz gameBiz)
     {
-        return gameBiz.ToGame() switch
+        return gameBiz.ToGame().Value switch
         {
-            GameBiz.GenshinImpact => AppConfig.GetService<GenshinInstallGameService>(),
-            GameBiz.StarRail => AppConfig.GetService<StarRailInstallGameService>(),
-            GameBiz.Honkai3rd => AppConfig.GetService<InstallGameService>(),
-            GameBiz.ZZZ => AppConfig.GetService<ZZZInstallGameService>(),
+            GameBiz.bh3 => AppConfig.GetService<InstallGameService>(),
+            GameBiz.hk4e => AppConfig.GetService<GenshinInstallGameService>(),
+            GameBiz.hkrpg => AppConfig.GetService<StarRailInstallGameService>(),
+            GameBiz.nap => AppConfig.GetService<ZZZInstallGameService>(),
             _ => throw new ArgumentOutOfRangeException(nameof(gameBiz), $"Game ({gameBiz}) is not supported."),
         };
     }
@@ -232,7 +232,7 @@ internal class InstallGameService
 
     public async Task InitializeAsync(GameBiz gameBiz, string installPath)
     {
-        if (gameBiz.ToGame() is GameBiz.None)
+        if (!gameBiz.IsKnown())
         {
             throw new ArgumentOutOfRangeException(nameof(gameBiz), gameBiz, $"GameBiz ({gameBiz}) is invalid.");
         }

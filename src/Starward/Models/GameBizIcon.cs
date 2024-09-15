@@ -19,7 +19,7 @@ public partial class GameBizIcon : ObservableObject, IEquatable<GameBizIcon>
 
     public string ServerText => GameBizToServerText(GameBiz);
 
-    public string ServerName => GameBiz.ToGameServer();
+    public string ServerName => GameBiz.ToGameServerName();
 
     public bool CurrentGameBiz { get; set; }
 
@@ -30,12 +30,12 @@ public partial class GameBizIcon : ObservableObject, IEquatable<GameBizIcon>
 
     private static string GameBizToIcon(GameBiz gameBiz)
     {
-        return gameBiz.ToGame() switch
+        return gameBiz.ToGame().Value switch
         {
-            GameBiz.Honkai3rd => "ms-appx:///Assets/Image/icon_bh3.jpg",
-            GameBiz.GenshinImpact => "ms-appx:///Assets/Image/icon_ys.jpg",
-            GameBiz.StarRail => "ms-appx:///Assets/Image/icon_sr.jpg",
-            GameBiz.ZZZ => "ms-appx:///Assets/Image/icon_zzz.jpg",
+            GameBiz.bh3 => "ms-appx:///Assets/Image/icon_bh3.jpg",
+            GameBiz.hk4e => "ms-appx:///Assets/Image/icon_ys.jpg",
+            GameBiz.hkrpg => "ms-appx:///Assets/Image/icon_sr.jpg",
+            GameBiz.nap => "ms-appx:///Assets/Image/icon_zzz.jpg",
             _ => "ms-appx:///Assets/Image/Transparent.png",
         };
     }
@@ -43,11 +43,11 @@ public partial class GameBizIcon : ObservableObject, IEquatable<GameBizIcon>
 
     private static string GameBizToServerIcon(GameBiz gameBiz)
     {
-        return gameBiz switch
+        return gameBiz.Value switch
         {
             GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn or GameBiz.nap_cn => "ms-appx:///Assets/Image/gameicon_hyperion.png",
             GameBiz.hk4e_global or GameBiz.hkrpg_global or GameBiz.nap_global => "ms-appx:///Assets/Image/gameicon_hoyolab.png",
-            GameBiz.hk4e_cloud => "ms-appx:///Assets/Image/gameicon_cloud.png",
+            GameBiz.clgm_cn => "ms-appx:///Assets/Image/gameicon_cloud.png",
             GameBiz.hk4e_bilibili or GameBiz.hkrpg_bilibili or GameBiz.nap_bilibili => "ms-appx:///Assets/Image/gameicon_bilibili.png",
             _ => "ms-appx:///Assets/Image/Transparent.png",
         };
@@ -56,13 +56,13 @@ public partial class GameBizIcon : ObservableObject, IEquatable<GameBizIcon>
 
     private static string GameBizToServerText(GameBiz gameBiz)
     {
-        return gameBiz switch
+        return gameBiz.Value switch
         {
             GameBiz.bh3_global => "EA",
             GameBiz.bh3_jp => "JP",
             GameBiz.bh3_kr => "KR",
-            GameBiz.bh3_overseas => "SA",
-            GameBiz.bh3_tw => "TC",
+            GameBiz.bh3_os => "SA",
+            GameBiz.bh3_asia => "TC",
             _ => "",
         };
     }

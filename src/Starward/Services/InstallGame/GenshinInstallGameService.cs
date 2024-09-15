@@ -16,7 +16,7 @@ internal class GenshinInstallGameService : InstallGameService
 {
 
 
-    public override GameBiz CurrentGame => GameBiz.GenshinImpact;
+    public override GameBiz CurrentGame => GameBiz.hk4e;
 
 
     public GenshinInstallGameService(ILogger<GenshinInstallGameService> logger, GameLauncherService gameLauncherService, GamePackageService gamePackageService, HoYoPlayClient hoyoPlayClient, HttpClient httpClient)
@@ -56,7 +56,7 @@ internal class GenshinInstallGameService : InstallGameService
         string? exe_os = Path.Join(InstallPath, "GenshinImpact.exe");
         string? data_cn = Path.Join(InstallPath, "YuanShen_Data");
         string? data_os = Path.Join(InstallPath, "GenshinImpact_Data");
-        if (CurrentGameBiz is GameBiz.hk4e_cn)
+        if (CurrentGameBiz == GameBiz.hk4e_cn)
         {
             if (File.Exists(exe_os))
             {
@@ -67,7 +67,7 @@ internal class GenshinInstallGameService : InstallGameService
                 Directory.Move(data_os, data_cn);
             }
         }
-        if (CurrentGameBiz is GameBiz.hk4e_global)
+        if (CurrentGameBiz == GameBiz.hk4e_global)
         {
             if (File.Exists(exe_cn))
             {
@@ -90,9 +90,9 @@ internal class GenshinInstallGameService : InstallGameService
     /// <returns></returns>
     protected async Task MoveAudioAssetsFromPersistentToStreamAssetsAsync()
     {
-        await Task.Run(() =>
+        await Task.Run((Action)(() =>
         {
-            string dataName = CurrentGameBiz switch
+            string dataName = CurrentGameBiz.Value switch
             {
                 GameBiz.hk4e_cn => "YuanShen_Data",
                 GameBiz.hk4e_global => "GenshinImpact_Data",
@@ -123,7 +123,7 @@ internal class GenshinInstallGameService : InstallGameService
                     }
                 }
             }
-        }).ConfigureAwait(false);
+        })).ConfigureAwait(false);
     }
 
 
@@ -133,7 +133,7 @@ internal class GenshinInstallGameService : InstallGameService
         await base.VerifySeparateFilesAsync(cancellationToken).ConfigureAwait(false);
 
         // 清理不在资源列表中的文件
-        string assetsFolder = CurrentGameBiz switch
+        string assetsFolder = CurrentGameBiz.Value switch
         {
             GameBiz.hk4e_cn => Path.Combine(InstallPath, @"YuanShen_Data\StreamingAssets"),
             GameBiz.hk4e_global => Path.Combine(InstallPath, @"GenshinImpact_Data\StreamingAssets"),

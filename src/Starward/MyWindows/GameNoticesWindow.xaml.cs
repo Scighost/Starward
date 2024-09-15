@@ -183,7 +183,7 @@ public sealed partial class GameNoticesWindow : WindowEx
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Get background image ({gameBiz})", GameBiz);
+                _logger.LogError(ex, "Get background image ({gameBiz})", (object)GameBiz);
             }
             await webview.EnsureCoreWebView2Async();
             string script = $$"""

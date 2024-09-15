@@ -461,7 +461,7 @@ internal abstract class InstallGameService
     /// </summary>
     protected async Task PrepareBilibiliServerGameSDKAsync()
     {
-        if (!IsPreInstall && CurrentGameBiz.IsBilibiliServer())
+        if (!IsPreInstall && CurrentGameBiz.IsBilibili())
         {
             if (gameChannelSDK is null)
             {
@@ -492,7 +492,7 @@ internal abstract class InstallGameService
     /// </summary>
     protected void DecompressBilibiliServerGameSDK()
     {
-        if (!IsPreInstall && CurrentGameBiz.IsBilibiliServer())
+        if (!IsPreInstall && CurrentGameBiz.IsBilibili())
         {
             if (gameChannelSDK is not null)
             {
@@ -750,17 +750,17 @@ internal abstract class InstallGameService
         string version = gamePackage.Main.Major?.Version ?? "";
         string sdk_version = gameChannelSDK?.Version ?? "";
         string cps = "", channel = "1", sub_channel = "1";
-        if (CurrentGameBiz.IsBilibiliServer())
+        if (CurrentGameBiz.IsBilibili())
         {
             cps = "bilibili";
             channel = "14";
             sub_channel = "0";
         }
-        else if (CurrentGameBiz.IsChinaServer())
+        else if (CurrentGameBiz.IsChinaOfficial())
         {
             cps = "mihoyo";
         }
-        else if (CurrentGameBiz.IsGlobalServer())
+        else if (CurrentGameBiz.IsGlobalOfficial())
         {
             cps = "hoyoverse";
         }

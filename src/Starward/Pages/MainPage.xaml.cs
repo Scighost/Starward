@@ -185,7 +185,7 @@ public sealed partial class MainPage : PageBase
     private void InitializeGameBiz()
     {
         CurrentGameBiz = AppConfig.CurrentGameBiz;
-        if (CurrentGameBiz.ToGame() is GameBiz.None)
+        if (!CurrentGameBiz.IsKnown())
         {
             CurrentGameBiz = GameBiz.None;
         }
@@ -281,7 +281,7 @@ public sealed partial class MainPage : PageBase
                 }
                 else
                 {
-                    if (CurrentGameBiz is GameBiz.hk4e_cloud && !AppConfig.GetEnableCustomBg(GameBiz.hk4e_cloud))
+                    if (CurrentGameBiz == GameBiz.clgm_cn && !AppConfig.GetEnableCustomBg(GameBiz.clgm_cn))
                     {
                         Image_Content.HorizontalAlignment = HorizontalAlignment.Left;
                     }
@@ -416,7 +416,7 @@ public sealed partial class MainPage : PageBase
                         return;
                     }
                     MainWindow.Current.ChangeAccentColor(back, fore);
-                    if (CurrentGameBiz is GameBiz.hk4e_cloud && !AppConfig.GetEnableCustomBg(GameBiz.hk4e_cloud))
+                    if (CurrentGameBiz == GameBiz.clgm_cn && !AppConfig.GetEnableCustomBg(GameBiz.clgm_cn))
                     {
                         Image_Content.HorizontalAlignment = HorizontalAlignment.Left;
                     }
@@ -510,7 +510,7 @@ public sealed partial class MainPage : PageBase
 
     private void UpdateNavigationViewItemsText()
     {
-        if (CurrentGameBiz.ToGame() is GameBiz.None)
+        if (!CurrentGameBiz.IsKnown())
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Collapsed;
             NavigationViewItem_GameSetting.Visibility = Visibility.Collapsed;
@@ -519,7 +519,7 @@ public sealed partial class MainPage : PageBase
             NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
             NavigationViewItem_SelfQuery.Visibility = Visibility.Collapsed;
         }
-        else if (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd)
+        else if (CurrentGameBiz.ToGame() == GameBiz.bh3)
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Visible;
             NavigationViewItem_GameSetting.Visibility = Visibility.Visible;
@@ -528,7 +528,7 @@ public sealed partial class MainPage : PageBase
             NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
             NavigationViewItem_SelfQuery.Visibility = Visibility.Collapsed;
         }
-        else if (CurrentGameBiz.ToGame() is GameBiz.ZZZ)
+        else if (CurrentGameBiz.ToGame() == GameBiz.nap)
         {
             NavigationViewItem_Launcher.Visibility = Visibility.Visible;
             NavigationViewItem_GameSetting.Visibility = Visibility.Visible;
@@ -546,30 +546,30 @@ public sealed partial class MainPage : PageBase
             NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Visible;
             NavigationViewItem_SelfQuery.Visibility = Visibility.Visible;
         }
-        if (CurrentGameBiz.ToGame() is GameBiz.GenshinImpact)
+        if (CurrentGameBiz.ToGame() == GameBiz.hk4e)
         {
             // 祈愿记录
             ToolTipService.SetToolTip(NavigationViewItem_GachaLog, Lang.GachaLogService_WishRecords);
             TextBlock_GachaLog.Text = Lang.GachaLogService_WishRecords;
         }
-        if (CurrentGameBiz.ToGame() is GameBiz.StarRail)
+        if (CurrentGameBiz.ToGame() == GameBiz.hkrpg)
         {
             // 跃迁记录
             ToolTipService.SetToolTip(NavigationViewItem_GachaLog, Lang.GachaLogService_WarpRecords);
             TextBlock_GachaLog.Text = Lang.GachaLogService_WarpRecords;
         }
-        if (CurrentGameBiz.ToGame() is GameBiz.ZZZ)
+        if (CurrentGameBiz.ToGame() == GameBiz.nap)
         {
             // 调频记录
             ToolTipService.SetToolTip(NavigationViewItem_GachaLog, Lang.GachaLogService_SignalSearchRecords);
             TextBlock_GachaLog.Text = Lang.GachaLogService_SignalSearchRecords;
         }
-        if (CurrentGameBiz.IsChinaServer())
+        if (CurrentGameBiz.IsChinaOfficial())
         {
             ToolTipService.SetToolTip(NavigationViewItem_HoyolabToolbox, Lang.HyperionToolbox);
             TextBlock_HoyolabToolbox.Text = Lang.HyperionToolbox;
         }
-        if (CurrentGameBiz.IsGlobalServer())
+        if (CurrentGameBiz.IsGlobalOfficial())
         {
             ToolTipService.SetToolTip(NavigationViewItem_HoyolabToolbox, Lang.HoYoLABToolbox);
             TextBlock_HoyolabToolbox.Text = Lang.HoYoLABToolbox;
@@ -624,8 +624,8 @@ public sealed partial class MainPage : PageBase
     {
         string? destPage = page?.Name;
         if (destPage is null or nameof(BlankPage)
-            || (CurrentGameBiz.ToGame() is GameBiz.Honkai3rd && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(ScreenshotPage))
-            || CurrentGameBiz.ToGame() is GameBiz.ZZZ && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(GachaLogPage) and not nameof(ScreenshotPage) and not nameof(SelfQueryPage))
+            || (CurrentGameBiz.ToGame() == GameBiz.bh3 && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(ScreenshotPage))
+            || CurrentGameBiz.ToGame() == GameBiz.nap && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(GachaLogPage) and not nameof(ScreenshotPage) and not nameof(SelfQueryPage))
         {
             page = typeof(GameLauncherPage);
             destPage = nameof(GameLauncherPage);

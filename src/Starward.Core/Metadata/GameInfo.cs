@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Starward.Core.JsonConverter;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.Metadata;
@@ -10,7 +11,7 @@ public class GameInfo
     public string Name { get; set; }
 
 
-    [JsonConverter(typeof(EnumStringJsonConverter<GameBiz>))]
+    [JsonConverter(typeof(GameBizJsonConverter))]
     public GameBiz GameBiz { get; set; }
 
 

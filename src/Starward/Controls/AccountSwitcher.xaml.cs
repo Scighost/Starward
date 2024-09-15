@@ -74,7 +74,7 @@ public sealed partial class AccountSwitcher : UserControl
     {
         try
         {
-            if (AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibiliServer() || CurrentGameBiz is GameBiz.nap_cn)
+            if (AppConfig.DisableGameAccountSwitcher || CurrentGameBiz.IsBilibili() || CurrentGameBiz.ToGame() == GameBiz.nap)
             {
                 StackPanel_Account.Visibility = Visibility.Collapsed;
                 return;

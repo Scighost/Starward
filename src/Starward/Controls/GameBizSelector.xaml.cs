@@ -63,15 +63,11 @@ public sealed partial class GameBizSelector : UserControl
     public void InitializeGameBiz(GameBiz gameBiz)
     {
         CurrentGameBiz = gameBiz;
-        if (CurrentGameBiz.ToGame() is GameBiz.None)
-        {
-            CurrentGameBiz = GameBiz.None;
-        }
         string? bizs = AppConfig.SelectedGameBizs;
         GameBizIcons.Clear();
         foreach (string str in bizs?.Split(',') ?? [])
         {
-            if (Enum.TryParse(str, out GameBiz biz) && biz.ToGame() is not GameBiz.None)
+            if (GameBiz.TryParse(str, out GameBiz biz))
             {
                 var icon = new GameBizIcon { GameBiz = biz };
                 GameBizIcons.Add(icon);
@@ -84,7 +80,7 @@ public sealed partial class GameBizSelector : UserControl
             CurrentGameBizIcon.CurrentGameBiz = true;
             CurrentGameBizIcon.MaskOpacity = 0;
         }
-        else if (CurrentGameBiz.ToGame() is not GameBiz.None)
+        else if (CurrentGameBiz.IsKnown())
         {
             CurrentGameBizIcon = new GameBizIcon { GameBiz = CurrentGameBiz };
         }
@@ -126,15 +122,12 @@ public sealed partial class GameBizSelector : UserControl
         {
             var service = AppConfig.GetService<GameLauncherService>();
             var sb = new StringBuilder();
-            foreach (GameBiz biz in Enum.GetValues<GameBiz>())
+            foreach (GameBiz biz in GameBiz.AllGameBizs)
             {
-                if (biz.ToGame() is not GameBiz.None)
+                if (service.IsGameExeExists(biz))
                 {
-                    if (service.IsGameExeExists(biz))
-                    {
-                        sb.Append(biz.ToString());
-                        sb.Append(',');
-                    }
+                    sb.Append(biz.ToString());
+                    sb.Append(',');
                 }
             }
             AppConfig.SelectedGameBizs = sb.ToString().TrimEnd(',');
@@ -264,7 +257,7 @@ public sealed partial class GameBizSelector : UserControl
 
     private void ToggleSwitch_GameBizSelector_Toggled(object sender, RoutedEventArgs e)
     {
-        if (sender is ToggleSwitch toggle && Enum.TryParse(toggle.Tag as string, out GameBiz biz))
+        if (sender is ToggleSwitch toggle && GameBiz.TryParse(toggle.Tag as string, out GameBiz biz))
         {
             if (GameBizIcons.FirstOrDefault(x => x.GameBiz == biz) is GameBizIcon icon)
             {

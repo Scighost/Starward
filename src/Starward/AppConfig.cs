@@ -481,7 +481,7 @@ internal static class AppConfig
 
     public static GameBiz CurrentGameBiz
     {
-        get => GetValue<GameBiz>();
+        get => GetValue<string>();
         set => SetValue(value);
     }
 
@@ -539,24 +539,24 @@ internal static class AppConfig
 
     public static string? GetCustomBg(GameBiz biz)
     {
-        return GetValue<string>(default, UseOneBg ? $"custom_bg_{GameBiz.All}" : $"custom_bg_{biz}");
+        return GetValue<string>(default, UseOneBg ? $"custom_bg_All" : $"custom_bg_{biz}");
     }
 
     public static void SetCustomBg(GameBiz biz, string? value)
     {
-        SetValue(value, UseOneBg ? $"custom_bg_{GameBiz.All}" : $"custom_bg_{biz}");
+        SetValue(value, UseOneBg ? $"custom_bg_All" : $"custom_bg_{biz}");
     }
 
 
 
     public static bool GetEnableCustomBg(GameBiz biz)
     {
-        return GetValue<bool>(default, UseOneBg ? $"enable_custom_bg_{GameBiz.All}" : $"enable_custom_bg_{biz}");
+        return GetValue<bool>(default, UseOneBg ? $"enable_custom_bg_All" : $"enable_custom_bg_{biz}");
     }
 
     public static void SetEnableCustomBg(GameBiz biz, bool value)
     {
-        SetValue(value, UseOneBg ? $"enable_custom_bg_{GameBiz.All}" : $"enable_custom_bg_{biz}");
+        SetValue(value, UseOneBg ? $"enable_custom_bg_All" : $"enable_custom_bg_{biz}");
     }
 
 

@@ -56,12 +56,12 @@ public sealed partial class ScreenshotPage : PageBase
         if (e.Parameter is GameBiz biz)
         {
             gameBiz = biz;
-            Image_Emoji.Source = gameBiz.ToGame() switch
+            Image_Emoji.Source = gameBiz.ToGame().Value switch
             {
-                GameBiz.GenshinImpact => new BitmapImage(AppConfig.EmojiPaimon),
-                GameBiz.StarRail => new BitmapImage(AppConfig.EmojiPom),
-                GameBiz.Honkai3rd => new BitmapImage(AppConfig.EmojiAI),
-                GameBiz.ZZZ => new BitmapImage(AppConfig.EmojiBangboo),
+                GameBiz.hk4e => new BitmapImage(AppConfig.EmojiPaimon),
+                GameBiz.hkrpg => new BitmapImage(AppConfig.EmojiPom),
+                GameBiz.bh3 => new BitmapImage(AppConfig.EmojiAI),
+                GameBiz.nap => new BitmapImage(AppConfig.EmojiBangboo),
                 _ => null,
             };
         }

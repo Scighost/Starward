@@ -51,12 +51,12 @@ internal class GameSettingService
     public GraphicsSettings_PCResolution_h431323223? GetGameResolutionSetting(GameBiz biz)
     {
         var keyPath = biz.GetGameRegistryKey();
-        if (biz.ToGame() is GameBiz.Honkai3rd or GameBiz.StarRail)
+        if (biz.ToGame().Value is GameBiz.bh3 or GameBiz.hkrpg)
         {
-            var keyName = biz.ToGame() switch
+            var keyName = biz.ToGame().Value switch
             {
-                GameBiz.Honkai3rd => GENERAL_DATA_V2_ScreenSettingData_h1916288658,
-                GameBiz.StarRail => GraphicsSettings_PCResolution_h431323223,
+                GameBiz.bh3 => GENERAL_DATA_V2_ScreenSettingData_h1916288658,
+                GameBiz.hkrpg => GraphicsSettings_PCResolution_h431323223,
                 _ => ""
             };
             var data = Registry.GetValue(keyPath, keyName, null) as byte[];
@@ -66,7 +66,7 @@ internal class GameSettingService
                 return JsonSerializer.Deserialize<GraphicsSettings_PCResolution_h431323223>(str);
             }
         }
-        if (biz.ToGame() is GameBiz.GenshinImpact)
+        if (biz.ToGame() == GameBiz.hk4e)
         {
             var fullScreen = (int)(Registry.GetValue(keyPath, Screenmanager_Is_Fullscreen_mode_h3981298716, 0) ?? 0) != 0;
             var width = (int)(Registry.GetValue(keyPath, Screenmanager_Resolution_Width_h182942802, 0) ?? 0);
@@ -76,7 +76,7 @@ internal class GameSettingService
                 return new GraphicsSettings_PCResolution_h431323223 { Width = width, Height = height, IsFullScreen = fullScreen };
             }
         }
-        if (biz.ToGame() is GameBiz.ZZZ)
+        if (biz.ToGame() == GameBiz.nap)
         {
             var fullScreen = (int)(Registry.GetValue(keyPath, Screenmanager_Fullscreen_mode_h3630240806, 0) ?? 0) != 3;
             var width = (int)(Registry.GetValue(keyPath, Screenmanager_Resolution_Width_h182942802, 0) ?? 0);
@@ -95,7 +95,7 @@ internal class GameSettingService
     public void SetGameResolutionSetting(GameBiz biz, GraphicsSettings_PCResolution_h431323223 model)
     {
         var keyPath = biz.GetGameRegistryKey();
-        if (biz.ToGame() is GameBiz.Honkai3rd)
+        if (biz.ToGame() == GameBiz.bh3)
         {
             var str = JsonSerializer.Serialize(model) + "\0";
             Registry.SetValue(keyPath, GENERAL_DATA_V2_ScreenSettingData_h1916288658, Encoding.UTF8.GetBytes(str));
@@ -103,7 +103,7 @@ internal class GameSettingService
             Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
         }
-        if (biz.ToGame() is GameBiz.StarRail)
+        if (biz.ToGame() == GameBiz.hkrpg)
         {
             var str = JsonSerializer.Serialize(model) + "\0";
             Registry.SetValue(keyPath, GraphicsSettings_PCResolution_h431323223, Encoding.UTF8.GetBytes(str));
@@ -111,13 +111,13 @@ internal class GameSettingService
             Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
         }
-        if (biz.ToGame() is GameBiz.GenshinImpact)
+        if (biz.ToGame() == GameBiz.hk4e)
         {
             Registry.SetValue(keyPath, Screenmanager_Is_Fullscreen_mode_h3981298716, model.IsFullScreen ? 1 : 0);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
         }
-        if (biz.ToGame() is GameBiz.ZZZ)
+        if (biz.ToGame() == GameBiz.nap)
         {
             Registry.SetValue(keyPath, Screenmanager_Fullscreen_mode_h3630240806, model.IsFullScreen ? 1 : 3);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
@@ -131,7 +131,7 @@ internal class GameSettingService
     public int? GetGameVoiceLanguageSetting(GameBiz biz)
     {
         var keyPath = biz.GetGameRegistryKey();
-        if (biz.ToGame() is GameBiz.GenshinImpact)
+        if (biz.ToGame() == GameBiz.hk4e)
         {
             var data = Registry.GetValue(keyPath, GENERAL_DATA_h2389025596, null) as byte[];
             if (data is not null)
@@ -142,7 +142,7 @@ internal class GameSettingService
                 return value >= 0 ? value : null;
             }
         }
-        if (biz.ToGame() is GameBiz.StarRail)
+        if (biz.ToGame() == GameBiz.hkrpg)
         {
             var data = Registry.GetValue(keyPath, LanguageSettings_LocalAudioLanguage_h882585060, null) as byte[];
             if (data is not null)
@@ -166,7 +166,7 @@ internal class GameSettingService
     public void SetGameVoiceLanguageSetting(GameBiz biz, int lang)
     {
         var keyPath = biz.GetGameRegistryKey();
-        if (biz.ToGame() is GameBiz.GenshinImpact)
+        if (biz.ToGame() == GameBiz.hk4e)
         {
             var data = Registry.GetValue(keyPath, GENERAL_DATA_h2389025596, null) as byte[];
             JsonNode? node = null;
@@ -189,7 +189,7 @@ internal class GameSettingService
                 Registry.SetValue(keyPath, GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes($"{{\"deviceVoiceLanguageType\": {lang}}}\0"));
             }
         }
-        if (biz.ToGame() is GameBiz.StarRail)
+        if (biz.ToGame() == GameBiz.hkrpg)
         {
             var str = lang switch
             {
@@ -211,7 +211,7 @@ internal class GameSettingService
     public int? GetGraphicsQualitySetting(GameBiz biz)
     {
         var keyPath = biz.GetGameRegistryKey();
-        if (biz.ToGame() is GameBiz.StarRail)
+        if (biz.ToGame() == GameBiz.hkrpg)
         {
             var value = (int)(Registry.GetValue(keyPath, GraphicsSettings_GraphicsQuality_h523255858, 0) ?? -1);
             return value >= 0 ? value : null;
@@ -224,7 +224,7 @@ internal class GameSettingService
 
     public void SetGraphicsQualitySetting(GameBiz biz, int value)
     {
-        if (biz.ToGame() is GameBiz.StarRail)
+        if (biz.ToGame() == GameBiz.hkrpg)
         {
             var keyPath = biz.GetGameRegistryKey();
             Registry.SetValue(keyPath, GraphicsSettings_GraphicsQuality_h523255858, value);
@@ -236,7 +236,7 @@ internal class GameSettingService
     public GraphicsSettings_Model_h2986158309? GetGraphicsSettingModel(GameBiz biz)
     {
         var keyPath = biz.GetGameRegistryKey();
-        if (biz.ToGame() is GameBiz.StarRail)
+        if (biz.ToGame() == GameBiz.hkrpg)
         {
             var data = Registry.GetValue(keyPath, GraphicsSettings_Model_h2986158309, null) as byte[];
             if (data is not null)
@@ -253,7 +253,7 @@ internal class GameSettingService
 
     public void SetGraphicsSettingModel(GameBiz biz, GraphicsSettings_Model_h2986158309? model)
     {
-        if (biz.ToGame() is GameBiz.StarRail)
+        if (biz.ToGame() == GameBiz.hkrpg)
         {
             var keyPath = biz.GetGameRegistryKey();
             var str = JsonSerializer.Serialize(model) + "\0";

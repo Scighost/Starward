@@ -179,7 +179,7 @@ internal class GenshinInstallGameService : InstallGameService
 
     protected async Task MoveAudioAssetsFromPersistentToStreamAssetsAsync()
     {
-        string dataName = CurrentGameBiz switch
+        string dataName = CurrentGameBiz.Value switch
         {
             GameBiz.hk4e_cn => "YuanShen_Data",
             GameBiz.hk4e_global => "GenshinImpact_Data",

@@ -60,16 +60,16 @@ public sealed partial class DownloadGamePage : PageBase
         _timer.Interval = TimeSpan.FromMilliseconds(100);
         _timer.Tick += _timer_Tick;
 
-        gameBiz = AppConfig.Configuration.GetValue<GameBiz>("biz");
+        GameBiz gameBiz = AppConfig.Configuration.GetValue<string>("biz");
         gameFolder = AppConfig.Configuration.GetValue<string>("loc")!;
         voiceLanguage = AppConfig.Configuration.GetValue<VoiceLanguage>("lang");
 
-        _installGameService = gameBiz.ToGame() switch
+        _installGameService = gameBiz.ToGame().Value switch
         {
-            GameBiz.Honkai3rd => AppConfig.GetService<Honkai3rdInstallGameService>(),
-            GameBiz.GenshinImpact => AppConfig.GetService<GenshinInstallGameService>(),
-            GameBiz.StarRail => AppConfig.GetService<StarRailInstallGameService>(),
-            GameBiz.ZZZ => AppConfig.GetService<ZZZInstallGameService>(),
+            GameBiz.bh3 => AppConfig.GetService<Honkai3rdInstallGameService>(),
+            GameBiz.hk4e => AppConfig.GetService<GenshinInstallGameService>(),
+            GameBiz.hkrpg => AppConfig.GetService<StarRailInstallGameService>(),
+            GameBiz.nap => AppConfig.GetService<ZZZInstallGameService>(),
             _ => null!,
         };
     }
@@ -170,7 +170,7 @@ public sealed partial class DownloadGamePage : PageBase
             await instance.RedirectActivationToAsync(AppInstance.GetCurrent().GetActivatedEventArgs());
             Environment.Exit(0);
         }
-        if (gameBiz.ToGame() is GameBiz.None || gameBiz is GameBiz.hk4e_cloud || _installGameService is null)
+        if (!gameBiz.IsKnown() || gameBiz == GameBiz.clgm_cn || _installGameService is null)
         {
             instance.UnregisterKey();
             var dialog = new ContentDialog

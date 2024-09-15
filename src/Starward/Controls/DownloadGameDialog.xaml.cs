@@ -161,7 +161,7 @@ public sealed partial class DownloadGameDialog : UserControl
         {
             ShowAllInfo = false;
             ShowRepairSwitcher = false;
-            if (GameBiz.ToGame() is GameBiz.GenshinImpact)
+            if (GameBiz.ToGame() == GameBiz.hk4e)
             {
                 ShowVoiceBoxes = true;
                 CanCheckVoiceBoxes = true;
@@ -171,7 +171,7 @@ public sealed partial class DownloadGameDialog : UserControl
         {
             ShowAllInfo = true;
             ShowRepairSwitcher = false;
-            if (GameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
+            if (GameBiz.ToGame().Value is GameBiz.hk4e or GameBiz.hkrpg)
             {
                 ShowVoiceBoxes = true;
             }
@@ -179,7 +179,7 @@ public sealed partial class DownloadGameDialog : UserControl
         else
         {
             ShowAllInfo = true;
-            if (GameBiz.ToGame() is GameBiz.GenshinImpact or GameBiz.StarRail)
+            if (GameBiz.ToGame().Value is GameBiz.hk4e or GameBiz.hkrpg)
             {
                 ShowRepairSwitcher = true;
                 ShowVoiceBoxes = true;
