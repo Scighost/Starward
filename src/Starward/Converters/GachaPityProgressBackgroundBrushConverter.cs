@@ -1,7 +1,9 @@
 ﻿using Microsoft.UI;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
-using Starward.Core.Gacha;
+using Starward.Core.Gacha.Genshin;
+using Starward.Core.Gacha.StarRail;
+using Starward.Core.Gacha.ZZZ;
 using Starward.Models;
 using System;
 using Windows.Foundation;
@@ -20,11 +22,10 @@ internal class GachaPityProgressBackgroundBrushConverter : IValueConverter
         if (value is GachaLogItemEx item)
         {
             int pity = item.Pity;
-            GachaType type = item.GachaType;
             var brush = new LinearGradientBrush { StartPoint = new Point(0, 0), EndPoint = new Point(1, 0), Opacity = 0.4 };
             int point = 74;
             double guarantee = 90;
-            if (type is GachaType.WeaponEventWish or GachaType.LightConeEventWarp or GachaType.WEngineChannel)
+            if (item.GachaType is GenshinGachaType.WeaponEventWish or StarRailGachaType.LightConeEventWarp or ZZZGachaType.WEngineChannel)
             {
                 point = 63;
                 guarantee = 80;

@@ -1,5 +1,4 @@
-﻿using Starward.Core.Gacha;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Starward.Models;
@@ -7,7 +6,7 @@ namespace Starward.Models;
 public class GachaTypeStats
 {
 
-    public GachaType GachaType { get; set; }
+    public int GachaType { get; set; }
 
     public string GachaTypeText { get; set; }
 

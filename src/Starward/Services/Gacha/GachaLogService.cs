@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using MiniExcelLibs;
 using Starward.Core;
 using Starward.Core.Gacha;
+using Starward.Core.Gacha.Genshin;
+using Starward.Core.Gacha.StarRail;
 using Starward.Models;
 using System;
 using System.Collections.Generic;
@@ -34,24 +36,23 @@ internal abstract class GachaLogService
 
 
 
-    protected abstract GameBiz GameBiz { get; }
+    protected abstract GameBiz CurrentGameBiz { get; }
 
     protected abstract string GachaTableName { get; }
 
-    protected abstract IReadOnlyCollection<int> GachaTypes { get; }
+    protected abstract List<GachaLogItemEx> GetGachaLogItemsByQueryType(IEnumerable<GachaLogItemEx> items, IGachaType type);
 
-
-    protected abstract List<GachaLogItemEx> GetGroupGachaLogItems(IEnumerable<GachaLogItemEx> items, GachaType type);
+    protected IReadOnlyCollection<IGachaType> QueryGachaTypes => _client.QueryGachaTypes;
 
 
 
     public static string GetGachaLogText(GameBiz biz)
     {
-        return biz.Value switch
+        return biz.ToGame().Value switch
         {
-            GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.clgm_cn => Lang.GachaLogService_WishRecords,
-            GameBiz.hkrpg_cn or GameBiz.hkrpg_global => Lang.GachaLogService_WarpRecords,
-            GameBiz.nap_cn or GameBiz.nap_global or GameBiz.nap_bilibili => Lang.GachaLogService_SignalSearchRecords,
+            GameBiz.hk4e => Lang.GachaLogService_WishRecords,
+            GameBiz.hkrpg => Lang.GachaLogService_WarpRecords,
+            GameBiz.nap => Lang.GachaLogService_SignalSearchRecords,
             _ => ""
         };
     }
@@ -70,9 +71,9 @@ internal abstract class GachaLogService
     {
         using var dapper = _database.CreateConnection();
         var list = dapper.Query<GachaLogItemEx>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-        foreach (var type in GachaTypes)
+        foreach (IGachaType type in QueryGachaTypes)
         {
-            var l = GetGroupGachaLogItems(list, (GachaType)type);
+            var l = GetGachaLogItemsByQueryType(list, type);
             int index = 0;
             int pity = 0;
             foreach (var item in l)
@@ -104,7 +105,7 @@ internal abstract class GachaLogService
         if (uid > 0)
         {
             using var dapper = _database.CreateConnection();
-            dapper.Execute("INSERT OR REPLACE INTO GachaLogUrl (GameBiz, Uid, Url, Time) VALUES (@GameBiz, @Uid, @Url, @Time);", new GachaLogUrl(GameBiz, uid, url));
+            dapper.Execute("INSERT OR REPLACE INTO GachaLogUrl (GameBiz, Uid, Url, Time) VALUES (@GameBiz, @Uid, @Url, @Time);", new GachaLogUrl(CurrentGameBiz, uid, url));
         }
         return uid;
     }
@@ -114,7 +115,7 @@ internal abstract class GachaLogService
     public virtual string? GetGachaLogUrlByUid(long uid)
     {
         using var dapper = _database.CreateConnection();
-        return dapper.QueryFirstOrDefault<string>("SELECT Url FROM GachaLogUrl WHERE Uid = @uid AND GameBiz = @GameBiz LIMIT 1;", new { uid, GameBiz });
+        return dapper.QueryFirstOrDefault<string>("SELECT Url FROM GachaLogUrl WHERE Uid = @uid AND GameBiz = @GameBiz LIMIT 1;", new { uid, CurrentGameBiz });
     }
 
 
@@ -143,7 +144,7 @@ internal abstract class GachaLogService
                 _logger.LogInformation($"Last gacha log id of uid {uid} is {endId}");
             }
 
-            var internalProgress = new Progress<(GachaType GachaType, int Page)>((x) => progress?.Report(string.Format(Lang.GachaLogService_GetGachaProgressText, x.GachaType.ToLocalization(), x.Page)));
+            var internalProgress = new Progress<(IGachaType GachaType, int Page)>((x) => progress?.Report(string.Format(Lang.GachaLogService_GetGachaProgressText, x.GachaType.ToLocalization(), x.Page)));
             var list = (await _client.GetGachaLogAsync(url, endId, lang, internalProgress, cancellationToken)).ToList();
             if (cancellationToken.IsCancellationRequested)
             {
@@ -171,17 +172,17 @@ internal abstract class GachaLogService
         var allItems = GetGachaLogItemEx(uid);
         if (allItems.Count > 0)
         {
-            foreach (int type in GachaTypes)
+            foreach (IGachaType type in QueryGachaTypes)
             {
-                var list = GetGroupGachaLogItems(allItems, (GachaType)type);
+                var list = GetGachaLogItemsByQueryType(allItems, type);
                 if (list.Count == 0)
                 {
                     continue;
                 }
                 var stats = new GachaTypeStats
                 {
-                    GachaType = (GachaType)type,
-                    GachaTypeText = ((GachaType)type).ToLocalization(),
+                    GachaType = type.Value,
+                    GachaTypeText = type.ToLocalization(),
                     Count = list.Count,
                     Count_5 = list.Count(x => x.RankType == 5),
                     Count_4 = list.Count(x => x.RankType == 4),
@@ -214,11 +215,11 @@ internal abstract class GachaLogService
                 }
 
                 statsList.Add(stats);
-                if ((GachaType)type == GachaType.NoviceWish && stats.Count == 20)
+                if (CurrentGameBiz == GameBiz.hk4e && type.Value == GenshinGachaType.NoviceWish && stats.Count == 20)
                 {
                     continue;
                 }
-                else if ((GachaType)type == GachaType.DepartureWarp && stats.Count == 50)
+                else if (CurrentGameBiz == GameBiz.hkrpg && type.Value == StarRailGachaType.DepartureWarp && stats.Count == 50)
                 {
                     continue;
                 }
@@ -226,14 +227,14 @@ internal abstract class GachaLogService
                 {
                     stats.List_5.Insert(0, new GachaLogItemEx
                     {
-                        GachaType = (GachaType)type,
+                        GachaType = type.Value,
                         Name = Lang.GachaStatsCard_Pity,
                         Pity = stats.Pity_5,
                         Time = list.Last().Time,
                     });
                     stats.List_4.Insert(0, new GachaLogItemEx
                     {
-                        GachaType = (GachaType)type,
+                        GachaType = type.Value,
                         Name = Lang.GachaStatsCard_Pity,
                         Pity = stats.Pity_4,
                         Time = list.Last().Time,

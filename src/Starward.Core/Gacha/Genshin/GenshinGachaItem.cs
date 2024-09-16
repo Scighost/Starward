@@ -3,4 +3,8 @@
 public class GenshinGachaItem : GachaLogItem
 {
 
+
+    public override IGachaType GetGachaType() => new GenshinGachaType(GachaType);
+
+
 }

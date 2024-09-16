@@ -1,4 +1,4 @@
-﻿using Starward.Core.Gacha;
+﻿using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.StarRail.TrailblazeCalendar;

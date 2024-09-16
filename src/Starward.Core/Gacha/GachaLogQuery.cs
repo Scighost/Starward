@@ -1,9 +1,11 @@
-﻿namespace Starward.Core.Gacha;
+﻿using Starward.Core.Gacha.ZZZ;
+
+namespace Starward.Core.Gacha;
 
 public struct GachaLogQuery
 {
 
-    public GachaType GachaType { get; set; }
+    public IGachaType GachaType { get; set; }
 
     public int Page { get; set; }
 
@@ -13,7 +15,7 @@ public struct GachaLogQuery
 
 
 
-    public GachaLogQuery(GachaType gachaType, int page, int size, long endId)
+    public GachaLogQuery(IGachaType gachaType, int page, int size, long endId)
     {
         GachaType = gachaType;
         Page = page;
@@ -21,15 +23,20 @@ public struct GachaLogQuery
         EndId = endId;
     }
 
+
     public override string ToString()
     {
-        return $"gacha_type={(int)GachaType}&page={Page}&size={Size}&end_id={EndId}";
+        if (GachaType is ZZZGachaType)
+        {
+            return $"real_gacha_type={GachaType}&page={Page}&size={Size}&end_id={EndId}";
+        }
+        else
+        {
+            return $"gacha_type={GachaType}&page={Page}&size={Size}&end_id={EndId}";
+        }
     }
 
-    public string ToZZZString()
-    {
-        return $"real_gacha_type={(int)GachaType}&page={Page}&size={Size}&end_id={EndId}";
-    }
+
 }
 
 

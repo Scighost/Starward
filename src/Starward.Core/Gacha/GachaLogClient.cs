@@ -64,7 +64,7 @@ public abstract class GachaLogClient
     protected readonly HttpClient _httpClient;
 
 
-    protected abstract IReadOnlyCollection<GachaType> GachaTypes { get; init; }
+    public abstract IReadOnlyCollection<IGachaType> QueryGachaTypes { get; init; }
 
 
 
@@ -89,7 +89,7 @@ public abstract class GachaLogClient
     public async Task<long> GetUidByGachaUrlAsync(string gachaUrl)
     {
         var prefix = GetGachaUrlPrefix(gachaUrl);
-        foreach (var gachaType in GachaTypes)
+        foreach (var gachaType in QueryGachaTypes)
         {
             var param = new GachaLogQuery(gachaType, 1, 1, 0);
             var list = await GetGachaLogByQueryAsync<GachaLogItem>(prefix, param);
@@ -103,10 +103,10 @@ public abstract class GachaLogClient
 
 
 
-    public abstract Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default);
+    public abstract Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default);
 
 
-    public abstract Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaType gachaType, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default);
+    public abstract Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, IGachaType gachaType, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default);
 
 
     public abstract Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaLogQuery query, CancellationToken cancellationToken = default);
@@ -249,12 +249,12 @@ public abstract class GachaLogClient
 
 
 
-    protected async Task<List<T>> GetGachaLogAsync<T>(string gachaUrl, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
+    protected async Task<List<T>> GetGachaLogAsync<T>(string gachaUrl, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
     {
         endId = Math.Clamp(endId, 0, long.MaxValue);
         var prefix = GetGachaUrlPrefix(gachaUrl, lang);
         var result = new List<T>();
-        foreach (var gachaType in GachaTypes)
+        foreach (var gachaType in QueryGachaTypes)
         {
             result.AddRange(await GetGachaLogByTypeAsync<T>(prefix, gachaType, endId, progress, cancellationToken));
         }
@@ -264,7 +264,7 @@ public abstract class GachaLogClient
 
 
 
-    protected async Task<List<T>> GetGachaLogAsync<T>(string gachaUrl, GachaType gachaType, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
+    protected async Task<List<T>> GetGachaLogAsync<T>(string gachaUrl, IGachaType gachaType, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
     {
         endId = Math.Clamp(endId, 0, long.MaxValue);
         var prefix = GetGachaUrlPrefix(gachaUrl, lang);
@@ -296,7 +296,7 @@ public abstract class GachaLogClient
 
 
 
-    private async Task<List<T>> GetGachaLogByTypeAsync<T>(string prefix, GachaType gachaType, long endId = 0, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
+    private async Task<List<T>> GetGachaLogByTypeAsync<T>(string prefix, IGachaType gachaType, long endId = 0, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default) where T : GachaLogItem
     {
         var param = new GachaLogQuery(gachaType, 1, 20, 0);
         var result = new List<T>();
@@ -358,6 +358,10 @@ public abstract class GachaLogClient
 
 
 
+
+    #region Gacha Info
+
+
     public async Task<GenshinGachaWiki> GetGenshinGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
     {
         lang = LanguageUtil.FilterLanguage(lang);
@@ -415,7 +419,6 @@ public abstract class GachaLogClient
     }
 
 
-
     // todo
     [Obsolete("Not finished", true)]
     public async Task<GenshinGachaWiki> GetZZZGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
@@ -435,6 +438,10 @@ public abstract class GachaLogClient
         wiki.Language = lang;
         return wiki;
     }
+
+
+
+    #endregion
 
 
 

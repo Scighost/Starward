@@ -1,6 +1,9 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
 using Starward.Core.Gacha;
+using Starward.Core.Gacha.Genshin;
+using Starward.Core.Gacha.StarRail;
+using Starward.Core.Gacha.ZZZ;
 
 namespace Starward.Models;
 
@@ -19,7 +22,7 @@ public partial class GachaLogItemEx : GachaLogItem
 
     public string Icon { get; set; }
 
-    public double Progress => (double)Pity / (((int)GachaType is 12 or 302 or 3) ? 80 : 90) * 100;
+    public double Progress => (double)Pity / ((GachaType is GenshinGachaType.WeaponEventWish or StarRailGachaType.LightConeEventWarp or ZZZGachaType.WEngineChannel) ? 80 : 90) * 100;
 
 
     private bool _IsPointerIn;

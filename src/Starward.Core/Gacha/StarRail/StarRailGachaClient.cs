@@ -7,7 +7,7 @@ public class StarRailGachaClient : GachaLogClient
 
 
 
-    protected override IReadOnlyCollection<GachaType> GachaTypes { get; init; } = new GachaType[] { (GachaType)1, (GachaType)2, (GachaType)11, (GachaType)12 }.AsReadOnly();
+    public override IReadOnlyCollection<IGachaType> QueryGachaTypes { get; init; } = new StarRailGachaType[] { 1, 2, 11, 12 }.Cast<IGachaType>().ToList().AsReadOnly();
 
 
 
@@ -66,14 +66,14 @@ public class StarRailGachaClient : GachaLogClient
 
 
 
-    public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
+    public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
         return await GetGachaLogAsync<StarRailGachaItem>(gachaUrl, endId, lang, progress, cancellationToken);
     }
 
 
 
-    public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaType gachaType, long endId = 0, string? lang = null, IProgress<(GachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
+    public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, IGachaType gachaType, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
         return await GetGachaLogAsync<StarRailGachaItem>(gachaUrl, gachaType, endId, lang, progress, cancellationToken);
     }

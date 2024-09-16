@@ -22,11 +22,10 @@ internal class GenshinGachaService : GachaLogService
 
 
 
-    protected override GameBiz GameBiz { get; } = GameBiz.hk4e;
+    protected override GameBiz CurrentGameBiz { get; } = GameBiz.hk4e;
 
     protected override string GachaTableName { get; } = "GenshinGachaItem";
 
-    protected override IReadOnlyCollection<int> GachaTypes { get; } = new int[] { 200, 301, 302, 500, 100 }.AsReadOnly();
 
 
 
@@ -37,12 +36,12 @@ internal class GenshinGachaService : GachaLogService
 
 
 
-    protected override List<GachaLogItemEx> GetGroupGachaLogItems(IEnumerable<GachaLogItemEx> items, GachaType type)
+    protected override List<GachaLogItemEx> GetGachaLogItemsByQueryType(IEnumerable<GachaLogItemEx> items, IGachaType type)
     {
-        return type switch
+        return type.Value switch
         {
-            GachaType.CharacterEventWish => items.Where(x => x.GachaType == GachaType.CharacterEventWish || x.GachaType == GachaType.CharacterEventWish_2).ToList(),
-            _ => items.Where(x => x.GachaType == type).ToList(),
+            GenshinGachaType.CharacterEventWish => items.Where(x => x.GachaType == GenshinGachaType.CharacterEventWish || x.GachaType == GenshinGachaType.CharacterEventWish_2).ToList(),
+            _ => items.Where(x => x.GachaType == type.Value).ToList(),
         };
     }
 
@@ -53,9 +52,9 @@ internal class GenshinGachaService : GachaLogService
         var list = dapper.Query<GachaLogItemEx>("""
             SELECT item.*, info.Icon FROM GenshinGachaItem item LEFT JOIN GenshinGachaInfo info ON item.ItemId=info.Id WHERE Uid=@uid ORDER BY item.Id;
             """, new { uid }).ToList();
-        foreach (var type in GachaTypes)
+        foreach (var type in QueryGachaTypes)
         {
-            var l = GetGroupGachaLogItems(list, (GachaType)type);
+            var l = GetGachaLogItemsByQueryType(list, (IGachaType)type);
             int index = 0;
             int pity = 0;
             foreach (var item in l)
@@ -206,8 +205,8 @@ internal class GenshinGachaService : GachaLogService
             {
                 item.uigf_gacha_type = item.GachaType switch
                 {
-                    GachaType.CharacterEventWish_2 => ((int)GachaType.CharacterEventWish).ToString(),
-                    _ => ((int)item.GachaType).ToString(),
+                    GenshinGachaType.CharacterEventWish_2 => GenshinGachaType.CharacterEventWish.ToString(),
+                    _ => item.GachaType.ToString(),
                 };
             }
             this.list = list;

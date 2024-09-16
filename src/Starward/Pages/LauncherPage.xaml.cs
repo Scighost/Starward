@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.Win32;
 using Starward.Controls;
 using Starward.Core;
 using Starward.Core.Launcher;
@@ -1152,21 +1151,7 @@ public sealed partial class LauncherPage : PageBase
 
     private async Task LauncherZZZCBTLauncherAsync()
     {
-        string? launcherFolder = Registry.GetValue(GameRegistry.LauncherPath_nap_cbt3, GameRegistry.InstallPath, null) as string;
-        string? launcher = Path.Join(launcherFolder, "launcher.exe");
-        if (File.Exists(launcher))
-        {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = launcher,
-                UseShellExecute = true,
-                Verb = "runas",
-            });
-        }
-        else
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://zzz.mihoyo.com/"));
-        }
+
     }
 
 

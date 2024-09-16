@@ -21,11 +21,10 @@ internal class StarRailGachaService : GachaLogService
 {
 
 
-    protected override GameBiz GameBiz { get; } = GameBiz.hkrpg;
+    protected override GameBiz CurrentGameBiz { get; } = GameBiz.hkrpg;
 
     protected override string GachaTableName { get; } = "StarRailGachaItem";
 
-    protected override IReadOnlyCollection<int> GachaTypes { get; } = new int[] { 1, 11, 12, 2 }.AsReadOnly();
 
 
     public StarRailGachaService(ILogger<StarRailGachaService> logger, DatabaseService database, StarRailGachaClient client) : base(logger, database, client)
@@ -35,11 +34,11 @@ internal class StarRailGachaService : GachaLogService
 
 
 
-    protected override List<GachaLogItemEx> GetGroupGachaLogItems(IEnumerable<GachaLogItemEx> items, GachaType type)
+    protected override List<GachaLogItemEx> GetGachaLogItemsByQueryType(IEnumerable<GachaLogItemEx> items, IGachaType type)
     {
         return type switch
         {
-            _ => items.Where(x => x.GachaType == type).ToList(),
+            _ => items.Where(x => x.GachaType == type.Value).ToList(),
         };
     }
 
@@ -51,9 +50,9 @@ internal class StarRailGachaService : GachaLogService
         var list = dapper.Query<GachaLogItemEx>("""
             SELECT item.*, info.IconUrl Icon FROM StarRailGachaItem item LEFT JOIN StarRailGachaInfo info ON item.ItemId=info.ItemId WHERE Uid=@uid ORDER BY item.Id;
             """, new { uid }).ToList();
-        foreach (var type in GachaTypes)
+        foreach (var type in QueryGachaTypes)
         {
-            var l = GetGroupGachaLogItems(list, (GachaType)type);
+            var l = GetGachaLogItemsByQueryType(list, type);
             int index = 0;
             int pity = 0;
             foreach (var item in l)

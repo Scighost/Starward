@@ -13,6 +13,8 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Gacha;
+using Starward.Core.Gacha.Genshin;
+using Starward.Core.Gacha.StarRail;
 using Starward.Helpers;
 using Starward.Messages;
 using Starward.Models;
@@ -253,8 +255,8 @@ public sealed partial class GachaLogPage : PageBase
                 (var gachaStats, var itemStats) = _gachaLogService.GetGachaTypeStats(uid.Value);
                 if (CurrentGameBiz.ToGame().Value is GameBiz.hk4e or GameBiz.hkrpg)
                 {
-                    noviceGachaTypeStats = gachaStats.FirstOrDefault(x => x.GachaType == GachaType.NoviceWish || x.GachaType == GachaType.DepartureWarp);
-                    chronicledWishStats = gachaStats.FirstOrDefault(x => x.GachaType == GachaType.ChronicledWish);
+                    noviceGachaTypeStats = gachaStats.FirstOrDefault(x => x.GachaType == GenshinGachaType.NoviceWish || x.GachaType == StarRailGachaType.DepartureWarp);
+                    chronicledWishStats = gachaStats.FirstOrDefault(x => x.GachaType == GenshinGachaType.ChronicledWish);
                 }
                 if (noviceGachaTypeStats != null && !ShowNoviceGacha)
                 {

@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.Gacha;
+using Starward.Core.Gacha.Genshin;
+using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
 using Starward.Models;
 using System;
@@ -16,12 +18,9 @@ internal class ZZZGachaService : GachaLogService
 {
 
 
-    protected override GameBiz GameBiz { get; } = GameBiz.nap;
+    protected override GameBiz CurrentGameBiz { get; } = GameBiz.nap;
 
     protected override string GachaTableName { get; } = "ZZZGachaItem";
-
-    protected override IReadOnlyCollection<int> GachaTypes { get; } = new int[] { 1, 2, 3, 5 }.AsReadOnly();
-
 
 
 
@@ -31,11 +30,11 @@ internal class ZZZGachaService : GachaLogService
     }
 
 
-    protected override List<GachaLogItemEx> GetGroupGachaLogItems(IEnumerable<GachaLogItemEx> items, GachaType type)
+    protected override List<GachaLogItemEx> GetGachaLogItemsByQueryType(IEnumerable<GachaLogItemEx> items, IGachaType type)
     {
         return type switch
         {
-            _ => items.Where(x => x.GachaType == type).ToList(),
+            _ => items.Where(x => x.GachaType == type.Value).ToList(),
         };
     }
 
@@ -47,9 +46,9 @@ internal class ZZZGachaService : GachaLogService
         var list = dapper.Query<GachaLogItemEx>("""
             SELECT item.* FROM ZZZGachaItem item WHERE Uid=@uid ORDER BY item.Id;
             """, new { uid }).ToList();
-        foreach (var type in GachaTypes)
+        foreach (var type in QueryGachaTypes)
         {
-            var l = GetGroupGachaLogItems(list, (GachaType)type);
+            var l = GetGachaLogItemsByQueryType(list, type);
             int index = 0;
             int pity = 0;
             foreach (var item in l)
@@ -87,7 +86,7 @@ internal class ZZZGachaService : GachaLogService
                 _logger.LogInformation($"Last gacha log id of uid {uid} is {endId}");
             }
 
-            var internalProgress = new Progress<(GachaType GachaType, int Page)>((x) => progress?.Report(string.Format(Lang.GachaLogService_GetGachaProgressText, x.GachaType.ToZZZLocalization(), x.Page)));
+            var internalProgress = new Progress<(IGachaType GachaType, int Page)>((x) => progress?.Report(string.Format(Lang.GachaLogService_GetGachaProgressText, x.GachaType.ToLocalization(), x.Page)));
             var list = (await _client.GetGachaLogAsync(url, endId, lang, internalProgress, cancellationToken)).ToList();
             if (cancellationToken.IsCancellationRequested)
             {
@@ -111,17 +110,17 @@ internal class ZZZGachaService : GachaLogService
         var allItems = GetGachaLogItemEx(uid);
         if (allItems.Count > 0)
         {
-            foreach (int type in GachaTypes)
+            foreach (IGachaType type in QueryGachaTypes)
             {
-                var list = GetGroupGachaLogItems(allItems, (GachaType)type);
+                var list = GetGachaLogItemsByQueryType(allItems, type);
                 if (list.Count == 0)
                 {
                     continue;
                 }
                 var stats = new GachaTypeStats
                 {
-                    GachaType = (GachaType)type,
-                    GachaTypeText = ((GachaType)type).ToZZZLocalization(),
+                    GachaType = type.Value,
+                    GachaTypeText = type.ToLocalization(),
                     Count = list.Count,
                     Count_5 = list.Count(x => x.RankType == 4),
                     Count_4 = list.Count(x => x.RankType == 3),
@@ -154,11 +153,11 @@ internal class ZZZGachaService : GachaLogService
                 }
 
                 statsList.Add(stats);
-                if ((GachaType)type == GachaType.NoviceWish && stats.Count == 20)
+                if (CurrentGameBiz == GameBiz.hk4e && type.Value == GenshinGachaType.NoviceWish && stats.Count == 20)
                 {
                     continue;
                 }
-                else if ((GachaType)type == GachaType.DepartureWarp && stats.Count == 50)
+                else if (CurrentGameBiz == GameBiz.hkrpg && type.Value == StarRailGachaType.DepartureWarp && stats.Count == 50)
                 {
                     continue;
                 }

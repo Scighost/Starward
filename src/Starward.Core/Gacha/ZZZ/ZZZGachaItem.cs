@@ -3,6 +3,6 @@
 public class ZZZGachaItem : GachaLogItem
 {
 
-
+    public override IGachaType GetGachaType() => new ZZZGachaType(GachaType);
 
 }
