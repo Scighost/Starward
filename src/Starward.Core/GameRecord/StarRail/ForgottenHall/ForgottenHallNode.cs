@@ -1,11 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using Starward.Core.JsonConverter;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.StarRail.ForgottenHall;
 
 public class ForgottenHallNode
 {
     [JsonPropertyName("challenge_time")]
-    [JsonConverter(typeof(ForgottenHallTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeObjectJsonConverter))]
     public DateTime ChallengeTime { get; set; }
 
     [JsonPropertyName("avatars")]

@@ -1,4 +1,4 @@
-﻿using Starward.Core.GameRecord.StarRail.ForgottenHall;
+﻿using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.StarRail.ApocalypticShadow;
@@ -28,7 +28,7 @@ public class ApocalypticShadowFloorDetail
     public bool IsFast { get; set; }
 
     [JsonPropertyName("last_update_time")]
-    [JsonConverter(typeof(ForgottenHallTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeObjectJsonConverter))]
     public DateTime LastUpdateTime { get; set; }
 
     [JsonIgnore]

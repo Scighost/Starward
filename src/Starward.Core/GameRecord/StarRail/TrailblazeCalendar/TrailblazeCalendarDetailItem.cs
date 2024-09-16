@@ -33,7 +33,7 @@ public class TrailblazeCalendarDetailItem
     public string ActionName { get; set; }
 
     [JsonPropertyName("time")]
-    [JsonConverter(typeof(DateTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeStringJsonConverter))]
     public DateTime Time { get; set; }
 
     [JsonPropertyName("num")]

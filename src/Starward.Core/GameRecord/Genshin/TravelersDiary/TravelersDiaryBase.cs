@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+﻿using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.Genshin.TravelersDiary;
@@ -27,7 +27,7 @@ public abstract class TravelersDiaryBase
     /// 当前日期
     /// </summary>
     [JsonPropertyName("date")]
-    [JsonConverter(typeof(TravelersDiaryDateJsonConverter))]
+    [JsonConverter(typeof(DateTimeStringJsonConverter))]
     public DateTime Date { get; set; }
 
     /// <summary>
@@ -54,16 +54,3 @@ public abstract class TravelersDiaryBase
 
 }
 
-
-internal class TravelersDiaryDateJsonConverter : JsonConverter<DateTime>
-{
-    public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        return DateTime.Parse(reader.GetString()!);
-    }
-
-    public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
-    {
-        writer.WriteStringValue(value.ToString("yyyy-MM-dd HH:mm:ss"));
-    }
-}

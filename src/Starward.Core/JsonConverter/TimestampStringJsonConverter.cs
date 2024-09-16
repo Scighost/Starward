@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Starward.Core.GameRecord.Genshin.SpiralAbyss;
+namespace Starward.Core.JsonConverter;
 
-internal class SpiralAbyssTimeJsonConverter : JsonConverter<DateTimeOffset>
+internal class TimestampStringJsonConverter : JsonConverter<DateTimeOffset>
 {
     public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -14,7 +14,7 @@ internal class SpiralAbyssTimeJsonConverter : JsonConverter<DateTimeOffset>
         }
         else
         {
-            return DateTimeOffset.Now;
+            return DateTimeOffset.MinValue;
         }
     }
 
@@ -23,3 +23,5 @@ internal class SpiralAbyssTimeJsonConverter : JsonConverter<DateTimeOffset>
         writer.WriteStringValue(value.ToUnixTimeSeconds().ToString());
     }
 }
+
+

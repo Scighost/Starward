@@ -1,4 +1,4 @@
-﻿using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
+﻿using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.Genshin.ImaginariumTheater;
@@ -46,7 +46,7 @@ public class ImaginariumTheaterRoundsData
     /// 完成时间
     /// </summary>
     [JsonPropertyName("finish_date_time")]
-    [JsonConverter(typeof(SimulatedUniverseTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeObjectJsonConverter))]
     public DateTime FinishDateTime { get; set; }
 
     /// <summary>

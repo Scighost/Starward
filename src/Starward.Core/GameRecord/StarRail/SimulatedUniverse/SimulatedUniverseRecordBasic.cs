@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Starward.Core.JsonConverter;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 
@@ -14,11 +15,11 @@ public class SimulatedUniverseRecordBasic
     public int FinishCount { get; set; }
 
     [JsonPropertyName("schedule_begin")]
-    [JsonConverter(typeof(SimulatedUniverseTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeObjectJsonConverter))]
     public DateTime ScheduleBegin { get; set; }
 
     [JsonPropertyName("schedule_end")]
-    [JsonConverter(typeof(SimulatedUniverseTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeObjectJsonConverter))]
     public DateTime ScheduleEnd { get; set; }
 
 

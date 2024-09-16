@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Starward.Core.JsonConverter;
 
-internal class DateTimeJsonConverter : JsonConverter<DateTime>
+internal class DateTimeStringJsonConverter : JsonConverter<DateTime>
 {
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

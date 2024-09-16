@@ -1,4 +1,4 @@
-﻿using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
+﻿using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.Genshin.ImaginariumTheater;
@@ -24,11 +24,11 @@ public class ImaginariumTheaterSchedule
     public int ScheduleId { get; set; }
 
     [JsonPropertyName("start_date_time")]
-    [JsonConverter(typeof(SimulatedUniverseTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeObjectJsonConverter))]
     public DateTime StartDateTime { get; set; }
 
     [JsonPropertyName("end_date_time")]
-    [JsonConverter(typeof(SimulatedUniverseTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeObjectJsonConverter))]
     public DateTime EndDateTime { get; set; }
 
 

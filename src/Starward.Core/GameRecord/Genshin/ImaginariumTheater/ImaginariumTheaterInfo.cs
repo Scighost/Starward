@@ -16,11 +16,11 @@ public class ImaginariumTheaterInfo
 
 
     [JsonPropertyName("start_time")]
-    [JsonConverter(typeof(DateTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeStringJsonConverter))]
     public DateTime StartTime { get; set; }
 
     [JsonPropertyName("end_time")]
-    [JsonConverter(typeof(DateTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeStringJsonConverter))]
     public DateTime EndTime { get; set; }
 
     /// <summary>

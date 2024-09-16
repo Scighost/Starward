@@ -28,7 +28,7 @@ public class StarRailQueryItem
 
 
     [JsonPropertyName("time")]
-    [JsonConverter(typeof(DateTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeStringJsonConverter))]
     public DateTime Time { get; set; }
 
 

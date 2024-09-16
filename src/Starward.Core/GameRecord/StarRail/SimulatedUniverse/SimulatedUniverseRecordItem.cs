@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Starward.Core.JsonConverter;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 
@@ -11,7 +12,7 @@ public class SimulatedUniverseRecordItem
     public string Name { get; set; }
 
     [JsonPropertyName("finish_time")]
-    [JsonConverter(typeof(SimulatedUniverseTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeObjectJsonConverter))]
     public DateTime FinishTime { get; set; }
 
     /// <summary>

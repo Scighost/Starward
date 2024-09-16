@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Starward.Core.JsonConverter;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.Genshin.SpiralAbyss;
 
@@ -14,7 +15,7 @@ public class SpiralAbyssBattle
 
 
     [JsonPropertyName("timestamp")]
-    [JsonConverter(typeof(SpiralAbyssTimeJsonConverter))]
+    [JsonConverter(typeof(TimestampStringJsonConverter))]
     public DateTimeOffset Time { get; set; }
 
 

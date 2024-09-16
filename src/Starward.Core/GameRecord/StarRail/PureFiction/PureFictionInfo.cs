@@ -1,4 +1,4 @@
-﻿using Starward.Core.GameRecord.StarRail.ForgottenHall;
+﻿using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.StarRail.PureFiction;
@@ -14,11 +14,11 @@ public class PureFictionInfo
     public int ScheduleId { get; set; }
 
     [JsonPropertyName("begin_time")]
-    [JsonConverter(typeof(ForgottenHallTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeObjectJsonConverter))]
     public DateTime BeginTime { get; set; }
 
     [JsonPropertyName("end_time")]
-    [JsonConverter(typeof(ForgottenHallTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeObjectJsonConverter))]
     public DateTime EndTime { get; set; }
 
     [JsonPropertyName("star_num")]

@@ -29,7 +29,7 @@ public class ZZZQueryItem
 
 
     [JsonPropertyName("datetime")]
-    [JsonConverter(typeof(DateTimeJsonConverter))]
+    [JsonConverter(typeof(DateTimeStringJsonConverter))]
     public DateTime DateTime { get; set; }
 
 

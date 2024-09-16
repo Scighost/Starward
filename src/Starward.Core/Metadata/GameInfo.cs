@@ -1,5 +1,4 @@
 ﻿using Starward.Core.JsonConverter;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.Metadata;
@@ -38,24 +37,3 @@ public class GameInfo
 
 }
 
-
-
-internal class EnumStringJsonConverter<T> : JsonConverter<T> where T : struct
-{
-    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        if (Enum.TryParse(reader.GetString(), out T result))
-        {
-            return result;
-        }
-        else
-        {
-            return default;
-        }
-    }
-
-    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
-    {
-        writer.WriteStringValue(value.ToString());
-    }
-}
