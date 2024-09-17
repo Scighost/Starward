@@ -16,6 +16,11 @@ public struct RateLimiterOption
     /// 限速器单次最大可获取的许可数。
     /// </summary>
     public required int TokenLimit { get; init; }
+
+    /// <summary>
+    /// 是否启用限速器。
+    /// </summary>
+    public bool EnableRateLimiter { get; init; }
 }
 
 internal class RateLimitReadStream(Stream innerStream, Func<RateLimiterOption> rateLimiterOptionBuilder) : Stream
@@ -84,6 +89,8 @@ internal class RateLimitReadStream(Stream innerStream, Func<RateLimiterOption> r
             try
             {
                 var rateLimiterOption = rateLimiterOptionBuilder();
+
+                if (!rateLimiterOption.EnableRateLimiter) return permitCount;
 
                 var permitCountLimited = Math.Min(permitCount, rateLimiterOption.TokenLimit);
 

@@ -1463,7 +1463,8 @@ internal class InstallGameService
         zipFileDownloadFactory.DownloadBytesRateLimiterOptionBuilder = () => new RateLimiterOption
         {
             RateLimiter = InstallGameManager.RateLimiter,
-            TokenLimit = InstallGameManager.TokenLimit
+            TokenLimit = InstallGameManager.TokenLimit,
+            EnableRateLimiter = InstallGameManager.IsEnableSpeedLimit
         };
 
         var progress = new FastZipStreamDownloadProgressUtils();
