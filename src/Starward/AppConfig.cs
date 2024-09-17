@@ -231,7 +231,7 @@ internal static class AppConfig
             {
                 //See: https://learn.microsoft.com/zh-cn/dotnet/fundamentals/runtime-libraries/system-net-http-httpclienthandler
                 //See: https://learn.microsoft.com/zh-cn/dotnet/api/system.net.http.socketshttphandler?view=net-8.0
-                var client = new HttpClient(new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
+                var client = new HttpClient(new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All, MaxConnectionsPerServer = 5 }) { DefaultRequestVersion = HttpVersion.Version20 };
                 client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppVersion}");
                 return client;
             });
@@ -510,6 +510,13 @@ internal static class AppConfig
     public static int SpeedLimitKBPerSecond
     {
         get => GetValue(0);
+        set => SetValue(value);
+    }
+
+
+    public static DownloadModeOption DownloadMode
+    {
+        get => GetValue(DownloadModeOption.TraditionalMode);
         set => SetValue(value);
     }
 

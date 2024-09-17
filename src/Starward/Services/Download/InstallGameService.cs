@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Core.ZipStreamDownload;
 using Starward.Services.InstallGame;
 using Starward.Services.Launcher;
 using Starward.SevenZip;
@@ -20,9 +21,13 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Starward.Core.ZipStreamDownload.Http;
+using Starward.Models;
 using Vanara.PInvoke;
+using System.Web;
 
 namespace Starward.Services.Download;
 
@@ -192,7 +197,15 @@ internal class InstallGameService
         long size = 0;
         string lang = "";
         var package = await _packageService.GetGamePackageAsync(gameBiz);
+        var downloadMode = InstallGameManager.DownloadMode;
+        if (InstallTask == InstallGameTask.Predownload) downloadMode = DownloadModeOption.TraditionalMode;
+        else if (package.Main.Major!.GamePackages.Select(file => CheckUrlIsZipFile(file.Url)).Any(b => !b))
+            downloadMode = DownloadModeOption.TraditionalMode;
         size += package.Main.Major!.GamePackages.Sum(x => x.DecompressedSize);
+        if (downloadMode == DownloadModeOption.FullStreamMode)
+        {
+            size -= package.Main.Major!.GamePackages.Sum(x => x.Size);
+        }
         if (!string.IsNullOrWhiteSpace(installPath))
         {
             var sb = new StringBuilder();
@@ -220,6 +233,10 @@ internal class InstallGameService
             if (!string.IsNullOrWhiteSpace(item.Language) && lang.Contains(item.Language))
             {
                 size += item.DecompressedSize;
+                if (downloadMode == DownloadModeOption.FullStreamMode)
+                {
+                    size -= item.Size;
+                }
             }
         }
         return size;
@@ -391,23 +408,24 @@ internal class InstallGameService
 
     protected async Task PrepareDownloadGamePackageResourceAsync(GamePackageResource resource)
     {
-        _gamePackageItems = new List<InstallGameItem>();
-        foreach (var item in resource.GamePackages)
-        {
-            _gamePackageItems.Add(GamePackageFileToInstallGameItem(item));
-        }
-        _audioPackageItems = new List<InstallGameItem>();
-        foreach (var item in await GetAudioPackageFilesFromGameResourceAsync(resource))
-        {
-            _audioPackageItems.Add(GamePackageFileToInstallGameItem(item));
-        }
+        _gamePackageItems = GamePackageFilesToInstallGameItems(resource.GamePackages);
+        _audioPackageItems = (await GetAudioPackageFilesFromGameResourceAsync(resource).ConfigureAwait(false))
+            .Select(GamePackageFileToInstallGameItem).ToList();
         foreach (var item in _gamePackageItems)
         {
-            _installItemQueue.Enqueue(item);
+            if (item.Type == InstallGameItemType.StreamDownload)
+            {
+                _streamDownloadInstallItemQueue.Enqueue(item);
+            }
+            else _installItemQueue.Enqueue(item);
         }
         foreach (var item in _audioPackageItems)
         {
-            _installItemQueue.Enqueue(item);
+            if (item.Type == InstallGameItemType.StreamDownload)
+            {
+                _streamDownloadInstallItemQueue.Enqueue(item);
+            }
+            else _installItemQueue.Enqueue(item);
         }
     }
 
@@ -497,20 +515,115 @@ internal class InstallGameService
 
 
 
+    protected List<InstallGameItem> GamePackageFilesToInstallGameItems(IReadOnlyCollection<GamePackageFile> files)
+    {
+        var downloadMode = InstallGameManager.DownloadMode;
+        if (InstallTask == InstallGameTask.Predownload) downloadMode = DownloadModeOption.TraditionalMode;
+        else if (files.Select(file => CheckUrlIsZipFile(file.Url)).Any(b => !b))
+            downloadMode = DownloadModeOption.TraditionalMode;
+        switch (downloadMode)
+        {
+            case DownloadModeOption.TraditionalMode:
+                return files.Select(file => new InstallGameItem
+                {
+                    Type = InstallGameItemType.Download,
+                    FileName = Path.GetFileName(file.Url),
+                    Path = Path.Combine(_installPath, Path.GetFileName(file.Url)),
+                    Url = file.Url,
+                    MD5 = file.MD5,
+                    Size = file.Size,
+                    DecompressedSize = file.DecompressedSize,
+                    WriteAsTempFile = true,
+                }).ToList();
+            case DownloadModeOption.FullStreamMode:
+                if (files.Count == 0) return new List<InstallGameItem>();
+                if (files.Count == 1)
+                {
+                    var file = files.First();
+                    return new List<InstallGameItem>
+                    {
+                        new()
+                        {
+                            Type = InstallGameItemType.StreamDownload,
+                            DecompressPath = _installPath,
+                            Url = file.Url,
+                            Size = file.Size,
+                            DecompressedSize = file.DecompressedSize,
+                            WriteAsTempFile = false,
+                        }
+                    };
+                }
+                return new List<InstallGameItem>
+                {
+                    new()
+                    {
+                        Type = InstallGameItemType.StreamDownload,
+                        DecompressPath = _installPath,
+                        UrlList = files.Select(file => file.Url).OrderBy(url => url).ToList(),
+                        Size = files.Sum(file => file.Size),
+                        DecompressedSize = files.Sum(file => file.DecompressedSize),
+                        WriteAsTempFile = false,
+                    }
+                };
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+
+
+
+
     protected InstallGameItem GamePackageFileToInstallGameItem(GamePackageFile file)
     {
-        return new InstallGameItem
+        var downloadMode = InstallGameManager.DownloadMode;
+        if (InstallTask == InstallGameTask.Predownload) downloadMode = DownloadModeOption.TraditionalMode;
+        else if (!CheckUrlIsZipFile(file.Url)) downloadMode = DownloadModeOption.TraditionalMode;
+        switch (downloadMode)
         {
-            Type = InstallGameItemType.Download,
-            FileName = Path.GetFileName(file.Url),
-            Path = Path.Combine(_installPath, Path.GetFileName(file.Url)),
-            Url = file.Url,
-            MD5 = file.MD5,
-            Size = file.Size,
-            DecompressedSize = file.DecompressedSize,
-            WriteAsTempFile = true,
-        };
+            case DownloadModeOption.TraditionalMode:
+                return new InstallGameItem
+                {
+                    Type = InstallGameItemType.Download,
+                    FileName = Path.GetFileName(file.Url),
+                    Path = Path.Combine(_installPath, Path.GetFileName(file.Url)),
+                    Url = file.Url,
+                    MD5 = file.MD5,
+                    Size = file.Size,
+                    DecompressedSize = file.DecompressedSize,
+                    WriteAsTempFile = true,
+                };
+            case DownloadModeOption.FullStreamMode:
+                return new InstallGameItem
+                {
+                    Type = InstallGameItemType.StreamDownload,
+                    DecompressPath = _installPath,
+                    Url = file.Url,
+                    Size = file.Size,
+                    DecompressedSize = file.DecompressedSize,
+                    WriteAsTempFile = false,
+                };
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
+
+
+
+
+
+    protected bool CheckUrlIsZipFile(string url)
+    {
+        var path = new UriBuilder(url).Path;
+        var pathLastSplitIndex = path.LastIndexOf('/');
+        if (pathLastSplitIndex == -1 || pathLastSplitIndex == path.Length - 1) return false;
+        var fileName = HttpUtility.UrlDecode(path[(pathLastSplitIndex + 1)..]);
+        return Regex.IsMatch(fileName, @"\.zip(\.[0-9]{1,3})?$", RegexOptions.IgnoreCase);
+    }
+
+
+
+
 
 
 
@@ -560,7 +673,8 @@ internal class InstallGameService
     {
         try
         {
-            if (State != InstallGameState.None && State != InstallGameState.Error && State != InstallGameState.Finish)
+            if (State == InstallGameState.Cancel ||
+                (State != InstallGameState.None && State != InstallGameState.Error && State != InstallGameState.Finish))
             {
                 return;
             }
@@ -575,17 +689,28 @@ internal class InstallGameService
 
 
 
-    public void Pause()
+    public void Pause(Action? onPaused = null)
     {
         try
         {
-            if (State is InstallGameState.None)
+            if (State is InstallGameState.None or InstallGameState.Cancel)
             {
+                if (State == InstallGameState.None) onPaused?.Invoke();
                 return;
             }
             _pausedState = State;
-            State = InstallGameState.None;
+            State = InstallGameState.Cancel;
             _cancellationTokenSource?.Cancel();
+            Task.Run(async () =>
+            {
+                while (ConcurrentExecuteThreadCount > 0)
+                {
+                    await Task.Delay(100);
+                }
+            }).ConfigureAwait(true).GetAwaiter().OnCompleted(() => {
+                State = InstallGameState.None;
+                onPaused?.Invoke();
+            });
         }
         catch (Exception ex)
         {
@@ -624,12 +749,6 @@ internal class InstallGameService
 
 
 
-
-    protected List<Task> _taskItems;
-    public List<Task> TaskItems => _taskItems;
-
-
-
     protected void StartTask(InstallGameState state)
     {
         if (_concurrentExecuteThreadCount > 0) return;
@@ -653,7 +772,12 @@ internal class InstallGameService
                 {
                     _totalCount++;
                     _totalBytes += item.Size;
-                    long length = GetFileLength(item);
+                    long length = 0;
+                    if (item.Type == InstallGameItemType.StreamDownload)
+                    {
+                        if (!_streamDownloadInstallItemQueue.Contains(item))
+                            length = item.Size;
+                    } else length = GetFileLength(item);
                     _finishBytes += length;
                     if (length == item.Size)
                     {
@@ -664,7 +788,12 @@ internal class InstallGameService
                 {
                     _totalCount++;
                     _totalBytes += item.Size;
-                    long length = GetFileLength(item);
+                    long length = 0;
+                    if (item.Type == InstallGameItemType.StreamDownload)
+                    {
+                        if (!_streamDownloadInstallItemQueue.Contains(item))
+                            length = item.Size;
+                    } else length = GetFileLength(item);
                     _finishBytes += length;
                     if (length == item.Size)
                     {
@@ -726,6 +855,10 @@ internal class InstallGameService
         async Task RunTasksAsync()
         {
             _cancellationTokenSource = new CancellationTokenSource();
+            if (_streamDownloadInstallItemQueue.Count > 0)
+            {
+                await StreamDownloadExecuteTaskItemAsync(_cancellationTokenSource.Token).ConfigureAwait(false);
+            }
             var tasks = new Task[Environment.ProcessorCount];
             for (int i = 0; i < Environment.ProcessorCount; i++)
             {
@@ -938,11 +1071,13 @@ internal class InstallGameService
     {
         foreach (var item in _gamePackageItems)
         {
+            if (item.Type == InstallGameItemType.StreamDownload) continue;
             item.Type = InstallGameItemType.Verify;
             _installItemQueue.Enqueue(item);
         }
         foreach (var item in _audioPackageItems)
         {
+            if (item.Type == InstallGameItemType.StreamDownload) continue;
             item.Type = InstallGameItemType.Verify;
             _installItemQueue.Enqueue(item);
         }
@@ -970,17 +1105,25 @@ internal class InstallGameService
 
     protected void FromVerifyToDecompress()
     {
-        var game = new InstallGameItem
+        var decompressGamePackageItems = _gamePackageItems
+            .Where(x => x.Type != InstallGameItemType.StreamDownload)
+            .ToList();
+        if (decompressGamePackageItems.Count > 0)
         {
-            Type = InstallGameItemType.Decompress,
-            DecompressPath = _installPath,
-            DecompressPackageFiles = _gamePackageItems.Select(x => x.Path).ToList(),
-            Size = _gamePackageItems.Sum(x => x.Size),
-            DecompressedSize = _gamePackageItems.Sum(x => x.DecompressedSize),
-        };
-        _installItemQueue.Enqueue(game);
+            var game = new InstallGameItem
+            {
+                Type = InstallGameItemType.Decompress,
+                DecompressPath = _installPath,
+                DecompressPackageFiles = decompressGamePackageItems.Select(x => x.Path).ToList(),
+                Size = decompressGamePackageItems.Sum(x => x.Size),
+                DecompressedSize = decompressGamePackageItems.Sum(x => x.DecompressedSize),
+            };
+            _installItemQueue.Enqueue(game);
+        }
+
         foreach (var item in _audioPackageItems)
         {
+            if (item.Type == InstallGameItemType.StreamDownload) continue;
             item.Type = InstallGameItemType.Decompress;
             item.DecompressPackageFiles = [item.Path];
             item.DecompressPath = _installPath;
@@ -1091,6 +1234,11 @@ internal class InstallGameService
 
 
 
+    protected Queue<InstallGameItem> _streamDownloadInstallItemQueue = new();
+
+
+
+
     protected int _totalCount;
     public int TotalCount => _totalCount;
 
@@ -1164,7 +1312,7 @@ internal class InstallGameService
                 }
                 catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
                 {
-                    // cacel
+                    // cancel
                     _installItemQueue.Enqueue(item);
                     return;
                 }
@@ -1175,6 +1323,52 @@ internal class InstallGameService
                     OnInstallFailed(ex);
                 }
             }
+        }
+        finally
+        {
+            Interlocked.Decrement(ref _concurrentExecuteThreadCount);
+        }
+    }
+
+
+
+
+    protected async Task StreamDownloadExecuteTaskItemAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            Interlocked.Increment(ref _concurrentExecuteThreadCount);
+
+            while (_streamDownloadInstallItemQueue.TryPeek(out InstallGameItem? item))
+            {
+                var needDequeue = true;
+                try
+                {
+                    await StreamDownloadItemAsync(item, cancellationToken).ConfigureAwait(false);
+                    Interlocked.Increment(ref _finishCount);
+                }
+                catch (Exception ex) when (ex is HttpRequestException or SocketException or HttpIOException or IOException { InnerException: SocketException } or IOException { Message: "Received an unexpected EOF or 0 bytes from the transport stream." })
+                {
+                    needDequeue = false;
+                    // network error
+                    await Task.Delay(1000, CancellationToken.None).ConfigureAwait(false);
+                }
+                catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException or HttpRequestException { Message: "The request was aborted." })
+                {
+                    needDequeue = false;
+                    // cancel
+                    return;
+                }
+                finally
+                {
+                    if (needDequeue) _streamDownloadInstallItemQueue.TryDequeue(out item);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, nameof(StreamDownloadExecuteTaskItemAsync));
+            OnInstallFailed(ex);
         }
         finally
         {
@@ -1234,6 +1428,86 @@ internal class InstallGameService
         {
             ArrayPool<byte>.Shared.Return(buffer);
         }
+    }
+
+
+
+
+
+    protected async Task StreamDownloadItemAsync(InstallGameItem item, CancellationToken cancellationToken = default)
+    {
+        //不要尝试在执行此任务时执行其他任务，此任务本身为多线程任务，且不支持与其他任务并行。
+        IZipFileDownloadFactory zipFileDownloadFactory;
+
+        if (!string.IsNullOrEmpty(item.Url))
+        {
+            zipFileDownloadFactory = new SingleFileZipFileDownloadFactory(_httpClient)
+            {
+                ZipFileUrl = item.Url
+            };
+        }
+        else
+        {
+            zipFileDownloadFactory = new VolumesFileZipFileDownloadFactory(_httpClient)
+            {
+                ZipFileUrlList = item.UrlList
+            };
+        }
+
+        zipFileDownloadFactory.DownloadBytesRateLimiterOptionBuilder = () => new RateLimiterOption
+        {
+            RateLimiter = InstallGameManager.RateLimiter,
+            TokenLimit = InstallGameManager.TokenLimit,
+            EnableRateLimiter = InstallGameManager.IsEnableSpeedLimit
+        };
+
+        var progress = new FastZipStreamDownloadProgressUtils();
+
+        var checkDateTimeVerifying = true;
+        var checkCrcVerifying = false;
+
+        if (InstallTask == InstallGameTask.Update) checkCrcVerifying = true;
+        else if (InstallTask == InstallGameTask.Repair) checkDateTimeVerifying = false;
+
+        var fastZipStreamDownload = new FastZipStreamDownload(item.DecompressPath)
+        {
+            EnableFullStreamDownload = true,
+            CheckDateTimeVerifyingExistingFile = checkDateTimeVerifying,
+            CheckCrcVerifyingExistingFile = checkCrcVerifying,
+            DownloadThreadCount = 20,
+            Progress = progress.Progress
+        };
+
+        var downloadingStarted = false;
+        var finishBytesBase = _finishBytes;
+
+        progress.ProgressUpdateEvent += (sender, args) =>
+        {
+            if (!downloadingStarted && progress is {
+                    DownloadBytesTotal: not null,
+                    CurrentProcessingStage: FastZipStreamDownload.ProcessingStageEnum.DownloadingFile or
+                    FastZipStreamDownload.ProcessingStageEnum.StreamExtractingFile
+                })
+            {
+                finishBytesBase += item.Size - progress.DownloadBytesTotal.Value;
+                downloadingStarted = true;
+            }
+            _finishBytes = finishBytesBase + progress.DownloadBytesCompleted;
+        };
+
+
+        await fastZipStreamDownload.DownloadZipFileAsync(zipFileDownloadFactory, extractFiles: true,
+            cancellationToken: cancellationToken).ConfigureAwait(false);
+
+        if (progress.DownloadBytesTotal != null) _finishBytes = finishBytesBase + progress.DownloadBytesTotal.Value;
+
+        var exceptions = fastZipStreamDownload.EntriesExceptionDictionary.Values.ToList();
+
+        if (exceptions.Count == 1) throw exceptions.First();
+        if (exceptions.Count > 1) throw new AggregateException(exceptions);
+
+
+        await ApplyDiffFilesAsync(item.DecompressPath).ConfigureAwait(false);
     }
 
 

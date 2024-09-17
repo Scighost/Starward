@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.RateLimiting;
+using Starward.Models;
 
 namespace Starward.Services.Download;
 
@@ -23,6 +24,7 @@ internal class InstallGameManager
         int speed = AppConfig.SpeedLimitKBPerSecond * 1024;
         SpeedLimitBytesPerSecond = speed == 0 ? int.MaxValue : speed;
         SetRateLimit();
+        DownloadMode = AppConfig.DownloadMode;
     }
 
 
@@ -38,6 +40,10 @@ internal class InstallGameManager
 
 
     public static TokenBucketRateLimiter RateLimiter { get; private set; }
+
+    public static int TokenLimit { get; private set; }
+
+    public static DownloadModeOption DownloadMode { get; private set; }
 
 
     public static bool IsEnableSpeedLimit => Interlocked.Read(ref SpeedLimitBytesPerSecond) != int.MaxValue;
@@ -65,6 +71,15 @@ internal class InstallGameManager
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
             AutoReplenishment = true
         });
+        TokenLimit = speedLimitBytesPerPeriod;
+    }
+
+
+
+
+    public static void SetDownloadMode(DownloadModeOption downloadModeOption)
+    {
+        DownloadMode = downloadModeOption;
     }
 
 
@@ -131,13 +146,15 @@ internal class InstallGameManager
     {
         if (sender is InstallGameStateModel model)
         {
-            model.Service.Pause();
-            model.Service.ClearState();
-            _services.TryRemove(model.GameBiz, out _);
-            model.InstallFinished -= Model_InstallFinished;
-            model.InstallFailed -= Model_InstallFailed;
-            model.InstallCanceled -= Model_InstallCanceled;
-            InstallTaskRemoved?.Invoke(this, model);
+            model.Service.Pause(() =>
+            {
+                model.Service.ClearState();
+                _services.TryRemove(model.GameBiz, out _);
+                model.InstallFinished -= Model_InstallFinished;
+                model.InstallFailed -= Model_InstallFailed;
+                model.InstallCanceled -= Model_InstallCanceled;
+                InstallTaskRemoved?.Invoke(this, model);
+            });
         }
     }
 
