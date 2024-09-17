@@ -15,7 +15,20 @@ public struct RateLimiterOption
     /// <summary>
     /// 限速器单次最大可获取的许可数。
     /// </summary>
-    public required int TokenLimit { get; init; }
+    public required int TokenLimit
+    {
+        get => _tokenLimit;
+        init
+        {
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value);
+            _tokenLimit = value;
+        }
+    }
+
+    /// <summary>
+    /// 限速器单次最大可获取的许可数（内部）。
+    /// </summary>
+    private readonly int _tokenLimit;
 
     /// <summary>
     /// 是否启用限速器。

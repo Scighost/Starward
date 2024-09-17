@@ -71,6 +71,7 @@ internal class InstallGameManager
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
             AutoReplenishment = true
         });
+        TokenLimit = speedLimitBytesPerPeriod;
     }
 
 
