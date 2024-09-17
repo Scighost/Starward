@@ -749,12 +749,6 @@ internal class InstallGameService
 
 
 
-
-    protected List<Task> _taskItems;
-    public List<Task> TaskItems => _taskItems;
-
-
-
     protected void StartTask(InstallGameState state)
     {
         if (_concurrentExecuteThreadCount > 0) return;

@@ -6,7 +6,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Starward.Services.Download;
 
@@ -113,12 +112,8 @@ public partial class InstallGameStateModel : ObservableObject
     {
         if (ButtonGlyph is PlayGlyph)
         {
-            Task.Run(() =>
-            {
-                Task.WhenAll(Service.TaskItems).Wait();
-                Service.Continue();
-                InstallStarted?.Invoke(this, EventArgs.Empty);
-            });
+            Service.Continue();
+            InstallStarted?.Invoke(this, EventArgs.Empty);
         }
         else if (ButtonGlyph is PauseGlyph)
         {
