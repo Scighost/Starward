@@ -1,10 +1,11 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using Starward.Core;
 using Starward.Helpers;
 using Starward.Messages;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.RateLimiting;
 using Starward.Models;
 
@@ -20,7 +21,9 @@ internal class InstallGameManager
     private InstallGameManager()
     {
         _services = new();
-        SetRateLimit(AppConfig.SpeedLimitKBPerSecond * 1024);
+        int speed = AppConfig.SpeedLimitKBPerSecond * 1024;
+        SpeedLimitBytesPerSecond = speed == 0 ? int.MaxValue : speed;
+        SetRateLimit();
         DownloadMode = AppConfig.DownloadMode;
     }
 
@@ -33,6 +36,9 @@ internal class InstallGameManager
 
 
 
+    public static long SpeedLimitBytesPerSecond;
+
+
     public static TokenBucketRateLimiter RateLimiter { get; private set; }
 
     public static int TokenLimit { get; private set; }
@@ -40,26 +46,31 @@ internal class InstallGameManager
     public static DownloadModeOption DownloadMode { get; private set; }
 
 
+    public static bool IsEnableSpeedLimit => Interlocked.Read(ref SpeedLimitBytesPerSecond) != int.MaxValue;
 
-    public static void SetRateLimit(int bytesPerSecond)
+
+    public event EventHandler<InstallGameStateModel> InstallTaskAdded;
+
+
+
+    public event EventHandler<InstallGameStateModel> InstallTaskRemoved;
+
+
+
+
+    public static void SetRateLimit()
     {
-        if (bytesPerSecond <= 0)
-        {
-            bytesPerSecond = int.MaxValue;
-        }
-        else if (bytesPerSecond < (1 << 14))
-        {
-            bytesPerSecond = 1 << 14;
-        }
+        var speedLimitBytesPerPeriod = (int)SpeedLimitBytesPerSecond / 25;
         RateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
         {
-            TokenLimit = bytesPerSecond,
-            ReplenishmentPeriod = TimeSpan.FromSeconds(1),
-            TokensPerPeriod = bytesPerSecond,
+            TokenLimit = speedLimitBytesPerPeriod,
+            // 0.04: 将每秒切割为上面的25份，间隔越小速度越精准。
+            // 因补充令牌逻辑运行耗时远大于期望，若间隔极小，将无法达到最高限速。
+            ReplenishmentPeriod = TimeSpan.FromSeconds(0.04),
+            TokensPerPeriod = speedLimitBytesPerPeriod,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
             AutoReplenishment = true
         });
-        TokenLimit = bytesPerSecond;
     }
 
 
@@ -69,17 +80,6 @@ internal class InstallGameManager
     {
         DownloadMode = downloadModeOption;
     }
-
-
-
-
-
-    public event EventHandler<InstallGameStateModel> InstallTaskAdded;
-
-
-
-    public event EventHandler<InstallGameStateModel> InstallTaskRemoved;
-
 
 
 

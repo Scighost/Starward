@@ -111,6 +111,7 @@
                         Spacing="12">
                 <NumberBox MinWidth="100"
                            Minimum="0"
+                           Maximum="2097151"
                            Value="{x:Bind SpeedLimit, Mode=TwoWay}" />
                 <TextBlock VerticalAlignment="Center" Text="KB/s" />
             </StackPanel>

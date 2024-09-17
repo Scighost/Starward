@@ -1571,6 +1571,15 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
   <data name="ImaginariumTheaterPage_MysteryCache" xml:space="preserve">
     <value>Mystery Cache</value>
   </data>
+  <data name="ImaginariumTheaterPage_VisionaryMode" xml:space="preserve">
+    <value>Visionary Mode</value>
+  </data>
+    <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
+    <value>Brilliant Blessing</value>
+  </data>
+    <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
+    <value>Removable storage device not connected.</value>
+  </data>
   <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
     <value>Download-Modus (experimentell)</value>
   </data>
