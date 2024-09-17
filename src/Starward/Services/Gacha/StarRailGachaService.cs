@@ -88,18 +88,26 @@ internal class StarRailGachaService : GachaLogService
     public override async Task ExportGachaLogAsync(long uid, string file, string format)
     {
         if (format is "excel")
-        {
             await ExportAsExcelAsync(uid, file);
-        }
-        else
-        {
+        else if (format is "json")
             await ExportAsJsonAsync(uid, file);
-        }
+        else
+            await ExportAsJsonoldAsync(uid, file);
     }
 
 
 
     private async Task ExportAsJsonAsync(long uid, string output)
+    {
+        using var dapper = _database.CreateConnection();
+        var list = dapper.Query<StarRailGachaItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        var obj = new UIGF40Obj(uid, list);
+        var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
+        await File.WriteAllTextAsync(output, str);
+    }
+
+
+    private async Task ExportAsJsonoldAsync(long uid, string output)
     {
         using var dapper = _database.CreateConnection();
         var list = dapper.Query<StarRailGachaItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
@@ -126,28 +134,40 @@ internal class StarRailGachaService : GachaLogService
     public override long ImportGachaLog(string file)
     {
         var str = File.ReadAllText(file);
-        var obj = JsonSerializer.Deserialize<SRGFObj>(str);
-        if (obj != null)
+        string lang;
+        long uid;
+        List<StarRailGachaItem> list;
+        using (JsonDocument doc = JsonDocument.Parse(str))
         {
-            var lang = obj.info.lang ?? "";
-            long uid = obj.info.uid;
-            foreach (var item in obj.list)
+            if (doc.RootElement.TryGetProperty("info", out JsonElement infoElement) && infoElement.TryGetProperty("version", out _))
             {
-                if (item.Lang is null)
-                {
-                    item.Lang = lang;
-                }
-                if (item.Uid == 0)
-                {
-                    item.Uid = uid;
-                }
+                var obj = JsonSerializer.Deserialize<UIGF40Obj>(str)!.hkrpg.FirstOrDefault();
+                if (obj is null)
+                    return 0;
+                lang = obj.lang ?? "";
+                uid = obj.uid;
+                list = obj.list;
             }
-            var count = InsertGachaLogItems(obj.list.ToList<GachaLogItem>());
-            // 成功导入跃迁记录 {count} 条
-            NotificationBehavior.Instance.Success($"Uid {obj.info.uid}", string.Format(Lang.StarRailGachaService_ImportWarpRecordsSuccessfully, count), 5000);
-            return obj.info.uid;
+            else if (infoElement.TryGetProperty("srgf_version", out _))
+            {
+                var obj = JsonSerializer.Deserialize<SRGFObj>(str)!;
+                lang = obj.info.lang ?? "";
+                uid = obj.info.uid;
+                list = obj.list;
+            }
+            else
+                return 0;
         }
-        return 0;
+        foreach (var item in list)
+        {
+            item.Lang ??= lang;
+            if (item.Uid == 0)
+                item.Uid = uid;
+        }
+        var count = InsertGachaLogItems(list.ToList<GachaLogItem>());
+        // 成功导入跃迁记录 {count} 条
+        NotificationBehavior.Instance.Success($"Uid {uid}", string.Format(Lang.StarRailGachaService_ImportWarpRecordsSuccessfully, count), 5000);
+        return uid;
     }
 
 
@@ -242,6 +262,69 @@ internal class StarRailGachaService : GachaLogService
                 _ => 8,
             };
         }
+    }
+
+
+
+    private class UIGF40Obj
+    {
+        public UIGF40Obj() { }
+
+        public UIGF40Obj(long uid, List<StarRailGachaItem> list)
+        {
+            this.info = new UIGF40Info();
+            this.hkrpg = [new UIGF40Game(uid, list)];
+        }
+
+        public UIGF40Info info { get; set; }
+
+        public List<UIGF40Game> hkrpg { get; set; }
+    }
+
+
+    private class UIGF40Info
+    {
+        public string version { get; set; } = "v4.0";
+
+        public string export_app { get; set; } = "Starward";
+
+        public string export_app_version { get; set; } = AppConfig.AppVersion ?? "";
+
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+        public long export_timestamp { get; set; }
+
+        public UIGF40Info()
+        {
+            export_timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+        }
+    }
+
+
+    private class UIGF40Game
+    {
+        public UIGF40Game() { }
+
+        public UIGF40Game(long uid, List<StarRailGachaItem> list)
+        {
+            this.uid = uid;
+            timezone = uid.ToString().FirstOrDefault() switch
+            {
+                '6' => -5,
+                '7' => 1,
+                _ => 8,
+            };
+            lang = list.FirstOrDefault()?.Lang ?? "";
+            this.list = list;
+        }
+
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+        public long uid { get; set; }
+
+        public int timezone { get; set; }
+
+        public string lang { get; set; }
+
+        public List<StarRailGachaItem> list { get; set; }
     }
 
 

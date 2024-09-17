@@ -75,6 +75,7 @@ public sealed partial class GachaLogPage : PageBase
                 EnableStarRailGachaItemStats = true;
                 _gachaLogService = AppConfig.GetService<StarRailGachaService>();
                 Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPom);
+                Button_Export_JSON_old.Content = "SRGF";
             }
             if (biz.ToGame() == GameBiz.nap)
             {
@@ -82,9 +83,8 @@ public sealed partial class GachaLogPage : PageBase
                 _gachaLogService = AppConfig.GetService<ZZZGachaService>();
                 Image_Emoji.Source = new BitmapImage(AppConfig.EmojiBangboo);
                 MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
-                Button_Export_Excel.IsEnabled = false;
-                Button_Export_JSON.IsEnabled = false;
-                Button_Import.IsEnabled = false;
+                Button_Export_JSON_old.Visibility = Visibility.Collapsed;
+                Button_Export_JSON.CornerRadius = new CornerRadius(0, 4, 4, 0);
             }
             if (biz.IsGlobalOfficial())
             {
@@ -666,6 +666,7 @@ public sealed partial class GachaLogPage : PageBase
             {
                 "excel" => "xlsx",
                 "json" => "json",
+                "json_old" => "json",
                 _ => "json"
             };
             var suggestName = $"Starward_Export_{CurrentGameBiz.ToGame()}_{uid}_{DateTime.Now:yyyyMMddHHmmss}.{ext}";
