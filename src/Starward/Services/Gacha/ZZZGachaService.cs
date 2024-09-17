@@ -1,14 +1,19 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Logging;
+using MiniExcelLibs;
 using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
+using Starward.Helpers;
 using Starward.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -64,42 +69,6 @@ internal class ZZZGachaService : GachaLogService
         return list;
     }
 
-
-
-    public override async Task<long> GetGachaLogAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
-    {
-        using var dapper = _database.CreateConnection();
-        // 正在获取 uid
-        progress?.Report(Lang.GachaLogService_GettingUid);
-        var uid = await _client.GetUidByGachaUrlAsync(url);
-        if (uid == 0)
-        {
-            // 该账号最近6个月没有抽卡记录
-            progress?.Report(Lang.GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months);
-        }
-        else
-        {
-            long endId = 0;
-            if (!all)
-            {
-                endId = dapper.QueryFirstOrDefault<long>($"SELECT Id FROM {GachaTableName} WHERE Uid = @Uid ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
-                _logger.LogInformation($"Last gacha log id of uid {uid} is {endId}");
-            }
-
-            var internalProgress = new Progress<(IGachaType GachaType, int Page)>((x) => progress?.Report(string.Format(Lang.GachaLogService_GetGachaProgressText, x.GachaType.ToLocalization(), x.Page)));
-            var list = (await _client.GetGachaLogAsync(url, endId, lang, internalProgress, cancellationToken)).ToList();
-            if (cancellationToken.IsCancellationRequested)
-            {
-                throw new TaskCanceledException();
-            }
-            var oldCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
-            InsertGachaLogItems(list);
-            var newCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
-            // 获取 {list.Count} 条记录，新增 {newCount - oldCount} 条记录
-            progress?.Report(string.Format(Lang.GachaLogService_GetGachaResult, list.Count, newCount - oldCount));
-        }
-        return uid;
-    }
 
 
     public override (List<GachaTypeStats> GachaStats, List<GachaLogItemEx> ItemStats) GetGachaTypeStats(long uid)
@@ -204,16 +173,59 @@ internal class ZZZGachaService : GachaLogService
 
 
 
-    public override Task ExportGachaLogAsync(long uid, string file, string format)
+    public override async Task ExportGachaLogAsync(long uid, string file, string format)
     {
-        throw new NotImplementedException();
+        if (format is "excel")
+            await ExportAsExcelAsync(uid, file);
+        else
+            await ExportAsJsonAsync(uid, file);
+    }
+
+
+
+    private async Task ExportAsJsonAsync(long uid, string output)
+    {
+        using var dapper = _database.CreateConnection();
+        var list = dapper.Query<ZZZGachaItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        var obj = new UIGF40Obj(uid, list);
+        var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
+        await File.WriteAllTextAsync(output, str);
+    }
+
+
+    private async Task ExportAsExcelAsync(long uid, string output)
+    {
+        using var dapper = _database.CreateConnection();
+        var list = GetGachaLogItemEx(uid);
+        var template = Path.Combine(AppContext.BaseDirectory, @"Assets\Template\GachaLog.xlsx");
+        if (File.Exists(template))
+        {
+            await MiniExcel.SaveAsByTemplateAsync(output, template, new { list });
+        }
     }
 
 
 
     public override long ImportGachaLog(string file)
     {
-        throw new NotImplementedException();
+        var str = File.ReadAllText(file);
+        var obj = JsonSerializer.Deserialize<UIGF40Obj>(str)?.nap.FirstOrDefault();
+        if (obj != null)
+        {
+            var lang = obj.lang ?? "";
+            long uid = obj.uid;
+            foreach (var item in obj.list)
+            {
+                item.Lang ??= lang;
+                if (item.Uid == 0)
+                    item.Uid = uid;
+            }
+            var count = InsertGachaLogItems(obj.list.ToList<GachaLogItem>());
+            // 成功导入调频记录 {count} 条
+            NotificationBehavior.Instance.Success($"Uid {obj.uid}", string.Format(Lang.ZZZGachaService_ImportSignalSearchSuccessfully, count), 5000);
+            return obj.uid;
+        }
+        return 0;
     }
 
 
@@ -250,6 +262,70 @@ internal class ZZZGachaService : GachaLogService
         //     """, new { Lang = lang });
         // return (lang, count);
     }
+
+
+
+    private class UIGF40Obj
+    {
+        public UIGF40Obj() { }
+
+        public UIGF40Obj(long uid, List<ZZZGachaItem> list)
+        {
+            this.info = new UIGF40Info();
+            this.nap = [new UIGF40Game(uid, list)];
+        }
+
+        public UIGF40Info info { get; set; }
+
+        public List<UIGF40Game> nap { get; set; }
+    }
+
+
+    private class UIGF40Info
+    {
+        public string version { get; set; } = "v4.0";
+
+        public string export_app { get; set; } = "Starward";
+
+        public string export_app_version { get; set; } = AppConfig.AppVersion ?? "";
+
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+        public long export_timestamp { get; set; }
+
+        public UIGF40Info()
+        {
+            export_timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+        }
+    }
+
+
+    private class UIGF40Game
+    {
+        public UIGF40Game() { }
+
+        public UIGF40Game(long uid, List<ZZZGachaItem> list)
+        {
+            this.uid = uid;
+            timezone = uid.ToString().FirstOrDefault() switch
+            {
+                '6' => -5,
+                '7' => 1,
+                _ => 8,
+            };
+            lang = list.FirstOrDefault()?.Lang ?? "";
+            this.list = list;
+        }
+
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+        public long uid { get; set; }
+
+        public int timezone { get; set; }
+
+        public string lang { get; set; }
+
+        public List<ZZZGachaItem> list { get; set; }
+    }
+
 
 
 }
