@@ -274,4 +274,22 @@
   <data name="GachaType_BangbooChannel" xml:space="preserve">
     <value>Kênh Bangboo</value>
   </data>
+  <data name="ZZZQueryType_Monochrome" xml:space="preserve">
+    <value>Film Trắng Đen</value>
+  </data>
+  <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
+    <value>Film Màu</value>
+  </data>
+  <data name="ZZZQueryType_Bundle" xml:space="preserve">
+    <value>Gói</value>
+  </data>
+  <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
+    <value>Pin Năng Lượng</value>
+  </data>
+  <data name="ZZZQueryType_WEngine" xml:space="preserve">
+    <value>W-Engine</value>
+  </data>
+  <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
+    <value>Đĩa</value>
+  </data>
 </root>
