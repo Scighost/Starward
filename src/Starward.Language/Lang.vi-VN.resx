@@ -1538,13 +1538,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <comment>Imaginarium Theater Act {0}</comment>
   </data>
   <data name="ImaginariumTheaterPage_PastPerformances" xml:space="preserve">
-    <value>Past Performances</value>
+    <value>Xem lại Biểu Diển</value>
   </data>
   <data name="ImaginariumTheaterPage_BestRecord" xml:space="preserve">
-    <value>Best Record</value>
+    <value>Thành tích Cao nhất</value>
   </data>
   <data name="ImaginariumTheaterPage_StarChallengeStellas" xml:space="preserve">
-    <value>Star Challenge Stellas</value>
+    <value>Huy Hiệu Khiêu Chiến Minh Tinh</value>
   </data>
   <data name="ImaginariumTheaterPage_FantasiaFlowersUsed" xml:space="preserve">
     <value>Hoa Ảo Kịch đã sử dụng</value>
