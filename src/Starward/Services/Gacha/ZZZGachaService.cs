@@ -80,7 +80,6 @@ internal class ZZZGachaService : GachaLogService
     }
 
 
-
     public override (List<GachaTypeStats> GachaStats, List<GachaLogItemEx> ItemStats) GetGachaTypeStats(long uid)
     {
         var statsList = new List<GachaTypeStats>();
@@ -338,10 +337,10 @@ internal class ZZZGachaService : GachaLogService
         public UIGF40Game(long uid, List<ZZZGachaItem> list)
         {
             this.uid = uid;
-            timezone = uid.ToString().FirstOrDefault() switch
+            timezone = uid.ToString().Length == 8 ? 8 : uid.ToString()[..2] switch
             {
-                '6' => -5,
-                '7' => 1,
+                "10" => -5,
+                "15" => 1,
                 _ => 8,
             };
             lang = list.FirstOrDefault()?.Lang ?? "";
