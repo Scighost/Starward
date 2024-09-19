@@ -698,19 +698,16 @@ public sealed partial class GachaLogPage : PageBase
             var file = await FileDialogHelper.PickSingleFileAsync(MainWindow.Current.WindowHandle, ("Json", ".json"));
             if (File.Exists(file))
             {
-                var uid = _gachaLogService.ImportGachaLog(file);
-                if (uid == SelectUid)
+                var uids = _gachaLogService.ImportGachaLog(file);
+                foreach (var uid in uids)
                 {
-                    UpdateGachaTypeStats(uid);
-                }
-                else if (UidList.Contains(uid))
-                {
-                    SelectUid = uid;
-                }
-                else
-                {
-                    UidList.Add(uid);
-                    SelectUid = uid;
+                    if (!UidList.Contains(uid))
+                        UidList.Add(uid);
+                    if (uid == uids.First())
+                        if (uid == SelectUid)
+                            UpdateGachaTypeStats(uid);
+                        else
+                            SelectUid = uid;
                 }
             }
         }
