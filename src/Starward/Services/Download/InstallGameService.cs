@@ -625,8 +625,8 @@ internal class InstallGameService
 
 
 
-    protected List<Task> _taskItems;
-    public List<Task> TaskItems => _taskItems;
+    protected Task[] _taskItems;
+    public Task[] TaskItems => _taskItems;
 
 
 
@@ -726,14 +726,14 @@ internal class InstallGameService
         async Task RunTasksAsync()
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            var tasks = new Task[Environment.ProcessorCount];
+            _taskItems = new Task[Environment.ProcessorCount];
             for (int i = 0; i < Environment.ProcessorCount; i++)
             {
-                tasks[i] = ExecuteTaskItemAsync(_cancellationTokenSource.Token);
+                _taskItems[i] = ExecuteTaskItemAsync(_cancellationTokenSource.Token);
             }
             try
             {
-                await Task.WhenAll(tasks).ConfigureAwait(false);
+                await Task.WhenAll(_taskItems).ConfigureAwait(false);
             }
             finally
             {
