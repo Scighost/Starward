@@ -71,6 +71,13 @@ internal class GenshinGachaService : GachaLogService
     }
 
 
+    public Dictionary<int, GenshinGachaInfo> GetItemsInfo()
+    {
+        using var dapper = _database.CreateConnection();
+        return dapper.Query<GenshinGachaInfo>("SELECT Id, Name, Level FROM GenshinGachaInfo").ToDictionary(item => item.Id);
+    }
+
+
     protected override int InsertGachaLogItems(List<GachaLogItem> items)
     {
         using var dapper = _database.CreateConnection();
@@ -78,7 +85,7 @@ internal class GenshinGachaService : GachaLogService
         var affect = dapper.Execute("""
             INSERT OR REPLACE INTO GenshinGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, Count, Lang)
             VALUES (@Uid, @Id, @Name, @Time, @ItemId, @ItemType, @RankType, @GachaType, @Count, @Lang);
-            """, items, t);
+        """, items, t);
         t.Commit();
         UpdateGachaItemId();
         return affect;
@@ -131,43 +138,62 @@ internal class GenshinGachaService : GachaLogService
 
 
 
-    public override long ImportGachaLog(string file)
+    public override List<GachaLogItem> CheckUIGFItems(List<GachaLogItem> list, long uid, string lang)
+    {
+        var infos = GetItemsInfo();
+        foreach (var item in list)
+        {
+            infos.TryGetValue(item.ItemId, out GenshinGachaInfo? info);
+            if (item.GachaType == 0 || item.ItemId == 0 || item.Id == 0)
+                throw new JsonException("Missing required properties.");
+            item.Uid = uid;
+            if (item.Count == 0)
+                item.Count = 1;
+            item.Name ??= info?.Name ?? "";
+            item.ItemType ??= "";
+            if (item.RankType == 0)
+                item.RankType = info?.Level ?? 0;
+            item.Lang ??= lang;
+        }
+        return list;
+    }
+
+
+
+    public override List<long> ImportGachaLog(string file)
     {
         var str = File.ReadAllText(file);
-        string lang;
-        long uid;
-        List<UIGFItem> list;
+        var count = 0;
+        List<long> uids = [];
         using (JsonDocument doc = JsonDocument.Parse(str))
         {
             if (doc.RootElement.TryGetProperty("info", out JsonElement infoElement) && infoElement.TryGetProperty("version", out _))
             {
-                var obj = JsonSerializer.Deserialize<UIGF40Obj>(str)!.hk4e.FirstOrDefault();
-                if (obj is null)
-                    return 0;
-                lang = obj.lang ?? "";
-                uid = obj.uid;
-                list = obj.list;
+                var obj = JsonSerializer.Deserialize<UIGF40Obj>(str)!.hk4e;
+                foreach (var user in obj)
+                {
+                    var lang = user.lang ?? "";
+                    var uid = user.uid;
+                    var list = CheckUIGFItems(user.list.ToList<GachaLogItem>(), uid, lang);
+                    uids.Add(uid);
+                    count += InsertGachaLogItems(list);
+                }
             }
             else if (infoElement.TryGetProperty("uigf_version", out _))
             {
                 var obj = JsonSerializer.Deserialize<UIGFObj>(str)!;
-                lang = obj.info.lang ?? "";
-                uid = obj.info.uid;
-                list = obj.list;
+                var lang = obj.info.lang ?? "";
+                var uid = obj.info.uid;
+                uids.Add(uid);
+                var list = CheckUIGFItems(obj.list.ToList<GachaLogItem>(), uid, lang);
+                count += InsertGachaLogItems(list);
             }
-            else
-                return 0;
         }
-        foreach (var item in list)
-        {
-            item.Lang ??= lang;
-            if (item.Uid == 0)
-                item.Uid = uid;
-        }
-        var count = InsertGachaLogItems(list.ToList<GachaLogItem>());
+        if (uids.Count == 0)
+            throw new JsonException("Unsupported Json Structures.");
         // 成功导入祈愿记录 {count} 条
-        NotificationBehavior.Instance.Success($"Uid {uid}", string.Format(Lang.GenshinGachaService_ImportWishRecordsSuccessfully, count), 5000);
-        return uid;
+        NotificationBehavior.Instance.Success($"Uid {string.Join(" ", uids)}", string.Format(Lang.GenshinGachaService_ImportWishRecordsSuccessfully, count), 5000);
+        return uids;
     }
 
 
@@ -221,14 +247,6 @@ internal class GenshinGachaService : GachaLogService
         public UIGFObj(long uid, List<UIGFItem> list)
         {
             this.info = new UIAFInfo(uid, list);
-            foreach (var item in list)
-            {
-                item.uigf_gacha_type = item.GachaType switch
-                {
-                    GenshinGachaType.CharacterEventWish_2 => GenshinGachaType.CharacterEventWish.ToString(),
-                    _ => item.GachaType.ToString(),
-                };
-            }
             this.list = list;
         }
 
@@ -287,14 +305,6 @@ internal class GenshinGachaService : GachaLogService
         public UIGF40Obj(long uid, List<UIGFItem> list)
         {
             this.info = new UIGF40Info();
-            foreach (var item in list)
-            {
-                item.uigf_gacha_type = item.GachaType switch
-                {
-                    GenshinGachaType.CharacterEventWish_2 => GenshinGachaType.CharacterEventWish.ToString(),
-                    _ => item.GachaType.ToString(),
-                };
-            }
             this.hk4e = [new UIGF40Game(uid, list)];
         }
 
@@ -353,7 +363,14 @@ internal class GenshinGachaService : GachaLogService
 
     private class UIGFItem : GenshinGachaItem
     {
-        public string uigf_gacha_type { get; set; }
+        public string uigf_gacha_type
+        {
+            get => GachaType switch
+            {
+                GenshinGachaType.CharacterEventWish_2 => GenshinGachaType.CharacterEventWish.ToString(),
+                _ => GachaType.ToString(),
+            };
+        }
     }
 
 

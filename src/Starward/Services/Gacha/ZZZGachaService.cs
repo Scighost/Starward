@@ -71,6 +71,16 @@ internal class ZZZGachaService : GachaLogService
 
 
 
+    // todo
+    public Dictionary<int, ZZZGachaInfo> GetItemsInfo()
+    {
+        throw new NotImplementedException();
+        //using var dapper = _database.CreateConnection();
+        //return dapper.Query<ZZZGachaInfo>("SELECT ItemId, ItemName, Rarity FROM ZZZGachaItem").ToDictionary(item => item.Id);
+    }
+
+
+
     public override (List<GachaTypeStats> GachaStats, List<GachaLogItemEx> ItemStats) GetGachaTypeStats(long uid)
     {
         var statsList = new List<GachaTypeStats>();
@@ -206,26 +216,48 @@ internal class ZZZGachaService : GachaLogService
 
 
 
-    public override long ImportGachaLog(string file)
+    // todo
+    public override List<GachaLogItem> CheckUIGFItems(List<GachaLogItem> list, long uid, string lang)
+    {
+        // var infos = GetItemsInfo();
+        // foreach (var item in list)
+        // {
+        //     infos.TryGetValue(item.ItemId, out ZZZGachaInfo? info);
+        //     if (item.GachaType == 0 || item.ItemId == 0 || item.Id == 0)
+        //         throw new JsonException("Missing required properties.");
+        //     item.Uid = uid;
+        //     if (item.Count == 0)
+        //         item.Count = 1;
+        //     item.Name ??= info?.Name ?? "";
+        //     item.ItemType ??= "";
+        //     if (item.RankType == 0)
+        //         item.RankType = info?.Level ?? 0;
+        //     item.Lang ??= lang;
+        // }
+        return list;
+    }
+
+
+
+    public override List<long> ImportGachaLog(string file)
     {
         var str = File.ReadAllText(file);
-        var obj = JsonSerializer.Deserialize<UIGF40Obj>(str)?.nap.FirstOrDefault();
-        if (obj != null)
+        var count = 0;
+        List<long> uids = [];
+        var obj = (JsonSerializer.Deserialize<UIGF40Obj>(str)?.nap) ?? throw new JsonException("Unsupported Json Structures.");
+        foreach (var user in obj)
         {
-            var lang = obj.lang ?? "";
-            long uid = obj.uid;
-            foreach (var item in obj.list)
-            {
-                item.Lang ??= lang;
-                if (item.Uid == 0)
-                    item.Uid = uid;
-            }
-            var count = InsertGachaLogItems(obj.list.ToList<GachaLogItem>());
-            // 成功导入调频记录 {count} 条
-            NotificationBehavior.Instance.Success($"Uid {obj.uid}", string.Format(Lang.ZZZGachaService_ImportSignalSearchSuccessfully, count), 5000);
-            return obj.uid;
+            var lang = user.lang ?? "";
+            var uid = user.uid;
+            var list = CheckUIGFItems(user.list.ToList<GachaLogItem>(), uid, lang);
+            uids.Add(uid);
+            count += InsertGachaLogItems(list);
         }
-        return 0;
+        if (uids.Count == 0)
+            throw new JsonException("Unsupported Json Structures.");
+        // 成功导入调频记录 {count} 条
+        NotificationBehavior.Instance.Success($"Uid {string.Join(" ", uids)}", string.Format(Lang.ZZZGachaService_ImportSignalSearchSuccessfully, count), 5000);
+        return uids;
     }
 
 
