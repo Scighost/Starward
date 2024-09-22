@@ -4377,5 +4377,14 @@ namespace Starward.Language {
                 return ResourceManager.GetString("UpdateService_CannotUpdateAutomatically", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Import {0} signal search(es) successfully. 的本地化字符串。
+        /// </summary>
+        public static string ZZZGachaService_ImportSignalSearchSuccessfully {
+            get {
+                return ResourceManager.GetString("ZZZGachaService_ImportSignalSearchSuccessfully", resourceCulture);
+            }
+        }
     }
 }

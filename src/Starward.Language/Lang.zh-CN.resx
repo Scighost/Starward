@@ -1582,4 +1582,7 @@
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
     <value>可移动存储设备未连接</value>
   </data>
+  <data name="ZZZGachaService_ImportSignalSearchSuccessfully" xml:space="preserve">
+    <value>成功导入调频记录 {0} 条</value>
+  </data>
 </root>

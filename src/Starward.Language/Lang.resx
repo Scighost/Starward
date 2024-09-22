@@ -1582,4 +1582,7 @@ Do you accept the risk and continue to use it?</value>
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
     <value>Removable storage device not connected.</value>
   </data>
+  <data name="ZZZGachaService_ImportSignalSearchSuccessfully" xml:space="preserve">
+    <value>Import {0} signal search(es) successfully.</value>
+  </data>
 </root>
