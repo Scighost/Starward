@@ -162,7 +162,7 @@ public abstract class CacheBase<T>
                 continue;
             }
 
-            if (await IsFileOutOfDateAsync(file, expiryDuration, false).ConfigureAwait(false))
+            if (IsFileOutOfDateAsync(file, expiryDuration, false))
             {
                 filesToDelete.Add(file);
             }
@@ -315,16 +315,17 @@ public abstract class CacheBase<T>
     /// <param name="duration">cache duration</param>
     /// <param name="treatNullFileAsOutOfDate">option to mark uninitialized file as expired</param>
     /// <returns>bool indicate whether file has expired or not</returns>
-    protected virtual async Task<bool> IsFileOutOfDateAsync(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
+    protected virtual bool IsFileOutOfDateAsync(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
     {
         if (file == null)
         {
             return treatNullFileAsOutOfDate;
         }
 
-        var properties = await file.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
+        // Fix #1097: StorageFile.GetBasicPropertiesAsync() causes inexplicable occasional crashes
+        var fileInfo = new FileInfo(file.Path);
 
-        return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
+        return fileInfo.Length == 0 || DateTime.Now.Subtract(fileInfo.LastWriteTime) > duration;
     }
 
     /// <summary>
@@ -409,7 +410,7 @@ public abstract class CacheBase<T>
         var folder = await GetCacheFolderAsync().ConfigureAwait(false);
         var baseFile = await folder.TryGetItemAsync(fileName) as StorageFile;
 
-        bool downloadDataFile = baseFile == null || await IsFileOutOfDateAsync(baseFile, CacheDuration).ConfigureAwait(false);
+        bool downloadDataFile = baseFile == null || IsFileOutOfDateAsync(baseFile, CacheDuration);
 
         if (baseFile == null)
         {
@@ -457,9 +458,9 @@ public abstract class CacheBase<T>
 
             if (_inMemoryFileStorage.MaxItemCount > 0)
             {
-                var properties = await baseFile.GetBasicPropertiesAsync().AsTask().ConfigureAwait(false);
+                var fileInfo = new FileInfo(baseFile.Path);
 
-                var msi = new InMemoryStorageItem<T>(fileName, properties.DateModified.DateTime, instance);
+                var msi = new InMemoryStorageItem<T>(fileName, fileInfo.LastWriteTime, instance);
                 _inMemoryFileStorage.SetItem(msi);
             }
         }
