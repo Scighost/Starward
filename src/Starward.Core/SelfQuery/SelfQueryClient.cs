@@ -89,11 +89,11 @@ public class SelfQueryClient
         }
         if (gameBiz.ToGame() is GameBiz.StarRail)
         {
-            if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html"))
+            if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html") || url.StartsWith("https://webstatic.mihoyo.com/static/mihoyo-new-csc-service-hall-fe/index.html"))
             {
                 prefixUrl = "https://api-takumi.mihoyo.com";
             }
-            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html"))
+            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html") || url.StartsWith("https://cs.hoyoverse.com/static/hoyoverse-new-csc-service-hall-fe/index.html"))
             {
                 prefixUrl = "https://public-operation-hkrpg-sg.hoyoverse.com";
             }
