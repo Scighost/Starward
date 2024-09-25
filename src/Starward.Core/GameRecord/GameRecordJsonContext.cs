@@ -6,6 +6,7 @@ using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
+using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord;
@@ -26,6 +27,8 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<SimulatedUniverseTime>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<DeviceFpResult>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ImaginariumTheaterWarpper>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<InterKnotReportSummary>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<InterKnotReportDetail>))]
 internal partial class GameRecordJsonContext : JsonSerializerContext
 {
 

@@ -1582,4 +1582,31 @@
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
     <value>可移动存储设备未连接</value>
   </data>
+  <data name="InterKnotMonthlyReportPage_PolychromeRevenueStreams" xml:space="preserve">
+    <value>菲林收入组成</value>
+  </data>
+  <data name="HoyolabToolboxPage_InterKnotMonthlyReport" xml:space="preserve">
+    <value>绳网月报</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_DailyActivityRewardeds" xml:space="preserve">
+    <value>日常活跃奖励</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_DevelopmentRewards" xml:space="preserve">
+    <value>成长奖励</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_EventRewards" xml:space="preserve">
+    <value>活动奖励</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_HollowZeroRewards" xml:space="preserve">
+    <value>零号空洞奖励</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_ShiyuDefenseRewards" xml:space="preserve">
+    <value>式舆防卫战奖励</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_MailRewards" xml:space="preserve">
+    <value>邮件奖励</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_OtherRewards" xml:space="preserve">
+    <value>其他奖励</value>
+  </data>
 </root>

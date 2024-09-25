@@ -417,6 +417,23 @@
                         </Grid>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
+                <!--  绳网月报  -->
+                <NavigationViewItem Name="NavigationViewItem_InterKnotMonthlyReport"
+                                    Tag="InterKnotMonthlyReportPage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/54085a560686bda74c3025944b65260e_8414768992789038554.gif" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_InterKnotMonthlyReport}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
 
             </NavigationView.MenuItems>
 

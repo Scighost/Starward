@@ -10,6 +10,7 @@ using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
+using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -813,6 +814,94 @@ internal class GameRecordService
 
 
 
+
+    #region Inter Knot Report
+
+
+
+    public async Task<InterKnotReportSummary> GetInterKnotReportSummaryAsync(GameRecordRole role, string month = "")
+    {
+        var summary = await _gameRecordClient.GetInterKnotReportSummaryAsync(role, month);
+        using var dapper = _databaseService.CreateConnection();
+        var obj = new
+        {
+            summary.Uid,
+            summary.DataMonth,
+            Value = JsonSerializer.Serialize(summary),
+        };
+        dapper.Execute("""
+            INSERT OR REPLACE INTO InterKnotReportSummary (Uid, DataMonth, Value) VALUES (@Uid, @DataMonth, @Value);
+            """, obj);
+        return summary;
+    }
+
+
+    public List<InterKnotReportSummary> GetInterKnotReportSummaryList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<InterKnotReportSummary>();
+        }
+        using var dapper = _databaseService.CreateConnection();
+        var list = dapper.Query<InterKnotReportSummary>("SELECT * FROM InterKnotReportSummary WHERE Uid = @Uid ORDER BY DataMonth DESC;", new { role.Uid });
+        return list.ToList();
+    }
+
+
+    public InterKnotReportSummary? GetInterKnotReportSummary(InterKnotReportSummary summary)
+    {
+        if (summary is null)
+        {
+            return null;
+        }
+        using var dapper = _databaseService.CreateConnection();
+        string? value = dapper.QueryFirstOrDefault<string>("SELECT Value FROM InterKnotReportSummary WHERE Uid = @Uid AND DataMonth = @DataMonth LIMIT 1;", summary);
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+        return JsonSerializer.Deserialize<InterKnotReportSummary>(value);
+    }
+
+
+
+    public async Task<int> GetInterKnotReportDetailAsync(GameRecordRole role, string month, string type)
+    {
+        int total = (await _gameRecordClient.GetInterKnotReportDetailByPageAsync(role, month, type, 1, 1)).Total;
+        if (total == 0)
+        {
+            return 0;
+        }
+        using var dapper = _databaseService.CreateConnection();
+        var existCount = dapper.QuerySingleOrDefault<int>("SELECT COUNT(*) FROM InterKnotReportDetailItem WHERE Uid = @Uid AND DataMonth = @month AND DataType = @type;", new { role.Uid, month, type });
+        if (existCount == total)
+        {
+            return 0;
+        }
+        var detail = await _gameRecordClient.GetInterKnotReportDetailAsync(role, month, type);
+        var list = detail.List;
+        using var t = dapper.BeginTransaction();
+        dapper.Execute($"DELETE FROM InterKnotReportDetailItem WHERE Uid = @Uid AND DataMonth = @DataMonth AND DataType = @DataType;", list.FirstOrDefault(), t);
+        dapper.Execute("""
+                INSERT INTO InterKnotReportDetailItem (Uid, Id, DataMonth, DataType, Action, Time, Number)
+                VALUES (@Uid, @Id, @DataMonth, @DataType, @Action, @Time, @Number);
+                """, list, t);
+        t.Commit();
+        return total - existCount;
+    }
+
+
+
+    public List<InterKnotReportDetailItem> GetInterKnotReportDetailItems(long uid, string month, string type)
+    {
+        using var dapper = _databaseService.CreateConnection();
+        return dapper.Query<InterKnotReportDetailItem>("SELECT * FROM InterKnotReportDetailItem WHERE Uid=@uid AND DataMonth=@month AND DataType=@type ORDER BY Time;", new { uid, month, type }).ToList();
+    }
+
+
+
+
+    #endregion
 
 
 }
