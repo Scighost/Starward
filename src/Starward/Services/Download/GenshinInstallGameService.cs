@@ -151,7 +151,7 @@ internal class GenshinInstallGameService : InstallGameService
         string lang = await GetAudioLanguageAsync();
         if (string.IsNullOrWhiteSpace(lang))
         {
-            lang = LanguageUtil.FilterLanguage(CultureInfo.CurrentUICulture.Name);
+            lang = LanguageUtil.FilterAudioLanguage(CultureInfo.CurrentUICulture.Name);
             await SetAudioLanguageAsync(lang);
         }
         List<InstallGameItem> list = [];
