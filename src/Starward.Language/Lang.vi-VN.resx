@@ -1519,7 +1519,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Liên Kết Cứng</value>
   </data>
   <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
-    <value>Retrieve All Data</value>
+    <value>Truy xuất tất cả dữ liệu</value>
   </data>
   <data name="HoyolabToolboxPage_ImaginariumTheater" xml:space="preserve">
     <value>Nhà Hát Giả Tưởng</value>
@@ -1538,34 +1538,34 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <comment>Imaginarium Theater Act {0}</comment>
   </data>
   <data name="ImaginariumTheaterPage_PastPerformances" xml:space="preserve">
-    <value>Past Performances</value>
+    <value>Xem lại Biểu Diển</value>
   </data>
   <data name="ImaginariumTheaterPage_BestRecord" xml:space="preserve">
-    <value>Best Record</value>
+    <value>Thành tích Cao nhất</value>
   </data>
   <data name="ImaginariumTheaterPage_StarChallengeStellas" xml:space="preserve">
-    <value>Star Challenge Stellas</value>
+    <value>Huy Hiệu Khiêu Chiến Minh Tinh</value>
   </data>
   <data name="ImaginariumTheaterPage_FantasiaFlowersUsed" xml:space="preserve">
     <value>Hoa Ảo Kịch đã sử dụng</value>
   </data>
   <data name="ImaginariumTheaterPage_TriggeredExternalAudienceSupport" xml:space="preserve">
-    <value>Triggered External Audience Support</value>
+    <value>Kích hoạt cổ vũ từ khắn giả ngoài sân khấu</value>
   </data>
   <data name="ImaginariumTheaterPage_SupportingCastCharactersAssistOtherPlayers" xml:space="preserve">
-    <value>Supporting Cast Characters Assist Other Players</value>
+    <value>Diễn Viên Hỗ Trợ chi viện người chơi khác</value>
   </data>
   <data name="ImaginariumTheaterPage_TotalPerformanceDuration" xml:space="preserve">
-    <value>Total Performance Duration</value>
+    <value>Tổng Thời Gian Biểu Diễn</value>
   </data>
   <data name="ImaginariumTheaterPage_HighestDamageDealt" xml:space="preserve">
-    <value>Highest Damage Dealt</value>
+    <value>Gây Nhiều Sát Thương Nhất</value>
   </data>
   <data name="ImaginariumTheaterPage_MostOpponentsDefeated" xml:space="preserve">
-    <value>Most Opponents Defeated</value>
+    <value>Tiêu Diệt Nhiều Nhất</value>
   </data>
   <data name="ImaginariumTheaterPage_TeamThatCompletedThePerformanceFastest" xml:space="preserve">
-    <value>Team that Completed the Performance Fastest</value>
+    <value>Đội Biểu Diễn Nhanh Nhất</value>
   </data>
   <data name="ImaginariumTheaterPage_WondrousBoon" xml:space="preserve">
     <value>Trợ giúp kì diệu</value>
@@ -1574,12 +1574,39 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Quà Thần Bí</value>
   </data>
   <data name="ImaginariumTheaterPage_VisionaryMode" xml:space="preserve">
-    <value>Visionary Mode</value>
+    <value>Khiêu Chiến Xuất Sắc</value>
   </data>
   <data name="ImaginariumTheaterPage_BrilliantBlessing" xml:space="preserve">
     <value>Chúc Phúc Rực Rỡ</value>
   </data>
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
-    <value>Removable storage device not connected.</value>
+    <value>Thiết bị lưu trữ di động không được kết nối.</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_PolychromeRevenueStreams" xml:space="preserve">
+    <value>Polychrome Revenue Streams</value>
+  </data>
+  <data name="HoyolabToolboxPage_InterKnotMonthlyReport" xml:space="preserve">
+    <value>Inter-Knot Monthly Report</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_DailyActivityRewardeds" xml:space="preserve">
+    <value>Daily Activity Rewardeds</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_DevelopmentRewards" xml:space="preserve">
+    <value>Development Rewards</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_EventRewards" xml:space="preserve">
+    <value>Event Rewards</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_HollowZeroRewards" xml:space="preserve">
+    <value>Hollow Zero Rewards</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_ShiyuDefenseRewards" xml:space="preserve">
+    <value>Shiyu Defense Rewards</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_MailRewards" xml:space="preserve">
+    <value>Mail Rewards</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_OtherRewards" xml:space="preserve">
+    <value>Other Rewards</value>
   </data>
 </root>

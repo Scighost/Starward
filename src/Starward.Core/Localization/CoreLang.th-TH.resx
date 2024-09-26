@@ -251,7 +251,7 @@
     <value>Europe &amp; Americas</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
-    <value>Japan</value>
+    <value>ประเทศญี่ปุ่น</value>
   </data>
   <data name="GameServer_Korea" xml:space="preserve">
     <value>Korea</value>
@@ -273,5 +273,23 @@
   </data>
   <data name="GachaType_BangbooChannel" xml:space="preserve">
     <value>Bangboo Channel</value>
+  </data>
+  <data name="ZZZQueryType_Monochrome" xml:space="preserve">
+    <value>Monochrome</value>
+  </data>
+  <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
+    <value>Ploychrome</value>
+  </data>
+  <data name="ZZZQueryType_Bundle" xml:space="preserve">
+    <value>Bundle</value>
+  </data>
+  <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
+    <value>Battery Charge</value>
+  </data>
+  <data name="ZZZQueryType_WEngine" xml:space="preserve">
+    <value>W-Engine</value>
+  </data>
+  <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
+    <value>Drive Disc</value>
   </data>
 </root>
