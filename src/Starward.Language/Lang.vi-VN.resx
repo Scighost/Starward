@@ -1586,27 +1586,27 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Polychrome Revenue Streams</value>
   </data>
   <data name="HoyolabToolboxPage_InterKnotMonthlyReport" xml:space="preserve">
-    <value>Inter-Knot Monthly Report</value>
+    <value>Báo cáo tháng Inter-Knot</value>
   </data>
   <data name="InterKnotMonthlyReportPage_DailyActivityRewardeds" xml:space="preserve">
-    <value>Daily Activity Rewardeds</value>
+    <value>Phần quà hoạt động hằng ngày</value>
   </data>
   <data name="InterKnotMonthlyReportPage_DevelopmentRewards" xml:space="preserve">
     <value>Development Rewards</value>
   </data>
   <data name="InterKnotMonthlyReportPage_EventRewards" xml:space="preserve">
-    <value>Event Rewards</value>
+    <value>Phần quà sự kiện</value>
   </data>
   <data name="InterKnotMonthlyReportPage_HollowZeroRewards" xml:space="preserve">
-    <value>Hollow Zero Rewards</value>
+    <value>Phần quà Lỗ Hổng Số 0</value>
   </data>
   <data name="InterKnotMonthlyReportPage_ShiyuDefenseRewards" xml:space="preserve">
-    <value>Shiyu Defense Rewards</value>
+    <value>Phần quà Bảo Vệ Trụ Shiyu</value>
   </data>
   <data name="InterKnotMonthlyReportPage_MailRewards" xml:space="preserve">
-    <value>Mail Rewards</value>
+    <value>Phần quà qua thư</value>
   </data>
   <data name="InterKnotMonthlyReportPage_OtherRewards" xml:space="preserve">
-    <value>Other Rewards</value>
+    <value>Phần quà khác</value>
   </data>
 </root>
