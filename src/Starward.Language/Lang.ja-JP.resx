@@ -1582,30 +1582,30 @@
     <value>リムーバブルストレージデバイスが接続されていません。</value>
   </data>
   <data name="InterKnotMonthlyReportPage_PolychromeRevenueStreams" xml:space="preserve">
-    <value>Polychrome Revenue Streams</value>
+    <value>映画の収益構成</value>
   </data>
   <data name="HoyolabToolboxPage_InterKnotMonthlyReport" xml:space="preserve">
-    <value>Inter-Knot Monthly Report</value>
+    <value>インターノット月次レポート</value>
   </data>
   <data name="InterKnotMonthlyReportPage_DailyActivityRewardeds" xml:space="preserve">
-    <value>Daily Activity Rewardeds</value>
+    <value>毎日の活動の報酬</value>
   </data>
   <data name="InterKnotMonthlyReportPage_DevelopmentRewards" xml:space="preserve">
-    <value>Development Rewards</value>
+    <value>レベルアップ時の報酬</value>
   </data>
   <data name="InterKnotMonthlyReportPage_EventRewards" xml:space="preserve">
-    <value>Event Rewards</value>
+    <value>イベントの報酬</value>
   </data>
   <data name="InterKnotMonthlyReportPage_HollowZeroRewards" xml:space="preserve">
-    <value>Hollow Zero Rewards</value>
+    <value>零号ホロウの報酬</value>
   </data>
   <data name="InterKnotMonthlyReportPage_ShiyuDefenseRewards" xml:space="preserve">
-    <value>Shiyu Defense Rewards</value>
+    <value>式輿防衛戦の報酬</value>
   </data>
   <data name="InterKnotMonthlyReportPage_MailRewards" xml:space="preserve">
-    <value>Mail Rewards</value>
+    <value>メールの報酬</value>
   </data>
   <data name="InterKnotMonthlyReportPage_OtherRewards" xml:space="preserve">
-    <value>Other Rewards</value>
+    <value>その他の報酬</value>
   </data>
 </root>
