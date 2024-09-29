@@ -1592,7 +1592,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Phần quà hoạt động hằng ngày</value>
   </data>
   <data name="InterKnotMonthlyReportPage_DevelopmentRewards" xml:space="preserve">
-    <value>Development Rewards</value>
+    <value>Phần quà phát triển</value>
   </data>
   <data name="InterKnotMonthlyReportPage_EventRewards" xml:space="preserve">
     <value>Phần quà sự kiện</value>
