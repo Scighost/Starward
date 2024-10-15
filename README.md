@@ -7,6 +7,7 @@ The PC game launcher of [HoYoverse](https://www.hoyoverse.com) is one of the wor
 - Resource verification utilizes a single thread, unable to effectively utilize multiple cores, leading to a significant waste of time.
 - Despite having a built-in browser engine, the interface design has remained unchanged for years, failing to capitalize on the flexibility of web pages and, instead, adding unnecessary bulk.
 
+<img decoding="sync" align=left src="https://github.com/user-attachments/assets/de745a04-fded-4e3f-a6fd-a6da77722abd" width="5%" type="image/ico">
 
 # Starward
 
@@ -78,9 +79,12 @@ Then, I want to express my special thanks to [@neon-nyan](https://github.com/neo
 
 Next, a big thanks to the main developer of [Snap Hutao](https://github.com/DGP-Studio/Snap.Hutao), [@Lightczx](https://github.com/Lightczx). His assistance has been invaluable during the development of Starward.
 
+<a href="https://www.cloudflare.com/"> 
+<img alt="cloudflare" width="30%" img align="right" src="https://cf-assets.www.cloudflare.com/slt3lc6tev37/1wf4qdGsPqa2UUSEoa4Yyg/3250a65f210bbb7062ab4dd9a9bdf213/logo-cloudflare-dark.svg"/>
+
 Additionally, thanks CloudFlare for providing free CDN services, contributing to a great update experience for everyone.
 
-<img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
+<br> 
 
 And the third-party libraries used in this project include:
 
@@ -101,8 +105,8 @@ And the third-party libraries used in this project include:
 ## Screenshot
 
 <picture>
-    <source srcset="https://github.com/Scighost/Starward/assets/61003590/34b7c31f-d8dc-4539-8fbb-12705676e382" type="image/avif" />
-    <img src="https://github.com/Scighost/Starward/assets/61003590/95a33d10-3dc3-4b3c-875d-d898e5eb2f50" />
+    <source srcset="https://github.com/user-attachments/assets/a99875ba-e314-4b5a-8394-627a06f3e5fe" type="image/avif" />
+    <img src="https://github.com/user-attachments/assets/1acd5180-b585-4599-a6b5-1dedca59d01c" />
 </picture>
 
-Background image is from [Pixiv@七言不绝诗](https://www.pixiv.net/artworks/113506129)
+Background image is from [Pixiv@小木蹬子](https://www.pixiv.net/artworks/121244601)
