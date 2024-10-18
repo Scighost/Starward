@@ -14,6 +14,16 @@ namespace Starward.Core.ZipStreamDownload;
 public partial class FastZipStreamDownload(DirectoryInfo targetDirectoryInfo, DirectoryInfo tempDirectoryInfo)
 {
     /// <summary>
+    /// 默认ZIP文件的文件名
+    /// </summary>
+    private const string DefaultZipFileName = "temp.zip";
+
+    /// <summary>
+    /// 中央目录数据文件的后缀名
+    /// </summary>
+    private const string CentralDirectoryDataFileNameExtension = "zipcdr";
+
+    /// <summary>
     /// 进度改变报告接口
     /// </summary>
     public IProgress<ProgressChangedArgs>? Progress { get; set; }
@@ -180,13 +190,112 @@ public partial class FastZipStreamDownload(DirectoryInfo targetDirectoryInfo, Di
     }
 
     /// <summary>
+    /// 下载并获取<see cref="ZipFile"/>的实例，使用该实例可获取实体文件的列表。
+    /// </summary>
+    /// <param name="zipFileDownloadFactory"><see cref="IZipFileDownloadFactory"/>的实例</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns>一个任务，返回一个<see cref="ZipFile"/>的实例。</returns>
+    private async Task<ZipFile> GetZipFileCentralDirectoryDataFileAsync(IZipFileDownloadFactory zipFileDownloadFactory,
+        CancellationToken cancellationToken = default)
+    {
+        //参数校验
+        ThrowException.ThrowDirectoryNotFoundExceptionIfDirectoryNotExists(TargetDirectoryInfo);
+        ThrowException.ThrowDirectoryNotFoundExceptionIfDirectoryNotExists(TempDirectoryInfo);
+
+        //不允许执行多次
+        if (Interlocked.Increment(ref _downloadZipFileIsRunning) > 1)
+        {
+            Interlocked.Decrement(ref _downloadZipFileIsRunning);
+            throw new InvalidOperationException();
+        }
+
+        _entriesExceptionDictionary.Clear();
+
+        try
+        {
+            var result = await CoreAsync().ConfigureAwait(false);
+            ProgressReport(ProcessingStageEnum.None, true); //报告全局进度
+            return result;
+        }
+        finally
+        {
+            Interlocked.Decrement(ref _downloadZipFileIsRunning);
+        }
+
+        async Task<ZipFile> CoreAsync()
+        {
+            var zipFileName =
+                (zipFileDownloadFactory.ZipFileUri == null ? null : zipFileDownloadFactory.ZipFileUri.GetFileName()) ??
+                DefaultZipFileName; //如果找不到URL中的文件名，则默认为temp.zip。
+
+            var centralDirectoryDataFileInfo =
+                new FileInfo(Path.Join(TempDirectoryInfo.FullName,
+                    $"{zipFileName}.{CentralDirectoryDataFileNameExtension}"));
+
+            var zipFileDownload = zipFileDownloadFactory.GetInstance();
+
+            Exception? exception = null;
+            try
+            {
+                return await DownloadAndOpenCentralDirectoryDataFileAsync(zipFileDownload,
+                    centralDirectoryDataFileInfo, (processingStage, completed,
+                        progress, downloadByteCount) => ProgressReport(processingStage, completed,
+                        progress, downloadByteCount) //报告实体进度
+                    , cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                exception = e;
+                centralDirectoryDataFileInfo.Delete(); //删除中央目录文件，下次重新获取
+                throw;
+            }
+            finally
+            {
+                ProgressReport(ProcessingStageEnum.None, true, exception: exception);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 获取一个<see cref="ZipEntry"/>的列表，该列表表示一个文件实体的列表。
+    /// </summary>
+    /// <param name="zipFileDownloadFactory"><see cref="IZipFileDownloadFactory"/>的实例</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns>一个任务，返回一个<see cref="ZipEntry"/>的列表。</returns>
+    public async Task<List<ZipEntry>> GetZipFileFileEntriesAsync(IZipFileDownloadFactory zipFileDownloadFactory,
+        CancellationToken cancellationToken = default)
+    {
+        using var centralDirectoryDataFile =
+            await GetZipFileCentralDirectoryDataFileAsync(zipFileDownloadFactory, cancellationToken);
+        return await centralDirectoryDataFile.GetFileEntriesAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// 获取一个<see cref="ZipEntry"/>的列表，该列表表示一个目录实体的列表。
+    /// </summary>
+    /// <param name="zipFileDownloadFactory"><see cref="IZipFileDownloadFactory"/>的实例</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns>一个任务，返回一个<see cref="ZipEntry"/>的列表。</returns>
+    public async Task<List<ZipEntry>> GetZipFileDirectoryEntriesAsync(IZipFileDownloadFactory zipFileDownloadFactory,
+        CancellationToken cancellationToken = default)
+    {
+        using var centralDirectoryDataFile =
+            await GetZipFileCentralDirectoryDataFileAsync(zipFileDownloadFactory, cancellationToken);
+        return await centralDirectoryDataFile.GetDirectoryEntriesAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// 开始下载ZIP并解压文件（异步）
     /// </summary>
     /// <param name="zipFileDownloadFactory"><see cref="IZipFileDownloadFactory"/>的实例</param>
     /// <param name="extractFiles">是否对下载好的文件进行解压（只对半流式下载模式生效）</param>
+    /// <param name="downloadFiles">需要下载或忽略（由<paramref name="ignoreFiles"/>决定）的文件列表，为空下载全部文件</param>
+    /// <param name="ignoreFiles">在进行文件名比较时是包含还是忽略</param>
+    /// <param name="ignoreCase">在进行文件名比较时是否忽略大小写</param>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>一个任务。</returns>
-    public async Task DownloadZipFileAsync(IZipFileDownloadFactory zipFileDownloadFactory, bool extractFiles,
+    public async Task DownloadZipFileAsync(IZipFileDownloadFactory zipFileDownloadFactory, bool extractFiles = true,
+        List<string>? downloadFiles = null, bool ignoreFiles = false, bool ignoreCase = false,
         CancellationToken cancellationToken = default)
     {
         //参数校验
@@ -217,10 +326,11 @@ public partial class FastZipStreamDownload(DirectoryInfo targetDirectoryInfo, Di
         {
             var zipFileName =
                 (zipFileDownloadFactory.ZipFileUri == null ? null : zipFileDownloadFactory.ZipFileUri.GetFileName()) ??
-                "temp.zip"; //如果找不到URL中的文件名，则默认为temp.zip。
+                DefaultZipFileName; //如果找不到URL中的文件名，则默认为temp.zip。
 
             var centralDirectoryDataFileInfo =
-                new FileInfo(Path.Join(TempDirectoryInfo.FullName, $"{zipFileName}.zipcdr"));
+                new FileInfo(Path.Join(TempDirectoryInfo.FullName,
+                    $"{zipFileName}.{CentralDirectoryDataFileNameExtension}"));
 
             var zipFileDownload = zipFileDownloadFactory.GetInstance();
 
@@ -271,6 +381,19 @@ public partial class FastZipStreamDownload(DirectoryInfo targetDirectoryInfo, Di
             //下载和解压文件
             var fileEntries =
                 await centralDirectoryDataFile.GetFileEntriesAsync(cancellationToken).ConfigureAwait(false);
+            if (downloadFiles is { Count: > 0 })
+            {
+                var stringComparison = ignoreCase
+                    ? StringComparison.InvariantCultureIgnoreCase
+                    : StringComparison.InvariantCulture;
+                if (ignoreFiles)
+                    fileEntries = fileEntries.Where(
+                        e => downloadFiles.All(f => !f.Equals(ZipEntry.CleanName(e.Name), stringComparison))).ToList();
+                else
+                    fileEntries = fileEntries.Where(
+                        e => downloadFiles.Any(f => f.Equals(ZipEntry.CleanName(e.Name), stringComparison))).ToList();
+            }
+
             ProgressReport(ProcessingStageEnum.DownloadingAndExtractingFile, false, entries: fileEntries); //报告全局进度
 
             fileEntries.ForEach(AddEntryTask);

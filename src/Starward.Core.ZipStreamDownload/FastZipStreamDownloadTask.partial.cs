@@ -77,9 +77,9 @@ public partial class FastZipStreamDownload
         var entryData = new EntryTaskData
         {
             Entry = entry,
-            CompressedFileDirectoryInfo = tempDirectoryInfo,
+            CompressedFileDirectoryInfo = TempDirectoryInfo,
             CompressedFileInfo = compressedFileInfo,
-            ExtractedFileDirectoryInfo = targetDirectoryInfo,
+            ExtractedFileDirectoryInfo = TargetDirectoryInfo,
             ExtractedFileInfo = targetFileInfo,
             ExtractedFileTempInfo = new FileInfo($"{targetFileInfo.FullName}_tmp")
         };

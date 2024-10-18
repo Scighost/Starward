@@ -20,6 +20,7 @@ using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -28,6 +29,7 @@ using Starward.Core.ZipStreamDownload.Http;
 using Starward.Models;
 using Vanara.PInvoke;
 using System.Web;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace Starward.Services.Download;
 
@@ -1436,6 +1438,10 @@ internal class InstallGameService
 
     protected async Task StreamDownloadItemAsync(InstallGameItem item, CancellationToken cancellationToken = default)
     {
+        const string deleteFileListFileName = "DeleteFiles.txt";
+        //const string hdiffFileListFileName = "HdiffFiles.txt";
+        const string pkgVersionFileName = "*pkg_version";
+
         //不要尝试在执行此任务时执行其他任务，此任务本身为多线程任务，且不支持与其他任务并行。
         IZipFileDownloadFactory zipFileDownloadFactory;
 
@@ -1464,16 +1470,28 @@ internal class InstallGameService
         var progress = new FastZipStreamDownloadProgressUtils();
 
         var checkDateTimeVerifying = true;
-        var checkCrcVerifying = false;
 
-        if (InstallTask == InstallGameTask.Update) checkCrcVerifying = true;
-        else if (InstallTask == InstallGameTask.Repair) checkDateTimeVerifying = false;
+        DirectoryInfo decompressDirectoryInfo;
+        var isUpdate = false;
+        if (InstallTask == InstallGameTask.Update)
+        {
+            decompressDirectoryInfo = new DirectoryInfo(Path.Combine(item.DecompressPath,
+                Path.GetFileName(zipFileDownloadFactory.ZipFileUri!.LocalPath)));
+            isUpdate = true;
+        }
+        else
+        {
+            decompressDirectoryInfo = new DirectoryInfo(item.DecompressPath);
+            if (InstallTask == InstallGameTask.Repair)
+                checkDateTimeVerifying = false;
+        }
+        decompressDirectoryInfo.Create();
 
-        var fastZipStreamDownload = new FastZipStreamDownload(item.DecompressPath)
+        var fastZipStreamDownload = new FastZipStreamDownload(decompressDirectoryInfo)
         {
             EnableFullStreamDownload = true,
             CheckDateTimeVerifyingExistingFile = checkDateTimeVerifying,
-            CheckCrcVerifyingExistingFile = checkCrcVerifying,
+            CheckCrcVerifyingExistingFile = false,
             DownloadThreadCount = 20,
             Progress = progress.Progress
         };
@@ -1489,14 +1507,80 @@ internal class InstallGameService
                     FastZipStreamDownload.ProcessingStageEnum.StreamExtractingFile
                 })
             {
-                finishBytesBase += item.Size - progress.DownloadBytesTotal.Value;
+                // ReSharper disable once AccessToModifiedClosure
+                Interlocked.Add(ref finishBytesBase, item.Size - progress.DownloadBytesTotal.Value);
                 downloadingStarted = true;
             }
             _finishBytes = finishBytesBase + progress.DownloadBytesCompleted;
         };
 
+        var directoryEntries = await fastZipStreamDownload.GetZipFileDirectoryEntriesAsync(zipFileDownloadFactory,
+            cancellationToken: cancellationToken).ConfigureAwait(false);
+        var fileEntries = await fastZipStreamDownload.GetZipFileFileEntriesAsync(zipFileDownloadFactory,
+            cancellationToken: cancellationToken).ConfigureAwait(false);
+        if (isUpdate && fileEntries.Any(fileEntry =>
+            {
+                var fileName = ZipEntry.CleanName(fileEntry.Name);
+                return fileName.Equals(deleteFileListFileName, StringComparison.OrdinalIgnoreCase);
+            }))
+        {
+            await fastZipStreamDownload.DownloadZipFileAsync(zipFileDownloadFactory, extractFiles: true,
+                downloadFiles: new List<string> {deleteFileListFileName},
+                ignoreCase: true, cancellationToken: cancellationToken).ConfigureAwait(false);
+            var deleteFileListFile = new FileInfo(Path.Combine(decompressDirectoryInfo.FullName,
+                deleteFileListFileName));
+            using var deleteFileListFileReader = deleteFileListFile.OpenText();
+            while (!deleteFileListFileReader.EndOfStream)
+            {
+                var file = await deleteFileListFileReader.ReadLineAsync(cancellationToken).ConfigureAwait(false);
+                if (!string.IsNullOrWhiteSpace(file)) File.Delete(Path.Combine(item.DecompressPath, file));
+            }
+            deleteFileListFileReader.Close();
+            deleteFileListFile.Delete();
+            var deleteFileListFileEntry = fileEntries.Find(e => ZipEntry.CleanName(e.Name).Equals(
+                deleteFileListFileName, StringComparison.OrdinalIgnoreCase));
+            Interlocked.Add(ref finishBytesBase, deleteFileListFileEntry!.CompressedSize);
+        }
+        else if (isUpdate)
+        {
+            var pkgVersionFiles = new DirectoryInfo(item.DecompressPath)
+                .GetFiles(pkgVersionFileName, new EnumerationOptions {
+                    MatchCasing = MatchCasing.CaseInsensitive, MaxRecursionDepth = 0
+                })
+                .Where(fileInfo => fileEntries.Any(fileEntry =>
+                    fileEntry.Name.Equals(fileInfo.Name, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
+            foreach (var pkgVersionFile in pkgVersionFiles)
+            {
+                using var deleteFileListFileReader = pkgVersionFile.OpenText();
+                while (!deleteFileListFileReader.EndOfStream)
+                {
+                    var gameFileInfoJson =
+                        await deleteFileListFileReader.ReadLineAsync(cancellationToken).ConfigureAwait(false);
+                    if (string.IsNullOrWhiteSpace(gameFileInfoJson)) continue;
+                    string? gameFileRemoteName = null;
+                    try
+                    {
+                        var gameFileInfo = JsonNode.Parse(gameFileInfoJson);
+                        gameFileRemoteName = gameFileInfo?["remoteName"]?.GetValue<string>();
+                    }
+                    catch (JsonException) { /* nothing */ }
+                    if (string.IsNullOrWhiteSpace(gameFileRemoteName)) continue;
+                    File.Delete(Path.Combine(item.DecompressPath, gameFileRemoteName));
+                }
+                deleteFileListFileReader.Close();
+            }
+        }
+        if (isUpdate) fileEntries
+            .Select(fileEntry => ZipEntry.CleanName(fileEntry.Name))
+            .Where(fileName =>
+                !fileName.Equals(deleteFileListFileName, StringComparison.OrdinalIgnoreCase))
+            .Select(fileName => Path.Combine(item.DecompressPath, fileName))
+            .ToList().ForEach(File.Delete);
 
-        await fastZipStreamDownload.DownloadZipFileAsync(zipFileDownloadFactory, extractFiles: true,
+        await fastZipStreamDownload.DownloadZipFileAsync(zipFileDownloadFactory,
+            downloadFiles: new List<string> {deleteFileListFileName},
+            ignoreFiles: true, ignoreCase: true, extractFiles: true,
             cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (progress.DownloadBytesTotal != null) _finishBytes = finishBytesBase + progress.DownloadBytesTotal.Value;
@@ -1506,6 +1590,28 @@ internal class InstallGameService
         if (exceptions.Count == 1) throw exceptions.First();
         if (exceptions.Count > 1) throw new AggregateException(exceptions);
 
+        if (isUpdate)
+        {
+            foreach (var directoryEntry in directoryEntries)
+            {
+                var directory =
+                    new DirectoryInfo(Path.Combine(item.DecompressPath, ZipEntry.CleanName(directoryEntry.Name)));
+                directory.Create();
+                directory.CreationTimeUtc = directory.LastWriteTimeUtc = directoryEntry.DateTime;
+            }
+            foreach (var fileEntry in fileEntries)
+            {
+                var fileName = ZipEntry.CleanName(fileEntry.Name);
+                if (fileName.Equals(deleteFileListFileName, StringComparison.OrdinalIgnoreCase)) continue;
+                var targetPath = Path.Combine(item.DecompressPath, fileName);
+                var directoryName = Path.GetDirectoryName(targetPath);
+                if (directoryName != null) Directory.CreateDirectory(directoryName);
+                var file = new FileInfo(Path.Combine(decompressDirectoryInfo.FullName,
+                    ZipEntry.CleanName(fileEntry.Name)));
+                file.MoveTo(targetPath, true);
+            }
+            decompressDirectoryInfo.Delete(recursive: true);
+        }
 
         await ApplyDiffFilesAsync(item.DecompressPath).ConfigureAwait(false);
     }
