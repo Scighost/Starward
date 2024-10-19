@@ -566,6 +566,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Cancelling 的本地化字符串。
+        /// </summary>
+        public static string DownloadGamePage_Cancelling {
+            get {
+                return ResourceManager.GetString("DownloadGamePage_Cancelling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Close 的本地化字符串。
         /// </summary>
         public static string DownloadGamePage_Close {
@@ -707,6 +716,15 @@ namespace Starward.Language {
         public static string DownloadGamePage_Paused {
             get {
                 return ResourceManager.GetString("DownloadGamePage_Paused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pausing 的本地化字符串。
+        /// </summary>
+        public static string DownloadGamePage_Pausing {
+            get {
+                return ResourceManager.GetString("DownloadGamePage_Pausing", resourceCulture);
             }
         }
         
@@ -914,6 +932,42 @@ namespace Starward.Language {
         public static string DownloadSettingPage_DefaultGameInstallationPathDescription {
             get {
                 return ResourceManager.GetString("DownloadSettingPage_DefaultGameInstallationPathDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download Mode (Experimental) 的本地化字符串。
+        /// </summary>
+        public static string DownloadSettingPage_DownloadMode {
+            get {
+                return ResourceManager.GetString("DownloadSettingPage_DownloadMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Streaming download mode takes up less disk space and provides faster download and decompression speeds. (Honkai Impact 3rd only supports traditional download mode) 的本地化字符串。
+        /// </summary>
+        public static string DownloadSettingPage_DownloadModeDescription {
+            get {
+                return ResourceManager.GetString("DownloadSettingPage_DownloadModeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Streaming download mode (decompress while downloading) 的本地化字符串。
+        /// </summary>
+        public static string DownloadSettingPage_DownloadModeOptionStream {
+            get {
+                return ResourceManager.GetString("DownloadSettingPage_DownloadModeOptionStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Traditional download mode (download first and then decompress) 的本地化字符串。
+        /// </summary>
+        public static string DownloadSettingPage_DownloadModeOptionTraditional {
+            get {
+                return ResourceManager.GetString("DownloadSettingPage_DownloadModeOptionTraditional", resourceCulture);
             }
         }
         

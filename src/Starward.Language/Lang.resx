@@ -1479,6 +1479,12 @@ Do you accept the risk and continue to use it?</value>
   <data name="DownloadGamePage_Paused" xml:space="preserve">
     <value>Paused</value>
   </data>
+  <data name="DownloadGamePage_Pausing" xml:space="preserve">
+    <value>Pausing</value>
+  </data>
+  <data name="DownloadGamePage_Cancelling" xml:space="preserve">
+    <value>Cancelling</value>
+  </data>
   <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
     <value>Download task completed</value>
   </data>
@@ -1517,6 +1523,18 @@ Do you accept the risk and continue to use it?</value>
   </data>
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>Hard Link</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>Download Mode (Experimental)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>Streaming download mode takes up less disk space and provides faster download and decompression speeds. (Honkai Impact 3rd only supports traditional download mode)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>Traditional download mode (download first and then decompress)</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>Streaming download mode (decompress while downloading)</value>
   </data>
   <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
     <value>Retrieve All Data</value>

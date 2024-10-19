@@ -1479,6 +1479,12 @@
   <data name="DownloadGamePage_Paused" xml:space="preserve">
     <value>已暫停</value>
   </data>
+  <data name="DownloadGamePage_Pausing" xml:space="preserve">
+    <value>暫停中</value>
+  </data>
+  <data name="DownloadGamePage_Cancelling" xml:space="preserve">
+    <value>取消中</value>
+  </data>
   <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
     <value>下載任務已完成</value>
   </data>
@@ -1581,5 +1587,17 @@
   </data>
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
     <value>Removable storage device not connected.</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>下載模式（實驗）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>串流下載模式佔用更少的磁碟空間，並提供更快的下載和解壓速度。 （崩壞3rd僅支援傳統下載模式）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>傳統下載方式（先下載後解壓縮）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>串流下載模式（邊下載邊解壓縮）</value>
   </data>
 </root>

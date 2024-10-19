@@ -6,7 +6,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Starward.Services.Download;
 
@@ -92,9 +91,15 @@ public partial class InstallGameStateModel : ObservableObject
     private bool _isContinueOrPauseButtonEnabled = true;
 
 
+    [ObservableProperty]
+    private bool _isCancelButtonEnabled = true;
+
+
     private long _lastTimestamp;
 
     private long _lastFinishedBytes;
+
+    private bool _isCancel = false;
 
     public double _speedBytesPerSecond;
 
@@ -107,12 +112,8 @@ public partial class InstallGameStateModel : ObservableObject
     {
         if (ButtonGlyph is PlayGlyph)
         {
-            Task.Run(() =>
-            {
-                Task.WhenAll(Service.TaskItems).Wait();
-                Service.Continue();
-                InstallStarted?.Invoke(this, EventArgs.Empty);
-            });
+            Service.Continue();
+            InstallStarted?.Invoke(this, EventArgs.Empty);
         }
         else if (ButtonGlyph is PauseGlyph)
         {
@@ -125,6 +126,7 @@ public partial class InstallGameStateModel : ObservableObject
     [RelayCommand]
     private void Cancel()
     {
+        _isCancel = true;
         InstallCanceled?.Invoke(this, EventArgs.Empty);
     }
 
@@ -135,11 +137,13 @@ public partial class InstallGameStateModel : ObservableObject
         try
         {
             IsContinueOrPauseButtonEnabled = true;
+            IsCancelButtonEnabled = true;
             switch (Service.State)
             {
                 case InstallGameState.None:
                     StateText = Lang.DownloadGamePage_Paused;
                     ButtonGlyph = PlayGlyph;
+                    _isCancel = false;
                     break;
                 case InstallGameState.Download:
                     StateText = Lang.DownloadGamePage_Downloading;
@@ -205,6 +209,11 @@ public partial class InstallGameStateModel : ObservableObject
                     StateText = Lang.DownloadGamePage_UnknownError;
                     ButtonGlyph = PlayGlyph;
                     break;
+                case InstallGameState.Cancel:
+                    StateText = _isCancel ? Lang.DownloadGamePage_Cancelling : Lang.DownloadGamePage_Pausing;
+                    ButtonGlyph = PauseGlyph;
+                    IsContinueOrPauseButtonEnabled = IsCancelButtonEnabled = false;
+                    break;
                 default:
                     break;
             }
@@ -228,7 +237,7 @@ public partial class InstallGameStateModel : ObservableObject
                 _speedBytesPerSecond = Math.Clamp((double)(bytes - _lastFinishedBytes) / (ts - _lastTimestamp) * Stopwatch.Frequency, 0, long.MaxValue);
                 _lastFinishedBytes = bytes;
                 _lastTimestamp = ts;
-                if (state is InstallGameState.None or InstallGameState.Finish or InstallGameState.Error)
+                if (state is InstallGameState.None or InstallGameState.Finish or InstallGameState.Error or InstallGameState.Cancel)
                 {
                     SpeedText = null;
                     RemainingTimeText = null;

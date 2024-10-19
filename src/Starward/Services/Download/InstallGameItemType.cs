@@ -7,6 +7,8 @@ internal enum InstallGameItemType
 
     Download,
 
+    StreamDownload,
+
     Verify,
 
     Decompress,

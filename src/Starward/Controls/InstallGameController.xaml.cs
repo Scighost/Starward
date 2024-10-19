@@ -142,7 +142,7 @@ public sealed partial class InstallGameController : UserControl
                 totalBytes += model.Service.TotalBytes;
                 finishedBytes += model.Service.FinishBytes;
             }
-            if (model.Service.State is not InstallGameState.Verify and not InstallGameState.Decompress and not InstallGameState.Clean)
+            if (model.Service.State is not InstallGameState.Verify and not InstallGameState.Decompress and not InstallGameState.Clean and not InstallGameState.Cancel)
             {
                 determinate = true;
             }

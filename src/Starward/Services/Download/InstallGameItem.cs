@@ -12,7 +12,9 @@ internal class InstallGameItem
     public string FileName { get; set; }
 
 
-    public string Url { get; set; }
+    public string Url { get; set; } //流式下载分卷压缩时赋空值
+
+    public List<string> UrlList { get; set; } //仅流式下载分卷压缩使用
 
 
     public string Path { get; set; }

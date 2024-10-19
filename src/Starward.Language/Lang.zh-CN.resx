@@ -1479,6 +1479,12 @@
   <data name="DownloadGamePage_Paused" xml:space="preserve">
     <value>已暂停</value>
   </data>
+  <data name="DownloadGamePage_Pausing" xml:space="preserve">
+    <value>暂停中</value>
+  </data>
+  <data name="DownloadGamePage_Cancelling" xml:space="preserve">
+    <value>取消中</value>
+  </data>
   <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
     <value>下载任务已完成</value>
   </data>
@@ -1517,6 +1523,18 @@
   </data>
   <data name="LauncherPage_HardLink" xml:space="preserve">
     <value>硬链接</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadMode" xml:space="preserve">
+    <value>下载模式（实验性功能）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeDescription" xml:space="preserve">
+    <value>流式下载模式具有更少的磁盘空间占用和更快的下载和解压速度。（崩坏三只支持传统下载模式）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionTraditional" xml:space="preserve">
+    <value>传统下载模式（先下载后解压）</value>
+  </data>
+  <data name="DownloadSettingPage_DownloadModeOptionStream" xml:space="preserve">
+    <value>流式下载模式（边下载边解压）</value>
   </data>
   <data name="SelfQueryPage_RetrieveAllData" xml:space="preserve">
     <value>重新获取所有数据</value>
