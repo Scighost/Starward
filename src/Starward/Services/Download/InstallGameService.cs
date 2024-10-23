@@ -1308,7 +1308,7 @@ internal class InstallGameService
             using var fs = new FileSliceStream(item.DecompressPackageFiles);
             if (item.DecompressPackageFiles[0].Contains(".7z", StringComparison.CurrentCultureIgnoreCase))
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     using var extra = new ArchiveFile(fs);
                     double ratio = (double)fs.Length / extra.Entries.Sum(x => (long)x.Size);
@@ -1321,6 +1321,7 @@ internal class InstallGameService
                     };
                     extra.Extract(item.DecompressPath, true);
                     _finishBytes += fs.Length - sum;
+                    await ApplyDiffFilesAsync(item.DecompressPath).ConfigureAwait(false);
                 }, cancellationToken).ConfigureAwait(false);
             }
             else
