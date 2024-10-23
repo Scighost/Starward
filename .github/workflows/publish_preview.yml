@@ -35,15 +35,16 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+        global-json-file: global.json
 
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.3.1
+      uses: microsoft/setup-msbuild@v2
 
     - name: Build
       run: ./build.ps1 -Architecture $env:Platform -Version $env:Version
@@ -62,7 +63,7 @@ jobs:
       run: ossutil cp -rf ./build/release/ oss://starward/release/ --meta Content-Type:multipart/mixed
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3.1.2
+      uses: actions/upload-artifact@v4
       with:
         name: metadata_${{ matrix.platform }}
         path: build/metadata/
@@ -81,17 +82,17 @@ jobs:
 
     steps:
     - name: Checkout Metadata
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: metadata
 
     - name: Download Artifact x64
-      uses: actions/download-artifact@v3.0.2
+      uses: actions/download-artifact@v4
       with:
         name: metadata_x64
 
     - name: Download Artifact arm64
-      uses: actions/download-artifact@v3.0.2
+      uses: actions/download-artifact@v4
       with:
         name: metadata_arm64
 
