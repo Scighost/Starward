@@ -54,6 +54,7 @@ public sealed partial class LoginPage : PageBase
                 GameBiz.bh3 => $"{URL_CN}bh3",
                 GameBiz.hk4e => $"{URL_CN}ys",
                 GameBiz.hkrpg => $"{URL_CN}sr",
+                GameBiz.nap => $"{URL_CN}zzz",
                 _ => URL_CN,
             };
         }
