@@ -35,10 +35,10 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.8" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240802000" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.241001000" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
 		<PackageReference Include="MiniExcel" Version="1.34.2" />
-		<PackageReference Include="NuGet.Versioning" Version="6.11.0" />
+		<PackageReference Include="NuGet.Versioning" Version="6.11.1" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
 		<PackageReference Include="Starward.Assets" Version="0.4.16" />
