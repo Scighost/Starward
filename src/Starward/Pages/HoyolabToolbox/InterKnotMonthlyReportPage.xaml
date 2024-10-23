@@ -228,7 +228,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <ItemsControl ItemsSource="{x:Bind CurrentSummary.MonthData.List}">
+                    <ItemsControl ItemsSource="{x:Bind SelectMonthData.MonthData.List}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal" Spacing="24" />
