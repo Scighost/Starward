@@ -54,6 +54,7 @@ public sealed partial class LoginPage : PageBase
                 GameBiz.GenshinImpact => $"{URL_CN}ys",
                 GameBiz.StarRail => $"{URL_CN}sr",
                 GameBiz.Honkai3rd => $"{URL_CN}bh3",
+                GameBiz.ZZZ => $"{URL_CN}zzz",
                 _ => URL_CN,
             };
         }
