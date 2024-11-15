@@ -50,10 +50,8 @@
                                         sh:PointerCursor.CursorShape="Hand"
                                         Background="Transparent"
                                         CornerRadius="100"
-                                        IsCacheEnabled="True"
                                         Source="{x:Bind AvatarUrl}" />
                         <sc:CachedImage Name="Image_Pendant"
-                                        IsCacheEnabled="True"
                                         IsHitTestVisible="False"
                                         Source="{x:Bind CurrentUser.Pendant, FallbackValue={x:Null}}"
                                         Visibility="Visible" />
@@ -76,7 +74,6 @@
                                         sh:PointerCursor.CursorShape="Hand"
                                         Background="Transparent"
                                         CornerRadius="100"
-                                        IsCacheEnabled="True"
                                         Source="{x:Bind AvatarUrl}" />
                     </Border>
 

@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.WinUI.UI.Controls;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Scighost.WinUI.ImageEx;
 using Starward.Services.Cache;
 using System;
 using System.Collections.Concurrent;
@@ -14,7 +14,7 @@ using Windows.Graphics.Imaging;
 
 namespace Starward.Controls;
 
-public sealed class CachedImage : ImageEx
+public sealed partial class CachedImage : ImageEx
 {
 
 
@@ -40,7 +40,7 @@ public sealed class CachedImage : ImageEx
 
 
 
-    protected override async Task<ImageSource> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
+    protected override async Task<ImageSource?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
         try
         {

@@ -82,8 +82,6 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="sm:ScreenshotItem">
                     <sc:CachedImage Height="80"
-                                    EnableLazyLoading="True"
-                                    IsCacheEnabled="True"
                                     IsThumbnail="True"
                                     Source="{x:Bind FullName}" />
                 </DataTemplate>

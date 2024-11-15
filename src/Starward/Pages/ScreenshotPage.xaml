@@ -3,9 +3,8 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:actions="using:Microsoft.Xaml.Interactions.Core"
                 xmlns:activity="using:Microsoft.Xaml.Interactivity"
-                xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
-                xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
-                xmlns:cc="using:CommunityToolkit.WinUI.UI.Controls"
+                xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+                xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:lang="using:Starward.Language"
                 xmlns:local="using:Starward.Pages"
@@ -13,7 +12,7 @@
                 xmlns:media="using:Microsoft.Xaml.Interactions.Media"
                 xmlns:sc="using:Starward.Controls"
                 xmlns:sm="using:Starward.Models"
-                xmlns:ui="using:CommunityToolkit.WinUI.UI"
+                xmlns:ui="using:CommunityToolkit.WinUI"
                 x:DefaultBindMode="OneWay"
                 mc:Ignorable="d">
 
@@ -92,14 +91,11 @@
                 </ListView>
             </SemanticZoom.ZoomedOutView>
             <SemanticZoom.ZoomedInView>
-                <cc:AdaptiveGridView x:Name="GridView_Images"
-                                     Grid.Row="1"
-                                     Padding="24,0,12,12"
-                                     DesiredWidth="220"
-                                     ItemHeight="120"
-                                     ItemsSource="{x:Bind Watcher.ImageViewSource.View, FallbackValue={x:Null}}"
-                                     SelectionMode="None"
-                                     StretchContentForSingleRow="False">
+                <GridView x:Name="GridView_Images"
+                          Grid.Row="1"
+                          Padding="24,0,12,12"
+                          ItemsSource="{x:Bind Watcher.ImageViewSource.View, FallbackValue={x:Null}}"
+                          SelectionMode="None">
                     <GridView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.HeaderContainerStyle>
@@ -133,13 +129,15 @@
                     </GridView.ItemContainerStyle>
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsWrapGrid AreStickyGroupHeadersEnabled="False" Orientation="Horizontal" />
+                            <ItemsWrapGrid AreStickyGroupHeadersEnabled="False"
+                                           ItemHeight="122"
+                                           ItemWidth="218"
+                                           Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="sm:ScreenshotItem">
                             <Grid Name="Grid_ImageItem"
-                                  Height="120"
                                   CanDrag="True"
                                   DragStarting="Grid_ImageItem_DragStarting"
                                   IsRightTapEnabled="False"
@@ -149,8 +147,6 @@
                                                 VerticalAlignment="Center"
                                                 ui:VisualExtensions.NormalizedCenterPoint="0.5"
                                                 Background="{ThemeResource ControlAltFillColorTertiaryBrush}"
-                                                EnableLazyLoading="True"
-                                                IsCacheEnabled="True"
                                                 IsThumbnail="True"
                                                 Source="{x:Bind FullName}"
                                                 Stretch="UniformToFill">
@@ -227,7 +223,7 @@
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
-                </cc:AdaptiveGridView>
+                </GridView>
             </SemanticZoom.ZoomedInView>
         </SemanticZoom>
 

@@ -299,7 +299,6 @@
                                     <sc:CachedImage Height="80"
                                                     VerticalAlignment="Top"
                                                     CornerRadius="0,0,16,0"
-                                                    IsCacheEnabled="True"
                                                     Source="{x:Bind Icon}" />
                                     <TextBlock Margin="0,0,0,1"
                                                HorizontalAlignment="Center"
@@ -330,7 +329,6 @@
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Top"
                                                     CornerRadius="0,12,0,0"
-                                                    IsCacheEnabled="True"
                                                     Source="{x:Bind Icon}"
                                                     Stretch="Uniform" />
                                     <Border Height="16"

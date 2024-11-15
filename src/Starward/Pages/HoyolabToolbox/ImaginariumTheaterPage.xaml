@@ -431,10 +431,9 @@
                                         <ItemsRepeater.ItemTemplate>
                                             <DataTemplate x:DataType="scggi:ImaginariumTheaterAvatar">
                                                 <Grid Width="80" Height="97">
-                                                    <sc:CachedImage IsCacheEnabled="True" Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
+                                                    <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
                                                     <sc:CachedImage VerticalAlignment="Top"
                                                                     CornerRadius="0,0,12,0"
-                                                                    IsCacheEnabled="True"
                                                                     Source="{x:Bind Image}" />
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Bottom"

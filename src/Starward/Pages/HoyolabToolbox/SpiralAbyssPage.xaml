@@ -223,7 +223,6 @@
                                     <sc:CachedImage Height="80"
                                                     VerticalAlignment="Top"
                                                     CornerRadius="0,0,16,0"
-                                                    IsCacheEnabled="True"
                                                     Source="{x:Bind AvatarIcon}" />
                                     <TextBlock Margin="0,0,0,1"
                                                HorizontalAlignment="Center"
@@ -300,7 +299,6 @@
                                     Height="36"
                                     Margin="0,-2,0,2"
                                     VerticalAlignment="Bottom"
-                                    IsCacheEnabled="True"
                                     Source="{x:Bind CurrentAbyss.FirstDefeatRank.AvatarIcon, FallbackValue={x:Null}}"
                                     Stretch="UniformToFill" />
                     <sc:CachedImage Grid.Row="1"
@@ -309,7 +307,6 @@
                                     Height="36"
                                     Margin="0,-2,0,2"
                                     VerticalAlignment="Bottom"
-                                    IsCacheEnabled="True"
                                     Source="{x:Bind CurrentAbyss.FirstDamageRank.AvatarIcon, FallbackValue={x:Null}}"
                                     Stretch="UniformToFill" />
                     <sc:CachedImage Grid.Row="2"
@@ -318,7 +315,6 @@
                                     Height="36"
                                     Margin="0,-2,0,2"
                                     VerticalAlignment="Bottom"
-                                    IsCacheEnabled="True"
                                     Source="{x:Bind CurrentAbyss.FirstTakeDamageRank.AvatarIcon, FallbackValue={x:Null}}"
                                     Stretch="UniformToFill" />
                     <sc:CachedImage Grid.Row="3"
@@ -327,7 +323,6 @@
                                     Height="36"
                                     Margin="0,-2,0,2"
                                     VerticalAlignment="Bottom"
-                                    IsCacheEnabled="True"
                                     Source="{x:Bind CurrentAbyss.FirstNormalSkillRank.AvatarIcon, FallbackValue={x:Null}}"
                                     Stretch="UniformToFill" />
                     <sc:CachedImage Grid.Row="4"
@@ -336,7 +331,6 @@
                                     Height="36"
                                     Margin="0,-2,0,2"
                                     VerticalAlignment="Bottom"
-                                    IsCacheEnabled="True"
                                     Source="{x:Bind CurrentAbyss.FirstEnergySkillRank.AvatarIcon, FallbackValue={x:Null}}"
                                     Stretch="UniformToFill" />
                     <TextBlock Grid.Row="0"
@@ -479,10 +473,9 @@
                                                         <ItemsRepeater.ItemTemplate>
                                                             <DataTemplate x:DataType="abyss:SpiralAbyssAvatar">
                                                                 <Grid Width="60">
-                                                                    <sc:CachedImage IsCacheEnabled="True" Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
+                                                                    <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
                                                                     <sc:CachedImage VerticalAlignment="Top"
                                                                                     CornerRadius="0,0,12,0"
-                                                                                    IsCacheEnabled="True"
                                                                                     Source="{x:Bind Icon}" />
                                                                     <TextBlock Margin="0,0,0,-1"
                                                                                HorizontalAlignment="Center"
@@ -507,10 +500,9 @@
                                                         <ItemsRepeater.ItemTemplate>
                                                             <DataTemplate x:DataType="abyss:SpiralAbyssAvatar">
                                                                 <Grid Width="60">
-                                                                    <sc:CachedImage IsCacheEnabled="True" Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
+                                                                    <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
                                                                     <sc:CachedImage VerticalAlignment="Top"
                                                                                     CornerRadius="0,0,12,0"
-                                                                                    IsCacheEnabled="True"
                                                                                     Source="{x:Bind Icon}" />
                                                                     <TextBlock Margin="0,0,0,-1"
                                                                                HorizontalAlignment="Center"
