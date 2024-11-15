@@ -77,6 +77,7 @@ public sealed partial class GameNoticesWindow : WindowEx
                 presenter.IsResizable = false;
                 presenter.SetBorderAndTitleBar(false, false);
             }
+            User32.SetWindowLong(WindowHandle, User32.WindowLongFlags.GWL_STYLE, User32.GetWindowLong(WindowHandle, User32.WindowLongFlags.GWL_STYLE) & ~(nint)User32.WindowStyles.WS_DLGFRAME);
             User32.SetWindowLong(WindowHandle, User32.WindowLongFlags.GWL_HWNDPARENT, MainWindow.Current.WindowHandle);
             var pos = MainWindow.Current.AppWindow.Position;
             var size = MainWindow.Current.AppWindow.Size;
