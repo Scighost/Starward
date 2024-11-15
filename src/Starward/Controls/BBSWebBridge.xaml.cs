@@ -168,10 +168,10 @@ public sealed partial class BBSWebBridge : UserControl
                 {
                     (true, GameBiz.hk4e) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=2",
                     (true, GameBiz.hkrpg) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=6",
-                    (true, GameBiz.nap) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=8",
+                    (true, GameBiz.nap) => "https://act.hoyolab.com/app/zzz-game-record/m.html?gid=8",
                     (false, GameBiz.hk4e) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=2",
                     (false, GameBiz.hkrpg) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=6",
-                    (false, GameBiz.nap) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=8",
+                    (false, GameBiz.nap) => "https://act.mihoyo.com/app/mihoyo-zzz-game-record/m.html?game_id=8",
                     _ => null,
                 };
                 if (url is not null)
