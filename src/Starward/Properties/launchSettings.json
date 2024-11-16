@@ -1,7 +1,8 @@
-﻿{
+{
   "profiles": {
     "Starward": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "nativeDebugging": false
     }
   }
 }
