@@ -1,6 +1,7 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
+using Starward.Frameworks;
 using Starward.Pages.Welcome;
 using Starward.Services;
 using System;
@@ -124,7 +125,7 @@ public sealed partial class WelcomeWindow : WindowEx
 
 
 
-    public override nint WindowSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
+    protected override nint WindowSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
     {
         if (uMsg == (uint)User32.WindowMessage.WM_SYSCOMMAND)
         {

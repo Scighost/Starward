@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Controls;
+using Starward.Frameworks;
 using Starward.Models;
 using Starward.Services.Download;
 using System;
@@ -227,7 +228,7 @@ public sealed partial class MainWindow : WindowEx
 
 
 
-    public override nint WindowSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
+    protected override nint WindowSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
     {
         if (uMsg == (uint)User32.WindowMessage.WM_SYSCOMMAND)
         {
@@ -254,7 +255,7 @@ public sealed partial class MainWindow : WindowEx
     }
 
 
-    public unsafe override nint BridgeSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
+    protected unsafe override nint InputSiteSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
     {
         bool handled = false;
         if (uMsg == (uint)User32.WindowMessage.WM_KEYDOWN)
@@ -272,7 +273,7 @@ public sealed partial class MainWindow : WindowEx
                 return IntPtr.Zero;
             }
         }
-        return base.BridgeSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
+        return base.InputSiteSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
     }
 
 

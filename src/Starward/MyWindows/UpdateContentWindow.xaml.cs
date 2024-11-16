@@ -6,6 +6,7 @@ using Microsoft.Web.WebView2.Core;
 using NuGet.Versioning;
 using Starward.Core.Metadata;
 using Starward.Core.Metadata.Github;
+using Starward.Frameworks;
 using System;
 using System.Diagnostics;
 using System.IO;

@@ -1,15 +1,13 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.UI;
+﻿using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Starward.Messages;
 using System;
 using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 using Windows.Graphics;
 using Windows.UI;
 
-namespace Starward.MyWindows;
+namespace Starward.Frameworks;
 
 public abstract partial class WindowEx : Window
 {
@@ -17,7 +15,7 @@ public abstract partial class WindowEx : Window
 
     public IntPtr WindowHandle { get; private init; }
 
-    public IntPtr BridgeHandle { get; private init; }
+    private IntPtr InputSiteHandle { get; init; }
 
 
     public double UIScale => User32.GetDpiForWindow(WindowHandle) / 96d;
@@ -28,11 +26,12 @@ public abstract partial class WindowEx : Window
     public WindowEx()
     {
         WindowHandle = (IntPtr)AppWindow.Id.Value;
-        BridgeHandle = (IntPtr)User32.FindWindowEx(WindowHandle, IntPtr.Zero, "Microsoft.UI.Content.DesktopChildSiteBridge", null);
+        HWND bridge = (IntPtr)User32.FindWindowEx(WindowHandle, IntPtr.Zero, "Microsoft.UI.Content.DesktopChildSiteBridge", null);
+        InputSiteHandle = (IntPtr)User32.FindWindowEx(bridge, IntPtr.Zero, "InputSiteWindowClass", null);
         windowSubclassProc = new(WindowSubclassProc);
-        bridgeSubclassProc = new(BridgeSubclassProc);
+        inputSiteSubclassProc = new(InputSiteSubclassProc);
         ComCtl32.SetWindowSubclass(WindowHandle, windowSubclassProc, 1001, IntPtr.Zero);
-        ComCtl32.SetWindowSubclass(BridgeHandle, bridgeSubclassProc, 1002, IntPtr.Zero);
+        ComCtl32.SetWindowSubclass(InputSiteHandle, inputSiteSubclassProc, 1002, IntPtr.Zero);
     }
 
 
@@ -44,18 +43,18 @@ public abstract partial class WindowEx : Window
 
     private readonly ComCtl32.SUBCLASSPROC windowSubclassProc;
 
-    private readonly ComCtl32.SUBCLASSPROC bridgeSubclassProc;
+    private readonly ComCtl32.SUBCLASSPROC inputSiteSubclassProc;
 
 
 
-    public unsafe virtual IntPtr WindowSubclassProc(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
+    protected unsafe virtual IntPtr WindowSubclassProc(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
     {
         return ComCtl32.DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
 
 
-    public unsafe virtual IntPtr BridgeSubclassProc(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
+    protected unsafe virtual IntPtr InputSiteSubclassProc(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
     {
         return ComCtl32.DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
@@ -78,7 +77,6 @@ public abstract partial class WindowEx : Window
         AppWindow.MoveInZOrderAtTop();
         User32.ShowWindow(WindowHandle, ShowWindowCommand.SW_SHOWNORMAL);
         User32.SetForegroundWindow(WindowHandle);
-        WeakReferenceMessenger.Default.Send(new WindowStateChangedMessage(false));
     }
 
 
@@ -86,7 +84,6 @@ public abstract partial class WindowEx : Window
     public virtual void Hide()
     {
         AppWindow.Hide();
-        WeakReferenceMessenger.Default.Send(new WindowStateChangedMessage(true));
     }
 
 
@@ -113,31 +110,6 @@ public abstract partial class WindowEx : Window
 
 
 
-
-    public bool IsTopMost
-    {
-        get
-        {
-            User32.WindowStylesEx flags = (User32.WindowStylesEx)User32.GetWindowLong(WindowHandle, User32.WindowLongFlags.GWL_EXSTYLE);
-            return flags.HasFlag(User32.WindowStylesEx.WS_EX_TOPMOST);
-        }
-        set
-        {
-            User32.WindowStylesEx flags = (User32.WindowStylesEx)User32.GetWindowLong(WindowHandle, User32.WindowLongFlags.GWL_EXSTYLE);
-            if (value)
-            {
-                flags |= User32.WindowStylesEx.WS_EX_TOPMOST;
-            }
-            else
-            {
-                flags &= ~User32.WindowStylesEx.WS_EX_TOPMOST;
-            }
-            User32.SetWindowLong(WindowHandle, User32.WindowLongFlags.GWL_EXSTYLE, (nint)flags);
-        }
-    }
-
-
-
     public void SetIcon(string? iconPath = null)
     {
         if (string.IsNullOrWhiteSpace(iconPath))
@@ -159,8 +131,17 @@ public abstract partial class WindowEx : Window
 
 
 
-    #region Title Bar
+    #region Theme
 
+
+
+    public void SetDragRectangles(params RectInt32[] value)
+    {
+        if (AppWindowTitleBar.IsCustomizationSupported() && AppWindow.TitleBar.ExtendsContentIntoTitleBar == true)
+        {
+            AppWindow.TitleBar.SetDragRectangles(value);
+        }
+    }
 
 
     public void AdaptTitleBarButtonColorToActuallTheme()
@@ -197,24 +178,6 @@ public abstract partial class WindowEx : Window
 
 
 
-    public void SetDragRectangles(params RectInt32[] value)
-    {
-        if (AppWindowTitleBar.IsCustomizationSupported() && AppWindow.TitleBar.ExtendsContentIntoTitleBar == true)
-        {
-            AppWindow.TitleBar.SetDragRectangles(value);
-        }
-    }
-
-
-
-    #endregion
-
-
-
-
-    #region Accent Color
-
-
     public virtual void ChangeAccentColor(Color? backColor = null, Color? foreColor = null)
     {
         if (Content is FrameworkElement element)
@@ -234,13 +197,14 @@ public abstract partial class WindowEx : Window
     }
 
 
-    #endregion
-
-
 
     [return: MarshalAs(UnmanagedType.Bool)]
     [LibraryImport("uxtheme.dll", EntryPoint = "#138", SetLastError = true)]
     protected static partial bool ShouldSystemUseDarkMode();
+
+
+
+    #endregion
 
 
 }

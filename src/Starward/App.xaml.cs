@@ -7,6 +7,7 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.AppLifecycle;
+using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Globalization;

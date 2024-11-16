@@ -4,6 +4,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.Launcher;
+using Starward.Frameworks;
 using Starward.Helpers;
 using Starward.Messages;
 using Starward.Models;
@@ -90,7 +91,7 @@ public sealed partial class GameNoticesWindow : WindowEx
 
 
 
-    public override nint BridgeSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
+    protected override nint InputSiteSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
     {
         if (uMsg == (uint)User32.WindowMessage.WM_KEYDOWN)
         {
@@ -102,7 +103,7 @@ public sealed partial class GameNoticesWindow : WindowEx
                 return 0;
             }
         }
-        return base.BridgeSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
+        return base.InputSiteSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
     }
 
 

@@ -1,14 +1,15 @@
-﻿<local:WindowEx x:Class="Starward.MyWindows.SystemTrayWindow"
-                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                xmlns:hn="using:H.NotifyIcon"
-                xmlns:local="using:Starward.MyWindows"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                xmlns:sc="using:Starward.Controls"
-                x:DefaultBindMode="OneWay"
-                Closed="WindowEx_Closed"
-                mc:Ignorable="d">
+﻿<sf:WindowEx x:Class="Starward.MyWindows.SystemTrayWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hn="using:H.NotifyIcon"
+             xmlns:local="using:Starward.MyWindows"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sc="using:Starward.Controls"
+             xmlns:sf="using:Starward.Frameworks"
+             x:DefaultBindMode="OneWay"
+             Closed="WindowEx_Closed"
+             mc:Ignorable="d">
 
     <Grid Name="RootGrid">
         <hn:TaskbarIcon x:Name="TaskbarIcon"
@@ -21,4 +22,4 @@
                               VerticalAlignment="Top" />
     </Grid>
 
-</local:WindowEx>
+</sf:WindowEx>
