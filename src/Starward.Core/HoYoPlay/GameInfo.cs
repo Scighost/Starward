@@ -28,6 +28,11 @@ public class GameInfo : GameId
     [JsonPropertyName("display_status")]
     public string DisplayStatus { get; set; }
 
+    /// <summary>
+    /// 服务器信息，暂时仅崩坏三国际服在使用
+    /// </summary>
+    [JsonPropertyName("game_server_configs")]
+    public List<GameServerConfig> GameServerConfigs { get; set; }
 
 }
 
@@ -103,4 +108,56 @@ public abstract class GameInfoDisplayStatus
     public const string LAUNCHER_GAME_DISPLAY_STATUS_COMING_SOON = "LAUNCHER_GAME_DISPLAY_STATUS_COMING_SOON";
 
     public const string LAUNCHER_GAME_DISPLAY_STATUS_RESERVATION_ENABLED = "LAUNCHER_GAME_DISPLAY_STATUS_RESERVATION_ENABLED";
+}
+
+
+
+public class GameServerConfig
+{
+
+    /// <summary>
+    /// 游戏本地化名称
+    /// </summary>
+    [JsonPropertyName("i18n_name")]
+    public string I18nName { get; set; }
+
+    /// <summary>
+    /// 游戏服务器本地化名称
+    /// </summary>
+    [JsonPropertyName("i18n_description")]
+    public string I18nDescription { get; set; }
+
+    /// <summary>
+    /// 服务器id
+    /// </summary>
+    [JsonPropertyName("package_name")]
+    public string PackageName { get; set; }
+
+    /// <summary>
+    /// 注册表key
+    /// </summary>
+    [JsonPropertyName("auto_scan_registry_key")]
+    public string AutoScanRegistryKey { get; set; }
+
+    /// <summary>
+    /// 服务器id
+    /// </summary>
+    [JsonPropertyName("package_detection_info")]
+    public string PackageDetectionInfo { get; set; }
+
+    [JsonPropertyName("game_id")]
+    public string GameId { get; set; }
+
+    /// <summary>
+    /// 预约链接
+    /// </summary>
+    [JsonPropertyName("reservation")]
+    public GameInfoReservation? Reservation { get; set; }
+
+    /// <summary>
+    /// <see cref="GameInfoDisplayStatus"/>
+    /// </summary>
+    [JsonPropertyName("display_status")]
+    public string DisplayStatus { get; set; }
+
 }

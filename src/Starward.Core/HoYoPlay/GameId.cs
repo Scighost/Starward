@@ -24,6 +24,10 @@ public class GameId : IEquatable<GameId>
         {
             GameBiz.bh3_cn => new GameId { Id = "osvnlOc0S8", GameBiz = "bh3_cn" },
             GameBiz.bh3_global => new GameId { Id = "5TIVvvcwtM", GameBiz = "bh3_global" },
+            GameBiz.bh3_jp => new GameId { Id = "g0mMIvshDb", GameBiz = "bh3_global" },
+            GameBiz.bh3_kr => new GameId { Id = "uxB4MC7nzC", GameBiz = "bh3_global" },
+            GameBiz.bh3_os => new GameId { Id = "bxPTXSET5t", GameBiz = "bh3_global" },
+            GameBiz.bh3_asia => new GameId { Id = "wkE5P5WsIf", GameBiz = "bh3_global" },
             GameBiz.hk4e_cn => new GameId { Id = "1Z8W5NHUQb", GameBiz = "hk4e_cn" },
             GameBiz.hk4e_global => new GameId { Id = "gopR6Cufr3", GameBiz = "hk4e_global" },
             GameBiz.hk4e_bilibili => new GameId { Id = "T2S0Gz4Dr2", GameBiz = "hk4e_cn" },
@@ -32,7 +36,7 @@ public class GameId : IEquatable<GameId>
             GameBiz.hkrpg_bilibili => new GameId { Id = "EdtUqXfCHh", GameBiz = "hkrpg_cn" },
             GameBiz.nap_cn => new GameId { Id = "x6znKlJ0xK", GameBiz = "nap_cn" },
             GameBiz.nap_global => new GameId { Id = "U5hbdsT9W7", GameBiz = "nap_global" },
-            GameBiz.nap_bilibili => new GameId { Id = "HXAFlmYa17", GameBiz = "nap_bilibili" },
+            GameBiz.nap_bilibili => new GameId { Id = "HXAFlmYa17", GameBiz = "nap_cn" },
             _ => null,
         };
     }
