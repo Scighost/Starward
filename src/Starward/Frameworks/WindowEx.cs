@@ -182,7 +182,6 @@ public abstract partial class WindowEx : Window
     {
         if (Content is FrameworkElement element)
         {
-            App.ChangeAccentColor(element.ActualTheme, backColor, foreColor);
             if (element.ActualTheme is ElementTheme.Dark)
             {
                 element.RequestedTheme = ElementTheme.Light;

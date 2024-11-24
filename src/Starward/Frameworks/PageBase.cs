@@ -1,14 +1,21 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using Starward.Core;
 using Starward.Core.HoYoPlay;
 
 namespace Starward.Frameworks;
 
-public abstract class PageBase : Page
+[INotifyPropertyChanged]
+public abstract partial class PageBase : Page
 {
 
 
     public GameId CurrentGameId { get; protected set; }
+
+
+    public GameBiz CurrentGameBiz { get; protected set; }
+
 
 
     public PageBase()
@@ -39,6 +46,10 @@ public abstract class PageBase : Page
         if (e.Parameter is GameId id)
         {
             CurrentGameId = id;
+        }
+        else if (e.Parameter is GameBiz biz)
+        {
+            CurrentGameBiz = biz;
         }
     }
 
