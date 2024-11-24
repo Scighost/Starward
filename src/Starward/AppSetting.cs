@@ -1,12 +1,14 @@
-﻿using Starward.Core;
+﻿using Dapper;
+using Starward.Core;
+using Starward.Features.Database;
 using Starward.Features.ViewHost;
 using Starward.Models;
-using Starward.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -66,6 +68,7 @@ public static class AppSetting
                     }
                     if (Directory.Exists(userDataFolder))
                     {
+                        DatabaseService.SetDatabase(userDataFolder);
                         UserDataFolder = Path.GetFullPath(userDataFolder);
                     }
                 }
@@ -443,25 +446,23 @@ public static class AppSetting
 
 
 
+
     #region Setting Method
 
 
 
-    private static DatabaseService DatabaseService;
-
-    private static Dictionary<string, string?> cache;
+    private static Dictionary<string, string?> _settingCache;
 
 
     private static void InitializeSettingProvider()
     {
         try
         {
-            //DatabaseService ??= GetService<DatabaseService>();
-            //if (cache is null)
-            //{
-            //    using var dapper = DatabaseService.CreateConnection();
-            //    cache = dapper.Query<(string Key, string? Value)>("SELECT Key, Value FROM Setting;").ToDictionary(x => x.Key, x => x.Value);
-            //}
+            if (_settingCache is null)
+            {
+                using var dapper = DatabaseService.CreateConnection();
+                _settingCache = dapper.Query<(string Key, string? Value)>("SELECT Key, Value FROM Setting;").ToDictionary(x => x.Key, x => x.Value);
+            }
         }
         catch { }
     }
@@ -470,27 +471,27 @@ public static class AppSetting
 
     private static T? GetValue<T>(T? defaultValue = default, [CallerMemberName] string? key = null)
     {
-        //if (string.IsNullOrWhiteSpace(key))
-        //{
-        //    return defaultValue;
-        //}
-        //if (string.IsNullOrWhiteSpace(UserDataFolder))
-        //{
-        //    return defaultValue;
-        //}
-        //InitializeSettingProvider();
-        //try
-        //{
-        //    if (cache.TryGetValue(key, out string? value))
-        //    {
-        //        return ConvertFromString(value, defaultValue);
-        //    }
-        //    using var dapper = DatabaseService.CreateConnection();
-        //    value = dapper.QueryFirstOrDefault<string>("SELECT Value FROM Setting WHERE Key=@key LIMIT 1;", new { key });
-        //    cache[key] = value;
-        //    return ConvertFromString(value, defaultValue);
-        //}
-        //catch
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            return defaultValue;
+        }
+        if (string.IsNullOrWhiteSpace(UserDataFolder))
+        {
+            return defaultValue;
+        }
+        InitializeSettingProvider();
+        try
+        {
+            if (_settingCache.TryGetValue(key, out string? value))
+            {
+                return ConvertFromString(value, defaultValue);
+            }
+            using var dapper = DatabaseService.CreateConnection();
+            value = dapper.QueryFirstOrDefault<string>("SELECT Value FROM Setting WHERE Key=@key LIMIT 1;", new { key });
+            _settingCache[key] = value;
+            return ConvertFromString(value, defaultValue);
+        }
+        catch
         {
             return defaultValue;
         }
@@ -514,27 +515,27 @@ public static class AppSetting
 
     private static void SetValue<T>(T? value, [CallerMemberName] string? key = null)
     {
-        //if (string.IsNullOrWhiteSpace(key))
-        //{
-        //    return;
-        //}
-        //if (string.IsNullOrWhiteSpace(UserDataFolder))
-        //{
-        //    return;
-        //}
-        //InitializeSettingProvider();
-        //try
-        //{
-        //    string? val = value?.ToString();
-        //    if (cache.TryGetValue(key, out string? cacheValue) && cacheValue == val)
-        //    {
-        //        return;
-        //    }
-        //    cache[key] = val;
-        //    using var dapper = DatabaseService.CreateConnection();
-        //    dapper.Execute("INSERT OR REPLACE INTO Setting (Key, Value) VALUES (@key, @val);", new { key, val });
-        //}
-        //catch { }
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(UserDataFolder))
+        {
+            return;
+        }
+        InitializeSettingProvider();
+        try
+        {
+            string? val = value?.ToString();
+            if (_settingCache.TryGetValue(key, out string? cacheValue) && cacheValue == val)
+            {
+                return;
+            }
+            _settingCache[key] = val;
+            using var dapper = DatabaseService.CreateConnection();
+            dapper.Execute("INSERT OR REPLACE INTO Setting (Key, Value) VALUES (@key, @val);", new { key, val });
+        }
+        catch { }
     }
 
 
@@ -543,14 +544,23 @@ public static class AppSetting
     {
         try
         {
-            //using var dapper = DatabaseService.CreateConnection();
-            //dapper.Execute("DELETE FROM Setting WHERE TRUE;");
+            using var dapper = DatabaseService.CreateConnection();
+            dapper.Execute("DELETE FROM Setting WHERE TRUE;");
         }
         catch { }
     }
 
 
+
+    public static void ClearCache()
+    {
+        _settingCache.Clear();
+    }
+
+
+
     #endregion
+
 
 
 
