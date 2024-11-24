@@ -4,7 +4,7 @@ using Starward.Helpers.Enumeration;
 using System.ComponentModel;
 
 
-namespace Starward.Features.Main;
+namespace Starward.Features.ViewHost;
 
 [INotifyPropertyChanged]
 public sealed partial class MainWindowCloseDialog : ContentDialog
@@ -22,7 +22,7 @@ public sealed partial class MainWindowCloseDialog : ContentDialog
     {
         get;
         set => SetProperty(ref field, value);
-    } = new(Main.MainWindowCloseOption.Hide);
+    } = new(ViewHost.MainWindowCloseOption.Hide);
 
 
 

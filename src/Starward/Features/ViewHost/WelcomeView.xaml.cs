@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
 
 
-namespace Starward.Features.Main;
+namespace Starward.Features.ViewHost;
 
 public sealed partial class WelcomeView : UserControl
 {

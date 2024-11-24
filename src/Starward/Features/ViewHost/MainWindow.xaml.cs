@@ -9,7 +9,7 @@ using Vanara.PInvoke;
 using Windows.Graphics;
 
 
-namespace Starward.Features.Main;
+namespace Starward.Features.ViewHost;
 
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
@@ -35,7 +35,7 @@ public sealed partial class MainWindow : WindowEx
         else
         {
             MainContentHost.Content = new MainView();
-            App.Current.InitializeSystemTray();
+            App.Current.EnsureSystemTray();
         }
     }
 

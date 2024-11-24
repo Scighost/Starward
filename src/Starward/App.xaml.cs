@@ -1,44 +1,36 @@
-﻿// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
-using CommunityToolkit.WinUI.Helpers;
+﻿using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.UI;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.AppLifecycle;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
-using System.Globalization;
 using System.IO;
 using Windows.UI;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Starward;
 
-/// <summary>
-/// Provides application-specific behavior to supplement the default Application class.
-/// </summary>
 public partial class App : Application
 {
+
+    private readonly DispatcherQueue _uiDispatcherQueue;
+
 
     public static new App Current => (App)Application.Current;
 
 
-    /// <summary>
-    /// Initializes the singleton application object.  This is the first line of authored code
-    /// executed, and as such is the logical equivalent of main() or WinMain().
-    /// </summary>
     public App()
     {
         this.InitializeComponent();
         RequestedTheme = ApplicationTheme.Dark;
+        _uiDispatcherQueue = DispatcherQueue.GetForCurrentThread();
         UnhandledException += App_UnhandledException;
-        InitializeLanguage();
     }
+
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
@@ -48,10 +40,7 @@ public partial class App : Application
         File.WriteAllText(file, e.Exception.ToString());
     }
 
-    /// <summary>
-    /// Invoked when the application is launched.
-    /// </summary>
-    /// <param name="args">Details about the launch request and process.</param>
+
     protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs _)
     {
         instance = AppInstance.GetCurrent();
@@ -61,16 +50,16 @@ public partial class App : Application
         {
             if (args[1].ToLower() is "download" or "repair" or "reinstall")
             {
-                m_window = new InstallGameWindow();
-                m_window.Activate();
+                //m_MainWindow = new InstallGameWindow();
+                //m_MainWindow.Activate();
                 return;
             }
             if (Uri.TryCreate(args[1], UriKind.Absolute, out Uri? uri))
             {
                 if (uri.Host is "test")
                 {
-                    m_window = new TestUrlProtocolWindow();
-                    m_window.Activate();
+                    //m_MainWindow = new TestUrlProtocolWindow();
+                    //m_MainWindow.Activate();
                     return;
                 }
             }
@@ -82,22 +71,14 @@ public partial class App : Application
             this.Exit();
             return;
         }
-        if (AppConfig.UserDataFolder is null)
+        if (AppConfig.Configuration.GetValue<bool>("hide"))
         {
-            m_window = new WelcomeWindow();
-            m_window.Activate();
+            m_SystemTrayWindow = new Features.ViewHost.SystemTrayWindow();
         }
         else
         {
-            if (AppConfig.Configuration.GetValue<bool>("hide"))
-            {
-                m_SystemTrayWindow = new SystemTrayWindow();
-            }
-            else
-            {
-                m_window = new MainWindow();
-                m_window.Activate();
-            }
+            m_MainWindow = new Features.ViewHost.MainWindow();
+            m_MainWindow.Activate();
         }
     }
 
@@ -105,92 +86,49 @@ public partial class App : Application
 
     private AppInstance instance;
 
-    private WindowEx m_window;
+    private Features.ViewHost.MainWindow m_MainWindow;
 
-    private SystemTrayWindow m_SystemTrayWindow;
+    private Features.ViewHost.SystemTrayWindow m_SystemTrayWindow;
 
 
     public void SwitchMainWindow(WindowEx window)
     {
-        var old = m_window;
-        m_window = window;
-        m_window.Activate();
-        old?.Close();
+        // to delete
     }
 
 
     public void EnsureMainWindow()
     {
-        m_window ??= new MainWindow();
-        m_window.Activate();
-        m_window.Show();
+        m_MainWindow ??= new Features.ViewHost.MainWindow();
+        m_MainWindow.Activate();
+        m_MainWindow.Show();
     }
+
+
+    public void EnsureSystemTray()
+    {
+        m_SystemTrayWindow ??= new Features.ViewHost.SystemTrayWindow();
+    }
+
 
 
     public void CloseMainWindow()
     {
-        m_window?.Close();
-        m_window = null!;
+        // to delete
     }
 
-
-    public void InitializeSystemTray()
-    {
-        m_SystemTrayWindow ??= new SystemTrayWindow();
-    }
 
 
     public void CloseSystemTray()
     {
-        m_SystemTrayWindow?.Close();
-        m_SystemTrayWindow = null!;
+        // to delete
     }
 
 
 
     private void AppInstance_Activated(object? sender, AppActivationArguments e)
     {
-        if (m_window is null)
-        {
-            m_SystemTrayWindow?.DispatcherQueue.TryEnqueue(() =>
-            {
-                if (AppConfig.UserDataFolder is null)
-                {
-                    m_window = new WelcomeWindow();
-                }
-                else
-                {
-                    m_window = new MainWindow();
-                }
-                m_window.Activate();
-            });
-        }
-        else
-        {
-            m_window.DispatcherQueue.TryEnqueue(() =>
-            {
-                m_window.Show();
-            });
-        }
-    }
-
-
-
-
-    private void InitializeLanguage()
-    {
-        try
-        {
-            if (!string.IsNullOrWhiteSpace(AppConfig.UserDataFolder))
-            {
-                var lang = AppConfig.Language;
-                if (!string.IsNullOrWhiteSpace(lang))
-                {
-                    CultureInfo.CurrentUICulture = new CultureInfo(lang);
-                }
-            }
-        }
-        catch { }
+        _uiDispatcherQueue.TryEnqueue(EnsureMainWindow);
     }
 
 
@@ -212,8 +150,8 @@ public partial class App : Application
 
     public new void Exit()
     {
-        CloseMainWindow();
-        CloseSystemTray();
+        m_MainWindow?.Close();
+        m_SystemTrayWindow?.Close();
         WindowManager.CloseAll();
         Application.Current.Exit();
     }

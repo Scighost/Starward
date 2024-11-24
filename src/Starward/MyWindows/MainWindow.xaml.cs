@@ -55,15 +55,15 @@ public sealed partial class MainWindow : WindowEx
             Task.Run(async () =>
             {
                 await Task.Delay(1000);
-                DispatcherQueue.TryEnqueue(App.Current.InitializeSystemTray);
+                DispatcherQueue.TryEnqueue(App.Current.EnsureSystemTray);
             });
         }
         else
         {
-            App.Current.InitializeSystemTray();
+            App.Current.EnsureSystemTray();
         }
 #else
-        App.Current.InitializeSystemTray();
+        App.Current.EnsureSystemTray();
 #endif
     }
 

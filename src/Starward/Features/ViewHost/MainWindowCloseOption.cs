@@ -1,6 +1,6 @@
 ﻿using Starward.Helpers.Enumeration;
 
-namespace Starward.Features.Main;
+namespace Starward.Features.ViewHost;
 
 /// <summary>
 /// 关闭主窗口的选项
