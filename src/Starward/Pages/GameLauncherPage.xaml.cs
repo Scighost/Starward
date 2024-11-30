@@ -94,6 +94,7 @@ public sealed partial class GameLauncherPage : PageBase
             }
             await UpdateGameContentAsync();
             await UpdateGameNoticesAlertAsync();
+            await InitializeGameAuthLoginAsync();
         }
         catch { }
     }
@@ -442,7 +443,7 @@ public sealed partial class GameLauncherPage : PageBase
                     return;
                 }
             }
-            var process1 = _gameLauncherService.StartGame(CurrentGameBiz, IgnoreRunningGame);
+            var process1 = await _gameLauncherService.StartGame(CurrentGameBiz, IgnoreRunningGame);
             if (process1 == null)
             {
                 CanStartGame = true;
@@ -1672,6 +1673,50 @@ public sealed partial class GameLauncherPage : PageBase
         catch (Exception ex)
         {
 
+        }
+    }
+
+
+    #endregion
+
+
+
+
+    #region Game Auth Login
+
+
+    [ObservableProperty]
+    private string? gameAuthLoginErrorMessage;
+
+    [ObservableProperty]
+    private long? hyperionAid;
+
+    [ObservableProperty]
+    private bool enableLoginAuthTicket = AppConfig.EnableLoginAuthTicket ?? false;
+    partial void OnEnableLoginAuthTicketChanged(bool value)
+    {
+        AppConfig.EnableLoginAuthTicket = value;
+        AppConfig.SaveConfiguration();
+    }
+
+
+    [RelayCommand]
+    private async Task InitializeGameAuthLoginAsync()
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(AppConfig.stoken) || string.IsNullOrWhiteSpace(AppConfig.mid) || !CurrentGameBiz.IsChinaOfficial())
+            {
+                return;
+            }
+            Button_GameAuthLogin.Visibility = Visibility.Visible;
+            GameAuthLoginErrorMessage = null;
+            HyperionAid = await _gameLauncherService.GetHyperionAidAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "InitializeGameAuthLogin");
+            GameAuthLoginErrorMessage = ex.Message;
         }
     }
 

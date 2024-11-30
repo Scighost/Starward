@@ -432,6 +432,71 @@
                               Glyph="&#xF012;"
                               IsTextScaleFactorEnabled="False" />
                 </Button>
+                <!--  Game Auth Login  -->
+                <Button Name="Button_GameAuthLogin"
+                        Width="40"
+                        Height="40"
+                        Margin="4"
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        CornerRadius="8"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Visibility="Collapsed">
+                    <Grid>
+                        <Border Width="24"
+                                Height="24"
+                                CornerRadius="4">
+                            <Image Width="24"
+                                   Height="24"
+                                   Stretch="UniformToFill">
+                                <Image.Source>
+                                    <BitmapImage DecodePixelHeight="24"
+                                                 DecodePixelType="Logical"
+                                                 DecodePixelWidth="24"
+                                                 UriSource="ms-appx:///Assets/Image/icon_hyperion.png" />
+                                </Image.Source>
+                            </Image>
+                        </Border>
+                        <Image Name="Image_GameAuthLoginErrorAlert"
+                               Width="20"
+                               Margin="0,-10,-10,0"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Source="ms-appx:///Assets/Image/alert.png"
+                               Visibility="{x:Bind GameAuthLoginErrorMessage, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                    </Grid>
+                    <Button.Flyout>
+                        <Flyout Placement="LeftEdgeAlignedTop">
+                            <StackPanel Spacing="12">
+                                <Border Width="60"
+                                        Height="60"
+                                        HorizontalAlignment="Center"
+                                        CornerRadius="8">
+                                    <Image Source="ms-appx:///Assets/Image/icon_hyperion.png" Stretch="UniformToFill" />
+                                </Border>
+                                <TextBlock HorizontalAlignment="Center">
+                                    <Run Text="通行证 ID: " />
+                                    <Run Text="{x:Bind HyperionAid}" />
+                                </TextBlock>
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="{x:Bind GameAuthLoginErrorMessage}"
+                                           TextWrapping="Wrap"
+                                           Visibility="{x:Bind GameAuthLoginErrorMessage, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                <Button MinWidth="120"
+                                        HorizontalAlignment="Center"
+                                        Command="{x:Bind InitializeGameAuthLoginCommand}"
+                                        Content="重新认证"
+                                        Visibility="{x:Bind GameAuthLoginErrorMessage, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                <ToggleSwitch HorizontalAlignment="Center"
+                                              IsOn="{x:Bind EnableLoginAuthTicket, Mode=TwoWay}"
+                                              OffContent="已禁用授权登录"
+                                              OnContent="已启用授权登录" />
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
                 <!--  Test  -->
                 <Button Width="40"
                         Height="40"

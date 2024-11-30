@@ -26,6 +26,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 
@@ -79,36 +80,17 @@ internal static class AppConfig
     #region Ini Config
 
 
-    private static int windowSizeMode;
-    public static int WindowSizeMode
-    {
-        get => windowSizeMode;
-        set
-        {
-            windowSizeMode = value;
-        }
-    }
+    public static int WindowSizeMode { get; set; }
 
-    private static string? language;
-    public static string? Language
-    {
-        get => language;
-        set
-        {
-            language = value;
-        }
-    }
+    public static string? Language { get; set; }
 
-    private static string userDataFolder;
-    public static string UserDataFolder
-    {
-        get => userDataFolder;
-        set
-        {
-            userDataFolder = value;
-        }
-    }
+    public static string UserDataFolder { get; set; }
 
+    public static bool? EnableLoginAuthTicket { get; set; }
+
+    public static string? stoken { get; set; }
+
+    public static string? mid { get; set; }
 
 
 
@@ -139,8 +121,11 @@ internal static class AppConfig
             }
             Configuration = builder.Build();
 
-            windowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
-            language = Configuration.GetValue<string>(nameof(Language));
+            WindowSizeMode = Configuration.GetValue<int>(nameof(WindowSizeMode));
+            Language = Configuration.GetValue<string>(nameof(Language));
+            EnableLoginAuthTicket = Configuration.GetValue<bool?>(nameof(EnableLoginAuthTicket));
+            stoken = Configuration.GetValue<string>(nameof(stoken));
+            mid = Configuration.GetValue<string>(nameof(mid));
             string? dir = Configuration.GetValue<string>(nameof(UserDataFolder));
             if (!string.IsNullOrWhiteSpace(dir))
             {
@@ -155,7 +140,7 @@ internal static class AppConfig
                 }
                 if (Directory.Exists(folder))
                 {
-                    userDataFolder = Path.GetFullPath(folder);
+                    UserDataFolder = Path.GetFullPath(folder);
                 }
             }
         }
@@ -185,11 +170,25 @@ internal static class AppConfig
             {
                 dataFolder = Path.GetRelativePath(baseDir, dataFolder);
             }
-            File.WriteAllText(Path.Combine(baseDir, "config.ini"), $"""
+            var sb = new StringBuilder();
+            sb.AppendLine($"""
                 {nameof(WindowSizeMode)}={WindowSizeMode}
                 {nameof(Language)}={Language}
                 {nameof(UserDataFolder)}={dataFolder}
                 """);
+            if (EnableLoginAuthTicket.HasValue)
+            {
+                sb.AppendLine($"{nameof(EnableLoginAuthTicket)}={EnableLoginAuthTicket}");
+            }
+            if (!string.IsNullOrWhiteSpace(stoken))
+            {
+                sb.AppendLine($"{nameof(stoken)}={stoken}");
+            }
+            if (!string.IsNullOrWhiteSpace(mid))
+            {
+                sb.AppendLine($"{nameof(mid)}={mid}");
+            }
+            File.WriteAllText(Path.Combine(baseDir, "config.ini"), sb.ToString());
         }
         catch { }
     }
@@ -772,6 +771,8 @@ internal static class AppConfig
 
     public static bool LauncherPageFirstLoaded { get; set; }
 
+
+    public static string? HyperionAid { get; set; }
 
 
     #endregion
