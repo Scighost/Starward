@@ -1609,4 +1609,28 @@
   <data name="InterKnotMonthlyReportPage_OtherRewards" xml:space="preserve">
     <value>其他奖励</value>
   </data>
+  <data name="DeleteGachaLogDialog_BeginTime" xml:space="preserve">
+    <value>起始时间</value>
+  </data>
+  <data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
+    <value>结束时间</value>
+  </data>
+  <data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
+    <value>删除特定时间段的抽卡记录</value>
+  </data>
+  <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
+    <value>警告：所选时间段包含6个月之前的抽卡记录，删除后无法再次获取。</value>
+  </data>
+  <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
+    <value>此账号有 {0} 条抽卡记录</value>
+  </data>
+  <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
+    <value>所选时间段包含 {0} 条抽卡记录</value>
+  </data>
+  <data name="GachaLogPage_DeleteAll" xml:space="preserve">
+    <value>全部删除</value>
+  </data>
+  <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
+    <value>指定时间段</value>
+  </data>
 </root>
