@@ -39,56 +39,7 @@ internal class GamePackageService
 
     public async Task<GamePackage> GetGamePackageAsync(GameBiz biz)
     {
-        if (biz.ToGame() is GameBiz.Honkai3rd && biz.IsGlobalOfficial())
-        {
-            var res = await _launcherClient.GetLauncherGameResourceAsync(biz);
-            var package = new GamePackage
-            {
-                Main = new GamePackageVersion
-                {
-                    Patches = [],
-                },
-                PreDownload = new GamePackageVersion
-                {
-                    Major = null!,
-                    Patches = [],
-                },
-            };
-            package.Main.Major = new GamePackageResource
-            {
-                Version = res.Game.Latest.Version,
-                ResListUrl = res.Game.Latest.DecompressedPath,
-                GamePackages = [new GamePackageFile
-                {
-                     DecompressedSize = res.Game.Latest.Size,
-                     Size = res.Game.Latest.PackageSize,
-                     Url = res.Game.Latest.Path,
-                     MD5 = res.Game.Latest.Md5,
-                }],
-                AudioPackages = [],
-            };
-            if (res.PreDownloadGame is not null)
-            {
-                package.PreDownload.Major = new GamePackageResource
-                {
-                    Version = res.PreDownloadGame.Latest.Version,
-                    ResListUrl = res.PreDownloadGame.Latest.DecompressedPath,
-                    GamePackages = [new GamePackageFile
-                    {
-                         DecompressedSize = res.PreDownloadGame.Latest.Size,
-                         Size = res.PreDownloadGame.Latest.PackageSize,
-                         Url = res.PreDownloadGame.Latest.Path,
-                         MD5 = res.PreDownloadGame.Latest.Md5,
-                    }],
-                    AudioPackages = [],
-                };
-            }
-            return package;
-        }
-        else
-        {
-            return await _hoYoPlayService.GetGamePackageAsync(biz);
-        }
+        return await _hoYoPlayService.GetGamePackageAsync(biz);
     }
 
 

@@ -149,12 +149,7 @@ internal class GameLauncherService
     /// <returns></returns>
     public async Task<Version?> GetLatestGameVersionAsync(GameBiz gameBiz)
     {
-        if (gameBiz.IsGlobalOfficial() && gameBiz.ToGame() is GameBiz.Honkai3rd)
-        {
-            var resource = await _launcherClient.GetLauncherGameResourceAsync(gameBiz);
-            return TryParseVersion(resource.Game.Latest.Version);
-        }
-        else if (gameBiz.IsChinaOfficial() || gameBiz.IsGlobalOfficial() || gameBiz.IsBilibili())
+        if (gameBiz.IsChinaOfficial() || gameBiz.IsGlobalOfficial() || gameBiz.IsBilibili())
         {
             var package = await _hoYoPlayService.GetGamePackageAsync(gameBiz);
             return TryParseVersion(package.Main.Major?.Version);
@@ -249,12 +244,7 @@ internal class GameLauncherService
     /// <returns></returns>
     public async Task<Version?> GetPreDownloadGameVersionAsync(GameBiz gameBiz)
     {
-        if (gameBiz.IsGlobalOfficial() && gameBiz.ToGame() is GameBiz.Honkai3rd)
-        {
-            var resource = await _launcherClient.GetLauncherGameResourceAsync(gameBiz);
-            return TryParseVersion(resource.PreDownloadGame?.Latest.Version);
-        }
-        else if (gameBiz.IsChinaOfficial() || gameBiz.IsGlobalOfficial() || gameBiz.IsBilibili())
+        if (gameBiz.IsChinaOfficial() || gameBiz.IsGlobalOfficial() || gameBiz.IsBilibili())
         {
             var package = await _hoYoPlayService.GetGamePackageAsync(gameBiz);
             return TryParseVersion(package.PreDownload?.Major?.Version);
