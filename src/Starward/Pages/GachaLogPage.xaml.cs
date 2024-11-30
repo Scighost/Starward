@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
+using Starward.Controls;
 using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Helpers;
@@ -588,6 +589,30 @@ public sealed partial class GachaLogPage : PageBase
         {
             _logger.LogError(ex, "Delete uid");
             NotificationBehavior.Instance.Error(ex);
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task DeleteUidByTimeAsync()
+    {
+        try
+        {
+            var dialog = new DeleteGachaLogDialog
+            {
+                CurrentGameBiz = this.CurrentGameBiz,
+                DefaultUid = this.SelectUid,
+                XamlRoot = this.XamlRoot,
+            };
+            var result = await dialog.ShowAsync();
+            if (dialog.Deleted)
+            {
+                UpdateGachaTypeStats(dialog.SelectUid);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Delete uid");
         }
     }
 

@@ -263,6 +263,12 @@ internal abstract class GachaLogService
 
 
 
+    public virtual int DeleteGachaLogByTime(long uid, DateTime begin, DateTime end)
+    {
+        using var dapper = _database.CreateConnection();
+        return dapper.Execute($"DELETE FROM {GachaTableName} WHERE Uid = @uid AND Time >= @begin AND Time <= @end;", new { uid, begin, end });
+    }
+
 
 
 
