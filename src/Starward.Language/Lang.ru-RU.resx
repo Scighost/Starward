@@ -344,7 +344,7 @@
     <value>Показать тип гачи новичка</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>Удалить записи</value>
+    <value>Удалить записи гачи</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
     <value>Язык</value>
@@ -1617,7 +1617,7 @@
     <value>Время окончания</value>
   </data>
   <data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
-    <value>Удалить записи гачи за определенный период времени</value>
+    <value>Удалить записи гачи за конкретный период времени</value>
   </data>
   <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
     <value>Предупреждение: Выбранный период времени включает в себя записи гачи более чем 6 месяцев назад, которые не могут быть восстановлены после удаления.</value>
@@ -1629,9 +1629,9 @@
     <value>Выбранный период времени содержит {0} записей гачи.</value>
   </data>
   <data name="GachaLogPage_DeleteAll" xml:space="preserve">
-    <value>Удалить все</value>
+    <value>Удалить за все время</value>
   </data>
   <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
-    <value>Определенный период времени</value>
+    <value>За конкретный период времени</value>
   </data>
 </root>
