@@ -664,7 +664,7 @@ public sealed partial class MainPage : PageBase
 
 
 
-    private void MainPage_KeyDown(object? sender, MainWindow.KeyDownEventArgs e)
+    private void MainPage_KeyDown(object? sender, MyWindows.MainWindow.KeyDownEventArgs e)
     {
         try
         {

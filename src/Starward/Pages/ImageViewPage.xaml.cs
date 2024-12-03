@@ -84,7 +84,7 @@ public sealed partial class ImageViewPage : PageBase
 
 
 
-    private void ImageViewPage_KeyDown(object? sender, MainWindow.KeyDownEventArgs e)
+    private void ImageViewPage_KeyDown(object? sender, MyWindows.MainWindow.KeyDownEventArgs e)
     {
         try
         {

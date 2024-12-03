@@ -2,13 +2,15 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Starward.Core.HoYoPlay;
 using Starward.Features.Database;
+using Starward.Features.HoYoPlay;
 using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 
-namespace Starward;
+namespace Starward.Frameworks;
 
 public static class AppService
 {
@@ -49,6 +51,9 @@ public static class AppService
                 client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppSetting.AppVersion}");
                 return client;
             });
+
+            sc.AddSingleton<HoYoPlayClient>();
+            sc.AddSingleton<HoYoPlayService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

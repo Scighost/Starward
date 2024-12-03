@@ -22,21 +22,15 @@ public sealed partial class MainWindow : WindowEx
     public static new MainWindow Current { get; private set; }
 
 
+    private bool _mainViewLoaded;
+
 
     public MainWindow()
     {
         Current = this;
         this.InitializeComponent();
         InitializeMainWindow();
-        if (string.IsNullOrWhiteSpace(AppSetting.UserDataFolder))
-        {
-            MainContentHost.Content = new WelcomeView();
-        }
-        else
-        {
-            MainContentHost.Content = new MainView();
-            App.Current.EnsureSystemTray();
-        }
+        LoadContentView();
     }
 
 
@@ -48,6 +42,7 @@ public sealed partial class MainWindow : WindowEx
         AppWindow.TitleBar.IconShowOptions = IconShowOptions.ShowIconAndSystemMenu;
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
         AppWindow.Closing += AppWindow_Closing;
+        Content.KeyDown += Content_KeyDown;
         CenterInScreen(1200, 676);
         AdaptTitleBarButtonColorToActuallTheme();
         SetDragRectangles(new RectInt32(0, 0, 100000, (int)(48 * UIScale)));
@@ -61,11 +56,28 @@ public sealed partial class MainWindow : WindowEx
     }
 
 
+
+    private void LoadContentView()
+    {
+        if (string.IsNullOrWhiteSpace(AppSetting.UserDataFolder))
+        {
+            MainContentHost.Content = new WelcomeView();
+        }
+        else
+        {
+            MainContentHost.Content = new MainView();
+            App.Current.EnsureSystemTray();
+            _mainViewLoaded = true;
+        }
+    }
+
+
+
     private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(AppSetting.UserDataFolder))
+            if (!_mainViewLoaded)
             {
                 App.Current.Exit();
                 return;
@@ -101,6 +113,20 @@ public sealed partial class MainWindow : WindowEx
         }
         catch { }
     }
+
+
+
+    private void Content_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    {
+        if (_mainViewLoaded)
+        {
+            if (e.Key is Windows.System.VirtualKey.Escape)
+            {
+                Hide();
+            }
+        }
+    }
+
 
 
     protected override nint WindowSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)

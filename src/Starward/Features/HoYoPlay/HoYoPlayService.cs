@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Frameworks;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Starward.Features.HoYoPlay;
@@ -37,6 +39,7 @@ public class HoYoPlayService
             Interval = TimeSpan.FromMinutes(10).TotalMilliseconds,
         };
         _timer.Elapsed += async (_, _) => await PrepareDataAsync();
+        LoadCachedGameInfo();
     }
 
 
@@ -55,6 +58,40 @@ public class HoYoPlayService
 
 
     private ConcurrentDictionary<GameId, GameConfig> _gameConfig = new();
+
+
+
+    private void LoadCachedGameInfo()
+    {
+        try
+        {
+            string? json = AppSetting.CachedGameInfo;
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                var infos = JsonSerializer.Deserialize<List<GameInfo>>(json);
+                if (infos is not null)
+                {
+                    foreach (var item in infos)
+                    {
+                        _gameInfo[item] = item;
+                    }
+                }
+            }
+        }
+        catch { }
+    }
+
+
+    private void CacheGameInfo()
+    {
+        try
+        {
+            var infos = _gameInfo.Values.ToList();
+            string json = JsonSerializer.Serialize(infos);
+            AppSetting.CachedGameInfo = json;
+        }
+        catch { }
+    }
 
 
 
@@ -80,6 +117,7 @@ public class HoYoPlayService
             tasks.Add(PrepareDataForServerAsync(LauncherId.GlobalOfficial, lang));
             tasks.Add(PrepareDataForBilibiliServerAsync(lang));
             await Task.WhenAll(tasks);
+            CacheGameInfo();
             await PrepareImagesAsync();
         }
         catch (Exception ex)
@@ -252,6 +290,13 @@ public class HoYoPlayService
             info = list.First(x => x == gameId);
         }
         return info;
+    }
+
+
+
+    public GameInfo? GetCachedGameInfo(GameBiz gameBiz)
+    {
+        return _gameInfo.Values.FirstOrDefault(x => x.GameBiz == gameBiz);
     }
 
 

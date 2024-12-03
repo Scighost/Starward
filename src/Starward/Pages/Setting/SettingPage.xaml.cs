@@ -42,7 +42,7 @@ public sealed partial class SettingPage : PageBase
     }
 
 
-    private void SettingPage_KeyDown(object? sender, MainWindow.KeyDownEventArgs e)
+    private void SettingPage_KeyDown(object? sender, MyWindows.MainWindow.KeyDownEventArgs e)
     {
         try
         {

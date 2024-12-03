@@ -13,7 +13,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
-namespace Starward;
+namespace Starward.Frameworks;
 
 public static class AppSetting
 {
@@ -44,8 +44,8 @@ public static class AppSetting
             if (File.Exists(iniPath))
             {
                 string text = File.ReadAllText(iniPath);
-                string lang = Regex.Match(text, @"Language=(.+)").Groups[1].Value;
-                string folder = Regex.Match(text, @"UserDataFolder=(.+)").Groups[1].Value;
+                string lang = Regex.Match(text, @"Language=(.+)").Groups[1].Value.Trim();
+                string folder = Regex.Match(text, @"UserDataFolder=(.+)").Groups[1].Value.Trim();
                 if (!string.IsNullOrWhiteSpace(lang))
                 {
                     try
@@ -97,16 +97,6 @@ public static class AppSetting
 
 
     #region Static Setting
-
-
-    /// <summary>
-    /// 主窗口关闭选项，隐藏/退出
-    /// </summary>
-    public static MainWindowCloseOption CloseWindowOption
-    {
-        get => GetValue<MainWindowCloseOption>();
-        set => SetValue(value);
-    }
 
 
 
@@ -207,6 +197,16 @@ public static class AppSetting
     }
 
 
+    /// <summary>
+    /// 主窗口关闭选项，隐藏/退出
+    /// </summary>
+    public static MainWindowCloseOption CloseWindowOption
+    {
+        get => GetValue<MainWindowCloseOption>();
+        set => SetValue(value);
+    }
+
+
     public static bool UseSystemThemeColor
     {
         get => GetValue<bool>();
@@ -274,6 +274,9 @@ public static class AppSetting
     }
 
 
+    /// <summary>
+    /// 当前选择的游戏区服
+    /// </summary>
     public static GameBiz CurrentGameBiz
     {
         get => GetValue<string>();
@@ -288,6 +291,9 @@ public static class AppSetting
     }
 
 
+    /// <summary>
+    /// 固定待选择的游戏区服图标
+    /// </summary>
     public static bool IsGameBizSelectorPinned
     {
         get => GetValue<bool>();
@@ -308,6 +314,16 @@ public static class AppSetting
         set => SetValue(value);
     }
 
+
+
+    /// <summary>
+    /// 缓存的游戏信息 <see cref="Starward.Core.HoYoPlay.GameInfo"/>
+    /// </summary>
+    public static string? CachedGameInfo
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
 
 
 
