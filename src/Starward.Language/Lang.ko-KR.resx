@@ -1610,27 +1610,27 @@
     <value>기타 보상</value>
   </data>
   <data name="DeleteGachaLogDialog_BeginTime" xml:space="preserve">
-    <value>Begin Time</value>
+    <value>시작시간</value>
   </data>
   <data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
-    <value>End Time</value>
+    <value>종료시간</value>
   </data>
   <data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
-    <value>Delete gacha records for a specific time period</value>
+    <value>지정된 시간 동안의 뽑기 기록 삭제하기</value>
   </data>
   <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
-    <value>Warning: The selected time period includes gacha records from more than 6 months ago, which cannot be retrieved after deleting.</value>
+    <value>경고: 해당 시간에 6개월 이전의 뽑기기록이 포함되어 있습니다. 해당 기록은 다시 복구 할 수 없습니다.</value>
   </data>
   <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
-    <value>This account has {0} gacha record(s).</value>
+    <value>해당 계정에 {0} 건 의 뽑기기록이 있습니다.</value>
   </data>
   <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
-    <value>The selected time period includes {0} gacha records.</value>
+    <value>해당 시간에 {0} 건의 뽑기 기록이 있습니다.</value>
   </data>
   <data name="GachaLogPage_DeleteAll" xml:space="preserve">
-    <value>Delete All</value>
+    <value>전체 삭제</value>
   </data>
   <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
-    <value>Specific Time Period</value>
+    <value>지정된 시간</value>
   </data>
 </root>
