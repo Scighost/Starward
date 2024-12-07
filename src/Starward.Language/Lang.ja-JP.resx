@@ -1609,27 +1609,27 @@
     <value>その他の報酬</value>
   </data>
   <data name="DeleteGachaLogDialog_BeginTime" xml:space="preserve">
-    <value>Begin Time</value>
+    <value>開始時間</value>
   </data>
   <data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
-    <value>End Time</value>
+    <value>終了時間</value>
   </data>
   <data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
-    <value>Delete gacha records for a specific time period</value>
+    <value>特定の期間のガチャの記録を削除する</value>
   </data>
   <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
-    <value>Warning: The selected time period includes gacha records from more than 6 months ago, which cannot be retrieved after deleting.</value>
+    <value>警告: 選択した期間には、6ヶ月以上前のガチャの記録が含まれています。削除後に再取得を行うことはできません。</value>
   </data>
   <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
-    <value>This account has {0} gacha record(s).</value>
+    <value>このアカウントには {0} 件のガチャの記録があります。</value>
   </data>
   <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
-    <value>The selected time period includes {0} gacha records.</value>
+    <value>選択した期間には {0} 件のガチャの記録があります。</value>
   </data>
   <data name="GachaLogPage_DeleteAll" xml:space="preserve">
-    <value>Delete All</value>
+    <value>すべて削除</value>
   </data>
   <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
-    <value>Specific Time Period</value>
+    <value>特定の時間</value>
   </data>
 </root>
