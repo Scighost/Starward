@@ -254,9 +254,9 @@ public sealed partial class GameSelector : UserControl
             CurrentGameBiz = icon.GameBiz;
             CurrentGameId = icon.GameId;
             icon.IsSelected = true;
-            HideFullBackground();
 
             CurrentGameChanged?.Invoke(this, (icon.GameId, false));
+            AppSetting.CurrentGameBiz = icon.GameBiz;
         }
     }
 
@@ -283,6 +283,7 @@ public sealed partial class GameSelector : UserControl
             HideFullBackground();
 
             CurrentGameChanged?.Invoke(this, (icon.GameId, true));
+            AppSetting.CurrentGameBiz = icon.GameBiz;
         }
     }
 

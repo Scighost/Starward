@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Starward.Core.HoYoPlay;
+using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.HoYoPlay;
 using System;
@@ -54,6 +55,7 @@ public static class AppService
 
             sc.AddSingleton<HoYoPlayClient>();
             sc.AddSingleton<HoYoPlayService>();
+            sc.AddSingleton<BackgroundService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

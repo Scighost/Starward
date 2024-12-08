@@ -44,5 +44,17 @@ internal static class XamlRootExtension
 
 
 
+    public static double GetUIScaleFactor(this XamlRoot xamlRoot)
+    {
+        if (xamlRoot is null)
+        {
+            return 1;
+        }
+
+        WindowId id = xamlRoot.ContentIslandEnvironment.AppWindowId;
+        return User32.GetDpiForWindow((nint)id.Value) / 96d;
+    }
+
+
 
 }

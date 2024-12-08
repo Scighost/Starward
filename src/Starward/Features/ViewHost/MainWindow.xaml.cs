@@ -1,6 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Starward.Features.Background;
 using Starward.Frameworks;
 using System;
 using System.ComponentModel;
@@ -31,6 +34,7 @@ public sealed partial class MainWindow : WindowEx
         this.InitializeComponent();
         InitializeMainWindow();
         LoadContentView();
+        WeakReferenceMessenger.Default.Register<AccentColorChangedMessage>(this, OnAccentColorChanged);
     }
 
 
@@ -112,6 +116,15 @@ public sealed partial class MainWindow : WindowEx
             }
         }
         catch { }
+    }
+
+
+
+    private void OnAccentColorChanged(object _, AccentColorChangedMessage __)
+    {
+        FrameworkElement ele = (FrameworkElement)Content;
+        ele.RequestedTheme = ElementTheme.Light;
+        ele.RequestedTheme = ElementTheme.Default;
     }
 
 

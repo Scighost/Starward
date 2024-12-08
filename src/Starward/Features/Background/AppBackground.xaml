@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="Starward.Features.Background.AppBackground"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Starward.Features.Background"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sc="using:Starward.Controls"
+             xmlns:swi="using:Scighost.WinUI.ImageEx"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="AppBackgroundImageExStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+
+        <swi:ImageEx HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     PlaceholderSource="{x:Bind PlacehoderImageSource}"
+                     PlaceholderStretch="UniformToFill"
+                     Source="{x:Bind BackgroundImageSource}"
+                     Stretch="UniformToFill"
+                     Style="{ThemeResource AppBackgroundImageExStyle}" />
+
+
+
+        <Rectangle Width="400"
+                   Height="400"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   IsHitTestVisible="False">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Offset="0.5" Color="#00000000" />
+                    <GradientStop Offset="1" Color="#60000000" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+
+        <Rectangle Width="100"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Stretch"
+                   IsHitTestVisible="False">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Offset="0" Color="#00000000" />
+                    <GradientStop Offset="1" Color="#60000000" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+    </Grid>
+</UserControl>

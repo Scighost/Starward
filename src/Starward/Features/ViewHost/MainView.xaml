@@ -6,15 +6,14 @@
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Features.ViewHost"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sfb="using:Starward.Features.Background"
              xmlns:sfg="using:Starward.Features.GameSelector"
+             x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
     <Grid>
 
-        <Image HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Source="ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"
-               Stretch="UniformToFill" />
+        <sfb:AppBackground Name="AppBackground" CurrentGameId="{x:Bind CurrentGameId}" />
 
 
         <Border Width="56"
@@ -149,7 +148,7 @@
 
 
 
-        <sfg:GameSelector x:Name="GameBizSelector" />
+        <sfg:GameSelector x:Name="GameSelector" />
 
 
     </Grid>

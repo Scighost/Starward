@@ -214,42 +214,44 @@ public class HoYoPlayService
         try
         {
             List<GameBiz> bizs = GetSelectedGameBizs();
-            List<string> urls = [];
+            List<(string Url, bool InBg)> urls = [];
             foreach (GameBiz biz in bizs)
             {
                 if (GameId.FromGameBiz(biz) is GameId gameId)
                 {
                     if (_gameInfo.TryGetValue(gameId, out GameInfo? info))
                     {
-                        urls.Add(info.Display.Background.Url);
+                        urls.Add((info.Display.Background.Url, true));
                     }
                     if (_gameBackground.TryGetValue(gameId, out GameBackgroundInfo? background))
                     {
-                        urls.AddRange(background.Backgrounds.Select(x => x.Background.Url));
+                        urls.AddRange(background.Backgrounds.Select(x => (x.Background.Url, false)));
                     }
                 }
             }
             string bg = Path.Combine(AppConfig.UserDataFolder, "bg");
+            string cache = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\cache");
             Directory.CreateDirectory(bg);
-            await Parallel.ForEachAsync(urls, async (url, _) =>
+            Directory.CreateDirectory(cache);
+            await Parallel.ForEachAsync(urls, async (item, _) =>
             {
                 try
                 {
-                    if (string.IsNullOrWhiteSpace(url))
+                    if (string.IsNullOrWhiteSpace(item.Url))
                     {
                         return;
                     }
-                    string name = Path.GetFileName(url);
-                    string path = Path.Combine(bg, name);
+                    string name = Path.GetFileName(item.Url);
+                    string path = item.InBg ? Path.Combine(bg, name) : Path.Combine(cache, name);
                     if (!File.Exists(path))
                     {
-                        byte[] bytes = await _httpClient.GetByteArrayAsync(url);
+                        byte[] bytes = await _httpClient.GetByteArrayAsync(item.Url);
                         await File.WriteAllBytesAsync(path, bytes);
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Download image: {url}", url);
+                    _logger.LogError(ex, "Download image: {url}", item);
                 }
             });
         }
