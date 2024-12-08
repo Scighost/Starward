@@ -302,6 +302,12 @@ public class HoYoPlayService
     }
 
 
+    public List<GameInfo> GetCachedGameInfos()
+    {
+        return _gameInfo.Values.ToList();
+    }
+
+
 
     public async Task<GameBackgroundInfo> GetGameBackgroundAsync(GameId gameId)
     {

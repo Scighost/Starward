@@ -2,11 +2,18 @@
 
 namespace Starward.Core;
 
-public record GameBiz
+public record struct GameBiz
 {
 
 
     public string Value { get; init; }
+
+
+    public string Game => Value.Contains("_") ? Value.Substring(0, Value.IndexOf('_')) : Value;
+
+
+    public string Server => Value.Contains("_") ? Value.Substring(Value.IndexOf('_') + 1) : "";
+
 
 
     public GameBiz(string? value)
@@ -90,121 +97,82 @@ public record GameBiz
     public static implicit operator GameBiz(string? value) => new(value);
     public static implicit operator string(GameBiz value) => value.Value;
 
-}
 
 
 
-public static class GameBizExtension
-{
-
-
-    public static bool IsKnown(this GameBiz? gameBiz) => gameBiz?.Value switch
+    public bool IsKnown() => Value switch
     {
-        GameBiz.bh3_cn or GameBiz.bh3_global => true,
-        GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_bilibili => true,
-        //GameBiz.clgm_cn or GameBiz.clgm_global => true,
-        GameBiz.hkrpg_cn or GameBiz.hkrpg_global or GameBiz.hkrpg_bilibili => true,
-        GameBiz.nap_cn or GameBiz.nap_global or GameBiz.nap_bilibili => true,
+        bh3_cn or bh3_global => true,
+        hk4e_cn or hk4e_global or hk4e_bilibili => true,
+        //clgm_cn or clgm_global => true,
+        hkrpg_cn or hkrpg_global or hkrpg_bilibili => true,
+        nap_cn or nap_global or nap_bilibili => true,
         _ => false,
     };
 
 
-    public static bool IsChinaOfficial(this GameBiz? gameBiz) => gameBiz?.Value switch
+    public bool IsChinaServer() => Server is "cn";
+
+
+    public bool IsGlobalServer() => Server is "global";
+
+
+    public bool IsBilibili() => Server is "bilibili";
+
+
+    // todo delete
+    public bool IsChinaCloud() => Value switch
     {
-        GameBiz.bh3_cn => true,
-        GameBiz.hk4e_cn => true,
-        GameBiz.hkrpg_cn => true,
-        GameBiz.nap_cn => true,
-        _ => false,
-    };
-
-
-    public static bool IsGlobalOfficial(this GameBiz? gameBiz) => gameBiz?.Value switch
-    {
-        GameBiz.bh3_global => true,
-        GameBiz.hk4e_global => true,
-        GameBiz.hkrpg_global => true,
-        GameBiz.nap_global => true,
-        _ => false,
-    };
-
-
-    public static bool IsBilibili(this GameBiz? gameBiz) => gameBiz?.Value switch
-    {
-        GameBiz.hk4e_bilibili => true,
-        GameBiz.hkrpg_bilibili => true,
-        GameBiz.nap_bilibili => true,
-        _ => false,
-    };
-
-
-    public static bool IsChinaCloud(this GameBiz? gameBiz) => gameBiz?.Value switch
-    {
-        GameBiz.clgm_cn => true,
+        clgm_cn => true,
         _ => false,
     };
 
 
 
-    public static GameBiz ToGame(this GameBiz? gameBiz) => gameBiz?.Value switch
-    {
-        GameBiz.bh3_cn or GameBiz.bh3_global => GameBiz.bh3,
-        GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hk4e_bilibili or GameBiz.clgm_cn or GameBiz.clgm_global => GameBiz.hk4e,
-        GameBiz.hkrpg_cn or GameBiz.hkrpg_global or GameBiz.hkrpg_bilibili => GameBiz.hkrpg,
-        GameBiz.nap_cn or GameBiz.nap_global or GameBiz.nap_bilibili => GameBiz.nap,
-        _ => GameBiz.None,
-    };
+    public GameBiz ToGame() => Game;
 
 
-    public static string ToGameName(this GameBiz? gameBiz) => gameBiz?.ToGame().Value switch
+    public string ToGameName() => Game switch
     {
-        GameBiz.bh3 => CoreLang.Game_HonkaiImpact3rd,
-        GameBiz.hk4e => CoreLang.Game_GenshinImpact,
-        GameBiz.hkrpg => CoreLang.Game_HonkaiStarRail,
-        GameBiz.nap => CoreLang.Game_ZZZ,
+        bh3 => CoreLang.Game_HonkaiImpact3rd,
+        hk4e => CoreLang.Game_GenshinImpact,
+        hkrpg => CoreLang.Game_HonkaiStarRail,
+        nap => CoreLang.Game_ZZZ,
         _ => "",
     };
 
 
-    public static string ToGameServerName(this GameBiz? gameBiz) => gameBiz?.Value switch
+    public string ToGameServerName() => Server switch
     {
-        GameBiz.hk4e_cn => CoreLang.GameServer_ChinaOfficial,
-        GameBiz.hk4e_global => CoreLang.GameServer_GlobalOfficial,
-        GameBiz.clgm_cn => CoreLang.GameServer_ChinaCloud,
-        GameBiz.hk4e_bilibili => CoreLang.GameServer_Bilibili,
-        GameBiz.hkrpg_cn => CoreLang.GameServer_ChinaOfficial,
-        GameBiz.hkrpg_global => CoreLang.GameServer_GlobalOfficial,
-        GameBiz.hkrpg_bilibili => CoreLang.GameServer_Bilibili,
-        GameBiz.bh3_cn => CoreLang.GameServer_ChinaOfficial,
-        GameBiz.bh3_global => CoreLang.GameServer_EuropeAmericas,
-        GameBiz.bh3_jp => CoreLang.GameServer_Japan,
-        GameBiz.bh3_kr => CoreLang.GameServer_Korea,
-        GameBiz.bh3_os => CoreLang.GameServer_SoutheastAsia,
-        GameBiz.bh3_asia => CoreLang.GameServer_TraditionalChinese,
-        GameBiz.nap_cn => CoreLang.GameServer_ChinaOfficial,
-        GameBiz.nap_global => CoreLang.GameServer_GlobalOfficial,
-        GameBiz.nap_bilibili => CoreLang.GameServer_Bilibili,
+        "cn" => CoreLang.GameServer_ChinaServer,
+        "global" => CoreLang.GameServer_GlobalServer,
+        "bilibili" => CoreLang.GameServer_Bilibili,
         _ => "",
     };
 
 
-    public static string GetGameRegistryKey(this GameBiz? gameBiz) => gameBiz?.Value switch
+    public string GetGameRegistryKey() => Value switch
     {
-        GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => GameRegistry.GamePath_hk4e_cn,
-        GameBiz.hk4e_global => GameRegistry.GamePath_hk4e_global,
-        GameBiz.clgm_cn => GameRegistry.GamePath_hk4e_cloud,
-        GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => GameRegistry.GamePath_hkrpg_cn,
-        GameBiz.hkrpg_global => GameRegistry.GamePath_hkrpg_global,
-        GameBiz.bh3_cn => GameRegistry.GamePath_bh3_cn,
-        GameBiz.bh3_global => GameRegistry.GamePath_bh3_global,
-        GameBiz.bh3_jp => GameRegistry.GamePath_bh3_jp,
-        GameBiz.bh3_kr => GameRegistry.GamePath_bh3_kr,
-        GameBiz.bh3_os => GameRegistry.GamePath_bh3_overseas,
-        GameBiz.bh3_asia => GameRegistry.GamePath_bh3_tw,
-        GameBiz.nap_cn or GameBiz.nap_bilibili => GameRegistry.GamePath_nap_cn,
-        GameBiz.nap_global => GameRegistry.GamePath_nap_global,
+        hk4e_cn or hk4e_bilibili => GameRegistry.GamePath_hk4e_cn,
+        hk4e_global => GameRegistry.GamePath_hk4e_global,
+        clgm_cn => GameRegistry.GamePath_hk4e_cloud,
+        hkrpg_cn or hkrpg_bilibili => GameRegistry.GamePath_hkrpg_cn,
+        hkrpg_global => GameRegistry.GamePath_hkrpg_global,
+        bh3_cn => GameRegistry.GamePath_bh3_cn,
+        bh3_global => GameRegistry.GamePath_bh3_global,
+        bh3_jp => GameRegistry.GamePath_bh3_jp,
+        bh3_kr => GameRegistry.GamePath_bh3_kr,
+        bh3_os => GameRegistry.GamePath_bh3_overseas,
+        bh3_asia => GameRegistry.GamePath_bh3_tw,
+        nap_cn or nap_bilibili => GameRegistry.GamePath_nap_cn,
+        nap_global => GameRegistry.GamePath_nap_global,
         _ => "HKEY_CURRENT_USER",
     };
 
 
+
+
+
 }
+
+

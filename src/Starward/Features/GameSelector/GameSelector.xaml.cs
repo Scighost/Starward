@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
@@ -10,7 +11,9 @@ using Starward.Helpers;
 using Starward.Messages;
 using Starward.Services.Launcher;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -22,10 +25,6 @@ namespace Starward.Features.GameSelector;
 [INotifyPropertyChanged]
 public sealed partial class GameSelector : UserControl
 {
-
-    private const string IconPin = "\uE718";
-
-    private const string IconUnpin = "\uE77A";
 
 
     public event EventHandler<(GameId, bool DoubleTapped)>? CurrentGameChanged;
@@ -40,6 +39,7 @@ public sealed partial class GameSelector : UserControl
         this.InitializeComponent();
         InitializeGameSelector();
     }
+
 
 
 
@@ -62,48 +62,8 @@ public sealed partial class GameSelector : UserControl
 
     public void InitializeGameSelector()
     {
-        GameBizIcons.Clear();
-
-        // ´ÓÅäÖÃÎÄ¼ş¶ÁÈ¡ÒÑÑ¡µÄ GameBiz
-        string? bizs = AppSetting.SelectedGameBizs;
-        foreach (string str in bizs?.Split(',') ?? [])
-        {
-            if (GameBiz.TryParse(str, out GameBiz biz))
-            {
-                // ÒÑÖªµÄ GameBiz
-                GameBizIcons.Add(new GameBizIcon(biz));
-            }
-            else if (_hoyoplayService.GetCachedGameInfo(biz) is GameInfo info)
-            {
-                // ÓÉ HoYoPlay API »ñÈ¡£¬µ«Î´ÊÊÅäµÄ GameBiz
-                GameBizIcons.Add(new GameBizIcon(info));
-            }
-        }
-
-        // Ñ¡È¡µ±Ç°ÓÎÏ·
-        GameBiz lastSelectedGameBiz = AppSetting.CurrentGameBiz;
-        if (GameBizIcons.FirstOrDefault(x => x.GameBiz == lastSelectedGameBiz) is GameBizIcon icon)
-        {
-            CurrentGameBizIcon = icon;
-            CurrentGameBizIcon.IsSelected = true;
-            CurrentGameBiz = lastSelectedGameBiz;
-        }
-        else if (lastSelectedGameBiz.IsKnown())
-        {
-            CurrentGameBizIcon = new GameBizIcon(lastSelectedGameBiz);
-            CurrentGameBiz = lastSelectedGameBiz;
-        }
-
-        CurrentGameId = CurrentGameBizIcon?.GameId;
-        if (CurrentGameId is not null)
-        {
-            CurrentGameChanged?.Invoke(this, (CurrentGameId, false));
-        }
-
-        if (AppSetting.IsGameBizSelectorPinned)
-        {
-            Pin();
-        }
+        InitializeGameIconsArea();
+        InitializeGameServerArea();
     }
 
 
@@ -113,7 +73,7 @@ public sealed partial class GameSelector : UserControl
     {
         try
         {
-            // todo ´Ó×¢²á±í×Ô¶¯ËÑË÷ÒÑ°²×°µÄÓÎÏ·
+            // todo ä»æ³¨å†Œè¡¨è‡ªåŠ¨æœç´¢å·²å®‰è£…çš„æ¸¸æˆ
             var service = AppService.GetService<GameLauncherService>();
             var sb = new StringBuilder();
             foreach (GameBiz biz in GameBiz.AllGameBizs)
@@ -139,9 +99,73 @@ public sealed partial class GameSelector : UserControl
     #region Game Icon
 
 
+    /// <summary>
+    /// åˆå§‹åŒ–æ¸¸æˆå›¾æ ‡åŒºåŸŸ
+    /// </summary>
+    private void InitializeGameIconsArea()
+    {
+        try
+        {
+            GameBizIcons.CollectionChanged -= GameBizIcons_CollectionChanged;
+            GameBizIcons.Clear();
+
+            // ä»é…ç½®æ–‡ä»¶è¯»å–å·²é€‰çš„ GameBiz
+            string? bizs = AppSetting.SelectedGameBizs;
+            foreach (string str in bizs?.Split(',') ?? [])
+            {
+                if (GameBiz.TryParse(str, out GameBiz biz))
+                {
+                    // å·²çŸ¥çš„ GameBiz
+                    GameBizIcons.Add(new GameBizIcon(biz));
+                }
+                else if (_hoyoplayService.GetCachedGameInfo(biz) is GameInfo info)
+                {
+                    // ç”± HoYoPlay API è·å–ï¼Œä½†æœªé€‚é…çš„ GameBiz
+                    GameBizIcons.Add(new GameBizIcon(info));
+                }
+            }
+
+            // é€‰å–å½“å‰æ¸¸æˆ
+            GameBiz lastSelectedGameBiz = AppSetting.CurrentGameBiz;
+            if (GameBizIcons.FirstOrDefault(x => x.GameBiz == lastSelectedGameBiz) is GameBizIcon icon)
+            {
+                CurrentGameBizIcon = icon;
+                CurrentGameBizIcon.IsSelected = true;
+                CurrentGameBiz = lastSelectedGameBiz;
+            }
+            else if (lastSelectedGameBiz.IsKnown())
+            {
+                CurrentGameBizIcon = new GameBizIcon(lastSelectedGameBiz);
+                CurrentGameBizIcon.IsSelected = true;
+                CurrentGameBiz = lastSelectedGameBiz;
+            }
+            else if (_hoyoplayService.GetCachedGameInfo(lastSelectedGameBiz) is GameInfo info)
+            {
+                CurrentGameBizIcon = new GameBizIcon(info);
+                CurrentGameBizIcon.IsSelected = true;
+                CurrentGameBiz = lastSelectedGameBiz;
+            }
+
+            CurrentGameId = CurrentGameBizIcon?.GameId;
+            if (CurrentGameId is not null)
+            {
+                CurrentGameChanged?.Invoke(this, (CurrentGameId, false));
+            }
+
+            if (AppSetting.IsGameBizSelectorPinned)
+            {
+                Pin();
+            }
+
+            GameBizIcons.CollectionChanged += GameBizIcons_CollectionChanged;
+        }
+        catch { }
+    }
+
+
 
     /// <summary>
-    /// ÓÎÏ·Í¼±êÇøÓòÊÇ·ñ¿É¼û
+    /// æ¸¸æˆå›¾æ ‡åŒºåŸŸæ˜¯å¦å¯è§
     /// </summary>
     public bool GameIconsAreaVisible
     {
@@ -162,7 +186,7 @@ public sealed partial class GameSelector : UserControl
 
 
     /// <summary>
-    /// ¸üĞÂ´°¿ÚÍÏ×§ÇøÓò
+    /// æ›´æ–°çª—å£æ‹–æ‹½åŒºåŸŸ
     /// </summary>
     public void UpdateDragRectangles()
     {
@@ -181,20 +205,20 @@ public sealed partial class GameSelector : UserControl
 
 
     /// <summary>
-    /// Êó±êÒÆÈëµ½µ±Ç°ÓÎÏ·Í¼±ê
+    /// é¼ æ ‡ç§»å…¥åˆ°å½“å‰æ¸¸æˆå›¾æ ‡
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     private void Border_CurrentGameIcon_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        // ÏÔÊ¾ËùÓĞÓÎÏ·Í¼±ê
+        // æ˜¾ç¤ºæ‰€æœ‰æ¸¸æˆå›¾æ ‡
         GameIconsAreaVisible = true;
     }
 
 
 
     /// <summary>
-    /// Êó±êÒÆ³öµ±Ç°ÓÎÏ·Í¼±ê
+    /// é¼ æ ‡ç§»å‡ºå½“å‰æ¸¸æˆå›¾æ ‡
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -202,7 +226,7 @@ public sealed partial class GameSelector : UserControl
     {
         if (FullBackgroundVisible || IsPinned)
         {
-            // µ±Ç°ÓÎÏ·Í¼±ê±»¹Ì¶¨»òÕßÈ«ÆÁÏÔÊ¾Ê±£¬²»Òş²ØËùÓĞÓÎÏ·Í¼±ê
+            // å½“å‰æ¸¸æˆå›¾æ ‡è¢«å›ºå®šæˆ–è€…å…¨å±æ˜¾ç¤ºæ—¶ï¼Œä¸éšè—æ‰€æœ‰æ¸¸æˆå›¾æ ‡
             return;
         }
         if (sender is UIElement ele)
@@ -210,18 +234,18 @@ public sealed partial class GameSelector : UserControl
             var postion = e.GetCurrentPoint(sender as UIElement).Position;
             if (postion.X > ele.ActualSize.X - 1 && postion.Y > 0 && postion.Y < ele.ActualSize.Y)
             {
-                // ´ÓÓÒ²àÒÆ³ö£¬´ËÊ±½øÈëµ½ËùÓĞÓÎÏ·Í¼±êÇøÓò£¬²»Òş²Ø
+                // ä»å³ä¾§ç§»å‡ºï¼Œæ­¤æ—¶è¿›å…¥åˆ°æ‰€æœ‰æ¸¸æˆå›¾æ ‡åŒºåŸŸï¼Œä¸éšè—
                 return;
             }
         }
-        // ÆäËû·½ÏòÒÆ³ö£¬Òş²ØËùÓĞÓÎÏ·Í¼±ê
+        // å…¶ä»–æ–¹å‘ç§»å‡ºï¼Œéšè—æ‰€æœ‰æ¸¸æˆå›¾æ ‡
         GameIconsAreaVisible = false;
     }
 
 
 
     /// <summary>
-    /// Êó±êÒÆ³öËùÓĞÓÎÏ·Í¼±êÇøÓò
+    /// é¼ æ ‡ç§»å‡ºæ‰€æœ‰æ¸¸æˆå›¾æ ‡åŒºåŸŸ
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -237,7 +261,7 @@ public sealed partial class GameSelector : UserControl
 
 
     /// <summary>
-    /// µã»÷Ã»ÓĞ±»Ñ¡ÔñµÄÓÎÏ·Í¼±ê
+    /// ç‚¹å‡»æ²¡æœ‰è¢«é€‰æ‹©çš„æ¸¸æˆå›¾æ ‡
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -263,7 +287,7 @@ public sealed partial class GameSelector : UserControl
 
 
     /// <summary>
-    /// Ë«»÷Ã»ÓĞ±»Ñ¡ÔñµÄÓÎÏ·Í¼±ê
+    /// åŒå‡»æ²¡æœ‰è¢«é€‰æ‹©çš„æ¸¸æˆå›¾æ ‡
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -289,7 +313,7 @@ public sealed partial class GameSelector : UserControl
 
 
     /// <summary>
-    /// Êó±êÒÆÈëµ½ÓÎÏ·Í¼±ê
+    /// é¼ æ ‡ç§»å…¥åˆ°æ¸¸æˆå›¾æ ‡
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -307,7 +331,7 @@ public sealed partial class GameSelector : UserControl
 
 
     /// <summary>
-    /// Êó±êÒÆ³öÓÎÏ·Í¼±ê
+    /// é¼ æ ‡ç§»å‡ºæ¸¸æˆå›¾æ ‡
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -325,7 +349,7 @@ public sealed partial class GameSelector : UserControl
 
 
     /// <summary>
-    /// ÓÎÏ·Í¼±êÇøÓò´óĞ¡±ä»¯
+    /// æ¸¸æˆå›¾æ ‡åŒºåŸŸå¤§å°å˜åŒ–
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -336,20 +360,20 @@ public sealed partial class GameSelector : UserControl
 
 
 
-
+    /// <summary>
+    /// å›ºå®šæ¸¸æˆå¾…é€‰åŒº
+    /// </summary>
     [RelayCommand]
     private void Pin()
     {
         IsPinned = !IsPinned;
         if (IsPinned)
         {
-            FontIcon_Pin.Glyph = IconUnpin;
             GameIconsAreaVisible = true;
         }
         else
         {
-            FontIcon_Pin.Glyph = IconPin;
-            // ±ÜÃâÔÚ¹Ì¶¨Ê±¸ü»»µ±Ç°ÓÎÏ·£¬È¡Ïû¹Ì¶¨ºó£¬×óÉÏ½ÇµÄÍ¼±ê²»¸Ä±äµÄÎÊÌâ
+            // é¿å…åœ¨å›ºå®šæ—¶æ›´æ¢å½“å‰æ¸¸æˆï¼Œå–æ¶ˆå›ºå®šåï¼Œå·¦ä¸Šè§’çš„å›¾æ ‡ä¸æ”¹å˜çš„é—®é¢˜
             var temp = CurrentGameBizIcon;
             CurrentGameBizIcon = null;
             CurrentGameBizIcon = temp;
@@ -363,6 +387,27 @@ public sealed partial class GameSelector : UserControl
 
 
 
+    /// <summary>
+    /// å¾…é€‰æ¸¸æˆå˜æ›´æ—¶ï¼Œä¿å­˜é…ç½®
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void GameBizIcons_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        try
+        {
+            var sb = new StringBuilder();
+            foreach (var icon in GameBizIcons)
+            {
+                sb.Append(icon.GameBiz);
+                sb.Append(',');
+            }
+            AppSetting.SelectedGameBizs = sb.ToString().TrimEnd(',');
+        }
+        catch { }
+    }
+
+
 
     #endregion
 
@@ -371,8 +416,7 @@ public sealed partial class GameSelector : UserControl
 
 
 
-    #region Full Background ºÚÉ«°ëÍ¸Ã÷±³¾°
-
+    #region Full Background é»‘è‰²åŠé€æ˜èƒŒæ™¯
 
 
     public bool FullBackgroundVisible => Border_FullBackground.Opacity > 0;
@@ -400,6 +444,11 @@ public sealed partial class GameSelector : UserControl
 
     private void Border_FullBackground_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
+        if (_isGameBizDisplayPressed)
+        {
+            _isGameBizDisplayPressed = false;
+            return;
+        }
         var position = e.GetPosition(sender as UIElement);
         if (position.X <= Border_CurrentGameIcon.ActualWidth && position.Y <= Border_CurrentGameIcon.ActualHeight)
         {
@@ -413,6 +462,157 @@ public sealed partial class GameSelector : UserControl
     }
 
 
+    #endregion
+
+
+
+
+
+    #region Game Server
+
+
+
+    public List<GameBizDisplay> GameBizDisplays { get; set => SetProperty(ref field, value); }
+
+
+
+
+    /// <summary>
+    /// åˆå§‹åŒ–æ¸¸æˆæœåŠ¡å™¨é€‰æ‹©åŒºåŸŸ
+    /// </summary>
+    private void InitializeGameServerArea()
+    {
+        try
+        {
+            var list = new List<GameBizDisplay>();
+            var infos = _hoyoplayService.GetCachedGameInfos();
+
+            if (LanguageUtil.FilterLanguage(CultureInfo.CurrentUICulture.Name) is "zh-cn")
+            {
+                // å½“å‰è¯­è¨€ä¸ºç®€ä½“ä¸­æ–‡æ—¶ï¼Œæ¸¸æˆä¿¡æ¯æ˜¾ç¤ºä»ä¸­å›½å®˜æœè·å–çš„å†…å®¹
+                foreach (var info in infos)
+                {
+                    if (info.GameBiz.IsChinaServer() && !info.IsBilibiliServer())
+                    {
+                        list.Add(new GameBizDisplay { GameInfo = info });
+                    }
+                }
+            }
+            else
+            {
+                // å½“å‰è¯­è¨€ä¸ä¸ºç®€ä½“ä¸­æ–‡æ—¶ï¼Œæ¸¸æˆä¿¡æ¯æ˜¾ç¤ºä»å›½é™…æœè·å–çš„å†…å®¹
+                foreach (var info in infos)
+                {
+                    if (info.GameBiz.IsGlobalServer())
+                    {
+                        list.Add(new GameBizDisplay { GameInfo = info });
+                    }
+                }
+            }
+
+            foreach (var item in list)
+            {
+                string game = item.GameInfo.GameBiz.Game;
+                foreach (string suffix in (string[])["_cn", "_global", "_bilibili"])
+                {
+                    GameBiz biz = game + suffix;
+                    if (biz.IsKnown())
+                    {
+                        var server = new GameBizDisplayServer
+                        {
+                            GameBizIcon = new GameBizIcon(biz),
+                            IsPinned = GameBizIcons.Any(x => x.GameBiz == biz),
+                        };
+                        item.Servers.Add(server);
+                    }
+                    else if (_hoyoplayService.GetCachedGameInfo(biz) is GameInfo info)
+                    {
+                        var server = new GameBizDisplayServer
+                        {
+                            GameBizIcon = new GameBizIcon(info),
+                            IsPinned = GameBizIcons.Any(x => x.GameBiz == biz),
+                        };
+                        item.Servers.Add(server);
+                    }
+                }
+            }
+            GameBizDisplays = new(list);
+        }
+        catch { }
+    }
+
+
+
+    /// <summary>
+    /// æ¸¸æˆæœåŠ¡å™¨é€‰æ‹©åŒºåŸŸæ˜¯å¦å¯è§
+    /// </summary>
+    private bool _isGameBizDisplayPressed = false;
+
+
+    /// <summary>
+    /// é¼ æ ‡ç‚¹å‡»æ¸¸æˆæœåŠ¡å™¨é€‰æ‹©åŒºåŸŸï¼Œæ˜¾ç¤ºæ¸¸æˆæœåŠ¡å™¨é€‰æ‹©èœå•
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Grid_GameBizDisplay_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    {
+        if (sender is FrameworkElement ele)
+        {
+            e.Handled = true;
+            _isGameBizDisplayPressed = true;
+            FlyoutBase.GetAttachedFlyout(ele)?.ShowAt(ele, new FlyoutShowOptions
+            {
+                Placement = FlyoutPlacementMode.Bottom,
+                ShowMode = FlyoutShowMode.Transient,
+            });
+        }
+    }
+
+
+    /// <summary>
+    /// é¼ æ ‡ç§»å…¥åˆ°æ¸¸æˆæœåŠ¡å™¨é€‰æ‹©åŒºåŸŸ
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Grid_GameBizDisplay_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is FrameworkElement ele && _isGameBizDisplayPressed)
+        {
+            FlyoutBase.GetAttachedFlyout(ele)?.ShowAt(ele, new FlyoutShowOptions
+            {
+                Placement = FlyoutPlacementMode.Bottom,
+                ShowMode = FlyoutShowMode.Transient,
+            });
+        }
+    }
+
+
+
+    /// <summary>
+    /// å›ºå®šæ¸¸æˆæœåŠ¡å™¨å›¾æ ‡åˆ°å¾…é€‰åŒº
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Button_PinGameBiz_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement fe && fe.DataContext is GameBizDisplayServer server)
+        {
+            var biz = server.GameBizIcon.GameBiz;
+            if (GameBizIcons.FirstOrDefault(x => x.GameBiz == biz) is GameBizIcon icon)
+            {
+                GameBizIcons.Remove(icon);
+                server.IsPinned = false;
+            }
+            else
+            {
+                GameBizIcons.Add(server.GameBizIcon);
+                server.IsPinned = true;
+            }
+        }
+    }
+
+
+
 
     #endregion
 
@@ -423,6 +623,7 @@ public sealed partial class GameSelector : UserControl
 
     public void OnLanguageChanged(object? sender, LanguageChangedMessage message)
     {
+        // todo è¯­è¨€åˆ‡æ¢
         if (message.Completed)
         {
             this.Bindings.Update();
@@ -430,12 +631,6 @@ public sealed partial class GameSelector : UserControl
     }
 
 
-
-
-
-
-
-
-
 }
+
 

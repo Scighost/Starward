@@ -51,20 +51,19 @@ public partial class GameBizIcon : ObservableObject, IEquatable<GameBizIcon>
 
     public GameBizIcon(GameInfo gameInfo)
     {
-        // todo icon 和 name 按照 gamebiz 匹配 _cn / _global
         GameId = gameInfo;
         GameBiz = gameInfo.GameBiz;
         GameIcon = gameInfo.Display.Icon.Url;
-        ServerIcon = "";
+        ServerIcon = GameBizToServerIcon(gameInfo.GameBiz);
         GameName = gameInfo.Display.Name;
-        ServerName = "";
+        ServerName = gameInfo.GameBiz.ToGameServerName();
     }
 
 
 
     private static string GameBizToIcon(GameBiz gameBiz)
     {
-        return gameBiz.ToGame().Value switch
+        return gameBiz.Game switch
         {
             GameBiz.bh3 => "ms-appx:///Assets/Image/icon_bh3.jpg",
             GameBiz.hk4e => "ms-appx:///Assets/Image/icon_ys.jpg",
@@ -77,11 +76,11 @@ public partial class GameBizIcon : ObservableObject, IEquatable<GameBizIcon>
 
     private static string GameBizToServerIcon(GameBiz gameBiz)
     {
-        return gameBiz.Value switch
+        return gameBiz.Server switch
         {
-            GameBiz.hk4e_cn or GameBiz.hkrpg_cn or GameBiz.bh3_cn or GameBiz.nap_cn => "ms-appx:///Assets/Image/gameicon_hyperion.png",
-            GameBiz.hk4e_global or GameBiz.hkrpg_global or GameBiz.bh3_global or GameBiz.nap_global => "ms-appx:///Assets/Image/gameicon_hoyolab.png",
-            GameBiz.hk4e_bilibili or GameBiz.hkrpg_bilibili or GameBiz.nap_bilibili => "ms-appx:///Assets/Image/gameicon_bilibili.png",
+            "cn" => "ms-appx:///Assets/Image/gameicon_hyperion.png",
+            "global" => "ms-appx:///Assets/Image/gameicon_hoyolab.png",
+            "bilibili" => "ms-appx:///Assets/Image/gameicon_bilibili.png",
             _ => "ms-appx:///Assets/Image/Transparent.png",
         };
     }

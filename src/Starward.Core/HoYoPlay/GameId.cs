@@ -42,6 +42,20 @@ public class GameId : IEquatable<GameId>
     }
 
 
+
+    public bool IsBilibiliServer()
+    {
+        return Id switch
+        {
+            "T2S0Gz4Dr2" => true,
+            "EdtUqXfCHh" => true,
+            "HXAFlmYa17" => true,
+            _ => false,
+        };
+    }
+
+
+
     public bool Equals(GameId? other)
     {
         return this.Id == other?.Id;
