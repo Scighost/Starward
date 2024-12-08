@@ -115,7 +115,7 @@ public class LauncherContentService
             }
 
             string? url;
-            if (gameBiz.ToGame() == GameBiz.bh3 && gameBiz.IsGlobalOfficial())
+            if (gameBiz.ToGame() == GameBiz.bh3 && gameBiz.IsGlobalServer())
             {
                 var content = await GetLauncherContentAsync(gameBiz, tokenSource.Token);
                 url = content.BackgroundImage?.Background;

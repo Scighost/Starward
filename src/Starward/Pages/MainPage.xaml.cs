@@ -564,12 +564,12 @@ public sealed partial class MainPage : PageBase
             ToolTipService.SetToolTip(NavigationViewItem_GachaLog, Lang.GachaLogService_SignalSearchRecords);
             TextBlock_GachaLog.Text = Lang.GachaLogService_SignalSearchRecords;
         }
-        if (CurrentGameBiz.IsChinaOfficial())
+        if (CurrentGameBiz.IsChinaServer())
         {
             ToolTipService.SetToolTip(NavigationViewItem_HoyolabToolbox, Lang.HyperionToolbox);
             TextBlock_HoyolabToolbox.Text = Lang.HyperionToolbox;
         }
-        if (CurrentGameBiz.IsGlobalOfficial())
+        if (CurrentGameBiz.IsGlobalServer())
         {
             ToolTipService.SetToolTip(NavigationViewItem_HoyolabToolbox, Lang.HoYoLABToolbox);
             TextBlock_HoyolabToolbox.Text = Lang.HoYoLABToolbox;

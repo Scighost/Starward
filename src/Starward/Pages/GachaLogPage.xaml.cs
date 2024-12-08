@@ -86,7 +86,7 @@ public sealed partial class GachaLogPage : PageBase
                 Button_Export_JSON.IsEnabled = false;
                 Button_Import.IsEnabled = false;
             }
-            if (biz.IsGlobalOfficial())
+            if (biz.IsGlobalServer())
             {
                 MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
             }

@@ -333,7 +333,7 @@ public class HoYoPlayService
 
     public async Task<GameConfig?> GetGameConfigAsync(GameBiz biz)
     {
-        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalOfficial())
+        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalServer())
         {
             return null;
         }
@@ -363,7 +363,7 @@ public class HoYoPlayService
 
     public async Task<List<GameDeprecatedFile>> GetGameDeprecatedFilesAsync(GameBiz biz)
     {
-        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalOfficial())
+        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalServer())
         {
             biz = GameBiz.bh3_global;
         }
@@ -384,7 +384,7 @@ public class HoYoPlayService
 
     public async Task<GameChannelSDK?> GetGameChannelSDKAsync(GameBiz biz)
     {
-        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalOfficial())
+        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalServer())
         {
             biz = GameBiz.bh3_global;
         }

@@ -47,7 +47,7 @@ public sealed partial class LoginPage : PageBase
 
     private string GetGameBizUrl()
     {
-        if (CurrentGameBiz.IsChinaOfficial())
+        if (CurrentGameBiz.IsChinaServer())
         {
             return CurrentGameBiz.ToGame().Value switch
             {

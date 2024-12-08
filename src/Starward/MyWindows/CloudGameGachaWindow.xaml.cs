@@ -51,7 +51,7 @@ public sealed partial class CloudGameGachaWindow : WindowEx
     {
         try
         {
-            // todo WinAppSDK ������ 1.5 ��Ϊ����Ϸ����ҳ�������õ������ļ���
+            // todo WinAppSDK 升级到 1.5 后，为云游戏的网页缓存设置单独的文件夹
             if (GameBiz.ToGame() == GameBiz.hk4e)
             {
                 webview.Source = new Uri("https://ys.mihoyo.com/cloud/");

@@ -756,11 +756,11 @@ internal abstract class InstallGameService
             channel = "14";
             sub_channel = "0";
         }
-        else if (CurrentGameBiz.IsChinaOfficial())
+        else if (CurrentGameBiz.IsChinaServer())
         {
             cps = "mihoyo";
         }
-        else if (CurrentGameBiz.IsGlobalOfficial())
+        else if (CurrentGameBiz.IsGlobalServer())
         {
             cps = "hoyoverse";
         }

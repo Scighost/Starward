@@ -7,7 +7,7 @@ namespace Starward.Helpers;
 /// <summary>
 /// 不可用状态，系统设置远比以下内容更复杂
 /// </summary>
-[Obsolete("不可用状态",true)]
+[Obsolete("不可用状态", true)]
 public static class SystemUIHelper
 {
 

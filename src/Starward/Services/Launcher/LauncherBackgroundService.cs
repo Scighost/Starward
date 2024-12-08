@@ -87,7 +87,7 @@ internal class LauncherBackgroundService
     public async Task<string?> GetBackgroundImageUrlAsync(GameBiz gameBiz, CancellationToken cancellationToken = default)
     {
         string? url;
-        if (gameBiz.ToGame() == GameBiz.bh3 && gameBiz.IsGlobalOfficial())
+        if (gameBiz.ToGame() == GameBiz.bh3 && gameBiz.IsGlobalServer())
         {
             var content = await GetLauncherContentAsync(gameBiz, cancellationToken);
             url = content.BackgroundImage?.Background;

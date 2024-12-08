@@ -190,7 +190,7 @@ public sealed partial class GameBannerAndPost : UserControl
                         var child = VisualTreeHelper.GetChild(grid, i);
                         if (child is Button button)
                         {
-                            // 隐藏banner中自动出现的翻页按键
+                            // 闅愯棌banner涓嚜鍔ㄥ嚭鐜扮殑缈婚〉鎸夐敭
                             button.IsHitTestVisible = false;
                             button.Opacity = 0;
                         }

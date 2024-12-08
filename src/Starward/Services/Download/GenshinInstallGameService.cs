@@ -101,14 +101,14 @@ internal class GenshinInstallGameService : InstallGameService
         var linkGameFilesItem = await GetPkgVersionsAsync(linkPrefix, "pkg_version");
         linkGameFilesItem.AddRange(await GetAudioPkgVersionsAsync(linkPrefix));
 
-        if (CurrentGameBiz.IsChinaOfficial() || CurrentGameBiz.IsBilibili())
+        if (CurrentGameBiz.IsChinaServer() || CurrentGameBiz.IsBilibili())
         {
             foreach (var item in linkGameFilesItem)
             {
                 item.Path = item.Path.Replace("GenshinImpact_Data", "YuanShen_Data");
             }
         }
-        if (CurrentGameBiz.IsGlobalOfficial())
+        if (CurrentGameBiz.IsGlobalServer())
         {
             foreach (var item in linkGameFilesItem)
             {
@@ -121,11 +121,11 @@ internal class GenshinInstallGameService : InstallGameService
         {
             item.Type = InstallGameItemType.HardLink;
             item.HardLinkSource = Path.Combine(linkInstallPath, Path.GetRelativePath(_installPath, item.Path));
-            if (linkGameBiz.IsChinaOfficial() || linkGameBiz.IsBilibili())
+            if (linkGameBiz.IsChinaServer() || linkGameBiz.IsBilibili())
             {
                 item.HardLinkSource = item.HardLinkSource.Replace("GenshinImpact_Data", "YuanShen_Data");
             }
-            if (linkGameBiz.IsGlobalOfficial())
+            if (linkGameBiz.IsGlobalServer())
             {
                 item.HardLinkSource = item.HardLinkSource.Replace("YuanShen_Data", "GenshinImpact_Data");
             }

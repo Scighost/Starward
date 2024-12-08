@@ -811,14 +811,14 @@ internal class DatabaseService
 
         public class GameBizHandler : SqlMapper.TypeHandler<GameBiz>
         {
-            public override GameBiz? Parse(object value)
+            public override GameBiz Parse(object value)
             {
                 return new GameBiz(value as string);
             }
 
-            public override void SetValue(IDbDataParameter parameter, GameBiz? value)
+            public override void SetValue(IDbDataParameter parameter, GameBiz value)
             {
-                parameter.Value = value?.ToString() ?? "";
+                parameter.Value = value.Value;
             }
         }
 

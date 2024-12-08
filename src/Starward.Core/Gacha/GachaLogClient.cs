@@ -366,7 +366,7 @@ public abstract class GachaLogClient
     {
         lang = LanguageUtil.FilterLanguage(lang);
         GenshinGachaWiki wiki;
-        if (gameBiz.IsChinaOfficial() && lang is "zh-cn")
+        if (gameBiz.IsChinaServer() && lang is "zh-cn")
         {
             const string url = "https://api-takumi.mihoyo.com/event/platsimulator/config?gids=2&game=hk4e";
             wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);
@@ -385,7 +385,7 @@ public abstract class GachaLogClient
     {
         lang = LanguageUtil.FilterLanguage(lang);
         StarRailGachaWiki wiki;
-        if (gameBiz.IsChinaOfficial() && lang is "zh-cn")
+        if (gameBiz.IsChinaServer() && lang is "zh-cn")
         {
             const string url = "https://api-takumi.mihoyo.com/event/rpgsimulator/config?game=hkrpg";
             wiki = await CommonGetAsync<StarRailGachaWiki>(url, cancellationToken);
@@ -425,7 +425,7 @@ public abstract class GachaLogClient
     {
         lang = LanguageUtil.FilterLanguage(lang);
         GenshinGachaWiki wiki;
-        if (gameBiz.IsChinaOfficial() && lang is "zh-cn")
+        if (gameBiz.IsChinaServer() && lang is "zh-cn")
         {
             const string url = "https://api-takumi.mihoyo.com/event/platsimulator/config?gids=2&game=hk4e";
             wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);

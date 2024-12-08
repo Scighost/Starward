@@ -265,7 +265,7 @@ public sealed partial class AppBackground : UserControl
 
     private void MediaPlayer_VideoFrameAvailable(MediaPlayer sender, object args)
     {
-        DispatcherQueue?.TryEnqueue(() =>
+        DispatcherQueue?.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.High, () =>
         {
             try
             {

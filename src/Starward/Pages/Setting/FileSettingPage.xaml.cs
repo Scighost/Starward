@@ -73,8 +73,8 @@ public sealed partial class FileSettingPage : PageBase
             var dialog = new ContentDialog
             {
                 Title = Lang.SettingPage_ReselectDataFolder,
-                // µ±Ç°Êı¾İÎÄ¼ş¼ĞµÄÎ»ÖÃÊÇ£º
-                // ÏëÒªÖØĞÂÑ¡ÔñÂğ£¿£¨ÄãĞèÒªÔÚÑ¡ÔñÇ°ÊÖ¶¯Ç¨ÒÆÊı¾İÎÄ¼ş£©
+                // å½“å‰æ•°æ®æ–‡ä»¶å¤¹çš„ä½ç½®æ˜¯ï¼š
+                // æƒ³è¦é‡æ–°é€‰æ‹©å—ï¼Ÿï¼ˆä½ éœ€è¦åœ¨é€‰æ‹©å‰æ‰‹åŠ¨è¿ç§»æ•°æ®æ–‡ä»¶ï¼‰
                 Content = $"""
                 {Lang.SettingPage_TheCurrentLocationOfTheDataFolderIs}
 
@@ -112,7 +112,7 @@ public sealed partial class FileSettingPage : PageBase
             var dialog = new ContentDialog
             {
                 Title = Lang.SettingPage_DeleteAllSettings,
-                // É¾³ıÍê³Éºó£¬½«×Ô¶¯ÖØÆôÈí¼ş¡£
+                // åˆ é™¤å®Œæˆåï¼Œå°†è‡ªåŠ¨é‡å¯è½¯ä»¶ã€‚
                 Content = Lang.SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically,
                 PrimaryButtonText = Lang.Common_Delete,
                 SecondaryButtonText = Lang.Common_Cancel,

@@ -54,8 +54,8 @@ public sealed partial class HoyolabToolboxPage : PageBase
                 GameBiz.hkrpg_bilibili => GameBiz.hkrpg_cn,
                 _ => biz
             };
-            _gameRecordService.IsHoyolab = CurrentGameBiz.IsGlobalOfficial();
-            if (CurrentGameBiz.IsGlobalOfficial())
+            _gameRecordService.IsHoyolab = CurrentGameBiz.IsGlobalServer();
+            if (CurrentGameBiz.IsGlobalServer())
             {
                 NavigationViewItem_UpdateDeviceInfo.Visibility = Visibility.Collapsed;
             }
@@ -260,7 +260,7 @@ public sealed partial class HoyolabToolboxPage : PageBase
     private List<GameRecordRole> gameRoleList;
 
 
-    public string AvatarUrl => CurrentUser?.AvatarUrl ?? $"ms-appx:///Assets/Image/icon_{(CurrentGameBiz.IsGlobalOfficial() ? "hoyolab" : "hyperion")}.png";
+    public string AvatarUrl => CurrentUser?.AvatarUrl ?? $"ms-appx:///Assets/Image/icon_{(CurrentGameBiz.IsGlobalServer() ? "hoyolab" : "hyperion")}.png";
 
 
 
