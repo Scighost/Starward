@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas;
@@ -43,14 +44,15 @@ public sealed partial class AppBackground : UserControl
 
     public GameId CurrentGameId
     {
-        get; set
+        get;
+        set
         {
             if (field is null)
             {
                 InitializeBackgroundImage();
             }
             field = value;
-            _ = UpdateBackgroundAsync();
+            UpdateBackgroundCommand.Execute(null);
         }
     }
 
@@ -97,18 +99,10 @@ public sealed partial class AppBackground : UserControl
     {
         try
         {
-            if (CurrentGameId is null)
-            {
-                return;
-            }
             var file = _backgroundService.GetCachedBackgroundFile(CurrentGameId);
             if (file != null)
             {
-                if (BackgroundService.FileIsSupportedVideo(file))
-                {
-                    BackgroundImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"));
-                }
-                else
+                if (!BackgroundService.FileIsSupportedVideo(file))
                 {
                     BackgroundImageSource = new BitmapImage(new Uri(file));
                     try
@@ -139,6 +133,7 @@ public sealed partial class AppBackground : UserControl
     private CancellationTokenSource? cancelSource;
 
 
+    [RelayCommand]
     public async Task UpdateBackgroundAsync()
     {
         try
@@ -147,6 +142,12 @@ public sealed partial class AppBackground : UserControl
             cancelSource?.Cancel();
             cancelSource = new();
             BackgroundImageSource = null;
+
+            if (CurrentGameId is null)
+            {
+                BackgroundImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"));
+                return;
+            }
 
             var file = await _backgroundService.GetBackgroundFileAsync(CurrentGameId);
             if (file != null)

@@ -56,5 +56,13 @@
             </Rectangle.Fill>
         </Rectangle>
 
+
+        <ProgressBar HorizontalAlignment="Stretch"
+                     VerticalAlignment="Bottom"
+                     IsHitTestVisible="False"
+                     IsIndeterminate="{x:Bind UpdateBackgroundCommand.IsRunning}"
+                     Visibility="{x:Bind UpdateBackgroundCommand.IsRunning}" />
+
+
     </Grid>
 </UserControl>

@@ -46,10 +46,12 @@ public abstract partial class PageBase : Page
         if (e.Parameter is GameId id)
         {
             CurrentGameId = id;
+            CurrentGameBiz = id.GameBiz;
         }
         else if (e.Parameter is GameBiz biz)
         {
             CurrentGameBiz = biz;
+            CurrentGameId = GameId.FromGameBiz(biz);
         }
     }
 

@@ -25,7 +25,6 @@
                         CompactPaneLength="56"
                         IsBackButtonVisible="Collapsed"
                         IsPaneToggleButtonVisible="False"
-                        IsSettingsVisible="False"
                         PaneDisplayMode="LeftCompact">
             <NavigationView.Resources>
                 <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
@@ -116,33 +115,7 @@
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 
-
-            <NavigationView.FooterMenuItems>
-                <!--  设置  -->
-                <NavigationViewItem Name="NavigationViewItem_Setting"
-                                    Tag="SettingPage"
-                                    ToolTipService.ToolTip="{x:Bind lang:Lang.SettingPage_AppSettings}">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE713;" />
-                    </NavigationViewItem.Icon>
-                    <NavigationViewItem.Content>
-                        <Border Height="40">
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.SettingPage_AppSettings}" />
-                        </Border>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
-            </NavigationView.FooterMenuItems>
-
-
-
-            <Grid Name="Grid_FrameContent" Margin="0,48,0,0">
-                <ProgressBar Name="ProgressBar_LoadBackgroundProgress"
-                             HorizontalAlignment="Stretch"
-                             VerticalAlignment="Bottom"
-                             IsHitTestVisible="False"
-                             Visibility="Collapsed" />
-                <Frame Name="MainView_Frame" />
-            </Grid>
+            <Frame Name="MainView_Frame" Margin="0,48,0,0" />
 
         </NavigationView>
 
