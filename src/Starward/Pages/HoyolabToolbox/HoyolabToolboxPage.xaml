@@ -50,10 +50,8 @@
                                         sh:PointerCursor.CursorShape="Hand"
                                         Background="Transparent"
                                         CornerRadius="100"
-                                        IsCacheEnabled="True"
                                         Source="{x:Bind AvatarUrl}" />
                         <sc:CachedImage Name="Image_Pendant"
-                                        IsCacheEnabled="True"
                                         IsHitTestVisible="False"
                                         Source="{x:Bind CurrentUser.Pendant, FallbackValue={x:Null}}"
                                         Visibility="Visible" />
@@ -76,7 +74,6 @@
                                         sh:PointerCursor.CursorShape="Hand"
                                         Background="Transparent"
                                         CornerRadius="100"
-                                        IsCacheEnabled="True"
                                         Source="{x:Bind AvatarUrl}" />
                     </Border>
 
@@ -413,6 +410,23 @@
                             <Image Width="20" Source="ms-appx:///Assets/Image/097aa51ae0b4bc0c9c9e6aca6dab0744_10826781894277788.png" />
                             <TextBlock Grid.Column="1"
                                        Text="{x:Bind lang:Lang.HoyolabToolboxPage_TrailblazeMonthlyCalendar}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                <!--  绳网月报  -->
+                <NavigationViewItem Name="NavigationViewItem_InterKnotMonthlyReport"
+                                    Tag="InterKnotMonthlyReportPage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/54085a560686bda74c3025944b65260e_8414768992789038554.gif" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_InterKnotMonthlyReport}"
                                        TextTrimming="CharacterEllipsis" />
                         </Grid>
                     </NavigationViewItem.Content>

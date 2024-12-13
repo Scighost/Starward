@@ -5,7 +5,7 @@ namespace Starward.Core.JsonConverter;
 
 public class GameBizJsonConverter : JsonConverter<GameBiz>
 {
-    public override GameBiz? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override GameBiz Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         return new GameBiz(reader.GetString());
     }

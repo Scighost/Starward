@@ -35,4 +35,25 @@ public static class LanguageUtil
     }
 
 
+    public static string FilterAudioLanguage(string? lang)
+    {
+        // zh-cn,zh-tw,en-us,de-de,es-es,fr-fr,id-id,it-it,ja-jp,ko-kr,pt-pt,ru-ru,th-th,tr-tr,vi-vn
+        var low = lang?.ToLower() ?? "";
+        if (low.Length < 2)
+        {
+            low = "..";
+        }
+        return low switch
+        {
+            _ => low[..2] switch
+            {
+                "zh" => "zh-cn",
+                "ja" => "ja-jp",
+                "ko" => "ko-kr",
+                _ => "en-us",
+            }
+        };
+    }
+
+
 }

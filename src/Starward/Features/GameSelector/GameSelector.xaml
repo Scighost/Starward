@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="Starward.Features.GameSelector.GameSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Features.GameSelector"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+             xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+             xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
+             xmlns:sc="using:Starward.Controls"
+             xmlns:sh="using:Starward.Helpers"
+             xmlns:sm="using:Starward.Models"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+
+    <Grid>
+
+
+
+        <!--  左上角当前的游戏图标  -->
+        <Border Name="Border_CurrentGameIcon"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                PointerEntered="Border_CurrentGameIcon_PointerEntered"
+                PointerExited="Border_CurrentGameIcon_PointerExited">
+            <Button Name="Button_CurrentGameIcon"
+                    Width="40"
+                    Height="40"
+                    Margin="8,10,8,8"
+                    Padding="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    sh:PointerCursor.CursorShape="Hand"
+                    BorderThickness="0"
+                    Command="{x:Bind ShowFullBackgroundCommand}"
+                    CornerRadius="8"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <Grid>
+                    <FontIcon HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              FontSize="20"
+                              Glyph="&#xE8A9;"
+                              IsTextScaleFactorEnabled="False" />
+                    <!--  游戏图标  -->
+                    <sc:CachedImage Width="40"
+                                    Height="40"
+                                    Source="{x:Bind CurrentGameBizIcon.GameIcon, FallbackValue={x:Null}}"
+                                    Visibility="{x:Bind IsPinned, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                    <!--  服务器图标  -->
+                    <sc:CachedImage Width="20"
+                                    Height="20"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
+                                    Source="{x:Bind CurrentGameBizIcon.ServerIcon, FallbackValue={x:Null}}"
+                                    Visibility="{x:Bind IsPinned, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                </Grid>
+            </Button>
+        </Border>
+
+
+
+        <!--  黑色半透明背景  -->
+        <Border x:Name="Border_FullBackground"
+                Padding="68,80,12,12"
+                Background="#66000000"
+                IsHitTestVisible="False"
+                Opacity="0"
+                Tapped="Border_FullBackground_Tapped">
+            <Border.OpacityTransition>
+                <ScalarTransition />
+            </Border.OpacityTransition>
+
+            <StackPanel>
+
+                <!--  游戏展示和选择  -->
+                <ItemsControl ItemsSource="{x:Bind GameBizDisplays}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="16" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="local:GameBizDisplay">
+                            <Grid Name="Grid_GameBizDisplay"
+                                  Width="192"
+                                  Height="108"
+                                  Padding="0"
+                                  sh:PointerCursor.CursorShape="Hand"
+                                  Background="#40000000"
+                                  CornerRadius="8"
+                                  PointerEntered="Grid_GameBizDisplay_PointerEntered"
+                                  Tapped="Grid_GameBizDisplay_Tapped">
+                                <!--  背景图  -->
+                                <sc:CachedImage HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Source="{x:Bind GameInfo.Display.Thumbnail.Url}"
+                                                Stretch="UniformToFill" />
+                                <!--  Logo  -->
+                                <sc:CachedImage Name="Grid_GameBizDisplay_Logo"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Background="#60000000"
+                                                Source="{x:Bind GameInfo.Display.Logo.Url}" />
+                                <!--  Icon & 选择服务器  -->
+                                <Grid Name="Grid_GameBizDisplay_IconAndName"
+                                      Background="#D0000000"
+                                      Opacity="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <sc:CachedImage Grid.Column="1"
+                                                    Width="48"
+                                                    Height="48"
+                                                    Margin="0,0,8,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    CornerRadius="8"
+                                                    Source="{x:Bind GameInfo.Display.Icon.Url}" />
+                                    <TextBlock Grid.Column="2"
+                                               Margin="8,0,0,0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               IsTextScaleFactorEnabled="False"
+                                               Text="{x:Bind lang:Lang.SelectGamePage_SelectGameServer}"
+                                               TextWrapping="Wrap" />
+                                </Grid>
+
+                                <!--  动画  -->
+                                <Grid.Resources>
+                                    <Storyboard x:Key="PointerInStoryboard">
+                                        <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_Logo"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0"
+                                                         Duration="0:0:0.3" />
+                                        <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_IconAndName"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1"
+                                                         Duration="0:0:0.3" />
+                                    </Storyboard>
+                                    <Storyboard x:Key="PointerOutStoryboard">
+                                        <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_Logo"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1"
+                                                         Duration="0:0:0.3" />
+                                        <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_IconAndName"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0"
+                                                         Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </Grid.Resources>
+
+                                <!--  动画触发  -->
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource PointerInStoryboard}" />
+                                    </mxic:EventTriggerBehavior>
+                                    <mxic:EventTriggerBehavior EventName="PointerExited">
+                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource PointerOutStoryboard}" />
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+
+                                <!--  服务器列表  -->
+                                <FlyoutBase.AttachedFlyout>
+                                    <Flyout>
+                                        <ItemsControl ItemsSource="{x:Bind Servers}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate x:DataType="local:GameBizDisplayServer">
+                                                    <Grid Margin="0,2,0,2" ColumnSpacing="12">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <!--  服务器图标  -->
+                                                        <Border Width="24"
+                                                                Height="24"
+                                                                HorizontalAlignment="Left"
+                                                                CornerRadius="4">
+                                                            <Image Source="{x:Bind GameBizIcon.ServerIcon}" />
+                                                        </Border>
+                                                        <!--  服务器名称  -->
+                                                        <TextBlock Grid.Column="1"
+                                                                   HorizontalAlignment="Left"
+                                                                   VerticalAlignment="Center"
+                                                                   Text="{x:Bind GameBizIcon.ServerName}" />
+                                                        <!--  固定  -->
+                                                        <Button Name="Button_PinGameBiz"
+                                                                Grid.Column="2"
+                                                                Width="28"
+                                                                Height="28"
+                                                                Padding="0"
+                                                                HorizontalAlignment="Right"
+                                                                Click="Button_PinGameBiz_Click"
+                                                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                                            <Grid>
+                                                                <FontIcon FontSize="16"
+                                                                          Glyph="&#xE718;"
+                                                                          IsTextScaleFactorEnabled="False" />
+                                                                <FontIcon FontSize="16"
+                                                                          Glyph="&#xE841;"
+                                                                          IsTextScaleFactorEnabled="False"
+                                                                          Visibility="{x:Bind IsPinned}" />
+                                                            </Grid>
+                                                        </Button>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Flyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </StackPanel>
+
+        </Border>
+
+
+
+        <!--  横排待选游戏图标  -->
+        <Border x:Name="Border_GameIconsArea"
+                Margin="56,0,0,0"
+                Padding="12,10,12,10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                PointerExited="Border_GameIconsArea_PointerExited"
+                SizeChanged="Border_GameIconsArea_SizeChanged"
+                Translation="0,-100,0">
+            <Border.TranslationTransition>
+                <Vector3Transition />
+            </Border.TranslationTransition>
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
+                <!--  游戏图标  -->
+                <ItemsControl ItemsSource="{x:Bind GameBizIcons}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <StackPanel.ChildrenTransitions>
+                                    <TransitionCollection>
+                                        <AddDeleteThemeTransition />
+                                    </TransitionCollection>
+                                </StackPanel.ChildrenTransitions>
+                            </StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="local:GameBizIcon">
+                            <Button x:Name="Button_GameIcon"
+                                    Grid.RowSpan="2"
+                                    Width="40"
+                                    Height="40"
+                                    Padding="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    sh:PointerCursor.CursorShape="Hand"
+                                    BorderThickness="0"
+                                    CornerRadius="8"
+                                    DoubleTapped="Button_GameIcon_DoubleTapped"
+                                    IsDoubleTapEnabled="True"
+                                    IsTapEnabled="True"
+                                    PointerEntered="Button_GameIcon_PointerEntered"
+                                    PointerExited="Button_GameIcon_PointerExited"
+                                    Shadow="{ThemeResource ThemeShadow}"
+                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                                    Tag="{x:Bind GameId}"
+                                    Tapped="Button_GameIcon_Tapped"
+                                    Translation="0,0,16">
+                                <Grid>
+                                    <sc:CachedImage Width="40"
+                                                    Height="40"
+                                                    Source="{x:Bind GameIcon}" />
+                                    <Image Width="20"
+                                           Height="20"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Bottom">
+                                        <Image.Source>
+                                            <BitmapImage DecodePixelHeight="20"
+                                                         DecodePixelType="Logical"
+                                                         DecodePixelWidth="20"
+                                                         UriSource="{x:Bind ServerIcon}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Border Background="#60000000" Opacity="{x:Bind MaskOpacity}">
+                                        <Border.OpacityTransition>
+                                            <ScalarTransition />
+                                        </Border.OpacityTransition>
+                                    </Border>
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <!--  固定  -->
+                <Border Name="Button_Pin"
+                        Width="40"
+                        Height="40"
+                        sh:PointerCursor.CursorShape="Hand"
+                        Background="{ThemeResource CustomAcrylicBrush}"
+                        CornerRadius="8"
+                        Shadow="{ThemeResource ThemeShadow}"
+                        Translation="0,0,16">
+                    <Button Padding="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Command="{x:Bind PinCommand}"
+                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                        <Grid>
+                            <FontIcon HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      FontSize="16"
+                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                      Glyph="&#xE718;"
+                                      IsTextScaleFactorEnabled="False" />
+                            <FontIcon FontSize="16"
+                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                      Glyph="&#xE841;"
+                                      IsTextScaleFactorEnabled="False"
+                                      Visibility="{x:Bind IsPinned}" />
+                        </Grid>
+                    </Button>
+                </Border>
+            </StackPanel>
+        </Border>
+
+
+
+    </Grid>
+
+
+</UserControl>

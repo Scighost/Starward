@@ -86,7 +86,7 @@ public sealed partial class GachaLogPage : PageBase
                 Button_Export_JSON_old.Visibility = Visibility.Collapsed;
                 Button_Export_JSON.CornerRadius = new CornerRadius(0, 4, 4, 0);
             }
-            if (biz.IsGlobalOfficial())
+            if (biz.IsGlobalServer())
             {
                 MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
             }

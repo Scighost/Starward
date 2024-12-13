@@ -6,6 +6,7 @@ using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
+using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 
 namespace Starward.Core.GameRecord;
 
@@ -16,7 +17,7 @@ public class HyperionClient : GameRecordClient
 
     public override string UAContent => $"Mozilla/5.0 (Linux; Android 13; Pixel 5 Build/TQ3A.230901.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/118.0.0.0 Mobile Safari/537.36 miHoYoBBS/{AppVersion}";
 
-    public override string AppVersion => "2.71.1";
+    public override string AppVersion => "2.75.2";
 
     protected override string ApiSalt => "t0qEgfub6cvueAPgR5m9aQWWVciEer7v";
 
@@ -81,6 +82,7 @@ public class HyperionClient : GameRecordClient
         var list = new List<GameRecordRole>();
         list.AddRange(await GetGenshinGameRolesAsync(cookie, cancellationToken));
         list.AddRange(await GetStarRailGameRolesAsync(cookie, cancellationToken));
+        list.AddRange(await GetZZZGameRolesAsync(cookie, cancellationToken));
         return list;
     }
 
@@ -554,6 +556,114 @@ public class HyperionClient : GameRecordClient
     #endregion
 
 
+
+
+    #region ZZZ
+
+
+
+    /// <summary>
+    /// 获取绝区零账号信息
+    /// </summary>
+    /// <param name="cookie"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<List<GameRecordRole>> GetZZZGameRolesAsync(string cookie, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(cookie))
+        {
+            throw new ArgumentNullException(nameof(cookie));
+        }
+        var url = "https://api-takumi.mihoyo.com/binding/api/getUserGameRolesByCookie?game_biz=nap_cn";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(X_Request_With, com_mihoyo_hyperion);
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
+        var data = await CommonSendAsync<GameRecordRoleWrapper>(request, cancellationToken);
+        data.List?.ForEach(x => x.Cookie = cookie);
+        return data.List ?? new List<GameRecordRole>();
+    }
+
+
+
+    /// <summary>
+    /// 绳网月报总结
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="month">202409</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<InterKnotReportSummary> GetInterKnotReportSummaryAsync(GameRecordRole role, string month = "", CancellationToken cancellationToken = default)
+    {
+        var url = $"https://api-takumi.mihoyo.com/event/nap_ledger/month_info?uid={role.Uid}&region={role.Region}&month={month}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(Referer, "https://act.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        return await CommonSendAsync<InterKnotReportSummary>(request, cancellationToken);
+    }
+
+    /// <summary>
+    /// 绳网月报收入详情
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="month">202409</param>
+    /// <param name="type"></param>
+    /// <param name="page">从1开始</param>
+    /// <param name="page_size">最大100</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>返回一页收入记录</returns>
+    public override async Task<InterKnotReportDetail> GetInterKnotReportDetailByPageAsync(GameRecordRole role, string month, string type, int page, int page_size = 100, CancellationToken cancellationToken = default)
+    {
+        var url = $"https://api-takumi.mihoyo.com/event/nap_ledger/month_detail?uid={role.Uid}&region={role.Region}&month={month}&type={type}&current_page={page}&page_size={page_size}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(Referer, "https://act.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        return await CommonSendAsync<InterKnotReportDetail>(request, cancellationToken);
+    }
+
+
+    /// <summary>
+    /// 绳网月报收入详情
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="month">202409</param>
+    /// <param name="type"></param>
+    /// <param name="page_size">最大100</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>返回该月所有收入记录</returns>
+    public override async Task<InterKnotReportDetail> GetInterKnotReportDetailAsync(GameRecordRole role, string month, string type, int page_size = 100, CancellationToken cancellationToken = default)
+    {
+        page_size = Math.Clamp(page_size, 20, 100);
+        var data = await GetInterKnotReportDetailByPageAsync(role, month, type, 1, page_size, cancellationToken);
+        if (data.List.Count < page_size)
+        {
+            return data;
+        }
+        for (int i = 2; ; i++)
+        {
+            var addData = await GetInterKnotReportDetailByPageAsync(role, month, type, i, page_size, cancellationToken);
+            data.List.AddRange(addData.List);
+            if (addData.List.Count < page_size)
+            {
+                break;
+            }
+        }
+        return data;
+    }
+
+
+
+
+    #endregion
 
 
 }

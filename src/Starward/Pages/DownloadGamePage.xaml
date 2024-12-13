@@ -5,7 +5,7 @@
                 xmlns:local="using:Starward.Pages"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:sc="using:Starward.Controls"
-                xmlns:ui="using:CommunityToolkit.WinUI.UI"
+                xmlns:ui="using:CommunityToolkit.WinUI"
                 x:DefaultBindMode="OneWay"
                 mc:Ignorable="d">
 

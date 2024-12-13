@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.IO;

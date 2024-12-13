@@ -101,11 +101,11 @@ internal class GameLauncherService
 
     private string? GetDefaultGameInstallPath(GameBiz gameBiz)
     {
-        if (gameBiz.IsChinaOfficial())
+        if (gameBiz.IsChinaServer())
         {
             return Registry.GetValue($@"HKEY_CURRENT_USER\Software\miHoYo\HYP\1_1\{gameBiz}", "GameInstallPath", null) as string;
         }
-        else if (gameBiz.IsGlobalOfficial())
+        else if (gameBiz.IsGlobalServer())
         {
             if (gameBiz.ToGame() == GameBiz.bh3)
             {
@@ -139,12 +139,12 @@ internal class GameLauncherService
     /// <returns></returns>
     public async Task<Version?> GetLatestGameVersionAsync(GameBiz gameBiz)
     {
-        if (gameBiz.IsGlobalOfficial() && gameBiz.ToGame() == GameBiz.bh3)
+        if (gameBiz.IsGlobalServer() && gameBiz.ToGame() == GameBiz.bh3)
         {
             var resource = await _launcherClient.GetLauncherGameResourceAsync(gameBiz);
             return TryParseVersion(resource.Game.Latest.Version);
         }
-        else if (gameBiz.IsChinaOfficial() || gameBiz.IsGlobalOfficial() || gameBiz.IsBilibili())
+        else if (gameBiz.IsChinaServer() || gameBiz.IsGlobalServer() || gameBiz.IsBilibili())
         {
             var package = await _hoYoPlayService.GetGamePackageAsync(gameBiz);
             return TryParseVersion(package.Main.Major?.Version);
@@ -239,12 +239,12 @@ internal class GameLauncherService
     /// <returns></returns>
     public async Task<Version?> GetPreDownloadGameVersionAsync(GameBiz gameBiz)
     {
-        if (gameBiz.IsGlobalOfficial() && gameBiz.ToGame() == GameBiz.bh3)
+        if (gameBiz.IsGlobalServer() && gameBiz.ToGame() == GameBiz.bh3)
         {
             var resource = await _launcherClient.GetLauncherGameResourceAsync(gameBiz);
             return TryParseVersion(resource.PreDownloadGame?.Latest.Version);
         }
-        else if (gameBiz.IsChinaOfficial() || gameBiz.IsGlobalOfficial() || gameBiz.IsBilibili())
+        else if (gameBiz.IsChinaServer() || gameBiz.IsGlobalServer() || gameBiz.IsBilibili())
         {
             var package = await _hoYoPlayService.GetGamePackageAsync(gameBiz);
             return TryParseVersion(package.PreDownload?.Major?.Version);

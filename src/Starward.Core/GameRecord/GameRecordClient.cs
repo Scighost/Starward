@@ -9,6 +9,8 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
+using Starward.Core.GameRecord.ZZZ.InterKnotReport;
+
 
 #if !DEBUG
 using System.Net.Http.Json;
@@ -380,6 +382,65 @@ public abstract class GameRecordClient
 
 
     #endregion
+
+
+
+
+    #region ZZZ
+
+
+
+    /// <summary>
+    /// 获取绝区零账号信息
+    /// </summary>
+    /// <param name="cookie"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<List<GameRecordRole>> GetZZZGameRolesAsync(string cookie, CancellationToken cancellationToken = default);
+
+
+
+
+    /// <summary>
+    /// 绳网月报总结
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="month">202409</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<InterKnotReportSummary> GetInterKnotReportSummaryAsync(GameRecordRole role, string month = "", CancellationToken cancellationToken = default);
+
+
+    /// <summary>
+    /// 绳网月报收入详情
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="month">202409</param>
+    /// <param name="type"></param>
+    /// <param name="page">从1开始</param>
+    /// <param name="page_size">最大100</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>返回一页收入记录</returns>
+    public abstract Task<InterKnotReportDetail> GetInterKnotReportDetailByPageAsync(GameRecordRole role, string month, string type, int page, int page_size = 100, CancellationToken cancellationToken = default);
+
+
+    /// <summary>
+    /// 绳网月报收入详情
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="month">202409</param>
+    /// <param name="type"></param>
+    /// <param name="page_size">最大100</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>返回该月所有收入记录</returns>
+    public abstract Task<InterKnotReportDetail> GetInterKnotReportDetailAsync(GameRecordRole role, string month, string type, int page_size = 100, CancellationToken cancellationToken = default);
+
+
+
+
+    #endregion
+
+
 
 
     // 寰宇蝗灾

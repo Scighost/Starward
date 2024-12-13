@@ -45,7 +45,6 @@
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         sh:PointerCursor.CursorShape="Hand"
-                                        IsCacheEnabled="True"
                                         IsRightTapEnabled="False"
                                         Source="{x:Bind Image.Url}"
                                         Stretch="UniformToFill"

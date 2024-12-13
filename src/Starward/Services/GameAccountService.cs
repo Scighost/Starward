@@ -35,7 +35,7 @@ internal class GameAccountService
     public GameAccount? GetGameAccountsFromRegistry(GameBiz biz)
     {
         var key = biz.GetGameRegistryKey();
-        var keyName = (biz.IsChinaOfficial(), biz.IsGlobalOfficial(), biz.IsBilibili(), biz.IsChinaCloud()) switch
+        var keyName = (biz.IsChinaServer(), biz.IsGlobalServer(), biz.IsBilibili(), biz.IsChinaCloud()) switch
         {
             (true, false, false, false) => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
             (false, false, true, false) => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
@@ -152,7 +152,7 @@ internal class GameAccountService
     {
         var key = account.GameBiz.GetGameRegistryKey();
         var biz = account.GameBiz;
-        var keyName = (biz.IsChinaOfficial(), biz.IsGlobalOfficial(), biz.IsBilibili(), biz.IsChinaCloud()) switch
+        var keyName = (biz.IsChinaServer(), biz.IsGlobalServer(), biz.IsBilibili(), biz.IsChinaCloud()) switch
         {
             (true, false, false, false) => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,
             (false, false, true, false) => GameRegistry.MIHOYOSDK_ADL_PROD_CN_h3123967166,

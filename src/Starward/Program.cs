@@ -16,10 +16,9 @@ namespace Starward;
 /// </summary>
 public static class Program
 {
-    [global::System.Runtime.InteropServices.DllImport("Microsoft.ui.xaml.dll")]
-    private static extern void XamlCheckProcessRequirements();
 
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.UI.Xaml.Markup.Compiler", " 1.0.0.0")]
+
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.UI.Xaml.Markup.Compiler", " 3.0.0.2411")]
     //[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.STAThreadAttribute]
     static void Main(string[] args)
@@ -71,8 +70,6 @@ public static class Program
         }
 
 
-        XamlCheckProcessRequirements();
-
         global::WinRT.ComWrappersSupport.InitializeComWrappers();
         global::Microsoft.UI.Xaml.Application.Start((p) =>
         {
@@ -81,6 +78,8 @@ public static class Program
             new App();
         });
     }
+
+
 }
 
 #endif

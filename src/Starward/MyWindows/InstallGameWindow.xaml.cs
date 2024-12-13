@@ -1,4 +1,5 @@
 using Microsoft.UI.Windowing;
+using Starward.Frameworks;
 using System;
 using System.IO;
 using Vanara.PInvoke;
@@ -47,7 +48,7 @@ public sealed partial class InstallGameWindow : WindowEx
 
 
 
-    public override nint WindowSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
+    protected override nint WindowSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
     {
         if (uMsg == (uint)User32.WindowMessage.WM_SYSCOMMAND)
         {

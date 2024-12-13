@@ -2,6 +2,7 @@ using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Starward.Frameworks;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -53,7 +54,7 @@ public sealed partial class TestUrlProtocolWindow : WindowEx
 
 
 
-    public override nint WindowSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
+    protected override nint WindowSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
     {
         if (uMsg == (uint)User32.WindowMessage.WM_SYSCOMMAND)
         {

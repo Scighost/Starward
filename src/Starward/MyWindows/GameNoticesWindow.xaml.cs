@@ -4,6 +4,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.Launcher;
+using Starward.Frameworks;
 using Starward.Helpers;
 using Starward.Messages;
 using Starward.Models;
@@ -77,6 +78,7 @@ public sealed partial class GameNoticesWindow : WindowEx
                 presenter.IsResizable = false;
                 presenter.SetBorderAndTitleBar(false, false);
             }
+            User32.SetWindowLong(WindowHandle, User32.WindowLongFlags.GWL_STYLE, User32.GetWindowLong(WindowHandle, User32.WindowLongFlags.GWL_STYLE) & ~(nint)User32.WindowStyles.WS_DLGFRAME);
             User32.SetWindowLong(WindowHandle, User32.WindowLongFlags.GWL_HWNDPARENT, MainWindow.Current.WindowHandle);
             var pos = MainWindow.Current.AppWindow.Position;
             var size = MainWindow.Current.AppWindow.Size;
@@ -89,7 +91,7 @@ public sealed partial class GameNoticesWindow : WindowEx
 
 
 
-    public override nint BridgeSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
+    protected override nint InputSiteSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
     {
         if (uMsg == (uint)User32.WindowMessage.WM_KEYDOWN)
         {
@@ -101,7 +103,7 @@ public sealed partial class GameNoticesWindow : WindowEx
                 return 0;
             }
         }
-        return base.BridgeSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
+        return base.InputSiteSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
     }
 
 

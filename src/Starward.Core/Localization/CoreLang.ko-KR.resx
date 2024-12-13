@@ -272,6 +272,24 @@
     <value>W-엔진</value>
   </data>
   <data name="GachaType_BangbooChannel" xml:space="preserve">
-    <value>방부</value>
+    <value>Bangboo 채널</value>
+  </data>
+  <data name="ZZZQueryType_Monochrome" xml:space="preserve">
+    <value>모노크롬</value>
+  </data>
+  <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
+    <value>폴리크롬</value>
+  </data>
+  <data name="ZZZQueryType_Bundle" xml:space="preserve">
+    <value>번들</value>
+  </data>
+  <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
+    <value>배터리</value>
+  </data>
+  <data name="ZZZQueryType_WEngine" xml:space="preserve">
+    <value>W-엔진</value>
+  </data>
+  <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
+    <value>디스크</value>
   </data>
 </root>

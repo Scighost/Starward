@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:calendar="using:Starward.Core.GameRecord.StarRail.TrailblazeCalendar"
-             xmlns:cc="using:CommunityToolkit.WinUI.UI.Controls"
+             xmlns:cc="using:CommunityToolkit.WinUI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Pages.HoyolabToolbox"

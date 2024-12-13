@@ -274,4 +274,22 @@
   <data name="GachaType_BangbooChannel" xml:space="preserve">
     <value>Canal Bangbú</value>
   </data>
+  <data name="ZZZQueryType_Monochrome" xml:space="preserve">
+    <value>Monochrome</value>
+  </data>
+  <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
+    <value>Ploychrome</value>
+  </data>
+  <data name="ZZZQueryType_Bundle" xml:space="preserve">
+    <value>Bundle</value>
+  </data>
+  <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
+    <value>Battery Charge</value>
+  </data>
+  <data name="ZZZQueryType_WEngine" xml:space="preserve">
+    <value>W-Engine</value>
+  </data>
+  <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
+    <value>Drive Disc</value>
+  </data>
 </root>

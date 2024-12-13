@@ -211,7 +211,7 @@ internal class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10];
+    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11];
 
 
     private const string Sql_v1 = """
@@ -679,6 +679,36 @@ internal class DatabaseService
         COMMIT TRANSACTION;
         """;
 
+    private const string Sql_v11 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS InterKnotReportSummary
+        (
+            Uid       INTEGER NOT NULL,
+            DataMonth TEXT    NOT NULL,
+            Value     TEXT,
+            PRIMARY KEY (Uid, DataMonth)
+        );
+
+        CREATE TABLE IF NOT EXISTS InterKnotReportDetailItem
+        (
+            Uid       INTEGER NOT NULL,
+            Id        INTEGER NOT NULL,
+            DataMonth TEXT    NOT NULL,
+            DataType  TEXT    NOT NULL,
+            Action    TEXT    NOT NULL,
+            Time      TEXT    NOT NULL,
+            Number       INTEGER NOT NULL,
+            PRIMARY KEY (Uid, Id)
+        );
+        CREATE INDEX IF NOT EXISTS IX_InterKnotReportDetailItem_DataMonth ON InterKnotReportDetailItem (DataMonth);
+        CREATE INDEX IF NOT EXISTS IX_InterKnotReportDetailItem_DataType ON InterKnotReportDetailItem (DataType);
+        CREATE INDEX IF NOT EXISTS IX_InterKnotReportDetailItem_Time ON InterKnotReportDetailItem (Time);
+
+        PRAGMA USER_VERSION = 11;
+        COMMIT TRANSACTION;
+        """;
+
 
     #endregion
 
@@ -781,14 +811,14 @@ internal class DatabaseService
 
         public class GameBizHandler : SqlMapper.TypeHandler<GameBiz>
         {
-            public override GameBiz? Parse(object value)
+            public override GameBiz Parse(object value)
             {
                 return new GameBiz(value as string);
             }
 
-            public override void SetValue(IDbDataParameter parameter, GameBiz? value)
+            public override void SetValue(IDbDataParameter parameter, GameBiz value)
             {
-                parameter.Value = value?.ToString() ?? "";
+                parameter.Value = value.Value;
             }
         }
 

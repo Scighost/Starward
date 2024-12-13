@@ -185,7 +185,6 @@
                                         Background="{x:Bind Converter={StaticResource GachaPityProgressBackgroundBrushConverter}}" />
                                 <sc:CachedImage Width="28"
                                                 Height="28"
-                                                IsCacheEnabled="True"
                                                 Source="{x:Bind Icon}" />
                                 <TextBlock Grid.Column="1"
                                            VerticalAlignment="Center"
@@ -235,7 +234,6 @@
                                 </Grid.ColumnDefinitions>
                                 <sc:CachedImage Width="28"
                                                 Height="28"
-                                                IsCacheEnabled="True"
                                                 Source="{x:Bind Icon}" />
                                 <TextBlock Grid.Column="1"
                                            VerticalAlignment="Center"

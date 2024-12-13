@@ -274,4 +274,22 @@
   <data name="GachaType_BangbooChannel" xml:space="preserve">
     <value>ボンプガチャ</value>
   </data>
+  <data name="ZZZQueryType_Monochrome" xml:space="preserve">
+    <value>モノクローム</value>
+  </data>
+  <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
+    <value>ポリクローム</value>
+  </data>
+  <data name="ZZZQueryType_Bundle" xml:space="preserve">
+    <value>ギフト</value>
+  </data>
+  <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
+    <value>バッテリー</value>
+  </data>
+  <data name="ZZZQueryType_WEngine" xml:space="preserve">
+    <value>音動機</value>
+  </data>
+  <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
+    <value>ドライバディスク</value>
+  </data>
 </root>

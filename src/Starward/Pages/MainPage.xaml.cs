@@ -534,7 +534,7 @@ public sealed partial class MainPage : PageBase
             NavigationViewItem_GameSetting.Visibility = Visibility.Visible;
             NavigationViewItem_Screenshot.Visibility = Visibility.Visible;
             NavigationViewItem_GachaLog.Visibility = Visibility.Visible;
-            NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Collapsed;
+            NavigationViewItem_HoyolabToolbox.Visibility = Visibility.Visible;
             NavigationViewItem_SelfQuery.Visibility = Visibility.Visible;
         }
         else
@@ -564,12 +564,12 @@ public sealed partial class MainPage : PageBase
             ToolTipService.SetToolTip(NavigationViewItem_GachaLog, Lang.GachaLogService_SignalSearchRecords);
             TextBlock_GachaLog.Text = Lang.GachaLogService_SignalSearchRecords;
         }
-        if (CurrentGameBiz.IsChinaOfficial())
+        if (CurrentGameBiz.IsChinaServer())
         {
             ToolTipService.SetToolTip(NavigationViewItem_HoyolabToolbox, Lang.HyperionToolbox);
             TextBlock_HoyolabToolbox.Text = Lang.HyperionToolbox;
         }
-        if (CurrentGameBiz.IsGlobalOfficial())
+        if (CurrentGameBiz.IsGlobalServer())
         {
             ToolTipService.SetToolTip(NavigationViewItem_HoyolabToolbox, Lang.HoYoLABToolbox);
             TextBlock_HoyolabToolbox.Text = Lang.HoYoLABToolbox;
@@ -625,7 +625,7 @@ public sealed partial class MainPage : PageBase
         string? destPage = page?.Name;
         if (destPage is null or nameof(BlankPage)
             || (CurrentGameBiz.ToGame() == GameBiz.bh3 && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(ScreenshotPage))
-            || CurrentGameBiz.ToGame() == GameBiz.nap && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(GachaLogPage) and not nameof(ScreenshotPage) and not nameof(SelfQueryPage))
+            || CurrentGameBiz.ToGame() == GameBiz.nap && destPage is not nameof(GameLauncherPage) and not nameof(GameSettingPage) and not nameof(GachaLogPage) and not nameof(ScreenshotPage) and not nameof(HoyolabToolboxPage) and not nameof(SelfQueryPage))
         {
             page = typeof(GameLauncherPage);
             destPage = nameof(GameLauncherPage);
@@ -664,7 +664,7 @@ public sealed partial class MainPage : PageBase
 
 
 
-    private void MainPage_KeyDown(object? sender, MainWindow.KeyDownEventArgs e)
+    private void MainPage_KeyDown(object? sender, MyWindows.MainWindow.KeyDownEventArgs e)
     {
         try
         {

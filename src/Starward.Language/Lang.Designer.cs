@@ -1955,6 +1955,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Inter-Knot Monthly Report 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_InterKnotMonthlyReport {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_InterKnotMonthlyReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Log in 的本地化字符串。
         /// </summary>
         public static string HoyolabToolboxPage_LogIn {
@@ -2419,6 +2428,78 @@ namespace Starward.Language {
         public static string InstallGameSystemTrayPage_Installer {
             get {
                 return ResourceManager.GetString("InstallGameSystemTrayPage_Installer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Daily Activity Rewardeds 的本地化字符串。
+        /// </summary>
+        public static string InterKnotMonthlyReportPage_DailyActivityRewardeds {
+            get {
+                return ResourceManager.GetString("InterKnotMonthlyReportPage_DailyActivityRewardeds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Development Rewards 的本地化字符串。
+        /// </summary>
+        public static string InterKnotMonthlyReportPage_DevelopmentRewards {
+            get {
+                return ResourceManager.GetString("InterKnotMonthlyReportPage_DevelopmentRewards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Event Rewards 的本地化字符串。
+        /// </summary>
+        public static string InterKnotMonthlyReportPage_EventRewards {
+            get {
+                return ResourceManager.GetString("InterKnotMonthlyReportPage_EventRewards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hollow Zero Rewards 的本地化字符串。
+        /// </summary>
+        public static string InterKnotMonthlyReportPage_HollowZeroRewards {
+            get {
+                return ResourceManager.GetString("InterKnotMonthlyReportPage_HollowZeroRewards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mail Rewards 的本地化字符串。
+        /// </summary>
+        public static string InterKnotMonthlyReportPage_MailRewards {
+            get {
+                return ResourceManager.GetString("InterKnotMonthlyReportPage_MailRewards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Other Rewards 的本地化字符串。
+        /// </summary>
+        public static string InterKnotMonthlyReportPage_OtherRewards {
+            get {
+                return ResourceManager.GetString("InterKnotMonthlyReportPage_OtherRewards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Polychrome Revenue Streams 的本地化字符串。
+        /// </summary>
+        public static string InterKnotMonthlyReportPage_PolychromeRevenueStreams {
+            get {
+                return ResourceManager.GetString("InterKnotMonthlyReportPage_PolychromeRevenueStreams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Shiyu Defense Rewards 的本地化字符串。
+        /// </summary>
+        public static string InterKnotMonthlyReportPage_ShiyuDefenseRewards {
+            get {
+                return ResourceManager.GetString("InterKnotMonthlyReportPage_ShiyuDefenseRewards", resourceCulture);
             }
         }
         

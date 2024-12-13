@@ -45,9 +45,14 @@ public abstract class LauncherId
             GameBiz.hk4e_bilibili => BilibiliGenshin,
             GameBiz.hkrpg_bilibili => BilibiliStarRail,
             GameBiz.nap_bilibili => BilibiliZZZ,
+            string value when value.EndsWith("_cn") => ChinaOfficial,
+            string value when value.EndsWith("_global") => GlobalOfficial,
             _ => null,
         };
     }
+
+
+    public static string? FromGameId(GameId gameId) => FromGameBiz(gameId.GameBiz);
 
 
     public static List<(GameBiz GameBiz, string LauncherId)> GetBilibiliLaunchers()

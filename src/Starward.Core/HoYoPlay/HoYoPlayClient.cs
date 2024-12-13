@@ -465,11 +465,11 @@ public class HoYoPlayClient
     public async Task<GameChunkBuild> GetGameChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
     {
         string? url = null;
-        if (gameBranch.GameId.GameBiz.IsChinaOfficial())
+        if (gameBranch.GameId.GameBiz.IsChinaServer())
         {
             url = "https://api-takumi.mihoyo.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf5qt290cg";
         }
-        if (gameBranch.GameId.GameBiz.IsGlobalOfficial())
+        if (gameBranch.GameId.GameBiz.IsGlobalServer())
         {
             url = "https://sg-public-api.hoyoverse.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf6vlr1reo";
         }
@@ -496,11 +496,11 @@ public class HoYoPlayClient
     public async Task<GameChunkBuild> GetGameChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, string version, CancellationToken cancellationToken = default)
     {
         string? url = null;
-        if (gameBranch.GameId.GameBiz.IsChinaOfficial())
+        if (gameBranch.GameId.GameBiz.IsChinaServer())
         {
             url = "https://api-takumi.mihoyo.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf5qt290cg";
         }
-        if (gameBranch.GameId.GameBiz.IsGlobalOfficial())
+        if (gameBranch.GameId.GameBiz.IsGlobalServer())
         {
             url = "https://sg-public-api.hoyoverse.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf6vlr1reo";
         }

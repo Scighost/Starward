@@ -1583,4 +1583,31 @@
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
     <value>Съемное устройство хранения не подключено.</value>
   </data>
+  <data name="InterKnotMonthlyReportPage_PolychromeRevenueStreams" xml:space="preserve">
+    <value>Поток доходов от полихром</value>
+  </data>
+  <data name="HoyolabToolboxPage_InterKnotMonthlyReport" xml:space="preserve">
+    <value>Ежемесячный отчет Интернот </value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_DailyActivityRewardeds" xml:space="preserve">
+    <value>Награда за ежедневную активность</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_DevelopmentRewards" xml:space="preserve">
+    <value>Награда за развитие</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_EventRewards" xml:space="preserve">
+    <value>Награды событий</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_HollowZeroRewards" xml:space="preserve">
+    <value>Награды Нулевая каверна</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_ShiyuDefenseRewards" xml:space="preserve">
+    <value>Награда за Защиту Шийю</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_MailRewards" xml:space="preserve">
+    <value>Награды за почту</value>
+  </data>
+  <data name="InterKnotMonthlyReportPage_OtherRewards" xml:space="preserve">
+    <value>Другие Награды</value>
+  </data>
 </root>

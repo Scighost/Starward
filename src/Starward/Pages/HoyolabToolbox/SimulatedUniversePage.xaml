@@ -1,7 +1,7 @@
 ﻿<sp:PageBase x:Class="Starward.Pages.HoyolabToolbox.SimulatedUniversePage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:cc="using:CommunityToolkit.WinUI.UI.Controls"
+             xmlns:cc="using:CommunityToolkit.WinUI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Pages.HoyolabToolbox"
@@ -218,7 +218,6 @@
                                                 <StackPanel Orientation="Horizontal">
                                                     <sc:CachedImage Width="48"
                                                                     Height="48"
-                                                                    IsCacheEnabled="True"
                                                                     Source="{x:Bind Progress, Converter={StaticResource SimulatedUniverseWorldIconConverter}}" />
                                                     <TextBlock Margin="16,0,0,0"
                                                                VerticalAlignment="Center"
@@ -265,7 +264,6 @@
                                                             <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToSRBgConverter}}" />
                                                             <sc:CachedImage VerticalAlignment="Top"
                                                                             CornerRadius="0,12,0,0"
-                                                                            IsCacheEnabled="True"
                                                                             Source="{x:Bind Icon}"
                                                                             Stretch="UniformToFill" />
                                                             <Border Height="16"
@@ -334,7 +332,6 @@
                                                                         Height="32"
                                                                         Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
                                                                         CornerRadius="16"
-                                                                        IsCacheEnabled="True"
                                                                         Source="{x:Bind Icon}" />
                                                     </DataTemplate>
                                                 </ItemsRepeater.ItemTemplate>
@@ -359,7 +356,6 @@
                                                             <sc:CachedImage Width="24"
                                                                             Height="24"
                                                                             HorizontalAlignment="Left"
-                                                                            IsCacheEnabled="True"
                                                                             Source="{x:Bind BuffType.Id, Converter={StaticResource SimulatedUniverseBuffIconConverter}}" />
                                                             <TextBlock Grid.Column="1"
                                                                        Margin="32,0,0,0"
@@ -413,7 +409,6 @@
                                                                         Height="32"
                                                                         Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
                                                                         CornerRadius="16"
-                                                                        IsCacheEnabled="True"
                                                                         Source="{x:Bind Icon}"
                                                                         ToolTipService.ToolTip="{x:Bind Name}" />
                                                     </DataTemplate>

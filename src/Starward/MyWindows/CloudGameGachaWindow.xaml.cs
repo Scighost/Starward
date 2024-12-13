@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Starward.Core;
+using Starward.Frameworks;
 using Starward.Messages;
 using System;
 using System.Text.Json.Nodes;
@@ -50,7 +51,7 @@ public sealed partial class CloudGameGachaWindow : WindowEx
     {
         try
         {
-            // todo WinAppSDK Éı¼¶µ½ 1.5 ºó£¬ÎªÔÆÓÎÏ·µÄÍøÒ³»º´æÉèÖÃµ¥¶ÀµÄÎÄ¼ş¼Ğ
+            // todo WinAppSDK å‡çº§åˆ° 1.5 åï¼Œä¸ºäº‘æ¸¸æˆçš„ç½‘é¡µç¼“å­˜è®¾ç½®å•ç‹¬çš„æ–‡ä»¶å¤¹
             if (GameBiz.ToGame() == GameBiz.hk4e)
             {
                 webview.Source = new Uri("https://ys.mihoyo.com/cloud/");

@@ -296,7 +296,6 @@
                                                 <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToSRBgConverter}}" />
                                                 <sc:CachedImage VerticalAlignment="Top"
                                                                 CornerRadius="0,12,0,0"
-                                                                IsCacheEnabled="True"
                                                                 Source="{x:Bind Icon}"
                                                                 Stretch="UniformToFill" />
                                                 <Border Height="16"
@@ -347,7 +346,6 @@
                                                 <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToSRBgConverter}}" />
                                                 <sc:CachedImage VerticalAlignment="Top"
                                                                 CornerRadius="0,12,0,0"
-                                                                IsCacheEnabled="True"
                                                                 Source="{x:Bind Icon}"
                                                                 Stretch="UniformToFill" />
                                                 <Border Height="16"

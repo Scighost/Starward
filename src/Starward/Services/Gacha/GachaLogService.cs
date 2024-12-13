@@ -115,7 +115,7 @@ internal abstract class GachaLogService
     public virtual string? GetGachaLogUrlByUid(long uid)
     {
         using var dapper = _database.CreateConnection();
-        return dapper.QueryFirstOrDefault<string>("SELECT Url FROM GachaLogUrl WHERE Uid = @uid AND GameBiz = @GameBiz LIMIT 1;", new { uid, CurrentGameBiz });
+        return dapper.QueryFirstOrDefault<string>("SELECT Url FROM GachaLogUrl WHERE Uid = @uid AND GameBiz = @GameBiz LIMIT 1;", new { uid, GameBiz = CurrentGameBiz });
     }
 
 

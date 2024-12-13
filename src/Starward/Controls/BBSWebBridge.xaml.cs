@@ -111,7 +111,7 @@ public sealed partial class BBSWebBridge : UserControl
             {
                 return;
             }
-            if (CurrentGameBiz.IsGlobalOfficial())
+            if (CurrentGameBiz.IsGlobalServer())
             {
                 _gameRecordClient = AppConfig.GetService<HoyolabClient>();
             }
@@ -151,7 +151,7 @@ public sealed partial class BBSWebBridge : UserControl
             if (coreWebView2.Source is "about:blank" || force)
             {
                 var manager = coreWebView2.CookieManager;
-                var cookies = await manager.GetCookiesAsync(CurrentGameBiz.IsGlobalOfficial() ? "https://act.hoyolab.com" : "https://webstatic.mihoyo.com");
+                var cookies = await manager.GetCookiesAsync(CurrentGameBiz.IsGlobalServer() ? "https://act.hoyolab.com" : "https://webstatic.mihoyo.com");
                 foreach (var cookie in cookies)
                 {
                     manager.DeleteCookie(cookie);
@@ -161,17 +161,17 @@ public sealed partial class BBSWebBridge : UserControl
                 ParseCookie();
                 foreach (var cookie in cookieDic)
                 {
-                    manager.AddOrUpdateCookie(manager.CreateCookie(cookie.Key, cookie.Value, CurrentGameBiz.IsGlobalOfficial() ? ".hoyolab.com" : ".mihoyo.com", "/"));
+                    manager.AddOrUpdateCookie(manager.CreateCookie(cookie.Key, cookie.Value, CurrentGameBiz.IsGlobalServer() ? ".hoyolab.com" : ".mihoyo.com", "/"));
                 }
 
-                string? url = (CurrentGameBiz.IsGlobalOfficial(), CurrentGameBiz.ToGame().Value) switch
+                string? url = (CurrentGameBiz.IsGlobalServer(), CurrentGameBiz.ToGame().Value) switch
                 {
                     (true, GameBiz.hk4e) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=2",
                     (true, GameBiz.hkrpg) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=6",
-                    (true, GameBiz.nap) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=8",
+                    (true, GameBiz.nap) => "https://act.hoyolab.com/app/zzz-game-record/m.html?gid=8",
                     (false, GameBiz.hk4e) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=2",
                     (false, GameBiz.hkrpg) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=6",
-                    (false, GameBiz.nap) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=8",
+                    (false, GameBiz.nap) => "https://act.mihoyo.com/app/mihoyo-zzz-game-record/m.html?game_id=8",
                     _ => null,
                 };
                 if (url is not null)
@@ -556,7 +556,7 @@ public sealed partial class BBSWebBridge : UserControl
     private JsResult? GetDynamicSecrectV1(JsParam param)
     {
         string ApiSalt;
-        if (CurrentGameBiz.IsGlobalOfficial())
+        if (CurrentGameBiz.IsGlobalServer())
         {
             ApiSalt = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w";
         }
@@ -600,7 +600,7 @@ public sealed partial class BBSWebBridge : UserControl
     private JsResult? GetDynamicSecrectV2(JsParam param)
     {
         string ApiSalt2;
-        if (CurrentGameBiz.IsGlobalOfficial())
+        if (CurrentGameBiz.IsGlobalServer())
         {
             ApiSalt2 = "h4c1d6ywfq5bsbnbhm1bzq7bxzzv6srt";
         }
@@ -645,19 +645,19 @@ public sealed partial class BBSWebBridge : UserControl
     private class JsParam
     {
         /// <summary>
-        /// ·½·¨Ãû³Æ
+        /// æ–¹æ³•åç§°
         /// </summary>
         [JsonPropertyName("method")]
         public string Method { get; set; }
 
         /// <summary>
-        /// Êı¾İ ¿ÉÒÔÎª¿Õ
+        /// æ•°æ® å¯ä»¥ä¸ºç©º
         /// </summary>
         [JsonPropertyName("payload")]
         public JsonNode? Payload { get; set; }
 
         /// <summary>
-        /// »Øµ÷µÄÃû³Æ£¬µ÷ÓÃ JavaScript:mhyWebBridge Ê±×÷ÎªÊ×¸ö²ÎÊı´«Èë
+        /// å›è°ƒçš„åç§°ï¼Œè°ƒç”¨ JavaScript:mhyWebBridge æ—¶ä½œä¸ºé¦–ä¸ªå‚æ•°ä¼ å…¥
         /// </summary>
         [JsonPropertyName("callback")]
         public string? Callback { get; set; }
@@ -668,19 +668,19 @@ public sealed partial class BBSWebBridge : UserControl
     private class JsResult
     {
         /// <summary>
-        /// ´úÂë
+        /// ä»£ç 
         /// </summary>
         [JsonPropertyName("retcode")]
         public int Code { get; set; }
 
         /// <summary>
-        /// ÏûÏ¢
+        /// æ¶ˆæ¯
         /// </summary>
         [JsonPropertyName("message")]
         public string Message { get; set; } = string.Empty;
 
         /// <summary>
-        /// Êı¾İ
+        /// æ•°æ®
         /// </summary>
         [JsonPropertyName("data")]
         public Dictionary<string, object> Data { get; set; } = default!;

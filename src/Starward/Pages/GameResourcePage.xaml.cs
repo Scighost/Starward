@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
-using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Helpers;
 using Starward.Services.Launcher;

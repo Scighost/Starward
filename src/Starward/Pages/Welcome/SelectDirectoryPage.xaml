@@ -6,7 +6,7 @@
              xmlns:local="using:Starward.Pages.Welcome"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sp="using:Starward.Pages"
-             xmlns:ui="using:CommunityToolkit.WinUI.UI"
+             xmlns:ui="using:CommunityToolkit.WinUI"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 

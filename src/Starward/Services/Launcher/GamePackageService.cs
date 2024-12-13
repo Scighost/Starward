@@ -39,7 +39,7 @@ internal class GamePackageService
 
     public async Task<GamePackage> GetGamePackageAsync(GameBiz biz)
     {
-        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalOfficial())
+        if (biz.ToGame() == GameBiz.bh3 && biz.IsGlobalServer())
         {
             var res = await _launcherClient.GetLauncherGameResourceAsync(biz);
             var package = new GamePackage

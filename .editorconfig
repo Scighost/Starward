@@ -2,3 +2,9 @@
 
 # CS8618: 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
 dotnet_diagnostic.CS8618.severity = none
+
+# MVVMTK0049: Using [INotifyPropertyChanged] is not AOT compatible for WinRT
+dotnet_diagnostic.MVVMTK0049.severity = none
+
+# CS9264: 退出构造函数时，不可为 null 的属性必须包含非 null 值。请考虑添加 ‘required’ 修饰符，或将属性声明为可为 null，或添加 ‘[field: MaybeNull, AllowNull]’ 特性。
+dotnet_diagnostic.CS9264.severity = none

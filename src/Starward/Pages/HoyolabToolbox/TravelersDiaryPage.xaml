@@ -1,7 +1,7 @@
 ﻿<sp:PageBase x:Class="Starward.Pages.HoyolabToolbox.TravelersDiaryPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:cc="using:CommunityToolkit.WinUI.UI.Controls"
+             xmlns:cc="using:CommunityToolkit.WinUI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:diary="using:Starward.Core.GameRecord.Genshin.TravelersDiary"
              xmlns:lang="using:Starward.Language"

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="Starward.Features.ViewHost.WelcomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Starward.Features.ViewHost"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <Grid>
+        <Image HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Source="ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"
+               Stretch="UniformToFill" />
+    </Grid>
+</UserControl>
