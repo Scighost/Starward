@@ -219,20 +219,23 @@ internal class ZZZGachaService : GachaLogService
     public override List<GachaLogItem> CheckUIGFItems(List<GachaLogItem> list, long uid, string lang)
     {
         // var infos = GetItemsInfo();
-        // foreach (var item in list)
-        // {
-        //     infos.TryGetValue(item.ItemId, out ZZZGachaInfo? info);
-        //     if (item.GachaType == 0 || item.ItemId == 0 || item.Id == 0)
-        //         throw new JsonException("Missing required properties.");
-        //     item.Uid = uid;
-        //     if (item.Count == 0)
-        //         item.Count = 1;
-        //     item.Name ??= info?.Name ?? "";
-        //     item.ItemType ??= "";
-        //     if (item.RankType == 0)
-        //         item.RankType = info?.Level ?? 0;
-        //     item.Lang ??= lang;
-        // }
+        foreach (var item in list)
+        {
+        //    infos.TryGetValue(item.ItemId, out ZZZGachaInfo? info);
+            if (item.GachaType == 0 || item.ItemId == 0 || item.Id == 0)
+                throw new JsonException("Missing required properties.");
+            item.Uid = uid;
+            if (item.Count == 0)
+                item.Count = 1;
+        //    item.Name ??= info?.Name ?? "";
+            item.Name ??= item.ItemId.ToString();
+            item.ItemType ??= "";
+        //    if (item.RankType == 0)
+        //        item.RankType = info?.Level ?? 0;
+            if (item.RankType == 0)
+                item.RankType = 0;
+            item.Lang ??= lang;
+        }
         return list;
     }
 
