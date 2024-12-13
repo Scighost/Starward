@@ -171,7 +171,11 @@ internal class StarRailGachaService : GachaLogService
         {
             if (doc.RootElement.TryGetProperty("info", out JsonElement infoElement) && infoElement.TryGetProperty("version", out _))
             {
-                var obj = JsonSerializer.Deserialize<UIGF40Obj>(str)!.hkrpg;
+                var options = new JsonSerializerOptions
+                {
+                    Converters = { new StarRailGachaItemConverter() }
+                };
+                var obj = JsonSerializer.Deserialize<UIGF40Obj>(str, options)!.hkrpg;
                 foreach (var user in obj)
                 {
                     var lang = user.lang ?? "";
@@ -181,7 +185,7 @@ internal class StarRailGachaService : GachaLogService
                     count += InsertGachaLogItems(list);
                 }
             }
-            else if (infoElement.TryGetProperty("uigf_version", out _))
+            else if (infoElement.TryGetProperty("srgf_version", out _))
             {
                 var obj = JsonSerializer.Deserialize<SRGFObj>(str)!;
                 var lang = obj.info.lang ?? "";
