@@ -344,7 +344,7 @@
     <value>Показать тип гачи новичка</value>
   </data>
   <data name="GachaLogPage_DeleteRecords" xml:space="preserve">
-    <value>Удалить записи</value>
+    <value>Удалить записи гачи</value>
   </data>
   <data name="GachaLogPage_Language" xml:space="preserve">
     <value>Язык</value>
@@ -1611,27 +1611,27 @@
     <value>Другие Награды</value>
   </data>
   <data name="DeleteGachaLogDialog_BeginTime" xml:space="preserve">
-    <value>Begin Time</value>
+    <value>Время начала</value>
   </data>
   <data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
-    <value>End Time</value>
+    <value>Время окончания</value>
   </data>
   <data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
-    <value>Delete gacha records for a specific time period</value>
+    <value>Удалить записи гачи за конкретный период времени</value>
   </data>
   <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
-    <value>Warning: The selected time period includes gacha records from more than 6 months ago, which cannot be retrieved after deleting.</value>
+    <value>Предупреждение: Выбранный период времени включает в себя записи гачи более чем 6 месяцев назад, которые не могут быть восстановлены после удаления.</value>
   </data>
   <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
-    <value>This account has {0} gacha record(s).</value>
+    <value>У этой учетной записи {0} записей гачи.</value>
   </data>
   <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
-    <value>The selected time period includes {0} gacha records.</value>
+    <value>Выбранный период времени содержит {0} записей гачи.</value>
   </data>
   <data name="GachaLogPage_DeleteAll" xml:space="preserve">
-    <value>Delete All</value>
+    <value>Удалить за все время</value>
   </data>
   <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
-    <value>Specific Time Period</value>
+    <value>За конкретный период времени</value>
   </data>
 </root>

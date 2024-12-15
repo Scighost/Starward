@@ -1628,7 +1628,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>The selected time period includes {0} gacha records.</value>
   </data>
   <data name="GachaLogPage_DeleteAll" xml:space="preserve">
-    <value>Delete All</value>
+    <value>Xoá tất cả</value>
   </data>
   <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
     <value>Specific Time Period</value>
