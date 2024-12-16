@@ -49,6 +49,7 @@ public sealed partial class AppBackground : UserControl
         {
             if (field is null)
             {
+                field = value;
                 InitializeBackgroundImage();
             }
             field = value;
@@ -73,6 +74,9 @@ public sealed partial class AppBackground : UserControl
             SetProperty(ref field, value);
         }
     }
+
+
+    private string? lastBackgroundFile;
 
 
 
@@ -105,6 +109,7 @@ public sealed partial class AppBackground : UserControl
                 if (!BackgroundService.FileIsSupportedVideo(file))
                 {
                     BackgroundImageSource = new BitmapImage(new Uri(file));
+                    lastBackgroundFile = file;
                     try
                     {
                         string? hex = AppConfig.AccentColor;
@@ -120,6 +125,7 @@ public sealed partial class AppBackground : UserControl
             else
             {
                 BackgroundImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"));
+                lastBackgroundFile = file;
             }
         }
         catch (Exception ex)
@@ -150,6 +156,10 @@ public sealed partial class AppBackground : UserControl
             }
 
             var file = await _backgroundService.GetBackgroundFileAsync(CurrentGameId);
+            if (file == lastBackgroundFile)
+            {
+                return;
+            }
             if (file != null)
             {
                 if (BackgroundService.FileIsSupportedVideo(file))
@@ -160,6 +170,7 @@ public sealed partial class AppBackground : UserControl
                 {
                     await ChangeBackgroundImageAsync(file, cancelSource.Token);
                 }
+                lastBackgroundFile = file;
             }
         }
         catch (COMException ex)

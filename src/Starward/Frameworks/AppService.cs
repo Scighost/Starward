@@ -2,9 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Starward.Core.GameNotice;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Background;
 using Starward.Features.Database;
+using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
 using System;
 using System.IO;
@@ -38,7 +40,7 @@ public static class AppService
         {
             var logFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log");
             Directory.CreateDirectory(logFolder);
-            LogFile = Path.Combine(logFolder, $"Starward_{DateTime.Now:yyMMdd_HHmmss}.log");
+            LogFile = Path.Combine(logFolder, $"Starward_{DateTime.Now:yyMMdd}.log");
             Log.Logger = new LoggerConfiguration().WriteTo.File(path: LogFile, outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u4}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}")
                                                   .Enrich.FromLogContext()
                                                   .CreateLogger();
@@ -54,8 +56,11 @@ public static class AppService
             });
 
             sc.AddSingleton<HoYoPlayClient>();
+            sc.AddSingleton<GameNoticeClient>();
             sc.AddSingleton<HoYoPlayService>();
             sc.AddSingleton<BackgroundService>();
+            sc.AddSingleton<GameLauncherService>();
+            sc.AddSingleton<GamePackageService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

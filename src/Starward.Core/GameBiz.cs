@@ -5,8 +5,8 @@ namespace Starward.Core;
 public record struct GameBiz
 {
 
-
-    public string Value { get; init; }
+    private string _value;
+    public string Value => _value ?? "";
 
 
     public string Game => Value.Contains("_") ? Value.Substring(0, Value.IndexOf('_')) : Value;
@@ -18,7 +18,7 @@ public record struct GameBiz
 
     public GameBiz(string? value)
     {
-        Value = value ?? "";
+        _value = value ?? "";
     }
 
 

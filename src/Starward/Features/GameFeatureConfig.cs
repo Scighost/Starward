@@ -15,7 +15,16 @@ internal partial class GameFeatureConfig
     }
 
 
+    /// <summary>
+    /// 支持的页面
+    /// </summary>
     public List<string> SupportedPages { get; init; } = [];
+
+
+    /// <summary>
+    /// 游戏内通知内容
+    /// </summary>
+    public bool InGameNoticesWindow { get; init; }
 
 
 
@@ -25,9 +34,12 @@ internal partial class GameFeatureConfig
         {
             return None;
         }
-        return gameId.GameBiz.Value switch
+        return gameId.GameBiz.Game switch
         {
-            GameBiz.bh3_cn => bh3_cn,
+            GameBiz.bh3 => bh3,
+            GameBiz.hk4e => hk4e,
+            GameBiz.hkrpg => hkrpg,
+            GameBiz.nap => nap,
             _ => Default,
         };
     }
@@ -45,11 +57,31 @@ internal partial class GameFeatureConfig
     };
 
 
-    private static readonly GameFeatureConfig bh3_cn = new()
+    private static readonly GameFeatureConfig bh3 = new()
     {
-        SupportedPages = [nameof(GameLauncherPage), "GameSettingPage"],
+        SupportedPages = [nameof(GameLauncherPage)],
+        InGameNoticesWindow = true,
     };
 
+
+    private static readonly GameFeatureConfig hk4e = new()
+    {
+        SupportedPages = [nameof(GameLauncherPage)],
+        InGameNoticesWindow = true,
+    };
+
+
+    private static readonly GameFeatureConfig hkrpg = new()
+    {
+        SupportedPages = [nameof(GameLauncherPage)],
+        InGameNoticesWindow = true,
+    };
+
+    private static readonly GameFeatureConfig nap = new()
+    {
+        SupportedPages = [nameof(GameLauncherPage)],
+        InGameNoticesWindow = true,
+    };
 
 
 

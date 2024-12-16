@@ -75,6 +75,10 @@ public class BackgroundService
     private static bool TryGetCustomBgFilePath(GameId gameId, out string? path)
     {
         path = null;
+        if (gameId is null)
+        {
+            return false;
+        }
         if (AppSetting.GetEnableCustomBg(gameId.GameBiz))
         {
             path = GetCustomBgFilePath(AppSetting.GetCustomBg(gameId.GameBiz));

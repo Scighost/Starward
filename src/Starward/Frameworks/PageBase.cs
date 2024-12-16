@@ -11,10 +11,10 @@ public abstract partial class PageBase : Page
 {
 
 
-    public GameId CurrentGameId { get; protected set; }
+    public GameId? CurrentGameId { get; protected set => SetProperty(ref field, value); }
 
 
-    public GameBiz CurrentGameBiz { get; protected set; }
+    public GameBiz CurrentGameBiz { get; protected set => SetProperty(ref field, value); }
 
 
 
