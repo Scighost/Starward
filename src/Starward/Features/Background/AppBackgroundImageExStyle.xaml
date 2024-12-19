@@ -44,7 +44,7 @@
                                 <VisualState x:Name="Loaded">
                                     <Storyboard>
                                         <DoubleAnimation AutoReverse="False"
-                                                         BeginTime="0"
+                                                         BeginTime="0:0:0.3"
                                                          Storyboard.TargetName="PlaceholderImage"
                                                          Storyboard.TargetProperty="Opacity"
                                                          To="0"
@@ -64,13 +64,13 @@
                                                          Storyboard.TargetName="PlaceholderImage"
                                                          Storyboard.TargetProperty="Opacity"
                                                          To="1"
-                                                         Duration="0:0:0.3" />
+                                                         Duration="0" />
                                         <DoubleAnimation AutoReverse="False"
                                                          BeginTime="0"
                                                          Storyboard.TargetName="Image"
                                                          Storyboard.TargetProperty="Opacity"
                                                          To="0"
-                                                         Duration="0:0:0.3" />
+                                                         Duration="0" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>

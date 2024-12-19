@@ -144,13 +144,12 @@ public sealed partial class AppBackground : UserControl
     {
         try
         {
-            DisposeVideoResource();
             cancelSource?.Cancel();
             cancelSource = new();
-            BackgroundImageSource = null;
 
             if (CurrentGameId is null)
             {
+                DisposeVideoResource();
                 BackgroundImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"));
                 return;
             }
@@ -160,6 +159,10 @@ public sealed partial class AppBackground : UserControl
             {
                 return;
             }
+
+            DisposeVideoResource();
+            BackgroundImageSource = null;
+
             if (file != null)
             {
                 if (BackgroundService.FileIsSupportedVideo(file))
