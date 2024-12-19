@@ -1530,6 +1530,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Relocate 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_Relocate {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_Relocate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Removable storage device not connected. 的本地化字符串。
         /// </summary>
         public static string GameLauncherPage_RemovableStorageDeviceNotConnected {
@@ -4069,6 +4078,24 @@ namespace Starward.Language {
         public static string StarRailGachaService_ImportWarpRecordsSuccessfully {
             get {
                 return ResourceManager.GetString("StarRailGachaService_ImportWarpRecordsSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Resume Download 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_ResumeDownload {
+            get {
+                return ResourceManager.GetString("StartGameButton_ResumeDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Waiting 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_Waiting {
+            get {
+                return ResourceManager.GetString("StartGameButton_Waiting", resourceCulture);
             }
         }
         

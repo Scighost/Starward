@@ -11,7 +11,7 @@ public abstract partial class PageBase : Page
 {
 
 
-    public GameId? CurrentGameId { get; protected set => SetProperty(ref field, value); }
+    public GameId CurrentGameId { get; protected set => SetProperty(ref field, value); }
 
 
     public GameBiz CurrentGameBiz { get; protected set => SetProperty(ref field, value); }
@@ -51,7 +51,7 @@ public abstract partial class PageBase : Page
         else if (e.Parameter is GameBiz biz)
         {
             CurrentGameBiz = biz;
-            CurrentGameId = GameId.FromGameBiz(biz);
+            CurrentGameId = GameId.FromGameBiz(biz)!;
         }
     }
 

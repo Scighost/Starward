@@ -43,6 +43,19 @@
             </Rectangle.Fill>
         </Rectangle>
 
+        <Rectangle Width="400"
+                   Height="400"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom"
+                   IsHitTestVisible="False">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0.5" Color="#00000000" />
+                    <GradientStop Offset="1" Color="#60000000" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
 
         <Rectangle Width="100"
                    HorizontalAlignment="Right"

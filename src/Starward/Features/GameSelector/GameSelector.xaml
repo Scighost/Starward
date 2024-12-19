@@ -97,6 +97,7 @@
                                 <!--  背景图  -->
                                 <sc:CachedImage HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
+                                                CornerRadius="8"
                                                 Source="{x:Bind GameInfo.Display.Thumbnail.Url}"
                                                 Stretch="UniformToFill" />
                                 <!--  Logo  -->
@@ -105,9 +106,12 @@
                                                 VerticalAlignment="Center"
                                                 Background="#60000000"
                                                 Source="{x:Bind GameInfo.Display.Logo.Url}" />
-                                <!--  Icon & 选择服务器  -->
+                                <!--  鼠标移入时 Icon & 选择服务器  -->
                                 <Grid Name="Grid_GameBizDisplay_IconAndName"
                                       Background="#D0000000"
+                                      BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                      BorderThickness="2"
+                                      CornerRadius="6"
                                       Opacity="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />

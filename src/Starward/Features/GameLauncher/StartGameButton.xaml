@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="Starward.Features.GameLauncher.StartGameButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Features.GameLauncher"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:muxca="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style x:Key="GameButtonStyle"
+               BasedOn="{StaticResource DefaultButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          Padding="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          AnimatedIcon.State="Normal"
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          Background="{TemplateBinding Background}"
+                                          BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                                          CornerRadius="{TemplateBinding CornerRadius}"
+                                          Foreground="{TemplateBinding Foreground}">
+
+                            <ContentPresenter.BackgroundTransition>
+                                <BrushTransition Duration="0:0:0.083" />
+                            </ContentPresenter.BackgroundTransition>
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="ContentPresenter.(AnimatedIcon.State)" Value="PointerOver" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="ContentPresenter.(AnimatedIcon.State)" Value="Pressed" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <!--  DisabledVisual Should be handled by the control, not the animated icon.  -->
+                                            <Setter Target="ContentPresenter.(AnimatedIcon.State)" Value="Normal" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </ContentPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid x:Name="Grid_Root"
+          Height="44"
+          MinWidth="180"
+          Background="{ThemeResource CustomAcrylicBrush}"
+          CornerRadius="22"
+          PointerEntered="Grid_Root_PointerEntered"
+          PointerExited="Grid_Root_PointerExited"
+          Shadow="{ThemeResource ThemeShadow}"
+          Translation="0,0,16">
+
+        <!--  Accent Color 背景  -->
+        <Rectangle x:Name="Rect_AccentBackground"
+                   Fill="{ThemeResource AccentFillColorDefaultBrush}"
+                   IsHitTestVisible="False"
+                   Visibility="{x:Bind Rect_AccentBackground_Visibility}" />
+
+
+        <Button x:Name="Button_GameAction"
+                Height="44"
+                Padding="51,5,63,6"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{x:Bind Command}"
+                CornerRadius="22"
+                Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                IsEnabled="{x:Bind CanExecute}"
+                Style="{ThemeResource GameButtonStyle}">
+            <Grid>
+                <!--  开始游戏  -->
+                <TextBlock x:Name="TextBlock_StartGame"
+                           HorizontalAlignment="Center"
+                           Text="{x:Bind lang:Lang.LauncherPage_StartGame}"
+                           Visibility="{x:Bind TextBlock_StartGame_Visibility}" />
+                <!--  游戏正在运行  -->
+                <TextBlock x:Name="TextBlock_GameIsRunning"
+                           HorizontalAlignment="Center"
+                           Text="{x:Bind lang:Lang.LauncherPage_GameIsRunning}"
+                           Visibility="{x:Bind TextBlock_GameIsRunning_Visibility}" />
+                <!--  安装游戏  -->
+                <TextBlock x:Name="TextBlock_InstallGame"
+                           HorizontalAlignment="Center"
+                           Text="{x:Bind lang:Lang.LauncherPage_InstallGame}"
+                           Visibility="{x:Bind TextBlock_InstallGame_Visibility}" />
+                <!--  更新游戏  -->
+                <TextBlock x:Name="TextBlock_UpdateGame"
+                           HorizontalAlignment="Center"
+                           Text="{x:Bind lang:Lang.LauncherPage_UpdateGame}"
+                           Visibility="{x:Bind TextBlock_UpdateGame_Visibility}" />
+                <!--  继续下载  -->
+                <TextBlock x:Name="TextBlock_ResumeDownload"
+                           HorizontalAlignment="Center"
+                           Opacity="{x:Bind TextBlock_ResumeDownload_Opacity}"
+                           Text="{x:Bind lang:Lang.StartGameButton_ResumeDownload}"
+                           Visibility="{x:Bind TextBlock_ResumeDownload_Visibility}" />
+                <!--  等待中  -->
+                <TextBlock x:Name="TextBlock_Waiting"
+                           HorizontalAlignment="Center"
+                           Text="{x:Bind lang:Lang.StartGameButton_Waiting}"
+                           Visibility="{x:Bind TextBlock_Waiting_Visibility}" />
+                <!--  暂停  -->
+                <TextBlock x:Name="TextBlock_Pause"
+                           HorizontalAlignment="Center"
+                           Opacity="{x:Bind TextBlock_Pause_Opacity}"
+                           Text="{x:Bind lang:Lang.DownloadGamePage_Pause}"
+                           Visibility="{x:Bind TextBlock_Pause_Visibility}" />
+                <!--  已暂停  -->
+                <TextBlock x:Name="TextBlock_Paused"
+                           HorizontalAlignment="Center"
+                           Text="{x:Bind lang:Lang.DownloadGamePage_Paused}"
+                           Visibility="{x:Bind TextBlock_Paused_Visibility}" />
+            </Grid>
+        </Button>
+
+
+        <!--  转圈圈  -->
+        <ProgressRing x:Name="ProgressRing_IndeterminateLoading"
+                      Width="20"
+                      Height="20"
+                      Margin="12,0,0,0"
+                      HorizontalAlignment="Left"
+                      Visibility="{x:Bind ProgressRing_IndeterminateLoading_Visibility}" />
+
+        <!--  游戏设置  -->
+        <Button x:Name="Button_Setting"
+                Width="44"
+                Height="44"
+                Padding="12"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{x:Bind SettingCommand}"
+                CornerRadius="22"
+                Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                Style="{ThemeResource GameButtonStyle}"
+                Visibility="Visible">
+            <AnimatedIcon x:Name="AnimatedIcon_Setting">
+                <AnimatedIcon.Source>
+                    <muxca:AnimatedSettingsVisualSource />
+                </AnimatedIcon.Source>
+                <AnimatedIcon.FallbackIconSource>
+                    <FontIconSource Glyph="&#xE713;" />
+                </AnimatedIcon.FallbackIconSource>
+            </AnimatedIcon>
+        </Button>
+
+
+        <!--  下载进度  -->
+        <FlyoutBase.AttachedFlyout>
+            <Flyout x:Name="Flyout_DownloadProgress"
+                    AreOpenCloseAnimationsEnabled="False"
+                    OverlayInputPassThroughElement="{x:Bind Grid_Root}"
+                    Placement="Top">
+                <Flyout.FlyoutPresenterStyle>
+                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Style>
+                </Flyout.FlyoutPresenterStyle>
+                <Grid>
+                    <!--  todo 下载进度  -->
+                </Grid>
+            </Flyout>
+        </FlyoutBase.AttachedFlyout>
+
+
+    </Grid>
+
+</UserControl>

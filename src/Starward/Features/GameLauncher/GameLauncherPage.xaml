@@ -2,6 +2,7 @@
 <sf:PageBase x:Class="Starward.Features.GameLauncher.GameLauncherPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cu="using:CommunityToolkit.WinUI"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Features.GameLauncher"
@@ -17,6 +18,57 @@
                                  HorizontalAlignment="Left"
                                  VerticalAlignment="Bottom"
                                  CurrentGameId="{x:Bind CurrentGameId}" />
+
+
+
+        <Grid Margin="0,0,40,0"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Bottom">
+            <Grid.Resources>
+                <cu:AttachedDropShadow x:Key="TextShadow"
+                                       CastTo="{x:Bind Border_TextShadowTarget}"
+                                       Offset="2" />
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+
+            <local:StartGameButton HorizontalAlignment="Right"
+                                   CanExecute="{x:Bind StartGameButtonCanExecute}"
+                                   Command="{x:Bind ClickStartGameButtonCommand}"
+                                   State="{x:Bind GameState}" />
+
+            <Border x:Name="Border_TextShadowTarget" Grid.Row="1" />
+
+            <!--  可移动存储设备未连接  -->
+            <TextBlock Grid.Row="1"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       cu:Effects.Shadow="{StaticResource TextShadow}"
+                       FontSize="12"
+                       Visibility="{x:Bind IsInstallPathRemovableTipEnabled}">
+                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.GameLauncherPage_RemovableStorageDeviceNotConnected}" />
+                <Hyperlink UnderlineStyle="None">
+                    <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.GameLauncherPage_Relocate}" />
+                </Hyperlink>
+            </TextBlock>
+
+            <!--  定位游戏  -->
+            <TextBlock Grid.Row="1"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       cu:Effects.Shadow="{StaticResource TextShadow}"
+                       FontSize="12"
+                       Visibility="{x:Bind InstalledLocateGameEnabled}">
+                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_Installed}" />
+                <Hyperlink UnderlineStyle="None">
+                    <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LocateGame}" />
+                </Hyperlink>
+            </TextBlock>
+
+        </Grid>
+
 
 
     </Grid>

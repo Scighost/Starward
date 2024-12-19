@@ -1609,4 +1609,13 @@ Do you accept the risk and continue to use it?</value>
   <data name="InterKnotMonthlyReportPage_OtherRewards" xml:space="preserve">
     <value>Other Rewards</value>
   </data>
+  <data name="StartGameButton_ResumeDownload" xml:space="preserve">
+    <value>Resume Download</value>
+  </data>
+  <data name="StartGameButton_Waiting" xml:space="preserve">
+    <value>Waiting</value>
+  </data>
+  <data name="GameLauncherPage_Relocate" xml:space="preserve">
+    <value>Relocate</value>
+  </data>
 </root>
