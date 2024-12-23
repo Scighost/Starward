@@ -1618,4 +1618,28 @@ Do you accept the risk and continue to use it?</value>
   <data name="GameLauncherPage_Relocate" xml:space="preserve">
     <value>Relocate</value>
   </data>
+  <data name="GameLauncherSettingDialog_RelocateGame" xml:space="preserve">
+    <value>Relocate Game</value>
+  </data>
+  <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="GameLauncherSettingDialog_BasticInformation" xml:space="preserve">
+    <value>Bastic Information</value>
+  </data>
+  <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
+    <value>Startup Arguments</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CustomBackground" xml:space="preserve">
+    <value>Custom Background</value>
+  </data>
+  <data name="GameLauncherSettingDialog_GamePackages" xml:space="preserve">
+    <value>Game Packages</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CommandLineArgument" xml:space="preserve">
+    <value>Command Line Argument</value>
+  </data>
+  <data name="GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument" xml:space="preserve">
+    <value>See more information about command line argument.</value>
+  </data>
 </root>

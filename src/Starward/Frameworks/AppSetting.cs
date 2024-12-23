@@ -1,8 +1,8 @@
 ﻿using Dapper;
 using Starward.Core;
 using Starward.Features.Database;
+using Starward.Features.GameLauncher;
 using Starward.Features.ViewHost;
-using Starward.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -235,9 +235,9 @@ public static class AppSetting
     }
 
 
-    public static AfterStartGameAction AfterStartGameAction
+    public static StartGameAction StartGameAction
     {
-        get => GetValue<AfterStartGameAction>();
+        get => GetValue<StartGameAction>();
         set => SetValue(value);
     }
 

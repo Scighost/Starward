@@ -37,6 +37,7 @@
             <local:StartGameButton HorizontalAlignment="Right"
                                    CanExecute="{x:Bind StartGameButtonCanExecute}"
                                    Command="{x:Bind ClickStartGameButtonCommand}"
+                                   SettingCommand="{x:Bind OpenGameLauncherSettingDialogCommand}"
                                    State="{x:Bind GameState}" />
 
             <Border x:Name="Border_TextShadowTarget" Grid.Row="1" />

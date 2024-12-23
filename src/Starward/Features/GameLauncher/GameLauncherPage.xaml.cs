@@ -202,6 +202,12 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
+    [RelayCommand]
+    private async Task OpenGameLauncherSettingDialogAsync()
+    {
+        await new GameLauncherSettingDialog { CurrentGameId = this.CurrentGameId, XamlRoot = this.XamlRoot }.ShowAsync();
+    }
+
 
 
 

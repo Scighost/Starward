@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas;
@@ -39,6 +40,8 @@ public sealed partial class AppBackground : UserControl
     public AppBackground()
     {
         this.InitializeComponent();
+        WeakReferenceMessenger.Default.Register<BackgroundChangedMessage>(this, OnBackgroundChanged);
+        Unloaded += (_, _) => { DisposeVideoResource(); WeakReferenceMessenger.Default.UnregisterAll(this); };
     }
 
 
@@ -76,10 +79,6 @@ public sealed partial class AppBackground : UserControl
     }
 
 
-    private string? lastBackgroundFile;
-
-
-
     private MediaPlayer? mediaPlayer;
 
     private SoftwareBitmap? softwareBitmap;
@@ -109,7 +108,6 @@ public sealed partial class AppBackground : UserControl
                 if (!BackgroundService.FileIsSupportedVideo(file))
                 {
                     BackgroundImageSource = new BitmapImage(new Uri(file));
-                    lastBackgroundFile = file;
                     try
                     {
                         string? hex = AppConfig.AccentColor;
@@ -125,7 +123,6 @@ public sealed partial class AppBackground : UserControl
             else
             {
                 BackgroundImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"));
-                lastBackgroundFile = file;
             }
         }
         catch (Exception ex)
@@ -155,11 +152,6 @@ public sealed partial class AppBackground : UserControl
             }
 
             var file = await _backgroundService.GetBackgroundFileAsync(CurrentGameId);
-            if (file == lastBackgroundFile)
-            {
-                return;
-            }
-
             DisposeVideoResource();
             BackgroundImageSource = null;
 
@@ -173,7 +165,6 @@ public sealed partial class AppBackground : UserControl
                 {
                     await ChangeBackgroundImageAsync(file, cancelSource.Token);
                 }
-                lastBackgroundFile = file;
             }
         }
         catch (COMException ex)
@@ -301,6 +292,12 @@ public sealed partial class AppBackground : UserControl
         });
     }
 
+
+
+    private async void OnBackgroundChanged(object _, BackgroundChangedMessage message)
+    {
+        await UpdateBackgroundAsync();
+    }
 
 
 

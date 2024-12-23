@@ -1548,6 +1548,78 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Bastic Information 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_BasticInformation {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_BasticInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Command Line Argument 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_CommandLineArgument {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_CommandLineArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Custom Background 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_CustomBackground {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_CustomBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Game Packages 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_GamePackages {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_GamePackages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Relocate Game 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_RelocateGame {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_RelocateGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 See more information about command line argument. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Size 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_Size {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Startup Arguments 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_StartupArguments {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_StartupArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Diff Packages 的本地化字符串。
         /// </summary>
         public static string GameResourcePage_DiffPackages {

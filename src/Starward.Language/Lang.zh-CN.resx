@@ -555,7 +555,7 @@
     <value>定位</value>
   </data>
   <data name="LauncherPage_RepairGame" xml:space="preserve">
-    <value>一键修复</value>
+    <value>修复游戏</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
     <value>自定义启动程序</value>
@@ -1617,5 +1617,29 @@
   </data>
   <data name="GameLauncherPage_Relocate" xml:space="preserve">
     <value>重新定位</value>
+  </data>
+  <data name="GameLauncherSettingDialog_RelocateGame" xml:space="preserve">
+    <value>重新定位游戏</value>
+  </data>
+  <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="GameLauncherSettingDialog_BasticInformation" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
+    <value>启动参数</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CustomBackground" xml:space="preserve">
+    <value>自定义背景</value>
+  </data>
+  <data name="GameLauncherSettingDialog_GamePackages" xml:space="preserve">
+    <value>游戏包体</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CommandLineArgument" xml:space="preserve">
+    <value>命令行参数</value>
+  </data>
+  <data name="GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument" xml:space="preserve">
+    <value>查看有关命令行参数的更多信息</value>
   </data>
 </root>

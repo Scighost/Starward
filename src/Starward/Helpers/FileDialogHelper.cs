@@ -1,5 +1,6 @@
 ﻿// https://referencesource.microsoft.com/#system.windows.forms/winforms/Managed/System/WinForms/FileDialog_Vista_Interop.cs
 
+using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -78,6 +79,11 @@ internal static class FileDialogHelper
     }
 
 
+    public static async Task<string?> PickSingleFileAsync(XamlRoot xamlRoot, params (string Name, string Extension)[] fileTypeFilter)
+    {
+        return await PickSingleFileAsync((nint)xamlRoot.ContentIslandEnvironment.AppWindowId.Value, fileTypeFilter);
+    }
+
 
     public static async Task<string?> OpenSaveFileDialogAsync(nint parentWindow, string? fileName = null, params (string Name, string Extension)[] fileTypeFilter)
     {
@@ -146,6 +152,11 @@ internal static class FileDialogHelper
         }
     }
 
+
+    public static async Task<string?> OpenSaveFileDialogAsync(XamlRoot xamlRoot, string? fileName = null, params (string Name, string Extension)[] fileTypeFilter)
+    {
+        return await OpenSaveFileDialogAsync((nint)xamlRoot.ContentIslandEnvironment.AppWindowId.Value, fileName, fileTypeFilter);
+    }
 
 
     private static COMDLG_FILTERSPEC[] SetFileTypeFilter(in IFileDialog dialog, params (string Name, string Spec)[] fileTypeFilter)
@@ -222,6 +233,11 @@ internal static class FileDialogHelper
         }
     }
 
+
+    public static async Task<string?> PickFolderAsync(XamlRoot xamlRoot)
+    {
+        return await PickFolderAsync((nint)xamlRoot.ContentIslandEnvironment.AppWindowId.Value);
+    }
 
 
 

@@ -57,6 +57,7 @@ public sealed partial class GameBannerAndPost : UserControl
     {
         WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
         WeakReferenceMessenger.Default.Register<GameNoticeWindowClosedMessage>(this, OnGameNoticeWindowClosed);
+        WeakReferenceMessenger.Default.Register<GameAnnouncementSettingChangedMessage>(this, OnGameAnnouncementSettingChanged);
         await UpdateGameContentAsync();
         await UpdateGameNoticeAlertAsync();
     }
@@ -80,6 +81,28 @@ public sealed partial class GameBannerAndPost : UserControl
     private async void OnGameNoticeWindowClosed(object _, GameNoticeWindowClosedMessage message)
     {
         await UpdateGameNoticeAlertAsync();
+    }
+
+
+    private async void OnGameAnnouncementSettingChanged(object _, GameAnnouncementSettingChangedMessage message)
+    {
+        if (AppSetting.EnableBannerAndPost)
+        {
+            ShowBannerAndPost = true;
+            await UpdateGameContentAsync();
+            if (AppSetting.DisableGameNoticeRedHot)
+            {
+                IsGameNoticesAlert = false;
+            }
+            else
+            {
+                await UpdateGameNoticeAlertAsync();
+            }
+        }
+        else
+        {
+            ShowBannerAndPost = false;
+        }
     }
 
 
