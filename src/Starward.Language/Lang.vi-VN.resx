@@ -1583,7 +1583,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thiết bị lưu trữ di động không được kết nối.</value>
   </data>
   <data name="InterKnotMonthlyReportPage_PolychromeRevenueStreams" xml:space="preserve">
-    <value>Polychrome Revenue Streams</value>
+    <value>Các nguồn thu đa dạng</value>
   </data>
   <data name="HoyolabToolboxPage_InterKnotMonthlyReport" xml:space="preserve">
     <value>Báo cáo tháng Inter-Knot</value>
@@ -1610,27 +1610,27 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Phần quà khác</value>
   </data>
   <data name="DeleteGachaLogDialog_BeginTime" xml:space="preserve">
-    <value>Begin Time</value>
+    <value>Thời gian bắt đầu</value>
   </data>
   <data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
-    <value>End Time</value>
+    <value>Thời gian kết thúc</value>
   </data>
   <data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
-    <value>Delete gacha records for a specific time period</value>
+    <value>Xoá lịch sử gacha trong một khoảng thời gian cụ thể</value>
   </data>
   <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
-    <value>Warning: The selected time period includes gacha records from more than 6 months ago, which cannot be retrieved after deleting.</value>
+    <value>Cảnh báo: Khoảng thời gian đã chọn bao gồm dữ liệu gacha từ hơn 6 tháng trước, dữ liệu này sẽ không thể khôi phục sau khi bị xóa.</value>
   </data>
   <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
-    <value>This account has {0} gacha record(s).</value>
+    <value>Tài khoản này có {0} dữ liệu gacha.</value>
   </data>
   <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
-    <value>The selected time period includes {0} gacha records.</value>
+    <value>Khoảng thời gian đã chọn bao gồm {0} bản ghi gacha.</value>
   </data>
   <data name="GachaLogPage_DeleteAll" xml:space="preserve">
     <value>Xoá tất cả</value>
   </data>
   <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
-    <value>Specific Time Period</value>
+    <value>Khoảng thời gian cụ thể</value>
   </data>
 </root>
