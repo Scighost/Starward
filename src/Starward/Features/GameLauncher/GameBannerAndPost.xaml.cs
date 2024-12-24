@@ -84,8 +84,10 @@ public sealed partial class GameBannerAndPost : UserControl
     }
 
 
+
     private async void OnGameAnnouncementSettingChanged(object _, GameAnnouncementSettingChangedMessage message)
     {
+        // 没有设置取消，网络不好时可能会造成状态异常，懒得写了
         if (AppSetting.EnableBannerAndPost)
         {
             ShowBannerAndPost = true;

@@ -162,6 +162,7 @@ public static class AppSetting
     }
 
 
+    [Obsolete("已不用", true)]
     public static bool UseOneBg
     {
         get => GetValue<bool>();
@@ -348,26 +349,50 @@ public static class AppSetting
 
 
 
+    public static bool GetUseVersionPoster(GameBiz biz)
+    {
+        return GetValue<bool>(default, $"use_version_poster_{biz}");
+    }
+
+    public static void SetUseVersionPoster(GameBiz biz, bool value)
+    {
+        SetValue(value, $"use_version_poster_{biz}");
+    }
+
+
+
+    public static string? GetVersionPoster(GameBiz biz)
+    {
+        return GetValue<string>(default, $"version_poster_{biz}");
+    }
+
+    public static void SetVersionPoster(GameBiz biz, string? value)
+    {
+        SetValue(value, $"version_poster_{biz}");
+    }
+
+
+
     public static string? GetCustomBg(GameBiz biz)
     {
-        return GetValue<string>(default, UseOneBg ? $"custom_bg_All" : $"custom_bg_{biz}");
+        return GetValue<string>(default, $"custom_bg_{biz}");
     }
 
     public static void SetCustomBg(GameBiz biz, string? value)
     {
-        SetValue(value, UseOneBg ? $"custom_bg_All" : $"custom_bg_{biz}");
+        SetValue(value, $"custom_bg_{biz}");
     }
 
 
 
     public static bool GetEnableCustomBg(GameBiz biz)
     {
-        return GetValue<bool>(default, UseOneBg ? $"enable_custom_bg_All" : $"enable_custom_bg_{biz}");
+        return GetValue<bool>(default, $"enable_custom_bg_{biz}");
     }
 
     public static void SetEnableCustomBg(GameBiz biz, bool value)
     {
-        SetValue(value, UseOneBg ? $"enable_custom_bg_All" : $"enable_custom_bg_{biz}");
+        SetValue(value, $"enable_custom_bg_{biz}");
     }
 
 

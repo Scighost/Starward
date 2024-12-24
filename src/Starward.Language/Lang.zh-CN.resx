@@ -1624,7 +1624,7 @@
   <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
     <value>大小</value>
   </data>
-  <data name="GameLauncherSettingDialog_BasticInformation" xml:space="preserve">
+  <data name="GameLauncherSettingDialog_BasicInformation" xml:space="preserve">
     <value>基本信息</value>
   </data>
   <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
@@ -1641,5 +1641,8 @@
   </data>
   <data name="GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument" xml:space="preserve">
     <value>查看有关命令行参数的更多信息</value>
+  </data>
+  <data name="GameLauncherSettingDialog_UseVersionPoster" xml:space="preserve">
+    <value>使用版本海报</value>
   </data>
 </root>

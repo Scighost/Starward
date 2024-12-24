@@ -124,7 +124,7 @@
             </NavigationView.PaneHeader>
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="{x:Bind lang:Lang.GameLauncherSettingDialog_BasticInformation}"
+                <NavigationViewItem Content="{x:Bind lang:Lang.GameLauncherSettingDialog_BasicInformation}"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                     IsSelected="True"
                                     Tag="0" />
@@ -379,6 +379,42 @@
                 <FlipViewItem>
                     <StackPanel Spacing="12">
 
+                        <!--  使用版本海报  -->
+                        <ToggleSwitch Margin="0,0,0,-8"
+                                      IsOn="{x:Bind UseVersionPoster, Mode=TwoWay}"
+                                      OffContent="{x:Bind lang:Lang.GameLauncherSettingDialog_UseVersionPoster}"
+                                      OnContent="{x:Bind lang:Lang.GameLauncherSettingDialog_UseVersionPoster}" />
+
+                        <!--  版本海报  -->
+                        <Button Height="40"
+                                Padding="0"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                BorderThickness="0"
+                                Command="{x:Bind OpenVersionPosterCommand}"
+                                CornerRadius="8"
+                                Visibility="{x:Bind VersionPoster, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="16,0,16,1"
+                                           VerticalAlignment="Center"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+                                           Text="{x:Bind VersionPoster}"
+                                           TextTrimming="CharacterEllipsis"
+                                           TextWrapping="Wrap" />
+                                <FontIcon Grid.Column="1"
+                                          Margin="16,0,16,0"
+                                          FontSize="14"
+                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                          Glyph="&#xE8A7;" />
+                            </Grid>
+                        </Button>
+
+                        <!--  自定义背景  -->
                         <ToggleSwitch Margin="0,0,0,-8"
                                       IsOn="{x:Bind EnableCustomBg, Mode=TwoWay}"
                                       OffContent="{x:Bind lang:Lang.SettingPage_CustomBackgroundSupportVideo}"
@@ -393,6 +429,7 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
+                            <!--  选择  -->
                             <Button Height="36"
                                     BorderThickness="0"
                                     Command="{x:Bind ChangeCustomBgCommand}"

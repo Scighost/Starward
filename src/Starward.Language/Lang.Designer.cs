@@ -1548,11 +1548,11 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Bastic Information 的本地化字符串。
+        ///   查找类似 Basic Information 的本地化字符串。
         /// </summary>
-        public static string GameLauncherSettingDialog_BasticInformation {
+        public static string GameLauncherSettingDialog_BasicInformation {
             get {
-                return ResourceManager.GetString("GameLauncherSettingDialog_BasticInformation", resourceCulture);
+                return ResourceManager.GetString("GameLauncherSettingDialog_BasicInformation", resourceCulture);
             }
         }
         
@@ -1616,6 +1616,15 @@ namespace Starward.Language {
         public static string GameLauncherSettingDialog_StartupArguments {
             get {
                 return ResourceManager.GetString("GameLauncherSettingDialog_StartupArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Use Version Poster 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_UseVersionPoster {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_UseVersionPoster", resourceCulture);
             }
         }
         

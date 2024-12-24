@@ -55,7 +55,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     public GameBiz CurrentGameBiz { get; set; }
 
 
-    public string CurrentSettingTitle { get; set => SetProperty(ref field, value); } = "Basic Information";
+    public string CurrentSettingTitle { get; set => SetProperty(ref field, value); } = Lang.GameLauncherSettingDialog_BasicInformation;
 
 
 
@@ -155,16 +155,24 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
     public GameBizIcon CurrentGameBizIcon { get; set => SetProperty(ref field, value); }
 
-
+    /// <summary>
+    /// 安装路径
+    /// </summary>
     public string? InstallPath { get; set => SetProperty(ref field, value); }
 
-
+    /// <summary>
+    /// 文件夹大小
+    /// </summary>
     public string? GameSize { get; set => SetProperty(ref field, value); }
 
-
+    /// <summary>
+    /// 是否可以卸载和修复
+    /// </summary>
     public bool UninstallAndRepairEnabled { get; set => SetProperty(ref field, value); }
 
-
+    /// <summary>
+    /// 是否启用公告
+    /// </summary>
     public bool EnableBannerAndPost
     {
         get;
@@ -177,7 +185,9 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     } = AppSetting.EnableBannerAndPost;
 
 
-
+    /// <summary>
+    /// 是否启用游戏公告红点
+    /// </summary>
     public bool DisableGameNoticeRedHot
     {
         get;
@@ -273,7 +283,9 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     #region 启动参数
 
 
-
+    /// <summary>
+    /// 命令行启动参数
+    /// </summary>
     [ObservableProperty]
     public string? _StartGameArgument;
     partial void OnStartGameArgumentChanged(string? value)
@@ -282,6 +294,9 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
+    /// <summary>
+    /// 启动游戏后的操作
+    /// </summary>
     public int StartGameAction
     {
         get;
@@ -293,6 +308,9 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     } = Math.Clamp((int)AppSetting.StartGameAction, 0, 2);
 
 
+    /// <summary>
+    /// 是否启用第三方工具
+    /// </summary>
     [ObservableProperty]
     public bool _EnableThirdPartyTool;
     partial void OnEnableThirdPartyToolChanged(bool value)
@@ -301,7 +319,9 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
+    /// <summary>
+    /// 第三方工具路径
+    /// </summary>
     [ObservableProperty]
     public string? _ThirdPartyToolPath;
     partial void OnThirdPartyToolPathChanged(string? value)
@@ -384,6 +404,34 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
 
+    /// <summary>
+    /// 是否使用版本海报
+    /// </summary>
+    [ObservableProperty]
+    public bool _UseVersionPoster;
+    partial void OnUseVersionPosterChanged(bool value)
+    {
+        AppSetting.SetUseVersionPoster(CurrentGameBiz, value);
+        if (value && EnableCustomBg)
+        {
+            EnableCustomBg = false;
+        }
+        else
+        {
+            WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
+        }
+    }
+
+
+    /// <summary>
+    /// 版本海报，文件名，存储在 UserDataFolder/bg
+    /// </summary>
+    public string? VersionPoster { get; set => SetProperty(ref field, value); }
+
+
+    /// <summary>
+    /// 是否启用自定义背景
+    /// </summary>
     [ObservableProperty]
     public bool _EnableCustomBg;
     partial void OnEnableCustomBgChanged(bool value)
@@ -393,8 +441,26 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
+    /// <summary>
+    /// 自定义背景，文件名，存储在 UserDataFolder/bg
+    /// </summary>
     public string? CustomBg { get; set => SetProperty(ref field, value); }
 
+
+
+    [RelayCommand]
+    private async Task OpenVersionPosterAsync()
+    {
+        try
+        {
+            string path = Path.Join(AppSetting.UserDataFolder, "bg", VersionPoster);
+            if (File.Exists(path))
+            {
+                await Launcher.LaunchUriAsync(new Uri(path));
+            }
+        }
+        catch { }
+    }
 
 
     [RelayCommand]
@@ -422,8 +488,11 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
     private void InitializeCustomBg()
     {
+        _UseVersionPoster = AppSetting.GetUseVersionPoster(CurrentGameBiz);
         _EnableCustomBg = AppSetting.GetEnableCustomBg(CurrentGameBiz);
         CustomBg = AppSetting.GetCustomBg(CurrentGameBiz);
+        VersionPoster = AppSetting.GetVersionPoster(CurrentGameBiz);
+        OnPropertyChanged(nameof(UseVersionPoster));
         OnPropertyChanged(nameof(EnableCustomBg));
     }
 
@@ -438,16 +507,24 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
 
-
+    /// <summary>
+    /// 最新版本
+    /// </summary>
     public string LatestVersion { get; set => SetProperty(ref field, value); }
 
-
+    /// <summary>
+    /// 最新版本包体
+    /// </summary>
     public List<PackageGroup> LatestPackageGroups { get; set => SetProperty(ref field, value); }
 
-
+    /// <summary>
+    /// 预下载版本
+    /// </summary>
     public string PreInstallVersion { get; set => SetProperty(ref field, value); }
 
-
+    /// <summary>
+    /// 预下载版本包体
+    /// </summary>
     public List<PackageGroup> PreInstallPackageGroups { get; set => SetProperty(ref field, value); }
 
 

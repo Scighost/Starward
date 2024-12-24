@@ -93,6 +93,32 @@ public class BackgroundService
 
 
     /// <summary>
+    /// 获取版本海报文件路径
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    private static bool TryGetVersionPosterBgFilePath(GameId gameId, out string? path)
+    {
+        path = null;
+        if (gameId is null)
+        {
+            return false;
+        }
+        if (AppSetting.GetUseVersionPoster(gameId.GameBiz))
+        {
+            path = Path.Join(AppSetting.UserDataFolder, "bg", AppSetting.GetVersionPoster(gameId.GameBiz));
+            if (File.Exists(path))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    /// <summary>
     /// 文件是否是支持的视频格式，支持 mp4、mkv、flv、webm
     /// </summary>
     /// <param name="name"></param>
@@ -120,6 +146,10 @@ public class BackgroundService
         {
             return path;
         }
+        if (TryGetVersionPosterBgFilePath(gameId, out path))
+        {
+            return path;
+        }
         path = GetBgFilePath(AppSetting.GetBg(gameId.GameBiz));
         return File.Exists(path) ? path : null;
     }
@@ -141,6 +171,42 @@ public class BackgroundService
 
 
     /// <summary>
+    /// 更新版本海报
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    private async Task<string?> GetVersionPosterAsync(GameId gameId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (!AppSetting.GetUseVersionPoster(gameId.GameBiz))
+            {
+                return null;
+            }
+            var info = await _hoYoPlayService.GetGameInfoAsync(gameId);
+            string url = info.Display.Background.Url;
+            string bg = Path.Combine(AppConfig.UserDataFolder, "bg");
+            Directory.CreateDirectory(bg);
+            string name = Path.GetFileName(url);
+            string path = Path.Combine(bg, name);
+            if (!File.Exists(path))
+            {
+                byte[] bytes = await _httpClient.GetByteArrayAsync(url, cancellationToken);
+                await File.WriteAllBytesAsync(path, bytes);
+            }
+            AppSetting.SetVersionPoster(gameId.GameBiz, name);
+            return path;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+
+
+    /// <summary>
     /// 获取背景图文件路径，最新的
     /// </summary>
     /// <param name="gameId"></param>
@@ -150,14 +216,19 @@ public class BackgroundService
     {
         try
         {
-            var tokenSource = new CancellationTokenSource(10000);
             string? name, file;
             if (TryGetCustomBgFilePath(gameId, out file))
             {
                 return file;
             }
 
-            string? url = await GetBackgroundImageUrlAsync(gameId, tokenSource.Token);
+            file = await GetVersionPosterAsync(gameId, cancellationToken);
+            if (file is not null)
+            {
+                return file;
+            }
+
+            string? url = await GetBackgroundImageUrlAsync(gameId, cancellationToken);
             if (string.IsNullOrWhiteSpace(url))
             {
                 _logger.LogWarning("Background of mihoyo api is null ({gameBiz})", gameId);
@@ -167,7 +238,7 @@ public class BackgroundService
             file = GetBgFilePath(name);
             if (!File.Exists(file))
             {
-                var bytes = await _httpClient.GetByteArrayAsync(url, tokenSource.Token);
+                var bytes = await _httpClient.GetByteArrayAsync(url, cancellationToken);
                 Directory.CreateDirectory(Path.GetDirectoryName(file)!);
                 await File.WriteAllBytesAsync(file, bytes);
             }
