@@ -1619,18 +1619,18 @@
     <value>刪除特定時間段的抽卡記錄</value>
   </data>
   <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
-    <value>Warning: The selected time period includes gacha records from more than 6 months ago, which cannot be retrieved after deleting.</value>
+    <value>警告：選擇的時段包含 6 個月以前的抽卡紀錄，刪除後將無法再取得。</value>
   </data>
   <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
     <value>這個帳號有 {0} 次抽卡紀錄。</value>
   </data>
   <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
-    <value>The selected time period includes {0} gacha records.</value>
+    <value>選擇的時段包含 {0} 次抽卡紀錄。</value>
   </data>
   <data name="GachaLogPage_DeleteAll" xml:space="preserve">
     <value>全部刪除</value>
   </data>
   <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
-    <value>Specific Time Period</value>
+    <value>指定時段</value>
   </data>
 </root>
