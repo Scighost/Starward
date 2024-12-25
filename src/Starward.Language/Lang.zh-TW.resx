@@ -1622,13 +1622,13 @@
     <value>Warning: The selected time period includes gacha records from more than 6 months ago, which cannot be retrieved after deleting.</value>
   </data>
   <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
-    <value>This account has {0} gacha record(s).</value>
+    <value>這個帳號有 {0} 次抽卡紀錄。</value>
   </data>
   <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
     <value>The selected time period includes {0} gacha records.</value>
   </data>
   <data name="GachaLogPage_DeleteAll" xml:space="preserve">
-    <value>Delete All</value>
+    <value>全部刪除</value>
   </data>
   <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
     <value>Specific Time Period</value>
