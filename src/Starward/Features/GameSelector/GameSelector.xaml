@@ -65,7 +65,7 @@
 
         <!--  黑色半透明背景  -->
         <Border x:Name="Border_FullBackground"
-                Padding="68,80,12,12"
+                Padding="68,80,0,0"
                 Background="#66000000"
                 IsHitTestVisible="False"
                 Opacity="0"
@@ -74,158 +74,262 @@
                 <ScalarTransition />
             </Border.OpacityTransition>
 
-            <StackPanel>
+            <ScrollViewer>
+                <StackPanel Margin="0,0,12,12" Spacing="40">
 
-                <!--  游戏展示和选择  -->
-                <ItemsControl ItemsSource="{x:Bind GameBizDisplays}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" Spacing="16" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="local:GameBizDisplay">
-                            <Grid Name="Grid_GameBizDisplay"
-                                  Width="192"
-                                  Height="108"
-                                  Padding="0"
-                                  sh:PointerCursor.CursorShape="Hand"
-                                  Background="#40000000"
-                                  CornerRadius="8"
-                                  PointerEntered="Grid_GameBizDisplay_PointerEntered"
-                                  Tapped="Grid_GameBizDisplay_Tapped">
-                                <!--  背景图  -->
-                                <sc:CachedImage HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                CornerRadius="8"
-                                                Source="{x:Bind GameInfo.Display.Thumbnail.Url}"
-                                                Stretch="UniformToFill" />
-                                <!--  Logo  -->
-                                <sc:CachedImage Name="Grid_GameBizDisplay_Logo"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Background="#60000000"
-                                                Source="{x:Bind GameInfo.Display.Logo.Url}" />
-                                <!--  鼠标移入时 Icon & 选择服务器  -->
-                                <Grid Name="Grid_GameBizDisplay_IconAndName"
-                                      Background="#D0000000"
-                                      BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
-                                      BorderThickness="2"
-                                      CornerRadius="6"
-                                      Opacity="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <sc:CachedImage Grid.Column="1"
-                                                    Width="48"
-                                                    Height="48"
-                                                    Margin="0,0,8,0"
-                                                    HorizontalAlignment="Right"
+                    <!--  游戏展示和选择  -->
+                    <ItemsControl ItemsSource="{x:Bind GameBizDisplays}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="16" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="local:GameBizDisplay">
+                                <Grid Name="Grid_GameBizDisplay"
+                                      Width="192"
+                                      Height="108"
+                                      Padding="0"
+                                      sh:PointerCursor.CursorShape="Hand"
+                                      Background="#40000000"
+                                      CornerRadius="8"
+                                      PointerEntered="Grid_GameBizDisplay_PointerEntered"
+                                      Tapped="Grid_GameBizDisplay_Tapped">
+                                    <!--  背景图  -->
+                                    <sc:CachedImage HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     CornerRadius="8"
-                                                    Source="{x:Bind GameInfo.Display.Icon.Url}" />
-                                    <TextBlock Grid.Column="2"
-                                               Margin="8,0,0,0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontSize="14"
-                                               IsTextScaleFactorEnabled="False"
-                                               Text="{x:Bind lang:Lang.SelectGamePage_SelectGameServer}"
-                                               TextWrapping="Wrap" />
-                                </Grid>
-
-                                <!--  动画  -->
-                                <Grid.Resources>
-                                    <Storyboard x:Key="PointerInStoryboard">
-                                        <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_Logo"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="0"
-                                                         Duration="0:0:0.3" />
-                                        <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_IconAndName"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="1"
-                                                         Duration="0:0:0.3" />
-                                    </Storyboard>
-                                    <Storyboard x:Key="PointerOutStoryboard">
-                                        <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_Logo"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="1"
-                                                         Duration="0:0:0.3" />
-                                        <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_IconAndName"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="0"
-                                                         Duration="0:0:0.3" />
-                                    </Storyboard>
-                                </Grid.Resources>
-
-                                <!--  动画触发  -->
-                                <mxi:Interaction.Behaviors>
-                                    <mxic:EventTriggerBehavior EventName="PointerEntered">
-                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource PointerInStoryboard}" />
-                                    </mxic:EventTriggerBehavior>
-                                    <mxic:EventTriggerBehavior EventName="PointerExited">
-                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource PointerOutStoryboard}" />
-                                    </mxic:EventTriggerBehavior>
-                                </mxi:Interaction.Behaviors>
-
-                                <!--  服务器列表  -->
-                                <FlyoutBase.AttachedFlyout>
-                                    <Flyout>
-                                        <ItemsControl ItemsSource="{x:Bind Servers}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate x:DataType="local:GameBizDisplayServer">
-                                                    <Grid Margin="0,2,0,2" ColumnSpacing="12">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto" />
-                                                            <ColumnDefinition />
-                                                            <ColumnDefinition Width="Auto" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <!--  服务器图标  -->
-                                                        <Border Width="24"
-                                                                Height="24"
-                                                                HorizontalAlignment="Left"
-                                                                CornerRadius="4">
-                                                            <Image Source="{x:Bind GameBizIcon.ServerIcon}" />
-                                                        </Border>
-                                                        <!--  服务器名称  -->
-                                                        <TextBlock Grid.Column="1"
-                                                                   HorizontalAlignment="Left"
-                                                                   VerticalAlignment="Center"
-                                                                   Text="{x:Bind GameBizIcon.ServerName}" />
-                                                        <!--  固定  -->
-                                                        <Button Name="Button_PinGameBiz"
-                                                                Grid.Column="2"
-                                                                Width="28"
-                                                                Height="28"
-                                                                Padding="0"
-                                                                HorizontalAlignment="Right"
-                                                                Click="Button_PinGameBiz_Click"
+                                                    Source="{x:Bind GameInfo.Display.Thumbnail.Url}"
+                                                    Stretch="UniformToFill" />
+                                    <!--  Logo  -->
+                                    <sc:CachedImage Name="Grid_GameBizDisplay_Logo"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Background="#60000000"
+                                                    Source="{x:Bind GameInfo.Display.Logo.Url}" />
+                                    <!--  鼠标移入时 Icon & 选择服务器  -->
+                                    <Grid Name="Grid_GameBizDisplay_IconAndName"
+                                          Background="#D0000000"
+                                          BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                          BorderThickness="2"
+                                          CornerRadius="6"
+                                          Opacity="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <sc:CachedImage Grid.Column="1"
+                                                        Width="48"
+                                                        Height="48"
+                                                        Margin="0,0,8,0"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        CornerRadius="8"
+                                                        Source="{x:Bind GameInfo.Display.Icon.Url}" />
+                                        <TextBlock Grid.Column="2"
+                                                   Margin="8,0,0,0"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="14"
+                                                   IsTextScaleFactorEnabled="False"
+                                                   Text="{x:Bind lang:Lang.SelectGamePage_SelectGameServer}"
+                                                   TextWrapping="Wrap" />
+                                    </Grid>
+                                    <!--  动画  -->
+                                    <Grid.Resources>
+                                        <Storyboard x:Key="PointerInStoryboard">
+                                            <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_Logo"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0"
+                                                             Duration="0:0:0.167" />
+                                            <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_IconAndName"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1"
+                                                             Duration="0:0:0.167" />
+                                        </Storyboard>
+                                        <Storyboard x:Key="PointerOutStoryboard">
+                                            <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_Logo"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="1"
+                                                             Duration="0:0:0.167" />
+                                            <DoubleAnimation Storyboard.TargetName="Grid_GameBizDisplay_IconAndName"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0"
+                                                             Duration="0:0:0.167" />
+                                        </Storyboard>
+                                    </Grid.Resources>
+                                    <!--  动画触发  -->
+                                    <mxi:Interaction.Behaviors>
+                                        <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                            <mxim:ControlStoryboardAction Storyboard="{StaticResource PointerInStoryboard}" />
+                                        </mxic:EventTriggerBehavior>
+                                        <mxic:EventTriggerBehavior EventName="PointerExited">
+                                            <mxim:ControlStoryboardAction Storyboard="{StaticResource PointerOutStoryboard}" />
+                                        </mxic:EventTriggerBehavior>
+                                    </mxi:Interaction.Behaviors>
+                                    <!--  服务器列表  -->
+                                    <FlyoutBase.AttachedFlyout>
+                                        <Flyout>
+                                            <ItemsControl ItemsSource="{x:Bind Servers}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="local:GameBizIcon">
+                                                        <Button x:Name="Button_GameServer"
+                                                                Padding="4"
+                                                                HorizontalAlignment="Stretch"
+                                                                HorizontalContentAlignment="Stretch"
+                                                                Click="Button_GameServer_Click"
                                                                 Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                                                            <Grid>
-                                                                <FontIcon FontSize="16"
-                                                                          Glyph="&#xE718;"
-                                                                          IsTextScaleFactorEnabled="False" />
-                                                                <FontIcon FontSize="16"
-                                                                          Glyph="&#xE841;"
-                                                                          IsTextScaleFactorEnabled="False"
-                                                                          Visibility="{x:Bind IsPinned}" />
+                                                            <Grid ColumnSpacing="12">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <!--  服务器图标  -->
+                                                                <Border Width="24"
+                                                                        Height="24"
+                                                                        CornerRadius="4">
+                                                                    <Image Source="{x:Bind ServerIcon}" />
+                                                                </Border>
+                                                                <!--  服务器名称  -->
+                                                                <TextBlock Grid.Column="1"
+                                                                           HorizontalAlignment="Left"
+                                                                           VerticalAlignment="Center"
+                                                                           Text="{x:Bind ServerName}" />
+                                                                <!--  固定  -->
+                                                                <Button Name="Button_PinGameBiz"
+                                                                        Grid.Column="2"
+                                                                        Width="28"
+                                                                        Height="28"
+                                                                        Padding="0"
+                                                                        HorizontalAlignment="Right"
+                                                                        Click="Button_PinGameBiz_Click"
+                                                                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                                                    <Grid>
+                                                                        <FontIcon FontSize="16"
+                                                                                  Glyph="&#xE718;"
+                                                                                  IsTextScaleFactorEnabled="False" />
+                                                                        <FontIcon FontSize="16"
+                                                                                  Glyph="&#xE841;"
+                                                                                  IsTextScaleFactorEnabled="False"
+                                                                                  Visibility="{x:Bind IsPinned}" />
+                                                                    </Grid>
+                                                                </Button>
                                                             </Grid>
                                                         </Button>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </Flyout>
-                                </FlyoutBase.AttachedFlyout>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Flyout>
+                                    </FlyoutBase.AttachedFlyout>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
-            </StackPanel>
+
+                    <!--  已安装游戏及大小  -->
+                    <Grid HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          Background="{ThemeResource CustomAcrylicBrush}"
+                          CornerRadius="8">
+                        <Expander x:Name="Expander_InstalledGamesActualSize"
+                                  MinWidth="820"
+                                  HorizontalContentAlignment="Stretch"
+                                  Background="Transparent"
+                                  Tapped="Expander_InstalledGamesActualSize_Tapped">
+                            <Expander.Resources>
+                                <StaticResource x:Key="ExpanderHeaderBackground" ResourceKey="ControlFillColorTransparentBrush" />
+                                <Thickness x:Key="ExpanderHeaderBorderThickness">0,0,0,1</Thickness>
+                                <Thickness x:Key="ExpanderContentDownBorderThickness">0</Thickness>
+                            </Expander.Resources>
+                            <Expander.Header>
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                               VerticalAlignment="Center"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                        <Run Text="{x:Bind lang:Lang.GameSelector_ActualSizeOfInstalledGames}" />
+                                        <Run Text="{x:Bind InstalledGamesActualSize}" />
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               Visibility="{x:Bind InstalledGamesSavedSize, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                        <Run Text="{x:Bind lang:Lang.GameSelector_StorageSpaceSavedByHardLinks}" />
+                                        <Run Text="{x:Bind InstalledGamesSavedSize}" />
+                                    </TextBlock>
+                                    <ProgressRing Grid.Column="1"
+                                                  Width="20"
+                                                  Height="20"
+                                                  HorizontalAlignment="Left"
+                                                  IsIndeterminate="True"
+                                                  Visibility="{x:Bind InitializeInstalledGamesCommand.IsRunning}" />
+                                    <Button x:Name="Button_UpdateGamesAcutalSize"
+                                            Grid.Column="2"
+                                            Width="32"
+                                            Height="32"
+                                            Padding="0"
+                                            Command="{x:Bind InitializeInstalledGamesCommand}"
+                                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                        <FontIcon FontSize="14"
+                                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                  Glyph="&#xE72C;" />
+                                    </Button>
+                                </Grid>
+                            </Expander.Header>
+                            <ItemsControl Grid.Row="1" ItemsSource="{x:Bind InstalledGames}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="8" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="local:GameBizIcon">
+                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                            <!--  游戏图标  -->
+                                            <sc:CachedImage Width="36"
+                                                            Height="36"
+                                                            CornerRadius="8"
+                                                            Source="{x:Bind GameIcon, FallbackValue={x:Null}}" />
+                                            <!--  游戏名  -->
+                                            <TextBlock MinWidth="160"
+                                                       VerticalAlignment="Center"
+                                                       Text="{x:Bind GameName}" />
+                                            <!--  服务器图标  -->
+                                            <sc:CachedImage Width="24"
+                                                            Height="24"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            CornerRadius="4"
+                                                            Source="{x:Bind ServerIcon, FallbackValue={x:Null}}" />
+                                            <!--  服务器名  -->
+                                            <TextBlock MinWidth="100"
+                                                       VerticalAlignment="Center"
+                                                       Text="{x:Bind ServerName}" />
+                                            <TextBlock MinWidth="100"
+                                                       VerticalAlignment="Center"
+                                                       Text="{x:Bind TotalSizeText}" />
+                                            <TextBlock MinWidth="200"
+                                                       VerticalAlignment="Center"
+                                                       Text="{x:Bind InstallPath}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Expander>
+                    </Grid>
+
+
+                </StackPanel>
+            </ScrollViewer>
+
 
         </Border>
 

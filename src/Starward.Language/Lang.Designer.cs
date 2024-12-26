@@ -1656,6 +1656,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Actual Size of Installed Games 的本地化字符串。
+        /// </summary>
+        public static string GameSelector_ActualSizeOfInstalledGames {
+            get {
+                return ResourceManager.GetString("GameSelector_ActualSizeOfInstalledGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Storage Space Saved by Hard Links 的本地化字符串。
+        /// </summary>
+        public static string GameSelector_StorageSpaceSavedByHardLinks {
+            get {
+                return ResourceManager.GetString("GameSelector_StorageSpaceSavedByHardLinks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Anti-Aliasing 的本地化字符串。
         /// </summary>
         public static string GameSettingPage_AntiAliasing {

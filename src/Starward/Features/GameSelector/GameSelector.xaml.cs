@@ -5,18 +5,24 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
 using Starward.Frameworks;
 using Starward.Helpers;
 using Starward.Messages;
-using Starward.Services.Launcher;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.Foundation;
 
 
@@ -30,7 +36,10 @@ public sealed partial class GameSelector : UserControl
     public event EventHandler<(GameId, bool DoubleTapped)>? CurrentGameChanged;
 
 
-    private HoYoPlayService _hoyoplayService = AppService.GetService<HoYoPlayService>();
+    private readonly HoYoPlayService _hoyoplayService = AppService.GetService<HoYoPlayService>();
+
+
+    private readonly GameLauncherService _gameLauncherService = AppService.GetService<GameLauncherService>();
 
 
 
@@ -38,8 +47,8 @@ public sealed partial class GameSelector : UserControl
     {
         this.InitializeComponent();
         InitializeGameSelector();
+        this.Loaded += GameSelector_Loaded;
     }
-
 
 
 
@@ -64,34 +73,31 @@ public sealed partial class GameSelector : UserControl
     {
         InitializeGameIconsArea();
         InitializeGameServerArea();
+        InitializeInstalledGamesCommand.Execute(null);
     }
 
 
 
-    [RelayCommand]
-    public void AutoSearchInstalledGames()
+    private async void GameSelector_Loaded(object sender, RoutedEventArgs e)
     {
-        try
-        {
-            // todo 从注册表自动搜索已安装的游戏
-            var service = AppService.GetService<GameLauncherService>();
-            var sb = new StringBuilder();
-            foreach (GameBiz biz in GameBiz.AllGameBizs)
-            {
-                if (service.IsGameExeExists(biz))
-                {
-                    sb.Append(biz.ToString());
-                    sb.Append(',');
-                }
-            }
-            AppSetting.SelectedGameBizs = sb.ToString().TrimEnd(',');
-            InitializeGameSelector();
-        }
-        catch (Exception ex)
-        {
+        await Task.Delay(2000);
+        await UpdateGameInfoAsync();
+    }
 
+
+
+
+
+    public async void OnLanguageChanged(object? sender, LanguageChangedMessage message)
+    {
+        // todo 语言切换
+        if (message.Completed)
+        {
+            this.Bindings.Update();
+            await UpdateGameInfoAsync();
         }
     }
+
 
 
 
@@ -415,7 +421,6 @@ public sealed partial class GameSelector : UserControl
 
 
 
-
     #region Full Background 黑色半透明背景
 
 
@@ -485,7 +490,7 @@ public sealed partial class GameSelector : UserControl
         try
         {
             var list = new List<GameBizDisplay>();
-            var infos = _hoyoplayService.GetCachedGameInfos();
+            var infos = _hoyoplayService.GetCachedGameInfoList();
 
             if (LanguageUtil.FilterLanguage(CultureInfo.CurrentUICulture.Name) is "zh-cn")
             {
@@ -510,6 +515,7 @@ public sealed partial class GameSelector : UserControl
                 }
             }
 
+            // 分类每个游戏的服务器信息
             foreach (var item in list)
             {
                 string game = item.GameInfo.GameBiz.Game;
@@ -518,18 +524,16 @@ public sealed partial class GameSelector : UserControl
                     GameBiz biz = game + suffix;
                     if (biz.IsKnown())
                     {
-                        var server = new GameBizDisplayServer
+                        var server = new GameBizIcon(biz)
                         {
-                            GameBizIcon = new GameBizIcon(biz),
                             IsPinned = GameBizIcons.Any(x => x.GameBiz == biz),
                         };
                         item.Servers.Add(server);
                     }
                     else if (_hoyoplayService.GetCachedGameInfo(biz) is GameInfo info)
                     {
-                        var server = new GameBizDisplayServer
+                        var server = new GameBizIcon(info)
                         {
-                            GameBizIcon = new GameBizIcon(info),
                             IsPinned = GameBizIcons.Any(x => x.GameBiz == biz),
                         };
                         item.Servers.Add(server);
@@ -540,6 +544,37 @@ public sealed partial class GameSelector : UserControl
         }
         catch { }
     }
+
+
+
+    /// <summary>
+    /// 更新所有游戏服务器信息，更新游戏图标
+    /// </summary>
+    /// <returns></returns>
+    private async Task UpdateGameInfoAsync()
+    {
+        try
+        {
+            _hoyoplayService.ClearCache();
+            await _hoyoplayService.UpdateGameInfoListAsync();
+            InitializeGameServerArea();
+            foreach (GameBizIcon icon in GameBizIcons)
+            {
+                if (icon.GameBiz.IsKnown())
+                {
+                    icon.UpdateInfo();
+                }
+                else
+                {
+                    GameInfo info = await _hoyoplayService.GetGameInfoAsync(icon.GameId);
+                    icon.UpdateInfo(info);
+                }
+            }
+            await InitializeInstalledGamesCommand.ExecuteAsync(null);
+        }
+        catch { }
+    }
+
 
 
 
@@ -559,7 +594,7 @@ public sealed partial class GameSelector : UserControl
         if (sender is FrameworkElement ele)
         {
             e.Handled = true;
-            _isGameBizDisplayPressed = true;
+            _isGameBizDisplayPressed = !_isGameBizDisplayPressed;
             FlyoutBase.GetAttachedFlyout(ele)?.ShowAt(ele, new FlyoutShowOptions
             {
                 Placement = FlyoutPlacementMode.Bottom,
@@ -587,6 +622,42 @@ public sealed partial class GameSelector : UserControl
     }
 
 
+    /// <summary>
+    /// 点击服务器图标
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Button_GameServer_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement fe && fe.DataContext is GameBizIcon server)
+            {
+                if (CurrentGameBizIcon is not null)
+                {
+                    CurrentGameBizIcon.IsSelected = false;
+                }
+
+                if (GameBizIcons.FirstOrDefault(x => x.GameId == server.GameId) is GameBizIcon icon)
+                {
+                    CurrentGameBizIcon = icon;
+                    CurrentGameBiz = icon.GameBiz;
+                    CurrentGameId = icon.GameId;
+                    icon.IsSelected = true;
+                }
+                else
+                {
+                    CurrentGameBizIcon = server;
+                    server.IsSelected = true;
+                }
+
+                CurrentGameChanged?.Invoke(this, (server.GameId, false));
+                AppSetting.CurrentGameBiz = server.GameBiz;
+            }
+        }
+        catch { }
+    }
+
 
     /// <summary>
     /// 固定游戏服务器图标到待选区
@@ -595,9 +666,9 @@ public sealed partial class GameSelector : UserControl
     /// <param name="e"></param>
     private void Button_PinGameBiz_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is FrameworkElement fe && fe.DataContext is GameBizDisplayServer server)
+        if (sender is FrameworkElement fe && fe.DataContext is GameBizIcon server)
         {
-            var biz = server.GameBizIcon.GameBiz;
+            var biz = server.GameBiz;
             if (GameBizIcons.FirstOrDefault(x => x.GameBiz == biz) is GameBizIcon icon)
             {
                 GameBizIcons.Remove(icon);
@@ -605,7 +676,7 @@ public sealed partial class GameSelector : UserControl
             }
             else
             {
-                GameBizIcons.Add(server.GameBizIcon);
+                GameBizIcons.Add(server);
                 server.IsPinned = true;
             }
         }
@@ -620,15 +691,164 @@ public sealed partial class GameSelector : UserControl
 
 
 
+    #region Installed Games
 
-    public void OnLanguageChanged(object? sender, LanguageChangedMessage message)
+
+    /// <summary>
+    /// 已安装游戏的实际占用空间
+    /// </summary>
+    public string? InstalledGamesActualSize { get; set => SetProperty(ref field, value); }
+
+
+    /// <summary>
+    /// 已安装游戏的总空间
+    /// </summary>
+    public string? InstalledGamesSavedSize { get; set => SetProperty(ref field, value); }
+
+
+
+
+    public ObservableCollection<GameBizIcon> InstalledGames { get; set; } = new();
+
+
+
+    private CancellationTokenSource? _initializeInstalledGamesCancellationTokenSource;
+
+
+    /// <summary>
+    /// 初始化已安装游戏列表，计算已安装游戏的实际占用空间
+    /// </summary>
+    /// <returns></returns>
+    [RelayCommand]
+    private async Task InitializeInstalledGamesAsync()
     {
-        // todo 语言切换
-        if (message.Completed)
+        const double GB = 1 << 30;
+        try
         {
-            this.Bindings.Update();
+            _initializeInstalledGamesCancellationTokenSource?.Cancel();
+            _initializeInstalledGamesCancellationTokenSource = new();
+            CancellationToken token = _initializeInstalledGamesCancellationTokenSource.Token;
+
+            InstalledGames.Clear();
+            InstalledGamesActualSize = null;
+            InstalledGamesSavedSize = null;
+            List<FileInfo> files = new();
+
+            foreach (GameBizDisplay display in GameBizDisplays)
+            {
+                List<FileInfo> _duplicateFiles = new();
+                int serverCount = 0;
+                foreach (GameBizIcon server in display.Servers)
+                {
+                    string? installPath = _gameLauncherService.GetGameInstallPath(server.GameId);
+                    if (Directory.Exists(installPath))
+                    {
+                        server.InstallPath = installPath;
+                        var _files = new DirectoryInfo(installPath).EnumerateFiles("*", SearchOption.AllDirectories).ToList();
+                        server.TotalSize = _files.Sum(x => x.Length);
+                        InstalledGames.Add(server);
+                        if (_files.Count() > 0)
+                        {
+                            serverCount++;
+                            _duplicateFiles.AddRange(_files);
+                        }
+                    }
+                }
+                if (serverCount > 1)
+                {
+                    files.AddRange(_duplicateFiles);
+                }
+            }
+            long totalSize = InstalledGames.Sum(x => x.TotalSize);
+            InstalledGamesActualSize = $"{totalSize / GB:F2}GB";
+
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            if (files.Count > 0)
+            {
+                (long fileSize, long actualSize) = await Task.Run(() =>
+                {
+                    long size = 0;
+                    Dictionary<string, long> dic = new();
+                    foreach (var file in files)
+                    {
+                        size += file.Length;
+                        using var handle = File.OpenHandle(file.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                        var idInfo = Kernel32.GetFileInformationByHandleEx<Kernel32.FILE_ID_INFO>(handle, Kernel32.FILE_INFO_BY_HANDLE_CLASS.FileIdInfo);
+                        var idInfoBytes = MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref idInfo, 1));
+                        dic[Convert.ToHexString(idInfoBytes)] = file.Length;
+                    }
+                    return (size, dic.Values.Sum());
+                }, token);
+
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                InstalledGamesActualSize = $"{(totalSize - fileSize + actualSize) / GB:F2}GB";
+                InstalledGamesSavedSize = $"{(fileSize - actualSize) / GB:F2}GB";
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
         }
     }
+
+
+
+
+
+    [RelayCommand]
+    public void AutoSearchInstalledGames()
+    {
+        try
+        {
+            // todo 从注册表自动搜索已安装的游戏
+            //var service = AppService.GetService<GameLauncherService>();
+            //var sb = new StringBuilder();
+            //foreach (GameBiz biz in GameBiz.AllGameBizs)
+            //{
+            //    if (service.IsGameExeExistsAsync(biz))
+            //    {
+            //        sb.Append(biz.ToString());
+            //        sb.Append(',');
+            //    }
+            //}
+            //AppSetting.SelectedGameBizs = sb.ToString().TrimEnd(',');
+            //InitializeGameSelector();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
+    }
+
+
+
+
+    /// <summary>
+    /// 防止点击已安装游戏列表时，触发 <see cref="Border_FullBackground_Tapped(object, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs)"/>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Expander_InstalledGamesActualSize_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    {
+        e.Handled = true;
+    }
+
+
+
+    #endregion
+
+
+
+
+
 
 
 }

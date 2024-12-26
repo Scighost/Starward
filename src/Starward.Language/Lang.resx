@@ -1645,4 +1645,10 @@ Do you accept the risk and continue to use it?</value>
   <data name="GameLauncherSettingDialog_UseVersionPoster" xml:space="preserve">
     <value>Use Version Poster</value>
   </data>
+  <data name="GameSelector_ActualSizeOfInstalledGames" xml:space="preserve">
+    <value>Actual Size of Installed Games</value>
+  </data>
+  <data name="GameSelector_StorageSpaceSavedByHardLinks" xml:space="preserve">
+    <value>Storage Space Saved by Hard Links</value>
+  </data>
 </root>

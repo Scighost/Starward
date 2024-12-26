@@ -1645,4 +1645,10 @@
   <data name="GameLauncherSettingDialog_UseVersionPoster" xml:space="preserve">
     <value>使用版本海报</value>
   </data>
+  <data name="GameSelector_ActualSizeOfInstalledGames" xml:space="preserve">
+    <value>已安装游戏实际占用空间</value>
+  </data>
+  <data name="GameSelector_StorageSpaceSavedByHardLinks" xml:space="preserve">
+    <value>通过硬链接节省存储空间</value>
+  </data>
 </root>

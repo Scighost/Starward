@@ -10,6 +10,9 @@ public partial class GameBizIcon : ObservableObject, IEquatable<GameBizIcon>
 {
 
 
+    private const double GB = 1 << 30;
+
+
     public GameId GameId { get; set; }
 
     public GameBiz GameBiz { get; set; }
@@ -24,6 +27,15 @@ public partial class GameBizIcon : ObservableObject, IEquatable<GameBizIcon>
     public string ServerName { get; set => SetProperty(ref field, value); }
 
     public double MaskOpacity { get; set => SetProperty(ref field, value); } = 1.0;
+
+    public bool IsPinned { get; set => SetProperty(ref field, value); }
+
+    public string? InstallPath { get; set => SetProperty(ref field, value); }
+
+    public long TotalSize { get; set { field = value; OnPropertyChanged(nameof(TotalSizeText)); } }
+
+    public string? TotalSizeText => TotalSize == 0 ? null : $"{TotalSize / GB:F2}GB";
+
 
     public bool IsSelected
     {
@@ -53,6 +65,25 @@ public partial class GameBizIcon : ObservableObject, IEquatable<GameBizIcon>
     {
         GameId = gameInfo;
         GameBiz = gameInfo.GameBiz;
+        GameIcon = gameInfo.Display.Icon.Url;
+        ServerIcon = GameBizToServerIcon(gameInfo.GameBiz);
+        GameName = gameInfo.Display.Name;
+        ServerName = gameInfo.GameBiz.ToGameServerName();
+    }
+
+
+
+    public void UpdateInfo()
+    {
+        GameIcon = GameBizToIcon(GameBiz);
+        ServerIcon = GameBizToServerIcon(GameBiz);
+        GameName = GameBiz.ToGameName();
+        ServerName = GameBiz.ToGameServerName();
+    }
+
+
+    public void UpdateInfo(GameInfo gameInfo)
+    {
         GameIcon = gameInfo.Display.Icon.Url;
         ServerIcon = GameBizToServerIcon(gameInfo.GameBiz);
         GameName = gameInfo.Display.Name;
