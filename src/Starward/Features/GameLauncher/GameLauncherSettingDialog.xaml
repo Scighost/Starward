@@ -19,7 +19,7 @@
         <Thickness x:Key="ContentDialogPadding">0</Thickness>
         <StaticResource x:Key="ContentDialogSmokeFill" ResourceKey="ControlFillColorTransparentBrush" />
         <StaticResource x:Key="ContentDialogTopOverlay" ResourceKey="ControlFillColorTransparentBrush" />
-
+        <!--  游戏包体 DataTemplate  -->
         <DataTemplate x:Key="PackageGroupsDataTemplate">
             <Expander HorizontalAlignment="Stretch"
                       HorizontalContentAlignment="Stretch"
@@ -99,7 +99,7 @@
 
     <Grid Width="800"
           Height="480"
-          Padding="24">
+          Padding="24,24,24,0">
 
 
         <NavigationView IsBackButtonVisible="Collapsed"
@@ -472,6 +472,42 @@
                                               Glyph="&#xE711;" />
                                 </Button>
                             </Grid>
+                        </Grid>
+
+                        <!--  错误提示  -->
+                        <TextBlock Margin="0,0,0,-12"
+                                   Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                   Text="{x:Bind ChangeBgError}"
+                                   TextWrapping="Wrap"
+                                   Visibility="{x:Bind ChangeBgError, Converter={StaticResource ObjectToVisibilityConverter}}" />
+
+                        <!--  拖放区域  -->
+                        <Grid x:Name="Grid_BackgroundDragIn"
+                              Height="140"
+                              Margin="0,12,0,0"
+                              AllowDrop="True"
+                              Background="Transparent"
+                              DragOver="Grid_BackgroundDragIn_DragOver"
+                              Drop="Grid_BackgroundDragIn_Drop">
+                            <Rectangle HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
+                                       RadiusX="8"
+                                       RadiusY="8"
+                                       Stroke="{ThemeResource TextFillColorTertiaryBrush}"
+                                       StrokeDashArray="4,2"
+                                       StrokeThickness="2" />
+
+                            <StackPanel HorizontalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="12">
+                                <FontIcon FontSize="24"
+                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                          Glyph="&#xE91B;" />
+                                <TextBlock VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="拖放图片/视频文件" />
+                            </StackPanel>
                         </Grid>
 
                     </StackPanel>

@@ -1548,11 +1548,29 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 An unknown error occurred. Please check the logs. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Basic Information 的本地化字符串。
         /// </summary>
         public static string GameLauncherSettingDialog_BasicInformation {
             get {
                 return ResourceManager.GetString("GameLauncherSettingDialog_BasicInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cannot decode file. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_CannotDecodeFile {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_CannotDecodeFile", resourceCulture);
             }
         }
         

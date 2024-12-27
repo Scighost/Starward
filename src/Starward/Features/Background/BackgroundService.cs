@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
 using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
 using Starward.Frameworks;
+using Starward.Helpers;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -10,6 +12,9 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Graphics.Imaging;
+using Windows.Media.Core;
+using Windows.Storage;
 
 namespace Starward.Features.Background;
 
@@ -270,6 +275,114 @@ public class BackgroundService
         }
         return bg;
     }
+
+
+
+    /// <summary>
+    /// 更改自定义背景图文件，保存在 UserData\bg，返回文件名
+    /// </summary>
+    /// <param name="xamlRoot"></param>
+    /// <returns></returns>
+    public async Task<string?> ChangeCustomBackgroundFileAsync(XamlRoot xamlRoot)
+    {
+        string? file = await PickBackgroundFileAsync(xamlRoot);
+        if (file is null)
+        {
+            return null;
+        }
+        await CheckBackgroundFileAvailableAsync(file);
+        string bg = Path.Join(AppSetting.UserDataFolder, "bg");
+        Directory.CreateDirectory(bg);
+        string name = Path.GetFileName(file);
+        string path = Path.Combine(bg, name);
+        if (path != file)
+        {
+            File.Copy(file, path, true);
+        }
+        return name;
+    }
+
+
+
+    /// <summary>
+    /// 更改自定义背景图文件，保存在 UserData\bg，返回文件名
+    /// </summary>
+    /// <param name="file"></param>
+    /// <returns></returns>
+    public async Task<string?> ChangeCustomBackgroundFileAsync(StorageFile file)
+    {
+        string bg = Path.Join(AppSetting.UserDataFolder, "bg");
+        if (Path.GetDirectoryName(file.Path) != bg)
+        {
+            if (FileIsSupportedVideo(file.Name))
+            {
+                using var source = MediaSource.CreateFromStorageFile(file);
+                await source.OpenAsync();
+            }
+            else
+            {
+                using var fs = await file.OpenReadAsync();
+                var decoder = await BitmapDecoder.CreateAsync(fs);
+            }
+            {
+                Directory.CreateDirectory(bg);
+                string path = Path.Combine(bg, file.Name);
+                using var dest = File.OpenWrite(path);
+                using var stream = await file.OpenReadAsync();
+                await stream.AsStream().CopyToAsync(dest);
+            }
+        }
+        return file.Name;
+    }
+
+
+    /// <summary>
+    /// 选择背景图文件
+    /// </summary>
+    /// <param name="xamlRoot"></param>
+    /// <returns></returns>
+    private async Task<string?> PickBackgroundFileAsync(XamlRoot xamlRoot)
+    {
+        var filter = new (string, string)[]
+            {
+                ("Image", ".bmp"),
+                ("Image", ".jpg"),
+                ("Image", ".png"),
+                ("Image", ".webp"),
+                ("Image", ".avif"),
+                ("Video", ".mp4"),
+                ("Video", ".mkv"),
+                ("Video", ".flv"),
+                ("Video", ".webm"),
+            };
+        return await FileDialogHelper.PickSingleFileAsync(xamlRoot, filter);
+    }
+
+
+
+    /// <summary>
+    /// 检查背景图文件是否可用
+    /// </summary>
+    /// <param name="file"></param>
+    /// <returns></returns>
+    private async Task CheckBackgroundFileAvailableAsync(string file)
+    {
+        if (FileIsSupportedVideo(file))
+        {
+            // 0xC00D36C4
+            using var source = MediaSource.CreateFromUri(new Uri(file));
+            await source.OpenAsync();
+        }
+        else
+        {
+            // 0x88982F8B
+            using var fs = File.OpenRead(file);
+            var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
+        }
+    }
+
+
+
 
 
 

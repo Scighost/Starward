@@ -16,8 +16,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 
@@ -39,6 +41,9 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
     private readonly GameLauncherService _gameLauncherService = AppService.GetService<GameLauncherService>();
+
+
+    private readonly BackgroundService _backgroundService = AppService.GetService<BackgroundService>();
 
 
     public GameLauncherSettingDialog()
@@ -240,7 +245,10 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
 
-
+    /// <summary>
+    /// 打开游戏安装文件夹
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task OpenInstalGameFolderAsync()
     {
@@ -256,7 +264,10 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
 
-
+    /// <summary>
+    /// 重新定位游戏路径
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task RelocateGameAsync()
     {
@@ -265,6 +276,10 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
 
+    /// <summary>
+    /// 修复游戏
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task RepairGameAsync()
     {
@@ -343,7 +358,10 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
 
-
+    /// <summary>
+    /// 修改第三方启动工具路径
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task ChangeThirdPartyPathAsync()
     {
@@ -362,7 +380,10 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
+    /// <summary>
+    /// 打开第三方工具文件夹
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task OpenThirdPartyToolFolderAsync()
     {
@@ -384,7 +405,9 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
+    /// <summary>
+    /// 删除第三方工具路径
+    /// </summary>
     [RelayCommand]
     private void DeleteThirdPartyToolPath()
     {
@@ -447,7 +470,28 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     public string? CustomBg { get; set => SetProperty(ref field, value); }
 
 
+    /// <summary>
+    /// 修改背景错误信息
+    /// </summary>
+    public string? ChangeBgError { get; set => SetProperty(ref field, value); }
 
+
+    private void InitializeCustomBg()
+    {
+        _UseVersionPoster = AppSetting.GetUseVersionPoster(CurrentGameBiz);
+        _EnableCustomBg = AppSetting.GetEnableCustomBg(CurrentGameBiz);
+        CustomBg = AppSetting.GetCustomBg(CurrentGameBiz);
+        VersionPoster = AppSetting.GetVersionPoster(CurrentGameBiz);
+        OnPropertyChanged(nameof(UseVersionPoster));
+        OnPropertyChanged(nameof(EnableCustomBg));
+    }
+
+
+
+    /// <summary>
+    /// 打开版本海报
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task OpenVersionPosterAsync()
     {
@@ -463,37 +507,125 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
+
+    /// <summary>
+    /// 修改自定义背景
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task ChangeCustomBgAsync()
     {
-        // todo
+        try
+        {
+            ChangeBgError = null;
+            string? name = await _backgroundService.ChangeCustomBackgroundFileAsync(this.XamlRoot);
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return;
+            }
+            CustomBg = name;
+            AppSetting.SetCustomBg(CurrentGameBiz, name);
+            WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
+        }
+        catch (COMException ex)
+        {
+            ChangeBgError = Lang.GameLauncherSettingDialog_CannotDecodeFile;
+            _logger.LogError(ex, "Change custom background failed");
+        }
+        catch (Exception ex)
+        {
+            ChangeBgError = Lang.GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs;
+            _logger.LogError(ex, "Change custom background failed");
+        }
     }
 
 
+
+    /// <summary>
+    /// 打开自定义背景文件
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task OpenCustomBgAsync()
     {
-        // todo
+        try
+        {
+            string path = Path.Join(AppSetting.UserDataFolder, "bg", CustomBg);
+            if (File.Exists(path))
+            {
+                await Launcher.LaunchUriAsync(new Uri(path));
+            }
+        }
+        catch { }
     }
 
 
+
+    /// <summary>
+    /// 删除自定义背景
+    /// </summary>
     [RelayCommand]
     private void DeleteCustomBg()
     {
-        AppConfig.SetCustomBg(CurrentGameBiz, null);
         CustomBg = null;
+        AppSetting.SetCustomBg(CurrentGameBiz, null);
+        WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
+    }
+
+
+    /// <summary>
+    /// 接受拖放文件
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Grid_BackgroundDragIn_DragOver(object sender, DragEventArgs e)
+    {
+        e.AcceptedOperation = DataPackageOperation.Copy;
     }
 
 
 
-    private void InitializeCustomBg()
+    /// <summary>
+    /// 拖放文件，修改自定义背景
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private async void Grid_BackgroundDragIn_Drop(object sender, DragEventArgs e)
     {
-        _UseVersionPoster = AppSetting.GetUseVersionPoster(CurrentGameBiz);
-        _EnableCustomBg = AppSetting.GetEnableCustomBg(CurrentGameBiz);
-        CustomBg = AppSetting.GetCustomBg(CurrentGameBiz);
-        VersionPoster = AppSetting.GetVersionPoster(CurrentGameBiz);
-        OnPropertyChanged(nameof(UseVersionPoster));
-        OnPropertyChanged(nameof(EnableCustomBg));
+        ChangeBgError = null;
+        var defer = e.GetDeferral();
+        try
+        {
+            if ((await e.DataView.GetStorageItemsAsync()).FirstOrDefault() is StorageFile file)
+            {
+                string? name = await _backgroundService.ChangeCustomBackgroundFileAsync(file);
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    return;
+                }
+                CustomBg = name;
+                AppSetting.SetCustomBg(CurrentGameBiz, name);
+                if (EnableCustomBg)
+                {
+                    WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
+                }
+                else
+                {
+                    EnableCustomBg = true;
+                }
+            }
+        }
+        catch (COMException ex)
+        {
+            ChangeBgError = Lang.GameLauncherSettingDialog_CannotDecodeFile;
+            _logger.LogError(ex, "Change custom background failed");
+        }
+        catch (Exception ex)
+        {
+            ChangeBgError = Lang.GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs;
+            _logger.LogError(ex, "Change custom background failed");
+        }
+        defer.Complete();
     }
 
 
@@ -762,9 +894,11 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
     private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
     {
-        sender.FontSize -= 1;
+        if (sender.FontSize > 12)
+        {
+            sender.FontSize -= 1;
+        }
     }
-
 
 
 }

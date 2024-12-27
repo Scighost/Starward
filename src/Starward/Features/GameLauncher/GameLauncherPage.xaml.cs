@@ -1,9 +1,16 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
+using Starward.Features.Background;
 using Starward.Frameworks;
+using Starward.Helpers;
 using System;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 
 
 namespace Starward.Features.GameLauncher;
@@ -18,6 +25,7 @@ public sealed partial class GameLauncherPage : PageBase
 
     private readonly GamePackageService _gamePackageService = AppService.GetService<GamePackageService>();
 
+    private readonly BackgroundService _backgroundService = AppService.GetService<BackgroundService>();
 
     public GameLauncherPage()
     {
@@ -202,16 +210,71 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
-    [RelayCommand]
-    private async Task OpenGameLauncherSettingDialogAsync()
+    #region Drop Background File
+
+
+
+
+    private void RootGrid_DragOver(object sender, Microsoft.UI.Xaml.DragEventArgs e)
     {
-        await new GameLauncherSettingDialog { CurrentGameId = this.CurrentGameId, XamlRoot = this.XamlRoot }.ShowAsync();
+        e.AcceptedOperation = DataPackageOperation.Copy;
+        Border_BackgroundDragIn.Opacity = 1;
     }
 
 
 
 
+    private async void RootGrid_Drop(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+    {
+        Border_BackgroundDragIn.Opacity = 0;
+        var defer = e.GetDeferral();
+        try
+        {
+            if ((await e.DataView.GetStorageItemsAsync()).FirstOrDefault() is StorageFile file)
+            {
+                string? name = await _backgroundService.ChangeCustomBackgroundFileAsync(file);
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    return;
+                }
+                AppSetting.SetCustomBg(CurrentGameBiz, name);
+                AppSetting.SetEnableCustomBg(CurrentGameBiz, true);
+                WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
+            }
+        }
+        catch (COMException ex)
+        {
+            InAppToast.MainWindow?.Error(Lang.GameLauncherSettingDialog_CannotDecodeFile);
+            _logger.LogError(ex, "Change custom background failed");
+        }
+        catch (Exception ex)
+        {
+            InAppToast.MainWindow?.Error(Lang.GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs);
+            _logger.LogError(ex, "Change custom background failed");
+        }
+        defer.Complete();
+    }
 
+
+
+    private void RootGrid_DragLeave(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+    {
+        Border_BackgroundDragIn.Opacity = 0;
+    }
+
+
+
+    #endregion
+
+
+
+
+
+    [RelayCommand]
+    private async Task OpenGameLauncherSettingDialogAsync()
+    {
+        await new GameLauncherSettingDialog { CurrentGameId = this.CurrentGameId, XamlRoot = this.XamlRoot }.ShowAsync();
+    }
 
 
 }

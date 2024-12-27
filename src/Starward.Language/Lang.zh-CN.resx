@@ -1651,4 +1651,10 @@
   <data name="GameSelector_StorageSpaceSavedByHardLinks" xml:space="preserve">
     <value>通过硬链接节省存储空间</value>
   </data>
+  <data name="GameLauncherSettingDialog_CannotDecodeFile" xml:space="preserve">
+    <value>无法解码文件</value>
+  </data>
+  <data name="GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs" xml:space="preserve">
+    <value>发生未知错误，请查看日志。</value>
+  </data>
 </root>

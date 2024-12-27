@@ -11,8 +11,41 @@
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
-    <Grid>
+    <Grid x:Name="RootGrid"
+          AllowDrop="True"
+          Background="Transparent"
+          DragLeave="RootGrid_DragLeave"
+          DragOver="RootGrid_DragOver"
+          Drop="RootGrid_Drop">
 
+
+        <!--  拖放图片/视频文件提醒  -->
+        <Border x:Name="Border_BackgroundDragIn"
+                Margin="0,40,0,0"
+                Padding="24"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
+                CornerRadius="8"
+                IsHitTestVisible="False"
+                Opacity="0">
+            <Border.OpacityTransition>
+                <ScalarTransition />
+            </Border.OpacityTransition>
+            <StackPanel HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                <FontIcon FontSize="24"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE91B;" />
+                <TextBlock VerticalAlignment="Center"
+                           FontSize="16"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="拖放图片/视频文件" />
+            </StackPanel>
+        </Border>
+
+        <!--  游戏通知  -->
         <local:GameBannerAndPost x:Name="GameBannerAndPost"
                                  Margin="60,0,0,40"
                                  HorizontalAlignment="Left"
@@ -21,6 +54,7 @@
 
 
 
+        <!--  右下角启动游戏  -->
         <Grid Margin="0,0,40,0"
               HorizontalAlignment="Right"
               VerticalAlignment="Bottom">
