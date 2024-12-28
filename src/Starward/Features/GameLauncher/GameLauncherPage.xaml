@@ -41,7 +41,7 @@
                 <TextBlock VerticalAlignment="Center"
                            FontSize="16"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="拖放图片/视频文件" />
+                           Text="{x:Bind lang:Lang.GameLauncherSettingDialog_DragAndDropImageOrVideoFiles}" />
             </StackPanel>
         </Border>
 

@@ -1657,4 +1657,7 @@
   <data name="GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs" xml:space="preserve">
     <value>发生未知错误，请查看日志。</value>
   </data>
+  <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
+    <value>拖放图片 / 视频文件</value>
+  </data>
 </root>

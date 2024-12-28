@@ -1657,4 +1657,7 @@ Do you accept the risk and continue to use it?</value>
   <data name="GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs" xml:space="preserve">
     <value>An unknown error occurred. Please check the logs.</value>
   </data>
+  <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
+    <value>Drag and drop image / video files.</value>
+  </data>
 </root>

@@ -1593,6 +1593,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Drag and drop image / video files. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_DragAndDropImageOrVideoFiles {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_DragAndDropImageOrVideoFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Game Packages 的本地化字符串。
         /// </summary>
         public static string GameLauncherSettingDialog_GamePackages {

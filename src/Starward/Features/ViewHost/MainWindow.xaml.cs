@@ -123,7 +123,12 @@ public sealed partial class MainWindow : WindowEx
     private void OnAccentColorChanged(object _, AccentColorChangedMessage __)
     {
         FrameworkElement ele = (FrameworkElement)Content;
-        ele.RequestedTheme = ElementTheme.Light;
+        ele.RequestedTheme = ele.ActualTheme switch
+        {
+            ElementTheme.Light => ElementTheme.Dark,
+            ElementTheme.Dark => ElementTheme.Light,
+            _ => ElementTheme.Default,
+        };
         ele.RequestedTheme = ElementTheme.Default;
     }
 
