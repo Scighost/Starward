@@ -217,8 +217,11 @@ public sealed partial class GameLauncherPage : PageBase
 
     private void RootGrid_DragOver(object sender, Microsoft.UI.Xaml.DragEventArgs e)
     {
+        if (e.DataView.Contains(StandardDataFormats.StorageItems))
+        {
         e.AcceptedOperation = DataPackageOperation.Copy;
         Border_BackgroundDragIn.Opacity = 1;
+    }
     }
 
 

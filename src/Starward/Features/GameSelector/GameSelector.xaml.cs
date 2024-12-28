@@ -175,16 +175,16 @@ public sealed partial class GameSelector : UserControl
     /// </summary>
     public bool GameIconsAreaVisible
     {
-        get => Border_GameIconsArea.Translation == Vector3.Zero;
+        get => Grid_GameIconsArea.Translation == Vector3.Zero;
         set
         {
             if (value)
             {
-                Border_GameIconsArea.Translation = Vector3.Zero;
+                Grid_GameIconsArea.Translation = Vector3.Zero;
             }
             else
             {
-                Border_GameIconsArea.Translation = new Vector3(0, -100, 0);
+                Grid_GameIconsArea.Translation = new Vector3(0, -100, 0);
             }
             UpdateDragRectangles();
         }
@@ -201,7 +201,7 @@ public sealed partial class GameSelector : UserControl
             double x = Border_CurrentGameIcon.ActualWidth;
             if (GameIconsAreaVisible)
             {
-                x = Border_CurrentGameIcon.ActualWidth + Border_GameIconsArea.ActualWidth;
+                x = Border_CurrentGameIcon.ActualWidth + Grid_GameIconsArea.ActualWidth;
             }
             this.XamlRoot.SetWindowDragRectangles([new Rect(x, 0, 10000, 48)]);
         }
@@ -255,7 +255,7 @@ public sealed partial class GameSelector : UserControl
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void Border_GameIconsArea_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    private void Grid_GameIconsArea_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
         if (FullBackgroundVisible || IsPinned)
         {
@@ -271,9 +271,9 @@ public sealed partial class GameSelector : UserControl
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void Button_GameIcon_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    private void Grid_GameIcon_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
-        if (sender is Button button && button.DataContext is GameBizIcon icon)
+        if (sender is FrameworkElement fe && fe.DataContext is GameBizIcon icon)
         {
             if (CurrentGameBizIcon is not null)
             {
@@ -297,9 +297,9 @@ public sealed partial class GameSelector : UserControl
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void Button_GameIcon_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+    private void Grid_GameIcon_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
     {
-        if (sender is Button button && button.DataContext is GameBizIcon icon)
+        if (sender is FrameworkElement fe && fe.DataContext is GameBizIcon icon)
         {
             if (CurrentGameBizIcon is not null)
             {
@@ -323,9 +323,9 @@ public sealed partial class GameSelector : UserControl
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void Button_GameIcon_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    private void Grid_GameIcon_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        if (sender is Button button && button.DataContext is GameBizIcon icon)
+        if (sender is FrameworkElement fe && fe.DataContext is GameBizIcon icon)
         {
             if (!icon.IsSelected)
             {
@@ -341,9 +341,9 @@ public sealed partial class GameSelector : UserControl
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void Button_GameIcon_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    private void Grid_GameIcon_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        if (sender is Button button && button.DataContext is GameBizIcon icon)
+        if (sender is FrameworkElement fe && fe.DataContext is GameBizIcon icon)
         {
             if (!icon.IsSelected)
             {
@@ -359,7 +359,7 @@ public sealed partial class GameSelector : UserControl
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void Border_GameIconsArea_SizeChanged(object sender, SizeChangedEventArgs e)
+    private void Grid_GameIconsArea_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         UpdateDragRectangles();
     }
@@ -449,11 +449,7 @@ public sealed partial class GameSelector : UserControl
 
     private void Border_FullBackground_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
-        if (_isGameBizDisplayPressed)
-        {
-            _isGameBizDisplayPressed = false;
-            return;
-        }
+        _isGameBizDisplayPressed = false;
         var position = e.GetPosition(sender as UIElement);
         if (position.X <= Border_CurrentGameIcon.ActualWidth && position.Y <= Border_CurrentGameIcon.ActualHeight)
         {

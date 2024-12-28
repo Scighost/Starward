@@ -336,115 +336,171 @@
 
 
         <!--  横排待选游戏图标  -->
-        <Border x:Name="Border_GameIconsArea"
-                Margin="56,0,0,0"
-                Padding="12,10,12,10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Background="Transparent"
-                PointerExited="Border_GameIconsArea_PointerExited"
-                SizeChanged="Border_GameIconsArea_SizeChanged"
-                Translation="0,-100,0">
-            <Border.TranslationTransition>
+        <Grid x:Name="Grid_GameIconsArea"
+              Margin="56,0,0,0"
+              Padding="6,0,12,0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Background="Transparent"
+              ColumnSpacing="6"
+              PointerExited="Grid_GameIconsArea_PointerExited"
+              SizeChanged="Grid_GameIconsArea_SizeChanged"
+              Translation="0,-100,0">
+            <Grid.TranslationTransition>
                 <Vector3Transition />
-            </Border.TranslationTransition>
-            <StackPanel Orientation="Horizontal" Spacing="12">
-                <StackPanel.ChildrenTransitions>
-                    <TransitionCollection>
-                        <RepositionThemeTransition />
-                    </TransitionCollection>
-                </StackPanel.ChildrenTransitions>
-                <!--  游戏图标  -->
-                <ItemsControl ItemsSource="{x:Bind GameBizIcons}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" Spacing="12">
-                                <StackPanel.ChildrenTransitions>
-                                    <TransitionCollection>
-                                        <AddDeleteThemeTransition />
-                                    </TransitionCollection>
-                                </StackPanel.ChildrenTransitions>
-                            </StackPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="local:GameBizIcon">
-                            <Button x:Name="Button_GameIcon"
-                                    Grid.RowSpan="2"
-                                    Width="40"
-                                    Height="40"
-                                    Padding="0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    sh:PointerCursor.CursorShape="Hand"
-                                    BorderThickness="0"
-                                    CornerRadius="8"
-                                    DoubleTapped="Button_GameIcon_DoubleTapped"
-                                    IsDoubleTapEnabled="True"
-                                    IsTapEnabled="True"
-                                    PointerEntered="Button_GameIcon_PointerEntered"
-                                    PointerExited="Button_GameIcon_PointerExited"
-                                    Shadow="{ThemeResource ThemeShadow}"
-                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                                    Tag="{x:Bind GameId}"
-                                    Tapped="Button_GameIcon_Tapped"
-                                    Translation="0,0,16">
-                                <Grid>
-                                    <sc:CachedImage Width="40"
-                                                    Height="40"
-                                                    Source="{x:Bind GameIcon}" />
-                                    <Image Width="20"
-                                           Height="20"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Bottom">
-                                        <Image.Source>
-                                            <BitmapImage DecodePixelHeight="20"
-                                                         DecodePixelType="Logical"
-                                                         DecodePixelWidth="20"
-                                                         UriSource="{x:Bind ServerIcon}" />
-                                        </Image.Source>
-                                    </Image>
-                                    <Border Background="#60000000" Opacity="{x:Bind MaskOpacity}">
-                                        <Border.OpacityTransition>
-                                            <ScalarTransition />
-                                        </Border.OpacityTransition>
-                                    </Border>
-                                </Grid>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <!--  固定  -->
-                <Border Name="Button_Pin"
-                        Width="40"
-                        Height="40"
-                        sh:PointerCursor.CursorShape="Hand"
-                        Background="{ThemeResource CustomAcrylicBrush}"
-                        CornerRadius="8"
-                        Shadow="{ThemeResource ThemeShadow}"
-                        Translation="0,0,16">
-                    <Button Padding="0"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Command="{x:Bind PinCommand}"
-                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                        <Grid>
-                            <FontIcon HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"
-                                      FontSize="16"
-                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                      Glyph="&#xE718;"
-                                      IsTextScaleFactorEnabled="False" />
-                            <FontIcon FontSize="16"
-                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                      Glyph="&#xE841;"
-                                      IsTextScaleFactorEnabled="False"
-                                      Visibility="{x:Bind IsPinned}" />
+            </Grid.TranslationTransition>
+            <Grid.ChildrenTransitions>
+                <TransitionCollection>
+                    <RepositionThemeTransition />
+                </TransitionCollection>
+            </Grid.ChildrenTransitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--  游戏图标  -->
+            <ListView AllowDrop="True"
+                      CanReorderItems="True"
+                      ItemsSource="{x:Bind GameBizIcons}"
+                      SelectionMode="Single">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <!--  ListViewItemStyle 防止出现选中效果，移除各种背景颜色  -->
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+                        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+                        <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
+                        <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
+                        <Setter Property="TabNavigation" Value="Local" />
+                        <Setter Property="IsHoldingEnabled" Value="True" />
+                        <!--  下方留出空间，防止阴影被截断  -->
+                        <Setter Property="Padding" Value="6,10,6,10" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="MinWidth" Value="0" />
+                        <Setter Property="MinHeight" Value="0" />
+                        <Setter Property="AllowDrop" Value="False" />
+                        <Setter Property="UseSystemFocusVisuals" Value="True" />
+                        <Setter Property="FocusVisualMargin" Value="0" />
+                        <Setter Property="FocusVisualPrimaryBrush" Value="{ThemeResource ListViewItemFocusVisualPrimaryBrush}" />
+                        <Setter Property="FocusVisualPrimaryThickness" Value="0" />
+                        <Setter Property="FocusVisualSecondaryBrush" Value="{ThemeResource ListViewItemFocusVisualSecondaryBrush}" />
+                        <Setter Property="FocusVisualSecondaryThickness" Value="0" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <ListViewItemPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                           CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
+                                                           CheckBrush="{ThemeResource ListViewItemCheckBrush}"
+                                                           CheckMode="{ThemeResource ListViewItemCheckMode}"
+                                                           ContentMargin="{TemplateBinding Padding}"
+                                                           ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                           Control.IsTemplateFocusTarget="True"
+                                                           DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                                                           DragBackground="Transparent"
+                                                           DragForeground="{ThemeResource ListViewItemDragForeground}"
+                                                           DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                                                           FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
+                                                           FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
+                                                           FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+                                                           FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
+                                                           FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+                                                           FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
+                                                           FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+                                                           PlaceholderBackground="Transparent"
+                                                           PointerOverBackground="Transparent"
+                                                           PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
+                                                           PressedBackground="Transparent"
+                                                           ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                                                           SelectedBackground="Transparent"
+                                                           SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
+                                                           SelectedPointerOverBackground="Transparent"
+                                                           SelectedPressedBackground="Transparent"
+                                                           SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
+                                                           SelectionIndicatorVisualEnabled="False" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:GameBizIcon">
+                        <Grid x:Name="Grid_GameIcon"
+                              Width="40"
+                              Height="40"
+                              sh:PointerCursor.CursorShape="Hand"
+                              CornerRadius="8"
+                              DoubleTapped="Grid_GameIcon_DoubleTapped"
+                              IsDoubleTapEnabled="True"
+                              IsTapEnabled="True"
+                              PointerEntered="Grid_GameIcon_PointerEntered"
+                              PointerExited="Grid_GameIcon_PointerExited"
+                              Shadow="{ThemeResource ThemeShadow}"
+                              Tag="{x:Bind GameId}"
+                              Tapped="Grid_GameIcon_Tapped"
+                              Translation="0,0,16">
+                            <sc:CachedImage Width="40"
+                                            Height="40"
+                                            Source="{x:Bind GameIcon}" />
+                            <Image Width="20"
+                                   Height="20"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Bottom">
+                                <Image.Source>
+                                    <BitmapImage DecodePixelHeight="20"
+                                                 DecodePixelType="Logical"
+                                                 DecodePixelWidth="20"
+                                                 UriSource="{x:Bind ServerIcon}" />
+                                </Image.Source>
+                            </Image>
+                            <Border Background="#60000000" Opacity="{x:Bind MaskOpacity}">
+                                <Border.OpacityTransition>
+                                    <ScalarTransition />
+                                </Border.OpacityTransition>
+                            </Border>
                         </Grid>
-                    </Button>
-                </Border>
-            </StackPanel>
-        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!--  固定  -->
+            <Border Name="Button_Pin"
+                    Grid.Column="1"
+                    Width="40"
+                    Height="40"
+                    sh:PointerCursor.CursorShape="Hand"
+                    Background="{ThemeResource CustomAcrylicBrush}"
+                    CornerRadius="8"
+                    Shadow="{ThemeResource ThemeShadow}"
+                    Translation="0,0,16">
+                <Button Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Command="{x:Bind PinCommand}"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                    <Grid>
+                        <FontIcon HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE718;"
+                                  IsTextScaleFactorEnabled="False" />
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE841;"
+                                  IsTextScaleFactorEnabled="False"
+                                  Visibility="{x:Bind IsPinned}" />
+                    </Grid>
+                </Button>
+            </Border>
+
+        </Grid>
 
 
 
