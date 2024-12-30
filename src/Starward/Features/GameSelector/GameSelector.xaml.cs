@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -7,9 +8,9 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
+using Starward.Features.Setting;
 using Starward.Frameworks;
 using Starward.Helpers;
-using Starward.Messages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -48,6 +49,7 @@ public sealed partial class GameSelector : UserControl
         this.InitializeComponent();
         InitializeGameSelector();
         this.Loaded += GameSelector_Loaded;
+        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
     }
 
 
@@ -80,7 +82,7 @@ public sealed partial class GameSelector : UserControl
 
     private async void GameSelector_Loaded(object sender, RoutedEventArgs e)
     {
-        await Task.Delay(2000);
+        await Task.Delay(1000);
         await UpdateGameInfoAsync();
     }
 
@@ -88,14 +90,10 @@ public sealed partial class GameSelector : UserControl
 
 
 
-    public async void OnLanguageChanged(object? sender, LanguageChangedMessage message)
+    public async void OnLanguageChanged(object? _, LanguageChangedMessage __)
     {
-        // todo 语言切换
-        if (message.Completed)
-        {
-            this.Bindings.Update();
-            await UpdateGameInfoAsync();
-        }
+        this.Bindings.Update();
+        await UpdateGameInfoAsync();
     }
 
 

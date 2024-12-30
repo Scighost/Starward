@@ -1660,4 +1660,15 @@ Do you accept the risk and continue to use it?</value>
   <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
     <value>Drag and drop image / video files.</value>
   </data>
+  <data name="GameSelector_Calculating" xml:space="preserve">
+    <value>Calculating</value>
+    <comment>Calculating storage space usage.</comment>
+  </data>
+  <data name="SettingPage_General" xml:space="preserve">
+    <value>General</value>
+    <comment>General Setting</comment>
+  </data>
+  <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
+    <value>For a better experience, please enable the following features in system settings.</value>
+  </data>
 </root>

@@ -13,7 +13,7 @@
 
     <Grid>
 
-        <sfb:AppBackground Name="AppBackground" CurrentGameId="{x:Bind CurrentGameId}" />
+        <sfb:AppBackground x:Name="AppBackground" CurrentGameId="{x:Bind CurrentGameId}" />
 
 
         <Border Width="56"
@@ -21,10 +21,20 @@
                 Background="{ThemeResource CustomAcrylicBrush}" />
 
 
+        <Border Name="Border_OverlayMask"
+                Background="{ThemeResource CustomAcrylicBrush}"
+                Opacity="0">
+            <Border.OpacityTransition>
+                <ScalarTransition />
+            </Border.OpacityTransition>
+        </Border>
+
+
         <NavigationView Name="MainView_NavigationView"
                         CompactPaneLength="56"
                         IsBackButtonVisible="Collapsed"
                         IsPaneToggleButtonVisible="False"
+                        ItemInvoked="NavigationView_ItemInvoked"
                         PaneDisplayMode="LeftCompact">
             <NavigationView.Resources>
                 <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />

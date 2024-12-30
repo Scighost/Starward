@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
+using Starward.Features.Setting;
 using System;
 
 
@@ -102,7 +103,7 @@ public sealed partial class MainView : UserControl
         {
             NavigateTo(typeof(BlankPage));
         }
-        else
+        else if (MainView_Frame.SourcePageType?.Name is not nameof(SettingPage))
         {
             NavigateTo(MainView_Frame.SourcePageType);
         }
@@ -112,33 +113,38 @@ public sealed partial class MainView : UserControl
 
     private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
-        if (args.InvokedItemContainer?.IsSelected ?? false)
+        try
         {
-            return;
-        }
-        if (args.IsSettingsInvoked)
-        {
-
-        }
-        else
-        {
-            if (args.InvokedItemContainer is NavigationViewItem item)
+            if (args.InvokedItemContainer?.IsSelected ?? false)
             {
-                var type = item.Tag switch
+                return;
+            }
+            if (args.IsSettingsInvoked)
+            {
+                NavigateTo(typeof(SettingPage));
+            }
+            else
+            {
+                if (args.InvokedItemContainer is NavigationViewItem item)
                 {
-                    nameof(GameLauncherPage) => typeof(GameLauncherPage),
-                    _ => null,
-                };
-                NavigateTo(type);
+                    var type = item.Tag switch
+                    {
+                        nameof(GameLauncherPage) => typeof(GameLauncherPage),
+                        _ => null,
+                    };
+                    NavigateTo(type);
+                }
             }
         }
+        catch { }
     }
+
 
 
     public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null)
     {
         page ??= typeof(GameLauncherPage);
-        if (!CurrentGameFeatureConfig.SupportedPages.Contains(page.Name))
+        if (page.Name != nameof(SettingPage) && !CurrentGameFeatureConfig.SupportedPages.Contains(page.Name))
         {
             page = typeof(GameLauncherPage);
         }
@@ -147,6 +153,14 @@ public sealed partial class MainView : UserControl
             MainView_NavigationView.SelectedItem = NavigationViewItem_Launcher;
         }
         MainView_Frame.Navigate(page, param ?? CurrentGameId, infoOverride);
+        if (page.Name is nameof(BlankPage) or nameof(GameLauncherPage))
+        {
+            Border_OverlayMask.Opacity = 0;
+        }
+        else
+        {
+            Border_OverlayMask.Opacity = 1;
+        }
     }
 
 

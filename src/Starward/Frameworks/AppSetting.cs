@@ -86,11 +86,39 @@ public static class AppSetting
     public static bool IsPortable { get; private set; }
 
 
-    public static string? Language { get; private set; }
+    public static string? Language { get; set; }
 
 
-    public static string? UserDataFolder { get; private set; }
+    public static string? UserDataFolder { get; set; }
 
+
+
+
+    public static void SaveConfiguration()
+    {
+        try
+        {
+            string? dataFolder = UserDataFolder;
+            string baseDir;
+            if (IsPortable)
+            {
+                baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'))!;
+            }
+            else
+            {
+                baseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
+            }
+            if (dataFolder?.StartsWith(baseDir) ?? false)
+            {
+                dataFolder = Path.GetRelativePath(baseDir, dataFolder);
+            }
+            File.WriteAllText(Path.Combine(baseDir, "config.ini"), $"""
+                {nameof(Language)}={Language}
+                {nameof(UserDataFolder)}={dataFolder}
+                """);
+        }
+        catch { }
+    }
 
 
 

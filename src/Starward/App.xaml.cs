@@ -29,6 +29,7 @@ public partial class App : Application
         RequestedTheme = ApplicationTheme.Dark;
         _uiDispatcherQueue = DispatcherQueue.GetForCurrentThread();
         UnhandledException += App_UnhandledException;
+        _ = AppSetting.Language;
     }
 
 

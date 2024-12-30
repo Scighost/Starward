@@ -21,29 +21,27 @@
 
         <StackPanel Padding="8">
 
-            <Button HorizontalAlignment="Stretch"
+            <Button Height="36"
+                    HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Command="{x:Bind ShowMainWindowCommand}"
                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                 <StackPanel Orientation="Horizontal" Spacing="12">
-                    <Border Width="28">
-                        <FontIcon HorizontalAlignment="Center"
-                                  FontSize="16"
-                                  Glyph="&#xE80F;" />
-                    </Border>
+                    <FontIcon HorizontalAlignment="Center"
+                              FontSize="16"
+                              Glyph="&#xE80F;" />
                     <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.MainPage_Launcer}" />
                 </StackPanel>
             </Button>
-            <Button HorizontalAlignment="Stretch"
+            <Button Height="36"
+                    HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Command="{x:Bind ExitCommand}"
                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                 <StackPanel Orientation="Horizontal" Spacing="12">
-                    <Border Width="28">
-                        <FontIcon HorizontalAlignment="Center"
-                                  FontSize="16"
-                                  Glyph="&#xE7E8;" />
-                    </Border>
+                    <FontIcon HorizontalAlignment="Center"
+                              FontSize="16"
+                              Glyph="&#xE7E8;" />
                     <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.Common_Exit}" />
                 </StackPanel>
             </Button>

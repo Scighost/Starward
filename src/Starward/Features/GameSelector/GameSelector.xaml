@@ -265,12 +265,18 @@
                                         <Run Text="{x:Bind lang:Lang.GameSelector_StorageSpaceSavedByHardLinks}" />
                                         <Run Text="{x:Bind InstalledGamesSavedSize}" />
                                     </TextBlock>
-                                    <ProgressRing Grid.Column="1"
-                                                  Width="20"
-                                                  Height="20"
-                                                  HorizontalAlignment="Left"
-                                                  IsIndeterminate="True"
-                                                  Visibility="{x:Bind InitializeInstalledGamesCommand.IsRunning}" />
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                Spacing="12"
+                                                Visibility="{x:Bind InitializeInstalledGamesCommand.IsRunning}">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   Text="{x:Bind lang:Lang.GameSelector_Calculating}" />
+                                        <ProgressRing Width="20"
+                                                      Height="20"
+                                                      HorizontalAlignment="Left"
+                                                      IsIndeterminate="True" />
+                                    </StackPanel>
                                     <Button x:Name="Button_UpdateGamesAcutalSize"
                                             Grid.Column="2"
                                             Width="32"

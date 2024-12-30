@@ -1660,4 +1660,13 @@
   <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
     <value>拖放图片 / 视频文件</value>
   </data>
+  <data name="GameSelector_Calculating" xml:space="preserve">
+    <value>计算中</value>
+  </data>
+  <data name="SettingPage_General" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
+    <value>为了更好的体验，请在系统设置中启用以下功能。</value>
+  </data>
 </root>

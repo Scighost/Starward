@@ -1692,6 +1692,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Calculating 的本地化字符串。
+        /// </summary>
+        public static string GameSelector_Calculating {
+            get {
+                return ResourceManager.GetString("GameSelector_Calculating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Storage Space Saved by Hard Links 的本地化字符串。
         /// </summary>
         public static string GameSelector_StorageSpaceSavedByHardLinks {
@@ -3727,6 +3736,24 @@ namespace Starward.Language {
         public static string SettingPage_FollowSystem {
             get {
                 return ResourceManager.GetString("SettingPage_FollowSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 For a better experience, please enable the following features in system settings. 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings {
+            get {
+                return ResourceManager.GetString("SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 General 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_General {
+            get {
+                return ResourceManager.GetString("SettingPage_General", resourceCulture);
             }
         }
         
