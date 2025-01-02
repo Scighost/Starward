@@ -192,7 +192,7 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            var lang = CultureInfo.CurrentUICulture.Name;
+            var lang = AppSetting.Language;
             ComboBox_Language.Items.Clear();
             ComboBox_Language.Items.Add(new ComboBoxItem
             {

@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core.HoYoPlay;
+using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
@@ -41,6 +42,7 @@ public sealed partial class AppBackground : UserControl
     {
         this.InitializeComponent();
         WeakReferenceMessenger.Default.Register<BackgroundChangedMessage>(this, OnBackgroundChanged);
+        WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
         Unloaded += (_, _) => { DisposeVideoResource(); WeakReferenceMessenger.Default.UnregisterAll(this); };
     }
 
@@ -110,7 +112,7 @@ public sealed partial class AppBackground : UserControl
                     BackgroundImageSource = new BitmapImage(new Uri(file));
                     try
                     {
-                        string? hex = AppConfig.AccentColor;
+                        string? hex = AppSetting.AccentColor;
                         if (!string.IsNullOrWhiteSpace(hex))
                         {
                             Color color = ColorHelper.ToColor(hex);
@@ -142,7 +144,7 @@ public sealed partial class AppBackground : UserControl
         try
         {
             cancelSource?.Cancel();
-            cancelSource = new();
+            cancelSource = new(TimeSpan.FromSeconds(5));
 
             if (CurrentGameId is null)
             {
@@ -207,6 +209,7 @@ public sealed partial class AppBackground : UserControl
             }
 
             Color? color = AccentColorHelper.GetAccentColor(writeableBitmap.PixelBuffer, decodeWidth, decodeHeight);
+            AppSetting.AccentColor = color?.ToHex() ?? null;
             AccentColorHelper.ChangeAppAccentColor(color);
             BackgroundImageSource = writeableBitmap;
         }
@@ -244,6 +247,7 @@ public sealed partial class AppBackground : UserControl
             using IMemoryBufferReference memoryBufferReference = bitmapBuffer.CreateReference();
             memoryBufferReference.As<AccentColorHelper.IMemoryBufferByteAccess>().GetBuffer(out nint bufferPtr, out uint capacity);
             Color? color = AccentColorHelper.GetAccentColor(bufferPtr, capacity, decodeWidth, decodeHeight);
+            AppSetting.AccentColor = color?.ToHex() ?? null;
             AccentColorHelper.ChangeAppAccentColor(color);
             BackgroundImageSource = softwareBitmapSource;
         }
@@ -299,6 +303,28 @@ public sealed partial class AppBackground : UserControl
         await UpdateBackgroundAsync();
     }
 
+
+
+
+    private void OnMainWindowStateChanged(object _, MainWindowStateChangedMessage message)
+    {
+        try
+        {
+            if (mediaPlayer is not null)
+            {
+                var state = mediaPlayer.PlaybackSession.PlaybackState;
+                if (message.Activate && state is not MediaPlaybackState.Playing)
+                {
+                    mediaPlayer.Play();
+                }
+                else if (message.Hide || message.SessionLock)
+                {
+                    mediaPlayer.Pause();
+                }
+            }
+        }
+        catch { }
+    }
 
 
 

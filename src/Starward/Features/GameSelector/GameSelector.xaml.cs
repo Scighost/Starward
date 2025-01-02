@@ -9,6 +9,7 @@ using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
 using Starward.Features.Setting;
+using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
@@ -50,6 +51,7 @@ public sealed partial class GameSelector : UserControl
         InitializeGameSelector();
         this.Loaded += GameSelector_Loaded;
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
+        WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
     }
 
 
@@ -90,10 +92,25 @@ public sealed partial class GameSelector : UserControl
 
 
 
-    public async void OnLanguageChanged(object? _, LanguageChangedMessage __)
+    private async void OnLanguageChanged(object? _, LanguageChangedMessage __)
     {
         this.Bindings.Update();
         await UpdateGameInfoAsync();
+    }
+
+
+
+
+    private async void OnMainWindowStateChanged(object? _, MainWindowStateChangedMessage message)
+    {
+        try
+        {
+            if (message.Activate && (message.ElapsedOver(TimeSpan.FromMinutes(10)) || message.IsCrossingHour))
+            {
+                await UpdateGameInfoAsync();
+            }
+        }
+        catch { }
     }
 
 

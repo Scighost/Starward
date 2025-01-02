@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Starward.Features.Background;
+using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
@@ -34,8 +35,8 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
-    [NotifyPropertyChangedFor(nameof(InstalledLocateGameEnabled))]
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(InstalledLocateGameEnabled))]
     public partial GameState GameState { get; set; }
 
 
@@ -46,6 +47,16 @@ public sealed partial class GameLauncherPage : PageBase
     protected override void OnLoaded()
     {
         CheckGameVersion();
+        WeakReferenceMessenger.Default.Register<GameInstallPathChangedMessage>(this, OnGameInstallPathChanged);
+        WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
+        WeakReferenceMessenger.Default.Register<RemovableStorageDeviceChangedMessage>(this, OnRemovableStorageDeviceChanged);
+    }
+
+
+
+    protected override void OnUnloaded()
+    {
+        WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
 
@@ -148,6 +159,79 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
+
+    /// <summary>
+    /// 定位游戏路径
+    /// </summary>
+    /// <returns></returns>
+    private async Task LocateGameAsync()
+    {
+        try
+        {
+            string? folder = await _gameLauncherService.LocateGameInstallFolderAsync(this.XamlRoot);
+            if (string.IsNullOrWhiteSpace(folder))
+            {
+                return;
+            }
+            AppSetting.SetGameInstallPath(CurrentGameBiz, folder);
+            CheckGameVersion();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
+    /// <summary>
+    /// 定位游戏路径
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private async void Hyperlink_LocateGame_Click(Microsoft.UI.Xaml.Documents.Hyperlink sender, Microsoft.UI.Xaml.Documents.HyperlinkClickEventArgs args)
+    {
+        await LocateGameAsync();
+    }
+
+
+
+
+    private void OnGameInstallPathChanged(object _, GameInstallPathChangedMessage message)
+    {
+        CheckGameVersion();
+    }
+
+
+
+
+    private void OnMainWindowStateChanged(object _, MainWindowStateChangedMessage message)
+    {
+        try
+        {
+            if (message.Activate && (message.ElapsedOver(TimeSpan.FromMinutes(10)) || message.IsCrossingHour))
+            {
+                CheckGameVersion();
+            }
+        }
+        catch { }
+    }
+
+
+
+
+    private void OnRemovableStorageDeviceChanged(object _, RemovableStorageDeviceChangedMessage message)
+    {
+        try
+        {
+            CheckGameVersion();
+        }
+        catch { }
+    }
+
+
+
+
     #endregion
 
 
@@ -210,6 +294,7 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
+
     #region Drop Background File
 
 
@@ -219,9 +304,9 @@ public sealed partial class GameLauncherPage : PageBase
     {
         if (e.DataView.Contains(StandardDataFormats.StorageItems))
         {
-        e.AcceptedOperation = DataPackageOperation.Copy;
-        Border_BackgroundDragIn.Opacity = 1;
-    }
+            e.AcceptedOperation = DataPackageOperation.Copy;
+            Border_BackgroundDragIn.Opacity = 1;
+        }
     }
 
 

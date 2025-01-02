@@ -147,27 +147,77 @@ public sealed partial class MainWindow : WindowEx
 
 
 
+    public override void Hide()
+    {
+        base.Hide();
+        WeakReferenceMessenger.Default.Send(new MainWindowStateChangedMessage { Hide = true, CurrentTime = DateTimeOffset.Now });
+    }
+
+
+
+    private DateTimeOffset _lastActivatedTime = DateTimeOffset.Now;
+
+
     protected override nint WindowSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
     {
-        if (uMsg == (uint)User32.WindowMessage.WM_SYSCOMMAND)
+        if (uMsg == (uint)User32.WindowMessage.WM_ACTIVATE || uMsg == (uint)User32.WindowMessage.WM_POINTERACTIVATE)
         {
-            // SC_MAXIMIZE
+            // 窗口激活
+            if (wParam is 0x1 or 0x2)
+            {
+                // WA_ACTIVE or WA_CLICKACTIVE
+                var now = DateTimeOffset.Now;
+                WeakReferenceMessenger.Default.Send(new MainWindowStateChangedMessage
+                {
+                    Activate = true,
+                    CurrentTime = now,
+                    LastActivatedTime = _lastActivatedTime,
+                });
+                _lastActivatedTime = now;
+            }
+        }
+        else if (uMsg == (uint)User32.WindowMessage.WM_SYSCOMMAND)
+        {
             if (wParam == 0xF030)
             {
+                // SC_MAXIMIZE
+                // 防止双击标题栏使窗口最大化，WinAppSDK 某个版本的 Bug
                 return IntPtr.Zero;
             }
         }
-        if (uMsg == (uint)User32.WindowMessage.WM_WTSSESSION_CHANGE)
+        else if (uMsg == (uint)User32.WindowMessage.WM_WTSSESSION_CHANGE)
         {
-            // WTS_SESSION_LOCK
             if (wParam == 0x7)
             {
-
+                // WTS_SESSION_LOCK
+                // 锁屏，暂停视频背景
+                WeakReferenceMessenger.Default.Send(new MainWindowStateChangedMessage { SessionLock = true, CurrentTime = DateTimeOffset.Now });
             }
-            // WTS_SESSION_UNLOCK 
-            if (wParam == 0x8)
+            else if (wParam == 0x8)
             {
-
+                // WTS_SESSION_UNLOCK 
+            }
+        }
+        else if (uMsg == (uint)User32.WindowMessage.WM_DEVICECHANGE)
+        {
+            // 存储设备插入/拔出
+            if (wParam == 0x8000)
+            {
+                // DBT_DEVICEARRIVAL
+                User32.DEV_BROADCAST_HDR dev = Marshal.PtrToStructure<User32.DEV_BROADCAST_HDR>(lParam);
+                if (dev.dbch_devicetype is User32.DBT_DEVTYPE.DBT_DEVTYP_VOLUME)
+                {
+                    WeakReferenceMessenger.Default.Send(new RemovableStorageDeviceChangedMessage());
+                }
+            }
+            else if (wParam == 0x8004)
+            {
+                // DBT_DEVICEREMOVECOMPLETE
+                User32.DEV_BROADCAST_HDR dev = Marshal.PtrToStructure<User32.DEV_BROADCAST_HDR>(lParam);
+                if (dev.dbch_devicetype is User32.DBT_DEVTYPE.DBT_DEVTYP_VOLUME)
+                {
+                    WeakReferenceMessenger.Default.Send(new RemovableStorageDeviceChangedMessage());
+                }
             }
         }
         return base.WindowSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);

@@ -178,8 +178,13 @@ public class HoYoPlayService
             {
                 string bg = Path.Combine(AppSetting.UserDataFolder, "bg");
                 Directory.CreateDirectory(bg);
-                await Parallel.ForEachAsync(urls, async (url, _) =>
+                await Parallel.ForEachAsync(infos, async (info, _) =>
                 {
+                    if (string.IsNullOrWhiteSpace(info.Display.Background?.Url))
+                    {
+                        return;
+                    }
+                    string url = info.Display.Background.Url;
                     try
                     {
                         string name = Path.GetFileName(url);
@@ -189,6 +194,7 @@ public class HoYoPlayService
                             byte[] bytes = await _httpClient.GetByteArrayAsync(url);
                             await File.WriteAllBytesAsync(path, bytes);
                         }
+                        AppSetting.SetVersionPoster(info.GameBiz, name);
                     }
                     catch (Exception ex)
                     {

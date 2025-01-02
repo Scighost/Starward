@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
 using Starward.Frameworks;
+using Starward.Helpers;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -254,6 +256,23 @@ internal class GameLauncherService
         }
         return null;
     }
+
+
+
+    /// <summary>
+    /// 选择游戏安装目录
+    /// </summary>
+    /// <param name="xamlRoot"></param>
+    /// <returns></returns>
+    public async Task<string?> LocateGameInstallFolderAsync(XamlRoot xamlRoot)
+    {
+        // 判断是否为可移动存储设备，使用 DriveHelper.IsDeviceRemovableOrOnUSB
+        string? folder = await FileDialogHelper.PickFolderAsync(xamlRoot);
+        return Directory.Exists(folder) ? folder : null;
+    }
+
+
+
 
 
 }

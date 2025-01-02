@@ -15,6 +15,14 @@
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="NoAnimationImageExStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
 
     <Grid>
 
@@ -100,13 +108,15 @@
                                                     VerticalAlignment="Center"
                                                     CornerRadius="8"
                                                     Source="{x:Bind GameInfo.Display.Thumbnail.Url}"
-                                                    Stretch="UniformToFill" />
+                                                    Stretch="UniformToFill"
+                                                    Style="{StaticResource NoAnimationImageExStyle}" />
                                     <!--  Logo  -->
                                     <sc:CachedImage Name="Grid_GameBizDisplay_Logo"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Background="#60000000"
-                                                    Source="{x:Bind GameInfo.Display.Logo.Url}" />
+                                                    Source="{x:Bind GameInfo.Display.Logo.Url}"
+                                                    Style="{StaticResource NoAnimationImageExStyle}" />
                                     <!--  鼠标移入时 Icon & 选择服务器  -->
                                     <Grid Name="Grid_GameBizDisplay_IconAndName"
                                           Background="#D0000000"
@@ -127,7 +137,8 @@
                                                         HorizontalAlignment="Right"
                                                         VerticalAlignment="Center"
                                                         CornerRadius="8"
-                                                        Source="{x:Bind GameInfo.Display.Icon.Url}" />
+                                                        Source="{x:Bind GameInfo.Display.Icon.Url}"
+                                                        Style="{StaticResource NoAnimationImageExStyle}" />
                                         <TextBlock Grid.Column="2"
                                                    Margin="8,0,0,0"
                                                    HorizontalAlignment="Center"

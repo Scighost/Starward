@@ -60,10 +60,6 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     public GameBiz CurrentGameBiz { get; set; }
 
 
-    public string CurrentSettingTitle { get; set => SetProperty(ref field, value); } = Lang.GameLauncherSettingDialog_BasicInformation;
-
-
-
 
 
     private void FlipView_Settings_Loaded(object sender, RoutedEventArgs e)
@@ -102,10 +98,6 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            if (args.InvokedItemContainer?.Content is string title)
-            {
-                CurrentSettingTitle = title;
-            }
             if (args.InvokedItemContainer?.Tag is string index && int.TryParse(index, out int target))
             {
                 int steps = target - FlipView_Settings.SelectedIndex;
@@ -263,15 +255,42 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
     /// <summary>
-    /// 重新定位游戏路径
+    /// 删除游戏安装路径
     /// </summary>
     /// <returns></returns>
     [RelayCommand]
-    private async Task RelocateGameAsync()
+    private async Task DeleteGameInstllPathAsync()
     {
-        // todo
+        AppSetting.SetGameInstallPath(CurrentGameBiz, null);
+        WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
+        await InitializeBasicInfoAsync();
+    }
+
+
+
+    /// <summary>
+    /// 定位游戏路径
+    /// </summary>
+    /// <returns></returns>
+    [RelayCommand]
+    private async Task LocateGameAsync()
+    {
+        try
+        {
+            string? folder = await _gameLauncherService.LocateGameInstallFolderAsync(this.XamlRoot);
+            if (string.IsNullOrWhiteSpace(folder))
+            {
+                return;
+            }
+            AppSetting.SetGameInstallPath(CurrentGameBiz, folder);
+            WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
+            await InitializeBasicInfoAsync();
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
 

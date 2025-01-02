@@ -60,8 +60,9 @@
               VerticalAlignment="Bottom">
             <Grid.Resources>
                 <cu:AttachedDropShadow x:Key="TextShadow"
+                                       BlurRadius="8"
                                        CastTo="{x:Bind Border_TextShadowTarget}"
-                                       Offset="2" />
+                                       Offset="0,2" />
             </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="44" />
@@ -84,7 +85,7 @@
                        FontSize="12"
                        Visibility="{x:Bind IsInstallPathRemovableTipEnabled}">
                 <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.GameLauncherPage_RemovableStorageDeviceNotConnected}" />
-                <Hyperlink UnderlineStyle="None">
+                <Hyperlink Click="Hyperlink_LocateGame_Click" UnderlineStyle="None">
                     <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.GameLauncherPage_Relocate}" />
                 </Hyperlink>
             </TextBlock>
@@ -97,7 +98,7 @@
                        FontSize="12"
                        Visibility="{x:Bind InstalledLocateGameEnabled}">
                 <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_Installed}" />
-                <Hyperlink UnderlineStyle="None">
+                <Hyperlink Click="Hyperlink_LocateGame_Click" UnderlineStyle="None">
                     <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LocateGame}" />
                 </Hyperlink>
             </TextBlock>

@@ -65,7 +65,7 @@ public sealed partial class GameBannerAndPost : UserControl
 
     private void GameBannerAndPost_Unloaded(object sender, RoutedEventArgs e)
     {
-        WeakReferenceMessenger.Default.RegisterAll(this);
+        WeakReferenceMessenger.Default.UnregisterAll(this);
         _bannerTimer.Stop();
     }
 
@@ -73,7 +73,18 @@ public sealed partial class GameBannerAndPost : UserControl
 
     private void OnMainWindowStateChanged(object _, MainWindowStateChangedMessage message)
     {
-        // todo
+        try
+        {
+            if (message.Activate)
+            {
+                _bannerTimer.Start();
+            }
+            else if (message.Hide || message.SessionLock)
+            {
+                _bannerTimer.Stop();
+            }
+        }
+        catch { }
     }
 
 

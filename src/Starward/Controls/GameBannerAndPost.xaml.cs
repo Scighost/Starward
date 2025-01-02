@@ -141,7 +141,7 @@ public sealed partial class GameBannerAndPost : UserControl
 
     private void UserControl_Unloaded(object sender, RoutedEventArgs e)
     {
-        WeakReferenceMessenger.Default.RegisterAll(this);
+        WeakReferenceMessenger.Default.UnregisterAll(this);
         _bannerTimer.Stop();
     }
 

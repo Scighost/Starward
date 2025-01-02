@@ -139,16 +139,9 @@
                                     Tag="3" />
             </NavigationView.MenuItems>
 
-            <NavigationView.Header>
-                <TextBlock Margin="28,4,0,0"
-                           FontSize="20"
-                           FontWeight="Normal"
-                           Text="{x:Bind CurrentSettingTitle}" />
-            </NavigationView.Header>
-
 
             <FlipView x:Name="FlipView_Settings"
-                      Margin="28,12,0,0"
+                      Margin="24,24,0,0"
                       Background="Transparent"
                       Loaded="FlipView_Settings_Loaded">
                 <FlipView.ItemsPanel>
@@ -190,6 +183,21 @@
                                        VerticalAlignment="Center"
                                        FontSize="16"
                                        Text="{x:Bind CurrentGameBizIcon.GameName}" />
+                            <!--  定位游戏  -->
+                            <Button Grid.Column="2"
+                                    Height="36"
+                                    Command="{x:Bind LocateGameCommand}"
+                                    CornerRadius="8"
+                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                                    Visibility="{x:Bind InstallPath, Converter={StaticResource ObjectToVisibilityReversedConverter}}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Width="20"
+                                              Height="20"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE838;" />
+                                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LocateGame}" />
+                                </StackPanel>
+                            </Button>
                             <!--  卸载游戏  -->
                             <Button Grid.Column="2"
                                     Height="36"
@@ -207,33 +215,51 @@
                         </Grid>
 
                         <!--  游戏安装位置  -->
-                        <Button Height="40"
-                                Padding="0"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                BorderThickness="0"
-                                Command="{x:Bind OpenInstalGameFolderCommand}"
-                                CornerRadius="8"
-                                Visibility="{x:Bind InstallPath, Converter={StaticResource ObjectToVisibilityConverter}}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Margin="16,0,16,1"
-                                           VerticalAlignment="Center"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
-                                           Text="{x:Bind InstallPath}"
-                                           TextTrimming="CharacterEllipsis"
-                                           TextWrapping="Wrap" />
-                                <FontIcon Grid.Column="1"
-                                          Margin="16,0,16,0"
-                                          FontSize="14"
+                        <Grid Height="40"
+                              CornerRadius="8"
+                              Visibility="{x:Bind InstallPath, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button Height="40"
+                                    Padding="0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    BorderThickness="0"
+                                    Command="{x:Bind OpenInstalGameFolderCommand}"
+                                    CornerRadius="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Margin="16,0,16,1"
+                                               VerticalAlignment="Center"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+                                               Text="{x:Bind InstallPath}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="Wrap" />
+                                    <FontIcon Grid.Column="1"
+                                              Margin="16,0,16,0"
+                                              FontSize="14"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE8A7;" />
+                                </Grid>
+                            </Button>
+                            <Button Grid.Column="1"
+                                    Width="40"
+                                    Height="40"
+                                    Padding="0"
+                                    BorderThickness="0"
+                                    Command="{x:Bind DeleteGameInstllPathCommand}"
+                                    CornerRadius="0">
+                                <FontIcon FontSize="14"
                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                          Glyph="&#xE8A7;" />
-                            </Grid>
-                        </Button>
+                                          Glyph="&#xE711;" />
+                            </Button>
+                        </Grid>
 
                         <!--  一些操作  -->
                         <StackPanel Orientation="Horizontal" Spacing="12">
@@ -252,6 +278,7 @@
                             </Button>
                             <!--  重新定位  -->
                             <Button Height="36"
+                                    Command="{x:Bind LocateGameCommand}"
                                     CornerRadius="8"
                                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                                     Visibility="{x:Bind InstallPath, Converter={StaticResource ObjectToVisibilityConverter}}">
@@ -259,6 +286,7 @@
                             </Button>
                             <!--  修复游戏  -->
                             <Button Height="36"
+                                    Command="{x:Bind RepairGameCommand}"
                                     CornerRadius="8"
                                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                                     Visibility="{x:Bind UninstallAndRepairEnabled}">
