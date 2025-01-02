@@ -20,6 +20,8 @@
 		<ApplicationIcon>logo.ico</ApplicationIcon>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+		<CsWinRTAotOptimizerEnabled Condition="'$(Configuration)' == 'Debug'">false</CsWinRTAotOptimizerEnabled>
+		<CsWinRTAotOptimizerEnabled Condition="'$(Configuration)' != 'Debug'">true</CsWinRTAotOptimizerEnabled>
 	</PropertyGroup>
 
 	<ItemGroup>
