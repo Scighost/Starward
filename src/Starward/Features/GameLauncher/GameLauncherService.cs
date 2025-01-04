@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
+using Starward.Features.PlayTime;
 using Starward.Frameworks;
-using Starward.Helpers;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -24,13 +23,14 @@ internal class GameLauncherService
 
     private readonly HoYoPlayService _hoYoPlayService;
 
+    private readonly PlayTimeService _playTimeService;
 
 
-
-    public GameLauncherService(ILogger<GameLauncherService> logger, HoYoPlayService hoYoPlayService)
+    public GameLauncherService(ILogger<GameLauncherService> logger, HoYoPlayService hoYoPlayService, PlayTimeService playTimeService)
     {
         _logger = logger;
         _hoYoPlayService = hoYoPlayService;
+        _playTimeService = playTimeService;
     }
 
 
@@ -211,11 +211,13 @@ internal class GameLauncherService
                     exe = e;
                 }
             }
+            bool thirdPartyTool = false;
             if (string.IsNullOrWhiteSpace(exe) && AppSetting.GetEnableThirdPartyTool(gameId.GameBiz))
             {
                 exe = AppSetting.GetThirdPartyToolPath(gameId.GameBiz);
                 if (File.Exists(exe))
                 {
+                    thirdPartyTool = true;
                     verb = Path.GetExtension(exe) is ".exe" or ".bat" ? "runas" : "";
                 }
                 else
@@ -247,7 +249,19 @@ internal class GameLauncherService
                 Verb = verb,
                 WorkingDirectory = Path.GetDirectoryName(exe),
             };
-            return Process.Start(info);
+            Process? process = Process.Start(info);
+            if (process != null)
+            {
+                if (thirdPartyTool)
+                {
+                    return await _playTimeService.StartProcessToLogAsync(gameId);
+                }
+                else
+                {
+                    await _playTimeService.StartProcessToLogAsync(gameId, process.Id);
+                    return process;
+                }
+            }
         }
         catch (Win32Exception ex) when (ex.NativeErrorCode == ERROR_CANCELLED)
         {
@@ -257,19 +271,6 @@ internal class GameLauncherService
         return null;
     }
 
-
-
-    /// <summary>
-    /// 选择游戏安装目录
-    /// </summary>
-    /// <param name="xamlRoot"></param>
-    /// <returns></returns>
-    public async Task<string?> LocateGameInstallFolderAsync(XamlRoot xamlRoot)
-    {
-        // 判断是否为可移动存储设备，使用 DriveHelper.IsDeviceRemovableOrOnUSB
-        string? folder = await FileDialogHelper.PickFolderAsync(xamlRoot);
-        return Directory.Exists(folder) ? folder : null;
-    }
 
 
 

@@ -3189,6 +3189,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Last 7 Days 的本地化字符串。
+        /// </summary>
+        public static string PlayTimeButton_Last7Days {
+            get {
+                return ResourceManager.GetString("PlayTimeButton_Last7Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Last Startup 的本地化字符串。
+        /// </summary>
+        public static string PlayTimeButton_LastStartup {
+            get {
+                return ResourceManager.GetString("PlayTimeButton_LastStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Backed up {0} new screenshots. 的本地化字符串。
         /// </summary>
         public static string ScreenshotPage_BackedUpNewScreenshots {

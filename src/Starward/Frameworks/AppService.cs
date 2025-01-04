@@ -8,6 +8,7 @@ using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
+using Starward.Features.PlayTime;
 using System;
 using System.IO;
 using System.Net;
@@ -41,7 +42,7 @@ public static class AppService
             var logFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log");
             Directory.CreateDirectory(logFolder);
             LogFile = Path.Combine(logFolder, $"Starward_{DateTime.Now:yyMMdd}.log");
-            Log.Logger = new LoggerConfiguration().WriteTo.File(path: LogFile, outputTemplate: "[{Timestamp:HH:mm:ss.fff}] [{Level:u4}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}")
+            Log.Logger = new LoggerConfiguration().WriteTo.File(path: LogFile, outputTemplate: $$"""[{Timestamp:HH:mm:ss.fff}] [{Level:u4}] [{{Environment.ProcessId}}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}""", shared: true)
                                                   .Enrich.FromLogContext()
                                                   .CreateLogger();
             Log.Information($"Welcome to Starward v{AppSetting.AppVersion}\r\nSystem: {Environment.OSVersion}\r\nCommand Line: {Environment.CommandLine}");
@@ -61,6 +62,7 @@ public static class AppService
             sc.AddSingleton<BackgroundService>();
             sc.AddSingleton<GameLauncherService>();
             sc.AddSingleton<GamePackageService>();
+            sc.AddSingleton<PlayTimeService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

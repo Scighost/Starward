@@ -8,6 +8,7 @@
              xmlns:local="using:Starward.Features.GameLauncher"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sf="using:Starward.Frameworks"
+             xmlns:sfp="using:Starward.Features.PlayTime"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
@@ -54,57 +55,68 @@
 
 
 
-        <!--  右下角启动游戏  -->
-        <Grid Margin="0,0,40,0"
-              HorizontalAlignment="Right"
-              VerticalAlignment="Bottom">
-            <Grid.Resources>
-                <cu:AttachedDropShadow x:Key="TextShadow"
-                                       BlurRadius="8"
-                                       CastTo="{x:Bind Border_TextShadowTarget}"
-                                       Offset="0,2" />
-            </Grid.Resources>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="44" />
-                <RowDefinition Height="40" />
-            </Grid.RowDefinitions>
+        <!--  右下角按键  -->
+        <StackPanel Margin="0,0,40,40"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal"
+                    Spacing="12">
 
-            <local:StartGameButton HorizontalAlignment="Right"
-                                   CanExecute="{x:Bind StartGameButtonCanExecute}"
-                                   Command="{x:Bind ClickStartGameButtonCommand}"
-                                   SettingCommand="{x:Bind OpenGameLauncherSettingDialogCommand}"
-                                   State="{x:Bind GameState}" />
 
-            <Border x:Name="Border_TextShadowTarget" Grid.Row="1" />
+            <!--  游戏时间  -->
+            <sfp:PlayTimeButton CurrentGameBiz="{x:Bind CurrentGameBiz}" />
 
-            <!--  可移动存储设备未连接  -->
-            <TextBlock Grid.Row="1"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       cu:Effects.Shadow="{StaticResource TextShadow}"
-                       FontSize="12"
-                       Visibility="{x:Bind IsInstallPathRemovableTipEnabled}">
-                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.GameLauncherPage_RemovableStorageDeviceNotConnected}" />
-                <Hyperlink Click="Hyperlink_LocateGame_Click" UnderlineStyle="None">
-                    <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.GameLauncherPage_Relocate}" />
-                </Hyperlink>
-            </TextBlock>
 
-            <!--  定位游戏  -->
-            <TextBlock Grid.Row="1"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       cu:Effects.Shadow="{StaticResource TextShadow}"
-                       FontSize="12"
-                       Visibility="{x:Bind InstalledLocateGameEnabled}">
-                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_Installed}" />
-                <Hyperlink Click="Hyperlink_LocateGame_Click" UnderlineStyle="None">
-                    <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LocateGame}" />
-                </Hyperlink>
-            </TextBlock>
+            <!--  启动游戏  -->
+            <Grid Margin="0,0,0,-40">
+                <Grid.Resources>
+                    <cu:AttachedDropShadow x:Key="TextShadow"
+                                           BlurRadius="8"
+                                           CastTo="{x:Bind Border_TextShadowTarget}"
+                                           Offset="0,2" />
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="44" />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
 
-        </Grid>
+                <local:StartGameButton HorizontalAlignment="Right"
+                                       CanExecute="{x:Bind StartGameButtonCanExecute}"
+                                       Command="{x:Bind ClickStartGameButtonCommand}"
+                                       SettingCommand="{x:Bind OpenGameLauncherSettingDialogCommand}"
+                                       State="{x:Bind GameState}" />
 
+                <Border x:Name="Border_TextShadowTarget" Grid.Row="1" />
+
+                <!--  可移动存储设备未连接  -->
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           cu:Effects.Shadow="{StaticResource TextShadow}"
+                           FontSize="12"
+                           Visibility="{x:Bind IsInstallPathRemovableTipEnabled}">
+                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.GameLauncherPage_RemovableStorageDeviceNotConnected}" />
+                    <Hyperlink Click="Hyperlink_LocateGame_Click" UnderlineStyle="None">
+                        <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.GameLauncherPage_Relocate}" />
+                    </Hyperlink>
+                </TextBlock>
+
+                <!--  定位游戏  -->
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           cu:Effects.Shadow="{StaticResource TextShadow}"
+                           FontSize="12"
+                           Visibility="{x:Bind InstalledLocateGameEnabled}">
+                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_Installed}" />
+                    <Hyperlink Click="Hyperlink_LocateGame_Click" UnderlineStyle="None">
+                        <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LocateGame}" />
+                    </Hyperlink>
+                </TextBlock>
+
+            </Grid>
+
+        </StackPanel>
 
 
     </Grid>

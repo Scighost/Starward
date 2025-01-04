@@ -19,6 +19,10 @@ public static class AppSetting
 {
 
 
+    public static string StarwardExecutePath => Environment.ProcessPath ?? Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+
+
+
 
 
     static AppSetting()

@@ -2,6 +2,7 @@
 global using Starward.MyWindows;
 using Microsoft.Extensions.Configuration;
 using Starward.Core;
+using Starward.Frameworks;
 using Starward.Models;
 using Starward.Services;
 using Starward.Services.Launcher;
@@ -23,7 +24,6 @@ public static class Program
     [global::System.STAThreadAttribute]
     static void Main(string[] args)
     {
-
         if (args.Length > 0)
         {
             if (args[0].ToLower() is "playtime")
@@ -32,7 +32,7 @@ public static class Program
                 GameBiz biz = (GameBiz)AppConfig.Configuration.GetValue<string>("biz");
                 if (pid > 0 && biz.IsKnown())
                 {
-                    var playtime = AppConfig.GetService<PlayTimeService>();
+                    var playtime = AppService.GetService<Features.PlayTime.PlayTimeService>();
                     playtime.LogPlayTimeAsync(biz, pid).GetAwaiter().GetResult();
                 }
                 return;

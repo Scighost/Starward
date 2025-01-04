@@ -1671,4 +1671,10 @@ Do you accept the risk and continue to use it?</value>
   <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
     <value>For a better experience, please enable the following features in system settings.</value>
   </data>
+  <data name="PlayTimeButton_Last7Days" xml:space="preserve">
+    <value>Last 7 Days</value>
+  </data>
+  <data name="PlayTimeButton_LastStartup" xml:space="preserve">
+    <value>Last Startup</value>
+  </data>
 </root>

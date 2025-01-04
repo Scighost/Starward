@@ -60,6 +60,7 @@
             </Style>
 
             <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="Background" Value="{ThemeResource CustomAcrylicBrush}" />
             </Style>
 
