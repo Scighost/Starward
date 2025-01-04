@@ -72,7 +72,7 @@ public sealed partial class AppBackground : UserControl
         get;
         set
         {
-            if (value is null)
+            if (value is null && field is not null)
             {
                 PlacehoderImageSource = field;
             }

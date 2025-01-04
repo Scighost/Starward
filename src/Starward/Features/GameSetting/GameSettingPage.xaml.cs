@@ -78,7 +78,7 @@ public sealed partial class GameSettingPage : PageBase
         {
             if (SetProperty(ref field, value))
             {
-                AppConfig.SetStartArgument(CurrentGameBiz, value);
+                AppSetting.SetStartArgument(CurrentGameBiz, value);
             }
         }
     }
@@ -323,7 +323,7 @@ public sealed partial class GameSettingPage : PageBase
             {
                 IsGraphicsSettingEnable = true;
             }
-            StartArgument = AppConfig.GetStartArgument(CurrentGameBiz);
+            StartArgument = AppSetting.GetStartArgument(CurrentGameBiz);
             var resolutionSetting = _gameSettingService.GetGameResolutionSetting(CurrentGameBiz);
             if (resolutionSetting != null)
             {
