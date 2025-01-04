@@ -124,8 +124,10 @@ public sealed partial class SettingPage : PageBase
     {
         get; set
         {
-            SetProperty(ref field, value);
-            AppSetting.EnablePreviewRelease = value;
+            if (SetProperty(ref field, value))
+            {
+                AppSetting.EnablePreviewRelease = value;
+            }
         }
     } = AppSetting.EnablePreviewRelease;
 
@@ -405,10 +407,12 @@ public sealed partial class SettingPage : PageBase
     {
         get; set
         {
-            SetProperty(ref field, value);
-            //InstallGameManager.SetRateLimit(value * 1024);
-            AppSetting.SpeedLimitKBPerSecond = value;
-            // todo
+            if (SetProperty(ref field, value))
+            {
+                //InstallGameManager.SetRateLimit(value * 1024);
+                AppSetting.SpeedLimitKBPerSecond = value;
+                // todo
+            }
         }
     } = AppSetting.SpeedLimitKBPerSecond;
 

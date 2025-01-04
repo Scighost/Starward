@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
+using Starward.Features.GameSetting;
 using Starward.Features.Setting;
 using System;
 
@@ -73,7 +74,7 @@ public sealed partial class MainView : UserControl
     private void UpdateNavigationView()
     {
         NavigationViewItem_Launcher.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameLauncherPage)).ToVisibility();
-        NavigationViewItem_GameSetting.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains("GameSettingPage").ToVisibility();
+        NavigationViewItem_GameSetting.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameSettingPage)).ToVisibility();
         NavigationViewItem_Screenshot.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains("").ToVisibility();
         NavigationViewItem_GachaLog.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains("").ToVisibility();
         NavigationViewItem_HoyolabToolbox.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains("").ToVisibility();
@@ -130,6 +131,7 @@ public sealed partial class MainView : UserControl
                     var type = item.Tag switch
                     {
                         nameof(GameLauncherPage) => typeof(GameLauncherPage),
+                        nameof(GameSettingPage) => typeof(GameSettingPage),
                         _ => null,
                     };
                     NavigateTo(type);

@@ -1,6 +1,7 @@
 ﻿using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
+using Starward.Features.GameSetting;
 using System.Collections.Generic;
 
 namespace Starward.Features;
@@ -59,27 +60,27 @@ internal partial class GameFeatureConfig
 
     private static readonly GameFeatureConfig bh3 = new()
     {
-        SupportedPages = [nameof(GameLauncherPage)],
+        SupportedPages = [nameof(GameLauncherPage), nameof(GameSettingPage)],
         InGameNoticesWindow = true,
     };
 
 
     private static readonly GameFeatureConfig hk4e = new()
     {
-        SupportedPages = [nameof(GameLauncherPage)],
+        SupportedPages = [nameof(GameLauncherPage), nameof(GameSettingPage)],
         InGameNoticesWindow = true,
     };
 
 
     private static readonly GameFeatureConfig hkrpg = new()
     {
-        SupportedPages = [nameof(GameLauncherPage)],
+        SupportedPages = [nameof(GameLauncherPage), nameof(GameSettingPage)],
         InGameNoticesWindow = true,
     };
 
     private static readonly GameFeatureConfig nap = new()
     {
-        SupportedPages = [nameof(GameLauncherPage)],
+        SupportedPages = [nameof(GameLauncherPage), nameof(GameSettingPage)],
         InGameNoticesWindow = true,
     };
 

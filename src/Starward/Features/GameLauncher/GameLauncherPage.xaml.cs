@@ -168,12 +168,13 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            string? folder = await _gameLauncherService.LocateGameInstallFolderAsync(this.XamlRoot);
+            string? folder = await FileDialogHelper.PickFolderAsync(this.XamlRoot);
             if (string.IsNullOrWhiteSpace(folder))
             {
                 return;
             }
             AppSetting.SetGameInstallPath(CurrentGameBiz, folder);
+            AppSetting.SetGameInstallPathRemovable(CurrentGameBiz, DriveHelper.IsDeviceRemovableOrOnUSB(folder));
             CheckGameVersion();
         }
         catch (Exception ex)
@@ -267,7 +268,6 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            await Task.Delay(2000);
             var process1 = await _gameLauncherService.StartGameAsync(CurrentGameId);
             if (process1 == null)
             {

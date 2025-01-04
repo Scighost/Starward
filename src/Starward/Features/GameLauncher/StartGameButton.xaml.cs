@@ -32,8 +32,10 @@ public sealed partial class StartGameButton : UserControl
         get;
         set
         {
-            SetProperty(ref field, value);
-            UpdateButtonState();
+            if (SetProperty(ref field, value))
+            {
+                UpdateButtonState();
+            }
         }
     }
 
@@ -43,8 +45,10 @@ public sealed partial class StartGameButton : UserControl
         get;
         set
         {
-            SetProperty(ref field, value);
-            UpdateButtonState();
+            if (SetProperty(ref field, value))
+            {
+                UpdateButtonState();
+            }
         }
     }
 
@@ -54,8 +58,10 @@ public sealed partial class StartGameButton : UserControl
         get;
         set
         {
-            SetProperty(ref field, value);
-            UpdateButtonState();
+            if (SetProperty(ref field, value))
+            {
+                UpdateButtonState();
+            }
         }
     } = true;
 

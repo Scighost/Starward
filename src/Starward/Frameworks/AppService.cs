@@ -7,6 +7,7 @@ using Starward.Core.HoYoPlay;
 using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.GameLauncher;
+using Starward.Features.GameSetting;
 using Starward.Features.HoYoPlay;
 using Starward.Features.PlayTime;
 using System;
@@ -63,6 +64,7 @@ public static class AppService
             sc.AddSingleton<GameLauncherService>();
             sc.AddSingleton<GamePackageService>();
             sc.AddSingleton<PlayTimeService>();
+            sc.AddSingleton<GameSettingService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

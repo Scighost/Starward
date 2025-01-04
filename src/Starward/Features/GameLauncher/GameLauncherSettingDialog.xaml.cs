@@ -175,9 +175,11 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         get;
         set
         {
-            SetProperty(ref field, value);
-            AppSetting.EnableBannerAndPost = value;
-            WeakReferenceMessenger.Default.Send(new GameAnnouncementSettingChangedMessage());
+            if (SetProperty(ref field, value))
+            {
+                AppSetting.EnableBannerAndPost = value;
+                WeakReferenceMessenger.Default.Send(new GameAnnouncementSettingChangedMessage());
+            }
         }
     } = AppSetting.EnableBannerAndPost;
 
@@ -190,9 +192,11 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         get;
         set
         {
-            SetProperty(ref field, value);
-            AppSetting.DisableGameNoticeRedHot = value;
-            WeakReferenceMessenger.Default.Send(new GameAnnouncementSettingChangedMessage());
+            if (SetProperty(ref field, value))
+            {
+                AppSetting.DisableGameNoticeRedHot = value;
+                WeakReferenceMessenger.Default.Send(new GameAnnouncementSettingChangedMessage());
+            }
         }
     } = AppSetting.DisableGameNoticeRedHot;
 
@@ -278,12 +282,13 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            string? folder = await _gameLauncherService.LocateGameInstallFolderAsync(this.XamlRoot);
+            string? folder = await FileDialogHelper.PickFolderAsync(this.XamlRoot);
             if (string.IsNullOrWhiteSpace(folder))
             {
                 return;
             }
             AppSetting.SetGameInstallPath(CurrentGameBiz, folder);
+            AppSetting.SetGameInstallPathRemovable(CurrentGameBiz, DriveHelper.IsDeviceRemovableOrOnUSB(folder));
             WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
             await InitializeBasicInfoAsync();
         }
@@ -336,8 +341,10 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         get;
         set
         {
-            SetProperty(ref field, value);
-            AppSetting.StartGameAction = (StartGameAction)value;
+            if (SetProperty(ref field, value))
+            {
+                AppSetting.StartGameAction = (StartGameAction)value;
+            }
         }
     } = Math.Clamp((int)AppSetting.StartGameAction, 0, 2);
 
