@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -6,6 +7,7 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Gacha;
 using Starward.Features.GameLauncher;
+using Starward.Features.GameRecord;
 using Starward.Features.GameSetting;
 using Starward.Features.Screenshot;
 using Starward.Features.Setting;
@@ -42,6 +44,7 @@ public sealed partial class MainView : UserControl
         CurrentGameFeatureConfig = GameFeatureConfig.FromGameId(CurrentGameId);
         GameSelector.CurrentGameChanged += GameSelector_CurrentGameChanged;
         UpdateNavigationView();
+        WeakReferenceMessenger.Default.Register<MainViewNavigateMessage>(this, OnMainViewNavigateMessageReceived);
     }
 
 
@@ -79,7 +82,7 @@ public sealed partial class MainView : UserControl
         NavigationViewItem_GameSetting.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameSettingPage)).ToVisibility();
         NavigationViewItem_Screenshot.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(ScreenshotPage)).ToVisibility();
         NavigationViewItem_GachaLog.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GachaLogPage)).ToVisibility();
-        NavigationViewItem_HoyolabToolbox.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains("").ToVisibility();
+        NavigationViewItem_HoyolabToolbox.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameRecordPage)).ToVisibility();
         NavigationViewItem_SelfQuery.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains("").ToVisibility();
 
         // 抽卡记录名称
@@ -136,6 +139,7 @@ public sealed partial class MainView : UserControl
                         nameof(GameSettingPage) => typeof(GameSettingPage),
                         nameof(ScreenshotPage) => typeof(ScreenshotPage),
                         nameof(GachaLogPage) => typeof(GachaLogPage),
+                        nameof(GameRecordPage) => typeof(GameRecordPage),
                         _ => null,
                     };
                     NavigateTo(type);
@@ -147,7 +151,7 @@ public sealed partial class MainView : UserControl
 
 
 
-    public void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null)
+    private void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null)
     {
         page ??= typeof(GameLauncherPage);
         if (page.Name != nameof(SettingPage) && !CurrentGameFeatureConfig.SupportedPages.Contains(page.Name))
@@ -171,6 +175,10 @@ public sealed partial class MainView : UserControl
 
 
 
+    private void OnMainViewNavigateMessageReceived(object _, MainViewNavigateMessage message)
+    {
+        NavigateTo(message.Page);
+    }
 
 
 

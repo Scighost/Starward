@@ -2,6 +2,7 @@
 using Starward.Core.HoYoPlay;
 using Starward.Features.Gacha;
 using Starward.Features.GameLauncher;
+using Starward.Features.GameRecord;
 using Starward.Features.GameSetting;
 using Starward.Features.Screenshot;
 using System.Collections.Generic;
@@ -66,7 +67,7 @@ internal partial class GameFeatureConfig
         [
             nameof(GameLauncherPage),
             nameof(GameSettingPage),
-            nameof(ScreenshotPage)
+            nameof(ScreenshotPage),
         ],
         InGameNoticesWindow = true,
     };
@@ -79,7 +80,8 @@ internal partial class GameFeatureConfig
             nameof(GameLauncherPage),
             nameof(GameSettingPage),
             nameof(ScreenshotPage),
-            nameof(GachaLogPage)
+            nameof(GachaLogPage),
+            nameof(GameRecordPage),
         ],
         InGameNoticesWindow = true,
     };
@@ -92,7 +94,8 @@ internal partial class GameFeatureConfig
             nameof(GameLauncherPage),
             nameof(GameSettingPage),
             nameof(ScreenshotPage),
-            nameof(GachaLogPage)
+            nameof(GachaLogPage),
+            nameof(GameRecordPage),
         ],
         InGameNoticesWindow = true,
     };
@@ -104,7 +107,8 @@ internal partial class GameFeatureConfig
             nameof(GameLauncherPage),
             nameof(GameSettingPage),
             nameof(ScreenshotPage),
-            nameof(GachaLogPage)
+            nameof(GachaLogPage),
+            nameof(GameRecordPage),
         ],
         InGameNoticesWindow = true,
     };

@@ -100,7 +100,7 @@
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
                 <!--  工具箱  -->
-                <NavigationViewItem Name="NavigationViewItem_HoyolabToolbox" Tag="HoyolabToolboxPage">
+                <NavigationViewItem Name="NavigationViewItem_HoyolabToolbox" Tag="GameRecordPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF133;" />
                     </NavigationViewItem.Icon>

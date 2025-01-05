@@ -6,11 +6,13 @@ using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
 using Starward.Core.GameNotice;
+using Starward.Core.GameRecord;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.Gacha;
 using Starward.Features.GameLauncher;
+using Starward.Features.GameRecord;
 using Starward.Features.GameSetting;
 using Starward.Features.HoYoPlay;
 using Starward.Features.PlayTime;
@@ -76,6 +78,10 @@ public static class AppService
             sc.AddSingleton<GenshinGachaService>();
             sc.AddSingleton<StarRailGachaService>();
             sc.AddSingleton<ZZZGachaService>();
+
+            sc.AddSingleton<HoyolabClient>();
+            sc.AddSingleton<HyperionClient>();
+            sc.AddSingleton<GameRecordService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

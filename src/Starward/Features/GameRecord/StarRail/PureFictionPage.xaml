@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sf:PageBase x:Class="Starward.Features.GameRecord.StarRail.PureFictionPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fic="using:Starward.Core.GameRecord.StarRail.PureFiction"
+             xmlns:lang="using:Starward.Language"
+             xmlns:linq="using:System.Linq"
+             xmlns:local="using:Starward.Features.GameRecord.StarRail"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sc="using:Starward.Controls"
+             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sp="using:Starward.Pages"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <Page.Resources>
+        <BitmapImage x:Key="StarIcon" UriSource="ms-appx:///Assets/Image/IconChallengeStarYellow.png" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel Name="Image_Emoji"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="16"
+                    Visibility="Collapsed">
+            <Image Width="160"
+                   Height="160"
+                   Source="{StaticResource EmojiPom}" />
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="16"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_NoData}" />
+        </StackPanel>
+
+        <StackPanel Margin="0,24,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Spacing="12">
+            <Button Height="36"
+                    BorderThickness="0"
+                    Command="{x:Bind RefreshDataCommand}"
+                    CornerRadius="0,18,18,0"
+                    Style="{ThemeResource AccentButtonStyle}">
+                <StackPanel Margin="4,0,4,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <FontIcon FontSize="16" Glyph="&#xE72C;" />
+                    <TextBlock Text="{x:Bind lang:Lang.Common_Refresh}" />
+                </StackPanel>
+            </Button>
+            <Button Height="36"
+                    BorderThickness="0"
+                    CornerRadius="0,18,18,0"
+                    Shadow="{ThemeResource ThemeShadow}"
+                    Style="{ThemeResource AccentButtonStyle}"
+                    Translation="0,0,16"
+                    Visibility="Collapsed">
+                <StackPanel Margin="4,0,4,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <FontIcon FontSize="16" Glyph="&#xE9D9;" />
+                    <TextBlock Text="{x:Bind lang:Lang.Common_Summary}" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+
+        <ListView Name="ListView_ForgottenHall"
+                  Grid.Row="1"
+                  Padding="12,0,12,0"
+                  ItemsSource="{x:Bind PureFictionList}"
+                  SelectionChanged="ListView_ForgottenHall_SelectionChanged"
+                  SelectionMode="Single"
+                  Visibility="{x:Bind PureFictionList, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="0,4,0,4" />
+                    <Setter Property="Padding" Value="4,0,4,0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="fic:PureFictionInfo">
+                    <Grid Padding="12,8,12,8"
+                          Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                          CornerRadius="4"
+                          RowSpacing="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{x:Bind BeginTime.ToString('yyyy-MM-dd', x:Null)}" />
+                        <Image Grid.Row="1"
+                               Width="20"
+                               Height="20"
+                               HorizontalAlignment="Left"
+                               Source="{StaticResource StarIcon}" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="24,0,0,2"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind StarNum}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+
+        <ScrollViewer Grid.RowSpan="2"
+                      Grid.Column="1"
+                      Visibility="{x:Bind CurrentPureFiction, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <StackPanel Margin="24" Spacing="8">
+
+                <Grid>
+                    <!--  统计周期  -->
+                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                        <Run Text="{x:Bind lang:Lang.ForgottenHallPage_Period}" />
+                        <Run Text="" />
+                        <Run Text="{x:Bind CurrentPureFiction.BeginTime.ToString('yyyy/MM/dd', x:Null)}" />
+                        <Run Text=" - " />
+                        <Run Text="{x:Bind CurrentPureFiction.EndTime.ToString('yyyy/MM/dd', x:Null)}" />
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Right" Text="{x:Bind CurrentPureFiction.Name}" />
+                </Grid>
+
+                <!--  出战统计  -->
+                <Grid Margin="0,-4,0,0"
+                      Padding="8"
+                      Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                      CornerRadius="8"
+                      Shadow="{ThemeResource ThemeShadow}"
+                      Translation="0,0,16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!--  Total Star  -->
+                    <StackPanel Grid.RowSpan="2"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Spacing="8">
+                        <Image Width="24"
+                               Height="24"
+                               VerticalAlignment="Center"
+                               Source="{StaticResource StarIcon}" />
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Text="{x:Bind CurrentPureFiction.StarNum}" />
+                    </StackPanel>
+                    <!--  最高关卡  -->
+                    <TextBlock Name="TextBlock_Deepest"
+                               Grid.Column="1"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               IsTextTrimmedChanged="TextBlock_Deepest_IsTextTrimmedChanged"
+                               TextTrimming="CharacterEllipsis">
+                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ForgottenHallPage_FarthestStage}" />
+                        <Run Text="" />
+                        <Run Text="{x:Bind CurrentPureFiction.MaxFloor}" />
+                    </TextBlock>
+                    <!--  挑战次数  -->
+                    <TextBlock Name="TextBlock_Battles"
+                               Grid.Column="2"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center">
+                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ForgottenHallPage_TimesChallenged}" />
+                        <Run Text="" />
+                        <Run Text="{x:Bind CurrentPureFiction.BattleNum}" />
+                    </TextBlock>
+                </Grid>
+
+
+                <!--  卡片  -->
+                <ItemsRepeater Margin="0,12,0,0"
+                               HorizontalAlignment="Center"
+                               ItemsSource="{x:Bind CurrentPureFiction.AllFloorDetail}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout MinColumnSpacing="12"
+                                           MinRowSpacing="12"
+                                           Orientation="Horizontal" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="fic:PureFictionFloorDetail">
+                            <Grid Width="388"
+                                  Height="304"
+                                  Padding="20,0,20,0"
+                                  Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                                  CornerRadius="8,28,8,8"
+                                  Shadow="{ThemeResource ThemeShadow}"
+                                  Translation="0,0,16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="56" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <!--  背景图  -->
+                                <!--<Grid.Background>
+                                    <ImageBrush ImageSource="ms-appx:///Assets/Image/oblivious_chaos_memory_bg@2x.69565376.png" Stretch="UniformToFill" />
+                                </Grid.Background>-->
+                                <!--  不透明遮罩  -->
+                                <!--<Border Grid.RowSpan="5"
+                                        Grid.ColumnSpan="2"
+                                        Margin="-24,0,-24,0"
+                                        Background="#40000000" />-->
+                                <Border Grid.ColumnSpan="2"
+                                        Margin="-24,0,-24,0"
+                                        Background="{ThemeResource ControlOnImageFillColorDefaultBrush}" />
+                                <!--  名称，回合数  -->
+                                <StackPanel VerticalAlignment="Center" Spacing="2">
+                                    <TextBlock FontWeight="Bold"
+                                               Text="{x:Bind Name}"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                        <Run Text="{x:Bind lang:Lang.ForgottenHallPage_CyclesUsed}" />
+                                        <Run Text="{x:Bind RoundNum}" />
+                                    </TextBlock>
+                                </StackPanel>
+                                <!--  星星图标  -->
+                                <StackPanel Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Spacing="2">
+                                    <ItemsControl HorizontalAlignment="Right" ItemsSource="{x:Bind linq:Enumerable.Range(0, StarNum)}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Image Width="24"
+                                                       Height="24"
+                                                       VerticalAlignment="Center"
+                                                       Source="{StaticResource StarIcon}" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <!--  总分  -->
+                                    <TextBlock HorizontalAlignment="Right" FontSize="12">
+                                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="总分：" />
+                                        <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind TotalScore}" />
+                                    </TextBlock>
+                                </StackPanel>
+                                <!--  节点1  -->
+                                <TextBlock Grid.Row="1"
+                                           Grid.ColumnSpan="2"
+                                           Margin="0,8,0,0"
+                                           FontSize="12"
+                                           Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <Run Text="{x:Bind lang:Lang.ForgottenHallPage_TeamSetup}" />
+                                    <Run Text="1" />
+                                    <Run Text="" />
+                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node1.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                </TextBlock>
+                                <TextBlock Grid.Row="1"
+                                           Grid.ColumnSpan="2"
+                                           Margin="0,8,0,0"
+                                           HorizontalAlignment="Right"
+                                           FontSize="12">
+                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="积分：" />
+                                    <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind Node1.Score}" />
+                                </TextBlock>
+
+                                <ItemsRepeater Grid.Row="2"
+                                               Grid.ColumnSpan="2"
+                                               HorizontalAlignment="Center"
+                                               ItemsSource="{x:Bind Node1.Avatars}"
+                                               Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <ItemsRepeater.Layout>
+                                        <StackLayout Orientation="Horizontal" Spacing="12" />
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="fic:PureFictionAvatar">
+                                            <Grid Width="72" Height="84">
+                                                <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToSRBgConverter}}" />
+                                                <sc:CachedImage VerticalAlignment="Top"
+                                                                CornerRadius="0,12,0,0"
+                                                                Source="{x:Bind Icon}"
+                                                                Stretch="UniformToFill" />
+                                                <Border Height="16"
+                                                        Margin="0,0,0,1.5"
+                                                        VerticalAlignment="Bottom"
+                                                        Background="#A0000000">
+                                                    <TextBlock Margin="0,0,0,1"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center">
+                                                        <Run Text="Lv." /><Run Text="{x:Bind Level}" />
+                                                    </TextBlock>
+                                                </Border>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+
+                                <!--  节点2  -->
+                                <TextBlock Grid.Row="3"
+                                           Grid.ColumnSpan="2"
+                                           FontSize="12"
+                                           Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <Run Text="{x:Bind lang:Lang.ForgottenHallPage_TeamSetup}" />
+                                    <Run Text="2" />
+                                    <Run Text="" />
+                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node2.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                </TextBlock>
+                                <TextBlock Grid.Row="3"
+                                           Grid.ColumnSpan="2"
+                                           HorizontalAlignment="Right"
+                                           FontSize="12">
+                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="积分：" />
+                                    <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind Node2.Score}" />
+                                </TextBlock>
+
+                                <ItemsRepeater Grid.Row="4"
+                                               Grid.ColumnSpan="2"
+                                               Margin="0,0,0,4"
+                                               HorizontalAlignment="Center"
+                                               ItemsSource="{x:Bind Node2.Avatars}"
+                                               Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <ItemsRepeater.Layout>
+                                        <StackLayout Orientation="Horizontal" Spacing="12" />
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate x:DataType="fic:PureFictionAvatar">
+                                            <Grid Width="72" Height="84">
+                                                <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToSRBgConverter}}" />
+                                                <sc:CachedImage VerticalAlignment="Top"
+                                                                CornerRadius="0,12,0,0"
+                                                                Source="{x:Bind Icon}"
+                                                                Stretch="UniformToFill" />
+                                                <Border Height="16"
+                                                        Margin="0,0,0,1.5"
+                                                        VerticalAlignment="Bottom"
+                                                        Background="#A0000000">
+                                                    <TextBlock Margin="0,0,0,1"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center">
+                                                        <Run Text="Lv." /><Run Text="{x:Bind Level}" />
+                                                    </TextBlock>
+                                                </Border>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+
+                                <!--  快速通关  -->
+                                <StackPanel Grid.Row="1"
+                                            Grid.RowSpan="4"
+                                            Grid.ColumnSpan="2"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Spacing="8"
+                                            Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Image Width="120" Source="ms-appx:///Assets/Image/20004.png" />
+                                    <TextBlock HorizontalAlignment="Center"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               Text="{x:Bind lang:Lang.ForgottenHallPage_QuickCleared}" />
+                                </StackPanel>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+
+
+
+
+            </StackPanel>
+        </ScrollViewer>
+
+
+
+    </Grid>
+</sf:PageBase>
