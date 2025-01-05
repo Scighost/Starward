@@ -2,10 +2,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Starward.Core.Gacha.Genshin;
+using Starward.Core.Gacha.StarRail;
+using Starward.Core.Gacha.ZZZ;
 using Starward.Core.GameNotice;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Background;
 using Starward.Features.Database;
+using Starward.Features.Gacha;
 using Starward.Features.GameLauncher;
 using Starward.Features.GameSetting;
 using Starward.Features.HoYoPlay;
@@ -65,6 +69,13 @@ public static class AppService
             sc.AddSingleton<GamePackageService>();
             sc.AddSingleton<PlayTimeService>();
             sc.AddSingleton<GameSettingService>();
+
+            sc.AddSingleton<GenshinGachaClient>();
+            sc.AddSingleton<StarRailGachaClient>();
+            sc.AddSingleton<ZZZGachaClient>();
+            sc.AddSingleton<GenshinGachaService>();
+            sc.AddSingleton<StarRailGachaService>();
+            sc.AddSingleton<ZZZGachaService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

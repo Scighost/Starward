@@ -57,4 +57,11 @@ internal static class XamlRootExtension
 
 
 
+    public static AppWindow GetAppWindow(this XamlRoot xamlRoot)
+    {
+        return AppWindow.GetFromWindowId(xamlRoot.ContentIslandEnvironment.AppWindowId);
+    }
+
+
+
 }

@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Features.Gacha;
 using Starward.Features.GameLauncher;
 using Starward.Features.GameSetting;
 using Starward.Features.Screenshot;
@@ -77,7 +78,7 @@ public sealed partial class MainView : UserControl
         NavigationViewItem_Launcher.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameLauncherPage)).ToVisibility();
         NavigationViewItem_GameSetting.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameSettingPage)).ToVisibility();
         NavigationViewItem_Screenshot.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(ScreenshotPage)).ToVisibility();
-        NavigationViewItem_GachaLog.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains("").ToVisibility();
+        NavigationViewItem_GachaLog.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GachaLogPage)).ToVisibility();
         NavigationViewItem_HoyolabToolbox.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains("").ToVisibility();
         NavigationViewItem_SelfQuery.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains("").ToVisibility();
 
@@ -134,6 +135,7 @@ public sealed partial class MainView : UserControl
                         nameof(GameLauncherPage) => typeof(GameLauncherPage),
                         nameof(GameSettingPage) => typeof(GameSettingPage),
                         nameof(ScreenshotPage) => typeof(ScreenshotPage),
+                        nameof(GachaLogPage) => typeof(GachaLogPage),
                         _ => null,
                     };
                     NavigateTo(type);
