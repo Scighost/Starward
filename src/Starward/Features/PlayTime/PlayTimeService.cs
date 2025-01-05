@@ -67,7 +67,6 @@ internal class PlayTimeService
                 }
             }
             DatabaseService.SetValue($"playtime_total_{biz}", GetPlayTimeTotal(biz));
-            DatabaseService.SetValue($"playtime_7days_{biz}", GetPlayTimeLast7Days(biz));
             DatabaseService.SetValue($"startup_count_{biz}", GetStartUpCount(biz));
             _logger.LogInformation("End log playtime ({biz}, {pid})", biz, pid);
         }

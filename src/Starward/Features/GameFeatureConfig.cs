@@ -5,6 +5,7 @@ using Starward.Features.GameLauncher;
 using Starward.Features.GameRecord;
 using Starward.Features.GameSetting;
 using Starward.Features.Screenshot;
+using Starward.Features.SelfQuery;
 using System.Collections.Generic;
 
 namespace Starward.Features;
@@ -82,6 +83,7 @@ internal partial class GameFeatureConfig
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
+            nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
     };
@@ -96,6 +98,7 @@ internal partial class GameFeatureConfig
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
+            nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
     };
@@ -109,6 +112,7 @@ internal partial class GameFeatureConfig
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
+            nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
     };

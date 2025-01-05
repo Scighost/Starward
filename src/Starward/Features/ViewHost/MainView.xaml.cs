@@ -10,6 +10,7 @@ using Starward.Features.GameLauncher;
 using Starward.Features.GameRecord;
 using Starward.Features.GameSetting;
 using Starward.Features.Screenshot;
+using Starward.Features.SelfQuery;
 using Starward.Features.Setting;
 using System;
 
@@ -83,7 +84,7 @@ public sealed partial class MainView : UserControl
         NavigationViewItem_Screenshot.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(ScreenshotPage)).ToVisibility();
         NavigationViewItem_GachaLog.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GachaLogPage)).ToVisibility();
         NavigationViewItem_HoyolabToolbox.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameRecordPage)).ToVisibility();
-        NavigationViewItem_SelfQuery.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains("").ToVisibility();
+        NavigationViewItem_SelfQuery.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(SelfQueryPage)).ToVisibility();
 
         // 抽卡记录名称
         string gachalogText = CurrentGameId?.GameBiz.Game switch
@@ -140,6 +141,7 @@ public sealed partial class MainView : UserControl
                         nameof(ScreenshotPage) => typeof(ScreenshotPage),
                         nameof(GachaLogPage) => typeof(GachaLogPage),
                         nameof(GameRecordPage) => typeof(GameRecordPage),
+                        nameof(SelfQueryPage) => typeof(SelfQueryPage),
                         _ => null,
                     };
                     NavigateTo(type);

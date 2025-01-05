@@ -71,7 +71,6 @@ public sealed partial class PlayTimeButton : UserControl
         try
         {
             PlayTimeTotal = DatabaseService.GetValue<TimeSpan>($"playtime_total_{CurrentGameBiz}", out _);
-            PlayTime7Days = DatabaseService.GetValue<TimeSpan>($"playtime_7days_{CurrentGameBiz}", out _);
             StartUpCount = DatabaseService.GetValue<int>($"startup_count_{CurrentGameBiz}", out _);
             (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(CurrentGameBiz);
             if (time > DateTimeOffset.MinValue)
@@ -93,7 +92,6 @@ public sealed partial class PlayTimeButton : UserControl
         try
         {
             PlayTimeTotal = _playTimeService.GetPlayTimeTotal(CurrentGameBiz);
-            PlayTime7Days = _playTimeService.GetPlayTimeLast7Days(CurrentGameBiz);
             StartUpCount = _playTimeService.GetStartUpCount(CurrentGameBiz);
             (var time, PlayTimeLast) = _playTimeService.GetLastPlayTime(CurrentGameBiz);
             if (time > DateTimeOffset.MinValue)
@@ -101,7 +99,6 @@ public sealed partial class PlayTimeButton : UserControl
                 LastPlayTimeText = time.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss");
             }
             DatabaseService.SetValue($"playtime_total_{CurrentGameBiz}", PlayTimeTotal);
-            DatabaseService.SetValue($"playtime_7days_{CurrentGameBiz}", PlayTime7Days);
             DatabaseService.SetValue($"startup_count_{CurrentGameBiz}", StartUpCount);
 
             CalculateRecent7Days();
@@ -128,13 +125,16 @@ public sealed partial class PlayTimeButton : UserControl
             var now = DateTimeOffset.Now;
             var day = now.AddHours(-now.Hour);
             var list = new TimeSpan[7];
+            TimeSpan total = TimeSpan.Zero;
             for (int i = 0; i < 7; i++)
             {
                 var start = day.AddDays(-i);
                 var end = start.AddDays(1);
                 TimeSpan playTime = _playTimeService.CalculatePlayTime(CurrentGameBiz, start, end);
                 list[6 - i] = playTime;
+                total += playTime;
             }
+            PlayTime7Days = total;
             TimeSpan max = list.Max();
             if (max == TimeSpan.Zero)
             {

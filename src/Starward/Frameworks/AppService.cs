@@ -8,6 +8,7 @@ using Starward.Core.Gacha.ZZZ;
 using Starward.Core.GameNotice;
 using Starward.Core.GameRecord;
 using Starward.Core.HoYoPlay;
+using Starward.Core.SelfQuery;
 using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.Gacha;
@@ -16,6 +17,7 @@ using Starward.Features.GameRecord;
 using Starward.Features.GameSetting;
 using Starward.Features.HoYoPlay;
 using Starward.Features.PlayTime;
+using Starward.Features.SelfQuery;
 using System;
 using System.IO;
 using System.Net;
@@ -82,6 +84,9 @@ public static class AppService
             sc.AddSingleton<HoyolabClient>();
             sc.AddSingleton<HyperionClient>();
             sc.AddSingleton<GameRecordService>();
+
+            sc.AddSingleton<SelfQueryClient>();
+            sc.AddSingleton<SelfQueryService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }
