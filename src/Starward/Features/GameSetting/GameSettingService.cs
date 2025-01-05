@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Starward.Core;
-using Starward.Models.GameSetting;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;

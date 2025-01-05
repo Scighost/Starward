@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Data;
+using Starward.Frameworks;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -11,15 +13,19 @@ namespace Starward.Features.Screenshot;
 public class ScreenshotWatcher : ObservableObject, IDisposable
 {
 
-    private readonly ILogger<ScreenshotWatcher> _logger = AppConfig.GetLogger<ScreenshotWatcher>();
+    private readonly ILogger<ScreenshotWatcher> _logger = AppService.GetLogger<ScreenshotWatcher>();
 
 
     private FileSystemWatcher _watcher;
 
 
+    private DispatcherQueue _dispatcherQueue;
+
+
 
     public ScreenshotWatcher(string folder)
     {
+        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         _watcher = new FileSystemWatcher(folder);
         _watcher.Filter = "*.png";
         _watcher.Created += FileSystemWatcher_Created;
@@ -79,17 +85,16 @@ public class ScreenshotWatcher : ObservableObject, IDisposable
                 if (fileInfo.Exists)
                 {
                     var item = new ScreenshotItem(fileInfo);
-                    var dq = MainWindow.Current.DispatcherQueue;
                     if (newImages is null)
                     {
                         newImages = new("New", new[] { item });
-                        dq.TryEnqueue(() => ImageGroupList?.Insert(0, newImages));
+                        _dispatcherQueue.TryEnqueue(() => ImageGroupList?.Insert(0, newImages));
                     }
                     else
                     {
-                        dq.TryEnqueue(() => newImages.Insert(0, item));
+                        _dispatcherQueue.TryEnqueue(() => newImages.Insert(0, item));
                     }
-                    dq.TryEnqueue(() => ImageList.Insert(newImages.Count - 1, item));
+                    _dispatcherQueue.TryEnqueue(() => ImageList.Insert(newImages.Count - 1, item));
                 }
             }
         }
@@ -106,8 +111,7 @@ public class ScreenshotWatcher : ObservableObject, IDisposable
             {
                 _logger.LogInformation("File deleted: {file}", e.FullPath);
                 var path = Path.GetFullPath(e.FullPath);
-                var dq = MainWindow.Current.DispatcherQueue;
-                dq.TryEnqueue(() =>
+                _dispatcherQueue.TryEnqueue(() =>
                 {
                     var file1 = newImages?.FirstOrDefault(x => x.FullName == path);
                     if (file1 is not null)

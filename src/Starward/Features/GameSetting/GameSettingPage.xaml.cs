@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Features.GameLauncher;
 using Starward.Frameworks;
-using Starward.Models.GameSetting;
 using System;
 using System.Collections.Generic;
 using System.Linq;

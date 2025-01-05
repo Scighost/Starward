@@ -191,7 +191,7 @@ public class BackgroundService
             }
             var info = await _hoYoPlayService.GetGameInfoAsync(gameId);
             string url = info.Display.Background.Url;
-            string bg = Path.Combine(AppConfig.UserDataFolder, "bg");
+            string bg = Path.Combine(AppSetting.UserDataFolder, "bg");
             Directory.CreateDirectory(bg);
             string name = Path.GetFileName(url);
             string path = Path.Combine(bg, name);
