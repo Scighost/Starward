@@ -19,7 +19,7 @@ internal abstract class DriveHelper
                     return true;
                 }
                 string fileName = $@"\\.\{drive.Name.Trim('\\')}";
-                using Kernel32.SafeHFILE hDevice = Kernel32.CreateFile(fileName, 0, FileShare.ReadWrite, null, FileMode.Open, 0, HFILE.NULL);
+                using Kernel32.SafeHFILE hDevice = Kernel32.CreateFile(fileName, 0, FileShare.ReadWrite | FileShare.Delete, null, FileMode.Open, 0, HFILE.NULL);
                 if (hDevice.IsInvalid)
                 {
                     return false;

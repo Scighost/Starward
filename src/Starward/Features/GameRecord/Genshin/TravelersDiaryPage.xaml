@@ -10,9 +10,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
+             xmlns:sfg="using:Starward.Features.GameRecord"
              xmlns:sp="using:Starward.Pages"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
+
+    <Page.Resources>
+        <sfg:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>

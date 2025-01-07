@@ -9,7 +9,6 @@
              xmlns:local="using:Starward.Features.GameRecord.Genshin"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
-             xmlns:scv="using:Starward.Converters"
              xmlns:sf="using:Starward.Frameworks"
              xmlns:sp="using:Starward.Pages"
              x:DefaultBindMode="OneWay"
@@ -17,7 +16,7 @@
 
     <Page.Resources>
         <BitmapImage x:Key="AbyssIcon" UriSource="ms-appx:///Assets/Image/UI_Icon_Tower_Star.png" />
-        <scv:SpiralAbyssBattleAvatarsSelectConverter x:Key="SpiralAbyssBattleAvatarsSelectConverter" />
+        <local:SpiralAbyssBattleAvatarsSelectConverter x:Key="SpiralAbyssBattleAvatarsSelectConverter" />
     </Page.Resources>
 
     <Grid>

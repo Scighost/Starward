@@ -516,7 +516,7 @@
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        Text="{x:Bind lang:Lang.SettingPage_URLProtocolDesc}"
                                        TextWrapping="Wrap" />
-                            <ToggleSwitch Margin="0,8,0,0"
+                            <ToggleSwitch Margin="0,8,0,0" 
                                           IsOn="{x:Bind EnableUrlProtocol, Mode=TwoWay}"
                                           OffContent="{x:Bind lang:Lang.SettingPage_RegisterURLProtocol}"
                                           OnContent="{x:Bind lang:Lang.SettingPage_RegisterURLProtocol}" />

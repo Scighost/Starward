@@ -32,7 +32,6 @@
                                           ContentTransitions="{TemplateBinding ContentTransitions}"
                                           CornerRadius="{TemplateBinding CornerRadius}"
                                           Foreground="{TemplateBinding Foreground}">
-
                             <ContentPresenter.BackgroundTransition>
                                 <BrushTransition Duration="0:0:0.083" />
                             </ContentPresenter.BackgroundTransition>
@@ -174,6 +173,7 @@
                       Height="20"
                       Margin="12,0,0,0"
                       HorizontalAlignment="Left"
+                      IsHitTestVisible="False"
                       Visibility="{x:Bind ProgressRing_IndeterminateLoading_Visibility}" />
 
         <!--  游戏设置  -->
@@ -203,16 +203,15 @@
 
         <!--  下载进度  -->
         <FlyoutBase.AttachedFlyout>
-            <Flyout x:Name="Flyout_DownloadProgress"
-                    AreOpenCloseAnimationsEnabled="False"
-                    OverlayInputPassThroughElement="{x:Bind Grid_Root}"
-                    Placement="Top">
+            <Flyout x:Name="Flyout_DownloadProgress" AreOpenCloseAnimationsEnabled="False">
                 <Flyout.FlyoutPresenterStyle>
                     <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                         <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Background" Value="{ThemeResource CustomAcrylicBrush}" />
                     </Style>
                 </Flyout.FlyoutPresenterStyle>
                 <Grid>
+                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind RunningGameInfo}" />
                     <!--  todo 下载进度  -->
                 </Grid>
             </Flyout>

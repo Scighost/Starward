@@ -83,6 +83,7 @@
                 <local:StartGameButton HorizontalAlignment="Right"
                                        CanExecute="{x:Bind StartGameButtonCanExecute}"
                                        Command="{x:Bind ClickStartGameButtonCommand}"
+                                       RunningGameInfo="{x:Bind RunningGameInfo}"
                                        SettingCommand="{x:Bind OpenGameLauncherSettingDialogCommand}"
                                        State="{x:Bind GameState}" />
 

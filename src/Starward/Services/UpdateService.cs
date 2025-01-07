@@ -355,7 +355,7 @@ internal class UpdateService
                     await File.WriteAllBytesAsync(file, ms.ToArray(), cancellationToken);
                     Interlocked.Increment(ref progress_FileCountDownloaded);
                 }
-                using var fs = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                using var fs = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
                 string hash = Convert.ToHexString(await SHA256.HashDataAsync(fs, cancellationToken));
                 if (!string.Equals(hash, releaseFile.Hash, StringComparison.OrdinalIgnoreCase))
                 {

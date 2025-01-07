@@ -317,7 +317,6 @@ internal class PlayTimeService
                     {
                         dic_last_time[pid] = item.TimeStamp;
                         dic_start_time[pid] = item.TimeStamp;
-
                     }
                     else
                     {
@@ -354,13 +353,13 @@ internal class PlayTimeService
                 }
             }
 
-            // 计算在截至时间点仍在进行的游戏时间
+            // 计算因意外或正在运行，没有停止记录的游戏时间
             foreach (var (pid, ts_start_time) in dic_start_time)
             {
                 long ts_last_time = dic_last_time.GetValueOrDefault(pid);
-                if (ts_start_time != 0 && ts_end - ts_last_time <= MAX_INTERVAL)
+                if (ts_start_time != 0 && ts_last_time != 0)
                 {
-                    ts_total += Math.Clamp(ts_end - ts_start_time, 0, long.MaxValue);
+                    ts_total += Math.Clamp(ts_last_time - ts_start_time, 0, long.MaxValue);
                 }
             }
         }

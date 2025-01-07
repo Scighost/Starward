@@ -123,7 +123,7 @@ public sealed partial class PlayTimeButton : UserControl
         {
             _recent7Days = null;
             var now = DateTimeOffset.Now;
-            var day = now.AddHours(-now.Hour);
+            var day = new DateTimeOffset(now.Date, now.Offset);
             var list = new TimeSpan[7];
             TimeSpan total = TimeSpan.Zero;
             for (int i = 0; i < 7; i++)
@@ -150,7 +150,7 @@ public sealed partial class PlayTimeButton : UserControl
             Debug.WriteLine(width);
 
             var pathFig = new PathFigure();
-            var builder = new CanvasPathBuilder(CanvasDevice.GetSharedDevice());
+            using var builder = new CanvasPathBuilder(CanvasDevice.GetSharedDevice());
             builder.BeginFigure(0, (float)height);
             float xStep = (float)(width / 6);
             for (int i = 0; i < list.Length; i++)
@@ -170,8 +170,8 @@ public sealed partial class PlayTimeButton : UserControl
             pathGeo.Figures.Add(pathFig);
             Path_TrendChart.Data = pathGeo;
 
-
-            var path = new CompositionPath(CanvasGeometry.CreatePath(builder));
+            using var cg = CanvasGeometry.CreatePath(builder);
+            var path = new CompositionPath(cg);
             var geometry = compositor.CreatePathGeometry(path);
             var clip = compositor.CreateGeometricClip(geometry);
             visual.Clip = clip;

@@ -7,9 +7,11 @@ using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Timers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
@@ -125,6 +127,7 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
+            StartGameButtonCanExecute = true;
             GameState = GameState.Waiting;
             GameInstallPath = _gameLauncherService.GetGameInstallPath(CurrentGameId, out bool storageRemoved);
             IsInstallPathRemovableTipEnabled = storageRemoved;
@@ -144,10 +147,15 @@ public sealed partial class GameLauncherPage : PageBase
                 GameState = GameState.ResumeDownload;
                 return;
             }
+            if (await CheckGameRunningAsync())
+            {
+                return;
+            }
             latestGameVersion = await _gamePackageService.GetLatestGameVersionAsync(CurrentGameId);
             if (latestGameVersion > localGameVersion)
             {
                 GameState = GameState.UpdateGame;
+                return;
             }
         }
         catch (Exception ex)
@@ -248,17 +256,75 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
+    private Timer processTimer;
 
 
-    private async void UpdateGameState()
+    [ObservableProperty]
+    private partial Process? GameProcess { get; set; }
+    partial void OnGameProcessChanged(Process? oldValue, Process? newValue)
+    {
+        oldValue?.Dispose();
+        processTimer?.Stop();
+        if (processTimer is null)
+        {
+            processTimer = new(1000);
+            processTimer.Elapsed += (_, _) => CheckGameExited();
+        }
+        if (newValue != null)
+        {
+            processTimer?.Start();
+            RunningGameInfo = $"{newValue.ProcessName}.exe ({newValue.Id})";
+        }
+        else
+        {
+            RunningGameInfo = null;
+            _logger.LogInformation("Game process exited");
+        }
+    }
+
+
+
+    public string? RunningGameInfo { get; set => SetProperty(ref field, value); }
+
+
+
+
+
+    private async Task<bool> CheckGameRunningAsync()
     {
         try
         {
+            GameProcess = await _gameLauncherService.GetGameProcessAsync(CurrentGameId);
+            if (GameProcess != null)
+            {
+                StartGameButtonCanExecute = false;
+                GameState = GameState.GameIsRunning;
+                _logger.LogInformation("Game is running ({name}, {pid})", GameProcess.ProcessName, GameProcess.Id);
+                return true;
+            }
+        }
+        catch { }
+        return false;
+    }
 
+
+
+
+    private void CheckGameExited()
+    {
+        try
+        {
+            if (GameProcess != null)
+            {
+                if (GameProcess.HasExited)
+                {
+                    DispatcherQueue.TryEnqueue(CheckGameVersion);
+                    GameProcess = null;
+                }
+            }
         }
         catch { }
     }
-
 
 
 
@@ -276,6 +342,7 @@ public sealed partial class GameLauncherPage : PageBase
             else
             {
                 GameState = GameState.GameIsRunning;
+                GameProcess = process1;
             }
         }
         catch (Exception ex)

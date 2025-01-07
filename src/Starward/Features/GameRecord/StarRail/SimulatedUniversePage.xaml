@@ -8,7 +8,6 @@
              xmlns:local="using:Starward.Features.GameRecord.StarRail"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
-             xmlns:scv="using:Starward.Converters"
              xmlns:sf="using:Starward.Frameworks"
              xmlns:sp="using:Starward.Pages"
              xmlns:su="using:Starward.Core.GameRecord.StarRail.SimulatedUniverse"
@@ -16,10 +15,10 @@
              mc:Ignorable="d">
 
     <Page.Resources>
-        <scv:SimulatedUniverseWorldIconConverter x:Key="SimulatedUniverseWorldIconConverter" />
-        <scv:SimulatedUniverseBuffIconConverter x:Key="SimulatedUniverseBuffIconConverter" />
-        <scv:SimulatedUniverseBuffBgConverter x:Key="SimulatedUniverseBuffBgConverter" />
-        <scv:SimulatedUniverseRomanNumberConverter x:Key="SimulatedUniverseRomanNumberConverter" />
+        <local:SimulatedUniverseWorldIconConverter x:Key="SimulatedUniverseWorldIconConverter" />
+        <local:SimulatedUniverseBuffIconConverter x:Key="SimulatedUniverseBuffIconConverter" />
+        <local:SimulatedUniverseBuffBgConverter x:Key="SimulatedUniverseBuffBgConverter" />
+        <local:SimulatedUniverseRomanNumberConverter x:Key="SimulatedUniverseRomanNumberConverter" />
     </Page.Resources>
 
     <Grid>

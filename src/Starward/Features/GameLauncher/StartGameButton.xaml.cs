@@ -67,6 +67,10 @@ public sealed partial class StartGameButton : UserControl
 
 
 
+    public string? RunningGameInfo { get; set => SetProperty(ref field, value); }
+
+
+
 
     public bool TextBlock_StartGame_Visibility => State is GameState.StartGame;
     public bool TextBlock_GameIsRunning_Visibility => State is GameState.GameIsRunning;
@@ -132,9 +136,13 @@ public sealed partial class StartGameButton : UserControl
     private void Grid_Root_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
         PointerOver = true;
-        if (State is GameState.Downloading)
+        if (State is GameState.GameIsRunning or GameState.Downloading)
         {
-            FlyoutBase.ShowAttachedFlyout(Grid_Root);
+            Flyout_DownloadProgress.ShowAt(Grid_Root, new FlyoutShowOptions
+            {
+                Placement = FlyoutPlacementMode.Top,
+                ShowMode = FlyoutShowMode.Transient,
+            });
         }
     }
 
