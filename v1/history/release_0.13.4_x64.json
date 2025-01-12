@@ -1,0 +1,2890 @@
+{
+  "Version": "0.13.4",
+  "Architecture": "x64",
+  "BuildTime": "2024-10-23T06:04:43.8040413+00:00",
+  "DisableAutoUpdate": false,
+  "Install": null,
+  "InstallSize": 0,
+  "InstallHash": null,
+  "Portable": "https://starward.scighost.com/release/package/Starward_Portable_0.13.4_x64.7z",
+  "PortableSize": 55869322,
+  "PortableHash": "91E0A8224C162A391D973D0747354861D214E49B7FCAA86B0C92697F7787EE8D",
+  "SeparatePrefix": "https://starward.scighost.com/release/separate_files/",
+  "SeparateFiles": [
+    {
+      "Path": "Starward.exe",
+      "Size": 427008,
+      "Hash": "B42781FAC21D6FECBCB09D89F44C979EE6A6C6B6A89CECDC3866BD397D7C62EE"
+    },
+    {
+      "Path": "version.ini",
+      "Size": 34,
+      "Hash": "0E8870F159FAF2D84F400600EB38637B7BF34DD2D48C8F6E896C40DF36106F93"
+    },
+    {
+      "Path": "app-0.13.4\\7z.dll",
+      "Size": 1841664,
+      "Hash": "77222E81CB7004E8C3E077AADA02B555A3D38FB05B50C64AFD36CA230A8FD5B9"
+    },
+    {
+      "Path": "app-0.13.4\\clretwrc.dll",
+      "Size": 311056,
+      "Hash": "C78605F3D54C17048715442A67E02C104EDF16BA63845E76E5C58EA39F3EAB5D"
+    },
+    {
+      "Path": "app-0.13.4\\clrgc.dll",
+      "Size": 668448,
+      "Hash": "CCF2823C73204A39DC0A1DE9E9B948B87BB9243F710AB53A6E0DF4C159BEF7D4"
+    },
+    {
+      "Path": "app-0.13.4\\clrjit.dll",
+      "Size": 1785096,
+      "Hash": "91A91D35EB8D85293DFF960E8431963114AEFB9B62B0C261C0012ED040A2FE44"
+    },
+    {
+      "Path": "app-0.13.4\\CommunityToolkit.Common.dll",
+      "Size": 28672,
+      "Hash": "F5A9889E4E03E0DBA9C93EF511225BCA12BB442B8E873A4E26518C503E81C477"
+    },
+    {
+      "Path": "app-0.13.4\\CommunityToolkit.Mvvm.dll",
+      "Size": 110592,
+      "Hash": "2290E06E4A48629CE4BEB8CBDC6EF6B4500D64360602272C1CEF0022155CC9B2"
+    },
+    {
+      "Path": "app-0.13.4\\CommunityToolkit.WinUI.Controls.Segmented.dll",
+      "Size": 90112,
+      "Hash": "D6428D8BD49532106221BF7B1B56EB7075DA37EBC50E9829F3A1A35D336BE902"
+    },
+    {
+      "Path": "app-0.13.4\\CommunityToolkit.WinUI.dll",
+      "Size": 253952,
+      "Hash": "4DBED622796EB191420B2D1B6C1E4A6687C22CB4356B4CECCB48815FE77B9D5A"
+    },
+    {
+      "Path": "app-0.13.4\\CommunityToolkit.WinUI.Extensions.dll",
+      "Size": 266240,
+      "Hash": "AF6903D1E23276A44A56304688FC769A71B253021C4AC68D239E8E6F8EA19C8D"
+    },
+    {
+      "Path": "app-0.13.4\\CommunityToolkit.WinUI.UI.Animations.dll",
+      "Size": 417792,
+      "Hash": "6DAEC7D91FE34DC4E32686577792973B751488A7C22B7B16BF79590C0AAF7BBD"
+    },
+    {
+      "Path": "app-0.13.4\\CommunityToolkit.WinUI.UI.Behaviors.dll",
+      "Size": 73728,
+      "Hash": "1E9E1A58A07466F2CE525FA8EC2DB7A2BF4B227866AE9196951928C24740E4A4"
+    },
+    {
+      "Path": "app-0.13.4\\CommunityToolkit.WinUI.UI.Controls.Core.dll",
+      "Size": 606208,
+      "Hash": "35F9137B0C904400D943734D53397ACD460934E131817AC24FAF2E2075CDC783"
+    },
+    {
+      "Path": "app-0.13.4\\CommunityToolkit.WinUI.UI.Controls.Primitives.dll",
+      "Size": 151552,
+      "Hash": "8E39AB737871F6DDDE9607FFC9F900B2A519D18C4CC50C4095E4C4530600B239"
+    },
+    {
+      "Path": "app-0.13.4\\CommunityToolkit.WinUI.UI.dll",
+      "Size": 454656,
+      "Hash": "D4514DEDE1D832E121AF76F34AA313C828D6127629FBD72F7B815763B1778F1C"
+    },
+    {
+      "Path": "app-0.13.4\\coreclr.dll",
+      "Size": 5044488,
+      "Hash": "DB1D6DEB3B4A74769DB761EEDF669142AB2D759EBA324672DE2649EF3D88E7F0"
+    },
+    {
+      "Path": "app-0.13.4\\CoreMessagingXP.dll",
+      "Size": 1046560,
+      "Hash": "7D5EB58571F879F1B997721C1270EDC0D8780309743452F443A5A986AF2DD167"
+    },
+    {
+      "Path": "app-0.13.4\\createdump.exe",
+      "Size": 61752,
+      "Hash": "4B82AFBE3419EDA1B9C9742F55CA2A2692CDF9C5C23B61068313494B3164925B"
+    },
+    {
+      "Path": "app-0.13.4\\Dapper.dll",
+      "Size": 581632,
+      "Hash": "F1F5703DCDF9D7441E1508AE7D36BE984ED230ED732B9364F1C588ADBC600E17"
+    },
+    {
+      "Path": "app-0.13.4\\dcompi.dll",
+      "Size": 1820704,
+      "Hash": "DE15FFB4DA1C8CA8B2FFEA09100AD178FEC47393B73029372A9545E5657B15D5"
+    },
+    {
+      "Path": "app-0.13.4\\dwmcorei.dll",
+      "Size": 3016736,
+      "Hash": "DAE1ED51A5E638C340A75C918F1595AFFE8AB48E9229773374EC85134B780017"
+    },
+    {
+      "Path": "app-0.13.4\\DwmSceneI.dll",
+      "Size": 2365472,
+      "Hash": "0AF5215048583FF47F891A82357916F87BAC70DEE68B652A032B7DD5B7A6CF3B"
+    },
+    {
+      "Path": "app-0.13.4\\DWriteCore.dll",
+      "Size": 3043880,
+      "Hash": "11E158A6689910F347F38ABDBFACB298275DA74B9DE6CB22D9ED22C2A97C0A9D"
+    },
+    {
+      "Path": "app-0.13.4\\e_sqlite3.dll",
+      "Size": 1691648,
+      "Hash": "DCCBABB2BC7E7D4302C44D9CE41B70721A7D0914FA4D289E2F340D39766AD102"
+    },
+    {
+      "Path": "app-0.13.4\\H.GeneratedIcons.System.Drawing.dll",
+      "Size": 28672,
+      "Hash": "9AAA22B16880AA4BA58591AC5D66B37F825E708472776F2714637FFAC88111E7"
+    },
+    {
+      "Path": "app-0.13.4\\H.NotifyIcon.dll",
+      "Size": 339968,
+      "Hash": "FDA1957ED4AE9B7B182FF5F94F4F19EE84C3DF5EE98E67F414C35F8D7659A44E"
+    },
+    {
+      "Path": "app-0.13.4\\H.NotifyIcon.WinUI.dll",
+      "Size": 294912,
+      "Hash": "68BBFBE035162A7D13993F89A808A7547DA864076FE4FBF93D3E0D458BC1BEA8"
+    },
+    {
+      "Path": "app-0.13.4\\hostfxr.dll",
+      "Size": 350472,
+      "Hash": "F451A4839BD27A10FD03E751C843F2389E71E76A2F7BF418A650A53844D21D1F"
+    },
+    {
+      "Path": "app-0.13.4\\hostpolicy.dll",
+      "Size": 393488,
+      "Hash": "29BCB525992E2BF1DC2C66918450ADE3B36E88226B1CEAB18A8C110A0E0DA0DC"
+    },
+    {
+      "Path": "app-0.13.4\\hpatchz.exe",
+      "Size": 432640,
+      "Hash": "66D1C1427AD34F2E9AA60A06B3D48BFBED296FAE3AAD396CA4240A1E67BFC254"
+    },
+    {
+      "Path": "app-0.13.4\\marshal.dll",
+      "Size": 563232,
+      "Hash": "022F08FC6806B59E78077B7967276CFFCBEE111995A58711821BB53B6FB483AE"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Data.Sqlite.dll",
+      "Size": 208896,
+      "Hash": "69C30F137BCA49B50356FE7C7A86FF5B356CD1D02903F74591712730E917A569"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.DiaSymReader.Native.amd64.dll",
+      "Size": 2309152,
+      "Hash": "7F8DCF37D9D66EAE14C48A79FA2FCD447BD0F38A21BE0203A9C4A89398AACF28"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.DirectManipulation.dll",
+      "Size": 694304,
+      "Hash": "963E1095C3366612BFFAC48FCB04F1B5C6A87B0DAB326456514AC9CBA8EB03BC"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.Configuration.Abstractions.dll",
+      "Size": 20480,
+      "Hash": "FD75087AC570C420C78FE0884788396C99CF47AA4D89F93B2906DE94405646A1"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.Configuration.Binder.dll",
+      "Size": 28672,
+      "Hash": "17602745E04B3BA71DBAFDEF41A1658D9A6E17C705A3298036B723D53A5DC599"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.Configuration.CommandLine.dll",
+      "Size": 28672,
+      "Hash": "98B803BE6D839ABD5195B4CCAD00C663CE5C0FEDE8CAB42726E99C576E0EAC7E"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.Configuration.dll",
+      "Size": 40960,
+      "Hash": "367EA7FA9F0E2C03E2AFD932E3ED6AFC161A1CB479C11617E154126F9A027059"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.Configuration.FileExtensions.dll",
+      "Size": 32768,
+      "Hash": "CBC6F38A04BB0D217D0857688F9ADAF99E01FDDA2A2A37ECB18B0CF7DCC59F7A"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.Configuration.Ini.dll",
+      "Size": 28672,
+      "Hash": "D9A3E581C52BEE30154F6A724D90B1DF005F4112B88598234B420517AB4789F7"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "Size": 45056,
+      "Hash": "FD7D952A84DCDE2F2F0FD99F747692FDA480E9061E3296A41B9A9261F6ACD99D"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.DependencyInjection.dll",
+      "Size": 172032,
+      "Hash": "D07837605BA753A6157895A4CF71D5AE0034682A8B16D41BB78BCD0E61F32C21"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.FileProviders.Abstractions.dll",
+      "Size": 24576,
+      "Hash": "2998A9548963628D6F06459A5E41B59EFEBF4B8E1485F523F4E27B3235683E45"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.FileProviders.Physical.dll",
+      "Size": 65536,
+      "Hash": "F7D264302D3B135B80DBFCCFFB93A616C8C55AFC9046257A5C01F89AA7313EE0"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.FileSystemGlobbing.dll",
+      "Size": 77824,
+      "Hash": "396DA9C9090993DA907444E134732A5F2F84FAECE36E559F90116053AAEA2A6F"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.Logging.Abstractions.dll",
+      "Size": 49152,
+      "Hash": "0C010E0AE05F8A6194508F728F7C2953548B8F55BBCC786CF575DB283CA9DE76"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.Logging.dll",
+      "Size": 69632,
+      "Hash": "C175E499E893BEABB6FEF15A8E6A214D79DFBC0B70DC40A7666ED7728237580D"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.Options.dll",
+      "Size": 49152,
+      "Hash": "D38350A247FCE84C1EF1ABC602684E633C32FD7BDC2DAC62E0ACDED7573CDF15"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Extensions.Primitives.dll",
+      "Size": 45056,
+      "Hash": "B43642E807C24429120693D58585A4812636054E0F69277DAD028142C13B40AD"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Foundation.winmd",
+      "Size": 11696,
+      "Hash": "97FB51C7D85CF1C171B3F9F2942FBC28A6D8E6D90CA26B53B9A2139062A95E08"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Graphics.Canvas.dll",
+      "Size": 1658416,
+      "Hash": "E38F3CFE77BEC1E9DADAD845022DC06B4CABA7B24F5236E9DAEBE3E90555539B"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Graphics.Canvas.Interop.dll",
+      "Size": 106496,
+      "Hash": "3F49C59225D233FBA453284137C33A97B0EA982F78259E5570DCDE43AA917FA5"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Graphics.Display.dll",
+      "Size": 231480,
+      "Hash": "88C9CB30928779782FF0C4B766962518666A2E9DE089D96942868A855740DC4A"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Graphics.winmd",
+      "Size": 23072,
+      "Hash": "CFDDBB4783E45B3424E67BBECC4F353508C348B8B92C99B82AFADEF93C5624DE"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.InputStateManager.dll",
+      "Size": 456736,
+      "Hash": "17924776B2840436A3809D23C7AF8E401B479F10789547273E05EDA52F0D6179"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.InteractiveExperiences.Projection.dll",
+      "Size": 663552,
+      "Hash": "41F1E77CC39511B41150A1FA9D7A632DCFC4D504BFF56861CFC16DEC7282A5BA"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Internal.FrameworkUdk.dll",
+      "Size": 853424,
+      "Hash": "5EB1F0E005C8A6BF4494EDA8E191F6289D86775E676095F6916ED793A51B41FA"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Composition.OSSupport.dll",
+      "Size": 67640,
+      "Hash": "6C509FCE67A740F57B7BF3ECB39D3B75228F33CF394EEEF73448105AFC62F18E"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.dll",
+      "Size": 120888,
+      "Hash": "38A78ECC6BD3A944AAD382EEAEB834A83B077C95AC29CB8B5E36F3E629C653F2"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Input.dll",
+      "Size": 1480736,
+      "Hash": "B4390BF27165E3B5F2CB57A87FF63D0EAD173A21282E5DD9437A17B7FF5AE3C6"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Text.winmd",
+      "Size": 34848,
+      "Hash": "86A36ADA2C81CDBE50EBCA3165F844349CC0DFB1F2F3A5B64AA4FAF04C43C994"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Windowing.Core.dll",
+      "Size": 493600,
+      "Hash": "657E2B96E41870AEA72DCB9F099EA7B5D0CE829ABFB5242DC85D2731502B5F34"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Windowing.dll",
+      "Size": 464952,
+      "Hash": "B43F013332C142BE691719D17172DC70C6BD740D9F1F25FA3FE09A5E380C34D9"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.winmd",
+      "Size": 299040,
+      "Hash": "9612FC21F05F93AEC6BF2249E53D7C05E56921B342DC605351B7A46BC530C1E0"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Xaml.Controls.dll",
+      "Size": 6883368,
+      "Hash": "90866A3CE37571C6951267643AFD124D02777C7EE72CDE6AC8864F1A98D15A98"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Xaml.Controls.pri",
+      "Size": 1229952,
+      "Hash": "FFDE9AD504E2A1E80ACCFD46A0DDC32FE5D7A9D93AD9ABDFA269194CDCE7EB58"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.ui.xaml.dll",
+      "Size": 15174576,
+      "Hash": "91E46F8713D47165ADD5A05768A8911CFD240664D9526E95AF49F429628C244A"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Xaml.Internal.dll",
+      "Size": 939576,
+      "Hash": "6D59F5261D863E4D4F6BB69A6C19828712DFE934C22F9F334669106E2E3FB245"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Xaml.Phone.dll",
+      "Size": 1094688,
+      "Hash": "9227276DD9DC06C2BF32E5C2B3411BFCC7398538F12570AC79422A6C7F2FC005"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.ui.xaml.resources.19h1.dll",
+      "Size": 566840,
+      "Hash": "C5025D205C031591458596F0411FC9E7FE5D1DEEF211D708689FFA9133449265"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.ui.xaml.resources.common.dll",
+      "Size": 55856,
+      "Hash": "BCD1C03A10A9E65025C41905AE715D9855CE6EDC46EBA628C9C8D981BB8B1A30"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Xaml.winmd",
+      "Size": 1611296,
+      "Hash": "57D82603BFFAD57E456BD1FAABE40F54ACD1B6441C68CCD13BD020C2EA4F55A5"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Web.WebView2.Core.dll",
+      "Size": 714304,
+      "Hash": "FF5765927C4BCC99FF02E67A311BAB20352FF9E5937D79AC206E37C3D66A1376"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Web.WebView2.Core.winmd",
+      "Size": 116296,
+      "Hash": "4CD590808616A55F4A34155FD8F5075F2B68A8631400B7B4D106AE503EA700B4"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Win32.Primitives.dll",
+      "Size": 5120,
+      "Hash": "D63832C6131DE3871842607ECF8FA1CDF3583F200ED100957D25C11FB22B524C"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Win32.Registry.dll",
+      "Size": 81920,
+      "Hash": "CC1E016AA62577ED611F9D8EE321955C9CA2B279DB8FD1A19938D6BB3BF52178"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Win32.SystemEvents.dll",
+      "Size": 57344,
+      "Hash": "88C0BEAC5C6142ADCD1ABF36B82AB3C40897BE9F2E88832C219DFCFC246B921D"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.ApplicationModel.DynamicDependency.Projection.dll",
+      "Size": 102400,
+      "Hash": "427EB5983DC8F49CF5CBFD76F466DAB39DFF2E777FC116F9CAA1F03C19677946"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.ApplicationModel.DynamicDependency.winmd",
+      "Size": 18464,
+      "Hash": "BA7E27A25D6663BC4D768BFD5D8F99929209B17F232F112EA6C1C9F389ECE721"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.ApplicationModel.Resources.dll",
+      "Size": 142768,
+      "Hash": "FFF306606EF84F32375669968519D55E2ADF9BBDD9AC90F3A2297ABEB06C6FA2"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.ApplicationModel.Resources.Projection.dll",
+      "Size": 135168,
+      "Hash": "397A3794285E6D2CE7F9458C08EF47FE312A06E01C68308CFFF8DBFF8FFA7C1D"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.ApplicationModel.Resources.winmd",
+      "Size": 19528,
+      "Hash": "DDA0CD07AADDE4843873594581362D7E32F1974BBA5E632F452F0A39227FDCFA"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Projection.dll",
+      "Size": 81920,
+      "Hash": "C6749CFE04BE271DC9EDAE824934C8CB2C6B3E6461850229B3DA2625A2A2D8CC"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.winmd",
+      "Size": 15392,
+      "Hash": "B2BE6FEE7ECDD9C93675F31F7978510F384880D4A941721A855FF8E99011809B"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.AppLifecycle.Projection.dll",
+      "Size": 90112,
+      "Hash": "0D6D59678B27AA1E740732BBF333CDF6E3EBCDFC567ECC78A8DDDE68D8F0AE96"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.AppLifecycle.winmd",
+      "Size": 17456,
+      "Hash": "F21135A2323F08C27ED2020C44DD9C25A423086DF0653527A180793B50581CA9"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.AppNotifications.Builder.Projection.dll",
+      "Size": 131072,
+      "Hash": "6B73F14F79630636140403FF03054D2479C5DD40A60F06C21E2106FFE57341D7"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.AppNotifications.Builder.winmd",
+      "Size": 24616,
+      "Hash": "2F74B11C188DCC785D68814309F6FEA141588B6B39BF725DFE8F92A8B863AD40"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.AppNotifications.Projection.dll",
+      "Size": 118784,
+      "Hash": "3D4A4FB21EBF442DF11F9819EC583BDFDDB8BAFF823A0205424991245E6B010C"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.AppNotifications.winmd",
+      "Size": 20000,
+      "Hash": "9AE9104799AA6D45EEFA1E5AB0A9FCCFB75B8C1B926A40AD070A25D9EB2CF7AC"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.Management.Deployment.Projection.dll",
+      "Size": 217088,
+      "Hash": "CBF2D6683707D86B9E3DFEB78AD72A10A3F3025AFAFF660A757F211265A653E8"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.Management.Deployment.winmd",
+      "Size": 34336,
+      "Hash": "3E84E3C5F5D02B8B6A62EAE57C9AA77363910F19686DF773FC778ED1CFB8CEDE"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.PushNotifications.Projection.dll",
+      "Size": 102400,
+      "Hash": "5FF7CABEEE83E8D6978F4BD0664593BA9EE4A20CE9FE6A380C84EDBD888BF1FE"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.PushNotifications.winmd",
+      "Size": 15896,
+      "Hash": "DF738CC9E7A3B2B4216D32B85F8AE6D55E7AC2E06A7F7532DCC5A4BA5996EB13"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.SDK.NET.dll",
+      "Size": 2281472,
+      "Hash": "17DFE357C4F341B8383D16B803E946F99E81A7CD8707404F4EB4847F06C4B4CB"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.Security.AccessControl.Projection.dll",
+      "Size": 61440,
+      "Hash": "7601ED00D75D8DBFB326956B841035DBBD8268C847C4165BF86997F170350917"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.Security.AccessControl.winmd",
+      "Size": 12832,
+      "Hash": "E9BD9F0704468B34A9D134C7D5F9104028C43E126FB398558185561DE1BCD044"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.System.Power.Projection.dll",
+      "Size": 81920,
+      "Hash": "AEE4E0DE95B9F3F828DB562A727F04DEF6B9A92CAF4E8830AD813FBB49D7E61F"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.System.Power.winmd",
+      "Size": 17456,
+      "Hash": "18CE6AA96050E95B18564319D5F7320EB93948EBE669F7A20B408A959FF1A646"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.System.Projection.dll",
+      "Size": 69632,
+      "Hash": "040B3932FB111E84C924B7FDC2219E41F70CBA4F9834E17844B1C6F503C438A8"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.System.winmd",
+      "Size": 13856,
+      "Hash": "96C3B25E6E93139F8D7D417F432A1798E363668E844431424F2128C404AED8E2"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.Widgets.dll",
+      "Size": 2055200,
+      "Hash": "B042A4CBC5E50B267FA9AADAF142214ED9D7BB4C9F65DC2252C47A51F0DD16D5"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.Widgets.Projection.dll",
+      "Size": 315392,
+      "Hash": "B72CE55BD2C19DDB9C6BDD80273D7AC2BD173A076A47C51D059B07BBD16BA1D7"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Windows.Widgets.winmd",
+      "Size": 32288,
+      "Hash": "F525EDAC157A76E9ECE63761792299E0BAA9468E1F9D96517A3BBCA4C493245B"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.WindowsAppRuntime.Bootstrap.dll",
+      "Size": 391240,
+      "Hash": "ED5D6D753AF6A6F7DFABE9188EF8846A34747D132C9565FDD98F15BD2B624ACC"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.WindowsAppRuntime.Bootstrap.Net.dll",
+      "Size": 20480,
+      "Hash": "0F10E6D785D74D40C68DF5D9A73807D8037BEEBF41BD6F36E49D4A6B5C60B125"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.WindowsAppRuntime.dll",
+      "Size": 1332768,
+      "Hash": "4B5D3751181C79065A6733C64FBE5007BF083814322DCDBD89ACDACDDF2940F7"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.WindowsAppRuntime.Insights.Resource.dll",
+      "Size": 38984,
+      "Hash": "2FB3D4557C5A21CC51900479370836CA7AFCBB8DCEEA86B54294ECE7A6512825"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.WinUI.dll",
+      "Size": 3743744,
+      "Hash": "77F52FD0A96A654959E31F3E33318D8CCF72CD4CF0C71AC6613CA9BB0AE3A6F8"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Xaml.Interactions.dll",
+      "Size": 81920,
+      "Hash": "7564891C325F3385DC03BCC791A3569E157DC41489984E8F4BF45B082C72ED96"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.Xaml.Interactivity.dll",
+      "Size": 40960,
+      "Hash": "D15C5E144490890EA8410136570FD0951479E6CC351150C52A98BE2AF071E6EE"
+    },
+    {
+      "Path": "app-0.13.4\\MiniExcel.dll",
+      "Size": 675840,
+      "Hash": "C38337C6045C88ADD9E54E7E320761963AF5676C73D178A6D2F762A66D4F9F2B"
+    },
+    {
+      "Path": "app-0.13.4\\MRM.dll",
+      "Size": 304560,
+      "Hash": "8D31063CA43E9413D48438C68D6F19ED7EFF6F3C37506DA57A04327A7AAD3FCD"
+    },
+    {
+      "Path": "app-0.13.4\\mscordaccore_amd64_amd64_8.0.824.36612.dll",
+      "Size": 1338400,
+      "Hash": "61350E7EE96E614900D641B4ECC3F35271AA2BA72C0455AE0D021E20C95F9A3E"
+    },
+    {
+      "Path": "app-0.13.4\\mscordaccore.dll",
+      "Size": 1338400,
+      "Hash": "61350E7EE96E614900D641B4ECC3F35271AA2BA72C0455AE0D021E20C95F9A3E"
+    },
+    {
+      "Path": "app-0.13.4\\mscordbi.dll",
+      "Size": 1241520,
+      "Hash": "1676DF96BF8D0DA277F1ADC2102E7FC711240982D61C31610F83474F093092F4"
+    },
+    {
+      "Path": "app-0.13.4\\mscorrc.dll",
+      "Size": 136984,
+      "Hash": "95EED17CA001846333831DA4DB370FB838AE114CCE512DB31380E8B45C464024"
+    },
+    {
+      "Path": "app-0.13.4\\msquic.dll",
+      "Size": 538136,
+      "Hash": "2D67E87859ECAEB15C4DD621B0983F1A9AD3E2AA9B11624C018A43E6D6B06BEC"
+    },
+    {
+      "Path": "app-0.13.4\\netstandard.dll",
+      "Size": 8704,
+      "Hash": "BE33C7B387D658EF64A43E9E301A76C38C72EB93D55094E223091B45AD326610"
+    },
+    {
+      "Path": "app-0.13.4\\NuGet.Versioning.dll",
+      "Size": 163840,
+      "Hash": "4DF82018C16853A571231D3290B0FFC0B643A1A86FA0FCF87434FDAE38E8F45D"
+    },
+    {
+      "Path": "app-0.13.4\\PushNotificationsLongRunningTask.ProxyStub.dll",
+      "Size": 44064,
+      "Hash": "9AD988A04C06361F6CB1D14D4714A9125B9CF072EB2A03E8624142F5528D1091"
+    },
+    {
+      "Path": "app-0.13.4\\resources.pri",
+      "Size": 1568656,
+      "Hash": "4B0DD5A9ABB10514FE06C822EC73014A3747451216E4CC76E86990A9A294A89D"
+    },
+    {
+      "Path": "app-0.13.4\\RestartAgent.exe",
+      "Size": 86560,
+      "Hash": "709CE4545698367073B6E026E804A7933A10019930318A41AA6C65198127D48D"
+    },
+    {
+      "Path": "app-0.13.4\\Serilog.dll",
+      "Size": 188416,
+      "Hash": "CF94034ABA5928D9A1747B28586E224512B0F529EF6DD4F1D002027E8168E63A"
+    },
+    {
+      "Path": "app-0.13.4\\Serilog.Extensions.Logging.dll",
+      "Size": 65536,
+      "Hash": "E56A74E9D4C1B93F3B594771C3D01D551089CBC207D720ADC2DC3582B00DB982"
+    },
+    {
+      "Path": "app-0.13.4\\Serilog.Sinks.File.dll",
+      "Size": 73728,
+      "Hash": "3416329ACEA20C45498F4AA81E3769DE3836C42A5AF668109D6169CB93D45E4B"
+    },
+    {
+      "Path": "app-0.13.4\\SQLitePCLRaw.batteries_v2.dll",
+      "Size": 20480,
+      "Hash": "8EC412105D4F57A98ED78DCB02A9267844641C69AB9D777A1FEB4FBD47526C52"
+    },
+    {
+      "Path": "app-0.13.4\\SQLitePCLRaw.core.dll",
+      "Size": 110592,
+      "Hash": "C382E4992945848A24983675946D46B6B67E8944666E5BBBB6FFA68EF9FE2FEC"
+    },
+    {
+      "Path": "app-0.13.4\\SQLitePCLRaw.provider.e_sqlite3.dll",
+      "Size": 86016,
+      "Hash": "40E16A24B790F12829EF8103E6ED31C8908DF860C941E377BA65AB94E0089BDD"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.Assets.dll",
+      "Size": 16384,
+      "Hash": "451C8F88EB0C1989187676935C412F4D181AEA0CE938AC4FBAB2EC8B9DFFF74C"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.Assets.targets",
+      "Size": 371,
+      "Hash": "A84D13402D59F412F31BD657AE6B9A465FCE6F83DF740C2C630319B635535A18"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.Core.dll",
+      "Size": 2879488,
+      "Hash": "25F2B570A7EB32414DC7C789D46D9C5B2818751812318498112C3CA39C888CEF"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.Core.pdb",
+      "Size": 646340,
+      "Hash": "2323CAC3C829C7AAEE36CE0900B43B0EC81990FEC7AF9D86844127A9C46EEC79"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.deps.json",
+      "Size": 66641,
+      "Hash": "17A4D83FD53FDE656CEA3C91EBC347C1ED0947FFE02FEB9ACE5D026E492EF21F"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.dll",
+      "Size": 6164480,
+      "Hash": "CE1808F8F6D2A88FC17F083D13F35E94F803083EE8B4F8F35F3A958080011209"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.exe",
+      "Size": 275456,
+      "Hash": "1CBFA611A1EA1DF87FA1323513B91E2AD496CAF91B4F81553AE0416743C6BD1C"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.Language.dll",
+      "Size": 192512,
+      "Hash": "AC63E4394555A1A5D6245B5A4FD713B39A0C7E5CC13751D3DBDD11FFDA624D71"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.Language.pdb",
+      "Size": 25336,
+      "Hash": "3308F1703C0D3A540A8876D5BBE4C865AC687E9BF36759C3B26F6BDEF26E5210"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.NativeLib.dll",
+      "Size": 81920,
+      "Hash": "5D7F504EF84AE2828E26EC8D5A8D6882E6DF93F6C5A08087D83C3230632C9057"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.pdb",
+      "Size": 1424556,
+      "Hash": "7F5B057557C6127E734C8C365B67E375C17C17E850629D13C665B0BF42F240CC"
+    },
+    {
+      "Path": "app-0.13.4\\Starward.runtimeconfig.json",
+      "Size": 1317,
+      "Hash": "0B3C1AEA55670B89101500BE48EEF0CC4A1407011E2AB2266D3DD07FCD2A05E2"
+    },
+    {
+      "Path": "app-0.13.4\\System.Collections.Concurrent.dll",
+      "Size": 77824,
+      "Hash": "371FB0B91239685DE84441A91EEF1B0D1EF7D9A4E5F71B81F45EDC6D84EC72BE"
+    },
+    {
+      "Path": "app-0.13.4\\System.Collections.dll",
+      "Size": 57344,
+      "Hash": "D451120397618BAAB5CDF78ECB49AEA529980FC8C0A362828413B4481BADDB80"
+    },
+    {
+      "Path": "app-0.13.4\\System.Collections.Immutable.dll",
+      "Size": 49152,
+      "Hash": "B30FEBD8674A7DC324175A61FE82912C1C216731A31F1F6DD1E61F31F850ADF5"
+    },
+    {
+      "Path": "app-0.13.4\\System.Collections.NonGeneric.dll",
+      "Size": 61440,
+      "Hash": "5C9E0F6B03558B4EBA841D7F104BE8E899FABC61D2AFE7DA4ABEA4B2F9B346D6"
+    },
+    {
+      "Path": "app-0.13.4\\System.Collections.Specialized.dll",
+      "Size": 45056,
+      "Hash": "10B24C22248B8CE8B03A446E73CA8117DBC9FDD49BB0F67D9AAA62323397A101"
+    },
+    {
+      "Path": "app-0.13.4\\System.ComponentModel.dll",
+      "Size": 20480,
+      "Hash": "2F3BDCC061FE58F9F46659ECB7811815DADE9256638E34916446F16A10D9473C"
+    },
+    {
+      "Path": "app-0.13.4\\System.ComponentModel.EventBasedAsync.dll",
+      "Size": 20480,
+      "Hash": "F698080B3DA9E28CE5FBF6B899CE86D1C9E9E8775AC1A608979A4B2BDDC9D7C2"
+    },
+    {
+      "Path": "app-0.13.4\\System.ComponentModel.Primitives.dll",
+      "Size": 53248,
+      "Hash": "0DB80FE97D0C94718FC04C9BF7D7DB9D3AC8FE0D0F8EB61A4FE0100F7ED4D1AF"
+    },
+    {
+      "Path": "app-0.13.4\\System.ComponentModel.TypeConverter.dll",
+      "Size": 430080,
+      "Hash": "0BE79A2EE9E4FF841FEEEEE41FBF26F264C2A33DB4DC1D450E671CA5FBE3DCBD"
+    },
+    {
+      "Path": "app-0.13.4\\System.Console.dll",
+      "Size": 36864,
+      "Hash": "A2A36E24E212AA4D24EEDB386F3322D8DD7BA19FED930E082B3977578D3504A4"
+    },
+    {
+      "Path": "app-0.13.4\\System.Data.Common.dll",
+      "Size": 1851392,
+      "Hash": "7ABCE0DA224FC2D3ED2B1F2ADCE3B476D2BDA3896FFB4BBDE07B6C726C892B28"
+    },
+    {
+      "Path": "app-0.13.4\\System.Diagnostics.DiagnosticSource.dll",
+      "Size": 335872,
+      "Hash": "E8A7711C6DAE784B75E3AA41666448C89621923B0478F9DE136EEBB2D191393E"
+    },
+    {
+      "Path": "app-0.13.4\\System.Diagnostics.FileVersionInfo.dll",
+      "Size": 32768,
+      "Hash": "C21F5B6D4D0FC768CC4F3243B8568477809B5F513D0D4AF345A306BAE9C57CB9"
+    },
+    {
+      "Path": "app-0.13.4\\System.Diagnostics.Process.dll",
+      "Size": 212992,
+      "Hash": "7A3B55360E356EB99F16DA1E5D97DA342D8A1738F704F5CC63F3E0AE5E9FB929"
+    },
+    {
+      "Path": "app-0.13.4\\System.Diagnostics.StackTrace.dll",
+      "Size": 24576,
+      "Hash": "6ECB542A8BD54AA8A3B3B7D64A44DDB33A6217BAFC0CE215B0AB8EC1859B5B33"
+    },
+    {
+      "Path": "app-0.13.4\\System.Diagnostics.TraceSource.dll",
+      "Size": 32768,
+      "Hash": "1B1A0AC44A486AD5890195BA8F346ABAD7DCFC3D7CE874C5F7FD91CC897DF117"
+    },
+    {
+      "Path": "app-0.13.4\\System.dll",
+      "Size": 5120,
+      "Hash": "43B1AC664878A9A567E58653057761EFB3D228373C2570537D6F285E2B4842BC"
+    },
+    {
+      "Path": "app-0.13.4\\System.Drawing.Common.dll",
+      "Size": 1519616,
+      "Hash": "0B2D04550F7347D111A6879A9B3A81226DB6F0ACF810BA8A0B651B2DA66C624E"
+    },
+    {
+      "Path": "app-0.13.4\\System.Drawing.dll",
+      "Size": 5120,
+      "Hash": "16357C070B4DDA65F1B4359633FF8DBF8F0B520515210781F145981A8038E24F"
+    },
+    {
+      "Path": "app-0.13.4\\System.Drawing.Primitives.dll",
+      "Size": 94208,
+      "Hash": "985A7A88805D84D2904D9931D358EDFF47F8A83B3CD6CEB7223990AE46FD09BC"
+    },
+    {
+      "Path": "app-0.13.4\\System.Formats.Asn1.dll",
+      "Size": 86016,
+      "Hash": "8AD201D7EF3BE07BB0091E8BD8626E0D2986053663DE750B3524879504C7F220"
+    },
+    {
+      "Path": "app-0.13.4\\System.IO.Compression.Brotli.dll",
+      "Size": 69632,
+      "Hash": "C712762B78F8348B7B03062169D75DFDC1BB21F5D89E49BCE7C03C9350C12DED"
+    },
+    {
+      "Path": "app-0.13.4\\System.IO.Compression.dll",
+      "Size": 233472,
+      "Hash": "227451C14CCD3021644E74337BEF12572FB97018E7C0101EEC088FB4BB339894"
+    },
+    {
+      "Path": "app-0.13.4\\System.IO.Compression.Native.dll",
+      "Size": 831240,
+      "Hash": "6E9365E60F9060B3E492F489E1C13EC07BD1F368FFCC5BA24D98530BDCD2D468"
+    },
+    {
+      "Path": "app-0.13.4\\System.IO.Compression.ZipFile.dll",
+      "Size": 32768,
+      "Hash": "F3A518AEFB88DAE8A29839207D0CB62DEF44D958C74E6B33880BD888AFADE4BC"
+    },
+    {
+      "Path": "app-0.13.4\\System.IO.FileSystem.DriveInfo.dll",
+      "Size": 32768,
+      "Hash": "018F0AFC660395043025D457C4EF8EEB40B2C2000137A455A77A4E4177305950"
+    },
+    {
+      "Path": "app-0.13.4\\System.IO.FileSystem.Watcher.dll",
+      "Size": 57344,
+      "Hash": "056032B80833BFE366F097A10728FFFC75095DB0AC7515B42D1A4D8BABACFA16"
+    },
+    {
+      "Path": "app-0.13.4\\System.IO.MemoryMappedFiles.dll",
+      "Size": 53248,
+      "Hash": "810F600A6D6DE5E64CD140510A1795EF7C7CFD5C3A5E43FA9D4596093A0F3597"
+    },
+    {
+      "Path": "app-0.13.4\\System.Linq.dll",
+      "Size": 274432,
+      "Hash": "EA10F24B0E7364F828C2C80640A915E14711AD5FDADC18AB6B687DFC9BBC445F"
+    },
+    {
+      "Path": "app-0.13.4\\System.Linq.Expressions.dll",
+      "Size": 3346432,
+      "Hash": "CD066FBC2C4118144AC4A304218CC30D88FEE58E78F3BECB76DF82DD47AB9534"
+    },
+    {
+      "Path": "app-0.13.4\\System.Memory.dll",
+      "Size": 61440,
+      "Hash": "CF830C9F7F4A577FC0311934643FB2427D0FBCE51BD3A0A934540D97A836B71F"
+    },
+    {
+      "Path": "app-0.13.4\\System.Net.Http.dll",
+      "Size": 1495040,
+      "Hash": "DD4BA23339BFB0B0EF159ABB8DFBAB403F626425AA835D05433CB632D7B97715"
+    },
+    {
+      "Path": "app-0.13.4\\System.Net.Http.Json.dll",
+      "Size": 49152,
+      "Hash": "A52CE696CDC146451CF855EA6A59A8EC06162670BBCA008DF3A860D6D7211657"
+    },
+    {
+      "Path": "app-0.13.4\\System.Net.NameResolution.dll",
+      "Size": 86016,
+      "Hash": "343D41DE3209F9F9397D38308BFAFF7E58B5742EE35B428C3ABE85670D83F43A"
+    },
+    {
+      "Path": "app-0.13.4\\System.Net.NetworkInformation.dll",
+      "Size": 65536,
+      "Hash": "6DC32E6C0A64316F9E9BA36CEE0CACB8E6A209C722CEBD9CC04751B54FBA447A"
+    },
+    {
+      "Path": "app-0.13.4\\System.Net.Primitives.dll",
+      "Size": 180224,
+      "Hash": "38ADA4619414C1F40EF209F83C95C0EC18A7380A3DE9E3E1565CA0F52EE54255"
+    },
+    {
+      "Path": "app-0.13.4\\System.Net.Quic.dll",
+      "Size": 225280,
+      "Hash": "40B851E6C45C7F44FD401A78AB99C49F3EC9B43AB6101DC4F7AD2542BE9116C8"
+    },
+    {
+      "Path": "app-0.13.4\\System.Net.Security.dll",
+      "Size": 471040,
+      "Hash": "FD8995EA11275AE31CA463ED83FE56E6392D212A04F3A92470E1C29018B7CF3D"
+    },
+    {
+      "Path": "app-0.13.4\\System.Net.Sockets.dll",
+      "Size": 241664,
+      "Hash": "0D690254C526FB5EC3F8597CDDDD6DF49EAC0023699F5E50CF4B275170F433CB"
+    },
+    {
+      "Path": "app-0.13.4\\System.Numerics.Vectors.dll",
+      "Size": 5120,
+      "Hash": "8C58D34C73BB2AB22FDF70092998875DC5830CC0E6B95AE511DD49810215722B"
+    },
+    {
+      "Path": "app-0.13.4\\System.ObjectModel.dll",
+      "Size": 45056,
+      "Hash": "3B255B09BD7497AB1180702CB69354F0D76859F13E84BC804228D9B76DA8D873"
+    },
+    {
+      "Path": "app-0.13.4\\System.Private.CoreLib.dll",
+      "Size": 8327168,
+      "Hash": "D484E0A20D14D9B3964623B22BBFCEB162011E1525A6EB3E4AF817497729570C"
+    },
+    {
+      "Path": "app-0.13.4\\System.Private.Uri.dll",
+      "Size": 200704,
+      "Hash": "0C5ECED9400F9F91CE8561C7256F301C0E2DAB60A2AB1902FE099FF58BA11BF6"
+    },
+    {
+      "Path": "app-0.13.4\\System.Private.Xml.dll",
+      "Size": 3899392,
+      "Hash": "68DC4C8EF299A2D5A4790F42287EA1FC669C36A80D0F224AC2174E3102111409"
+    },
+    {
+      "Path": "app-0.13.4\\System.Private.Xml.Linq.dll",
+      "Size": 118784,
+      "Hash": "825787FCDFC7294B76E59CFFEDC69F98A754114BE30CB49BB7E30D49E60282C6"
+    },
+    {
+      "Path": "app-0.13.4\\System.Reflection.Emit.ILGeneration.dll",
+      "Size": 5120,
+      "Hash": "C9AC665611E7B3DB8D41C7CF61A379D9D9FA1530674E89F74883C4864C905876"
+    },
+    {
+      "Path": "app-0.13.4\\System.Reflection.Emit.Lightweight.dll",
+      "Size": 5120,
+      "Hash": "BBAFB59FBD90916DB50C32120AC75D187A5E43EBF909FC3C986DC3F9E3F6A2F8"
+    },
+    {
+      "Path": "app-0.13.4\\System.Reflection.Metadata.dll",
+      "Size": 217088,
+      "Hash": "17924AA5681A91D4CA8D342B4EC4F7452413C3CFD07FA3674FBF78B41E0B4DE2"
+    },
+    {
+      "Path": "app-0.13.4\\System.Reflection.Primitives.dll",
+      "Size": 5120,
+      "Hash": "EBAF1681033B0B338ACFDEC0B7FF4616D9D2FE470760E1F150C46BC32E577A8B"
+    },
+    {
+      "Path": "app-0.13.4\\System.Runtime.dll",
+      "Size": 18432,
+      "Hash": "D09442EB3E79F200BC8C0E247C8124D9643B527BEB3E24CB60659B98011D4E64"
+    },
+    {
+      "Path": "app-0.13.4\\System.Runtime.InteropServices.dll",
+      "Size": 24576,
+      "Hash": "9B94DF867EF4B9F41B3F70444E330510316C79829F51911C5B9C4D325B3508D3"
+    },
+    {
+      "Path": "app-0.13.4\\System.Runtime.InteropServices.RuntimeInformation.dll",
+      "Size": 5120,
+      "Hash": "AADB8490EBB17715AFAEF162E407B10B618A2A63C546BE2BD2C77F44BF434DE2"
+    },
+    {
+      "Path": "app-0.13.4\\System.Runtime.Numerics.dll",
+      "Size": 237568,
+      "Hash": "3AE2745581723AE728F789BF46B49E479799453A38BD8906BAEF24D5D9CA006D"
+    },
+    {
+      "Path": "app-0.13.4\\System.Runtime.Serialization.Formatters.dll",
+      "Size": 32768,
+      "Hash": "1437297BBBC806494BF8697E464E6AF3B7ED979BCE5289E224CD2F3855555111"
+    },
+    {
+      "Path": "app-0.13.4\\System.Security.AccessControl.dll",
+      "Size": 12800,
+      "Hash": "DBA96FB203E12C1BECEEF62BA58FE81EEC811A6F7FE1E20A600257B696C905D5"
+    },
+    {
+      "Path": "app-0.13.4\\System.Security.Claims.dll",
+      "Size": 36864,
+      "Hash": "37F1D61F3E3BF9377708DA981DC1EF4472E7B30962BA789381D5DA95CAF20CE7"
+    },
+    {
+      "Path": "app-0.13.4\\System.Security.Cryptography.dll",
+      "Size": 647168,
+      "Hash": "D9FB2146D5567FD48649C75EAD8821A7F03B87ABEFB191646716EC5DFB2CE9BB"
+    },
+    {
+      "Path": "app-0.13.4\\System.Security.Principal.Windows.dll",
+      "Size": 118784,
+      "Hash": "BFCA60CBE416B6F3CEA3CAA1A0620DE6DCF23520536F99340CB06AE8CA4A58CD"
+    },
+    {
+      "Path": "app-0.13.4\\System.Text.Encoding.Extensions.dll",
+      "Size": 5120,
+      "Hash": "CA85FA594A677BB84098EC851FB65877E5EA4692883B0692D2B9288FA44014F9"
+    },
+    {
+      "Path": "app-0.13.4\\System.Text.Encodings.Web.dll",
+      "Size": 65536,
+      "Hash": "7902A1F8A168531E81AADF66D0E227EBD70AC429789F8C08C8ED721304F6BD71"
+    },
+    {
+      "Path": "app-0.13.4\\System.Text.Json.dll",
+      "Size": 1122304,
+      "Hash": "FEA8975A41A8051AEB107AB7547DDAACF2AF960C78F807459651ADFAFF7AE28B"
+    },
+    {
+      "Path": "app-0.13.4\\System.Text.RegularExpressions.dll",
+      "Size": 937984,
+      "Hash": "618DD0CEE2C51228276D61713A35E6A2D6AF9CCA1E62179A92FFD32365E437B9"
+    },
+    {
+      "Path": "app-0.13.4\\System.Threading.Channels.dll",
+      "Size": 77824,
+      "Hash": "4C476ED4240FBADB20CA6220F36FD0F18DB21D35A6204C4CEBDFE24908343A93"
+    },
+    {
+      "Path": "app-0.13.4\\System.Threading.dll",
+      "Size": 45056,
+      "Hash": "8553752BF3A8B510FC66CE8F1DA7B0E903FC085161CE7488E22911FD39A4269B"
+    },
+    {
+      "Path": "app-0.13.4\\System.Threading.Overlapped.dll",
+      "Size": 5120,
+      "Hash": "9927BD5BDBFC2DBA04D42EC2C6734EC3395C7226CFA34B37AAB021CB7A19BC32"
+    },
+    {
+      "Path": "app-0.13.4\\System.Threading.RateLimiting.dll",
+      "Size": 45056,
+      "Hash": "380E0AA3566A9836D522CFCCD0BD3CB02D632E03AA3AB670F1B66264232BD963"
+    },
+    {
+      "Path": "app-0.13.4\\System.Threading.Tasks.Parallel.dll",
+      "Size": 36864,
+      "Hash": "972268E2B7DACDE35C991BD84D365ADFD49BACF27A43EE153F2FD912EC7DAFE9"
+    },
+    {
+      "Path": "app-0.13.4\\System.Threading.Thread.dll",
+      "Size": 5120,
+      "Hash": "5E2593E7981B93C8A77094FB9727AB12D79224D8200D6C219DB0D6EF795CBBBF"
+    },
+    {
+      "Path": "app-0.13.4\\System.Threading.ThreadPool.dll",
+      "Size": 5120,
+      "Hash": "E8641B807CD7C5E52BD57F6800C817F81ACF1CFF37987FE37D08C98C7816C87B"
+    },
+    {
+      "Path": "app-0.13.4\\System.Web.HttpUtility.dll",
+      "Size": 32768,
+      "Hash": "B70D4DB95DC73DECDD62C2E3F26CD86E22F1286CCB1388C83216D24A4EF8E108"
+    },
+    {
+      "Path": "app-0.13.4\\System.Xml.Linq.dll",
+      "Size": 4608,
+      "Hash": "0D28906F3BF047B77632ED57B6A385768250FCF48D06B5F8D46C846A4C491656"
+    },
+    {
+      "Path": "app-0.13.4\\System.Xml.ReaderWriter.dll",
+      "Size": 5632,
+      "Hash": "784C57131E7B6C18D26DDFD85EA1C2241A6AB3B62B914F216FA75F6570A45107"
+    },
+    {
+      "Path": "app-0.13.4\\System.Xml.XDocument.dll",
+      "Size": 5120,
+      "Hash": "24DB3032A8F7D8A92C8B70B65E1F779CB270021A9B7886D3023205628C12095B"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.Core.dll",
+      "Size": 491520,
+      "Hash": "9120DFDD73414B18EC67DBED0F0514CB4400F30E9174A6CF19D54ED8B6387DC4"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.ComCtl32.dll",
+      "Size": 307200,
+      "Hash": "01DD867E459F44968D18511C8D6061975D3DD291D7EDEA322406955780A799E8"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.Cryptography.dll",
+      "Size": 364544,
+      "Hash": "E85AC9DBFB7D1462641C81AA59D014C6900B19A92A018C5CE231737D731BFBBA"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.DwmApi.dll",
+      "Size": 36864,
+      "Hash": "D09A4CB12D9025152FE65219D03BAA37F65BD1FD5F3E681E1A5FCD53EBB38F09"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.Gdi32.dll",
+      "Size": 180224,
+      "Hash": "A6CD4E34B06E4DF2A2839D288534F817458BF4699FA359071D267224F284D039"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.Kernel32.dll",
+      "Size": 925696,
+      "Hash": "96FDD852D09E20A120523EFCA504CBA06780B0E6BE7E51290A2486AC376DE0E8"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.Ole.dll",
+      "Size": 684032,
+      "Hash": "28677020EF0EF37926C3DE00090E860FECB6695BEEA25A4294FD719ACD29389F"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.Rpc.dll",
+      "Size": 45056,
+      "Hash": "5A500C306228D3A12B0E4296B31DA97411C5F5F4107A9B4C4951124BFE1131B2"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.Security.dll",
+      "Size": 720896,
+      "Hash": "02E876CABF2F2B4D7E4D093CF7D5E3A3B586921AD5445B30B37153616747FA1A"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.Shared.dll",
+      "Size": 819200,
+      "Hash": "8A154D1C793B6DAE1451106BBBBA31AC8996BAC4A0FA0C982165CFA9E468E1DA"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.Shell32.dll",
+      "Size": 598016,
+      "Hash": "5C737224166FE9B24D8C401E6DA86DD53B6CC6B0F541DB7358ED54C5C164E418"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.ShlwApi.dll",
+      "Size": 69632,
+      "Hash": "ACDF6F6C535A45B0D8F7CAB11DB1F99713C21A5C916929B987B6D618994F1DF3"
+    },
+    {
+      "Path": "app-0.13.4\\Vanara.PInvoke.User32.dll",
+      "Size": 491520,
+      "Hash": "90A915B82B63503FEB6946297265EBE1A33FF644B0FF02C842D4BADE9DE168A0"
+    },
+    {
+      "Path": "app-0.13.4\\WindowsAppRuntime.png",
+      "Size": 232,
+      "Hash": "C702C6A10A5BBDE4DBFE1A607367C4F1BD88B44A576EB95394A9D70753694503"
+    },
+    {
+      "Path": "app-0.13.4\\WindowsAppSdk.AppxDeploymentExtensions.Desktop-EventLog-Instrumentation.dll",
+      "Size": 50056,
+      "Hash": "86CE746065C9FF6F8853618B16E172C47CEE1C71B54AD20AFA8500E645962A79"
+    },
+    {
+      "Path": "app-0.13.4\\WindowsAppSdk.AppxDeploymentExtensions.Desktop.dll",
+      "Size": 624520,
+      "Hash": "B2C8CABF5BEE6A561F6B6E0A19A3A97AA1BA7D5D6A0E783D9231ACD000A03E6B"
+    },
+    {
+      "Path": "app-0.13.4\\WinRT.Runtime.dll",
+      "Size": 1429504,
+      "Hash": "DF1701C8F0DAC298983DAA7C08804EFD21B1B288EA301380F73578C860FDABB2"
+    },
+    {
+      "Path": "app-0.13.4\\WinUIEdit.dll",
+      "Size": 3397176,
+      "Hash": "9C9EDF5A746015431DE37252261CDCD5CE92B4E8CEA1683F0B06F9B78B9CC4B0"
+    },
+    {
+      "Path": "app-0.13.4\\wuceffectsi.dll",
+      "Size": 485432,
+      "Hash": "1F1364952F5541863323CD3A56996956859FE0A7EE4AA099E0B4824E2753D005"
+    },
+    {
+      "Path": "app-0.13.4\\af-ZA\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "289E42C25D11B6C7D6487AA654979983252BB48EFA9FF77C73C4364624C44A4F"
+    },
+    {
+      "Path": "app-0.13.4\\af-ZA\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "E48BA2B4E5E72E7C019F4824B758AFE4DC2C3FF2875CDC91F41B839B77E1B4B6"
+    },
+    {
+      "Path": "app-0.13.4\\am-ET\\Microsoft.ui.xaml.dll.mui",
+      "Size": 13824,
+      "Hash": "A67E4F9508392153B4E85A8C5B9EA920D4D4B0CB60A51E06FB8085B6C9DF05A4"
+    },
+    {
+      "Path": "app-0.13.4\\am-ET\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 3584,
+      "Hash": "617E247E0A5C44A0E6E4624FEC70E3E94F250EF3BE2579D54F2E8D4F8165693F"
+    },
+    {
+      "Path": "app-0.13.4\\ar-SA\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "D12C035EBE19C2328042104C5588DCFFA5EFBBCBCC9AB94DCAA372864E48AF06"
+    },
+    {
+      "Path": "app-0.13.4\\ar-SA\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "F3FE77DF40F893A98A786834D9F706D5D40C1BF457B833F4A102AC0897044438"
+    },
+    {
+      "Path": "app-0.13.4\\as-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "6CD4A622B541991D946071500554840D20A9E9909176F0D0C169B9799D0FC9E6"
+    },
+    {
+      "Path": "app-0.13.4\\as-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "B6FADBAA1A2844135DD8A956A4AF48BBE0D742F89546DE5B99BE4A20B4F3BFEF"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\game_info.json",
+      "Size": 12183,
+      "Hash": "CDCC52C2C8B5F0216E41A13052DC6DCD89BF4D04A7274383B928C3C047F13848"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\logo_80.png",
+      "Size": 7044,
+      "Hash": "4F30AEBB814281BBDB0C367C3E997FF6D9C618AE96552F904672BD151207F990"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\logo_dl.ico",
+      "Size": 16958,
+      "Hash": "BB308F2AA052D13165326AF5EFD3C59247B62EEB5F443001A68E92526FAAE3F9"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\logo_dl.png",
+      "Size": 100105,
+      "Hash": "913609BF92F10CEA3EACBFB7A622B841F5228B90CC6C0694FC4F84801EE909F7"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\logo.ico",
+      "Size": 16958,
+      "Hash": "1C6D9B24BD8CC6A9FE5022043EBD55FD7A712F752865C7FDF2E5B95814A21F46"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\logo.png",
+      "Size": 182588,
+      "Hash": "0AD000E5D4A05246F179BB57C15C9FA02234273BC87FCE604D7A4E13D9E4765C"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\CSS\\github-markdown.css",
+      "Size": 28316,
+      "Hash": "F8748EA5A2067260000E2FE0BB4810893220720CD8132F9BD38E16D437943D91"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Font\\DeshretNeue-Regular.otf",
+      "Size": 5044,
+      "Hash": "6B0F0B375DC4CA369E810DDFB3B19FC1FA2EB26D8B9718F18D1F30114055BB60"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Font\\InazumaNeue-Regular.otf",
+      "Size": 35324,
+      "Hash": "4DDE0178EA6EEB96500DCD763446C9EA0D3F338DCF724BF0931D809C1DF3324C"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Font\\KhaenriahNeue-Chasm.otf",
+      "Size": 35312,
+      "Hash": "49FD418CCBC73B8C0D28DA5B6F2314FB2079CCCE0A73493EEE3953AD98EAA6E9"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Font\\KhaenriahNeue-Regular.otf",
+      "Size": 35280,
+      "Hash": "D259D619E3DB03798F76D4EBE052FE67972884D18F7B34351412401C8AAD87DA"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Font\\Segoe Fluent Icons.ttf",
+      "Size": 408752,
+      "Hash": "82F5DC0E0CB9F41EFAD49E5423C76768AE0FC96E062A0893B6C729B863033013"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Font\\StarRailNeue-Sans-Regular.otf",
+      "Size": 5328,
+      "Hash": "F36C7D4B6070B10AEBEF7D3F73937AC0B9B6A6832113CF9DA171C53B4F118E3E"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Font\\SumeruNeue-Regular.otf",
+      "Size": 22832,
+      "Hash": "5B8C86BAA525AA896E2B91CA7936EA0E5585E4E7B3B6ADA674DA38BCC65E6B90"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Font\\TeyvatBlack-Regular.otf",
+      "Size": 14624,
+      "Hash": "11F7018A97CD14121BC48475FD8DCC11FF967998CDB0068E82491B59DEA081A9"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Font\\XianzhouSeal-Regular.otf",
+      "Size": 14008,
+      "Hash": "5743034BF10FF33AE22958A856313ED63113A99C26628BAB3AF581A158039921"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Font\\ZZZNeue-VariantA.otf",
+      "Size": 3940,
+      "Hash": "B22BCE8ED6DD52815EF78600D9E8238A0F8ABE6C10643EF718CD370B826A9AA3"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Font\\ZZZNeue-VariantB.otf",
+      "Size": 3124,
+      "Hash": "0EDA74068930A011B9138E831E847AB38D401339A640F63759846382B6D7D57F"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\097aa51ae0b4bc0c9c9e6aca6dab0744_10826781894277788.png",
+      "Size": 11702,
+      "Hash": "02A63E4EF7001D43BC2411DF91EF46A2CB9210E124984BB2F747C66C453F477C"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\101.png",
+      "Size": 4812,
+      "Hash": "62248BDEF3126BE70AF6CD70C8424A2792C15FDC5AE9416F85B17E611E2CB904"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\102.png",
+      "Size": 4766,
+      "Hash": "6D3EB6D6099065F5A9E18FEF1EACE86EB278E53EB53D5E8303BF771CFCC84012"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\11.png",
+      "Size": 69118,
+      "Hash": "7876F6AA2CFCA7BA96A8E2D8A9399A5534D7FEDD56C1F9DEB73AECF113A8161D"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\12.png",
+      "Size": 70506,
+      "Hash": "D2E286B11823540945263097BD4A960A89EB53084C57F39D8CAC515A767A3119"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\20004.png",
+      "Size": 55079,
+      "Hash": "967EB894392396C2A75A064F0578CAA71DF279EEE4CFA6EA9C1CE11CAFE3798F"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\20008.png",
+      "Size": 39460,
+      "Hash": "3CD076632F6A71A40B850A221CB919980866C332FD0E008C2CD2BD6F214DB071"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\222103265483a5389ab8e589a81b8f29_6239774837764585524.png",
+      "Size": 8132,
+      "Hash": "C05DA6CA607FD4AEAE651D7D2660D1220AA01073E1915C54D1A464728FCCEB93"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\3.png",
+      "Size": 49627,
+      "Hash": "E7B2BF760DB49A33321C30A2E1856A16F7A68882894E02EE1B2DFDEE7EC48CB6"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\3593482e8866f0529e8a247772e02cf4_5418014644502214835.png",
+      "Size": 7850,
+      "Hash": "C68A4E137F1F92A33CD1940B88D00DDFCA327AF5230D34F9941575BCD834310B"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\4bb2f9e21b6c64201692c4ea76a2faca_7020708978085976578.png",
+      "Size": 9253,
+      "Hash": "93BBE21BDB24089A16D93C9F35341E59FBE268D32343E3C78F6F45D53E43900F"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\4d94fbd5ff63c8b4344876ce21e04d10_2581928258151711511.png",
+      "Size": 9157,
+      "Hash": "C99BD95054F48A4872EB82EF07CB0E1639B40F5A0279C1C3BFAA35152A2F5C2C"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\54085a560686bda74c3025944b65260e_8414768992789038554.gif",
+      "Size": 336322,
+      "Hash": "2EB1A83BF520595E8E5A594032B98FFDC39AD996193A28C8EBA31CC1F0AA69B0"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\900001.png",
+      "Size": 55909,
+      "Hash": "CD6D5D5FAE73D3EFE3048C17BCE6CD79DD408078121463B292E30B6C41F97C03"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\AbyssIcon01.png",
+      "Size": 3853,
+      "Hash": "8B6662956166DE8824E8EA72904CC58E369643C1D2B790BC4D3BF93F96762BA2"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\ade9545750299456a3fcbc8c3b63521d_2941971308029698042.png",
+      "Size": 6105,
+      "Hash": "31DB8C4FECCAAC62D5BB4DBED05770724A18DBFCB94BE75102878C78235A66E7"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\alert.png",
+      "Size": 1741,
+      "Hash": "B4F1BF0472956E577C21AB92DEF84E46CA1D2B4AF77EC11490533CBB8EAB7DA8"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\ApocalypticShadow.png",
+      "Size": 4323,
+      "Hash": "17D60258B8B533E88AF688A17D51FF804698CF755C8D4789534E6C4F6B3D94B9"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\bc8f0b7384b306c80f2a1fcca9f3d14b_8590605504999484795.png",
+      "Size": 57651,
+      "Hash": "5A5272CC93EC19E6BA83F396B8F8C7A3BAB71FE2DACEF3EFD9AB5486EE4B9BBC"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\bdfd19c3bdad27a395890755bb60b162.png",
+      "Size": 18165,
+      "Hash": "7A29D54BAC624B00A2DF80C27A6EAC63F3461399791392622C18DA23F4CB169A"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\ced4deac2162690105bbc8baad2b51a3_4109616186965788891.png",
+      "Size": 18344,
+      "Hash": "9B8EFEAA86C3BE1D5D26EDD9FFA82561E0CCD06DE5D712EB9B61D78FF04B3AE6"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\ChallengeStory.png",
+      "Size": 3595,
+      "Hash": "292ABABD55F18BF28CBD9F6D2B549914F90853286AA21464937AFDEFC4F4DE08"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\FrameIconRarity01.png",
+      "Size": 4537,
+      "Hash": "86820D1D71AC342A287E78C94DCFDF6BDA2617532AF082881081F981FD83F274"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\FrameIconRarity02.png",
+      "Size": 5854,
+      "Hash": "072BF4EB1AA42B440CFAAC92E7C8A164D03F4F8C3697B98DE90E6C73BC6D795F"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\FrameIconRarity03.png",
+      "Size": 5070,
+      "Hash": "3AB0CD56FAD2403B8E6BCF168DE583D0D3C20A011D0355C9515DBB9B002C3356"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\FrameIconRarity04.png",
+      "Size": 5248,
+      "Hash": "393CBD61FFB6F3C4FD77BE00132827C5CAB9704B6E7A52230FE1A17CE631D66E"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\FrameIconRarity05.png",
+      "Size": 5760,
+      "Hash": "7D02E2B0E46EABC6357CAA7CC209C93F3F399AD373D5EC1D2B9601B8FB0C67D9"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\GachaPoint.png",
+      "Size": 23126,
+      "Hash": "CC17BB657342AF5D5F94A69C34E4E45165B9F723F0ADDAA183231100B9DA49B4"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\GachaPoint3.png",
+      "Size": 22624,
+      "Hash": "110A402F8A3DD97C682F0BA27D1FDB3B7B1954579A210C285268D0DD3AC47DC7"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\GachaTicket1Big.png",
+      "Size": 42794,
+      "Hash": "01082330C7DC30CB3FEB4CEBCFE7676B73C1C1C01CBD89F0B0E6B697122F209E"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\GachaTicket2Big.png",
+      "Size": 45667,
+      "Hash": "3EE6D5E846B5F77572EEE7842C7966BA89A7D6296B7E19D7ECC673F134A48472"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\GachaTicket3Big.png",
+      "Size": 44467,
+      "Hash": "9D65E7CAFF924D89E22B198AA06096DE381614879BB823E02F30903B2F4A9AB4"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\gameicon_bilibili.png",
+      "Size": 1418,
+      "Hash": "2C864841568C9B67491573E142F9D1F82E214E508F74A1FC20869160220F917B"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\gameicon_cloud.png",
+      "Size": 5868,
+      "Hash": "5F0F1ABCC161BB20FAB46B187F21F7ECDFED87BB5C065831CD4671C9A740F5E1"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\gameicon_hoyolab.png",
+      "Size": 4790,
+      "Hash": "ED73FB5A008B1389AF900855294CFDB5F6CEE130078D02FA2BF36B4D0A2B7CC9"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\gameicon_hyperion.png",
+      "Size": 17115,
+      "Hash": "C0FFD8811E5E39ED288CD6DC246E267C62F5D5C5AF230E27BDBBA7DD17258650"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\GiftpackWegineBig.png",
+      "Size": 37323,
+      "Hash": "95065246717FCED5C0837ACDF5410FE0F1388000BBADE9C6A1B16EDC1E551871"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\icon_bh3.ico",
+      "Size": 122127,
+      "Hash": "0DEF7902F14CD2E6629D115BE421A83D5E031C2E307B113FC4F49E48245E2B81"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\icon_bh3.jpg",
+      "Size": 36437,
+      "Hash": "A8DB5EDB0321370E6EB56C5A6B2D0AD1608D5492AD61B23E20C364F40022E5CB"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\icon_hoyolab.png",
+      "Size": 4942,
+      "Hash": "B0A38D7958435BA11103614C020461016E70E204C1200BD9FFBE325CB168141E"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\icon_hyperion.png",
+      "Size": 21045,
+      "Hash": "276414012E54995636EEA537BA95EA2DCD5B30B64E43BB7FBD5F3EB40CCFF46C"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\icon_sr.ico",
+      "Size": 104540,
+      "Hash": "8CAC221F5A8881AD07A708297FB79904C1D038BBDAF96A5B60916174CD23F5A4"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\icon_sr.jpg",
+      "Size": 54749,
+      "Hash": "8675E1C91478A65840ACB6EC37F97DB22CC7A93769A801FB26AF73B5D1862117"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\icon_ys.ico",
+      "Size": 93139,
+      "Hash": "4B3234C87F2A522FE199C3ABE744B25F3F239C4644BBF7CD57A2A6EC98A7C710"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\icon_ys.jpg",
+      "Size": 39495,
+      "Hash": "0EB3A34E8FAB01CC31F71956ECD1BB0C9B3D37F219520DFEFCE1FB92DCEDEF33"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\icon_zzz.ico",
+      "Size": 118380,
+      "Hash": "6247A7DD54CD53CC2A15A3972A029994606DC41B6C9469E4FD01B494CC6E2D58"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\icon_zzz.jpg",
+      "Size": 52707,
+      "Hash": "03A7A3FD1E999C6325B291A528C3F2581E01F94E2BC6432C27E275FDFF302A7B"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\IconAvatarLightCone.png",
+      "Size": 3770,
+      "Hash": "0952B7A342A60748697D8420B033098B0EB7EEFEF5445DE8C57BC9EA3F42365E"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\IconAvatarRelic.png",
+      "Size": 5016,
+      "Hash": "AAD1475727A29F01198EEACD47086789F40DE6AB80780E02DDA44BE8CFC092B9"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\IconChallengeStarYellow.png",
+      "Size": 1483,
+      "Hash": "E840F98C24C3AC75FA9185634818B0E5651C09A3BA76D3052F4020A5F13C86E6"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\IconCoin.png",
+      "Size": 45271,
+      "Hash": "4B2E5712BBC9351E879E5371DEDF3DCB1BC699124EDCCEB957BD2790201CED3C"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\IconCurrency.png",
+      "Size": 30413,
+      "Hash": "B66A0B2C0139A2D721C145DC53DEB629B0612B239AE9C7839C1E6FB8C409F26F"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\IconCurrency02.png",
+      "Size": 29632,
+      "Hash": "603201CA60C5C959B4413D8B42614AF72DE22339A704AACE43DA40C26C1C3734"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\IconStamina.png",
+      "Size": 17468,
+      "Hash": "BF6CD4856FD3486C474E9097E084A7C70E837D0D030AD1F1724382CD795A2A4D"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\ImgSevenDayAvatar.png",
+      "Size": 1786280,
+      "Hash": "3A9AA9113D2996BBFACF1C05E9BBFB3A0F49E0EE8FF3C3D9B754CD72AAE1268A"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\ImgSevenDayBg.png",
+      "Size": 2456096,
+      "Hash": "BF700EB34135BC331AB765B5E328BF69F411EC916B49A08C8FC1FA92528910E5"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_bh3_cn.png",
+      "Size": 49395,
+      "Hash": "0F906AAD428C589A62EB183AE700253987D219C08F96C1CDAF5F61562860B14C"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_bh3_en.png",
+      "Size": 40729,
+      "Hash": "94E8401568225864505BDD6A3CB78ADBC38B0B451B85113666C52D00C1A6909A"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_bh3_jp.png",
+      "Size": 44145,
+      "Hash": "171F8B9DD05DD3A809E38828BA295871A5F117C6595EC50612D2D8D8D4A97E46"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_bh3_kr.png",
+      "Size": 31147,
+      "Hash": "C06FC7997ECE1A8246BD856EFDD280AA55764B6F0B488F74B77DE636BA172835"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_bh3_tc.png",
+      "Size": 43917,
+      "Hash": "B29E5986D2A5E32DCEB615B64CAE3ED155FA0CB36B84FA8E690BEC2169376949"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_bh3_tw.png",
+      "Size": 43917,
+      "Hash": "B29E5986D2A5E32DCEB615B64CAE3ED155FA0CB36B84FA8E690BEC2169376949"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_genshin_cn.png",
+      "Size": 10066,
+      "Hash": "28A59EDE3B1D67EFDA63E132934628C21F773C800F0A8404CF6B226CE96156DC"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_genshin_en.png",
+      "Size": 13751,
+      "Hash": "E7E3163CDB5353171206EFD58B04791475BFE5D23EAC729059C461DAF1DFC371"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_genshin_jp.png",
+      "Size": 11698,
+      "Hash": "353FFD0CB35714AAF47A80C4323255EC7E5AEEA8744509B2EBB00E5F5FB6CA04"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_genshin_kr.png",
+      "Size": 7798,
+      "Hash": "94D868A2173180AA7DBA055CE051CCA2EB9D47405882F0258A9B1C96C25C4E56"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_genshin_tc.png",
+      "Size": 13939,
+      "Hash": "C93628D9CB3F24D08F80C8D707B08C51F268FF2E486ABDA5430E3E944C9B3785"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_starrail_cn.png",
+      "Size": 42357,
+      "Hash": "7B86E07A789FA122FB071369AC1283D2A0BFE3A79B66C6AF7A157D542712EAFE"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_starrail_en.png",
+      "Size": 44785,
+      "Hash": "85B0F6227514A54961CFD8FE2034B0156D531513DD3B950AB756BFEC8581A8F9"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_starrail_jp.png",
+      "Size": 42752,
+      "Hash": "2D9C8AB52B36C141FD152BF0E6F8C1E0CC92C791EDCD6F568EE851F87CEE60B4"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_starrail_kr.png",
+      "Size": 41913,
+      "Hash": "958595912D439C487FD9556420787C0BC23C64C515951EB9698332816B256A1F"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\logo_starrail_tc.png",
+      "Size": 42339,
+      "Hash": "C7D1F17F912E7B264443F5B82847495A9D610772FA3F8366A748A0FA28CEF3D3"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\pamu.db6c2c7b.png",
+      "Size": 15165,
+      "Hash": "DC5B760AE92B32AC60EB78B8BABDFBD933086B43FEB90EFA177FD023F74ABA6B"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\PicRoguePlanetDlc.png",
+      "Size": 143705,
+      "Hash": "C01B18FD7069CBA5C2AACB5831EF8228F0624E63A0A1F6285A031F91AC038CE8"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\PicRoguePlanetM1.png",
+      "Size": 132049,
+      "Hash": "A9E1A8057B856CDA99DAA0AA9617414E4F137ED88AE18B5DDD1A82513C436332"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\PicRoguePlanetM2.png",
+      "Size": 173790,
+      "Hash": "1AB624119E29C3F723A61786284676613528EAC55D32E98A0CD2824C0185A7F4"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\PicRoguePlanetM3.png",
+      "Size": 183289,
+      "Hash": "1CA69CF07CC1326147764E0C71D8C30C7A357D834E6B8E45E2B00DF1E5CB73F9"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\PicRoguePlanetM4.png",
+      "Size": 138532,
+      "Hash": "C262B0BB13C5A50F1AEA1C03A4BAFD038DD1B6F50B49CED7693A3560DF95BD50"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\PicRoguePlanetM5.png",
+      "Size": 210826,
+      "Hash": "3CEB41E631816073BE0FBC4D9D38F06E9DD861D0331A18A8B87EAAE766AD62CF"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\PicRoguePlanetM6.png",
+      "Size": 211221,
+      "Hash": "C91BC8FF73B57CE7AC3FB4D530FBB23C4C56D4B36F109B20B4AE2DA55BAEA394"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\PicRoguePlanetM7.png",
+      "Size": 193165,
+      "Hash": "1188A9F5DF0370C4668C600FC3E7E941D26E5362B713143E6B253DBD46CAB627"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\PicRoguePlanetM8.png",
+      "Size": 193888,
+      "Hash": "013ABC71BC2A53E9AAC559B9276E772C4EF8F9DA049515E8C63D5F92ED1D70FE"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\PicRoguePlanetM9.png",
+      "Size": 200943,
+      "Hash": "EA9E52A3D8F5E29084ACB33E436D301DBA3B3EA47B668EA318092384E34D6E37"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\PicRoguePlanetStateLock.png",
+      "Size": 171358,
+      "Hash": "CE3F6F9291E7F64C98E2F9F1F4798B3644268DA36DF8E735AD205932ED18E28C"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\poster_genshin.png",
+      "Size": 782169,
+      "Hash": "A815744E045A1F56B588FED9C0B21B1F29366E0FEDF98A22536604B58D590884"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\poster_honkai.png",
+      "Size": 722439,
+      "Hash": "E8A49DEFAB79AAD5D22500ACF05F67B2D39DAD97B00BCD4241838CE6FF6BCF20"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\poster_starrail.png",
+      "Size": 809099,
+      "Hash": "26D1714860053F0594747A2A8C25131265FBDFD5732DA63FD3DD36E2BB256D2E"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\poster_zzz.png",
+      "Size": 854226,
+      "Hash": "7D36E6736AC6F6F42C9D5AC59684BB6725FA38F9BA123DF0490C158FE7181F5B"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\Rarity_1_Background.png",
+      "Size": 9515,
+      "Hash": "B338F36E9FDD31C97DEA0970AF23B391B771DD2F10E6F9CA3F6A851D4BED65A8"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\Rarity_2_Background.png",
+      "Size": 8025,
+      "Hash": "9369C027431059D409501A486874AD258E77CCFB9D95075898F4F4824E09E368"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\Rarity_3_Background.png",
+      "Size": 7221,
+      "Hash": "7DB705E64451312C026B92961ED3F2039605278E9B0A0FA341770B155301DA1A"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\Rarity_4_Background.png",
+      "Size": 7560,
+      "Hash": "3B797127F287FF236B796F8CF8C3AFA49FACC69FF009EA85AF3FADCBD386D253"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\Rarity_5_Background.png",
+      "Size": 7365,
+      "Hash": "197CA4C57304831D32448BD905B48E0432F5EBD9BDCDAA06F9602F99F0A23A61"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\RogueInterveneJoy.png",
+      "Size": 5209,
+      "Hash": "FF8CC0CECDC4DEF71FC643E086C8CA3B8AAB73E66C2AADB76E94A63B72A61F8D"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\RogueInterveneKnight.png",
+      "Size": 5408,
+      "Hash": "F4F13B357E3CAA1DD85E1F10D5DBDEE3588B0033F6C06DD2BBF377134E2FC133"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\RogueInterveneMage.png",
+      "Size": 14584,
+      "Hash": "8AF64967542D030281A6C7DE321DC3C242DC21178C66E3EA822AF9FAB37BC9A2"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\RogueInterveneMemory.png",
+      "Size": 5283,
+      "Hash": "C12CA78CF50799325CC95EC2742883BFCA2C158ADAE22904B2E8F8B4C33DD0A4"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\RogueIntervenePirest.png",
+      "Size": 5371,
+      "Hash": "065C859F0F92B88D319CBAF5A30C1BB0DB3B1E992A315D30E43B6AC460BF103B"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\RogueIntervenePropagation.png",
+      "Size": 15006,
+      "Hash": "0DBA71F02A5F0E5A24E17216EC2A0B4796FA6DACF2A6BBDD88D4D29891FCE053"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\RogueInterveneRogue.png",
+      "Size": 5183,
+      "Hash": "CDEE5A6276E1826D243CC89D66C8B0C066A5245084C4CE08F8538FB6A4460A6C"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\RogueInterveneWarlock.png",
+      "Size": 6222,
+      "Hash": "103025DEAB0A346AF137460E7096316E3A954C02EF4C6E4BC74F3E57B8389D09"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\RogueInterveneWarrior.png",
+      "Size": 5596,
+      "Hash": "9B2DF0B907B5CF07978C5D88408F339AADC530B99B8C3F02CDA9F506C0E84284"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\RougeAchievementIcon_s.png",
+      "Size": 2824,
+      "Hash": "7BDFD212134C497F3123C57ADB9E1C856843792809B0D0915D9D9DB5250913EB"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\SpriteUI_BagTabIcon_Equip.png",
+      "Size": 2364,
+      "Hash": "86167DA171C350476816C05340D19DDB6DE2E650DA5D609A6E7EB933E55A80DC"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\SpriteUI_BagTabIcon_Weapon.png",
+      "Size": 3940,
+      "Hash": "0AE54E1B5A98CEB56BC0F59D95BBA0F9B135A9DCA0D59848D90A611D77CEFD38"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\StartUpBG2.png",
+      "Size": 595012,
+      "Hash": "9FBD7D07BFD110FC24A12685C98D1F83271E7F95CA3523E98B9DCDC05A3BBE29"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\Transparent.png",
+      "Size": 146,
+      "Hash": "088432A6533CE656CB2539424ED24EA27C5849395F75110E3D7FDD95F1654E97"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_CutScene_1130320101A.png",
+      "Size": 4706705,
+      "Hash": "A404FC640C4E73562E387233AF70F74FB9E526841BF6F6F6C9D95089ACBBCAE7"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_DisplayItemIcon_410016.png",
+      "Size": 52383,
+      "Hash": "05B90F22C661ACFE709E643FB10D198A6556F8435E7198817C938765F92E8DFB"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_EmotionIcon5.png",
+      "Size": 39918,
+      "Hash": "60418B68169F4C4834B31E7D81FB2F01EB957DFF3EFD9C3D633643EF54C8AD36"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_Icon_RoleCombat_Buff_Blessing_LevelUp.png",
+      "Size": 8198,
+      "Hash": "754739DF3C9B4E64AB51BA8BF914815F505C62EC9E2FEB99543361F1C75A3B7B"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_Icon_RoleCombat_Star.png",
+      "Size": 5636,
+      "Hash": "7FCCCBDE8503BD6EC9B2E9DF1E1CBDCA5F1A13A6D258491D8E011A8FA996EBD3"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_Icon_Tower_Star.png",
+      "Size": 3221,
+      "Hash": "AF01E2BFE5ACE3B33A52DC8507A0D2806396E8ABF1FBCEE315AD74A970319FC6"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_Icon_Tower_Star1.png",
+      "Size": 5871,
+      "Hash": "1AB447478A48C8733905434C5454A0FD3456A197C8248E980BE0198E4B766F19"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_Icon_Tower_Star2.png",
+      "Size": 2198,
+      "Hash": "954D213D6A3A8F6C6293973993E799BFC198B487C2AD7BA3A5C1DFAAC9E4EC89"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_ItemIcon_201.png",
+      "Size": 29654,
+      "Hash": "FC496EF5F3FF0EAF5729C4F414105EC3BD1B27CB03722C298CAA80ED59731B50"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_ItemIcon_202.png",
+      "Size": 64351,
+      "Hash": "00535D8BB6660761AF60F56B1A22C36F4774A4B1B6DFACC04F78EDA8D91E2B36"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_ItemIcon_203.png",
+      "Size": 48024,
+      "Hash": "2E34418B842B727F4EDD296FB7A4993A97768D53A82C092C0730E69D538E36F6"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_ItemIcon_210.png",
+      "Size": 41498,
+      "Hash": "0F1ED76A7971E18A3E2339FBAAA61AD34EE6FB76CE4A98A2DBB016DA411C2611"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_MapIcon_Abyss.png",
+      "Size": 9115,
+      "Hash": "2CB4F9F7F74C1A0ABEA75B9D4CCD84EDF8272893B402589ED967A95D5F7BBD9C"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_MapIcon_RoleCombat.png",
+      "Size": 6409,
+      "Hash": "3E23B4137D0A63C52377398E651AA2294641F8F715A8CDC3FC0EA213AB6F1F7D"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_RoleCombat_Medal_0.png",
+      "Size": 16961,
+      "Hash": "F990CE41768D380F3BC25D9EE4EFD7B2323F431F70F4F87BF0EAEEDED89E304F"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_RoleCombat_Medal_1.png",
+      "Size": 36191,
+      "Hash": "87720D1123962E58D68A9B6AEC4939E5A0B3499EC6FFDE7AA0E16459E6969483"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_RoleCombat_Medal_2.png",
+      "Size": 35113,
+      "Hash": "E3EE52F59FD2E2BC72C237FFEA3D603D50704E5D894EB00B7ADCF9278ED0DCFE"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_RoleCombat_Medal_3.png",
+      "Size": 36970,
+      "Hash": "1CCC2EF3F400701DE0A5FB576622C8AE777C1CDBB9E497E73FE4DA0AF80AF621"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Image\\UI_RoleCombat_Medal_4.png",
+      "Size": 36731,
+      "Hash": "2923552D96F5EAB594269CE28AD83661658855C65AE52CD216EE7B3C41838678"
+    },
+    {
+      "Path": "app-0.13.4\\Assets\\Template\\GachaLog.xlsx",
+      "Size": 10205,
+      "Hash": "8D2B506BAAE2069CD1A1F2E7820D77009D738FA2C6FB8BAF63EE172BB5BD6DD2"
+    },
+    {
+      "Path": "app-0.13.4\\az-Latn-AZ\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "E6852978B134F303FCA7FBEE6A4DAF3E5CAEF142D8AF5792B57BC84DE9D58EEF"
+    },
+    {
+      "Path": "app-0.13.4\\az-Latn-AZ\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "8AB241E9042CD8B6EA263B84F7D5144A4AEB99954D22F9CC3AC899F6C268F9D7"
+    },
+    {
+      "Path": "app-0.13.4\\bg-BG\\Microsoft.ui.xaml.dll.mui",
+      "Size": 18432,
+      "Hash": "4F117E94A8F79293B277490F4A6A50712E5F148C8E4048E225EC0BE0D1E0311F"
+    },
+    {
+      "Path": "app-0.13.4\\bg-BG\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "3520EEBA7651739988310460D05F52CB501361CD1683FED140301B1B3C670E06"
+    },
+    {
+      "Path": "app-0.13.4\\bn-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "D4A568D85508320E62CB83B3126FB81A998652737440FDA21042DE11456EC2BE"
+    },
+    {
+      "Path": "app-0.13.4\\bn-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "F019A33E3932824007812E236EB7EF96803E470EDA59907DEFF3BBE598E6B19E"
+    },
+    {
+      "Path": "app-0.13.4\\bs-Latn-BA\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "D1149340A639669BC955928E1870C55A3DFC8C227A172D25FD6D9FDA6CC8381A"
+    },
+    {
+      "Path": "app-0.13.4\\bs-Latn-BA\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "82A775751AE1ED4814548EA6CA5632702C469EB04F583A1086DBBEE5C438A538"
+    },
+    {
+      "Path": "app-0.13.4\\ca-ES\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "1F3033C52D94D72A2510C7F0372D01E92EF81168B8A2F64B105C2262C28B22A9"
+    },
+    {
+      "Path": "app-0.13.4\\ca-ES\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "843EB4F32DCFCA01337235A5E81FF5778428EBD1DA1A77561D75669BE2BE0BDB"
+    },
+    {
+      "Path": "app-0.13.4\\ca-Es-VALENCIA\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "232A4BB72E63F83D2800FC747D00AD6508DC87D3C956587A35C5BD5ADD0E15F8"
+    },
+    {
+      "Path": "app-0.13.4\\ca-Es-VALENCIA\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "866EA831A19DD65D6DF2D1FEA170F0D1A3FD31592876B765A0E999FD1C4D1627"
+    },
+    {
+      "Path": "app-0.13.4\\cs-CZ\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "4F2B35E6B334E4161E31F61DF72F56C5C864A45DDC04FFADD39A4F5334AE6618"
+    },
+    {
+      "Path": "app-0.13.4\\cs-CZ\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "1CDE7AE99FD5275196D4AD0F5943C73CC2512B84E5E781C182A795678A41E0CD"
+    },
+    {
+      "Path": "app-0.13.4\\cy-GB\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "9E2B35942B508DAD8588D527FC463D88CD2C2CB84BE8B8F2D946840281743DEF"
+    },
+    {
+      "Path": "app-0.13.4\\cy-GB\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "EAD8B5F36933BF9DC880117CB12A50BFC8501F15841D034034ABE72B218BC841"
+    },
+    {
+      "Path": "app-0.13.4\\da-DK\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "086F2972BD29B97674D1AD97692B73FB7EFDCC939A054A2B36F2430EF5B95EE1"
+    },
+    {
+      "Path": "app-0.13.4\\da-DK\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "F313AE960914FD3535B6E912C843E2AB4370A42987DFDB2FD4A4F2286D2D3894"
+    },
+    {
+      "Path": "app-0.13.4\\de-DE\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "C536AB1A374B51CBD58B61522D1DC4B8E9D45ED423328B70F8468BE7BE295FB7"
+    },
+    {
+      "Path": "app-0.13.4\\de-DE\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "6E4D685A7F265DD19CD5952E1FADE1A5B8C7B6FF1AEAA9ED81F017853DAB6878"
+    },
+    {
+      "Path": "app-0.13.4\\de-DE\\Starward.Core.resources.dll",
+      "Size": 8192,
+      "Hash": "2F74421F062F00BD555ECBA1B79CEB57C19A3CE5B46BEDA84C9F78935BC4469B"
+    },
+    {
+      "Path": "app-0.13.4\\de-DE\\Starward.Language.resources.dll",
+      "Size": 56320,
+      "Hash": "C371ADD8DD8EC0EAE9F57E870EAE2FD2792E5C4E5764F238DF88B3B52335D023"
+    },
+    {
+      "Path": "app-0.13.4\\el-GR\\Microsoft.ui.xaml.dll.mui",
+      "Size": 18432,
+      "Hash": "18C35833B1D9D4BCB163714CF436C49545C94E1A098A277781EE84686499DCBD"
+    },
+    {
+      "Path": "app-0.13.4\\el-GR\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "116096C1848B5BE855F42D98394FEC99C72C2334620C15902FDD6D9E446D5EC1"
+    },
+    {
+      "Path": "app-0.13.4\\en-GB\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15360,
+      "Hash": "A4D78C5467D920E4523F690F4D0AAF511104B4D355EA041469563396BBB4F7D0"
+    },
+    {
+      "Path": "app-0.13.4\\en-GB\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "5F7E2735BE84AC2ABDB96DE725E9E1936FEDE03DDA9ACF3B0F2C9322A94A0F67"
+    },
+    {
+      "Path": "app-0.13.4\\en-us\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15360,
+      "Hash": "619E4510BDCCE6B8E5169EB3D41B466AF3B03C1D8DC0C1A3801BFD564C567519"
+    },
+    {
+      "Path": "app-0.13.4\\en-us\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "7B64F78724C5A809BA3EDF00FBEB3056BDBCA50AE8CA2F2C6FCBA414ECF22FC4"
+    },
+    {
+      "Path": "app-0.13.4\\en-us\\Starward.Core.resources.dll",
+      "Size": 6656,
+      "Hash": "A6738DC94FD6DF59543F07E32D345B5F0B8CBB0926B7C7D620862647DF0194BF"
+    },
+    {
+      "Path": "app-0.13.4\\es-ES\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "5289E1127E4576D02FC46AA2E4723A2583A0A05BCFEFD0D96964603D1713E796"
+    },
+    {
+      "Path": "app-0.13.4\\es-ES\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "139CAE45594365B910D86720396A3E5985C019473F02A7B97E705905E038D519"
+    },
+    {
+      "Path": "app-0.13.4\\es-ES\\Starward.Core.resources.dll",
+      "Size": 8704,
+      "Hash": "01445ECEA1A1176AC38094BADDD1047268F7399BE959232E7DE92A46854B9A44"
+    },
+    {
+      "Path": "app-0.13.4\\es-ES\\Starward.Language.resources.dll",
+      "Size": 54272,
+      "Hash": "7A8C3560ADDDBB143329B8F201B604DF71660FDC2FB75AB02E35DE8B6D20DB0F"
+    },
+    {
+      "Path": "app-0.13.4\\es-MX\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "E9643B1A49EB18E8D714AD2B2AD7AEC3DCB766D110161EAFB9D55A6745DA253B"
+    },
+    {
+      "Path": "app-0.13.4\\es-MX\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "ACA30F3567E562E5440DCAF8419D5A732057BD5C87118FE519771A7A54F42791"
+    },
+    {
+      "Path": "app-0.13.4\\et-EE\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "54AA8592532E62CE893970DF385907A86972E5F09BC2D863EBFB226BD328CB58"
+    },
+    {
+      "Path": "app-0.13.4\\et-EE\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "9B3FD3FC5515EEB52FFD51299A38C45BE6221CB636125C1083C70DB1DB758366"
+    },
+    {
+      "Path": "app-0.13.4\\eu-ES\\Microsoft.ui.xaml.dll.mui",
+      "Size": 18432,
+      "Hash": "5C8DAF3B8E0FFD7BCC416AD33D3486FF72757D8CE53EB0562A9EEB1A03AEF376"
+    },
+    {
+      "Path": "app-0.13.4\\eu-ES\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "3636414819BC729AACD11664D6DD9A35FA95BE2652ED6EEC9E7A248F7142DAA8"
+    },
+    {
+      "Path": "app-0.13.4\\fa-IR\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "71E2DBA16A4D5DFB0D8D44026006AAB6B561EEDBBAFCD9E7B8ED2E9F9262242B"
+    },
+    {
+      "Path": "app-0.13.4\\fa-IR\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "F32320294AF4659BC135C47A2A01ACEC5E309E950425C0C2A501228BB827F699"
+    },
+    {
+      "Path": "app-0.13.4\\fi-FI\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "307187D5006D26641E3A218D78D1BAB8F4117C7A3877B9B7937E3334DD11644F"
+    },
+    {
+      "Path": "app-0.13.4\\fi-FI\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "36C77F7790CE460B0A67879CE9ED577CBD5A2FC8CB75732FC7ED939A82EA7A7D"
+    },
+    {
+      "Path": "app-0.13.4\\fil-PH\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "5576FA7ACA98D23BDAC73D33C0F94830E226F299000FF81323BA92EA0405893E"
+    },
+    {
+      "Path": "app-0.13.4\\fil-PH\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "8F645928230DF475B6879825A7B249FD454C7FD5E466955F43F2E458840A6462"
+    },
+    {
+      "Path": "app-0.13.4\\fr\\Vanara.Core.resources.dll",
+      "Size": 8704,
+      "Hash": "5451D8DDD0B59420BE148293F2FA2065E8C0750FEB38ED2071ECF9F6BC1BA14C"
+    },
+    {
+      "Path": "app-0.13.4\\fr-CA\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "0B68C5C8C9770865B78DF83E9E79FE12558CCC442191966F99F83B17DE47F76F"
+    },
+    {
+      "Path": "app-0.13.4\\fr-CA\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "DCD9D07F3E32C4FD0EA300246FF69B6B03C7FB6F2CB8F0CCB04BA608CEC7EDB2"
+    },
+    {
+      "Path": "app-0.13.4\\fr-FR\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "745A5C3395BD20A204D637BE7412DCD66621F6DF28091CC1DA11597EB7881DF0"
+    },
+    {
+      "Path": "app-0.13.4\\fr-FR\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "134ADBFD4FF91D83C521D98D94DFC9A1AA3DFF1445C003721E76E9BDD1C221DF"
+    },
+    {
+      "Path": "app-0.13.4\\ga-IE\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "69B8390290176D30537A2A08181E29317F7780096B484A413B783DFFFDF8AF43"
+    },
+    {
+      "Path": "app-0.13.4\\ga-IE\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "B1264EC19F84335D59721D51A40CDC06CFB77FE29BD708A4BA57BB6B0523E5FF"
+    },
+    {
+      "Path": "app-0.13.4\\gd-gb\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "1F9830BEDF57B486A9E05C0BAE4610A3F5523886AF12C32277D7ACE0572CF4C2"
+    },
+    {
+      "Path": "app-0.13.4\\gd-gb\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "ED09ADD1D38D53DDDE5DBE4A037B846C8B1EE0BDC5B72EFB9E1EDA88567AF964"
+    },
+    {
+      "Path": "app-0.13.4\\gl-ES\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "D2B07D0DBD9975B01F299E1AE970DA2181B6F882C6FAD0A699E571054D70C1BE"
+    },
+    {
+      "Path": "app-0.13.4\\gl-ES\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "7A1B2CBCE0F9AD0CF18FCA680884E3DFE1D8A82D17A676EC422BA6B409CA01F1"
+    },
+    {
+      "Path": "app-0.13.4\\gu-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15872,
+      "Hash": "B9EDD1719648372C0918C67744BC614F0F2B64B8D0B114EF41D67952B630ECB7"
+    },
+    {
+      "Path": "app-0.13.4\\gu-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "BC0760FA22B90AB98B36422D8095C3FBD4C5A7CD4EE943F79ABFA31EE03D3103"
+    },
+    {
+      "Path": "app-0.13.4\\he-IL\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15872,
+      "Hash": "157FC17C2C11C7CC41F8E64B5A9E864F5FDBFE1086C19DE38378E5ACEB3B5E14"
+    },
+    {
+      "Path": "app-0.13.4\\he-IL\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 3584,
+      "Hash": "31A6E639AEFA0D81E1A6C3AFC90AD635A7A50D34CBEEC3C95874B20F0528AF95"
+    },
+    {
+      "Path": "app-0.13.4\\hi-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15872,
+      "Hash": "D30C4ACDA39576B06BE018425CA7AF37FD67E26FC55973BDEB2B1022892B1D65"
+    },
+    {
+      "Path": "app-0.13.4\\hi-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "009DD9611C5E6E3CDA90ECFA6A48F2B5CA5D3DD8C96D5E8073758C065408755B"
+    },
+    {
+      "Path": "app-0.13.4\\hr-HR\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "CB0E34605C6F1178E18049F84C71B21EAD978A58FDF40DEDD3BA9A9F892BF490"
+    },
+    {
+      "Path": "app-0.13.4\\hr-HR\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "19160465C72A21683A1CC4B858F8CEDF994ED9F73A3732341AF1331308A7CFF2"
+    },
+    {
+      "Path": "app-0.13.4\\hu-HU\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "B6C63869CDA1A1D4452959802CBD2794E5A6A32C672B3F8708886F5918B628D0"
+    },
+    {
+      "Path": "app-0.13.4\\hu-HU\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "344982530B44EA9FAFA0977A5883FB2A275065A9D5651C03E40075F153E65BCC"
+    },
+    {
+      "Path": "app-0.13.4\\hy-AM\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "E8249F9F282334528D5B807E26FBB12B3ABB31A937B531CB75506F30A3F5C906"
+    },
+    {
+      "Path": "app-0.13.4\\hy-AM\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "BD1FCF6547AA1F6C9BC1B290CA19D1AB48898A4C3B88EE905E82A567287C14D7"
+    },
+    {
+      "Path": "app-0.13.4\\id-ID\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "718899ECE630D3A5543058602CB4121B9169B13C1D43C6DE41CB29165732B7FE"
+    },
+    {
+      "Path": "app-0.13.4\\id-ID\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "B9A4A885BC183989E0EDCAC9A6CE2E8299FE4E7E136327E5394AAB5734DAAB7C"
+    },
+    {
+      "Path": "app-0.13.4\\is-IS\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "1DA50D7045C9BDD4025CDF419BA9C7C1D569C6367604A1491F750D963E8F0C69"
+    },
+    {
+      "Path": "app-0.13.4\\is-IS\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "D2B27457A575C4A18F23C966F84B46786CCE062B09DD3E14163A11A4CF0994E0"
+    },
+    {
+      "Path": "app-0.13.4\\it-IT\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "4623E76E46AEA64591E1DC06F1C60927843B67383802E55E2990311159ACB981"
+    },
+    {
+      "Path": "app-0.13.4\\it-IT\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "68BC0240115A3F45EDC0DE53F6080B2B1DE8C65672C9B41A66C999818E825AD5"
+    },
+    {
+      "Path": "app-0.13.4\\it-IT\\Starward.Core.resources.dll",
+      "Size": 8192,
+      "Hash": "72D41029E79BDCEC49E6746B45A6FDE955E88E90B4FB96F6A12986588194806E"
+    },
+    {
+      "Path": "app-0.13.4\\it-IT\\Starward.Language.resources.dll",
+      "Size": 54784,
+      "Hash": "0BA09389CEB282DC2A658E80A49F6CEDFE597A0BD9467E2BF44A7823E4202F81"
+    },
+    {
+      "Path": "app-0.13.4\\ja-JP\\Microsoft.ui.xaml.dll.mui",
+      "Size": 12800,
+      "Hash": "B53A137CCAEDDDE7EFF1A5ED04167BA0FD39328A2EDC2E74CCEF7FF9DA423756"
+    },
+    {
+      "Path": "app-0.13.4\\ja-JP\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 3584,
+      "Hash": "F756FBDED9CFAC152FF4116BEE7D0EF585C04004057660232ECCDC9563BD7EEA"
+    },
+    {
+      "Path": "app-0.13.4\\ja-JP\\Starward.Core.resources.dll",
+      "Size": 8704,
+      "Hash": "545D64798259F5B23CF21017AA4F82374D293224FCF5D6551B85A8CD891A06EF"
+    },
+    {
+      "Path": "app-0.13.4\\ja-JP\\Starward.Language.resources.dll",
+      "Size": 59904,
+      "Hash": "FC420BA02F30E4C3F47B3BE651111BBA025675DA925E11B1B79D285AECA09AC1"
+    },
+    {
+      "Path": "app-0.13.4\\ka-GE\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "90BF5FBA3518F50DC180D91950AA6EFD83257FB959006B7722972EFBE0399F3D"
+    },
+    {
+      "Path": "app-0.13.4\\ka-GE\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "C82A73D3AF9A50DCA6DAFD9807A0EC42120EC4C47D61DD4572153CD98F57EEF1"
+    },
+    {
+      "Path": "app-0.13.4\\kk-KZ\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "05F7E323AE60FE9D85C208C40C261863DA3D7C8274B5717454E246B3FA18AA26"
+    },
+    {
+      "Path": "app-0.13.4\\kk-KZ\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "7DC2486F5B1A744EDF2664E9D65FA3C00DDE4FAE1CCCC3BD7A214C25C513E72B"
+    },
+    {
+      "Path": "app-0.13.4\\km-KH\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "A881B0F94B28C5F23928B00B8D91239E4F8E2EB7130A2A8E5600A9F9A2B430DF"
+    },
+    {
+      "Path": "app-0.13.4\\km-KH\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "DDB86D3045D96E9562E470F4CD77F5FAD43127267AF184520606B3F1802D6703"
+    },
+    {
+      "Path": "app-0.13.4\\kn-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "51E1AFF5FED6086291E7560C3BE7D727D0636102FDE8C4B21C73F94D5FD4928D"
+    },
+    {
+      "Path": "app-0.13.4\\kn-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "15F4339D65E80E66BA0281808E0FFD2A8DB7FC0733C9D79D1FFD9640666458E0"
+    },
+    {
+      "Path": "app-0.13.4\\ko-KR\\Microsoft.ui.xaml.dll.mui",
+      "Size": 12288,
+      "Hash": "D66A4EB42188D8EA1A617A1D508797A2F36D7FE58C6DDE63D893AD1667038B0B"
+    },
+    {
+      "Path": "app-0.13.4\\ko-KR\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 3584,
+      "Hash": "BD413EA83A929D9C9742E854D7434830CF1C5AF5A5C596676D15E7C2719D1CD1"
+    },
+    {
+      "Path": "app-0.13.4\\ko-KR\\Starward.Core.resources.dll",
+      "Size": 8192,
+      "Hash": "3AC44FED112C5ED6C3ECA61B7EEA3C24A716A03D8D434C3E913995FC54EE1D34"
+    },
+    {
+      "Path": "app-0.13.4\\ko-KR\\Starward.Language.resources.dll",
+      "Size": 55808,
+      "Hash": "1F0FF345DC80013283EFC8AF7CA4EB574029101525584718AFEBC2E53F2EB584"
+    },
+    {
+      "Path": "app-0.13.4\\kok-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "FCC3EB140CBC8AF866D2F4668E6E637188A25650879262DFC913C15E791A04CB"
+    },
+    {
+      "Path": "app-0.13.4\\kok-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "83C66955DBB7E1AC5B67AEFA1DC51A32AF200BC3F82399B197AD7B334D4B8A14"
+    },
+    {
+      "Path": "app-0.13.4\\lb-LU\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "95F13B8599C327F7F972336AFDD2085CE78AA3474245F5B239732039DC6B246B"
+    },
+    {
+      "Path": "app-0.13.4\\lb-LU\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "A5465950F4CB7B30375F7F065A97B7AA375E34B3F2F29375E45A9184F77C4A16"
+    },
+    {
+      "Path": "app-0.13.4\\lo-LA\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15872,
+      "Hash": "58A2624BE760844174B9BAF6964093282539F6152229F3C6D1B9AEAD9D1FF36E"
+    },
+    {
+      "Path": "app-0.13.4\\lo-LA\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "22703E8834C03010E627BD460D848B69DE442D52469859B6997E8C1FCA839A5E"
+    },
+    {
+      "Path": "app-0.13.4\\lt-LT\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "C06A6D698514DEC238255316918C68106A8741176BF3756E109E479D2EFBB295"
+    },
+    {
+      "Path": "app-0.13.4\\lt-LT\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "FEA2D6C9498C187C8D8504CB5CFA291E9AB6610DA35F8794D3E3D597F9194CDF"
+    },
+    {
+      "Path": "app-0.13.4\\lv-LV\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "496156290FFA6ECEEB6077ED409D7959D7B4EC3113596F9AA91A3CF0B0A0A844"
+    },
+    {
+      "Path": "app-0.13.4\\lv-LV\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "300DF0B7B8A7E14DC5D31F1EE578D7C5735B0A8C6B167EDF583301F36535B3B1"
+    },
+    {
+      "Path": "app-0.13.4\\mi-NZ\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "86F59EEFF6ADC098AE83C2521EE0ED153FF82D5BC592AF1E9B76BBBFE8C69E84"
+    },
+    {
+      "Path": "app-0.13.4\\mi-NZ\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "1CF8527B57ADC9B6550C0CF8A9DFF0506AEEE0A4E7EFEA92F806C53CB6CE7484"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Xaml\\Assets\\map.html",
+      "Size": 9234,
+      "Hash": "F24067E723DE286D6E74547C1285E59E5E347B5E584CEF1F7FD39677B4DC4ED4"
+    },
+    {
+      "Path": "app-0.13.4\\Microsoft.UI.Xaml\\Assets\\NoiseAsset_256x256_PNG.png",
+      "Size": 3241,
+      "Hash": "4F2AA94A2E345A32DAE689176B86C644BEF87081FF9DAEF8C77417731862031B"
+    },
+    {
+      "Path": "app-0.13.4\\mk-MK\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "BF863437B8205068B390113B29AAED17E13F5399BB6B5E803ACA3B788B71D2AE"
+    },
+    {
+      "Path": "app-0.13.4\\mk-MK\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "E40143A8DD569589BC492768A1C7432D749AA6842A1747EF65244BF4B17916B9"
+    },
+    {
+      "Path": "app-0.13.4\\ml-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 18432,
+      "Hash": "843EB61C81CACFDFDF85418EFA25319276D13F5D03F03A71C970A29B46D3DD1D"
+    },
+    {
+      "Path": "app-0.13.4\\ml-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "74B64F3DAE56227352EACEAB577D59C59CBB8C0DF8CB527B526827CAD458192F"
+    },
+    {
+      "Path": "app-0.13.4\\mr-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "A93C8BA37E765F0973073163D6091FBAA6D9E86EF2BA1E57615D1448BCEF2086"
+    },
+    {
+      "Path": "app-0.13.4\\mr-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "8E9454C708A32AB37A676A704536ED83CC4DF48C4F9D449F6A56B8BF65486F2D"
+    },
+    {
+      "Path": "app-0.13.4\\ms-MY\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "F4F70A8A752793CE41A2B17552E161F80F5E55C43E72FCA15F96B96753DD2F31"
+    },
+    {
+      "Path": "app-0.13.4\\ms-MY\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "B6DD1EBDBFFA9EE16AFDEC8CFF2F847B63A035615E0C1785D8A0DEC3A523457A"
+    },
+    {
+      "Path": "app-0.13.4\\mt-MT\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "21F93DD12FF02600B00F23A064E6CCC06355FB001C3F71113E49B2C44E0B7B87"
+    },
+    {
+      "Path": "app-0.13.4\\mt-MT\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "0A703C26210BE5A39543D9599DAE50BCE318F051472E92A4D218A3DA053DE236"
+    },
+    {
+      "Path": "app-0.13.4\\nb-NO\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15872,
+      "Hash": "F134F21736BD88499E66A106F2C3E14D29524E825739161F2AAA50355C42D8D1"
+    },
+    {
+      "Path": "app-0.13.4\\nb-NO\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "940CCDB1E800F04A66C06BC7A7E88AABD71BAA09A3D298C9CC656352829A6D36"
+    },
+    {
+      "Path": "app-0.13.4\\ne-NP\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "4D652F3DAD43B6DF51DADC51D0E1125C57F54D999328BC9C34129605D43D581A"
+    },
+    {
+      "Path": "app-0.13.4\\ne-NP\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "C319833F6C31AB62DF102C536E5F85E77790B9ECABD3750B989CF3AFF0B91A65"
+    },
+    {
+      "Path": "app-0.13.4\\nl-NL\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "6AF6FB09714849C1A3EFB4E884D3E6D0949FD85DA196244BCB37766C6781DA80"
+    },
+    {
+      "Path": "app-0.13.4\\nl-NL\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "7EFA1072A9AE88EDBD68D5AA35DA07CD00931F824109C17C27019A478E0758CB"
+    },
+    {
+      "Path": "app-0.13.4\\nn-NO\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15872,
+      "Hash": "D69B4981126BB637E5771C2194B52685CB8EFB43C352DEE69402D15D5B8C973E"
+    },
+    {
+      "Path": "app-0.13.4\\nn-NO\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "2600FB5B7EAB1ED3A850BF4E999D40B42EFBE414A7C7AC4CE78D7B565FBD5781"
+    },
+    {
+      "Path": "app-0.13.4\\or-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "FF22D4D2C2A5C589C10E5631A5848F8E053B797E4460D7A06D2F0D6A90E9A1E3"
+    },
+    {
+      "Path": "app-0.13.4\\or-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "2EC2FBFEEA58D1648F4B318E6358700EBA3B4D8FECF44F07DB10E66F12B73264"
+    },
+    {
+      "Path": "app-0.13.4\\pa-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15360,
+      "Hash": "4B4FBF3BADA36DAC01F4F118A01B83833BFA8F57D2D506EE078298885E46F32B"
+    },
+    {
+      "Path": "app-0.13.4\\pa-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 3584,
+      "Hash": "871962AB16EFFF853C5B6BD1A318A9E75D28259D5304705F91364B192CAEBAD9"
+    },
+    {
+      "Path": "app-0.13.4\\pl-PL\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "28FBEF3715C211469155A31F03434D2FEA2CE1055FAA4ED9F78488A46910E71E"
+    },
+    {
+      "Path": "app-0.13.4\\pl-PL\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "39D9035BF0EC07D49D064F6BA289F6A50BC3FD6BB67845ACB3AF1EB368565F03"
+    },
+    {
+      "Path": "app-0.13.4\\pt-BR\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "B0B7424B59C322C09AE6B6BF771FEC0D1ABC9EE93E7C92F729867F4B741948A7"
+    },
+    {
+      "Path": "app-0.13.4\\pt-BR\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "30655A0915C0BCC2E3A55CBF9F85CB5F7B238FA141474C124431B2852A81D5ED"
+    },
+    {
+      "Path": "app-0.13.4\\pt-PT\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "27F08F00D604E8AD8EBE7F058A4E6F5BB47AB246C20014911A67AAB9DEBFE980"
+    },
+    {
+      "Path": "app-0.13.4\\pt-PT\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "489691FEDBA3F3E548BDB277C6DB051BF02D99DC7DFFDFF5374BB2DA637B679A"
+    },
+    {
+      "Path": "app-0.13.4\\quz-PE\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "4D8B6E4DBC51A6CD8F6CBAC71AAB4CAC3F071FBBD8DF73052C5B3C3C9DC3DA87"
+    },
+    {
+      "Path": "app-0.13.4\\quz-PE\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "F5053E946825E1CC975577416C1C52FA47A940B978DE3BBA8AC5B8802EE39DC5"
+    },
+    {
+      "Path": "app-0.13.4\\ro-RO\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "9CB9F89080647EF3E3C9DC6A9A4DDF913FBF0A507C88772718C693CF722BA28D"
+    },
+    {
+      "Path": "app-0.13.4\\ro-RO\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "1DB4C53F3501BE32B258A52218FDC7D30EDCA824915BCFF01882A905F230046E"
+    },
+    {
+      "Path": "app-0.13.4\\ru-RU\\Microsoft.ui.xaml.dll.mui",
+      "Size": 18944,
+      "Hash": "1417C3B24CB136E426D05F30DAA1DF13518761647CAA4B4C2422ECEFADBBE3FF"
+    },
+    {
+      "Path": "app-0.13.4\\ru-RU\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "BBA90B377CDB3F576AD27C5875D03FBD9C173E4737F111095604E7CC74C6910A"
+    },
+    {
+      "Path": "app-0.13.4\\ru-RU\\Starward.Core.resources.dll",
+      "Size": 9216,
+      "Hash": "F7E5201ECBED8096458D81131153EAB4CE6BAB227620A81CB72EA7FF672F9414"
+    },
+    {
+      "Path": "app-0.13.4\\ru-RU\\Starward.Language.resources.dll",
+      "Size": 66048,
+      "Hash": "DCA3AEA1764210602023B1546DD9D0614F1E0167FF82710FBDABF4747BF3476D"
+    },
+    {
+      "Path": "app-0.13.4\\sk-SK\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "F2EADB06E32CB8241B5BCB6E7CF801B678E90E6346C0A544899987D160CB9B85"
+    },
+    {
+      "Path": "app-0.13.4\\sk-SK\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "4F20B3F522A5E72D7532A0D976C1C3D868236A24D6F9047B463A01D295D96851"
+    },
+    {
+      "Path": "app-0.13.4\\sl-SI\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "28CD9FE267D2AA28DDF697FC16398FB5A102F215960291676D0B502E7FFDA579"
+    },
+    {
+      "Path": "app-0.13.4\\sl-SI\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "461B4E19B783E539341281CECD067FDA9F3CB264CEBE741065FF739892686546"
+    },
+    {
+      "Path": "app-0.13.4\\sq-AL\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "F4266EF569E6DB8CA41D75F3226CEC6712CBC14665DB85473C37EDC9C30F47AA"
+    },
+    {
+      "Path": "app-0.13.4\\sq-AL\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "508C55A2528CFAB9F6D23EAEAB4F5E2E0A827A087E6F933B76519C175DD7FF9B"
+    },
+    {
+      "Path": "app-0.13.4\\sr-Cyrl-BA\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "F126F791DD10CFAE9511816AD460F34FD250583221D5983330727156C8D0DA40"
+    },
+    {
+      "Path": "app-0.13.4\\sr-Cyrl-BA\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "5F04DAE365545C02BA8A4A0CF976B5D6DE9490DC7BC09008CBCA740125E6CE7E"
+    },
+    {
+      "Path": "app-0.13.4\\sr-Cyrl-RS\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "26EC6D2D6F7DE758F790F6493C295EC72D4E98E7A8B1100D793249B30DAC7AEF"
+    },
+    {
+      "Path": "app-0.13.4\\sr-Cyrl-RS\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "35839EBF9439D19F9BC2C6B56B2E2498B0CEA17080273BA424FD1E224037A3BE"
+    },
+    {
+      "Path": "app-0.13.4\\sr-Latn-RS\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "7D43CA4F506C56215AC229F2E82208D6CFC9ABCBD3A0E2B3C8BBA8B8D244C80B"
+    },
+    {
+      "Path": "app-0.13.4\\sr-Latn-RS\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "0527BE2B96644D497D30B266B57FB4A56EFAF842E46CA92FB582D6E662C28790"
+    },
+    {
+      "Path": "app-0.13.4\\sv-SE\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15872,
+      "Hash": "455CD2216CB246C1712086CEA2FA7D3F30D56004152F577D8B9C5D4603A881EA"
+    },
+    {
+      "Path": "app-0.13.4\\sv-SE\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "D2D38236E10D51EE37A8BD5AD5361721FDEC236CB0BCABBE528EC8B0DD9B2289"
+    },
+    {
+      "Path": "app-0.13.4\\ta-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "DDB74F621093B77BA9F40C0E50197892A376C3C5ABB6B01D21AABD7A88A63B78"
+    },
+    {
+      "Path": "app-0.13.4\\ta-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "7F4214881D53683004BA150F5850480697666614541E8BBEA784A3D0EB9BAA22"
+    },
+    {
+      "Path": "app-0.13.4\\te-IN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17408,
+      "Hash": "7EB84E1A443DDF5D3ACC20BA688255B48B77209C26FB22C59394BA3FB23F04B0"
+    },
+    {
+      "Path": "app-0.13.4\\te-IN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "AB611BBF803F7325E4BD346F447748D1205C51B6B4ABB03CF56D3BC326ABFEF4"
+    },
+    {
+      "Path": "app-0.13.4\\th-TH\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15872,
+      "Hash": "9A3F042010507AA50B765E44429AC8D01706CE032E9BA4D1859AF08D9A8D0F1F"
+    },
+    {
+      "Path": "app-0.13.4\\th-TH\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "29020600FE4FA2F59A7AB00206ABFB5108E27C36DFA87214A411FBC4416CCF58"
+    },
+    {
+      "Path": "app-0.13.4\\th-TH\\Starward.Core.resources.dll",
+      "Size": 9216,
+      "Hash": "64F0EBC3D0930166F04389B31A2AF03E69D6064BA3104A26AF8991B9C6907C52"
+    },
+    {
+      "Path": "app-0.13.4\\th-TH\\Starward.Language.resources.dll",
+      "Size": 66560,
+      "Hash": "4C5966FED7A86674EE705BABC44F98C3C29E1CA3C7E8E7175702F993E120F8F0"
+    },
+    {
+      "Path": "app-0.13.4\\tr-TR\\Microsoft.ui.xaml.dll.mui",
+      "Size": 15872,
+      "Hash": "06E97D4178684D8190FAB42441D9BA63E2A628E01BCB85E8154ED652F800BD78"
+    },
+    {
+      "Path": "app-0.13.4\\tr-TR\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "5ED9AA0290097A24D4A451B33D66CDC1E5491B2898724B059F0DA4A53DC11B3C"
+    },
+    {
+      "Path": "app-0.13.4\\tt-RU\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "8488757B1DF33A8A169925FCC283C2AB532E1FCAA975196611A1BC6EAC21AF46"
+    },
+    {
+      "Path": "app-0.13.4\\tt-RU\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "F9188F47F29636FDA9BFF38250E4FB3E1A854772B30D9736FEAC7E3560583980"
+    },
+    {
+      "Path": "app-0.13.4\\ug-CN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16896,
+      "Hash": "9D010473BCA29AD1A40E12256A2A29BD6607E76C427C23BEC52E1E788105570F"
+    },
+    {
+      "Path": "app-0.13.4\\ug-CN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "FDDA31794B996F68E319013EE5C52C9DC8D8D51B2A5F6A0444AC95F29BB17B35"
+    },
+    {
+      "Path": "app-0.13.4\\uk-UA\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "4FDFD72EE6364D13F1A3FC7B9CE234E686A8819345F1FB83F04ABEBCD31DA0DD"
+    },
+    {
+      "Path": "app-0.13.4\\uk-UA\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "5E3464BF5FC10F6C2CC33D941274FE1BC82F33971F21AC91FEC861AD917CBAF2"
+    },
+    {
+      "Path": "app-0.13.4\\ur-PK\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "CF6719BDD6C2CD3CFEC93FCCC05154ACC006D2120BC7AF53F82C21662057AA2E"
+    },
+    {
+      "Path": "app-0.13.4\\ur-PK\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "67CF3FAAE31A9012D8D875A9E27E1454A27598C9EBF47076843A55E505FD29CB"
+    },
+    {
+      "Path": "app-0.13.4\\uz-Latn-UZ\\Microsoft.ui.xaml.dll.mui",
+      "Size": 17920,
+      "Hash": "8271A9E1506D50EE099174506581BD008F09784F953B2F61F21CEBF6D00E13FA"
+    },
+    {
+      "Path": "app-0.13.4\\uz-Latn-UZ\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "5277F0175908F9C37575B18C2F9147503C17A839CE46B3BF657220AAC5F4FF31"
+    },
+    {
+      "Path": "app-0.13.4\\vi-VN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 16384,
+      "Hash": "5C78B633A49D672B0C867BF6EB4836512EE9800F1A611432D110C9F3BE4F3395"
+    },
+    {
+      "Path": "app-0.13.4\\vi-VN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 4096,
+      "Hash": "86174FD1C1DE76B3DA378A23308CA3D631BCBA822DF924036B1052F9A4AB7799"
+    },
+    {
+      "Path": "app-0.13.4\\vi-VN\\Starward.Core.resources.dll",
+      "Size": 8704,
+      "Hash": "F8943C9DA03DD74167E043092D8051065FBE97038C3A8C2F81B38F3CB0F15A9C"
+    },
+    {
+      "Path": "app-0.13.4\\vi-VN\\Starward.Language.resources.dll",
+      "Size": 58880,
+      "Hash": "93A035F0C66B628A32E8469C5694902B9A256F56065F12C90DA0061A687780B2"
+    },
+    {
+      "Path": "app-0.13.4\\zh-CN\\Microsoft.ui.xaml.dll.mui",
+      "Size": 11264,
+      "Hash": "6E981F38BA3D0AD4B96155EBADFAD4B5034F515FD1B93C0D312173647C91A969"
+    },
+    {
+      "Path": "app-0.13.4\\zh-CN\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 3584,
+      "Hash": "67E0769EA4F4AF5D0569DE9DA12F414890F266FC92987266D132CBE6BB97C2B4"
+    },
+    {
+      "Path": "app-0.13.4\\zh-CN\\Starward.Core.resources.dll",
+      "Size": 8192,
+      "Hash": "4D6C87A600FE86CFF23CC0C295959A814A108D937DD6339AD9A6F41FDC7D997A"
+    },
+    {
+      "Path": "app-0.13.4\\zh-CN\\Starward.Language.resources.dll",
+      "Size": 52224,
+      "Hash": "021EE99018DEF410E3E80BF20B19C5806272120701B8F10BB22F20048EEA7574"
+    },
+    {
+      "Path": "app-0.13.4\\zh-TW\\Microsoft.ui.xaml.dll.mui",
+      "Size": 11264,
+      "Hash": "9BF9C57175C9323F64ADADA6EEAE5DADBDA865B9BB891108C9BDC15182BE4766"
+    },
+    {
+      "Path": "app-0.13.4\\zh-TW\\Microsoft.UI.Xaml.Phone.dll.mui",
+      "Size": 3584,
+      "Hash": "EC66DC61D0C6C4D047FA4D30E8905DB14579DFF05A763BE1A5DCF30F04CEEF1D"
+    },
+    {
+      "Path": "app-0.13.4\\zh-TW\\Starward.Core.resources.dll",
+      "Size": 8192,
+      "Hash": "3FD66D15080B3330E83AE8E48BBF9703A7A762FE77F134F372638DA0E0D332B1"
+    },
+    {
+      "Path": "app-0.13.4\\zh-TW\\Starward.Language.resources.dll",
+      "Size": 52224,
+      "Hash": "DC491594A592174E3F26DF23F22EBAF184D8D116DF439E77C0780E12C48031D9"
+    }
+  ]
+}
