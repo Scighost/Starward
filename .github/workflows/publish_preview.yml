@@ -49,12 +49,12 @@ jobs:
     - name: Build
       run: ./build.ps1 -Architecture $env:Platform -Version $env:Version
 
-    - name: Metadata
+    - name: Create Metadata
       run: ./metadata.ps1 -Architecture $env:Platform -Version $env:Version
 
     - name: Setup OssUtil
       run: |
-        Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/1.7.15/ossutil-v1.7.15-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
+        Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil-v1.7.19-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
         Expand-Archive -Path ${{runner.temp}}/ossutil.zip -DestinationPath ${{runner.temp}}
         Move-Item -Path ${{runner.temp}}/ossutil-v1.7.15-windows-amd64/ossutil64.exe -Destination C:/Windows/System32/ossutil.exe -Force
         ossutil config -e ${{ secrets.OSS_ENDPOINT }} -i ${{ secrets.ACCESS_KEY_ID }} -k ${{ secrets.ACCESS_KEY_SECRET }}
@@ -62,7 +62,7 @@ jobs:
     - name: Upload to OSS
       run: ossutil cp -rf ./build/release/ oss://starward/release/ --meta Content-Type:multipart/mixed
 
-    - name: Upload Artifact
+    - name: Upload Metadata
       uses: actions/upload-artifact@v4
       with:
         name: metadata_${{ matrix.platform }}
