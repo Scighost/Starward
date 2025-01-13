@@ -7,10 +7,10 @@
 $ErrorActionPreference = "Stop";
 
 if ($Dev) {
-    dotnet publish src/Starward -c Release -r "win-$Architecture" -o "build/Starward/app-$Version" -p:Platform=$Architecture -p:DefineConstants=DEV -p:PublishReadyToRun=true -p:PublishTrimmed=true -p:TrimMode=partial -p:Version=$Version  -p:UseRidGraph=true;
+    dotnet publish src/Starward -c Release -r "win-$Architecture" -o "build/Starward/app-$Version" -p:Platform=$Architecture -p:DefineConstants=DEV -p:PublishReadyToRun=true -p:PublishTrimmed=true -p:TrimMode=partial -p:Version=$Version;
 }
 else {
-    dotnet publish src/Starward -c Release -r "win-$Architecture" -o "build/Starward/app-$Version" -p:Platform=$Architecture -p:PublishReadyToRun=true -p:PublishTrimmed=true -p:TrimMode=partial -p:Version=$Version -p:UseRidGraph=true;
+    dotnet publish src/Starward -c Release -r "win-$Architecture" -o "build/Starward/app-$Version" -p:Platform=$Architecture -p:PublishReadyToRun=true -p:PublishTrimmed=true -p:TrimMode=partial -p:Version=$Version;
 }
 
 $env:Path += ';C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\amd64\';
