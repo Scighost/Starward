@@ -1,8 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using NuGet.Versioning;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Gacha;
@@ -12,7 +14,10 @@ using Starward.Features.GameSetting;
 using Starward.Features.Screenshot;
 using Starward.Features.SelfQuery;
 using Starward.Features.Setting;
+using Starward.Features.Update;
+using Starward.Frameworks;
 using System;
+using System.Threading.Tasks;
 
 
 namespace Starward.Features.ViewHost;
@@ -21,6 +26,8 @@ namespace Starward.Features.ViewHost;
 public sealed partial class MainView : UserControl
 {
 
+
+    private readonly ILogger<MainView> _logger = AppService.GetLogger<MainView>();
 
 
     public GameId? CurrentGameId { get; private set => SetProperty(ref field, value); }
@@ -53,7 +60,7 @@ public sealed partial class MainView : UserControl
 
     private void MainView_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-
+        _ = CheckUpdateOrShowRecentUpdateContentAsync();
     }
 
 
@@ -187,6 +194,46 @@ public sealed partial class MainView : UserControl
 
     #endregion
 
+
+
+
+    private async Task CheckUpdateOrShowRecentUpdateContentAsync()
+    {
+        try
+        {
+#if CI || DEBUG
+            return;
+#endif
+#pragma warning disable CS0162 // 检测到无法访问的代码
+            await Task.Delay(500);
+#pragma warning restore CS0162 // 检测到无法访问的代码
+            if (NuGetVersion.TryParse(AppConfig.AppVersion, out var appVersion))
+            {
+                _ = NuGetVersion.TryParse(AppConfig.LastAppVersion, out var lastVersion);
+                if (appVersion != lastVersion)
+                {
+                    if (AppSetting.ShowUpdateContentAfterUpdateRestart)
+                    {
+                        new UpdateWindow().Activate();
+                    }
+                    else
+                    {
+                        AppSetting.LastAppVersion = AppSetting.AppVersion;
+                    }
+                    return;
+                }
+            }
+            var release = await AppService.GetService<UpdateService>().CheckUpdateAsync(false);
+            if (release != null)
+            {
+                new UpdateWindow { NewVersion = release }.Activate();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Check update");
+        }
+    }
 
 
 

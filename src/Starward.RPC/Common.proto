@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option csharp_namespace = "Starward.RPC";
+
+package Starward.RPC;
+
+message EmptyMessage {
+
+}

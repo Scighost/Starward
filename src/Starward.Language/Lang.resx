@@ -1677,4 +1677,22 @@ Do you accept the risk and continue to use it?</value>
   <data name="PlayTimeButton_LastStartup" xml:space="preserve">
     <value>Last Startup</value>
   </data>
+  <data name="UpdateWindow_AutoRestartAfterUpdate" xml:space="preserve">
+    <value>Auto-restart after update</value>
+  </data>
+  <data name="UpdateWindow_DisplayUpdateContentAfterRestart" xml:space="preserve">
+    <value>Display update content after restart</value>
+  </data>
+  <data name="Common_WebView2ComponentInitializationFailed" xml:space="preserve">
+    <value>WebView2 component initialization failed.</value>
+  </data>
+  <data name="SettingPage_RPCService" xml:space="preserve">
+    <value>RPC Service</value>
+  </data>
+  <data name="SettingPage_RPCService_Desc" xml:space="preserve">
+    <value>The RPC service is an independent process used to avoid restarting when downloading games, updating software, and other features that require administrator privileges.</value>
+  </data>
+  <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
+    <value>Keep RPC service running in the background</value>
+  </data>
 </root>

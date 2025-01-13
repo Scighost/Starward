@@ -1675,4 +1675,22 @@
   <data name="PlayTimeButton_LastStartup" xml:space="preserve">
     <value>上次启动</value>
   </data>
+  <data name="UpdateWindow_AutoRestartAfterUpdate" xml:space="preserve">
+    <value>更新后自动重启</value>
+  </data>
+  <data name="UpdateWindow_DisplayUpdateContentAfterRestart" xml:space="preserve">
+    <value>重启后展示更新内容</value>
+  </data>
+  <data name="Common_WebView2ComponentInitializationFailed" xml:space="preserve">
+    <value>WebView2 组件初始化失败</value>
+  </data>
+  <data name="SettingPage_RPCService" xml:space="preserve">
+    <value>RPC 服务</value>
+  </data>
+  <data name="SettingPage_RPCService_Desc" xml:space="preserve">
+    <value>RPC 服务是一个独立的进程，用于在下载游戏、更新软件、以及其他需要管理员权限的功能中，避免重新启动。</value>
+  </data>
+  <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
+    <value>保持 RPC 服务后台运行</value>
+  </data>
 </root>

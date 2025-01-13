@@ -458,6 +458,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 WebView2 component initialization failed. 的本地化字符串。
+        /// </summary>
+        public static string Common_WebView2ComponentInitializationFailed {
+            get {
+                return ResourceManager.GetString("Common_WebView2ComponentInitializationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Yes 的本地化字符串。
         /// </summary>
         public static string Common_Yes {
@@ -3785,6 +3794,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Keep RPC service running in the background 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_KeepRPCServiceRunningInTheBackground {
+            get {
+                return ResourceManager.GetString("SettingPage_KeepRPCServiceRunningInTheBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Language 的本地化字符串。
         /// </summary>
         public static string SettingPage_Language {
@@ -3907,6 +3925,24 @@ namespace Starward.Language {
         public static string SettingPage_ReselectDataFolder {
             get {
                 return ResourceManager.GetString("SettingPage_ReselectDataFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 RPC Service 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_RPCService {
+            get {
+                return ResourceManager.GetString("SettingPage_RPCService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The RPC service is an independent process used to avoid restarting when downloading games, updating software, and other features that require administrator privileges. 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_RPCService_Desc {
+            get {
+                return ResourceManager.GetString("SettingPage_RPCService_Desc", resourceCulture);
             }
         }
         
@@ -4654,6 +4690,24 @@ namespace Starward.Language {
         public static string UpdateService_CannotUpdateAutomatically {
             get {
                 return ResourceManager.GetString("UpdateService_CannotUpdateAutomatically", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Auto-restart after update 的本地化字符串。
+        /// </summary>
+        public static string UpdateWindow_AutoRestartAfterUpdate {
+            get {
+                return ResourceManager.GetString("UpdateWindow_AutoRestartAfterUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Display update content after restart 的本地化字符串。
+        /// </summary>
+        public static string UpdateWindow_DisplayUpdateContentAfterRestart {
+            get {
+                return ResourceManager.GetString("UpdateWindow_DisplayUpdateContentAfterRestart", resourceCulture);
             }
         }
     }

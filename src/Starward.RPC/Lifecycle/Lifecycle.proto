@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option csharp_namespace = "Starward.RPC.Lifecycle";
+
+package Starward.RPC.Lifecycle;
+
+import "google/protobuf/wrappers.proto";
+
+import "Common.proto";
+
+
+service Lifecycle {
+  
+	rpc GetRpcServerInfo (EmptyMessage) returns (RpcServerInfo);
+
+	rpc AssociateProcesses (AssociateProcessesMessage) returns (AssociateProcessesMessage);
+}
+
+
+message RpcServerInfo {
+
+	int32 process_id = 1;
+
+	google.protobuf.StringValue process_path = 2;
+}
+
+
+message AssociateProcessesMessage {
+
+	int32 process_id = 1;
+
+	bool keep_running_on_exited = 2;
+
+	bool no_longer_change = 3;
+}

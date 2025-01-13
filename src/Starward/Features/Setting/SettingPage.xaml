@@ -73,7 +73,7 @@
 
 
             <FlipView x:Name="FlipView_Settings"
-                      Margin="24,24,0,0"
+                      Margin="24,24,24,0"
                       Background="Transparent"
                       Loaded="FlipView_Settings_Loaded">
                 <FlipView.ItemsPanel>
@@ -169,7 +169,6 @@
                             <!--  相关链接  -->
                             <TextBlock Margin="0,20,0,0"
                                        FontSize="20"
-                                       FontWeight="SemiBold"
                                        Text="{x:Bind lang:Lang.AboutSettingPage_Links}" />
                             <TextBlock Margin="0,8,0,0" HorizontalAlignment="Left">
                                 <Hyperlink NavigateUri="https://github.com/Scighost/Starward" UnderlineStyle="None">
@@ -222,9 +221,7 @@
 
 
                             <!--  语言  -->
-                            <TextBlock FontSize="20"
-                                       FontWeight="SemiBold"
-                                       Text="{x:Bind lang:Lang.SettingPage_Language}" />
+                            <TextBlock FontSize="20" Text="{x:Bind lang:Lang.SettingPage_Language}" />
                             <ComboBox Name="ComboBox_Language"
                                       Height="36"
                                       MinWidth="260"
@@ -245,7 +242,6 @@
                             <!--  关闭窗口选项  -->
                             <TextBlock Margin="0,20,0,0"
                                        FontSize="20"
-                                       FontWeight="SemiBold"
                                        Text="{x:Bind lang:Lang.ExperienceSettingPage_CloseWindowOption}" />
                             <StackPanel Margin="0,12,0,0"
                                         Orientation="Horizontal"
@@ -290,13 +286,11 @@
                 <!--  下载  -->
                 <FlipViewItem>
                     <ScrollViewer>
-                        <StackPanel Margin="0,0,48,0">
+                        <StackPanel>
 
 
                             <!--  默认游戏安装路径  -->
-                            <TextBlock FontSize="20"
-                                       FontWeight="SemiBold"
-                                       Text="{x:Bind lang:Lang.DownloadSettingPage_DefaultGameInstallationPath}" />
+                            <TextBlock FontSize="20" Text="{x:Bind lang:Lang.DownloadSettingPage_DefaultGameInstallationPath}" />
                             <TextBlock Margin="0,12,0,0"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        Text="{x:Bind lang:Lang.DownloadSettingPage_DefaultGameInstallationPathDescription}"
@@ -353,7 +347,6 @@
                             <!--  speed limit  -->
                             <TextBlock Margin="0,20,0,0"
                                        FontSize="20"
-                                       FontWeight="SemiBold"
                                        Text="{x:Bind lang:Lang.DownloadSettingPage_SpeedLimit}" />
                             <TextBlock Margin="0,12,0,0"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -377,20 +370,23 @@
                 <!--  文件管理  -->
                 <FlipViewItem>
                     <ScrollViewer>
-                        <StackPanel Margin="0,0,48,0">
+                        <StackPanel>
 
 
                             <!--  用户数据文件夹  -->
-                            <TextBlock FontSize="20"
-                                       FontWeight="SemiBold"
-                                       Text="{x:Bind lang:Lang.FileSettingPage_DataFolder}" />
+                            <TextBlock FontSize="20" Text="{x:Bind lang:Lang.FileSettingPage_DataFolder}" />
                             <TextBlock Margin="0,12,0,0"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        Text="{x:Bind lang:Lang.FileSettingPage_DataFolderIsImportant}"
                                        TextWrapping="Wrap" />
-                            <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                            <Grid Margin="0,12,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
                                 <!--  重新选择  -->
-                                <Button Height="40"
+                                <Button Grid.Column="0"
+                                        Height="40"
                                         Padding="16,0,16,0"
                                         BorderThickness="0"
                                         Command="{x:Bind ChangeUserDataFolderCommand}"
@@ -402,23 +398,33 @@
                                     </StackPanel>
                                 </Button>
                                 <!--  当前用户数据文件夹  -->
-                                <Button Height="40"
+                                <Button Grid.Column="1"
+                                        Height="40"
                                         Margin="16,0,0,0"
                                         Padding="20,0,20,1"
                                         BorderThickness="0"
                                         Command="{x:Bind OpenUserDataFolderCommand}"
                                         CornerRadius="20">
-                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                    <Grid ColumnSpacing="12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
                                         <TextBlock VerticalAlignment="Center"
                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                   Text="{x:Bind sf:AppSetting.UserDataFolder}" />
-                                        <FontIcon Margin="0,2,2,0"
+                                                   IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+                                                   MaxLines="2"
+                                                   Text="{x:Bind sf:AppSetting.UserDataFolder}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   TextWrapping="Wrap" />
+                                        <FontIcon Grid.Column="1"
+                                                  Margin="0,2,2,0"
                                                   FontSize="14"
                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                   Glyph="&#xE8A7;" />
-                                    </StackPanel>
+                                    </Grid>
                                 </Button>
-                            </StackPanel>
+                            </Grid>
 
                             <!--  删除所有设置  -->
                             <Button Height="40"
@@ -438,7 +444,6 @@
                             <!--  日志  -->
                             <TextBlock Margin="0,20,0,0"
                                        FontSize="20"
-                                       FontWeight="SemiBold"
                                        Text="{x:Bind lang:Lang.FileSettingPage_Log}" />
                             <!--  打开日志文件夹  -->
                             <Button Height="40"
@@ -458,7 +463,6 @@
                             <!--  缓存  -->
                             <TextBlock Margin="0,20,0,0"
                                        FontSize="20"
-                                       FontWeight="SemiBold"
                                        Text="{x:Bind lang:Lang.FileSettingPage_Cache}" />
                             <StackPanel Margin="0,8,0,0"
                                         Orientation="Horizontal"
@@ -508,15 +512,13 @@
                         <StackPanel>
 
                             <!--  URL Protocol  -->
-                            <TextBlock FontSize="20"
-                                       FontWeight="SemiBold"
-                                       Text="{x:Bind lang:Lang.SettingPage_URLProtocolExperimental}" />
+                            <TextBlock FontSize="20" Text="{x:Bind lang:Lang.SettingPage_URLProtocolExperimental}" />
                             <TextBlock Margin="0,8,0,0"
                                        FontSize="14"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        Text="{x:Bind lang:Lang.SettingPage_URLProtocolDesc}"
                                        TextWrapping="Wrap" />
-                            <ToggleSwitch Margin="0,8,0,0" 
+                            <ToggleSwitch Margin="0,8,0,0"
                                           IsOn="{x:Bind EnableUrlProtocol, Mode=TwoWay}"
                                           OffContent="{x:Bind lang:Lang.SettingPage_RegisterURLProtocol}"
                                           OnContent="{x:Bind lang:Lang.SettingPage_RegisterURLProtocol}" />
@@ -532,6 +534,20 @@
                                     <TextBlock Text="{x:Bind lang:Lang.SettingPage_TestURLProtocol}" />
                                 </StackPanel>
                             </Button>
+
+                            <!--  RPC Server  -->
+                            <TextBlock Margin="0,20,0,0"
+                                       FontSize="20"
+                                       Text="{x:Bind lang:Lang.SettingPage_RPCService}" />
+                            <TextBlock Margin="0,8,0,0"
+                                       FontSize="14"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Bind lang:Lang.SettingPage_RPCService_Desc}"
+                                       TextWrapping="Wrap" />
+                            <ToggleSwitch Margin="0,8,0,0"
+                                          IsOn="{x:Bind KeepRpcServerRunningInBackground, Mode=TwoWay}"
+                                          OffContent="{x:Bind lang:Lang.SettingPage_KeepRPCServiceRunningInTheBackground}"
+                                          OnContent="{x:Bind lang:Lang.SettingPage_KeepRPCServiceRunningInTheBackground}" />
 
                         </StackPanel>
                     </ScrollViewer>

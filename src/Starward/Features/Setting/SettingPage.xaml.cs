@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Starward.Controls;
+using Starward.Features.RPC;
+using Starward.Features.Update;
 using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
@@ -155,11 +157,10 @@ public sealed partial class SettingPage : PageBase
         {
             IsUpdated = false;
             UpdateErrorText = null;
-            // todo UpdateService check update
-            var release = new object();
+            var release = await AppService.GetService<UpdateService>().CheckUpdateAsync(true);
             if (release != null)
             {
-                // todo show update window
+                new UpdateWindow { NewVersion = release }.Activate();
             }
             else
             {
@@ -797,7 +798,7 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            await Launcher.LaunchUriAsync(new Uri("starward://test"));
+            //await Launcher.LaunchUriAsync(new Uri("starward://test"));
         }
         catch (Exception ex)
         {
@@ -809,8 +810,52 @@ public sealed partial class SettingPage : PageBase
 
 
 
+    public bool KeepRpcServerRunningInBackground
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppSetting.KeepRpcServerRunningInBackground = value;
+                SetRpcServerRunning(value);
+            }
+        }
+    } = AppSetting.KeepRpcServerRunningInBackground;
+
+
+
+    private void SetRpcServerRunning(bool value)
+    {
+        try
+        {
+            AppService.GetService<RpcService>().KeepRunningOnExited(value);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Set rpc server running");
+        }
+    }
+
+
+
+
+
+
 
     #endregion
+
+
+
+
+    private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
+    {
+        if (sender.FontSize > 12)
+        {
+            sender.FontSize -= 1;
+        }
+    }
+
 
 
 }

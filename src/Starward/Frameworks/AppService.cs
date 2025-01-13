@@ -17,7 +17,10 @@ using Starward.Features.GameRecord;
 using Starward.Features.GameSetting;
 using Starward.Features.HoYoPlay;
 using Starward.Features.PlayTime;
+using Starward.Features.RPC;
 using Starward.Features.SelfQuery;
+using Starward.Features.Update;
+using Starward.RPC.Update;
 using System;
 using System.IO;
 using System.Net;
@@ -51,18 +54,18 @@ public static class AppService
             var logFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log");
             Directory.CreateDirectory(logFolder);
             LogFile = Path.Combine(logFolder, $"Starward_{DateTime.Now:yyMMdd}.log");
-            Log.Logger = new LoggerConfiguration().WriteTo.File(path: LogFile, outputTemplate: $$"""[{Timestamp:HH:mm:ss.fff}] [{Level:u4}] [{{Environment.ProcessId}}] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}""", shared: true)
+            Log.Logger = new LoggerConfiguration().WriteTo.File(path: LogFile, shared: true, outputTemplate: $$"""[{Timestamp:HH:mm:ss.fff}] [{Level:u4}] [{{Path.GetFileName(Environment.ProcessPath)}} ({{Environment.ProcessId}})] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}""")
                                                   .Enrich.FromLogContext()
                                                   .CreateLogger();
             Log.Information($"Welcome to Starward v{AppSetting.AppVersion}\r\nSystem: {Environment.OSVersion}\r\nCommand Line: {Environment.CommandLine}");
 
             var sc = new ServiceCollection();
             sc.AddLogging(c => c.AddSerilog(Log.Logger));
-            sc.AddTransient(_ =>
+            sc.AddHttpClient().ConfigureHttpClientDefaults(config =>
             {
-                var client = new HttpClient(new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
-                client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppSetting.AppVersion}");
-                return client;
+                config.RemoveAllLoggers();
+                config.ConfigureHttpClient(client => client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppSetting.AppVersion}"));
+                config.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All });
             });
 
             sc.AddSingleton<HoYoPlayClient>();
@@ -87,6 +90,11 @@ public static class AppService
 
             sc.AddSingleton<SelfQueryClient>();
             sc.AddSingleton<SelfQueryService>();
+
+            sc.AddTransient<MetadataClient>();
+            sc.AddTransient<UpdateService>();
+
+            sc.AddSingleton<RpcService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

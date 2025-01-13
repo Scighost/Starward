@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option csharp_namespace = "Starward.RPC.Update";
+
+package Starward.RPC.Update;
+
+import "google/protobuf/wrappers.proto";
+
+
+service Updater {
+    
+    rpc Update (UpdateRequest) returns (stream UpdateProgress);
+    
+}
+
+
+message UpdateRequest {
+    // 版本
+    string version = 1;
+    // CPU 架构
+    string architecture = 2;
+    // 目标安装路径
+    string target_path = 3;
+}
+
+
+message UpdateProgress {
+    // 状态
+    int32 state = 1;
+    // 总文件数
+    int32 total_file = 2;
+    // 下载文件数
+    int32 download_file = 3;
+    // 总字节数
+    int64 total_bytes = 4;
+    // 下载字节数
+    int64 download_bytes = 5;
+    // 错误消息
+    google.protobuf.StringValue error_message = 6;
+}
+

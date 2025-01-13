@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sf:WindowEx x:Class="Starward.Features.Update.UpdateWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Features.Update"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sf="using:Starward.Frameworks"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid" Loaded="RootGrid_Loaded">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+
+
+        <Grid Name="Grid_Update" Margin="24">
+
+            <StackPanel Spacing="8">
+
+                <!--  新版本  -->
+                <TextBlock FontSize="24" Text="{x:Bind lang:Lang.UpdatePage_NewVersion}" />
+
+                <!--  当前版本 -> 最新版本  -->
+                <StackPanel Margin="0,12,0,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <TextBlock VerticalAlignment="Bottom"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind sf:AppSetting.AppVersion}" />
+                    <FontIcon VerticalAlignment="Bottom"
+                              FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="&#xEBE7;" />
+                    <TextBlock VerticalAlignment="Bottom"
+                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                               Text="{x:Bind NewVersion.Version}" />
+                </StackPanel>
+
+                <!--  版本信息  -->
+                <Grid Margin="0,8,0,0"
+                      ColumnSpacing="12"
+                      RowSpacing="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!--  架构：  -->
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.UpdatePage_Architecture}" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               Text="{x:Bind NewVersion.Architecture}" />
+                    <!--  发布渠道  -->
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.UpdatePage_ReleaseChannel}" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               Text="{x:Bind ChannelText}" />
+                    <!--  编译时间：  -->
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.UpdatePage_BuiltTime}" />
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="1"
+                               Text="{x:Bind NewVersion.BuildTime.LocalDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                </Grid>
+
+                <!--  相关链接  -->
+                <Grid Margin="0,4,0,0" ColumnSpacing="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,6,0,0"
+                               VerticalAlignment="Top"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.UpdatePage_Links}" />
+                    <StackPanel Grid.Column="1" Spacing="4">
+                        <HyperlinkButton Click="HyperlinkButton_Click"
+                                         Content="{x:Bind lang:Lang.UpdatePage_ReleasePage}"
+                                         Tag="release" />
+                        <!--  Window 内不能用 Converter  -->
+                        <HyperlinkButton Click="HyperlinkButton_Click"
+                                         Tag="install"
+                                         Visibility="{x:Bind local:UpdateWindow.StringToVisibility(NewVersion.Install)}">
+                            <TextBlock>
+                                <Run Text="{x:Bind lang:Lang.UpdatePage_DownloadInstaller}" />
+                                <Run Text="" />
+                                <Run Text="(" /><Run Text="{x:Bind local:UpdateWindow.ByteLengthToString(NewVersion.InstallSize)}" /><Run Text=")" />
+                            </TextBlock>
+                        </HyperlinkButton>
+                        <HyperlinkButton Click="HyperlinkButton_Click"
+                                         Tag="portable"
+                                         Visibility="{x:Bind local:UpdateWindow.StringToVisibility(NewVersion.Portable)}">
+                            <TextBlock>
+                                <Run Text="{x:Bind lang:Lang.UpdatePage_DownloadPortable}" />
+                                <Run Text="" />
+                                <Run Text="(" /><Run Text="{x:Bind local:UpdateWindow.ByteLengthToString(NewVersion.PortableSize)}" /><Run Text=")" />
+                            </TextBlock>
+                        </HyperlinkButton>
+                    </StackPanel>
+                </Grid>
+
+                <MenuFlyoutSeparator />
+
+                <!--  更新后自动重启  -->
+                <CheckBox Content="{x:Bind lang:Lang.UpdateWindow_AutoRestartAfterUpdate}" IsChecked="{x:Bind AutoRestartWhenUpdateFinished, Mode=TwoWay}" />
+                <!--  重启后显示更新内容  -->
+                <CheckBox Margin="0,-4,0,0"
+                          Content="{x:Bind lang:Lang.UpdateWindow_DisplayUpdateContentAfterRestart}"
+                          IsChecked="{x:Bind ShowUpdateContentAfterUpdateRestart, Mode=TwoWay}" />
+
+            </StackPanel>
+
+
+            <!--  下载进度条  -->
+            <Grid Margin="0,0,0,48"
+                  VerticalAlignment="Bottom"
+                  RowSpacing="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Name="TextBlock_Count"
+                           Grid.Row="0"
+                           HorizontalAlignment="Left"
+                           Text="{x:Bind ProgressCountText}"
+                           Visibility="{x:Bind IsProgressTextVisible}" />
+                <TextBlock Name="TextBlock_Progress"
+                           Grid.Row="0"
+                           HorizontalAlignment="Right"
+                           Text="{x:Bind ProgressPercentText}"
+                           Visibility="{x:Bind IsProgressTextVisible}" />
+                <ProgressBar Name="ProgressBar_Update"
+                             Grid.Row="1"
+                             Visibility="{x:Bind IsProgressBarVisible}"
+                             Value="0" />
+                <TextBlock Name="TextBlock_Speed"
+                           Grid.Row="2"
+                           HorizontalAlignment="Left"
+                           Text="{x:Bind ProgressSpeedText}"
+                           Visibility="{x:Bind IsProgressTextVisible}" />
+                <TextBlock Name="TextBlock_Bytes"
+                           Grid.Row="2"
+                           HorizontalAlignment="Right"
+                           Text="{x:Bind ProgressBytesText}"
+                           Visibility="{x:Bind IsProgressTextVisible}" />
+                <TextBlock Grid.Row="2"
+                           MaxWidth="360"
+                           HorizontalAlignment="Left"
+                           Text="{x:Bind ErrorMessage}"
+                           TextWrapping="Wrap"
+                           Visibility="{x:Bind local:UpdateWindow.StringToVisibility(ErrorMessage)}" />
+                <!--  防止内容隐藏后改变布局  -->
+                <TextBlock Grid.Row="2" />
+            </Grid>
+
+
+
+            <!--  更新按键  -->
+            <StackPanel HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal"
+                        Spacing="24">
+
+                <Grid>
+                    <!--  现在更新  -->
+                    <Button Name="Button_UpdateNow"
+                            Height="36"
+                            Padding="20,0,20,0"
+                            BorderThickness="0"
+                            Command="{x:Bind UpdateNowCommand}"
+                            Content="{x:Bind lang:Lang.UpdatePage_UpdateNow}"
+                            CornerRadius="18"
+                            IsEnabled="{x:Bind IsUpdateNowEnabled}"
+                            Style="{ThemeResource AccentButtonStyle}" />
+                    <!--  重新启动  -->
+                    <Button Name="Button_Restart"
+                            Height="36"
+                            Padding="20,0,20,0"
+                            BorderThickness="0"
+                            Command="{x:Bind RestartCommand}"
+                            Content="{x:Bind lang:Lang.Common_Restart}"
+                            CornerRadius="18"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="Collapsed" />
+                </Grid>
+
+                <!--  以后提醒  -->
+                <Grid>
+                    <SplitButton Name="Button_UpdateRemindLatter"
+                                 Height="36"
+                                 BorderThickness="0"
+                                 CornerRadius="18"
+                                 IsEnabled="{x:Bind IsUpdateRemindLatterEnabled}"
+                                 Opacity="0"
+                                 PointerEntered="Button_UpdateRemindLatter_PointerEntered"
+                                 PointerExited="Button_UpdateRemindLatter_PointerExited">
+                        <TextBlock Margin="4,0,0,0"
+                                   Foreground="Transparent"
+                                   Text="{x:Bind lang:Lang.UpdatePage_RemindLatter}" />
+                        <SplitButton.Flyout>
+                            <MenuFlyout Placement="Top">
+                                <MenuFlyoutItem Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.UpdatePage_IgnoreThisVersion}" />
+                            </MenuFlyout>
+                        </SplitButton.Flyout>
+                    </SplitButton>
+                    <TextBlock Margin="16,0,0,0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                               IsHitTestVisible="False"
+                               Text="{x:Bind lang:Lang.UpdatePage_RemindLatter}" />
+                </Grid>
+
+            </StackPanel>
+
+
+
+        </Grid>
+
+
+
+
+        <!--  更新内容加载  -->
+        <StackPanel x:Name="StackPanel_Loading"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="24">
+            <TextBlock HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="16"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.UpdateContentWindow_RecentlyUpdatedContent}" />
+            <ProgressRing Width="32"
+                          Height="32"
+                          IsActive="True" />
+        </StackPanel>
+
+        <!--  更新内容加载出错  -->
+        <StackPanel x:Name="StackPanel_Error"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="24"
+                    Visibility="Collapsed">
+            <TextBlock x:Name="TextBlock_Error"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="16"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button x:Name="Button_Retry"
+                        Height="36"
+                        HorizontalAlignment="Left"
+                        BorderThickness="0"
+                        Command="{x:Bind RetryCommand}"
+                        CornerRadius="18">
+                    <TextBlock Margin="8,0,8,0"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.DownloadGamePage_Retry}" />
+                </Button>
+                <SplitButton Name="Button_RemindLatter"
+                             Height="36"
+                             BorderThickness="0"
+                             Command="{x:Bind RemindMeLatterCommand}"
+                             CornerRadius="18">
+                    <TextBlock Margin="4,0,0,0"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.UpdatePage_RemindLatter}" />
+                    <SplitButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Name="Button_Ignore"
+                                            Command="{x:Bind IgnoreThisVersionCommand}"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Text="{x:Bind lang:Lang.UpdatePage_IgnoreThisVersion}" />
+                        </MenuFlyout>
+                    </SplitButton.Flyout>
+                </SplitButton>
+            </StackPanel>
+        </StackPanel>
+
+        <!--  webview2  -->
+        <WebView2 x:Name="webview"
+                  Grid.Column="1"
+                  Margin="0,32,0,0"
+                  DefaultBackgroundColor="Transparent"
+                  Visibility="Collapsed">
+            <WebView2.Resources>
+                <SolidColorBrush x:Key="BrushForThemeBackgroundColor" Color="Transparent" />
+            </WebView2.Resources>
+        </WebView2>
+
+    </Grid>
+
+</sf:WindowEx>

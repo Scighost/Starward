@@ -19,11 +19,6 @@ public static class AppSetting
 {
 
 
-    public static string StarwardExecutePath => Environment.ProcessPath ?? Path.Combine(AppContext.BaseDirectory, "Starward.exe");
-
-
-
-
 
     static AppSetting()
     {
@@ -33,11 +28,12 @@ public static class AppSetting
             var webviewFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\webview");
             Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", webviewFolder, EnvironmentVariableTarget.Process);
 
-            string? baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'));
+            string? baseDir = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
             string exe = Path.Join(baseDir, "Starward.exe");
             if (File.Exists(exe))
             {
                 IsPortable = true;
+                StarwardLauncherExecutePath = exe;
             }
             else
             {
@@ -83,6 +79,11 @@ public static class AppSetting
 
 
 
+    public static string StarwardExecutePath => Environment.ProcessPath ?? Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+
+
+    public static string? StarwardLauncherExecutePath { get; private set; }
+
 
     public static string AppVersion { get; private set; }
 
@@ -106,7 +107,7 @@ public static class AppSetting
             string baseDir;
             if (IsPortable)
             {
-                baseDir = Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\'))!;
+                baseDir = Path.GetDirectoryName(StarwardLauncherExecutePath)!;
             }
             else
             {
@@ -357,6 +358,37 @@ public static class AppSetting
         get => GetValue<string>();
         set => SetValue(value);
     }
+
+
+    /// <summary>
+    /// 更新完成后自动重启
+    /// </summary>
+    public static bool AutoRestartWhenUpdateFinished
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
+
+    /// <summary>
+    /// 更新完成后显示更新内容
+    /// </summary>
+    public static bool ShowUpdateContentAfterUpdateRestart
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
+
+    /// <summary>
+    /// 保持 RPC 服务在后台运行
+    /// </summary>
+    public static bool KeepRpcServerRunningInBackground
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
 
 
 
