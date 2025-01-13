@@ -19,6 +19,7 @@ using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.RateLimiting;
@@ -1370,19 +1371,44 @@ internal class InstallGameService
     protected async Task ApplyDiffFilesAsync(string installPath)
     {
 
-        var delete = Path.Combine(installPath, "deletefiles.txt");
-        if (File.Exists(delete))
+        var hdiffmap = Path.Combine(installPath, "hdiffmap.json");
+        if (File.Exists(hdiffmap))
         {
-            var deleteFiles = await File.ReadAllLinesAsync(delete).ConfigureAwait(false);
-            foreach (var file in deleteFiles)
+            var hpatch = Path.Combine(AppContext.BaseDirectory, "hpatchz.exe");
+            var content = await File.ReadAllTextAsync(hdiffmap).ConfigureAwait(false);
+            var diffmap = JsonSerializer.Deserialize<DiffMap>(content);
+            foreach (var item in diffmap?.DiffMapItems ?? [])
             {
-                var target = Path.Combine(installPath, file);
-                if (File.Exists(target))
+                var source = Path.Join(installPath, item.SourceFileName);
+                var target = Path.Join(installPath, item.TargetFileName);
+                var diff = Path.Join(installPath, item.PatchFileName);
+                if (File.Exists(source) && File.Exists(diff))
                 {
-                    File.Delete(target);
+                    if (File.Exists(target))
+                    {
+                        File.SetAttributes(target, FileAttributes.Archive);
+                    }
+                    using var process = Process.Start(new ProcessStartInfo
+                    {
+                        FileName = hpatch,
+                        Arguments = $"""-f "{source}" "{diff}" "{target}"  """,
+                        CreateNoWindow = true,
+                    });
+                    if (process != null)
+                    {
+                        await process.WaitForExitAsync().ConfigureAwait(false);
+                    }
+                    if (File.Exists(diff))
+                    {
+                        File.Delete(diff);
+                    }
+                    if (source != target && File.Exists(source))
+                    {
+                        File.Delete(source);
+                    }
                 }
             }
-            File.Delete(delete);
+            File.Delete(hdiffmap);
         }
 
         var hdifffiles = Path.Combine(installPath, "hdifffiles.txt");
@@ -1416,6 +1442,21 @@ internal class InstallGameService
                 }
             }
             File.Delete(hdifffiles);
+        }
+
+        var delete = Path.Combine(installPath, "deletefiles.txt");
+        if (File.Exists(delete))
+        {
+            var deleteFiles = await File.ReadAllLinesAsync(delete).ConfigureAwait(false);
+            foreach (var file in deleteFiles)
+            {
+                var target = Path.Combine(installPath, file);
+                if (File.Exists(target))
+                {
+                    File.Delete(target);
+                }
+            }
+            File.Delete(delete);
         }
     }
 
