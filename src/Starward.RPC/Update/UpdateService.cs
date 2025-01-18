@@ -93,7 +93,7 @@ internal class UpdateService
             {
                 file.Path = Path.GetFullPath(file.Path, targetPath);
             }
-            updateCacheFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward\\update");
+            updateCacheFolder = Path.Combine(AppConfig.CacheFolder, "Starward\\update");
             Directory.CreateDirectory(updateCacheFolder);
             await GetCurrentVersionFilesHashAsync(cancellationToken);
             GetSameAndDownloadFiles();

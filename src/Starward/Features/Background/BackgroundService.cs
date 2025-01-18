@@ -53,7 +53,7 @@ public class BackgroundService
     [return: NotNullIfNotNull(nameof(name))]
     private static string? GetBgFilePath(string? name)
     {
-        string cache = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\cache");
+        string cache = Path.Combine(AppSetting.CacheFolder, "cache");
         return Path.Join(cache, name);
     }
 

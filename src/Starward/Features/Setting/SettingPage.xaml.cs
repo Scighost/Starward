@@ -620,7 +620,7 @@ public sealed partial class SettingPage : PageBase
             }
             else
             {
-                await Launcher.LaunchFolderPathAsync(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log"));
+                await Launcher.LaunchFolderPathAsync(Path.Combine(AppSetting.CacheFolder, "log"));
             }
         }
         catch (Exception ex)
@@ -657,7 +657,7 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            var local = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward");
+            var local = AppSetting.CacheFolder;
             LogCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "log"));
             ImageCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "cache"));
             WebCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "webview"));
@@ -702,7 +702,7 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            var local = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward");
+            var local = AppSetting.CacheFolder;
             await DeleteFolderAsync(Path.Combine(local, "log"));
             await DeleteFolderAsync(Path.Combine(local, "crash"));
             await DeleteFolderAsync(Path.Combine(local, "cache"));

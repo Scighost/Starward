@@ -51,7 +51,7 @@ public static class AppService
     {
         if (_serviceProvider == null)
         {
-            var logFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log");
+            var logFolder = Path.Combine(AppSetting.CacheFolder, "log");
             Directory.CreateDirectory(logFolder);
             LogFile = Path.Combine(logFolder, $"Starward_{DateTime.Now:yyMMdd}.log");
             Log.Logger = new LoggerConfiguration().WriteTo.File(path: LogFile, shared: true, outputTemplate: $$"""[{Timestamp:HH:mm:ss.fff}] [{Level:u4}] [{{Path.GetFileName(Environment.ProcessPath)}} ({{Environment.ProcessId}})] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}""")

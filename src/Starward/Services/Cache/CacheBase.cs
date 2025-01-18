@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Starward.Frameworks;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -574,9 +575,7 @@ public abstract class CacheBase<T>
 
         if (_baseFolder == null)
         {
-            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
-            Directory.CreateDirectory(folder);
-            _baseFolder = await StorageFolder.GetFolderFromPathAsync(folder);
+            _baseFolder = await StorageFolder.GetFolderFromPathAsync(AppSetting.CacheFolder);
         }
 
         if (string.IsNullOrWhiteSpace(_cacheFolderName))

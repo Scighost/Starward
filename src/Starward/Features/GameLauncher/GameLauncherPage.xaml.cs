@@ -176,14 +176,12 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            string? folder = await FileDialogHelper.PickFolderAsync(this.XamlRoot);
-            if (string.IsNullOrWhiteSpace(folder))
+            string? folder = await _gameLauncherService.ChangeGameInstallPathAsync(CurrentGameId, this.XamlRoot);
+            if (!string.IsNullOrWhiteSpace(folder))
             {
-                return;
+                CheckGameVersion();
+                WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
             }
-            AppSetting.SetGameInstallPath(CurrentGameBiz, folder);
-            AppSetting.SetGameInstallPathRemovable(CurrentGameBiz, DriveHelper.IsDeviceRemovableOrOnUSB(folder));
-            CheckGameVersion();
         }
         catch (Exception ex)
         {

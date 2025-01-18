@@ -35,7 +35,7 @@ public partial class App : Application
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward", "crash");
+        var folder = Path.Combine(AppSetting.CacheFolder, "crash");
         Directory.CreateDirectory(folder);
         var file = Path.Combine(folder, $"crash_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
         File.WriteAllText(file, e.Exception.ToString());

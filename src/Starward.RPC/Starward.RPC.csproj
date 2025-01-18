@@ -23,6 +23,7 @@
 	<ItemGroup>
 		<PackageReference Include="Grpc.AspNetCore" Version="2.67.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+		<PackageReference Include="Vanara.PInvoke.Kernel32" Version="4.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>

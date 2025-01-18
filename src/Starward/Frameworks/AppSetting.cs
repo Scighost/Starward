@@ -3,6 +3,7 @@ using Starward.Core;
 using Starward.Features.Database;
 using Starward.Features.GameLauncher;
 using Starward.Features.ViewHost;
+using Starward.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,25 +26,50 @@ public static class AppSetting
         try
         {
             AppVersion = typeof(AppConfig).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "";
-            var webviewFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\webview");
-            Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", webviewFolder, EnvironmentVariableTarget.Process);
 
-            string? baseDir = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
-            string exe = Path.Join(baseDir, "Starward.exe");
-            if (File.Exists(exe))
+            IsAppInRemovableStorage = DriveHelper.IsDeviceRemovableOrOnUSB(AppContext.BaseDirectory);
+            string? parentFolder = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
+            string launcherExe = Path.Join(parentFolder, "Starward.exe");
+            if (Directory.Exists(parentFolder) && File.Exists(launcherExe))
             {
                 IsPortable = true;
-                StarwardLauncherExecutePath = exe;
+                StarwardLauncherExecutePath = launcherExe;
+            }
+
+            if (IsAppInRemovableStorage && IsPortable)
+            {
+                CacheFolder = Path.Combine(parentFolder!, ".cache");
+                ConfigPath = Path.Combine(parentFolder!, "config.ini");
+            }
+            else if (IsAppInRemovableStorage)
+            {
+                CacheFolder = Path.Combine(Path.GetPathRoot(AppContext.BaseDirectory)!, ".StarwardCache");
+                ConfigPath = Path.Combine(CacheFolder, "config.ini");
+            }
+            else if (IsPortable)
+            {
+                CacheFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
+                ConfigPath = Path.Combine(parentFolder!, "config.ini");
             }
             else
             {
-                baseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
-                Directory.CreateDirectory(baseDir);
+                CacheFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
+#if DEBUG || DEV
+                ConfigPath = Path.Combine(CacheFolder, "config.ini");
+#else
+                string roamingFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Starward");
+                Directory.CreateDirectory(roamingFolder);
+                ConfigPath = Path.Combine(roamingFolder, "config.ini");
+#endif
             }
-            string? iniPath = Path.Join(baseDir, "config.ini");
-            if (File.Exists(iniPath))
+            Directory.CreateDirectory(CacheFolder);
+            var webviewFolder = Path.Combine(CacheFolder, "webview");
+            Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", webviewFolder, EnvironmentVariableTarget.Process);
+
+
+            if (File.Exists(ConfigPath))
             {
-                string text = File.ReadAllText(iniPath);
+                string text = File.ReadAllText(ConfigPath);
                 string lang = Regex.Match(text, @"Language=(.+)").Groups[1].Value.Trim();
                 string folder = Regex.Match(text, @"UserDataFolder=(.+)").Groups[1].Value.Trim();
                 if (!string.IsNullOrWhiteSpace(lang))
@@ -64,7 +90,7 @@ public static class AppSetting
                     }
                     else
                     {
-                        userDataFolder = Path.Join(baseDir, folder);
+                        userDataFolder = Path.GetFullPath(folder, Path.GetDirectoryName(ConfigPath)!);
                     }
                     if (Directory.Exists(userDataFolder))
                     {
@@ -91,6 +117,15 @@ public static class AppSetting
     public static bool IsPortable { get; private set; }
 
 
+    public static bool IsAppInRemovableStorage { get; private set; }
+
+
+    public static string CacheFolder { get; private set; }
+
+
+    public static string ConfigPath { get; private set; }
+
+
     public static string? Language { get; set; }
 
 
@@ -103,24 +138,19 @@ public static class AppSetting
     {
         try
         {
-            string? dataFolder = UserDataFolder;
-            string baseDir;
-            if (IsPortable)
+            if (!string.IsNullOrWhiteSpace(UserDataFolder))
             {
-                baseDir = Path.GetDirectoryName(StarwardLauncherExecutePath)!;
+                string dataFolder = UserDataFolder;
+                string? parentFolder = Path.GetDirectoryName(ConfigPath);
+                if (!string.IsNullOrWhiteSpace(parentFolder) && UserDataFolder.StartsWith(parentFolder))
+                {
+                    dataFolder = Path.GetRelativePath(parentFolder, UserDataFolder);
+                }
+                File.WriteAllText(ConfigPath, $"""
+                    {nameof(Language)}={Language}
+                    {nameof(UserDataFolder)}={dataFolder}
+                    """);
             }
-            else
-            {
-                baseDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
-            }
-            if (dataFolder?.StartsWith(baseDir) ?? false)
-            {
-                dataFolder = Path.GetRelativePath(baseDir, dataFolder);
-            }
-            File.WriteAllText(Path.Combine(baseDir, "config.ini"), $"""
-                {nameof(Language)}={Language}
-                {nameof(UserDataFolder)}={dataFolder}
-                """);
         }
         catch { }
     }

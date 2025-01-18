@@ -15,7 +15,7 @@ using System.Security.AccessControl;
 var builder = WebApplication.CreateBuilder(args);
 
 
-var logFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\log");
+var logFolder = Path.Combine(AppConfig.CacheFolder, "log");
 Directory.CreateDirectory(logFolder);
 var logFile = Path.Combine(logFolder, $"Starward_{DateTime.Now:yyMMdd}.log");
 Log.Logger = new LoggerConfiguration().WriteTo.File(path: logFile, shared: true, outputTemplate: $$"""[{Timestamp:HH:mm:ss.fff}] [{Level:u4}] [{{Path.GetFileName(Environment.ProcessPath)}} ({{Environment.ProcessId}})] {SourceContext}{NewLine}{Message}{NewLine}{Exception}{NewLine}""")

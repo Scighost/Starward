@@ -266,9 +266,13 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     [RelayCommand]
     private async Task DeleteGameInstllPathAsync()
     {
-        AppSetting.SetGameInstallPath(CurrentGameBiz, null);
-        WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
-        await InitializeBasicInfoAsync();
+        try
+        {
+            _gameLauncherService.ChangeGameInstallPath(CurrentGameId, null);
+            WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
+            await InitializeBasicInfoAsync();
+        }
+        catch { }
     }
 
 
@@ -282,15 +286,12 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            string? folder = await FileDialogHelper.PickFolderAsync(this.XamlRoot);
-            if (string.IsNullOrWhiteSpace(folder))
+            string? folder = await _gameLauncherService.ChangeGameInstallPathAsync(CurrentGameId, this.XamlRoot);
+            if (!string.IsNullOrWhiteSpace(folder))
             {
-                return;
+                await InitializeBasicInfoAsync();
+                WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
             }
-            AppSetting.SetGameInstallPath(CurrentGameBiz, folder);
-            AppSetting.SetGameInstallPathRemovable(CurrentGameBiz, DriveHelper.IsDeviceRemovableOrOnUSB(folder));
-            WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
-            await InitializeBasicInfoAsync();
         }
         catch (Exception ex)
         {
@@ -367,7 +368,11 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     public string? _ThirdPartyToolPath;
     partial void OnThirdPartyToolPathChanged(string? value)
     {
-        AppSetting.SetThirdPartyToolPath(CurrentGameBiz, value);
+        try
+        {
+            GameLauncherService.SetThirdPartyToolPath(CurrentGameId, value);
+        }
+        catch { }
     }
 
 
@@ -376,7 +381,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         _StartGameArgument = AppSetting.GetStartArgument(CurrentGameBiz);
         _EnableThirdPartyTool = AppSetting.GetEnableThirdPartyTool(CurrentGameBiz);
-        _ThirdPartyToolPath = AppSetting.GetThirdPartyToolPath(CurrentGameBiz);
+        _ThirdPartyToolPath = GameLauncherService.GetThirdPartyToolPath(CurrentGameId);
         OnPropertyChanged(nameof(StartGameArgument));
         OnPropertyChanged(nameof(EnableThirdPartyTool));
         OnPropertyChanged(nameof(ThirdPartyToolPath));
