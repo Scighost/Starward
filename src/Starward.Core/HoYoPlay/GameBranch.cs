@@ -36,7 +36,7 @@ public class GameBranchPackage
     [JsonPropertyName("package_id")]
     public string PackageId { get; set; }
 
-
+    // main or pre_download
     [JsonPropertyName("branch")]
     public string Branch { get; set; }
 

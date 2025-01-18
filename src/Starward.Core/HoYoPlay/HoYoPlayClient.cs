@@ -64,6 +64,25 @@ public class HoYoPlayClient
 
 
 
+    private async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.SendAsync(request, cancellationToken);
+        response.EnsureSuccessStatusCode();
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), HoYoPlayJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;
+        if (responseData is null)
+        {
+            throw new miHoYoApiException(-1, "Can not parse the response body.");
+        }
+        if (responseData.Retcode != 0)
+        {
+            throw new miHoYoApiException(responseData.Retcode, responseData.Message);
+        }
+        return responseData.Data;
+    }
+
+
+
+
 
     private static string BuildUrl(string api, string launcherId, string language)
     {
@@ -455,7 +474,7 @@ public class HoYoPlayClient
 
 
     /// <summary>
-    /// Chunk 下载模式清单
+    /// Chunk 下载模式文件清单
     /// </summary>
     /// <param name="gameBranch"></param>
     /// <param name="gameBranchPackage"></param>
@@ -467,17 +486,17 @@ public class HoYoPlayClient
         string? url = null;
         if (gameBranch.GameId.GameBiz.IsChinaServer())
         {
-            url = "https://api-takumi.mihoyo.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf5qt290cg";
+            url = "https://downloader-api.mihoyo.com/downloader/sophon_chunk/api/getBuild?";
         }
         if (gameBranch.GameId.GameBiz.IsGlobalServer())
         {
-            url = "https://sg-public-api.hoyoverse.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf6vlr1reo";
+            url = "https://sg-downloader-api.hoyoverse.com/downloader/sophon_chunk/api/getBuild?";
         }
         if (url is null)
         {
             throw new ArgumentOutOfRangeException(nameof(gameBranch), $"Unknown game biz ({gameBranch.GameId.GameBiz}).");
         }
-        url += $"&branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
+        url += $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
         return await CommonGetAsync<GameChunkBuild>(url, cancellationToken);
     }
 
@@ -485,7 +504,7 @@ public class HoYoPlayClient
 
 
     /// <summary>
-    /// Chunk 下载模式清单
+    /// Chunk 下载模式文件清单
     /// </summary>
     /// <param name="gameBranch"></param>
     /// <param name="gameBranchPackage"></param>
@@ -498,20 +517,50 @@ public class HoYoPlayClient
         string? url = null;
         if (gameBranch.GameId.GameBiz.IsChinaServer())
         {
-            url = "https://api-takumi.mihoyo.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf5qt290cg";
+            url = "https://downloader-api.mihoyo.com/downloader/sophon_chunk/api/getBuild?";
         }
         if (gameBranch.GameId.GameBiz.IsGlobalServer())
         {
-            url = "https://sg-public-api.hoyoverse.com/downloader/sophon_chunk/api/getBuild?plat_app=ddxf6vlr1reo";
+            url = "https://sg-downloader-api.hoyoverse.com/downloader/sophon_chunk/api/getBuild?";
         }
         if (url is null)
         {
             throw new ArgumentOutOfRangeException(nameof(gameBranch), $"Unknown game biz ({gameBranch.GameId.GameBiz}).");
         }
-        url += $"&branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}&tag={version}";
+        url += $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}&tag={version}";
         return await CommonGetAsync<GameChunkBuild>(url, cancellationToken);
     }
 
+
+
+
+    /// <summary>
+    /// Chunk 下载模式的增量更新补丁文件清单
+    /// </summary>
+    /// <param name="gameBranch"></param>
+    /// <param name="gameBranchPackage"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public async Task<GamePatchBuild> GetGameChunkPatchBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
+    {
+        string? url = null;
+        if (gameBranch.GameId.GameBiz.IsChinaServer())
+        {
+            url = "https://downloader-api.mihoyo.com/downloader/sophon_chunk/api/getPatchBuild?";
+        }
+        if (gameBranch.GameId.GameBiz.IsGlobalServer())
+        {
+            url = "https://sg-downloader-api.hoyoverse.com/downloader/sophon_chunk/api/getPatchBuild?";
+        }
+        if (url is null)
+        {
+            throw new ArgumentOutOfRangeException(nameof(gameBranch), $"Unknown game biz ({gameBranch.GameId.GameBiz}).");
+        }
+        url += $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
+        return await CommonSendAsync<GamePatchBuild>(request, cancellationToken);
+    }
 
 
 
