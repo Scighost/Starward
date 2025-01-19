@@ -481,7 +481,7 @@ public class HoYoPlayClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public async Task<GameChunkBuild> GetGameChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
+    public async Task<GameSophonChunkBuild> GetGameChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
     {
         string? url = null;
         if (gameBranch.GameId.GameBiz.IsChinaServer())
@@ -497,7 +497,7 @@ public class HoYoPlayClient
             throw new ArgumentOutOfRangeException(nameof(gameBranch), $"Unknown game biz ({gameBranch.GameId.GameBiz}).");
         }
         url += $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
-        return await CommonGetAsync<GameChunkBuild>(url, cancellationToken);
+        return await CommonGetAsync<GameSophonChunkBuild>(url, cancellationToken);
     }
 
 
@@ -512,7 +512,7 @@ public class HoYoPlayClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public async Task<GameChunkBuild> GetGameChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, string version, CancellationToken cancellationToken = default)
+    public async Task<GameSophonChunkBuild> GetGameSophonChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, string version, CancellationToken cancellationToken = default)
     {
         string? url = null;
         if (gameBranch.GameId.GameBiz.IsChinaServer())
@@ -528,7 +528,7 @@ public class HoYoPlayClient
             throw new ArgumentOutOfRangeException(nameof(gameBranch), $"Unknown game biz ({gameBranch.GameId.GameBiz}).");
         }
         url += $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}&tag={version}";
-        return await CommonGetAsync<GameChunkBuild>(url, cancellationToken);
+        return await CommonGetAsync<GameSophonChunkBuild>(url, cancellationToken);
     }
 
 
@@ -542,7 +542,7 @@ public class HoYoPlayClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public async Task<GamePatchBuild> GetGameChunkPatchBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
+    public async Task<GameSophonPatchBuild> GetGameSophonPatchBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
     {
         string? url = null;
         if (gameBranch.GameId.GameBiz.IsChinaServer())
@@ -559,7 +559,7 @@ public class HoYoPlayClient
         }
         url += $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
-        return await CommonSendAsync<GamePatchBuild>(request, cancellationToken);
+        return await CommonSendAsync<GameSophonPatchBuild>(request, cancellationToken);
     }
 
 

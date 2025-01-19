@@ -13,8 +13,8 @@ namespace Starward.Core.HoYoPlay;
 [JsonSerializable(typeof(List<GameDeprecatedFileConfig>))]
 [JsonSerializable(typeof(List<GameConfig>))]
 [JsonSerializable(typeof(List<GameBranch>))]
-[JsonSerializable(typeof(miHoYoApiWrapper<GameChunkBuild>))]
-[JsonSerializable(typeof(miHoYoApiWrapper<GamePatchBuild>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<GameSophonChunkBuild>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<GameSophonPatchBuild>))]
 
 internal partial class HoYoPlayJsonContext : JsonSerializerContext
 {

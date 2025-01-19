@@ -3,7 +3,7 @@
 namespace Starward.Core.HoYoPlay;
 
 
-public class GameChunkBuild
+public class GameSophonChunkBuild
 {
 
     [JsonPropertyName("build_id")]
@@ -21,7 +21,7 @@ public class GameChunkBuild
     /// 文件清单
     /// </summary>
     [JsonPropertyName("manifests")]
-    public List<GameChunkManifest> Manifests { get; set; }
+    public List<GameSophonChunkManifest> Manifests { get; set; }
 
 
 }
@@ -30,7 +30,7 @@ public class GameChunkBuild
 /// <summary>
 /// Chunk 下载模式文件清单
 /// </summary>
-public class GameChunkManifest
+public class GameSophonChunkManifest
 {
     /// <summary>
     /// 资源ID
@@ -54,41 +54,41 @@ public class GameChunkManifest
     /// 清单文件信息
     /// </summary>
     [JsonPropertyName("manifest")]
-    public GameChunkManifestFile Manifest { get; set; }
+    public GameSophonManifestFile Manifest { get; set; }
 
 
     /// <summary>
     /// 分块文件下载链接前缀
     /// </summary>
     [JsonPropertyName("chunk_download")]
-    public GameChunkManifestUrl ChunkDownload { get; set; }
+    public GameSophonManifestUrl ChunkDownload { get; set; }
 
 
     /// <summary>
     /// 清单文件下载链接前缀
     /// </summary>
     [JsonPropertyName("manifest_download")]
-    public GameChunkManifestUrl ManifestDownload { get; set; }
+    public GameSophonManifestUrl ManifestDownload { get; set; }
 
 
     /// <summary>
     /// 文件统计信息
     /// </summary>
     [JsonPropertyName("stats")]
-    public GameChunkManifestStats Stats { get; set; }
+    public GameSophonManifestStats Stats { get; set; }
 
 
     /// <summary>
     /// 去重后的文件统计信息
     /// </summary>
     [JsonPropertyName("deduplicated_stats")]
-    public GameChunkManifestStats DeduplicatedStats { get; set; }
+    public GameSophonManifestStats DeduplicatedStats { get; set; }
 
 }
 
 
 
-public class GameChunkManifestFile
+public class GameSophonManifestFile
 {
     /// <summary>
     /// 文件名，与下载链接前缀拼接为下载链接
@@ -119,7 +119,7 @@ public class GameChunkManifestFile
 /// <summary>
 /// 文件下载链接前缀
 /// </summary>
-public class GameChunkManifestUrl
+public class GameSophonManifestUrl
 {
     /// <summary>
     /// 加密
@@ -156,7 +156,7 @@ public class GameChunkManifestUrl
 
 
 
-public class GameChunkManifestStats
+public class GameSophonManifestStats
 {
 
     [JsonPropertyName("compressed_size")]

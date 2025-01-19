@@ -3,7 +3,7 @@
 namespace Starward.Core.HoYoPlay;
 
 
-public class GamePatchBuild
+public class GameSophonPatchBuild
 {
 
     [JsonPropertyName("build_id")]
@@ -25,7 +25,7 @@ public class GamePatchBuild
     /// 文件清单
     /// </summary>
     [JsonPropertyName("manifests")]
-    public List<GamePatchManifest> Manifests { get; set; }
+    public List<GameSophonPatchManifest> Manifests { get; set; }
 
 
 }
@@ -34,7 +34,7 @@ public class GamePatchBuild
 /// <summary>
 /// Chunk 下载模式补丁文件清单
 /// </summary>
-public class GamePatchManifest
+public class GameSophonPatchManifest
 {
     /// <summary>
     /// 资源ID
@@ -58,28 +58,28 @@ public class GamePatchManifest
     /// 清单文件信息
     /// </summary>
     [JsonPropertyName("manifest")]
-    public GameChunkManifestFile Manifest { get; set; }
+    public GameSophonManifestFile Manifest { get; set; }
 
 
     /// <summary>
     /// 分块文件下载链接前缀
     /// </summary>
     [JsonPropertyName("diff_download")]
-    public GameChunkManifestUrl DiffDownload { get; set; }
+    public GameSophonManifestUrl DiffDownload { get; set; }
 
 
     /// <summary>
     /// 清单文件下载链接前缀
     /// </summary>
     [JsonPropertyName("manifest_download")]
-    public GameChunkManifestUrl ManifestDownload { get; set; }
+    public GameSophonManifestUrl ManifestDownload { get; set; }
 
 
     /// <summary>
     /// 文件统计信息
     /// </summary>
     [JsonPropertyName("stats")]
-    public Dictionary<string, GameChunkManifestStats> Stats { get; set; }
+    public Dictionary<string, GameSophonManifestStats> Stats { get; set; }
 
 
 }
