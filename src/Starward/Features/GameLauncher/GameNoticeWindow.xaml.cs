@@ -177,6 +177,7 @@ public sealed partial class GameNoticeWindow : WindowEx
                 miHoYoGameJSSDK.closeWebview = () => chrome.webview.postMessage({ "action": "close" });
                 miHoYoGameJSSDK.openInBrowser = (url) => chrome.webview.postMessage({ "action": "url", "param": url });
                 miHoYoGameJSSDK.openInWebview = (url) => chrome.webview.postMessage({ "action": "url", "param": url });
+                
                 function RemoveBg() {
                     let root = document.getElementById("root");
                     if (root === null) {
@@ -194,7 +195,33 @@ public sealed partial class GameNoticeWindow : WindowEx
                         }
                     }
                 }
+
+                function modifyAllFontFaces() {
+                    for (let sheet of document.styleSheets) {
+                        try {
+                            for (let i = sheet.cssRules.length - 1; i >= 0; i--) {
+                                const rule = sheet.cssRules[i];
+                                if (rule instanceof CSSFontFaceRule) {
+                                    if (rule.style.fontFamily.includes("bh3")) {
+                                        let src = rule.style.getPropertyValue("src").replace("http://127.0.0.1:1221/font", "https://webstatic.mihoyo.com/bh3/upload/announcement/font");
+                                        rule.style.setProperty("src", src);
+                                    } else if (rule.style.fontFamily.includes("ys")) {
+                                        let src = rule.style.getPropertyValue("src").replace("http://127.0.0.1:1221/font", "https://sdk.mihoyo.com/hk4e/fonts");
+                                        rule.style.setProperty("src", src);
+                                    } else if (rule.style.fontFamily.includes("rpg")) {
+                                        let src = rule.style.getPropertyValue("src").replace("http://127.0.0.1:1221/font", "https://sdk.mihoyo.com/hkrpg/fonts");
+                                        rule.style.setProperty("src", src);
+                                    } else if (rule.style.fontFamily.includes("nap")) {
+                                        sheet.deleteRule(i);
+                                    }
+                                }
+                            }
+                        } catch (e) { }
+                    }
+                }
+
                 RemoveBg();
+                modifyAllFontFaces();
                 """;
             await webview.CoreWebView2.ExecuteScriptAsync(script);
             await Task.Delay(300);
