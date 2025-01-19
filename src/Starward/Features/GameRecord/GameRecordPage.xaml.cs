@@ -203,7 +203,13 @@ public sealed partial class GameRecordPage : PageBase
 
     private void InitializeNavigationViewItemVisibility()
     {
-        if (CurrentGameBiz.Game == GameBiz.hk4e)
+        if (CurrentGameBiz.Game is GameBiz.bh3)
+        {
+            NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
+            // 崩坏3战绩图片
+            Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/4d94fbd5ff63c8b4344876ce21e04d10_2581928258151711511.png"));
+        }
+        else if (CurrentGameBiz.Game is GameBiz.hk4e)
         {
             NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
             NavigationViewItem_SpiralAbyss.Visibility = Visibility.Visible;
@@ -212,7 +218,7 @@ public sealed partial class GameRecordPage : PageBase
             // 原神战绩图片
             Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/ced4deac2162690105bbc8baad2b51a3_4109616186965788891.png"));
         }
-        if (CurrentGameBiz.Game == GameBiz.hkrpg)
+        else if (CurrentGameBiz.Game is GameBiz.hkrpg)
         {
             NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
             NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
@@ -223,7 +229,7 @@ public sealed partial class GameRecordPage : PageBase
             // 铁道战绩图片
             Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/ade9545750299456a3fcbc8c3b63521d_2941971308029698042.png"));
         }
-        if (CurrentGameBiz.Game == GameBiz.nap)
+        else if (CurrentGameBiz.Game is GameBiz.nap)
         {
             NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
             NavigationViewItem_InterKnotMonthlyReport.Visibility = Visibility.Visible;
@@ -244,10 +250,9 @@ public sealed partial class GameRecordPage : PageBase
 
 
 
-    public GameRecordUser? CurrentUser
+    public GameRecordRole? CurrentRole
     {
-        get;
-        set
+        get; set
         {
             if (SetProperty(ref field, value))
             {
@@ -257,13 +262,10 @@ public sealed partial class GameRecordPage : PageBase
     }
 
 
-    public GameRecordRole? CurrentRole { get; set => SetProperty(ref field, value); }
-
-
     public List<GameRecordRole> GameRoleList { get; set => SetProperty(ref field, value); }
 
 
-    public string AvatarUrl => CurrentUser?.AvatarUrl ?? $"ms-appx:///Assets/Image/icon_{(CurrentGameBiz.IsGlobalServer() ? "hoyolab" : "hyperion")}.png";
+    public string AvatarUrl => !string.IsNullOrWhiteSpace(CurrentRole?.HeadIcon) ? CurrentRole.HeadIcon : $"ms-appx:///Assets/Image/icon_{(CurrentGameBiz.IsGlobalServer() ? "hoyolab" : "hyperion")}.png";
 
 
 
@@ -275,11 +277,10 @@ public sealed partial class GameRecordPage : PageBase
             {
                 _gameRecordService.SetLastSelectGameRecordRole(CurrentGameBiz, role);
             }
-            role ??= _gameRecordService.GetLastSelectGameRecordRole(CurrentGameBiz);
+            role ??= _gameRecordService.GetLastSelectGameRecordRoleOrTheFirstOne(CurrentGameBiz);
             var list = _gameRecordService.GetGameRoles(CurrentGameBiz);
             CurrentRole = role ?? list.FirstOrDefault();
             GameRoleList = list;
-            CurrentUser = _gameRecordService.GetGameRecordUser(CurrentRole);
         }
         catch (Exception ex)
         {
@@ -339,7 +340,6 @@ public sealed partial class GameRecordPage : PageBase
         {
             CurrentRole = role;
             _gameRecordService.SetLastSelectGameRecordRole(CurrentGameBiz, role);
-            CurrentUser = _gameRecordService.GetGameRecordUser(CurrentRole);
             if (frame.SourcePageType?.Name is not nameof(LoginPage))
             {
                 NavigateTo(frame.SourcePageType);

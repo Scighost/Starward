@@ -158,8 +158,8 @@ internal class GameRecordService
         using var dapper = DatabaseService.CreateConnection();
         using var t = dapper.BeginTransaction();
         dapper.Execute("""
-            INSERT OR REPLACE INTO GameRecordRole (Uid, GameBiz, Nickname, Level, Region, RegionName, Cookie)
-            VALUES (@Uid, @GameBiz, @Nickname, @Level, @Region, @RegionName, @Cookie);
+            INSERT OR REPLACE INTO GameRecordRole (Uid, GameBiz, Nickname, Level, Region, RegionName, Cookie, HeadIcon)
+            VALUES (@Uid, @GameBiz, @Nickname, @Level, @Region, @RegionName, @Cookie, @HeadIcon);
             """, list, t);
         t.Commit();
         return list;
@@ -171,18 +171,19 @@ internal class GameRecordService
     public List<GameRecordRole> GetGameRoles(GameBiz gameBiz)
     {
         using var dapper = DatabaseService.CreateConnection();
-        var list = dapper.Query<GameRecordRole>("SELECT * FROM GameRecordRole WHERE GameBiz = @gameBiz;", new { gameBiz = gameBiz.ToString() });
+        var list = dapper.Query<GameRecordRole>("SELECT * FROM GameRecordRole WHERE GameBiz = @gameBiz;", new { gameBiz });
         return list.ToList();
     }
 
 
 
-    public GameRecordRole? GetLastSelectGameRecordRole(GameBiz gameBiz)
+    public GameRecordRole? GetLastSelectGameRecordRoleOrTheFirstOne(GameBiz gameBiz)
     {
         using var dapper = DatabaseService.CreateConnection();
-        return dapper.QueryFirstOrDefault<GameRecordRole>("""
+        var role = dapper.QueryFirstOrDefault<GameRecordRole>("""
             SELECT r.* FROM GameRecordRole r INNER JOIN Setting s ON s.Value = r.Uid WHERE r.GameBiz = @gameBiz AND s.Key = @key LIMIT 1;
-            """, new { gameBiz = gameBiz.ToString(), key = $"last_select_game_record_role_{gameBiz}" });
+            """, new { gameBiz, key = $"last_select_game_record_role_{gameBiz}" });
+        return role ??= dapper.QueryFirstOrDefault<GameRecordRole>("SELECT * FROM GameRecordRole WHERE GameBiz = @gameBiz LIMIT 1;", new { gameBiz });
     }
 
 

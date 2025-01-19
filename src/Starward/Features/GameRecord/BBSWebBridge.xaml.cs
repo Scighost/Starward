@@ -90,6 +90,14 @@ public sealed partial class BBSWebBridge : UserControl
         {
             if (initialized)
             {
+                if (CurrentGameBiz.IsGlobalServer())
+                {
+                    _gameRecordClient = AppService.GetService<HoyolabClient>();
+                }
+                else
+                {
+                    _gameRecordClient = AppService.GetService<HyperionClient>();
+                }
                 _ = LoadPageAsync(true);
             }
         }
@@ -140,6 +148,7 @@ public sealed partial class BBSWebBridge : UserControl
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
+            _logger.LogError(ex, "Initialize WebView2 failed.");
         }
     }
 
@@ -170,9 +179,11 @@ public sealed partial class BBSWebBridge : UserControl
 
                 string? url = (CurrentGameBiz.IsGlobalServer(), CurrentGameBiz.Game) switch
                 {
+                    (true, GameBiz.bh3) => "https://act.hoyolab.com/app/community-game-records-sea/bh3/m.html",
                     (true, GameBiz.hk4e) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=2",
                     (true, GameBiz.hkrpg) => "https://act.hoyolab.com/app/community-game-records-sea/m.html?gid=6",
                     (true, GameBiz.nap) => "https://act.hoyolab.com/app/zzz-game-record/m.html?gid=8",
+                    (false, GameBiz.bh3) => "https://act.mihoyo.com/app/mihoyo-bh3-game-record/index.html?game_id=1",
                     (false, GameBiz.hk4e) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=2",
                     (false, GameBiz.hkrpg) => "https://webstatic.mihoyo.com/app/community-game-records/?game_id=6",
                     (false, GameBiz.nap) => "https://act.mihoyo.com/app/mihoyo-zzz-game-record/m.html?game_id=8",

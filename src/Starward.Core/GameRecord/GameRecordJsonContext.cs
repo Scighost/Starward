@@ -15,6 +15,7 @@ namespace Starward.Core.GameRecord;
 
 [JsonSerializable(typeof(miHoYoApiWrapper<GameRecordUserWrapper>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<GameRecordRoleWrapper>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<GameRecordIndex>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<SpiralAbyssInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<TravelersDiarySummary>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<TravelersDiaryDetail>))]

@@ -69,6 +69,7 @@ internal partial class GameFeatureConfig
             nameof(GameLauncherPage),
             nameof(GameSettingPage),
             nameof(ScreenshotPage),
+            nameof(GameRecordPage),
         ],
         InGameNoticesWindow = true,
     };

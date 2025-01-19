@@ -34,6 +34,9 @@ public class GameRecordRole
     [JsonIgnore]
     public string? Cookie { get; set; }
 
+    [JsonIgnore]
+    public string HeadIcon { get; set; }
+
 }
 
 

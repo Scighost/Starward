@@ -193,7 +193,7 @@ internal static class DatabaseService
 
     #region Database Structure
 
-
+    // todo 发版前更新数据库架构
     private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11];
 
 
@@ -689,6 +689,15 @@ internal static class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_InterKnotReportDetailItem_Time ON InterKnotReportDetailItem (Time);
 
         PRAGMA USER_VERSION = 11;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v12 = """
+        BEGIN TRANSACTION;
+
+        ALTER TABLE GameRecordRole ADD COLUMN HeadIcon TEXT;
+
+        PRAGMA USER_VERSION = 12;
         COMMIT TRANSACTION;
         """;
 

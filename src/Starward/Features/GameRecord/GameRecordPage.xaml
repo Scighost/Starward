@@ -27,12 +27,9 @@
             </NavigationView.Resources>
 
             <NavigationView.PaneCustomContent>
-                <Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="56" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+                <Grid Height="56"
+                      HorizontalAlignment="Stretch"
+                      ColumnSpacing="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="64" />
                         <ColumnDefinition />
@@ -52,17 +49,13 @@
                                         Background="Transparent"
                                         CornerRadius="100"
                                         Source="{x:Bind AvatarUrl}" />
-                        <sc:CachedImage Name="Image_Pendant"
-                                        IsHitTestVisible="False"
-                                        Source="{x:Bind CurrentUser.Pendant, FallbackValue={x:Null}}"
-                                        Visibility="Visible" />
                     </Grid>
 
                     <!--  窄边框头像  -->
                     <Border Name="Border_Avatar_2"
                             Width="48"
                             Height="48"
-                            Margin="0,2,0,0"
+                            Margin="0,4,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Background="Transparent"
@@ -255,39 +248,35 @@
                         </Button.Flyout>
                     </Button>
 
-                    <!--  分割线  -->
-                    <NavigationViewItemSeparator Grid.Row="1" Grid.ColumnSpan="3" />
-
-                    <!--  战绩  -->
-                    <!--  放在 MenuItems 外，防止新窗口打开后此窗口重新获得焦点  -->
-                    <!--  https://github.com/microsoft/microsoft-ui-xaml/issues/10272  -->
-                    <NavigationViewItem Name="NavigationViewItem_BattleChronicle"
-                                        Grid.Row="2"
-                                        Grid.ColumnSpan="3"
-                                        Tag="BattleChronicle"
-                                        Tapped="NavigationViewItem_BattleChronicle_Tapped"
-                                        Visibility="Collapsed">
-                        <NavigationViewItem.Content>
-                            <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Image x:Name="Image_BattleChronicle"
-                                       Width="20"
-                                       Source="ms-appx:///Assets/Image/ced4deac2162690105bbc8baad2b51a3_4109616186965788891.png" />
-                                <TextBlock Grid.Column="1"
-                                           Text="{x:Bind lang:Lang.HoyolabToolboxPage_BattleChronicle}"
-                                           TextTrimming="CharacterEllipsis" />
-                            </Grid>
-                        </NavigationViewItem.Content>
-                    </NavigationViewItem>
-
                 </Grid>
             </NavigationView.PaneCustomContent>
 
             <NavigationView.MenuItems>
 
+                <!--  分割线  -->
+                <NavigationViewItemSeparator />
+                <!--  战绩  -->
+                <!--  使用 Tapped 事件，防止新窗口打开后此窗口重新获得焦点  -->
+                <!--  https://github.com/microsoft/microsoft-ui-xaml/issues/10272  -->
+                <NavigationViewItem Name="NavigationViewItem_BattleChronicle"
+                                    Tag="BattleChronicle"
+                                    Tapped="NavigationViewItem_BattleChronicle_Tapped"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="Image_BattleChronicle"
+                                   Width="20"
+                                   Source="ms-appx:///Assets/Image/ced4deac2162690105bbc8baad2b51a3_4109616186965788891.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_BattleChronicle}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
                 <!--  深境螺旋  -->
                 <NavigationViewItem Name="NavigationViewItem_SpiralAbyss"
                                     Tag="SpiralAbyssPage"

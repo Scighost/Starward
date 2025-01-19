@@ -209,6 +209,26 @@ public abstract class GameRecordClient
     public abstract Task<List<GameRecordRole>> GetAllGameRolesAsync(string cookie, CancellationToken cancellationToken = default);
 
 
+    /// <summary>
+    /// 获取游戏账号信息
+    /// </summary>
+    /// <param name="cookie"></param>
+    /// <param name="gameBiz"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<List<GameRecordRole>> GetGameRolesAsync(string cookie, GameBiz gameBiz, CancellationToken cancellationToken = default);
+
+
+
+    /// <summary>
+    /// 获取游戏账号头像
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    protected abstract Task<string> GetGameRoleHeadIconAsync(GameRecordRole role, CancellationToken cancellationToken = default);
+
+
 
     /// <summary>
     /// 获取设备指纹信息

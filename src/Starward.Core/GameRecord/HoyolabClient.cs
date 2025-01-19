@@ -83,10 +83,73 @@ public class HoyolabClient : GameRecordClient
     public override async Task<List<GameRecordRole>> GetAllGameRolesAsync(string cookie, CancellationToken cancellationToken = default)
     {
         var list = new List<GameRecordRole>();
-        list.AddRange(await GetGenshinGameRolesAsync(cookie, cancellationToken));
-        list.AddRange(await GetStarRailGameRolesAsync(cookie, cancellationToken));
-        list.AddRange(await GetZZZGameRolesAsync(cookie, cancellationToken));
+        foreach (GameBiz gameBiz in new GameBiz[] { GameBiz.bh3_global, GameBiz.hk4e_global, GameBiz.hkrpg_global, GameBiz.nap_global })
+        {
+            list.AddRange(await GetGameRolesAsync(cookie, gameBiz, cancellationToken));
+        }
         return list;
+    }
+
+
+
+    /// <summary>
+    /// 获取游戏账号信息
+    /// </summary>
+    /// <param name="cookie"></param>
+    /// <param name="gameBiz"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<List<GameRecordRole>> GetGameRolesAsync(string cookie, GameBiz gameBiz, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(cookie))
+        {
+            throw new ArgumentNullException(nameof(cookie));
+        }
+        string url = $"https://api-account-os.hoyolab.com/binding/api/getUserGameRolesByCookieToken?game_biz={gameBiz}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, cookie);
+        request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
+        request.Headers.Add(Referer, "https://act.hoyolab.com");
+        var data = await CommonSendAsync<GameRecordRoleWrapper>(request, cancellationToken);
+        if (data.List is not null)
+        {
+            foreach (var item in data.List)
+            {
+                item.Cookie = cookie;
+                item.HeadIcon = await GetGameRoleHeadIconAsync(item, cancellationToken);
+            }
+        }
+        return data.List ?? new List<GameRecordRole>();
+    }
+
+
+
+    /// <summary>
+    /// 获取游戏账号头像
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    protected override async Task<string> GetGameRoleHeadIconAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        string url = role.GameBiz switch
+        {
+            GameBiz.bh3_global => $"https://bbs-api-os.hoyolab.com/game_record/app/honkai3rd/api/index?server={role.Region}&role_id={role.Uid}",
+            GameBiz.hk4e_global => $"https://sg-public-api.hoyolab.com/event/game_record/app/genshin/api/index?avatar_list_type=1&server={role.Region}&role_id={role.Uid}",
+            GameBiz.hkrpg_global => $"https://sg-public-api.hoyolab.com/event/game_record/app/hkrpg/api/index?server={role.Region}&role_id={role.Uid}",
+            GameBiz.nap_global => $"https://sg-public-api.hoyolab.com/event/game_record_zzz/api/zzz/index?server={role.Region}&role_id={role.Uid}",
+            _ => throw new ArgumentOutOfRangeException($"Unsupport GameBiz: {role.GameBiz}"),
+        };
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(Referer, "https://act.hoyolab.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        var data = await CommonSendAsync<GameRecordIndex>(request, cancellationToken);
+        return data.HeadIcon;
     }
 
 
