@@ -94,8 +94,8 @@ public static class AppSetting
                     }
                     if (Directory.Exists(userDataFolder))
                     {
-                        DatabaseService.SetDatabase(userDataFolder);
                         UserDataFolder = Path.GetFullPath(userDataFolder);
+                        DatabaseService.SetDatabase(userDataFolder);
                     }
                 }
             }

@@ -64,4 +64,10 @@ internal static class XamlRootExtension
 
 
 
+    public static nint GetWindowHandle(this XamlRoot xamlRoot)
+    {
+        return (nint)xamlRoot.GetAppWindow().Id.Value;
+    }
+
+
 }

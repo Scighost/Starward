@@ -5,7 +5,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Starward.Core;
-using Starward.Core.GameNotice;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
@@ -28,6 +27,9 @@ public sealed partial class GameNoticeWindow : WindowEx
 
 
     private readonly ILogger<GameNoticeWindow> _logger = AppService.GetLogger<GameNoticeWindow>();
+
+
+    private readonly GameNoticeService _gameNoticeService = AppService.GetService<GameNoticeService>();
 
 
     public GameBiz CurrentGameBiz { get; set; }
@@ -139,14 +141,14 @@ public sealed partial class GameNoticeWindow : WindowEx
         try
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            string url = GameNoticeClient.GetGameNoticeUrl(CurrentGameBiz, CurrentUid, lang);
+            string url = _gameNoticeService.GetGameNoticeUrl(CurrentGameBiz);
             try
             {
                 await webview.EnsureCoreWebView2Async();
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Ensure core webview2");
+                _logger.LogError(e, "Initialize WebView2 failed.");
                 Close();
                 return;
             }

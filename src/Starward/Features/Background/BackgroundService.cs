@@ -147,6 +147,10 @@ public class BackgroundService
     /// <returns></returns>
     public string? GetCachedBackgroundFile(GameId gameId)
     {
+        if (gameId is null)
+        {
+            return null;
+        }
         if (TryGetCustomBgFilePath(gameId, out string? path))
         {
             return path;

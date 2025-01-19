@@ -10,9 +10,11 @@ using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
 using Starward.Features.ViewHost;
 using Starward.Frameworks;
+using Starward.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.System;
 
 
@@ -31,6 +33,8 @@ public sealed partial class GameBannerAndPost : UserControl
 
     private readonly HoYoPlayService _hoYoPlayService = AppService.GetService<HoYoPlayService>();
 
+
+    private readonly GameNoticeService _gameNoticeService = AppService.GetService<GameNoticeService>();
 
 
     public GameId CurrentGameId { get; set; }
@@ -91,6 +95,7 @@ public sealed partial class GameBannerAndPost : UserControl
 
     private async void OnGameNoticeWindowClosed(object _, GameNoticeWindowClosedMessage message)
     {
+        User32.SetForegroundWindow(XamlRoot.GetWindowHandle());
         await UpdateGameNoticeAlertAsync();
     }
 
@@ -196,7 +201,7 @@ public sealed partial class GameBannerAndPost : UserControl
                 Button_InGameNotices.Visibility = Visibility.Collapsed;
                 return;
             }
-            // todo
+            IsGameNoticesAlert = await _gameNoticeService.IsNoticeAlertAsync(CurrentGameId.GameBiz);
         }
         catch (Exception ex)
         {

@@ -163,7 +163,11 @@ public sealed partial class MainView : UserControl
     private void NavigateTo(Type? page, object? param = null, NavigationTransitionInfo? infoOverride = null)
     {
         page ??= typeof(GameLauncherPage);
-        if (page.Name != nameof(SettingPage) && !CurrentGameFeatureConfig.SupportedPages.Contains(page.Name))
+        if (page.Name is nameof(BlankPage) && CurrentGameId is null)
+        {
+
+        }
+        else if (page.Name is not nameof(SettingPage) && !CurrentGameFeatureConfig.SupportedPages.Contains(page.Name))
         {
             page = typeof(GameLauncherPage);
         }

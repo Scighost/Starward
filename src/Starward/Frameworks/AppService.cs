@@ -76,6 +76,7 @@ public static class AppService
             sc.AddSingleton<GamePackageService>();
             sc.AddSingleton<PlayTimeService>();
             sc.AddSingleton<GameSettingService>();
+            sc.AddSingleton<GameNoticeService>();
 
             sc.AddSingleton<GenshinGachaClient>();
             sc.AddSingleton<StarRailGachaClient>();
