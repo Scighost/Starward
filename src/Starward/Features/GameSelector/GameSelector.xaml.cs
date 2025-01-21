@@ -22,6 +22,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -75,8 +76,9 @@ public sealed partial class GameSelector : UserControl
 
     public void InitializeGameSelector()
     {
-        InitializeGameIconsArea();
-        InitializeGameServerArea();
+        List<GameInfo> gameInfos = GetCachedGameInfos();
+        InitializeGameIconsArea(gameInfos);
+        InitializeGameServerArea(gameInfos);
         InitializeInstalledGamesCommand.Execute(null);
     }
 
@@ -116,6 +118,22 @@ public sealed partial class GameSelector : UserControl
 
 
 
+    private List<GameInfo> GetCachedGameInfos()
+    {
+        try
+        {
+            string? json = AppSetting.CachedGameInfo;
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                return JsonSerializer.Deserialize<List<GameInfo>>(json) ?? [];
+            }
+        }
+        catch { }
+        return [];
+    }
+
+
+
 
     #region Game Icon
 
@@ -123,7 +141,7 @@ public sealed partial class GameSelector : UserControl
     /// <summary>
     /// 初始化游戏图标区域
     /// </summary>
-    private void InitializeGameIconsArea()
+    private void InitializeGameIconsArea(List<GameInfo> gameInfos)
     {
         try
         {
@@ -139,7 +157,7 @@ public sealed partial class GameSelector : UserControl
                     // 已知的 GameBiz
                     GameBizIcons.Add(new GameBizIcon(biz));
                 }
-                else if (_hoyoplayService.GetCachedGameInfo(biz) is GameInfo info)
+                else if (gameInfos.FirstOrDefault(x => x.GameBiz == biz) is GameInfo info)
                 {
                     // 由 HoYoPlay API 获取，但未适配的 GameBiz
                     GameBizIcons.Add(new GameBizIcon(info));
@@ -160,7 +178,7 @@ public sealed partial class GameSelector : UserControl
                 CurrentGameBizIcon.IsSelected = true;
                 CurrentGameBiz = lastSelectedGameBiz;
             }
-            else if (_hoyoplayService.GetCachedGameInfo(lastSelectedGameBiz) is GameInfo info)
+            else if (gameInfos.FirstOrDefault(x => x.GameBiz == lastSelectedGameBiz) is GameInfo info)
             {
                 CurrentGameBizIcon = new GameBizIcon(info);
                 CurrentGameBizIcon.IsSelected = true;
@@ -496,17 +514,16 @@ public sealed partial class GameSelector : UserControl
     /// <summary>
     /// 初始化游戏服务器选择区域
     /// </summary>
-    private void InitializeGameServerArea()
+    private void InitializeGameServerArea(List<GameInfo> gameInfos)
     {
         try
         {
             var list = new List<GameBizDisplay>();
-            var infos = _hoyoplayService.GetCachedGameInfoList();
 
             if (LanguageUtil.FilterLanguage(CultureInfo.CurrentUICulture.Name) is "zh-cn")
             {
                 // 当前语言为简体中文时，游戏信息显示从中国官服获取的内容
-                foreach (var info in infos)
+                foreach (var info in gameInfos)
                 {
                     if (info.GameBiz.IsChinaServer() && !info.IsBilibiliServer())
                     {
@@ -517,7 +534,7 @@ public sealed partial class GameSelector : UserControl
             else
             {
                 // 当前语言不为简体中文时，游戏信息显示从国际服获取的内容
-                foreach (var info in infos)
+                foreach (var info in gameInfos)
                 {
                     if (info.GameBiz.IsGlobalServer())
                     {
@@ -541,7 +558,7 @@ public sealed partial class GameSelector : UserControl
                         };
                         item.Servers.Add(server);
                     }
-                    else if (_hoyoplayService.GetCachedGameInfo(biz) is GameInfo info)
+                    else if (gameInfos.FirstOrDefault(x => x.GameBiz == biz) is GameInfo info)
                     {
                         var server = new GameBizIcon(info)
                         {
@@ -566,9 +583,8 @@ public sealed partial class GameSelector : UserControl
     {
         try
         {
-            _hoyoplayService.ClearCache();
-            await _hoyoplayService.UpdateGameInfoListAsync();
-            InitializeGameServerArea();
+            List<GameInfo> gameInfos = await _hoyoplayService.UpdateGameInfoListAsync();
+            InitializeGameServerArea(gameInfos);
             foreach (GameBizIcon icon in GameBizIcons)
             {
                 if (icon.GameBiz.IsKnown())

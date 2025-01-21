@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Frameworks;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -25,114 +25,44 @@ public class HoYoPlayService
 
     private readonly HttpClient _httpClient;
 
-    private readonly System.Timers.Timer _timer;
+    private readonly IMemoryCache _memoryCache;
 
 
-    public HoYoPlayService(ILogger<HoYoPlayService> logger, HoYoPlayClient client, HttpClient httpClient)
+    public HoYoPlayService(ILogger<HoYoPlayService> logger, HoYoPlayClient client, HttpClient httpClient, IMemoryCache memoryCache)
     {
         _logger = logger;
         _client = client;
         _httpClient = httpClient;
-        _timer = new System.Timers.Timer
-        {
-            AutoReset = true,
-            Enabled = true,
-            Interval = TimeSpan.FromMinutes(10).TotalMilliseconds,
-        };
-        _timer.Elapsed += (_, _) => ClearCache();
-        LoadCachedGameInfo();
+        _memoryCache = memoryCache;
     }
 
 
-    private List<GameInfo> _gameInfoList = new();
-
-
-    private ConcurrentDictionary<GameId, GameInfo> _gameInfo = new();
-
-
-    private ConcurrentDictionary<GameId, GameBackgroundInfo> _gameBackground = new();
-
-
-    private ConcurrentDictionary<GameId, GameContent> _gameContent = new();
-
-
-    private ConcurrentDictionary<GameId, GamePackage> _gamePackage = new();
-
-
-    private ConcurrentDictionary<GameId, GameConfig> _gameConfig = new();
-
-
-    private ConcurrentDictionary<GameId, GameChannelSDK> _gameChannelSDK = new();
-
-
-    private void LoadCachedGameInfo()
-    {
-        try
-        {
-            string? json = AppSetting.CachedGameInfo;
-            if (!string.IsNullOrWhiteSpace(json))
-            {
-                var infos = JsonSerializer.Deserialize<List<GameInfo>>(json);
-                if (infos is not null)
-                {
-                    _gameInfoList = infos;
-                    foreach (var item in infos)
-                    {
-                        _gameInfo[item] = item;
-                    }
-                }
-            }
-        }
-        catch { }
-    }
-
-
-
-    public void ClearCache()
-    {
-        _gameInfoList.Clear();
-        _gameInfo.Clear();
-        _gameBackground.Clear();
-        _gameContent.Clear();
-        _gamePackage.Clear();
-        _gameChannelSDK.Clear();
-    }
 
 
 
     public async Task<GameInfo> GetGameInfoAsync(GameId gameId)
     {
-        if (!_gameInfo.TryGetValue(gameId, out GameInfo? info))
+        if (!_memoryCache.TryGetValue($"{nameof(GameInfo)}_{gameId.Id}", out GameInfo? info))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
             var list = await _client.GetGameInfoAsync(LauncherId.FromGameId(gameId)!, lang);
             foreach (var item in list)
             {
-                _gameInfo[item] = item;
+                _memoryCache.Set($"{nameof(GameInfo)}_{item.Id}", item, TimeSpan.FromMinutes(10));
             }
-            info = list.First(x => x == gameId);
+            info = list.FirstOrDefault(x => x == gameId);
         }
-        return info;
-    }
-
-
-
-    public GameInfo? GetCachedGameInfo(GameBiz biz)
-    {
-        return _gameInfo.Values.FirstOrDefault(x => x.GameBiz == biz);
-    }
-
-
-
-    public List<GameInfo> GetCachedGameInfoList()
-    {
-        return _gameInfoList;
+        return info!;
     }
 
 
 
     public async Task<List<GameInfo>> UpdateGameInfoListAsync(CancellationToken cancellationToken = default)
     {
+        if (_memoryCache is MemoryCache cache)
+        {
+            cache.Clear();
+        }
         List<GameInfo> infos = new List<GameInfo>();
         string lang = CultureInfo.CurrentUICulture.Name;
         if (LanguageUtil.FilterLanguage(lang) is "zh-cn")
@@ -149,10 +79,9 @@ public class HoYoPlayService
         {
             infos.AddRange(await _client.GetGameInfoAsync(launcherId, lang, cancellationToken));
         }
-        _gameInfoList = infos;
         foreach (var item in infos)
         {
-            _gameInfo[item] = item;
+            _memoryCache.Set($"{nameof(GameInfo)}_{item.Id}", item, TimeSpan.FromMinutes(10));
         }
         string json = JsonSerializer.Serialize(infos);
         AppSetting.CachedGameInfo = json;
@@ -213,60 +142,60 @@ public class HoYoPlayService
 
     public async Task<GameBackgroundInfo> GetGameBackgroundAsync(GameId gameId)
     {
-        if (!_gameBackground.TryGetValue(gameId, out GameBackgroundInfo? background))
+        if (!_memoryCache.TryGetValue($"{nameof(GameBackgroundInfo)}_{gameId.Id}", out GameBackgroundInfo? background))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
             var list = await _client.GetGameBackgroundAsync(LauncherId.FromGameId(gameId)!, lang);
             foreach (var item in list)
             {
-                _gameBackground[item.GameId] = item;
+                _memoryCache.Set($"{nameof(GameBackgroundInfo)}_{item.GameId.Id}", item, TimeSpan.FromMinutes(1));
             }
-            background = list.First(x => x.GameId == gameId);
+            background = list.FirstOrDefault(x => x.GameId == gameId);
         }
-        return background;
+        return background!;
     }
 
 
 
     public async Task<GameContent> GetGameContentAsync(GameId gameId)
     {
-        if (!_gameContent.TryGetValue(gameId, out GameContent? content))
+        if (!_memoryCache.TryGetValue($"{nameof(GameContent)}_{gameId.Id}", out GameContent? content))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
             content = await _client.GetGameContentAsync(LauncherId.FromGameId(gameId)!, lang, gameId);
-            _gameContent[gameId] = content;
+            _memoryCache.Set($"{nameof(GameContent)}_{content.GameId.Id}", content, TimeSpan.FromMinutes(1));
         }
-        return content;
+        return content!;
     }
 
 
 
     public async Task<GamePackage> GetGamePackageAsync(GameId gameId)
     {
-        if (!_gamePackage.TryGetValue(gameId, out GamePackage? package))
+        if (!_memoryCache.TryGetValue($"{nameof(GamePackage)}_{gameId.Id}", out GamePackage? package))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
             var list = await _client.GetGamePackageAsync(LauncherId.FromGameId(gameId)!, lang);
             foreach (var item in list)
             {
-                _gamePackage[item.GameId] = item;
+                _memoryCache.Set($"{nameof(GamePackage)}_{item.GameId.Id}", item, TimeSpan.FromMinutes(1));
             }
-            package = list.First(x => x.GameId == gameId);
+            package = list.FirstOrDefault(x => x.GameId == gameId);
         }
-        return package;
+        return package!;
     }
 
 
 
     public async Task<GameConfig?> GetGameConfigAsync(GameId gameId)
     {
-        if (!_gameConfig.TryGetValue(gameId, out GameConfig? config))
+        if (!_memoryCache.TryGetValue($"{nameof(GameConfig)}_{gameId.Id}", out GameConfig? config))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
             var list = await _client.GetGameConfigAsync(LauncherId.FromGameId(gameId)!, lang);
             foreach (var item in list)
             {
-                _gameConfig[item.GameId] = item;
+                _memoryCache.Set($"{nameof(GameConfig)}_{item.GameId.Id}", item, TimeSpan.FromMinutes(1));
             }
             config = list.FirstOrDefault(x => x.GameId == gameId);
         }
@@ -293,13 +222,13 @@ public class HoYoPlayService
 
     public async Task<GameChannelSDK?> GetGameChannelSDKAsync(GameId gameId)
     {
-        if (!_gameChannelSDK.TryGetValue(gameId, out GameChannelSDK? sdk))
+        if (!_memoryCache.TryGetValue($"{nameof(GameChannelSDK)}_{gameId.Id}", out GameChannelSDK? sdk))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
             var list = await _client.GetGameChannelSDKAsync(LauncherId.FromGameId(gameId)!, lang);
             foreach (var item in list)
             {
-                _gameChannelSDK[item.GameId] = item;
+                _memoryCache.Set($"{nameof(GameChannelSDK)}_{item.GameId.Id}", item, TimeSpan.FromMinutes(1));
             }
             sdk = list.FirstOrDefault(x => x.GameId == gameId);
         }

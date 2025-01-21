@@ -34,6 +34,7 @@
 		<PackageReference Include="Dapper" Version="2.1.35" />
 		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="9.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="9.0.1" />
