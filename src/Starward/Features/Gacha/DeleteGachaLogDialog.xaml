@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog x:Class="Starward.Features.Gacha.DeleteGachaLogDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:lang="using:Starward.Language"
+               xmlns:local="using:Starward.Features.Gacha"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               x:DefaultBindMode="OneWay"
+               Background="{ThemeResource CustomAcrylicBrush}"
+               BorderThickness="0"
+               Loaded="ContentDialog_Loaded"
+               Style="{ThemeResource DefaultContentDialogStyle}"
+               mc:Ignorable="d">
+
+
+    <StackPanel Spacing="12">
+        <TextBlock FontSize="20" Text="{x:Bind lang:Lang.DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod}" />
+        <StackPanel Margin="0,8,0,0"
+                    Orientation="Horizontal"
+                    Spacing="12">
+            <TextBlock VerticalAlignment="Center" Text="Uid" />
+            <ComboBox MinWidth="140"
+                      ItemsSource="{x:Bind UidList}"
+                      SelectedItem="{x:Bind SelectUid, Mode=TwoWay}" />
+        </StackPanel>
+
+        <TextBlock Name="TextBlock_GachaLogNumber"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   Visibility="Collapsed" />
+
+        <StackPanel Orientation="Horizontal" Spacing="12">
+            <StackPanel Spacing="8">
+                <Border Height="32">
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.DeleteGachaLogDialog_BeginTime}" />
+                </Border>
+                <Border Height="32">
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.DeleteGachaLogDialog_EndTime}" />
+                </Border>
+            </StackPanel>
+            <StackPanel Spacing="8">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <CalendarDatePicker Name="CalendarDatePicker_BeginTime"
+                                        MinWidth="160"
+                                        DateChanged="CalendarDatePicker_DateChanged"
+                                        DateFormat="{}{year.full}/{month.integer}/{day.integer}" />
+                    <TimePicker Name="TimePicker_BeginTime"
+                                ClockIdentifier="24HourClock"
+                                SelectedTimeChanged="TimePicker_SelectedTimeChanged" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <CalendarDatePicker Name="CalendarDatePicker_EndTime"
+                                        MinWidth="160"
+                                        DateChanged="CalendarDatePicker_DateChanged"
+                                        DateFormat="{}{year.full}/{month.integer}/{day.integer}" />
+                    <TimePicker Name="TimePicker_EndTime"
+                                ClockIdentifier="24HourClock"
+                                SelectedTimeChanged="TimePicker_SelectedTimeChanged" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <TextBlock Name="TextBlock_SelectedCount"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   Visibility="Collapsed" />
+        <TextBlock Name="TextBlock_Warning"
+                   Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                   Text="{x:Bind lang:Lang.DeleteGachaLogDialog_6MonthsDeletingWarning}"
+                   TextWrapping="Wrap"
+                   Visibility="Collapsed" />
+
+        <StackPanel Margin="0,16,0,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Spacing="12">
+            <Button Name="Button_Delete"
+                    MinWidth="100"
+                    Content="{x:Bind lang:Lang.Common_Delete}"
+                    IsEnabled="False">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind DeleteCommand}"
+                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                        Text="{x:Bind lang:Lang.LauncherPage_ConfirmDelete}" />
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+            <Button Name="Button_Cancel"
+                    MinWidth="100"
+                    Command="{x:Bind CancelCommand}"
+                    Content="{x:Bind lang:Lang.Common_Cancel}"
+                    Style="{ThemeResource AccentButtonStyle}" />
+        </StackPanel>
+    </StackPanel>
+
+</ContentDialog>

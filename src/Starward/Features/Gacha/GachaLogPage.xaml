@@ -197,7 +197,7 @@
                                           OffContent="{x:Bind lang:Lang.GachaLogPage_ShowChronicledWish}"
                                           OnContent="{x:Bind lang:Lang.GachaLogPage_ShowChronicledWish}"
                                           Visibility="Collapsed" />
-                            <Button Command="{x:Bind DeleteUidCommand}">
+                            <Button>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon FontSize="14"
                                               Foreground="{ThemeResource SystemFillColorCriticalBrush}"
@@ -205,6 +205,16 @@
                                     <!--  删除记录  -->
                                     <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{x:Bind lang:Lang.GachaLogPage_DeleteRecords}" />
                                 </StackPanel>
+                                <Button.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Command="{x:Bind DeleteUidCommand}"
+                                                        FontSize="14"
+                                                        Text="{x:Bind lang:Lang.GachaLogPage_DeleteAll}" />
+                                        <MenuFlyoutItem Command="{x:Bind DeleteUidByTimeCommand}"
+                                                        FontSize="14"
+                                                        Text="{x:Bind lang:Lang.GachaLogPage_SpecificTimePeriod}" />
+                                    </MenuFlyout>
+                                </Button.Flyout>
                             </Button>
                         </StackPanel>
                     </Flyout>

@@ -589,6 +589,31 @@ public sealed partial class GachaLogPage : PageBase
 
 
     [RelayCommand]
+    private async Task DeleteUidByTimeAsync()
+    {
+        try
+        {
+            var dialog = new DeleteGachaLogDialog
+            {
+                CurrentGameBiz = this.CurrentGameBiz,
+                DefaultUid = this.SelectUid,
+                XamlRoot = this.XamlRoot,
+            };
+            var result = await dialog.ShowAsync();
+            if (dialog.Deleted)
+            {
+                UpdateGachaTypeStats(dialog.SelectUid);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Delete uid");
+        }
+    }
+
+
+
+    [RelayCommand]
     private async Task DeleteGachaCacheFileAsync()
     {
         try
