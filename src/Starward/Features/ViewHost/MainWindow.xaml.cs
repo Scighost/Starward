@@ -151,6 +151,7 @@ public sealed partial class MainWindow : WindowEx
     {
         base.Hide();
         WeakReferenceMessenger.Default.Send(new MainWindowStateChangedMessage { Hide = true, CurrentTime = DateTimeOffset.Now });
+        GC.Collect();
     }
 
 

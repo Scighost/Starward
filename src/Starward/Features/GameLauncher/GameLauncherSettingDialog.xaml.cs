@@ -50,6 +50,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         this.InitializeComponent();
         this.Loaded += GameLauncherSettingDialog_Loaded;
+        this.Unloaded += GameLauncherSettingDialog_Unloaded;
     }
 
 
@@ -93,7 +94,6 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
 
-
     private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         try
@@ -130,6 +130,14 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         InitializeStartArgument();
         InitializeCustomBg();
         await InitializeGamePackagesAsync();
+    }
+
+
+    private void GameLauncherSettingDialog_Unloaded(object sender, RoutedEventArgs e)
+    {
+        LatestPackageGroups = null!;
+        PreInstallPackageGroups = null!;
+        FlipView_Settings.Items.Clear();
     }
 
 

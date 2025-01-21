@@ -56,6 +56,14 @@ public sealed partial class ImaginariumTheaterPage : PageBase
 
 
 
+    protected override void OnUnloaded()
+    {
+        CurrentTheater = null;
+        TheaterList = null!;
+    }
+
+
+
 
     [ObservableProperty]
     private bool hasData;

@@ -113,6 +113,12 @@ public sealed partial class SettingPage : PageBase
 
 
 
+    protected override void OnUnloaded()
+    {
+        FlipView_Settings.Items.Clear();
+    }
+
+
 
 
     #region 版本检查

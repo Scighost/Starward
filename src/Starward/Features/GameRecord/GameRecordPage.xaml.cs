@@ -96,6 +96,10 @@ public sealed partial class GameRecordPage : PageBase
     protected override void OnUnloaded()
     {
         WeakReferenceMessenger.Default.UnregisterAll(this);
+        NavigationViewItem_BattleChronicle.Tapped -= NavigationViewItem_BattleChronicle_Tapped;
+        NavigationViewItem_UpdateDeviceInfo.Tapped -= NavigationViewItem_UpdateDeviceInfo_Tapped;
+        CurrentRole = null;
+        GameRoleList = null!;
     }
 
 
@@ -252,7 +256,8 @@ public sealed partial class GameRecordPage : PageBase
 
     public GameRecordRole? CurrentRole
     {
-        get; set
+        get;
+        set
         {
             if (SetProperty(ref field, value))
             {

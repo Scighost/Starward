@@ -55,6 +55,14 @@ public sealed partial class SimulatedUniversePage : PageBase
 
 
 
+    protected override void OnUnloaded()
+    {
+        BasicInfo = null!;
+        CurrentRecord = null;
+        RecordBasicList = null!;
+    }
+
+
 
     [ObservableProperty]
     private SimulatedUniverseBasicStats basicInfo;

@@ -56,6 +56,13 @@ public sealed partial class PureFictionPage : PageBase
 
 
 
+    protected override void OnUnloaded()
+    {
+        CurrentPureFiction = null;
+        PureFictionList = null!;
+    }
+
+
 
     [ObservableProperty]
     private List<PureFictionInfo> pureFictionList;

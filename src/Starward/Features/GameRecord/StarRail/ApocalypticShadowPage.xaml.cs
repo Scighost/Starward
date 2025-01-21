@@ -56,6 +56,13 @@ public sealed partial class ApocalypticShadowPage : PageBase
 
 
 
+    protected override void OnUnloaded()
+    {
+        CurrentApocalypticShadow = null;
+        ApocalypticShadowList = null!;
+    }
+
+
 
     [ObservableProperty]
     private List<ApocalypticShadowInfo> apocalypticShadowList;

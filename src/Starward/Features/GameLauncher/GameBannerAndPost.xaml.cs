@@ -71,6 +71,9 @@ public sealed partial class GameBannerAndPost : UserControl
     {
         WeakReferenceMessenger.Default.UnregisterAll(this);
         _bannerTimer.Stop();
+        _bannerTimer.Tick -= _bannerTimer_Tick;
+        Banners = null;
+        PostGroups = null;
     }
 
 
@@ -201,7 +204,14 @@ public sealed partial class GameBannerAndPost : UserControl
                 Button_InGameNotices.Visibility = Visibility.Collapsed;
                 return;
             }
-            IsGameNoticesAlert = await _gameNoticeService.IsNoticeAlertAsync(CurrentGameId.GameBiz);
+            if (AppSetting.DisableGameNoticeRedHot)
+            {
+                IsGameNoticesAlert = false;
+            }
+            else
+            {
+                IsGameNoticesAlert = await _gameNoticeService.IsNoticeAlertAsync(CurrentGameId.GameBiz);
+            }
         }
         catch (Exception ex)
         {

@@ -163,6 +163,12 @@ public sealed partial class SelfQueryPage : PageBase
     protected override void OnUnloaded()
     {
         tokenSource?.Cancel();
+        GenshinQueryItemList = null;
+        StarRailQueryItemList = null;
+        ZZZQueryItemList = null;
+        QueryUserInfo = null;
+        SelectTypeStats = null!;
+        TypeStatsList = null!;
     }
 
 

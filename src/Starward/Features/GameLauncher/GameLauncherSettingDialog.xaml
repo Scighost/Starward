@@ -164,11 +164,6 @@
                             <Grid Width="40"
                                   Height="40"
                                   CornerRadius="8">
-                                <FontIcon HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          FontSize="20"
-                                          Glyph="&#xE8A9;"
-                                          IsTextScaleFactorEnabled="False" />
                                 <sc:CachedImage Width="40"
                                                 Height="40"
                                                 Source="{x:Bind CurrentGameBizIcon.GameIcon, FallbackValue={x:Null}}" />

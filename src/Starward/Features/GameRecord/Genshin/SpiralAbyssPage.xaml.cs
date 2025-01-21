@@ -55,6 +55,12 @@ public sealed partial class SpiralAbyssPage : PageBase
 
 
 
+    protected override void OnUnloaded()
+    {
+        CurrentAbyss = null;
+        AbyssList = null!;
+    }
+
 
 
     [ObservableProperty]

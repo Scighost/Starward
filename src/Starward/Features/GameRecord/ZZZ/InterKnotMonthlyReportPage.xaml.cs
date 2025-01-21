@@ -59,6 +59,18 @@ public sealed partial class InterKnotMonthlyReportPage : PageBase
 
 
 
+    protected override void OnUnloaded()
+    {
+        base.OnUnloaded();
+        CurrentSummary = null!;
+        SelectMonthData = null;
+        MonthDataList = null!;
+        CurrentSeries = null!;
+        SelectSeries = null!;
+        DayDataList = null!;
+    }
+
+
     [ObservableProperty]
     private InterKnotReportSummary currentSummary;
 

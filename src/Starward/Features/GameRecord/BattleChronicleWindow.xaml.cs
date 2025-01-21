@@ -59,6 +59,7 @@ public sealed partial class BattleChronicleWindow : WindowEx
 
     private void RootGrid_Loaded(object sender, RoutedEventArgs e)
     {
+        RootGrid.Loaded -= RootGrid_Loaded;
         _ = bbsWebBridge.LoadPageAsync();
     }
 

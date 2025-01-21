@@ -108,7 +108,8 @@
             </Border.OpacityTransition>
             <StackPanel Orientation="Horizontal" Spacing="4">
                 <!--  缩小  -->
-                <Button Width="36"
+                <Button x:Name="Button_ZoomOut"
+                        Width="36"
                         Height="36"
                         Command="{x:Bind ZoomOutCommand}"
                         Content="&#xE71F;"
@@ -122,7 +123,8 @@
                            VerticalAlignment="Center"
                            HorizontalTextAlignment="Center" />
                 <!--  放大  -->
-                <Button Width="36"
+                <Button x:Name="Button_ZoomIn"
+                        Width="36"
                         Height="36"
                         Command="{x:Bind ZoomInCommand}"
                         Content="&#xE8A3;"
@@ -130,7 +132,8 @@
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                         ToolTipService.ToolTip="{x:Bind lang:Lang.ImageViewPage_ZoomIn}" />
                 <!--  旋转  -->
-                <Button Width="36"
+                <Button x:Name="Button_Rotate"
+                        Width="36"
                         Height="36"
                         Command="{x:Bind RotateCommand}"
                         Content="&#xE7AD;"
@@ -138,7 +141,7 @@
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                         ToolTipService.ToolTip="{x:Bind lang:Lang.ImageViewPage_Rotate}" />
                 <!--  全屏  -->
-                <Button Name="Button_FullScreen"
+                <Button x:Name="Button_FullScreen"
                         Width="36"
                         Height="36"
                         Command="{x:Bind FullScreenCommand}"
@@ -148,7 +151,7 @@
                         ToolTipService.ToolTip="{x:Bind lang:Lang.GameSettingPage_FullScreen}" />
                 <AppBarSeparator Padding="0" />
                 <!--  复制  -->
-                <Button x:Name="_Button_Copy"
+                <Button x:Name="Button_Copy"
                         Width="36"
                         Height="36"
                         Command="{x:Bind CopyImageCommand}"
@@ -163,7 +166,8 @@
                     </Button.ContentTransitions>
                 </Button>
                 <!--  打开  -->
-                <Button Width="36"
+                <Button x:Name="Button_OpenFile"
+                        Width="36"
                         Height="36"
                         Command="{x:Bind OpenFileCommand}"
                         Content="&#xE8E5;"
@@ -171,7 +175,8 @@
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                         ToolTipService.ToolTip="{x:Bind lang:Lang.Common_Open}" />
                 <!--  关闭  -->
-                <Button Width="36"
+                <Button x:Name="Button_Close"
+                        Width="36"
                         Height="36"
                         Command="{x:Bind CloseCommand}"
                         Content="&#xE711;"

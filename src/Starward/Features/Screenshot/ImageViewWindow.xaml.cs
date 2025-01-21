@@ -35,9 +35,8 @@ public sealed partial class ImageViewWindow : WindowEx
     {
         this.InitializeComponent();
         InitializeWindow();
+        this.Closed += ImageViewWindow_Closed;
     }
-
-
 
 
 
@@ -62,6 +61,31 @@ public sealed partial class ImageViewWindow : WindowEx
         User32.ShowWindow((nint)AppWindow.Id.Value, ShowWindowCommand.SW_SHOWMAXIMIZED);
     }
 
+
+    // ImageViewWindow 内存泄漏的问题还无法解决
+    private void ImageViewWindow_Closed(object sender, WindowEventArgs args)
+    {
+        RootGrid.KeyDown -= RootGrid_KeyDown;
+        _Image.SizeChanged -= _Image_SizeChanged;
+        _Image.ImageExOpened -= _Image_ImageOpened;
+        _ScrollViewer_Image.DoubleTapped -= _ScrollViewer_Image_DoubleTapped;
+        _ScrollViewer_Image.PointerMoved -= _ScrollViewer_Image_PointerMoved;
+        _ScrollViewer_Image.PointerPressed -= _ScrollViewer_Image_PointerPressed;
+        _ScrollViewer_Image.PointerReleased -= _ScrollViewer_Image_PointerReleased;
+        _ScrollViewer_Image.PointerWheelChanged -= _ScrollViewer_Image_PointerWheelChanged;
+        _ScrollViewer_Image.Tapped -= _ScrollViewer_Image_Tapped;
+        _ScrollViewer_Image.ViewChanged -= _ScrollViewer_Image_ViewChanged;
+        Button_Close.Command = null;
+        Button_Copy.Command = null;
+        Button_FullScreen.Command = null;
+        Button_OpenFile.Command = null;
+        Button_Rotate.Command = null;
+        Button_ZoomOut.Command = null;
+        Button_ZoomIn.Command = null;
+        CurrentImage = null!;
+        ImageCollection = null;
+        this.Bindings.StopTracking();
+    }
 
 
 
@@ -250,9 +274,9 @@ public sealed partial class ImageViewWindow : WindowEx
             else
             {
                 ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
-                _Button_Copy.Content = "\xE8FB";
+                Button_Copy.Content = "\xE8FB";
                 await Task.Delay(3000);
-                _Button_Copy.Content = "\xE8C8";
+                Button_Copy.Content = "\xE8C8";
             }
         }
         catch (Exception ex)
@@ -304,7 +328,7 @@ public sealed partial class ImageViewWindow : WindowEx
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void _ScrollViewer_Image_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+    private void _ScrollViewer_Image_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
     {
         _TextBlock_Factor.Text = (_ScrollViewer_Image.ZoomFactor * UIScale).ToString("P0");
     }

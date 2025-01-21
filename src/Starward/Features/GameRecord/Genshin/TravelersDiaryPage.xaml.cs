@@ -56,6 +56,16 @@ public sealed partial class TravelersDiaryPage : PageBase
     }
 
 
+    protected override void OnUnloaded()
+    {
+        CurrentSummary = null!;
+        SelectMonthData = null;
+        MonthDataList = null!;
+        CurrentSeries = null;
+        SelectSeries = null;
+        DayDataList = null!;
+    }
+
 
 
     [ObservableProperty]

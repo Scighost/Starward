@@ -56,6 +56,13 @@ public sealed partial class ForgottenHallPage : PageBase
 
 
 
+    protected override void OnUnloaded()
+    {
+        CurrentForgottenHall = null;
+        ForgottenHallList = null!;
+    }
+
+
 
     [ObservableProperty]
     private List<ForgottenHallInfo> forgottenHallList;

@@ -65,7 +65,6 @@ public sealed partial class ScreenshotPage : PageBase
     protected override void OnUnloaded()
     {
         Watcher?.Dispose();
-        GC.Collect();
     }
 
 

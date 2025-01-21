@@ -57,6 +57,18 @@ public sealed partial class TrailblazeCalendarPage : PageBase
 
 
 
+    protected override void OnUnloaded()
+    {
+        CurrentSummary = null!;
+        SelectMonthData = null;
+        MonthDataList = null!;
+        CurrentSeries = null;
+        SelectSeries = null;
+        DayDataList = null!;
+    }
+
+
+
     [ObservableProperty]
     private TrailblazeCalendarSummary currentSummary;
 
