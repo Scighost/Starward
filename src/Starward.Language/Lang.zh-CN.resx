@@ -372,29 +372,29 @@
     <value>删除</value>
   </data>
   <data name="GachaLogPage_DeletedGachaRecordsOfUid" xml:space="preserve">
-    <value>已删除 Uid {1} 的抽卡记录 {0} 条。</value>
-    <comment>{0} = {count} ,  {1} = {uid}</comment>
-  </data>
-  <data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
-    <value>即将删除 Uid {0} 的所有抽卡记录，此操作不可恢复。</value>
-    <comment>{0} = {uid}</comment>
-  </data>
-  <data name="GachaLogService_WishRecords" xml:space="preserve">
-    <value>祈愿记录</value>
-  </data>
-  <data name="GachaLogService_WarpRecords" xml:space="preserve">
-    <value>跃迁记录</value>
-  </data>
-  <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>正在获取 uid</value>
-  </data>
-  <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
-    <value>该账号最近 6 个月没有抽卡记录</value>
-  </data>
-  <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>获取 {0} 条记录，新增 {1} 条记录</value>
-    <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
-  </data>
+  <value>已删除 UID {1} 的 {0} 条抽卡记录。</value>
+  <comment>{0} = {count} ,  {1} = {uid}</comment>
+</data>
+<data name="GachaLogPage_DeleteGachaRecordsWarning" xml:space="preserve">
+  <value>即将删除 UID {0} 的所有抽卡记录，此操作不可撤销。</value>
+  <comment>{0} = {uid}</comment>
+</data>
+<data name="GachaLogService_WishRecords" xml:space="preserve">
+  <value>祈愿记录</value>
+</data>
+<data name="GachaLogService_WarpRecords" xml:space="preserve">
+  <value>跃迁记录</value>
+</data>
+<data name="GachaLogService_GettingUid" xml:space="preserve">
+  <value>正在获取 UID</value>
+</data>
+<data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
+  <value>该账号最近 6 个月没有抽卡记录</value>
+</data>
+<data name="GachaLogService_GetGachaResult" xml:space="preserve">
+  <value>共获取到 {0} 条记录，其中新增 {1} 条。</value>
+  <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
+</data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
     <value>成功导入祈愿记录 {0} 条</value>
   </data>
@@ -1693,4 +1693,28 @@
   <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
     <value>保持 RPC 服务后台运行</value>
   </data>
+    <data name="DeleteGachaLogDialog_BeginTime" xml:space="preserve">
+    <value>起始时间</value>
+  </data>
+  <data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
+    <value>结束时间</value>
+  </data>
+  <data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
+    <value>删除特定时间段的抽卡记录</value>
+  </data>
+  <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
+    <value>警告：所选时间段包含6个月之前的抽卡记录，删除后无法再次获取。</value>
+  </data>
+  <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
+    <value>此账号有 {0} 条抽卡记录</value>
+  </data>
+  <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
+    <value>所选时间段包含 {0} 条抽卡记录</value>
+  </data>
+  <data name="GachaLogPage_DeleteAll" xml:space="preserve">
+    <value>全部删除</value>
+  </data>
+  <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
+    <value>指定时间段</value>
+    </data>
 </root>

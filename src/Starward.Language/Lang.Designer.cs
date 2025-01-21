@@ -476,6 +476,60 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Warning: The selected time period includes gacha records from more than 6 months ago, which cannot be retrieved after deleting. 的本地化字符串。
+        /// </summary>
+        public static string DeleteGachaLogDialog_6MonthsDeletingWarning {
+            get {
+                return ResourceManager.GetString("DeleteGachaLogDialog_6MonthsDeletingWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Begin Time 的本地化字符串。
+        /// </summary>
+        public static string DeleteGachaLogDialog_BeginTime {
+            get {
+                return ResourceManager.GetString("DeleteGachaLogDialog_BeginTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete gacha records for a specific time period 的本地化字符串。
+        /// </summary>
+        public static string DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod {
+            get {
+                return ResourceManager.GetString("DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 End Time 的本地化字符串。
+        /// </summary>
+        public static string DeleteGachaLogDialog_EndTime {
+            get {
+                return ResourceManager.GetString("DeleteGachaLogDialog_EndTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The selected time period includes {0} gacha records. 的本地化字符串。
+        /// </summary>
+        public static string DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords {
+            get {
+                return ResourceManager.GetString("DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This account has {0} gacha record(s). 的本地化字符串。
+        /// </summary>
+        public static string DeleteGachaLogDialog_ThisAccountHas0GachaRecordS {
+            get {
+                return ResourceManager.GetString("DeleteGachaLogDialog_ThisAccountHas0GachaRecordS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Downloaded: 的本地化字符串。
         /// </summary>
         public static string DownloadGameDialog_Downloaded {
@@ -1233,6 +1287,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Delete All 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_DeleteAll {
+            get {
+                return ResourceManager.GetString("GachaLogPage_DeleteAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Deleted {0} gacha record(s) of UID {1}. 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_DeletedGachaRecordsOfUid {
@@ -1364,6 +1427,15 @@ namespace Starward.Language {
         public static string GachaLogPage_ShowNoviceGachaType {
             get {
                 return ResourceManager.GetString("GachaLogPage_ShowNoviceGachaType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Specific Time Period 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_SpecificTimePeriod {
+            get {
+                return ResourceManager.GetString("GachaLogPage_SpecificTimePeriod", resourceCulture);
             }
         }
         

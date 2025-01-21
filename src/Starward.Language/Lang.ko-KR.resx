@@ -1583,30 +1583,54 @@
     <value>이동식 디스크가 연결 되지 않음</value>
   </data>
   <data name="InterKnotMonthlyReportPage_PolychromeRevenueStreams" xml:space="preserve">
-    <value>Polychrome Revenue Streams</value>
-  </data>
-  <data name="HoyolabToolboxPage_InterKnotMonthlyReport" xml:space="preserve">
-    <value>Inter-Knot Monthly Report</value>
-  </data>
-  <data name="InterKnotMonthlyReportPage_DailyActivityRewardeds" xml:space="preserve">
-    <value>Daily Activity Rewardeds</value>
-  </data>
-  <data name="InterKnotMonthlyReportPage_DevelopmentRewards" xml:space="preserve">
-    <value>Development Rewards</value>
-  </data>
-  <data name="InterKnotMonthlyReportPage_EventRewards" xml:space="preserve">
-    <value>Event Rewards</value>
-  </data>
-  <data name="InterKnotMonthlyReportPage_HollowZeroRewards" xml:space="preserve">
-    <value>Hollow Zero Rewards</value>
-  </data>
-  <data name="InterKnotMonthlyReportPage_ShiyuDefenseRewards" xml:space="preserve">
-    <value>Shiyu Defense Rewards</value>
-  </data>
-  <data name="InterKnotMonthlyReportPage_MailRewards" xml:space="preserve">
-    <value>Mail Rewards</value>
-  </data>
-  <data name="InterKnotMonthlyReportPage_OtherRewards" xml:space="preserve">
-    <value>Other Rewards</value>
-  </data>
+  <value>폴리크롬 수익 구성</value>
+</data>
+<data name="HoyolabToolboxPage_InterKnotMonthlyReport" xml:space="preserve">
+  <value>월간 로프넷</value>
+</data>
+<data name="InterKnotMonthlyReportPage_DailyActivityRewardeds" xml:space="preserve">
+  <value>일일 활약 보상</value>
+</data>
+<data name="InterKnotMonthlyReportPage_DevelopmentRewards" xml:space="preserve">
+  <value>성장 보상</value>
+</data>
+<data name="InterKnotMonthlyReportPage_EventRewards" xml:space="preserve">
+  <value>이벤트 보상</value>
+</data>
+<data name="InterKnotMonthlyReportPage_HollowZeroRewards" xml:space="preserve">
+  <value>제로 공동 보상</value>
+</data>
+<data name="InterKnotMonthlyReportPage_ShiyuDefenseRewards" xml:space="preserve">
+  <value>시유 방어전 보상</value>
+</data>
+<data name="InterKnotMonthlyReportPage_MailRewards" xml:space="preserve">
+  <value>메일 보상</value>
+</data>
+<data name="InterKnotMonthlyReportPage_OtherRewards" xml:space="preserve">
+  <value>기타 보상</value>
+</data>
+<data name="DeleteGachaLogDialog_BeginTime" xml:space="preserve">
+  <value>시작시간</value>
+</data>
+<data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
+  <value>종료시간</value>
+</data>
+<data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
+  <value>지정된 시간 동안의 뽑기 기록 삭제하기</value>
+</data>
+<data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
+  <value>경고: 해당 시간에 6개월 이전의 뽑기기록이 포함되어 있습니다. 해당 기록은 다시 복구 할 수 없습니다.</value>
+</data>
+<data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
+  <value>해당 계정에 {0} 건 의 뽑기기록이 있습니다.</value>
+</data>
+<data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
+  <value>해당 시간에 {0} 건의 뽑기 기록이 있습니다.</value>
+</data>
+<data name="GachaLogPage_DeleteAll" xml:space="preserve">
+  <value>전체 삭제</value>
+</data>
+<data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
+  <value>지정된 시간</value>
+</data>
 </root>
