@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -1583,8 +1583,8 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thiết bị lưu trữ di động không được kết nối.</value>
   </data>
   <data name="InterKnotMonthlyReportPage_PolychromeRevenueStreams" xml:space="preserve">
-  <value>Các nguồn thu đa dạng</value>
-</data>
+    <value>Các nguồn thu đa dạng</value>
+  </data>
   <data name="HoyolabToolboxPage_InterKnotMonthlyReport" xml:space="preserve">
     <value>Báo cáo tháng Inter-Knot</value>
   </data>
@@ -1610,27 +1610,27 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Phần quà khác</value>
   </data>
   <data name="DeleteGachaLogDialog_BeginTime" xml:space="preserve">
-  <value>Thời gian bắt đầu</value>
-</data>
-<data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
-  <value>Thời gian kết thúc</value>
-</data>
-<data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
-  <value>Xoá lịch sử gacha trong một khoảng thời gian cụ thể</value>
-</data>
-<data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
-  <value>Cảnh báo: Khoảng thời gian đã chọn bao gồm dữ liệu gacha từ hơn 6 tháng trước, dữ liệu này sẽ không thể khôi phục sau khi bị xóa.</value>
-</data>
-<data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
-  <value>Tài khoản này có {0} dữ liệu gacha.</value>
-</data>
-<data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
-  <value>Khoảng thời gian đã chọn bao gồm {0} bản ghi gacha.</value>
-</data>
-<data name="GachaLogPage_DeleteAll" xml:space="preserve">
-  <value>Xoá tất cả</value>
-</data>
-<data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
-  <value>Khoảng thời gian cụ thể</value>
-</data>
+    <value>Thời gian bắt đầu</value>
+  </data>
+  <data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
+    <value>Thời gian kết thúc</value>
+  </data>
+  <data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
+    <value>Xoá lịch sử gacha trong một khoảng thời gian cụ thể</value>
+  </data>
+  <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
+    <value>Cảnh báo: Khoảng thời gian đã chọn bao gồm dữ liệu gacha từ hơn 6 tháng trước, dữ liệu này sẽ không thể khôi phục sau khi bị xóa.</value>
+  </data>
+  <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
+    <value>Tài khoản này có {0} dữ liệu gacha.</value>
+  </data>
+  <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
+    <value>Khoảng thời gian đã chọn bao gồm {0} bản ghi gacha.</value>
+  </data>
+  <data name="GachaLogPage_DeleteAll" xml:space="preserve">
+    <value>Xoá tất cả</value>
+  </data>
+  <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
+    <value>Khoảng thời gian cụ thể</value>
+  </data>
 </root>
