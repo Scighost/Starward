@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>Figuren-Aktionswarp</value>
+    <value>Charakter-Event Warp</value>
   </data>
   <data name="GachaType_CharacterEventWish" xml:space="preserve">
     <value>Limitiertes Banner</value>
@@ -275,21 +275,21 @@
     <value>Bangboo-Kanal</value>
   </data>
   <data name="ZZZQueryType_Monochrome" xml:space="preserve">
-    <value>Monochrome</value>
+    <value>Monochrom</value>
   </data>
   <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
-    <value>Ploychrome</value>
+    <value>Ploychrom</value>
   </data>
   <data name="ZZZQueryType_Bundle" xml:space="preserve">
     <value>Bundle</value>
   </data>
   <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
-    <value>Battery Charge</value>
+    <value>Akkuladung</value>
   </data>
   <data name="ZZZQueryType_WEngine" xml:space="preserve">
     <value>W-Engine</value>
   </data>
   <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
-    <value>Drive Disc</value>
+    <value>Laufwerkskette</value>
   </data>
 </root>
