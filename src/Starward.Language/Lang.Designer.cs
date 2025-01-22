@@ -3866,7 +3866,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Keep RPC service running in the background 的本地化字符串。
+        ///   查找类似 Keep RPC Service Running in the Background 的本地化字符串。
         /// </summary>
         public static string SettingPage_KeepRPCServiceRunningInTheBackground {
             get {
@@ -4015,6 +4015,15 @@ namespace Starward.Language {
         public static string SettingPage_RPCService_Desc {
             get {
                 return ResourceManager.GetString("SettingPage_RPCService_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Detected that the application is in a removable storage device, it is not recommended to keep the RPC service running in the background. 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_RPCServiceWarningIfAppInRemovableStorage {
+            get {
+                return ResourceManager.GetString("SettingPage_RPCServiceWarningIfAppInRemovableStorage", resourceCulture);
             }
         }
         

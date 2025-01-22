@@ -544,6 +544,12 @@
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        Text="{x:Bind lang:Lang.SettingPage_RPCService_Desc}"
                                        TextWrapping="Wrap" />
+                            <TextBlock Margin="0,8,0,0"
+                                       FontSize="14"
+                                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                                       Text="{x:Bind lang:Lang.SettingPage_RPCServiceWarningIfAppInRemovableStorage}"
+                                       TextWrapping="Wrap"
+                                       Visibility="{x:Bind sf:AppSetting.IsAppInRemovableStorage}" />
                             <ToggleSwitch Margin="0,8,0,0"
                                           IsOn="{x:Bind KeepRpcServerRunningInBackground, Mode=TwoWay}"
                                           OffContent="{x:Bind lang:Lang.SettingPage_KeepRPCServiceRunningInTheBackground}"

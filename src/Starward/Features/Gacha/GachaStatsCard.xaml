@@ -197,16 +197,14 @@
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
                                 <TextBlock Grid.Column="1"
                                            VerticalAlignment="Center"
-                                           FontWeight="SemiBold"
-                                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                           Foreground="{ThemeResource Rarity5ForegroundBrush}"
                                            Text="{x:Bind Name}"
                                            TextTrimming="CharacterEllipsis"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <TextBlock Grid.Column="2"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
-                                           FontWeight="SemiBold"
-                                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                           Foreground="{ThemeResource Rarity5ForegroundBrush}"
                                            Text="{x:Bind Pity}"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityConverter}}" />
                             </Grid>
@@ -246,16 +244,14 @@
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
                                 <TextBlock Grid.Column="1"
                                            VerticalAlignment="Center"
-                                           FontWeight="SemiBold"
-                                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                           Foreground="{ThemeResource Rarity4ForegroundBrush}"
                                            Text="{x:Bind Name}"
                                            TextTrimming="CharacterEllipsis"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <TextBlock Grid.Column="2"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
-                                           FontWeight="SemiBold"
-                                           Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                           Foreground="{ThemeResource Rarity4ForegroundBrush}"
                                            Text="{x:Bind Pity}"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityConverter}}" />
                             </Grid>

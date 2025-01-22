@@ -385,8 +385,8 @@ public static class AppSetting
     /// </summary>
     public static string? CachedGameInfo
     {
-        get => GetValue<string>();
-        set => SetValue(value);
+        get => DatabaseService.GetValue<string>(nameof(CachedGameInfo), out _, default);
+        set => DatabaseService.SetValue(nameof(CachedGameInfo), value);
     }
 
 

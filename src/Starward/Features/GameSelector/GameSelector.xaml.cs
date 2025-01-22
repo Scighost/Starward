@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
@@ -679,6 +680,13 @@ public sealed partial class GameSelector : UserControl
                 }
 
                 CurrentGameChanged?.Invoke(this, (server.GameId, false));
+                // 关闭弹出的服务器选择菜单
+                if (VisualTreeHelper.GetOpenPopupsForXamlRoot(this.XamlRoot).FirstOrDefault() is Popup popup)
+                {
+                    popup.IsOpen = false;
+                }
+                HideFullBackground();
+                _isGameBizDisplayPressed = false;
                 AppSetting.CurrentGameBiz = server.GameBiz;
             }
         }
