@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -1583,8 +1583,8 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thiết bị lưu trữ di động không được kết nối.</value>
   </data>
   <data name="InterKnotMonthlyReportPage_PolychromeRevenueStreams" xml:space="preserve">
-  <value>Các nguồn thu đa dạng</value>
-</data>
+    <value>Các nguồn thu đa dạng</value>
+  </data>
   <data name="HoyolabToolboxPage_InterKnotMonthlyReport" xml:space="preserve">
     <value>Báo cáo tháng Inter-Knot</value>
   </data>
@@ -1610,27 +1610,116 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Phần quà khác</value>
   </data>
   <data name="DeleteGachaLogDialog_BeginTime" xml:space="preserve">
-  <value>Thời gian bắt đầu</value>
-</data>
-<data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
-  <value>Thời gian kết thúc</value>
-</data>
-<data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
-  <value>Xoá lịch sử gacha trong một khoảng thời gian cụ thể</value>
-</data>
-<data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
-  <value>Cảnh báo: Khoảng thời gian đã chọn bao gồm dữ liệu gacha từ hơn 6 tháng trước, dữ liệu này sẽ không thể khôi phục sau khi bị xóa.</value>
-</data>
-<data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
-  <value>Tài khoản này có {0} dữ liệu gacha.</value>
-</data>
-<data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
-  <value>Khoảng thời gian đã chọn bao gồm {0} bản ghi gacha.</value>
-</data>
-<data name="GachaLogPage_DeleteAll" xml:space="preserve">
-  <value>Xoá tất cả</value>
-</data>
-<data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
-  <value>Khoảng thời gian cụ thể</value>
-</data>
+    <value>Thời gian bắt đầu</value>
+  </data>
+  <data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
+    <value>Thời gian kết thúc</value>
+  </data>
+  <data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
+    <value>Xoá lịch sử gacha trong một khoảng thời gian cụ thể</value>
+  </data>
+  <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
+    <value>Cảnh báo: Khoảng thời gian đã chọn bao gồm dữ liệu gacha từ hơn 6 tháng trước, dữ liệu này sẽ không thể khôi phục sau khi bị xóa.</value>
+  </data>
+  <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
+    <value>Tài khoản này có {0} dữ liệu gacha.</value>
+  </data>
+  <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
+    <value>Khoảng thời gian đã chọn bao gồm {0} bản ghi gacha.</value>
+  </data>
+  <data name="GachaLogPage_DeleteAll" xml:space="preserve">
+    <value>Xoá tất cả</value>
+  </data>
+  <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
+    <value>Khoảng thời gian cụ thể</value>
+  </data>
+  <data name="StartGameButton_ResumeDownload" xml:space="preserve">
+    <value>Resume Download</value>
+  </data>
+  <data name="StartGameButton_Waiting" xml:space="preserve">
+    <value>Waiting</value>
+  </data>
+  <data name="GameLauncherPage_Relocate" xml:space="preserve">
+    <value>Relocate</value>
+  </data>
+  <data name="GameLauncherSettingDialog_RelocateGame" xml:space="preserve">
+    <value>Relocate Game</value>
+  </data>
+  <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="GameLauncherSettingDialog_BasicInformation" xml:space="preserve">
+    <value>Basic Information</value>
+  </data>
+  <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
+    <value>Startup Arguments</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CustomBackground" xml:space="preserve">
+    <value>Custom Background</value>
+  </data>
+  <data name="GameLauncherSettingDialog_GamePackages" xml:space="preserve">
+    <value>Game Packages</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CommandLineArgument" xml:space="preserve">
+    <value>Command Line Argument</value>
+  </data>
+  <data name="GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument" xml:space="preserve">
+    <value>See more information about command line argument.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_UseVersionPoster" xml:space="preserve">
+    <value>Use Version Poster</value>
+  </data>
+  <data name="GameSelector_ActualSizeOfInstalledGames" xml:space="preserve">
+    <value>Actual Size of Installed Games</value>
+  </data>
+  <data name="GameSelector_StorageSpaceSavedByHardLinks" xml:space="preserve">
+    <value>Storage Space Saved by Hard Links</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CannotDecodeFile" xml:space="preserve">
+    <value>Cannot decode file.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs" xml:space="preserve">
+    <value>An unknown error occurred. Please check the logs.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
+    <value>Drag and drop image / video files.</value>
+  </data>
+  <data name="GameSelector_Calculating" xml:space="preserve">
+    <value>Calculating</value>
+    <comment>Calculating storage space usage.</comment>
+  </data>
+  <data name="SettingPage_General" xml:space="preserve">
+    <value>General</value>
+    <comment>General Setting</comment>
+  </data>
+  <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
+    <value>For a better experience, please enable the following features in system settings.</value>
+  </data>
+  <data name="PlayTimeButton_Last7Days" xml:space="preserve">
+    <value>Last 7 Days</value>
+  </data>
+  <data name="PlayTimeButton_LastStartup" xml:space="preserve">
+    <value>Last Startup</value>
+  </data>
+  <data name="UpdateWindow_AutoRestartAfterUpdate" xml:space="preserve">
+    <value>Auto-restart after update</value>
+  </data>
+  <data name="UpdateWindow_DisplayUpdateContentAfterRestart" xml:space="preserve">
+    <value>Display update content after restart</value>
+  </data>
+  <data name="Common_WebView2ComponentInitializationFailed" xml:space="preserve">
+    <value>WebView2 component initialization failed.</value>
+  </data>
+  <data name="SettingPage_RPCService" xml:space="preserve">
+    <value>RPC Service</value>
+  </data>
+  <data name="SettingPage_RPCService_Desc" xml:space="preserve">
+    <value>The RPC service is an independent process used to avoid restarting when downloading games, updating software, and other features that require administrator privileges.</value>
+  </data>
+  <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
+    <value>Keep RPC Service Running in the Background</value>
+  </data>
+  <data name="SettingPage_RPCServiceWarningIfAppInRemovableStorage" xml:space="preserve">
+    <value>Detected that the application is in a removable storage device, it is not recommended to keep the RPC service running in the background.</value>
+  </data>
 </root>
