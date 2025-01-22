@@ -555,7 +555,7 @@
     <value>定位</value>
   </data>
   <data name="LauncherPage_RepairGame" xml:space="preserve">
-    <value>一键修复</value>
+    <value>修复游戏</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
     <value>自定义启动程序</value>
