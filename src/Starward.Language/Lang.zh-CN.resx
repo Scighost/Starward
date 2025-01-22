@@ -1716,8 +1716,6 @@
   </data>
   <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
     <value>指定时间段</value>
-    </data>
-    <value>可移动存储设备未连接</value>
   </data>
   <data name="ZZZGachaService_ImportSignalSearchSuccessfully" xml:space="preserve">
     <value>成功导入调频记录 {0} 条</value>

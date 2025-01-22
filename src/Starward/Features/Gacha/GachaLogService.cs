@@ -118,6 +118,10 @@ internal abstract class GachaLogService
 
 
 
+    public abstract List<GachaLogItem> CheckUIGFItems(List<GachaLogItem> list, long uid, string lang);
+
+
+
     protected abstract int InsertGachaLogItems(List<GachaLogItem> items);
 
 
@@ -275,7 +279,7 @@ internal abstract class GachaLogService
 
 
 
-    public abstract long ImportGachaLog(string file);
+    public abstract List<long> ImportGachaLog(string file);
 
 
 
