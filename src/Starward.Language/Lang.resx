@@ -1719,4 +1719,7 @@ Do you accept the risk and continue to use it?</value>
 	<data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
     <value>Keep RPC service running in the background</value>
 </data>
+  <data name="ZZZGachaService_ImportSignalSearchSuccessfully" xml:space="preserve">
+    <value>Import {0} signal search(es) successfully.</value>
+  </data>
 </root>
