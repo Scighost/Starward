@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -555,7 +555,7 @@
     <value>定位</value>
   </data>
   <data name="LauncherPage_RepairGame" xml:space="preserve">
-    <value>修復遊戲</value>
+    <value>一鍵修復</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
     <value>自訂啟動程式</value>
@@ -1580,33 +1580,57 @@
     <value>輝彩祝福</value>
   </data>
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
-    <value>可移動存儲設備未連接。</value>
+    <value>可移動存儲設備未連接</value>
   </data>
   <data name="InterKnotMonthlyReportPage_PolychromeRevenueStreams" xml:space="preserve">
-    <value>Polychrome Revenue Streams</value>
+    <value>菲林收入組成</value>
   </data>
   <data name="HoyolabToolboxPage_InterKnotMonthlyReport" xml:space="preserve">
-    <value>Inter-Knot Monthly Report</value>
+    <value>繩網月報</value>
   </data>
   <data name="InterKnotMonthlyReportPage_DailyActivityRewardeds" xml:space="preserve">
-    <value>Daily Activity Rewardeds</value>
+    <value>日常活躍獎勵</value>
   </data>
   <data name="InterKnotMonthlyReportPage_DevelopmentRewards" xml:space="preserve">
-    <value>Development Rewards</value>
+    <value>成長獎勵</value>
   </data>
   <data name="InterKnotMonthlyReportPage_EventRewards" xml:space="preserve">
-    <value>Event Rewards</value>
+    <value>活動獎勵</value>
   </data>
   <data name="InterKnotMonthlyReportPage_HollowZeroRewards" xml:space="preserve">
-    <value>Hollow Zero Rewards</value>
+    <value>零號空洞獎勵</value>
   </data>
   <data name="InterKnotMonthlyReportPage_ShiyuDefenseRewards" xml:space="preserve">
-    <value>Shiyu Defense Rewards</value>
+    <value>式輿防衛戰獎勵</value>
   </data>
   <data name="InterKnotMonthlyReportPage_MailRewards" xml:space="preserve">
-    <value>Mail Rewards</value>
+    <value>郵件獎勵</value>
   </data>
   <data name="InterKnotMonthlyReportPage_OtherRewards" xml:space="preserve">
-    <value>Other Rewards</value>
+    <value>其他獎勵</value>
+  </data>
+  <data name="DeleteGachaLogDialog_BeginTime" xml:space="preserve">
+    <value>起始時間</value>
+  </data>
+  <data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
+    <value>結束時間</value>
+  </data>
+  <data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
+    <value>刪除特定時間段的抽卡記錄</value>
+  </data>
+  <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
+    <value>警告：選擇的時段包含 6 個月以前的抽卡紀錄，刪除後將無法再取得。</value>
+  </data>
+  <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
+    <value>這個帳號有 {0} 次抽卡紀錄。</value>
+  </data>
+  <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
+    <value>選擇的時段包含 {0} 次抽卡紀錄。</value>
+  </data>
+  <data name="GachaLogPage_DeleteAll" xml:space="preserve">
+    <value>全部刪除</value>
+  </data>
+  <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
+    <value>指定時段</value>
   </data>
 </root>
