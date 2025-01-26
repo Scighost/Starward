@@ -1,14 +1,20 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Logging;
+using MiniExcelLibs;
 using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
 using Starward.Features.Database;
+using Starward.Frameworks;
+using Starward.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -204,39 +210,107 @@ internal class ZZZGachaService : GachaLogService
 
 
 
-    public override Task ExportGachaLogAsync(long uid, string file, string format)
+    public override async Task ExportGachaLogAsync(long uid, string file, string format)
     {
-        throw new NotImplementedException();
+        if (format is "excel")
+        {
+            await ExportAsExcelAsync(uid, file);
+        }
+        else
+        {
+            await ExportAsJsonAsync(uid, file);
+        }
     }
+
+
+
+    private async Task ExportAsJsonAsync(long uid, string output)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        var list = dapper.Query<ZZZGachaItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        var obj = new UIGFObj(uid, list);
+        var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
+        await File.WriteAllTextAsync(output, str);
+    }
+
+
+    private async Task ExportAsExcelAsync(long uid, string output)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        var list = GetGachaLogItemEx(uid);
+        var template = Path.Combine(AppContext.BaseDirectory, @"Assets\Template\GachaLog.xlsx");
+        if (File.Exists(template))
+        {
+            await MiniExcel.SaveAsByTemplateAsync(output, template, new { list });
+        }
+    }
+
 
 
 
     public override long ImportGachaLog(string file)
     {
-        throw new NotImplementedException();
+        var str = File.ReadAllText(file);
+        var obj = JsonSerializer.Deserialize<UIGFObj>(str);
+        if (obj != null)
+        {
+            var lang = obj.info.lang ?? "";
+            long uid = obj.info.uid;
+            foreach (var item in obj.list)
+            {
+                if (item.Lang is null)
+                {
+                    item.Lang = lang;
+                }
+                if (item.Uid == 0)
+                {
+                    item.Uid = uid;
+                }
+            }
+            var count = InsertGachaLogItems(obj.list.ToList<GachaLogItem>());
+            // 成功导入调频记录 {count} 条
+            InAppToast.MainWindow?.Success($"Uid {obj.info.uid}", string.Format(Lang.ZZZGachaService_ImportSignalSearchRecordsSuccessfully, count), 5000);
+            return obj.info.uid;
+        }
+        return 0;
     }
 
 
-    // todo
+
     public override async Task<string> UpdateGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
     {
         return lang;
-        // var data = await _client.GetZZZGachaInfoAsync(gameBiz, lang, cancellationToken);
-        // using var dapper = DatabaseService.CreateConnection();
-        // using var t = dapper.BeginTransaction();
-        // // todo
-        // const string insertSql = """
-        //     INSERT OR REPLACE INTO ZZZGachaInfo (Id, Name, Icon, Element, Level, CatId, WeaponCatId)
-        //     VALUES (@Id, @Name, @Icon, @Element, @Level, @CatId, @WeaponCatId);
-        //     """;
-        // dapper.Execute(insertSql, data.AllAvatar, t);
-        // dapper.Execute(insertSql, data.AllWeapon, t);
-        // t.Commit();
-        // return data.Language;
+        // 很可惜，这个方法不能用，服务器返回错误未登录
+        // 还没有定义数据表 ZZZGachaInfo
+        //GameRecordService service = AppService.GetService<GameRecordService>();
+        //if (gameBiz.IsChinaServer() || gameBiz.IsBilibili())
+        //{
+        //    service.IsHoyolab = false;
+        //}
+        //else
+        //{
+        //    service.IsHoyolab = true;
+        //    service.Language = lang;
+        //}
+        //var role = service.GetLastSelectGameRecordRoleOrTheFirstOne(gameBiz);
+        //if (role is null)
+        //{
+        //    return "";
+        //}
+        //var wiki = await service.GetZZZGachaWikiAsync(role, cancellationToken);
+        //var list = new List<ZZZGachaInfo>();
+        //list.AddRange(wiki.Avatar);
+        //list.AddRange(wiki.Weapon);
+        //list.AddRange(wiki.Buddy);
+        //using var dapper = DatabaseService.CreateConnection();
+        //using var t = dapper.BeginTransaction();
+        //const string insertSql = "INSERT OR REPLACE INTO ZZZGachaInfo (Id, Name, Rarity, Icon) VALUES (Id, Name, Rarity, Icon);";
+        //dapper.Execute(insertSql, list, t);
+        //t.Commit();
+        //return lang;
     }
 
 
-    // todo
     public override async Task<(string Language, int Count)> ChangeGachaItemNameAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
     {
         return (lang, 0);
@@ -249,6 +323,53 @@ internal class ZZZGachaService : GachaLogService
         //     FROM GenshinGachaItem item INNER JOIN GenshinGachaInfo info ON item.ItemId = info.Id;
         //     """, new { Lang = lang });
         // return (lang, count);
+    }
+
+
+
+
+    private class UIGFObj
+    {
+        public UIGFObj() { }
+
+        public UIGFObj(long uid, List<ZZZGachaItem> list)
+        {
+            this.info = new UIGFInfo(uid, list);
+            this.list = list;
+        }
+
+        public UIGFInfo info { get; set; }
+
+        public List<ZZZGachaItem> list { get; set; }
+    }
+
+
+    private class UIGFInfo
+    {
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+        public long uid { get; set; }
+
+        public string lang { get; set; }
+
+        public int region_time_zone { get; set; } = 0;
+
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+        public long export_timestamp { get; set; }
+
+        public string export_app { get; set; } = "Starward";
+
+        public string export_app_version { get; set; } = AppSetting.AppVersion ?? "";
+
+        public string uigf_version { get; set; } = "v1.0";
+
+        public UIGFInfo() { }
+
+        public UIGFInfo(long uid, List<ZZZGachaItem> list)
+        {
+            this.uid = uid;
+            lang = list.FirstOrDefault()?.Lang ?? "";
+            export_timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+        }
     }
 
 

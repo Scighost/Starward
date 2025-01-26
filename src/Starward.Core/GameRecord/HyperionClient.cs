@@ -7,6 +7,7 @@ using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
+using Starward.Core.GameRecord.ZZZ.UpgradeGuide;
 
 namespace Starward.Core.GameRecord;
 
@@ -725,6 +726,48 @@ public class HyperionClient : GameRecordClient
         }
         return data;
     }
+
+
+
+    /// <summary>
+    /// 养成指南，不可用，返回未登录错误
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="avatar_id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<UpgradeGuideItemList> GetZZZUpgradeGuideItemListAsync(GameRecordRole role, int avatar_id = 1011, CancellationToken cancellationToken = default)
+    {
+        var url = $"https://api-takumi.mihoyo.com/event/nap_cultivate_tool/user/item_list?uid={role.Uid}&region={role.Region}&avatar_id={avatar_id}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(Referer, "https://act.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        return await CommonSendAsync<UpgradeGuideItemList>(request, cancellationToken);
+    }
+
+
+
+    /// <summary>
+    /// 养成指南，不可用，返回未登录错误
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<UpgradeGuidIconInfo> GetZZZUpgradeGuideIconInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        var url = $"https://api-takumi.mihoyo.com/event/nap_cultivate_tool/user/icon_info?uid={role.Uid}&region={role.Region}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(Referer, "https://act.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        return await CommonSendAsync<UpgradeGuidIconInfo>(request, cancellationToken);
+    }
+
 
 
 

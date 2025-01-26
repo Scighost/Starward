@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Logging;
 using Starward.Core;
+using Starward.Core.Gacha.ZZZ;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
@@ -924,6 +925,24 @@ internal class GameRecordService
 
 
     #endregion
+
+
+
+
+    #region ZZZ Gacha Wiki
+
+
+
+    public async Task<ZZZGachaWiki> GetZZZGachaWikiAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        return await _gameRecordClient.GetZZZGachaWikiAsync(role, cancellationToken);
+    }
+
+
+
+    #endregion
+
+
 
 
 }

@@ -4791,5 +4791,14 @@ namespace Starward.Language {
                 return ResourceManager.GetString("UpdateWindow_DisplayUpdateContentAfterRestart", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Import {0} signal search record(s) successfully. 的本地化字符串。
+        /// </summary>
+        public static string ZZZGachaService_ImportSignalSearchRecordsSuccessfully {
+            get {
+                return ResourceManager.GetString("ZZZGachaService_ImportSignalSearchRecordsSuccessfully", resourceCulture);
+            }
+        }
     }
 }
