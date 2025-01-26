@@ -1723,4 +1723,7 @@
   <data name="SettingPage_RPCServiceWarningIfAppInRemovableStorage" xml:space="preserve">
     <value>Detected that the application is in a removable storage device, it is not recommended to keep the RPC service running in the background.</value>
   </data>
+  <data name="ZZZGachaService_ImportSignalSearchRecordsSuccessfully" xml:space="preserve">
+    <value>Import {0} signal search record(s) successfully.</value>
+  </data>
 </root>
