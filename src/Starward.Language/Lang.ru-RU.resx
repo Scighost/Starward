@@ -1635,37 +1635,37 @@
     <value>Определенный период времени</value>
   </data>
   <data name="StartGameButton_ResumeDownload" xml:space="preserve">
-    <value>Resume Download</value>
+    <value>Возобновить загрузку</value>
   </data>
   <data name="StartGameButton_Waiting" xml:space="preserve">
-    <value>Waiting</value>
+    <value>Ожидание</value>
   </data>
   <data name="GameLauncherPage_Relocate" xml:space="preserve">
-    <value>Relocate</value>
+    <value>Перемещение</value>
   </data>
   <data name="GameLauncherSettingDialog_RelocateGame" xml:space="preserve">
-    <value>Relocate Game</value>
+    <value>Переместить игру</value>
   </data>
   <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
-    <value>Size</value>
+    <value>Размер</value>
   </data>
   <data name="GameLauncherSettingDialog_BasicInformation" xml:space="preserve">
-    <value>Basic Information</value>
+    <value>Базовая Информация</value>
   </data>
   <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
-    <value>Startup Arguments</value>
+    <value>Аргументы при запуске</value>
   </data>
   <data name="GameLauncherSettingDialog_CustomBackground" xml:space="preserve">
-    <value>Custom Background</value>
+    <value>Пользовательский фон</value>
   </data>
   <data name="GameLauncherSettingDialog_GamePackages" xml:space="preserve">
-    <value>Game Packages</value>
+    <value>Игровые пакеты</value>
   </data>
   <data name="GameLauncherSettingDialog_CommandLineArgument" xml:space="preserve">
-    <value>Command Line Argument</value>
+    <value>Аргумент командной строки</value>
   </data>
   <data name="GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument" xml:space="preserve">
-    <value>See more information about command line argument.</value>
+    <value>Дополнительную информацию об аргументе командной строки см.</value>
   </data>
   <data name="GameLauncherSettingDialog_UseVersionPoster" xml:space="preserve">
     <value>Use Version Poster</value>
