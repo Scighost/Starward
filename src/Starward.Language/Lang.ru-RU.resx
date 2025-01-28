@@ -1668,62 +1668,62 @@
     <value>Дополнительную информацию об аргументе командной строки см.</value>
   </data>
   <data name="GameLauncherSettingDialog_UseVersionPoster" xml:space="preserve">
-    <value>Use Version Poster</value>
+    <value>Использовать версию автора</value>
   </data>
   <data name="GameSelector_ActualSizeOfInstalledGames" xml:space="preserve">
-    <value>Actual Size of Installed Games</value>
+    <value>Фактический размер установленных игр</value>
   </data>
   <data name="GameSelector_StorageSpaceSavedByHardLinks" xml:space="preserve">
-    <value>Storage Space Saved by Hard Links</value>
+    <value>Область хранения сохранена - жесткими ссылками</value>
   </data>
   <data name="GameLauncherSettingDialog_CannotDecodeFile" xml:space="preserve">
-    <value>Cannot decode file.</value>
+    <value>Невозможно декодировать файл.</value>
   </data>
   <data name="GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs" xml:space="preserve">
-    <value>An unknown error occurred. Please check the logs.</value>
+    <value>Произошла неизвестная ошибка. Пожалуйста, проверьте журналы.</value>
   </data>
   <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
-    <value>Drag and drop image / video files.</value>
+    <value>Перетащите изображения / видео файлы.</value>
   </data>
   <data name="GameSelector_Calculating" xml:space="preserve">
-    <value>Calculating</value>
+    <value>Расчет</value>
     <comment>Calculating storage space usage.</comment>
   </data>
   <data name="SettingPage_General" xml:space="preserve">
-    <value>General</value>
+    <value>Основные</value>
     <comment>General Setting</comment>
   </data>
   <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
-    <value>For a better experience, please enable the following features in system settings.</value>
+    <value>Для улучшения опыта использования включите следующие функции в настройках системы.</value>
   </data>
   <data name="PlayTimeButton_Last7Days" xml:space="preserve">
-    <value>Last 7 Days</value>
+    <value>Последние 7 дней</value>
   </data>
   <data name="PlayTimeButton_LastStartup" xml:space="preserve">
-    <value>Last Startup</value>
+    <value>Последний запуск</value>
   </data>
   <data name="UpdateWindow_AutoRestartAfterUpdate" xml:space="preserve">
-    <value>Auto-restart after update</value>
+    <value>Автоматический перезапуск после обновления</value>
   </data>
   <data name="UpdateWindow_DisplayUpdateContentAfterRestart" xml:space="preserve">
-    <value>Display update content after restart</value>
+    <value>Показывать обновление после перезапуска</value>
   </data>
   <data name="Common_WebView2ComponentInitializationFailed" xml:space="preserve">
-    <value>WebView2 component initialization failed.</value>
+    <value>Не удалось инициализировать компонент WebView2.</value>
   </data>
   <data name="SettingPage_RPCService" xml:space="preserve">
-    <value>RPC Service</value>
+    <value>Служба RPC</value>
   </data>
   <data name="SettingPage_RPCService_Desc" xml:space="preserve">
-    <value>The RPC service is an independent process used to avoid restarting when downloading games, updating software, and other features that require administrator privileges.</value>
+    <value>Служба RPC — это независимый процесс, используемый для предотвращения перезапуска при загрузке игр, обновлении программного обеспечения и выполнении других функций, требующих прав администратора.</value>
   </data>
   <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
-    <value>Keep RPC Service Running in the Background</value>
+    <value>Оставить службу RPC работающей в фоновом режиме</value>
   </data>
   <data name="SettingPage_RPCServiceWarningIfAppInRemovableStorage" xml:space="preserve">
-    <value>Detected that the application is in a removable storage device, it is not recommended to keep the RPC service running in the background.</value>
+    <value>Обнаружено, что приложение находится на съемном устройстве хранения. Не рекомендуется оставлять службу RPC работающей в фоновом режиме.</value>
   </data>
   <data name="ZZZGachaService_ImportSignalSearchRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} signal search record(s) successfully.</value>
+    <value>Успешно импортировано {0} запись(ей) поиска сигнала.</value>
   </data>
 </root>
