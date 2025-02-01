@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
 using Starward.Models;
 using System;
@@ -9,7 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Starward.Features.GameLauncher;
+namespace Starward.Features.GameInstall;
 
 internal class GamePackageService
 {

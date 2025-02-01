@@ -18,6 +18,9 @@ public enum GameState
     UpdateGame,
 
 
+    UpdatePlugin,
+
+
     Downloading,
 
 
@@ -28,5 +31,8 @@ public enum GameState
 
 
     ResumeDownload,
+
+
+    ComingSoon,
 
 }

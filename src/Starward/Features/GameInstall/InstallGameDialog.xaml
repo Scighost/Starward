@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog x:Class="Starward.Features.GameInstall.InstallGameDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:lang="using:Starward.Language"
+               xmlns:local="using:Starward.Features.GameInstall"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               x:DefaultBindMode="OneWay"
+               Background="{ThemeResource CustomAcrylicBrush}"
+               BorderThickness="0"
+               CornerRadius="8"
+               Style="{ThemeResource DefaultContentDialogStyle}"
+               mc:Ignorable="d">
+
+    <ContentDialog.Resources>
+        <x:Double x:Key="ContentDialogMaxWidth">1200</x:Double>
+        <Thickness x:Key="ContentDialogPadding">0</Thickness>
+        <StaticResource x:Key="ContentDialogSmokeFill" ResourceKey="ControlFillColorTransparentBrush" />
+        <StaticResource x:Key="ContentDialogTopOverlay" ResourceKey="ControlFillColorTransparentBrush" />
+    </ContentDialog.Resources>
+
+    <Grid Width="560" Padding="24">
+
+
+        <StackPanel>
+
+
+            <!--  Title  -->
+            <TextBlock FontSize="18"
+                       FontWeight="Bold"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.InstallGameDialog_SelectInstallationPath}" />
+
+
+
+            <!--  Path  -->
+            <Grid Height="36"
+                  Margin="0,16,0,0"
+                  Background="{ThemeResource DateTimePickerFlyoutButtonBackgroundPointerOver}"
+                  CornerRadius="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="TextBlock_InstallationPath"
+                           Margin="12,4,12,4"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+                           MaxLines="2"
+                           Text="{x:Bind InstallationPath}"
+                           TextTrimming="CharacterEllipsis"
+                           TextWrapping="Wrap" />
+                <!--  Change Path  -->
+                <Button Grid.Column="1"
+                        Padding="12,0,12,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="0"
+                        Command="{x:Bind ChangeInstallationPathCommand}"
+                        CornerRadius="8"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                    <TextBlock FontSize="14"
+                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                               IsTextScaleFactorEnabled="False"
+                               Text="{x:Bind lang:Lang.Common_Change}" />
+                </Button>
+            </Grid>
+
+
+
+            <!--  Select Language  -->
+            <cwc:Segmented x:Name="Segmented_SelectLanguage"
+                           Margin="0,8,0,0"
+                           HorizontalAlignment="Stretch"
+                           SelectionChanged="Segmented_SelectLanguage_SelectionChanged"
+                           SelectionMode="Multiple"
+                           Visibility="Collapsed">
+                <cwc:SegmentedItem Content="{x:Bind lang:Lang.Language_Chinese}" Tag="zh-cn" />
+                <cwc:SegmentedItem Content="{x:Bind lang:Lang.Language_English}" Tag="en-us" />
+                <cwc:SegmentedItem Content="{x:Bind lang:Lang.Language_Japanese}" Tag="ja-jp" />
+                <cwc:SegmentedItem Content="{x:Bind lang:Lang.Language_Korean}" Tag="ko-kr" />
+            </cwc:Segmented>
+
+
+
+            <!--  Free Space  -->
+            <StackPanel x:Name="StackPanel_FreeSpace"
+                        Margin="1,8,0,0"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                <TextBlock FontSize="12"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="">
+                    <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceRequiredToUnzip}" />
+                    <Run Text="" />
+                    <Run Text="{x:Bind UnzipSpaceText}" />
+                </TextBlock>
+                <AppBarSeparator Padding="2" />
+                <TextBlock x:Name="TextBlock_AvailableSpace"
+                           FontSize="12"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False">
+                    <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceAvailable}" />
+                    <Run Text="" />
+                    <Run Text="{x:Bind AvailableSpaceText}" />
+                </TextBlock>
+            </StackPanel>
+
+
+            <!--  Hard Link Desc  -->
+            <TextBlock x:Name="TextBlock_HardLink"
+                       Margin="0,8,0,0"
+                       FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.InstallGameDialog_HardLinkDesc}"
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed" />
+
+
+
+
+            <!--  Start Install  -->
+            <Button x:Name="Button_StartInstallation"
+                    Margin="0,16,0,0"
+                    HorizontalAlignment="Right"
+                    Command="{x:Bind StartInstallationCommand}"
+                    Content="{x:Bind lang:Lang.InstallGameDialog_StartInstallation}"
+                    FontSize="14"
+                    IsEnabled="False"
+                    IsTextScaleFactorEnabled="False"
+                    Style="{ThemeResource AccentButtonStyle}" />
+
+
+
+
+        </StackPanel>
+
+
+
+        <!--  Close Button  -->
+        <Button Width="32"
+                Height="32"
+                Margin="-20"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                BorderThickness="0"
+                Command="{x:Bind CloseCommand}"
+                CornerRadius="8"
+                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+            <FontIcon FontSize="16"
+                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                      Glyph="&#xE711;"
+                      IsTextScaleFactorEnabled="False" />
+        </Button>
+
+
+    </Grid>
+
+
+
+</ContentDialog>

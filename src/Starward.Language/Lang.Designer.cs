@@ -2531,6 +2531,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 If the selected path is on the same drive as the clients of other installed servers, multiple clients for different servers can be installed using hard links, which occupy a minimal amount of additional storage space. 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_HardLinkDesc {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_HardLinkDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Creating hard link to install game clients in different servers, taking up very little additional storage space. 的本地化字符串。
         /// </summary>
         public static string InstallGameDialog_HardLinkDescription {

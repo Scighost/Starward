@@ -12,6 +12,7 @@ using Starward.Core.SelfQuery;
 using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.Gacha;
+using Starward.Features.GameInstall;
 using Starward.Features.GameLauncher;
 using Starward.Features.GameRecord;
 using Starward.Features.GameSetting;

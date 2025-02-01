@@ -132,6 +132,19 @@ internal class GameLauncherService
 
 
 
+    /// <summary>
+    /// 最新游戏版本
+    /// </summary>
+    /// <param name="gameBiz"></param>
+    /// <returns></returns>
+    public async Task<Version?> GetLatestGameVersionAsync(GameId gameId)
+    {
+        var package = await _hoYoPlayService.GetGamePackageAsync(gameId);
+        _ = Version.TryParse(package.Main.Major?.Version, out Version? version);
+        return version;
+    }
+
+
 
 
     /// <summary>

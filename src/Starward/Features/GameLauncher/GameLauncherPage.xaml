@@ -98,7 +98,7 @@
                            Visibility="{x:Bind IsInstallPathRemovableTipEnabled}">
                     <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.GameLauncherPage_RemovableStorageDeviceNotConnected}" />
                     <Hyperlink Click="Hyperlink_LocateGame_Click" UnderlineStyle="None">
-                        <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.GameLauncherPage_Relocate}" />
+                        <Run Foreground="{ThemeResource SystemFillColorCautionBrush}" Text="{x:Bind lang:Lang.GameLauncherPage_Relocate}" />
                     </Hyperlink>
                 </TextBlock>
 
@@ -111,7 +111,7 @@
                            Visibility="{x:Bind InstalledLocateGameEnabled}">
                     <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_Installed}" />
                     <Hyperlink Click="Hyperlink_LocateGame_Click" UnderlineStyle="None">
-                        <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LocateGame}" />
+                        <Run Foreground="{ThemeResource SystemFillColorCautionBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_LocateGame}" />
                     </Hyperlink>
                 </TextBlock>
 

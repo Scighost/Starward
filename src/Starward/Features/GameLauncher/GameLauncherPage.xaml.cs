@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Starward.Features.Background;
+using Starward.Features.GameInstall;
 using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
@@ -25,8 +26,6 @@ public sealed partial class GameLauncherPage : PageBase
     private readonly ILogger<GameLauncherPage> _logger = AppService.GetLogger<GameLauncherPage>();
 
     private readonly GameLauncherService _gameLauncherService = AppService.GetService<GameLauncherService>();
-
-    private readonly GamePackageService _gamePackageService = AppService.GetService<GamePackageService>();
 
     private readonly BackgroundService _backgroundService = AppService.GetService<BackgroundService>();
 
@@ -76,7 +75,10 @@ public sealed partial class GameLauncherPage : PageBase
                 break;
             case GameState.GameIsRunning:
             case GameState.InstallGame:
+                await InstallGameAsync();
+                break;
             case GameState.UpdateGame:
+            case GameState.UpdatePlugin:
             case GameState.Downloading:
             case GameState.Waiting:
             case GameState.Paused:
@@ -151,7 +153,7 @@ public sealed partial class GameLauncherPage : PageBase
             {
                 return;
             }
-            latestGameVersion = await _gamePackageService.GetLatestGameVersionAsync(CurrentGameId);
+            latestGameVersion = await _gameLauncherService.GetLatestGameVersionAsync(CurrentGameId);
             if (latestGameVersion > localGameVersion)
             {
                 GameState = GameState.UpdateGame;
@@ -356,6 +358,37 @@ public sealed partial class GameLauncherPage : PageBase
     #endregion
 
 
+
+
+
+    #region Install Game
+
+
+
+
+    private async Task InstallGameAsync()
+    {
+        try
+        {
+            var dialog = new InstallGameDialog
+            {
+                CurrentGameId = CurrentGameId,
+                XamlRoot = this.XamlRoot,
+            };
+            await dialog.ShowAsync();
+        }
+        finally
+        {
+            StartGameButtonCanExecute = true;
+        }
+    }
+
+
+
+
+
+
+    #endregion
 
 
 

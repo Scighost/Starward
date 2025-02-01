@@ -1723,4 +1723,7 @@
   <data name="ZZZGachaService_ImportSignalSearchRecordsSuccessfully" xml:space="preserve">
     <value>成功导入调频记录 {count} 条</value>
   </data>
+  <data name="InstallGameDialog_HardLinkDesc" xml:space="preserve">
+    <value>如果选择的路径与已安装的其他区服的客户端位于同一驱动器，可通过硬链接，占用极小的额外存储空间，安装多个不同区服的客户端。</value>
+  </data>
 </root>

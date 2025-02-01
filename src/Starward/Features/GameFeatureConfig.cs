@@ -32,6 +32,12 @@ internal partial class GameFeatureConfig
     public bool InGameNoticesWindow { get; init; }
 
 
+    /// <summary>
+    /// 支持硬链接
+    /// </summary>
+    public bool SupportHardLink { get; init; }
+
+
 
     public static GameFeatureConfig FromGameId(GameId? gameId)
     {
@@ -87,6 +93,7 @@ internal partial class GameFeatureConfig
             nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
+        SupportHardLink = true,
     };
 
 
@@ -102,6 +109,7 @@ internal partial class GameFeatureConfig
             nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
+        SupportHardLink = true,
     };
 
     private static readonly GameFeatureConfig nap = new()
@@ -116,6 +124,7 @@ internal partial class GameFeatureConfig
             nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
+        SupportHardLink = true,
     };
 
 

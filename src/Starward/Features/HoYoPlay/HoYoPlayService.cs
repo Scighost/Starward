@@ -236,4 +236,36 @@ public class HoYoPlayService
     }
 
 
+
+    public async Task<GameBranch?> GetGameBranchAsync(GameId gameId)
+    {
+        if (!_memoryCache.TryGetValue($"{nameof(GameBranch)}_{gameId.Id}", out GameBranch? branch))
+        {
+            string lang = CultureInfo.CurrentUICulture.Name;
+            var list = await _client.GetGameBranchAsync(LauncherId.FromGameId(gameId)!, lang);
+            foreach (var item in list)
+            {
+                _memoryCache.Set($"{nameof(GameBranch)}_{item.GameId.Id}", item, TimeSpan.FromMinutes(1));
+            }
+            branch = list.FirstOrDefault(x => x.GameId == gameId);
+        }
+        return branch;
+    }
+
+
+
+
+    public async Task<GameSophonChunkBuild?> GetGameSophonChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage)
+    {
+        if (!_memoryCache.TryGetValue($"{nameof(GameSophonChunkBuild)}_{gameBranchPackage.PackageId}", out GameSophonChunkBuild? build))
+        {
+            string lang = CultureInfo.CurrentUICulture.Name;
+            build = await _client.GetGameSophonChunkBuildAsync(gameBranch, gameBranchPackage, gameBranchPackage.Tag);
+            _memoryCache.Set($"{nameof(GameSophonChunkBuild)}_{gameBranchPackage.PackageId}", build, TimeSpan.FromMinutes(1));
+        }
+        return build;
+    }
+
+
+
 }
