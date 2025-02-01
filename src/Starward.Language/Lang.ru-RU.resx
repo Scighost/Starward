@@ -1726,4 +1726,7 @@
   <data name="ZZZGachaService_ImportSignalSearchRecordsSuccessfully" xml:space="preserve">
     <value>Успешно импортировано {0} запись(ей) поиска сигнала.</value>
   </data>
+  <data name="InstallGameDialog_HardLinkDesc" xml:space="preserve">
+    <value>If the selected path is on the same drive as the clients of other installed servers, multiple clients for different servers can be installed using hard links, which occupy a minimal amount of additional storage space.</value>
+  </data>
 </root>
