@@ -181,7 +181,7 @@
     <value>このフォルダーを選択しますか?</value>
   </data>
   <data name="SelectDirectoryPage_AutoDeleteAfterUpdate" xml:space="preserve">
-    <value>このフォルダーはソフトウェアのアップデート後に自動的に削除されます。</value>
+    <value>このフォルダーはソフトウェアの更新後に自動的に削除されます</value>
   </data>
   <data name="SelectDirectoryPage_NoWritePermission" xml:space="preserve">
     <value>書き込み権限がありません</value>
@@ -408,7 +408,7 @@
     <value>リトライの回数が多すぎます</value>
   </data>
   <data name="UpdateService_CannotUpdateAutomatically" xml:space="preserve">
-    <value>自動でアップデートできません</value>
+    <value>自動で更新できません</value>
   </data>
   <data name="GameSettingPage_Custom" xml:space="preserve">
     <value>カスタム</value>
@@ -510,7 +510,7 @@
     <value>ゲームをインストール</value>
   </data>
   <data name="LauncherPage_UpdateGame" xml:space="preserve">
-    <value>ゲームをアップデート</value>
+    <value>ゲームを更新</value>
   </data>
   <data name="LauncherPage_PlayTime" xml:space="preserve">
     <value>プレイ時間</value>
@@ -671,7 +671,7 @@
     <value>アプリはCloudFlareから必要なリソースをダウンロードするため、正しく接続できることを確認してください。</value>
   </data>
   <data name="SettingPage_CheckForUpdate" xml:space="preserve">
-    <value>アップデートを確認</value>
+    <value>更新を確認</value>
   </data>
   <data name="SettingPage_CurrentVersion" xml:space="preserve">
     <value>現在のバージョン:</value>
@@ -710,7 +710,7 @@
     <value>これはロゴです</value>
   </data>
   <data name="SettingPage_Update" xml:space="preserve">
-    <value>アップデート</value>
+    <value>更新</value>
   </data>
   <data name="SettingPage_TestCDNAsync_NetworkError" xml:space="preserve">
     <value>ネットワークエラー</value>
@@ -755,7 +755,7 @@
     <value>このバージョンを無視</value>
   </data>
   <data name="UpdatePage_UpdateNow" xml:space="preserve">
-    <value>今すぐアップデート</value>
+    <value>今すぐ更新</value>
   </data>
   <data name="UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage" xml:space="preserve">
     <value>新しいバージョンのパッケージを手動でダウンロードする必要があります</value>
@@ -1247,7 +1247,7 @@
     <value>ネットワークテスト</value>
   </data>
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
-    <value>Starwardのアップデートを受け取りますか?</value>
+    <value>Starwardの更新を受け取りますか?</value>
   </data>
   <data name="SelectDirectoryPage_PleaseSelectAFolderToStoreYourPersonalData" xml:space="preserve">
     <value>個人データを保存するフォルダーを選択してください。これは非常に重要です!</value>
@@ -1506,7 +1506,7 @@
     <value>現在のサーバーは事前ダウンロードをサポートしていません。ターゲットサーバーのハードリンクを使用して事前ダウンロードを完了してください。</value>
   </data>
   <data name="GameLauncherPage_HardLinkUpdateToLatest" xml:space="preserve">
-    <value>このサーバーのゲームファイルをアップデートする前に、ハードリンク先のサーバーを最新のバージョンにアップデートしてください。</value>
+    <value>このサーバーのゲームファイルを更新する前に、ハードリンク先のサーバーを最新のバージョンにしてください。</value>
   </data>
   <data name="InstallGameDialog_LinkPath" xml:space="preserve">
     <value>リンクパス:</value>
@@ -1633,10 +1633,10 @@
     <value>特定の時間</value>
   </data>
   <data name="StartGameButton_ResumeDownload" xml:space="preserve">
-    <value>Resume Download</value>
+    <value>ダウンロードを再開</value>
   </data>
   <data name="StartGameButton_Waiting" xml:space="preserve">
-    <value>Waiting</value>
+    <value>待機中</value>
   </data>
   <data name="GameLauncherPage_Relocate" xml:space="preserve">
     <value>Relocate</value>
@@ -1645,19 +1645,19 @@
     <value>Relocate Game</value>
   </data>
   <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
-    <value>Size</value>
+    <value>サイズ</value>
   </data>
   <data name="GameLauncherSettingDialog_BasicInformation" xml:space="preserve">
-    <value>Basic Information</value>
+    <value>基本情報</value>
   </data>
   <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
     <value>Startup Arguments</value>
   </data>
   <data name="GameLauncherSettingDialog_CustomBackground" xml:space="preserve">
-    <value>Custom Background</value>
+    <value>カスタム背景</value>
   </data>
   <data name="GameLauncherSettingDialog_GamePackages" xml:space="preserve">
-    <value>Game Packages</value>
+    <value>ゲームパッケージ</value>
   </data>
   <data name="GameLauncherSettingDialog_CommandLineArgument" xml:space="preserve">
     <value>Command Line Argument</value>
@@ -1681,14 +1681,14 @@
     <value>An unknown error occurred. Please check the logs.</value>
   </data>
   <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
-    <value>Drag and drop image / video files.</value>
+    <value>画像または動画をドラッグ&amp;ドロップしてください。</value>
   </data>
   <data name="GameSelector_Calculating" xml:space="preserve">
-    <value>Calculating</value>
+    <value>計算中</value>
     <comment>Calculating storage space usage.</comment>
   </data>
   <data name="SettingPage_General" xml:space="preserve">
-    <value>General</value>
+    <value>一般</value>
     <comment>General Setting</comment>
   </data>
   <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
@@ -1698,10 +1698,10 @@
     <value>Last 7 Days</value>
   </data>
   <data name="PlayTimeButton_LastStartup" xml:space="preserve">
-    <value>Last Startup</value>
+    <value>最後に起動</value>
   </data>
   <data name="UpdateWindow_AutoRestartAfterUpdate" xml:space="preserve">
-    <value>Auto-restart after update</value>
+    <value>自動で再起動後に更新</value>
   </data>
   <data name="UpdateWindow_DisplayUpdateContentAfterRestart" xml:space="preserve">
     <value>Display update content after restart</value>
@@ -1710,7 +1710,7 @@
     <value>WebView2 component initialization failed.</value>
   </data>
   <data name="SettingPage_RPCService" xml:space="preserve">
-    <value>RPC Service</value>
+    <value>RPCサービス</value>
   </data>
   <data name="SettingPage_RPCService_Desc" xml:space="preserve">
     <value>The RPC service is an independent process used to avoid restarting when downloading games, updating software, and other features that require administrator privileges.</value>
