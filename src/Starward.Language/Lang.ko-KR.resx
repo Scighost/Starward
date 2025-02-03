@@ -1634,31 +1634,31 @@
     <value>지정된 시간</value>
   </data>
   <data name="StartGameButton_ResumeDownload" xml:space="preserve">
-    <value>Resume Download</value>
+    <value>다운로드 계속</value>
   </data>
   <data name="StartGameButton_Waiting" xml:space="preserve">
-    <value>Waiting</value>
+    <value>대기 중</value>
   </data>
   <data name="GameLauncherPage_Relocate" xml:space="preserve">
-    <value>Relocate</value>
+    <value>경로 변경</value>
   </data>
   <data name="GameLauncherSettingDialog_RelocateGame" xml:space="preserve">
-    <value>Relocate Game</value>
+    <value>게임 경로 변경</value>
   </data>
   <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
-    <value>Size</value>
+    <value>크기</value>
   </data>
   <data name="GameLauncherSettingDialog_BasicInformation" xml:space="preserve">
-    <value>Basic Information</value>
+    <value>기본 정보</value>
   </data>
   <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
-    <value>Startup Arguments</value>
+    <value>시작변수 설정</value>
   </data>
   <data name="GameLauncherSettingDialog_CustomBackground" xml:space="preserve">
-    <value>Custom Background</value>
+    <value>사용자 지정 배경</value>
   </data>
   <data name="GameLauncherSettingDialog_GamePackages" xml:space="preserve">
-    <value>Game Packages</value>
+    <value>게임 패키지</value>
   </data>
   <data name="GameLauncherSettingDialog_CommandLineArgument" xml:space="preserve">
     <value>Command Line Argument</value>
