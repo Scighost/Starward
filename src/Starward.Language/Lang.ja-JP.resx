@@ -1639,10 +1639,10 @@
     <value>待機中</value>
   </data>
   <data name="GameLauncherPage_Relocate" xml:space="preserve">
-    <value>Relocate</value>
+    <value>再配置</value>
   </data>
   <data name="GameLauncherSettingDialog_RelocateGame" xml:space="preserve">
-    <value>Relocate Game</value>
+    <value>ゲームを再配置</value>
   </data>
   <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
     <value>サイズ</value>
@@ -1651,7 +1651,7 @@
     <value>基本情報</value>
   </data>
   <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
-    <value>Startup Arguments</value>
+    <value>起動時の引数</value>
   </data>
   <data name="GameLauncherSettingDialog_CustomBackground" xml:space="preserve">
     <value>カスタム背景</value>
@@ -1660,25 +1660,25 @@
     <value>ゲームパッケージ</value>
   </data>
   <data name="GameLauncherSettingDialog_CommandLineArgument" xml:space="preserve">
-    <value>Command Line Argument</value>
+    <value>コマンドラインの引数</value>
   </data>
   <data name="GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument" xml:space="preserve">
-    <value>See more information about command line argument.</value>
+    <value>コマンドラインの引数に関する詳細情報を参照してください。</value>
   </data>
   <data name="GameLauncherSettingDialog_UseVersionPoster" xml:space="preserve">
-    <value>Use Version Poster</value>
+    <value>バージョンポスターを使用する</value>
   </data>
   <data name="GameSelector_ActualSizeOfInstalledGames" xml:space="preserve">
-    <value>Actual Size of Installed Games</value>
+    <value>インストールされたゲームの実際のサイズ</value>
   </data>
   <data name="GameSelector_StorageSpaceSavedByHardLinks" xml:space="preserve">
-    <value>Storage Space Saved by Hard Links</value>
+    <value>ハードリンクによって節約されるストレージ容量</value>
   </data>
   <data name="GameLauncherSettingDialog_CannotDecodeFile" xml:space="preserve">
-    <value>Cannot decode file.</value>
+    <value>ファイルをデコードできません。</value>
   </data>
   <data name="GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs" xml:space="preserve">
-    <value>An unknown error occurred. Please check the logs.</value>
+    <value>不明なエラーが発生しました。ログを確認してください。</value>
   </data>
   <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
     <value>画像または動画をドラッグ&amp;ドロップしてください。</value>
@@ -1692,10 +1692,10 @@
     <comment>General Setting</comment>
   </data>
   <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
-    <value>For a better experience, please enable the following features in system settings.</value>
+    <value>より良い体験のためにシステム設定で次の機能を有効化してください。</value>
   </data>
   <data name="PlayTimeButton_Last7Days" xml:space="preserve">
-    <value>Last 7 Days</value>
+    <value>過去7日間</value>
   </data>
   <data name="PlayTimeButton_LastStartup" xml:space="preserve">
     <value>最後に起動</value>
@@ -1704,27 +1704,27 @@
     <value>自動で再起動後に更新</value>
   </data>
   <data name="UpdateWindow_DisplayUpdateContentAfterRestart" xml:space="preserve">
-    <value>Display update content after restart</value>
+    <value>再起動後に更新内容を表示</value>
   </data>
   <data name="Common_WebView2ComponentInitializationFailed" xml:space="preserve">
-    <value>WebView2 component initialization failed.</value>
+    <value>WebView2コンポーネントの初期化に失敗しました。</value>
   </data>
   <data name="SettingPage_RPCService" xml:space="preserve">
     <value>RPCサービス</value>
   </data>
   <data name="SettingPage_RPCService_Desc" xml:space="preserve">
-    <value>The RPC service is an independent process used to avoid restarting when downloading games, updating software, and other features that require administrator privileges.</value>
+    <value>RPCサービスはゲームのダウンロードやソフトウェアの更新、および管理者権限を必要とするその他の機能を実行するときに再起動を回避する独立したプロセスです。</value>
   </data>
   <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
-    <value>Keep RPC Service Running in the Background</value>
+    <value>RPCサービスをバックグラウンドで実行を維持</value>
   </data>
   <data name="SettingPage_RPCServiceWarningIfAppInRemovableStorage" xml:space="preserve">
-    <value>Detected that the application is in a removable storage device, it is not recommended to keep the RPC service running in the background.</value>
+    <value>アプリがリムーバブルストレージの内部にあることが検出されたため、RPCサービスをバックグラウンドで実行を維持の使用は推奨しません。</value>
   </data>
   <data name="ZZZGachaService_ImportSignalSearchRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} signal search record(s) successfully.</value>
+    <value>{0} のシグナル検索の記録のインポートに成功しました。</value>
   </data>
   <data name="InstallGameDialog_HardLinkDesc" xml:space="preserve">
-    <value>If the selected path is on the same drive as the clients of other installed servers, multiple clients for different servers can be installed using hard links, which occupy a minimal amount of additional storage space.</value>
+    <value>選択したパスが他のインストール済みサーバーのクライアントと同じドライブ上にある場合にハードリンクを使用して、異なるサーバーで複数のクライアントをインストールできます。これにより追加のストレージ容量が最小限に抑えられます。</value>
   </data>
 </root>
