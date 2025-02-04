@@ -57,8 +57,8 @@ public sealed partial class ImageViewWindow : WindowEx
 
     public new void Activate()
     {
-        base.Activate();
         User32.ShowWindow((nint)AppWindow.Id.Value, ShowWindowCommand.SW_SHOWMAXIMIZED);
+        base.Activate();
     }
 
 

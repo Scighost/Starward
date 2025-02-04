@@ -60,7 +60,7 @@ public sealed partial class UpdateContentWindow : WindowEx
 
     private void CenterInScreen()
     {
-        RectInt32 workArea = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary).WorkArea;
+        RectInt32 workArea = DisplayArea.GetFromWindowId(MainWindowId, DisplayAreaFallback.Nearest).WorkArea;
         int h = (int)(workArea.Height * 0.95);
         int w = (int)(h / 4.0 * 3.0);
         if (w > workArea.Width)

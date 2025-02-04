@@ -31,6 +31,7 @@ public sealed partial class MainWindow : WindowEx
     public MainWindow()
     {
         Current = this;
+        MainWindowId = AppWindow.Id;
         this.InitializeComponent();
         InitializeMainWindow();
         LoadContentView();

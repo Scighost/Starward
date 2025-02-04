@@ -36,7 +36,7 @@ public sealed partial class BattleChronicleWindow : WindowEx
 
     private void CenterInScreen()
     {
-        RectInt32 workArea = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary).WorkArea;
+        RectInt32 workArea = DisplayArea.GetFromWindowId(MainWindowId, DisplayAreaFallback.Nearest).WorkArea;
         int h = (int)(workArea.Height * 0.95);
         int w = (int)(h / 16.0 * 9.0);
         if (w > workArea.Width)

@@ -72,7 +72,7 @@ public sealed partial class UpdateWindow : WindowEx
 
     private void CenterInScreen()
     {
-        RectInt32 workArea = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary).WorkArea;
+        RectInt32 workArea = DisplayArea.GetFromWindowId(MainWindowId, DisplayAreaFallback.Nearest).WorkArea;
         if (NewVersion is null)
         {
             Grid_Update.Visibility = Visibility.Collapsed;

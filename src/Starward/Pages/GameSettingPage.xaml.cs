@@ -433,7 +433,7 @@ public sealed partial class GameSettingPage : PageBase
 
     private void InitializeResolutionItem()
     {
-        var display = DisplayArea.GetFromWindowId(MainWindow.Current.AppWindow.Id, DisplayAreaFallback.Primary);
+        var display = DisplayArea.GetFromWindowId(this.XamlRoot.ContentIslandEnvironment.AppWindowId, DisplayAreaFallback.Nearest);
         var width = display.OuterBounds.Width;
         var height = display.OuterBounds.Height;
         var list = Resolutions.Where(x => x.Width <= width && x.Height <= height).ToList();

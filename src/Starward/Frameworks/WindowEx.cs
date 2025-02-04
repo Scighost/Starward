@@ -21,6 +21,8 @@ public abstract partial class WindowEx : Window
     public double UIScale => User32.GetDpiForWindow(WindowHandle) / 96d;
 
 
+    public static Microsoft.UI.WindowId MainWindowId { get; protected set; }
+
 
 
     public WindowEx()
@@ -99,7 +101,7 @@ public abstract partial class WindowEx : Window
     {
         width = width <= 0 ? null : width;
         height = height <= 0 ? null : height;
-        DisplayArea display = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary);
+        DisplayArea display = DisplayArea.GetFromWindowId(MainWindowId, DisplayAreaFallback.Nearest);
         double scale = UIScale;
         int w = (int)((width * scale) ?? AppWindow.Size.Width);
         int h = (int)((height * scale) ?? AppWindow.Size.Height);
