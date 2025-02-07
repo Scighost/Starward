@@ -106,7 +106,7 @@ internal class GamePackageService
         if (package.PreDownload?.Major != null)
         {
             var localVersion = await _gameLauncherService.GetLocalGameVersionAsync(biz, installPath);
-            VoiceLanguage language = await GetVoiceLanguageAsync(biz, installPath);
+            AudioLanguage language = await GetVoiceLanguageAsync(biz, installPath);
             if (package.PreDownload.Patches?.FirstOrDefault(x => x.Version == localVersion?.ToString()) is GamePackageResource resource)
             {
                 return CheckGamePackageResourceIsDownloadOK(resource, installPath, language);
@@ -166,7 +166,7 @@ internal class GamePackageService
 
 
 
-    private static bool CheckGamePackageResourceIsDownloadOK(GamePackageResource resource, string installPath, VoiceLanguage language)
+    private static bool CheckGamePackageResourceIsDownloadOK(GamePackageResource resource, string installPath, AudioLanguage language)
     {
         foreach (var item in resource.GamePackages)
         {
@@ -176,7 +176,7 @@ internal class GamePackageService
                 return false;
             }
         }
-        foreach (var lang in Enum.GetValues<VoiceLanguage>())
+        foreach (var lang in Enum.GetValues<AudioLanguage>())
         {
             if (language.HasFlag(lang))
             {
@@ -212,18 +212,18 @@ internal class GamePackageService
 
 
 
-    public async Task<VoiceLanguage> GetVoiceLanguageAsync(GameBiz biz, string? installPath = null)
+    public async Task<AudioLanguage> GetVoiceLanguageAsync(GameBiz biz, string? installPath = null)
     {
         if (biz.ToGame() == GameBiz.bh3)
         {
-            return VoiceLanguage.None;
+            return AudioLanguage.None;
         }
         installPath ??= _gameLauncherService.GetGameInstallPath(biz);
         if (string.IsNullOrWhiteSpace(installPath))
         {
-            return VoiceLanguage.None;
+            return AudioLanguage.None;
         }
-        VoiceLanguage flag = VoiceLanguage.None;
+        AudioLanguage flag = AudioLanguage.None;
         var config = await _hoYoPlayService.GetGameConfigAsync(biz);
         if (!string.IsNullOrWhiteSpace(config?.AudioPackageScanDir))
         {
@@ -231,10 +231,10 @@ internal class GamePackageService
             if (File.Exists(file))
             {
                 var lines = await File.ReadAllLinesAsync(file);
-                if (lines.Any(x => x.Contains("Chinese"))) { flag |= VoiceLanguage.Chinese; }
-                if (lines.Any(x => x.Contains("English(US)"))) { flag |= VoiceLanguage.English; }
-                if (lines.Any(x => x.Contains("Japanese"))) { flag |= VoiceLanguage.Japanese; }
-                if (lines.Any(x => x.Contains("Korean"))) { flag |= VoiceLanguage.Korean; }
+                if (lines.Any(x => x.Contains("Chinese"))) { flag |= AudioLanguage.Chinese; }
+                if (lines.Any(x => x.Contains("English(US)"))) { flag |= AudioLanguage.English; }
+                if (lines.Any(x => x.Contains("Japanese"))) { flag |= AudioLanguage.Japanese; }
+                if (lines.Any(x => x.Contains("Korean"))) { flag |= AudioLanguage.Korean; }
             }
         }
         return flag;
@@ -243,7 +243,7 @@ internal class GamePackageService
 
 
 
-    public async Task SetVoiceLanguageAsync(GameBiz biz, string installPath, VoiceLanguage lang)
+    public async Task SetVoiceLanguageAsync(GameBiz biz, string installPath, AudioLanguage lang)
     {
         if (biz.ToGame() == GameBiz.bh3)
         {
@@ -255,10 +255,10 @@ internal class GamePackageService
             string file = Path.Join(installPath, config.AudioPackageScanDir);
             Directory.CreateDirectory(Path.GetDirectoryName(file)!);
             var lines = new List<string>(4);
-            if (lang.HasFlag(VoiceLanguage.Chinese)) { lines.Add("Chinese"); }
-            if (lang.HasFlag(VoiceLanguage.English)) { lines.Add("English(US)"); }
-            if (lang.HasFlag(VoiceLanguage.Japanese)) { lines.Add("Japanese"); }
-            if (lang.HasFlag(VoiceLanguage.Korean)) { lines.Add("Korean"); }
+            if (lang.HasFlag(AudioLanguage.Chinese)) { lines.Add("Chinese"); }
+            if (lang.HasFlag(AudioLanguage.English)) { lines.Add("English(US)"); }
+            if (lang.HasFlag(AudioLanguage.Japanese)) { lines.Add("Japanese"); }
+            if (lang.HasFlag(AudioLanguage.Korean)) { lines.Add("Korean"); }
             await File.WriteAllLinesAsync(file, lines);
         }
     }

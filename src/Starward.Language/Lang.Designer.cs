@@ -566,7 +566,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Package Size: 的本地化字符串。
+        ///   查找类似 Package Size 的本地化字符串。
         /// </summary>
         public static string DownloadGameDialog_PackageSize {
             get {
@@ -1719,6 +1719,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Start Repairing 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_StartRepairing {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_StartRepairing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Startup Arguments 的本地化字符串。
         /// </summary>
         public static string GameLauncherSettingDialog_StartupArguments {
@@ -2630,6 +2639,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Support Hard Links 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_SupportHardLinks {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_SupportHardLinks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The path you select must be on the same drive as the link path. 的本地化字符串。
         /// </summary>
         public static string InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath {
@@ -3293,6 +3311,24 @@ namespace Starward.Language {
         public static string PlayTimeButton_LastStartup {
             get {
                 return ResourceManager.GetString("PlayTimeButton_LastStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 There are no patch packagees available. It is recommended to update the game to the latest version before starting pre-install. 的本地化字符串。
+        /// </summary>
+        public static string PreDownloadDialog_NoPatchesWarning {
+            get {
+                return ResourceManager.GetString("PreDownloadDialog_NoPatchesWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start Pre-Install 的本地化字符串。
+        /// </summary>
+        public static string PreDownloadDialog_StartPreInstall {
+            get {
+                return ResourceManager.GetString("PreDownloadDialog_StartPreInstall", resourceCulture);
             }
         }
         

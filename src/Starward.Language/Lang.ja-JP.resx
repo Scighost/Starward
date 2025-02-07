@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
-    <value>パッケージのサイズ:</value>
+    <value>パッケージのサイズ</value>
   </data>
   <data name="DownloadGameDialog_Downloaded" xml:space="preserve">
     <value>ダウンロード済み:</value>
@@ -1609,27 +1609,27 @@
     <value>その他の報酬</value>
   </data>
   <data name="DeleteGachaLogDialog_BeginTime" xml:space="preserve">
-  <value>開始時間</value>
-</data>
-<data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
-  <value>終了時間</value>
-</data>
-<data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
-  <value>特定の期間のガチャの記録を削除する</value>
-</data>
-<data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
-  <value>警告: 選択した期間には、6ヶ月以上前のガチャの記録が含まれています。削除後に再取得を行うことはできません。</value>
-</data>
-<data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
-  <value>このアカウントには {0} 件のガチャの記録があります。</value>
-</data>
-<data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
-  <value>選択した期間には {0} 件のガチャの記録があります。</value>
-</data>
-<data name="GachaLogPage_DeleteAll" xml:space="preserve">
-  <value>すべて削除</value>
-</data>
-<data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
-  <value>特定の時間</value>
-</data>
+    <value>開始時間</value>
+  </data>
+  <data name="DeleteGachaLogDialog_EndTime" xml:space="preserve">
+    <value>終了時間</value>
+  </data>
+  <data name="DeleteGachaLogDialog_DeleteGachaRecordsForASpecificTimePeriod" xml:space="preserve">
+    <value>特定の期間のガチャの記録を削除する</value>
+  </data>
+  <data name="DeleteGachaLogDialog_6MonthsDeletingWarning" xml:space="preserve">
+    <value>警告: 選択した期間には、6ヶ月以上前のガチャの記録が含まれています。削除後に再取得を行うことはできません。</value>
+  </data>
+  <data name="DeleteGachaLogDialog_ThisAccountHas0GachaRecordS" xml:space="preserve">
+    <value>このアカウントには {0} 件のガチャの記録があります。</value>
+  </data>
+  <data name="DeleteGachaLogDialog_TheSelectedTimePeriodIncludes0GachaRecords" xml:space="preserve">
+    <value>選択した期間には {0} 件のガチャの記録があります。</value>
+  </data>
+  <data name="GachaLogPage_DeleteAll" xml:space="preserve">
+    <value>すべて削除</value>
+  </data>
+  <data name="GachaLogPage_SpecificTimePeriod" xml:space="preserve">
+    <value>特定の時間</value>
+  </data>
 </root>

@@ -3,7 +3,7 @@
 namespace Starward.Core;
 
 [Flags]
-public enum VoiceLanguage
+public enum AudioLanguage
 {
 
     None = 0,

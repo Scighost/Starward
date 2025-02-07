@@ -62,7 +62,7 @@ public sealed partial class DownloadGamePage : PageBase
 
         GameBiz gameBiz = AppConfig.Configuration.GetValue<string>("biz");
         gameFolder = AppConfig.Configuration.GetValue<string>("loc")!;
-        voiceLanguage = AppConfig.Configuration.GetValue<VoiceLanguage>("lang");
+        voiceLanguage = AppConfig.Configuration.GetValue<AudioLanguage>("lang");
 
         _installGameService = gameBiz.ToGame().Value switch
         {
@@ -123,7 +123,7 @@ public sealed partial class DownloadGamePage : PageBase
     private string gameFolder;
 
 
-    private VoiceLanguage voiceLanguage;
+    private AudioLanguage voiceLanguage;
 
 
 

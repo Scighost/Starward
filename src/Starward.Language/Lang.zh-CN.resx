@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
-    <value>资源包大小：</value>
+    <value>资源包大小</value>
   </data>
   <data name="DownloadGameDialog_Downloaded" xml:space="preserve">
     <value>已下载：</value>
@@ -1725,5 +1725,17 @@
   </data>
   <data name="InstallGameDialog_HardLinkDesc" xml:space="preserve">
     <value>如果选择的路径与已安装的其他区服的客户端位于同一驱动器，可通过硬链接，占用极小的额外存储空间，安装多个不同区服的客户端。</value>
+  </data>
+  <data name="InstallGameDialog_SupportHardLinks" xml:space="preserve">
+    <value>支持硬链接</value>
+  </data>
+  <data name="PreDownloadDialog_NoPatchesWarning" xml:space="preserve">
+    <value>无可用补丁包，建议把游戏更新到最新版本后再开始预下载。</value>
+  </data>
+  <data name="PreDownloadDialog_StartPreInstall" xml:space="preserve">
+    <value>开始预下载</value>
+  </data>
+  <data name="GameLauncherSettingDialog_StartRepairing" xml:space="preserve">
+    <value>开始修复</value>
   </data>
 </root>

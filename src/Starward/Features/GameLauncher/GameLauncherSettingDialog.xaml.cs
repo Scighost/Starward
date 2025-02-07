@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -8,6 +9,7 @@ using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Background;
+using Starward.Features.GameInstall;
 using Starward.Features.GameSelector;
 using Starward.Features.HoYoPlay;
 using Starward.Frameworks;
@@ -41,6 +43,9 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
     private readonly GameLauncherService _gameLauncherService = AppService.GetService<GameLauncherService>();
+
+
+    private readonly GamePackageService _gamePackageService = AppService.GetService<GamePackageService>();
 
 
     private readonly BackgroundService _backgroundService = AppService.GetService<BackgroundService>();
@@ -157,6 +162,11 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
 
+    private bool _hasAudioPackages;
+
+
+    public bool CanRepairGame { get; set => SetProperty(ref field, value); } = true;
+
 
     public GameBizIcon CurrentGameBizIcon { get; set => SetProperty(ref field, value); }
 
@@ -227,6 +237,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
             InstallPath = _gameLauncherService.GetGameInstallPath(CurrentGameId, out bool storageRemoved);
             UninstallAndRepairEnabled = InstallPath != null && !storageRemoved;
             GameSize = GetSize(InstallPath);
+            await InitializeAudioLanguageAsync();
         }
         catch (Exception ex)
         {
@@ -245,6 +256,42 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         var size = new DirectoryInfo(path).EnumerateFiles("*", SearchOption.AllDirectories).Sum(f => f.Length);
         var gb = (double)size / (1 << 30);
         return $"{gb:F2}GB";
+    }
+
+
+
+    private async Task InitializeAudioLanguageAsync()
+    {
+        try
+        {
+            GameConfig? config = await _hoyoPlayService.GetGameConfigAsync(CurrentGameId);
+            if (!string.IsNullOrWhiteSpace(config?.AudioPackageScanDir))
+            {
+                _hasAudioPackages = true;
+                Segmented_SelectLanguage.SelectedItems.Clear();
+                AudioLanguage audioLanguage = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId, InstallPath);
+                if (audioLanguage.HasFlag(AudioLanguage.Chinese))
+                {
+                    Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Chinese);
+                }
+                if (audioLanguage.HasFlag(AudioLanguage.English))
+                {
+                    Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_English);
+                }
+                if (audioLanguage.HasFlag(AudioLanguage.Japanese))
+                {
+                    Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Japanese);
+                }
+                if (audioLanguage.HasFlag(AudioLanguage.Korean))
+                {
+                    Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Korean);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "InitializeAudioLanguageAsync ({biz})", CurrentGameBiz);
+        }
     }
 
 
@@ -316,9 +363,42 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     [RelayCommand]
     private async Task RepairGameAsync()
     {
-        // todo
+        if (_hasAudioPackages)
+        {
+            Segmented_SelectLanguage.Visibility = Visibility.Visible;
+            Button_StartRepairing.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            await RepairGameInternalAsync();
+        }
     }
 
+
+
+    [RelayCommand]
+    private async Task RepairGameInternalAsync()
+    {
+        try
+        {
+            // todo
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
+    private void Segmented_SelectLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is Segmented segmented)
+        {
+            CanRepairGame = segmented.SelectedItems.Count > 0;
+        }
+    }
 
 
 

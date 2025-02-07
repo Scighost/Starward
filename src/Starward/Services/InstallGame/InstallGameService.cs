@@ -54,7 +54,7 @@ internal abstract class InstallGameService
 
     public string InstallPath { get; protected set; }
 
-    public VoiceLanguage VoiceLanguages { get; protected set; }
+    public AudioLanguage VoiceLanguages { get; protected set; }
 
     public bool IsRepairMode { get; protected set; }
 
@@ -173,7 +173,7 @@ internal abstract class InstallGameService
     /// <param name="reinstall"></param>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="DirectoryNotFoundException"></exception>
-    public void Initialize(GameBiz gameBiz, string installPath, VoiceLanguage language, bool repair, bool reinstall)
+    public void Initialize(GameBiz gameBiz, string installPath, AudioLanguage language, bool repair, bool reinstall)
     {
         if (gameBiz.ToGame() != CurrentGame)
         {
@@ -344,11 +344,11 @@ internal abstract class InstallGameService
                 MD5 = item.MD5,
             });
         }
-        if (VoiceLanguages is VoiceLanguage.None)
+        if (VoiceLanguages is AudioLanguage.None)
         {
             VoiceLanguages = await _gamePackageService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath).ConfigureAwait(false);
         }
-        foreach (var lang in Enum.GetValues<VoiceLanguage>())
+        foreach (var lang in Enum.GetValues<AudioLanguage>())
         {
             if (VoiceLanguages.HasFlag(lang))
             {

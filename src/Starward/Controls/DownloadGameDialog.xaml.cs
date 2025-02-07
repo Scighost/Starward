@@ -19,7 +19,7 @@ public sealed partial class DownloadGameDialog : UserControl
     public GameBiz GameBiz { get; set; }
 
 
-    public VoiceLanguage LanguageType { get; set; }
+    public AudioLanguage LanguageType { get; set; }
 
 
     public DownloadGameResource GameResource { get; set; }
@@ -83,16 +83,16 @@ public sealed partial class DownloadGameDialog : UserControl
 
     public bool IsChineseChecked
     {
-        get => LanguageType.HasFlag(VoiceLanguage.Chinese);
+        get => LanguageType.HasFlag(AudioLanguage.Chinese);
         set
         {
             if (value)
             {
-                LanguageType |= VoiceLanguage.Chinese;
+                LanguageType |= AudioLanguage.Chinese;
             }
             else
             {
-                LanguageType &= ~VoiceLanguage.Chinese;
+                LanguageType &= ~AudioLanguage.Chinese;
             }
             UpdateSizeText();
         }
@@ -101,16 +101,16 @@ public sealed partial class DownloadGameDialog : UserControl
 
     public bool IsEnglishChecked
     {
-        get => LanguageType.HasFlag(VoiceLanguage.English);
+        get => LanguageType.HasFlag(AudioLanguage.English);
         set
         {
             if (value)
             {
-                LanguageType |= VoiceLanguage.English;
+                LanguageType |= AudioLanguage.English;
             }
             else
             {
-                LanguageType &= ~VoiceLanguage.English;
+                LanguageType &= ~AudioLanguage.English;
             }
             UpdateSizeText();
         }
@@ -119,16 +119,16 @@ public sealed partial class DownloadGameDialog : UserControl
 
     public bool IsJapaneseChecked
     {
-        get => LanguageType.HasFlag(VoiceLanguage.Japanese);
+        get => LanguageType.HasFlag(AudioLanguage.Japanese);
         set
         {
             if (value)
             {
-                LanguageType |= VoiceLanguage.Japanese;
+                LanguageType |= AudioLanguage.Japanese;
             }
             else
             {
-                LanguageType &= ~VoiceLanguage.Japanese;
+                LanguageType &= ~AudioLanguage.Japanese;
             }
             UpdateSizeText();
         }
@@ -137,16 +137,16 @@ public sealed partial class DownloadGameDialog : UserControl
 
     public bool IsKoreanChecked
     {
-        get => LanguageType.HasFlag(VoiceLanguage.Korean);
+        get => LanguageType.HasFlag(AudioLanguage.Korean);
         set
         {
             if (value)
             {
-                LanguageType |= VoiceLanguage.Korean;
+                LanguageType |= AudioLanguage.Korean;
             }
             else
             {
-                LanguageType &= ~VoiceLanguage.Korean;
+                LanguageType &= ~AudioLanguage.Korean;
             }
             UpdateSizeText();
         }
@@ -205,7 +205,7 @@ public sealed partial class DownloadGameDialog : UserControl
             decompress += GameResource.Game.DecompressedSize;
             download += GameResource.Game.DownloadedSize;
 
-            foreach (var lang in Enum.GetValues<VoiceLanguage>())
+            foreach (var lang in Enum.GetValues<AudioLanguage>())
             {
                 if (LanguageType.HasFlag(lang))
                 {

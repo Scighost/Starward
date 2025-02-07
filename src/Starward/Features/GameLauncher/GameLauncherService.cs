@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Starward.Features.GameLauncher;
 
-internal class GameLauncherService
+internal partial class GameLauncherService
 {
 
 
@@ -111,6 +111,9 @@ internal class GameLauncherService
     /// <returns></returns>
     public async Task<Version?> GetLocalGameVersionAsync(GameId gameId, string? installPath = null)
     {
+
+
+
         installPath ??= GetGameInstallPath(gameId);
         if (string.IsNullOrWhiteSpace(installPath))
         {
@@ -120,7 +123,7 @@ internal class GameLauncherService
         if (File.Exists(config))
         {
             var str = await File.ReadAllTextAsync(config);
-            _ = Version.TryParse(Regex.Match(str, @"game_version=(.+)").Groups[1].Value, out Version? version);
+            _ = Version.TryParse(GameVersionRegex().Match(str).Groups[1].Value, out Version? version);
             return version;
         }
         else
@@ -131,17 +134,22 @@ internal class GameLauncherService
     }
 
 
+    [GeneratedRegex(@"game_version=(.+)")]
+    private static partial Regex GameVersionRegex();
+
+
 
     /// <summary>
     /// 最新游戏版本
     /// </summary>
     /// <param name="gameBiz"></param>
     /// <returns></returns>
-    public async Task<Version?> GetLatestGameVersionAsync(GameId gameId)
+    public async Task<(Version? Latest, Version? Predownload)> GetLatestGameVersionAsync(GameId gameId)
     {
         var package = await _hoYoPlayService.GetGamePackageAsync(gameId);
-        _ = Version.TryParse(package.Main.Major?.Version, out Version? version);
-        return version;
+        _ = Version.TryParse(package.Main.Major?.Version, out Version? latestVersion);
+        _ = Version.TryParse(package.PreDownload.Major?.Version, out Version? predownloadVersion);
+        return (latestVersion, predownloadVersion);
     }
 
 
@@ -297,7 +305,12 @@ internal class GameLauncherService
 
 
 
-
+    /// <summary>
+    /// 选取并修改游戏安装目录
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <param name="xamlRoot"></param>
+    /// <returns></returns>
     public async Task<string?> ChangeGameInstallPathAsync(GameId gameId, XamlRoot xamlRoot)
     {
         string? folder = await FileDialogHelper.PickFolderAsync(xamlRoot);
@@ -313,6 +326,12 @@ internal class GameLauncherService
 
 
 
+    /// <summary>
+    /// 修改游戏安装目录
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
     public string? ChangeGameInstallPath(GameId gameId, string? path)
     {
         if (Directory.Exists(path))
@@ -333,7 +352,12 @@ internal class GameLauncherService
 
 
 
-
+    /// <summary>
+    /// 如果安装在可移动存储设备中，获取相对路径
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="removableStorage"></param>
+    /// <returns></returns>
     public static string GetRelativePathIfInRemovableStorage(string path, out bool removableStorage)
     {
         removableStorage = DriveHelper.IsDeviceRemovableOrOnUSB(path);
@@ -346,7 +370,11 @@ internal class GameLauncherService
 
 
 
-
+    /// <summary>
+    /// 如果安装在可移动存储设备中，获取完整路径
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
     public static string GetFullPathIfRelativePath(string path)
     {
         if (Path.IsPathFullyQualified(path))
@@ -362,7 +390,11 @@ internal class GameLauncherService
 
 
 
-
+    /// <summary>
+    /// 获取第三方工具路径
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
     public static string? GetThirdPartyToolPath(GameId gameId)
     {
         string? path = AppSetting.GetThirdPartyToolPath(gameId.GameBiz);
@@ -382,7 +414,12 @@ internal class GameLauncherService
     }
 
 
-
+    /// <summary>
+    /// 设置第三方工具路径
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
     public static string? SetThirdPartyToolPath(GameId gameId, string? path)
     {
         if (File.Exists(path))

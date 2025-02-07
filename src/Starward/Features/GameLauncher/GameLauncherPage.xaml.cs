@@ -27,6 +27,8 @@ public sealed partial class GameLauncherPage : PageBase
 
     private readonly GameLauncherService _gameLauncherService = AppService.GetService<GameLauncherService>();
 
+    private readonly GamePackageService _gamePackageService = AppService.GetService<GamePackageService>();
+
     private readonly BackgroundService _backgroundService = AppService.GetService<BackgroundService>();
 
     public GameLauncherPage()
@@ -99,11 +101,25 @@ public sealed partial class GameLauncherPage : PageBase
 
     public string? GameInstallPath { get; set => SetProperty(ref field, value); }
 
-
+    /// <summary>
+    /// 可移动存储设备提示
+    /// </summary>
     public bool IsInstallPathRemovableTipEnabled { get; set => SetProperty(ref field, value); }
 
-
+    /// <summary>
+    /// 已安装？定位游戏
+    /// </summary>
     public bool InstalledLocateGameEnabled => GameState is GameState.InstallGame && !IsInstallPathRemovableTipEnabled;
+
+    /// <summary>
+    /// 预下载按钮是否可用
+    /// </summary>
+    public bool IsPredownloadButtonEnabled { get; set => SetProperty(ref field, value); }
+
+    /// <summary>
+    /// 预下载是否完成
+    /// </summary>
+    public bool IsPredownloadFinished { get; set => SetProperty(ref field, value); }
 
 
     private Version? localGameVersion;
@@ -112,13 +128,12 @@ public sealed partial class GameLauncherPage : PageBase
     private Version? latestGameVersion;
 
 
-    private Version? preInstallGameVersion;
+    private Version? predownloadGameVersion;
 
 
     private bool isGameExeExists;
 
 
-    private bool isPreDownloadOK;
 
 
 
@@ -151,13 +166,23 @@ public sealed partial class GameLauncherPage : PageBase
             }
             if (await CheckGameRunningAsync())
             {
+                if (predownloadGameVersion > localGameVersion)
+                {
+                    IsPredownloadButtonEnabled = true;
+                    IsPredownloadFinished = await _gamePackageService.CheckPreDownloadFinishedAsync(CurrentGameId);
+                }
                 return;
             }
-            latestGameVersion = await _gameLauncherService.GetLatestGameVersionAsync(CurrentGameId);
+            (latestGameVersion, predownloadGameVersion) = await _gameLauncherService.GetLatestGameVersionAsync(CurrentGameId);
             if (latestGameVersion > localGameVersion)
             {
                 GameState = GameState.UpdateGame;
                 return;
+            }
+            if (predownloadGameVersion > localGameVersion)
+            {
+                IsPredownloadButtonEnabled = true;
+                IsPredownloadFinished = await _gamePackageService.CheckPreDownloadFinishedAsync(CurrentGameId);
             }
         }
         catch (Exception ex)
@@ -383,6 +408,25 @@ public sealed partial class GameLauncherPage : PageBase
         }
     }
 
+
+
+
+
+
+    #endregion
+
+
+
+
+    #region Predownload
+
+
+
+    [RelayCommand]
+    private async Task PredownloadAsync()
+    {
+        await new PreDownloadDialog { CurrentGameId = this.CurrentGameId, XamlRoot = this.XamlRoot }.ShowAsync();
+    }
 
 
 

@@ -114,22 +114,10 @@
             </StackPanel>
 
 
-            <!--  Hard Link Desc  -->
-            <TextBlock x:Name="TextBlock_HardLink"
-                       Margin="0,8,0,0"
-                       FontSize="12"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       IsTextScaleFactorEnabled="False"
-                       Text="{x:Bind lang:Lang.InstallGameDialog_HardLinkDesc}"
-                       TextWrapping="Wrap"
-                       Visibility="Collapsed" />
-
-
-
 
             <!--  Start Install  -->
             <Button x:Name="Button_StartInstallation"
-                    Margin="0,16,0,0"
+                    Margin="0,24,0,0"
                     HorizontalAlignment="Right"
                     Command="{x:Bind StartInstallationCommand}"
                     Content="{x:Bind lang:Lang.InstallGameDialog_StartInstallation}"
@@ -143,6 +131,39 @@
 
         </StackPanel>
 
+
+
+        <!--  Support Hard Links  -->
+        <StackPanel x:Name="StackPanel_HardLink"
+                    Margin="0,0,0,-4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal"
+                    Spacing="4"
+                    Visibility="Collapsed">
+            <TextBlock Margin="0,0,0,2"
+                       VerticalAlignment="Center"
+                       FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.InstallGameDialog_SupportHardLinks}" />
+            <Button Padding="4" Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <FontIcon FontSize="12"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE9CE;"
+                          IsTextScaleFactorEnabled="False" />
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock MaxWidth="380"
+                                   FontSize="12"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   IsTextScaleFactorEnabled="False"
+                                   Text="{x:Bind lang:Lang.InstallGameDialog_HardLinkDesc}"
+                                   TextWrapping="Wrap" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
 
 
         <!--  Close Button  -->

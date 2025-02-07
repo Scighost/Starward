@@ -1144,9 +1144,9 @@ public sealed partial class GameLauncherPage : PageBase
                 return;
             }
             var lang = await _gamePackageService.GetVoiceLanguageAsync(CurrentGameBiz, InstallPath);
-            if (lang is VoiceLanguage.None)
+            if (lang is AudioLanguage.None)
             {
-                lang = VoiceLanguage.All;
+                lang = AudioLanguage.All;
             }
 
             var content = new DownloadGameDialog

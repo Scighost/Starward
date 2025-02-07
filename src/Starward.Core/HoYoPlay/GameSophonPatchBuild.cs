@@ -76,7 +76,7 @@ public class GameSophonPatchManifest
 
 
     /// <summary>
-    /// 文件统计信息
+    /// 文件统计信息，Key 是预下载对应的本地游戏版本
     /// </summary>
     [JsonPropertyName("stats")]
     public Dictionary<string, GameSophonManifestStats> Stats { get; set; }

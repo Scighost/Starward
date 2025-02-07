@@ -2,6 +2,7 @@
 <ContentDialog x:Class="Starward.Features.GameLauncher.GameLauncherSettingDialog"
                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:lang="using:Starward.Language"
                xmlns:local="using:Starward.Features.GameLauncher"
@@ -289,6 +290,34 @@
                                 <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
                             </Button>
                         </StackPanel>
+
+                        <!--  选择语音包  -->
+                        <cwc:Segmented x:Name="Segmented_SelectLanguage"
+                                       HorizontalAlignment="Stretch"
+                                       SelectionChanged="Segmented_SelectLanguage_SelectionChanged"
+                                       SelectionMode="Multiple"
+                                       Visibility="Collapsed">
+                            <cwc:SegmentedItem x:Name="SegmentedItem_Chinese"
+                                               Content="{x:Bind lang:Lang.Language_Chinese}"
+                                               Tag="zh-cn" />
+                            <cwc:SegmentedItem x:Name="SegmentedItem_English"
+                                               Content="{x:Bind lang:Lang.Language_English}"
+                                               Tag="en-us" />
+                            <cwc:SegmentedItem x:Name="SegmentedItem_Japanese"
+                                               Content="{x:Bind lang:Lang.Language_Japanese}"
+                                               Tag="ja-jp" />
+                            <cwc:SegmentedItem x:Name="SegmentedItem_Korean"
+                                               Content="{x:Bind lang:Lang.Language_Korean}"
+                                               Tag="ko-kr" />
+                        </cwc:Segmented>
+
+                        <!--  开始修复  -->
+                        <Button x:Name="Button_StartRepairing"
+                                Command="{x:Bind RepairGameCommand}"
+                                Content="{x:Bind lang:Lang.GameLauncherSettingDialog_StartRepairing}"
+                                IsEnabled="{x:Bind CanRepairGame}"
+                                Style="{ThemeResource AccentButtonStyle}"
+                                Visibility="Collapsed" />
 
                         <!--  显示游戏通知  -->
                         <ToggleSwitch IsOn="{x:Bind EnableBannerAndPost, Mode=TwoWay}"

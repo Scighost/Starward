@@ -33,19 +33,19 @@ internal class GenshinInstallGameService : InstallGameService
         await base.PrepareForRepairAsync();
 
         var list = new List<DownloadFileTask>();
-        if (VoiceLanguages.HasFlag(VoiceLanguage.Chinese))
+        if (VoiceLanguages.HasFlag(AudioLanguage.Chinese))
         {
             list.AddRange(await GetPkgVersionsAsync($"{separateUrlPrefix}/Audio_Chinese_pkg_version").ConfigureAwait(false));
         }
-        if (VoiceLanguages.HasFlag(VoiceLanguage.English))
+        if (VoiceLanguages.HasFlag(AudioLanguage.English))
         {
             list.AddRange(await GetPkgVersionsAsync($"{separateUrlPrefix}/Audio_English(US)_pkg_version").ConfigureAwait(false));
         }
-        if (VoiceLanguages.HasFlag(VoiceLanguage.Japanese))
+        if (VoiceLanguages.HasFlag(AudioLanguage.Japanese))
         {
             list.AddRange(await GetPkgVersionsAsync($"{separateUrlPrefix}/Audio_Japanese_pkg_version").ConfigureAwait(false));
         }
-        if (VoiceLanguages.HasFlag(VoiceLanguage.Korean))
+        if (VoiceLanguages.HasFlag(AudioLanguage.Korean))
         {
             list.AddRange(await GetPkgVersionsAsync($"{separateUrlPrefix}/Audio_Korean_pkg_version").ConfigureAwait(false));
         }

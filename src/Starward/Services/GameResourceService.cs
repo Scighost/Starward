@@ -214,7 +214,7 @@ internal class GameResourceService
                     return false;
                 }
                 var flag = await GetVoiceLanguageAsync(biz, installPath);
-                foreach (var lang in Enum.GetValues<VoiceLanguage>())
+                foreach (var lang in Enum.GetValues<AudioLanguage>())
                 {
                     if (flag.HasFlag(lang))
                     {
@@ -238,7 +238,7 @@ internal class GameResourceService
                     return false;
                 }
                 var flag = await GetVoiceLanguageAsync(biz, installPath);
-                foreach (var lang in Enum.GetValues<VoiceLanguage>())
+                foreach (var lang in Enum.GetValues<AudioLanguage>())
                 {
                     if (flag.HasFlag(lang))
                     {
@@ -370,12 +370,12 @@ internal class GameResourceService
 
 
 
-    public async Task<VoiceLanguage> GetVoiceLanguageAsync(GameBiz biz, string? installPath = null)
+    public async Task<AudioLanguage> GetVoiceLanguageAsync(GameBiz biz, string? installPath = null)
     {
         installPath ??= GetGameInstallPath(biz);
         if (string.IsNullOrWhiteSpace(installPath))
         {
-            return VoiceLanguage.None;
+            return AudioLanguage.None;
         }
         var file = biz.Value switch
         {
@@ -394,21 +394,21 @@ internal class GameResourceService
                 _ => ""
             };
         }
-        var flag = VoiceLanguage.None;
+        var flag = AudioLanguage.None;
         if (File.Exists(file))
         {
             var lines = await File.ReadAllLinesAsync(file);
-            if (lines.Any(x => x.Contains("Chinese"))) { flag |= VoiceLanguage.Chinese; }
-            if (lines.Any(x => x.Contains("English(US)"))) { flag |= VoiceLanguage.English; }
-            if (lines.Any(x => x.Contains("Japanese"))) { flag |= VoiceLanguage.Japanese; }
-            if (lines.Any(x => x.Contains("Korean"))) { flag |= VoiceLanguage.Korean; }
+            if (lines.Any(x => x.Contains("Chinese"))) { flag |= AudioLanguage.Chinese; }
+            if (lines.Any(x => x.Contains("English(US)"))) { flag |= AudioLanguage.English; }
+            if (lines.Any(x => x.Contains("Japanese"))) { flag |= AudioLanguage.Japanese; }
+            if (lines.Any(x => x.Contains("Korean"))) { flag |= AudioLanguage.Korean; }
         }
         return flag;
     }
 
 
 
-    public async Task SetVoiceLanguageAsync(GameBiz biz, string installPath, VoiceLanguage lang)
+    public async Task SetVoiceLanguageAsync(GameBiz biz, string installPath, AudioLanguage lang)
     {
         if (biz.Value is GameBiz.hk4e_cn or GameBiz.hk4e_global or GameBiz.hkrpg_cn or GameBiz.hkrpg_global)
         {
@@ -421,10 +421,10 @@ internal class GameResourceService
             };
             Directory.CreateDirectory(Path.GetDirectoryName(file)!);
             var lines = new List<string>(4);
-            if (lang.HasFlag(VoiceLanguage.Chinese)) { lines.Add("Chinese"); }
-            if (lang.HasFlag(VoiceLanguage.English)) { lines.Add("English(US)"); }
-            if (lang.HasFlag(VoiceLanguage.Japanese)) { lines.Add("Japanese"); }
-            if (lang.HasFlag(VoiceLanguage.Korean)) { lines.Add("Korean"); }
+            if (lang.HasFlag(AudioLanguage.Chinese)) { lines.Add("Chinese"); }
+            if (lang.HasFlag(AudioLanguage.English)) { lines.Add("English(US)"); }
+            if (lang.HasFlag(AudioLanguage.Japanese)) { lines.Add("Japanese"); }
+            if (lang.HasFlag(AudioLanguage.Korean)) { lines.Add("Korean"); }
             await File.WriteAllLinesAsync(file, lines);
         }
     }

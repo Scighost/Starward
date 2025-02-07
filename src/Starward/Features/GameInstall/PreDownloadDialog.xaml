@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog x:Class="Starward.Features.GameInstall.PreDownloadDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:lang="using:Starward.Language"
+               xmlns:local="using:Starward.Features.GameInstall"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               x:DefaultBindMode="OneWay"
+               Background="{ThemeResource CustomAcrylicBrush}"
+               BorderThickness="0"
+               CornerRadius="8"
+               Style="{ThemeResource DefaultContentDialogStyle}"
+               mc:Ignorable="d">
+
+    <ContentDialog.Resources>
+        <x:Double x:Key="ContentDialogMaxWidth">1200</x:Double>
+        <Thickness x:Key="ContentDialogPadding">0</Thickness>
+        <StaticResource x:Key="ContentDialogSmokeFill" ResourceKey="ControlFillColorTransparentBrush" />
+        <StaticResource x:Key="ContentDialogTopOverlay" ResourceKey="ControlFillColorTransparentBrush" />
+    </ContentDialog.Resources>
+
+    <Grid Width="400" Padding="24">
+
+        <StackPanel>
+
+
+            <!--  Title  -->
+            <TextBlock FontSize="18"
+                       FontWeight="Bold"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.LauncherPage_PreInstall}" />
+
+
+            <Border Margin="0,20,0,0"
+                    Padding="12,8,12,8"
+                    Background="{ThemeResource DateTimePickerFlyoutButtonBackgroundPointerOver}"
+                    CornerRadius="8">
+                <StackPanel Spacing="8">
+                    <!--  安装包大小  -->
+                    <TextBlock FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               IsTextScaleFactorEnabled="False"
+                               Text="">
+                        <Run Text="{x:Bind lang:Lang.DownloadGameDialog_PackageSize}" />
+                        <Run Text="" />
+                        <Run Text="{x:Bind PackageSizeText}" />
+                    </TextBlock>
+                    <!--  解压占用空间  -->
+                    <TextBlock FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               IsTextScaleFactorEnabled="False"
+                               Text="">
+                        <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceRequiredToUnzip}" />
+                        <Run Text="" />
+                        <Run Text="{x:Bind UnzipSpaceText}" />
+                    </TextBlock>
+                    <!--  可以空间  -->
+                    <TextBlock x:Name="TextBlock_AvailableSpace"
+                               FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               IsTextScaleFactorEnabled="False">
+                        <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceAvailable}" />
+                        <Run Text="" />
+                        <Run Text="{x:Bind AvailableSpaceText}" />
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+
+
+
+            <!--  无补丁包可用  -->
+            <TextBlock x:Name="TextBlock_NoPatches"
+                       Margin="1,8,1,0"
+                       FontSize="12"
+                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.PreDownloadDialog_NoPatchesWarning}"
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed" />
+
+
+            <!--  Start Predownload  -->
+            <Button x:Name="Button_StartPredownload"
+                    Margin="0,20,0,0"
+                    HorizontalAlignment="Right"
+                    Command="{x:Bind StartPredownloadCommand}"
+                    Content="{x:Bind lang:Lang.PreDownloadDialog_StartPreInstall}"
+                    FontSize="14"
+                    IsEnabled="False"
+                    IsTextScaleFactorEnabled="False"
+                    Style="{ThemeResource AccentButtonStyle}" />
+
+
+
+
+
+
+        </StackPanel>
+
+
+
+        <!--  Close Button  -->
+        <Button Width="32"
+                Height="32"
+                Margin="-20"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                BorderThickness="0"
+                Command="{x:Bind CloseCommand}"
+                CornerRadius="8"
+                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+            <FontIcon FontSize="16"
+                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                      Glyph="&#xE711;"
+                      IsTextScaleFactorEnabled="False" />
+        </Button>
+
+
+
+    </Grid>
+
+
+</ContentDialog>

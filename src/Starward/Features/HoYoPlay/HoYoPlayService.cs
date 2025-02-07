@@ -268,4 +268,19 @@ public class HoYoPlayService
 
 
 
+
+    public async Task<GameSophonPatchBuild?> GetGameSophonPatchBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage)
+    {
+        if (!_memoryCache.TryGetValue($"{nameof(GameSophonPatchBuild)}_{gameBranchPackage.PackageId}", out GameSophonPatchBuild? build))
+        {
+            string lang = CultureInfo.CurrentUICulture.Name;
+            build = await _client.GetGameSophonPatchBuildAsync(gameBranch, gameBranchPackage);
+            _memoryCache.Set($"{nameof(GameSophonPatchBuild)}_{gameBranchPackage.PackageId}", build, TimeSpan.FromMinutes(1));
+        }
+        return build;
+    }
+
+
+
+
 }

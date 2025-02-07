@@ -128,7 +128,7 @@ public sealed partial class InstallGameDialog : ContentDialog
             }
             if (GameFeatureConfig.FromGameId(CurrentGameId).SupportHardLink)
             {
-                TextBlock_HardLink.Visibility = Visibility.Visible;
+                StackPanel_HardLink.Visibility = Visibility.Visible;
             }
             if (config.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK)
             {
@@ -218,13 +218,13 @@ public sealed partial class InstallGameDialog : ContentDialog
             {
                 if (_gameSophonChunkBuild.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonChunkManifest manifest)
                 {
-                    size += manifest.DeduplicatedStats.UncompressedSize;
+                    size += manifest.Stats.UncompressedSize;
                 }
                 foreach (string? lang in langs)
                 {
                     if (_gameSophonChunkBuild.Manifests.FirstOrDefault(x => x.MatchingField == lang) is GameSophonChunkManifest audioManifest)
                     {
-                        size += audioManifest.DeduplicatedStats.UncompressedSize;
+                        size += audioManifest.Stats.UncompressedSize;
                     }
                 }
             }

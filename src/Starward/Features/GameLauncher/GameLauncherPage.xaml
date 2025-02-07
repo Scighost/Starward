@@ -63,6 +63,36 @@
                     Spacing="12">
 
 
+            <!--  预下载  -->
+            <Border Height="40"
+                    Background="{ThemeResource CustomAcrylicBrush}"
+                    CornerRadius="20"
+                    Shadow="{StaticResource ThemeShadow}"
+                    Translation="0,0,16"
+                    Visibility="{x:Bind IsPredownloadButtonEnabled}">
+                <Button Name="Button_PreDownloadGame"
+                        Height="40"
+                        BorderThickness="0"
+                        Command="{x:Bind PredownloadCommand}"
+                        CornerRadius="20"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Margin="4,0,4,0" Orientation="Horizontal">
+                        <FontIcon Margin="0,2,0,0"
+                                  FontSize="20"
+                                  Glyph="&#xEBD3;"
+                                  Visibility="{x:Bind IsPredownloadFinished, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                        <FontIcon Margin="0,2,0,0"
+                                  FontSize="20"
+                                  Glyph="&#xE930;"
+                                  Visibility="{x:Bind IsPredownloadFinished}" />
+                        <TextBlock Margin="8,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Text="{x:Bind lang:Lang.LauncherPage_PreInstall}" />
+                    </StackPanel>
+                </Button>
+            </Border>
+
+
             <!--  游戏时间  -->
             <sfp:PlayTimeButton CurrentGameBiz="{x:Bind CurrentGameBiz}" />
 
