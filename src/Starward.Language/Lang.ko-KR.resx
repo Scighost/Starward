@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
-    <value>패키지 크기</value>
+    <value>Package Size</value>
   </data>
   <data name="DownloadGameDialog_Downloaded" xml:space="preserve">
     <value>다운로드 됨</value>
@@ -1727,5 +1727,17 @@
   </data>
   <data name="InstallGameDialog_HardLinkDesc" xml:space="preserve">
     <value>선택한 설치경로에 다른 서버의 클라이언트가 이미 설치되어 있는경우 하드링크를 생성해 아주 적은 추가 하드디스크 용량으로 여러 서버의 클라이언트를 설치 할 수 있습니다.</value>
+  </data>
+  <data name="InstallGameDialog_SupportHardLinks" xml:space="preserve">
+    <value>Support Hard Links</value>
+  </data>
+  <data name="PreDownloadDialog_NoPatchesWarning" xml:space="preserve">
+    <value>There are no patch packagees available. It is recommended to update the game to the latest version before starting pre-install.</value>
+  </data>
+  <data name="PreDownloadDialog_StartPreInstall" xml:space="preserve">
+    <value>Start Pre-Install</value>
+  </data>
+  <data name="GameLauncherSettingDialog_StartRepairing" xml:space="preserve">
+    <value>Start Repairing</value>
   </data>
 </root>
