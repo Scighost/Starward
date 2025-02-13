@@ -1727,18 +1727,18 @@
     <value>Успешно импортировано {0} запись(ей) поиска сигнала.</value>
   </data>
   <data name="InstallGameDialog_HardLinkDesc" xml:space="preserve">
-    <value>If the selected path is on the same drive as the clients of other installed servers, multiple clients for different servers can be installed using hard links, which occupy a minimal amount of additional storage space.</value>
+    <value>Если выбранный путь находится на том же диске, где расположены клиенты других установленных серверов, можно установить несколько клиентов для разных серверов с использованием жестких ссылок. Это займет минимальный объем дополнительного пространства на диске.</value>
   </data>
   <data name="InstallGameDialog_SupportHardLinks" xml:space="preserve">
-    <value>Support Hard Links</value>
+    <value>Поддержка Жестких Ссылок</value>
   </data>
   <data name="PreDownloadDialog_NoPatchesWarning" xml:space="preserve">
-    <value>There are no patch packagees available. It is recommended to update the game to the latest version before starting pre-install.</value>
+    <value>Нет доступных пакетов обновления. Рекомендуется обновить игру до последней версии перед началом предустановки.</value>
   </data>
   <data name="PreDownloadDialog_StartPreInstall" xml:space="preserve">
-    <value>Start Pre-Install</value>
+    <value>Начать предварительную установку</value>
   </data>
   <data name="GameLauncherSettingDialog_StartRepairing" xml:space="preserve">
-    <value>Start Repairing</value>
+    <value>Начать восстановление</value>
   </data>
 </root>
