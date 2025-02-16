@@ -1013,7 +1013,7 @@
     <value>選擇伺服器</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
-    <value>系統工作列圖示</value>
+    <value>系統匣圖示</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
     <value>關閉視窗時離開啟動器</value>
@@ -1022,13 +1022,13 @@
     <value>離開</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>系統工作列</value>
+    <value>系統匣</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
     <value>安裝器</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>您可以選擇離開，或是將視窗隱藏到系統工作列。</value>
+    <value>您可以選擇離開，或是將視窗隱藏到系統匣。</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
     <value>隱藏</value>
@@ -1084,10 +1084,10 @@
     <value>Uid {0} 的帳號已存在，替換或儲存為新帳號？</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
-    <value>修復系統工作列</value>
+    <value>修復系統匣</value>
   </data>
   <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
-    <value>修正無法建立系統工作列圖示的問題，此方式會重新啟動檔案總管。</value>
+    <value>修正無法建立系統匣圖示的問題，此方法會重新啟動資源管理器。</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
     <value>帳號記錄</value>
@@ -1205,13 +1205,13 @@
     <value>關閉視窗選項</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
-    <value>最小化到系統工作列</value>
+    <value>最小化到系統匣</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
     <value>完全退出</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>關閉視窗但保留在系統工作列</value>
+    <value>關閉視窗但保留在系統匣</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
     <value>行為</value>
