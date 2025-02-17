@@ -1728,15 +1728,15 @@
     <value>選択したパスが他のインストール済みサーバーのクライアントと同じドライブ上にある場合にハードリンクを使用して、異なるサーバーで複数のクライアントをインストールできます。これにより追加のストレージ容量が最小限に抑えられます。</value>
   </data>
   <data name="InstallGameDialog_SupportHardLinks" xml:space="preserve">
-    <value>Support Hard Links</value>
+    <value>ハードリンクのサポート</value>
   </data>
   <data name="PreDownloadDialog_NoPatchesWarning" xml:space="preserve">
-    <value>There are no patch packagees available. It is recommended to update the game to the latest version before starting pre-install.</value>
+    <value>利用可能なパッチパッケージはありません。事前インストールを開始する前に、ゲームを最新のバージョンに更新することをお勧めします。</value>
   </data>
   <data name="PreDownloadDialog_StartPreInstall" xml:space="preserve">
-    <value>Start Pre-Install</value>
+    <value>事前インストールを開始</value>
   </data>
   <data name="GameLauncherSettingDialog_StartRepairing" xml:space="preserve">
-    <value>Start Repairing</value>
+    <value>修復を開始</value>
   </data>
 </root>
