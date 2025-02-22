@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.Gacha.ZZZ;
@@ -906,7 +906,7 @@ internal class GameRecordService
         using var t = dapper.BeginTransaction();
         dapper.Execute($"DELETE FROM InterKnotReportDetailItem WHERE Uid = @Uid AND DataMonth = @DataMonth AND DataType = @DataType;", list.FirstOrDefault(), t);
         dapper.Execute("""
-                INSERT INTO InterKnotReportDetailItem (Uid, Id, DataMonth, DataType, Action, Time, Number)
+                INSERT OR REPLACE INTO InterKnotReportDetailItem (Uid, Id, DataMonth, DataType, Action, Time, Number)
                 VALUES (@Uid, @Id, @DataMonth, @DataType, @Action, @Time, @Number);
                 """, list, t);
         t.Commit();
