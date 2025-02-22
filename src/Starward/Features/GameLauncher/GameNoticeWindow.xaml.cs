@@ -211,8 +211,6 @@ public sealed partial class GameNoticeWindow : WindowEx
                                     } else if (rule.style.fontFamily.includes("rpg")) {
                                         let src = rule.style.getPropertyValue("src").replace("http://127.0.0.1:1221/font", "https://sdk.mihoyo.com/hkrpg/fonts");
                                         rule.style.setProperty("src", src);
-                                    } else if (rule.style.fontFamily.includes("nap")) {
-                                        sheet.deleteRule(i);
                                     }
                                 }
                             }
@@ -224,7 +222,6 @@ public sealed partial class GameNoticeWindow : WindowEx
                 modifyAllFontFaces();
                 """;
             await webview.CoreWebView2.ExecuteScriptAsync(script);
-            await Task.Delay(300);
             webview.Visibility = Visibility.Visible;
             timer.Stop();
         }
@@ -263,6 +260,13 @@ public sealed partial class GameNoticeWindow : WindowEx
         }
     }
 
+
+
+    private new void Close()
+    {
+        this.Hide();
+        base.Close();
+    }
 
 
 
