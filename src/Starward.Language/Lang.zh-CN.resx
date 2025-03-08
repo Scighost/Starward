@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1739,5 +1739,23 @@
   </data>
   <data name="GameLauncherSettingDialog_StartRepairing" xml:space="preserve">
     <value>开始修复</value>
+  </data>
+  <data name="PreDownloadButton_PreInstallFinished" xml:space="preserve">
+    <value>预下载已完成</value>
+  </data>
+  <data name="Common_Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="StartGameButton_InQueue" xml:space="preserve">
+    <value>队列中</value>
+  </data>
+  <data name="RPCServiceExitedUnexpectedly" xml:space="preserve">
+    <value>RPC 服务意外退出</value>
+  </data>
+  <data name="StartGameButton_Install" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="StartGameButton_Verify" xml:space="preserve">
+    <value>校验</value>
   </data>
 </root>
