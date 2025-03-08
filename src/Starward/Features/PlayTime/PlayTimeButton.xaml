@@ -12,13 +12,13 @@
 
     <Border Name="Border_Playtime"
             Height="44"
-            Background="{ThemeResource CustomAcrylicBrush}"
+            Background="{ThemeResource CustomOverlayAcrylicBrush}"
             CornerRadius="22"
             Shadow="{StaticResource ThemeShadow}"
             Translation="0,0,16">
-        <Button Height="44"
-                BorderThickness="0"
-                CornerRadius="22">
+        <Button HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                BorderThickness="0">
             <StackPanel Margin="4,2,4,0"
                         Orientation="Horizontal"
                         Spacing="8">
@@ -27,7 +27,7 @@
                           Glyph="&#xE823;" />
                 <TextBlock FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           Text="{x:Bind PlayTimeTotal, Converter={StaticResource TimeSpanToStringConverter}}" />
+                           Text="{x:Bind local:PlayTimeButton.TimeSpanToString(PlayTimeTotal)}" />
             </StackPanel>
             <Button.Flyout>
                 <Flyout>
@@ -37,7 +37,7 @@
                                    FontSize="16"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="{x:Bind lang:Lang.LauncherPage_PlayTime}" />
-                        <!--  启动次数 & 上次启动 & 最近 7 天  -->
+                        <!--  启动次数 & 本日 & 本周 & 本月 & 上次启动  -->
                         <Grid ColumnSpacing="16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -45,111 +45,20 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Spacing="8">
                                 <TextBlock Text="{x:Bind lang:Lang.LauncherPage_StartupCount}" />
-                                <TextBlock Text="{x:Bind lang:Lang.PlayTimeButton_LastStartup}" />
-                                <TextBlock Text="{x:Bind lang:Lang.PlayTimeButton_Last7Days}" />
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisDay}" />
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisWeek}" />
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisMonth}" />
+                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_LastTime}" />
+                                <TextBlock />
                             </StackPanel>
                             <StackPanel Grid.Column="1" Spacing="8">
                                 <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind StartUpCount}" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind local:PlayTimeButton.TimeSpanToString(PlayTimeDay)}" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind local:PlayTimeButton.TimeSpanToString(PlayTimeWeek)}" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind local:PlayTimeButton.TimeSpanToString(PlayTimeMonth)}" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind local:PlayTimeButton.TimeSpanToString(PlayTimeLast)}" />
                                 <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind LastPlayTimeText}" />
-                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind PlayTime7Days, Converter={StaticResource TimeSpanToStringConverter}}" />
                             </StackPanel>
-                        </Grid>
-                        <!--  最近7天趋势图  -->
-                        <Grid Name="Grid_TrendChart"
-                              Margin="-12,-8,-12,-4"
-                              Background="Transparent"
-                              Loaded="Grid_TrendChart_Loaded"
-                              PointerEntered="Grid_TrendChart_PointerEntered"
-                              PointerExited="Grid_TrendChart_PointerExited"
-                              PointerMoved="Grid_TrendChart_PointerMoved">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition Height="100" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="12" />
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="12" />
-                            </Grid.ColumnDefinitions>
-                            <!--  线性渐变填充  -->
-                            <Border Name="Border_TrendChart"
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    MinWidth="202"
-                                    IsHitTestVisible="False">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                        <GradientStop Offset="0" Color="{ThemeResource TextFillColorTertiary}" />
-                                        <GradientStop Offset="1" Color="Transparent" />
-                                    </LinearGradientBrush>
-                                </Border.Background>
-                            </Border>
-                            <!--  趋势图曲线  -->
-                            <Path Name="Path_TrendChart"
-                                  Grid.Row="1"
-                                  Grid.Column="1"
-                                  IsHitTestVisible="False"
-                                  Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                                  StrokeThickness="1" />
-                            <!--  竖向指示线  -->
-                            <Line Name="Line_TrendChart"
-                                  Grid.Row="1"
-                                  Grid.Column="1"
-                                  HorizontalAlignment="Center"
-                                  IsHitTestVisible="False"
-                                  Opacity="0"
-                                  Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                                  StrokeDashArray="4,2"
-                                  StrokeThickness="2"
-                                  X1="0"
-                                  X2="0"
-                                  Y1="0"
-                                  Y2="100">
-                                <Line.OpacityTransition>
-                                    <ScalarTransition />
-                                </Line.OpacityTransition>
-                                <Line.TranslationTransition>
-                                    <Vector3Transition />
-                                </Line.TranslationTransition>
-                            </Line>
-                            <!--  游戏时间  -->
-                            <TextBlock Name="TextBlock_TrendChart_Time"
-                                       Grid.Row="0"
-                                       Grid.ColumnSpan="3"
-                                       Margin="0,0,0,2"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontSize="12"
-                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       IsHitTestVisible="False"
-                                       IsTextScaleFactorEnabled="False"
-                                       Opacity="0">
-                                <TextBlock.OpacityTransition>
-                                    <ScalarTransition />
-                                </TextBlock.OpacityTransition>
-                                <TextBlock.TranslationTransition>
-                                    <Vector3Transition />
-                                </TextBlock.TranslationTransition>
-                            </TextBlock>
-                            <!--  日期  -->
-                            <TextBlock Name="TextBlock_TrendChart_Date"
-                                       Grid.Row="2"
-                                       Grid.ColumnSpan="3"
-                                       Margin="0,2,0,0"
-                                       HorizontalAlignment="Center"
-                                       FontSize="12"
-                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       IsHitTestVisible="False"
-                                       IsTextScaleFactorEnabled="False"
-                                       Opacity="0">
-                                <TextBlock.OpacityTransition>
-                                    <ScalarTransition />
-                                </TextBlock.OpacityTransition>
-                                <TextBlock.TranslationTransition>
-                                    <Vector3Transition />
-                                </TextBlock.TranslationTransition>
-                            </TextBlock>
                         </Grid>
                         <!--  刷新  -->
                         <Button Height="36"

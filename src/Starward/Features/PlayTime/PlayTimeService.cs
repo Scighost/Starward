@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Windows.AppLifecycle;
 using Starward.Core;
@@ -43,7 +43,6 @@ internal class PlayTimeService
                 return;
             }
             _logger.LogInformation("Start to log playtime ({biz}, {pid})", biz, pid);
-            Log(biz, pid, PlayTimeState.None, message: "Ready to log time");
             var process = Process.GetProcessById(pid);
             LogStartState(biz, process);
             var sw = Stopwatch.StartNew();
@@ -67,6 +66,9 @@ internal class PlayTimeService
                 }
             }
             DatabaseService.SetValue($"playtime_total_{biz}", GetPlayTimeTotal(biz));
+            DatabaseService.SetValue($"playtime_month_{biz}", GetPlayCurrentMonth(biz));
+            DatabaseService.SetValue($"playtime_week_{biz}", GetPlayCurrentWeek(biz));
+            DatabaseService.SetValue($"playtime_day_{biz}", GetPlayCurrentDay(biz));
             DatabaseService.SetValue($"startup_count_{biz}", GetStartUpCount(biz));
             _logger.LogInformation("End log playtime ({biz}, {pid})", biz, pid);
         }
@@ -83,24 +85,42 @@ internal class PlayTimeService
 
     private void LogStartState(GameBiz biz, Process process)
     {
-        var time = new DateTimeOffset(process.StartTime);
-        Log(biz, process.Id, PlayTimeState.Start, time.ToUnixTimeMilliseconds(), $"{process.ProcessName} [{time}]");
-        var now = DateTimeOffset.Now;
-        if (now - process.StartTime >= TimeSpan.FromSeconds(60))
+        var startTime = new DateTimeOffset(process.StartTime);
+        Log(biz, process.Id, PlayTimeState.Start, startTime.ToUnixTimeMilliseconds(), $"{process.ProcessName} [{startTime}]");
+        using var dapper = DatabaseService.CreateConnection();
+        var last = dapper.QueryFirstOrDefault<PlayTimeItemStruct>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND Pid = @Id ORDER BY TimeStamp DESC LIMIT 1;", new { biz, process.Id });
+        DateTimeOffset time = startTime;
+        if (last.TimeStamp > startTime.ToUnixTimeMilliseconds())
         {
+            time = DateTimeOffset.FromUnixTimeMilliseconds(last.TimeStamp);
+        }
+
+        var now = DateTimeOffset.Now;
+        if (now - time >= TimeSpan.FromSeconds(60))
+        {
+            // 补全从开始游戏到开始记录游戏时间之间的记录
+            List<PlayTimeItem> list = new List<PlayTimeItem>();
             while (true)
             {
-                // 补全从开始游戏到开始记录游戏时间之间的记录
                 time = time.AddMilliseconds(Random.Shared.Next(30_000, 32_000));
                 if (time < now)
                 {
-                    Log(biz, process.Id, PlayTimeState.Play, time.ToUnixTimeMilliseconds());
+                    list.Add(new PlayTimeItem
+                    {
+                        TimeStamp = time.ToUnixTimeMilliseconds(),
+                        GameBiz = biz,
+                        Pid = process.Id,
+                        State = PlayTimeState.Play,
+                    });
                 }
                 else
                 {
                     break;
                 }
             }
+            using var t = dapper.BeginTransaction();
+            dapper.Execute("INSERT OR REPLACE INTO PlayTimeItem (TimeStamp, GameBiz, Pid, State, CursorPos, Message) VALUES (@TimeStamp, @GameBiz, @Pid, @State, @CursorPos, @Message);", list, t);
+            t.Commit();
         }
     }
 
