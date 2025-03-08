@@ -96,4 +96,6 @@ public abstract class DownloadMode
     public const string DOWNLOAD_MODE_FILE = "DOWNLOAD_MODE_FILE";
 
     public const string DOWNLOAD_MODE_CHUNK = "DOWNLOAD_MODE_CHUNK";
+
+    public const string DOWNLOAD_MODE_LDIFF = "DOWNLOAD_MODE_LDIFF";
 }

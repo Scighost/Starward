@@ -341,6 +341,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Error 的本地化字符串。
+        /// </summary>
+        public static string Common_Error {
+            get {
+                return ResourceManager.GetString("Common_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Exit 的本地化字符串。
         /// </summary>
         public static string Common_Exit {
@@ -3315,6 +3324,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Pre-Install Finished 的本地化字符串。
+        /// </summary>
+        public static string PreDownloadButton_PreInstallFinished {
+            get {
+                return ResourceManager.GetString("PreDownloadButton_PreInstallFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 There are no patch packagees available. It is recommended to update the game to the latest version before starting pre-install. 的本地化字符串。
         /// </summary>
         public static string PreDownloadDialog_NoPatchesWarning {
@@ -3329,6 +3347,15 @@ namespace Starward.Language {
         public static string PreDownloadDialog_StartPreInstall {
             get {
                 return ResourceManager.GetString("PreDownloadDialog_StartPreInstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 RPC service exited unexpectedly. 的本地化字符串。
+        /// </summary>
+        public static string RPCServiceExitedUnexpectedly {
+            get {
+                return ResourceManager.GetString("RPCServiceExitedUnexpectedly", resourceCulture);
             }
         }
         
@@ -4415,11 +4442,38 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 In Queue 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_InQueue {
+            get {
+                return ResourceManager.GetString("StartGameButton_InQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Install 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_Install {
+            get {
+                return ResourceManager.GetString("StartGameButton_Install", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Resume Download 的本地化字符串。
         /// </summary>
         public static string StartGameButton_ResumeDownload {
             get {
                 return ResourceManager.GetString("StartGameButton_ResumeDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Verify 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_Verify {
+            get {
+                return ResourceManager.GetString("StartGameButton_Verify", resourceCulture);
             }
         }
         

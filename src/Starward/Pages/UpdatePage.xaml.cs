@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation and Contributors.
+// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -100,7 +100,7 @@ public sealed partial class UpdatePage : PageBase
         {
             if (NewVersion is null)
             {
-                NewVersion = await _metadataClient.GetVersionAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.OSArchitecture);
+                NewVersion = await _metadataClient.GetVersionAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture);
                 if (NewVersion.DisableAutoUpdate)
                 {
                     Button_Update.IsEnabled = false;
@@ -109,7 +109,7 @@ public sealed partial class UpdatePage : PageBase
             }
             await ShowGithubReleaseAsync(NewVersion.Version);
 
-            newRelease = await _metadataClient.GetReleaseAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.OSArchitecture);
+            newRelease = await _metadataClient.GetReleaseAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture);
             NewVersion ??= newRelease;
 
             _timer.Start();
@@ -265,7 +265,7 @@ public sealed partial class UpdatePage : PageBase
 
             if (newRelease is null)
             {
-                newRelease = await _metadataClient.GetReleaseAsync(isPreview, RuntimeInformation.OSArchitecture);
+                newRelease = await _metadataClient.GetReleaseAsync(isPreview, RuntimeInformation.ProcessArchitecture);
                 if (NewVersion.DisableAutoUpdate)
                 {
                     IsProgressBarVisible = false;

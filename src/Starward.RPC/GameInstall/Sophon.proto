@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+option csharp_namespace = "Starward.RPC.GameInstall";
+
+package Starward.RPC.GameInstall;
+
+// Chunk 模式游戏文件清单
+message SophonChunkManifest {
+    repeated SophonChunkFile chuncks = 1;
+}
+
+// Chunk 模式游戏文件
+message SophonChunkFile {
+    string file = 1;
+    repeated SophonChunk chunks = 2;
+    bool is_folder = 3;
+    int64 size = 4;
+    string md5 = 5;
+}
+
+// Chunk 模式游戏文件块
+message SophonChunk {
+    string id = 1;
+    string uncompressed_md5 = 2;
+    int64 offset = 3;
+    int64 compressed_size = 4;
+    int64 uncompressed_size = 5;
+    int64 unknown = 6;
+    string compressed_md5 = 7;
+}
+
+// Patch 更新模式游戏文件清单
+message SophonPatchManifest {
+    // 新版本所有文件
+    repeated SophonPatchFile patches = 1;
+    // 需要删除的文件
+    repeated SophonPatchDeleteInfo deletes = 2;
+}
+
+// Patch 更新模式，新版本游戏文件
+message SophonPatchFile {
+    string file = 1;
+    int64 size = 2;
+    string md5 = 3;
+    // 不同版本的补丁文件，如果为空则表示不需要更新
+    repeated SophonPatchInfo patches = 4;
+}
+
+message SophonPatchInfo {
+    // 更新前游戏版本
+    string tag = 1;
+    SophonPatch patch = 2;
+}
+
+// Patch 更新模式，游戏文件补丁，注意：每个补丁都很小，一个文件中可能有多个补丁
+message SophonPatch {
+    string id = 1;
+    string tag = 2;
+    string build_id = 3;
+    // 文件大小
+    int64 patch_file_size = 4;
+    string patch_file_md5 = 5;
+    // 当前游戏文件补丁的偏移量
+    int64 patch_file_offset = 6;
+    // 当前游戏文件补丁的长度
+    int64 patch_file_length = 7;
+    // 如果有这个值，表示需要使用 hdiffpatch 更新，没有表示这是新文件，对应的补丁就是原文件，直接复制即可
+    string original_file_name = 8;
+    int64 original_file_size = 9;
+    string original_file_md5 = 10;
+}
+
+message SophonPatchDeleteInfo {
+    // 更新前游戏版本
+    string tag = 1;
+    repeated SophonPatchDeleteFile deletes = 2;
+}
+
+// Patch 更新模式，需要删除文件
+message SophonPatchDeleteFile {
+    string file = 1;
+    int64 size = 2;
+    string md5 = 3;
+}

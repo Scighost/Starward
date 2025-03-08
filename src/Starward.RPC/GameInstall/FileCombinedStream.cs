@@ -4,9 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Starward.Services.InstallGame;
+namespace Starward.RPC.GameInstall;
 
-internal class FileSliceStream : Stream
+/// <summary>
+/// 几个文件合并成一个流
+/// </summary>
+internal class FileCombinedStream : Stream
 {
 
     public override bool CanRead => true;
@@ -22,10 +25,7 @@ internal class FileSliceStream : Stream
     {
         get
         {
-            if (disposedValue)
-            {
-                throw new ObjectDisposedException("Cannot access a closed file.");
-            }
+            ObjectDisposedException.ThrowIf(disposedValue, this);
             long pos = 0;
             for (int i = 0; i < _streamIndex; i++)
             {
@@ -35,10 +35,7 @@ internal class FileSliceStream : Stream
         }
         set
         {
-            if (value < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(Position));
-            }
+            ArgumentOutOfRangeException.ThrowIfNegative(value, nameof(Position));
             Seek(value, SeekOrigin.Begin);
         }
     }
@@ -54,7 +51,7 @@ internal class FileSliceStream : Stream
     private int _streamIndex;
 
 
-    public FileSliceStream(IEnumerable<string> files)
+    public FileCombinedStream(IEnumerable<string> files)
     {
         _fileStreams = files.Select(File.OpenRead).ToList();
         _streamLengths = _fileStreams.Select(x => x.Length).ToArray();
@@ -149,7 +146,7 @@ internal class FileSliceStream : Stream
         }
     }
 
-    ~FileSliceStream()
+    ~FileCombinedStream()
     {
         Dispose(disposing: false);
     }
@@ -166,5 +163,3 @@ internal class FileSliceStream : Stream
 
 
 }
-
-

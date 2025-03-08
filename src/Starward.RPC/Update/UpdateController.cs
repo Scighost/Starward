@@ -1,6 +1,9 @@
-﻿using Grpc.Core;
+using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Starward.RPC.Update;
 
@@ -36,7 +39,7 @@ internal class UpdateController : Updater.UpdaterBase
             {
                 "x64" => Architecture.X64,
                 "arm64" => Architecture.Arm64,
-                _ => RuntimeInformation.OSArchitecture,
+                _ => RuntimeInformation.ProcessArchitecture,
             };
             var release = await _metadataClient.GetReleaseAsync(request.Version, arch, context.CancellationToken);
             _ = _updateService.PrepareForUpdateAsync(release, request.TargetPath, context.CancellationToken);

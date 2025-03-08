@@ -1,6 +1,11 @@
-﻿using Grpc.Core;
+using Grpc.Core;
 using Grpc.Net.Client;
+using System;
 using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Starward.RPC;
 
@@ -53,7 +58,9 @@ public static class RpcClientFactory
         var connectionFactory = new NamedPipesConnectionFactory(AppConfig.MutexAndPipeName);
         var socketsHttpHandler = new SocketsHttpHandler
         {
-            ConnectCallback = connectionFactory.ConnectAsync
+            ConnectCallback = connectionFactory.ConnectAsync,
+            // 防止因为系统代理无法建立连接
+            UseProxy = false,
         };
         return GrpcChannel.ForAddress("http://localhost", new GrpcChannelOptions
         {

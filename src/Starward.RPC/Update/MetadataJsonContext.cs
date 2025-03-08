@@ -1,4 +1,5 @@
-﻿using Starward.RPC.Update.Github;
+using Starward.RPC.Update.Github;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Starward.RPC.Update.Metadata;

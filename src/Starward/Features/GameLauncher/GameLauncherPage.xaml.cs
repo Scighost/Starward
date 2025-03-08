@@ -2,13 +2,17 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
+using Starward.Core;
 using Starward.Features.Background;
 using Starward.Features.GameInstall;
 using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
+using Starward.RPC.GameInstall;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -31,10 +35,42 @@ public sealed partial class GameLauncherPage : PageBase
 
     private readonly BackgroundService _backgroundService = AppService.GetService<BackgroundService>();
 
+    private readonly GameInstallService _gameInstallService = AppService.GetService<GameInstallService>();
+
+
+    private readonly DispatcherQueueTimer _dispatchTimer;
+
+
     public GameLauncherPage()
     {
         this.InitializeComponent();
+        _dispatchTimer = DispatcherQueue.CreateTimer();
+        _dispatchTimer.Interval = TimeSpan.FromMilliseconds(100);
+        _dispatchTimer.Tick += UpdateGameInstallTaskProgress;
     }
+
+
+
+    protected override void OnLoaded()
+    {
+        CheckGameVersion();
+        UpdateGameInstallTask();
+        WeakReferenceMessenger.Default.Register<GameInstallPathChangedMessage>(this, OnGameInstallPathChanged);
+        WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
+        WeakReferenceMessenger.Default.Register<RemovableStorageDeviceChangedMessage>(this, OnRemovableStorageDeviceChanged);
+        WeakReferenceMessenger.Default.Register<GameInstallTaskStartedMessage>(this, OnGameInstallTaskStarted);
+    }
+
+
+
+    protected override void OnUnloaded()
+    {
+        WeakReferenceMessenger.Default.UnregisterAll(this);
+        _dispatchTimer.Tick -= UpdateGameInstallTaskProgress;
+        _dispatchTimer.Stop();
+    }
+
+
 
 
 
@@ -43,35 +79,15 @@ public sealed partial class GameLauncherPage : PageBase
     public partial GameState GameState { get; set; }
 
 
-    public bool StartGameButtonCanExecute { get; set => SetProperty(ref field, value); } = true;
-
-
-
-    protected override void OnLoaded()
-    {
-        CheckGameVersion();
-        WeakReferenceMessenger.Default.Register<GameInstallPathChangedMessage>(this, OnGameInstallPathChanged);
-        WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
-        WeakReferenceMessenger.Default.Register<RemovableStorageDeviceChangedMessage>(this, OnRemovableStorageDeviceChanged);
-    }
-
-
-
-    protected override void OnUnloaded()
-    {
-        WeakReferenceMessenger.Default.UnregisterAll(this);
-    }
-
-
-
 
 
     [RelayCommand]
     private async Task ClickStartGameButtonAsync()
     {
-        StartGameButtonCanExecute = false;
         switch (GameState)
         {
+            case GameState.None:
+                break;
             case GameState.StartGame:
                 await StartGameAsync();
                 break;
@@ -79,18 +95,22 @@ public sealed partial class GameLauncherPage : PageBase
             case GameState.InstallGame:
                 await InstallGameAsync();
                 break;
+            case GameState.Installing:
+                await ChangeGameInstallTaskStateAsync();
+                break;
             case GameState.UpdateGame:
+                await UpdateGameAsync();
+                break;
             case GameState.UpdatePlugin:
-            case GameState.Downloading:
-            case GameState.Waiting:
-            case GameState.Paused:
             case GameState.ResumeDownload:
+                await ResumeDownloadAsync();
+                break;
+            case GameState.ComingSoon:
+                break;
             default:
-                StartGameButtonCanExecute = true;
                 break;
         }
     }
-
 
 
 
@@ -135,17 +155,10 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
-
-
-
-
-
     private async void CheckGameVersion()
     {
         try
         {
-            StartGameButtonCanExecute = true;
-            GameState = GameState.Waiting;
             GameInstallPath = _gameLauncherService.GetGameInstallPath(CurrentGameId, out bool storageRemoved);
             IsInstallPathRemovableTipEnabled = storageRemoved;
             if (GameInstallPath is null || storageRemoved)
@@ -203,7 +216,7 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            string? folder = await _gameLauncherService.ChangeGameInstallPathAsync(CurrentGameId, this.XamlRoot);
+            string? folder = await GameLauncherService.ChangeGameInstallPathAsync(CurrentGameId, this.XamlRoot);
             if (!string.IsNullOrWhiteSpace(folder))
             {
                 CheckGameVersion();
@@ -271,12 +284,7 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
-
-
-
     #region Start Game
-
-
 
 
 
@@ -322,7 +330,6 @@ public sealed partial class GameLauncherPage : PageBase
             GameProcess = await _gameLauncherService.GetGameProcessAsync(CurrentGameId);
             if (GameProcess != null)
             {
-                StartGameButtonCanExecute = false;
                 GameState = GameState.GameIsRunning;
                 _logger.LogInformation("Game is running ({name}, {pid})", GameProcess.ProcessName, GameProcess.Id);
                 return true;
@@ -359,21 +366,16 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            var process1 = await _gameLauncherService.StartGameAsync(CurrentGameId);
-            if (process1 == null)
-            {
-                StartGameButtonCanExecute = true;
-            }
-            else
+            var process = await _gameLauncherService.StartGameAsync(CurrentGameId);
+            if (process is not null)
             {
                 GameState = GameState.GameIsRunning;
-                GameProcess = process1;
+                GameProcess = process;
             }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Start game");
-            StartGameButtonCanExecute = true;
         }
     }
 
@@ -381,7 +383,6 @@ public sealed partial class GameLauncherPage : PageBase
 
 
     #endregion
-
 
 
 
@@ -395,16 +396,39 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            var dialog = new InstallGameDialog
+            if (_gameInstallTask is null)
             {
-                CurrentGameId = CurrentGameId,
-                XamlRoot = this.XamlRoot,
-            };
-            await dialog.ShowAsync();
+                await new InstallGameDialog { CurrentGameId = CurrentGameId, XamlRoot = this.XamlRoot, }.ShowAsync();
+            }
+            else
+            {
+                await ChangeGameInstallTaskStateAsync();
+            }
         }
-        finally
+        catch (Exception ex)
         {
-            StartGameButtonCanExecute = true;
+
+        }
+    }
+
+
+
+    private async Task ResumeDownloadAsync()
+    {
+        try
+        {
+            if (!Directory.Exists(GameInstallPath))
+            {
+                CheckGameVersion();
+                return;
+            }
+            AudioLanguage audio = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId, GameInstallPath);
+            _gameInstallTask = await _gameInstallService.StartInstallAsync(CurrentGameId, GameInstallPath, audio);
+            _dispatchTimer.Start();
+        }
+        catch (Exception ex)
+        {
+
         }
     }
 
@@ -422,12 +446,193 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
+
     [RelayCommand]
     private async Task PredownloadAsync()
     {
-        await new PreDownloadDialog { CurrentGameId = this.CurrentGameId, XamlRoot = this.XamlRoot }.ShowAsync();
+        try
+        {
+            if (_gameInstallTask is null)
+            {
+                await new PreDownloadDialog { CurrentGameId = this.CurrentGameId, XamlRoot = this.XamlRoot }.ShowAsync();
+            }
+            else if (_gameInstallTask.Operation is GameInstallOperation.Predownload)
+            {
+                if (_gameInstallTask.State is GameInstallState.Stop or GameInstallState.Paused or GameInstallState.Error or GameInstallState.Queueing)
+                {
+                    await _gameInstallService.ContinueTaskAsync(_gameInstallTask);
+                    _dispatchTimer.Start();
+                }
+                else if (_gameInstallTask.State is GameInstallState.Waiting or GameInstallState.Downloading or GameInstallState.Decompressing or GameInstallState.Merging or GameInstallState.Verifying)
+                {
+                    await _gameInstallService.PauseTaskAsync(_gameInstallTask);
+                    _dispatchTimer.Start();
+                }
+                else
+                {
+                    // GameInstallState.Stop
+                    CheckGameVersion();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, nameof(PredownloadAsync));
+            if (_gameInstallTask?.Operation is GameInstallOperation.Predownload)
+            {
+                _gameInstallTask.State = GameInstallState.Error;
+                _gameInstallTask.ErrorMessage = ex.Message;
+            }
+        }
     }
 
+
+
+
+
+    #endregion
+
+
+
+    #region Update
+
+
+
+    private async Task UpdateGameAsync()
+    {
+        try
+        {
+            if (localGameVersion is not null && latestGameVersion > localGameVersion)
+            {
+                AudioLanguage audio = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId, GameInstallPath);
+                GameInstallTask task = await _gameInstallService.StartUpdateAsync(CurrentGameId, GameInstallPath!, audio);
+                if (task is not null)
+                {
+                    _gameInstallTask = task;
+                    _dispatchTimer.Start();
+                }
+            }
+            else
+            {
+                CheckGameVersion();
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
+    #endregion
+
+
+
+    #region Game Install Task
+
+
+
+
+    private GameInstallTask? _gameInstallTask;
+
+
+
+    private async Task ChangeGameInstallTaskStateAsync()
+    {
+        try
+        {
+            if (_gameInstallTask is null)
+            {
+                CheckGameVersion();
+            }
+            else if (_gameInstallTask.Operation is not GameInstallOperation.Predownload)
+            {
+                if (_gameInstallTask.State is GameInstallState.Stop or GameInstallState.Paused or GameInstallState.Error or GameInstallState.Queueing)
+                {
+                    await _gameInstallService.ContinueTaskAsync(_gameInstallTask);
+                    _dispatchTimer.Start();
+                }
+                else if (_gameInstallTask.State is GameInstallState.Waiting or GameInstallState.Downloading or GameInstallState.Decompressing or GameInstallState.Merging or GameInstallState.Verifying)
+                {
+                    await _gameInstallService.PauseTaskAsync(_gameInstallTask);
+                    _dispatchTimer.Start();
+                }
+                else
+                {
+                    // GameInstallState.Stop
+                    CheckGameVersion();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
+    private void UpdateGameInstallTask()
+    {
+        try
+        {
+            _gameInstallTask ??= _gameInstallService.GetGameInstallTask(CurrentGameId);
+            if (_gameInstallTask is not null)
+            {
+                _dispatchTimer.Start();
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
+    private void OnGameInstallTaskStarted(object _, GameInstallTaskStartedMessage message)
+    {
+        if (message.InstallTask.GameId == CurrentGameId)
+        {
+            _gameInstallTask = message.InstallTask;
+            _dispatchTimer.Start();
+        }
+    }
+
+
+
+    private void UpdateGameInstallTaskProgress(DispatcherQueueTimer sender, object args)
+    {
+        if (_gameInstallTask is null)
+        {
+            _dispatchTimer.Stop();
+            return;
+        }
+        try
+        {
+            if (_gameInstallTask.Operation is GameInstallOperation.Predownload)
+            {
+                Button_Predownload.UpdateGameInstallTaskState(_gameInstallTask);
+            }
+            else
+            {
+                GameState = GameState.Installing;
+                Button_StartGame.UpdateGameInstallTaskState(_gameInstallTask);
+            }
+            if (_gameInstallTask.State is GameInstallState.Error)
+            {
+                _dispatchTimer.Stop();
+            }
+            else if (_gameInstallTask.State is GameInstallState.Stop or GameInstallState.Finish)
+            {
+                _dispatchTimer.Stop();
+                _gameInstallTask = null;
+                CheckGameVersion();
+            }
+        }
+        catch { }
+    }
 
 
 
@@ -499,12 +704,20 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
+    #region Game Setting
+
+
 
     [RelayCommand]
     private async Task OpenGameLauncherSettingDialogAsync()
     {
         await new GameLauncherSettingDialog { CurrentGameId = this.CurrentGameId, XamlRoot = this.XamlRoot }.ShowAsync();
     }
+
+
+
+
+    #endregion
 
 
 }

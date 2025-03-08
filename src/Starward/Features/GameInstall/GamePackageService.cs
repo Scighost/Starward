@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
@@ -78,8 +78,8 @@ internal partial class GamePackageService
         if (File.Exists(config))
         {
             var str = await File.ReadAllTextAsync(config);
-            string? localVersion = GameVersionRegex().Match(str).Groups[1].Value;
-            string? predownload = PreDownloadRegex().Match(str).Groups[1].Value;
+            string? localVersion = GameVersionRegex().Match(str).Groups[1].Value.Trim();
+            string? predownload = PreDownloadRegex().Match(str).Groups[1].Value.Trim();
             AudioLanguage lang = await GetAudioLanguageAsync(gameId, installPath);
             return predownload == $"{localVersion},{package.PreDownload.Major.Version},{lang}";
         }

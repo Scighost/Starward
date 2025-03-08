@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
+using SharpSevenZip;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Services.Launcher;
-using Starward.SevenZip;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -899,17 +899,9 @@ internal abstract class InstallGameService
         {
             await Task.Run(() =>
             {
-                using var extra = new ArchiveFile(fs);
-                double ratio = (double)fs.Length / extra.Entries.Sum(x => (long)x.Size);
-                long sum = 0;
-                extra.ExtractProgress += (_, e) =>
-                {
-                    long size = (long)(e.Read * ratio);
-                    progressBytes += size;
-                    sum += size;
-                };
-                extra.Extract(InstallPath, true);
-                progressBytes += fs.Length - sum;
+                // no longer use, to be deleted
+                using var extra = new SharpSevenZipExtractor(fs);
+                extra.ExtractArchive(InstallPath);
             }).ConfigureAwait(false);
         }
         else

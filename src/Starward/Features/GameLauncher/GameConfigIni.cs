@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Starward.Core;
 using System;
 
@@ -32,7 +32,7 @@ public class GameConfigIni
 
 
     [ConfigurationKeyName("uapc")]
-    public int Uapc { get; set; }
+    public string Uapc { get; set; }
 
 
     [ConfigurationKeyName("downloading_mode")]

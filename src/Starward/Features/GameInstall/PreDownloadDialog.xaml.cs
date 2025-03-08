@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -8,6 +9,7 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
 using Starward.Frameworks;
+using Starward.RPC.GameInstall;
 using System;
 using System.IO;
 using System.Linq;
@@ -28,6 +30,8 @@ public sealed partial class PreDownloadDialog : ContentDialog
     private readonly HoYoPlayService _hoYoPlayService = AppService.GetService<HoYoPlayService>();
 
     private readonly GamePackageService _gamePackageService = AppService.GetService<GamePackageService>();
+
+    private readonly GameInstallService _gameInstallService = AppService.GetService<GameInstallService>();
 
 
     public PreDownloadDialog()
@@ -138,7 +142,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
                     }
                 }
             }
-            if (_gameSophonPatchBuild is null || _gameSophonChunkBuild is null)
+            if (_gameSophonPatchBuild is null && _gameSophonChunkBuild is null)
             {
                 _gamePackage = package;
             }
@@ -159,7 +163,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
     [NotifyPropertyChangedFor(nameof(PackageSizeText))]
     public partial long PackageSizeBytes { get; set; }
 
-    public string PackageSizeText => PackageSizeBytes == 0 ? "..." : $"{UnzipSpaceBytes / GB:F2} GB";
+    public string PackageSizeText => PackageSizeBytes == 0 ? "..." : $"{PackageSizeBytes / GB:F2} GB";
 
 
 
@@ -297,7 +301,19 @@ public sealed partial class PreDownloadDialog : ContentDialog
     [RelayCommand]
     private async Task StartPredownloadAsync()
     {
-
+        try
+        {
+            var task = await _gameInstallService.StartPredownloadAsync(CurrentGameId, _installationPath, _audioLanguage);
+            if (task.State is not GameInstallState.Stop and not GameInstallState.Error)
+            {
+                WeakReferenceMessenger.Default.Send(new GameInstallTaskStartedMessage(task));
+                Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Start predownload.");
+        }
     }
 
 

@@ -14,6 +14,7 @@ using Starward.Features.GameSelector;
 using Starward.Features.HoYoPlay;
 using Starward.Frameworks;
 using Starward.Helpers;
+using Starward.RPC.GameInstall;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,6 +47,8 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
     private readonly GamePackageService _gamePackageService = AppService.GetService<GamePackageService>();
+
+    private readonly GameInstallService _gameInstallService = AppService.GetService<GameInstallService>();
 
 
     private readonly BackgroundService _backgroundService = AppService.GetService<BackgroundService>();
@@ -131,6 +134,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     private async void GameLauncherSettingDialog_Loaded(object sender, RoutedEventArgs e)
     {
         CurrentGameBiz = CurrentGameId?.GameBiz ?? GameBiz.None;
+        CheckCanRepairGame();
         await InitializeBasicInfoAsync();
         InitializeStartArgument();
         InitializeCustomBg();
@@ -323,9 +327,10 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            _gameLauncherService.ChangeGameInstallPath(CurrentGameId, null);
+            GameLauncherService.ChangeGameInstallPath(CurrentGameId, null);
             WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
             await InitializeBasicInfoAsync();
+            await TryStopGameInstallTaskAsync();
         }
         catch { }
     }
@@ -341,16 +346,37 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            string? folder = await _gameLauncherService.ChangeGameInstallPathAsync(CurrentGameId, this.XamlRoot);
+            string? previousInstallPath = InstallPath;
+            string? folder = await GameLauncherService.ChangeGameInstallPathAsync(CurrentGameId, this.XamlRoot);
             if (!string.IsNullOrWhiteSpace(folder))
             {
                 await InitializeBasicInfoAsync();
                 WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
+                if (previousInstallPath != folder)
+                {
+                    await TryStopGameInstallTaskAsync();
+                }
             }
         }
         catch (Exception ex)
         {
 
+        }
+    }
+
+
+
+    /// <summary>
+    /// 检查是否可以修复游戏
+    /// </summary>
+    private void CheckCanRepairGame()
+    {
+        if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallTask task)
+        {
+            if (task.State is not GameInstallState.Stop or GameInstallState.Finish)
+            {
+                Button_RepairGame.IsEnabled = false;
+            }
         }
     }
 
@@ -363,10 +389,11 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     [RelayCommand]
     private async Task RepairGameAsync()
     {
-        if (_hasAudioPackages)
+        if (_hasAudioPackages && Button_StartRepairing.Visibility is Visibility.Collapsed)
         {
             Segmented_SelectLanguage.Visibility = Visibility.Visible;
             Button_StartRepairing.Visibility = Visibility.Visible;
+            Button_RepairGame.Visibility = Visibility.Collapsed;
         }
         else
         {
@@ -381,8 +408,28 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            // todo
-
+            if (!Directory.Exists(InstallPath))
+            {
+                return;
+            }
+            AudioLanguage audio = AudioLanguage.None;
+            foreach (SegmentedItem item in Segmented_SelectLanguage.SelectedItems.Cast<SegmentedItem>())
+            {
+                audio |= item.Tag switch
+                {
+                    "zh-cn" => AudioLanguage.Chinese,
+                    "en-us" => AudioLanguage.English,
+                    "ja-jp" => AudioLanguage.Japanese,
+                    "ko-kr" => AudioLanguage.Korean,
+                    _ => AudioLanguage.None,
+                };
+            }
+            GameInstallTask task = await _gameInstallService.StartRepairAsync(CurrentGameId, InstallPath, audio);
+            if (task.State is not GameInstallState.Stop and not GameInstallState.Error)
+            {
+                WeakReferenceMessenger.Default.Send(new GameInstallTaskStartedMessage(task));
+                Close();
+            }
         }
         catch (Exception ex)
         {
@@ -397,6 +444,28 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         if (sender is Segmented segmented)
         {
             CanRepairGame = segmented.SelectedItems.Count > 0;
+        }
+    }
+
+
+
+    private async Task TryStopGameInstallTaskAsync()
+    {
+        try
+        {
+            if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallTask task)
+            {
+                if (task.State is not GameInstallState.Stop or GameInstallState.Finish)
+                {
+                    await _gameInstallService.StopTaskAsync(task);
+                    await Task.Delay(1000);
+                    CheckCanRepairGame();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
         }
     }
 

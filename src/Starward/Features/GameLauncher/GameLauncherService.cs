@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
@@ -111,9 +111,6 @@ internal partial class GameLauncherService
     /// <returns></returns>
     public async Task<Version?> GetLocalGameVersionAsync(GameId gameId, string? installPath = null)
     {
-
-
-
         installPath ??= GetGameInstallPath(gameId);
         if (string.IsNullOrWhiteSpace(installPath))
         {
@@ -311,7 +308,7 @@ internal partial class GameLauncherService
     /// <param name="gameId"></param>
     /// <param name="xamlRoot"></param>
     /// <returns></returns>
-    public async Task<string?> ChangeGameInstallPathAsync(GameId gameId, XamlRoot xamlRoot)
+    public static async Task<string?> ChangeGameInstallPathAsync(GameId gameId, XamlRoot xamlRoot)
     {
         string? folder = await FileDialogHelper.PickFolderAsync(xamlRoot);
         if (string.IsNullOrWhiteSpace(folder))
@@ -332,7 +329,7 @@ internal partial class GameLauncherService
     /// <param name="gameId"></param>
     /// <param name="path"></param>
     /// <returns></returns>
-    public string? ChangeGameInstallPath(GameId gameId, string? path)
+    public static string? ChangeGameInstallPath(GameId gameId, string? path)
     {
         if (Directory.Exists(path))
         {

@@ -282,13 +282,22 @@
                                 <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.GameLauncherSettingDialog_RelocateGame}" />
                             </Button>
                             <!--  修复游戏  -->
-                            <Button Height="36"
+                            <Button x:Name="Button_RepairGame"
+                                    Height="36"
                                     Command="{x:Bind RepairGameCommand}"
                                     CornerRadius="8"
                                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                                     Visibility="{x:Bind UninstallAndRepairEnabled}">
                                 <TextBlock Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.LauncherPage_RepairGame}" />
                             </Button>
+                            <!--  开始修复  -->
+                            <Button x:Name="Button_StartRepairing"
+                                    BorderThickness="0"
+                                    Command="{x:Bind RepairGameCommand}"
+                                    Content="{x:Bind lang:Lang.GameLauncherSettingDialog_StartRepairing}"
+                                    IsEnabled="{x:Bind CanRepairGame}"
+                                    Style="{ThemeResource AccentButtonStyle}"
+                                    Visibility="Collapsed" />
                         </StackPanel>
 
                         <!--  选择语音包  -->
@@ -311,13 +320,6 @@
                                                Tag="ko-kr" />
                         </cwc:Segmented>
 
-                        <!--  开始修复  -->
-                        <Button x:Name="Button_StartRepairing"
-                                Command="{x:Bind RepairGameCommand}"
-                                Content="{x:Bind lang:Lang.GameLauncherSettingDialog_StartRepairing}"
-                                IsEnabled="{x:Bind CanRepairGame}"
-                                Style="{ThemeResource AccentButtonStyle}"
-                                Visibility="Collapsed" />
 
                         <!--  显示游戏通知  -->
                         <ToggleSwitch IsOn="{x:Bind EnableBannerAndPost, Mode=TwoWay}"

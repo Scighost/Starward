@@ -1,14 +1,18 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
 using Starward.Frameworks;
 using Starward.Helpers;
+using Starward.RPC.GameInstall;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -30,6 +34,7 @@ public sealed partial class InstallGameDialog : ContentDialog
 
     private readonly HoYoPlayService _hoYoPlayService = AppService.GetService<HoYoPlayService>();
 
+    private readonly GameInstallService _gameInstallService = AppService.GetService<GameInstallService>();
 
 
     public InstallGameDialog()
@@ -173,6 +178,9 @@ public sealed partial class InstallGameDialog : ContentDialog
     private bool _needAudioPackage;
 
 
+    private AudioLanguage _audioLanguage;
+
+
     private GamePackage? _gamePackage;
 
 
@@ -310,6 +318,22 @@ public sealed partial class InstallGameDialog : ContentDialog
 
     private void Segmented_SelectLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        _audioLanguage = AudioLanguage.None;
+        foreach (SegmentedItem item in Segmented_SelectLanguage.SelectedItems.Cast<SegmentedItem>())
+        {
+            if (item.Tag is string lang)
+            {
+                _audioLanguage |= lang switch
+                {
+                    "zh-cn" => AudioLanguage.Chinese,
+                    "en-us" => AudioLanguage.English,
+                    "ja-jp" => AudioLanguage.Japanese,
+                    "ko-kr" => AudioLanguage.Korean,
+                    _ => AudioLanguage.None,
+                };
+            }
+        }
+
         ComputePackageSize();
         CheckCanStartInstallation();
     }
@@ -319,7 +343,21 @@ public sealed partial class InstallGameDialog : ContentDialog
     [RelayCommand]
     private async Task StartInstallationAsync()
     {
-        // todo start installation
+        try
+        {
+            var task = await _gameInstallService.StartInstallAsync(CurrentGameId, InstallationPath, _audioLanguage);
+            if (task.State is not GameInstallState.Stop and not GameInstallState.Error)
+            {
+                GameLauncherService.ChangeGameInstallPath(CurrentGameId, InstallationPath);
+                WeakReferenceMessenger.Default.Send(new GameInstallTaskStartedMessage(task));
+                Close();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Start installation.");
+        }
     }
 
 

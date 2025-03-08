@@ -1,15 +1,24 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.Extensions.Http;
 using Serilog;
+using Starward.Core.HoYoPlay;
 using Starward.RPC;
+using Starward.RPC.GameInstall;
 using Starward.RPC.Lifecycle;
 using Starward.RPC.Update;
+using System;
+using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.AccessControl;
+using System.Threading;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -78,6 +87,8 @@ builder.Services.AddHttpClient().ConfigureHttpClientDefaults(config =>
     config.ConfigureHttpClient(client => client.DefaultRequestHeaders.Add("User-Agent", AppConfig.MutexAndPipeName));
     config.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All });
 });
+builder.Services.AddHttpClient<HoYoPlayClient>().AddPolicyHandler(GetHttpRetryPolicy());
+
 
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(Log.Logger, dispose: true);
@@ -85,6 +96,10 @@ builder.Logging.AddSerilog(Log.Logger, dispose: true);
 
 builder.Services.AddScoped<MetadataClient>();
 builder.Services.AddScoped<UpdateService>();
+//builder.Services.AddScoped<HoYoPlayClient>();
+builder.Services.AddScoped<GamePackageService>();
+builder.Services.AddSingleton<GameInstallService>();
+builder.Services.AddSingleton<GameInstallHelper>();
 
 
 
@@ -93,6 +108,13 @@ var app = builder.Build();
 
 app.MapGrpcService<LifecycleController>();
 app.MapGrpcService<UpdateController>();
-
+app.MapGrpcService<GameInstallController>();
 
 app.Run();
+
+
+static IAsyncPolicy<HttpResponseMessage> GetHttpRetryPolicy()
+{
+    return HttpPolicyExtensions.HandleTransientHttpError().WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(i));
+}
+

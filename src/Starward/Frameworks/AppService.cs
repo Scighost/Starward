@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -98,6 +98,7 @@ public static class AppService
             sc.AddTransient<UpdateService>();
 
             sc.AddSingleton<RpcService>();
+            sc.AddSingleton<GameInstallService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

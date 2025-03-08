@@ -213,7 +213,7 @@ public sealed partial class MainView : UserControl
 #pragma warning restore CS0162 // 检测到无法访问的代码
             if (NuGetVersion.TryParse(AppConfig.AppVersion, out var appVersion))
             {
-                _ = NuGetVersion.TryParse(AppConfig.LastAppVersion, out var lastVersion);
+                _ = NuGetVersion.TryParse(AppSetting.LastAppVersion, out var lastVersion);
                 if (appVersion != lastVersion)
                 {
                     if (AppSetting.ShowUpdateContentAfterUpdateRestart)

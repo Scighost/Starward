@@ -1,4 +1,4 @@
-﻿using Grpc.Core;
+using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using NuGet.Versioning;
 using Starward.Features.RPC;
@@ -35,7 +35,7 @@ internal class UpdateService
     {
         _ = NuGetVersion.TryParse(AppSetting.AppVersion, out var currentVersion);
         _ = NuGetVersion.TryParse(AppSetting.IgnoreVersion, out var ignoreVersion);
-        var release = await _metadataClient.GetVersionAsync(AppSetting.EnablePreviewRelease, RuntimeInformation.OSArchitecture);
+        var release = await _metadataClient.GetVersionAsync(AppSetting.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture);
         _logger.LogInformation("Current version: {currentVersion}, latest version: {latestVersion}, ignore version: {ignoreVersion}.", AppSetting.AppVersion, release?.Version, ignoreVersion);
         _ = NuGetVersion.TryParse(release?.Version, out var newVersion);
         if (newVersion! > currentVersion!)

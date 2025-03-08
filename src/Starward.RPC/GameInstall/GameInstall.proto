@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+option csharp_namespace = "Starward.RPC.GameInstall";
+
+package Starward.RPC.GameInstall;
+
+import "google/protobuf/wrappers.proto";
+
+import "Common.proto";
+
+
+service GameInstaller {
+    
+    rpc SyncGameInstallTasks (EmptyMessage) returns (GameInstallTaskList);
+
+    rpc GetTaskProgress (EmptyMessage) returns (stream GameInstallTaskDTO);
+
+    rpc StartOrContinueTask (GameInstallTaskRequest) returns (GameInstallTaskDTO);
+
+    rpc PauseTask (GameInstallTaskRequest) returns (GameInstallTaskDTO);
+
+    rpc StopTask (GameInstallTaskRequest) returns (GameInstallTaskDTO);
+
+    rpc GetRateLimiter (EmptyMessage) returns (RateLimiterMessage);
+
+    rpc SetRateLimiter (RateLimiterMessage) returns (RateLimiterMessage);
+
+}
+
+message GameInstallTaskList {
+    repeated GameInstallTaskDTO tasks = 1;
+}
+
+message GameInstallTaskDTO {
+    string game_biz = 1;
+    string game_id = 2;
+    string install_path = 3;
+    int32 operation = 4;
+    int32 audio_language = 5;
+    google.protobuf.StringValue hard_link_path = 6;
+
+    int64 timestamp = 7;
+    int32 state = 8;
+    google.protobuf.StringValue error_message = 9;
+    int32 download_mode = 10;
+    int64 progress_download_total_bytes = 11;
+    int64 progress_download_finish_bytes = 12;
+    int64 progress_read_total_bytes = 13;
+    int64 progress_read_finish_bytes = 14;
+    int64 progress_write_total_bytes = 15;
+    int64 progress_write_finish_bytes = 16;
+    double progress_percent = 17;
+    int64 network_download_speed = 18;
+    int64 storage_read_speed = 19;
+    int64 storage_write_speed = 20;
+    int64 remain_time_seconds = 21;
+}
+
+message GameInstallTaskRequest {
+    string game_biz = 1;
+    string game_id = 2;
+    string install_path = 3;
+    int32 operation = 4;
+    int32 audio_language = 5;
+    google.protobuf.StringValue hard_link_path = 6;
+}
+
+message RateLimiterMessage {
+    int32 bytes_per_second = 1;
+}

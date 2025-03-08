@@ -1,38 +1,32 @@
-﻿namespace Starward.Features.GameLauncher;
+namespace Starward.Features.GameLauncher;
 
 public enum GameState
 {
 
-    None,
+    None = 0,
 
 
-    StartGame,
+    StartGame = 1,
 
 
-    GameIsRunning,
+    GameIsRunning = 2,
 
 
-    InstallGame,
+    InstallGame = 3,
 
 
-    UpdateGame,
+    UpdateGame = 4,
 
 
-    UpdatePlugin,
+    UpdatePlugin = 5,
 
 
-    Downloading,
+    Installing = 6,
 
 
-    Waiting,
+    ResumeDownload = 7,
 
 
-    Paused,
-
-
-    ResumeDownload,
-
-
-    ComingSoon,
+    ComingSoon = 8,
 
 }

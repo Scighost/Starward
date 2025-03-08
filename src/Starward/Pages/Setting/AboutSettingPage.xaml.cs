@@ -90,7 +90,7 @@ public sealed partial class AboutSettingPage : PageBase
     {
         try
         {
-            var release = await _metadataClient.GetReleaseAsync(EnablePreviewRelease, RuntimeInformation.OSArchitecture);
+            var release = await _metadataClient.GetReleaseAsync(EnablePreviewRelease, RuntimeInformation.ProcessArchitecture);
             if (release.Version != AppConfig.AppVersion)
             {
                 NotificationBehavior.Instance.Warning(Lang.AboutSettingPage_VerifyFailed, string.Format(Lang.AboutSettingPage_CurrentVersionIsNotTheLatestVersion, release.Version));
