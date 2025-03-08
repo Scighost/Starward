@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="Configs.xslt"?>
+<sfxConfigs>
+	<config name="Simple by Igor Pavlov" modules="7z.sfx;7zCon.sfx"/>
+	<config name="Installer by Igor Pavlov" modules="7zS.sfx;7zSD.sfx">
+		<id description="Title for messages" command="Title" />
+		<id description="Begin Prompt message." command="BeginPrompt" />
+		<id description="Value can be &quot;yes&quot; or &quot;no&quot;. Default value is &quot;yes&quot;." command="Progress" />
+		<id description="Command for executing. Default value is &quot;setup.exe&quot;. Substring %%T will be replaced with path to temporary folder, where files were extracted." command="RunProgram" />
+		<id description="Directory prefix for &quot;RunProgram&quot;. Default value is &quot;.\\&quot;." command="Directory" />
+		<id description="Name of file for executing." command="ExecuteFile" />
+		<id description="Parameters for &quot;ExecuteFile&quot;." command="ExecuteParameters" />
+	</config>
+	<config name="Extended installer by Oleg Sherbakov" modules="7zxSD_All.sfx;7zxSD_Deflate.sfx;7zxSD_PPMd.sfx;7zxSD_LZMA.sfx;;7zxSD_LZMA2.sfx">
+		<id command="AutoInstall" description="Execution command (multiple instances are allowed). There are two modes: the usual &quot;RunProgram&quot; or &quot;ExecuteFile&quot; mode, and automated &quot;AutoInstall&quot; mode." />
+		<id command="AutoInstallX" description="Execution command, where X is the scenario number (from 0 to 9) you wish to complete. You can have up to 10 scenarios for automated installations." />
+		<id command="Delete" description="Deletes the specified file or folder AFTER the installation." />
+		<id command="Directory" description="The path to the &quot;RunProgram&quot; execution folder (do not confuse with the current folder)." />
+		<id command="ExecuteFile" description="Execution command." />
+		<id command="ExecuteParameters" description="Parameters for &quot;ExecuteFile&quot;. This is an optional parameter. You use it whenever you need to pass a parameter to &quot;ExecuteFile&quot; via the command line." />
+		<id command="InstallPath" description="Sets the extraction path. The extraction folder will not be deleted after the extraction." />
+		<id command="OverwriteMode" description="0, 1 or 2: 0 - overwrite all files (default mode); 1 - do not overwrite the existing files; 2 - overwrite only the older files;" />
+		<id command="RunProgram" description="Execution command (multiple instances are allowed)." />
+		<id command="SelfDelete" description="=&quot;1&quot;; Deletes the SFX when the process is over." />
+		<id command="SetEnvironment" description="Environment variable creation command (multiple instances are allowed)." />
+		<id command="Shortcut" description="Shortcut creation command (multiple instances are allowed)." />
+		<id command="ExtractDialogWidth" description="Specifies the MINIMUM extraction dialog window width, where &quot;x&quot; is the window width in pixels." />
+		<id command="ExtractPathWidth" description="Specifies the MINIMUM width for the extraction path dialog windows (stand-alone &quot;ExtractPath&quot; and combined &quot;BeginPrompt&quot; + &quot;ExtractPath&quot;), where &quot;x&quot; is the window width in pixels." />
+		<id command="GUIFlags" description="A set of flags for changing the extraction dialog appearance, where &quot;x&quot; is a sum of the numeric values or a summation expression like &quot;2+4+128+1024&quot;." />
+		<id command="GUIMode" description="1 or 2: 1 - shows the extraction process, but hides the &quot;Cancel&quot; button and disables the &quot;Close&quot; button (in the window title bar) and [ESC] key on the keyboard; 2 - hides the extraction dialog completely (silent mode);" />
+		<id command="Progress" description="&quot;yes&quot; or &quot;no&quot; Progress=&quot;no&quot; is an equivalent to GUIMode=&quot;2&quot;." />
+		<id command="Title" description="Changes the default title." />
+		<id command="BeginPrompt" description="Displays a message in a dialog window when SFX is launched." />
+		<id command="ExtractPathText" description="The text above the editable extraction path field." />
+		<id command="ExtractPathTitle" description="Changes the extraction path dialog window title." />
+		<id command="ExtractTitle" description="Changes the extraction dialog window title." />
+		<id command="ExtractDialogText" description="Displays the specified text ABOVE the extraction progress indicator (Progress Bar). " />
+		<id command="ExtractCancelText" description="Changes the button text in the extraction dialog window from &quot;Cancel&quot; (default) to the specified one." />
+		<id command="CancelPrompt" description="Displays a dialog window with the text of your choice." />
+		<id command="ErrorTitle" description="The error window title." />
+		<id command="FinishMessage" description="After finishing all operations (extraction, program execution, file deletion, shortcut creation, etc) a dialog window with &quot;FinishMessage&quot; text is displayed." />
+		<id command="HelpText" description="Lets you specify the help text that can be displayed by invoking the SFX archive with &quot;-h&quot; or &quot;-?&quot; switches." />
+	</config>
+</sfxConfigs>

@@ -1,24 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net9.0-windows</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Version>0.2.4</Version>
+        <Authors>Scighost</Authors>
+        <PackageProjectUrl>https://github.com/Scighost/Starward/tree/large-resource</PackageProjectUrl>
+        <Description>
+            7z.dll v24.09
+            hpatchz.exe v4.8.0
+            https://github.com/JeremyAnsel/SharpSevenZip
+            https://github.com/sisong/HDiffPatch
+        </Description>
+    </PropertyGroup>
 
-	<PropertyGroup>
-		<TargetFramework>net8.0-windows</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>disable</Nullable>
-		<Version>0.2.1</Version>
-		<Authors>Scighost</Authors>
-		<PackageProjectUrl>https://github.com/Scighost/Starward</PackageProjectUrl>
-		<Description>
-7z.dll v23.01
-hpatchz.exe v4.6.9
-		</Description>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<None Update="$(MSBuildThisFileDirectory)runtimes\**">
-			<PackagePath>.\</PackagePath>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<Pack>true</Pack>
-		</None>
-	</ItemGroup>
+    <ItemGroup>
+        <None Update="$(MSBuildThisFileDirectory)runtimes\**">
+            <PackagePath>.\</PackagePath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <Pack>true</Pack>
+        </None>
+    </ItemGroup>
 
 </Project>

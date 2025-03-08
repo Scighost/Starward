@@ -1,0 +1,7 @@
+﻿;!@Install@!UTF-8!
+GUIMode="0"
+InstallPath="."
+GUIFlags="128+8"
+ExtractPathTitle="Hi!"
+ExtractPathText="Path"
+;!@InstallEnd@!
