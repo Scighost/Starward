@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1738,5 +1738,23 @@
   </data>
   <data name="GameLauncherSettingDialog_StartRepairing" xml:space="preserve">
     <value>Start Repairing</value>
+  </data>
+  <data name="PreDownloadButton_PreInstallFinished" xml:space="preserve">
+    <value>Pre-Install Finished</value>
+  </data>
+  <data name="Common_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="StartGameButton_InQueue" xml:space="preserve">
+    <value>In Queue</value>
+  </data>
+  <data name="RPCServiceExitedUnexpectedly" xml:space="preserve">
+    <value>RPC service exited unexpectedly.</value>
+  </data>
+  <data name="StartGameButton_Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="StartGameButton_Verify" xml:space="preserve">
+    <value>Verify</value>
   </data>
 </root>
