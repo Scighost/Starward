@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Starward.Frameworks;
 using Starward.RPC;
-using Starward.RPC.Lifecycle;
+using Starward.RPC.Env;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -39,6 +39,15 @@ internal class RpcService
 
 
 
+    public async Task<RpcServerInfo> GetRpcServerInfoAsync(DateTime deadline)
+    {
+        var client = CreateRpcClient<Env.EnvClient>();
+        return await client.GetRpcServerInfoAsync(new EmptyMessage(), deadline: deadline);
+    }
+
+
+
+
     /// <summary>
     /// 仅在操作取消时返回 false
     /// </summary>
@@ -52,8 +61,8 @@ internal class RpcService
             {
                 _rpcServerProcess?.Dispose();
                 _rpcServerProcess = await RpcClientFactory.EnsureRpcServerRunningAsync();
-                KeepRunningOnExited(AppSetting.KeepRpcServerRunningInBackground);
             }
+            await SetEnviromentAsync();
         }
         catch (Win32Exception ex) when (ex.NativeErrorCode == ERROR_CANCELLED)
         {
@@ -64,6 +73,18 @@ internal class RpcService
 
 
 
+    private async Task SetEnviromentAsync()
+    {
+        var client = CreateRpcClient<Env.EnvClient>();
+        await client.SetEnviromentAsync(new EnviromentMessage
+        {
+            ParentProcessId = Environment.ProcessId,
+            KeepRunningOnExited = AppSetting.KeepRpcServerRunningInBackground,
+            DownloadRateLimit = Math.Clamp(AppSetting.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue),
+        });
+    }
+
+
 
 
     public async void KeepRunningOnExited(bool value, bool noLongerChange = false)
@@ -72,8 +93,8 @@ internal class RpcService
         {
             if (CheckRpcServerRunning() && !_noLongerChange)
             {
-                var client = CreateRpcClient<Lifecycle.LifecycleClient>();
-                await client.AssociateProcessesAsync(new AssociateProcessesMessage
+                var client = CreateRpcClient<Env.EnvClient>();
+                await client.SetParentProcessAsync(new ParentProcessMessage
                 {
                     ProcessId = Environment.ProcessId,
                     KeepRunningOnExited = value,
@@ -88,6 +109,17 @@ internal class RpcService
         }
     }
 
+
+
+
+    public async Task StopRpcServerAsync(DateTime deadline)
+    {
+        if (CheckRpcServerRunning())
+        {
+            var client = CreateRpcClient<Env.EnvClient>();
+            await client.StopRpcServerAsync(new EmptyMessage(), deadline: deadline);
+        }
+    }
 
 
 

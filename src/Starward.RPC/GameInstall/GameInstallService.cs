@@ -5,6 +5,7 @@ using Polly;
 using Polly.Retry;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.RPC.Env;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -52,6 +53,29 @@ internal class GameInstallService
             MaxRetryAttempts = 5,
             BackoffType = DelayBackoffType.Linear
         }).Build();
+        LifecycleManager.ParentProcessExited += LifecycleManager_ParentProcessExited;
+    }
+
+
+
+    /// <summary>
+    /// 停止所有任务
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void LifecycleManager_ParentProcessExited(object? sender, EventArgs e)
+    {
+        try
+        {
+            foreach (var item in _tasks)
+            {
+                item.Value.Cancel(GameInstallState.Stop);
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
 

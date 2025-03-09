@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -11,6 +12,7 @@ using Starward.Features.Update;
 using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
+using Starward.RPC.GameInstall;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -29,7 +31,7 @@ public sealed partial class SettingPage : PageBase
 
     private readonly ILogger<SettingPage> _logger = AppService.GetLogger<SettingPage>();
 
-
+    private readonly RpcService _rpcService = AppService.GetService<RpcService>();
 
 
     public SettingPage()
@@ -109,6 +111,7 @@ public sealed partial class SettingPage : PageBase
         InitializeCloseWindowOption();
         InitializeDefaultInstallPath();
         _ = UpdateCacheSizeAsync();
+        _ = GetRpcServerStateAsync();
     }
 
 
@@ -416,12 +419,32 @@ public sealed partial class SettingPage : PageBase
         {
             if (SetProperty(ref field, value))
             {
-                //InstallGameManager.SetRateLimit(value * 1024);
                 AppSetting.SpeedLimitKBPerSecond = value;
-                // todo
+                _ = SetRateLimiterAsync(value);
             }
         }
     } = AppSetting.SpeedLimitKBPerSecond;
+
+
+
+    private async Task SetRateLimiterAsync(int value)
+    {
+        try
+        {
+            if (RpcService.CheckRpcServerRunning())
+            {
+                var client = RpcService.CreateRpcClient<GameInstaller.GameInstallerClient>();
+                int limit = Math.Clamp(value * 1024, 0, int.MaxValue);
+                await client.SetRateLimiterAsync(new RateLimiterMessage { BytesPerSecond = limit }, deadline: DateTime.UtcNow.AddSeconds(3));
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
 
 
 
@@ -813,7 +836,12 @@ public sealed partial class SettingPage : PageBase
     }
 
 
+    #endregion
 
+
+
+
+    #region RPC
 
 
     public bool KeepRpcServerRunningInBackground
@@ -835,7 +863,7 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            AppService.GetService<RpcService>().KeepRunningOnExited(value);
+            _rpcService.KeepRunningOnExited(value);
         }
         catch (Exception ex)
         {
@@ -844,6 +872,93 @@ public sealed partial class SettingPage : PageBase
     }
 
 
+
+    public int RPCServerProcessId { get; set => SetProperty(ref field, value); }
+
+
+
+    private async Task GetRpcServerStateAsync()
+    {
+        try
+        {
+            RPCServerProcessId = 0;
+            StackPanel_RpcState_NotRunning.Visibility = Visibility.Collapsed;
+            StackPanel_RpcState_Running.Visibility = Visibility.Collapsed;
+            StackPanel_RpcState_CannotConnect.Visibility = Visibility.Collapsed;
+            if (RpcService.CheckRpcServerRunning())
+            {
+                var info = await _rpcService.GetRpcServerInfoAsync(DateTime.UtcNow.AddSeconds(3));
+                RPCServerProcessId = info.ProcessId;
+                StackPanel_RpcState_Running.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                StackPanel_RpcState_NotRunning.Visibility = Visibility.Visible;
+            }
+        }
+        catch (RpcException ex) when (ex.Status is { StatusCode: StatusCode.DeadlineExceeded })
+        {
+            int sessionId = Process.GetCurrentProcess().SessionId;
+            var process = Process.GetProcessesByName("Starward.RPC").FirstOrDefault(x => x.SessionId == sessionId);
+            if (process != null)
+            {
+                RPCServerProcessId = process.Id;
+                StackPanel_RpcState_CannotConnect.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                StackPanel_RpcState_NotRunning.Visibility = Visibility.Visible;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Get rpc server state");
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task RunRpcServerAsync()
+    {
+        try
+        {
+            await _rpcService.EnsureRpcServerRunningAsync();
+            await Task.Delay(1000);
+            await GetRpcServerStateAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Run rpc server");
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task StopRpcServerAsync()
+    {
+        try
+        {
+            await _rpcService.StopRpcServerAsync(DateTime.UtcNow.AddSeconds(1));
+            await Task.Delay(1000);
+            await GetRpcServerStateAsync();
+        }
+        catch (RpcException ex) when (ex.Status is { StatusCode: StatusCode.DeadlineExceeded })
+        {
+            try
+            {
+                var p = Process.GetProcessById(RPCServerProcessId);
+                p.Kill();
+                await Task.Delay(1000);
+                await GetRpcServerStateAsync();
+            }
+            catch { }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Stop rpc server");
+        }
+    }
 
 
 

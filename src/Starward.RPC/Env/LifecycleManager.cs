@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace Starward.RPC.Lifecycle;
+namespace Starward.RPC.Env;
 
 internal static class LifecycleManager
 {
@@ -15,8 +15,10 @@ internal static class LifecycleManager
 
     private static bool _noLongerChange;
 
+    public static event EventHandler? ParentProcessExited;
 
-    public static void AssociateProcesses(int processId, bool keepRunning, bool noLongerChange = false)
+
+    public static void SetParentProcess(int processId, bool keepRunning, bool noLongerChange = false)
     {
         try
         {
@@ -25,13 +27,14 @@ internal static class LifecycleManager
                 return;
             }
             _keepRunning = keepRunning;
-            if (_parentProcess is not null)
+            if (_parentProcess is not null && _parentProcess.Id != processId)
             {
                 _parentProcess.Exited -= _parentProcess_Exited;
                 _parentProcess.Dispose();
                 _parentProcess = null;
+                ParentProcessExited?.Invoke(null, EventArgs.Empty);
             }
-            if (processId > 0)
+            if (_parentProcess is null && processId > 0)
             {
                 _parentProcess = Process.GetProcessById(processId);
                 _parentProcess.EnableRaisingEvents = true;
@@ -48,7 +51,7 @@ internal static class LifecycleManager
 
 
 
-    public static (Process? Process, bool KeepRunning, bool NoLongerChange) GetAssociatedProcess()
+    public static (Process? Process, bool KeepRunning, bool NoLongerChange) GetParentProcess()
     {
         return (_parentProcess, _keepRunning, _noLongerChange);
     }
@@ -64,6 +67,7 @@ internal static class LifecycleManager
                 _parentProcess.Exited -= _parentProcess_Exited;
                 _parentProcess.Dispose();
                 _parentProcess = null;
+                ParentProcessExited?.Invoke(null, EventArgs.Empty);
             }
             if (!_keepRunning)
             {
@@ -77,9 +81,6 @@ internal static class LifecycleManager
             Log.Error(ex, "Parent process exited.");
         }
     }
-
-
-
 
 
 

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Security.Principal;
@@ -15,7 +16,7 @@ internal static class AppConfig
     public static bool IsAdmin { get; private set; }
 
 
-    public static string MutexAndPipeName => $"Starward.RPC/{AppVersion}";
+    public static string MutexAndPipeName { get; private set; } = $"Starward.RPC/{Process.GetCurrentProcess().SessionId}/{AppVersion}";
 
 
     public const string StartupMagic = "zb8L3ShgFjeyDxeA";

@@ -10,6 +10,7 @@
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
              xmlns:sfv="using:Starward.Features.ViewHost"
+             xmlns:sh="using:Starward.Helpers"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
@@ -550,10 +551,70 @@
                                        Text="{x:Bind lang:Lang.SettingPage_RPCServiceWarningIfAppInRemovableStorage}"
                                        TextWrapping="Wrap"
                                        Visibility="{x:Bind sf:AppSetting.IsAppInRemovableStorage}" />
+                            <!--  保持 RPC 服务后台运行  -->
                             <ToggleSwitch Margin="0,8,0,0"
                                           IsOn="{x:Bind KeepRpcServerRunningInBackground, Mode=TwoWay}"
                                           OffContent="{x:Bind lang:Lang.SettingPage_KeepRPCServiceRunningInTheBackground}"
                                           OnContent="{x:Bind lang:Lang.SettingPage_KeepRPCServiceRunningInTheBackground}" />
+                            <!--  RPC 服务状态  -->
+                            <Grid Margin="0,8,0,0">
+                                <!--  未运行  -->
+                                <StackPanel x:Name="StackPanel_RpcState_NotRunning"
+                                            Orientation="Horizontal"
+                                            Spacing="8"
+                                            Visibility="Collapsed">
+                                    <FontIcon FontSize="16"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE9D9;" />
+                                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.SettingPage_RPCServiceIsNotRunning}" />
+                                    <AppBarSeparator Padding="0" />
+                                    <Button Padding="0"
+                                            sh:PointerCursor.CursorShape="Hand"
+                                            Command="{x:Bind RunRpcServerCommand}"
+                                            Content="{x:Bind lang:Lang.SettingPage_RunService}"
+                                            Style="{ThemeResource TextBlockButtonStyle}" />
+                                </StackPanel>
+                                <!--  正在运行  -->
+                                <StackPanel x:Name="StackPanel_RpcState_Running"
+                                            Orientation="Horizontal"
+                                            Spacing="8"
+                                            Visibility="Collapsed">
+                                    <FontIcon FontSize="16"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE9D9;" />
+                                    <TextBlock Foreground="{ThemeResource SystemFillColorSuccessBrush}" Text="{x:Bind lang:Lang.SettingPage_RPCServiceIsRunning}" />
+                                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" IsTextSelectionEnabled="True">
+                                        <Run Text="Starward.RPC.exe" />
+                                        <Run Text="(" /><Run Text="{x:Bind RPCServerProcessId}" /><Run Text=")" />
+                                    </TextBlock>
+                                    <AppBarSeparator Padding="0" />
+                                    <Button Padding="0"
+                                            sh:PointerCursor.CursorShape="Hand"
+                                            Command="{x:Bind StopRpcServerCommand}"
+                                            Content="{x:Bind lang:Lang.SettingPage_StopService}"
+                                            Style="{ThemeResource TextBlockButtonStyle}" />
+                                </StackPanel>
+                                <!--  无法连接  -->
+                                <StackPanel x:Name="StackPanel_RpcState_CannotConnect"
+                                            Orientation="Horizontal"
+                                            Spacing="8"
+                                            Visibility="Collapsed">
+                                    <FontIcon FontSize="16"
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                              Glyph="&#xE9D9;" />
+                                    <TextBlock Foreground="{ThemeResource SystemFillColorCautionBrush}" Text="{x:Bind lang:Lang.SettingPage_CannotConnectRPCService}" />
+                                    <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" IsTextSelectionEnabled="True">
+                                        <Run Text="Starward.RPC.exe" />
+                                        <Run Text="(" /><Run Text="{x:Bind RPCServerProcessId}" /><Run Text=")" />
+                                    </TextBlock>
+                                    <AppBarSeparator Padding="0" />
+                                    <Button Padding="0"
+                                            sh:PointerCursor.CursorShape="Hand"
+                                            Command="{x:Bind StopRpcServerCommand}"
+                                            Content="{x:Bind lang:Lang.SettingPage_StopService}"
+                                            Style="{ThemeResource TextBlockButtonStyle}" />
+                                </StackPanel>
+                            </Grid>
 
                         </StackPanel>
                     </ScrollViewer>

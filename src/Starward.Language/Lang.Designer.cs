@@ -3749,6 +3749,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Cannot Connect RPC Service 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_CannotConnectRPCService {
+            get {
+                return ResourceManager.GetString("SettingPage_CannotConnectRPCService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Users in some areas may encounter network anomalies. You could solve this problem by switching CDNs. 的本地化字符串。
         /// </summary>
         public static string SettingPage_CDNTips {
@@ -4091,11 +4100,38 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 RPC Service is not Running 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_RPCServiceIsNotRunning {
+            get {
+                return ResourceManager.GetString("SettingPage_RPCServiceIsNotRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 RPC Service is Running 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_RPCServiceIsRunning {
+            get {
+                return ResourceManager.GetString("SettingPage_RPCServiceIsRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Detected that the application is in a removable storage device, it is not recommended to keep the RPC service running in the background. 的本地化字符串。
         /// </summary>
         public static string SettingPage_RPCServiceWarningIfAppInRemovableStorage {
             get {
                 return ResourceManager.GetString("SettingPage_RPCServiceWarningIfAppInRemovableStorage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Run Service 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_RunService {
+            get {
+                return ResourceManager.GetString("SettingPage_RunService", resourceCulture);
             }
         }
         
@@ -4114,6 +4150,15 @@ namespace Starward.Language {
         public static string SettingPage_Small {
             get {
                 return ResourceManager.GetString("SettingPage_Small", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Stop Service 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_StopService {
+            get {
+                return ResourceManager.GetString("SettingPage_StopService", resourceCulture);
             }
         }
         

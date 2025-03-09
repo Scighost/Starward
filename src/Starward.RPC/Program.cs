@@ -8,8 +8,8 @@ using Polly.Extensions.Http;
 using Serilog;
 using Starward.Core.HoYoPlay;
 using Starward.RPC;
+using Starward.RPC.Env;
 using Starward.RPC.GameInstall;
-using Starward.RPC.Lifecycle;
 using Starward.RPC.Update;
 using System;
 using System.IO;
@@ -55,9 +55,10 @@ if (!AppConfig.IsAdmin)
 
 if (args.Length > 1 && int.TryParse(args[1], out int processId))
 {
-    LifecycleManager.AssociateProcesses(processId, false);
+    LifecycleManager.SetParentProcess(processId, false);
 }
 
+GCTimer.Start();
 
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
@@ -84,7 +85,7 @@ builder.Services.AddGrpc(options =>
 builder.Services.AddHttpClient().ConfigureHttpClientDefaults(config =>
 {
     config.RemoveAllLoggers();
-    config.ConfigureHttpClient(client => client.DefaultRequestHeaders.Add("User-Agent", AppConfig.MutexAndPipeName));
+    config.ConfigureHttpClient(client => client.DefaultRequestHeaders.Add("User-Agent", $"Starward.RPC/{AppConfig.AppVersion}"));
     config.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All });
 });
 builder.Services.AddHttpClient<HoYoPlayClient>().AddPolicyHandler(GetHttpRetryPolicy());
@@ -106,7 +107,7 @@ builder.Services.AddSingleton<GameInstallHelper>();
 var app = builder.Build();
 
 
-app.MapGrpcService<LifecycleController>();
+app.MapGrpcService<EnviromentController>();
 app.MapGrpcService<UpdateController>();
 app.MapGrpcService<GameInstallController>();
 

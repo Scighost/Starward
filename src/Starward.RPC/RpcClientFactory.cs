@@ -40,7 +40,7 @@ public static class RpcClientFactory
         }
         try
         {
-            var client = new Lifecycle.Lifecycle.LifecycleClient(CreateChannel());
+            var client = new Env.Env.EnvClient(CreateChannel());
             var info = await client.GetRpcServerInfoAsync(new EmptyMessage(), deadline: DateTime.UtcNow.AddSeconds(3));
             return process ?? Process.GetProcessById(info.ProcessId);
         }
