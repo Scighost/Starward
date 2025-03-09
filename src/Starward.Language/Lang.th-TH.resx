@@ -1757,4 +1757,19 @@
   <data name="StartGameButton_Verify" xml:space="preserve">
     <value>Verify</value>
   </data>
+  <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
+    <value>RPC Service is not Running</value>
+  </data>
+  <data name="SettingPage_RunService" xml:space="preserve">
+    <value>Run Service</value>
+  </data>
+  <data name="SettingPage_RPCServiceIsRunning" xml:space="preserve">
+    <value>RPC Service is Running</value>
+  </data>
+  <data name="SettingPage_StopService" xml:space="preserve">
+    <value>Stop Service</value>
+  </data>
+  <data name="SettingPage_CannotConnectRPCService" xml:space="preserve">
+    <value>Cannot Connect RPC Service</value>
+  </data>
 </root>
