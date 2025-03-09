@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using Starward.Core;
 using Starward.Features.Database;
 using Starward.Features.GameLauncher;
@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
 
 namespace Starward.Frameworks;
@@ -66,6 +67,9 @@ public static class AppSetting
             var webviewFolder = Path.Combine(CacheFolder, "webview");
             Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", webviewFolder, EnvironmentVariableTarget.Process);
 
+            using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            IsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
             if (File.Exists(ConfigPath))
             {
@@ -131,6 +135,8 @@ public static class AppSetting
 
     public static string? UserDataFolder { get; set; }
 
+
+    public static bool IsAdmin { get; private set; }
 
 
 

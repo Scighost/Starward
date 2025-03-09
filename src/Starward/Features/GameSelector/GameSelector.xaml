@@ -10,6 +10,7 @@
              xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
              xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
              xmlns:sc="using:Starward.Controls"
+             xmlns:sf="using:Starward.Frameworks"
              xmlns:sh="using:Starward.Helpers"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
@@ -378,7 +379,7 @@
 
             <!--  游戏图标  -->
             <ListView AllowDrop="True"
-                      CanReorderItems="True"
+                      CanReorderItems="{x:Bind sf:AppSetting.IsAdmin, Converter={StaticResource BoolReversedConverter}}"
                       ItemsSource="{x:Bind GameBizIcons}"
                       SelectionMode="Single">
                 <ListView.ItemsPanel>
