@@ -1758,4 +1758,19 @@
   <data name="StartGameButton_Verify" xml:space="preserve">
     <value>校验</value>
   </data>
+  <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
+    <value>PRC 服务未运行</value>
+  </data>
+  <data name="SettingPage_RunService" xml:space="preserve">
+    <value>运行服务</value>
+  </data>
+  <data name="SettingPage_RPCServiceIsRunning" xml:space="preserve">
+    <value>RPC 服务正在运行</value>
+  </data>
+  <data name="SettingPage_StopService" xml:space="preserve">
+    <value>停止服务</value>
+  </data>
+  <data name="SettingPage_CannotConnectRPCService" xml:space="preserve">
+    <value>无法连接 RPC 服务</value>
+  </data>
 </root>
