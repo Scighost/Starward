@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -256,7 +256,7 @@ public sealed partial class ScreenshotPage : PageBase
     {
         string? folder = null;
 
-        folder = _gameLauncherService.GetGameInstallPath(CurrentGameId);
+        folder = GameLauncherService.GetGameInstallPath(CurrentGameId);
         var relativePath = CurrentGameBiz.Game switch
         {
             GameBiz.hk4e => "ScreenShot",

@@ -36,9 +36,9 @@ internal partial class GamePackageService
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    public string? GetGameInstallPath(GameId gameId)
+    public static string? GetGameInstallPath(GameId gameId)
     {
-        return _gameLauncherService.GetGameInstallPath(gameId);
+        return GameLauncherService.GetGameInstallPath(gameId);
     }
 
 
@@ -64,7 +64,7 @@ internal partial class GamePackageService
     /// <returns></returns>
     public async Task<bool> CheckPreDownloadFinishedAsync(GameId gameId, string? installPath = null)
     {
-        installPath ??= _gameLauncherService.GetGameInstallPath(gameId);
+        installPath ??= GameLauncherService.GetGameInstallPath(gameId);
         if (string.IsNullOrWhiteSpace(installPath))
         {
             return false;
@@ -108,7 +108,7 @@ internal partial class GamePackageService
         {
             return AudioLanguage.None;
         }
-        installPath ??= _gameLauncherService.GetGameInstallPath(gameId);
+        installPath ??= GameLauncherService.GetGameInstallPath(gameId);
         AudioLanguage flag = AudioLanguage.None;
         string file = Path.Join(installPath, config.AudioPackageScanDir);
         if (File.Exists(file))

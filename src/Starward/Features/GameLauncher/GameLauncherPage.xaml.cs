@@ -159,7 +159,7 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            GameInstallPath = _gameLauncherService.GetGameInstallPath(CurrentGameId, out bool storageRemoved);
+            GameInstallPath = GameLauncherService.GetGameInstallPath(CurrentGameId, out bool storageRemoved);
             IsInstallPathRemovableTipEnabled = storageRemoved;
             if (GameInstallPath is null || storageRemoved)
             {

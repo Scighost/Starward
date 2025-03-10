@@ -44,9 +44,20 @@ internal partial class GameLauncherService
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    public string? GetGameInstallPath(GameId gameId)
+    public static string? GetGameInstallPath(GameId gameId)
     {
-        var path = AppSetting.GetGameInstallPath(gameId.GameBiz);
+        return GetGameInstallPath(gameId.GameBiz);
+    }
+
+
+    /// <summary>
+    /// 游戏安装目录，为空时未找到
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    public static string? GetGameInstallPath(GameBiz gameBiz)
+    {
+        var path = AppSetting.GetGameInstallPath(gameBiz);
         if (string.IsNullOrWhiteSpace(path))
         {
             return null;
@@ -56,13 +67,13 @@ internal partial class GameLauncherService
         {
             return Path.GetFullPath(path);
         }
-        else if (AppSetting.GetGameInstallPathRemovable(gameId.GameBiz))
+        else if (AppSetting.GetGameInstallPathRemovable(gameBiz))
         {
             return path;
         }
         else
         {
-            ChangeGameInstallPath(gameId, null);
+            ChangeGameInstallPath(gameBiz, null);
             return null;
         }
     }
@@ -75,7 +86,7 @@ internal partial class GameLauncherService
     /// <param name="gameId"></param>
     /// <param name="storageRemoved">可移动存储设备已移除</param>
     /// <returns></returns>
-    public string? GetGameInstallPath(GameId gameId, out bool storageRemoved)
+    public static string? GetGameInstallPath(GameId gameId, out bool storageRemoved)
     {
         storageRemoved = false;
         var path = AppSetting.GetGameInstallPath(gameId.GameBiz);
@@ -331,18 +342,30 @@ internal partial class GameLauncherService
     /// <returns></returns>
     public static string? ChangeGameInstallPath(GameId gameId, string? path)
     {
+        return ChangeGameInstallPath(gameId.GameBiz, path);
+    }
+
+
+    /// <summary>
+    /// 修改游戏安装目录
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public static string? ChangeGameInstallPath(GameBiz gameBiz, string? path)
+    {
         if (Directory.Exists(path))
         {
             path = Path.GetFullPath(path);
             string relativePath = GetRelativePathIfInRemovableStorage(path, out bool removable);
-            AppSetting.SetGameInstallPath(gameId.GameBiz, relativePath);
-            AppSetting.SetGameInstallPathRemovable(gameId.GameBiz, removable);
+            AppSetting.SetGameInstallPath(gameBiz, relativePath);
+            AppSetting.SetGameInstallPathRemovable(gameBiz, removable);
         }
         else
         {
             path = null;
-            AppSetting.SetGameInstallPath(gameId.GameBiz, null);
-            AppSetting.SetGameInstallPathRemovable(gameId.GameBiz, false);
+            AppSetting.SetGameInstallPath(gameBiz, null);
+            AppSetting.SetGameInstallPathRemovable(gameBiz, false);
         }
         return path;
     }

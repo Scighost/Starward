@@ -238,7 +238,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
                 var info = await _hoyoPlayService.GetGameInfoAsync(CurrentGameId);
                 CurrentGameBizIcon = new GameBizIcon(info);
             }
-            InstallPath = _gameLauncherService.GetGameInstallPath(CurrentGameId, out bool storageRemoved);
+            InstallPath = GameLauncherService.GetGameInstallPath(CurrentGameId, out bool storageRemoved);
             UninstallAndRepairEnabled = InstallPath != null && !storageRemoved;
             GameSize = GetSize(InstallPath);
             await InitializeAudioLanguageAsync();

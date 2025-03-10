@@ -775,7 +775,7 @@ public sealed partial class GameSelector : UserControl
                 int serverCount = 0;
                 foreach (GameBizIcon server in display.Servers)
                 {
-                    string? installPath = _gameLauncherService.GetGameInstallPath(server.GameId);
+                    string? installPath = GameLauncherService.GetGameInstallPath(server.GameId);
                     if (Directory.Exists(installPath))
                     {
                         server.InstallPath = installPath;

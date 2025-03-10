@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
@@ -320,7 +320,7 @@ public sealed partial class GachaLogPage : PageBase
             }
             else
             {
-                var path = _gameLauncherService.GetGameInstallPath(CurrentGameId);
+                var path = GameLauncherService.GetGameInstallPath(CurrentGameId);
                 if (!Directory.Exists(path))
                 {
                     // 游戏未安装
@@ -615,7 +615,7 @@ public sealed partial class GachaLogPage : PageBase
     {
         try
         {
-            var installPath = _gameLauncherService.GetGameInstallPath(CurrentGameId);
+            var installPath = GameLauncherService.GetGameInstallPath(CurrentGameId);
             if (Directory.Exists(installPath))
             {
                 var path = GachaLogClient.GetGachaCacheFilePath(CurrentGameBiz, installPath);
@@ -643,7 +643,7 @@ public sealed partial class GachaLogPage : PageBase
     {
         try
         {
-            var installPath = _gameLauncherService.GetGameInstallPath(CurrentGameId);
+            var installPath = GameLauncherService.GetGameInstallPath(CurrentGameId);
             if (Directory.Exists(installPath))
             {
                 var path = GachaLogClient.GetGachaCacheFilePath(CurrentGameBiz, installPath);

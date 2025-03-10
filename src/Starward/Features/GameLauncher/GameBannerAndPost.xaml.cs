@@ -311,7 +311,6 @@ public sealed partial class GameBannerAndPost : UserControl
             new GameNoticeWindow
             {
                 CurrentGameBiz = CurrentGameId.GameBiz,
-                CurrentUid = 111,
                 ParentWindowHandle = (nint)this.XamlRoot.ContentIslandEnvironment.AppWindowId.Value
             }.Activate();
         }

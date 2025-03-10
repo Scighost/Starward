@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using ZstdSharp;
 
 namespace Starward.RPC.GameInstall;
@@ -541,14 +542,104 @@ internal partial class GamePackageService
             }
         }
 
-        if (Directory.Exists(task.HardLinkPath))
+        if (Directory.Exists(task.HardLinkPath)
+            && Path.GetFullPath(task.InstallPath) != Path.GetFullPath(task.HardLinkPath)
+            && Path.GetPathRoot(task.HardLinkPath) == Path.GetPathRoot(task.InstallPath)
+            && new DriveInfo(task.InstallPath).DriveFormat is "NTFS")
         {
-            foreach (var item in taskFiles)
+            GameBiz gameBiz = task.GameId.GameBiz;
+            if (gameBiz.Game is GameBiz.hk4e)
             {
-                if (!string.IsNullOrWhiteSpace(item.File))
+                const string YuanShen_Data = nameof(YuanShen_Data);
+                const string GenshinImpact_Data = nameof(GenshinImpact_Data);
+                string source = gameBiz.Server switch
                 {
-                    item.HardLinkTarget = Path.Join(task.HardLinkPath, item.File);
-                    // todo YuanShen_Data and GenshinImpact_Data
+                    "cn" => "YuanShen_Data",
+                    "global" => "GenshinImpact_Data",
+                    "bilibili" => "YuanShen_Data",
+                    _ => "",
+                };
+                string target = "";
+                foreach (var dir in Directory.GetDirectories(task.HardLinkPath, "*_Data"))
+                {
+                    string name = Path.GetFileName(dir);
+                    if (name is "YuanShen_Data" or "GenshinImpact_Data")
+                    {
+                        target = name;
+                        break;
+                    }
+                }
+                if (!string.IsNullOrWhiteSpace(source) && !string.IsNullOrWhiteSpace(target))
+                {
+                    if (source == target)
+                    {
+                        foreach (var item in taskFiles)
+                        {
+                            if (!string.IsNullOrWhiteSpace(item.File))
+                            {
+                                item.HardLinkTarget = Path.GetFullPath(Path.Join(task.HardLinkPath, item.File));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in taskFiles)
+                        {
+                            if (!string.IsNullOrWhiteSpace(item.File))
+                            {
+                                item.HardLinkTarget = Path.GetFullPath(Path.Join(task.HardLinkPath, item.File.Replace(source, target)));
+                            }
+                        }
+                    }
+                }
+            }
+            else if (gameBiz.Game is GameBiz.hkrpg)
+            {
+                Version? hardLinkVersion = await GetLocalGameVersionAsync(task.HardLinkPath);
+                if (hardLinkVersion is not null && task.LatestGameVersion == hardLinkVersion.ToString())
+                {
+                    if (task.Operation is GameInstallOperation.Install or GameInstallOperation.Update)
+                    {
+                        task.Operation = GameInstallOperation.Repair;
+                        await PrepareGameInstallTaskFilesAsync(task, localVersion, cancellationToken);
+                        return;
+                    }
+                    else if (task.Operation is GameInstallOperation.Repair)
+                    {
+                        string folder = Path.GetFullPath(Path.Combine(task.HardLinkPath, task.GameConfig!.AudioPackageResDir));
+                        if (Directory.Exists(folder))
+                        {
+                            string targetFolder = Path.GetFullPath(Path.Combine(task.InstallPath, task.GameConfig.AudioPackageResDir));
+                            string[] files = Directory.GetFiles(folder, "*", SearchOption.AllDirectories);
+                            foreach (string item in files)
+                            {
+                                string target = item.Replace(folder, targetFolder);
+                                if (File.Exists(target))
+                                {
+                                    File.Delete(target);
+                                }
+                                Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                                Kernel32.CreateHardLink(target, item);
+                            }
+                        }
+                        foreach (var item in taskFiles)
+                        {
+                            if (!string.IsNullOrWhiteSpace(item.File))
+                            {
+                                item.HardLinkTarget = Path.GetFullPath(Path.Join(task.HardLinkPath, item.File));
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in taskFiles)
+                {
+                    if (!string.IsNullOrWhiteSpace(item.File))
+                    {
+                        item.HardLinkTarget = Path.GetFullPath(Path.Join(task.HardLinkPath, item.File));
+                    }
                 }
             }
         }

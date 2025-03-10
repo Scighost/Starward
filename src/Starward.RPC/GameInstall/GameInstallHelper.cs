@@ -315,7 +315,6 @@ internal partial class GameInstallHelper
         long downloadBytes = file.Chunks?.Sum(x => x.CompressedSize) ?? 0, writeBytes = file.Size;
         if (file.IsFinished || await HardLinkAsync(task, file, cancellationToken) || await CheckFileMD5Async(task, file.FullPath, file.Size, file.MD5, cancellationToken))
         {
-            file.IsFinished = true;
             Interlocked.Add(ref task._progress_WriteFinishBytes, writeBytes);
             if (!updateMode)
             {
@@ -432,6 +431,26 @@ internal partial class GameInstallHelper
 
     }
 
+
+
+    /// <summary>
+    /// 下载到文件
+    /// </summary>
+    /// <param name="task"></param>
+    /// <param name="item"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task DownloadToFileAsync(GameInstallTask task, GameInstallFile file, CancellationToken cancellationToken = default)
+    {
+        if (file.IsFinished || await HardLinkAsync(task, file, cancellationToken))
+        {
+            Interlocked.Add(ref task._progress_DownloadFinishBytes, file.Size);
+        }
+        else
+        {
+            await DownloadToFileAsync(task, file.FullPath, file.Url, file.Size, file.MD5, cancellationToken);
+        }
+    }
 
 
 

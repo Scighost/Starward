@@ -376,7 +376,7 @@
                         <StackPanel Orientation="Horizontal" Spacing="4">
                             <FontIcon FontSize="12"
                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                      Glyph="&#xE9D9;"
+                                      Glyph="&#xE945;"
                                       IsTextScaleFactorEnabled="False" />
                             <TextBlock FontSize="12"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"

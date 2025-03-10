@@ -631,7 +631,8 @@ internal class GameInstallService
             task.State = GameInstallState.Downloading;
             await Parallel.ForEachAsync(task.TaskFiles!, cancellationToken, async (GameInstallFile file, CancellationToken token) =>
             {
-                await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(task, file.FullPath, file.Url, file.Size, file.MD5, token), token);
+                await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(task, file, token), token);
+                file.IsFinished = true;
             });
         }
 

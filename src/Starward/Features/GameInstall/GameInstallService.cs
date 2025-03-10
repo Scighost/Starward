@@ -2,12 +2,14 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Features.GameLauncher;
 using Starward.Features.RPC;
 using Starward.RPC;
 using Starward.RPC.GameInstall;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -202,9 +204,9 @@ internal class GameInstallService
 
 
 
-    public async Task<GameInstallTask> StartInstallAsync(GameId gameId, string installPath, AudioLanguage audioLanguage, string? hardLinkPath = null)
+    public async Task<GameInstallTask> StartInstallAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
-        return await StartOrContinueTaskAsync(GameInstallOperation.Install, gameId, installPath, audioLanguage, hardLinkPath);
+        return await StartOrContinueTaskAsync(GameInstallOperation.Install, gameId, installPath, audioLanguage);
     }
 
 
@@ -216,21 +218,21 @@ internal class GameInstallService
 
 
 
-    public async Task<GameInstallTask> StartUpdateAsync(GameId gameId, string installPath, AudioLanguage audioLanguage, string? hardLinkPath = null)
+    public async Task<GameInstallTask> StartUpdateAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
-        return await StartOrContinueTaskAsync(GameInstallOperation.Update, gameId, installPath, audioLanguage, hardLinkPath);
+        return await StartOrContinueTaskAsync(GameInstallOperation.Update, gameId, installPath, audioLanguage);
     }
 
 
 
-    public async Task<GameInstallTask> StartRepairAsync(GameId gameId, string installPath, AudioLanguage audioLanguage, string? hardLinkPath = null)
+    public async Task<GameInstallTask> StartRepairAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
-        return await StartOrContinueTaskAsync(GameInstallOperation.Repair, gameId, installPath, audioLanguage, hardLinkPath);
+        return await StartOrContinueTaskAsync(GameInstallOperation.Repair, gameId, installPath, audioLanguage);
     }
 
 
 
-    private async Task<GameInstallTask> StartOrContinueTaskAsync(GameInstallOperation operation, GameId gameId, string installPath, AudioLanguage audioLanguage, string? hardLinkPath = null)
+    private async Task<GameInstallTask> StartOrContinueTaskAsync(GameInstallOperation operation, GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
         var request = new GameInstallTaskRequest
         {
@@ -239,6 +241,7 @@ internal class GameInstallService
             InstallPath = installPath,
             Operation = (int)operation,
             AudioLanguage = (int)audioLanguage,
+            HardLinkPath = GetHardLinkPath(gameId, installPath),
         };
         await _rpcService.EnsureRpcServerRunningAsync();
         var dto = await _gameInstallerClient.StartOrContinueTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
@@ -306,6 +309,27 @@ internal class GameInstallService
     }
 
 
+
+    private static string? GetHardLinkPath(GameId gameId, string installPath)
+    {
+        if (GameFeatureConfig.FromGameId(gameId).SupportHardLink)
+        {
+            string game = gameId.GameBiz.Game;
+            foreach (string server in new[] { "cn", "global", "bilibili" })
+            {
+                string biz = $"{game}_{server}";
+                if (gameId.GameBiz != biz)
+                {
+                    string? path = GameLauncherService.GetGameInstallPath(biz);
+                    if (!string.IsNullOrWhiteSpace(path) && Path.GetPathRoot(path) == Path.GetPathRoot(installPath) && new DriveInfo(path).DriveFormat is "NTFS")
+                    {
+                        return path;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
 
 

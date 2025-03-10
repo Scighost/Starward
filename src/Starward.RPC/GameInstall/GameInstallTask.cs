@@ -19,7 +19,7 @@ public class GameInstallTask
     /// </summary>
     public string InstallPath { get; init; }
 
-    public GameInstallOperation Operation { get; init; }
+    public GameInstallOperation Operation { get; set; }
 
     public AudioLanguage AudioLanguage { get; init; }
 
@@ -216,8 +216,8 @@ public partial class GameInstallTaskDTO
             GameId = GetGameId(),
             HardLinkPath = HardLinkPath,
             InstallPath = InstallPath,
-            Operation = (GameInstallOperation)Operation,
         };
+        task.Operation = (GameInstallOperation)Operation;
         task.Timestamp = Timestamp;
         task.State = (GameInstallState)State;
         task.Progress_DownloadTotalBytes = ProgressDownloadTotalBytes;

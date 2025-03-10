@@ -87,7 +87,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
         try
         {
             // 安装路径
-            string? installPath = _gamePackageService.GetGameInstallPath(CurrentGameId);
+            string? installPath = GamePackageService.GetGameInstallPath(CurrentGameId);
             if (installPath is null)
             {
                 _logger.LogWarning("InstallPath of ({GameBiz}) is null.", CurrentGameId.GameBiz);
