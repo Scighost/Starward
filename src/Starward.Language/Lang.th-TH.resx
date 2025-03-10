@@ -1772,4 +1772,7 @@
   <data name="SettingPage_CannotConnectRPCService" xml:space="preserve">
     <value>Cannot Connect RPC Service</value>
   </data>
+  <data name="InstallGameDialog_AutomaticallyCreateASubfolder" xml:space="preserve">
+    <value>Automatically Create a Subfolder</value>
+  </data>
 </root>
