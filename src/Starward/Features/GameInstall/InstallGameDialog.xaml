@@ -114,10 +114,17 @@
             </StackPanel>
 
 
+            <!--  Auto Create Subfolder  -->
+            <CheckBox Margin="0,8,0,0" IsChecked="{x:Bind AutomaticallyCreateSubfolderForInstall, Mode=TwoWay}">
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="{x:Bind lang:Lang.InstallGameDialog_AutomaticallyCreateASubfolder}" />
+            </CheckBox>
+
 
             <!--  Start Install  -->
             <Button x:Name="Button_StartInstallation"
-                    Margin="0,24,0,0"
+                    Margin="0,16,0,0"
                     HorizontalAlignment="Right"
                     Command="{x:Bind StartInstallationCommand}"
                     Content="{x:Bind lang:Lang.InstallGameDialog_StartInstallation}"
@@ -128,14 +135,12 @@
 
 
 
-
         </StackPanel>
 
 
 
         <!--  Support Hard Links  -->
         <StackPanel x:Name="StackPanel_HardLink"
-                    Margin="0,0,0,-4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
                     Orientation="Horizontal"

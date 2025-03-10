@@ -426,6 +426,15 @@ public static class AppSetting
     }
 
 
+    /// <summary>
+    /// 安装游戏时自动创建子文件夹
+    /// </summary>
+    public static bool AutomaticallyCreateSubfolderForInstall
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
 
 
     #endregion

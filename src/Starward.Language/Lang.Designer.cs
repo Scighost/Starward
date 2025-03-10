@@ -2522,6 +2522,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Automatically Create a Subfolder 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_AutomaticallyCreateASubfolder {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_AutomaticallyCreateASubfolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Click to Restart 的本地化字符串。
         /// </summary>
         public static string InstallGameDialog_ClickToRestart {

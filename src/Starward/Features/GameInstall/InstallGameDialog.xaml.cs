@@ -187,6 +187,9 @@ public sealed partial class InstallGameDialog : ContentDialog
     private GameSophonChunkBuild? _gameSophonChunkBuild;
 
 
+    private string _selectPath;
+
+
     public string InstallationPath { get; set => SetProperty(ref field, value); }
 
 
@@ -202,6 +205,25 @@ public sealed partial class InstallGameDialog : ContentDialog
     public partial long AvailableSpaceBytes { get; set; }
 
     public string AvailableSpaceText => AvailableSpaceBytes == 0 ? "..." : $"{AvailableSpaceBytes / GB:F2} GB";
+
+
+    [ObservableProperty]
+    public partial bool AutomaticallyCreateSubfolderForInstall { get; set; } = AppSetting.AutomaticallyCreateSubfolderForInstall;
+    partial void OnAutomaticallyCreateSubfolderForInstallChanged(bool value)
+    {
+        AppSetting.AutomaticallyCreateSubfolderForInstall = value;
+        if (!string.IsNullOrWhiteSpace(_selectPath))
+        {
+            if (value)
+            {
+                SetInstallationPath(Path.Combine(_selectPath, CurrentGameId.GameBiz));
+            }
+            else
+            {
+                SetInstallationPath(_selectPath);
+            }
+        }
+    }
 
 
 
@@ -260,7 +282,7 @@ public sealed partial class InstallGameDialog : ContentDialog
         {
             if (_gamePackage is not null || _gameSophonChunkBuild is not null)
             {
-                if (Path.IsPathFullyQualified(InstallationPath))
+                if (Path.IsPathFullyQualified(InstallationPath) && Path.GetPathRoot(InstallationPath) != InstallationPath)
                 {
                     if (!(_needAudioPackage ^ Segmented_SelectLanguage.SelectedItems.Count > 0))
                     {
@@ -287,6 +309,11 @@ public sealed partial class InstallGameDialog : ContentDialog
             string? path = await FileDialogHelper.PickFolderAsync(this.XamlRoot);
             if (Directory.Exists(path))
             {
+                _selectPath = path;
+                if (AutomaticallyCreateSubfolderForInstall)
+                {
+                    path = Path.Combine(path, CurrentGameId.GameBiz);
+                }
                 SetInstallationPath(path);
             }
         }

@@ -1771,4 +1771,7 @@
   <data name="SettingPage_CannotConnectRPCService" xml:space="preserve">
     <value>无法连接 RPC 服务</value>
   </data>
+  <data name="InstallGameDialog_AutomaticallyCreateASubfolder" xml:space="preserve">
+    <value>自动创建子文件夹</value>
+  </data>
 </root>
