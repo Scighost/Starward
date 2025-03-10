@@ -177,15 +177,7 @@ public sealed partial class GameLauncherPage : PageBase
                 GameState = GameState.ResumeDownload;
                 return;
             }
-            if (await CheckGameRunningAsync())
-            {
-                if (predownloadGameVersion > localGameVersion)
-                {
-                    IsPredownloadButtonEnabled = true;
-                    IsPredownloadFinished = await _gamePackageService.CheckPreDownloadFinishedAsync(CurrentGameId);
-                }
-                return;
-            }
+            await CheckGameRunningAsync();
             (latestGameVersion, predownloadGameVersion) = await _gameLauncherService.GetLatestGameVersionAsync(CurrentGameId);
             if (latestGameVersion > localGameVersion)
             {

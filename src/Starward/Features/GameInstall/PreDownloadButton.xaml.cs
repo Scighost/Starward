@@ -183,7 +183,12 @@ public sealed partial class PreDownloadButton : UserControl
         long finish = task.Progress_DownloadFinishBytes;
         ProgressPercentText = $"{(double)finish / total:P1}";
         DownloadBytesText = ToBytesText(finish, total);
-        if (State is not GameInstallState.Finish)
+        if (State is GameInstallState.Paused or GameInstallState.Queueing or GameInstallState.Error)
+        {
+            DownloadSpeedText = "- KB/s";
+            RemainTimeText = "--:--:--";
+        }
+        else if (State is not GameInstallState.Finish)
         {
             DownloadSpeedText = ToSpeedText(task.NetworkDownloadSpeed);
             RemainTimeText = ToRemainTimeText(task.RemainTimeSeconds);
@@ -195,6 +200,7 @@ public sealed partial class PreDownloadButton : UserControl
             RemainTimeText = null;
             ErrorMessage = null;
         }
+        UpdateButtonState();
     }
 
 
