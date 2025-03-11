@@ -665,14 +665,6 @@ internal class GameInstallService
     {
         if (task.Operation is not GameInstallOperation.Predownload)
         {
-            foreach (string file in Directory.GetFiles(task.InstallPath, "*_tmp", SearchOption.AllDirectories))
-            {
-                File.Delete(file);
-            }
-            foreach (string file in Directory.GetFiles(task.InstallPath, "*.hdiff", SearchOption.AllDirectories))
-            {
-                File.Delete(file);
-            }
             foreach (GameInstallFile item in task.TaskFiles ?? [])
             {
                 foreach (GameInstallCompressedPackage package in item.CompressedPackages ?? [])
@@ -691,15 +683,26 @@ internal class GameInstallService
                     File.Delete(path);
                 }
             }
-            string chunk = Path.Combine(task.InstallPath, "chunk");
-            if (Directory.Exists(chunk))
+            if (task.PredownloadVersion is null)
             {
-                Directory.Delete(chunk, true);
-            }
-            string staging = Path.Combine(task.InstallPath, "staging");
-            if (Directory.Exists(staging))
-            {
-                Directory.Delete(staging, true);
+                foreach (string file in Directory.GetFiles(task.InstallPath, "*_tmp", SearchOption.AllDirectories))
+                {
+                    File.Delete(file);
+                }
+                foreach (string file in Directory.GetFiles(task.InstallPath, "*.hdiff", SearchOption.AllDirectories))
+                {
+                    File.Delete(file);
+                }
+                string chunk = Path.Combine(task.InstallPath, "chunk");
+                if (Directory.Exists(chunk))
+                {
+                    Directory.Delete(chunk, true);
+                }
+                string staging = Path.Combine(task.InstallPath, "staging");
+                if (Directory.Exists(staging))
+                {
+                    Directory.Delete(staging, true);
+                }
             }
         }
     }
@@ -746,13 +749,13 @@ internal class GameInstallService
         else if (task.GameId.GameBiz.Server is "global")
         {
             config["channel"] = "1";
-            config["sub_channel"] = "1";
+            config["sub_channel"] = "0";
             config["cps"] = "hyp_hoyoverse";
         }
         else if (task.GameId.GameBiz.Server is "bilibili")
         {
             config["channel"] = "14";
-            config["sub_channel"] = "1";
+            config["sub_channel"] = "0";
             config["cps"] = "hyp_mihoyo";
         }
         config["sdk_version"] = task.GameChannelSDK?.Version ?? "";

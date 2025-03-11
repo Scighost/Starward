@@ -25,7 +25,7 @@ internal partial class GameInstallHelper
 
     private const int BUFFER_SIZE = 8192;
 
-    private const int MD5_BUFFER_SIZE = 1 << 16;
+    private const int MD5_BUFFER_SIZE = 1 << 19;
 
 
     private readonly ILogger<GameInstallHelper> _logger;
