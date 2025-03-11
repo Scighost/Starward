@@ -48,11 +48,20 @@ public sealed partial class MainView : UserControl
     private void InitializeMainView()
     {
         this.Loaded += MainView_Loaded;
-        CurrentGameId = GameSelector.CurrentGameId;
+        GameId? gameId = GameSelector.CurrentGameId;
+        if (gameId?.GameBiz == GameBiz.bh3_global)
+        {
+            string? id = AppSetting.LastGameIdOfBH3Global;
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                gameId.Id = id;
+            }
+        }
+        CurrentGameId = gameId;
         CurrentGameFeatureConfig = GameFeatureConfig.FromGameId(CurrentGameId);
-        GameSelector.CurrentGameChanged += GameSelector_CurrentGameChanged;
         UpdateNavigationView();
         WeakReferenceMessenger.Default.Register<MainViewNavigateMessage>(this, OnMainViewNavigateMessageReceived);
+        WeakReferenceMessenger.Default.Register<BH3GlobalGameServerChangedMessage>(this, OnBH3GlobalGameServerChanged);
     }
 
 
@@ -68,12 +77,31 @@ public sealed partial class MainView : UserControl
 
     private void GameSelector_CurrentGameChanged(object? sender, (GameId, bool DoubleTapped) e)
     {
+        if (e.Item1.GameBiz == GameBiz.bh3_global)
+        {
+            // 崩坏3国际服区服
+            string? id = AppSetting.LastGameIdOfBH3Global;
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                e.Item1.Id = id;
+            }
+        }
         CurrentGameId = e.Item1;
         CurrentGameFeatureConfig = GameFeatureConfig.FromGameId(CurrentGameId);
         UpdateNavigationView();
     }
 
 
+
+    private void OnBH3GlobalGameServerChanged(object _, BH3GlobalGameServerChangedMessage message)
+    {
+        if (CurrentGameId?.GameBiz == GameBiz.bh3_global)
+        {
+            CurrentGameId.Id = message.GameId;
+            OnPropertyChanged(nameof(CurrentGameId));
+            NavigateTo(typeof(GameLauncherPage), CurrentGameId, new SuppressNavigationTransitionInfo());
+        }
+    }
 
 
 

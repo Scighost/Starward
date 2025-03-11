@@ -7,6 +7,7 @@
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Features.GameLauncher"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sch="using:Starward.Core.HoYoPlay"
              xmlns:sf="using:Starward.Frameworks"
              xmlns:sfg="using:Starward.Features.GameInstall"
              xmlns:sfp="using:Starward.Features.PlayTime"
@@ -47,13 +48,13 @@
             </StackPanel>
         </Border>
 
+
         <!--  游戏通知  -->
         <local:GameBannerAndPost x:Name="GameBannerAndPost"
                                  Margin="60,0,0,40"
                                  HorizontalAlignment="Left"
                                  VerticalAlignment="Bottom"
                                  CurrentGameId="{x:Bind CurrentGameId}" />
-
 
 
         <!--  右下角按键  -->
@@ -97,9 +98,9 @@
                                    Grid.Column="2"
                                    HorizontalAlignment="Right"
                                    GameCommand="{x:Bind ClickStartGameButtonCommand}"
+                                   GameState="{x:Bind GameState}"
                                    RunningGameInfo="{x:Bind RunningGameInfo}"
-                                   SettingCommand="{x:Bind OpenGameLauncherSettingDialogCommand}"
-                                   GameState="{x:Bind GameState}" />
+                                   SettingCommand="{x:Bind OpenGameLauncherSettingDialogCommand}" />
 
 
             <!--  文字阴影  -->
@@ -138,6 +139,24 @@
 
 
         </Grid>
+
+
+        <!--  区服选择  -->
+        <ComboBox Height="28"
+                  Margin="172,14,0,0"
+                  Padding="18.5,0,8,0"
+                  ItemsSource="{x:Bind GameServers}"
+                  SelectedItem="{x:Bind SelectedGameServer, Mode=TwoWay}"
+                  Visibility="{x:Bind GameServers, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="sch:GameServerConfig">
+                    <TextBlock FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               IsTextScaleFactorEnabled="False"
+                               Text="{x:Bind I18nDescription}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
 
     </Grid>

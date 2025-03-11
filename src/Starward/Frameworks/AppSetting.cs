@@ -436,6 +436,17 @@ public static class AppSetting
     }
 
 
+    /// <summary>
+    /// 崩坏3国际服多区服选项
+    /// </summary>
+    public static string? LastGameIdOfBH3Global
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
+
 
     #endregion
 

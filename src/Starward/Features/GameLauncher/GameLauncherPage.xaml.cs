@@ -4,13 +4,16 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Starward.Core;
+using Starward.Core.HoYoPlay;
 using Starward.Features.Background;
 using Starward.Features.GameInstall;
+using Starward.Features.HoYoPlay;
 using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
 using Starward.RPC.GameInstall;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -37,6 +40,8 @@ public sealed partial class GameLauncherPage : PageBase
 
     private readonly GameInstallService _gameInstallService = AppService.GetService<GameInstallService>();
 
+    private readonly HoYoPlayService _hoYoPlayService = AppService.GetService<HoYoPlayService>();
+
 
     private readonly DispatcherQueueTimer _dispatchTimer;
 
@@ -55,6 +60,7 @@ public sealed partial class GameLauncherPage : PageBase
     {
         CheckGameVersion();
         UpdateGameInstallTask();
+        _ = InitializeGameServerAsync();
         WeakReferenceMessenger.Default.Register<GameInstallPathChangedMessage>(this, OnGameInstallPathChanged);
         WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
         WeakReferenceMessenger.Default.Register<RemovableStorageDeviceChangedMessage>(this, OnRemovableStorageDeviceChanged);
@@ -112,6 +118,69 @@ public sealed partial class GameLauncherPage : PageBase
         }
     }
 
+
+
+
+    #region Game Server
+
+
+    public List<GameServerConfig>? GameServers { get; set => SetProperty(ref field, value); }
+
+    [ObservableProperty]
+    public partial GameServerConfig? SelectedGameServer { get; set; }
+    partial void OnSelectedGameServerChanged(GameServerConfig? oldValue, GameServerConfig? newValue)
+    {
+        if (oldValue is not null && newValue is not null)
+        {
+            AppSetting.LastGameIdOfBH3Global = newValue.GameId;
+            WeakReferenceMessenger.Default.Send(new BH3GlobalGameServerChangedMessage(newValue.GameId));
+        }
+    }
+
+
+    /// <summary>
+    /// 初始化区服选项，仅崩坏三国际服使用
+    /// </summary>
+    /// <returns></returns>
+    private async Task InitializeGameServerAsync()
+    {
+        try
+        {
+            GameInfo? gameInfo;
+            if (CurrentGameBiz == GameBiz.bh3_global)
+            {
+                gameInfo = await _hoYoPlayService.GetGameInfoAsync(GameId.FromGameBiz(GameBiz.bh3_global)!);
+            }
+            else
+            {
+                gameInfo = await _hoYoPlayService.GetGameInfoAsync(CurrentGameId);
+            }
+            if (gameInfo?.GameServerConfigs?.Count > 0)
+            {
+                GameServers = gameInfo.GameServerConfigs;
+                if (GameServers.FirstOrDefault(x => x.GameId == CurrentGameId.Id) is GameServerConfig config)
+                {
+                    SelectedGameServer = config;
+                }
+                else
+                {
+                    SelectedGameServer = GameServers.FirstOrDefault();
+                    if (SelectedGameServer is not null)
+                    {
+                        CurrentGameId.Id = SelectedGameServer.GameId;
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+
+    #endregion
 
 
 

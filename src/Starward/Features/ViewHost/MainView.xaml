@@ -131,7 +131,7 @@
 
 
 
-        <sfg:GameSelector x:Name="GameSelector" />
+        <sfg:GameSelector x:Name="GameSelector" CurrentGameChanged="GameSelector_CurrentGameChanged" />
 
 
     </Grid>
