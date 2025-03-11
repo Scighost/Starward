@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.Retry;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,12 +21,19 @@ internal class UpdateService
 
     private readonly HttpClient _httpClient;
 
+    private readonly ResiliencePipeline _polly;
+
 
 
     public UpdateService(ILogger<UpdateService> logger, HttpClient httpClient)
     {
         _logger = logger;
         _httpClient = httpClient;
+        _polly = new ResiliencePipelineBuilder().AddRetry(new RetryStrategyOptions
+        {
+            MaxRetryAttempts = 5,
+            BackoffType = DelayBackoffType.Linear
+        }).Build();
     }
 
 
@@ -205,7 +214,7 @@ internal class UpdateService
             await Task.Delay(1000, cancellationToken);
             State = UpdateState.Finish;
         }
-        catch (TaskCanceledException)
+        catch (OperationCanceledException)
         {
             State = UpdateState.Stop;
             RestoreVersionIni();
@@ -256,7 +265,7 @@ internal class UpdateService
         Progress_TotalFileCount = downloadFiles.Count;
         await Parallel.ForEachAsync(downloadFiles, cancellationToken, async (updateFile, token) =>
         {
-            await DownloadFileAsync(updateFile.From, updateFile.Url, updateFile.Size, updateFile.Hash, false, token);
+            await _polly.ExecuteAsync(async (pollyToken) => await DownloadFileAsync(updateFile.From, updateFile.Url, updateFile.Size, updateFile.Hash, false, pollyToken), token);
         });
     }
 
@@ -264,79 +273,59 @@ internal class UpdateService
 
     private async Task DownloadFileAsync(string file, string url, long size, string trueHash, bool noProgress, CancellationToken cancellationToken = default)
     {
-        for (int i = 0; i < 3; i++)
+        using var fs = File.Open(file, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
+        if (!noProgress)
         {
-            try
+            Interlocked.Add(ref progress_DownloadBytes, fs.Length);
+        }
+        if (fs.Length < size)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, url) { Version = HttpVersion.Version11 };
+            request.Headers.Range = new RangeHeaderValue(fs.Length, null);
+            var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            if (response.Content.Headers.ContentRange?.From is not null)
             {
-                using var fs = File.Open(file, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
-                fs.Position = fs.Length;
+                fs.Position = response.Content.Headers.ContentRange.From.Value;
+            }
+            using var hs = await response.Content.ReadAsStreamAsync(cancellationToken);
+            var buffer = new byte[1 << 16];
+            int length;
+            while ((length = await hs.ReadAsync(buffer, cancellationToken)) != 0)
+            {
+                await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken);
                 if (!noProgress)
                 {
-                    Interlocked.Add(ref progress_DownloadBytes, fs.Length);
+                    Interlocked.Add(ref progress_DownloadBytes, length);
                 }
-                if (fs.Length < size)
-                {
-                    var request = new HttpRequestMessage(HttpMethod.Get, url) { Version = HttpVersion.Version11 };
-                    request.Headers.Range = new RangeHeaderValue(fs.Length, null);
-                    var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-                    response.EnsureSuccessStatusCode();
-                    using var hs = await response.Content.ReadAsStreamAsync(cancellationToken);
-                    var buffer = new byte[1 << 16];
-                    int length;
-                    while ((length = await hs.ReadAsync(buffer, cancellationToken)) != 0)
-                    {
-                        await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken);
-                        if (!noProgress)
-                        {
-                            Interlocked.Add(ref progress_DownloadBytes, length);
-                        }
-                    }
-                }
-                await fs.FlushAsync(cancellationToken);
-                if (!noProgress)
-                {
-                    Interlocked.Increment(ref progress_DownloadFileCount);
-                }
+            }
+        }
+        await fs.FlushAsync(cancellationToken);
+        if (!noProgress)
+        {
+            Interlocked.Increment(ref progress_DownloadFileCount);
+        }
 
-                fs.Position = 0;
-                var sha256 = await SHA256.HashDataAsync(fs, cancellationToken);
-                string hash = Convert.ToHexString(sha256);
-                if (string.Equals(hash, trueHash, StringComparison.OrdinalIgnoreCase))
-                {
-                    return;
-                }
-                _logger.LogWarning("""
+        fs.Position = 0;
+        var sha256 = await SHA256.HashDataAsync(fs, cancellationToken);
+        string hash = Convert.ToHexString(sha256);
+        if (string.Equals(hash, trueHash, StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+        _logger.LogWarning("""
                     File verification failed: {file}
                     Expected Hash: {ExpectedHash}
                     Actual Hash: {ActualHash}
                     """, file, trueHash, hash);
-                fs.SetLength(0);
-                fs.Position = 0;
-                if (!noProgress)
-                {
-                    Interlocked.Add(ref progress_DownloadBytes, -size);
-                    Interlocked.Decrement(ref progress_DownloadFileCount);
-                }
-                if (i == 2)
-                {
-                    fs.Dispose();
-                    File.Delete(file);
-                    throw new Exception($"File verification failed: {file}");
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                return;
-            }
-            catch (HttpRequestException ex)
-            {
-                _logger.LogError(ex, "Download failed: {url}", url);
-                if (i == 2)
-                {
-                    throw;
-                }
-            }
+        fs.Dispose();
+        File.Delete(file);
+        if (!noProgress)
+        {
+            Interlocked.Add(ref progress_DownloadBytes, -size);
+            Interlocked.Decrement(ref progress_DownloadFileCount);
         }
+        throw new Exception("File verification failed");
     }
 
 
@@ -353,7 +342,7 @@ internal class UpdateService
         }
         await Parallel.ForEachAsync(releaseVersion.SeparateFiles, cancellationToken, async (releaseFiles, token) =>
         {
-            await DownloadFileAsync(releaseFiles.Path, releaseFiles.Url, releaseFiles.Size, releaseFiles.Hash, true, token);
+            await _polly.ExecuteAsync(async (pollyToken) => await DownloadFileAsync(releaseFiles.Path, releaseFiles.Url, releaseFiles.Size, releaseFiles.Hash, true, pollyToken), token);
         });
     }
 
