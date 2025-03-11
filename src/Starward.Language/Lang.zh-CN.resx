@@ -1774,4 +1774,13 @@
   <data name="InstallGameDialog_AutomaticallyCreateASubfolder" xml:space="preserve">
     <value>自动创建子文件夹</value>
   </data>
+  <data name="GameLauncherSettingDialog_UninstallGameWarning" xml:space="preserve">
+    <value>以下文件夹中的所有文件将被删除，请在卸载前确认路径是否正确。</value>
+  </data>
+  <data name="GameLauncherSettingDialog_ConfirmUninstall" xml:space="preserve">
+    <value>确认卸载</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CannotDeleteTheDriveRootDirectory" xml:space="preserve">
+    <value>不能删除驱动器根目录</value>
+  </data>
 </root>

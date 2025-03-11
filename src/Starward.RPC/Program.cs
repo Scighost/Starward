@@ -101,6 +101,7 @@ builder.Services.AddScoped<UpdateService>();
 builder.Services.AddScoped<GamePackageService>();
 builder.Services.AddSingleton<GameInstallService>();
 builder.Services.AddSingleton<GameInstallHelper>();
+builder.Services.AddScoped<GameUninstallService>();
 
 
 

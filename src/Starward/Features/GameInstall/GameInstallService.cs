@@ -4,6 +4,7 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
 using Starward.Features.RPC;
+using Starward.Frameworks;
 using Starward.RPC;
 using Starward.RPC.GameInstall;
 using System;
@@ -303,9 +304,31 @@ internal class GameInstallService
 
 
 
-    public Task StartUninstallAsync(GameId gameId, string installPath)
+    public async Task<bool> StartUninstallAsync(GameId gameId, string installPath)
     {
-        throw new NotImplementedException();
+        if (await _rpcService.EnsureRpcServerRunningAsync())
+        {
+            var request = new UninstallGameRequest
+            {
+                GameBiz = gameId.GameBiz,
+                GameId = gameId.Id,
+                InstallPath = installPath,
+                UserDataFolder = AppSetting.UserDataFolder,
+            };
+            var response = await _gameInstallerClient.UninstallGameAsync(request);
+            if (response.Success)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception(response.ErrorMessage);
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
 

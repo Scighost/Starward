@@ -197,6 +197,7 @@
                             <!--  卸载游戏  -->
                             <Button Grid.Column="2"
                                     Height="36"
+                                    Command="{x:Bind ShowUninstallGameWarningCommand}"
                                     CornerRadius="8"
                                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                                     Visibility="{x:Bind UninstallAndRepairEnabled}">
@@ -209,6 +210,33 @@
                                 </StackPanel>
                             </Button>
                         </Grid>
+
+
+                        <!--  卸载警告  -->
+                        <Grid x:Name="Grid_UninstallWarning"
+                              ColumnSpacing="12"
+                              Visibility="Collapsed">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                                       Text="{x:Bind lang:Lang.GameLauncherSettingDialog_UninstallGameWarning}"
+                                       TextWrapping="Wrap" />
+                            <Button Grid.Column="1" Command="{x:Bind UninstallGameCommand}">
+                                <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{x:Bind lang:Lang.GameLauncherSettingDialog_ConfirmUninstall}" />
+                            </Button>
+                        </Grid>
+
+                        <!--  卸载错误  -->
+                        <TextBlock FontSize="12"
+                                   Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                   Text="{x:Bind UninstallError}"
+                                   TextWrapping="Wrap"
+                                   Visibility="{x:Bind UninstallError, Converter={StaticResource ObjectToVisibilityConverter}}" />
+
 
                         <!--  游戏安装位置  -->
                         <Grid Height="40"

@@ -166,7 +166,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
 
-    private bool _hasAudioPackages;
+    private bool? _hasAudioPackages;
 
 
     public bool CanRepairGame { get; set => SetProperty(ref field, value); } = true;
@@ -239,8 +239,15 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
                 CurrentGameBizIcon = new GameBizIcon(info);
             }
             InstallPath = GameLauncherService.GetGameInstallPath(CurrentGameId, out bool storageRemoved);
-            UninstallAndRepairEnabled = InstallPath != null && !storageRemoved;
             GameSize = GetSize(InstallPath);
+            if (await _gameLauncherService.GetGameProcessAsync(CurrentGameId) is null)
+            {
+                UninstallAndRepairEnabled = InstallPath != null && !storageRemoved;
+            }
+            else
+            {
+                UninstallAndRepairEnabled = false;
+            }
             await InitializeAudioLanguageAsync();
         }
         catch (Exception ex)
@@ -389,7 +396,11 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     [RelayCommand]
     private async Task RepairGameAsync()
     {
-        if (_hasAudioPackages && Button_StartRepairing.Visibility is Visibility.Collapsed)
+        if (_hasAudioPackages is null)
+        {
+            return;
+        }
+        if (_hasAudioPackages.Value && Button_StartRepairing.Visibility is Visibility.Collapsed)
         {
             Segmented_SelectLanguage.Visibility = Visibility.Visible;
             Button_StartRepairing.Visibility = Visibility.Visible;
@@ -434,6 +445,62 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         catch (Exception ex)
         {
 
+        }
+    }
+
+
+
+
+    public string? UninstallError { get; set => SetProperty(ref field, value); }
+
+
+
+    [RelayCommand]
+    private void ShowUninstallGameWarning()
+    {
+        if (Path.GetPathRoot(InstallPath) == InstallPath)
+        {
+            UninstallError = Lang.GameLauncherSettingDialog_CannotDeleteTheDriveRootDirectory;
+        }
+        else
+        {
+            Grid_UninstallWarning.Visibility = Visibility.Visible;
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task UninstallGameAsync()
+    {
+        try
+        {
+            UninstallError = null;
+            if (await _gameLauncherService.GetGameProcessAsync(CurrentGameId) is not null)
+            {
+                UninstallError = Lang.LauncherPage_GameIsRunning;
+                await InitializeBasicInfoAsync();
+                return;
+            }
+            if (Directory.Exists(InstallPath))
+            {
+                if (await _gameInstallService.StartUninstallAsync(CurrentGameId, InstallPath))
+                {
+                    Grid_UninstallWarning.Visibility = Visibility.Collapsed;
+                    WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
+                    CheckCanRepairGame();
+                    await InitializeBasicInfoAsync();
+                }
+            }
+            else
+            {
+                await InitializeBasicInfoAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            UninstallError = ex.Message;
+            _logger.LogError(ex, "Uninstall game failed {GameBiz}", CurrentGameBiz);
         }
     }
 

@@ -25,6 +25,8 @@ service GameInstaller {
 
     rpc SetRateLimiter (RateLimiterMessage) returns (RateLimiterMessage);
 
+    rpc UninstallGame (UninstallGameRequest) returns (UninstallGameResponse);
+
 }
 
 message GameInstallTaskList {
@@ -67,4 +69,16 @@ message GameInstallTaskRequest {
 
 message RateLimiterMessage {
     int32 bytes_per_second = 1;
+}
+
+message UninstallGameRequest {
+    string game_biz = 1;
+    string game_id = 2;
+    string install_path = 3;
+    string user_data_folder = 4;
+}
+
+message UninstallGameResponse {
+    bool success = 1;
+    google.protobuf.StringValue error_message = 2;
 }

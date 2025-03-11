@@ -1,5 +1,6 @@
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using Starward.Core.HoYoPlay;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,12 +16,15 @@ internal class GameInstallController : GameInstaller.GameInstallerBase
 
     private readonly GameInstallHelper _gameInstallHelper;
 
+    private readonly GameUninstallService _gameUninstallService;
 
-    public GameInstallController(ILogger<GameInstallController> logger, GameInstallService gameInstallService, GameInstallHelper gameInstallHelper)
+
+    public GameInstallController(ILogger<GameInstallController> logger, GameInstallService gameInstallService, GameInstallHelper gameInstallHelper, GameUninstallService gameUninstallService)
     {
         _logger = logger;
         _gameInstallService = gameInstallService;
         _gameInstallHelper = gameInstallHelper;
+        _gameUninstallService = gameUninstallService;
     }
 
 
@@ -56,6 +60,29 @@ internal class GameInstallController : GameInstaller.GameInstallerBase
     {
         int limit = _gameInstallHelper.SetRateLimiter(request.BytesPerSecond);
         return Task.FromResult(new RateLimiterMessage { BytesPerSecond = limit });
+    }
+
+
+
+
+    public override async Task<UninstallGameResponse> UninstallGame(UninstallGameRequest request, ServerCallContext context)
+    {
+        try
+        {
+            GameId gameId = new GameId { GameBiz = request.GameBiz, Id = request.GameId };
+            if (_gameInstallService.TryGetTask(gameId, out GameInstallTask? task))
+            {
+                task.Cancel(GameInstallState.Stop);
+                await Task.Delay(3000);
+            }
+            await _gameUninstallService.UninstallGameAsync(request, context.CancellationToken);
+            return new UninstallGameResponse { Success = true };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Uninstall game ({gameBiz}): {path}", request.GameBiz, request.InstallPath);
+            return new UninstallGameResponse { Success = false, ErrorMessage = ex.Message };
+        }
     }
 
 

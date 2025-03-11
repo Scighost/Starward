@@ -1665,11 +1665,29 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Cannot delete the drive root directory. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_CannotDeleteTheDriveRootDirectory {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_CannotDeleteTheDriveRootDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Command Line Argument 的本地化字符串。
         /// </summary>
         public static string GameLauncherSettingDialog_CommandLineArgument {
             get {
                 return ResourceManager.GetString("GameLauncherSettingDialog_CommandLineArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Confirm Uninstall 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_ConfirmUninstall {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_ConfirmUninstall", resourceCulture);
             }
         }
         
@@ -1742,6 +1760,15 @@ namespace Starward.Language {
         public static string GameLauncherSettingDialog_StartupArguments {
             get {
                 return ResourceManager.GetString("GameLauncherSettingDialog_StartupArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 All files in the following folder will be deleted. Please confirm the path before uninstalling. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_UninstallGameWarning {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_UninstallGameWarning", resourceCulture);
             }
         }
         

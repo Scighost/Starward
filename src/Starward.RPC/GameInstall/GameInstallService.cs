@@ -9,6 +9,7 @@ using Starward.RPC.Env;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -78,6 +79,13 @@ internal class GameInstallService
         }
     }
 
+
+
+
+    public bool TryGetTask(GameId gameId, [NotNullWhen(true)] out GameInstallTask? task)
+    {
+        return _tasks.TryGetValue(gameId, out task);
+    }
 
 
 
