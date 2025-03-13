@@ -3369,11 +3369,38 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Incompatibility Notice 的本地化字符串。
+        /// </summary>
+        public static string PreDownloadDialog_IncompatibilityNotice {
+            get {
+                return ResourceManager.GetString("PreDownloadDialog_IncompatibilityNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The pre-install files of Starward and HoYoPlay (miHoYo Launcher) are incompatible and cannot recognize each other. 的本地化字符串。
+        /// </summary>
+        public static string PreDownloadDialog_IncompatibilityNoticeContent {
+            get {
+                return ResourceManager.GetString("PreDownloadDialog_IncompatibilityNoticeContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 There are no patch packagees available. It is recommended to update the game to the latest version before starting pre-install. 的本地化字符串。
         /// </summary>
         public static string PreDownloadDialog_NoPatchesWarning {
             get {
                 return ResourceManager.GetString("PreDownloadDialog_NoPatchesWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pre-install is not available. 的本地化字符串。
+        /// </summary>
+        public static string PreDownloadDialog_PreInstallIsNotAvailable {
+            get {
+                return ResourceManager.GetString("PreDownloadDialog_PreInstallIsNotAvailable", resourceCulture);
             }
         }
         

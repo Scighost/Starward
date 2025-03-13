@@ -91,7 +91,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
             if (installPath is null)
             {
                 _logger.LogWarning("InstallPath of ({GameBiz}) is null.", CurrentGameId.GameBiz);
-                this.Hide();
+                TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
                 return;
             }
             _installationPath = installPath;
@@ -100,7 +100,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
             if (version is null)
             {
                 _logger.LogWarning("LocalGameVersion of ({GameBiz}) is null.", CurrentGameId.GameBiz);
-                this.Hide();
+                TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
                 return;
             }
             _localGameVersion = version.ToString();
@@ -109,14 +109,14 @@ public sealed partial class PreDownloadDialog : ContentDialog
             if (config is null)
             {
                 _logger.LogWarning("GameConfig of ({GameBiz}) is null.", CurrentGameId.GameBiz);
-                this.Hide();
+                TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
                 return;
             }
             GamePackage package = await _hoYoPlayService.GetGamePackageAsync(CurrentGameId);
             if (package.PreDownload.Major is null)
             {
                 _logger.LogWarning("PreDownloadMajor of ({GameBiz}) is null.", CurrentGameId.GameBiz);
-                this.Hide();
+                TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
                 return;
             }
 
@@ -127,7 +127,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
                 TextBlock_NoPatches.Visibility = Visibility.Visible;
             }
 
-            if (config.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK)
+            if (config.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
             {
                 var branch = await _hoYoPlayService.GetGameBranchAsync(CurrentGameId);
                 if (branch?.PreDownload is not null)

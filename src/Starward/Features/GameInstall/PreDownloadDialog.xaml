@@ -6,6 +6,7 @@
                xmlns:lang="using:Starward.Language"
                xmlns:local="using:Starward.Features.GameInstall"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:sh="using:Starward.Helpers"
                x:DefaultBindMode="OneWay"
                Background="{ThemeResource CustomAcrylicBrush}"
                BorderThickness="0"
@@ -69,8 +70,7 @@
 
 
 
-
-            <!--  无补丁包可用  -->
+            <!--  无补丁包可用，建议先更新  -->
             <TextBlock x:Name="TextBlock_NoPatches"
                        Margin="1,8,1,0"
                        FontSize="12"
@@ -81,8 +81,21 @@
                        Visibility="Collapsed" />
 
 
+            <!--  预下载不可用  -->
+            <TextBlock x:Name="TextBlock_PredownloadUnavailable"
+                       Margin="1,8,1,0"
+                       FontSize="12"
+                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.PreDownloadDialog_PreInstallIsNotAvailable}"
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed" />
+
+
+
             <!--  Start Predownload  -->
             <Button x:Name="Button_StartPredownload"
+                    Grid.Column="2"
                     Margin="0,20,0,0"
                     HorizontalAlignment="Right"
                     Command="{x:Bind StartPredownloadCommand}"
@@ -94,10 +107,41 @@
 
 
 
-
-
-
         </StackPanel>
+
+
+
+        <!--  不兼容提醒  -->
+        <StackPanel HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal"
+                    Spacing="4">
+            <TextBlock Margin="0,0,0,2"
+                       VerticalAlignment="Center"
+                       FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.PreDownloadDialog_IncompatibilityNotice}" />
+            <Button Padding="4"
+                    sh:PointerCursor.CursorShape="Hand"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <FontIcon FontSize="12"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE9CE;"
+                          IsTextScaleFactorEnabled="False" />
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock MaxWidth="380"
+                                   FontSize="12"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   IsTextScaleFactorEnabled="False"
+                                   Text="{x:Bind lang:Lang.PreDownloadDialog_IncompatibilityNoticeContent}"
+                                   TextWrapping="Wrap" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
+
 
 
 
@@ -117,6 +161,10 @@
                       Glyph="&#xE711;"
                       IsTextScaleFactorEnabled="False" />
         </Button>
+
+
+
+
 
 
 

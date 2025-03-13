@@ -7,6 +7,7 @@
                xmlns:lang="using:Starward.Language"
                xmlns:local="using:Starward.Features.GameInstall"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:sh="using:Starward.Helpers"
                x:DefaultBindMode="OneWay"
                Background="{ThemeResource CustomAcrylicBrush}"
                BorderThickness="0"
@@ -152,7 +153,9 @@
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False"
                        Text="{x:Bind lang:Lang.InstallGameDialog_SupportHardLinks}" />
-            <Button Padding="4" Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+            <Button Padding="4"
+                    sh:PointerCursor.CursorShape="Hand"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                 <FontIcon FontSize="12"
                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                           Glyph="&#xE9CE;"

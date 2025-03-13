@@ -1783,4 +1783,13 @@
   <data name="GameLauncherSettingDialog_CannotDeleteTheDriveRootDirectory" xml:space="preserve">
     <value>不能删除驱动器根目录</value>
   </data>
+  <data name="PreDownloadDialog_PreInstallIsNotAvailable" xml:space="preserve">
+    <value>预下载不可用</value>
+  </data>
+  <data name="PreDownloadDialog_IncompatibilityNotice" xml:space="preserve">
+    <value>不兼容提醒</value>
+  </data>
+  <data name="PreDownloadDialog_IncompatibilityNoticeContent" xml:space="preserve">
+    <value>Starward 和 HoYoPlay (米哈游启动器) 的预下载文件不兼容，无法互相识别。</value>
+  </data>
 </root>
