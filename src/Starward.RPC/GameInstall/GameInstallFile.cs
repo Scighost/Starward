@@ -153,8 +153,8 @@ internal class GameInstallFile
                 Url = $"{urlPrefix.TrimEnd('/')}/{patch.Id}",
                 PatchFileSize = patch.PatchFileSize,
                 PatchFileMD5 = patch.PatchFileMd5,
-                PatchFileOffset = patch.PatchFileOffset,
-                PatchFileLength = patch.PatchFileLength,
+                PatchOffset = patch.PatchOffset,
+                PatchLength = patch.PatchLength,
                 OriginalFileName = patch.OriginalFileName,
                 OriginalFileSize = patch.OriginalFileSize,
                 OriginalFileMD5 = patch.OriginalFileMd5,
@@ -245,9 +245,9 @@ internal class GameInstallFilePatch
 
     public required string PatchFileMD5 { get; set; }
 
-    public required long PatchFileOffset { get; set; }
+    public required long PatchOffset { get; set; }
 
-    public required long PatchFileLength { get; set; }
+    public required long PatchLength { get; set; }
 
     public required string OriginalFileName { get; set; }
 

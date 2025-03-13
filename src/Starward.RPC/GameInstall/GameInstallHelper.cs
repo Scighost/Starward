@@ -820,24 +820,10 @@ internal partial class GameInstallHelper
         }
         Directory.CreateDirectory(Path.GetDirectoryName(file.FullPath)!);
         string chunk = Path.Combine(task.InstallPath, "chunk", file.Patch.Id);
-        using FileStream fs_chunk = File.Open(chunk, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        fs_chunk.Position = file.Patch.PatchFileOffset;
+        using FileSliceStream fs_chunk = new FileSliceStream(chunk, file.Patch.PatchOffset, file.Patch.PatchLength);
         string path_tmp = file.FullPath + "_tmp";
         using FileStream fs_tmp = File.Open(path_tmp, FileMode.Create, FileAccess.ReadWrite);
-        byte[] buffer = new byte[BUFFER_SIZE];
-        int read;
-        long totalRead = 0;
-        long limit = file.Patch.PatchFileLength;
-        while ((read = await fs_chunk.ReadAsync(buffer, cancellationToken)) > 0)
-        {
-            await fs_tmp.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
-            totalRead += read;
-            if (totalRead >= limit)
-            {
-                fs_tmp.SetLength(limit);
-                break;
-            }
-        }
+        await fs_chunk.CopyToAsync(fs_tmp, cancellationToken);
         await fs_chunk.DisposeAsync();
         await fs_tmp.DisposeAsync();
         if (string.IsNullOrWhiteSpace(file.Patch.OriginalFileFullPath))

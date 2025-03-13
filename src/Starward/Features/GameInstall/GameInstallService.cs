@@ -26,13 +26,16 @@ internal class GameInstallService
 
     private readonly GameInstaller.GameInstallerClient _gameInstallerClient;
 
+    private readonly GameLauncherService _gameLauncherService;
+
     private readonly SemaphoreSlim _getProgressSemaphore = new(1);
 
 
-    public GameInstallService(ILogger<GameInstallService> logger, RpcService rpcService)
+    public GameInstallService(ILogger<GameInstallService> logger, RpcService rpcService, GameLauncherService gameLauncherService)
     {
         _logger = logger;
         _rpcService = rpcService;
+        _gameLauncherService = gameLauncherService;
         _gameInstallerClient = RpcService.CreateRpcClient<GameInstaller.GameInstallerClient>();
     }
 
@@ -242,7 +245,7 @@ internal class GameInstallService
             InstallPath = installPath,
             Operation = (int)operation,
             AudioLanguage = (int)audioLanguage,
-            HardLinkPath = GetHardLinkPath(gameId, installPath),
+            HardLinkPath = await GetHardLinkPathAsync(gameId, installPath),
         };
         await _rpcService.EnsureRpcServerRunningAsync();
         var dto = await _gameInstallerClient.StartOrContinueTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
@@ -333,23 +336,47 @@ internal class GameInstallService
 
 
 
-    private static string? GetHardLinkPath(GameId gameId, string installPath)
+    private async Task<string?> GetHardLinkPathAsync(GameId gameId, string installPath)
     {
         if (GameFeatureConfig.FromGameId(gameId).SupportHardLink)
         {
             string game = gameId.GameBiz.Game;
-            foreach (string server in new[] { "cn", "global", "bilibili" })
+            Version? lastVersion = null;
+            string? lastPath = null;
+            foreach (string server in new[] { "cn", "bilibili", "global", })
             {
                 string biz = $"{game}_{server}";
                 if (gameId.GameBiz != biz)
                 {
+                    if (_tasks.Values.FirstOrDefault(x => x.GameId.GameBiz == biz) is GameInstallTask task)
+                    {
+                        if (task.Operation is GameInstallOperation.Install or GameInstallOperation.Update or GameInstallOperation.Repair)
+                        {
+                            if (!string.IsNullOrWhiteSpace(task.InstallPath) && Path.GetPathRoot(task.InstallPath) == Path.GetPathRoot(installPath) && new DriveInfo(installPath).DriveFormat is "NTFS")
+                            {
+                                return task.InstallPath;
+                            }
+                        }
+                    }
                     string? path = GameLauncherService.GetGameInstallPath(biz);
                     if (!string.IsNullOrWhiteSpace(path) && Path.GetPathRoot(path) == Path.GetPathRoot(installPath) && new DriveInfo(path).DriveFormat is "NTFS")
                     {
-                        return path;
+                        Version? version = await _gameLauncherService.GetLocalGameVersionAsync(biz, path);
+                        if (lastPath is null)
+                        {
+                            lastVersion = version;
+                            lastPath = path;
+                        }
+                        else if (version > lastVersion)
+                        {
+                            lastVersion = version;
+                            lastPath = path;
+                        }
                     }
+
                 }
             }
+            return lastPath;
         }
         return null;
     }

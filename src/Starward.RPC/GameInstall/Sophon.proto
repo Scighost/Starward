@@ -61,9 +61,9 @@ message SophonPatch {
     int64 patch_file_size = 4;
     string patch_file_md5 = 5;
     // 当前游戏文件补丁的偏移量
-    int64 patch_file_offset = 6;
+    int64 patch_offset = 6;
     // 当前游戏文件补丁的长度
-    int64 patch_file_length = 7;
+    int64 patch_length = 7;
     // 如果有这个值，表示需要使用 hdiffpatch 更新，没有表示这是新文件，对应的补丁就是原文件，直接复制即可
     string original_file_name = 8;
     int64 original_file_size = 9;

@@ -113,16 +113,28 @@ internal partial class GameLauncherService
 
 
 
+    /// <summary>
+    /// 本地游戏版本
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <param name="installPath"></param>
+    /// <returns></returns>
+    public async Task<Version?> GetLocalGameVersionAsync(GameId gameId, string? installPath = null)
+    {
+        return await GetLocalGameVersionAsync(gameId.GameBiz, installPath);
+    }
+
 
 
     /// <summary>
     /// 本地游戏版本
     /// </summary>
-    /// <param name="gameId"></param>
+    /// <param name="gameBiz"></param>
+    /// <param name="installPath"></param>
     /// <returns></returns>
-    public async Task<Version?> GetLocalGameVersionAsync(GameId gameId, string? installPath = null)
+    public async Task<Version?> GetLocalGameVersionAsync(GameBiz gameBiz, string? installPath = null)
     {
-        installPath ??= GetGameInstallPath(gameId);
+        installPath ??= GetGameInstallPath(gameBiz);
         if (string.IsNullOrWhiteSpace(installPath))
         {
             return null;

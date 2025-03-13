@@ -51,14 +51,15 @@ internal class GameUninstallService
         {
             _logger.LogError(ex, "Failed to get game config.");
         }
-        BackupScreenshot(request, gameConfig);
-        ClearCacheDir(request, gameConfig);
         string[] files = Directory.GetFiles(installPath, "*", SearchOption.AllDirectories);
         foreach (string file in files)
         {
             File.SetAttributes(file, FileAttributes.Normal);
         }
+        _logger.LogInformation("Deleting folder {installPath} ({count} files).", installPath, files.Length);
         Directory.Delete(installPath, true);
+        BackupScreenshot(request, gameConfig);
+        ClearCacheDir(request, gameConfig);
         _logger.LogInformation("Finished uninstall game ({gameBiz}): {installPath}", request.GameBiz, installPath);
     }
 
