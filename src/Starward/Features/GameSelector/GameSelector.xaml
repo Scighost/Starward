@@ -57,6 +57,7 @@
                     <sc:CachedImage Width="40"
                                     Height="40"
                                     Source="{x:Bind CurrentGameBizIcon.GameIcon, FallbackValue={x:Null}}"
+                                    Style="{ThemeResource NoAnimationImageExStyle}"
                                     Visibility="{x:Bind IsPinned, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
                     <!--  服务器图标  -->
                     <sc:CachedImage Width="20"
@@ -64,17 +65,28 @@
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
                                     Source="{x:Bind CurrentGameBizIcon.ServerIcon, FallbackValue={x:Null}}"
+                                    Style="{ThemeResource NoAnimationImageExStyle}"
                                     Visibility="{x:Bind IsPinned, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
                 </Grid>
             </Button>
         </Border>
 
 
+        <!--  点击此处选择或切换游戏  -->
+        <TeachingTip x:Name="TeachTip_SelectGame"
+                     Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                     PreferredPlacement="Bottom"
+                     ShouldConstrainToRootBounds="True"
+                     Subtitle="{x:Bind lang:Lang.GameSelector_ClickToSelectOrSwitchGame}"
+                     Target="{x:Bind Border_CurrentGameIcon}" />
+
+
 
         <!--  黑色半透明背景  -->
         <Border x:Name="Border_FullBackground"
                 Padding="68,80,0,0"
-                Background="#66000000"
+                Background="#80000000"
                 IsHitTestVisible="False"
                 Opacity="0"
                 Tapped="Border_FullBackground_Tapped">
@@ -244,7 +256,7 @@
                     <!--  已安装游戏及大小  -->
                     <Grid HorizontalAlignment="Left"
                           VerticalAlignment="Top"
-                          Background="{ThemeResource CustomAcrylicBrush}"
+                          Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
                           CornerRadius="8">
                         <Expander x:Name="Expander_InstalledGamesActualSize"
                                   MinWidth="820"

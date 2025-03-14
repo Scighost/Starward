@@ -1827,6 +1827,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Click to select or switch game. 的本地化字符串。
+        /// </summary>
+        public static string GameSelector_ClickToSelectOrSwitchGame {
+            get {
+                return ResourceManager.GetString("GameSelector_ClickToSelectOrSwitchGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Storage Space Saved by Hard Links 的本地化字符串。
         /// </summary>
         public static string GameSelector_StorageSpaceSavedByHardLinks {
@@ -4996,6 +5005,87 @@ namespace Starward.Language {
         public static string UpdateWindow_DisplayUpdateContentAfterRestart {
             get {
                 return ResourceManager.GetString("UpdateWindow_DisplayUpdateContentAfterRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Before starting, some necessary environment checks are required. 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_BeforeStartingSomeNecessaryEnvironmentChecksAreRequired {
+            get {
+                return ResourceManager.GetString("WelcomeView_BeforeStartingSomeNecessaryEnvironmentChecksAreRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Dear Player, welcome to Starward! 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_DearPlayerWelcomeToStarward {
+            get {
+                return ResourceManager.GetString("WelcomeView_DearPlayerWelcomeToStarward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Installed 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_Installed {
+            get {
+                return ResourceManager.GetString("WelcomeView_Installed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Install Now 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_InstallNow {
+            get {
+                return ResourceManager.GetString("WelcomeView_InstallNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Network Status 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_NetworkStatus {
+            get {
+                return ResourceManager.GetString("WelcomeView_NetworkStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Not Installed 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_NotInstalled {
+            get {
+                return ResourceManager.GetString("WelcomeView_NotInstalled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 All your personal data will be stored in the folder below. It is important, and you can also click the button below to select a different folder. 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_SelectUserDataFolderDescription {
+            get {
+                return ResourceManager.GetString("WelcomeView_SelectUserDataFolderDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Starward, Start! 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_StarwardStart {
+            get {
+                return ResourceManager.GetString("WelcomeView_StarwardStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This is a launcher designed specifically for HoYoverse games, helping you easily manage your games and enjoy a better experience. 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_WelcomeToStarwardDescription {
+            get {
+                return ResourceManager.GetString("WelcomeView_WelcomeToStarwardDescription", resourceCulture);
             }
         }
         

@@ -1792,4 +1792,34 @@
   <data name="PreDownloadDialog_IncompatibilityNoticeContent" xml:space="preserve">
     <value>Starward 和 HoYoPlay (米哈游启动器) 的预下载文件不兼容，无法互相识别。</value>
   </data>
+  <data name="WelcomeView_DearPlayerWelcomeToStarward" xml:space="preserve">
+    <value>亲爱的玩家，欢迎来到 Starward！</value>
+  </data>
+  <data name="WelcomeView_WelcomeToStarwardDescription" xml:space="preserve">
+    <value>这是一个专为米哈游旗下游戏打造的启动器，帮助您轻松管理游戏，享受更好的体验。</value>
+  </data>
+  <data name="WelcomeView_SelectUserDataFolderDescription" xml:space="preserve">
+    <value>您的所有个人数据将会被存储在以下文件夹中，它很重要，您也可以点击下方的按键选择其他文件夹。</value>
+  </data>
+  <data name="WelcomeView_BeforeStartingSomeNecessaryEnvironmentChecksAreRequired" xml:space="preserve">
+    <value>开始之前还需要检查一些必要环境。</value>
+  </data>
+  <data name="WelcomeView_NetworkStatus" xml:space="preserve">
+    <value>网络状态</value>
+  </data>
+  <data name="WelcomeView_NotInstalled" xml:space="preserve">
+    <value>未安装</value>
+  </data>
+  <data name="WelcomeView_InstallNow" xml:space="preserve">
+    <value>现在安装</value>
+  </data>
+  <data name="WelcomeView_Installed" xml:space="preserve">
+    <value>已安装</value>
+  </data>
+  <data name="WelcomeView_StarwardStart" xml:space="preserve">
+    <value>Starward，启动！</value>
+  </data>
+  <data name="GameSelector_ClickToSelectOrSwitchGame" xml:space="preserve">
+    <value>点击此处选择或切换游戏</value>
+  </data>
 </root>

@@ -59,7 +59,6 @@ public static class AppSetting
                 ConfigPath = Path.Combine(CacheFolder, "config.ini");
 #else
                 string roamingFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Starward");
-                Directory.CreateDirectory(roamingFolder);
                 ConfigPath = Path.Combine(roamingFolder, "config.ini");
 #endif
             }
@@ -152,6 +151,7 @@ public static class AppSetting
                 {
                     dataFolder = Path.GetRelativePath(parentFolder, UserDataFolder);
                 }
+                Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath)!);
                 File.WriteAllText(ConfigPath, $"""
                     {nameof(Language)}={Language}
                     {nameof(UserDataFolder)}={dataFolder}
@@ -641,6 +641,10 @@ public static class AppSetting
             return defaultValue;
         }
         InitializeSettingProvider();
+        if (_settingCache is null)
+        {
+            return defaultValue;
+        }
         try
         {
             if (_settingCache.TryGetValue(key, out string? value))
@@ -685,6 +689,10 @@ public static class AppSetting
             return;
         }
         InitializeSettingProvider();
+        if (_settingCache is null)
+        {
+            return;
+        }
         try
         {
             string? val = value?.ToString();

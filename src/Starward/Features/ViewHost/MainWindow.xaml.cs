@@ -36,6 +36,7 @@ public sealed partial class MainWindow : WindowEx
         InitializeMainWindow();
         LoadContentView();
         WeakReferenceMessenger.Default.Register<AccentColorChangedMessage>(this, OnAccentColorChanged);
+        WeakReferenceMessenger.Default.Register<WelcomePageFinishedMessage>(this, OnWelcomePageFinished);
     }
 
 
@@ -74,6 +75,15 @@ public sealed partial class MainWindow : WindowEx
             App.Current.EnsureSystemTray();
             _mainViewLoaded = true;
         }
+    }
+
+
+
+    private void OnWelcomePageFinished(object _, WelcomePageFinishedMessage __)
+    {
+        MainContentHost.Content = new MainView();
+        App.Current.EnsureSystemTray();
+        _mainViewLoaded = true;
     }
 
 

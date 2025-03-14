@@ -200,6 +200,10 @@ public sealed partial class GameSelector : UserControl
             GameBizIcons.CollectionChanged += GameBizIcons_CollectionChanged;
         }
         catch { }
+        if (GameBizIcons.Count == 0 && CurrentGameBizIcon is null)
+        {
+            TeachTip_SelectGame.IsOpen = true;
+        }
     }
 
 
