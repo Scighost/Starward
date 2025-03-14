@@ -104,7 +104,7 @@ public sealed partial class AppBackground : UserControl
     {
         try
         {
-            var file = _backgroundService.GetCachedBackgroundFile(CurrentGameId);
+            var file = BackgroundService.GetCachedBackgroundFile(CurrentGameId);
             if (file != null)
             {
                 if (!BackgroundService.FileIsSupportedVideo(file))
@@ -145,6 +145,7 @@ public sealed partial class AppBackground : UserControl
         {
             cancelSource?.Cancel();
             cancelSource = new(TimeSpan.FromSeconds(5));
+            CancellationToken cancellationToken = cancelSource.Token;
 
             if (CurrentGameId is null)
             {
@@ -153,7 +154,7 @@ public sealed partial class AppBackground : UserControl
                 return;
             }
 
-            var file = await _backgroundService.GetBackgroundFileAsync(CurrentGameId);
+            var file = await _backgroundService.GetBackgroundFileAsync(CurrentGameId, cancellationToken);
             DisposeVideoResource();
             BackgroundImageSource = null;
 
@@ -165,7 +166,7 @@ public sealed partial class AppBackground : UserControl
                 }
                 else
                 {
-                    await ChangeBackgroundImageAsync(file, cancelSource.Token);
+                    await ChangeBackgroundImageAsync(file, cancellationToken);
                 }
             }
         }

@@ -728,7 +728,7 @@ public sealed partial class GameLauncherPage : PageBase
         {
             if ((await e.DataView.GetStorageItemsAsync()).FirstOrDefault() is StorageFile file)
             {
-                string? name = await _backgroundService.ChangeCustomBackgroundFileAsync(file);
+                string? name = await BackgroundService.ChangeCustomBackgroundFileAsync(file);
                 if (string.IsNullOrWhiteSpace(name))
                 {
                     return;
