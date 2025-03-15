@@ -1799,13 +1799,13 @@
     <value>Дорогой игрок, добро пожаловать в Starward!</value>
   </data>
   <data name="WelcomeView_WelcomeToStarwardDescription" xml:space="preserve">
-    <value>This is a launcher designed specifically for HoYoverse games, helping you easily manage your games and enjoy a better experience.</value>
+    <value>Это лаунчер, созданный специально для игр HoYoverse, который поможет вам легко управлять вашими играми и наслаждаться лучшим опытом.</value>
   </data>
   <data name="WelcomeView_SelectUserDataFolderDescription" xml:space="preserve">
-    <value>All your personal data will be stored in the folder below. It is important, and you can also click the button below to select a different folder.</value>
+    <value>Все ваши личные данные будут храниться в папке ниже. Это важно, и вы также можете нажать кнопку ниже, чтобы выбрать другую папку.</value>
   </data>
   <data name="WelcomeView_BeforeStartingSomeNecessaryEnvironmentChecksAreRequired" xml:space="preserve">
-    <value>Before starting, some necessary environment checks are required.</value>
+    <value>Перед началом необходима проверка некоторых обязательных параметров среды.</value>
   </data>
   <data name="WelcomeView_NetworkStatus" xml:space="preserve">
     <value>Состояние сети</value>
@@ -1826,10 +1826,10 @@
     <value>Нажмите, чтобы выбрать или сменить игру.</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameUserDataFolderWarning" xml:space="preserve">
-    <value>The Starward data folder is inside the game folder and will be deleted along with it. Please change the data folder location in the settings page and try again.</value>
+    <value>Папка данных Starward находится внутри папки игры и будет удалена вместе с ней. Пожалуйста, измените расположение папки данных на странице настроек и попробуйте снова.</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning" xml:space="preserve">
-    <value>The Starward program is inside the game folder and will be deleted along with the game. Please move the program out of the game folder and try again.</value>
+    <value>Программа Starward находится внутри папки игры и будет удалена вместе с игрой. Пожалуйста, переместите программу за пределы папки игры и попробуйте снова.</value>
   </data>
   <data name="CloudGameButton_CloudGame" xml:space="preserve">
     <value>Облачный гейминг</value>
