@@ -86,6 +86,28 @@ internal class RpcService
 
 
 
+    public async void TrySetEnviromentAsync()
+    {
+        try
+        {
+            if (CheckRpcServerRunning())
+            {
+                var client = CreateRpcClient<Env.EnvClient>();
+                await client.SetEnviromentAsync(new EnviromentMessage
+                {
+                    ParentProcessId = Environment.ProcessId,
+                    KeepRunningOnExited = AppSetting.KeepRpcServerRunningInBackground,
+                    DownloadRateLimit = Math.Clamp(AppSetting.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue),
+                }, deadline: DateTime.UtcNow.AddSeconds(3));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Set enviroment when startup");
+        }
+    }
+
+
 
     public async void KeepRunningOnExited(bool value, bool noLongerChange = false)
     {

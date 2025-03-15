@@ -156,7 +156,7 @@ public sealed partial class ScreenshotPage : PageBase
             {
                 int count = 0;
                 var files = Directory.GetFiles(folder);
-                var targetDir = Path.Combine(AppSetting.UserDataFolder!, "Screenshots", CurrentGameBiz);
+                var targetDir = Path.Combine(AppSetting.UserDataFolder!, "Screenshots", CurrentGameBiz.Game);
                 Directory.CreateDirectory(targetDir);
                 foreach (var item in files)
                 {

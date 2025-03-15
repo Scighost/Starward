@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Starward.Core;
 using Starward.Core.HoYoPlay;
 using System;
 using System.IO;
@@ -72,14 +73,14 @@ internal class GameUninstallService
         string sourceScreenshotFolder;
         if (gameConfig is null)
         {
-            string[] dirs = Directory.GetDirectories(request.InstallPath, "screenshot*", SearchOption.AllDirectories);
+            string[] dirs = Directory.GetDirectories(request.InstallPath, "Screenshot*", SearchOption.AllDirectories);
             sourceScreenshotFolder = dirs.FirstOrDefault() ?? "";
         }
         else
         {
             sourceScreenshotFolder = Path.Join(request.InstallPath, gameConfig.GameScreenshotDir);
         }
-        string backupScreenshotFolder = Path.Join(userDataFolder, "Screenshots", request.GameBiz);
+        string backupScreenshotFolder = Path.Join(userDataFolder, "Screenshots", ((GameBiz)request.GameBiz).Game);
         if (Directory.Exists(userDataFolder) && Directory.Exists(sourceScreenshotFolder))
         {
             bool canHardLink = CanHardLink(sourceScreenshotFolder, backupScreenshotFolder);

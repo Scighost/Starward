@@ -27,25 +27,29 @@ internal static class LifecycleManager
                 return;
             }
             _keepRunning = keepRunning;
-            if (_parentProcess is not null && _parentProcess.Id != processId)
+            if (_parentProcess is not null && _parentProcess.Id == processId)
             {
-                _parentProcess.Exited -= _parentProcess_Exited;
-                _parentProcess.Dispose();
-                _parentProcess = null;
-                ParentProcessExited?.Invoke(null, EventArgs.Empty);
+                return;
             }
-            if (_parentProcess is null && processId > 0)
+            else if (processId > 0)
             {
+                if (_parentProcess is not null)
+                {
+                    _parentProcess.Exited -= _parentProcess_Exited;
+                    _parentProcess.Dispose();
+                    _parentProcess = null;
+                    ParentProcessExited?.Invoke(null, EventArgs.Empty);
+                }
                 _parentProcess = Process.GetProcessById(processId);
                 _parentProcess.EnableRaisingEvents = true;
                 _parentProcess.Exited += _parentProcess_Exited;
+                _noLongerChange = _noLongerChange || noLongerChange;
+                Log.Information("Set parent process: {ProcessId}, keepRunning: {keepRunning}, noLongerChange: {noLongerChange}", processId, keepRunning, noLongerChange);
             }
-            _noLongerChange = _noLongerChange || noLongerChange;
-            Log.Information("Associated parent process: {ProcessId}, keepRunning: {keepRunning}, noLongerChange: {noLongerChange}", processId, keepRunning, noLongerChange);
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Failed to associate parent process.");
+            Log.Error(ex, "Failed to set parent process.");
         }
     }
 

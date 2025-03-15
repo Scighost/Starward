@@ -11,6 +11,7 @@ using Starward.Features.Gacha;
 using Starward.Features.GameLauncher;
 using Starward.Features.GameRecord;
 using Starward.Features.GameSetting;
+using Starward.Features.RPC;
 using Starward.Features.Screenshot;
 using Starward.Features.SelfQuery;
 using Starward.Features.Setting;
@@ -70,6 +71,7 @@ public sealed partial class MainView : UserControl
     private void MainView_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         _ = CheckUpdateOrShowRecentUpdateContentAsync();
+        AppService.GetService<RpcService>().TrySetEnviromentAsync();
     }
 
 
