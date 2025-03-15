@@ -1830,4 +1830,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning" xml:space="preserve">
     <value>The Starward program is inside the game folder and will be deleted along with the game. Please move the program out of the game folder and try again.</value>
   </data>
+  <data name="CloudGameButton_CloudGame" xml:space="preserve">
+    <value>Cloud Game</value>
+  </data>
 </root>
