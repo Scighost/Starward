@@ -367,7 +367,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Locate game failed {GameBiz}", CurrentGameBiz);
         }
     }
 
@@ -458,13 +458,44 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     [RelayCommand]
     private void ShowUninstallGameWarning()
     {
-        if (Path.GetPathRoot(InstallPath) == InstallPath)
+        try
         {
-            UninstallError = Lang.GameLauncherSettingDialog_CannotDeleteTheDriveRootDirectory;
+            if (Directory.Exists(InstallPath))
+            {
+                string installPath = Path.GetFullPath(InstallPath);
+                if (Path.GetPathRoot(InstallPath) == InstallPath)
+                {
+                    // 不能删除驱动器根目录
+                    UninstallError = Lang.GameLauncherSettingDialog_CannotDeleteTheDriveRootDirectory;
+                    return;
+                }
+                if (Directory.Exists(AppSetting.UserDataFolder))
+                {
+                    string userDataFolder = Path.GetFullPath(AppSetting.UserDataFolder);
+                    if (userDataFolder.StartsWith(installPath))
+                    {
+                        // Starward 数据文件夹位于游戏文件夹内，删除游戏时会一并删除。请在设置页面修改数据文件夹位置后重试。
+                        UninstallError = Lang.GameLauncherSettingDialog_UninstallGameUserDataFolderWarning;
+                        return;
+                    }
+                }
+                string baseFolder = AppContext.BaseDirectory.TrimEnd('/', '\\');
+                if (baseFolder.StartsWith(installPath))
+                {
+                    // Starward 程序位于游戏文件夹内，删除游戏时会一并被删除。请将程序移出游戏文件夹后重试。
+                    UninstallError = Lang.GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning;
+                    return;
+                }
+                Grid_UninstallWarning.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                _ = InitializeBasicInfoAsync();
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Grid_UninstallWarning.Visibility = Visibility.Visible;
+
         }
     }
 

@@ -1822,4 +1822,10 @@
   <data name="GameSelector_ClickToSelectOrSwitchGame" xml:space="preserve">
     <value>点击此处选择或切换游戏</value>
   </data>
+  <data name="GameLauncherSettingDialog_UninstallGameUserDataFolderWarning" xml:space="preserve">
+    <value>Starward 数据文件夹位于游戏文件夹内，删除游戏时会一并删除。请在设置页面修改数据文件夹位置后重试。</value>
+  </data>
+  <data name="GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning" xml:space="preserve">
+    <value>Starward 程序位于游戏文件夹内，删除游戏时会一并被删除。请将程序移出游戏文件夹后重试。</value>
+  </data>
 </root>

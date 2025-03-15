@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
+using Starward.Features.Database;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
@@ -110,6 +111,11 @@ public sealed partial class WelcomeView : UserControl
                 return;
             }
             string folder = Path.GetFullPath(UserDataFolder);
+            if (folder == Path.GetPathRoot(folder))
+            {
+                UserDataFolderErrorMessage = Lang.LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive;
+                return;
+            }
             string baseDir = AppContext.BaseDirectory.TrimEnd('/', '\\');
             if (folder.StartsWith(baseDir))
             {
@@ -241,6 +247,7 @@ public sealed partial class WelcomeView : UserControl
                 return;
             }
             AppSetting.UserDataFolder = UserDataFolder;
+            DatabaseService.SetDatabase(UserDataFolder);
             AppSetting.SaveConfiguration();
             WeakReferenceMessenger.Default.Send(new WelcomePageFinishedMessage());
         }

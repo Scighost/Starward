@@ -1764,6 +1764,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 The Starward program is inside the game folder and will be deleted along with the game. Please move the program out of the game folder and try again. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The Starward data folder is inside the game folder and will be deleted along with it. Please change the data folder location in the settings page and try again. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_UninstallGameUserDataFolderWarning {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_UninstallGameUserDataFolderWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 All files in the following folder will be deleted. Please confirm the path before uninstalling. 的本地化字符串。
         /// </summary>
         public static string GameLauncherSettingDialog_UninstallGameWarning {
