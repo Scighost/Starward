@@ -76,6 +76,12 @@ public sealed partial class InstallGameDialog : ContentDialog
     {
         try
         {
+            string? defaultFolder = AppSetting.DefaultGameInstallationPath;
+            if (Directory.Exists(defaultFolder))
+            {
+                SetInstallationPath(Path.GetFullPath(Path.Combine(defaultFolder, CurrentGameId.GameBiz)));
+                return;
+            }
             string baseFolder = "";
             if (AppSetting.IsAppInRemovableStorage)
             {
@@ -377,6 +383,10 @@ public sealed partial class InstallGameDialog : ContentDialog
             {
                 GameLauncherService.ChangeGameInstallPath(CurrentGameId, InstallationPath);
                 WeakReferenceMessenger.Default.Send(new GameInstallTaskStartedMessage(task));
+                if (_selectPath is not null && InstallationPath.EndsWith(CurrentGameId.GameBiz))
+                {
+                    AppSetting.DefaultGameInstallationPath = _selectPath;
+                }
                 Close();
             }
 
