@@ -1824,4 +1824,10 @@ Do you accept the risk and continue to use it?</value>
   <data name="GameSelector_ClickToSelectOrSwitchGame" xml:space="preserve">
     <value>Click to select or switch game.</value>
   </data>
+  <data name="GameLauncherSettingDialog_UninstallGameUserDataFolderWarning" xml:space="preserve">
+    <value>The Starward data folder is inside the game folder and will be deleted along with it. Please change the data folder location in the settings page and try again.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning" xml:space="preserve">
+    <value>The Starward program is inside the game folder and will be deleted along with the game. Please move the program out of the game folder and try again.</value>
+  </data>
 </root>
