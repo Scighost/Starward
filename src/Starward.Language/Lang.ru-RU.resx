@@ -1787,16 +1787,16 @@
     <value>Невозможно удалить корневой каталог диска.</value>
   </data>
   <data name="PreDownloadDialog_PreInstallIsNotAvailable" xml:space="preserve">
-    <value>Pre-install is not available.</value>
+    <value>Предварительная установка недоступна.</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNotice" xml:space="preserve">
-    <value>Incompatibility Notice</value>
+    <value>Уведомление о несовместимости</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNoticeContent" xml:space="preserve">
-    <value>The pre-install files of Starward and HoYoPlay (miHoYo Launcher) are incompatible and cannot recognize each other.</value>
+    <value>Предустановленные файлы Starward и HoYoPlay (miHoYo Launcher) несовместимы и не могут распознавать друг друга.</value>
   </data>
   <data name="WelcomeView_DearPlayerWelcomeToStarward" xml:space="preserve">
-    <value>Dear Player, welcome to Starward!</value>
+    <value>Дорогой игрок, добро пожаловать в Starward!</value>
   </data>
   <data name="WelcomeView_WelcomeToStarwardDescription" xml:space="preserve">
     <value>This is a launcher designed specifically for HoYoverse games, helping you easily manage your games and enjoy a better experience.</value>
@@ -1808,22 +1808,22 @@
     <value>Before starting, some necessary environment checks are required.</value>
   </data>
   <data name="WelcomeView_NetworkStatus" xml:space="preserve">
-    <value>Network Status</value>
+    <value>Состояние сети</value>
   </data>
   <data name="WelcomeView_NotInstalled" xml:space="preserve">
-    <value>Not Installed</value>
+    <value>Не установлено</value>
   </data>
   <data name="WelcomeView_InstallNow" xml:space="preserve">
-    <value>Install Now</value>
+    <value>Установить сейчас</value>
   </data>
   <data name="WelcomeView_Installed" xml:space="preserve">
-    <value>Installed</value>
+    <value>Установлено</value>
   </data>
   <data name="WelcomeView_StarwardStart" xml:space="preserve">
-    <value>Starward, Start!</value>
+    <value>Starward, начинаем!</value>
   </data>
   <data name="GameSelector_ClickToSelectOrSwitchGame" xml:space="preserve">
-    <value>Click to select or switch game.</value>
+    <value>Нажмите, чтобы выбрать или сменить игру.</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameUserDataFolderWarning" xml:space="preserve">
     <value>The Starward data folder is inside the game folder and will be deleted along with it. Please change the data folder location in the settings page and try again.</value>
@@ -1832,6 +1832,6 @@
     <value>The Starward program is inside the game folder and will be deleted along with the game. Please move the program out of the game folder and try again.</value>
   </data>
   <data name="CloudGameButton_CloudGame" xml:space="preserve">
-    <value>Cloud Game</value>
+    <value>Облачный гейминг</value>
   </data>
 </root>
