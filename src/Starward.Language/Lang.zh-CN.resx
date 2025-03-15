@@ -1830,4 +1830,7 @@
   <data name="GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning" xml:space="preserve">
     <value>Starward 程序位于游戏文件夹内，删除游戏时会一并被删除。请将程序移出游戏文件夹后重试。</value>
   </data>
+  <data name="CloudGameButton_CloudGame" xml:space="preserve">
+    <value>云游戏</value>
+  </data>
 </root>
