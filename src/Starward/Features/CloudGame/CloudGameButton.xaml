@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="Starward.Features.CloudGame.CloudGameButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Features.CloudGame"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <Button x:Name="Button_CloudGame"
+            Padding="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            BorderThickness="0"
+            CornerRadius="8"
+            Loaded="Button_CloudGame_Loaded"
+            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+        <Image Width="28"
+               Height="28"
+               Source="ms-appx:///Assets/Image/icon_cloudgame.png" />
+
+        <Button.Flyout>
+            <Flyout Placement="LeftEdgeAlignedTop">
+                <Grid Margin="-12,-12,-8,-12" ColumnSpacing="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Image Grid.RowSpan="2"
+                           Width="100"
+                           Height="100"
+                           Source="ms-appx:///Assets/Image/animation_game_launch.png" />
+
+                    <TextBlock Grid.Column="1"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               FontSize="16"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind lang:Lang.CloudGameButton_CloudGame}" />
+
+                    <Border x:Name="Button_StartGame"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Height="36"
+                            MinWidth="120"
+                            Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                            CornerRadius="18"
+                            Visibility="{x:Bind ExePath, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <Button HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Command="{x:Bind StartGameCommand}"
+                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.LauncherPage_StartGame}" />
+                        </Button>
+                    </Border>
+
+                    <Border x:Name="Button_InstallGame"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Height="36"
+                            MinWidth="120"
+                            Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                            CornerRadius="18"
+                            Visibility="{x:Bind ExePath, Converter={StaticResource ObjectToVisibilityReversedConverter}}">
+                        <Button HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Command="{x:Bind InstallGameCommand}"
+                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.LauncherPage_InstallGame}" />
+                        </Button>
+                    </Border>
+
+                </Grid>
+            </Flyout>
+        </Button.Flyout>
+
+    </Button>
+
+</UserControl>

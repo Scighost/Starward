@@ -9,6 +9,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sch="using:Starward.Core.HoYoPlay"
              xmlns:sf="using:Starward.Frameworks"
+             xmlns:sfc="using:Starward.Features.CloudGame"
              xmlns:sfg="using:Starward.Features.GameInstall"
              xmlns:sfp="using:Starward.Features.PlayTime"
              x:DefaultBindMode="OneWay"
@@ -141,7 +142,7 @@
         </Grid>
 
 
-        <!--  区服选择  -->
+        <!--  崩坏三区服选择  -->
         <ComboBox Height="28"
                   Margin="172,14,0,0"
                   Padding="18.5,0,8,0"
@@ -157,6 +158,21 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
+
+
+
+        <!--  右边侧栏  -->
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+            <!--  云游戏  -->
+            <sfc:CloudGameButton x:Name="Button_CloudGame"
+                                 Width="40"
+                                 Height="40"
+                                 Margin="4"
+                                 CurrentGameId="{x:Bind CurrentGameId}"
+                                 Visibility="Collapsed" />
+
+        </StackPanel>
+
 
 
     </Grid>

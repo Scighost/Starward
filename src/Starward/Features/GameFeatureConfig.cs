@@ -1,4 +1,4 @@
-﻿using Starward.Core;
+using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Gacha;
 using Starward.Features.GameLauncher;
@@ -38,6 +38,12 @@ internal partial class GameFeatureConfig
     public bool SupportHardLink { get; init; }
 
 
+    /// <summary>
+    /// 支持云游戏
+    /// </summary>
+    public bool SupportCloudGame { get; set; }
+
+
 
     public static GameFeatureConfig FromGameId(GameId? gameId)
     {
@@ -45,7 +51,7 @@ internal partial class GameFeatureConfig
         {
             return None;
         }
-        return gameId.GameBiz.Game switch
+        GameFeatureConfig config = gameId.GameBiz.Game switch
         {
             GameBiz.bh3 => bh3,
             GameBiz.hk4e => hk4e,
@@ -53,6 +59,11 @@ internal partial class GameFeatureConfig
             GameBiz.nap => nap,
             _ => Default,
         };
+        if (gameId.GameBiz.Value is GameBiz.hk4e_cn or GameBiz.hk4e_global)
+        {
+            config.SupportCloudGame = true;
+        }
+        return config;
     }
 
 

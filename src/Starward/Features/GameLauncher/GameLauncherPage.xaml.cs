@@ -58,6 +58,7 @@ public sealed partial class GameLauncherPage : PageBase
 
     protected override void OnLoaded()
     {
+        InitializeGameFeature();
         CheckGameVersion();
         UpdateGameInstallTask();
         _ = InitializeGameServerAsync();
@@ -76,6 +77,17 @@ public sealed partial class GameLauncherPage : PageBase
         _dispatchTimer.Stop();
     }
 
+
+
+
+    private void InitializeGameFeature()
+    {
+        GameFeatureConfig feature = GameFeatureConfig.FromGameId(CurrentGameId);
+        if (feature.SupportCloudGame)
+        {
+            Button_CloudGame.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+        }
+    }
 
 
 

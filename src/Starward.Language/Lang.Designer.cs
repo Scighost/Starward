@@ -232,6 +232,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Cloud Game 的本地化字符串。
+        /// </summary>
+        public static string CloudGameButton_CloudGame {
+            get {
+                return ResourceManager.GetString("CloudGameButton_CloudGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Open the gacha records page in game, and then click the button on the right. 的本地化字符串。
         /// </summary>
         public static string CloudGameGachaWindow_OpenTheGachaRecordsPageInGameAndThenClickTheButtonOnTheRight {
