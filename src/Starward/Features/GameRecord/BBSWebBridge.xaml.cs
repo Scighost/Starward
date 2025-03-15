@@ -342,6 +342,11 @@ public sealed partial class BBSWebBridge : UserControl
         {
             await CaptureScreenshotAsync();
         }
+        else if (param.Payload?["type"]?.ToString() is "image")
+        {
+            string? base64 = param.Payload?["content"]?["image_base64"]?.ToString();
+            await ConvertScreenshotFromBase64StringAsync(base64);
+        }
         else if (param.Payload?["imageUrls"]?[0]?.ToString() is string { Length: > 0 } url)
         {
             await DownloadScreenshotAsync(url);
@@ -360,7 +365,22 @@ public sealed partial class BBSWebBridge : UserControl
         {
             string data = await webview2.CoreWebView2.CallDevToolsProtocolMethodAsync("Page.captureScreenshot", """{"captureBeyondViewport": true}""");
             string? base64 = JsonNode.Parse(data)?["data"]?.ToString();
-            if (base64 is not null)
+            await ConvertScreenshotFromBase64StringAsync(base64);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "capture screenshot");
+            Grid_Screenshot.Visibility = Visibility.Collapsed;
+        }
+    }
+
+
+
+    private async Task ConvertScreenshotFromBase64StringAsync(string? base64)
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(base64))
             {
                 screenshotBytes = Convert.FromBase64String(base64);
                 var bitmap = new BitmapImage();
@@ -371,7 +391,7 @@ public sealed partial class BBSWebBridge : UserControl
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "capture screenshot");
+            _logger.LogError(ex, "Convert screenshot from base64");
             Grid_Screenshot.Visibility = Visibility.Collapsed;
         }
     }
