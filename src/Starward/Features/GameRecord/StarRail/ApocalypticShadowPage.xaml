@@ -10,12 +10,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
-             xmlns:sp="using:Starward.Pages"
+             xmlns:sfg="using:Starward.Features.Gacha"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
     <Page.Resources>
         <BitmapImage x:Key="StarIcon" UriSource="ms-appx:///Assets/Image/IconChallengeStarYellow.png" />
+        <sfg:RarityToSRBgConverter x:Key="RarityToSRBgConverter" />
     </Page.Resources>
 
     <Grid>

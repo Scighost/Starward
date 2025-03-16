@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <sf:PageBase x:Class="Starward.Features.GameRecord.StarRail.SimulatedUniversePage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,7 +9,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
-             xmlns:sp="using:Starward.Pages"
+             xmlns:sfg="using:Starward.Features.Gacha"
              xmlns:su="using:Starward.Core.GameRecord.StarRail.SimulatedUniverse"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
@@ -19,6 +19,7 @@
         <local:SimulatedUniverseBuffIconConverter x:Key="SimulatedUniverseBuffIconConverter" />
         <local:SimulatedUniverseBuffBgConverter x:Key="SimulatedUniverseBuffBgConverter" />
         <local:SimulatedUniverseRomanNumberConverter x:Key="SimulatedUniverseRomanNumberConverter" />
+        <sfg:RarityToSRBgConverter x:Key="RarityToSRBgConverter" />
     </Page.Resources>
 
     <Grid>

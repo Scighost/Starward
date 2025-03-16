@@ -10,13 +10,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
-             xmlns:sp="using:Starward.Pages"
+             xmlns:sfg="using:Starward.Features.Gacha"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
     <Page.Resources>
         <BitmapImage x:Key="AbyssIcon" UriSource="ms-appx:///Assets/Image/UI_Icon_Tower_Star.png" />
         <local:SpiralAbyssBattleAvatarsSelectConverter x:Key="SpiralAbyssBattleAvatarsSelectConverter" />
+        <sfg:RarityToGIBgConverter x:Key="RarityToGIBgConverter" />
     </Page.Resources>
 
     <Grid>

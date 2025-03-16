@@ -157,6 +157,14 @@ public static class AppSetting
                     {nameof(UserDataFolder)}={dataFolder}
                     """);
             }
+            else
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath)!);
+                File.WriteAllText(ConfigPath, $"""
+                    {nameof(Language)}={Language}
+                    {nameof(UserDataFolder)}=
+                    """);
+            }
         }
         catch { }
     }

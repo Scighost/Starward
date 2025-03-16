@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
 <!--  Licensed under the MIT License.  -->
 
 <Application x:Class="Starward.App"
@@ -33,11 +33,8 @@
             <scv:ByteLengthToStringConverter x:Key="ByteLengthToStringConverter" />
             <scv:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
             <scv:BoolReversedConverter x:Key="BoolReversedConverter" />
-            <scv:RarityToGIBgConverter x:Key="RarityToGIBgConverter" />
-            <scv:RarityToSRBgConverter x:Key="RarityToSRBgConverter" />
             <scv:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
             <scv:CollectionToVisibilityConverter x:Key="CollectionToVisibilityConverter" />
-            <scv:GachaPityProgressBackgroundBrushConverter x:Key="GachaPityProgressBackgroundBrushConverter" />
             <scv:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
             <scv:WhiteSpaceStringToVisibilityConverter x:Key="WhiteSpaceStringToVisibilityConverter" />
 

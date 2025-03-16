@@ -10,7 +10,7 @@
              xmlns:scggi="using:Starward.Core.GameRecord.Genshin.ImaginariumTheater"
              xmlns:scv="using:Starward.Converters"
              xmlns:sf="using:Starward.Frameworks"
-             xmlns:sp="using:Starward.Pages"
+             xmlns:sfg="using:Starward.Features.Gacha"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
@@ -23,6 +23,7 @@
         <BitmapImage x:Key="StarIcon_2" UriSource="ms-appx:///Assets/Image/UI_Icon_Tower_Star2.png" />
         <BitmapImage x:Key="FlowerIcon" UriSource="ms-appx:///Assets/Image/UI_DisplayItemIcon_410016.png" />
         <local:TheaterStarIconVisibilityConverter x:Key="TheaterStarIconVisibilityConverter" />
+        <sfg:RarityToGIBgConverter x:Key="RarityToGIBgConverter" />
     </Page.Resources>
 
 

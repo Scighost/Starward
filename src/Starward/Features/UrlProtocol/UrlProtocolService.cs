@@ -22,13 +22,13 @@ internal class UrlProtocolService
     {
         UnregisterProtocol();
         string exe;
-        if (AppConfig.IsPortable)
+        if (AppSetting.IsPortable)
         {
-            exe = Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\', '/')), "Starward.exe");
+            exe = AppSetting.StarwardLauncherExecutePath ?? Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\', '/')), "Starward.exe");
         }
         else
         {
-            exe = Path.Join(AppContext.BaseDirectory, "Starward.exe");
+            exe = AppSetting.StarwardExecutePath;
         }
         string command = $"""
             "{exe}" "%1"
@@ -50,7 +50,7 @@ internal class UrlProtocolService
 
     public static async Task<bool> HandleUrlProtocolAsync(string url)
     {
-        var log = AppConfig.GetLogger<UrlProtocolService>();
+        var log = AppService.GetLogger<UrlProtocolService>();
         try
         {
             if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out Uri? uri))
@@ -59,7 +59,7 @@ internal class UrlProtocolService
                 {
                     return false;
                 }
-                if (string.IsNullOrWhiteSpace(AppConfig.UserDataFolder))
+                if (string.IsNullOrWhiteSpace(AppSetting.UserDataFolder))
                 {
                     log.LogWarning("UserDataFolder is null");
                     return false;

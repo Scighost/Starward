@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.Windows.AppLifecycle;
 using Starward.Controls;
 using Starward.Features.RPC;
 using Starward.Features.Update;
@@ -526,7 +527,6 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            // todo change user data folder 修改后重启
             var dialog = new ContentDialog
             {
                 Title = Lang.SettingPage_ReselectDataFolder,
@@ -549,10 +549,9 @@ public sealed partial class SettingPage : PageBase
             {
                 AppSetting.UserDataFolder = null!;
                 AppSetting.SaveConfiguration();
-                AppService.ResetServiceProvider();
-                AppSetting.SaveConfiguration();
-                App.Current.CloseSystemTray();
-                App.Current.SwitchMainWindow(new WelcomeWindow());
+                AppInstance.GetCurrent().UnregisterKey();
+                Process.Start(AppSetting.StarwardExecutePath);
+                App.Current.Exit();
             }
         }
         catch (Exception ex)

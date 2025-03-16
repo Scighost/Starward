@@ -199,7 +199,7 @@ public sealed partial class DeleteGachaLogDialog : ContentDialog
                     {
                         _logger.LogInformation("Deleting {count} gachalogs from {begin} to {end} of {uid} ({biz}).", count, begin, end, SelectUid, CurrentGameBiz);
                         _gachaLogService.DeleteGachaLogByTime(SelectUid.Value, begin.Value.LocalDateTime, end.Value.LocalDateTime);
-                        NotificationBehavior.Instance.Success(string.Format(Lang.GachaLogPage_DeletedGachaRecordsOfUid, count, SelectUid));
+                        InAppToast.MainWindow?.Success(string.Format(Lang.GachaLogPage_DeletedGachaRecordsOfUid, count, SelectUid));
                         Deleted = true;
                         this.Hide();
                         return;

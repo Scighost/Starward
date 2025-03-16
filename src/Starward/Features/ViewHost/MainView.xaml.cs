@@ -241,7 +241,7 @@ public sealed partial class MainView : UserControl
 #pragma warning disable CS0162 // 检测到无法访问的代码
             await Task.Delay(500);
 #pragma warning restore CS0162 // 检测到无法访问的代码
-            if (NuGetVersion.TryParse(AppConfig.AppVersion, out var appVersion))
+            if (NuGetVersion.TryParse(AppSetting.AppVersion, out var appVersion))
             {
                 _ = NuGetVersion.TryParse(AppSetting.LastAppVersion, out var lastVersion);
                 if (appVersion != lastVersion)
