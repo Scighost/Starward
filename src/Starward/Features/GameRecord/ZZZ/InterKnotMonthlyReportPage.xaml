@@ -128,7 +128,6 @@
 
                 <!--  Real-Time Data  -->
                 <TextBlock FontSize="16"
-                           FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="{x:Bind lang:Lang.TravelersDiaryPage_RealTimeData}"
                            Visibility="{x:Bind CurrentSummary, Converter={StaticResource ObjectToVisibilityConverter}}" />
@@ -213,7 +212,6 @@
                 <!--  Historical Data  -->
                 <TextBlock Margin="0,8,0,0"
                            FontSize="16"
-                           FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Visibility="{x:Bind SelectMonthData, Converter={StaticResource ObjectToVisibilityConverter}}">
                     <Run Text="{x:Bind lang:Lang.TravelersDiaryPage_HistoricalData}" />
@@ -301,7 +299,6 @@
                 <!--  Daily Data  -->
                 <TextBlock Margin="0,8,0,0"
                            FontSize="16"
-                           FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Visibility="{x:Bind SelectMonthData, Converter={StaticResource ObjectToVisibilityConverter}}">
                     <Run Text="{x:Bind lang:Lang.HoyolabToolboxPage_DailyData}" />

@@ -55,14 +55,12 @@
             </Grid.ColumnDefinitions>
             <TextBlock Name="TextBlock_GachaTypeText"
                        FontSize="16"
-                       FontWeight="SemiBold"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextTrimmedChanged="TextBlock_GachaTypeText_IsTextTrimmedChanged"
                        Text="{x:Bind WarpTypeStats.GachaTypeText}"
                        TextTrimming="CharacterEllipsis" />
             <TextBlock Grid.Column="1"
                        FontSize="16"
-                       FontWeight="SemiBold"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind WarpTypeStats.Count}" />
         </Grid>

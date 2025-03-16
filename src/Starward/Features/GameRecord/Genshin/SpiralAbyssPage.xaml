@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <sf:PageBase x:Class="Starward.Features.GameRecord.Genshin.SpiralAbyssPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -179,7 +179,6 @@
                 <!--  出战次数  -->
                 <TextBlock Margin="0,8,0,0"
                            FontSize="16"
-                           FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="{x:Bind lang:Lang.SpiralAbyssPage_Picked}"
                            Visibility="{x:Bind HasData}" />
@@ -243,7 +242,6 @@
                 <!--  战斗数据榜  -->
                 <TextBlock Margin="0,8,0,0"
                            FontSize="16"
-                           FontWeight="SemiBold"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="{x:Bind lang:Lang.SpiralAbyssPage_CombatStats}"
                            Visibility="{x:Bind HasData}" />

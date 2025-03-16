@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -88,6 +88,7 @@ public sealed partial class GameRecordPage : PageBase
         {
             LoadGameRoles();
             await UpdateDeviceInfoAsync();
+            await RefreshGameRoleInfoSilentlyAsync();
         }
     }
 
@@ -439,6 +440,24 @@ public sealed partial class GameRecordPage : PageBase
             InAppToast.MainWindow?.Error(ex);
         }
     }
+
+
+
+    private async Task RefreshGameRoleInfoSilentlyAsync()
+    {
+        try
+        {
+            if (CurrentRole is not null)
+            {
+                await _gameRecordService.RefreshGameRoleInfoAsync(CurrentRole);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Refresh game role info silently ({gameBiz}, {uid}).", CurrentRole?.GameBiz, CurrentRole?.Uid);
+        }
+    }
+
 
 
 
