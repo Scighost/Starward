@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
@@ -40,12 +40,12 @@ public class HoYoPlayService
 
 
 
-    public async Task<GameInfo> GetGameInfoAsync(GameId gameId)
+    public async Task<GameInfo> GetGameInfoAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         if (!_memoryCache.TryGetValue($"{nameof(GameInfo)}_{gameId.Id}", out GameInfo? info))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            var list = await _client.GetGameInfoAsync(LauncherId.FromGameId(gameId)!, lang);
+            var list = await _client.GetGameInfoAsync(LauncherId.FromGameId(gameId)!, lang, cancellationToken);
             foreach (var item in list)
             {
                 _memoryCache.Set($"{nameof(GameInfo)}_{item.Id}", item, TimeSpan.FromMinutes(10));
@@ -140,12 +140,12 @@ public class HoYoPlayService
 
 
 
-    public async Task<GameBackgroundInfo> GetGameBackgroundAsync(GameId gameId)
+    public async Task<GameBackgroundInfo> GetGameBackgroundAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         if (!_memoryCache.TryGetValue($"{nameof(GameBackgroundInfo)}_{gameId.Id}", out GameBackgroundInfo? background))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            var list = await _client.GetGameBackgroundAsync(LauncherId.FromGameId(gameId)!, lang);
+            var list = await _client.GetGameBackgroundAsync(LauncherId.FromGameId(gameId)!, lang, cancellationToken);
             foreach (var item in list)
             {
                 _memoryCache.Set($"{nameof(GameBackgroundInfo)}_{item.GameId.Id}", item, TimeSpan.FromMinutes(1));
@@ -157,12 +157,12 @@ public class HoYoPlayService
 
 
 
-    public async Task<GameContent> GetGameContentAsync(GameId gameId)
+    public async Task<GameContent> GetGameContentAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         if (!_memoryCache.TryGetValue($"{nameof(GameContent)}_{gameId.Id}", out GameContent? content))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            content = await _client.GetGameContentAsync(LauncherId.FromGameId(gameId)!, lang, gameId);
+            content = await _client.GetGameContentAsync(LauncherId.FromGameId(gameId)!, lang, gameId, cancellationToken);
             _memoryCache.Set($"{nameof(GameContent)}_{content.GameId.Id}", content, TimeSpan.FromMinutes(1));
         }
         return content!;
@@ -170,12 +170,12 @@ public class HoYoPlayService
 
 
 
-    public async Task<GamePackage> GetGamePackageAsync(GameId gameId)
+    public async Task<GamePackage> GetGamePackageAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         if (!_memoryCache.TryGetValue($"{nameof(GamePackage)}_{gameId.Id}", out GamePackage? package))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            var list = await _client.GetGamePackageAsync(LauncherId.FromGameId(gameId)!, lang);
+            var list = await _client.GetGamePackageAsync(LauncherId.FromGameId(gameId)!, lang, cancellationToken);
             foreach (var item in list)
             {
                 _memoryCache.Set($"{nameof(GamePackage)}_{item.GameId.Id}", item, TimeSpan.FromMinutes(1));
@@ -187,12 +187,12 @@ public class HoYoPlayService
 
 
 
-    public async Task<GameConfig?> GetGameConfigAsync(GameId gameId)
+    public async Task<GameConfig?> GetGameConfigAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         if (!_memoryCache.TryGetValue($"{nameof(GameConfig)}_{gameId.Id}", out GameConfig? config))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            var list = await _client.GetGameConfigAsync(LauncherId.FromGameId(gameId)!, lang);
+            var list = await _client.GetGameConfigAsync(LauncherId.FromGameId(gameId)!, lang, cancellationToken);
             foreach (var item in list)
             {
                 _memoryCache.Set($"{nameof(GameConfig)}_{item.GameId.Id}", item, TimeSpan.FromMinutes(1));
@@ -204,12 +204,12 @@ public class HoYoPlayService
 
 
 
-    public async Task<List<GameDeprecatedFile>> GetGameDeprecatedFilesAsync(GameId gameId)
+    public async Task<List<GameDeprecatedFile>> GetGameDeprecatedFilesAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         var launcherId = LauncherId.FromGameId(gameId);
         if (launcherId is not null)
         {
-            var fileConfig = await _client.GetGameDeprecatedFileConfigAsync(launcherId, "en-us", gameId);
+            var fileConfig = await _client.GetGameDeprecatedFileConfigAsync(launcherId, "en-us", gameId, cancellationToken);
             if (fileConfig != null)
             {
                 return fileConfig.DeprecatedFiles;
@@ -220,12 +220,12 @@ public class HoYoPlayService
 
 
 
-    public async Task<GameChannelSDK?> GetGameChannelSDKAsync(GameId gameId)
+    public async Task<GameChannelSDK?> GetGameChannelSDKAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         if (!_memoryCache.TryGetValue($"{nameof(GameChannelSDK)}_{gameId.Id}", out GameChannelSDK? sdk))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            var list = await _client.GetGameChannelSDKAsync(LauncherId.FromGameId(gameId)!, lang);
+            var list = await _client.GetGameChannelSDKAsync(LauncherId.FromGameId(gameId)!, lang, cancellationToken);
             foreach (var item in list)
             {
                 _memoryCache.Set($"{nameof(GameChannelSDK)}_{item.GameId.Id}", item, TimeSpan.FromMinutes(1));
@@ -237,12 +237,12 @@ public class HoYoPlayService
 
 
 
-    public async Task<GameBranch?> GetGameBranchAsync(GameId gameId)
+    public async Task<GameBranch?> GetGameBranchAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         if (!_memoryCache.TryGetValue($"{nameof(GameBranch)}_{gameId.Id}", out GameBranch? branch))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            var list = await _client.GetGameBranchAsync(LauncherId.FromGameId(gameId)!, lang);
+            var list = await _client.GetGameBranchAsync(LauncherId.FromGameId(gameId)!, lang, cancellationToken);
             foreach (var item in list)
             {
                 _memoryCache.Set($"{nameof(GameBranch)}_{item.GameId.Id}", item, TimeSpan.FromMinutes(1));
@@ -255,12 +255,12 @@ public class HoYoPlayService
 
 
 
-    public async Task<GameSophonChunkBuild?> GetGameSophonChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage)
+    public async Task<GameSophonChunkBuild?> GetGameSophonChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
     {
         if (!_memoryCache.TryGetValue($"{nameof(GameSophonChunkBuild)}_{gameBranchPackage.PackageId}", out GameSophonChunkBuild? build))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            build = await _client.GetGameSophonChunkBuildAsync(gameBranch, gameBranchPackage, gameBranchPackage.Tag);
+            build = await _client.GetGameSophonChunkBuildAsync(gameBranch, gameBranchPackage, gameBranchPackage.Tag, cancellationToken);
             _memoryCache.Set($"{nameof(GameSophonChunkBuild)}_{gameBranchPackage.PackageId}", build, TimeSpan.FromMinutes(1));
         }
         return build;
@@ -269,12 +269,12 @@ public class HoYoPlayService
 
 
 
-    public async Task<GameSophonPatchBuild?> GetGameSophonPatchBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage)
+    public async Task<GameSophonPatchBuild?> GetGameSophonPatchBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
     {
         if (!_memoryCache.TryGetValue($"{nameof(GameSophonPatchBuild)}_{gameBranchPackage.PackageId}", out GameSophonPatchBuild? build))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
-            build = await _client.GetGameSophonPatchBuildAsync(gameBranch, gameBranchPackage);
+            build = await _client.GetGameSophonPatchBuildAsync(gameBranch, gameBranchPackage, cancellationToken);
             _memoryCache.Set($"{nameof(GameSophonPatchBuild)}_{gameBranchPackage.PackageId}", build, TimeSpan.FromMinutes(1));
         }
         return build;

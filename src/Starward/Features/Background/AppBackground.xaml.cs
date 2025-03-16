@@ -135,7 +135,7 @@ public sealed partial class AppBackground : UserControl
 
 
 
-    private CancellationTokenSource? cancelSource;
+    private CancellationTokenSource? updateBackgroundCts;
 
 
     [RelayCommand]
@@ -143,9 +143,9 @@ public sealed partial class AppBackground : UserControl
     {
         try
         {
-            cancelSource?.Cancel();
-            cancelSource = new(TimeSpan.FromSeconds(5));
-            CancellationToken cancellationToken = cancelSource.Token;
+            updateBackgroundCts?.Cancel();
+            updateBackgroundCts = new();
+            CancellationToken cancellationToken = updateBackgroundCts.Token;
 
             if (CurrentGameId is null)
             {
@@ -154,19 +154,25 @@ public sealed partial class AppBackground : UserControl
                 return;
             }
 
-            var file = await _backgroundService.GetBackgroundFileAsync(CurrentGameId, cancellationToken);
-            DisposeVideoResource();
-            BackgroundImageSource = null;
-
-            if (file != null)
+            await foreach (string? file in _backgroundService.GetBackgroundFileAsync(CurrentGameId))
             {
-                if (BackgroundService.FileIsSupportedVideo(file))
+                // 重复两次获取背景图
+                if (cancellationToken.IsCancellationRequested)
                 {
-                    StartMediaPlayer(file);
+                    return;
                 }
-                else
+                DisposeVideoResource();
+                BackgroundImageSource = null;
+                if (file != null)
                 {
-                    await ChangeBackgroundImageAsync(file, cancellationToken);
+                    if (BackgroundService.FileIsSupportedVideo(file))
+                    {
+                        StartMediaPlayer(file);
+                    }
+                    else
+                    {
+                        await ChangeBackgroundImageAsync(file, cancellationToken);
+                    }
                 }
             }
         }
