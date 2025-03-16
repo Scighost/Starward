@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
@@ -193,8 +193,8 @@ internal static class DatabaseService
 
     #region Database Structure
 
-    // todo 发版前更新数据库架构
-    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11];
+
+    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11, Sql_v12];
 
 
     private const string Sql_v1 = """
@@ -694,6 +694,44 @@ internal static class DatabaseService
 
     private const string Sql_v12 = """
         BEGIN TRANSACTION;
+
+        UPDATE PlayTimeItem SET GameBiz = 'hk4e_cn' WHERE GameBiz IN (11, 13);
+        UPDATE PlayTimeItem SET GameBiz = 'hk4e_global' WHERE GameBiz = 12;
+        UPDATE PlayTimeItem SET GameBiz = 'hk4e_bilibili' WHERE GameBiz = 14;
+        UPDATE PlayTimeItem SET GameBiz = 'hkrpg_cn' WHERE GameBiz = 21;
+        UPDATE PlayTimeItem SET GameBiz = 'hkrpg_global' WHERE GameBiz = 22;
+        UPDATE PlayTimeItem SET GameBiz = 'hkrpg_bilibili' WHERE GameBiz = 24;
+        UPDATE PlayTimeItem SET GameBiz = 'bh3_cn' WHERE GameBiz = 31;
+        UPDATE PlayTimeItem SET GameBiz = 'bh3_global' WHERE GameBiz IN (32, 33, 34, 35, 36);
+        UPDATE PlayTimeItem SET GameBiz = 'nap_cn' WHERE GameBiz = 41;
+        UPDATE PlayTimeItem SET GameBiz = 'nap_global' WHERE GameBiz = 42;
+        UPDATE PlayTimeItem SET GameBiz = 'nap_bilibili' WHERE GameBiz = 44;
+
+        CREATE TABLE IF NOT EXISTS PlayTimeItem_dg_tmp
+        (
+            TimeStamp INTEGER PRIMARY KEY,
+            GameBiz   TEXT    NOT NULL,
+            Pid       INTEGER NOT NULL,
+            State     INTEGER NOT NULL,
+            CursorPos INTEGER NOT NULL,
+            Message   TEXT
+        );
+        INSERT INTO PlayTimeItem_dg_tmp(TimeStamp, GameBiz, Pid, State, CursorPos, Message) SELECT TimeStamp, GameBiz, Pid, State, CursorPos, Message FROM PlayTimeItem;
+        DROP TABLE IF EXISTS PlayTimeItem;
+        ALTER TABLE PlayTimeItem_dg_tmp RENAME TO PlayTimeItem;
+        CREATE INDEX IF NOT EXISTS IX_PlayTimeItem_GameBiz ON PlayTimeItem(GameBiz);
+        CREATE INDEX IF NOT EXISTS IX_PlayTimeItem_Pid ON PlayTimeItem(Pid);
+        CREATE INDEX IF NOT EXISTS IX_PlayTimeItem_State ON PlayTimeItem(State);
+
+        DROP TABLE IF EXISTS GachaLogUrl;
+        CREATE TABLE IF NOT EXISTS GachaLogUrl
+        (
+            GameBiz TEXT    NOT NULL,
+            Uid     INTEGER NOT NULL,
+            Url     TEXT    NOT NULL,
+            Time    TEXT    NOT NULL,
+            PRIMARY KEY (GameBiz, Uid)
+        );
 
         ALTER TABLE GameRecordRole ADD COLUMN HeadIcon TEXT;
 
