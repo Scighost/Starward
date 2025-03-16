@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.4.17</Version>
+    <Version>0.5.0</Version>
     <Authors>Scighost</Authors>
     <Description>Assets of Starward.</Description>
-    <PackageProjectUrl>https://github.com/Scighost/Starward</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Scighost/Starward/tree/large-resource</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
