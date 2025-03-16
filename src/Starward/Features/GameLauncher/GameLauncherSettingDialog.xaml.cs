@@ -517,6 +517,11 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
             {
                 if (await _gameInstallService.StartUninstallAsync(CurrentGameId, InstallPath))
                 {
+                    _logger.LogInformation("""
+                        Uninstall game finished:
+                        GameId: {gameId} {gameBiz}
+                        InstallPath: {installPath}
+                        """, CurrentGameId.Id, CurrentGameId.GameBiz, InstallPath);
                     Grid_UninstallWarning.Visibility = Visibility.Collapsed;
                     WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
                     CheckCanRepairGame();

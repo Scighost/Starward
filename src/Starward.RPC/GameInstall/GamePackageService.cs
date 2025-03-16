@@ -119,6 +119,35 @@ internal partial class GamePackageService
             }
             task.GameChannelSDK = await GetGameChannelSDKAsync(task.GameId, cancellationToken);
             task.DeprecatedFileConfig = await GetGameDeprecatedFileAsync(task.GameId, cancellationToken);
+
+            _logger.LogInformation("""
+                Prepare game package ({GameBiz}) finished:
+                DefaultDownloadMode: {DefaultDownloadMode}
+                LatestGameVersion: {LatestGameVersion}
+                PredownloadVersion: {PredownloadVersion}
+                LocalGameVersion: {LocalGameVersion}
+                GameSophonChunkBuild: {GameSophonChunkBuild}
+                LocalVersionSophonChunkBuild: {LocalVersionSophonChunkBuild}
+                GameSophonPatchBuild: {GameSophonPatchBuild}
+                GamePackage: {GamePackage}
+                GameChannelSDK: {GameChannelSDK}
+                DeprecatedFileConfig: {DeprecatedFileConfig}
+                TaskFiles: {TaskFiles}
+                DonwloadMode: {DownloadMode}
+                """,
+                task.GameId.GameBiz,
+                task.GameConfig.DefaultDownloadMode,
+                task.LatestGameVersion,
+                task.PredownloadVersion,
+                task.LocalGameVersion,
+                task.GameSophonChunkBuild?.Tag,
+                task.LocalVersionSophonChunkBuild?.Tag,
+                task.GameSophonPatchBuild?.Tag,
+                task.GamePackage?.Main.Major?.Version,
+                task.GameChannelSDK?.Version,
+                task.DeprecatedFileConfig?.DeprecatedFiles?.Count,
+                task.TaskFiles?.Count,
+                task.DownloadMode);
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {
@@ -578,6 +607,7 @@ internal partial class GamePackageService
             }
         }
 
+        // 硬链接
         if (Directory.Exists(task.HardLinkPath)
             && Path.GetFullPath(task.InstallPath) != Path.GetFullPath(task.HardLinkPath)
             && Path.GetPathRoot(task.HardLinkPath) == Path.GetPathRoot(task.InstallPath)
@@ -588,6 +618,8 @@ internal partial class GamePackageService
                 Version? hardLinkVersion = await GetLocalGameVersionAsync(task.HardLinkPath);
                 if (hardLinkVersion is not null && task.LatestGameVersion == hardLinkVersion.ToString())
                 {
+                    // patch 更新模式下，如果硬链接目录版本和最新版本一致，则直接硬链接
+                    _logger.LogInformation("Change patch update operation of {GameBiz} to repair because of hard link, path: {path}.", task.GameId.GameBiz, task.HardLinkPath);
                     task.Operation = GameInstallOperation.Repair;
                     await PrepareGamePackageAsync(task, cancellationToken);
                     return;
@@ -638,6 +670,7 @@ internal partial class GamePackageService
                         }
                     }
                 }
+                _logger.LogInformation("Hard link {GameBiz} link target path: {Target}", task.GameId.GameBiz, task.HardLinkPath);
             }
             else if (gameBiz.Game is GameBiz.hkrpg)
             {
@@ -646,6 +679,8 @@ internal partial class GamePackageService
                 {
                     if (task.Operation is GameInstallOperation.Install or GameInstallOperation.Update)
                     {
+                        // 星穹铁道硬链接时，需要改为修复模式
+                        _logger.LogInformation("Change {GameBiz} operation to repair because of hard link.", task.GameId.GameBiz);
                         task.Operation = GameInstallOperation.Repair;
                         await PrepareGameInstallTaskFilesAsync(task, localVersion, cancellationToken);
                         return;
@@ -667,6 +702,7 @@ internal partial class GamePackageService
                                 Directory.CreateDirectory(Path.GetDirectoryName(target)!);
                                 Kernel32.CreateHardLink(target, item);
                             }
+                            _logger.LogInformation("Hard link {count} audio files ({GameBiz}) from {path}", files.Length, task.GameId.GameBiz, targetFolder);
                         }
                         foreach (var item in taskFiles)
                         {
@@ -675,6 +711,7 @@ internal partial class GamePackageService
                                 item.HardLinkTarget = Path.GetFullPath(Path.Join(task.HardLinkPath, item.File));
                             }
                         }
+                        _logger.LogInformation("Hard link {GameBiz} link target path: {Target}", task.GameId.GameBiz, task.HardLinkPath);
                     }
                 }
             }
@@ -687,6 +724,7 @@ internal partial class GamePackageService
                         item.HardLinkTarget = Path.GetFullPath(Path.Join(task.HardLinkPath, item.File));
                     }
                 }
+                _logger.LogInformation("Hard link {GameBiz} link target path: {Target}", task.GameId.GameBiz, task.HardLinkPath);
             }
         }
 

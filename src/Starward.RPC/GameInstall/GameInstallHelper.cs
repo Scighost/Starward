@@ -78,6 +78,7 @@ internal partial class GameInstallHelper
     /// <param name="bytesPerSecond"></param>
     public int SetRateLimiter(int bytesPerSecond)
     {
+        int result = 0;
         if (bytesPerSecond <= 0)
         {
             _rateLimiter = new TokenBucketRateLimiter(new TokenBucketRateLimiterOptions
@@ -88,7 +89,7 @@ internal partial class GameInstallHelper
                 ReplenishmentPeriod = TimeSpan.FromMilliseconds(100),
                 TokensPerPeriod = int.MaxValue,
             });
-            return 0;
+            result = 0;
         }
         else
         {
@@ -101,8 +102,10 @@ internal partial class GameInstallHelper
                 ReplenishmentPeriod = TimeSpan.FromMilliseconds(100),
                 TokensPerPeriod = limit,
             });
-            return Math.Clamp(limit, 0, int.MaxValue / 10) * 10;
+            result = Math.Clamp(limit, 0, int.MaxValue / 10) * 10;
         }
+        _logger.LogInformation("Set downloading rate limiter: {bytesPerSecond} bytes/s", result);
+        return result;
     }
 
 
@@ -633,6 +636,7 @@ internal partial class GameInstallHelper
         {
             return;
         }
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Extracting compressed package {file}", task.GameId.GameBiz, files[0]);
         using FileCombinedStream fs = new FileCombinedStream(files);
         using var archive = new SharpSevenZipExtractor(fs, leaveOpen: true);
 
@@ -669,6 +673,7 @@ internal partial class GameInstallHelper
         task.Progress_Percent = lastPercent + extractRatio;
         await PatchCompressedPackageDiffFilesAsync(task, file, halfRatio, cancellationToken);
         task.Progress_Percent = lastPercent + percentRatio;
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Extract compressed package finished {file}", task.GameId.GameBiz, files[0]);
     }
 
 
@@ -741,6 +746,7 @@ internal partial class GameInstallHelper
                         task.Progress_Percent += increase;
                     }
                 });
+                _logger.LogInformation("GameInstallTask ({GameBiz}): Patching compressed package {count} diff files by hdiffmap.json", task.GameId.GameBiz, diffmap.DiffMapItems.Count);
             }
             File.Delete(hdiffmap);
         }
@@ -783,6 +789,7 @@ internal partial class GameInstallHelper
                     }
                 }
             });
+            _logger.LogInformation("GameInstallTask ({GameBiz}): Patching compressed package {count} diff files by hdifffiles.txt", task.GameId.GameBiz, files.Count);
             File.Delete(hdifffiles);
         }
 
@@ -790,14 +797,17 @@ internal partial class GameInstallHelper
         if (File.Exists(delete))
         {
             var deleteFiles = await File.ReadAllLinesAsync(delete, cancellationToken);
+            int count = 0;
             foreach (string line in deleteFiles)
             {
                 var target = Path.Combine(task.InstallPath, line);
                 if (File.Exists(target))
                 {
                     File.Delete(target);
+                    count++;
                 }
             }
+            _logger.LogInformation("GameInstallTask ({GameBiz}): Deleting compressed package {count} files by deletefiles.txt", task.GameId.GameBiz, count);
             File.Delete(delete);
         }
 

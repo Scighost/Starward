@@ -72,6 +72,7 @@ internal class GameInstallController : GameInstaller.GameInstallerBase
             GameId gameId = new GameId { GameBiz = request.GameBiz, Id = request.GameId };
             if (_gameInstallService.TryGetTask(gameId, out GameInstallTask? task))
             {
+                // 停止正在进行的安装任务
                 task.Cancel(GameInstallState.Stop);
                 await Task.Delay(3000);
             }

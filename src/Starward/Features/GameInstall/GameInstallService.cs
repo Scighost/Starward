@@ -248,6 +248,14 @@ internal class GameInstallService
             HardLinkPath = await GetHardLinkPathAsync(gameId, installPath),
         };
         await _rpcService.EnsureRpcServerRunningAsync();
+        _logger.LogInformation("""
+            Start game install task: 
+            Operation: {operation}
+            GameId: {gameId} {gameBiz}
+            InstallPath: {installPath}
+            AudioLanguage: {audioLanguage}
+            HardLinkPath: {hardLinkPath}
+            """, operation, gameId.Id, gameId.GameBiz, installPath, audioLanguage, request.HardLinkPath);
         var dto = await _gameInstallerClient.StartOrContinueTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
         StartUpdateTaskProgress();
         return AddOrUpdateTask(dto);
@@ -261,6 +269,7 @@ internal class GameInstallService
         {
             var request = GameInstallTaskRequest.FromTask(task);
             await _rpcService.EnsureRpcServerRunningAsync();
+            _logger.LogInformation("Pause game install task: {gameId} {gameBiz}", task.GameId.Id, task.GameId.GameBiz);
             var dto = await _gameInstallerClient.PauseTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
             task = AddOrUpdateTask(dto);
             StartUpdateTaskProgress();
@@ -279,6 +288,7 @@ internal class GameInstallService
     {
         var request = GameInstallTaskRequest.FromTask(task);
         await _rpcService.EnsureRpcServerRunningAsync();
+        _logger.LogInformation("Continue game install task: {gameId} {gameBiz}", task.GameId.Id, task.GameId.GameBiz);
         var dto = await _gameInstallerClient.StartOrContinueTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
         task = AddOrUpdateTask(dto);
         StartUpdateTaskProgress();
@@ -293,6 +303,7 @@ internal class GameInstallService
         {
             var request = GameInstallTaskRequest.FromTask(task);
             await _rpcService.EnsureRpcServerRunningAsync();
+            _logger.LogInformation("Stop game install task: {gameId} {gameBiz}", task.GameId.Id, task.GameId.GameBiz);
             var dto = await _gameInstallerClient.StopTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
             task = AddOrUpdateTask(dto);
             StartUpdateTaskProgress();
@@ -311,6 +322,11 @@ internal class GameInstallService
     {
         if (await _rpcService.EnsureRpcServerRunningAsync())
         {
+            _logger.LogInformation("""
+                Start uninstall game:
+                GameId: {gameId} {gameBiz}
+                InstallPath: {installPath}
+                """, gameId.Id, gameId.GameBiz, installPath);
             var request = new UninstallGameRequest
             {
                 GameBiz = gameId.GameBiz,

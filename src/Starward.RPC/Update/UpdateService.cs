@@ -102,6 +102,7 @@ internal class UpdateService
     {
         try
         {
+            _logger.LogInformation("Prepare for update starward");
             State = UpdateState.Pending;
             this.targetPath = targetPath;
             releaseVersion = release;
@@ -213,15 +214,17 @@ internal class UpdateService
             DeleteUpdateCacheFolder();
             await Task.Delay(1000, cancellationToken);
             State = UpdateState.Finish;
+            _logger.LogInformation("Update Starward finished");
         }
         catch (OperationCanceledException)
         {
+            _logger.LogInformation("Update Starward canceled, restore version.ini");
             State = UpdateState.Stop;
             RestoreVersionIni();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Update failed");
+            _logger.LogError(ex, "Update Starward failed, restore version.ini");
             State = UpdateState.Error;
             ErrorMessage = ex.Message;
             RestoreVersionIni();
@@ -263,6 +266,7 @@ internal class UpdateService
         progress_DownloadFileCount = 0;
         Progress_TotalBytes = downloadFiles.Sum(x => x.Size);
         Progress_TotalFileCount = downloadFiles.Count;
+        _logger.LogInformation("Update Starward, downloading {count} files", Progress_TotalFileCount);
         await Parallel.ForEachAsync(downloadFiles, cancellationToken, async (updateFile, token) =>
         {
             await _polly.ExecuteAsync(async (pollyToken) => await DownloadFileAsync(updateFile.From, updateFile.Url, updateFile.Size, updateFile.Hash, false, pollyToken), token);
