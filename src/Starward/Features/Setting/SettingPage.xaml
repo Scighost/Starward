@@ -275,7 +275,9 @@
                                 </Hyperlink>
                                 <Run Text="" />
                                 <Run Text="" />
-                                <Hyperlink NavigateUri="ms-settings:easeofaccess-visualeffects" UnderlineStyle="None">
+                                <Hyperlink Click="Hyperlink_VisualEffects_Click"
+                                           NavigateUri="ms-settings:easeofaccess-visualeffects"
+                                           UnderlineStyle="None">
                                     <Run Text="{x:Bind lang:Lang.AppearanceSettingPage_AnimationEffects}" />
                                 </Hyperlink>
                             </TextBlock>

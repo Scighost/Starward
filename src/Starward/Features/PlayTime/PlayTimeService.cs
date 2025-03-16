@@ -4,6 +4,7 @@ using Microsoft.Windows.AppLifecycle;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Database;
+using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
 using Starward.Frameworks;
 using System;
@@ -506,18 +507,7 @@ internal class PlayTimeService
     /// <returns></returns>
     public async Task<string> GetGameExeNameWithoutExtensionAsync(GameId gameId)
     {
-        string? name = gameId.GameBiz.Value switch
-        {
-            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => "YuanShen.exe",
-            GameBiz.hk4e_global => "GenshinImpact.exe",
-            _ => gameId.GameBiz.Game switch
-            {
-                GameBiz.hkrpg => "StarRail.exe",
-                GameBiz.bh3 => "BH3.exe",
-                GameBiz.nap => "ZenlessZoneZero.exe",
-                _ => null,
-            },
-        };
+        string? name = GameLauncherService.GetGameExeName(gameId.GameBiz);
         if (string.IsNullOrWhiteSpace(name))
         {
             var config = await _hoYoPlayService.GetGameConfigAsync(gameId);

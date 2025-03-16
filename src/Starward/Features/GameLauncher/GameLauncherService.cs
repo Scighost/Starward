@@ -182,11 +182,29 @@ internal partial class GameLauncherService
     /// <returns></returns>
     public async Task<string> GetGameExeNameAsync(GameId gameId)
     {
-        string? name = gameId.GameBiz.Value switch
+        string? name = GetGameExeName(gameId.GameBiz);
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            var config = await _hoYoPlayService.GetGameConfigAsync(gameId);
+            name = config?.ExeFileName;
+        }
+        return name ?? throw new ArgumentOutOfRangeException($"Unknown game ({gameId.Id}, {gameId.GameBiz}).");
+    }
+
+
+
+    /// <summary>
+    /// 游戏进程名，带 .exe 扩展名
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    public static string? GetGameExeName(GameBiz gameBiz)
+    {
+        string? name = gameBiz.Value switch
         {
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => "YuanShen.exe",
             GameBiz.hk4e_global => "GenshinImpact.exe",
-            _ => gameId.GameBiz.Game switch
+            _ => gameBiz.Game switch
             {
                 GameBiz.hkrpg => "StarRail.exe",
                 GameBiz.bh3 => "BH3.exe",
@@ -194,12 +212,7 @@ internal partial class GameLauncherService
                 _ => null,
             },
         };
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            var config = await _hoYoPlayService.GetGameConfigAsync(gameId);
-            name = config?.ExeFileName;
-        }
-        return name ?? throw new ArgumentOutOfRangeException($"Unknown game ({gameId.Id}, {gameId.GameBiz}).");
+        return name;
     }
 
 
@@ -241,17 +254,14 @@ internal partial class GameLauncherService
     /// 启动游戏
     /// </summary>
     /// <returns></returns>
-    public async Task<Process?> StartGameAsync(GameId gameId, bool ignoreRunningGame = false, string? installPath = null)
+    public async Task<Process?> StartGameAsync(GameId gameId, string? installPath = null)
     {
         const int ERROR_CANCELLED = 0x000004C7;
         try
         {
-            if (!ignoreRunningGame)
+            if (await GetGameProcessAsync(gameId) is Process existingProcess)
             {
-                if (await GetGameProcessAsync(gameId) != null)
-                {
-                    throw new Exception("Game process is running.");
-                }
+                throw new Exception($"Game is running: {existingProcess.ProcessName}.exe ({existingProcess.Id}).");
             }
             string? exe = null, arg = null, verb = null;
             if (Directory.Exists(installPath))

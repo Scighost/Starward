@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Media;
 using Starward.Controls;
 using Starward.Features.RPC;
 using Starward.Features.Update;
+using Starward.Features.UrlProtocol;
 using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
@@ -112,6 +113,7 @@ public sealed partial class SettingPage : PageBase
         InitializeDefaultInstallPath();
         _ = UpdateCacheSizeAsync();
         _ = GetRpcServerStateAsync();
+        CheckUrlProtocol();
     }
 
 
@@ -785,15 +787,14 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            // todo
-            //if (value)
-            //{
-            //    UrlProtocolService.RegisterProtocol();
-            //}
-            //else
-            //{
-            //    UrlProtocolService.UnregisterProtocol();
-            //}
+            if (value)
+            {
+                UrlProtocolService.RegisterProtocol();
+            }
+            else
+            {
+                UrlProtocolService.UnregisterProtocol();
+            }
         }
         catch (Exception ex)
         {
@@ -827,7 +828,7 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            //await Launcher.LaunchUriAsync(new Uri("starward://test"));
+            await Launcher.LaunchUriAsync(new Uri("starward://test"));
         }
         catch (Exception ex)
         {

@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.UI;
 using Microsoft.UI.Dispatching;
@@ -59,8 +59,7 @@ public partial class App : Application
             {
                 if (uri.Host is "test")
                 {
-                    //m_MainWindow = new TestUrlProtocolWindow();
-                    //m_MainWindow.Activate();
+                    new Starward.Features.UrlProtocol.TestUrlProtocolWindow().Activate();
                     return;
                 }
             }

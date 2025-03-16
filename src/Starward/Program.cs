@@ -1,12 +1,11 @@
-﻿global using Starward.Language;
+global using Starward.Language;
 global using Starward.MyWindows;
 using Microsoft.Extensions.Configuration;
 using Starward.Core;
+using Starward.Core.HoYoPlay;
+using Starward.Features.GameLauncher;
+using Starward.Features.UrlProtocol;
 using Starward.Frameworks;
-using Starward.Models;
-using Starward.Services;
-using Starward.Services.Launcher;
-using System;
 
 namespace Starward;
 
@@ -26,11 +25,12 @@ public static class Program
     {
         if (args.Length > 0)
         {
+            IConfiguration config = new ConfigurationBuilder().AddCommandLine(args).Build();
             if (args[0].ToLower() is "playtime")
             {
-                int pid = AppConfig.Configuration.GetValue<int>("pid");
-                GameBiz biz = (GameBiz)AppConfig.Configuration.GetValue<string>("biz");
-                if (pid > 0 && biz.IsKnown())
+                int pid = config.GetValue<int>("pid");
+                GameBiz biz = (GameBiz)config.GetValue<string>("biz");
+                if (pid > 0)
                 {
                     var playtime = AppService.GetService<Features.PlayTime.PlayTimeService>();
                     playtime.LogPlayTimeAsync(biz, pid).GetAwaiter().GetResult();
@@ -38,24 +38,13 @@ public static class Program
                 return;
             }
 
-            if (args[0].ToLower() is "uninstall")
-            {
-                GameBiz biz = (GameBiz)AppConfig.Configuration.GetValue<string>("biz");
-                string? loc = AppConfig.Configuration.GetValue<string>("loc");
-                UninstallStep steps = AppConfig.Configuration.GetValue<UninstallStep>("steps");
-                var gameService = AppConfig.GetService<GameService>();
-                int result = gameService.UninstallGame(biz, loc!, steps);
-                Environment.Exit(result);
-                return;
-            }
-
             if (args[0].ToLower() is "startgame")
             {
-                GameBiz biz = (GameBiz)AppConfig.Configuration.GetValue<string>("biz");
-                var p = AppConfig.GetService<GameLauncherService>().StartGame(biz, true);
-                if (p != null)
+                GameBiz biz = (GameBiz)config.GetValue<string>("biz");
+                GameId? gameId = GameId.FromGameBiz(biz);
+                if (gameId is not null)
                 {
-                    AppConfig.GetService<PlayTimeService>().StartProcessToLogAsync(biz).GetAwaiter().GetResult();
+                    AppService.GetService<GameLauncherService>().StartGameAsync(gameId).GetAwaiter().GetResult();
                 }
                 return;
             }
