@@ -170,7 +170,11 @@
                                  Margin="4"
                                  CurrentGameId="{x:Bind CurrentGameId}"
                                  Visibility="Collapsed" />
-
+            <!--  通行证授权登录  -->
+            <local:GameAuthLoginButton Width="40"
+                                       Height="40"
+                                       Margin="4"
+                                       CurrentGameId="{x:Bind CurrentGameId}" />
         </StackPanel>
 
 

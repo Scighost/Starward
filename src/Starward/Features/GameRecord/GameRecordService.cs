@@ -76,7 +76,7 @@ internal class GameRecordService
     /// </summary>
     /// <param name="forceUpdate"></param>
     /// <returns></returns>
-    public async Task UpdateDeviceFpAsync(bool forceUpdate = false)
+    public async Task UpdateDeviceFpAsync(bool forceUpdate = false, CancellationToken cancellationToken = default)
     {
         if (IsHoyolab)
         {
@@ -92,7 +92,7 @@ internal class GameRecordService
         }
         if (forceUpdate || DateTimeOffset.Now - lastUpdateTime > TimeSpan.FromDays(3))
         {
-            await _gameRecordClient.GetDeviceFpAsync();
+            await _gameRecordClient.GetDeviceFpAsync(cancellationToken);
             AppConfig.HyperionDeviceId = _gameRecordClient.DeviceId;
             AppConfig.HyperionDeviceFp = _gameRecordClient.DeviceFp;
             AppConfig.HyperionDeviceFpLastUpdateTime = DateTimeOffset.Now;

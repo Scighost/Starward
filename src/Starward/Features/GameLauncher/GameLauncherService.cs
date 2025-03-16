@@ -26,12 +26,15 @@ internal partial class GameLauncherService
 
     private readonly PlayTimeService _playTimeService;
 
+    private readonly GameAuthLoginService _gameAuthLoginService;
 
-    public GameLauncherService(ILogger<GameLauncherService> logger, HoYoPlayService hoYoPlayService, PlayTimeService playTimeService)
+
+    public GameLauncherService(ILogger<GameLauncherService> logger, HoYoPlayService hoYoPlayService, PlayTimeService playTimeService, GameAuthLoginService gameAuthLoginService)
     {
         _logger = logger;
         _hoYoPlayService = hoYoPlayService;
         _playTimeService = playTimeService;
+        _gameAuthLoginService = gameAuthLoginService;
     }
 
 
@@ -298,6 +301,14 @@ internal partial class GameLauncherService
                 {
                     _logger.LogWarning("Game exe not found: {path}", exe);
                     throw new FileNotFoundException("Game exe not found", name);
+                }
+            }
+            if (AppConfig.EnableLoginAuthTicket is true)
+            {
+                string? ticket = await _gameAuthLoginService.CreateAuthTicketByGameBiz(gameId);
+                if (!string.IsNullOrWhiteSpace(ticket))
+                {
+                    arg += $" login_auth_ticket={ticket}";
                 }
             }
             _logger.LogInformation("Start game ({biz})\r\npath: {exe}\r\narg: {arg}", gameId, exe, arg);

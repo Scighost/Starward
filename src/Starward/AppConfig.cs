@@ -37,6 +37,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -52,12 +53,6 @@ public static class AppConfig
 
 
     public static string StarwardExecutePath => Environment.ProcessPath ?? Path.Combine(AppContext.BaseDirectory, "Starward.exe");
-
-
-
-
-
-
 
 
 
@@ -116,6 +111,10 @@ public static class AppConfig
                 string text = File.ReadAllText(ConfigPath);
                 string lang = Regex.Match(text, @"Language=(.+)").Groups[1].Value.Trim();
                 string folder = Regex.Match(text, @"UserDataFolder=(.+)").Groups[1].Value.Trim();
+                bool.TryParse(Regex.Match(text, @"EnableLoginAuthTicket=(.+)").Groups[1].Value.Trim(), out bool enabled);
+                EnableLoginAuthTicket = enabled;
+                stoken = Regex.Match(text, @"stoken=(.+)").Groups[1].Value.Trim();
+                mid = Regex.Match(text, @"mid=(.+)").Groups[1].Value.Trim();
                 if (!string.IsNullOrWhiteSpace(lang))
                 {
                     try
@@ -185,10 +184,19 @@ public static class AppConfig
 
 
 
+    public static bool? EnableLoginAuthTicket { get; set; }
+
+    public static string? stoken { get; set; }
+
+    public static string? mid { get; set; }
+
+
+
     public static void SaveConfiguration()
     {
         try
         {
+            StringBuilder sb = new StringBuilder();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))
             {
                 string dataFolder = UserDataFolder;
@@ -197,20 +205,28 @@ public static class AppConfig
                 {
                     dataFolder = Path.GetRelativePath(parentFolder, UserDataFolder);
                 }
-                Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath)!);
-                File.WriteAllText(ConfigPath, $"""
-                    {nameof(Language)}={Language}
-                    {nameof(UserDataFolder)}={dataFolder}
-                    """);
+                sb.AppendLine($"Language={Language}");
+                sb.AppendLine($"UserDataFolder={dataFolder}");
             }
             else
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath)!);
-                File.WriteAllText(ConfigPath, $"""
-                    {nameof(Language)}={Language}
-                    {nameof(UserDataFolder)}=
-                    """);
+                sb.AppendLine($"Language={Language}");
+                sb.AppendLine($"UserDataFolder=");
             }
+            if (EnableLoginAuthTicket.HasValue)
+            {
+                sb.AppendLine($"{nameof(EnableLoginAuthTicket)}={EnableLoginAuthTicket}");
+            }
+            if (!string.IsNullOrWhiteSpace(stoken))
+            {
+                sb.AppendLine($"{nameof(stoken)}={stoken}");
+            }
+            if (!string.IsNullOrWhiteSpace(mid))
+            {
+                sb.AppendLine($"{nameof(mid)}={mid}");
+            }
+            Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath)!);
+            File.WriteAllText(ConfigPath, sb.ToString());
         }
         catch { }
     }
@@ -282,6 +298,8 @@ public static class AppConfig
 
             sc.AddSingleton<RpcService>();
             sc.AddSingleton<GameInstallService>();
+
+            sc.AddSingleton<GameAuthLoginService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }
