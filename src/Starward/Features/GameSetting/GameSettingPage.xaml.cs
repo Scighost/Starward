@@ -46,6 +46,17 @@ public sealed partial class GameSettingPage : PageBase
             GameBiz.nap => new BitmapImage(AppConfig.EmojiBangboo),
             _ => null,
         };
+        if (CurrentGameId.GameBiz == GameBiz.bh3_global)
+        {
+            CurrentGameBiz = CurrentGameId.Id switch
+            {
+                "g0mMIvshDb" => GameBiz.bh3_jp,
+                "uxB4MC7nzC" => GameBiz.bh3_kr,
+                "bxPTXSET5t" => GameBiz.bh3_os,
+                "wkE5P5WsIf" => GameBiz.bh3_asia,
+                _ => GameBiz.bh3_global,
+            };
+        }
     }
 
 
@@ -306,10 +317,6 @@ public sealed partial class GameSettingPage : PageBase
             var localVersion = await _gameLauncherService.GetLocalGameVersionAsync(CurrentGameId);
             if (localVersion is null)
             {
-                if (CurrentGameBiz == GameBiz.clgm_cn)
-                {
-                    TextBlock_GameNotInstalled.Text = Lang.GameSettingPage_FeatureNotSupported;
-                }
                 StackPanel_Emoji.Visibility = Visibility.Visible;
                 return;
             }

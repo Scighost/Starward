@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using System.Net.Http.Json;
@@ -12,10 +12,6 @@ public abstract class GachaLogClient
 {
 
 
-    protected const string REG_KEY_YS_CN = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神";
-    protected const string REG_KEY_YS_OS = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Genshin Impact";
-    protected const string REG_KEY_YS_CLOUD = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\云·原神";
-
     protected const string WEB_CACHE_PATH_YS_CN = @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2";
     protected const string WEB_CACHE_PATH_YS_OS = @"GenshinImpact_Data\webCaches\Cache\Cache_Data\data_2";
 
@@ -26,9 +22,6 @@ public abstract class GachaLogClient
     protected static ReadOnlySpan<byte> SPAN_WEB_PREFIX_YS_OS => "https://gs.hoyoverse.com/genshin/event/e20190909gacha-v3/index.html"u8;
 
 
-
-    protected const string REG_KEY_SR_CN = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\崩坏：星穹铁道";
-    protected const string REG_KEY_SR_OS = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Star Rail";
 
     protected const string WEB_CACHE_SR_PATH = @"StarRail_Data\webCaches\Cache\Cache_Data\data_2";
 
@@ -113,37 +106,6 @@ public abstract class GachaLogClient
 
 
 
-    [SupportedOSPlatform("windows")]
-    public static string? GetGameInstallPathFromRegistry(GameBiz biz)
-    {
-        if (biz == GameBiz.clgm_cn)
-        {
-            return Registry.GetValue(REG_KEY_YS_CLOUD, "InstallPath", null) as string;
-        }
-        else if (biz == GameBiz.nap_cn)
-        {
-            return Registry.GetValue(@"HKEY_CURRENT_USER\Software\miHoYo\HYP\standalone\1_1\nap_cn\nap_cn", "GameInstallPath", null) as string;
-        }
-        else
-        {
-            var key = biz.Value switch
-            {
-                GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => REG_KEY_YS_CN,
-                GameBiz.hk4e_global => REG_KEY_YS_OS,
-                GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => REG_KEY_SR_CN,
-                GameBiz.hkrpg_global => REG_KEY_SR_OS,
-                GameBiz.bh3_cn => REG_KEY_BH3_CN,
-                GameBiz.bh3_global => REG_KEY_BH3_GL,
-                GameBiz.bh3_os => REG_KEY_BH3_OS,
-                GameBiz.bh3_asia => REG_KEY_BH3_TW,
-                GameBiz.bh3_kr => REG_KEY_BH3_KR,
-                GameBiz.bh3_jp => REG_KEY_BH3_JP,
-                _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
-            };
-            return GetGameInstallPathFromRegistry(key);
-        }
-    }
-
 
     public static string? GetGachaUrlFromWebCache(GameBiz gameBiz, string? installPath = null)
     {
@@ -159,10 +121,6 @@ public abstract class GachaLogClient
 
     public static string GetGachaCacheFilePath(GameBiz gameBiz, string? installPath)
     {
-        if (gameBiz == GameBiz.clgm_cn)
-        {
-            return Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"GenshinImpactCloudGame\config\logs\MiHoYoSDK.log");
-        }
         string file = gameBiz.Value switch
         {
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => Path.Join(installPath, WEB_CACHE_PATH_YS_CN),
@@ -205,7 +163,7 @@ public abstract class GachaLogClient
     {
         return gameBiz.Value switch
         {
-            GameBiz.hk4e_cn or GameBiz.clgm_cn or GameBiz.hk4e_bilibili => SPAN_WEB_PREFIX_YS_CN,
+            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => SPAN_WEB_PREFIX_YS_CN,
             GameBiz.hk4e_global => SPAN_WEB_PREFIX_YS_OS,
             GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => SPAN_WEB_PREFIX_SR_CN,
             GameBiz.hkrpg_global => SPAN_WEB_PREFIX_SR_OS,

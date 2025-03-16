@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <sf:PageBase x:Class="Starward.Features.Gacha.GachaLogPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -80,8 +80,7 @@
                     <Flyout>
                         <StackPanel MinWidth="200" Spacing="8">
                             <!--  其他设置  -->
-                            <TextBlock FontSize="16"
-                                       Text="{x:Bind lang:Lang.GachaLogPage_OtherSettings}" />
+                            <TextBlock FontSize="16" Text="{x:Bind lang:Lang.GachaLogPage_OtherSettings}" />
                             <Button Margin="0,8,0,0" Command="{x:Bind CopyUrlCommand}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon Name="FontIcon_CopyUrl"
@@ -352,8 +351,7 @@
                                         <TextBlock Margin="0,0,0,1"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   FontSize="12"
-                                                  >
+                                                   FontSize="12">
                                             <Run Text="{x:Bind ItemCount}" />
                                             <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_Times}" />
                                         </TextBlock>

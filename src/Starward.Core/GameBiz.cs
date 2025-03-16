@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 
 namespace Starward.Core;
 
@@ -29,9 +29,7 @@ public record struct GameBiz
     public const string bh3_os = "bh3_os";      // 东南亚
     public const string bh3_jp = "bh3_jp";
     public const string bh3_kr = "bh3_kr";
-    public const string bh3_usa = "bh3_usa";
     public const string bh3_asia = "bh3_asia";  // 繁中
-    public const string bh3_eur = "bh3_eur";
 
 
     public const string hk4e = "hk4e";
@@ -39,8 +37,8 @@ public record struct GameBiz
     public const string hk4e_global = "hk4e_global";
     public const string hk4e_bilibili = "hk4e_bilibili";
 
-    public const string clgm_cn = "clgm_cn";
-    public const string clgm_global = "clgm_global";
+    //public const string clgm_cn = "clgm_cn";
+    //public const string clgm_global = "clgm_global";
 
 
     public const string hkrpg = "hkrpg";
@@ -120,14 +118,6 @@ public record struct GameBiz
     public bool IsBilibili() => Server is "bilibili";
 
 
-    // todo delete
-    public bool IsChinaCloud() => Value switch
-    {
-        clgm_cn => true,
-        _ => false,
-    };
-
-
 
     public GameBiz ToGame() => Game;
 
@@ -155,7 +145,7 @@ public record struct GameBiz
     {
         hk4e_cn or hk4e_bilibili => GameRegistry.GamePath_hk4e_cn,
         hk4e_global => GameRegistry.GamePath_hk4e_global,
-        clgm_cn => GameRegistry.GamePath_hk4e_cloud,
+        //clgm_cn => GameRegistry.GamePath_hk4e_cloud,
         hkrpg_cn or hkrpg_bilibili => GameRegistry.GamePath_hkrpg_cn,
         hkrpg_global => GameRegistry.GamePath_hkrpg_global,
         bh3_cn => GameRegistry.GamePath_bh3_cn,

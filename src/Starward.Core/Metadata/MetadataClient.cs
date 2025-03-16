@@ -1,4 +1,4 @@
-﻿using Starward.Core.Metadata.Github;
+using Starward.Core.Metadata.Github;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -71,13 +71,6 @@ public class MetadataClient
         return $"{API_PREFIX}/{API_VERSION}/{suffix}";
     }
 
-
-
-    public async Task<List<GameInfo>> GetGameInfoAsync(CancellationToken cancellationToken = default)
-    {
-        var url = GetUrl("game_info.json");
-        return await CommonGetAsync<List<GameInfo>>(url, cancellationToken);
-    }
 
 
 
