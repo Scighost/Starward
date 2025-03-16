@@ -7,6 +7,7 @@
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Features.Setting"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="using:Starward"
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
              xmlns:sfv="using:Starward.Features.ViewHost"
@@ -120,7 +121,7 @@
                                 <TextBlock Text="{x:Bind lang:Lang.SettingPage_CurrentVersion}" />
                                 <TextBlock FontWeight="SemiBold"
                                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                           Text="{x:Bind sf:AppSetting.AppVersion}" />
+                                           Text="{x:Bind s:AppConfig.AppVersion}" />
                             </StackPanel>
 
 
@@ -417,7 +418,7 @@
                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                    IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
                                                    MaxLines="2"
-                                                   Text="{x:Bind sf:AppSetting.UserDataFolder}"
+                                                   Text="{x:Bind s:AppConfig.UserDataFolder}"
                                                    TextTrimming="CharacterEllipsis"
                                                    TextWrapping="Wrap" />
                                         <FontIcon Grid.Column="1"
@@ -552,7 +553,7 @@
                                        Foreground="{ThemeResource SystemFillColorCautionBrush}"
                                        Text="{x:Bind lang:Lang.SettingPage_RPCServiceWarningIfAppInRemovableStorage}"
                                        TextWrapping="Wrap"
-                                       Visibility="{x:Bind sf:AppSetting.IsAppInRemovableStorage}" />
+                                       Visibility="{x:Bind s:AppConfig.IsAppInRemovableStorage}" />
                             <!--  保持 RPC 服务后台运行  -->
                             <ToggleSwitch Margin="0,8,0,0"
                                           IsOn="{x:Bind KeepRpcServerRunningInBackground, Mode=TwoWay}"

@@ -31,9 +31,9 @@ public sealed partial class SettingPage : PageBase
 {
 
 
-    private readonly ILogger<SettingPage> _logger = AppService.GetLogger<SettingPage>();
+    private readonly ILogger<SettingPage> _logger = AppConfig.GetLogger<SettingPage>();
 
-    private readonly RpcService _rpcService = AppService.GetService<RpcService>();
+    private readonly RpcService _rpcService = AppConfig.GetService<RpcService>();
 
 
     public SettingPage()
@@ -140,10 +140,10 @@ public sealed partial class SettingPage : PageBase
         {
             if (SetProperty(ref field, value))
             {
-                AppSetting.EnablePreviewRelease = value;
+                AppConfig.EnablePreviewRelease = value;
             }
         }
-    } = AppSetting.EnablePreviewRelease;
+    } = AppConfig.EnablePreviewRelease;
 
 
     /// <summary>
@@ -169,7 +169,7 @@ public sealed partial class SettingPage : PageBase
         {
             IsUpdated = false;
             UpdateErrorText = null;
-            var release = await AppService.GetService<UpdateService>().CheckUpdateAsync(true);
+            var release = await AppConfig.GetService<UpdateService>().CheckUpdateAsync(true);
             if (release != null)
             {
                 new UpdateWindow { NewVersion = release }.Activate();
@@ -207,7 +207,7 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            var lang = AppSetting.Language;
+            var lang = AppConfig.Language;
             ComboBox_Language.Items.Clear();
             ComboBox_Language.Items.Add(new ComboBoxItem
             {
@@ -252,7 +252,7 @@ public sealed partial class SettingPage : PageBase
                 {
                     var lang = item.Tag as string;
                     _logger.LogInformation("Language change to {lang}", lang);
-                    AppSetting.Language = lang;
+                    AppConfig.Language = lang;
                     if (string.IsNullOrWhiteSpace(lang))
                     {
                         CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
@@ -263,7 +263,7 @@ public sealed partial class SettingPage : PageBase
                     }
                     this.Bindings.Update();
                     WeakReferenceMessenger.Default.Send(new LanguageChangedMessage());
-                    AppSetting.SaveConfiguration();
+                    AppConfig.SaveConfiguration();
                 }
             }
         }
@@ -320,7 +320,7 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            var option = AppSetting.CloseWindowOption;
+            var option = AppConfig.CloseWindowOption;
             if (option is MainWindowCloseOption.Hide)
             {
                 RadioButton_CloseWindowOption_Hide.IsChecked = true;
@@ -351,7 +351,7 @@ public sealed partial class SettingPage : PageBase
                 {
                     if (sender is FrameworkElement fe)
                     {
-                        AppSetting.CloseWindowOption = fe.Tag switch
+                        AppConfig.CloseWindowOption = fe.Tag switch
                         {
                             MainWindowCloseOption option => option,
                             _ => 0,
@@ -395,14 +395,14 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            string? path = AppSetting.DefaultGameInstallationPath;
+            string? path = AppConfig.DefaultGameInstallationPath;
             if (Directory.Exists(path))
             {
                 DefaultInstallPath = path;
             }
             else
             {
-                AppSetting.DefaultGameInstallationPath = null;
+                AppConfig.DefaultGameInstallationPath = null;
             }
         }
         catch (Exception ex)
@@ -422,11 +422,11 @@ public sealed partial class SettingPage : PageBase
         {
             if (SetProperty(ref field, value))
             {
-                AppSetting.SpeedLimitKBPerSecond = value;
+                AppConfig.SpeedLimitKBPerSecond = value;
                 _ = SetRateLimiterAsync(value);
             }
         }
-    } = AppSetting.SpeedLimitKBPerSecond;
+    } = AppConfig.SpeedLimitKBPerSecond;
 
 
 
@@ -464,7 +464,7 @@ public sealed partial class SettingPage : PageBase
             if (Directory.Exists(path))
             {
                 DefaultInstallPath = path;
-                AppSetting.DefaultGameInstallationPath = path;
+                AppConfig.DefaultGameInstallationPath = path;
             }
         }
         catch (Exception ex)
@@ -504,7 +504,7 @@ public sealed partial class SettingPage : PageBase
     private void DeleteDefaultInstallPath()
     {
         DefaultInstallPath = null;
-        AppSetting.DefaultGameInstallationPath = null;
+        AppConfig.DefaultGameInstallationPath = null;
     }
 
 
@@ -535,7 +535,7 @@ public sealed partial class SettingPage : PageBase
                 Content = $"""
                 {Lang.SettingPage_TheCurrentLocationOfTheDataFolderIs}
 
-                {AppSetting.UserDataFolder}
+                {AppConfig.UserDataFolder}
 
                 {Lang.SettingPage_WouldLikeToReselectDataFolder}
                 """,
@@ -547,10 +547,10 @@ public sealed partial class SettingPage : PageBase
             var result = await dialog.ShowAsync();
             if (result is ContentDialogResult.Primary)
             {
-                AppSetting.UserDataFolder = null!;
-                AppSetting.SaveConfiguration();
+                AppConfig.UserDataFolder = null!;
+                AppConfig.SaveConfiguration();
                 AppInstance.GetCurrent().UnregisterKey();
-                Process.Start(AppSetting.StarwardExecutePath);
+                Process.Start(AppConfig.StarwardExecutePath);
                 App.Current.Exit();
             }
         }
@@ -571,9 +571,9 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            if (Directory.Exists(AppSetting.UserDataFolder))
+            if (Directory.Exists(AppConfig.UserDataFolder))
             {
-                await Launcher.LaunchUriAsync(new Uri(AppSetting.UserDataFolder));
+                await Launcher.LaunchUriAsync(new Uri(AppConfig.UserDataFolder));
             }
         }
         catch (Exception ex)
@@ -605,7 +605,7 @@ public sealed partial class SettingPage : PageBase
             var result = await dialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-                AppSetting.DeleteAllSettings();
+                AppConfig.DeleteAllSettings();
                 var exe = Process.GetCurrentProcess().MainModule?.FileName;
                 if (File.Exists(exe))
                 {
@@ -641,16 +641,16 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            if (File.Exists(AppService.LogFile))
+            if (File.Exists(AppConfig.LogFile))
             {
-                var item = await StorageFile.GetFileFromPathAsync(AppService.LogFile);
+                var item = await StorageFile.GetFileFromPathAsync(AppConfig.LogFile);
                 var options = new FolderLauncherOptions();
                 options.ItemsToSelect.Add(item);
-                await Launcher.LaunchFolderPathAsync(Path.GetDirectoryName(AppService.LogFile), options);
+                await Launcher.LaunchFolderPathAsync(Path.GetDirectoryName(AppConfig.LogFile), options);
             }
             else
             {
-                await Launcher.LaunchFolderPathAsync(Path.Combine(AppSetting.CacheFolder, "log"));
+                await Launcher.LaunchFolderPathAsync(Path.Combine(AppConfig.CacheFolder, "log"));
             }
         }
         catch (Exception ex)
@@ -687,7 +687,7 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            var local = AppSetting.CacheFolder;
+            var local = AppConfig.CacheFolder;
             LogCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "log"));
             ImageCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "cache"));
             WebCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "webview"));
@@ -732,7 +732,7 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            var local = AppSetting.CacheFolder;
+            var local = AppConfig.CacheFolder;
             await DeleteFolderAsync(Path.Combine(local, "log"));
             await DeleteFolderAsync(Path.Combine(local, "crash"));
             await DeleteFolderAsync(Path.Combine(local, "cache"));
@@ -851,11 +851,11 @@ public sealed partial class SettingPage : PageBase
         {
             if (SetProperty(ref field, value))
             {
-                AppSetting.KeepRpcServerRunningInBackground = value;
+                AppConfig.KeepRpcServerRunningInBackground = value;
                 SetRpcServerRunning(value);
             }
         }
-    } = AppSetting.KeepRpcServerRunningInBackground;
+    } = AppConfig.KeepRpcServerRunningInBackground;
 
 
 

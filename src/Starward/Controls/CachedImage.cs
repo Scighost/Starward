@@ -1,8 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Scighost.WinUI.ImageEx;
-using Starward.Frameworks;
 using Starward.Services.Cache;
 using System;
 using System.Collections.Concurrent;
@@ -111,7 +110,7 @@ public sealed partial class CachedImage : ImageEx
 
 
 
-    private static readonly string CacheFolder = Path.Combine(AppSetting.CacheFolder, "cache");
+    private static readonly string CacheFolder = Path.Combine(AppConfig.CacheFolder, "cache");
 
 
     public static async Task<string> GetImageThumbnailAsync(string path)

@@ -13,7 +13,6 @@ using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Features.Database;
-using Starward.Frameworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,9 +82,9 @@ internal class GameRecordService
         {
             return;
         }
-        string? id = AppSetting.HyperionDeviceId;
-        string? fp = AppSetting.HyperionDeviceFp;
-        DateTimeOffset lastUpdateTime = AppSetting.HyperionDeviceFpLastUpdateTime;
+        string? id = AppConfig.HyperionDeviceId;
+        string? fp = AppConfig.HyperionDeviceFp;
+        DateTimeOffset lastUpdateTime = AppConfig.HyperionDeviceFpLastUpdateTime;
         if (!forceUpdate && !string.IsNullOrWhiteSpace(id) && !string.IsNullOrWhiteSpace(fp))
         {
             _gameRecordClient.DeviceId = id;
@@ -94,9 +93,9 @@ internal class GameRecordService
         if (forceUpdate || DateTimeOffset.Now - lastUpdateTime > TimeSpan.FromDays(3))
         {
             await _gameRecordClient.GetDeviceFpAsync();
-            AppSetting.HyperionDeviceId = _gameRecordClient.DeviceId;
-            AppSetting.HyperionDeviceFp = _gameRecordClient.DeviceFp;
-            AppSetting.HyperionDeviceFpLastUpdateTime = DateTimeOffset.Now;
+            AppConfig.HyperionDeviceId = _gameRecordClient.DeviceId;
+            AppConfig.HyperionDeviceFp = _gameRecordClient.DeviceFp;
+            AppConfig.HyperionDeviceFpLastUpdateTime = DateTimeOffset.Now;
         }
     }
 

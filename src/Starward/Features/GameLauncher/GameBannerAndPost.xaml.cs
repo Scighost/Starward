@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml.Media;
 using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
 using Starward.Features.ViewHost;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -28,13 +27,13 @@ public sealed partial class GameBannerAndPost : UserControl
     private Microsoft.UI.Dispatching.DispatcherQueueTimer _bannerTimer;
 
 
-    private readonly ILogger<GameBannerAndPost> _logger = AppService.GetLogger<GameBannerAndPost>();
+    private readonly ILogger<GameBannerAndPost> _logger = AppConfig.GetLogger<GameBannerAndPost>();
 
 
-    private readonly HoYoPlayService _hoYoPlayService = AppService.GetService<HoYoPlayService>();
+    private readonly HoYoPlayService _hoYoPlayService = AppConfig.GetService<HoYoPlayService>();
 
 
-    private readonly GameNoticeService _gameNoticeService = AppService.GetService<GameNoticeService>();
+    private readonly GameNoticeService _gameNoticeService = AppConfig.GetService<GameNoticeService>();
 
 
     public GameId CurrentGameId { get; set; }
@@ -107,11 +106,11 @@ public sealed partial class GameBannerAndPost : UserControl
     private async void OnGameAnnouncementSettingChanged(object _, GameAnnouncementSettingChangedMessage message)
     {
         // 没有设置取消，网络不好时可能会造成状态异常，懒得写了
-        if (AppSetting.EnableBannerAndPost)
+        if (AppConfig.EnableBannerAndPost)
         {
             ShowBannerAndPost = true;
             await UpdateGameContentAsync();
-            if (AppSetting.DisableGameNoticeRedHot)
+            if (AppConfig.DisableGameNoticeRedHot)
             {
                 IsGameNoticesAlert = false;
             }
@@ -173,7 +172,7 @@ public sealed partial class GameBannerAndPost : UserControl
         try
         {
             var content = await _hoYoPlayService.GetGameContentAsync(CurrentGameId);
-            if (content is null || !AppSetting.EnableBannerAndPost)
+            if (content is null || !AppConfig.EnableBannerAndPost)
             {
                 ShowBannerAndPost = false;
                 return;
@@ -204,7 +203,7 @@ public sealed partial class GameBannerAndPost : UserControl
                 Button_InGameNotices.Visibility = Visibility.Collapsed;
                 return;
             }
-            if (AppSetting.DisableGameNoticeRedHot)
+            if (AppConfig.DisableGameNoticeRedHot)
             {
                 IsGameNoticesAlert = false;
             }

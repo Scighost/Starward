@@ -1,11 +1,10 @@
-﻿using Dapper;
+using Dapper;
 using Microsoft.Extensions.Logging;
 using MiniExcelLibs;
 using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Core.Gacha.StarRail;
 using Starward.Features.Database;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -225,7 +224,7 @@ internal class StarRailGachaService : GachaLogService
 
         public string export_app { get; set; } = "Starward";
 
-        public string export_app_version { get; set; } = AppSetting.AppVersion ?? "";
+        public string export_app_version { get; set; } = AppConfig.AppVersion ?? "";
 
         public string srgf_version { get; set; } = "v1.0";
 

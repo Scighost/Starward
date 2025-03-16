@@ -10,6 +10,7 @@
              xmlns:local="using:Starward.Features.Screenshot"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:media="using:Microsoft.Xaml.Interactions.Media"
+             xmlns:s="using:Starward"
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
              xmlns:ui="using:CommunityToolkit.WinUI"
@@ -138,7 +139,7 @@
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="local:ScreenshotItem">
                             <Grid Name="Grid_ImageItem"
-                                  CanDrag="{x:Bind sf:AppSetting.IsAdmin, Converter={StaticResource BoolReversedConverter}}"
+                                  CanDrag="{x:Bind s:AppConfig.IsAdmin, Converter={StaticResource BoolReversedConverter}}"
                                   DragStarting="Grid_ImageItem_DragStarting"
                                   IsRightTapEnabled="False"
                                   Tapped="Grid_ImageItem_Tapped">

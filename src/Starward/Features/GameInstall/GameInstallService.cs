@@ -4,7 +4,6 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
 using Starward.Features.RPC;
-using Starward.Frameworks;
 using Starward.RPC;
 using Starward.RPC.GameInstall;
 using System;
@@ -332,7 +331,7 @@ internal class GameInstallService
                 GameBiz = gameId.GameBiz,
                 GameId = gameId.Id,
                 InstallPath = installPath,
-                UserDataFolder = AppSetting.UserDataFolder,
+                UserDataFolder = AppConfig.UserDataFolder,
             };
             var response = await _gameInstallerClient.UninstallGameAsync(request);
             if (response.Success)

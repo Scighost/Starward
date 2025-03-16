@@ -32,13 +32,13 @@ public sealed partial class UpdateWindow : WindowEx
 {
 
 
-    private readonly ILogger<UpdateWindow> _logger = AppService.GetLogger<UpdateWindow>();
+    private readonly ILogger<UpdateWindow> _logger = AppConfig.GetLogger<UpdateWindow>();
 
 
-    private readonly MetadataClient _metadataClient = AppService.GetService<MetadataClient>();
+    private readonly MetadataClient _metadataClient = AppConfig.GetService<MetadataClient>();
 
 
-    private readonly UpdateService _updateService = AppService.GetService<UpdateService>();
+    private readonly UpdateService _updateService = AppConfig.GetService<UpdateService>();
 
 
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _timer;
@@ -152,7 +152,7 @@ public sealed partial class UpdateWindow : WindowEx
 #if DEV
     public string ChannelText => Lang.UpdatePage_DevChannel;
 #else
-    public string ChannelText => AppSetting.EnablePreviewRelease ? Lang.UpdatePage_PreviewChannel : Lang.UpdatePage_StableChannel;
+    public string ChannelText => AppConfig.EnablePreviewRelease ? Lang.UpdatePage_PreviewChannel : Lang.UpdatePage_StableChannel;
 #endif
 
 
@@ -215,10 +215,10 @@ public sealed partial class UpdateWindow : WindowEx
         {
             if (SetProperty(ref field, value))
             {
-                AppSetting.AutoRestartWhenUpdateFinished = value;
+                AppConfig.AutoRestartWhenUpdateFinished = value;
             }
         }
-    } = AppSetting.AutoRestartWhenUpdateFinished;
+    } = AppConfig.AutoRestartWhenUpdateFinished;
 
 
 
@@ -229,10 +229,10 @@ public sealed partial class UpdateWindow : WindowEx
         {
             if (SetProperty(ref field, value))
             {
-                AppSetting.ShowUpdateContentAfterUpdateRestart = value;
+                AppConfig.ShowUpdateContentAfterUpdateRestart = value;
             }
         }
-    } = AppSetting.ShowUpdateContentAfterUpdateRestart;
+    } = AppConfig.ShowUpdateContentAfterUpdateRestart;
 
 
 
@@ -360,10 +360,10 @@ public sealed partial class UpdateWindow : WindowEx
 
     private void Finish(bool skipRestart = false)
     {
-        AppSetting.IgnoreVersion = null;
+        AppConfig.IgnoreVersion = null;
         Button_UpdateNow.Visibility = Visibility.Collapsed;
         Button_Restart.Visibility = Visibility.Visible;
-        AppService.GetService<RpcService>().KeepRunningOnExited(false, noLongerChange: true);
+        AppConfig.GetService<RpcService>().KeepRunningOnExited(false, noLongerChange: true);
         if (AutoRestartWhenUpdateFinished && !skipRestart)
         {
             Restart();
@@ -377,7 +377,7 @@ public sealed partial class UpdateWindow : WindowEx
     {
         try
         {
-            string? launcher = AppSetting.StarwardLauncherExecutePath;
+            string? launcher = AppConfig.StarwardLauncherExecutePath;
             if (File.Exists(launcher))
             {
                 Process.Start(new ProcessStartInfo
@@ -410,11 +410,11 @@ public sealed partial class UpdateWindow : WindowEx
     {
         if (NewVersion is null)
         {
-            AppSetting.LastAppVersion = AppSetting.AppVersion;
+            AppConfig.LastAppVersion = AppConfig.AppVersion;
         }
         else
         {
-            AppSetting.IgnoreVersion = NewVersion.Version;
+            AppConfig.IgnoreVersion = NewVersion.Version;
         }
         this.Close();
     }
@@ -465,7 +465,7 @@ public sealed partial class UpdateWindow : WindowEx
             string markdown = await GetReleaseContentMarkdownAsync();
             string html = await RenderMarkdownAsync(markdown);
             webview.NavigateToString(html);
-            AppSetting.LastAppVersion = AppSetting.AppVersion;
+            AppConfig.LastAppVersion = AppConfig.AppVersion;
         }
         catch (COMException ex)
         {
@@ -477,12 +477,12 @@ public sealed partial class UpdateWindow : WindowEx
         catch (Exception ex) when (ex is HttpRequestException or SocketException or IOException)
         {
             _logger.LogError(ex, "Load recent update content");
-            string tag = NewVersion?.Version ?? AppSetting.AppVersion;
+            string tag = NewVersion?.Version ?? AppConfig.AppVersion;
             webview.Source = new Uri($"https://github.com/Scighost/Starward/releases/tag/{tag}");
             webview.Visibility = Visibility.Visible;
             StackPanel_Loading.Visibility = Visibility.Collapsed;
             StackPanel_Error.Visibility = Visibility.Collapsed;
-            AppSetting.LastAppVersion = AppSetting.AppVersion;
+            AppConfig.LastAppVersion = AppConfig.AppVersion;
         }
         catch (Exception ex)
         {
@@ -501,12 +501,12 @@ public sealed partial class UpdateWindow : WindowEx
         NuGetVersion? startVersion, endVersion;
         if (NewVersion is null)
         {
-            _ = NuGetVersion.TryParse(AppSetting.LastAppVersion, out startVersion);
-            _ = NuGetVersion.TryParse(AppSetting.AppVersion, out endVersion);
+            _ = NuGetVersion.TryParse(AppConfig.LastAppVersion, out startVersion);
+            _ = NuGetVersion.TryParse(AppConfig.AppVersion, out endVersion);
         }
         else
         {
-            _ = NuGetVersion.TryParse(AppSetting.AppVersion, out startVersion);
+            _ = NuGetVersion.TryParse(AppConfig.AppVersion, out startVersion);
             _ = NuGetVersion.TryParse(NewVersion.Version, out endVersion);
         }
         startVersion ??= new NuGetVersion(0, 0, 0);
@@ -555,7 +555,7 @@ public sealed partial class UpdateWindow : WindowEx
         {
             try
             {
-                var r = await _metadataClient.GetGithubReleaseAsync(NewVersion?.Version ?? AppSetting.AppVersion);
+                var r = await _metadataClient.GetGithubReleaseAsync(NewVersion?.Version ?? AppConfig.AppVersion);
                 if (r is not null)
                 {
                     AppendReleaseToStringBuilder(r, markdown);

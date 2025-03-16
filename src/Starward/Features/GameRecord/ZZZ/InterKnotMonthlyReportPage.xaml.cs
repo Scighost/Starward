@@ -25,10 +25,10 @@ namespace Starward.Features.GameRecord.ZZZ;
 public sealed partial class InterKnotMonthlyReportPage : PageBase
 {
 
-    private readonly ILogger<InterKnotMonthlyReportPage> _logger = AppService.GetLogger<InterKnotMonthlyReportPage>();
+    private readonly ILogger<InterKnotMonthlyReportPage> _logger = AppConfig.GetLogger<InterKnotMonthlyReportPage>();
 
 
-    private readonly GameRecordService _gameRecordService = AppService.GetService<GameRecordService>();
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
     public InterKnotMonthlyReportPage()

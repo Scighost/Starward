@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -25,9 +25,9 @@ public sealed partial class LoginPage : PageBase
     private const string CancelIcon = "\uE711";
 
 
-    private readonly ILogger<LoginPage> _logger = AppService.GetLogger<LoginPage>();
+    private readonly ILogger<LoginPage> _logger = AppConfig.GetLogger<LoginPage>();
 
-    private readonly GameRecordService _gameRecordService = AppService.GetService<GameRecordService>();
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
     public LoginPage()

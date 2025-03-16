@@ -10,7 +10,6 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
-using Starward.Frameworks;
 using Starward.Helpers;
 using Starward.RPC.GameInstall;
 using System;
@@ -30,11 +29,11 @@ public sealed partial class InstallGameDialog : ContentDialog
     private const double GB = 1 << 30;
 
 
-    private readonly ILogger<InstallGameDialog> _logger = AppService.GetLogger<InstallGameDialog>();
+    private readonly ILogger<InstallGameDialog> _logger = AppConfig.GetLogger<InstallGameDialog>();
 
-    private readonly HoYoPlayService _hoYoPlayService = AppService.GetService<HoYoPlayService>();
+    private readonly HoYoPlayService _hoYoPlayService = AppConfig.GetService<HoYoPlayService>();
 
-    private readonly GameInstallService _gameInstallService = AppService.GetService<GameInstallService>();
+    private readonly GameInstallService _gameInstallService = AppConfig.GetService<GameInstallService>();
 
 
     public InstallGameDialog()
@@ -76,27 +75,27 @@ public sealed partial class InstallGameDialog : ContentDialog
     {
         try
         {
-            string? defaultFolder = AppSetting.DefaultGameInstallationPath;
+            string? defaultFolder = AppConfig.DefaultGameInstallationPath;
             if (Directory.Exists(defaultFolder))
             {
                 SetInstallationPath(Path.GetFullPath(Path.Combine(defaultFolder, CurrentGameId.GameBiz)));
                 return;
             }
             string baseFolder = "";
-            if (AppSetting.IsAppInRemovableStorage)
+            if (AppConfig.IsAppInRemovableStorage)
             {
-                if (File.Exists(AppSetting.StarwardLauncherExecutePath))
+                if (File.Exists(AppConfig.StarwardLauncherExecutePath))
                 {
-                    baseFolder = Path.Combine(Path.GetDirectoryName(AppSetting.StarwardLauncherExecutePath)!, "Games");
+                    baseFolder = Path.Combine(Path.GetDirectoryName(AppConfig.StarwardLauncherExecutePath)!, "Games");
                 }
                 else
                 {
-                    baseFolder = Path.Combine(Path.GetDirectoryName(AppSetting.StarwardExecutePath)!, "Games");
+                    baseFolder = Path.Combine(Path.GetDirectoryName(AppConfig.StarwardExecutePath)!, "Games");
                 }
             }
             else
             {
-                string? defaultPath = AppSetting.DefaultGameInstallationPath;
+                string? defaultPath = AppConfig.DefaultGameInstallationPath;
                 if (Directory.Exists(defaultPath))
                 {
                     baseFolder = defaultPath;
@@ -214,10 +213,10 @@ public sealed partial class InstallGameDialog : ContentDialog
 
 
     [ObservableProperty]
-    public partial bool AutomaticallyCreateSubfolderForInstall { get; set; } = AppSetting.AutomaticallyCreateSubfolderForInstall;
+    public partial bool AutomaticallyCreateSubfolderForInstall { get; set; } = AppConfig.AutomaticallyCreateSubfolderForInstall;
     partial void OnAutomaticallyCreateSubfolderForInstallChanged(bool value)
     {
-        AppSetting.AutomaticallyCreateSubfolderForInstall = value;
+        AppConfig.AutomaticallyCreateSubfolderForInstall = value;
         if (!string.IsNullOrWhiteSpace(_selectPath))
         {
             if (value)
@@ -385,7 +384,7 @@ public sealed partial class InstallGameDialog : ContentDialog
                 WeakReferenceMessenger.Default.Send(new GameInstallTaskStartedMessage(task));
                 if (_selectPath is not null && InstallationPath.EndsWith(CurrentGameId.GameBiz))
                 {
-                    AppSetting.DefaultGameInstallationPath = _selectPath;
+                    AppConfig.DefaultGameInstallationPath = _selectPath;
                 }
                 Close();
             }

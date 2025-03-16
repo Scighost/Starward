@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
 using Starward.Core.GameRecord;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -34,10 +33,10 @@ public sealed partial class BBSWebBridge : UserControl
 {
 
 
-    private readonly ILogger<BBSWebBridge> _logger = AppService.GetLogger<BBSWebBridge>();
+    private readonly ILogger<BBSWebBridge> _logger = AppConfig.GetLogger<BBSWebBridge>();
 
 
-    private readonly HttpClient _httpClient = AppService.GetService<HttpClient>();
+    private readonly HttpClient _httpClient = AppConfig.GetService<HttpClient>();
 
 
 
@@ -92,11 +91,11 @@ public sealed partial class BBSWebBridge : UserControl
             {
                 if (CurrentGameBiz.IsGlobalServer())
                 {
-                    _gameRecordClient = AppService.GetService<HoyolabClient>();
+                    _gameRecordClient = AppConfig.GetService<HoyolabClient>();
                 }
                 else
                 {
-                    _gameRecordClient = AppService.GetService<HyperionClient>();
+                    _gameRecordClient = AppConfig.GetService<HyperionClient>();
                 }
                 _ = LoadPageAsync(true);
             }
@@ -124,11 +123,11 @@ public sealed partial class BBSWebBridge : UserControl
             }
             if (CurrentGameBiz.IsGlobalServer())
             {
-                _gameRecordClient = AppService.GetService<HoyolabClient>();
+                _gameRecordClient = AppConfig.GetService<HoyolabClient>();
             }
             else
             {
-                _gameRecordClient = AppService.GetService<HyperionClient>();
+                _gameRecordClient = AppConfig.GetService<HyperionClient>();
             }
             await webview2.EnsureCoreWebView2Async();
             var coreWebView2 = webview2.CoreWebView2;

@@ -27,10 +27,10 @@ public sealed partial class GameRecordPage : PageBase
 {
 
 
-    private readonly ILogger<GameRecordPage> _logger = AppService.GetLogger<GameRecordPage>();
+    private readonly ILogger<GameRecordPage> _logger = AppConfig.GetLogger<GameRecordPage>();
 
 
-    private readonly GameRecordService _gameRecordService = AppService.GetService<GameRecordService>();
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
 
@@ -66,7 +66,7 @@ public sealed partial class GameRecordPage : PageBase
 
     protected override async void OnLoaded()
     {
-        if (AppSetting.HoyolabToolboxPaneOpen)
+        if (AppConfig.HoyolabToolboxPaneOpen)
         {
             OpenNavigationViewPane();
         }
@@ -110,7 +110,7 @@ public sealed partial class GameRecordPage : PageBase
     {
         try
         {
-            if (!AppSetting.AcceptHoyolabToolboxAgreement)
+            if (!AppConfig.AcceptHoyolabToolboxAgreement)
             {
                 var dialog = new ContentDialog
                 {
@@ -146,7 +146,7 @@ public sealed partial class GameRecordPage : PageBase
                 var result = await resultTask;
                 if (result is ContentDialogResult.Primary)
                 {
-                    AppSetting.AcceptHoyolabToolboxAgreement = true;
+                    AppConfig.AcceptHoyolabToolboxAgreement = true;
                 }
                 else
                 {
@@ -192,7 +192,7 @@ public sealed partial class GameRecordPage : PageBase
         NavigationView_Toolbox.IsPaneOpen = true;
         Grid_Avatar_1.Visibility = Visibility.Visible;
         Border_Avatar_2.Visibility = Visibility.Collapsed;
-        AppSetting.HoyolabToolboxPaneOpen = true;
+        AppConfig.HoyolabToolboxPaneOpen = true;
     }
 
 
@@ -202,7 +202,7 @@ public sealed partial class GameRecordPage : PageBase
         NavigationView_Toolbox.IsPaneOpen = false;
         Grid_Avatar_1.Visibility = Visibility.Collapsed;
         Border_Avatar_2.Visibility = Visibility.Visible;
-        AppSetting.HoyolabToolboxPaneOpen = false;
+        AppConfig.HoyolabToolboxPaneOpen = false;
     }
 
 

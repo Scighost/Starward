@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -19,11 +19,11 @@ namespace Starward.Features.GameSetting;
 public sealed partial class GameSettingPage : PageBase
 {
 
-    private readonly ILogger<GameSettingPage> _logger = AppService.GetLogger<GameSettingPage>();
+    private readonly ILogger<GameSettingPage> _logger = AppConfig.GetLogger<GameSettingPage>();
 
-    private readonly GameLauncherService _gameLauncherService = AppService.GetService<GameLauncherService>();
+    private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
 
-    private readonly GameSettingService _gameSettingService = AppService.GetService<GameSettingService>();
+    private readonly GameSettingService _gameSettingService = AppConfig.GetService<GameSettingService>();
 
 
 
@@ -77,7 +77,7 @@ public sealed partial class GameSettingPage : PageBase
         {
             if (SetProperty(ref field, value))
             {
-                AppSetting.SetStartArgument(CurrentGameBiz, value);
+                AppConfig.SetStartArgument(CurrentGameBiz, value);
             }
         }
     }
@@ -322,7 +322,7 @@ public sealed partial class GameSettingPage : PageBase
             {
                 IsGraphicsSettingEnable = true;
             }
-            StartArgument = AppSetting.GetStartArgument(CurrentGameBiz);
+            StartArgument = AppConfig.GetStartArgument(CurrentGameBiz);
             var resolutionSetting = _gameSettingService.GetGameResolutionSetting(CurrentGameBiz);
             if (resolutionSetting != null)
             {

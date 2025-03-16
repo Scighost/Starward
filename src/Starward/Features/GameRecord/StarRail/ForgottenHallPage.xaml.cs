@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -22,9 +22,9 @@ public sealed partial class ForgottenHallPage : PageBase
 {
 
 
-    private readonly ILogger<ForgottenHallPage> _logger = AppService.GetLogger<ForgottenHallPage>();
+    private readonly ILogger<ForgottenHallPage> _logger = AppConfig.GetLogger<ForgottenHallPage>();
 
-    private readonly GameRecordService _gameRecordService = AppService.GetService<GameRecordService>();
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
 

@@ -2,7 +2,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
-using Starward.Frameworks;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -84,7 +83,7 @@ public class HoYoPlayService
             _memoryCache.Set($"{nameof(GameInfo)}_{item.Id}", item, TimeSpan.FromMinutes(10));
         }
         string json = JsonSerializer.Serialize(infos);
-        AppSetting.CachedGameInfo = json;
+        AppConfig.CachedGameInfo = json;
         _ = DownloadGameVersionPosterAsync(infos);
         return infos;
     }
@@ -103,9 +102,9 @@ public class HoYoPlayService
                     urls.Add(info.Display.Background.Url);
                 }
             }
-            if (AppSetting.UserDataFolder is not null)
+            if (AppConfig.UserDataFolder is not null)
             {
-                string bg = Path.Combine(AppSetting.UserDataFolder, "bg");
+                string bg = Path.Combine(AppConfig.UserDataFolder, "bg");
                 Directory.CreateDirectory(bg);
                 await Parallel.ForEachAsync(infos, async (info, _) =>
                 {
@@ -123,7 +122,7 @@ public class HoYoPlayService
                             byte[] bytes = await _httpClient.GetByteArrayAsync(url);
                             await File.WriteAllBytesAsync(path, bytes);
                         }
-                        AppSetting.SetVersionPoster(info.GameBiz, name);
+                        AppConfig.SetVersionPoster(info.GameBiz, name);
                     }
                     catch (Exception ex)
                     {

@@ -6,7 +6,6 @@ using Starward.Core.HoYoPlay;
 using Starward.Features.Database;
 using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
-using Starward.Frameworks;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -441,7 +440,7 @@ internal class PlayTimeService
                     _logger.LogInformation("Start to log playtime ({biz}, {pid})", biz, process.Id);
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = AppSetting.StarwardExecutePath,
+                        FileName = AppConfig.StarwardExecutePath,
                         Arguments = $"playtime --biz {biz} --pid {process.Id}",
                         CreateNoWindow = true,
                     });
@@ -484,7 +483,7 @@ internal class PlayTimeService
 
             var p = Process.Start(new ProcessStartInfo
             {
-                FileName = AppSetting.StarwardExecutePath,
+                FileName = AppConfig.StarwardExecutePath,
                 Arguments = $"playtime --biz {biz} --pid {process.Id}",
                 CreateNoWindow = true,
             });

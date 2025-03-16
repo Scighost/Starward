@@ -4,7 +4,6 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
 using Starward.Features.PlayTime;
-using Starward.Frameworks;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -22,13 +21,13 @@ internal class UrlProtocolService
     {
         UnregisterProtocol();
         string exe;
-        if (AppSetting.IsPortable)
+        if (AppConfig.IsPortable)
         {
-            exe = AppSetting.StarwardLauncherExecutePath ?? Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\', '/')), "Starward.exe");
+            exe = AppConfig.StarwardLauncherExecutePath ?? Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\', '/')), "Starward.exe");
         }
         else
         {
-            exe = AppSetting.StarwardExecutePath;
+            exe = AppConfig.StarwardExecutePath;
         }
         string command = $"""
             "{exe}" "%1"
@@ -50,7 +49,7 @@ internal class UrlProtocolService
 
     public static async Task<bool> HandleUrlProtocolAsync(string url)
     {
-        var log = AppService.GetLogger<UrlProtocolService>();
+        var log = AppConfig.GetLogger<UrlProtocolService>();
         try
         {
             if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out Uri? uri))
@@ -59,7 +58,7 @@ internal class UrlProtocolService
                 {
                     return false;
                 }
-                if (string.IsNullOrWhiteSpace(AppSetting.UserDataFolder))
+                if (string.IsNullOrWhiteSpace(AppConfig.UserDataFolder))
                 {
                     log.LogWarning("UserDataFolder is null");
                     return false;
@@ -70,7 +69,7 @@ internal class UrlProtocolService
                     {
                         var kvs = HttpUtility.ParseQueryString(uri.Query);
                         string? installPath = kvs["install_path"];
-                        await AppService.GetService<GameLauncherService>().StartGameAsync(gameId, installPath);
+                        await AppConfig.GetService<GameLauncherService>().StartGameAsync(gameId, installPath);
                     }
                     else
                     {
@@ -85,11 +84,11 @@ internal class UrlProtocolService
                         var kvs = HttpUtility.ParseQueryString(uri.Query);
                         if (int.TryParse(kvs["pid"], out int pid))
                         {
-                            await AppService.GetService<PlayTimeService>().StartProcessToLogAsync(gameId, pid);
+                            await AppConfig.GetService<PlayTimeService>().StartProcessToLogAsync(gameId, pid);
                         }
                         else
                         {
-                            await AppService.GetService<PlayTimeService>().StartProcessToLogAsync(gameId);
+                            await AppConfig.GetService<PlayTimeService>().StartProcessToLogAsync(gameId);
                         }
                     }
                     else

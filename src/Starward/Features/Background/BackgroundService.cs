@@ -2,7 +2,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -55,7 +54,7 @@ public class BackgroundService
     [return: NotNullIfNotNull(nameof(name))]
     private static string? GetBgFilePath(string? name)
     {
-        return Path.Join(AppSetting.UserDataFolder, "bg", name);
+        return Path.Join(AppConfig.UserDataFolder, "bg", name);
     }
 
 
@@ -72,9 +71,9 @@ public class BackgroundService
         {
             return false;
         }
-        if (AppSetting.GetEnableCustomBg(gameId.GameBiz))
+        if (AppConfig.GetEnableCustomBg(gameId.GameBiz))
         {
-            path = GetBgFilePath(AppSetting.GetCustomBg(gameId.GameBiz));
+            path = GetBgFilePath(AppConfig.GetCustomBg(gameId.GameBiz));
             if (File.Exists(path))
             {
                 return true;
@@ -98,9 +97,9 @@ public class BackgroundService
         {
             return false;
         }
-        if (AppSetting.GetUseVersionPoster(gameId.GameBiz))
+        if (AppConfig.GetUseVersionPoster(gameId.GameBiz))
         {
-            path = Path.Join(AppSetting.UserDataFolder, "bg", AppSetting.GetVersionPoster(gameId.GameBiz));
+            path = Path.Join(AppConfig.UserDataFolder, "bg", AppConfig.GetVersionPoster(gameId.GameBiz));
             if (File.Exists(path))
             {
                 return true;
@@ -147,7 +146,7 @@ public class BackgroundService
         {
             return path;
         }
-        path = GetBgFilePath(AppSetting.GetBg(gameId.GameBiz));
+        path = GetBgFilePath(AppConfig.GetBg(gameId.GameBiz));
         return File.Exists(path) ? path : null;
     }
 
@@ -177,16 +176,16 @@ public class BackgroundService
     {
         try
         {
-            if (!AppSetting.GetUseVersionPoster(gameId.GameBiz))
+            if (!AppConfig.GetUseVersionPoster(gameId.GameBiz))
             {
                 return null;
             }
             var info = await _hoYoPlayService.GetGameInfoAsync(gameId, cancellationToken);
             string? url = info.Display.Background?.Url;
-            if (!string.IsNullOrWhiteSpace(url) && AppSetting.UserDataFolder is not null)
+            if (!string.IsNullOrWhiteSpace(url) && AppConfig.UserDataFolder is not null)
             {
 
-                string bg = Path.Combine(AppSetting.UserDataFolder, "bg");
+                string bg = Path.Combine(AppConfig.UserDataFolder, "bg");
                 Directory.CreateDirectory(bg);
                 string name = Path.GetFileName(url);
                 string path = Path.Combine(bg, name);
@@ -195,7 +194,7 @@ public class BackgroundService
                     byte[] bytes = await _httpClient.GetByteArrayAsync(url, cancellationToken);
                     await File.WriteAllBytesAsync(path, bytes, cancellationToken);
                 }
-                AppSetting.SetVersionPoster(gameId.GameBiz, name);
+                AppConfig.SetVersionPoster(gameId.GameBiz, name);
                 return path;
             }
         }
@@ -276,7 +275,7 @@ public class BackgroundService
                 apiCts.CancelAfter(1000);
                 downloadCts.CancelAfter(3000);
             }
-            if (AppSetting.GetUseVersionPoster(gameId.GameBiz))
+            if (AppConfig.GetUseVersionPoster(gameId.GameBiz))
             {
                 url = await GetVersionPosterUrlAsync(gameId, apiCancelToken);
                 usePoster = true;
@@ -300,11 +299,11 @@ public class BackgroundService
             }
             if (usePoster)
             {
-                AppSetting.SetVersionPoster(gameId.GameBiz, name);
+                AppConfig.SetVersionPoster(gameId.GameBiz, name);
             }
             else
             {
-                AppSetting.SetBg(gameId.GameBiz, name);
+                AppConfig.SetBg(gameId.GameBiz, name);
             }
             return (file, false);
         }
@@ -324,7 +323,7 @@ public class BackgroundService
     /// <returns></returns>
     private static string? GetFallbackBackgroundImage(GameId gameId)
     {
-        string? bg = GetBgFilePath(AppSetting.GetBg(gameId.GameBiz));
+        string? bg = GetBgFilePath(AppConfig.GetBg(gameId.GameBiz));
         if (!File.Exists(bg))
         {
             string baseFolder = AppContext.BaseDirectory;
@@ -349,7 +348,7 @@ public class BackgroundService
             return null;
         }
         await CheckBackgroundFileAvailableAsync(file);
-        string bg = Path.Join(AppSetting.UserDataFolder, "bg");
+        string bg = Path.Join(AppConfig.UserDataFolder, "bg");
         Directory.CreateDirectory(bg);
         string name = Path.GetFileName(file);
         string path = Path.Combine(bg, name);
@@ -369,7 +368,7 @@ public class BackgroundService
     /// <returns></returns>
     public static async Task<string?> ChangeCustomBackgroundFileAsync(StorageFile file)
     {
-        string bg = Path.Join(AppSetting.UserDataFolder, "bg");
+        string bg = Path.Join(AppConfig.UserDataFolder, "bg");
         if (Path.GetDirectoryName(file.Path) != bg)
         {
             if (FileIsSupportedVideo(file.Name))

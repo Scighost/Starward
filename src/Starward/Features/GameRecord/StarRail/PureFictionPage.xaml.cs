@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -22,9 +22,9 @@ public sealed partial class PureFictionPage : PageBase
 {
 
 
-    private readonly ILogger<PureFictionPage> _logger = AppService.GetLogger<PureFictionPage>();
+    private readonly ILogger<PureFictionPage> _logger = AppConfig.GetLogger<PureFictionPage>();
 
-    private readonly GameRecordService _gameRecordService = AppService.GetService<GameRecordService>();
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
 

@@ -25,9 +25,9 @@ public sealed partial class SelfQueryPage : PageBase
 {
 
 
-    private readonly ILogger<SelfQueryPage> _logger = AppService.GetLogger<SelfQueryPage>();
+    private readonly ILogger<SelfQueryPage> _logger = AppConfig.GetLogger<SelfQueryPage>();
 
-    private readonly SelfQueryService _selfQueryService = AppService.GetService<SelfQueryService>();
+    private readonly SelfQueryService _selfQueryService = AppConfig.GetService<SelfQueryService>();
 
 
 

@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using Starward.Frameworks;
 using Starward.RPC;
 using Starward.RPC.Env;
 using System;
@@ -79,8 +78,8 @@ internal class RpcService
         await client.SetEnviromentAsync(new EnviromentMessage
         {
             ParentProcessId = Environment.ProcessId,
-            KeepRunningOnExited = AppSetting.KeepRpcServerRunningInBackground,
-            DownloadRateLimit = Math.Clamp(AppSetting.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue),
+            KeepRunningOnExited = AppConfig.KeepRpcServerRunningInBackground,
+            DownloadRateLimit = Math.Clamp(AppConfig.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue),
         });
     }
 
@@ -96,8 +95,8 @@ internal class RpcService
                 await client.SetEnviromentAsync(new EnviromentMessage
                 {
                     ParentProcessId = Environment.ProcessId,
-                    KeepRunningOnExited = AppSetting.KeepRpcServerRunningInBackground,
-                    DownloadRateLimit = Math.Clamp(AppSetting.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue),
+                    KeepRunningOnExited = AppConfig.KeepRpcServerRunningInBackground,
+                    DownloadRateLimit = Math.Clamp(AppConfig.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue),
                 }, deadline: DateTime.UtcNow.AddSeconds(3));
             }
         }

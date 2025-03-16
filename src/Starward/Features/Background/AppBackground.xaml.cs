@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core.HoYoPlay;
 using Starward.Features.ViewHost;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.IO;
@@ -32,10 +31,10 @@ public sealed partial class AppBackground : UserControl
 {
 
 
-    private readonly ILogger<AppBackground> _logger = AppService.GetLogger<AppBackground>();
+    private readonly ILogger<AppBackground> _logger = AppConfig.GetLogger<AppBackground>();
 
 
-    private readonly BackgroundService _backgroundService = AppService.GetService<BackgroundService>();
+    private readonly BackgroundService _backgroundService = AppConfig.GetService<BackgroundService>();
 
 
     public AppBackground()
@@ -112,7 +111,7 @@ public sealed partial class AppBackground : UserControl
                     BackgroundImageSource = new BitmapImage(new Uri(file));
                     try
                     {
-                        string? hex = AppSetting.AccentColor;
+                        string? hex = AppConfig.AccentColor;
                         if (!string.IsNullOrWhiteSpace(hex))
                         {
                             Color color = ColorHelper.ToColor(hex);
@@ -216,7 +215,7 @@ public sealed partial class AppBackground : UserControl
             }
 
             Color? color = AccentColorHelper.GetAccentColor(writeableBitmap.PixelBuffer, decodeWidth, decodeHeight);
-            AppSetting.AccentColor = color?.ToHex() ?? null;
+            AppConfig.AccentColor = color?.ToHex() ?? null;
             AccentColorHelper.ChangeAppAccentColor(color);
             BackgroundImageSource = writeableBitmap;
         }
@@ -254,7 +253,7 @@ public sealed partial class AppBackground : UserControl
             using IMemoryBufferReference memoryBufferReference = bitmapBuffer.CreateReference();
             memoryBufferReference.As<AccentColorHelper.IMemoryBufferByteAccess>().GetBuffer(out nint bufferPtr, out uint capacity);
             Color? color = AccentColorHelper.GetAccentColor(bufferPtr, capacity, decodeWidth, decodeHeight);
-            AppSetting.AccentColor = color?.ToHex() ?? null;
+            AppConfig.AccentColor = color?.ToHex() ?? null;
             AccentColorHelper.ChangeAppAccentColor(color);
             BackgroundImageSource = softwareBitmapSource;
         }

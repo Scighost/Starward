@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -22,9 +22,9 @@ public sealed partial class SimulatedUniversePage : PageBase
 {
 
 
-    private readonly ILogger<SimulatedUniversePage> _logger = AppService.GetLogger<SimulatedUniversePage>();
+    private readonly ILogger<SimulatedUniversePage> _logger = AppConfig.GetLogger<SimulatedUniversePage>();
 
-    private readonly GameRecordService _gameRecordService = AppService.GetService<GameRecordService>();
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
 

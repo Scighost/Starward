@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Starward.Features.UrlProtocol;
 using Starward.Features.ViewHost;
-using Starward.Frameworks;
 using System;
 using System.IO;
 
@@ -25,13 +24,13 @@ public partial class App : Application
         RequestedTheme = ApplicationTheme.Dark;
         _uiDispatcherQueue = DispatcherQueue.GetForCurrentThread();
         UnhandledException += App_UnhandledException;
-        _ = AppSetting.Language;
+        _ = AppConfig.Language;
     }
 
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        var folder = Path.Combine(AppSetting.CacheFolder, "crash");
+        var folder = Path.Combine(AppConfig.CacheFolder, "crash");
         Directory.CreateDirectory(folder);
         var file = Path.Combine(folder, $"crash_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
         File.WriteAllText(file, e.Exception.ToString());

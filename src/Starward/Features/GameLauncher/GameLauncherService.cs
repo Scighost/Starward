@@ -4,7 +4,6 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
 using Starward.Features.PlayTime;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.ComponentModel;
@@ -57,7 +56,7 @@ internal partial class GameLauncherService
     /// <returns></returns>
     public static string? GetGameInstallPath(GameBiz gameBiz)
     {
-        var path = AppSetting.GetGameInstallPath(gameBiz);
+        var path = AppConfig.GetGameInstallPath(gameBiz);
         if (string.IsNullOrWhiteSpace(path))
         {
             return null;
@@ -67,7 +66,7 @@ internal partial class GameLauncherService
         {
             return Path.GetFullPath(path);
         }
-        else if (AppSetting.GetGameInstallPathRemovable(gameBiz))
+        else if (AppConfig.GetGameInstallPathRemovable(gameBiz))
         {
             return path;
         }
@@ -89,7 +88,7 @@ internal partial class GameLauncherService
     public static string? GetGameInstallPath(GameId gameId, out bool storageRemoved)
     {
         storageRemoved = false;
-        var path = AppSetting.GetGameInstallPath(gameId.GameBiz);
+        var path = AppConfig.GetGameInstallPath(gameId.GameBiz);
         if (string.IsNullOrWhiteSpace(path))
         {
             return null;
@@ -99,7 +98,7 @@ internal partial class GameLauncherService
         {
             return path;
         }
-        else if (AppSetting.GetGameInstallPathRemovable(gameId.GameBiz))
+        else if (AppConfig.GetGameInstallPathRemovable(gameId.GameBiz))
         {
             storageRemoved = true;
             return path;
@@ -273,7 +272,7 @@ internal partial class GameLauncherService
                 }
             }
             bool thirdPartyTool = false;
-            if (string.IsNullOrWhiteSpace(exe) && AppSetting.GetEnableThirdPartyTool(gameId.GameBiz))
+            if (string.IsNullOrWhiteSpace(exe) && AppConfig.GetEnableThirdPartyTool(gameId.GameBiz))
             {
                 exe = GetThirdPartyToolPath(gameId);
                 if (File.Exists(exe))
@@ -293,7 +292,7 @@ internal partial class GameLauncherService
                 var folder = GetGameInstallPath(gameId);
                 var name = await GetGameExeNameAsync(gameId);
                 exe = Path.Join(folder, name);
-                arg = AppSetting.GetStartArgument(gameId.GameBiz)?.Trim();
+                arg = AppConfig.GetStartArgument(gameId.GameBiz)?.Trim();
                 verb = "runas";
                 if (!File.Exists(exe))
                 {
@@ -349,8 +348,8 @@ internal partial class GameLauncherService
             return null;
         }
         string relativePath = GetRelativePathIfInRemovableStorage(folder, out bool removable);
-        AppSetting.SetGameInstallPath(gameId.GameBiz, relativePath);
-        AppSetting.SetGameInstallPathRemovable(gameId.GameBiz, removable);
+        AppConfig.SetGameInstallPath(gameId.GameBiz, relativePath);
+        AppConfig.SetGameInstallPathRemovable(gameId.GameBiz, removable);
         return folder;
     }
 
@@ -380,14 +379,14 @@ internal partial class GameLauncherService
         {
             path = Path.GetFullPath(path);
             string relativePath = GetRelativePathIfInRemovableStorage(path, out bool removable);
-            AppSetting.SetGameInstallPath(gameBiz, relativePath);
-            AppSetting.SetGameInstallPathRemovable(gameBiz, removable);
+            AppConfig.SetGameInstallPath(gameBiz, relativePath);
+            AppConfig.SetGameInstallPathRemovable(gameBiz, removable);
         }
         else
         {
             path = null;
-            AppSetting.SetGameInstallPath(gameBiz, null);
-            AppSetting.SetGameInstallPathRemovable(gameBiz, false);
+            AppConfig.SetGameInstallPath(gameBiz, null);
+            AppConfig.SetGameInstallPathRemovable(gameBiz, false);
         }
         return path;
     }
@@ -403,9 +402,9 @@ internal partial class GameLauncherService
     public static string GetRelativePathIfInRemovableStorage(string path, out bool removableStorage)
     {
         removableStorage = DriveHelper.IsDeviceRemovableOrOnUSB(path);
-        if (removableStorage && Path.GetPathRoot(AppSetting.StarwardExecutePath) == Path.GetPathRoot(path))
+        if (removableStorage && Path.GetPathRoot(AppConfig.StarwardExecutePath) == Path.GetPathRoot(path))
         {
-            path = Path.GetRelativePath(Path.GetDirectoryName(AppSetting.ConfigPath)!, path);
+            path = Path.GetRelativePath(Path.GetDirectoryName(AppConfig.ConfigPath)!, path);
         }
         return path;
     }
@@ -425,7 +424,7 @@ internal partial class GameLauncherService
         }
         else
         {
-            return Path.GetFullPath(path, Path.GetDirectoryName(AppSetting.ConfigPath)!);
+            return Path.GetFullPath(path, Path.GetDirectoryName(AppConfig.ConfigPath)!);
         }
     }
 
@@ -439,7 +438,7 @@ internal partial class GameLauncherService
     /// <returns></returns>
     public static string? GetThirdPartyToolPath(GameId gameId)
     {
-        string? path = AppSetting.GetThirdPartyToolPath(gameId.GameBiz);
+        string? path = AppConfig.GetThirdPartyToolPath(gameId.GameBiz);
         if (!string.IsNullOrWhiteSpace(path))
         {
             path = GetFullPathIfRelativePath(path);
@@ -450,7 +449,7 @@ internal partial class GameLauncherService
         }
         else
         {
-            AppSetting.SetThirdPartyToolPath(gameId.GameBiz, null);
+            AppConfig.SetThirdPartyToolPath(gameId.GameBiz, null);
             return null;
         }
     }
@@ -468,12 +467,12 @@ internal partial class GameLauncherService
         {
             path = Path.GetFullPath(path);
             string relativePath = GetRelativePathIfInRemovableStorage(path, out bool removable);
-            AppSetting.SetThirdPartyToolPath(gameId.GameBiz, relativePath);
+            AppConfig.SetThirdPartyToolPath(gameId.GameBiz, relativePath);
         }
         else
         {
             path = null;
-            AppSetting.SetThirdPartyToolPath(gameId.GameBiz, null);
+            AppConfig.SetThirdPartyToolPath(gameId.GameBiz, null);
         }
         return path;
     }

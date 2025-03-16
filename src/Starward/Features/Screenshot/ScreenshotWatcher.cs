@@ -1,8 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Data;
-using Starward.Frameworks;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -13,7 +12,7 @@ namespace Starward.Features.Screenshot;
 public class ScreenshotWatcher : ObservableObject, IDisposable
 {
 
-    private readonly ILogger<ScreenshotWatcher> _logger = AppService.GetLogger<ScreenshotWatcher>();
+    private readonly ILogger<ScreenshotWatcher> _logger = AppConfig.GetLogger<ScreenshotWatcher>();
 
 
     private FileSystemWatcher _watcher;

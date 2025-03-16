@@ -4,7 +4,6 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
 using Starward.Features.UrlProtocol;
-using Starward.Frameworks;
 
 namespace Starward;
 
@@ -31,7 +30,7 @@ public static class Program
                 GameBiz biz = (GameBiz)config.GetValue<string>("biz");
                 if (pid > 0)
                 {
-                    var playtime = AppService.GetService<Features.PlayTime.PlayTimeService>();
+                    var playtime = AppConfig.GetService<Features.PlayTime.PlayTimeService>();
                     playtime.LogPlayTimeAsync(biz, pid).GetAwaiter().GetResult();
                 }
                 return;
@@ -43,7 +42,7 @@ public static class Program
                 GameId? gameId = GameId.FromGameBiz(biz);
                 if (gameId is not null)
                 {
-                    AppService.GetService<GameLauncherService>().StartGameAsync(gameId).GetAwaiter().GetResult();
+                    AppConfig.GetService<GameLauncherService>().StartGameAsync(gameId).GetAwaiter().GetResult();
                 }
                 return;
             }

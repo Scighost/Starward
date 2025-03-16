@@ -22,9 +22,9 @@ public sealed partial class ApocalypticShadowPage : PageBase
 {
 
 
-    private readonly ILogger<ApocalypticShadowPage> _logger = AppService.GetLogger<ApocalypticShadowPage>();
+    private readonly ILogger<ApocalypticShadowPage> _logger = AppConfig.GetLogger<ApocalypticShadowPage>();
 
-    private readonly GameRecordService _gameRecordService = AppService.GetService<GameRecordService>();
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
 

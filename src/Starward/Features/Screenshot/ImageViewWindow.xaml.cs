@@ -28,7 +28,7 @@ namespace Starward.Features.Screenshot;
 public sealed partial class ImageViewWindow : WindowEx
 {
 
-    private readonly ILogger<ImageViewWindow> _logger = AppService.GetLogger<ImageViewWindow>();
+    private readonly ILogger<ImageViewWindow> _logger = AppConfig.GetLogger<ImageViewWindow>();
 
 
     public ImageViewWindow()

@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
-using Starward.Frameworks;
 using Starward.RPC.GameInstall;
 using System;
 using System.IO;
@@ -25,13 +24,13 @@ public sealed partial class PreDownloadDialog : ContentDialog
     private const double GB = 1 << 30;
 
 
-    private readonly ILogger<PreDownloadDialog> _logger = AppService.GetLogger<PreDownloadDialog>();
+    private readonly ILogger<PreDownloadDialog> _logger = AppConfig.GetLogger<PreDownloadDialog>();
 
-    private readonly HoYoPlayService _hoYoPlayService = AppService.GetService<HoYoPlayService>();
+    private readonly HoYoPlayService _hoYoPlayService = AppConfig.GetService<HoYoPlayService>();
 
-    private readonly GamePackageService _gamePackageService = AppService.GetService<GamePackageService>();
+    private readonly GamePackageService _gamePackageService = AppConfig.GetService<GamePackageService>();
 
-    private readonly GameInstallService _gameInstallService = AppService.GetService<GameInstallService>();
+    private readonly GameInstallService _gameInstallService = AppConfig.GetService<GameInstallService>();
 
 
     public PreDownloadDialog()

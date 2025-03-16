@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Starward.Core;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -19,7 +18,7 @@ public sealed partial class DeleteGachaLogDialog : ContentDialog
 {
 
 
-    private readonly ILogger<DeleteGachaLogDialog> _logger = AppService.GetLogger<DeleteGachaLogDialog>();
+    private readonly ILogger<DeleteGachaLogDialog> _logger = AppConfig.GetLogger<DeleteGachaLogDialog>();
 
 
     public GameBiz CurrentGameBiz { get; set; }
@@ -68,15 +67,15 @@ public sealed partial class DeleteGachaLogDialog : ContentDialog
         {
             if (CurrentGameBiz.Game is GameBiz.hk4e)
             {
-                _gachaLogService = AppService.GetService<GenshinGachaService>();
+                _gachaLogService = AppConfig.GetService<GenshinGachaService>();
             }
             if (CurrentGameBiz.Game is GameBiz.hkrpg)
             {
-                _gachaLogService = AppService.GetService<StarRailGachaService>();
+                _gachaLogService = AppConfig.GetService<StarRailGachaService>();
             }
             if (CurrentGameBiz.Game is GameBiz.nap)
             {
-                _gachaLogService = AppService.GetService<ZZZGachaService>();
+                _gachaLogService = AppConfig.GetService<ZZZGachaService>();
             }
 
             if (_gachaLogService is not null)

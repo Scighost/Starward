@@ -6,7 +6,6 @@ using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
-using Starward.Frameworks;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -91,7 +90,7 @@ public sealed partial class CloudGameButton : UserControl
                     {
                         Process.Start(new ProcessStartInfo
                         {
-                            FileName = AppSetting.StarwardExecutePath,
+                            FileName = AppConfig.StarwardExecutePath,
                             Arguments = $"playtime --biz {CurrentGameId.GameBiz} --pid {p.Id}",
                             CreateNoWindow = true,
                         });

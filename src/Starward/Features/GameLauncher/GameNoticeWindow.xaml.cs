@@ -26,10 +26,10 @@ public sealed partial class GameNoticeWindow : WindowEx
     private Timer timer;
 
 
-    private readonly ILogger<GameNoticeWindow> _logger = AppService.GetLogger<GameNoticeWindow>();
+    private readonly ILogger<GameNoticeWindow> _logger = AppConfig.GetLogger<GameNoticeWindow>();
 
 
-    private readonly GameNoticeService _gameNoticeService = AppService.GetService<GameNoticeService>();
+    private readonly GameNoticeService _gameNoticeService = AppConfig.GetService<GameNoticeService>();
 
 
     public GameBiz CurrentGameBiz { get; set; }

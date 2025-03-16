@@ -12,7 +12,6 @@ using Starward.Features.Background;
 using Starward.Features.GameInstall;
 using Starward.Features.GameSelector;
 using Starward.Features.HoYoPlay;
-using Starward.Frameworks;
 using Starward.Helpers;
 using Starward.RPC.GameInstall;
 using System;
@@ -37,21 +36,21 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 {
 
 
-    private readonly ILogger<GameLauncherSettingDialog> _logger = AppService.GetLogger<GameLauncherSettingDialog>();
+    private readonly ILogger<GameLauncherSettingDialog> _logger = AppConfig.GetLogger<GameLauncherSettingDialog>();
 
 
-    private readonly HoYoPlayService _hoyoPlayService = AppService.GetService<HoYoPlayService>();
+    private readonly HoYoPlayService _hoyoPlayService = AppConfig.GetService<HoYoPlayService>();
 
 
-    private readonly GameLauncherService _gameLauncherService = AppService.GetService<GameLauncherService>();
+    private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
 
 
-    private readonly GamePackageService _gamePackageService = AppService.GetService<GamePackageService>();
+    private readonly GamePackageService _gamePackageService = AppConfig.GetService<GamePackageService>();
 
-    private readonly GameInstallService _gameInstallService = AppService.GetService<GameInstallService>();
+    private readonly GameInstallService _gameInstallService = AppConfig.GetService<GameInstallService>();
 
 
-    private readonly BackgroundService _backgroundService = AppService.GetService<BackgroundService>();
+    private readonly BackgroundService _backgroundService = AppConfig.GetService<BackgroundService>();
 
 
     public GameLauncherSettingDialog()
@@ -199,11 +198,11 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         {
             if (SetProperty(ref field, value))
             {
-                AppSetting.EnableBannerAndPost = value;
+                AppConfig.EnableBannerAndPost = value;
                 WeakReferenceMessenger.Default.Send(new GameAnnouncementSettingChangedMessage());
             }
         }
-    } = AppSetting.EnableBannerAndPost;
+    } = AppConfig.EnableBannerAndPost;
 
 
     /// <summary>
@@ -216,11 +215,11 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         {
             if (SetProperty(ref field, value))
             {
-                AppSetting.DisableGameNoticeRedHot = value;
+                AppConfig.DisableGameNoticeRedHot = value;
                 WeakReferenceMessenger.Default.Send(new GameAnnouncementSettingChangedMessage());
             }
         }
-    } = AppSetting.DisableGameNoticeRedHot;
+    } = AppConfig.DisableGameNoticeRedHot;
 
 
 
@@ -469,9 +468,9 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
                     UninstallError = Lang.GameLauncherSettingDialog_CannotDeleteTheDriveRootDirectory;
                     return;
                 }
-                if (Directory.Exists(AppSetting.UserDataFolder))
+                if (Directory.Exists(AppConfig.UserDataFolder))
                 {
-                    string userDataFolder = Path.GetFullPath(AppSetting.UserDataFolder);
+                    string userDataFolder = Path.GetFullPath(AppConfig.UserDataFolder);
                     if (userDataFolder.StartsWith(installPath))
                     {
                         // Starward 数据文件夹位于游戏文件夹内，删除游戏时会一并删除。请在设置页面修改数据文件夹位置后重试。
@@ -590,7 +589,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     public string? _StartGameArgument;
     partial void OnStartGameArgumentChanged(string? value)
     {
-        AppSetting.SetStartArgument(CurrentGameBiz, value);
+        AppConfig.SetStartArgument(CurrentGameBiz, value);
     }
 
 
@@ -604,10 +603,10 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         {
             if (SetProperty(ref field, value))
             {
-                AppSetting.StartGameAction = (StartGameAction)value;
+                AppConfig.StartGameAction = (StartGameAction)value;
             }
         }
-    } = Math.Clamp((int)AppSetting.StartGameAction, 0, 2);
+    } = Math.Clamp((int)AppConfig.StartGameAction, 0, 2);
 
 
     /// <summary>
@@ -617,7 +616,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     public bool _EnableThirdPartyTool;
     partial void OnEnableThirdPartyToolChanged(bool value)
     {
-        AppSetting.SetEnableThirdPartyTool(CurrentGameBiz, value);
+        AppConfig.SetEnableThirdPartyTool(CurrentGameBiz, value);
     }
 
 
@@ -639,8 +638,8 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
     private void InitializeStartArgument()
     {
-        _StartGameArgument = AppSetting.GetStartArgument(CurrentGameBiz);
-        _EnableThirdPartyTool = AppSetting.GetEnableThirdPartyTool(CurrentGameBiz);
+        _StartGameArgument = AppConfig.GetStartArgument(CurrentGameBiz);
+        _EnableThirdPartyTool = AppConfig.GetEnableThirdPartyTool(CurrentGameBiz);
         _ThirdPartyToolPath = GameLauncherService.GetThirdPartyToolPath(CurrentGameId);
         OnPropertyChanged(nameof(StartGameArgument));
         OnPropertyChanged(nameof(EnableThirdPartyTool));
@@ -725,7 +724,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     public bool _UseVersionPoster;
     partial void OnUseVersionPosterChanged(bool value)
     {
-        AppSetting.SetUseVersionPoster(CurrentGameBiz, value);
+        AppConfig.SetUseVersionPoster(CurrentGameBiz, value);
         if (value && EnableCustomBg)
         {
             EnableCustomBg = false;
@@ -750,7 +749,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     public bool _EnableCustomBg;
     partial void OnEnableCustomBgChanged(bool value)
     {
-        AppSetting.SetEnableCustomBg(CurrentGameBiz, value);
+        AppConfig.SetEnableCustomBg(CurrentGameBiz, value);
         WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
     }
 
@@ -769,10 +768,10 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
     private void InitializeCustomBg()
     {
-        _UseVersionPoster = AppSetting.GetUseVersionPoster(CurrentGameBiz);
-        _EnableCustomBg = AppSetting.GetEnableCustomBg(CurrentGameBiz);
-        CustomBg = AppSetting.GetCustomBg(CurrentGameBiz);
-        VersionPoster = AppSetting.GetVersionPoster(CurrentGameBiz);
+        _UseVersionPoster = AppConfig.GetUseVersionPoster(CurrentGameBiz);
+        _EnableCustomBg = AppConfig.GetEnableCustomBg(CurrentGameBiz);
+        CustomBg = AppConfig.GetCustomBg(CurrentGameBiz);
+        VersionPoster = AppConfig.GetVersionPoster(CurrentGameBiz);
         OnPropertyChanged(nameof(UseVersionPoster));
         OnPropertyChanged(nameof(EnableCustomBg));
     }
@@ -788,7 +787,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            string path = Path.Join(AppSetting.UserDataFolder, "bg", VersionPoster);
+            string path = Path.Join(AppConfig.UserDataFolder, "bg", VersionPoster);
             if (File.Exists(path))
             {
                 await Launcher.LaunchUriAsync(new Uri(path));
@@ -815,7 +814,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
                 return;
             }
             CustomBg = name;
-            AppSetting.SetCustomBg(CurrentGameBiz, name);
+            AppConfig.SetCustomBg(CurrentGameBiz, name);
             WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
         }
         catch (COMException ex)
@@ -841,7 +840,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            string path = Path.Join(AppSetting.UserDataFolder, "bg", CustomBg);
+            string path = Path.Join(AppConfig.UserDataFolder, "bg", CustomBg);
             if (File.Exists(path))
             {
                 await Launcher.LaunchUriAsync(new Uri(path));
@@ -859,7 +858,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     private void DeleteCustomBg()
     {
         CustomBg = null;
-        AppSetting.SetCustomBg(CurrentGameBiz, null);
+        AppConfig.SetCustomBg(CurrentGameBiz, null);
         WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
     }
 
@@ -895,7 +894,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
                     return;
                 }
                 CustomBg = name;
-                AppSetting.SetCustomBg(CurrentGameBiz, name);
+                AppConfig.SetCustomBg(CurrentGameBiz, name);
                 if (EnableCustomBg)
                 {
                     WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());

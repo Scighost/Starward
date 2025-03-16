@@ -25,10 +25,10 @@ public sealed partial class ScreenshotPage : PageBase
 {
 
 
-    private readonly ILogger<ScreenshotPage> _logger = AppService.GetLogger<ScreenshotPage>();
+    private readonly ILogger<ScreenshotPage> _logger = AppConfig.GetLogger<ScreenshotPage>();
 
 
-    private readonly GameLauncherService _gameLauncherService = AppService.GetService<GameLauncherService>();
+    private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
 
 
 
@@ -156,7 +156,7 @@ public sealed partial class ScreenshotPage : PageBase
             {
                 int count = 0;
                 var files = Directory.GetFiles(folder);
-                var targetDir = Path.Combine(AppSetting.UserDataFolder!, "Screenshots", CurrentGameBiz.Game);
+                var targetDir = Path.Combine(AppConfig.UserDataFolder!, "Screenshots", CurrentGameBiz.Game);
                 Directory.CreateDirectory(targetDir);
                 foreach (var item in files)
                 {
@@ -183,7 +183,7 @@ public sealed partial class ScreenshotPage : PageBase
     {
         try
         {
-            var folder = Path.Combine(AppSetting.UserDataFolder!, "Screenshots", CurrentGameBiz.ToString());
+            var folder = Path.Combine(AppConfig.UserDataFolder!, "Screenshots", CurrentGameBiz.ToString());
             Directory.CreateDirectory(folder);
             await Launcher.LaunchFolderPathAsync(folder);
         }

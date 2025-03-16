@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Starward.Features.Database;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Diagnostics;
@@ -70,15 +69,15 @@ public sealed partial class WelcomeView : UserControl
         try
         {
             string? parentFolder = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
-            if (AppSetting.IsAppInRemovableStorage && AppSetting.IsPortable)
+            if (AppConfig.IsAppInRemovableStorage && AppConfig.IsPortable)
             {
                 UserDataFolder = parentFolder;
             }
-            else if (AppSetting.IsAppInRemovableStorage)
+            else if (AppConfig.IsAppInRemovableStorage)
             {
                 UserDataFolder = Path.Combine(Path.GetPathRoot(AppContext.BaseDirectory)!, ".StarwardData");
             }
-            else if (AppSetting.IsPortable)
+            else if (AppConfig.IsPortable)
             {
                 UserDataFolder = parentFolder;
             }
@@ -246,9 +245,9 @@ public sealed partial class WelcomeView : UserControl
                 CanStartStarward = false;
                 return;
             }
-            AppSetting.UserDataFolder = UserDataFolder;
+            AppConfig.UserDataFolder = UserDataFolder;
             DatabaseService.SetDatabase(UserDataFolder);
-            AppSetting.SaveConfiguration();
+            AppConfig.SaveConfiguration();
             WeakReferenceMessenger.Default.Send(new WelcomePageFinishedMessage());
         }
         catch (Exception ex)

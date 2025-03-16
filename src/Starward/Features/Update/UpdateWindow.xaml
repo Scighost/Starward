@@ -6,6 +6,7 @@
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Features.Update"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="using:Starward"
              xmlns:sf="using:Starward.Frameworks"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
@@ -31,7 +32,7 @@
                             Spacing="8">
                     <TextBlock VerticalAlignment="Bottom"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               Text="{x:Bind sf:AppSetting.AppVersion}" />
+                               Text="{x:Bind s:AppConfig.AppVersion}" />
                     <FontIcon VerticalAlignment="Bottom"
                               FontSize="16"
                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"

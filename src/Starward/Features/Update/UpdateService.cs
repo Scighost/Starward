@@ -2,7 +2,6 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using NuGet.Versioning;
 using Starward.Features.RPC;
-using Starward.Frameworks;
 using Starward.RPC.Update;
 using System;
 using System.IO;
@@ -33,10 +32,10 @@ internal class UpdateService
 
     public async Task<ReleaseVersion?> CheckUpdateAsync(bool disableIgnore = false)
     {
-        _ = NuGetVersion.TryParse(AppSetting.AppVersion, out var currentVersion);
-        _ = NuGetVersion.TryParse(AppSetting.IgnoreVersion, out var ignoreVersion);
-        var release = await _metadataClient.GetVersionAsync(AppSetting.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture);
-        _logger.LogInformation("Current version: {currentVersion}, latest version: {latestVersion}, ignore version: {ignoreVersion}.", AppSetting.AppVersion, release?.Version, ignoreVersion);
+        _ = NuGetVersion.TryParse(AppConfig.AppVersion, out var currentVersion);
+        _ = NuGetVersion.TryParse(AppConfig.IgnoreVersion, out var ignoreVersion);
+        var release = await _metadataClient.GetVersionAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture);
+        _logger.LogInformation("Current version: {currentVersion}, latest version: {latestVersion}, ignore version: {ignoreVersion}.", AppConfig.AppVersion, release?.Version, ignoreVersion);
         _ = NuGetVersion.TryParse(release?.Version, out var newVersion);
         if (newVersion! > currentVersion!)
         {
@@ -86,7 +85,7 @@ internal class UpdateService
             _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = new CancellationTokenSource();
             State = UpdateState.Pending;
-            if (!AppSetting.IsPortable)
+            if (!AppConfig.IsPortable)
             {
                 // 无法自动更新
                 ErrorMessage = Lang.UpdateService_CannotUpdateAutomatically;
@@ -134,7 +133,7 @@ internal class UpdateService
             {
                 Version = release.Version,
                 Architecture = release.Architecture,
-                TargetPath = Path.GetDirectoryName(AppSetting.StarwardLauncherExecutePath),
+                TargetPath = Path.GetDirectoryName(AppConfig.StarwardLauncherExecutePath),
             };
             using var call = client.Update(request, cancellationToken: cancellationToken);
             await foreach (UpdateProgress progress in call.ResponseStream.ReadAllAsync(cancellationToken))

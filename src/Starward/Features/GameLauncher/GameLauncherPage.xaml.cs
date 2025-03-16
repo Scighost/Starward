@@ -30,17 +30,17 @@ public sealed partial class GameLauncherPage : PageBase
 {
 
 
-    private readonly ILogger<GameLauncherPage> _logger = AppService.GetLogger<GameLauncherPage>();
+    private readonly ILogger<GameLauncherPage> _logger = AppConfig.GetLogger<GameLauncherPage>();
 
-    private readonly GameLauncherService _gameLauncherService = AppService.GetService<GameLauncherService>();
+    private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
 
-    private readonly GamePackageService _gamePackageService = AppService.GetService<GamePackageService>();
+    private readonly GamePackageService _gamePackageService = AppConfig.GetService<GamePackageService>();
 
-    private readonly BackgroundService _backgroundService = AppService.GetService<BackgroundService>();
+    private readonly BackgroundService _backgroundService = AppConfig.GetService<BackgroundService>();
 
-    private readonly GameInstallService _gameInstallService = AppService.GetService<GameInstallService>();
+    private readonly GameInstallService _gameInstallService = AppConfig.GetService<GameInstallService>();
 
-    private readonly HoYoPlayService _hoYoPlayService = AppService.GetService<HoYoPlayService>();
+    private readonly HoYoPlayService _hoYoPlayService = AppConfig.GetService<HoYoPlayService>();
 
 
     private readonly DispatcherQueueTimer _dispatchTimer;
@@ -144,7 +144,7 @@ public sealed partial class GameLauncherPage : PageBase
     {
         if (oldValue is not null && newValue is not null)
         {
-            AppSetting.LastGameIdOfBH3Global = newValue.GameId;
+            AppConfig.LastGameIdOfBH3Global = newValue.GameId;
             WeakReferenceMessenger.Default.Send(new BH3GlobalGameServerChangedMessage(newValue.GameId));
         }
     }
@@ -750,8 +750,8 @@ public sealed partial class GameLauncherPage : PageBase
                 {
                     return;
                 }
-                AppSetting.SetCustomBg(CurrentGameBiz, name);
-                AppSetting.SetEnableCustomBg(CurrentGameBiz, true);
+                AppConfig.SetCustomBg(CurrentGameBiz, name);
+                AppConfig.SetEnableCustomBg(CurrentGameBiz, true);
                 WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
             }
         }

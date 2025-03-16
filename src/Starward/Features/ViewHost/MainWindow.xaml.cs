@@ -67,7 +67,7 @@ public sealed partial class MainWindow : WindowEx
 
     private void LoadContentView()
     {
-        if (string.IsNullOrWhiteSpace(AppSetting.UserDataFolder))
+        if (string.IsNullOrWhiteSpace(AppConfig.UserDataFolder))
         {
             MainContentHost.Content = new WelcomeView();
         }
@@ -94,7 +94,7 @@ public sealed partial class MainWindow : WindowEx
     {
         if (_mainViewLoaded)
         {
-            StartGameAction action = AppSetting.StartGameAction;
+            StartGameAction action = AppConfig.StartGameAction;
             if (action is StartGameAction.Hide)
             {
                 this.Hide();
@@ -118,7 +118,7 @@ public sealed partial class MainWindow : WindowEx
                 return;
             }
             args.Cancel = true;
-            MainWindowCloseOption option = AppSetting.CloseWindowOption;
+            MainWindowCloseOption option = AppConfig.CloseWindowOption;
             if (option is not MainWindowCloseOption.Hide and not MainWindowCloseOption.Exit)
             {
                 var dialog = new MainWindowCloseDialog
@@ -135,7 +135,7 @@ public sealed partial class MainWindow : WindowEx
                     return;
                 }
                 option = dialog.MainWindowCloseOption.Value;
-                AppSetting.CloseWindowOption = option;
+                AppConfig.CloseWindowOption = option;
             }
             if (option is MainWindowCloseOption.Hide)
             {

@@ -32,9 +32,9 @@ namespace Starward.Features.Gacha;
 public sealed partial class GachaLogPage : PageBase
 {
 
-    private readonly ILogger<GachaLogPage> _logger = AppService.GetLogger<GachaLogPage>();
+    private readonly ILogger<GachaLogPage> _logger = AppConfig.GetLogger<GachaLogPage>();
 
-    private readonly GameLauncherService _gameLauncherService = AppService.GetService<GameLauncherService>();
+    private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
 
 
     private GachaLogService _gachaLogService;
@@ -56,19 +56,19 @@ public sealed partial class GachaLogPage : PageBase
         {
             EnableGenshinGachaItemStats = true;
             ToggleSwitch_ShowChronicledWish.Visibility = Visibility.Visible;
-            _gachaLogService = AppService.GetService<GenshinGachaService>();
+            _gachaLogService = AppConfig.GetService<GenshinGachaService>();
             Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPaimon);
         }
         if (CurrentGameBiz.Game == GameBiz.hkrpg)
         {
             EnableStarRailGachaItemStats = true;
-            _gachaLogService = AppService.GetService<StarRailGachaService>();
+            _gachaLogService = AppConfig.GetService<StarRailGachaService>();
             Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPom);
         }
         if (CurrentGameBiz.Game == GameBiz.nap)
         {
             IsZZZGachaStatsCardVisible = true;
-            _gachaLogService = AppService.GetService<ZZZGachaService>();
+            _gachaLogService = AppConfig.GetService<ZZZGachaService>();
             Image_Emoji.Source = new BitmapImage(AppConfig.EmojiBangboo);
             MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
         }
@@ -94,7 +94,7 @@ public sealed partial class GachaLogPage : PageBase
     private long? selectUid;
     partial void OnSelectUidChanged(long? value)
     {
-        AppSetting.SetLastUidInGachaLogPage(CurrentGameBiz.Game, value ?? 0);
+        AppConfig.SetLastUidInGachaLogPage(CurrentGameBiz.Game, value ?? 0);
         UpdateGachaTypeStats(value);
     }
 
@@ -102,10 +102,10 @@ public sealed partial class GachaLogPage : PageBase
 
 
     [ObservableProperty]
-    private bool showNoviceGacha = AppSetting.ShowNoviceGacha;
+    private bool showNoviceGacha = AppConfig.ShowNoviceGacha;
     partial void OnShowNoviceGachaChanged(bool value)
     {
-        AppSetting.ShowNoviceGacha = value;
+        AppConfig.ShowNoviceGacha = value;
         if (noviceGachaTypeStats != null && GachaTypeStatsCollection != null)
         {
             if (value && !GachaTypeStatsCollection.Contains(noviceGachaTypeStats))
@@ -122,10 +122,10 @@ public sealed partial class GachaLogPage : PageBase
 
 
     [ObservableProperty]
-    private bool showChronicledWish = AppSetting.ShowChronicledWish;
+    private bool showChronicledWish = AppConfig.ShowChronicledWish;
     partial void OnShowChronicledWishChanged(bool value)
     {
-        AppSetting.ShowChronicledWish = value;
+        AppConfig.ShowChronicledWish = value;
         if (chronicledWishStats != null && GachaTypeStatsCollection != null)
         {
             if (value && !GachaTypeStatsCollection.Contains(chronicledWishStats))
@@ -148,10 +148,10 @@ public sealed partial class GachaLogPage : PageBase
         {
             if (SetProperty(ref field, value))
             {
-                AppSetting.GachaLanguage = value;
+                AppConfig.GachaLanguage = value;
             }
         }
-    } = AppSetting.GachaLanguage;
+    } = AppConfig.GachaLanguage;
 
 
 
@@ -206,7 +206,7 @@ public sealed partial class GachaLogPage : PageBase
         {
             SelectUid = null;
             UidList = new(_gachaLogService.GetUids());
-            var lastUid = AppSetting.GetLastUidInGachaLogPage(CurrentGameBiz.Game);
+            var lastUid = AppConfig.GetLastUidInGachaLogPage(CurrentGameBiz.Game);
             if (UidList.Contains(lastUid))
             {
                 SelectUid = lastUid;

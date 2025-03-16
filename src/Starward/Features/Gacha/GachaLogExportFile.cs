@@ -1,5 +1,4 @@
-﻿using Starward.Core.Gacha;
-using Starward.Frameworks;
+using Starward.Core.Gacha;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
@@ -40,7 +39,7 @@ internal class GachaLogExportFile<T> where T : GachaLogItem
         public string ExportApp { get; set; } = "Starward";
 
         [JsonPropertyName("export_app_version")]
-        public string ExportAppVersion { get; set; } = AppSetting.AppVersion ?? "";
+        public string ExportAppVersion { get; set; } = AppConfig.AppVersion ?? "";
 
         [JsonPropertyName("count")]
         public string Count { get; set; }

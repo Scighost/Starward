@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -24,10 +24,10 @@ public sealed partial class TrailblazeCalendarPage : PageBase
 {
 
 
-    private readonly ILogger<TrailblazeCalendarPage> _logger = AppService.GetLogger<TrailblazeCalendarPage>();
+    private readonly ILogger<TrailblazeCalendarPage> _logger = AppConfig.GetLogger<TrailblazeCalendarPage>();
 
 
-    private readonly GameRecordService _gameRecordService = AppService.GetService<GameRecordService>();
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
     public TrailblazeCalendarPage()

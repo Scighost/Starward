@@ -12,7 +12,6 @@ using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
 using Starward.Features.Setting;
 using Starward.Features.ViewHost;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -41,10 +40,10 @@ public sealed partial class GameSelector : UserControl
     public event EventHandler<(GameId, bool DoubleTapped)>? CurrentGameChanged;
 
 
-    private readonly HoYoPlayService _hoyoplayService = AppService.GetService<HoYoPlayService>();
+    private readonly HoYoPlayService _hoyoplayService = AppConfig.GetService<HoYoPlayService>();
 
 
-    private readonly GameLauncherService _gameLauncherService = AppService.GetService<GameLauncherService>();
+    private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
 
 
 
@@ -124,7 +123,7 @@ public sealed partial class GameSelector : UserControl
     {
         try
         {
-            string? json = AppSetting.CachedGameInfo;
+            string? json = AppConfig.CachedGameInfo;
             if (!string.IsNullOrWhiteSpace(json))
             {
                 return JsonSerializer.Deserialize<List<GameInfo>>(json) ?? [];
@@ -151,7 +150,7 @@ public sealed partial class GameSelector : UserControl
             GameBizIcons.Clear();
 
             // 从配置文件读取已选的 GameBiz
-            string? bizs = AppSetting.SelectedGameBizs;
+            string? bizs = AppConfig.SelectedGameBizs;
             foreach (string str in bizs?.Split(',') ?? [])
             {
                 if (GameBiz.TryParse(str, out GameBiz biz))
@@ -167,7 +166,7 @@ public sealed partial class GameSelector : UserControl
             }
 
             // 选取当前游戏
-            GameBiz lastSelectedGameBiz = AppSetting.CurrentGameBiz;
+            GameBiz lastSelectedGameBiz = AppConfig.CurrentGameBiz;
             if (GameBizIcons.FirstOrDefault(x => x.GameBiz == lastSelectedGameBiz) is GameBizIcon icon)
             {
                 CurrentGameBizIcon = icon;
@@ -193,7 +192,7 @@ public sealed partial class GameSelector : UserControl
                 CurrentGameChanged?.Invoke(this, (CurrentGameId, false));
             }
 
-            if (AppSetting.IsGameBizSelectorPinned)
+            if (AppConfig.IsGameBizSelectorPinned)
             {
                 Pin();
             }
@@ -325,7 +324,7 @@ public sealed partial class GameSelector : UserControl
             icon.IsSelected = true;
 
             CurrentGameChanged?.Invoke(this, (icon.GameId, false));
-            AppSetting.CurrentGameBiz = icon.GameBiz;
+            AppConfig.CurrentGameBiz = icon.GameBiz;
         }
     }
 
@@ -352,7 +351,7 @@ public sealed partial class GameSelector : UserControl
             HideFullBackground();
 
             CurrentGameChanged?.Invoke(this, (icon.GameId, true));
-            AppSetting.CurrentGameBiz = icon.GameBiz;
+            AppConfig.CurrentGameBiz = icon.GameBiz;
         }
     }
 
@@ -427,7 +426,7 @@ public sealed partial class GameSelector : UserControl
                 GameIconsAreaVisible = false;
             }
         }
-        AppSetting.IsGameBizSelectorPinned = IsPinned;
+        AppConfig.IsGameBizSelectorPinned = IsPinned;
     }
 
 
@@ -447,7 +446,7 @@ public sealed partial class GameSelector : UserControl
                 sb.Append(icon.GameBiz);
                 sb.Append(',');
             }
-            AppSetting.SelectedGameBizs = sb.ToString().TrimEnd(',');
+            AppConfig.SelectedGameBizs = sb.ToString().TrimEnd(',');
         }
         catch { }
     }
@@ -692,7 +691,7 @@ public sealed partial class GameSelector : UserControl
                 }
                 HideFullBackground();
                 _isGameBizDisplayPressed = false;
-                AppSetting.CurrentGameBiz = server.GameBiz;
+                AppConfig.CurrentGameBiz = server.GameBiz;
             }
         }
         catch { }
@@ -857,7 +856,7 @@ public sealed partial class GameSelector : UserControl
                 string? path = GameLauncherService.GetGameInstallPath(item.GameBiz);
                 if (!string.IsNullOrWhiteSpace(path))
                 {
-                    if (Directory.Exists(path) || AppSetting.GetGameInstallPathRemovable(item.GameBiz))
+                    if (Directory.Exists(path) || AppConfig.GetGameInstallPathRemovable(item.GameBiz))
                     {
                         sb.Append(item.GameBiz);
                         sb.Append(',');
@@ -878,14 +877,14 @@ public sealed partial class GameSelector : UserControl
                     path = Registry.GetValue(key, "GameInstallPath", null) as string;
                     if (Directory.Exists(path))
                     {
-                        AppSetting.SetGameInstallPath(item.GameBiz, path);
+                        AppConfig.SetGameInstallPath(item.GameBiz, path);
                         sb.Append(item.GameBiz);
                         sb.Append(',');
                         continue;
                     }
                 }
             }
-            AppSetting.SelectedGameBizs = sb.ToString().TrimEnd(',');
+            AppConfig.SelectedGameBizs = sb.ToString().TrimEnd(',');
             InitializeGameSelector();
             if (!IsPinned)
             {

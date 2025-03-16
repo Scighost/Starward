@@ -23,9 +23,9 @@ namespace Starward.Features.GameRecord.Genshin;
 public sealed partial class ImaginariumTheaterPage : PageBase
 {
 
-    private readonly ILogger<ImaginariumTheaterPage> _logger = AppService.GetLogger<ImaginariumTheaterPage>();
+    private readonly ILogger<ImaginariumTheaterPage> _logger = AppConfig.GetLogger<ImaginariumTheaterPage>();
 
-    private readonly GameRecordService _gameRecordService = AppService.GetService<GameRecordService>();
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
     public ImaginariumTheaterPage()
