@@ -2,6 +2,7 @@
   "profiles": {
     "Starward": {
       "commandName": "Project",
+      "commandLineArgs": "",
       "nativeDebugging": false
     }
   }
