@@ -1,10 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Features.GameLauncher;
 using Starward.Frameworks;
 using System;
 using System.Diagnostics;
@@ -37,7 +38,7 @@ public sealed partial class CloudGameButton : UserControl
 
 
 
-    private void Button_CloudGame_Loaded(object sender, RoutedEventArgs e)
+    private void Flyout_Opened(object sender, object e)
     {
         try
         {
@@ -84,6 +85,7 @@ public sealed partial class CloudGameButton : UserControl
                 });
                 if (p is not null)
                 {
+                    WeakReferenceMessenger.Default.Send(new GameStartedMessage());
                     await Task.Delay(3000);
                     if (!p.HasExited)
                     {
@@ -129,8 +131,6 @@ public sealed partial class CloudGameButton : UserControl
 
         }
     }
-
-
 
 
 }

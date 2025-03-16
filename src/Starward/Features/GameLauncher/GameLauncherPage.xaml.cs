@@ -444,7 +444,12 @@ public sealed partial class GameLauncherPage : PageBase
             {
                 GameState = GameState.GameIsRunning;
                 GameProcess = process;
+                WeakReferenceMessenger.Default.Send(new GameStartedMessage());
             }
+        }
+        catch (FileNotFoundException)
+        {
+            CheckGameVersion();
         }
         catch (Exception ex)
         {

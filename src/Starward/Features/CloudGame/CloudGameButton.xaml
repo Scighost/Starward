@@ -15,14 +15,13 @@
             VerticalAlignment="Stretch"
             BorderThickness="0"
             CornerRadius="8"
-            Loaded="Button_CloudGame_Loaded"
             Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
         <Image Width="28"
                Height="28"
                Source="ms-appx:///Assets/Image/icon_cloudgame.png" />
 
         <Button.Flyout>
-            <Flyout Placement="LeftEdgeAlignedTop">
+            <Flyout Opened="Flyout_Opened" Placement="LeftEdgeAlignedTop">
                 <Grid Margin="-12,-12,-8,-12" ColumnSpacing="8">
                     <Grid.RowDefinitions>
                         <RowDefinition />

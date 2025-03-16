@@ -4,6 +4,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Starward.Features.Background;
+using Starward.Features.GameLauncher;
 using Starward.Frameworks;
 using System;
 using System.ComponentModel;
@@ -37,6 +38,7 @@ public sealed partial class MainWindow : WindowEx
         LoadContentView();
         WeakReferenceMessenger.Default.Register<AccentColorChangedMessage>(this, OnAccentColorChanged);
         WeakReferenceMessenger.Default.Register<WelcomePageFinishedMessage>(this, OnWelcomePageFinished);
+        WeakReferenceMessenger.Default.Register<GameStartedMessage>(this, OnGameStarted);
     }
 
 
@@ -84,6 +86,24 @@ public sealed partial class MainWindow : WindowEx
         MainContentHost.Content = new MainView();
         App.Current.EnsureSystemTray();
         _mainViewLoaded = true;
+    }
+
+
+
+    private void OnGameStarted(object _, GameStartedMessage __)
+    {
+        if (_mainViewLoaded)
+        {
+            StartGameAction action = AppSetting.StartGameAction;
+            if (action is StartGameAction.Hide)
+            {
+                this.Hide();
+            }
+            else if (action is StartGameAction.Minimize)
+            {
+                this.Minimize();
+            }
+        }
     }
 
 
