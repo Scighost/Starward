@@ -1673,10 +1673,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Kích thước thực tế của các trò chơi đã cài đặt</value>
   </data>
   <data name="GameSelector_StorageSpaceSavedByHardLinks" xml:space="preserve">
-    <value>Storage Space Saved by Hard Links</value>
+    <value>Không gian lưu trữ được tiết kiệm bởi Hard Links</value>
   </data>
   <data name="GameLauncherSettingDialog_CannotDecodeFile" xml:space="preserve">
-    <value>Cannot decode file.</value>
+    <value>Không thể giải mã tệp tin.</value>
   </data>
   <data name="GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs" xml:space="preserve">
     <value>Lỗi không xác định đã xảy ra. Vui lòng kiểm tra nhật ký.</value>
@@ -1696,10 +1696,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Để có được trải nghiệm tốt hơn, xin vui lòng bật những tính năng sau trong cài đặt của hệ thống.</value>
   </data>
   <data name="PlayTimeButton_Last7Days" xml:space="preserve">
-    <value>Last 7 Days</value>
+    <value>7 Ngày Qua</value>
   </data>
   <data name="PlayTimeButton_LastStartup" xml:space="preserve">
-    <value>Last Startup</value>
+    <value>Lần khởi chạy gần nhất</value>
   </data>
   <data name="UpdateWindow_AutoRestartAfterUpdate" xml:space="preserve">
     <value>Tự động khởi động lại sau khi cập nhật</value>
@@ -1711,7 +1711,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>WebView2 component initialization failed.</value>
   </data>
   <data name="SettingPage_RPCService" xml:space="preserve">
-    <value>RPC Service</value>
+    <value>Dịch vụ RPC</value>
   </data>
   <data name="SettingPage_RPCService_Desc" xml:space="preserve">
     <value>Dịch vụ RPC là một tiến trình độc lập được sử dụng để tránh việc khởi động lại khi tải xuống trò chơi, cập nhật và các tính năng khác cần yêu cầu quyền quản trị viên.</value>
@@ -1726,111 +1726,111 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Import {0} signal search record(s) successfully.</value>
   </data>
   <data name="InstallGameDialog_HardLinkDesc" xml:space="preserve">
-    <value>If the selected path is on the same drive as the clients of other installed servers, multiple clients for different servers can be installed using hard links, which occupy a minimal amount of additional storage space.</value>
+    <value>Nếu đường dẫn đã chọn nằm trên cùng ổ đĩa với các client của các máy chủ đã cài đặt khác, nhiều client cho các máy chủ khác nhau có thể được cài đặt bằng hard links, chiếm thêm một chút không gian lưu trữ bổ sung.</value>
   </data>
   <data name="InstallGameDialog_SupportHardLinks" xml:space="preserve">
-    <value>Support Hard Links</value>
+    <value>Hỗ trợ Hard Links</value>
   </data>
   <data name="PreDownloadDialog_NoPatchesWarning" xml:space="preserve">
-    <value>There are no patch packagees available. It is recommended to update the game to the latest version before starting pre-install.</value>
+    <value>Không có gói vá nào khả dụng. Bạn nên cập nhật trò chơi lên phiên bản mới nhất trước khi bắt đầu cài đặt trước.</value>
   </data>
   <data name="PreDownloadDialog_StartPreInstall" xml:space="preserve">
-    <value>Start Pre-Install</value>
+    <value>Bắt đầu Cài đặt trước</value>
   </data>
   <data name="GameLauncherSettingDialog_StartRepairing" xml:space="preserve">
-    <value>Start Repairing</value>
+    <value>Bắt đầu sửa chữa</value>
   </data>
   <data name="PreDownloadButton_PreInstallFinished" xml:space="preserve">
-    <value>Pre-Install Finished</value>
+    <value>Đã hoàn thành Cài đặt trước</value>
   </data>
   <data name="Common_Error" xml:space="preserve">
-    <value>Error</value>
+    <value>Lỗi</value>
   </data>
   <data name="StartGameButton_InQueue" xml:space="preserve">
     <value>In Queue</value>
   </data>
   <data name="RPCServiceExitedUnexpectedly" xml:space="preserve">
-    <value>RPC service exited unexpectedly.</value>
+    <value>Dịch vụ RPC thoát đột ngột.</value>
   </data>
   <data name="StartGameButton_Install" xml:space="preserve">
-    <value>Install</value>
+    <value>Cài đặt</value>
   </data>
   <data name="StartGameButton_Verify" xml:space="preserve">
-    <value>Verify</value>
+    <value>Xác thực</value>
   </data>
   <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
-    <value>RPC Service is not Running</value>
+    <value>Dịch vụ RPC không khởi động</value>
   </data>
   <data name="SettingPage_RunService" xml:space="preserve">
-    <value>Run Service</value>
+    <value>Khởi chạy dịch vụ</value>
   </data>
   <data name="SettingPage_RPCServiceIsRunning" xml:space="preserve">
-    <value>RPC Service is Running</value>
+    <value>Dịch vụ RPC đang chạy</value>
   </data>
   <data name="SettingPage_StopService" xml:space="preserve">
-    <value>Stop Service</value>
+    <value>Dừng dịch vụ</value>
   </data>
   <data name="SettingPage_CannotConnectRPCService" xml:space="preserve">
-    <value>Cannot Connect RPC Service</value>
+    <value>Không thể kết nối dịch vụ RPC</value>
   </data>
   <data name="InstallGameDialog_AutomaticallyCreateASubfolder" xml:space="preserve">
-    <value>Automatically Create a Subfolder</value>
+    <value>Tự động tạo một thư mục con</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameWarning" xml:space="preserve">
-    <value>All files in the following folder will be deleted. Please confirm the path before uninstalling.</value>
+    <value>Tất cả các tập tin trong thư mục sau sẽ bị xóa. Vui lòng xác nhận đường dẫn trước khi gỡ cài đặt.</value>
   </data>
   <data name="GameLauncherSettingDialog_ConfirmUninstall" xml:space="preserve">
-    <value>Confirm Uninstall</value>
+    <value>Xác nhận Gỡ cài đặt</value>
   </data>
   <data name="GameLauncherSettingDialog_CannotDeleteTheDriveRootDirectory" xml:space="preserve">
-    <value>Cannot delete the drive root directory.</value>
+    <value>Không thể xóa thư mục gốc của ổ đĩa.</value>
   </data>
   <data name="PreDownloadDialog_PreInstallIsNotAvailable" xml:space="preserve">
-    <value>Pre-install is not available.</value>
+    <value>Tải trước hiện tại không có sẵn.</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNotice" xml:space="preserve">
-    <value>Incompatibility Notice</value>
+    <value>Thông báo không tương thích</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNoticeContent" xml:space="preserve">
-    <value>The pre-install files of Starward and HoYoPlay (miHoYo Launcher) are incompatible and cannot recognize each other.</value>
+    <value>Các tệp cài đặt sẵn của Starward và HoYoPlay (miHoYo Launcher) không tương thích và không thể nhận ra nhau.</value>
   </data>
   <data name="WelcomeView_DearPlayerWelcomeToStarward" xml:space="preserve">
-    <value>Dear Player, welcome to Starward!</value>
+    <value>Người chơi thân mến, chào mừng đến với Starward!</value>
   </data>
   <data name="WelcomeView_WelcomeToStarwardDescription" xml:space="preserve">
-    <value>This is a launcher designed specifically for HoYoverse games, helping you easily manage your games and enjoy a better experience.</value>
+    <value>Đây là trình khởi chạy được thiết kế dành riêng cho trò chơi HoYoverse, giúp bạn dễ dàng quản lý trò chơi và tận hưởng trải nghiệm tốt hơn.</value>
   </data>
   <data name="WelcomeView_SelectUserDataFolderDescription" xml:space="preserve">
-    <value>All your personal data will be stored in the folder below. It is important, and you can also click the button below to select a different folder.</value>
+    <value>Tất cả dữ liệu cá nhân của bạn sẽ được lưu trữ trong thư mục bên dưới. Điều này rất quan trọng và bạn cũng có thể nhấp vào nút bên dưới để chọn một thư mục khác.</value>
   </data>
   <data name="WelcomeView_BeforeStartingSomeNecessaryEnvironmentChecksAreRequired" xml:space="preserve">
-    <value>Before starting, some necessary environment checks are required.</value>
+    <value>Trước khi bắt đầu, cần phải kiểm tra một số môi trường cần thiết.</value>
   </data>
   <data name="WelcomeView_NetworkStatus" xml:space="preserve">
-    <value>Network Status</value>
+    <value>Trạng thái mạng</value>
   </data>
   <data name="WelcomeView_NotInstalled" xml:space="preserve">
-    <value>Not Installed</value>
+    <value>Chưa cài đặt</value>
   </data>
   <data name="WelcomeView_InstallNow" xml:space="preserve">
-    <value>Install Now</value>
+    <value>Cài đặt ngay</value>
   </data>
   <data name="WelcomeView_Installed" xml:space="preserve">
-    <value>Installed</value>
+    <value>Đã cài đặt</value>
   </data>
   <data name="WelcomeView_StarwardStart" xml:space="preserve">
-    <value>Starward, Start!</value>
+    <value>Starward, Bắt đầu thôi!</value>
   </data>
   <data name="GameSelector_ClickToSelectOrSwitchGame" xml:space="preserve">
-    <value>Click to select or switch game.</value>
+    <value>Nhấp để chọn hoặc chuyển trò chơi.</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameUserDataFolderWarning" xml:space="preserve">
-    <value>The Starward data folder is inside the game folder and will be deleted along with it. Please change the data folder location in the settings page and try again.</value>
+    <value>Thư mục dữ liệu Starward nằm trong thư mục trò chơi và sẽ bị xóa cùng với nó. Vui lòng thay đổi vị trí thư mục dữ liệu trong trang cài đặt và thử lại.</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning" xml:space="preserve">
-    <value>The Starward program is inside the game folder and will be deleted along with the game. Please move the program out of the game folder and try again.</value>
+    <value>Ứng dụng Starward nằm trong thư mục trò chơi và sẽ bị xóa cùng với trò chơi. Vui lòng di chuyển chương trình ra khỏi thư mục trò chơi và thử lại.</value>
   </data>
   <data name="CloudGameButton_CloudGame" xml:space="preserve">
-    <value>Cloud Game</value>
+    <value>Trò Chơi Đám Mây</value>
   </data>
 </root>
