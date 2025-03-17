@@ -70,41 +70,14 @@ internal class ZZZGachaService : GachaLogService
     }
 
 
-
-    public override async Task<long> GetGachaLogAsync(string url, bool all, string? lang = null, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
+    // todo
+    public Dictionary<int, ZZZGachaInfo> GetItemsInfo()
     {
-        using var dapper = DatabaseService.CreateConnection();
-        // 正在获取 uid
-        progress?.Report(Lang.GachaLogService_GettingUid);
-        var uid = await _client.GetUidByGachaUrlAsync(url);
-        if (uid == 0)
-        {
-            // 该账号最近6个月没有抽卡记录
-            progress?.Report(Lang.GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months);
-        }
-        else
-        {
-            long endId = 0;
-            if (!all)
-            {
-                endId = dapper.QueryFirstOrDefault<long>($"SELECT Id FROM {GachaTableName} WHERE Uid = @Uid ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
-                _logger.LogInformation($"Last gacha log id of uid {uid} is {endId}");
-            }
-
-            var internalProgress = new Progress<(IGachaType GachaType, int Page)>((x) => progress?.Report(string.Format(Lang.GachaLogService_GetGachaProgressText, x.GachaType.ToLocalization(), x.Page)));
-            var list = (await _client.GetGachaLogAsync(url, endId, lang, internalProgress, cancellationToken)).ToList();
-            if (cancellationToken.IsCancellationRequested)
-            {
-                throw new TaskCanceledException();
-            }
-            var oldCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
-            InsertGachaLogItems(list);
-            var newCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
-            // 获取 {list.Count} 条记录，新增 {newCount - oldCount} 条记录
-            progress?.Report(string.Format(Lang.GachaLogService_GetGachaResult, list.Count, newCount - oldCount));
-        }
-        return uid;
+        throw new NotImplementedException();
+        // using var dapper = DatabaseService.CreateConnection();
+        // return dapper.Query<ZZZGachaInfo>("SELECT ItemId, ItemName, Rarity FROM ZZZGachaItem").ToDictionary(item => item.Id);
     }
+
 
 
     public override (List<GachaTypeStats> GachaStats, List<GachaLogItemEx> ItemStats) GetGachaTypeStats(long uid)
@@ -227,7 +200,7 @@ internal class ZZZGachaService : GachaLogService
     {
         using var dapper = DatabaseService.CreateConnection();
         var list = dapper.Query<ZZZGachaItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-        var obj = new UIGFObj(uid, list);
+        var obj = new UIGF40Obj(uid, list);
         var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
         await File.WriteAllTextAsync(output, str);
     }
@@ -246,32 +219,51 @@ internal class ZZZGachaService : GachaLogService
 
 
 
+    // todo
+    public override List<GachaLogItem> CheckUIGFItems(List<GachaLogItem> list, long uid, string lang)
+    {
+        // var infos = GetItemsInfo();
+        foreach (var item in list)
+        {
+            // infos.TryGetValue(item.ItemId, out ZZZGachaInfo? info);
+            if (item.GachaType == 0 || item.ItemId == 0 || item.Id == 0)
+                throw new JsonException("Missing required properties.");
+            item.Uid = uid;
+            if (item.Count == 0)
+                item.Count = 1;
+            // item.Name ??= info?.Name ?? "";
+            item.Name ??= item.ItemId.ToString();
+            item.ItemType ??= "";
+            // if (item.RankType == 0)
+            //     item.RankType = info?.Level ?? 0;
+            if (item.RankType == 0)
+                item.RankType = 0;
+            item.Lang ??= lang;
+        }
+        return list;
+    }
 
-    public override long ImportGachaLog(string file)
+
+
+    public override List<long> ImportGachaLog(string file)
     {
         var str = File.ReadAllText(file);
-        var obj = JsonSerializer.Deserialize<UIGFObj>(str);
-        if (obj != null)
+        var count = 0;
+        List<long> uids = [];
+        var obj = (JsonSerializer.Deserialize<UIGF40Obj>(str)?.nap) ?? throw new JsonException("Unsupported Json Structures.");
+        foreach (var user in obj)
         {
-            var lang = obj.info.lang ?? "";
-            long uid = obj.info.uid;
-            foreach (var item in obj.list)
-            {
-                if (item.Lang is null)
-                {
-                    item.Lang = lang;
-                }
-                if (item.Uid == 0)
-                {
-                    item.Uid = uid;
-                }
-            }
-            var count = InsertGachaLogItems(obj.list.ToList<GachaLogItem>());
-            // 成功导入调频记录 {count} 条
-            InAppToast.MainWindow?.Success($"Uid {obj.info.uid}", string.Format(Lang.ZZZGachaService_ImportSignalSearchRecordsSuccessfully, count), 5000);
-            return obj.info.uid;
+            var lang = user.lang ?? "";
+            var uid = user.uid;
+            var list = CheckUIGFItems(user.list.ToList<GachaLogItem>(), uid, lang);
+            uids.Add(uid);
+            count += InsertGachaLogItems(list);
         }
-        return 0;
+        if (uids.Count == 0)
+            throw new JsonException("Unsupported Json Structures.");
+        // 成功导入调频记录 {count} 条
+        InAppToast.MainWindow?.Success($"Uid {string.Join(" ", uids)}", string.Format(Lang.ZZZGachaService_ImportSignalSearchRecordsSuccessfully, count), 5000);
+        return uids;
     }
 
 
@@ -326,50 +318,67 @@ internal class ZZZGachaService : GachaLogService
 
 
 
-
-    private class UIGFObj
+    private class UIGF40Obj
     {
-        public UIGFObj() { }
+        public UIGF40Obj() { }
 
-        public UIGFObj(long uid, List<ZZZGachaItem> list)
+        public UIGF40Obj(long uid, List<ZZZGachaItem> list)
         {
-            this.info = new UIGFInfo(uid, list);
-            this.list = list;
+            this.info = new UIGF40Info();
+            this.nap = [new UIGF40Game(uid, list)];
         }
 
-        public UIGFInfo info { get; set; }
+        public UIGF40Info info { get; set; }
 
-        public List<ZZZGachaItem> list { get; set; }
+        public List<UIGF40Game> nap { get; set; }
     }
 
 
-    private class UIGFInfo
+    private class UIGF40Info
     {
-        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-        public long uid { get; set; }
-
-        public string lang { get; set; }
-
-        public int region_time_zone { get; set; } = 0;
-
-        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
-        public long export_timestamp { get; set; }
+        public string version { get; set; } = "v4.0";
 
         public string export_app { get; set; } = "Starward";
 
         public string export_app_version { get; set; } = AppConfig.AppVersion ?? "";
 
-        public string uigf_version { get; set; } = "v1.0";
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+        public long export_timestamp { get; set; }
 
-        public UIGFInfo() { }
-
-        public UIGFInfo(long uid, List<ZZZGachaItem> list)
+        public UIGF40Info()
         {
-            this.uid = uid;
-            lang = list.FirstOrDefault()?.Lang ?? "";
             export_timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
         }
     }
+
+
+    private class UIGF40Game
+    {
+        public UIGF40Game() { }
+
+        public UIGF40Game(long uid, List<ZZZGachaItem> list)
+        {
+            this.uid = uid;
+            timezone = uid.ToString().Length == 8 ? 8 : uid.ToString()[..2] switch
+            {
+                "10" => -5,
+                "15" => 1,
+                _ => 8,
+            };
+            lang = list.FirstOrDefault()?.Lang ?? "";
+            this.list = list;
+        }
+
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+        public long uid { get; set; }
+
+        public int timezone { get; set; }
+
+        public string lang { get; set; }
+
+        public List<ZZZGachaItem> list { get; set; }
+    }
+
 
 
 }

@@ -70,6 +70,14 @@ internal class StarRailGachaService : GachaLogService
 
 
 
+    public Dictionary<int, StarRailGachaInfo> GetItemsInfo()
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        return dapper.Query<StarRailGachaInfo>("SELECT ItemId, ItemName, Rarity FROM StarRailGachaInfo").ToDictionary(item => item.ItemId);
+    }
+
+
+
     protected override int InsertGachaLogItems(List<GachaLogItem> items)
     {
         using var dapper = DatabaseService.CreateConnection();
@@ -88,18 +96,26 @@ internal class StarRailGachaService : GachaLogService
     public override async Task ExportGachaLogAsync(long uid, string file, string format)
     {
         if (format is "excel")
-        {
             await ExportAsExcelAsync(uid, file);
-        }
-        else
-        {
+        else if (format is "json")
             await ExportAsJsonAsync(uid, file);
-        }
+        else
+            await ExportAsJsonoldAsync(uid, file);
     }
 
 
 
     private async Task ExportAsJsonAsync(long uid, string output)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        var list = dapper.Query<StarRailGachaItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        var obj = new UIGF40Obj(uid, list);
+        var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
+        await File.WriteAllTextAsync(output, str);
+    }
+
+
+    private async Task ExportAsJsonoldAsync(long uid, string output)
     {
         using var dapper = DatabaseService.CreateConnection();
         var list = dapper.Query<StarRailGachaItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
@@ -123,31 +139,67 @@ internal class StarRailGachaService : GachaLogService
 
 
 
-    public override long ImportGachaLog(string file)
+    public override List<GachaLogItem> CheckUIGFItems(List<GachaLogItem> list, long uid, string lang)
+    {
+        var infos = GetItemsInfo();
+        foreach (var item in list)
+        {
+            infos.TryGetValue(item.ItemId, out StarRailGachaInfo? info);
+            if (item.GachaType == 0 || item.ItemId == 0 || item.Id == 0)
+                throw new JsonException("Missing required properties.");
+            item.Uid = uid;
+            if (item.Count == 0)
+                item.Count = 1;
+            item.Name ??= info?.ItemName ?? "";
+            item.ItemType ??= "";
+            if (item.RankType == 0)
+                item.RankType = info?.Rarity ?? 0;
+            item.Lang ??= lang;
+        }
+        return list;
+    }
+
+
+
+
+    public override List<long> ImportGachaLog(string file)
     {
         var str = File.ReadAllText(file);
-        var obj = JsonSerializer.Deserialize<SRGFObj>(str);
-        if (obj != null)
+        var count = 0;
+        List<long> uids = [];
+        using (JsonDocument doc = JsonDocument.Parse(str))
         {
-            var lang = obj.info.lang ?? "";
-            long uid = obj.info.uid;
-            foreach (var item in obj.list)
+            if (doc.RootElement.TryGetProperty("info", out JsonElement infoElement) && infoElement.TryGetProperty("version", out _))
             {
-                if (item.Lang is null)
+                var options = new JsonSerializerOptions
                 {
-                    item.Lang = lang;
-                }
-                if (item.Uid == 0)
+                    Converters = { new StarRailGachaItemConverter() }
+                };
+                var obj = JsonSerializer.Deserialize<UIGF40Obj>(str, options)!.hkrpg;
+                foreach (var user in obj)
                 {
-                    item.Uid = uid;
+                    var lang = user.lang ?? "";
+                    var uid = user.uid;
+                    var list = CheckUIGFItems(user.list.ToList<GachaLogItem>(), uid, lang);
+                    uids.Add(uid);
+                    count += InsertGachaLogItems(list);
                 }
             }
-            var count = InsertGachaLogItems(obj.list.ToList<GachaLogItem>());
-            // 成功导入跃迁记录 {count} 条
-            InAppToast.MainWindow?.Success($"Uid {obj.info.uid}", string.Format(Lang.StarRailGachaService_ImportWarpRecordsSuccessfully, count), 5000);
-            return obj.info.uid;
+            else if (infoElement.TryGetProperty("srgf_version", out _))
+            {
+                var obj = JsonSerializer.Deserialize<SRGFObj>(str)!;
+                var lang = obj.info.lang ?? "";
+                var uid = obj.info.uid;
+                uids.Add(uid);
+                var list = CheckUIGFItems(obj.list.ToList<GachaLogItem>(), uid, lang);
+                count += InsertGachaLogItems(list);
+            }
         }
-        return 0;
+        if (uids.Count == 0)
+            throw new JsonException("Unsupported Json Structures.");
+        // 成功导入跃迁记录 {count} 条
+        InAppToast.MainWindow?.Success($"Uid {string.Join(" ", uids)}", string.Format(Lang.StarRailGachaService_ImportWarpRecordsSuccessfully, count), 5000);
+        return uids;
     }
 
 
@@ -242,6 +294,69 @@ internal class StarRailGachaService : GachaLogService
                 _ => 8,
             };
         }
+    }
+
+
+
+    private class UIGF40Obj
+    {
+        public UIGF40Obj() { }
+
+        public UIGF40Obj(long uid, List<StarRailGachaItem> list)
+        {
+            this.info = new UIGF40Info();
+            this.hkrpg = [new UIGF40Game(uid, list)];
+        }
+
+        public UIGF40Info info { get; set; }
+
+        public List<UIGF40Game> hkrpg { get; set; }
+    }
+
+
+    private class UIGF40Info
+    {
+        public string version { get; set; } = "v4.0";
+
+        public string export_app { get; set; } = "Starward";
+
+        public string export_app_version { get; set; } = AppConfig.AppVersion ?? "";
+
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+        public long export_timestamp { get; set; }
+
+        public UIGF40Info()
+        {
+            export_timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+        }
+    }
+
+
+    private class UIGF40Game
+    {
+        public UIGF40Game() { }
+
+        public UIGF40Game(long uid, List<StarRailGachaItem> list)
+        {
+            this.uid = uid;
+            timezone = uid.ToString().FirstOrDefault() switch
+            {
+                '6' => -5,
+                '7' => 1,
+                _ => 8,
+            };
+            lang = list.FirstOrDefault()?.Lang ?? "";
+            this.list = list;
+        }
+
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+        public long uid { get; set; }
+
+        public int timezone { get; set; }
+
+        public string lang { get; set; }
+
+        public List<StarRailGachaItem> list { get; set; }
     }
 
 

@@ -64,6 +64,7 @@ public sealed partial class GachaLogPage : PageBase
             EnableStarRailGachaItemStats = true;
             _gachaLogService = AppConfig.GetService<StarRailGachaService>();
             Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPom);
+            Button_Export_JSON_old.Content = "SRGF";
         }
         if (CurrentGameBiz.Game == GameBiz.nap)
         {
@@ -71,6 +72,8 @@ public sealed partial class GachaLogPage : PageBase
             _gachaLogService = AppConfig.GetService<ZZZGachaService>();
             Image_Emoji.Source = new BitmapImage(AppConfig.EmojiBangboo);
             MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
+            Button_Export_JSON_old.Visibility = Visibility.Collapsed;
+            Button_Export_JSON.CornerRadius = new CornerRadius(0, 4, 4, 0);
         }
         if (CurrentGameBiz.IsGlobalServer())
         {
@@ -681,6 +684,7 @@ public sealed partial class GachaLogPage : PageBase
             {
                 "excel" => "xlsx",
                 "json" => "json",
+                "json_old" => "json",
                 _ => "json"
             };
             var suggestName = $"Starward_Export_{CurrentGameBiz.Game}_{uid}_{DateTime.Now:yyyyMMddHHmmss}.{ext}";
@@ -712,19 +716,16 @@ public sealed partial class GachaLogPage : PageBase
             var file = await FileDialogHelper.PickSingleFileAsync(this.XamlRoot, ("Json", ".json"));
             if (File.Exists(file))
             {
-                var uid = _gachaLogService.ImportGachaLog(file);
-                if (uid == SelectUid)
+                var uids = _gachaLogService.ImportGachaLog(file);
+                foreach (var uid in uids)
                 {
-                    UpdateGachaTypeStats(uid);
-                }
-                else if (UidList.Contains(uid))
-                {
-                    SelectUid = uid;
-                }
-                else
-                {
-                    UidList.Add(uid);
-                    SelectUid = uid;
+                    if (!UidList.Contains(uid))
+                        UidList.Add(uid);
+                    if (uid == uids.First())
+                        if (uid == SelectUid)
+                            UpdateGachaTypeStats(uid);
+                        else
+                            SelectUid = uid;
                 }
             }
         }
