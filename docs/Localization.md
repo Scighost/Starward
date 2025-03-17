@@ -1,4 +1,4 @@
-**v1** | English | [简体中文](./Localization.zh-CN.md) | [Tiếng Việt](./Localization.vi-VN.md)
+English | [简体中文](./Localization.zh-CN.md) | [Tiếng Việt](./Localization.vi-VN.md)
 
 # Localization
 
@@ -17,13 +17,7 @@ If you wish to contribute to the localization efforts of this project, please re
 
 ## Document Translation
 
-The documents mentioned in this article are Markdown files in the repository. Not all documents need to be translated. The headers of documents that need to be translated will have links to other language versions. For example:
-
-**v1** | English | [简体中文](./Localization.zh-CN.md)
-
-Before you commence with the translation, please remove the header links pointing to versions in other languages from the source document. Afterward, add the following content. The version number is the bolded content in the example above, and in brackets is the relative path to the source document you are translating.
-
-> The version of this document is **v1**. If the version is behind, please refer to [original document](./Localization.md).
+The document mentioned in this article refers to the Markdown files in the repository. All translated Markdown files should be stored in the `docs/` directory and include the corresponding language-region tag in the filename. For example, if the original filename of this document is `Localization.md`, the filename for the Simplified Chinese translation should be `Localization.zh-CN.md`. Finally, add a link to the translation at the beginning of the original file.
 
 Some documents may include images. To keep the repository size manageable, large number of images to this project's repository is not allowed. If you wish to localize these images, you can create an [issue](https://github.com/Scighost/Starward/issues), upload the images, and then replace the links in the document.
 

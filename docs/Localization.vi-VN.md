@@ -1,5 +1,3 @@
-> Phiên bản của tài liệu này là **v1**. Nếu phiên bản chưa được cập nhật, vui lòng tham khảo [tài liệu gốc](./Localization.md).
-
 # Dịch thuật
 
 Đầu tiên, tôi xin gửi lời cảm ơn chân thành nhất đến tất cả những người đóng góp cho dự án này. Nhờ những đóng góp quên mình của bạn, Starward có thể được sử dụng bởi mọi người ở nhiều ngôn ngữ khác nhau trên thế giới. Cho dù đóng góp của bạn là một dòng mã, một bản sửa lỗi hay một đề xuất thì công việc của bạn sẽ tăng thêm giá trị đáng kể cho dự án. Mọi người đều là một phần không thể thiếu của cộng đồng sôi động này.
@@ -17,13 +15,7 @@ Nếu bạn muốn đóng góp vào nỗ lực dịch thuật của dự án nà
 
 ## Dịch tài liệu
 
-Các tài liệu được đề cập trong bài viết này là các file Markdown trong repo. Không phải tất cả các tài liệu đều cần phải dịch. Tiêu đề của tài liệu cần dịch sẽ có liên kết tới các phiên bản ngôn ngữ khác. Ví dụ:
-
-**v1** | English | [简体中文](./Localization.zh-CN.md)
-
-Trước khi bạn bắt đầu dịch, vui lòng xóa các liên kết tiêu đề trỏ đến các phiên bản bằng ngôn ngữ khác khỏi tài liệu gốc. Sau đó, thêm nội dung sau. Số phiên bản là nội dung được in đậm trong ví dụ trên và trong ngoặc là đường dẫn tương đối đến tài liệu nguồn bạn đang dịch.
-
-> Phiên bản của tài liệu này là v1. Nếu phiên bản chưa được cập nhật, vui lòng tham khảo [tài liệu gốc](./Localization.md).
+Tài liệu được đề cập trong bài viết này là các tệp Markdown trong kho lưu trữ. Tất cả các tệp Markdown đã dịch nên được lưu trong thư mục `docs/` và thêm nhãn ngôn ngữ-khu vực tương ứng vào tên tệp. Ví dụ, nếu tên tệp gốc của tài liệu này là `Localization.md`, thì tên tệp dịch sẽ là `Localization.vi-VN.md`. Cuối cùng, hãy thêm liên kết đến bản dịch ở đầu tệp gốc.
 
 Một số tài liệu có thể bao gồm hình ảnh. Để giữ cho kích thước kho lưu trữ có thể quản lý được, số lượng lớn hình ảnh vào kho lưu trữ của dự án này không được phép. Nếu bạn muốn bản địa hóa những hình ảnh này, bạn có thể tạo một [issue](https://github.com/Scighost/Starward/issues), tải hình ảnh lên rồi thay thế các liên kết trong tài liệu.
 

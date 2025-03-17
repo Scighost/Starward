@@ -1,11 +1,3 @@
-> Phiên bản của tài liệu này là **v0.10.7**. Nếu phiên bản chưa được cập nhật, vui lòng tham khảo [tài liệu gốc](../README.md).
-
-Trình khởi chạy trò chơi trên PC của [HoYoverse](https://www.hoyoverse.com) là một trong những phần mềm thương mại tệ nhất mà tôi từng thấy. Trải nghiệm người dùng tổng thể ở mức khá, nhưng nó hoạt động kém ở một số chi tiết nhất định:
-
-- Thiếu hỗ trợ cho tỷ lệ màn hình mở rộng cao, dẫn đến thiếu tính thẩm mỹ trên toàn bộ giao diện.
-- Xác minh tài nguyên sử dụng một luồng duy nhất, không thể sử dụng hiệu quả nhiều nhân, dẫn đến lãng phí thời gian đáng kể.
-- Mặc dù có công cụ trình duyệt tích hợp nhưng thiết kế giao diện vẫn không thay đổi trong nhiều năm, không tận dụng được tính linh hoạt của các trang web mà thay vào đó là thêm số lượng lớn không cần thiết.
-
 # Starward
 
 > **Starward** xuất phát từ khẩu hiệu của Star Rail: May This Journey Lead Us **Starward**, rất phù hợp để dùng làm tên ứng dụng.
@@ -32,16 +24,16 @@ Tiếp theo, tải xuống gói dành cho kiến ​​trúc CPU của bạn t�
 
 ## Dịch thuật
 
-[![de-DE translation](https://img.shields.io/badge/dynamic/json?color=blue&label=de-DE&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27de%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/de)
+[![de-DE translation](https://img.shields.io/badge/dynamic/json?color=blue&label=de-DE&style=flat&logo=crowdin&query=%24.progress.0.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/de)
 [![en-US translation](https://img.shields.io/badge/any_text-100%25-blue?logo=crowdin&label=en-US)](https://crowdin.com/project/starward)
-[![it-IT translation](https://img.shields.io/badge/dynamic/json?color=blue&label=it-IT&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27it%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/it)
-[![ja-JP translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=ja-JP&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/ja)
-[![ko-KR translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=ko-KR&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ko%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/ko)
-[![ru-RU translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ru-RU&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ru%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ru)
-[![th-TH translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=th-TH&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27th%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/th)
-[![vi-VN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27vi%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/vi)
-[![zh-CN translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/zh-CN)
-[![zh-TW translation](<https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-TW%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json>)](https://crowdin.com/project/starward/zh-TW)
+[![it-IT translation](https://img.shields.io/badge/dynamic/json?color=blue&label=it-IT&style=flat&logo=crowdin&query=%24.progress.2.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/it)
+[![ja-JP translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja-JP&style=flat&logo=crowdin&query=%24.progress.3.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ja)
+[![ko-KR translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ko-KR&style=flat&logo=crowdin&query=%24.progress.4.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ko)
+[![ru-RU translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ru-RU&style=flat&logo=crowdin&query=%24.progress.5.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/ru)
+[![th-TH translation](https://img.shields.io/badge/dynamic/json?color=blue&label=th-TH&style=flat&logo=crowdin&query=%24.progress.6.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/th)
+[![vi-VN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=vi-VN&style=flat&logo=crowdin&query=%24.progress.7.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/vi)
+[![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress.8.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-CN)
+[![zh-TW translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-TW&style=flat&logo=crowdin&query=%24.progress.9.data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-15878835-595799.json)](https://crowdin.com/project/starward/zh-TW)
 
 Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho công việc dịch văn bản trong ứng dụng. Bạn có thể đóng góp bằng cách giúp chúng tôi dịch và hiệu chỉnh nội dung bằng ngôn ngữ địa phương của bạn. Chúng tôi mong muốn có thêm nhiều người tham gia cùng chúng tôi.
 
@@ -93,6 +85,4 @@ Và các thư viện bên thứ ba được sử dụng trong dự án này bao 
 
 ## Ảnh chụp màn hình
 
-![image](https://github.com/Scighost/Starward/assets/88989555/732bbf01-c83e-4228-a3e3-e32671b66f9f)
-
-Hình nền từ [Pixiv@コユコム](https://www.pixiv.net/en/artworks/113144644)
+<img width="1200" src="https://github.com/user-attachments/assets/513eea8a-e0bb-450b-818b-5389dc9d40e8">
