@@ -151,7 +151,7 @@ public sealed partial class GameSelector : UserControl
 
             // 从配置文件读取已选的 GameBiz
             string? bizs = AppConfig.SelectedGameBizs;
-            foreach (string str in bizs?.Split(',') ?? [])
+            foreach (string str in bizs?.Split(',')?.Distinct() ?? [])
             {
                 if (GameBiz.TryParse(str, out GameBiz biz))
                 {
@@ -853,32 +853,37 @@ public sealed partial class GameSelector : UserControl
             var sb = new StringBuilder();
             foreach (GameInfo item in gameInfos)
             {
-                string? path = GameLauncherService.GetGameInstallPath(item.GameBiz);
+                GameBiz gameBiz = item.GameBiz;
+                if (item.IsBilibiliServer())
+                {
+                    gameBiz = $"{gameBiz.Game}_bilibili";
+                }
+                string? path = GameLauncherService.GetGameInstallPath(gameBiz);
                 if (!string.IsNullOrWhiteSpace(path))
                 {
-                    if (Directory.Exists(path) || AppConfig.GetGameInstallPathRemovable(item.GameBiz))
+                    if (Directory.Exists(path) || AppConfig.GetGameInstallPathRemovable(gameBiz))
                     {
-                        sb.Append(item.GameBiz);
+                        sb.Append(gameBiz);
                         sb.Append(',');
                         continue;
                     }
                 }
                 string key = "";
-                if (item.GameBiz.Server is "cn")
+                if (gameBiz.Server is "cn")
                 {
-                    key = $@"HKEY_CURRENT_USER\Software\miHoYo\HYP\1_1\{item.GameBiz}";
+                    key = $@"HKEY_CURRENT_USER\Software\miHoYo\HYP\1_1\{gameBiz}";
                 }
-                else if (item.GameBiz.Server is "global")
+                else if (gameBiz.Server is "global")
                 {
-                    key = $@"HKEY_CURRENT_USER\Software\Cognosphere\HYP\1_0\{item.GameBiz}";
+                    key = $@"HKEY_CURRENT_USER\Software\Cognosphere\HYP\1_0\{gameBiz}";
                 }
                 if (!string.IsNullOrWhiteSpace(key))
                 {
                     path = Registry.GetValue(key, "GameInstallPath", null) as string;
                     if (Directory.Exists(path))
                     {
-                        AppConfig.SetGameInstallPath(item.GameBiz, path);
-                        sb.Append(item.GameBiz);
+                        AppConfig.SetGameInstallPath(gameBiz, path);
+                        sb.Append(gameBiz);
                         sb.Append(',');
                         continue;
                     }
