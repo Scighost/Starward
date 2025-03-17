@@ -1634,7 +1634,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Khoảng thời gian cụ thể</value>
   </data>
   <data name="StartGameButton_ResumeDownload" xml:space="preserve">
-    <value>Resume Download</value>
+    <value>Tiếp tục tải xuống</value>
   </data>
   <data name="StartGameButton_Waiting" xml:space="preserve">
     <value>Waiting</value>
@@ -1643,34 +1643,34 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Relocate</value>
   </data>
   <data name="GameLauncherSettingDialog_RelocateGame" xml:space="preserve">
-    <value>Relocate Game</value>
+    <value>Tìm Trò Chơi</value>
   </data>
   <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
-    <value>Size</value>
+    <value>Kích thước</value>
   </data>
   <data name="GameLauncherSettingDialog_BasicInformation" xml:space="preserve">
-    <value>Basic Information</value>
+    <value>Thông tin cơ bản</value>
   </data>
   <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
-    <value>Startup Arguments</value>
+    <value>Tham số khởi động</value>
   </data>
   <data name="GameLauncherSettingDialog_CustomBackground" xml:space="preserve">
-    <value>Custom Background</value>
+    <value>Tùy chỉnh ảnh nền</value>
   </data>
   <data name="GameLauncherSettingDialog_GamePackages" xml:space="preserve">
-    <value>Game Packages</value>
+    <value>Gói Trò chơi</value>
   </data>
   <data name="GameLauncherSettingDialog_CommandLineArgument" xml:space="preserve">
-    <value>Command Line Argument</value>
+    <value>Tham số dòng lệnh</value>
   </data>
   <data name="GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument" xml:space="preserve">
-    <value>See more information about command line argument.</value>
+    <value>Xem thêm thông tin về tham số dòng lệnh.</value>
   </data>
   <data name="GameLauncherSettingDialog_UseVersionPoster" xml:space="preserve">
-    <value>Use Version Poster</value>
+    <value>Sử dụng Poster của Phiên bản</value>
   </data>
   <data name="GameSelector_ActualSizeOfInstalledGames" xml:space="preserve">
-    <value>Actual Size of Installed Games</value>
+    <value>Kích thước thực tế của các trò chơi đã cài đặt</value>
   </data>
   <data name="GameSelector_StorageSpaceSavedByHardLinks" xml:space="preserve">
     <value>Storage Space Saved by Hard Links</value>
@@ -1679,21 +1679,21 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Cannot decode file.</value>
   </data>
   <data name="GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs" xml:space="preserve">
-    <value>An unknown error occurred. Please check the logs.</value>
+    <value>Lỗi không xác định đã xảy ra. Vui lòng kiểm tra nhật ký.</value>
   </data>
   <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
-    <value>Drag and drop image / video files.</value>
+    <value>Kéo thả tệp hình ảnh / video vào đây.</value>
   </data>
   <data name="GameSelector_Calculating" xml:space="preserve">
-    <value>Calculating</value>
+    <value>Đang tính toán</value>
     <comment>Calculating storage space usage.</comment>
   </data>
   <data name="SettingPage_General" xml:space="preserve">
-    <value>General</value>
+    <value>Cài đặt chung</value>
     <comment>General Setting</comment>
   </data>
   <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
-    <value>For a better experience, please enable the following features in system settings.</value>
+    <value>Để có được trải nghiệm tốt hơn, xin vui lòng bật những tính năng sau trong cài đặt của hệ thống.</value>
   </data>
   <data name="PlayTimeButton_Last7Days" xml:space="preserve">
     <value>Last 7 Days</value>
@@ -1702,10 +1702,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Last Startup</value>
   </data>
   <data name="UpdateWindow_AutoRestartAfterUpdate" xml:space="preserve">
-    <value>Auto-restart after update</value>
+    <value>Tự động khởi động lại sau khi cập nhật</value>
   </data>
   <data name="UpdateWindow_DisplayUpdateContentAfterRestart" xml:space="preserve">
-    <value>Display update content after restart</value>
+    <value>Hiển thị nội dung cập nhật sau khi khởi động lại</value>
   </data>
   <data name="Common_WebView2ComponentInitializationFailed" xml:space="preserve">
     <value>WebView2 component initialization failed.</value>
@@ -1714,13 +1714,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>RPC Service</value>
   </data>
   <data name="SettingPage_RPCService_Desc" xml:space="preserve">
-    <value>The RPC service is an independent process used to avoid restarting when downloading games, updating software, and other features that require administrator privileges.</value>
+    <value>Dịch vụ RPC là một tiến trình độc lập được sử dụng để tránh việc khởi động lại khi tải xuống trò chơi, cập nhật và các tính năng khác cần yêu cầu quyền quản trị viên.</value>
   </data>
   <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
-    <value>Keep RPC Service Running in the Background</value>
+    <value>Giữ dịch vụ RPC chạy ở chế độ nền</value>
   </data>
   <data name="SettingPage_RPCServiceWarningIfAppInRemovableStorage" xml:space="preserve">
-    <value>Detected that the application is in a removable storage device, it is not recommended to keep the RPC service running in the background.</value>
+    <value>Phát hiện ứng dụng nằm trong thiết bị lưu trữ di động, không nên để dịch vụ RPC chạy ở chế độ nền.</value>
   </data>
   <data name="ZZZGachaService_ImportSignalSearchRecordsSuccessfully" xml:space="preserve">
     <value>Import {0} signal search record(s) successfully.</value>
