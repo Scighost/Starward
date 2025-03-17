@@ -1634,7 +1634,7 @@
     <value>指定時段</value>
   </data>
   <data name="StartGameButton_ResumeDownload" xml:space="preserve">
-    <value>Resume Download</value>
+    <value>繼續下載</value>
   </data>
   <data name="StartGameButton_Waiting" xml:space="preserve">
     <value>Waiting</value>
@@ -1795,10 +1795,10 @@
     <value>The pre-install files of Starward and HoYoPlay (miHoYo Launcher) are incompatible and cannot recognize each other.</value>
   </data>
   <data name="WelcomeView_DearPlayerWelcomeToStarward" xml:space="preserve">
-    <value>Dear Player, welcome to Starward!</value>
+    <value>親愛的玩家，歡迎來到 Starward！</value>
   </data>
   <data name="WelcomeView_WelcomeToStarwardDescription" xml:space="preserve">
-    <value>This is a launcher designed specifically for HoYoverse games, helping you easily manage your games and enjoy a better experience.</value>
+    <value>這是一個專為米哈遊旗下游戲打造的啟動器，幫助您輕鬆管理遊戲，享受更好的體驗。</value>
   </data>
   <data name="WelcomeView_SelectUserDataFolderDescription" xml:space="preserve">
     <value>All your personal data will be stored in the folder below. It is important, and you can also click the button below to select a different folder.</value>
