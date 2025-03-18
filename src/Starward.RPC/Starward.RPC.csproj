@@ -6,6 +6,7 @@
 		<Nullable>enable</Nullable>
 		<SelfContained>true</SelfContained>
 		<ApplicationIcon>logo.ico</ApplicationIcon>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 		<!--NETSDK1152-->
