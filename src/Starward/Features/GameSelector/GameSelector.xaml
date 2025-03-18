@@ -72,7 +72,7 @@
         </Border>
 
 
-        <!--  点击此处选择或切换游戏  -->
+        <!--  提醒：点击此处选择或切换游戏  -->
         <TeachingTip x:Name="TeachTip_SelectGame"
                      ActionButtonCommand="{x:Bind AutoSearchInstalledGamesCommand}"
                      Background="{ThemeResource CustomOverlayAcrylicBrush}"
@@ -97,7 +97,8 @@
                 Background="#80000000"
                 IsHitTestVisible="False"
                 Opacity="0"
-                Tapped="Border_FullBackground_Tapped">
+                Tapped="Border_FullBackground_Tapped"
+                Visibility="Collapsed">
             <Border.OpacityTransition>
                 <ScalarTransition />
             </Border.OpacityTransition>
@@ -399,7 +400,6 @@
               HorizontalAlignment="Left"
               VerticalAlignment="Top"
               Background="Transparent"
-              ColumnSpacing="6"
               PointerExited="Grid_GameIconsArea_PointerExited"
               SizeChanged="Grid_GameIconsArea_SizeChanged"
               Translation="0,-100,0">
@@ -527,15 +527,21 @@
             </ListView>
 
             <!--  固定  -->
-            <Border Name="Button_Pin"
+            <Border Name="Border_Pin"
                     Grid.Column="1"
                     Width="40"
                     Height="40"
+                    Margin="6,0,0,0"
                     sh:PointerCursor.CursorShape="Hand"
                     Background="{ThemeResource CustomAcrylicBrush}"
                     CornerRadius="8"
+                    IsHitTestVisible="False"
+                    Opacity="0"
                     Shadow="{ThemeResource ThemeShadow}"
                     Translation="0,0,16">
+                <Border.OpacityTransition>
+                    <ScalarTransition />
+                </Border.OpacityTransition>
                 <Button Padding="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"

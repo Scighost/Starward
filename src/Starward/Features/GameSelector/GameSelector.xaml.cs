@@ -470,6 +470,10 @@ public sealed partial class GameSelector : UserControl
     {
         Border_FullBackground.Opacity = 1;
         Border_FullBackground.IsHitTestVisible = true;
+        Border_FullBackground.Visibility = Visibility.Visible;
+        Border_Pin.Opacity = 1;
+        Border_Pin.IsHitTestVisible = true;
+        Border_Pin.Visibility = Visibility.Visible;
         GameIconsAreaVisible = true;
     }
 
@@ -478,6 +482,10 @@ public sealed partial class GameSelector : UserControl
     {
         Border_FullBackground.Opacity = 0;
         Border_FullBackground.IsHitTestVisible = false;
+        Border_FullBackground.Visibility = Visibility.Collapsed;
+        Border_Pin.Opacity = 0;
+        Border_Pin.IsHitTestVisible = false;
+        Border_Pin.Visibility = Visibility.Collapsed;
         if (!IsPinned)
         {
             GameIconsAreaVisible = false;
@@ -493,6 +501,10 @@ public sealed partial class GameSelector : UserControl
         {
             Border_FullBackground.Opacity = 0;
             Border_FullBackground.IsHitTestVisible = false;
+            Border_FullBackground.Visibility = Visibility.Collapsed;
+            Border_Pin.Opacity = 0;
+            Border_Pin.IsHitTestVisible = false;
+            Border_Pin.Visibility = Visibility.Collapsed;
         }
         else
         {
