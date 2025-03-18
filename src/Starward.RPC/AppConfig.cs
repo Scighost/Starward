@@ -16,7 +16,7 @@ internal static class AppConfig
     public static bool IsAdmin { get; private set; }
 
 
-    public static string MutexAndPipeName { get; private set; } = $"Starward.RPC/{Process.GetCurrentProcess().SessionId}/{AppVersion}";
+    public static string MutexAndPipeName { get; private set; }
 
 
     public const string StartupMagic = "zb8L3ShgFjeyDxeA";
@@ -39,6 +39,7 @@ internal static class AppConfig
     static AppConfig()
     {
         AppVersion = typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "";
+        MutexAndPipeName = $"Starward.RPC/{Process.GetCurrentProcess().SessionId}/{AppVersion}";
         IsAdmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 
         IsAppInRemovableStorage = IsDeviceRemovableOrOnUSB(AppContext.BaseDirectory);

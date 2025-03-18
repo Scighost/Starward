@@ -9,6 +9,7 @@ using Starward.RPC.Env;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -64,11 +65,11 @@ internal class GameInstallService
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void LifecycleManager_ParentProcessExited(object? sender, EventArgs e)
+    private void LifecycleManager_ParentProcessExited(object? sender, Process e)
     {
         try
         {
-            _logger.LogInformation("Parent process exited, stop all game install tasks.");
+            _logger.LogInformation("Parent process {name} ({pid}) exited, stop all game install tasks.", e.ProcessName, e.Id);
             foreach (var item in _tasks)
             {
                 item.Value.Cancel(GameInstallState.Stop);

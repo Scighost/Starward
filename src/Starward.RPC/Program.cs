@@ -23,6 +23,7 @@ using System.Threading;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration["Serilog:MinimumLevel:Override:Microsoft.AspNetCore"] = "Warning";
 
 var logFolder = Path.Combine(AppConfig.CacheFolder, "log");
 Directory.CreateDirectory(logFolder);

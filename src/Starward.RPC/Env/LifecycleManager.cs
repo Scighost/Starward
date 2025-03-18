@@ -15,7 +15,7 @@ internal static class LifecycleManager
 
     private static bool _noLongerChange;
 
-    public static event EventHandler? ParentProcessExited;
+    public static event EventHandler<Process>? ParentProcessExited;
 
 
     public static void SetParentProcess(int processId, bool keepRunning, bool noLongerChange = false)
@@ -36,9 +36,9 @@ internal static class LifecycleManager
                 if (_parentProcess is not null)
                 {
                     _parentProcess.Exited -= _parentProcess_Exited;
+                    ParentProcessExited?.Invoke(null, _parentProcess);
                     _parentProcess.Dispose();
                     _parentProcess = null;
-                    ParentProcessExited?.Invoke(null, EventArgs.Empty);
                 }
                 _parentProcess = Process.GetProcessById(processId);
                 _parentProcess.EnableRaisingEvents = true;
@@ -69,9 +69,9 @@ internal static class LifecycleManager
             if (_parentProcess is not null)
             {
                 _parentProcess.Exited -= _parentProcess_Exited;
+                ParentProcessExited?.Invoke(null, _parentProcess);
                 _parentProcess.Dispose();
                 _parentProcess = null;
-                ParentProcessExited?.Invoke(null, EventArgs.Empty);
             }
             if (!_keepRunning)
             {
