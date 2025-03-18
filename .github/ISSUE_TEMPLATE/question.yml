@@ -43,8 +43,7 @@ body:
     id: log
     attributes:
       label: Log
-      description: Please copy and paste any relevant log output.
-      render: shell
+      description: Please upload log file.
 
   - type: textarea
     id: context
