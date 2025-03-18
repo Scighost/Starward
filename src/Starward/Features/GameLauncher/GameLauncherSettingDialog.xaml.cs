@@ -275,26 +275,33 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         try
         {
             GameConfig? config = await _hoyoPlayService.GetGameConfigAsync(CurrentGameId);
-            if (!string.IsNullOrWhiteSpace(config?.AudioPackageScanDir))
+            if (config is not null)
             {
-                _hasAudioPackages = true;
-                Segmented_SelectLanguage.SelectedItems.Clear();
-                AudioLanguage audioLanguage = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId, InstallPath);
-                if (audioLanguage.HasFlag(AudioLanguage.Chinese))
+                if (!string.IsNullOrWhiteSpace(config.AudioPackageScanDir))
                 {
-                    Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Chinese);
+                    _hasAudioPackages = true;
+                    Segmented_SelectLanguage.SelectedItems.Clear();
+                    AudioLanguage audioLanguage = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId, InstallPath);
+                    if (audioLanguage.HasFlag(AudioLanguage.Chinese))
+                    {
+                        Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Chinese);
+                    }
+                    if (audioLanguage.HasFlag(AudioLanguage.English))
+                    {
+                        Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_English);
+                    }
+                    if (audioLanguage.HasFlag(AudioLanguage.Japanese))
+                    {
+                        Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Japanese);
+                    }
+                    if (audioLanguage.HasFlag(AudioLanguage.Korean))
+                    {
+                        Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Korean);
+                    }
                 }
-                if (audioLanguage.HasFlag(AudioLanguage.English))
+                else
                 {
-                    Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_English);
-                }
-                if (audioLanguage.HasFlag(AudioLanguage.Japanese))
-                {
-                    Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Japanese);
-                }
-                if (audioLanguage.HasFlag(AudioLanguage.Korean))
-                {
-                    Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Korean);
+                    _hasAudioPackages = false;
                 }
             }
         }
