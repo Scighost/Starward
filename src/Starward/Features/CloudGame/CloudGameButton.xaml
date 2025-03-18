@@ -26,6 +26,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -75,6 +76,15 @@
                             <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.LauncherPage_InstallGame}" />
                         </Button>
                     </Border>
+
+                    <TextBlock x:Name="TextBlock_RunningProcessInfo"
+                               Grid.Row="2"
+                               Grid.ColumnSpan="2"
+                               Margin="8,0,8,4"
+                               FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind RunningProcessInfo}"
+                               Visibility="{x:Bind RunningProcessInfo, Converter={StaticResource ObjectToVisibilityConverter}}" />
 
                 </Grid>
             </Flyout>

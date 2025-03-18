@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Win32;
 using Starward.Core;
@@ -9,6 +10,7 @@ using Starward.Features.GameLauncher;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
 
@@ -18,6 +20,10 @@ namespace Starward.Features.CloudGame;
 [INotifyPropertyChanged]
 public sealed partial class CloudGameButton : UserControl
 {
+
+
+
+    private readonly ILogger<CloudGameButton> _logger = AppConfig.GetLogger<CloudGameButton>();
 
 
 
@@ -35,6 +41,8 @@ public sealed partial class CloudGameButton : UserControl
     public string? ExePath { get; set => SetProperty(ref field, value); }
 
 
+    public string? RunningProcessInfo { get; set => SetProperty(ref field, value); }
+
 
 
     private void Flyout_Opened(object sender, object e)
@@ -42,6 +50,7 @@ public sealed partial class CloudGameButton : UserControl
         try
         {
             string key = "";
+            RunningProcessInfo = null;
             if (CurrentGameId?.GameBiz == GameBiz.hk4e_cn)
             {
                 key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Genshin Impact Cloud Game";
@@ -58,14 +67,27 @@ public sealed partial class CloudGameButton : UserControl
                 if (File.Exists(path))
                 {
                     ExePath = path;
+                    int session = Process.GetCurrentProcess().SessionId;
+                    Process? p = Process.GetProcessesByName(exeName!.Replace(".exe", "")).FirstOrDefault(x => x.SessionId == session);
+                    if (p is not null)
+                    {
+                        RunningProcessInfo = $"{Lang.LauncherPage_GameIsRunning}\n{exeName} ({p.Id})";
+                    }
                 }
             }
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Get cloud game state {GameBiz}", CurrentGameId?.GameBiz);
         }
     }
+
+
+
+
+
+
+
 
 
 
@@ -100,7 +122,7 @@ public sealed partial class CloudGameButton : UserControl
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Start cloud game {GameBiz}", CurrentGameId?.GameBiz);
         }
     }
 
@@ -127,7 +149,7 @@ public sealed partial class CloudGameButton : UserControl
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Install cloud game {GameBiz}", CurrentGameId?.GameBiz);
         }
     }
 
