@@ -182,6 +182,26 @@
                                  Visibility="{x:Bind WebpDecoderSupport, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
             </StackPanel>
 
+            <!--  透明/动画效果  -->
+            <TextBlock Margin="0,24,0,0"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings}"
+                       TextWrapping="Wrap" />
+            <TextBlock Margin="0,12,0,0">
+                <Hyperlink Click="Hyperlink_VisualEffects_Click"
+                           NavigateUri="ms-settings:easeofaccess-visualeffects"
+                           UnderlineStyle="None">
+                    <Run Text="{x:Bind lang:Lang.AppearanceSettingPage_TransparencyEffects}" />
+                </Hyperlink>
+                <Run Text="" />
+                <Run Text="" />
+                <Hyperlink Click="Hyperlink_VisualEffects_Click"
+                           NavigateUri="ms-settings:easeofaccess-visualeffects"
+                           UnderlineStyle="None">
+                    <Run Text="{x:Bind lang:Lang.AppearanceSettingPage_AnimationEffects}" />
+                </Hyperlink>
+            </TextBlock>
+
         </StackPanel>
 
 

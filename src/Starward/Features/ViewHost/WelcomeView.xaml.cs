@@ -11,6 +11,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Windows.System;
 
 
 namespace Starward.Features.ViewHost;
@@ -230,6 +231,13 @@ public sealed partial class WelcomeView : UserControl
             // 0x88982F8B
             Debug.WriteLine(ex);
         }
+    }
+
+
+
+    private async void Hyperlink_VisualEffects_Click(Microsoft.UI.Xaml.Documents.Hyperlink sender, Microsoft.UI.Xaml.Documents.HyperlinkClickEventArgs args)
+    {
+        await Launcher.LaunchUriAsync(new Uri("ms-settings:easeofaccess-visualeffects"));
     }
 
 
