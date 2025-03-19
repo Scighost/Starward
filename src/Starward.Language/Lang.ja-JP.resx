@@ -1806,16 +1806,16 @@
     <value>Before starting, some necessary environment checks are required.</value>
   </data>
   <data name="WelcomeView_NetworkStatus" xml:space="preserve">
-    <value>Network Status</value>
+    <value>ネットワークの状態</value>
   </data>
   <data name="WelcomeView_NotInstalled" xml:space="preserve">
-    <value>Not Installed</value>
+    <value>未インストール</value>
   </data>
   <data name="WelcomeView_InstallNow" xml:space="preserve">
-    <value>Install Now</value>
+    <value>今すぐインストール</value>
   </data>
   <data name="WelcomeView_Installed" xml:space="preserve">
-    <value>Installed</value>
+    <value>インストール済み</value>
   </data>
   <data name="WelcomeView_StarwardStart" xml:space="preserve">
     <value>Starward, Start!</value>
@@ -1830,7 +1830,7 @@
     <value>The Starward program is inside the game folder and will be deleted along with the game. Please move the program out of the game folder and try again.</value>
   </data>
   <data name="CloudGameButton_CloudGame" xml:space="preserve">
-    <value>Cloud Game</value>
+    <value>クラウドゲーム</value>
   </data>
   <data name="GameAccountSwitcher_TheCurrentlyLoggedInAccountIsNotSaved" xml:space="preserve">
     <value>The currently logged-in account is not saved.</value>
