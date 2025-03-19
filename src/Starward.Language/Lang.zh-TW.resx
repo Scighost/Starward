@@ -1833,4 +1833,10 @@
   <data name="CloudGameButton_CloudGame" xml:space="preserve">
     <value>雲遊戲</value>
   </data>
+  <data name="GameAccountSwitcher_TheCurrentlyLoggedInAccountIsNotSaved" xml:space="preserve">
+    <value>The currently logged-in account is not saved.</value>
+  </data>
+  <data name="SettingPage_RegistryBasedGameAccountSwitchingFeature" xml:space="preserve">
+    <value>Registry-based Game Account Switching Feature</value>
+  </data>
 </root>
