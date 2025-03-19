@@ -1584,6 +1584,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 The currently logged-in account is not saved. 的本地化字符串。
+        /// </summary>
+        public static string GameAccountSwitcher_TheCurrentlyLoggedInAccountIsNotSaved {
+            get {
+                return ResourceManager.GetString("GameAccountSwitcher_TheCurrentlyLoggedInAccountIsNotSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Auto Search 的本地化字符串。
         /// </summary>
         public static string GameBizSelector_AutoSearch {
@@ -4132,6 +4141,15 @@ namespace Starward.Language {
         public static string SettingPage_RegisterURLProtocol {
             get {
                 return ResourceManager.GetString("SettingPage_RegisterURLProtocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Registry-based Game Account Switching Feature 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_RegistryBasedGameAccountSwitchingFeature {
+            get {
+                return ResourceManager.GetString("SettingPage_RegistryBasedGameAccountSwitchingFeature", resourceCulture);
             }
         }
         

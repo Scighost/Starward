@@ -87,8 +87,14 @@ public sealed partial class GameLauncherPage : PageBase
         {
             Button_CloudGame.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
         }
+        if (feature.SupportGameAccountSwitcher && AppConfig.EnableGameAccountSwitcher)
+        {
+            EnableGameAccountSwitcher = true;
+        }
     }
 
+
+    public bool EnableGameAccountSwitcher { get; set => SetProperty(ref field, value); }
 
 
 

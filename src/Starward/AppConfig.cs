@@ -14,6 +14,7 @@ using Starward.Core.SelfQuery;
 using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.Gacha;
+using Starward.Features.GameAccount;
 using Starward.Features.GameInstall;
 using Starward.Features.GameLauncher;
 using Starward.Features.GameRecord;
@@ -300,6 +301,7 @@ public static class AppConfig
             sc.AddSingleton<GameInstallService>();
 
             sc.AddSingleton<GameAuthLoginService>();
+            sc.AddSingleton<GameAccountService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }
@@ -458,7 +460,10 @@ public static class AppConfig
     }
 
 
-    public static bool DisableGameAccountSwitcher
+    /// <summary>
+    /// 游戏账号切换
+    /// </summary>
+    public static bool EnableGameAccountSwitcher
     {
         get => GetValue<bool>();
         set => SetValue(value);

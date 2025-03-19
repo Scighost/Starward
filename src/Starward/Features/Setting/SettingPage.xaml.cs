@@ -377,6 +377,28 @@ public sealed partial class SettingPage : PageBase
 
 
 
+    #region 游戏账号切换
+
+
+
+    public bool EnableGameAccountSwitcher
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.EnableGameAccountSwitcher = value;
+            }
+        }
+    } = AppConfig.EnableGameAccountSwitcher;
+
+
+
+    #endregion
+
+
+
+
     #region 下载
 
 

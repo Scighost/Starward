@@ -11,6 +11,7 @@
              xmlns:sf="using:Starward.Frameworks"
              xmlns:sfc="using:Starward.Features.CloudGame"
              xmlns:sfg="using:Starward.Features.GameInstall"
+             xmlns:sfga="using:Starward.Features.GameAccount"
              xmlns:sfp="using:Starward.Features.PlayTime"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
@@ -50,12 +51,14 @@
         </Border>
 
 
+
         <!--  游戏通知  -->
         <local:GameBannerAndPost x:Name="GameBannerAndPost"
                                  Margin="60,0,0,40"
                                  HorizontalAlignment="Left"
                                  VerticalAlignment="Bottom"
                                  CurrentGameId="{x:Bind CurrentGameId}" />
+
 
 
         <!--  右下角按键  -->
@@ -140,6 +143,17 @@
 
 
         </Grid>
+
+
+
+        <!--  游戏账号切换  -->
+        <sfga:GameAccountSwitcher x:Name="GameLauncherPage_GameAccountSwitcher"
+                                  Margin="0,0,40,100"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Bottom"
+                                  x:Load="{x:Bind EnableGameAccountSwitcher}"
+                                  CurrentGameBiz="{x:Bind CurrentGameBiz}" />
+
 
 
         <!--  崩坏三区服选择  -->

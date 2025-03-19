@@ -260,6 +260,11 @@
                                              Tag="{x:Bind sfv:MainWindowCloseOption.Exit}" />
                             </StackPanel>
 
+                            <ToggleSwitch Margin="0,12,0,0"
+                                          IsOn="{x:Bind EnableGameAccountSwitcher, Mode=TwoWay}"
+                                          OffContent="{x:Bind lang:Lang.SettingPage_RegistryBasedGameAccountSwitchingFeature}"
+                                          OnContent="{x:Bind lang:Lang.SettingPage_RegistryBasedGameAccountSwitchingFeature}" />
+
 
                             <MenuFlyoutSeparator Margin="0,20,0,0" />
 

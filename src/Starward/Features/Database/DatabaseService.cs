@@ -739,6 +739,26 @@ internal static class DatabaseService
         COMMIT TRANSACTION;
         """;
 
+    private const string Sql_v13 = """
+        BEGIN TRANSACTION;
+
+        DROP TABLE IF EXISTS GameAccount;
+        CREATE TABLE IF NOT EXISTS GameAccount
+        (
+            SHA256  TEXT    NOT NULL,
+            GameBiz INTEGER NOT NULL,
+            Uid     TEXT    NOT NULL,
+            Name    TEXT    NOT NULL,
+            Value   BLOB    NOT NULL,
+            Time    TEXT    NOT NULL,
+            PRIMARY KEY (SHA256, GameBiz)
+        );
+        CREATE INDEX IF NOT EXISTS IX_GameAccount_GameBiz ON GameAccount (GameBiz);
+
+        PRAGMA USER_VERSION = 13;
+        COMMIT TRANSACTION;
+        """;
+
     #endregion
 
 

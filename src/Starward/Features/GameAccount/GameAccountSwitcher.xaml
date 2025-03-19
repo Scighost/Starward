@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="Starward.Features.GameAccount.GameAccountSwitcher"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Features.GameAccount"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <local:GameAccountUidStringConverter x:Key="GameAccountUidStringConverter" />
+    </UserControl.Resources>
+
+    <StackPanel Name="StackPanel_Account"
+                Height="40"
+                Orientation="Horizontal"
+                Spacing="16">
+
+        <!--  账号列表  -->
+        <Grid Background="{ThemeResource CustomAcrylicBrush}"
+              CornerRadius="20"
+              Shadow="{StaticResource ThemeShadow}"
+              Translation="0,0,16">
+            <ComboBox Name="ComboBox_GameAccount"
+                      Height="40"
+                      MinWidth="200"
+                      BorderThickness="0"
+                      ItemsSource="{x:Bind GameAccountList}"
+                      SelectedItem="{x:Bind SelectGameAccount, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="local:GameAccount">
+                        <TextBlock Padding="8,0,0,0" VerticalAlignment="Center">
+                            <Run Text="{x:Bind Name}" />
+                            <Run Text="" />
+                            <Run FontSize="12"
+                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                 Text="{x:Bind Uid, Converter={StaticResource GameAccountUidStringConverter}}" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+
+        <!--  修改账号  -->
+        <Grid Background="{ThemeResource CustomAcrylicBrush}"
+              CornerRadius="20"
+              Shadow="{StaticResource ThemeShadow}"
+              Translation="0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Height="40"
+                    BorderThickness="0"
+                    Command="{x:Bind ChangeGameAccountCommand}"
+                    CornerRadius="20,0,0,20"
+                    IsEnabled="{x:Bind CanChangeGameAccount}">
+                <TextBlock Margin="8,0,0,0" Text="{x:Bind lang:Lang.LauncherPage_SwitchAccount}" />
+            </Button>
+            <!--  编辑  -->
+            <Button Grid.Column="1"
+                    Height="40"
+                    BorderThickness="0"
+                    CornerRadius="0,20,20,0"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    IsEnabled="{x:Bind SelectGameAccount, Converter={StaticResource ObjectToBoolConverter}}">
+                <FontIcon Margin="0,0,4,0"
+                          FontSize="14"
+                          Glyph="&#xE70F;" />
+                <Button.Flyout>
+                    <Flyout>
+                        <StackPanel MinWidth="200"
+                                    MaxWidth="280"
+                                    Spacing="4">
+                            <TextBlock FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Text="{x:Bind lang:Lang.LauncherPage_AccountInformation}" />
+                            <Button Width="0"
+                                    Height="0"
+                                    IsHitTestVisible="False" />
+                            <!--  昵称  -->
+                            <TextBlock Text="{x:Bind lang:Lang.LauncherPage_Nickname}" />
+                            <TextBox Name="TextBox_Nickname"
+                                     IsSpellCheckEnabled="False"
+                                     Text="{x:Bind SelectGameAccount.Name, Mode=TwoWay}" />
+                            <!--  Uid  -->
+                            <TextBlock Margin="0,8,0,0" Text="Uid" />
+                            <AutoSuggestBox x:Name="AutoSuggestBox_Uid"
+                                            GotFocus="AutoSuggestBox_Uid_GotFocus"
+                                            Loaded="AutoSuggestBox_Uid_Loaded"
+                                            Text="{x:Bind SelectGameAccount.Uid, Converter={StaticResource GameAccountUidStringConverter}, Mode=TwoWay}"
+                                            TextChanged="AutoSuggestBox_Uid_TextChanged" />
+                            <!--  当前登录的账号未保存  -->
+                            <TextBlock Margin="4,8,0,0"
+                                       FontSize="12"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Bind lang:Lang.GameAccountSwitcher_TheCurrentlyLoggedInAccountIsNotSaved}"
+                                       TextWrapping="Wrap"
+                                       Visibility="{x:Bind SelectGameAccount.IsSaved, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                            <!--  保存和删除  -->
+                            <Grid Margin="0,8,0,0"
+                                  HorizontalAlignment="Stretch"
+                                  Background="{ThemeResource CustomAcrylicBrush}"
+                                  CornerRadius="20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <!--  保存  -->
+                                <Button Height="40"
+                                        MinWidth="100"
+                                        HorizontalAlignment="Stretch"
+                                        Command="{x:Bind SaveGameAccountCommand}"
+                                        CornerRadius="20,0,0,20">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <FontIcon Name="FontIcon_SaveGameAccount"
+                                                  FontSize="16"
+                                                  Glyph="&#xE74E;" />
+                                        <TextBlock Text="{x:Bind lang:Lang.Common_Save}" />
+                                    </StackPanel>
+                                </Button>
+                                <!--  删除  -->
+                                <Button Grid.Column="1"
+                                        Height="40"
+                                        MinWidth="100"
+                                        HorizontalAlignment="Stretch"
+                                        CornerRadius="0,20,20,0">
+                                    <Button.Flyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Command="{x:Bind DeleteGameAccountCommand}"
+                                                            Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                                                            Text="{x:Bind lang:Lang.LauncherPage_ConfirmDelete}" />
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Text="{x:Bind lang:Lang.Common_Delete}" />
+                                        <FontIcon FontSize="16" Glyph="&#xE74D;" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+
+
+    </StackPanel>
+</UserControl>
