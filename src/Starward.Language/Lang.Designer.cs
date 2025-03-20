@@ -4343,6 +4343,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Toolbox 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_Toolbox {
+            get {
+                return ResourceManager.GetString("SettingPage_Toolbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Update 的本地化字符串。
         /// </summary>
         public static string SettingPage_Update {
@@ -4726,6 +4735,24 @@ namespace Starward.Language {
         public static string SwitchClientPage_TheTowFoldersExistAtTheSameTime {
             get {
                 return ResourceManager.GetString("SwitchClientPage_TheTowFoldersExistAtTheSameTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Display item images in ZZZ gacha record page. 的本地化字符串。
+        /// </summary>
+        public static string ToolboxSetting_DisplayItemImagesInZZZGachaRecordPage {
+            get {
+                return ResourceManager.GetString("ToolboxSetting_DisplayItemImagesInZZZGachaRecordPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ZZZ Gacha Item Images 的本地化字符串。
+        /// </summary>
+        public static string ToolboxSetting_ZZZGachaItemImages {
+            get {
+                return ResourceManager.GetString("ToolboxSetting_ZZZGachaItemImages", resourceCulture);
             }
         }
         
@@ -5131,6 +5158,54 @@ namespace Starward.Language {
         public static string WelcomeView_WelcomeToStarwardDescription {
             get {
                 return ResourceManager.GetString("WelcomeView_WelcomeToStarwardDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Export to Folder 的本地化字符串。
+        /// </summary>
+        public static string ZZZGachaInfoWindow_ExportToFolder {
+            get {
+                return ResourceManager.GetString("ZZZGachaInfoWindow_ExportToFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fetch Data for All Languages 的本地化字符串。
+        /// </summary>
+        public static string ZZZGachaInfoWindow_FetchDataForAllLanguages {
+            get {
+                return ResourceManager.GetString("ZZZGachaInfoWindow_FetchDataForAllLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Miyoushe 的本地化字符串。
+        /// </summary>
+        public static string ZZZGachaInfoWindow_Miyoushe {
+            get {
+                return ResourceManager.GetString("ZZZGachaInfoWindow_Miyoushe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Save to Database 的本地化字符串。
+        /// </summary>
+        public static string ZZZGachaInfoWindow_SaveToDatabase {
+            get {
+                return ResourceManager.GetString("ZZZGachaInfoWindow_SaveToDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This tool is used to update item images in Zenless Zone Zero gacha records.
+        ///Click &quot;Miyoushe&quot; or &quot;HoYoLAB&quot; in the top left corner, log in, and wait for the data to be retrieved. If logging in via HoYoLAB, you also need to click &quot;Fetch Data for All Languages&quot;.
+        ///After retrieving the data, you can save it to the database in any language or export it to a folder.
+        ///You are welcome to submit the exported data to the following repository: 的本地化字符串。
+        /// </summary>
+        public static string ZZZGachaInfoWindow_ZZZGachaInfoWindowGuide {
+            get {
+                return ResourceManager.GetString("ZZZGachaInfoWindow_ZZZGachaInfoWindowGuide", resourceCulture);
             }
         }
         

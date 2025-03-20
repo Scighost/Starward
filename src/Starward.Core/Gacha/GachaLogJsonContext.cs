@@ -1,4 +1,4 @@
-﻿using Starward.Core.Gacha.Genshin;
+using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
 using System.Text.Json.Serialization;
@@ -13,6 +13,7 @@ namespace Starward.Core.Gacha;
 [JsonSerializable(typeof(miHoYoApiWrapper<GenshinGachaWiki>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<StarRailGachaWiki>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<StarRailGachaInfoWrapper>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<ZZZGachaWiki>))]
 internal partial class GachaLogJsonContext : JsonSerializerContext
 {
 

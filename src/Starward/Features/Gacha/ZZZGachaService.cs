@@ -49,7 +49,7 @@ internal class ZZZGachaService : GachaLogService
     {
         using var dapper = DatabaseService.CreateConnection();
         var list = dapper.Query<GachaLogItemEx>("""
-            SELECT item.* FROM ZZZGachaItem item WHERE Uid=@uid ORDER BY item.Id;
+            SELECT item.*, info.Icon FROM ZZZGachaItem item LEFT JOIN ZZZGachaInfo info ON item.ItemId=Info.Id WHERE Uid=@uid ORDER BY item.Id;
             """, new { uid }).ToList();
         foreach (var type in QueryGachaTypes)
         {
@@ -278,50 +278,29 @@ internal class ZZZGachaService : GachaLogService
 
     public override async Task<string> UpdateGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
     {
-        return lang;
-        // 很可惜，这个方法不能用，服务器返回错误未登录
-        // 还没有定义数据表 ZZZGachaInfo
-        //GameRecordService service = AppService.GetService<GameRecordService>();
-        //if (gameBiz.IsChinaServer() || gameBiz.IsBilibili())
-        //{
-        //    service.IsHoyolab = false;
-        //}
-        //else
-        //{
-        //    service.IsHoyolab = true;
-        //    service.Language = lang;
-        //}
-        //var role = service.GetLastSelectGameRecordRoleOrTheFirstOne(gameBiz);
-        //if (role is null)
-        //{
-        //    return "";
-        //}
-        //var wiki = await service.GetZZZGachaWikiAsync(role, cancellationToken);
-        //var list = new List<ZZZGachaInfo>();
-        //list.AddRange(wiki.Avatar);
-        //list.AddRange(wiki.Weapon);
-        //list.AddRange(wiki.Buddy);
-        //using var dapper = DatabaseService.CreateConnection();
-        //using var t = dapper.BeginTransaction();
-        //const string insertSql = "INSERT OR REPLACE INTO ZZZGachaInfo (Id, Name, Rarity, Icon) VALUES (Id, Name, Rarity, Icon);";
-        //dapper.Execute(insertSql, list, t);
-        //t.Commit();
-        //return lang;
+        var data = await _client.GetZZZGachaInfoAsync(gameBiz, lang, cancellationToken);
+        using var dapper = DatabaseService.CreateConnection();
+        using var t = dapper.BeginTransaction();
+        const string insertSql = """
+            INSERT OR REPLACE INTO ZZZGachaInfo (Id, Name, Icon, Rarity, ElementType, Profession)
+            VALUES (@Id, @Name, @Icon, @Rarity, @ElementType, @Profession);
+            """;
+        dapper.Execute(insertSql, data.List, t);
+        t.Commit();
+        return data.Language;
     }
 
 
     public override async Task<(string Language, int Count)> ChangeGachaItemNameAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
     {
-        return (lang, 0);
-        // lang = await UpdateGachaInfoAsync(gameBiz, lang, cancellationToken);
-        // using var dapper = DatabaseService.CreateConnection();
-        // // todo
-        // int count = dapper.Execute("""
-        //     INSERT OR REPLACE INTO GenshinGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, Count, Lang)
-        //     SELECT item.Uid, item.Id, info.Name, Time, ItemId, ItemType, RankType, GachaType, Count, @Lang
-        //     FROM GenshinGachaItem item INNER JOIN GenshinGachaInfo info ON item.ItemId = info.Id;
-        //     """, new { Lang = lang });
-        // return (lang, count);
+        lang = await UpdateGachaInfoAsync(gameBiz, lang, cancellationToken);
+        using var dapper = DatabaseService.CreateConnection();
+        int count = dapper.Execute("""
+             INSERT OR REPLACE INTO ZZZGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, Count, Lang)
+             SELECT item.Uid, item.Id, info.Name, Time, ItemId, ItemType, RankType, GachaType, Count, @Lang
+             FROM ZZZGachaItem item INNER JOIN ZZZGachaInfo info ON item.ItemId = info.Id;
+             """, new { Lang = lang });
+        return (lang, count);
     }
 
 

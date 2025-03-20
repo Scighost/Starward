@@ -1,4 +1,4 @@
-﻿using Starward.Core.GameRecord.Genshin.SpiralAbyss;
+using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
@@ -464,31 +464,33 @@ public abstract class GameRecordClient
     /// <param name="role"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Obsolete("不可用，返回未登录错误", true)]
     public async Task<ZZZGachaWiki> GetZZZGachaWikiAsync(GameRecordRole role, CancellationToken cancellationToken = default)
     {
-        var items = await GetZZZUpgradeGuideItemListAsync(role, cancellationToken: cancellationToken);
-        var icons = await GetZZZUpgradeGuideIconInfoAsync(role, cancellationToken);
-        var wiki = new ZZZGachaWiki
-        {
-            Avatar = items.AvatarList.Select(x => new ZZZGachaInfo { Id = x.Id, Name = x.Name, Rarity = x.Rarity }).ToList(),
-            Weapon = items.Weapon.Select(x => new ZZZGachaInfo { Id = x.Id, Name = x.Name, Rarity = x.Rarity, Icon = x.Icon }).ToList(),
-            Buddy = items.BuddyList.Select(x => new ZZZGachaInfo { Id = x.Id, Name = x.Name, Rarity = x.Rarity }).ToList()
-        };
-        foreach (var item in wiki.Avatar)
-        {
-            if (icons.AvatarIcon.TryGetValue(item.Id, out UpgradeGuidIconInfoItem? info))
-            {
-                item.Icon = info.SquareAvatar;
-            }
-        }
-        foreach (var item in wiki.Buddy)
-        {
-            if (icons.BuddyIcon.TryGetValue(item.Id, out UpgradeGuidIconInfoItem? value))
-            {
-                item.Icon = value.SquareAvatar;
-            }
-        }
-        return wiki;
+        throw new NotImplementedException();
+        //var items = await GetZZZUpgradeGuideItemListAsync(role, cancellationToken: cancellationToken);
+        //var icons = await GetZZZUpgradeGuideIconInfoAsync(role, cancellationToken);
+        //var wiki = new ZZZGachaWiki
+        //{
+        //    Avatar = items.AvatarList.Select(x => new ZZZGachaInfo { Id = x.Id, Name = x.Name, Rarity = x.Rarity }).ToList(),
+        //    Weapon = items.Weapon.Select(x => new ZZZGachaInfo { Id = x.Id, Name = x.Name, Rarity = x.Rarity, Icon = x.Icon }).ToList(),
+        //    Buddy = items.BuddyList.Select(x => new ZZZGachaInfo { Id = x.Id, Name = x.Name, Rarity = x.Rarity }).ToList()
+        //};
+        //foreach (var item in wiki.Avatar)
+        //{
+        //    if (icons.AvatarIcon.TryGetValue(item.Id, out UpgradeGuidIconInfoItem? info))
+        //    {
+        //        item.Icon = info.SquareAvatar;
+        //    }
+        //}
+        //foreach (var item in wiki.Buddy)
+        //{
+        //    if (icons.BuddyIcon.TryGetValue(item.Id, out UpgradeGuidIconInfoItem? value))
+        //    {
+        //        item.Icon = value.SquareAvatar;
+        //    }
+        //}
+        //return wiki;
     }
 
 
@@ -500,6 +502,7 @@ public abstract class GameRecordClient
     /// <param name="avatar_id"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Obsolete("不可用，返回未登录错误", true)]
     public abstract Task<UpgradeGuideItemList> GetZZZUpgradeGuideItemListAsync(GameRecordRole role, int avatar_id = 1011, CancellationToken cancellationToken = default);
 
 
@@ -510,6 +513,7 @@ public abstract class GameRecordClient
     /// <param name="role"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Obsolete("不可用，返回未登录错误", true)]
     public abstract Task<UpgradeGuidIconInfo> GetZZZUpgradeGuideIconInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default);
 
 

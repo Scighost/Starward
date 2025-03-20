@@ -755,6 +755,17 @@ internal static class DatabaseService
         );
         CREATE INDEX IF NOT EXISTS IX_GameAccount_GameBiz ON GameAccount (GameBiz);
 
+        CREATE TABLE IF NOT EXISTS ZZZGachaInfo
+        (
+            Id          INTEGER NOT NULL PRIMARY KEY,
+            Name        TEXT,
+            Icon        TEXT,
+            Rarity      INTEGER NOT NULL,
+            ElementType INTEGER NOT NULL,
+            Profession  INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS IX_ZZZGachaInfo_Name ON ZZZGachaInfo (Name);
+
         PRAGMA USER_VERSION = 13;
         COMMIT TRANSACTION;
         """;

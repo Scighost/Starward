@@ -1,8 +1,8 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core;
 
-internal class miHoYoApiWrapper<T>
+public class miHoYoApiWrapper<T>
 {
 
     [JsonPropertyName("retcode")]

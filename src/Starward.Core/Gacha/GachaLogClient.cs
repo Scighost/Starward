@@ -1,6 +1,7 @@
 using Microsoft.Win32;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
+using Starward.Core.Gacha.ZZZ;
 using System.Net.Http.Json;
 using System.Runtime.Versioning;
 using System.Text;
@@ -377,23 +378,24 @@ public abstract class GachaLogClient
     }
 
 
-    // todo
-    [Obsolete("Not finished", true)]
-    public async Task<GenshinGachaWiki> GetZZZGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
+    public async Task<ZZZGachaWiki> GetZZZGachaInfoAsync(GameBiz gameBiz, string lang, CancellationToken cancellationToken = default)
     {
         lang = LanguageUtil.FilterLanguage(lang);
-        GenshinGachaWiki wiki;
+        ZZZGachaWiki wiki;
         if (gameBiz.IsChinaServer() && lang is "zh-cn")
         {
-            const string url = "https://api-takumi.mihoyo.com/event/platsimulator/config?gids=2&game=hk4e";
-            wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);
+            const string url = $"https://starward.scighost.com/metadata/v1/zzz/ZZZGachaInfo.nap_cn.zh-cn.json";
+            wiki = await CommonGetAsync<ZZZGachaWiki>(url, cancellationToken);
         }
         else
         {
-            string url = $"https://sg-public-api.hoyolab.com/event/simulatoros/config?lang={lang}";
-            wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);
+            string url = $"https://starward.scighost.com/metadata/v1/zzz/ZZZGachaInfo.nap_global.{lang}.json";
+            wiki = await CommonGetAsync<ZZZGachaWiki>(url, cancellationToken);
         }
-        wiki.Language = lang;
+        if (string.IsNullOrWhiteSpace(wiki.Language))
+        {
+            wiki.Language = lang;
+        }
         return wiki;
     }
 

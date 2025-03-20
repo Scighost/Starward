@@ -14,6 +14,7 @@
     <Page.Resources>
         <local:RarityToGIBgConverter x:Key="RarityToGIBgConverter" />
         <local:RarityToSRBgConverter x:Key="RarityToSRBgConverter" />
+        <local:RarityToZZZIconConverter x:Key="RarityToZZZIconConverter" />
     </Page.Resources>
 
     <Grid>
@@ -356,6 +357,49 @@
                                             <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_Times}" />
                                         </TextBlock>
                                     </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                    <GridView Name="GridView_GachaItemStats_ZZZ"
+                              Padding="24,12,24,12"
+                              x:Load="{x:Bind EnableZZZGachaItemStats}"
+                              ItemsSource="{x:Bind GachaItemStats}"
+                              SelectionMode="None">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="local:GachaLogItemEx">
+                                <Grid Width="80"
+                                      Height="98"
+                                      Margin="4,2,4,2"
+                                      Background="Black"
+                                      CornerRadius="8">
+                                    <sc:CachedImage Width="80"
+                                                    Height="80"
+                                                    VerticalAlignment="Top"
+                                                    Source="ms-appx:///Assets/Image/ZZZ_AvatarCard_Background.png" />
+                                    <sc:CachedImage Width="80"
+                                                    Height="80"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Top"
+                                                    Source="{x:Bind Icon}"
+                                                    Stretch="UniformToFill" />
+                                    <Border HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            Background="Black"
+                                            CornerRadius="0,0,4,0">
+                                        <sc:CachedImage Width="20"
+                                                        Height="20"
+                                                        Margin="2"
+                                                        Source="{x:Bind RankType, Converter={StaticResource RarityToZZZIconConverter}}" />
+                                    </Border>
+                                    <TextBlock Margin="0,0,0,1"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Bottom"
+                                               FontSize="12"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                        <Run Text="{x:Bind ItemCount}" />
+                                        <Run Text="{x:Bind lang:Lang.SpiralAbyssPage_Times}" />
+                                    </TextBlock>
                                 </Grid>
                             </DataTemplate>
                         </GridView.ItemTemplate>

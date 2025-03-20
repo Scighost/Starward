@@ -1,19 +1,17 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.Gacha.ZZZ;
 
 public class ZZZGachaWiki
 {
 
-    [JsonPropertyName("avatar")]
-    public List<ZZZGachaInfo> Avatar { get; set; }
+    [JsonPropertyName("game")]
+    public string Game { get; set; }
 
+    [JsonPropertyName("lang")]
+    public string Language { get; set; }
 
-    [JsonPropertyName("weapon")]
-    public List<ZZZGachaInfo> Weapon { get; set; }
-
-
-    [JsonPropertyName("buddy")]
-    public List<ZZZGachaInfo> Buddy { get; set; }
+    [JsonPropertyName("list")]
+    public List<ZZZGachaInfo> List { get; set; }
 
 }

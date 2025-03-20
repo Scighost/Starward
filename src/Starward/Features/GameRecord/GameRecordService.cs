@@ -927,21 +927,4 @@ internal class GameRecordService
 
 
 
-
-    #region ZZZ Gacha Wiki
-
-
-
-    public async Task<ZZZGachaWiki> GetZZZGachaWikiAsync(GameRecordRole role, CancellationToken cancellationToken = default)
-    {
-        return await _gameRecordClient.GetZZZGachaWikiAsync(role, cancellationToken);
-    }
-
-
-
-    #endregion
-
-
-
-
 }

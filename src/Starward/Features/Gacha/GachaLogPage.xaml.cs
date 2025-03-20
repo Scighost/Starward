@@ -67,6 +67,7 @@ public sealed partial class GachaLogPage : PageBase
         }
         if (CurrentGameBiz.Game == GameBiz.nap)
         {
+            EnableZZZGachaItemStats = true;
             IsZZZGachaStatsCardVisible = true;
             _gachaLogService = AppConfig.GetService<ZZZGachaService>();
             Image_Emoji.Source = new BitmapImage(AppConfig.EmojiBangboo);
@@ -159,6 +160,8 @@ public sealed partial class GachaLogPage : PageBase
     public bool EnableGenshinGachaItemStats { get; set => SetProperty(ref field, value); }
 
     public bool EnableStarRailGachaItemStats { get; set => SetProperty(ref field, value); }
+
+    public bool EnableZZZGachaItemStats { get; set => SetProperty(ref field, value); }
 
 
     public ObservableCollection<GachaTypeStats> GachaTypeStatsCollection { get; set => SetProperty(ref field, value); }

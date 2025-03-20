@@ -45,7 +45,7 @@
                 <!--  通用  -->
                 <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_General}" Tag="1">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xEC7A;" />
+                        <FontIcon Glyph="&#xE81E;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <!--  下载  -->
@@ -64,6 +64,15 @@
                 <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_Advanced}" Tag="4">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEA86;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItemSeparator />
+
+                <!--  工具箱  -->
+                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_Toolbox}" Tag="5">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEC7A;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
@@ -103,6 +112,11 @@
                 <!--  高级  -->
                 <FlipViewItem>
                     <local:AdvancedSetting />
+                </FlipViewItem>
+
+                <!--  工具箱  -->
+                <FlipViewItem>
+                    <local:ToolboxSetting />
                 </FlipViewItem>
 
 

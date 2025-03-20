@@ -1,4 +1,4 @@
-﻿namespace Starward.Core;
+namespace Starward.Core;
 
 public static class LanguageUtil
 {
@@ -54,6 +54,32 @@ public static class LanguageUtil
             }
         };
     }
+
+
+    public static List<string> GetAllLanguages()
+    {
+        // zh-cn,zh-tw,en-us,de-de,es-es,fr-fr,id-id,it-it,ja-jp,ko-kr,pt-pt,ru-ru,th-th,tr-tr,vi-vn
+        return new List<string>
+        {
+            "zh-cn",
+            "zh-tw",
+            "en-us",
+            "de-de",
+            "es-es",
+            "fr-fr",
+            "id-id",
+            "it-it",
+            "ja-jp",
+            "ko-kr",
+            "pt-pt",
+            "ru-ru",
+            "th-th",
+            "tr-tr",
+            "vi-vn",
+        };
+    }
+
+
 
 
 }

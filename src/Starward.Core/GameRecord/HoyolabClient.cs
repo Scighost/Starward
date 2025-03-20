@@ -1,4 +1,4 @@
-﻿using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
+using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
@@ -667,6 +667,7 @@ public class HoyolabClient : GameRecordClient
     /// <param name="avatar_id"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Obsolete("不可用，返回未登录错误", true)]
     public override async Task<UpgradeGuideItemList> GetZZZUpgradeGuideItemListAsync(GameRecordRole role, int avatar_id = 1011, CancellationToken cancellationToken = default)
     {
         var url = $"https://sg-public-api.hoyolab.com/event/nap_cultivate_tool/user/item_list?uid={role.Uid}&region={role.Region}&avatar_id={avatar_id}";
@@ -687,6 +688,7 @@ public class HoyolabClient : GameRecordClient
     /// <param name="role"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Obsolete("不可用，返回未登录错误", true)]
     public override async Task<UpgradeGuidIconInfo> GetZZZUpgradeGuideIconInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default)
     {
         var url = $"https://sg-public-api.hoyolab.com/event/nap_cultivate_tool/user/icon_info?uid={role.Uid}&region={role.Region}";
