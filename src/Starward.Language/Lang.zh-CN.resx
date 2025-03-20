@@ -1839,4 +1839,31 @@
   <data name="SettingPage_RegistryBasedGameAccountSwitchingFeature" xml:space="preserve">
     <value>基于注册表的游戏账号切换功能</value>
   </data>
+  <data name="ToolboxSetting_ZZZGachaItemImages" xml:space="preserve">
+    <value>绝区零抽卡物品图片</value>
+  </data>
+  <data name="ToolboxSetting_DisplayItemImagesInZZZGachaRecordPage" xml:space="preserve">
+    <value>在绝区零抽卡记录页面中显示物品图片</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_Miyoushe" xml:space="preserve">
+    <value>米游社</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_FetchDataForAllLanguages" xml:space="preserve">
+    <value>获取所有语言的数据</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_SaveToDatabase" xml:space="preserve">
+    <value>保存到数据库</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_ExportToFolder" xml:space="preserve">
+    <value>导出到文件夹</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_ZZZGachaInfoWindowGuide" xml:space="preserve">
+    <value>此工具用于更新《绝区零》抽卡记录的物品图片数据。
+点击左上方的「米游社」或「HoYoLAB」并登录，等待数据获取。如果使用 HoYoLAB 登录，还需点击「获取所有语言的数据」。
+获取数据后，可选择任意语言的数据保存到数据库，或导出到文件夹。
+欢迎将导出的数据提交至以下仓库：</value>
+  </data>
+  <data name="SettingPage_Toolbox" xml:space="preserve">
+    <value>工具箱</value>
+  </data>
 </root>
