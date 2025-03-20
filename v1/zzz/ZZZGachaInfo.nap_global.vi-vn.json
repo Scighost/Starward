@@ -1,0 +1,952 @@
+{
+  "retcode": 0,
+  "message": "",
+  "data": {
+    "list": [
+      {
+        "id": 1381,
+        "name": "Chiến Binh 0 - Anby",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1381.png",
+        "rarity": 4,
+        "element_type": 203,
+        "profession": 1
+      },
+      {
+        "id": 1321,
+        "name": "Evelyn",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1321.png",
+        "rarity": 4,
+        "element_type": 201,
+        "profession": 1
+      },
+      {
+        "id": 1311,
+        "name": "Astra Yao",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1311.png",
+        "rarity": 4,
+        "element_type": 205,
+        "profession": 4
+      },
+      {
+        "id": 1261,
+        "name": "Jane",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1261.png",
+        "rarity": 4,
+        "element_type": 200,
+        "profession": 3
+      },
+      {
+        "id": 1251,
+        "name": "Qingyi",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1251.png",
+        "rarity": 4,
+        "element_type": 203,
+        "profession": 2
+      },
+      {
+        "id": 1241,
+        "name": "Zhu Yuan",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1241.png",
+        "rarity": 4,
+        "element_type": 205,
+        "profession": 1
+      },
+      {
+        "id": 1221,
+        "name": "Yanagi",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1221.png",
+        "rarity": 4,
+        "element_type": 203,
+        "profession": 3
+      },
+      {
+        "id": 1211,
+        "name": "Rina",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1211.png",
+        "rarity": 4,
+        "element_type": 203,
+        "profession": 4
+      },
+      {
+        "id": 1201,
+        "name": "Harumasa",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1201.png",
+        "rarity": 4,
+        "element_type": 203,
+        "profession": 1
+      },
+      {
+        "id": 1191,
+        "name": "Ellen",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1191.png",
+        "rarity": 4,
+        "element_type": 202,
+        "profession": 1
+      },
+      {
+        "id": 1181,
+        "name": "Grace",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1181.png",
+        "rarity": 4,
+        "element_type": 203,
+        "profession": 3
+      },
+      {
+        "id": 1171,
+        "name": "Burnice",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1171.png",
+        "rarity": 4,
+        "element_type": 201,
+        "profession": 3
+      },
+      {
+        "id": 1161,
+        "name": "Lighter",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1161.png",
+        "rarity": 4,
+        "element_type": 201,
+        "profession": 2
+      },
+      {
+        "id": 1141,
+        "name": "Lycaon",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1141.png",
+        "rarity": 4,
+        "element_type": 202,
+        "profession": 2
+      },
+      {
+        "id": 1101,
+        "name": "Koleda",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1101.png",
+        "rarity": 4,
+        "element_type": 201,
+        "profession": 2
+      },
+      {
+        "id": 1091,
+        "name": "Miyabi",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1091.png",
+        "rarity": 4,
+        "element_type": 202,
+        "profession": 3
+      },
+      {
+        "id": 1071,
+        "name": "Caesar",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1071.png",
+        "rarity": 4,
+        "element_type": 200,
+        "profession": 5
+      },
+      {
+        "id": 1041,
+        "name": "Chiến Binh 11",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1041.png",
+        "rarity": 4,
+        "element_type": 201,
+        "profession": 1
+      },
+      {
+        "id": 1021,
+        "name": "Nekomata",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1021.png",
+        "rarity": 4,
+        "element_type": 200,
+        "profession": 1
+      },
+      {
+        "id": 1351,
+        "name": "Pulchra",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1351.png",
+        "rarity": 3,
+        "element_type": 200,
+        "profession": 2
+      },
+      {
+        "id": 1281,
+        "name": "Piper",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1281.png",
+        "rarity": 3,
+        "element_type": 200,
+        "profession": 3
+      },
+      {
+        "id": 1271,
+        "name": "Seth",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1271.png",
+        "rarity": 3,
+        "element_type": 203,
+        "profession": 5
+      },
+      {
+        "id": 1151,
+        "name": "Lucy",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1151.png",
+        "rarity": 3,
+        "element_type": 201,
+        "profession": 4
+      },
+      {
+        "id": 1131,
+        "name": "Soukaku",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1131.png",
+        "rarity": 3,
+        "element_type": 202,
+        "profession": 4
+      },
+      {
+        "id": 1121,
+        "name": "Ben",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1121.png",
+        "rarity": 3,
+        "element_type": 201,
+        "profession": 5
+      },
+      {
+        "id": 1111,
+        "name": "Anton",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1111.png",
+        "rarity": 3,
+        "element_type": 203,
+        "profession": 1
+      },
+      {
+        "id": 1081,
+        "name": "Billy",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1081.png",
+        "rarity": 3,
+        "element_type": 200,
+        "profession": 1
+      },
+      {
+        "id": 1061,
+        "name": "Corin",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1061.png",
+        "rarity": 3,
+        "element_type": 200,
+        "profession": 1
+      },
+      {
+        "id": 1031,
+        "name": "Nicole",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1031.png",
+        "rarity": 3,
+        "element_type": 205,
+        "profession": 4
+      },
+      {
+        "id": 1011,
+        "name": "Anby",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1011.png",
+        "rarity": 3,
+        "element_type": 203,
+        "profession": 2
+      },
+      {
+        "id": 14138,
+        "name": "Hy Sinh Thuần Khiết",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/575652a6a4a808e31859c13a6a615743.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 14132,
+        "name": "Tiếng Lòng Trong Đêm",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/941d437b6ff36eb5963c9f40941968e1.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 14131,
+        "name": "Hộp Trang Điểm Sành Điệu",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/d54da931988a7f5d8bea9a61b41acdd6.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 4
+      },
+      {
+        "id": 14126,
+        "name": "Gọng Kìm Sắc Bén",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/432a53004cc3da2b91ed7854ff9777db.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 14125,
+        "name": "Ngọc Hồ Thanh Băng",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/635c06c67834ce87d01c30c0d5c0334b.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 14124,
+        "name": "Chống Bạo Động VI",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/70a334a8181b589fe071d7c5414257cd.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 14122,
+        "name": "Hiền Giả Thời Gian",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/8c5505e5d1eb753978fed389b307f0c5.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 14121,
+        "name": "Chiếc Nôi Nức Nở",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/5480b2f625ed720202cf01dd4eb891b2.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 4
+      },
+      {
+        "id": 14120,
+        "name": "Hộp Thuốc Tàn Tâm",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/bbe206de8d85813bfcac291d71cacbbd.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 14119,
+        "name": "Vị Khách Biển Sâu",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/d4fba774597d8c43c5b1fe7f3c64bdf8.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 14118,
+        "name": "Trình Biên Dịch Tích Hợp",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/7ae8cfcf5fd5f29e26fcf8a58402a563.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 14117,
+        "name": "Bình Lắc Lửa Thiêu",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/a80428dbe792f32ed523a68a1d96b494.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 14116,
+        "name": "Vòng Nguyệt Quế Rực Rỡ",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/0f15a69cf66d2d563c83f30f3408edcc.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 14114,
+        "name": "Người Trói Buộc",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/8740b4e84fe333ecfbbe13cea7ad85ad.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 14110,
+        "name": "Bánh Răng Thiêu Đốt",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/0499e42b2e82676f5707703fcb090c46.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 14109,
+        "name": "Sảnh Đường Tuyết Rơi",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/f29744168c36d4116772f2cdadfc9aa4.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 14107,
+        "name": "Nanh Nhọn Tập Kích",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/d328c817abd2d9e0667b7e5c0cb07666.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 5
+      },
+      {
+        "id": 14104,
+        "name": "Đá Lưu Huỳnh",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/6669216fcf046aebacb0739c91b3dc0f.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 14102,
+        "name": "Đệm Thịt Thép",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/af3f98e9e0cfe151f850b7eb5dba7d4a.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 14003,
+        "name": "Khẩu Súng Ổ Xoay",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/ced679a303475b232ab84127ade17439.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 14002,
+        "name": "Bóng Bay Tự Do",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/18b8cdfca52b6b162d3e16d2954e5007.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 4
+      },
+      {
+        "id": 14001,
+        "name": "Con Quay Cannon",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/e8537d16a61e67e92a65f089132c3c1c.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 13135,
+        "name": "Dao Rọc Giấy",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/4cdd51ed66a7b155de42f9e46a310eba.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 13128,
+        "name": "Ghế Lái Rền Vang",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/fdb07b010d31dd5915cc7ca84fee9932.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 13127,
+        "name": "Duy Trì Trật Tự - Đặc Biệt",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/d731d7eea41aab614149b190890e98d2.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 5
+      },
+      {
+        "id": 13115,
+        "name": "Kaboom Hiếu Chiến",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/e0d3cce890f2fa9e39f0a7785e2ffad5.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 4
+      },
+      {
+        "id": 13113,
+        "name": "Ác Diện Thẹn Thùng",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/7ff0c46c742595eb4a0b3ba5a5b1ea90.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 4
+      },
+      {
+        "id": 13112,
+        "name": "Xi Lanh Lớn",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/9c5c52edf06fb154f615a9af23fbbc76.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 5
+      },
+      {
+        "id": 13111,
+        "name": "Máy Khoan-Trục Đỏ",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/950f6ea5819e35bcae8df55aefaf2078.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 13108,
+        "name": "Engine Ánh Sao Mô Phỏng",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/6d173036780801573e1c8370bec89424.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 13106,
+        "name": "Nhân Viên Nội Trợ",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/19c44f9854c4599ddc81ef3c2555c4fe.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 13103,
+        "name": "Rương Kho Báu",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/2419e046bc5de46b739e87d11cd6689a.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 4
+      },
+      {
+        "id": 13101,
+        "name": "Pin Demara Loại II",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/0770f2019000b125b507b2de569820cb.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 13015,
+        "name": "Khát Vọng Cường Âm",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/b28a0115e0f7c75b5041e0c019699e4b.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 13013,
+        "name": "Mùa Hoa Vàng Rực",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/4962a91ffb23d1d9d269ec52b2c1c48d.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 13011,
+        "name": "Ngày Xuân Ấm Áp",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/cceec743179f8ae1bb8fc51009892408.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 5
+      },
+      {
+        "id": 13010,
+        "name": "Vòng Năng Lượng Thỏ",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/1aa7f34f505bd298a650be10a82380a8.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 5
+      },
+      {
+        "id": 13009,
+        "name": "Son Môi Nhiễm Điện",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/ccc5740ca756f99bd21ede2ff884c0af.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 13008,
+        "name": "Song Tinh Rơi Lệ",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/972b64c59fd08a626c8dfc3d12e0ff98.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 13007,
+        "name": "Máy Biến Hình Chính Hãng",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/77b0b6e82f84df74b76014dd94191f02.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 5
+      },
+      {
+        "id": 13006,
+        "name": "Lõi Hóa Thạch Quý",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/5cb45f76fa8398206c006bca31dde836.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 13005,
+        "name": "Cá Nằm Trên Thớt",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/3faa86d4f822db8bc097f312cfa04107.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 13004,
+        "name": "Engine Ánh Sao",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/eea4132189e89cebf754c101c65b8f78.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 13003,
+        "name": "Khách Tham Ăn Rừng Mưa",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/1cfa663371e6b20103c5f442fd64fbc5.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 13002,
+        "name": "Mảnh Ghép Thời Gian",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/60f23a72c5e08891ba9cadeb0a82394a.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 4
+      },
+      {
+        "id": 13001,
+        "name": "Siêu Sao Đường Phố",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/e18bf76092162d68043458ce54c465bf.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 12014,
+        "name": "[Hằng Đẳng Thức] Biến Cách",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/8a2797098d9a33e9c2800b3fc12220b2.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 5
+      },
+      {
+        "id": 12013,
+        "name": "[Hằng Đẳng Thức] Cơ Bản",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/51a317a66ef4b44e5d928b5b7771f4f8.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 5
+      },
+      {
+        "id": 12012,
+        "name": "[Bão Từ] Charlie",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/8f480bab1d7789e6b9b96f5146e82cf9.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 12011,
+        "name": "[Bão Từ] Bravo",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/d982eeca7f06f852bd54362dbd76bf89.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 12010,
+        "name": "[Bão Từ] Alpha",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/8a80098e3e6780499a79393c15af64fa.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
+        "id": 12009,
+        "name": "[Nước Xiết] Dạng Rìu",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/2f6fe203e26c17b1853e553848ae1e6c.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 12008,
+        "name": "[Nước Xiết] Dạng Tiễn",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/78cbbccf96d46a392f4749f3192faeec.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 12007,
+        "name": "[Nước Xiết] Dạng Súng",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/d22cca1cd7f14d0d5d96e1f337b0c2bd.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 12006,
+        "name": "[Âm Vang] Loại III",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/3fe66b34e9560799018e082cefa15db0.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 4
+      },
+      {
+        "id": 12005,
+        "name": "[Âm Vang] Loại II",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/4ecb0fc9b49e44fd2297954ee49dcb80.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 4
+      },
+      {
+        "id": 12004,
+        "name": "[Âm Vang] Loại I",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/f9cbcbe24b07e166270819ab227155c8.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 4
+      },
+      {
+        "id": 12003,
+        "name": "[Pha Mặt Trăng] Noviluna",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/10932f885aaf2781beeb853c4a6562cb.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 12002,
+        "name": "[Pha Mặt Trăng] Decrescent",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/ffe44e7e14e4a010c25608f57f8ec892.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 12001,
+        "name": "[Pha Mặt Trăng] Pleniluna",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/6e6163fa53a68f834447cce3ed7705ed.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
+        "id": 54015,
+        "name": "Snap",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/f0a67373804b6cc5c69a6124aa7c1be8.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54014,
+        "name": "Đặc Vụ Gulliver",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/378acc2c404f5c3149277c0522a2bb5d.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54013,
+        "name": "Boo Pằng Pằng",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/64a96139aa62695ab8b685c26c6a45cf.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54012,
+        "name": "Tuần Vệ Cui",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/14d2513af683e49da2d64a266286e7c4.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54011,
+        "name": "Red Moccus",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/d9579e29b888a61c51cddd99fbd06ac9.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54009,
+        "name": "Boo Cộng Hưởng",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/d64bfabb70e3074b715ffbf7ca337527.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54008,
+        "name": "Boo Trình Cắm",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/e5390557dfa9b92095450cf322d87d60.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54006,
+        "name": "Boo Tốc Độ",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/dea8a95c16d572dc02322c5ac1cfc75b.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54005,
+        "name": "Amillion",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/fb3ebe9f0fde1c863227a5d95c59b291.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54004,
+        "name": "Butler",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/99a17f5c8da10d77ea32c7df539f1eda.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54002,
+        "name": "Safety",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/5bb61501fc7b2858cc3e1cce2fe2febd.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54001,
+        "name": "Boo Cá Mập",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/8a61847b7eb61b482a8a970d0d0709d9.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54003,
+        "name": "Boo Ác Ma",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/1ab6cf1ac7db0d9b055b5c54d8c62bc6.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53017,
+        "name": "Boo Kỵ Sĩ",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/8412dd1c3bae2c96a156fa7a37e6087e.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53015,
+        "name": "Boo Đấu Sĩ",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/18ff2571989a94e951857697a5aba26d.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53013,
+        "name": "Boo Bất Lương",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/08370010b3049c1020a4bdc70479d15f.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53012,
+        "name": "Boo Khí Nén",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/94a2f720db3f6cb571bad89466b01efb.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53011,
+        "name": "Boo Từ Trường",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/51dde528ec0d46d0a58c2db6fdabff65.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53010,
+        "name": "Boo Điện Giật",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/d4defa6387c908421ed35bb03af065bf.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53009,
+        "name": "Boo Bia Bắn",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/d4b30927f9d710674e50cdbf05bd9fbc.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53008,
+        "name": "Boo Hạt Bơ",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/8c0a4280f012b3ca30c0ae26d1d5018a.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53007,
+        "name": "Boo Khóc Nhè",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/e7e0690505e58481efd321d42c7ba0a8.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53006,
+        "name": "Boo Túi Giấy",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/17bf5e0d3267fe49ec0621f1834aaa40.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53005,
+        "name": "Boo Vỏ Giấy",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/cadf2d42b1bf38bd4f010d859616dd20.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53004,
+        "name": "Boo Sumo",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/a598b4e933543960159594270a5fb15c.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53003,
+        "name": "Boo Tầm Bảo",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/72693c9019aaf16a38a77f6a95a54425.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53002,
+        "name": "Boo Chiêu Tài",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/c0b040eaa657c666ab8e9a60c1dde169.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 53001,
+        "name": "Boo Cánh Cụt",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u072yb/554a7f3b5c12547091dfb695e72c1bab.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 0
+      }
+    ]
+  }
+}
