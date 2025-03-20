@@ -2,6 +2,8 @@
   "retcode": 0,
   "message": "",
   "data": {
+    "game": "nap",
+    "lang": "vi-vn",
     "list": [
       {
         "id": 1381,

@@ -2,6 +2,8 @@
   "retcode": 0,
   "message": "",
   "data": {
+    "game": "nap",
+    "lang": "ko-kr",
     "list": [
       {
         "id": 1381,
