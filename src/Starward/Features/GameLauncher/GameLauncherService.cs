@@ -295,7 +295,6 @@ internal partial class GameLauncherService
                 var folder = GetGameInstallPath(gameId);
                 var name = await GetGameExeNameAsync(gameId);
                 exe = Path.Join(folder, name);
-                arg = AppConfig.GetStartArgument(gameId.GameBiz)?.Trim();
                 verb = "runas";
                 if (!File.Exists(exe))
                 {
@@ -303,6 +302,7 @@ internal partial class GameLauncherService
                     throw new FileNotFoundException("Game exe not found", name);
                 }
             }
+            arg = AppConfig.GetStartArgument(gameId.GameBiz)?.Trim();
             if (AppConfig.EnableLoginAuthTicket is true)
             {
                 string? ticket = await _gameAuthLoginService.CreateAuthTicketByGameBiz(gameId);
