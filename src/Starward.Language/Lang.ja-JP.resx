@@ -257,7 +257,7 @@
     <value>解凍中</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>何らかのエラーが発生しました</value>
+    <value>問題が発生したようです</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
     <value>再試行</value>
@@ -558,7 +558,7 @@
     <value>ゲームを修復する</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>カスタムをした状態でゲームを開始</value>
+    <value>ゲーム起動時に指定した実行ファイルから開始する</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>選択</value>
@@ -1201,7 +1201,7 @@
     <value>この日</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
-    <value>ウィンドウオプションを閉じる</value>
+    <value>ウィンドウを閉じた時</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
     <value>システムトレイに最小化する</value>
@@ -1241,7 +1241,7 @@
     <value>ゲームアカウントの切り替えを非表示にする</value>
   </data>
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
-    <value>ゲームのお知らせの赤いドットのリマインダーを無効化する</value>
+    <value>ゲームのお知らせを赤いドットで通知しない</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
     <value>ネットワークテスト</value>
@@ -1797,13 +1797,13 @@
     <value>プレイヤーの皆様、Starward へようこそ!</value>
   </data>
   <data name="WelcomeView_WelcomeToStarwardDescription" xml:space="preserve">
-    <value>This is a launcher designed specifically for HoYoverse games, helping you easily manage your games and enjoy a better experience.</value>
+    <value>このランチャーはHoYoverseのゲーム向けに設計されており、ゲームを簡単に管理し、より良い体験を得ることができます。</value>
   </data>
   <data name="WelcomeView_SelectUserDataFolderDescription" xml:space="preserve">
-    <value>All your personal data will be stored in the folder below. It is important, and you can also click the button below to select a different folder.</value>
+    <value>すべての個人データは以下のフォルダに保存されます。このファイルは重要なものです。以下のボタンをクリックして別のフォルダを選択できます。</value>
   </data>
   <data name="WelcomeView_BeforeStartingSomeNecessaryEnvironmentChecksAreRequired" xml:space="preserve">
-    <value>Before starting, some necessary environment checks are required.</value>
+    <value>起動前に、環境のチェックを行う必要があります。</value>
   </data>
   <data name="WelcomeView_NetworkStatus" xml:space="preserve">
     <value>ネットワークの状態</value>
@@ -1818,16 +1818,16 @@
     <value>インストール済み</value>
   </data>
   <data name="WelcomeView_StarwardStart" xml:space="preserve">
-    <value>Starward, Start!</value>
+    <value>Starward、起動!</value>
   </data>
   <data name="GameSelector_ClickToSelectOrSwitchGame" xml:space="preserve">
     <value>クリックしてゲームを選択または切り替え。</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameUserDataFolderWarning" xml:space="preserve">
-    <value>The Starward data folder is inside the game folder and will be deleted along with it. Please change the data folder location in the settings page and try again.</value>
+    <value>Starwardのデータフォルダがゲームフォルダ内に含まれています。ゲームのアンインストール時にデータが削除されることを防ぐため、設定ページからデータフォルダの場所を変更し、再度お試しください。</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning" xml:space="preserve">
-    <value>The Starward program is inside the game folder and will be deleted along with the game. Please move the program out of the game folder and try again.</value>
+    <value>Starwardの実行ファイルがゲームフォルダ内に含まれています。ゲームのアンインストール時にデータが削除されることを防ぐため、実行ファイルの場所をゲームフォルダ外に移動し、再度お試しください。</value>
   </data>
   <data name="CloudGameButton_CloudGame" xml:space="preserve">
     <value>クラウドゲーム</value>
