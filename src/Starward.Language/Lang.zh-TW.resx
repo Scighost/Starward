@@ -1324,7 +1324,7 @@
     <value>驗證失敗</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
-    <value>目前版本不是最新版本（｛0｝）。</value>
+    <value>目前版本不是最新版本（{0}）。</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
     <value>按下按鈕修復檔案</value>
