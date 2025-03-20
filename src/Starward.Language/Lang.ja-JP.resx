@@ -1147,7 +1147,7 @@
     <value>URLプロトコル (試験的)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
-    <value>他のソフトウェアは、URLプロトコルを通じてStarwardの機能の一部を使用ができます。</value>
+    <value>他のソフトウェアは、URLプロトコルを通じてStarwardの機能の一部を利用することができます。</value>
   </data>
   <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
     <value>URLプロトコルを登録</value>
@@ -1207,10 +1207,10 @@
     <value>システムトレイに最小化する</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
-    <value>終了をする</value>
+    <value>アプリケーションを終了する</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>ウィンドウを閉じてシステムトレイ上にアイコンを残す</value>
+    <value>ウィンドウを閉じてシステムトレイ上にアイコンを表示</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
     <value>エクスペリエンス</value>
@@ -1220,7 +1220,7 @@
     <value>このオプションは設定ページから再び変更ができます。</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
-    <value>個人データは、以下のフォルダーに保存されています。非常に重要なファイルが格納されているため、安易に削除をしないでください。</value>
+    <value>個人データは以下のフォルダに保存されています。このファイルは非常に重要ですので、安易に削除しないでください。</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
     <value>テーマカラー</value>
@@ -1470,7 +1470,7 @@
     <value>速度制限</value>
   </data>
   <data name="DownloadSettingPage_TheNumber0MeansNoSpeedLimit" xml:space="preserve">
-    <value>0は速度制限をしません。</value>
+    <value>0を入力した場合は速度制限を行いません。</value>
   </data>
   <data name="SettingPage_Download" xml:space="preserve">
     <value>ダウンロード</value>
