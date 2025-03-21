@@ -1693,7 +1693,7 @@
     <comment>General Setting</comment>
   </data>
   <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
-    <value>为了更好的体验，请在系统设置中启用以下功能。</value>
+    <value>为了更好的体验，建议在系统设置中启用以下功能。</value>
   </data>
   <data name="PlayTimeButton_Last7Days" xml:space="preserve">
     <value>最近 7 天</value>

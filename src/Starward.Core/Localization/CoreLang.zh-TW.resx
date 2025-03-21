@@ -166,32 +166,32 @@
     <value>崩壞：星穹鐵道</value>
   </data>
   <data name="Game_HonkaiImpact3rd" xml:space="preserve">
-    <value>崩壞3rd</value>
+    <value>崩壞 3rd</value>
   </data>
   <data name="GameServer_ChinaServer" xml:space="preserve">
-    <value>中國服</value>
+    <value>中國伺服器</value>
   </data>
   <data name="GameServer_GlobalServer" xml:space="preserve">
-    <value>國際服</value>
+    <value>國際伺服器</value>
   </data>
   <data name="GameServer_ChinaCloudServer" xml:space="preserve">
-    <value>中國服雲遊戲</value>
+    <value>中國雲端伺服器</value>
   </data>
   <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
     <value>歐美服</value>
   </data>
   <data name="GameServer_JapanServer" xml:space="preserve">
-    <value>日服</value>
+    <value>日本伺服器</value>
   </data>
   <data name="GameServer_KoreaServer" xml:space="preserve">
-    <value>韓服</value>
+    <value>韓國伺服器</value>
   </data>
   <data name="GameServer_SEAServer" xml:space="preserve">
-    <value>東南亞服</value>
+    <value>東南亞伺服器</value>
     <comment>Southeast Asia and Australia Server</comment>
   </data>
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
-    <value>繁中服</value>
+    <value>繁體中文伺服器</value>
   </data>
   <data name="GenshinQueryType_GenesisCrystal" xml:space="preserve">
     <value>創世結晶</value>
@@ -224,7 +224,7 @@
     <value>開拓力</value>
   </data>
   <data name="GameServer_BilibiliServer" xml:space="preserve">
-    <value>Bilbili服</value>
+    <value>Bilibili 伺服器</value>
   </data>
   <data name="GachaType_ChronicledWish" xml:space="preserve">
     <value>集錄祈願</value>
@@ -239,7 +239,7 @@
     <value>中國官方</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>國際服</value>
+    <value>國際官方</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
     <value>中國雲端</value>
@@ -248,16 +248,16 @@
     <value>Bilibili</value>
   </data>
   <data name="GameServer_EuropeAmericas" xml:space="preserve">
-    <value>歐美服</value>
+    <value>歐美伺服器</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
-    <value>日服</value>
+    <value>日本伺服器</value>
   </data>
   <data name="GameServer_Korea" xml:space="preserve">
-    <value>韓服</value>
+    <value>韓國伺服器</value>
   </data>
   <data name="GameServer_SoutheastAsia" xml:space="preserve">
-    <value>東南亞服</value>
+    <value>東南亞伺服器</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
     <value>正體中文</value>
