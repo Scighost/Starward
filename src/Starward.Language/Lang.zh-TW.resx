@@ -239,7 +239,7 @@
     <value>權限不足</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>請使用管理員身份開始</value>
+    <value>請使用系統管理員身份開始</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
     <value>開始</value>
@@ -254,7 +254,7 @@
     <value>驗證中</value>
   </data>
   <data name="DownloadGamePage_Decompressing" xml:space="preserve">
-    <value>解壓中</value>
+    <value>解壓縮中</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
     <value>出錯了</value>
@@ -582,7 +582,7 @@
     <value>啟動遊戲</value>
   </data>
   <data name="LauncherPage_GameIsRunning" xml:space="preserve">
-    <value>遊戲正在運行</value>
+    <value>遊戲正在執行中</value>
   </data>
   <data name="Common_Start" xml:space="preserve">
     <value>開始</value>
@@ -597,7 +597,7 @@
     <value>重新選擇</value>
   </data>
   <data name="LauncherPage_TheFollowingFolderContainsUnfinishedDownloadTasks" xml:space="preserve">
-    <value>以下資料夾中有尚未完成的下載任務:</value>
+    <value>以下資料夾中有尚未完成的下載任務：</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
     <value>請選擇一個空資料夾安裝遊戲，或定位已安裝遊戲 {0} 的資料夾。</value>
@@ -612,10 +612,10 @@
     <value>預下載已經完成，是否校驗文件？</value>
   </data>
   <data name="MainPage_HowToSwitchGameRegion" xml:space="preserve">
-    <value>如何切換遊戲服務器？</value>
+    <value>如何切換遊戲伺服器？</value>
   </data>
   <data name="MainPage_ClickTheRightMouseButtonOnTheGameIconOnTheLeft" xml:space="preserve">
-    <value>在左側的遊戲圖標上點擊滑鼠右鍵</value>
+    <value>在左側的遊戲圖示點選滑鼠右鍵。</value>
   </data>
   <data name="MainPage_Launcer" xml:space="preserve">
     <value>啟動器</value>
@@ -683,10 +683,10 @@
     <value>檔案管理</value>
   </data>
   <data name="SettingPage_OpenDataFolder" xml:space="preserve">
-    <value>開啟數據資料夾</value>
+    <value>開啟資料目錄</value>
   </data>
   <data name="SettingPage_ReselectDataFolder" xml:space="preserve">
-    <value>重新選擇數據資料夾</value>
+    <value>重新選擇資料目錄</value>
   </data>
   <data name="SettingPage_DeleteAllSettings" xml:space="preserve">
     <value>恢復初始設定</value>
@@ -701,7 +701,7 @@
     <value>項目主頁</value>
   </data>
   <data name="SettingPage_ReportIssue" xml:space="preserve">
-    <value>反饋問題</value>
+    <value>回饋問題</value>
   </data>
   <data name="SettingPage_ReleaseHistroy" xml:space="preserve">
     <value>更新紀錄</value>
@@ -716,7 +716,7 @@
     <value>網路異常</value>
   </data>
   <data name="SettingPage_TheCurrentLocationOfTheDataFolderIs" xml:space="preserve">
-    <value>當前數據資料夾的位置是：</value>
+    <value>目前資料目錄的位置是：</value>
   </data>
   <data name="SettingPage_WouldLikeToReselectDataFolder" xml:space="preserve">
     <value>想要重新選擇嗎？ (你需要在選擇前手動遷移資料)</value>
@@ -789,7 +789,7 @@
     <value>跟隨系統</value>
   </data>
   <data name="SelectDirectoryPage_ToStart" xml:space="preserve">
-    <value>在開始之前，請選擇一個資料夾保存程式數據。</value>
+    <value>在開始之前，請選擇一個資料夾儲存程式資料。</value>
   </data>
   <data name="GachaLogService_GetGachaProgressText" xml:space="preserve">
     <value>正在獲取 {0} 第 {1} 頁</value>
@@ -1013,7 +1013,7 @@
     <value>選擇伺服器</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
-    <value>系統匣圖示</value>
+    <value>系統工作列圖示</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
     <value>關閉視窗時離開啟動器</value>
@@ -1022,13 +1022,13 @@
     <value>離開</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>系統匣</value>
+    <value>系統工作列</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
     <value>安裝器</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>您可以選擇離開，或是將視窗隱藏到系統匣。</value>
+    <value>您可以選擇離開，或是將視窗隱藏到系統工作列。</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
     <value>隱藏</value>
@@ -1062,7 +1062,7 @@
     <comment>Nickname is required.</comment>
   </data>
   <data name="DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip" xml:space="preserve">
-    <value>解壓所需空間不足時可啟用此設置</value>
+    <value>解壓縮所需的空間不足時可開啟此設定。</value>
   </data>
   <data name="LauncherPage_ConfirmDelete" xml:space="preserve">
     <value>確認刪除</value>
@@ -1081,13 +1081,13 @@
     <comment>Account with uid {0} already exists, replace it or save new?</comment>
   </data>
   <data name="LauncherPage_AccountSaveNew" xml:space="preserve">
-    <value>Uid {0} 的帳號已存在，替換或儲存為新帳號？</value>
+    <value>Uid {0} 的帳號已存在，取代或儲存為新帳號？</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
-    <value>修復系統匣</value>
+    <value>修復系統工作列圖示</value>
   </data>
   <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
-    <value>修正無法建立系統匣圖示的問題，此方法會重新啟動資源管理器。</value>
+    <value>修正無法建立系統工作列圖示的問題，此方法會重新啟動檔案總管。</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
     <value>帳號記錄</value>
@@ -1100,7 +1100,7 @@
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
     <value>- 在遊戲中開啟選單
-- 點選意見回饋(原神)或問題通報(星穹鐵道) 
+- 點選意見回饋 (原神) 或問題通報 (星穹鐵道) 
 - 複製網頁的 URL 並貼上到下方輸入框中</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
@@ -1145,7 +1145,7 @@
     <value>捐贈</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
-    <value>URL協議 (實驗中)</value>
+    <value>URL 協議 (實驗中)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
     <value>其他軟體可透過 URL 協議使用 Starward 的部分功能</value>
@@ -1175,13 +1175,13 @@
     <value>開啟</value>
   </data>
   <data name="LauncherPage_StartupCount" xml:space="preserve">
-    <value>開始計數</value>
+    <value>啟動次數</value>
   </data>
   <data name="FileSettingPage_DataFolder" xml:space="preserve">
-    <value>資料夾</value>
+    <value>資料目錄</value>
   </data>
   <data name="FileSettingPage_OpenLogFile" xml:space="preserve">
-    <value>開啟日誌文件</value>
+    <value>打開記錄檔</value>
   </data>
   <data name="SettingPage_Appearance" xml:space="preserve">
     <value>外觀</value>
@@ -1205,13 +1205,13 @@
     <value>關閉視窗選項</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
-    <value>最小化到系統匣</value>
+    <value>最小化到系統工作列圖示</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
     <value>完全退出</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>關閉視窗但保留在系統匣</value>
+    <value>關閉視窗但保留在系統工作列圖示</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
     <value>行為</value>
@@ -1245,7 +1245,7 @@
     <value>停用遊戲通知紅點提示</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
-    <value>網絡測試</value>
+    <value>網路測試</value>
   </data>
   <data name="SelectLanguagePage_AreYouAbleToReceiveUpdatesForStarward" xml:space="preserve">
     <value>您能收到 Starward 的更新嗎？</value>
@@ -1324,7 +1324,7 @@
     <value>驗證失敗</value>
   </data>
   <data name="AboutSettingPage_CurrentVersionIsNotTheLatestVersion" xml:space="preserve">
-    <value>目前版本不是最新版本（｛0｝）。</value>
+    <value>目前版本不是最新版本（{0}）。</value>
   </data>
   <data name="AboutSettingPage_ClickButtonToRepairFiles" xml:space="preserve">
     <value>按下按鈕修復檔案</value>
@@ -1435,7 +1435,7 @@
     <value>選擇安裝路徑</value>
   </data>
   <data name="Common_Change" xml:space="preserve">
-    <value>更改</value>
+    <value>變更</value>
   </data>
   <data name="InstallGameDialog_SpaceRequiredToUnzip" xml:space="preserve">
     <value>解壓縮所需空間</value>
@@ -1447,7 +1447,7 @@
     <value>沒有寫入權限，請以管理員身分重新啟動。</value>
   </data>
   <data name="InstallGameDialog_ClickToRestart" xml:space="preserve">
-    <value>點擊重新啟動</value>
+    <value>點選重新啟動應用程式</value>
   </data>
   <data name="InstallGameDialog_DesktopShortcut" xml:space="preserve">
     <value>桌面捷徑</value>
@@ -1480,10 +1480,10 @@
     <value>已暫停</value>
   </data>
   <data name="InstallGameManager_DownloadTaskCompleted" xml:space="preserve">
-    <value>下載任務已完成</value>
+    <value>下載排程已完成</value>
   </data>
   <data name="InstallGameManager_DownloadTaskFailed" xml:space="preserve">
-    <value>下載任務失敗</value>
+    <value>下載排程失敗</value>
   </data>
   <data name="GameLauncherPage_NoWritePermission" xml:space="preserve">
     <value>沒有寫入權限</value>
@@ -1492,19 +1492,19 @@
     <value>重新啟動</value>
   </data>
   <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
-    <value>請以管理員身分重新啟動</value>
+    <value>請使用系統管理員身份重新啟動。</value>
   </data>
   <data name="InstallGameDialog_CreateHardLink" xml:space="preserve">
     <value>建立硬連結</value>
   </data>
   <data name="InstallGameDialog_HardLinkDescription" xml:space="preserve">
-    <value>建立硬鏈接，佔用極小的額外儲存空間，以安裝多個不同區服的遊戲用戶端。</value>
+    <value>建立硬連結，佔用極小的額外儲存空間，以安裝多個不同區域的遊戲客戶端。</value>
   </data>
   <data name="InstallGameDialog_LinkTarget" xml:space="preserve">
     <value>連結目標：</value>
   </data>
   <data name="GameLauncherPage_HardLinkNotSupportPredownload" xml:space="preserve">
-    <value>目前區服不支援預先下載，請在硬連結的目標區服完成預先下載。</value>
+    <value>目前區域的伺服器不支援預先下載，請在硬連結目標區域伺服器完成預先下載。</value>
   </data>
   <data name="GameLauncherPage_HardLinkUpdateToLatest" xml:space="preserve">
     <value>請將硬連結的目標區服更新到最新版本後，再更新本區服的遊戲檔案。</value>
@@ -1580,7 +1580,7 @@
     <value>輝彩祝福</value>
   </data>
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
-    <value>可移動存儲設備未連接。</value>
+    <value>可卸除式裝置未連線。</value>
   </data>
   <data name="InterKnotMonthlyReportPage_PolychromeRevenueStreams" xml:space="preserve">
     <value>菲林收入組成</value>
@@ -1634,203 +1634,287 @@
     <value>指定時段</value>
   </data>
   <data name="StartGameButton_ResumeDownload" xml:space="preserve">
-    <value>Resume Download</value>
+    <value>繼續下載</value>
   </data>
   <data name="StartGameButton_Waiting" xml:space="preserve">
-    <value>Waiting</value>
+    <value>等待中</value>
   </data>
   <data name="GameLauncherPage_Relocate" xml:space="preserve">
-    <value>Relocate</value>
+    <value>重新定位</value>
   </data>
   <data name="GameLauncherSettingDialog_RelocateGame" xml:space="preserve">
-    <value>Relocate Game</value>
+    <value>重新定位遊戲</value>
   </data>
   <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
-    <value>Size</value>
+    <value>大小</value>
   </data>
   <data name="GameLauncherSettingDialog_BasicInformation" xml:space="preserve">
-    <value>Basic Information</value>
+    <value>基本資訊</value>
   </data>
   <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
-    <value>Startup Arguments</value>
+    <value>啟動參數</value>
   </data>
   <data name="GameLauncherSettingDialog_CustomBackground" xml:space="preserve">
-    <value>Custom Background</value>
+    <value>自訂背景</value>
   </data>
   <data name="GameLauncherSettingDialog_GamePackages" xml:space="preserve">
-    <value>Game Packages</value>
+    <value>遊戲資源包</value>
   </data>
   <data name="GameLauncherSettingDialog_CommandLineArgument" xml:space="preserve">
-    <value>Command Line Argument</value>
+    <value>指令行參數</value>
   </data>
   <data name="GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument" xml:space="preserve">
-    <value>See more information about command line argument.</value>
+    <value>檢視有關指令行參數的更多資訊。</value>
   </data>
   <data name="GameLauncherSettingDialog_UseVersionPoster" xml:space="preserve">
-    <value>Use Version Poster</value>
+    <value>使用版本海報</value>
   </data>
   <data name="GameSelector_ActualSizeOfInstalledGames" xml:space="preserve">
-    <value>Actual Size of Installed Games</value>
+    <value>已安裝遊戲實際佔用空間</value>
   </data>
   <data name="GameSelector_StorageSpaceSavedByHardLinks" xml:space="preserve">
-    <value>Storage Space Saved by Hard Links</value>
+    <value>通過硬連結節省存儲空間</value>
   </data>
   <data name="GameLauncherSettingDialog_CannotDecodeFile" xml:space="preserve">
-    <value>Cannot decode file.</value>
+    <value>無法解碼檔案。</value>
   </data>
   <data name="GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs" xml:space="preserve">
-    <value>An unknown error occurred. Please check the logs.</value>
+    <value>發生未知錯誤，請檢查日誌。</value>
   </data>
   <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
-    <value>Drag and drop image / video files.</value>
+    <value>拖放圖片 / 影片檔案。</value>
   </data>
   <data name="GameSelector_Calculating" xml:space="preserve">
-    <value>Calculating</value>
+    <value>計算中</value>
     <comment>Calculating storage space usage.</comment>
   </data>
   <data name="SettingPage_General" xml:space="preserve">
-    <value>General</value>
+    <value>一般</value>
     <comment>General Setting</comment>
   </data>
   <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
-    <value>For a better experience, please enable the following features in system settings.</value>
+    <value>為了更好的體驗，請在系統設定中啟用以下功能。</value>
   </data>
   <data name="PlayTimeButton_Last7Days" xml:space="preserve">
-    <value>Last 7 Days</value>
+    <value>最近 7 天</value>
   </data>
   <data name="PlayTimeButton_LastStartup" xml:space="preserve">
-    <value>Last Startup</value>
+    <value>上次啟動</value>
   </data>
   <data name="UpdateWindow_AutoRestartAfterUpdate" xml:space="preserve">
-    <value>Auto-restart after update</value>
+    <value>更新後自動重新啟動應用程式</value>
   </data>
   <data name="UpdateWindow_DisplayUpdateContentAfterRestart" xml:space="preserve">
-    <value>Display update content after restart</value>
+    <value>重新啟動程式後展示更新內容</value>
   </data>
   <data name="Common_WebView2ComponentInitializationFailed" xml:space="preserve">
-    <value>WebView2 component initialization failed.</value>
+    <value>WebView2 元件初始化失敗。</value>
   </data>
   <data name="SettingPage_RPCService" xml:space="preserve">
-    <value>RPC Service</value>
+    <value>RPC 服務</value>
   </data>
   <data name="SettingPage_RPCService_Desc" xml:space="preserve">
-    <value>The RPC service is an independent process used to avoid restarting when downloading games, updating software, and other features that require administrator privileges.</value>
+    <value>RPC 服務是一個獨立的處理程序，用於在下載遊戲、更新軟體、以及其他需要系統管理員權限的功能，避免重新啟動。</value>
   </data>
   <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
-    <value>Keep RPC Service Running in the Background</value>
+    <value>保持 RPC 服務背景運作</value>
   </data>
   <data name="SettingPage_RPCServiceWarningIfAppInRemovableStorage" xml:space="preserve">
-    <value>Detected that the application is in a removable storage device, it is not recommended to keep the RPC service running in the background.</value>
+    <value>偵測到應用程式處於可移動儲存裝置中，不建議保持 RPC 服務後台運作。</value>
   </data>
   <data name="ZZZGachaService_ImportSignalSearchRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} signal search record(s) successfully.</value>
+    <value>成功匯入調頻記錄 {0} 條。</value>
   </data>
   <data name="InstallGameDialog_HardLinkDesc" xml:space="preserve">
-    <value>If the selected path is on the same drive as the clients of other installed servers, multiple clients for different servers can be installed using hard links, which occupy a minimal amount of additional storage space.</value>
+    <value>如果選擇的路徑與已安裝的其他區服的用戶端位於同一磁碟機，可透過硬鏈接，佔用極小的額外儲存空間，安裝多個不同區服的客戶端。</value>
   </data>
   <data name="InstallGameDialog_SupportHardLinks" xml:space="preserve">
-    <value>Support Hard Links</value>
+    <value>支援硬連結</value>
   </data>
   <data name="PreDownloadDialog_NoPatchesWarning" xml:space="preserve">
-    <value>There are no patch packagees available. It is recommended to update the game to the latest version before starting pre-install.</value>
+    <value>無可用的修補包。建議把遊戲更新到最新版本後再開始預下載。</value>
   </data>
   <data name="PreDownloadDialog_StartPreInstall" xml:space="preserve">
-    <value>Start Pre-Install</value>
+    <value>開始預下載</value>
   </data>
   <data name="GameLauncherSettingDialog_StartRepairing" xml:space="preserve">
-    <value>Start Repairing</value>
+    <value>開始修復</value>
   </data>
   <data name="PreDownloadButton_PreInstallFinished" xml:space="preserve">
-    <value>Pre-Install Finished</value>
+    <value>預先下載已完成</value>
   </data>
   <data name="Common_Error" xml:space="preserve">
-    <value>Error</value>
+    <value>錯誤</value>
   </data>
   <data name="StartGameButton_InQueue" xml:space="preserve">
-    <value>In Queue</value>
+    <value>佇列中</value>
   </data>
   <data name="RPCServiceExitedUnexpectedly" xml:space="preserve">
-    <value>RPC service exited unexpectedly.</value>
+    <value>RPC 服務意外退出。</value>
   </data>
   <data name="StartGameButton_Install" xml:space="preserve">
-    <value>Install</value>
+    <value>安裝</value>
   </data>
   <data name="StartGameButton_Verify" xml:space="preserve">
-    <value>Verify</value>
+    <value>校驗</value>
   </data>
   <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
-    <value>RPC Service is not Running</value>
+    <value>PRC 服務未執行</value>
   </data>
   <data name="SettingPage_RunService" xml:space="preserve">
-    <value>Run Service</value>
+    <value>執行服務</value>
   </data>
   <data name="SettingPage_RPCServiceIsRunning" xml:space="preserve">
-    <value>RPC Service is Running</value>
+    <value>RPC 服務正在運行</value>
   </data>
   <data name="SettingPage_StopService" xml:space="preserve">
-    <value>Stop Service</value>
+    <value>停止服務</value>
   </data>
   <data name="SettingPage_CannotConnectRPCService" xml:space="preserve">
-    <value>Cannot Connect RPC Service</value>
+    <value>無法連線 RPC 服務</value>
   </data>
   <data name="InstallGameDialog_AutomaticallyCreateASubfolder" xml:space="preserve">
-    <value>Automatically Create a Subfolder</value>
+    <value>自動建立子資料夾</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameWarning" xml:space="preserve">
-    <value>All files in the following folder will be deleted. Please confirm the path before uninstalling.</value>
+    <value>以下資料夾中的所有檔案將被刪除，請在卸載前確認路徑是否正確。</value>
   </data>
   <data name="GameLauncherSettingDialog_ConfirmUninstall" xml:space="preserve">
-    <value>Confirm Uninstall</value>
+    <value>確認解除安裝</value>
   </data>
   <data name="GameLauncherSettingDialog_CannotDeleteTheDriveRootDirectory" xml:space="preserve">
-    <value>Cannot delete the drive root directory.</value>
+    <value>不能刪除磁碟機根目錄。</value>
   </data>
   <data name="PreDownloadDialog_PreInstallIsNotAvailable" xml:space="preserve">
-    <value>Pre-install is not available.</value>
+    <value>預下載不可用</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNotice" xml:space="preserve">
-    <value>Incompatibility Notice</value>
+    <value>不相容提醒</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNoticeContent" xml:space="preserve">
-    <value>The pre-install files of Starward and HoYoPlay (miHoYo Launcher) are incompatible and cannot recognize each other.</value>
+    <value>Starward 和 HoYoPlay (米哈遊啟動器) 的預下載檔案不相容，無法互相辨識。</value>
   </data>
   <data name="WelcomeView_DearPlayerWelcomeToStarward" xml:space="preserve">
-    <value>Dear Player, welcome to Starward!</value>
+    <value>親愛的玩家，歡迎來到 Starward！</value>
   </data>
   <data name="WelcomeView_WelcomeToStarwardDescription" xml:space="preserve">
-    <value>This is a launcher designed specifically for HoYoverse games, helping you easily manage your games and enjoy a better experience.</value>
+    <value>這是一個專為米哈遊旗下游戲打造的啟動器，幫助您輕鬆管理遊戲，享受更好的體驗。</value>
   </data>
   <data name="WelcomeView_SelectUserDataFolderDescription" xml:space="preserve">
-    <value>All your personal data will be stored in the folder below. It is important, and you can also click the button below to select a different folder.</value>
+    <value>您的所有個人資料將會被儲存在以下資料夾中。它很重要，您也可以點選下方的按鍵選擇其他資料夾。</value>
   </data>
   <data name="WelcomeView_BeforeStartingSomeNecessaryEnvironmentChecksAreRequired" xml:space="preserve">
-    <value>Before starting, some necessary environment checks are required.</value>
+    <value>開始之前還需要檢查一些必要環境。</value>
   </data>
   <data name="WelcomeView_NetworkStatus" xml:space="preserve">
-    <value>Network Status</value>
+    <value>網路狀態</value>
   </data>
   <data name="WelcomeView_NotInstalled" xml:space="preserve">
-    <value>Not Installed</value>
+    <value>未安裝</value>
   </data>
   <data name="WelcomeView_InstallNow" xml:space="preserve">
-    <value>Install Now</value>
+    <value>現在安裝</value>
   </data>
   <data name="WelcomeView_Installed" xml:space="preserve">
-    <value>Installed</value>
+    <value>已安裝</value>
   </data>
   <data name="WelcomeView_StarwardStart" xml:space="preserve">
-    <value>Starward, Start!</value>
+    <value>Starward，啟動！</value>
   </data>
   <data name="GameSelector_ClickToSelectOrSwitchGame" xml:space="preserve">
-    <value>Click to select or switch game.</value>
+    <value>點選此處選擇或切換遊戲。</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameUserDataFolderWarning" xml:space="preserve">
-    <value>The Starward data folder is inside the game folder and will be deleted along with it. Please change the data folder location in the settings page and try again.</value>
+    <value>Starward 資料目錄位於遊戲資料夾內，刪除遊戲時會一併被刪除。請在設定修改資料目錄後重試。</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning" xml:space="preserve">
-    <value>The Starward program is inside the game folder and will be deleted along with the game. Please move the program out of the game folder and try again.</value>
+    <value>Starward 程式位於遊戲資料夾內，刪除遊戲時會一併被刪除。請將程式移出遊戲資料夾後重試。</value>
   </data>
   <data name="CloudGameButton_CloudGame" xml:space="preserve">
-    <value>Cloud Game</value>
+    <value>雲端遊戲</value>
+  </data>
+  <data name="GameAccountSwitcher_TheCurrentlyLoggedInAccountIsNotSaved" xml:space="preserve">
+    <value>目前登入的帳號尚未儲存。</value>
+  </data>
+  <data name="SettingPage_RegistryBasedGameAccountSwitchingFeature" xml:space="preserve">
+    <value>以登錄檔為基礎的遊戲帳號切換功能</value>
+  </data>
+  <data name="ToolboxSetting_ZZZGachaItemImages" xml:space="preserve">
+    <value>絕區零抽卡物品圖片</value>
+  </data>
+  <data name="ToolboxSetting_DisplayItemImagesInZZZGachaRecordPage" xml:space="preserve">
+    <value>在絕區零抽卡紀錄頁顯示物品圖片。</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_Miyoushe" xml:space="preserve">
+    <value>米遊社</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_FetchDataForAllLanguages" xml:space="preserve">
+    <value>擷取所有語言的資料</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_SaveToDatabase" xml:space="preserve">
+    <value>儲存到資料庫</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_ExportToFolder" xml:space="preserve">
+    <value>匯出到資料夾</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_ZZZGachaInfoWindowGuide" xml:space="preserve">
+    <value>這個工具用於更新《絕區零》抽卡紀錄的物品圖片資料。
+點選左上方的「米遊社」或是「HoYoLAB」並登入，等候擷取資料。如果使用 HoYoLAB 登入，還需要點選「擷取所有語言的資料」。
+擷取資料後，可以選擇任意語言的資料儲存到資料庫或是匯出到資料庫。
+歡迎將匯出的資料傳送到以下倉庫：</value>
+  </data>
+  <data name="SettingPage_Toolbox" xml:space="preserve">
+    <value>工具箱</value>
+  </data>
+  <data name="ToolboxSetting_GachaRecordsImportExport" xml:space="preserve">
+    <value>Gacha Records Import &amp; Export</value>
+  </data>
+  <data name="UIGFGachaService_UidMismatchDetectedExpected0ButFound1" xml:space="preserve">
+    <value>Uid mismatch detected. Expected: {0}, but found: {1}.</value>
+  </data>
+  <data name="UIGFGachaService_ImportSuccessfulButNoRecordItemName" xml:space="preserve">
+    <value>Import successful, but some records are missing item names. Please go to the gacha record settings, change the language, and apply.</value>
+  </data>
+  <data name="UIGFGachaService_ImportSuccessful" xml:space="preserve">
+    <value>Import successful.</value>
+  </data>
+  <data name="UIGFGachaService_0FieldIsMissingInAGachaRecord" xml:space="preserve">
+    <value>"{0}" field is missing in a gacha record.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="GachaImportAndExportWindow_SelectTheGachaRecordsToExport" xml:space="preserve">
+    <value>Select the gacha records to export.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TheLastGachaPull" xml:space="preserve">
+    <value>The Last Gacha Pull</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TimeServerTimeZone" xml:space="preserve">
+    <value>Time (Server Time Zone)</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="GachaImportAndExportWindow_SelectTheFileToImport" xml:space="preserve">
+    <value>Select the file to import.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TimeZoneOffsetWarning" xml:space="preserve">
+    <value>Before importing, please ensure that the time of the last gacha pull matches the time displayed in the game. If they do not match, please adjust the time zone offset.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TimeZoneOffset" xml:space="preserve">
+    <value>Time Zone Offset</value>
+  </data>
+  <data name="GachaImportAndExportWindow_OffsetTime" xml:space="preserve">
+    <value>Offset Time</value>
+  </data>
+  <data name="GachaImportAndExportWindow_SelectFile" xml:space="preserve">
+    <value>Select File</value>
   </data>
 </root>
