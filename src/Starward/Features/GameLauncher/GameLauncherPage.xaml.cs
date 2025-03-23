@@ -108,6 +108,7 @@ public sealed partial class GameLauncherPage : PageBase
     [RelayCommand]
     private async Task ClickStartGameButtonAsync()
     {
+        await Task.Delay(1);
         switch (GameState)
         {
             case GameState.None:
