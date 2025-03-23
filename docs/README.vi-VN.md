@@ -68,20 +68,8 @@ Ngoài ra, cảm ơn CloudFlare vì đã cung cấp dịch vụ CDN miễn phí,
 
 <img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
-Và các thư viện bên thứ ba được sử dụng trong dự án này bao gồm:
+Và các [thư viện bên thứ ba](./docs/ThirdParty.md) được sử dụng trong dự án này.
 
-- [Dapper](https://github.com/DapperLib/Dapper)
-- [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
-- [HDiffPatch](https://github.com/sisong/HDiffPatch)
-- [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
-- [HoYo-Glyphs](https://github.com/SpeedyOrc-C/HoYo-Glyphs)
-- [MiniExcel](https://github.com/mini-software/MiniExcel)
-- [ScottPlot](https://github.com/ScottPlot/ScottPlot)
-- [Serilog](https://github.com/serilog/serilog)
-- [SevenZipExtractor](https://github.com/adoconnection/SevenZipExtractor)
-- [Vanara PInvoke](https://github.com/dahall/Vanara)
-- [WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
-- [WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
 
 ## Ảnh chụp màn hình
 

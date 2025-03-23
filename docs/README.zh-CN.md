@@ -73,20 +73,8 @@ Starward 使用 [Crowdin](https://crowdin.com/project/starward) 进行应用内�
 
 <img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
-本项目中使用到的第三方库包括：
+以及本项目中使用的[第三方库](./docs/ThirdParty.md)。
 
--  [Dapper](https://github.com/DapperLib/Dapper)
--  [GitHub Markdown CSS](https://github.com/sindresorhus/github-markdown-css)
--  [HDiffPatch](https://github.com/sisong/HDiffPatch)
--  [H.NotifyIcon](https://github.com/HavenDV/H.NotifyIcon)
--  [HoYo-Glyphs](https://github.com/SpeedyOrc-C/HoYo-Glyphs)
--  [MiniExcel](https://github.com/mini-software/MiniExcel)
--  [ScottPlot](https://github.com/ScottPlot/ScottPlot)
--  [Serilog](https://github.com/serilog/serilog)
--  [SevenZipExtractor](https://github.com/adoconnection/SevenZipExtractor)
--  [Vanara PInvoke](https://github.com/dahall/Vanara)
--  [WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
--  [WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
 
 ## 截图
 
