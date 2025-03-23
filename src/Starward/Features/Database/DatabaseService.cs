@@ -194,7 +194,7 @@ internal static class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11, Sql_v12];
+    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11, Sql_v12, Sql_v13];
 
 
     private const string Sql_v1 = """

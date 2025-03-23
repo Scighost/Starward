@@ -374,6 +374,7 @@ internal class UIGFGachaService
             VALUES (@Uid, @Id, @Name, @Time, @ItemId, @ItemType, @RankType, @GachaType, @Count, @Lang);
             """, list, t);
         t.Commit();
+        _logger.LogInformation("Imported {count} gacha records for {game}.", affect, archive.Game);
         archive.Result = noName ? Lang.UIGFGachaService_ImportSuccessfulButNoRecordItemName : Lang.UIGFGachaService_ImportSuccessful;
     }
 
@@ -433,6 +434,7 @@ internal class UIGFGachaService
             VALUES (@Uid, @Id, @Name, @Time, @ItemId, @ItemType, @RankType, @GachaType, @GachaId, @Count, @Lang);
             """, list, t);
         t.Commit();
+        _logger.LogInformation("Imported {count} gacha records for {game}.", affect, archive.Game);
         archive.Result = noName ? Lang.UIGFGachaService_ImportSuccessfulButNoRecordItemName : Lang.UIGFGachaService_ImportSuccessful;
     }
 
@@ -488,6 +490,7 @@ internal class UIGFGachaService
             VALUES (@Uid, @Id, @Name, @Time, @ItemId, @ItemType, @RankType, @GachaType, @Count, @Lang);
             """, list, t);
         t.Commit();
+        _logger.LogInformation("Imported {count} gacha records for {game}.", affect, archive.Game);
         archive.Result = noName ? Lang.UIGFGachaService_ImportSuccessfulButNoRecordItemName : Lang.UIGFGachaService_ImportSuccessful;
     }
 

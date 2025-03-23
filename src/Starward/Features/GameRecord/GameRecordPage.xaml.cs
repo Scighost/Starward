@@ -447,6 +447,7 @@ public sealed partial class GameRecordPage : PageBase
     {
         try
         {
+            // todo 不要每次打开页面时刷新
             if (CurrentRole is not null)
             {
                 await _gameRecordService.RefreshGameRoleInfoAsync(CurrentRole);

@@ -91,6 +91,10 @@ public class GameAuthLoginService
     {
         try
         {
+            if (gameId.GameBiz.Server is not "cn")
+            {
+                return null;
+            }
             CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(3)).Token;
             long? aid = await GetHyperionAidAsync(cancellationToken);
             if (!hyperionAid.HasValue)

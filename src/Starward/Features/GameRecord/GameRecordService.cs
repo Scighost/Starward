@@ -1,7 +1,6 @@
 using Dapper;
 using Microsoft.Extensions.Logging;
 using Starward.Core;
-using Starward.Core.Gacha.ZZZ;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;

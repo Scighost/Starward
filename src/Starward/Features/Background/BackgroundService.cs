@@ -307,9 +307,14 @@ public class BackgroundService
             }
             return (file, false);
         }
-        catch (Exception ex) when (ex is OperationCanceledException or HttpRequestException or SocketException)
+        catch (OperationCanceledException)
         {
-            _logger.LogError(ex, "Get background image");
+            _logger.LogWarning("Get background image timeout ({GameBiz})", gameId.GameBiz);
+            return (GetFallbackBackgroundImage(gameId), true);
+        }
+        catch (Exception ex) when (ex is HttpRequestException or SocketException)
+        {
+            _logger.LogError(ex, "Get background image ({GameBiz})", gameId.GameBiz);
             return (GetFallbackBackgroundImage(gameId), true);
         }
     }
