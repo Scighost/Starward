@@ -1864,4 +1864,55 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="SettingPage_Toolbox" xml:space="preserve">
     <value>Toolbox</value>
   </data>
+  <data name="ToolboxSetting_GachaRecordsImportExport" xml:space="preserve">
+    <value>Gacha Records Import &amp; Export</value>
+  </data>
+  <data name="UIGFGachaService_UidMismatchDetectedExpected0ButFound1" xml:space="preserve">
+    <value>Uid mismatch detected. Expected: {0}, but found: {1}.</value>
+  </data>
+  <data name="UIGFGachaService_ImportSuccessfulButNoRecordItemName" xml:space="preserve">
+    <value>Import successful, but some records are missing item names. Please go to the gacha record settings, change the language, and apply.</value>
+  </data>
+  <data name="UIGFGachaService_ImportSuccessful" xml:space="preserve">
+    <value>Import successful.</value>
+  </data>
+  <data name="UIGFGachaService_0FieldIsMissingInAGachaRecord" xml:space="preserve">
+    <value>"{0}" field is missing in a gacha record.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="GachaImportAndExportWindow_SelectTheGachaRecordsToExport" xml:space="preserve">
+    <value>Select the gacha records to export.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TheLastGachaPull" xml:space="preserve">
+    <value>The Last Gacha Pull</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TimeServerTimeZone" xml:space="preserve">
+    <value>Time (Server Time Zone)</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="GachaImportAndExportWindow_SelectTheFileToImport" xml:space="preserve">
+    <value>Select the file to import.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TimeZoneOffsetWarning" xml:space="preserve">
+    <value>Before importing, please ensure that the time of the last gacha pull matches the time displayed in the game. If they do not match, please adjust the time zone offset.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TimeZoneOffset" xml:space="preserve">
+    <value>Time Zone Offset</value>
+  </data>
+  <data name="GachaImportAndExportWindow_OffsetTime" xml:space="preserve">
+    <value>Offset Time</value>
+  </data>
+  <data name="GachaImportAndExportWindow_SelectFile" xml:space="preserve">
+    <value>Select File</value>
+  </data>
 </root>
