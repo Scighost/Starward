@@ -257,7 +257,7 @@
     <value>解凍中</value>
   </data>
   <data name="DownloadGamePage_SomethingError" xml:space="preserve">
-    <value>何らかのエラーが発生しました</value>
+    <value>問題が発生したようです</value>
   </data>
   <data name="DownloadGamePage_Retry" xml:space="preserve">
     <value>再試行</value>
@@ -558,7 +558,7 @@
     <value>ゲームを修復する</value>
   </data>
   <data name="LauncherPage_CustomStartExecutable" xml:space="preserve">
-    <value>カスタムをした状態でゲームを開始</value>
+    <value>ゲーム起動時に指定した実行ファイルから開始する</value>
   </data>
   <data name="Common_Select" xml:space="preserve">
     <value>選択</value>
@@ -1147,7 +1147,7 @@
     <value>URLプロトコル (試験的)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
-    <value>他のソフトウェアは、URLプロトコルを通じてStarwardの機能の一部を使用ができます。</value>
+    <value>他のソフトウェアは、URLプロトコルを通じてStarwardの機能の一部を利用することができます。</value>
   </data>
   <data name="SettingPage_RegisterURLProtocol" xml:space="preserve">
     <value>URLプロトコルを登録</value>
@@ -1201,16 +1201,16 @@
     <value>この日</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
-    <value>ウィンドウオプションを閉じる</value>
+    <value>ウィンドウを閉じた時</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
     <value>システムトレイに最小化する</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
-    <value>終了をする</value>
+    <value>アプリケーションを終了する</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>ウィンドウを閉じてシステムトレイ上にアイコンを残す</value>
+    <value>ウィンドウを閉じてシステムトレイ上にアイコンを表示</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
     <value>エクスペリエンス</value>
@@ -1220,7 +1220,7 @@
     <value>このオプションは設定ページから再び変更ができます。</value>
   </data>
   <data name="FileSettingPage_DataFolderIsImportant" xml:space="preserve">
-    <value>個人データは、以下のフォルダーに保存されています。非常に重要なファイルが格納されているため、安易に削除をしないでください。</value>
+    <value>個人データは以下のフォルダに保存されています。このファイルは非常に重要ですので、安易に削除しないでください。</value>
   </data>
   <data name="AppearanceSettingPage_ThemeColor" xml:space="preserve">
     <value>テーマカラー</value>
@@ -1241,7 +1241,7 @@
     <value>ゲームアカウントの切り替えを非表示にする</value>
   </data>
   <data name="ExperienceSettingPage_DisableRedDotReminderForGameNotices" xml:space="preserve">
-    <value>ゲームのお知らせの赤いドットのリマインダーを無効化する</value>
+    <value>ゲームのお知らせを赤いドットで通知しない</value>
   </data>
   <data name="SelectLanguagePage_NetworkTest" xml:space="preserve">
     <value>ネットワークテスト</value>
@@ -1470,7 +1470,7 @@
     <value>速度制限</value>
   </data>
   <data name="DownloadSettingPage_TheNumber0MeansNoSpeedLimit" xml:space="preserve">
-    <value>0は速度制限をしません。</value>
+    <value>0を入力した場合は速度制限を行いません。</value>
   </data>
   <data name="SettingPage_Download" xml:space="preserve">
     <value>ダウンロード</value>
@@ -1785,51 +1785,135 @@
     <value>ドライブのルートディレクトリを削除できません。</value>
   </data>
   <data name="PreDownloadDialog_PreInstallIsNotAvailable" xml:space="preserve">
-    <value>Pre-install is not available.</value>
+    <value>事前インストールは利用できません。</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNotice" xml:space="preserve">
-    <value>Incompatibility Notice</value>
+    <value>非互換性のお知らせ</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNoticeContent" xml:space="preserve">
-    <value>The pre-install files of Starward and HoYoPlay (miHoYo Launcher) are incompatible and cannot recognize each other.</value>
+    <value>Starward と HoYoPlay (miHoYo Launcher) の事前インストールファイルは互換性がなく、相互で認識できません。</value>
   </data>
   <data name="WelcomeView_DearPlayerWelcomeToStarward" xml:space="preserve">
-    <value>Dear Player, welcome to Starward!</value>
+    <value>プレイヤーの皆様、Starward へようこそ!</value>
   </data>
   <data name="WelcomeView_WelcomeToStarwardDescription" xml:space="preserve">
-    <value>This is a launcher designed specifically for HoYoverse games, helping you easily manage your games and enjoy a better experience.</value>
+    <value>このランチャーはHoYoverseのゲーム向けに設計されており、ゲームを簡単に管理し、より良い体験を得ることができます。</value>
   </data>
   <data name="WelcomeView_SelectUserDataFolderDescription" xml:space="preserve">
-    <value>All your personal data will be stored in the folder below. It is important, and you can also click the button below to select a different folder.</value>
+    <value>すべての個人データは以下のフォルダに保存されます。このファイルは重要なものです。以下のボタンをクリックして別のフォルダを選択できます。</value>
   </data>
   <data name="WelcomeView_BeforeStartingSomeNecessaryEnvironmentChecksAreRequired" xml:space="preserve">
-    <value>Before starting, some necessary environment checks are required.</value>
+    <value>起動前に、環境のチェックを行う必要があります。</value>
   </data>
   <data name="WelcomeView_NetworkStatus" xml:space="preserve">
-    <value>Network Status</value>
+    <value>ネットワークの状態</value>
   </data>
   <data name="WelcomeView_NotInstalled" xml:space="preserve">
-    <value>Not Installed</value>
+    <value>未インストール</value>
   </data>
   <data name="WelcomeView_InstallNow" xml:space="preserve">
-    <value>Install Now</value>
+    <value>今すぐインストール</value>
   </data>
   <data name="WelcomeView_Installed" xml:space="preserve">
-    <value>Installed</value>
+    <value>インストール済み</value>
   </data>
   <data name="WelcomeView_StarwardStart" xml:space="preserve">
-    <value>Starward, Start!</value>
+    <value>Starward、起動!</value>
   </data>
   <data name="GameSelector_ClickToSelectOrSwitchGame" xml:space="preserve">
-    <value>Click to select or switch game.</value>
+    <value>クリックしてゲームを選択または切り替え。</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameUserDataFolderWarning" xml:space="preserve">
-    <value>The Starward data folder is inside the game folder and will be deleted along with it. Please change the data folder location in the settings page and try again.</value>
+    <value>Starwardのデータフォルダがゲームフォルダ内に含まれています。ゲームのアンインストール時にデータが削除されることを防ぐため、設定ページからデータフォルダの場所を変更し、再度お試しください。</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning" xml:space="preserve">
-    <value>The Starward program is inside the game folder and will be deleted along with the game. Please move the program out of the game folder and try again.</value>
+    <value>Starwardの実行ファイルがゲームフォルダ内に含まれています。ゲームのアンインストール時にデータが削除されることを防ぐため、実行ファイルの場所をゲームフォルダ外に移動し、再度お試しください。</value>
   </data>
   <data name="CloudGameButton_CloudGame" xml:space="preserve">
-    <value>Cloud Game</value>
+    <value>クラウドゲーム</value>
+  </data>
+  <data name="GameAccountSwitcher_TheCurrentlyLoggedInAccountIsNotSaved" xml:space="preserve">
+    <value>現在ログインしているアカウントは保存されません。</value>
+  </data>
+  <data name="SettingPage_RegistryBasedGameAccountSwitchingFeature" xml:space="preserve">
+    <value>レジストリベースのゲームアカウント切り替え機能</value>
+  </data>
+  <data name="ToolboxSetting_ZZZGachaItemImages" xml:space="preserve">
+    <value>ZZZ Gacha Item Images</value>
+  </data>
+  <data name="ToolboxSetting_DisplayItemImagesInZZZGachaRecordPage" xml:space="preserve">
+    <value>Display item images in ZZZ gacha record page.</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_Miyoushe" xml:space="preserve">
+    <value>Miyoushe</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_FetchDataForAllLanguages" xml:space="preserve">
+    <value>Fetch Data for All Languages</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_SaveToDatabase" xml:space="preserve">
+    <value>Save to Database</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_ExportToFolder" xml:space="preserve">
+    <value>Export to Folder</value>
+  </data>
+  <data name="ZZZGachaInfoWindow_ZZZGachaInfoWindowGuide" xml:space="preserve">
+    <value>This tool is used to update item images in Zenless Zone Zero gacha records.
+Click "Miyoushe" or "HoYoLAB" in the top left corner, log in, and wait for the data to be retrieved. If logging in via HoYoLAB, you also need to click "Fetch Data for All Languages".
+After retrieving the data, you can save it to the database in any language or export it to a folder.
+You are welcome to submit the exported data to the following repository:</value>
+  </data>
+  <data name="SettingPage_Toolbox" xml:space="preserve">
+    <value>Toolbox</value>
+  </data>
+  <data name="ToolboxSetting_GachaRecordsImportExport" xml:space="preserve">
+    <value>Gacha Records Import &amp; Export</value>
+  </data>
+  <data name="UIGFGachaService_UidMismatchDetectedExpected0ButFound1" xml:space="preserve">
+    <value>Uid mismatch detected. Expected: {0}, but found: {1}.</value>
+  </data>
+  <data name="UIGFGachaService_ImportSuccessfulButNoRecordItemName" xml:space="preserve">
+    <value>Import successful, but some records are missing item names. Please go to the gacha record settings, change the language, and apply.</value>
+  </data>
+  <data name="UIGFGachaService_ImportSuccessful" xml:space="preserve">
+    <value>Import successful.</value>
+  </data>
+  <data name="UIGFGachaService_0FieldIsMissingInAGachaRecord" xml:space="preserve">
+    <value>"{0}" field is missing in a gacha record.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="GachaImportAndExportWindow_SelectTheGachaRecordsToExport" xml:space="preserve">
+    <value>Select the gacha records to export.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TheLastGachaPull" xml:space="preserve">
+    <value>The Last Gacha Pull</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TimeServerTimeZone" xml:space="preserve">
+    <value>Time (Server Time Zone)</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="GachaImportAndExportWindow_SelectTheFileToImport" xml:space="preserve">
+    <value>Select the file to import.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TimeZoneOffsetWarning" xml:space="preserve">
+    <value>Before importing, please ensure that the time of the last gacha pull matches the time displayed in the game. If they do not match, please adjust the time zone offset.</value>
+  </data>
+  <data name="GachaImportAndExportWindow_TimeZoneOffset" xml:space="preserve">
+    <value>Time Zone Offset</value>
+  </data>
+  <data name="GachaImportAndExportWindow_OffsetTime" xml:space="preserve">
+    <value>Offset Time</value>
+  </data>
+  <data name="GachaImportAndExportWindow_SelectFile" xml:space="preserve">
+    <value>Select File</value>
   </data>
 </root>
