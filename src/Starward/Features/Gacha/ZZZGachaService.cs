@@ -57,6 +57,7 @@ internal class ZZZGachaService : GachaLogService
             var l = GetGachaLogItemsByQueryType(list, type);
             int index = 0;
             int pity = 0;
+            bool hasNoUp = GachaNoUp.Dictionary.TryGetValue($"{CurrentGameBiz}{type.Value}", out var noUp);
             foreach (var item in l)
             {
                 item.Index = ++index;
@@ -64,6 +65,23 @@ internal class ZZZGachaService : GachaLogService
                 if (item.RankType == 4)
                 {
                     pity = 0;
+                    item.HasUpItem = hasNoUp;
+                    if (hasNoUp)
+                    {
+                        bool isUp = true;
+                        if (noUp!.Items.TryGetValue(item.ItemId, out GachaNoUpItem? noUpItem))
+                        {
+                            foreach ((DateTime start, DateTime end) in noUpItem.NoUpTimes)
+                            {
+                                if (item.Time >= start && item.Time <= end)
+                                {
+                                    isUp = false;
+                                    break;
+                                }
+                            }
+                        }
+                        item.IsUp = isUp;
+                    }
                 }
             }
         }
@@ -128,6 +146,7 @@ internal class ZZZGachaService : GachaLogService
                     GachaType = type.Value,
                     GachaTypeText = type.ToLocalization(),
                     Count = list.Count,
+                    Count_5_Up = list.Count(x => x.RankType == 4 && x.IsUp),
                     Count_5 = list.Count(x => x.RankType == 4),
                     Count_4 = list.Count(x => x.RankType == 3),
                     Count_3 = list.Count(x => x.RankType == 2),
@@ -146,6 +165,12 @@ internal class ZZZGachaService : GachaLogService
                 }
                 stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
                 stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 3);
+
+                if (stats.Count_5_Up > 0)
+                {
+                    int c = stats.Count - stats.Pity_5;
+                    stats.Average_5_Up = (double)c / stats.Count_5_Up;
+                }
 
                 int pity_4 = 0;
                 foreach (var item in list)

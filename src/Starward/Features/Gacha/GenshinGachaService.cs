@@ -52,11 +52,12 @@ internal class GenshinGachaService : GachaLogService
         var list = dapper.Query<GachaLogItemEx>("""
             SELECT item.*, info.Icon FROM GenshinGachaItem item LEFT JOIN GenshinGachaInfo info ON item.ItemId=info.Id WHERE Uid=@uid ORDER BY item.Id;
             """, new { uid }).ToList();
-        foreach (var type in QueryGachaTypes)
+        foreach (IGachaType type in QueryGachaTypes)
         {
             var l = GetGachaLogItemsByQueryType(list, (IGachaType)type);
             int index = 0;
             int pity = 0;
+            bool hasNoUp = GachaNoUp.Dictionary.TryGetValue($"{CurrentGameBiz}{type.Value}", out var noUp);
             foreach (var item in l)
             {
                 item.Index = ++index;
@@ -64,6 +65,23 @@ internal class GenshinGachaService : GachaLogService
                 if (item.RankType == 5)
                 {
                     pity = 0;
+                    item.HasUpItem = hasNoUp;
+                    if (hasNoUp)
+                    {
+                        bool isUp = true;
+                        if (noUp!.Items.TryGetValue(item.ItemId, out GachaNoUpItem? noUpItem))
+                        {
+                            foreach ((DateTime start, DateTime end) in noUpItem.NoUpTimes)
+                            {
+                                if (item.Time >= start && item.Time <= end)
+                                {
+                                    isUp = false;
+                                    break;
+                                }
+                            }
+                        }
+                        item.IsUp = isUp;
+                    }
                 }
             }
         }

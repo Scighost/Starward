@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using Microsoft.Extensions.Logging;
 using MiniExcelLibs;
 using Starward.Core;
@@ -182,6 +182,7 @@ internal abstract class GachaLogService
                     GachaType = type.Value,
                     GachaTypeText = type.ToLocalization(),
                     Count = list.Count,
+                    Count_5_Up = list.Count(x => x.RankType == 5 && x.IsUp),
                     Count_5 = list.Count(x => x.RankType == 5),
                     Count_4 = list.Count(x => x.RankType == 4),
                     Count_3 = list.Count(x => x.RankType == 3),
@@ -200,6 +201,12 @@ internal abstract class GachaLogService
                 }
                 stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
                 stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 4);
+
+                if (stats.Count_5_Up > 0)
+                {
+                    int c = stats.Count - stats.Pity_5;
+                    stats.Average_5_Up = (double)c / stats.Count_5_Up;
+                }
 
                 int pity_4 = 0;
                 foreach (var item in list)

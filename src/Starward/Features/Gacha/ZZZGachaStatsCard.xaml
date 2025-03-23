@@ -101,11 +101,13 @@
         <TextBlock Grid.Row="3" Foreground="{ThemeResource Rarity2ForegroundBrush}">
             <Run Text="S" />
             <Run Text="{x:Bind lang:Lang.GachaStatsCard_Average}" />
+            <Run Text="{x:Bind WarpTypeStats.Avarage_5_Desc_Text}" />
         </TextBlock>
         <TextBlock Grid.Row="3"
                    HorizontalAlignment="Right"
-                   Foreground="{ThemeResource Rarity2ForegroundBrush}"
-                   Text="{x:Bind WarpTypeStats.Average_5.ToString('F2', x:Null)}" />
+                   Foreground="{ThemeResource Rarity2ForegroundBrush}">
+            <Run Text="{x:Bind WarpTypeStats.Average_5.ToString('F2', x:Null)}" /><Run Text="{x:Bind WarpTypeStats.Avarage_5_Up_Text}" />
+        </TextBlock>
 
         <!--<MenuFlyoutSeparator Grid.Row="6" />-->
 
@@ -165,15 +167,15 @@
                             <Grid Name="Grid_Rarity5Item"
                                   Height="28"
                                   Background="Transparent"
-                                  ColumnSpacing="12"
                                   PointerEntered="Grid_Rarity5Item_PointerEntered"
                                   PointerExited="Grid_Rarity5Item_PointerExited"
                                   Tag="{x:Bind}"
                                   ToolTipService.ToolTip="{x:Bind Time.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="28" />
+                                    <ColumnDefinition Width="40" />
                                     <ColumnDefinition />
-                                    <ColumnDefinition Width="24" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" MinWidth="20" />
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="1"
                                         Height="24"
@@ -182,15 +184,17 @@
                                         Background="{x:Bind Converter={StaticResource GachaPityProgressBackgroundBrushConverter}}" />
                                 <sc:CachedImage Width="28"
                                                 Height="28"
+                                                HorizontalAlignment="Left"
                                                 Source="{x:Bind Icon}" />
                                 <TextBlock Grid.Column="1"
                                            VerticalAlignment="Center"
                                            Text="{x:Bind Name}"
                                            TextTrimming="CharacterEllipsis"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
-                                <TextBlock Grid.Column="2"
+                                <TextBlock Grid.Column="3"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
+                                           IsTextScaleFactorEnabled="False"
                                            Text="{x:Bind Pity}"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
                                 <TextBlock Grid.Column="1"
@@ -199,12 +203,23 @@
                                            Text="{x:Bind Name}"
                                            TextTrimming="CharacterEllipsis"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                <TextBlock Grid.Column="2"
+                                <TextBlock Grid.Column="3"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            Foreground="{ThemeResource Rarity5ForegroundBrush}"
+                                           IsTextScaleFactorEnabled="False"
                                            Text="{x:Bind Pity}"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <TextBlock Grid.Column="2"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           FontSize="12"
+                                           FontStyle="Italic"
+                                           Foreground="{ThemeResource Rarity5ForegroundBrush}"
+                                           IsTextScaleFactorEnabled="False"
+                                           Opacity="{x:Bind UpTextOpacity}"
+                                           Text="up!"
+                                           Visibility="{x:Bind HasUpItem, Converter={StaticResource BoolToVisibilityConverter}}" />
                             </Grid>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>

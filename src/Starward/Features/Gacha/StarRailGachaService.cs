@@ -55,6 +55,7 @@ internal class StarRailGachaService : GachaLogService
             var l = GetGachaLogItemsByQueryType(list, type);
             int index = 0;
             int pity = 0;
+            bool hasNoUp = GachaNoUp.Dictionary.TryGetValue($"{CurrentGameBiz}{type.Value}", out var noUp);
             foreach (var item in l)
             {
                 item.Index = ++index;
@@ -62,6 +63,23 @@ internal class StarRailGachaService : GachaLogService
                 if (item.RankType == 5)
                 {
                     pity = 0;
+                    item.HasUpItem = hasNoUp;
+                    if (hasNoUp)
+                    {
+                        bool isUp = true;
+                        if (noUp!.Items.TryGetValue(item.ItemId, out GachaNoUpItem? noUpItem))
+                        {
+                            foreach ((DateTime start, DateTime end) in noUpItem.NoUpTimes)
+                            {
+                                if (item.Time >= start && item.Time <= end)
+                                {
+                                    isUp = false;
+                                    break;
+                                }
+                            }
+                        }
+                        item.IsUp = isUp;
+                    }
                 }
             }
         }
