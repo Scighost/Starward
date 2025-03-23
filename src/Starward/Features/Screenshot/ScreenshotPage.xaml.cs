@@ -183,7 +183,7 @@ public sealed partial class ScreenshotPage : PageBase
     {
         try
         {
-            var folder = Path.Combine(AppConfig.UserDataFolder!, "Screenshots", CurrentGameBiz.ToString());
+            var folder = Path.Combine(AppConfig.UserDataFolder!, "Screenshots", CurrentGameBiz.Game);
             Directory.CreateDirectory(folder);
             await Launcher.LaunchFolderPathAsync(folder);
         }
