@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.Gacha.StarRail;
 
@@ -12,6 +12,8 @@ public class StarRailGachaItem : GachaLogItem
 
     public override IGachaType GetGachaType() => new StarRailGachaType(GachaType);
 
+
+    public override StarRailGachaItem Clone() => (StarRailGachaItem)MemberwiseClone();
 
 }
 

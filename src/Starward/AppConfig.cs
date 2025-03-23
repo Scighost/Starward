@@ -14,6 +14,7 @@ using Starward.Core.SelfQuery;
 using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.Gacha;
+using Starward.Features.Gacha.UIGF;
 using Starward.Features.GameAccount;
 using Starward.Features.GameInstall;
 using Starward.Features.GameLauncher;
@@ -286,6 +287,7 @@ public static class AppConfig
             sc.AddSingleton<GenshinGachaService>();
             sc.AddSingleton<StarRailGachaService>();
             sc.AddSingleton<ZZZGachaService>();
+            sc.AddSingleton<UIGFGachaService>();
 
             sc.AddSingleton<HoyolabClient>();
             sc.AddSingleton<HyperionClient>();

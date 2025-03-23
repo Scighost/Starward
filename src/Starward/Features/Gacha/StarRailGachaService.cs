@@ -5,13 +5,13 @@ using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Core.Gacha.StarRail;
 using Starward.Features.Database;
+using Starward.Features.Gacha.UIGF;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -103,9 +103,27 @@ internal class StarRailGachaService : GachaLogService
     {
         using var dapper = DatabaseService.CreateConnection();
         var list = dapper.Query<StarRailGachaItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-        var obj = new SRGFObj(uid, list);
-        var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
-        await File.WriteAllTextAsync(output, str);
+        DateTimeOffset time = DateTimeOffset.Now;
+        var uigfObj = new UIGF3File<StarRailGachaItem>
+        {
+            Info = new UIAF3FileInfo
+            {
+                Uid = uid,
+                Lang = list.Last().Lang ?? "",
+                ExportTimestamp = time.ToUnixTimeSeconds(),
+                ExportTime = time.ToString("yyyy-MM-dd HH:mm:ss"),
+                ExportAppVersion = AppConfig.AppVersion,
+                RegionTimeZone = uid.ToString()[0] switch
+                {
+                    '6' => -5,
+                    '7' => 1,
+                    _ => 8,
+                },
+            },
+            List = list,
+        };
+        using FileStream fs = File.Create(output);
+        await JsonSerializer.SerializeAsync(fs, uigfObj, AppConfig.JsonSerializerOptions);
     }
 
 
@@ -126,12 +144,12 @@ internal class StarRailGachaService : GachaLogService
     public override long ImportGachaLog(string file)
     {
         var str = File.ReadAllText(file);
-        var obj = JsonSerializer.Deserialize<SRGFObj>(str);
+        var obj = JsonSerializer.Deserialize<UIGF3File<StarRailGachaItem>>(str);
         if (obj != null)
         {
-            var lang = obj.info.lang ?? "";
-            long uid = obj.info.uid;
-            foreach (var item in obj.list)
+            string lang = obj.Info.Lang ?? "";
+            long uid = obj.Info.Uid;
+            foreach (var item in obj.List)
             {
                 if (item.Lang is null)
                 {
@@ -142,10 +160,10 @@ internal class StarRailGachaService : GachaLogService
                     item.Uid = uid;
                 }
             }
-            var count = InsertGachaLogItems(obj.list.ToList<GachaLogItem>());
+            var count = InsertGachaLogItems(obj.List.ToList<GachaLogItem>());
             // 成功导入跃迁记录 {count} 条
-            InAppToast.MainWindow?.Success($"Uid {obj.info.uid}", string.Format(Lang.StarRailGachaService_ImportWarpRecordsSuccessfully, count), 5000);
-            return obj.info.uid;
+            InAppToast.MainWindow?.Success($"Uid {obj.Info.Uid}", string.Format(Lang.StarRailGachaService_ImportWarpRecordsSuccessfully, count), 5000);
+            return obj.Info.Uid;
         }
         return 0;
     }
@@ -191,59 +209,6 @@ internal class StarRailGachaService : GachaLogService
             """, new { Lang = lang });
         return (lang, count);
     }
-
-
-
-    private class SRGFObj
-    {
-        public SRGFObj() { }
-
-        public SRGFObj(long uid, List<StarRailGachaItem> list)
-        {
-            this.info = new SRGFInfo(uid, list);
-            this.list = list;
-        }
-
-        public SRGFInfo info { get; set; }
-
-        public List<StarRailGachaItem> list { get; set; }
-    }
-
-
-    private class SRGFInfo
-    {
-        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-        public long uid { get; set; }
-
-        public string lang { get; set; }
-
-        public int region_time_zone { get; set; }
-
-        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
-        public long export_timestamp { get; set; }
-
-        public string export_app { get; set; } = "Starward";
-
-        public string export_app_version { get; set; } = AppConfig.AppVersion ?? "";
-
-        public string srgf_version { get; set; } = "v1.0";
-
-        public SRGFInfo() { }
-
-        public SRGFInfo(long uid, List<StarRailGachaItem> list)
-        {
-            this.uid = uid;
-            lang = list.FirstOrDefault()?.Lang ?? "";
-            export_timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
-            region_time_zone = uid.ToString().FirstOrDefault() switch
-            {
-                '6' => -5,
-                '7' => 1,
-                _ => 8,
-            };
-        }
-    }
-
 
 
 }

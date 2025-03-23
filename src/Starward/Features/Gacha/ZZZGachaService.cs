@@ -7,6 +7,7 @@ using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
 using Starward.Features.Database;
+using Starward.Features.Gacha.UIGF;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -227,9 +228,21 @@ internal class ZZZGachaService : GachaLogService
     {
         using var dapper = DatabaseService.CreateConnection();
         var list = dapper.Query<ZZZGachaItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-        var obj = new UIGFObj(uid, list);
-        var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
-        await File.WriteAllTextAsync(output, str);
+        DateTimeOffset time = DateTimeOffset.Now;
+        var uigfObj = new UIGF3File<ZZZGachaItem>
+        {
+            Info = new UIAF3FileInfo
+            {
+                Uid = uid,
+                Lang = list.Last().Lang ?? "",
+                ExportTimestamp = time.ToUnixTimeSeconds(),
+                ExportTime = time.ToString("yyyy-MM-dd HH:mm:ss"),
+                ExportAppVersion = AppConfig.AppVersion,
+            },
+            List = list,
+        };
+        using FileStream fs = File.Create(output);
+        await JsonSerializer.SerializeAsync(fs, uigfObj, AppConfig.JsonSerializerOptions);
     }
 
 
@@ -250,12 +263,12 @@ internal class ZZZGachaService : GachaLogService
     public override long ImportGachaLog(string file)
     {
         var str = File.ReadAllText(file);
-        var obj = JsonSerializer.Deserialize<UIGFObj>(str);
+        var obj = JsonSerializer.Deserialize<UIGF3File<ZZZGachaItem>>(str);
         if (obj != null)
         {
-            var lang = obj.info.lang ?? "";
-            long uid = obj.info.uid;
-            foreach (var item in obj.list)
+            string lang = obj.Info.Lang ?? "";
+            long uid = obj.Info.Uid;
+            foreach (var item in obj.List)
             {
                 if (item.Lang is null)
                 {
@@ -266,10 +279,10 @@ internal class ZZZGachaService : GachaLogService
                     item.Uid = uid;
                 }
             }
-            var count = InsertGachaLogItems(obj.list.ToList<GachaLogItem>());
+            var count = InsertGachaLogItems(obj.List.ToList<GachaLogItem>());
             // 成功导入调频记录 {count} 条
-            InAppToast.MainWindow?.Success($"Uid {obj.info.uid}", string.Format(Lang.ZZZGachaService_ImportSignalSearchRecordsSuccessfully, count), 5000);
-            return obj.info.uid;
+            InAppToast.MainWindow?.Success($"Uid {obj.Info.Uid}", string.Format(Lang.ZZZGachaService_ImportSignalSearchRecordsSuccessfully, count), 5000);
+            return obj.Info.Uid;
         }
         return 0;
     }

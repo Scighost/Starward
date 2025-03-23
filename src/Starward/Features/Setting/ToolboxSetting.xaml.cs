@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Starward.Features.Gacha.UIGF;
 using Starward.Features.Gacha.ZZZGachaToolbox;
 using System.Collections.Generic;
 
@@ -31,6 +32,11 @@ public sealed partial class ToolboxSetting : UserControl
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
         ToolboxItems =
         [
+            new ToolboxItem("\xE794",
+                            null,
+                            nameof(UIGF4GachaWindow),
+                            nameof(Lang.ToolboxSetting_GachaRecordsImportExport),
+                            ""){ Description="UIGF v4.0" },
             new ToolboxItem(null,
                             "ms-appx:///Assets/Image/GachaTicket2Big.png",
                             nameof(ZZZGachaInfoWindow),
@@ -71,6 +77,10 @@ public sealed partial class ToolboxSetting : UserControl
             if (item.Tag is nameof(ZZZGachaInfoWindow))
             {
                 new ZZZGachaInfoWindow().Activate();
+            }
+            if (item.Tag is nameof(UIGF4GachaWindow))
+            {
+                new UIGF4GachaWindow().Activate();
             }
         }
     }

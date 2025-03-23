@@ -1242,6 +1242,114 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Count 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_Count {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_Count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Export 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_Export {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_Export", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_Import {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Name 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_Name {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Offset Time 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_OffsetTime {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_OffsetTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select File 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_SelectFile {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_SelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select the file to import. 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_SelectTheFileToImport {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_SelectTheFileToImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select the gacha records to export. 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_SelectTheGachaRecordsToExport {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_SelectTheGachaRecordsToExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The Last Gacha Pull 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_TheLastGachaPull {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_TheLastGachaPull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Time (Server Time Zone) 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_TimeServerTimeZone {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_TimeServerTimeZone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Time Zone Offset 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_TimeZoneOffset {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_TimeZoneOffset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Before importing, please ensure that the time of the last gacha pull matches the time displayed in the game. If they do not match, please adjust the time zone offset. 的本地化字符串。
+        /// </summary>
+        public static string GachaImportAndExportWindow_TimeZoneOffsetWarning {
+            get {
+                return ResourceManager.GetString("GachaImportAndExportWindow_TimeZoneOffsetWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The language of {0} gacha records has been changed to ({1}). 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1 {
@@ -4748,6 +4856,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Gacha Records Import &amp; Export 的本地化字符串。
+        /// </summary>
+        public static string ToolboxSetting_GachaRecordsImportExport {
+            get {
+                return ResourceManager.GetString("ToolboxSetting_GachaRecordsImportExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 ZZZ Gacha Item Images 的本地化字符串。
         /// </summary>
         public static string ToolboxSetting_ZZZGachaItemImages {
@@ -4852,6 +4969,42 @@ namespace Starward.Language {
         public static string TravelersDiaryPage_RealTimeData {
             get {
                 return ResourceManager.GetString("TravelersDiaryPage_RealTimeData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &quot;{0}&quot; field is missing in a gacha record. 的本地化字符串。
+        /// </summary>
+        public static string UIGFGachaService_0FieldIsMissingInAGachaRecord {
+            get {
+                return ResourceManager.GetString("UIGFGachaService_0FieldIsMissingInAGachaRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import successful. 的本地化字符串。
+        /// </summary>
+        public static string UIGFGachaService_ImportSuccessful {
+            get {
+                return ResourceManager.GetString("UIGFGachaService_ImportSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import successful, but some records are missing item names. Please go to the gacha record settings, change the language, and apply. 的本地化字符串。
+        /// </summary>
+        public static string UIGFGachaService_ImportSuccessfulButNoRecordItemName {
+            get {
+                return ResourceManager.GetString("UIGFGachaService_ImportSuccessfulButNoRecordItemName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uid mismatch detected. Expected: {0}, but found: {1}. 的本地化字符串。
+        /// </summary>
+        public static string UIGFGachaService_UidMismatchDetectedExpected0ButFound1 {
+            get {
+                return ResourceManager.GetString("UIGFGachaService_UidMismatchDetectedExpected0ButFound1", resourceCulture);
             }
         }
         

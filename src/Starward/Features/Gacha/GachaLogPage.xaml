@@ -185,6 +185,10 @@
                                     <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_ImportFromJson}" />
                                 </StackPanel>
                             </Button>
+                            <Button x:Name="Button_UIGF4"
+                                    HorizontalAlignment="Stretch"
+                                    Command="{x:Bind OpenUIGF4WindowCommand}"
+                                    Content="UIGF v4.0" />
                             <!--  展示新手卡池  -->
                             <ToggleSwitch IsOn="{x:Bind ShowNoviceGacha, Mode=TwoWay}"
                                           OffContent="{x:Bind lang:Lang.GachaLogPage_ShowNoviceGachaType}"

@@ -12,6 +12,7 @@ using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
+using Starward.Features.Gacha.UIGF;
 using Starward.Features.GameLauncher;
 using Starward.Frameworks;
 using Starward.Helpers;
@@ -737,6 +738,15 @@ public sealed partial class GachaLogPage : PageBase
             InAppToast.MainWindow?.Error(ex);
         }
     }
+
+
+
+    [RelayCommand]
+    private void OpenUIGF4Window()
+    {
+        new UIGF4GachaWindow().Activate();
+    }
+
 
 
 

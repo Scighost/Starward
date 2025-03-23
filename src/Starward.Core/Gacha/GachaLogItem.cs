@@ -1,4 +1,4 @@
-﻿using Starward.Core.JsonConverter;
+using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.Gacha;
@@ -55,6 +55,9 @@ public class GachaLogItem
 
 
     public virtual IGachaType GetGachaType() => new UndefinedGachaType(GachaType);
+
+
+    public virtual GachaLogItem Clone() => (GachaLogItem)MemberwiseClone();
 
 
 }

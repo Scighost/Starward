@@ -6,9 +6,9 @@ namespace Starward.Features.Gacha;
 internal class RarityToZZZIconConverter : IValueConverter
 {
 
-    private const string Rarity2Background = "ms-appx:///Assets/Image/B_Level.png";
-    private const string Rarity3Background = "ms-appx:///Assets/Image/A_Level.png";
-    private const string Rarity4Background = "ms-appx:///Assets/Image/S_Level.png";
+    private const string Rarity2Background = "ms-appx:///Assets/Image/B_Level_S.png";
+    private const string Rarity3Background = "ms-appx:///Assets/Image/A_Level_S.png";
+    private const string Rarity4Background = "ms-appx:///Assets/Image/S_Level_S.png";
     private const string TransparentBackground = "ms-appx:///Assets/Image/Transparent.png";
 
 

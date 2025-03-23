@@ -5,13 +5,13 @@ using Starward.Core;
 using Starward.Core.Gacha;
 using Starward.Core.Gacha.Genshin;
 using Starward.Features.Database;
+using Starward.Features.Gacha.UIGF;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -103,10 +103,36 @@ internal class GenshinGachaService : GachaLogService
     private async Task ExportAsJsonAsync(long uid, string output)
     {
         using var dapper = DatabaseService.CreateConnection();
-        var list = dapper.Query<UIGFItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
-        var obj = new UIGFObj(uid, list);
-        var str = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
-        await File.WriteAllTextAsync(output, str);
+        var list = dapper.Query<UIGFGenshinGachaItem>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid ORDER BY Id;", new { uid }).ToList();
+        foreach (var item in list)
+        {
+            item.UIGFGachaType = item.GachaType switch
+            {
+                400 => 301,
+                _ => item.GachaType,
+            };
+        }
+        DateTimeOffset time = DateTimeOffset.Now;
+        var uigfObj = new UIGF3File<UIGFGenshinGachaItem>
+        {
+            Info = new UIAF3FileInfo
+            {
+                Uid = uid,
+                Lang = list.Last().Lang ?? "",
+                ExportTimestamp = time.ToUnixTimeSeconds(),
+                ExportTime = time.ToString("yyyy-MM-dd HH:mm:ss"),
+                ExportAppVersion = AppConfig.AppVersion,
+                RegionTimeZone = uid.ToString()[0] switch
+                {
+                    '6' => -5,
+                    '7' => 1,
+                    _ => 8,
+                },
+            },
+            List = list,
+        };
+        using FileStream fs = File.Create(output);
+        await JsonSerializer.SerializeAsync(fs, uigfObj, AppConfig.JsonSerializerOptions);
     }
 
 
@@ -126,12 +152,12 @@ internal class GenshinGachaService : GachaLogService
     public override long ImportGachaLog(string file)
     {
         var str = File.ReadAllText(file);
-        var obj = JsonSerializer.Deserialize<UIGFObj>(str);
+        var obj = JsonSerializer.Deserialize<UIGF3File<UIGFGenshinGachaItem>>(str);
         if (obj != null)
         {
-            string lang = obj.info.lang ?? "";
-            long uid = obj.info.uid;
-            foreach (var item in obj.list)
+            string lang = obj.Info.Lang ?? "";
+            long uid = obj.Info.Uid;
+            foreach (var item in obj.List)
             {
                 if (item.Lang is null)
                 {
@@ -142,10 +168,10 @@ internal class GenshinGachaService : GachaLogService
                     item.Uid = uid;
                 }
             }
-            var count = InsertGachaLogItems(obj.list.ToList<GachaLogItem>());
+            var count = InsertGachaLogItems(obj.List.ToList<GachaLogItem>());
             // 成功导入祈愿记录 {count} 条
-            InAppToast.MainWindow?.Success($"Uid {obj.info.uid}", string.Format(Lang.GenshinGachaService_ImportWishRecordsSuccessfully, count), 5000);
-            return obj.info.uid;
+            InAppToast.MainWindow?.Success($"Uid {obj.Info.Uid}", string.Format(Lang.GenshinGachaService_ImportWishRecordsSuccessfully, count), 5000);
+            return obj.Info.Uid;
         }
         return 0;
     }
@@ -191,80 +217,6 @@ internal class GenshinGachaService : GachaLogService
             """, new { Lang = lang });
         return (lang, count);
     }
-
-
-
-    private class UIGFObj
-    {
-        public UIGFObj() { }
-
-        public UIGFObj(long uid, List<UIGFItem> list)
-        {
-            this.info = new UIAFInfo(uid, list);
-            foreach (var item in list)
-            {
-                item.uigf_gacha_type = item.GachaType switch
-                {
-                    GenshinGachaType.CharacterEventWish_2 => GenshinGachaType.CharacterEventWish.ToString(),
-                    _ => item.GachaType.ToString(),
-                };
-            }
-            this.list = list;
-        }
-
-        public UIAFInfo info { get; set; }
-
-        public List<UIGFItem> list { get; set; }
-    }
-
-
-
-    private class UIAFInfo
-    {
-        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-        public long uid { get; set; }
-
-        public string lang { get; set; }
-
-        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
-        public long export_timestamp { get; set; }
-
-        public string export_time { get; set; }
-
-        public string export_app { get; set; } = "Starward";
-
-        public string export_app_version { get; set; } = AppConfig.AppVersion ?? "";
-
-        public string uigf_version { get; set; } = "v2.3";
-
-        public int? region_time_zone { get; set; }
-
-        public UIAFInfo() { }
-
-        public UIAFInfo(long uid, List<UIGFItem> list)
-        {
-            this.uid = uid;
-            lang = list.FirstOrDefault()?.Lang ?? "";
-            var time = DateTimeOffset.Now;
-            export_time = time.ToString("yyyy-MM-dd HH:mm:ss");
-            export_timestamp = time.ToUnixTimeSeconds();
-            region_time_zone = uid.ToString().FirstOrDefault() switch
-            {
-                >= '1' and <= '5' or '8' or '9' => 8,
-                '6' => -5,
-                '7' => 1,
-                _ => null,
-            };
-        }
-    }
-
-
-
-    private class UIGFItem : GenshinGachaItem
-    {
-        public string uigf_gacha_type { get; set; }
-    }
-
 
 
 }
