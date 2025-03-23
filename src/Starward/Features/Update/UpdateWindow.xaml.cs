@@ -516,7 +516,18 @@ public sealed partial class UpdateWindow : WindowEx
             showPrerelease = true;
             if (startVersion.IsPrerelease)
             {
-                startVersion = new NuGetVersion(startVersion.Major, startVersion.Minor, startVersion.Patch - 1);
+                if (startVersion.Patch - 1 >= 0)
+                {
+                    startVersion = new NuGetVersion(startVersion.Major, startVersion.Minor, startVersion.Patch - 1);
+                }
+                else if (startVersion.Minor - 1 >= 0)
+                {
+                    startVersion = new NuGetVersion(startVersion.Major, startVersion.Minor - 1, int.MaxValue);
+                }
+                else if (startVersion.Major - 1 >= 0)
+                {
+                    startVersion = new NuGetVersion(startVersion.Major - 1, int.MaxValue, int.MaxValue);
+                }
             }
         }
 
