@@ -264,7 +264,7 @@ public sealed partial class GameNoticeWindow : WindowEx
 
     private new void Close()
     {
-        this.Hide();
+        AppWindow?.Hide();
         base.Close();
     }
 
