@@ -1759,7 +1759,7 @@
     <value>校驗</value>
   </data>
   <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
-    <value>PRC 服務未執行</value>
+    <value>RPC 服務未執行</value>
   </data>
   <data name="SettingPage_RunService" xml:space="preserve">
     <value>執行服務</value>
