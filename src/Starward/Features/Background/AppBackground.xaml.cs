@@ -42,6 +42,7 @@ public sealed partial class AppBackground : UserControl
         this.InitializeComponent();
         WeakReferenceMessenger.Default.Register<BackgroundChangedMessage>(this, OnBackgroundChanged);
         WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
+        WeakReferenceMessenger.Default.Register<VideoBgVolumeChangedMessage>(this, OnVideoBgVolumeChanged);
         Unloaded += (_, _) => { DisposeVideoResource(); WeakReferenceMessenger.Default.UnregisterAll(this); };
     }
 
@@ -82,18 +83,21 @@ public sealed partial class AppBackground : UserControl
 
     private MediaPlayer? mediaPlayer;
 
-    private SoftwareBitmap? softwareBitmap;
+    private CanvasRenderTarget? canvasRenderTarget;
 
     private CanvasImageSource? canvasImageSource;
 
+    private int videoBgVolume = AppConfig.VideoBgVolume;
+
+    private string? lastBackgroundFile;
 
 
     private void DisposeVideoResource()
     {
         mediaPlayer?.Dispose();
         mediaPlayer = null;
-        softwareBitmap?.Dispose();
-        softwareBitmap = null;
+        canvasRenderTarget?.Dispose();
+        canvasRenderTarget = null;
         canvasImageSource = null;
     }
 
@@ -160,6 +164,11 @@ public sealed partial class AppBackground : UserControl
                 {
                     return;
                 }
+                if (file == lastBackgroundFile)
+                {
+                    continue;
+                }
+
                 DisposeVideoResource();
                 BackgroundImageSource = null;
                 if (file != null)
@@ -172,9 +181,11 @@ public sealed partial class AppBackground : UserControl
                     {
                         await ChangeBackgroundImageAsync(file, cancellationToken);
                     }
+                    lastBackgroundFile = file;
                 }
             }
         }
+        catch (OperationCanceledException) { }
         catch (COMException ex)
         {
             _logger.LogWarning(ex, "Update background image");
@@ -189,10 +200,7 @@ public sealed partial class AppBackground : UserControl
 
     private async Task ChangeBackgroundImageAsync(string file, CancellationToken cancellationToken)
     {
-        if (cancellationToken.IsCancellationRequested)
-        {
-            return;
-        }
+        cancellationToken.ThrowIfCancellationRequested();
 
         using var fs = File.OpenRead(file);
         var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
@@ -209,10 +217,7 @@ public sealed partial class AppBackground : UserControl
             fs.Position = 0;
             await writeableBitmap.SetSourceAsync(fs.AsRandomAccessStream());
 
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return;
-            }
+            cancellationToken.ThrowIfCancellationRequested();
 
             Color? color = AccentColorHelper.GetAccentColor(writeableBitmap.PixelBuffer, decodeWidth, decodeHeight);
             AppConfig.AccentColor = color?.ToHex() ?? null;
@@ -244,10 +249,7 @@ public sealed partial class AppBackground : UserControl
             var softwareBitmapSource = new SoftwareBitmapSource();
             await softwareBitmapSource.SetBitmapAsync(soft);
 
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return;
-            }
+            cancellationToken.ThrowIfCancellationRequested();
 
             using BitmapBuffer bitmapBuffer = soft.LockBuffer(BitmapBufferAccessMode.Read);
             using IMemoryBufferReference memoryBufferReference = bitmapBuffer.CreateReference();
@@ -266,8 +268,8 @@ public sealed partial class AppBackground : UserControl
         mediaPlayer = new MediaPlayer
         {
             IsLoopingEnabled = true,
-            Volume = 0,
-            IsMuted = true,
+            Volume = videoBgVolume / 100d,
+            IsMuted = false,
             IsVideoFrameServerEnabled = true,
             Source = MediaSource.CreateFromUri(new Uri(file))
         };
@@ -285,18 +287,17 @@ public sealed partial class AppBackground : UserControl
         {
             try
             {
-                if (softwareBitmap is null || canvasImageSource is null)
+                if (canvasRenderTarget is null || canvasImageSource is null)
                 {
-                    int width = (int)sender.PlaybackSession.NaturalVideoWidth;
                     int height = (int)sender.PlaybackSession.NaturalVideoHeight;
-                    softwareBitmap = new SoftwareBitmap(BitmapPixelFormat.Bgra8, width, height, BitmapAlphaMode.Premultiplied);
+                    int width = (int)sender.PlaybackSession.NaturalVideoWidth;
+                    canvasRenderTarget = new CanvasRenderTarget(CanvasDevice.GetSharedDevice(), width, height, 96);
                     canvasImageSource = new CanvasImageSource(CanvasDevice.GetSharedDevice(), width, height, 96);
                     BackgroundImageSource = canvasImageSource;
                 }
-                using var canvas = CanvasBitmap.CreateFromSoftwareBitmap(CanvasDevice.GetSharedDevice(), softwareBitmap);
-                sender.CopyFrameToVideoSurface(canvas);
+                sender.CopyFrameToVideoSurface(canvasRenderTarget);
                 using var ds = canvasImageSource.CreateDrawingSession(Microsoft.UI.Colors.Transparent);
-                ds.DrawImage(canvas);
+                ds.DrawImage(canvasRenderTarget);
             }
             catch { }
         });
@@ -327,6 +328,21 @@ public sealed partial class AppBackground : UserControl
                 {
                     mediaPlayer.Pause();
                 }
+            }
+        }
+        catch { }
+    }
+
+
+
+    private void OnVideoBgVolumeChanged(object _, VideoBgVolumeChangedMessage message)
+    {
+        try
+        {
+            if (mediaPlayer is not null)
+            {
+                videoBgVolume = message.Volume;
+                mediaPlayer.Volume = message.Volume / 100d;
             }
         }
         catch { }

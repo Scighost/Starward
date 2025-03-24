@@ -870,6 +870,60 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
+
+    /// <summary>
+    /// 视频背景音量
+    /// </summary>
+    public int VideoBgVolume
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                OnPropertyChanged(nameof(VideoBgVolumeButtonIcon));
+                WeakReferenceMessenger.Default.Send(new VideoBgVolumeChangedMessage(value));
+                AppConfig.VideoBgVolume = value;
+            }
+        }
+    } = AppConfig.VideoBgVolume;
+
+
+
+    /// <summary>
+    /// 音量图标
+    /// </summary>
+    public string VideoBgVolumeButtonIcon => VideoBgVolume switch
+    {
+        > 66 => "\uE995",
+        > 33 => "\uE994",
+        > 1 => "\uE993",
+        _ => "\uE992",
+    };
+
+
+    private int notMuteVolume = 100;
+
+    /// <summary>
+    /// 静音
+    /// </summary>
+    [RelayCommand]
+    private void Mute()
+    {
+        if (VideoBgVolume > 0)
+        {
+            notMuteVolume = VideoBgVolume;
+            VideoBgVolume = 0;
+        }
+        else
+        {
+            VideoBgVolume = notMuteVolume;
+        }
+    }
+
+
+
+
+
     /// <summary>
     /// 接受拖放文件
     /// </summary>

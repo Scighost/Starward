@@ -560,6 +560,29 @@
                             </Grid>
                         </Grid>
 
+                        <!--  音量  -->
+                        <Grid Margin="0,-4,0,-8"
+                              ColumnSpacing="12"
+                              Visibility="Visible">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    Command="{x:Bind MuteCommand}"
+                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                <FontIcon FontSize="16" Glyph="{x:Bind VideoBgVolumeButtonIcon}" />
+                            </Button>
+                            <Slider Grid.Column="1"
+                                    Width="200"
+                                    HorizontalAlignment="Left"
+                                    Maximum="100"
+                                    Minimum="0"
+                                    Value="{x:Bind VideoBgVolume, Mode=TwoWay}" />
+                        </Grid>
+
                         <!--  错误提示  -->
                         <TextBlock Margin="0,0,0,-12"
                                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"

@@ -397,7 +397,7 @@ public static class AppConfig
 
     public static int VideoBgVolume
     {
-        get => Math.Clamp(GetValue(100), 0, 100);
+        get => Math.Clamp(GetValue(0), 0, 100);
         set => SetValue(value);
     }
 
