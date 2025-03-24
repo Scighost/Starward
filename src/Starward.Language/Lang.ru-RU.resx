@@ -1736,7 +1736,7 @@
     <value>Нет доступных пакетов обновления. Рекомендуется обновить игру до последней версии перед началом предустановки.</value>
   </data>
   <data name="PreDownloadDialog_StartPreInstall" xml:space="preserve">
-    <value>Начать предварительную установку</value>
+    <value>Начать предустановку</value>
   </data>
   <data name="GameLauncherSettingDialog_StartRepairing" xml:space="preserve">
     <value>Начать восстановление</value>
@@ -1790,7 +1790,7 @@
     <value>Предварительная установка недоступна.</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNotice" xml:space="preserve">
-    <value>Уведомление о несовместимости</value>
+    <value>Несовместимость</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNoticeContent" xml:space="preserve">
     <value>Предустановленные файлы Starward и HoYoPlay (miHoYo Launcher) несовместимы и не могут распознавать друг друга.</value>
