@@ -1715,7 +1715,7 @@
     <value>Служба RPC</value>
   </data>
   <data name="SettingPage_RPCService_Desc" xml:space="preserve">
-    <value>Служба RPC — это независимый процесс, используемый для предотвращения перезапуска при загрузке игр, обновлении программного обеспечения и выполнении других функций, требующих прав администратора.</value>
+    <value>Сервис RPC - это независимый процесс, используемый для избежания перезапуска при загрузке игр, обновлении программного обеспечения и других функций, которые требуют прав администратора.</value>
   </data>
   <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
     <value>Оставить службу RPC работающей в фоновом режиме</value>
@@ -1766,7 +1766,7 @@
     <value>Запустить службу</value>
   </data>
   <data name="SettingPage_RPCServiceIsRunning" xml:space="preserve">
-    <value>Служба RPC не запущена</value>
+    <value>Служба RPC запущена</value>
   </data>
   <data name="SettingPage_StopService" xml:space="preserve">
     <value>Остановить службу</value>
