@@ -89,16 +89,11 @@
           PointerEntered="Grid_Root_PointerEntered"
           PointerExited="Grid_Root_PointerExited">
         <Grid.Resources>
-            <cu:AttachedDropShadow x:Key="IconShadow"
-                                   BlurRadius="4"
-                                   CastTo="{x:Bind Border_TextShadowTarget}"
-                                   Offset="0,4"
-                                   Color="#20000000" />
             <cu:AttachedDropShadow x:Key="TextShadow"
-                                   BlurRadius="4"
+                                   BlurRadius="8"
                                    CastTo="{x:Bind Border_TextShadowTarget}"
-                                   Offset="0,2"
-                                   Color="#60000000" />
+                                   Offset="0"
+                                   Color="#80000000" />
         </Grid.Resources>
 
         <Border x:Name="Border_TextShadowTarget" />
@@ -120,11 +115,12 @@
                     <ColumnDefinition MinWidth="52" />
                 </Grid.ColumnDefinitions>
                 <!--  Icon: Download / Play / Pause  -->
-                <FontIcon Margin="0,2,0,0"
-                          cu:Effects.Shadow="{StaticResource IconShadow}"
-                          FontSize="22"
-                          FontWeight="Bold"
-                          Glyph="{x:Bind ButtonIcon}" />
+                <TextBlock Margin="0,2,0,0"
+                           cu:Effects.Shadow="{StaticResource TextShadow}"
+                           FontFamily="{ThemeResource SegoeFluentIcons}"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Text="{x:Bind ButtonIcon}" />
                 <!--  按键文本：预下载 / 等待中 / 已暂停 / 已完成 / 百分比进度  -->
                 <TextBlock Grid.Column="1"
                            HorizontalAlignment="Center"

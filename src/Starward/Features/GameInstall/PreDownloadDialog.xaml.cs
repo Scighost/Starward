@@ -206,6 +206,28 @@ public sealed partial class PreDownloadDialog : ContentDialog
                         }
                     }
                 }
+                else if (_gamePackage.PreDownload.Major is not null)
+                {
+                    size += _gamePackage.PreDownload.Major.GamePackages.Sum(x => x.Size);
+                    unzipSize += _gamePackage.PreDownload.Major.GamePackages.Sum(x => x.DecompressedSize);
+
+                    foreach (var lang in Enum.GetValues<AudioLanguage>())
+                    {
+                        if (_audioLanguage.HasFlag(lang))
+                        {
+                            if (_gamePackage.PreDownload.Major.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile packageFile)
+                            {
+                                size += packageFile.Size;
+                                unzipSize += packageFile.DecompressedSize;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    _logger.LogWarning("PreDownloadMajor of ({GameBiz}) is null.", CurrentGameId.GameBiz);
+                    TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
+                }
             }
             else if (_gameSophonChunkBuild is not null)
             {
