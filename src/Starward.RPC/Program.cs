@@ -18,8 +18,19 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Threading;
 
+
+AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+{
+    var folder = Path.Combine(AppConfig.CacheFolder, "crash");
+    Directory.CreateDirectory(folder);
+    var file = Path.Combine(folder, $"crash_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
+    File.WriteAllText(file, e.ExceptionObject.ToString());
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,7 +82,8 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 }).UseNamedPipes(options =>
 {
     var defaultSecurity = new PipeSecurity();
-    defaultSecurity.AddAccessRule(new PipeAccessRule("Users", PipeAccessRights.ReadWrite | PipeAccessRights.CreateNewInstance, AccessControlType.Allow));
+    var usersGroup = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null);
+    defaultSecurity.AddAccessRule(new PipeAccessRule(usersGroup, PipeAccessRights.ReadWrite | PipeAccessRights.CreateNewInstance, AccessControlType.Allow));
     options.PipeSecurity = defaultSecurity;
     options.CurrentUserOnly = false;
 });
