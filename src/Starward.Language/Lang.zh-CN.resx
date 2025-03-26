@@ -1917,4 +1917,94 @@
   <data name="GachaImportAndExportWindow_SelectFile" xml:space="preserve">
     <value>选择文件</value>
   </data>
+  <data name="DailyNoteButton_BH3_TimeNeededForRecovery" xml:space="preserve">
+    <value>剩余恢复时间</value>
+  </data>
+  <data name="DailyNoteButton_BH3_DailyBP" xml:space="preserve">
+    <value>每日历练值</value>
+  </data>
+  <data name="DailyNoteButton_Genshin_DailyCommissionRewards" xml:space="preserve">
+    <value>每日委托奖励</value>
+  </data>
+  <data name="DailyNoteButton_Genshin_DailyCommission" xml:space="preserve">
+    <value>委托任务</value>
+  </data>
+  <data name="DailyNoteButton_Genshin_EncounterPoints" xml:space="preserve">
+    <value>历练点</value>
+  </data>
+  <data name="DailyNoteButton_Genshin_RealmCurrency" xml:space="preserve">
+    <value>洞天宝钱</value>
+  </data>
+  <data name="DailyNoteButton_Genshin_Expedition" xml:space="preserve">
+    <value>探索派遣</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_FullTime" xml:space="preserve">
+    <value>回满时间</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_FullyRecovered" xml:space="preserve">
+    <value>已全部恢复</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_ReservedTrailblazePower" xml:space="preserve">
+    <value>后备开拓力</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_DailyTraining" xml:space="preserve">
+    <value>每日实训</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
+    <value>历战余响</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
+    <value>额外拟合值</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_OngoingAssignments" xml:space="preserve">
+    <value>委托执行</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_AllFinished" xml:space="preserve">
+    <value>全部完成</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_FinishedTime" xml:space="preserve">
+    <value>完成时间</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_BatteryCharge" xml:space="preserve">
+    <value>电量</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_DailyMissions" xml:space="preserve">
+    <value>每日任务</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_EngagementToday" xml:space="preserve">
+    <value>今日活跃度</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_ScratchCardMania" xml:space="preserve">
+    <value>刮刮卡</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_Complete" xml:space="preserve">
+    <value>已完成</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_Incomplete" xml:space="preserve">
+    <value>未完成</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_VideoStoreManagement" xml:space="preserve">
+    <value>录像店经营</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_WaitingToOpen" xml:space="preserve">
+    <value>等待营业</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_CurrentlyOpen" xml:space="preserve">
+    <value>正在经营</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_RevenueAvailable" xml:space="preserve">
+    <value>待结算</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_SeasonMissions" xml:space="preserve">
+    <value>周期任务</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_BountyCommissionProgress" xml:space="preserve">
+    <value>悬赏委托进度</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_RemainingRefreshTime" xml:space="preserve">
+    <value>剩余刷新时间</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_RiduWeeklyPoints" xml:space="preserve">
+    <value>丽都周纪积分</value>
+  </data>
 </root>
