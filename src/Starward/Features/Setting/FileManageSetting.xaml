@@ -168,18 +168,26 @@
                 </TextBlock>
             </StackPanel>
             <!--  清理缓存  -->
-            <Button Height="40"
-                    Margin="0,12,0,0"
-                    Padding="16,0,16,0"
-                    BorderThickness="0"
-                    Command="{x:Bind ClearCacheCommand}"
-                    CornerRadius="8,20,20,8"
-                    Style="{ThemeResource AccentButtonStyle}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <FontIcon Glyph="&#xEA99;" />
-                    <TextBlock Text="{x:Bind lang:Lang.FileSettingPage_ClearCache}" />
-                </StackPanel>
-            </Button>
+            <StackPanel Margin="0,12,0,0"
+                        Orientation="Horizontal"
+                        Spacing="16">
+                <Button Height="40"
+                        Padding="16,0,16,0"
+                        BorderThickness="0"
+                        Command="{x:Bind ClearCacheCommand}"
+                        CornerRadius="8,20,20,8"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xEA99;" />
+                        <TextBlock Text="{x:Bind lang:Lang.FileSettingPage_ClearCache}" />
+                    </StackPanel>
+                </Button>
+                <ProgressRing Width="28"
+                              Height="28"
+                              VerticalAlignment="Center"
+                              IsIndeterminate="{x:Bind ClearCacheCommand.IsRunning}"
+                              Visibility="{x:Bind ClearCacheCommand.IsRunning}" />
+            </StackPanel>
 
 
 

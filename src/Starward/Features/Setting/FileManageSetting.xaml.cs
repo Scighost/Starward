@@ -9,9 +9,11 @@ using SharpSevenZip;
 using Starward.Controls;
 using Starward.Features.Database;
 using System;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
@@ -166,6 +168,7 @@ public sealed partial class FileManageSetting : UserControl
 
 
 
+
     #region 备份数据库
 
 
@@ -263,6 +266,7 @@ public sealed partial class FileManageSetting : UserControl
 
 
     #endregion
+
 
 
 
@@ -377,6 +381,7 @@ public sealed partial class FileManageSetting : UserControl
             await DeleteFolderAsync(Path.Combine(local, "webview"));
             await DeleteFolderAsync(Path.Combine(local, "update"));
             await DeleteFolderAsync(Path.Combine(local, "game"));
+            await ClearDuplicateBgAsync();
             CachedImage.ClearCache();
         }
         catch (Exception ex)
@@ -404,6 +409,35 @@ public sealed partial class FileManageSetting : UserControl
         }
     });
 
+
+
+    private async Task ClearDuplicateBgAsync()
+    {
+        try
+        {
+            string folder = Path.Join(AppConfig.UserDataFolder, "bg");
+            if (Directory.Exists(folder))
+            {
+                string[] files = Directory.GetFiles(folder, "*");
+                ConcurrentDictionary<string, bool> dict = new();
+                await Parallel.ForEachAsync(files, async (file, _) =>
+                {
+                    using FileStream fs = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+                    string hash = Convert.ToHexString(await SHA256.HashDataAsync(fs));
+                    if (dict.TryAdd(hash, true))
+                    {
+                        return;
+                    }
+                    fs.Dispose();
+                    File.Delete(file);
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Clear duplicate bg");
+        }
+    }
 
 
 
