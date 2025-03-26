@@ -186,7 +186,7 @@
                                  Width="40"
                                  Height="40"
                                  CurrentGameId="{x:Bind CurrentGameId}"
-                                 Visibility="Visible" />
+                                 Visibility="Collapsed" />
             <!--  每日便笺  -->
             <sfgd:DailyNoteButton Width="40"
                                   Height="40"
