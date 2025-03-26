@@ -1837,7 +1837,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thông tin đăng nhập của tài khoản hiện tại chưa được lưu.</value>
   </data>
   <data name="SettingPage_RegistryBasedGameAccountSwitchingFeature" xml:space="preserve">
-    <value>Registry-based Game Account Switching Feature</value>
+    <value>Tính năng chuyển tại khoản dựa trên Registry</value>
   </data>
   <data name="ToolboxSetting_ZZZGachaItemImages" xml:space="preserve">
     <value>Hình vật phẩm Gacha ZZZ</value>
@@ -1849,61 +1849,58 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Miyoushe</value>
   </data>
   <data name="ZZZGachaInfoWindow_FetchDataForAllLanguages" xml:space="preserve">
-    <value>Fetch Data for All Languages</value>
+    <value>Lấy về dữ liệu của tất cả ngôn ngữ</value>
   </data>
   <data name="ZZZGachaInfoWindow_SaveToDatabase" xml:space="preserve">
-    <value>Save to Database</value>
+    <value>Lưu vào cơ sở dữ liệu</value>
   </data>
   <data name="ZZZGachaInfoWindow_ExportToFolder" xml:space="preserve">
-    <value>Export to Folder</value>
+    <value>Xuất tập tin vào thư mục</value>
   </data>
   <data name="ZZZGachaInfoWindow_ZZZGachaInfoWindowGuide" xml:space="preserve">
-    <value>This tool is used to update item images in Zenless Zone Zero gacha records.
-Click "Miyoushe" or "HoYoLAB" in the top left corner, log in, and wait for the data to be retrieved. If logging in via HoYoLAB, you also need to click "Fetch Data for All Languages".
-After retrieving the data, you can save it to the database in any language or export it to a folder.
-You are welcome to submit the exported data to the following repository:</value>
+    <value>Công cụ này được dùng để cập nhật hình ảnh vật phẩm cho lịch sử gacha của ZZZ. Chọn "Miyoushe" hoặc "HoYoLAB" ở góc phía trên cùng bên trái, đăng nhập, và chờ dữ liệu của bạn được lấy về. Nếu bạn đăng nhập vào HoYoLAB, bạn cần phải chọn "Lấy về dữ liệu của tất cả ngôn ngữ". Rất hoan nghênh bạn cung cấp các dữ liệu đã xuất vào repo sau đây:</value>
   </data>
   <data name="SettingPage_Toolbox" xml:space="preserve">
-    <value>Toolbox</value>
+    <value>Hộp công cụ</value>
   </data>
   <data name="ToolboxSetting_GachaRecordsImportExport" xml:space="preserve">
-    <value>Gacha Records Import &amp; Export</value>
+    <value>Nhập và xuất lịch sử Gacha</value>
   </data>
   <data name="UIGFGachaService_UidMismatchDetectedExpected0ButFound1" xml:space="preserve">
-    <value>Uid mismatch detected. Expected: {0}, but found: {1}.</value>
+    <value>Phát hiện Uid không khớp. Dự kiến: {0}, tìm thấy: {1}.</value>
   </data>
   <data name="UIGFGachaService_ImportSuccessfulButNoRecordItemName" xml:space="preserve">
-    <value>Import successful, but some records are missing item names. Please go to the gacha record settings, change the language, and apply.</value>
+    <value>Nhập vào thành công, nhưng một số bản ghi sẽ bị mất hình ảnh vật phẩm. Vui lòng vào phần cài đặt bản ghi gacha, thay đổi ngôn ngữ, và áp dụng.</value>
   </data>
   <data name="UIGFGachaService_ImportSuccessful" xml:space="preserve">
-    <value>Import successful.</value>
+    <value>Nhập vào thành công.</value>
   </data>
   <data name="UIGFGachaService_0FieldIsMissingInAGachaRecord" xml:space="preserve">
-    <value>"{0}" field is missing in a gacha record.</value>
+    <value>"{0}" dòng bị mất trong lịch sử gacha.</value>
   </data>
   <data name="GachaImportAndExportWindow_Export" xml:space="preserve">
-    <value>Export</value>
+    <value>Xuất tập tin</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectTheGachaRecordsToExport" xml:space="preserve">
-    <value>Select the gacha records to export.</value>
+    <value>Chọn lịch sử gacha để xuất.</value>
   </data>
   <data name="GachaImportAndExportWindow_TheLastGachaPull" xml:space="preserve">
-    <value>The Last Gacha Pull</value>
+    <value>Lần gacha cuối</value>
   </data>
   <data name="GachaImportAndExportWindow_Count" xml:space="preserve">
-    <value>Count</value>
+    <value>Số lần</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeServerTimeZone" xml:space="preserve">
-    <value>Time (Server Time Zone)</value>
+    <value>Thời gian (Giờ máy chủ)</value>
   </data>
   <data name="GachaImportAndExportWindow_Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Tên</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectTheFileToImport" xml:space="preserve">
-    <value>Select the file to import.</value>
+    <value>Chọn tập tin để nhập vào.</value>
   </data>
   <data name="GachaImportAndExportWindow_Import" xml:space="preserve">
-    <value>Import</value>
+    <value>Nhập vào</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffsetWarning" xml:space="preserve">
     <value>Before importing, please ensure that the time of the last gacha pull matches the time displayed in the game. If they do not match, please adjust the time zone offset.</value>
@@ -1915,6 +1912,6 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Offset Time</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectFile" xml:space="preserve">
-    <value>Select File</value>
+    <value>Chọn tập tin</value>
   </data>
 </root>
