@@ -1915,4 +1915,94 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="GachaImportAndExportWindow_SelectFile" xml:space="preserve">
     <value>Select File</value>
   </data>
+  <data name="DailyNoteButton_BH3_TimeNeededForRecovery" xml:space="preserve">
+    <value>Time Needed for Recovery</value>
+  </data>
+  <data name="DailyNoteButton_BH3_DailyBP" xml:space="preserve">
+    <value>Daily BP</value>
+  </data>
+  <data name="DailyNoteButton_Genshin_DailyCommissionRewards" xml:space="preserve">
+    <value>Daily Commission Rewards</value>
+  </data>
+  <data name="DailyNoteButton_Genshin_DailyCommission" xml:space="preserve">
+    <value>Daily Commission</value>
+  </data>
+  <data name="DailyNoteButton_Genshin_EncounterPoints" xml:space="preserve">
+    <value>Encounter Points</value>
+  </data>
+  <data name="DailyNoteButton_Genshin_RealmCurrency" xml:space="preserve">
+    <value>Realm Currency</value>
+  </data>
+  <data name="DailyNoteButton_Genshin_Expedition" xml:space="preserve">
+    <value>Expedition</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_FullTime" xml:space="preserve">
+    <value>Full Time</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_FullyRecovered" xml:space="preserve">
+    <value>Fully Recovered</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_ReservedTrailblazePower" xml:space="preserve">
+    <value>Reserved Trailblaze Power</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_DailyTraining" xml:space="preserve">
+    <value>Daily Training</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
+    <value>Echo of War</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
+    <value>Bonus Synchronicity Points</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_OngoingAssignments" xml:space="preserve">
+    <value>Ongoing Assignments</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_AllFinished" xml:space="preserve">
+    <value>All Finished</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_FinishedTime" xml:space="preserve">
+    <value>Finished Time</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_BatteryCharge" xml:space="preserve">
+    <value>Battery Charge</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_DailyMissions" xml:space="preserve">
+    <value>Daily Missions</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_EngagementToday" xml:space="preserve">
+    <value>Engagement Today</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_ScratchCardMania" xml:space="preserve">
+    <value>Scratch Card Mania</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_Incomplete" xml:space="preserve">
+    <value>Incomplete</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_VideoStoreManagement" xml:space="preserve">
+    <value>Video Store Management</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_WaitingToOpen" xml:space="preserve">
+    <value>Waiting to Open</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_CurrentlyOpen" xml:space="preserve">
+    <value>Currently Open</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_RevenueAvailable" xml:space="preserve">
+    <value>Revenue Available</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_SeasonMissions" xml:space="preserve">
+    <value>Season Missions</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_BountyCommissionProgress" xml:space="preserve">
+    <value>Bounty Commission Progress</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_RemainingRefreshTime" xml:space="preserve">
+    <value>Remaining Refresh Time</value>
+  </data>
+  <data name="DailyNoteButton_ZZZ_RiduWeeklyPoints" xml:space="preserve">
+    <value>Ridu Weekly Points</value>
+  </data>
 </root>
