@@ -341,11 +341,29 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Disabled 的本地化字符串。
+        /// </summary>
+        public static string Common_Disabled {
+            get {
+                return ResourceManager.GetString("Common_Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Disclaimer 的本地化字符串。
         /// </summary>
         public static string Common_Disclaimer {
             get {
                 return ResourceManager.GetString("Common_Disclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enabled 的本地化字符串。
+        /// </summary>
+        public static string Common_Enabled {
+            get {
+                return ResourceManager.GetString("Common_Enabled", resourceCulture);
             }
         }
         

@@ -620,6 +620,15 @@ public static class AppConfig
     }
 
 
+    /// <summary>
+    /// 启用硬链接
+    /// </summary>
+    public static bool EnableHardLink
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
 
 
     #endregion

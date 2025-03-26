@@ -353,6 +353,10 @@ internal class GameInstallService
 
     private async Task<string?> GetHardLinkPathAsync(GameId gameId, string installPath)
     {
+        if (!AppConfig.EnableHardLink)
+        {
+            return null;
+        }
         if (GameFeatureConfig.FromGameId(gameId).SupportHardLink)
         {
             string game = gameId.GameBiz.Game;

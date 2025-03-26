@@ -40,7 +40,8 @@ public sealed partial class DownloadSetting : UserControl
 
 
 
-    #region 下载
+
+    #region 默认安装文件夹
 
 
 
@@ -73,44 +74,6 @@ public sealed partial class DownloadSetting : UserControl
             _logger.LogError(ex, "Get default intall path");
         }
     }
-
-
-
-    /// <summary>
-    /// 下载限速
-    /// </summary>
-    public int SpeedLimit
-    {
-        get; set
-        {
-            if (SetProperty(ref field, value))
-            {
-                AppConfig.SpeedLimitKBPerSecond = value;
-                _ = SetRateLimiterAsync(value);
-            }
-        }
-    } = AppConfig.SpeedLimitKBPerSecond;
-
-
-
-    private async Task SetRateLimiterAsync(int value)
-    {
-        try
-        {
-            if (RpcService.CheckRpcServerRunning())
-            {
-                var client = RpcService.CreateRpcClient<GameInstaller.GameInstallerClient>();
-                int limit = Math.Clamp(value * 1024, 0, int.MaxValue);
-                await client.SetRateLimiterAsync(new RateLimiterMessage { BytesPerSecond = limit }, deadline: DateTime.UtcNow.AddSeconds(3));
-            }
-        }
-        catch (Exception ex)
-        {
-
-        }
-    }
-
-
 
 
 
@@ -170,6 +133,72 @@ public sealed partial class DownloadSetting : UserControl
         AppConfig.DefaultGameInstallationPath = null;
     }
 
+
+
+    #endregion
+
+
+
+
+    #region 硬链接
+
+
+
+    public bool EnableHardLink
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.EnableHardLink = value;
+            }
+        }
+    } = AppConfig.EnableHardLink;
+
+
+
+    #endregion
+
+
+
+
+    #region 下载限速
+
+
+
+    /// <summary>
+    /// 下载限速
+    /// </summary>
+    public int SpeedLimit
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.SpeedLimitKBPerSecond = value;
+                _ = SetRateLimiterAsync(value);
+            }
+        }
+    } = AppConfig.SpeedLimitKBPerSecond;
+
+
+
+    private async Task SetRateLimiterAsync(int value)
+    {
+        try
+        {
+            if (RpcService.CheckRpcServerRunning())
+            {
+                var client = RpcService.CreateRpcClient<GameInstaller.GameInstallerClient>();
+                int limit = Math.Clamp(value * 1024, 0, int.MaxValue);
+                await client.SetRateLimiterAsync(new RateLimiterMessage { BytesPerSecond = limit }, deadline: DateTime.UtcNow.AddSeconds(3));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Set rate limiter");
+        }
+    }
 
 
     #endregion
