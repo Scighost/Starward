@@ -1637,10 +1637,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Tiếp tục tải xuống</value>
   </data>
   <data name="StartGameButton_Waiting" xml:space="preserve">
-    <value>Waiting</value>
+    <value>Xin chờ</value>
   </data>
   <data name="GameLauncherPage_Relocate" xml:space="preserve">
-    <value>Relocate</value>
+    <value>Chuyển đường dẫn</value>
   </data>
   <data name="GameLauncherSettingDialog_RelocateGame" xml:space="preserve">
     <value>Tìm Trò Chơi</value>
@@ -1708,7 +1708,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Hiển thị nội dung cập nhật sau khi khởi động lại</value>
   </data>
   <data name="Common_WebView2ComponentInitializationFailed" xml:space="preserve">
-    <value>WebView2 component initialization failed.</value>
+    <value>Thành phần WebView2 khởi chạy thất bại.</value>
   </data>
   <data name="SettingPage_RPCService" xml:space="preserve">
     <value>Dịch vụ RPC</value>
@@ -1723,7 +1723,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Phát hiện ứng dụng nằm trong thiết bị lưu trữ di động, không nên để dịch vụ RPC chạy ở chế độ nền.</value>
   </data>
   <data name="ZZZGachaService_ImportSignalSearchRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} signal search record(s) successfully.</value>
+    <value>Nhập vào {0} lần ghi Chỉnh Kênh thành công.</value>
   </data>
   <data name="InstallGameDialog_HardLinkDesc" xml:space="preserve">
     <value>Nếu đường dẫn đã chọn nằm trên cùng ổ đĩa với các client của các máy chủ đã cài đặt khác, nhiều client cho các máy chủ khác nhau có thể được cài đặt bằng hard links, chiếm thêm một chút không gian lưu trữ bổ sung.</value>
@@ -1747,7 +1747,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Lỗi</value>
   </data>
   <data name="StartGameButton_InQueue" xml:space="preserve">
-    <value>In Queue</value>
+    <value>Đang trong hàng chờ</value>
   </data>
   <data name="RPCServiceExitedUnexpectedly" xml:space="preserve">
     <value>Dịch vụ RPC thoát đột ngột.</value>
@@ -1834,16 +1834,16 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Trò Chơi Đám Mây</value>
   </data>
   <data name="GameAccountSwitcher_TheCurrentlyLoggedInAccountIsNotSaved" xml:space="preserve">
-    <value>The currently logged-in account is not saved.</value>
+    <value>Thông tin đăng nhập của tài khoản hiện tại chưa được lưu.</value>
   </data>
   <data name="SettingPage_RegistryBasedGameAccountSwitchingFeature" xml:space="preserve">
     <value>Registry-based Game Account Switching Feature</value>
   </data>
   <data name="ToolboxSetting_ZZZGachaItemImages" xml:space="preserve">
-    <value>ZZZ Gacha Item Images</value>
+    <value>Hình vật phẩm Gacha ZZZ</value>
   </data>
   <data name="ToolboxSetting_DisplayItemImagesInZZZGachaRecordPage" xml:space="preserve">
-    <value>Display item images in ZZZ gacha record page.</value>
+    <value>Hiển thị hình vật phẩm trên trang lịch sử Gacha ZZZ.</value>
   </data>
   <data name="ZZZGachaInfoWindow_Miyoushe" xml:space="preserve">
     <value>Miyoushe</value>
