@@ -1,15 +1,20 @@
 using Dapper;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.GameRecord;
+using Starward.Core.GameRecord.BH3.DailyNote;
+using Starward.Core.GameRecord.Genshin.DailyNote;
 using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
+using Starward.Core.GameRecord.StarRail.DailyNote;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
+using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Features.Database;
 using System;
@@ -32,6 +37,8 @@ internal class GameRecordService
     private readonly HoyolabClient _hoyolabClient;
 
     private GameRecordClient _gameRecordClient;
+
+    private readonly IMemoryCache _memoryCache;
 
 
     public string Language { get => _hoyolabClient.Language; set => _hoyolabClient.Language = value; }
@@ -58,12 +65,13 @@ internal class GameRecordService
     }
 
 
-    public GameRecordService(ILogger<GameRecordService> logger, HyperionClient hyperionClient, HoyolabClient hoyolabClient)
+    public GameRecordService(ILogger<GameRecordService> logger, HyperionClient hyperionClient, HoyolabClient hoyolabClient, IMemoryCache memoryCache)
     {
         _logger = logger;
         _hyperionClient = hyperionClient;
         _hoyolabClient = hoyolabClient;
         _gameRecordClient = hyperionClient;
+        _memoryCache = memoryCache;
     }
 
 
@@ -917,6 +925,67 @@ internal class GameRecordService
     {
         using var dapper = DatabaseService.CreateConnection();
         return dapper.Query<InterKnotReportDetailItem>("SELECT * FROM InterKnotReportDetailItem WHERE Uid=@uid AND DataMonth=@month AND DataType=@type ORDER BY Time;", new { uid, month, type }).ToList();
+    }
+
+
+
+
+    #endregion
+
+
+
+
+    #region Daily Note
+
+
+
+    public async Task<BH3DailyNote> GetBH3DailyNoteAsync(GameRecordRole role, bool forceUpdate = false, CancellationToken cancellationToken = default)
+    {
+        string key = $"{nameof(BH3DailyNote)}_{role.Region}_{role.Uid}";
+        if (forceUpdate || !_memoryCache.TryGetValue(key, out BH3DailyNote? note))
+        {
+            note = await _gameRecordClient.GetBH3DailyNoteAsync(role, cancellationToken);
+            _memoryCache.Set(key, note, TimeSpan.FromMinutes(5));
+        }
+        return note!;
+    }
+
+
+
+    public async Task<GenshinDailyNote> GetGenshinDailyNoteAsync(GameRecordRole role, bool forceUpdate = false, CancellationToken cancellationToken = default)
+    {
+        string key = $"{nameof(GenshinDailyNote)}_{role.Region}_{role.Uid}";
+        if (forceUpdate || !_memoryCache.TryGetValue(key, out GenshinDailyNote? note))
+        {
+            note = await _gameRecordClient.GetGenshinDailyNoteAsync(role, cancellationToken);
+            _memoryCache.Set(key, note, TimeSpan.FromMinutes(5));
+        }
+        return note!;
+    }
+
+
+
+    public async Task<StarRailDailyNote> GetStarRailDailyNoteAsync(GameRecordRole role, bool forceUpdate = false, CancellationToken cancellationToken = default)
+    {
+        string key = $"{nameof(StarRailDailyNote)}_{role.Region}_{role.Uid}";
+        if (forceUpdate || !_memoryCache.TryGetValue(key, out StarRailDailyNote? note))
+        {
+            note = await _gameRecordClient.GetStarRailDailyNoteAsync(role, cancellationToken);
+            _memoryCache.Set(key, note, TimeSpan.FromMinutes(5));
+        }
+        return note!;
+    }
+
+
+    public async Task<ZZZDailyNote> GetZZZDailyNoteAsync(GameRecordRole role, bool forceUpdate = false, CancellationToken cancellationToken = default)
+    {
+        string key = $"{nameof(ZZZDailyNote)}_{role.Region}_{role.Uid}";
+        if (forceUpdate || !_memoryCache.TryGetValue(key, out ZZZDailyNote? note))
+        {
+            note = await _gameRecordClient.GetZZZDailyNoteAsync(role, cancellationToken);
+            _memoryCache.Set(key, note, TimeSpan.FromMinutes(5));
+        }
+        return note!;
     }
 
 

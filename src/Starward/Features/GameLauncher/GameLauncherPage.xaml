@@ -12,6 +12,7 @@
              xmlns:sfc="using:Starward.Features.CloudGame"
              xmlns:sfg="using:Starward.Features.GameInstall"
              xmlns:sfga="using:Starward.Features.GameAccount"
+             xmlns:sfgd="using:Starward.Features.GameRecord.DailyNote"
              xmlns:sfp="using:Starward.Features.PlayTime"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
@@ -176,18 +177,23 @@
 
 
         <!--  右边侧栏  -->
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+        <StackPanel Margin="4"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Spacing="4">
             <!--  云游戏  -->
             <sfc:CloudGameButton x:Name="Button_CloudGame"
                                  Width="40"
                                  Height="40"
-                                 Margin="4"
                                  CurrentGameId="{x:Bind CurrentGameId}"
-                                 Visibility="Collapsed" />
+                                 Visibility="Visible" />
+            <!--  每日便笺  -->
+            <sfgd:DailyNoteButton Width="40"
+                                  Height="40"
+                                  CurrentGameId="{x:Bind CurrentGameId}" />
             <!--  通行证授权登录  -->
             <local:GameAuthLoginButton Width="40"
                                        Height="40"
-                                       Margin="4"
                                        CurrentGameId="{x:Bind CurrentGameId}" />
         </StackPanel>
 

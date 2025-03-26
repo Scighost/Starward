@@ -1,11 +1,15 @@
-﻿using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
+using Starward.Core.GameRecord.BH3.DailyNote;
+using Starward.Core.GameRecord.Genshin.DailyNote;
+using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
+using Starward.Core.GameRecord.StarRail.DailyNote;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
+using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Core.GameRecord.ZZZ.UpgradeGuide;
 using Starward.Core.JsonConverter;
@@ -32,6 +36,10 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<InterKnotReportDetail>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<UpgradeGuideItemList>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<UpgradeGuidIconInfo>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<GenshinDailyNote>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<StarRailDailyNote>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<ZZZDailyNote>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<BH3DailyNote>))]
 [JsonSerializable(typeof(DateTimeObjectJsonConverter.DateTimeObject))]
 internal partial class GameRecordJsonContext : JsonSerializerContext
 {

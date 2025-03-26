@@ -1,11 +1,15 @@
+using Starward.Core.GameRecord.BH3.DailyNote;
+using Starward.Core.GameRecord.Genshin.DailyNote;
 using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
+using Starward.Core.GameRecord.StarRail.DailyNote;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
+using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Core.GameRecord.ZZZ.UpgradeGuide;
 
@@ -168,6 +172,34 @@ public class HoyolabClient : GameRecordClient
 
 
 
+    #region BH3
+
+
+    /// <summary>
+    /// 崩坏3实时便笺
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<BH3DailyNote> GetBH3DailyNoteAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        string url = $"https://bbs-api-os.hoyolab.com/game_record/app/honkai3rd/api/note?server={role.Region}&role_id={role.Uid}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(Referer, "https://act.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        return await CommonSendAsync<BH3DailyNote>(request, cancellationToken);
+    }
+
+
+
+    #endregion
+
+
+
+
     #region Genshin
 
 
@@ -324,6 +356,29 @@ public class HoyolabClient : GameRecordClient
             item.MedalNum = item.Stat.MedalNum;
         }
         return warpper.Data;
+    }
+
+
+
+
+    /// <summary>
+    /// 原神每日便笺
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public override async Task<GenshinDailyNote> GetGenshinDailyNoteAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        string url = $"https://sg-public-api.hoyolab.com/event/game_record/app/genshin/api/dailyNote?server={role.Region}&role_id={role.Uid}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(Referer, "https://act.hoyolab.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        return await CommonSendAsync<GenshinDailyNote>(request, cancellationToken);
     }
 
 
@@ -559,6 +614,30 @@ public class HoyolabClient : GameRecordClient
 
 
 
+    /// <summary>
+    /// 星穹铁道实时便笺
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public override async Task<StarRailDailyNote> GetStarRailDailyNoteAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        string url = $"https://sg-public-api.hoyolab.com/event/game_record/app/hkrpg/api/note?server={role.Region}&role_id={role.Uid}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(Referer, "https://act.hoyolab.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        return await CommonSendAsync<StarRailDailyNote>(request, cancellationToken);
+    }
+
+
+
+
     #endregion
 
 
@@ -673,7 +752,7 @@ public class HoyolabClient : GameRecordClient
         var url = $"https://sg-public-api.hoyolab.com/event/nap_cultivate_tool/user/item_list?uid={role.Uid}&region={role.Region}&avatar_id={avatar_id}";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
-        request.Headers.Add(Referer, "https://act.mihoyo.com/");
+        request.Headers.Add(Referer, "https://act.hoyolab.com/");
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_device_id, DeviceId);
         request.Headers.Add(x_rpc_device_fp, DeviceFp);
@@ -694,12 +773,34 @@ public class HoyolabClient : GameRecordClient
         var url = $"https://sg-public-api.hoyolab.com/event/nap_cultivate_tool/user/icon_info?uid={role.Uid}&region={role.Region}";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
-        request.Headers.Add(Referer, "https://act.mihoyo.com/");
+        request.Headers.Add(Referer, "https://act.hoyolab.com/");
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_device_id, DeviceId);
         request.Headers.Add(x_rpc_device_fp, DeviceFp);
         return await CommonSendAsync<UpgradeGuidIconInfo>(request, cancellationToken);
     }
+
+
+
+    /// <summary>
+    /// 绝区零实时便笺
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<ZZZDailyNote> GetZZZDailyNoteAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        string url = $"https://sg-public-api.hoyolab.com/event/game_record_zzz/api/zzz/note?server={role.Region}&role_id={role.Uid}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(Referer, "https://act.hoyolab.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        return await CommonSendAsync<ZZZDailyNote>(request, cancellationToken);
+    }
+
 
 
 

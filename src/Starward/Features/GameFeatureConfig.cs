@@ -50,6 +50,11 @@ internal partial class GameFeatureConfig
     public bool SupportGameAccountSwitcher { get; init; }
 
 
+    /// <summary>
+    /// 支持实时便笺
+    /// </summary>
+    public bool SupportDailyNote { get; init; }
+
 
 
     public static GameFeatureConfig FromGameId(GameId? gameId)
@@ -100,6 +105,7 @@ internal partial class GameFeatureConfig
         ],
         InGameNoticesWindow = true,
         SupportGameAccountSwitcher = true,
+        SupportDailyNote = true,
     };
 
 
@@ -113,6 +119,7 @@ internal partial class GameFeatureConfig
             nameof(GameRecordPage),
         ],
         InGameNoticesWindow = true,
+        SupportDailyNote = true,
     };
 
 
@@ -131,6 +138,7 @@ internal partial class GameFeatureConfig
         SupportHardLink = true,
         SupportCloudGame = true,
         SupportGameAccountSwitcher = true,
+        SupportDailyNote = true,
     };
 
 
@@ -149,6 +157,7 @@ internal partial class GameFeatureConfig
         SupportHardLink = true,
         SupportCloudGame = true,
         SupportGameAccountSwitcher = true,
+        SupportDailyNote = true,
     };
 
 
@@ -165,8 +174,7 @@ internal partial class GameFeatureConfig
         ],
         InGameNoticesWindow = true,
         SupportHardLink = true,
-        SupportCloudGame = false,
-        SupportGameAccountSwitcher = false,
+        SupportDailyNote = true,
     };
 
 
@@ -183,8 +191,8 @@ internal partial class GameFeatureConfig
         ],
         InGameNoticesWindow = true,
         SupportHardLink = true,
-        SupportCloudGame = false,
         SupportGameAccountSwitcher = true,
+        SupportDailyNote = true,
     };
 
 
@@ -201,8 +209,8 @@ internal partial class GameFeatureConfig
         ],
         InGameNoticesWindow = true,
         SupportHardLink = true,
-        SupportCloudGame = false,
         SupportGameAccountSwitcher = true,
+        SupportDailyNote = true,
     };
 
 
@@ -219,8 +227,7 @@ internal partial class GameFeatureConfig
         ],
         InGameNoticesWindow = true,
         SupportHardLink = true,
-        SupportCloudGame = false,
-        SupportGameAccountSwitcher = false,
+        SupportDailyNote = true,
     };
 
 
@@ -238,8 +245,8 @@ internal partial class GameFeatureConfig
         ],
         InGameNoticesWindow = true,
         SupportHardLink = true,
-        SupportCloudGame = false,
         SupportGameAccountSwitcher = true,
+        SupportDailyNote = true,
     };
 
 
@@ -256,8 +263,8 @@ internal partial class GameFeatureConfig
         ],
         InGameNoticesWindow = true,
         SupportHardLink = true,
-        SupportCloudGame = false,
         SupportGameAccountSwitcher = true,
+        SupportDailyNote = true,
     };
 
 
@@ -274,8 +281,7 @@ internal partial class GameFeatureConfig
         ],
         InGameNoticesWindow = true,
         SupportHardLink = true,
-        SupportCloudGame = false,
-        SupportGameAccountSwitcher = false,
+        SupportDailyNote = true,
     };
 
 

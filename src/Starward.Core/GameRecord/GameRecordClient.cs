@@ -12,6 +12,14 @@ using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Core.Gacha.ZZZ;
 using Starward.Core.GameRecord.ZZZ.UpgradeGuide;
+using Starward.Core.GameRecord.Genshin.DailyNote;
+using Starward.Core.GameRecord.StarRail.DailyNote;
+using Starward.Core.GameRecord.ZZZ.DailyNote;
+using Starward.Core.GameRecord.BH3.DailyNote;
+
+
+
+
 #if !DEBUG
 using System.Net.Http.Json;
 #endif
@@ -240,6 +248,25 @@ public abstract class GameRecordClient
 
 
 
+    #region BH3
+
+
+    /// <summary>
+    /// 崩坏3实时便笺
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<BH3DailyNote> GetBH3DailyNoteAsync(GameRecordRole role, CancellationToken cancellationToken = default);
+
+
+
+
+    #endregion
+
+
+
+
     #region Genshin
 
 
@@ -306,6 +333,16 @@ public abstract class GameRecordClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public abstract Task<List<ImaginariumTheaterInfo>> GetImaginariumTheaterInfosAsync(GameRecordRole role, CancellationToken cancellationToken = default);
+
+
+
+    /// <summary>
+    /// 原神每日便笺
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<GenshinDailyNote> GetGenshinDailyNoteAsync(GameRecordRole role, CancellationToken cancellationToken = default);
 
 
 
@@ -398,6 +435,16 @@ public abstract class GameRecordClient
     /// <param name="cancellationToken"></param>
     /// <returns>返回该月所有收入记录</returns>
     public abstract Task<TrailblazeCalendarDetail> GetTrailblazeCalendarDetailAsync(GameRecordRole role, string month, int type, int page_size = 100, CancellationToken cancellationToken = default);
+
+
+
+    /// <summary>
+    /// 星穹铁道实时便笺
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<StarRailDailyNote> GetStarRailDailyNoteAsync(GameRecordRole role, CancellationToken cancellationToken = default);
 
 
 
@@ -516,6 +563,15 @@ public abstract class GameRecordClient
     [Obsolete("不可用，返回未登录错误", true)]
     public abstract Task<UpgradeGuidIconInfo> GetZZZUpgradeGuideIconInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default);
 
+
+
+    /// <summary>
+    /// 绝区零实时便笺
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<ZZZDailyNote> GetZZZDailyNoteAsync(GameRecordRole role, CancellationToken cancellationToken = default);
 
 
 

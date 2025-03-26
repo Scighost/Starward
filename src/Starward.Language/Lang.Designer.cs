@@ -494,6 +494,276 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Daily BP 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_BH3_DailyBP {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_BH3_DailyBP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Time Needed for Recovery 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_BH3_TimeNeededForRecovery {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_BH3_TimeNeededForRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Daily Commission 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_Genshin_DailyCommission {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_Genshin_DailyCommission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Daily Commission Rewards 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_Genshin_DailyCommissionRewards {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_Genshin_DailyCommissionRewards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Encounter Points 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_Genshin_EncounterPoints {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_Genshin_EncounterPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Expedition 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_Genshin_Expedition {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_Genshin_Expedition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Realm Currency 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_Genshin_RealmCurrency {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_Genshin_RealmCurrency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 All Finished 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_StarRail_AllFinished {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_StarRail_AllFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Bonus Synchronicity Points 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_StarRail_BonusSynchronicityPoints {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_StarRail_BonusSynchronicityPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Daily Training 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_StarRail_DailyTraining {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_StarRail_DailyTraining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Echo of War 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_StarRail_EchoOfWar {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_StarRail_EchoOfWar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Finished Time 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_StarRail_FinishedTime {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_StarRail_FinishedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Full Time 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_StarRail_FullTime {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_StarRail_FullTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fully Recovered 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_StarRail_FullyRecovered {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_StarRail_FullyRecovered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Ongoing Assignments 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_StarRail_OngoingAssignments {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_StarRail_OngoingAssignments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Reserved Trailblaze Power 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_StarRail_ReservedTrailblazePower {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_StarRail_ReservedTrailblazePower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Battery Charge 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_BatteryCharge {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_BatteryCharge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Bounty Commission Progress 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_BountyCommissionProgress {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_BountyCommissionProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Complete 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_Complete {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_Complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Currently Open 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_CurrentlyOpen {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_CurrentlyOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Daily Missions 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_DailyMissions {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_DailyMissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Engagement Today 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_EngagementToday {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_EngagementToday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Incomplete 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_Incomplete {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_Incomplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Remaining Refresh Time 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_RemainingRefreshTime {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_RemainingRefreshTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Revenue Available 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_RevenueAvailable {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_RevenueAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Ridu Weekly Points 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_RiduWeeklyPoints {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_RiduWeeklyPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Scratch Card Mania 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_ScratchCardMania {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_ScratchCardMania", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Season Missions 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_SeasonMissions {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_SeasonMissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Video Store Management 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_VideoStoreManagement {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_VideoStoreManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Waiting to Open 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ZZZ_WaitingToOpen {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ZZZ_WaitingToOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Warning: The selected time period includes gacha records from more than 6 months ago, which cannot be retrieved after deleting. 的本地化字符串。
         /// </summary>
         public static string DeleteGachaLogDialog_6MonthsDeletingWarning {
