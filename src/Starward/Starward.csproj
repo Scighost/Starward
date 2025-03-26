@@ -45,7 +45,7 @@
 		<PackageReference Include="MiniExcel" Version="1.39.0" />
 		<PackageReference Include="NuGet.Versioning" Version="6.13.2" />
 		<PackageReference Include="Scighost.WinUI" Version="0.1.0" />
-		<PackageReference Include="Serilog.Extensions.Logging" Version="9.0.0" />
+		<PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1" />
 		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
 		<PackageReference Include="Starward.Assets" Version="0.5.3" />
 		<PackageReference Include="Starward.NativeLib" Version="0.2.4" />
