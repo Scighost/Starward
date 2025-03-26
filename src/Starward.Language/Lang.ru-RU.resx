@@ -1919,7 +1919,7 @@
     <value>Выбрать файл</value>
   </data>
   <data name="DailyNoteButton_BH3_TimeNeededForRecovery" xml:space="preserve">
-    <value>Time Needed for Recovery</value>
+    <value>Время необходимое для восстановления</value>
   </data>
   <data name="DailyNoteButton_BH3_DailyBP" xml:space="preserve">
     <value>Daily BP</value>
