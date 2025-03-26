@@ -187,7 +187,7 @@
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings}"
                        TextWrapping="Wrap" />
-            <TextBlock Margin="0,12,0,0">
+            <TextBlock Margin="0,12,0,0" HorizontalAlignment="Left">
                 <Hyperlink Click="Hyperlink_VisualEffects_Click"
                            NavigateUri="ms-settings:easeofaccess-visualeffects"
                            UnderlineStyle="None">

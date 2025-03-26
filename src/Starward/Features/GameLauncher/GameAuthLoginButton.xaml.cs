@@ -23,6 +23,7 @@ public sealed partial class GameAuthLoginButton : UserControl
     public GameAuthLoginButton()
     {
         this.InitializeComponent();
+        this.Visibility = Visibility.Collapsed;
     }
 
 
@@ -66,7 +67,7 @@ public sealed partial class GameAuthLoginButton : UserControl
             {
                 return;
             }
-            Button_GameAuthLogin.Visibility = Visibility.Visible;
+            this.Visibility = Visibility.Visible;
             ErrorMessage = null;
             HyperionAid = await _gameAuthLoginService.GetHyperionAidAsync();
         }

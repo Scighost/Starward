@@ -9,11 +9,11 @@ internal class GameRecordIndex : IJsonOnDeserialized
 {
 
     [JsonPropertyName("cur_head_icon_url")]
-    internal string CurHeadIconUrl { get; set; }
+    public string CurHeadIconUrl { get; set; }
 
 
     [JsonPropertyName("role")]
-    internal GameRecordIndexRole Role { get; set; }
+    public GameRecordIndexRole Role { get; set; }
 
 
     [JsonIgnore]

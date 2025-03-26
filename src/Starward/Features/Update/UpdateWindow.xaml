@@ -208,6 +208,7 @@
                     <SplitButton Name="Button_UpdateRemindLatter"
                                  Height="36"
                                  BorderThickness="0"
+                                 Command="{x:Bind RemindMeLatterCommand}"
                                  CornerRadius="18"
                                  IsEnabled="{x:Bind IsUpdateRemindLatterEnabled}"
                                  Opacity="0"
@@ -218,7 +219,9 @@
                                    Text="{x:Bind lang:Lang.UpdatePage_RemindLatter}" />
                         <SplitButton.Flyout>
                             <MenuFlyout Placement="Top">
-                                <MenuFlyoutItem Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind lang:Lang.UpdatePage_IgnoreThisVersion}" />
+                                <MenuFlyoutItem Command="{x:Bind IgnoreThisVersionCommand}"
+                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                Text="{x:Bind lang:Lang.UpdatePage_IgnoreThisVersion}" />
                             </MenuFlyout>
                         </SplitButton.Flyout>
                     </SplitButton>

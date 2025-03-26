@@ -15,8 +15,7 @@
             BorderThickness="0"
             CornerRadius="8"
             Loaded="Button_GameAuthLogin_Loaded"
-            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-            Visibility="Collapsed">
+            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
         <Grid>
             <Border Width="24"
                     Height="24"

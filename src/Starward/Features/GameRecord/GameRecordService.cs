@@ -53,12 +53,10 @@ internal class GameRecordService
             if (value)
             {
                 _gameRecordClient = _hoyolabClient;
-                _logger.LogInformation("Change region to Global.");
             }
             else
             {
                 _gameRecordClient = _hyperionClient;
-                _logger.LogInformation("Change region to China.");
             }
             isHoyolab = value;
         }

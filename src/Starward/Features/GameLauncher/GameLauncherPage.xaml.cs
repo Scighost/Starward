@@ -665,6 +665,10 @@ public sealed partial class GameLauncherPage : PageBase
             _gameInstallTask ??= _gameInstallService.GetGameInstallTask(CurrentGameId);
             if (_gameInstallTask is not null)
             {
+                if (_gameInstallTask.Operation is GameInstallOperation.Predownload)
+                {
+                    IsPredownloadButtonEnabled = true;
+                }
                 _dispatchTimer.Start();
             }
         }

@@ -373,7 +373,6 @@
                         <!--  命令行参数  -->
                         <TextBox MinWidth="320"
                                  HorizontalAlignment="Left"
-                                 IsEnabled="{x:Bind EnableThirdPartyTool, Converter={StaticResource BoolReversedConverter}}"
                                  IsSpellCheckEnabled="False"
                                  Text="{x:Bind StartGameArgument, Mode=TwoWay}"
                                  TextWrapping="Wrap" />
@@ -573,7 +572,12 @@
                                     Padding="0"
                                     Command="{x:Bind MuteCommand}"
                                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                                <FontIcon FontSize="16" Glyph="{x:Bind VideoBgVolumeButtonIcon}" />
+                                <Grid>
+                                    <FontIcon FontSize="16"
+                                              Foreground="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"
+                                              Glyph="&#xE767;" />
+                                    <FontIcon FontSize="16" Glyph="{x:Bind VideoBgVolumeButtonIcon}" />
+                                </Grid>
                             </Button>
                             <Slider Grid.Column="1"
                                     Width="200"

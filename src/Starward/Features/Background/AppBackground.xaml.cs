@@ -339,9 +339,9 @@ public sealed partial class AppBackground : UserControl
     {
         try
         {
+            videoBgVolume = message.Volume;
             if (mediaPlayer is not null)
             {
-                videoBgVolume = message.Volume;
                 mediaPlayer.Volume = message.Volume / 100d;
             }
         }
