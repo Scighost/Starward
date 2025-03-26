@@ -67,6 +67,46 @@
                 </Button>
             </Grid>
 
+
+            <!--  备份数据库  -->
+            <StackPanel Margin="0,8,0,0"
+                        Orientation="Horizontal"
+                        Spacing="16">
+                <Button Height="40"
+                        Margin="0,0,0,0"
+                        Padding="16,0,16,0"
+                        BorderThickness="0"
+                        Command="{x:Bind BackupDatabaseCommand}"
+                        CornerRadius="8,20,20,8"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xF413;" />
+                        <TextBlock Text="{x:Bind lang:Lang.SettingPage_BackupDatabase}" />
+                    </StackPanel>
+                </Button>
+                <ProgressRing Width="28"
+                              Height="28"
+                              IsIndeterminate="{x:Bind BackupDatabaseCommand.IsRunning}"
+                              Visibility="{x:Bind BackupDatabaseCommand.IsRunning}" />
+                <Button Height="40"
+                        Padding="20,0,20,1"
+                        BorderThickness="0"
+                        Command="{x:Bind OpenLastBackupDatabaseCommand}"
+                        CornerRadius="20"
+                        Visibility="{x:Bind LastDatabaseBackupTime, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind LastDatabaseBackupTime}" />
+                        <FontIcon Margin="8,2,2,0"
+                                  FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE8A7;" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+
             <!--  删除所有设置  -->
             <Button Height="40"
                     Margin="0,8,0,0"

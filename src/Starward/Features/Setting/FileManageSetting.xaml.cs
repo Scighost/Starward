@@ -5,7 +5,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
+using SharpSevenZip;
 using Starward.Controls;
+using Starward.Features.Database;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -37,6 +39,7 @@ public sealed partial class FileManageSetting : UserControl
     private async void FileManageSetting_Loaded(object sender, RoutedEventArgs e)
     {
         await Task.Delay(300);
+        GetLastBackupTime();
         _ = UpdateCacheSizeAsync();
     }
 
@@ -161,6 +164,105 @@ public sealed partial class FileManageSetting : UserControl
 
     #endregion
 
+
+
+    #region 备份数据库
+
+
+
+    public string LastDatabaseBackupTime { get; set => SetProperty(ref field, value); }
+
+
+    private void GetLastBackupTime()
+    {
+        try
+        {
+            if (DatabaseService.TryGetValue("LastBackupDatabase", out string? file, out DateTime time))
+            {
+                file = Path.Join(AppConfig.UserDataFolder, "DatabaseBackup", file);
+                if (File.Exists(file))
+                {
+                    LastDatabaseBackupTime = $"{Lang.SettingPage_LastBackup}  {time:yyyy-MM-dd HH:mm:ss}";
+                }
+                else
+                {
+                    _logger.LogWarning("Last backup database file not found: {file}", file);
+                }
+            }
+        }
+        catch { }
+    }
+
+
+
+    [RelayCommand]
+    private async Task BackupDatabaseAsync()
+    {
+        try
+        {
+            if (Directory.Exists(AppConfig.UserDataFolder))
+            {
+                var folder = Path.Combine(AppConfig.UserDataFolder, "DatabaseBackup");
+                Directory.CreateDirectory(folder);
+                DateTime time = DateTime.Now;
+                await Task.Run(() =>
+                {
+                    string file = Path.Combine(folder, $"StarwardDatabase_{time:yyyyMMdd_HHmmss}.db");
+                    string archive = Path.ChangeExtension(file, ".7z");
+                    DatabaseService.BackupDatabase(file);
+                    new SharpSevenZipCompressor().CompressFiles(archive, file);
+                    DatabaseService.SetValue("LastBackupDatabase", Path.GetFileName(archive), time);
+                    File.Delete(file);
+                });
+                LastDatabaseBackupTime = $"{Lang.SettingPage_LastBackup}  {time:yyyy-MM-dd HH:mm:ss}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Backup database");
+            LastDatabaseBackupTime = ex.Message;
+        }
+    }
+
+
+
+    [RelayCommand]
+    private async Task OpenLastBackupDatabaseAsync()
+    {
+        try
+        {
+            if (DatabaseService.TryGetValue("LastBackupDatabase", out string? file, out DateTime time))
+            {
+                file = Path.Join(AppConfig.UserDataFolder, "DatabaseBackup", file);
+                if (File.Exists(file))
+                {
+                    var item = await StorageFile.GetFileFromPathAsync(file);
+                    var folder = await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(file));
+                    var options = new FolderLauncherOptions
+                    {
+                        ItemsToSelect = { item }
+                    };
+                    await Launcher.LaunchFolderAsync(folder, options);
+                }
+                else
+                {
+                    _logger.LogWarning("Last backup database file not found: {file}", file);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open last backup database");
+        }
+    }
+
+
+
+
+
+
+
+    #endregion
 
 
 

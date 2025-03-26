@@ -1,9 +1,11 @@
 using Dapper;
 using Microsoft.Data.Sqlite;
+using SharpSevenZip;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -75,16 +77,51 @@ internal static class DatabaseService
 
 
 
-    public static DateTime BackupDatabase(string file)
+    public static void BackupDatabase(string file)
     {
         using var backupCon = new SqliteConnection($"DataSource={file}; Pooling=False;");
         backupCon.Open();
         using var con = CreateConnection();
         con.Execute("VACUUM;", commandType: CommandType.Text);
         con.BackupDatabase(backupCon);
-        var time = DateTime.Now;
-        SetValue("LastBackupDatabase", Path.GetFileName(file), time);
-        return time;
+    }
+
+
+
+    public static void AutoBackupToLocalLow()
+    {
+        try
+        {
+            string folder = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\DatabaseBackup");
+            Directory.CreateDirectory(folder);
+            string file = Path.Combine(folder, $"StarwardDatbase_AutoBackup_{DateTime.Now:yyyyMMdd_HHmmss}.db");
+            string archive = Path.ChangeExtension(file, ".7z");
+            string archive_tmp = archive + "_tmp";
+            string[] files = Directory.GetFiles(folder, "StarwardDatbase_AutoBackup_*.7z");
+            if (files.Length == 0)
+            {
+                BackupDatabase(file);
+                new SharpSevenZipCompressor().CompressFiles(archive_tmp, file);
+                File.Move(archive_tmp, archive, true);
+                File.Delete(file);
+            }
+            else
+            {
+                string last = files.OrderByDescending(File.GetLastWriteTime).First();
+                if (DateTime.Now - File.GetLastWriteTime(last) > TimeSpan.FromDays(7))
+                {
+                    BackupDatabase(file);
+                    new SharpSevenZipCompressor().CompressFiles(archive_tmp, file);
+                    File.Move(archive_tmp, archive, true);
+                    File.Delete(file);
+                    File.Delete(last);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
     }
 
 
