@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord;
 
@@ -9,11 +9,11 @@ internal class GameRecordIndex : IJsonOnDeserialized
 {
 
     [JsonPropertyName("cur_head_icon_url")]
-    public string CurHeadIconUrl { get; set; }
+    internal string CurHeadIconUrl { get; set; }
 
 
     [JsonPropertyName("role")]
-    public GameRecordIndexRole Role { get; set; }
+    internal GameRecordIndexRole Role { get; set; }
 
 
     [JsonIgnore]
@@ -48,6 +48,17 @@ internal class GameRecordIndexRole
 
     [JsonPropertyName("AvatarUrl")]
     public string AvatarUrl { get; set; }
+
+
+    [JsonPropertyName("nickname")]
+    public string Nickname { get; set; }
+
+    [JsonPropertyName("region")]
+    public string RegionName { get; set; }
+
+    [JsonPropertyName("level")]
+    public int Level { get; set; }
+
 
     [JsonPropertyName("game_head_icon")]
     public string GameHeadIcon { get; set; }

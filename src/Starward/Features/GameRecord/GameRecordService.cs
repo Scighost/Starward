@@ -233,6 +233,23 @@ internal class GameRecordService
 
 
 
+    public async Task UpdateGameRoleHeadIconAsync(GameRecordRole role)
+    {
+        string key = $"game_record_role_head_icon_{role.GameBiz}_{role.Region}_{role.Uid}";
+        if (!_memoryCache.TryGetValue(key, out bool _))
+        {
+            role = await _gameRecordClient.UpdateGameRoleHeadIconAsync(role);
+            using var dapper = DatabaseService.CreateConnection();
+            dapper.Execute("""
+                INSERT OR REPLACE INTO GameRecordRole (Uid, GameBiz, Nickname, Level, Region, RegionName, Cookie, HeadIcon)
+                VALUES (@Uid, @GameBiz, @Nickname, @Level, @Region, @RegionName, @Cookie, @HeadIcon);
+                """, role);
+            _memoryCache.Set(key, true, TimeSpan.FromMinutes(5));
+        }
+    }
+
+
+
     /// <summary>
     /// 删除游戏角色，返回是否删除全部账号
     /// </summary>

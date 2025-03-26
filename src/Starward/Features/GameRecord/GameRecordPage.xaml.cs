@@ -88,7 +88,7 @@ public sealed partial class GameRecordPage : PageBase
         {
             LoadGameRoles();
             await UpdateDeviceInfoAsync();
-            await RefreshGameRoleInfoSilentlyAsync();
+            await RefreshGameRoleHeadIconSilentlyAsync();
         }
     }
 
@@ -443,19 +443,18 @@ public sealed partial class GameRecordPage : PageBase
 
 
 
-    private async Task RefreshGameRoleInfoSilentlyAsync()
+    private async Task RefreshGameRoleHeadIconSilentlyAsync()
     {
         try
         {
-            // todo 不要每次打开页面时刷新
             if (CurrentRole is not null)
             {
-                await _gameRecordService.RefreshGameRoleInfoAsync(CurrentRole);
+                await _gameRecordService.UpdateGameRoleHeadIconAsync(CurrentRole);
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Refresh game role info silently ({gameBiz}, {uid}).", CurrentRole?.GameBiz, CurrentRole?.Uid);
+            _logger.LogError(ex, "Update game role head icon silently ({gameBiz}, {uid}).", CurrentRole?.GameBiz, CurrentRole?.Uid);
         }
     }
 

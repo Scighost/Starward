@@ -237,6 +237,19 @@ public abstract class GameRecordClient
     protected abstract Task<string> GetGameRoleHeadIconAsync(GameRecordRole role, CancellationToken cancellationToken = default);
 
 
+    /// <summary>
+    /// 更新游戏账号头像
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<GameRecordRole> UpdateGameRoleHeadIconAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        role.HeadIcon = await GetGameRoleHeadIconAsync(role, cancellationToken);
+        return role;
+    }
+
+
 
     /// <summary>
     /// 获取设备指纹信息
