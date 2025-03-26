@@ -2007,4 +2007,10 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="DailyNoteButton_ZZZ_RiduWeeklyPoints" xml:space="preserve">
     <value>Ridu Weekly Points</value>
   </data>
+  <data name="Common_Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Common_Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
 </root>
