@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
@@ -39,6 +40,8 @@ public sealed partial class UIGF4GachaWindow : WindowEx
     {
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         Title = Lang.ToolboxSetting_GachaRecordsImportExport;
+        RootGrid.RequestedTheme = ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
+        SystemBackdrop = new DesktopAcrylicBackdrop();
         AdaptTitleBarButtonColorToActuallTheme();
         SetIcon();
     }

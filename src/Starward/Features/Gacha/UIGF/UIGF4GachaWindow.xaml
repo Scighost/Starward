@@ -13,7 +13,6 @@
              mc:Ignorable="d">
 
     <Grid x:Name="RootGrid"
-          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
           Loaded="RootGrid_Loaded"
           Unloaded="RootGrid_Unloaded">
         <Grid.RowDefinitions>

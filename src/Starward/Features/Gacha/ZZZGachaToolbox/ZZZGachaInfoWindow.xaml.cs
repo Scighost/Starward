@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.Web.WebView2.Core;
 using Starward.Core;
 using Starward.Core.Gacha.ZZZ;
@@ -54,6 +55,8 @@ public sealed partial class ZZZGachaInfoWindow : WindowEx
     {
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         Title = Lang.ToolboxSetting_ZZZGachaItemImages;
+        RootGrid.RequestedTheme = ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
+        SystemBackdrop = new DesktopAcrylicBackdrop();
         AdaptTitleBarButtonColorToActuallTheme();
         SetIcon();
     }

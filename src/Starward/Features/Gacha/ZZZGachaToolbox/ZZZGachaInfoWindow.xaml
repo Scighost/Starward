@@ -13,7 +13,6 @@
 
     <Grid x:Name="RootGrid"
           Padding="0,40,0,0"
-          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
           Loaded="RootGrid_Loaded"
           RowSpacing="8"
           Unloaded="RootGrid_Unloaded">
