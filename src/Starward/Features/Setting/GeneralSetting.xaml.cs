@@ -167,29 +167,19 @@ public sealed partial class GeneralSetting : UserControl
     {
         try
         {
-            try
+            if (_closeWindowOptionInitialized)
             {
-                if (_closeWindowOptionInitialized)
+                if (sender is FrameworkElement fe)
                 {
-                    if (sender is FrameworkElement fe)
+                    AppConfig.CloseWindowOption = fe.Tag switch
                     {
-                        AppConfig.CloseWindowOption = fe.Tag switch
-                        {
-                            MainWindowCloseOption option => option,
-                            _ => 0,
-                        };
-                    }
+                        MainWindowCloseOption option => option,
+                        _ => 0,
+                    };
                 }
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Change Close Main Window Option");
-            }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 

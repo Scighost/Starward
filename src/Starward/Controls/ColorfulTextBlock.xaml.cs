@@ -4,10 +4,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using System;
+using System.Diagnostics;
 using Windows.UI;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Starward.Controls;
 
@@ -37,7 +36,7 @@ public sealed partial class ColorfulTextBlock : UserControl
 
 
     [ObservableProperty]
-    private string _text;
+    public partial string Text { get; set; }
     partial void OnTextChanged(string value)
     {
         try
@@ -116,6 +115,7 @@ public sealed partial class ColorfulTextBlock : UserControl
         }
         catch (Exception ex)
         {
+            Debug.WriteLine(ex);
             ThisTextBlock.Inlines.Clear();
             ThisTextBlock.Text = value;
         }

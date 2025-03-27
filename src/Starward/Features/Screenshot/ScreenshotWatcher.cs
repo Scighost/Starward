@@ -143,6 +143,16 @@ public class ScreenshotWatcher : ObservableObject, IDisposable
     public void Dispose()
     {
         ((IDisposable)_watcher).Dispose();
+        ImageList.Clear();
+        ImageGroupList.Clear();
+        ImageList = null!;
+        ImageGroupList = null!;
+        ImageViewSource = null!;
+        if (newImages is not null)
+        {
+            newImages.Clear();
+            newImages = null!;
+        }
     }
 
 }

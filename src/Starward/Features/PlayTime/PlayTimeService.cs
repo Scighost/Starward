@@ -481,13 +481,12 @@ internal class PlayTimeService
                 return;
             }
 
-            var p = Process.Start(new ProcessStartInfo
+            Process? p = Process.Start(new ProcessStartInfo
             {
                 FileName = AppConfig.StarwardExecutePath,
                 Arguments = $"playtime --biz {biz} --pid {process.Id}",
                 CreateNoWindow = true,
             });
-            _logger.LogInformation(p.StartInfo.Arguments);
             _logger.LogInformation("Start process to log play time: GameBiz {biz}, Pid {pid}, ProcessId {processId}", biz, pid, p?.Id);
         }
         catch (Exception ex)

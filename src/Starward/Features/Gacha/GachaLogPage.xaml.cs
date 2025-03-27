@@ -200,6 +200,24 @@ public sealed partial class GachaLogPage : PageBase
     protected override void OnUnloaded()
     {
         WeakReferenceMessenger.Default.UnregisterAll(this);
+        if (GachaTypeStatsCollection is not null)
+        {
+            GachaTypeStatsCollection.Clear();
+            GachaTypeStatsCollection = null!;
+        }
+        if (GachaItemStats is not null)
+        {
+            GachaItemStats.Clear();
+            GachaItemStats = null;
+        }
+        SelectUid = null;
+        if (UidList is not null)
+        {
+            UidList.Clear();
+            UidList = null!;
+        }
+        noviceGachaTypeStats = null;
+        chronicledWishStats = null;
     }
 
 

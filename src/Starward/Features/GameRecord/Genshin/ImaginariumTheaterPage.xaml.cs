@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -65,17 +64,14 @@ public sealed partial class ImaginariumTheaterPage : PageBase
 
 
 
-    [ObservableProperty]
-    private bool hasData;
+    public bool HasData { get; set => SetProperty(ref field, value); }
 
 
 
-    [ObservableProperty]
-    private List<ImaginariumTheaterInfo> theaterList;
+    public List<ImaginariumTheaterInfo> TheaterList { get; set => SetProperty(ref field, value); }
 
 
-    [ObservableProperty]
-    private ImaginariumTheaterInfo? currentTheater;
+    public ImaginariumTheaterInfo? CurrentTheater { get; set => SetProperty(ref field, value); }
 
 
 
@@ -198,21 +194,16 @@ public sealed partial class ImaginariumTheaterPage : PageBase
     }
 
 
-    private static BitmapImage Medal0;
-    private static BitmapImage Medal1;
-    private static BitmapImage Medal2;
-    private static BitmapImage Medal3;
-    private static BitmapImage Medal4;
 
     public static BitmapImage? HeraldryImage(int heraldry)
     {
         return heraldry switch
         {
-            0 => Medal0 ?? new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_0.png")),
-            1 => Medal1 ?? new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_1.png")),
-            2 => Medal2 ?? new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_2.png")),
-            3 => Medal3 ?? new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_3.png")),
-            4 => Medal4 ?? new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_4.png")),
+            0 => new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_0.png")),
+            1 => new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_1.png")),
+            2 => new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_2.png")),
+            3 => new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_3.png")),
+            4 => new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_4.png")),
             _ => null,
         };
     }

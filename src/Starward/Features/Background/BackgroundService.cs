@@ -200,7 +200,7 @@ public class BackgroundService
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Get version poster ({GameBiz})", gameId.GameBiz);
         }
         return null;
     }

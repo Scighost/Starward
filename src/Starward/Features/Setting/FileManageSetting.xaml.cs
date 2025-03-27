@@ -112,7 +112,7 @@ public sealed partial class FileManageSetting : UserControl
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Open user data folder");
         }
     }
 

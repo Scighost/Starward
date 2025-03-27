@@ -441,13 +441,13 @@ public abstract class CacheBase<T>
             }
             catch (TaskCanceledException)
             {
-                await baseFile.DeleteAsync().AsTask().ConfigureAwait(false);
+                await baseFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask().ConfigureAwait(false);
                 progress?.Report(new DownloadProgress(DownloadState.Canceled, 0, -1));
                 throw; // re-throwing the exception changes the stack trace. just throw
             }
             catch (Exception)
             {
-                await baseFile.DeleteAsync().AsTask().ConfigureAwait(false);
+                await baseFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask().ConfigureAwait(false);
                 throw; // re-throwing the exception changes the stack trace. just throw
             }
         }
@@ -548,7 +548,7 @@ public abstract class CacheBase<T>
         {
             try
             {
-                await file.DeleteAsync().AsTask().ConfigureAwait(false);
+                await file.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask().ConfigureAwait(false);
             }
             catch
             {

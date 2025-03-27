@@ -46,7 +46,7 @@ public class StarRailDailyNote
     /// 明天开拓力回满
     /// </summary>
     [JsonIgnore]
-    public bool StaminaTomorrowRecovery => StaminaFullTime.Date > CurrentTime.Date;
+    public bool StaminaTomorrowRecovery => StaminaFullTime.LocalDateTime.Date > CurrentTime.LocalDateTime.Date;
 
     /// <summary>
     /// 已接取委托次数

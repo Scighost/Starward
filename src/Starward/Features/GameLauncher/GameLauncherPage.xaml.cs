@@ -193,7 +193,7 @@ public sealed partial class GameLauncherPage : PageBase
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Initialize game server");
         }
     }
 
@@ -305,7 +305,7 @@ public sealed partial class GameLauncherPage : PageBase
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Locate game");
         }
     }
 
@@ -492,7 +492,7 @@ public sealed partial class GameLauncherPage : PageBase
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Install game {GameBiz}", CurrentGameBiz);
         }
     }
 
@@ -512,12 +512,12 @@ public sealed partial class GameLauncherPage : PageBase
             if (task is not null)
             {
                 _gameInstallTask = task;
-            _dispatchTimer.Start();
-        }
+                _dispatchTimer.Start();
+            }
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Resume download {GameBiz}", CurrentGameBiz);
         }
     }
 
@@ -608,7 +608,7 @@ public sealed partial class GameLauncherPage : PageBase
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Update game {GameBiz}", CurrentGameBiz);
         }
     }
 
@@ -656,7 +656,7 @@ public sealed partial class GameLauncherPage : PageBase
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Change game install task state {GameBiz}", CurrentGameBiz);
         }
     }
 
@@ -676,10 +676,7 @@ public sealed partial class GameLauncherPage : PageBase
                 _dispatchTimer.Start();
             }
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
 
 

@@ -64,7 +64,11 @@ public sealed partial class ScreenshotPage : PageBase
 
     protected override void OnUnloaded()
     {
-        Watcher?.Dispose();
+        if (Watcher is not null)
+        {
+            Watcher.Dispose();
+            Watcher = null;
+        }
     }
 
 

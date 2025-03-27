@@ -103,7 +103,7 @@ public sealed partial class CachedImage : ImageEx
         }
         catch (Exception)
         {
-            await FileCacheService.Instance.RemoveAsync(new[] { imageUri });
+            await FileCacheService.Instance.RemoveAsync([imageUri]);
             throw;
         }
     }

@@ -450,7 +450,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Repair game internal {GameBiz}", CurrentGameBiz);
         }
     }
 
@@ -501,7 +501,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Show uninstall game warning {GameBiz}", CurrentGameBiz);
         }
     }
 
@@ -574,7 +574,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Try stop game install task {GameBiz}", CurrentGameBiz);
         }
     }
 
