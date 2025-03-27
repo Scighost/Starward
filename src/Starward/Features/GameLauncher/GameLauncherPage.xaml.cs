@@ -508,8 +508,12 @@ public sealed partial class GameLauncherPage : PageBase
                 return;
             }
             AudioLanguage audio = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId, GameInstallPath);
-            _gameInstallTask = await _gameInstallService.StartInstallAsync(CurrentGameId, GameInstallPath, audio);
+            var task = await _gameInstallService.StartInstallAsync(CurrentGameId, GameInstallPath, audio);
+            if (task is not null)
+            {
+                _gameInstallTask = task;
             _dispatchTimer.Start();
+        }
         }
         catch (Exception ex)
         {
@@ -590,7 +594,7 @@ public sealed partial class GameLauncherPage : PageBase
             if (localGameVersion is not null && latestGameVersion > localGameVersion)
             {
                 AudioLanguage audio = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId, GameInstallPath);
-                GameInstallTask task = await _gameInstallService.StartUpdateAsync(CurrentGameId, GameInstallPath!, audio);
+                GameInstallTask? task = await _gameInstallService.StartUpdateAsync(CurrentGameId, GameInstallPath!, audio);
                 if (task is not null)
                 {
                     _gameInstallTask = task;

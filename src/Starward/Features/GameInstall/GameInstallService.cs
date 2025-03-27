@@ -207,35 +207,35 @@ internal class GameInstallService
 
 
 
-    public async Task<GameInstallTask> StartInstallAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
+    public async Task<GameInstallTask?> StartInstallAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
         return await StartOrContinueTaskAsync(GameInstallOperation.Install, gameId, installPath, audioLanguage);
     }
 
 
 
-    public async Task<GameInstallTask> StartPredownloadAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
+    public async Task<GameInstallTask?> StartPredownloadAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
         return await StartOrContinueTaskAsync(GameInstallOperation.Predownload, gameId, installPath, audioLanguage);
     }
 
 
 
-    public async Task<GameInstallTask> StartUpdateAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
+    public async Task<GameInstallTask?> StartUpdateAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
         return await StartOrContinueTaskAsync(GameInstallOperation.Update, gameId, installPath, audioLanguage);
     }
 
 
 
-    public async Task<GameInstallTask> StartRepairAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
+    public async Task<GameInstallTask?> StartRepairAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
         return await StartOrContinueTaskAsync(GameInstallOperation.Repair, gameId, installPath, audioLanguage);
     }
 
 
 
-    private async Task<GameInstallTask> StartOrContinueTaskAsync(GameInstallOperation operation, GameId gameId, string installPath, AudioLanguage audioLanguage)
+    private async Task<GameInstallTask?> StartOrContinueTaskAsync(GameInstallOperation operation, GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
         var request = new GameInstallTaskRequest
         {
@@ -246,18 +246,25 @@ internal class GameInstallService
             AudioLanguage = (int)audioLanguage,
             HardLinkPath = await GetHardLinkPathAsync(gameId, installPath),
         };
-        await _rpcService.EnsureRpcServerRunningAsync();
-        _logger.LogInformation("""
-            Start game install task: 
-            Operation: {operation}
-            GameId: {gameId} {gameBiz}
-            InstallPath: {installPath}
-            AudioLanguage: {audioLanguage}
-            HardLinkPath: {hardLinkPath}
-            """, operation, gameId.Id, gameId.GameBiz, installPath, audioLanguage, request.HardLinkPath);
-        var dto = await _gameInstallerClient.StartOrContinueTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
-        StartUpdateTaskProgress();
-        return AddOrUpdateTask(dto);
+        if (await _rpcService.EnsureRpcServerRunningAsync())
+        {
+            _logger.LogInformation("""
+                Start game install task: 
+                Operation: {operation}
+                GameId: {gameId} {gameBiz}
+                InstallPath: {installPath}
+                AudioLanguage: {audioLanguage}
+                HardLinkPath: {hardLinkPath}
+                """, operation, gameId.Id, gameId.GameBiz, installPath, audioLanguage, request.HardLinkPath);
+            var dto = await _gameInstallerClient.StartOrContinueTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
+            StartUpdateTaskProgress();
+            return AddOrUpdateTask(dto);
+        }
+        else
+        {
+            _logger.LogInformation("RPC server is not running, can't start game install task ({GameBiz}, {Operation}).", gameId.GameBiz, operation);
+            return null;
+        }
     }
 
 
@@ -286,11 +293,13 @@ internal class GameInstallService
     public async Task<GameInstallTask> ContinueTaskAsync(GameInstallTask task)
     {
         var request = GameInstallTaskRequest.FromTask(task);
-        await _rpcService.EnsureRpcServerRunningAsync();
-        _logger.LogInformation("Continue game install task: {gameId} {gameBiz}", task.GameId.Id, task.GameId.GameBiz);
-        var dto = await _gameInstallerClient.StartOrContinueTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
-        task = AddOrUpdateTask(dto);
-        StartUpdateTaskProgress();
+        if (await _rpcService.EnsureRpcServerRunningAsync())
+        {
+            _logger.LogInformation("Continue game install task: {gameId} {gameBiz}", task.GameId.Id, task.GameId.GameBiz);
+            var dto = await _gameInstallerClient.StartOrContinueTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
+            task = AddOrUpdateTask(dto);
+            StartUpdateTaskProgress();
+        }
         return task;
     }
 

@@ -377,8 +377,8 @@ public sealed partial class InstallGameDialog : ContentDialog
     {
         try
         {
-            var task = await _gameInstallService.StartInstallAsync(CurrentGameId, InstallationPath, _audioLanguage);
-            if (task.State is not GameInstallState.Stop and not GameInstallState.Error)
+            GameInstallTask? task = await _gameInstallService.StartInstallAsync(CurrentGameId, InstallationPath, _audioLanguage);
+            if (task is not null && task.State is not GameInstallState.Stop and not GameInstallState.Error)
             {
                 GameLauncherService.ChangeGameInstallPath(CurrentGameId, InstallationPath);
                 WeakReferenceMessenger.Default.Send(new GameInstallTaskStartedMessage(task));

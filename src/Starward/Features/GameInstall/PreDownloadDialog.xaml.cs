@@ -324,8 +324,8 @@ public sealed partial class PreDownloadDialog : ContentDialog
     {
         try
         {
-            var task = await _gameInstallService.StartPredownloadAsync(CurrentGameId, _installationPath, _audioLanguage);
-            if (task.State is not GameInstallState.Stop and not GameInstallState.Error)
+            GameInstallTask? task = await _gameInstallService.StartPredownloadAsync(CurrentGameId, _installationPath, _audioLanguage);
+            if (task is not null && task.State is not GameInstallState.Stop and not GameInstallState.Error)
             {
                 WeakReferenceMessenger.Default.Send(new GameInstallTaskStartedMessage(task));
                 Close();

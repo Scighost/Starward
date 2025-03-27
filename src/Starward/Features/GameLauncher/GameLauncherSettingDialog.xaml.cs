@@ -441,8 +441,8 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
                     _ => AudioLanguage.None,
                 };
             }
-            GameInstallTask task = await _gameInstallService.StartRepairAsync(CurrentGameId, InstallPath, audio);
-            if (task.State is not GameInstallState.Stop and not GameInstallState.Error)
+            GameInstallTask? task = await _gameInstallService.StartRepairAsync(CurrentGameId, InstallPath, audio);
+            if (task is not null && task.State is not GameInstallState.Stop and not GameInstallState.Error)
             {
                 WeakReferenceMessenger.Default.Send(new GameInstallTaskStartedMessage(task));
                 Close();
