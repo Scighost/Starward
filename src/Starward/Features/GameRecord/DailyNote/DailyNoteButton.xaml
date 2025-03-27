@@ -390,12 +390,19 @@
                                 <TextBlock FontSize="15">
                                     <Run Text="{x:Bind StarRailDailyNote.CurrentStamina}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.MaxStamina}" />
                                 </TextBlock>
-                                <TextBlock FontSize="12"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Visibility="{x:Bind StarRailDailyNote.IsStaminaFull, Converter={StaticResource BoolToVisibilityReversedConverter}}">
-                                    <Run Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_FullTime}" />
-                                    <Run Text="{x:Bind StarRailDailyNote.StaminaFullTime.LocalDateTime.ToString('HH\:mm', x:Null)}" />
-                                </TextBlock>
+                                <StackPanel Orientation="Horizontal"
+                                            Spacing="1"
+                                            Visibility="{x:Bind StarRailDailyNote.IsStaminaFull, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                        <Run Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_FullTime}" />
+                                        <Run Text="{x:Bind StarRailDailyNote.StaminaFullTime.LocalDateTime.ToString('HH\:mm', x:Null)}" />
+                                    </TextBlock>
+                                    <TextBlock VerticalAlignment="Top"
+                                               FontSize="10"
+                                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                               Text="+1"
+                                               Visibility="{x:Bind StarRailDailyNote.StaminaTomorrowRecovery}" />
+                                </StackPanel>
                                 <TextBlock FontSize="12"
                                            Foreground="{ThemeResource SystemFillColorSuccessBrush}"
                                            Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_FullyRecovered}"
@@ -503,19 +510,22 @@
                                    Height="40"
                                    Source="ms-appx:///Assets/Image/IconStamina.png" />
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock>
-                                    <Run FontSize="12"
-                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                         Text="{x:Bind lang:Lang.DailyNoteButton_ZZZ_BatteryCharge}" />
+                                <TextBlock FontSize="15">
                                     <Run Text="{x:Bind ZZZDailyNote.Energy.Progress.Current}" /><Run Text="/" /><Run Text="{x:Bind ZZZDailyNote.Energy.Progress.Max}" />
                                 </TextBlock>
-                                <TextBlock FontSize="12"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Visibility="{x:Bind ZZZDailyNote.Energy.IsFull, Converter={StaticResource BoolToVisibilityReversedConverter}}">
-                                    <Run Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_FullTime}" />
-                                    <Run Text="" />
-                                    <Run Text="{x:Bind ZZZDailyNote.Energy.Hour.ToString('D2', x:Null)}" /><Run Text=":" /><Run Text="{x:Bind ZZZDailyNote.Energy.Minute.ToString('D2', x:Null)}" />
-                                </TextBlock>
+                                <StackPanel Orientation="Horizontal"
+                                            Spacing="1"
+                                            Visibility="{x:Bind ZZZDailyNote.Energy.IsFull, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                        <Run Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_FullTime}" />
+                                        <Run Text="{x:Bind ZZZDailyNote.Energy.Hour.ToString('D2', x:Null)}" /><Run Text=":" /><Run Text="{x:Bind ZZZDailyNote.Energy.Minute.ToString('D2', x:Null)}" />
+                                    </TextBlock>
+                                    <TextBlock VerticalAlignment="Top"
+                                               FontSize="10"
+                                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                               Text="+1"
+                                               Visibility="{x:Bind ZZZDailyNote.Energy.TomorrowRecovery}" />
+                                </StackPanel>
                                 <TextBlock FontSize="12"
                                            Foreground="{ThemeResource SystemFillColorSuccessBrush}"
                                            Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_FullyRecovered}"

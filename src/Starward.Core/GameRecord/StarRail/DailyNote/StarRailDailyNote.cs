@@ -41,6 +41,13 @@ public class StarRailDailyNote
     [JsonConverter(typeof(TimestampNumberJsonConverter))]
     public DateTimeOffset StaminaFullTime { get; set; }
 
+
+    /// <summary>
+    /// 明天开拓力回满
+    /// </summary>
+    [JsonIgnore]
+    public bool StaminaTomorrowRecovery => StaminaFullTime.Date > CurrentTime.Date;
+
     /// <summary>
     /// 已接取委托次数
     /// </summary>

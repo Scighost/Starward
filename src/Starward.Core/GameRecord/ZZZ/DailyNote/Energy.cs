@@ -28,6 +28,12 @@ public class Energy
     public int DayType { get; set; }
 
     /// <summary>
+    /// 明天回复满
+    /// </summary>
+    [JsonIgnore]
+    public bool TomorrowRecovery => DayType == 2;
+
+    /// <summary>
     /// 电量恢复慢的时间，小时
     /// </summary>
     [JsonPropertyName("hour")]
