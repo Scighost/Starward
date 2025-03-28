@@ -210,12 +210,6 @@ public sealed partial class GachaLogPage : PageBase
             GachaItemStats.Clear();
             GachaItemStats = null;
         }
-        SelectUid = null;
-        if (UidList is not null)
-        {
-            UidList.Clear();
-            UidList = null!;
-        }
         noviceGachaTypeStats = null;
         chronicledWishStats = null;
     }

@@ -139,19 +139,19 @@ public class GachaNoUp
             NoUpTimes = [(new DateTime(2023, 4, 1), DateTime.MaxValue)],
         });
         // 3.2版本，自定义非UP五星角色
-        hkrpg11.Items.Add(1211, new GachaNoUpItem
+        hkrpg11.Items.Add(1102, new GachaNoUpItem
         {
             Id = 1102,
             Name = "希儿",
             NoUpTimes = [(new DateTime(2025, 4, 8, 18, 00, 00), DateTime.MaxValue)],
         });
-        hkrpg11.Items.Add(1211, new GachaNoUpItem
+        hkrpg11.Items.Add(1205, new GachaNoUpItem
         {
             Id = 1205,
             Name = "刃",
             NoUpTimes = [(new DateTime(2025, 4, 8, 18, 00, 00), DateTime.MaxValue)],
         });
-        hkrpg11.Items.Add(1211, new GachaNoUpItem
+        hkrpg11.Items.Add(1208, new GachaNoUpItem
         {
             Id = 1208,
             Name = "符玄",
