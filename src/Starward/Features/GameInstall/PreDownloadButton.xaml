@@ -90,9 +90,9 @@
           PointerExited="Grid_Root_PointerExited">
         <Grid.Resources>
             <cu:AttachedDropShadow x:Key="TextShadow"
-                                   BlurRadius="8"
+                                   BlurRadius="6"
                                    CastTo="{x:Bind Border_TextShadowTarget}"
-                                   Offset="0"
+                                   Offset="0,2"
                                    Color="#80000000" />
         </Grid.Resources>
 

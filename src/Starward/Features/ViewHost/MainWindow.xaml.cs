@@ -39,6 +39,10 @@ public sealed partial class MainWindow : WindowEx
         WeakReferenceMessenger.Default.Register<AccentColorChangedMessage>(this, OnAccentColorChanged);
         WeakReferenceMessenger.Default.Register<WelcomePageFinishedMessage>(this, OnWelcomePageFinished);
         WeakReferenceMessenger.Default.Register<GameStartedMessage>(this, OnGameStarted);
+        if (AppConfig.EnableHotkey ?? false)
+        {
+            User32.RegisterHotKey(WindowHandle, 44444, User32.HotKeyModifiers.MOD_ALT | User32.HotKeyModifiers.MOD_NOREPEAT, (uint)User32.VK.VK_S);
+        }
     }
 
 
@@ -255,6 +259,13 @@ public sealed partial class MainWindow : WindowEx
                 {
                     WeakReferenceMessenger.Default.Send(new RemovableStorageDeviceChangedMessage());
                 }
+            }
+        }
+        else if (uMsg == (uint)User32.WindowMessage.WM_HOTKEY)
+        {
+            if (wParam == 44444)
+            {
+                this.Show();
             }
         }
         return base.WindowSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);

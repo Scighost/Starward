@@ -113,6 +113,8 @@ public static class AppConfig
                 string text = File.ReadAllText(ConfigPath);
                 string lang = Regex.Match(text, @"Language=(.+)").Groups[1].Value.Trim();
                 string folder = Regex.Match(text, @"UserDataFolder=(.+)").Groups[1].Value.Trim();
+                bool.TryParse(Regex.Match(text, @"EnableHotkey=(.+)").Groups[1].Value.Trim(), out bool hotkey);
+                EnableHotkey = hotkey;
                 bool.TryParse(Regex.Match(text, @"EnableLoginAuthTicket=(.+)").Groups[1].Value.Trim(), out bool enabled);
                 EnableLoginAuthTicket = enabled;
                 stoken = Regex.Match(text, @"stoken=(.+)").Groups[1].Value.Trim();
@@ -185,6 +187,8 @@ public static class AppConfig
     public static string LogFile { get; private set; }
 
 
+    public static bool? EnableHotkey { get; set; }
+
 
     public static bool? EnableLoginAuthTicket { get; set; }
 
@@ -214,6 +218,10 @@ public static class AppConfig
             {
                 sb.AppendLine($"Language={Language}");
                 sb.AppendLine($"UserDataFolder=");
+            }
+            if (EnableHotkey.HasValue)
+            {
+                sb.AppendLine($"{nameof(EnableHotkey)}={EnableHotkey}");
             }
             if (EnableLoginAuthTicket.HasValue)
             {
