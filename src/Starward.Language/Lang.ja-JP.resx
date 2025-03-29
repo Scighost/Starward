@@ -1863,7 +1863,7 @@ After retrieving the data, you can save it to the database in any language or ex
 You are welcome to submit the exported data to the following repository:</value>
   </data>
   <data name="SettingPage_Toolbox" xml:space="preserve">
-    <value>Toolbox</value>
+    <value>ツール</value>
   </data>
   <data name="ToolboxSetting_GachaRecordsImportExport" xml:space="preserve">
     <value>Gacha Records Import &amp; Export</value>
