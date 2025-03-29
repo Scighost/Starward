@@ -1881,7 +1881,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>"{0}" field is missing in a gacha record.</value>
   </data>
   <data name="GachaImportAndExportWindow_Export" xml:space="preserve">
-    <value>Export</value>
+    <value>書き出し</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectTheGachaRecordsToExport" xml:space="preserve">
     <value>Select the gacha records to export.</value>
@@ -1947,7 +1947,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Reserved Trailblaze Power</value>
   </data>
   <data name="DailyNoteButton_StarRail_DailyTraining" xml:space="preserve">
-    <value>Daily Training</value>
+    <value>日常訓練</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
     <value>Echo of War</value>
@@ -1959,16 +1959,16 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Ongoing Assignments</value>
   </data>
   <data name="DailyNoteButton_StarRail_AllFinished" xml:space="preserve">
-    <value>All Finished</value>
+    <value>すべて完了</value>
   </data>
   <data name="DailyNoteButton_StarRail_FinishedTime" xml:space="preserve">
-    <value>Finished Time</value>
+    <value>終了時刻</value>
   </data>
   <data name="DailyNoteButton_ZZZ_BatteryCharge" xml:space="preserve">
-    <value>Battery Charge</value>
+    <value>バッテリー充電</value>
   </data>
   <data name="DailyNoteButton_ZZZ_DailyMissions" xml:space="preserve">
-    <value>Daily Missions</value>
+    <value>日常タスク</value>
   </data>
   <data name="DailyNoteButton_ZZZ_EngagementToday" xml:space="preserve">
     <value>Engagement Today</value>
@@ -1977,10 +1977,10 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Scratch Card Mania</value>
   </data>
   <data name="DailyNoteButton_ZZZ_Complete" xml:space="preserve">
-    <value>Complete</value>
+    <value>完了</value>
   </data>
   <data name="DailyNoteButton_ZZZ_Incomplete" xml:space="preserve">
-    <value>Incomplete</value>
+    <value>未完了</value>
   </data>
   <data name="DailyNoteButton_ZZZ_VideoStoreManagement" xml:space="preserve">
     <value>Video Store Management</value>
@@ -2007,7 +2007,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Ridu Weekly Points</value>
   </data>
   <data name="Common_Disabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>無効</value>
   </data>
   <data name="Common_Enabled" xml:space="preserve">
     <value>Enabled</value>
