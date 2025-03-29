@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.UI;
 
@@ -254,12 +253,11 @@ public sealed partial class InterKnotMonthlyReportPage : PageBase
             var items_tape = _gameRecordService.GetInterKnotReportDetailItems(data.Uid, data.DataMonth, InterKnotReportDataType.MatserTapeData);
             var items_boopon = _gameRecordService.GetInterKnotReportDetailItems(data.Uid, data.DataMonth, InterKnotReportDataType.BooponsData);
             int days = DateTime.DaysInMonth(int.Parse(data.DataMonth[..4]), int.Parse(data.DataMonth[4..]));
-            var x = Enumerable.Range(1, days).ToArray();
 
             var stats_poly = new int[days];
             foreach (var item in items_poly)
             {
-                var day = item.Time.Day;
+                var day = item.Time.LocalDateTime.Day;
                 if (day <= days)
                 {
                     stats_poly[day - 1] += item.Number;
@@ -269,7 +267,7 @@ public sealed partial class InterKnotMonthlyReportPage : PageBase
             var stats_tape = new int[days];
             foreach (var item in items_tape)
             {
-                var day = item.Time.Day;
+                var day = item.Time.LocalDateTime.Day;
                 if (day <= days)
                 {
                     stats_tape[day - 1] += item.Number;
@@ -279,7 +277,7 @@ public sealed partial class InterKnotMonthlyReportPage : PageBase
             var stats_boopon = new int[days];
             foreach (var item in items_boopon)
             {
-                var day = item.Time.Day;
+                var day = item.Time.LocalDateTime.Day;
                 if (day <= days)
                 {
                     stats_boopon[day - 1] += item.Number;
