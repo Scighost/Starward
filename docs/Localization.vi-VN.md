@@ -7,20 +7,17 @@
     <img src="https://github.com/Scighost/Starward/assets/61003590/44552992-e2c5-451f-9c2a-73176e8e4e93" width="240px" />
 </picture>
 
-
 ## Hướng dẫn dịch thuật
 
 Nếu bạn muốn đóng góp vào nỗ lực dịch thuật của dự án này, vui lòng đọc thông tin sau. Có hai phần của dự án cần dịch: tài liệu được lưu trữ ở GitHub và văn bản trong ứng dụng.
 
-
 ## Dịch tài liệu
 
-Tài liệu được đề cập trong bài viết này là các tệp Markdown trong kho lưu trữ. Tất cả các tệp Markdown đã dịch nên được lưu trong thư mục `docs/` và thêm nhãn ngôn ngữ-khu vực tương ứng vào tên tệp. Ví dụ, nếu tên tệp gốc của tài liệu này là `Localization.md`, thì tên tệp dịch sẽ là `Localization.vi-VN.md`. Cuối cùng, hãy thêm liên kết đến bản dịch ở đầu tệp gốc.
+Tài liệu được đề cập trong bài viết này là các tệp Markdown trong kho lưu trữ. Tất cả các tệp Markdown đã dịch cần được lưu trong thư mục `docs/` và thêm nhãn ngôn ngữ-khu vực tương ứng vào tên tệp. Ví dụ, nếu tên tệp gốc của tài liệu này là `Localization.md`, thì tên tệp dịch sẽ là `Localization.vi-VN.md`. Cuối cùng, hãy thêm liên kết đến bản dịch ở đầu tệp gốc.
 
 Một số tài liệu có thể bao gồm hình ảnh. Để giữ cho kích thước kho lưu trữ có thể quản lý được, số lượng lớn hình ảnh vào kho lưu trữ của dự án này không được phép. Nếu bạn muốn bản địa hóa những hình ảnh này, bạn có thể tạo một [issue](https://github.com/Scighost/Starward/issues), tải hình ảnh lên rồi thay thế các liên kết trong tài liệu.
 
 Sau khi dịch xong, vui lòng gửi lại về repo này thông qua Pull Request.
-
 
 ## Dịch văn bản trong ứng dụng
 
