@@ -515,9 +515,12 @@ internal partial class GamePackageService
                 taskFiles.Add(GameInstallFile.FromGamePackageResource(task.GamePackage.Main.Major!, task.InstallPath));
                 foreach (AudioLanguage lang in Enum.GetValues<AudioLanguage>())
                 {
-                    if (task.GamePackage.Main.Major?.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile gamePackageFile)
+                    if (task.AudioLanguage.HasFlag(lang))
                     {
-                        taskFiles.Add(GameInstallFile.FromGamePackageFile(gamePackageFile, task.InstallPath));
+                        if (task.GamePackage.Main.Major?.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile gamePackageFile)
+                        {
+                            taskFiles.Add(GameInstallFile.FromGamePackageFile(gamePackageFile, task.InstallPath));
+                        }
                     }
                 }
             }
