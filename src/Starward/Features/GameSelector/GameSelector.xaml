@@ -420,6 +420,7 @@
             <ListView AllowDrop="True"
                       CanReorderItems="{x:Bind s:AppConfig.IsAdmin, Converter={StaticResource BoolReversedConverter}}"
                       ItemsSource="{x:Bind GameBizIcons}"
+                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
                       SelectionMode="Single">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -436,8 +437,8 @@
                         <Setter Property="TabNavigation" Value="Local" />
                         <Setter Property="IsHoldingEnabled" Value="True" />
                         <!--  下方留出空间，防止阴影被截断  -->
-                        <Setter Property="Padding" Value="6,10,6,10" />
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="6,8,6,8" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
                         <Setter Property="VerticalContentAlignment" Value="Center" />
                         <Setter Property="MinWidth" Value="0" />
                         <Setter Property="MinHeight" Value="0" />
