@@ -650,7 +650,7 @@ internal partial class GameInstallHelper
         }
         archive.Extracting += (_, e) =>
         {
-            task.Progress_Percent = lastPercent + e.FinishPercent;
+            task.Progress_Percent = lastPercent + e.FinishPercent * extractRatio;
         };
         try
         {
