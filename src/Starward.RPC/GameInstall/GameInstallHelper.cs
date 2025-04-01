@@ -332,85 +332,105 @@ internal partial class GameInstallHelper
 
         if (fs.Length < file.Size)
         {
-            using HttpClient httpClient = _httpClientFactory.CreateClient();
-            foreach (GameInstallFileChunk chunk in file.Chunks ?? [])
+            long size_download = 0, size_write = 0;
+            try
             {
-                // 根据当前文件的长度判断 chunk 是否已完成下载和解压
-                if (fs.Length < chunk.Offset + chunk.UncompressedSize)
+                using HttpClient httpClient = _httpClientFactory.CreateClient();
+                foreach (GameInstallFileChunk chunk in file.Chunks ?? [])
                 {
-                    bool needDownload = true;
-                    fs.Position = chunk.Offset;
-                    string chunkCache = Path.Join(task.InstallPath, "chunk", chunk.Id);
-                    if (File.Exists(chunk.OriginalFileFullPath) && new FileInfo(chunk.OriginalFileFullPath).Length == chunk.OriginalFileSize)
+                    // 根据当前文件的长度判断 chunk 是否已完成下载和解压
+                    if (fs.Length < chunk.Offset + chunk.UncompressedSize)
                     {
-                        // 老版本文件存在相同的chunk
-                        using FileSliceStream ofs = new FileSliceStream(chunk.OriginalFileFullPath, chunk.OriginalFileOffset, chunk.UncompressedSize);
-                        if (await CheckFileMD5Async(task, ofs, chunk.UncompressedMD5, cancellationToken))
+                        bool needDownload = true;
+                        fs.Position = chunk.Offset;
+                        string chunkCache = Path.Join(task.InstallPath, "chunk", chunk.Id);
+                        if (File.Exists(chunk.OriginalFileFullPath) && new FileInfo(chunk.OriginalFileFullPath).Length == chunk.OriginalFileSize)
                         {
-                            ofs.Position = 0;
-                            await ofs.CopyToAsync(fs, cancellationToken);
+                            // 老版本文件存在相同的chunk
+                            using FileSliceStream ofs = new FileSliceStream(chunk.OriginalFileFullPath, chunk.OriginalFileOffset, chunk.UncompressedSize);
+                            if (await CheckFileMD5Async(task, ofs, chunk.UncompressedMD5, cancellationToken))
+                            {
+                                ofs.Position = 0;
+                                await ofs.CopyToAsync(fs, cancellationToken);
+                                Interlocked.Add(ref task._progress_WriteFinishBytes, chunk.UncompressedSize);
+                                Interlocked.Add(ref task.storageWriteBytes, chunk.UncompressedSize);
+                                size_write += chunk.UncompressedSize;
+                                needDownload = false;
+                            }
+                        }
+                        else if (await CheckFileMD5Async(task, chunkCache, chunk.CompressedSize, chunk.CompressedMD5, cancellationToken))
+                        {
+                            // 存在已下载的chunk文件
+                            using FileStream cfs = File.Open(chunkCache, SequentialReadFileStreamOptions);
+                            using DecompressionStream ds = new(cfs);
+                            await ds.CopyToAsync(fs, cancellationToken);
+                            Interlocked.Add(ref task._progress_DownloadFinishBytes, chunk.CompressedSize);
                             Interlocked.Add(ref task._progress_WriteFinishBytes, chunk.UncompressedSize);
                             Interlocked.Add(ref task.storageWriteBytes, chunk.UncompressedSize);
+                            size_download += chunk.CompressedSize;
+                            size_write += chunk.UncompressedSize;
                             needDownload = false;
                         }
-                    }
-                    else if (await CheckFileMD5Async(task, chunkCache, chunk.CompressedSize, chunk.CompressedMD5, cancellationToken))
-                    {
-                        // 存在已下载的chunk文件
-                        using FileStream cfs = File.Open(chunkCache, SequentialReadFileStreamOptions);
-                        using DecompressionStream ds = new(cfs);
-                        await ds.CopyToAsync(fs, cancellationToken);
-                        Interlocked.Add(ref task._progress_DownloadFinishBytes, chunk.CompressedSize);
-                        Interlocked.Add(ref task._progress_WriteFinishBytes, chunk.UncompressedSize);
-                        Interlocked.Add(ref task.storageWriteBytes, chunk.UncompressedSize);
-                        needDownload = false;
-                    }
-                    if (needDownload)
-                    {
-                        // 从头开始下载
-                        using HttpResponseMessage response = await httpClient.GetAsync(chunk.Url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-                        response.EnsureSuccessStatusCode();
-                        using Stream hs = await response.Content.ReadAsStreamAsync(cancellationToken);
-                        Pipe pipe = new();
-                        using DecompressionStream ds = new(pipe.Reader.AsStream(), BUFFER_SIZE);
-                        Memory<byte> buffer = new byte[BUFFER_SIZE];
-                        int read = 0;
-                        long lastFsPosition = fs.Position;
-                        Task writeFileTask = ds.CopyToAsync(fs, cancellationToken);
-                        while ((read = await hs.ReadAsync(buffer, cancellationToken)) > 0)
+                        if (needDownload)
                         {
-                            // RateLimiter 的等待队列已设置为 int.MaxValue，理论上不会出现获取令牌失败的情况
-                            RateLimitLease lease = await _rateLimiter.AcquireAsync(read, cancellationToken);
-                            while (!lease.IsAcquired)
+                            // 从头开始下载
+                            using HttpResponseMessage response = await httpClient.GetAsync(chunk.Url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                            response.EnsureSuccessStatusCode();
+                            using Stream hs = await response.Content.ReadAsStreamAsync(cancellationToken);
+                            Pipe pipe = new();
+                            using DecompressionStream ds = new(pipe.Reader.AsStream(), BUFFER_SIZE);
+                            Memory<byte> buffer = new byte[BUFFER_SIZE];
+                            int read = 0;
+                            long lastFsPosition = fs.Position;
+                            Task writeFileTask = ds.CopyToAsync(fs, cancellationToken);
+                            while ((read = await hs.ReadAsync(buffer, cancellationToken)) > 0)
                             {
-                                await Task.Delay(1, cancellationToken);
-                                lease = await _rateLimiter.AcquireAsync(read, cancellationToken);
-                            }
-                            await pipe.Writer.WriteAsync(buffer.Slice(0, read), cancellationToken);
-                            Interlocked.Add(ref task._progress_DownloadFinishBytes, read);
-                            Interlocked.Add(ref task.networkDownloadBytes, read);
+                                // RateLimiter 的等待队列已设置为 int.MaxValue，理论上不会出现获取令牌失败的情况
+                                RateLimitLease lease = await _rateLimiter.AcquireAsync(read, cancellationToken);
+                                while (!lease.IsAcquired)
+                                {
+                                    await Task.Delay(1, cancellationToken);
+                                    lease = await _rateLimiter.AcquireAsync(read, cancellationToken);
+                                }
+                                await pipe.Writer.WriteAsync(buffer.Slice(0, read), cancellationToken);
+                                Interlocked.Add(ref task._progress_DownloadFinishBytes, read);
+                                Interlocked.Add(ref task.networkDownloadBytes, read);
+                                size_download += read;
 
-                            long p = fs.Position;
-                            long add = p - lastFsPosition;
-                            Interlocked.Add(ref task._progress_WriteFinishBytes, add);
-                            Interlocked.Add(ref task.storageWriteBytes, add);
-                            lastFsPosition = p;
+                                long p = fs.Position;
+                                long add = p - lastFsPosition;
+                                Interlocked.Add(ref task._progress_WriteFinishBytes, add);
+                                Interlocked.Add(ref task.storageWriteBytes, add);
+                                size_write += add;
+                                lastFsPosition = p;
+                            }
+                            await pipe.Writer.CompleteAsync();
+                            await writeFileTask;
+                            long remainWrite = fs.Position - lastFsPosition;
+                            Interlocked.Add(ref task._progress_WriteFinishBytes, remainWrite);
+                            Interlocked.Add(ref task.storageWriteBytes, remainWrite);
+                            size_write += remainWrite;
                         }
-                        await pipe.Writer.CompleteAsync();
-                        await writeFileTask;
-                        Interlocked.Add(ref task._progress_WriteFinishBytes, fs.Position - lastFsPosition);
-                        Interlocked.Add(ref task.storageWriteBytes, fs.Position - lastFsPosition);
                     }
-                }
-                else
-                {
-                    if (!updateMode)
+                    else
                     {
-                        Interlocked.Add(ref task._progress_DownloadFinishBytes, chunk.CompressedSize);
+                        if (!updateMode)
+                        {
+                            Interlocked.Add(ref task._progress_DownloadFinishBytes, chunk.CompressedSize);
+                            size_download += chunk.CompressedSize;
+                        }
+                        Interlocked.Add(ref task._progress_WriteFinishBytes, chunk.UncompressedSize);
+                        size_write += chunk.UncompressedSize;
                     }
-                    Interlocked.Add(ref task._progress_WriteFinishBytes, chunk.UncompressedSize);
                 }
             }
+            catch (Exception)
+            {
+                Interlocked.Add(ref task._progress_DownloadFinishBytes, -size_download);
+                Interlocked.Add(ref task._progress_WriteFinishBytes, -size_write);
+                throw;
+            }
+
         }
         await fs.DisposeAsync();
 
@@ -495,31 +515,39 @@ internal partial class GameInstallHelper
         using FileStream fs = File.Open(path_tmp, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
         if (fs.Length < size)
         {
-            using HttpClient httpClient = _httpClientFactory.CreateClient();
-            HttpRequestMessage request = new(HttpMethod.Get, url);
-            request.Headers.Range = new RangeHeaderValue(fs.Length, null);
-            using HttpResponseMessage response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-            response.EnsureSuccessStatusCode();
-            if (response.Content.Headers.ContentRange?.From is not null)
+            try
             {
-                // 文件链接支持断点续传
-                fs.Position = response.Content.Headers.ContentRange.From.Value;
-                Interlocked.Add(ref task._progress_DownloadFinishBytes, fs.Position);
-            }
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int read = 0;
-            using Stream hs = await response.Content.ReadAsStreamAsync(cancellationToken);
-            while ((read = await hs.ReadAsync(buffer, cancellationToken)) > 0)
-            {
-                RateLimitLease lease = await _rateLimiter.AcquireAsync(read, cancellationToken);
-                while (!lease.IsAcquired)
+                using HttpClient httpClient = _httpClientFactory.CreateClient();
+                HttpRequestMessage request = new(HttpMethod.Get, url);
+                request.Headers.Range = new RangeHeaderValue(fs.Length, null);
+                using HttpResponseMessage response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                if (response.Content.Headers.ContentRange?.From is not null)
                 {
-                    await Task.Delay(1, cancellationToken);
-                    lease = await _rateLimiter.AcquireAsync(read, cancellationToken);
+                    // 文件链接支持断点续传
+                    fs.Position = response.Content.Headers.ContentRange.From.Value;
+                    Interlocked.Add(ref task._progress_DownloadFinishBytes, fs.Position);
                 }
-                await fs.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
-                Interlocked.Add(ref task._progress_DownloadFinishBytes, read);
-                Interlocked.Add(ref task.networkDownloadBytes, read);
+                byte[] buffer = new byte[BUFFER_SIZE];
+                int read = 0;
+                using Stream hs = await response.Content.ReadAsStreamAsync(cancellationToken);
+                while ((read = await hs.ReadAsync(buffer, cancellationToken)) > 0)
+                {
+                    RateLimitLease lease = await _rateLimiter.AcquireAsync(read, cancellationToken);
+                    while (!lease.IsAcquired)
+                    {
+                        await Task.Delay(1, cancellationToken);
+                        lease = await _rateLimiter.AcquireAsync(read, cancellationToken);
+                    }
+                    await fs.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
+                    Interlocked.Add(ref task._progress_DownloadFinishBytes, read);
+                    Interlocked.Add(ref task.networkDownloadBytes, read);
+                }
+            }
+            catch
+            {
+                Interlocked.Add(ref task._progress_DownloadFinishBytes, -fs.Position);
+                throw;
             }
         }
         await fs.DisposeAsync();
