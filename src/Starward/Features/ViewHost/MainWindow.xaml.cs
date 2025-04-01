@@ -69,6 +69,17 @@ public sealed partial class MainWindow : WindowEx
 
 
 
+    public override void Show()
+    {
+        if (Math.Abs((double)AppWindow.Size.Width / AppWindow.Size.Height - 1200d / 676) > 0.01)
+        {
+            CenterInScreen(1200, 676);
+        }
+        base.Show();
+    }
+
+
+
     private void LoadContentView()
     {
         if (string.IsNullOrWhiteSpace(AppConfig.UserDataFolder))
