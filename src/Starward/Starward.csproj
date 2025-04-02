@@ -22,6 +22,7 @@
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 		<CsWinRTAotOptimizerEnabled Condition="'$(Configuration)' == 'Debug'">false</CsWinRTAotOptimizerEnabled>
 		<CsWinRTAotOptimizerEnabled Condition="'$(Configuration)' != 'Debug'">true</CsWinRTAotOptimizerEnabled>
+		<CETCompat>false</CETCompat>
 	</PropertyGroup>
 	
 	<ItemGroup>

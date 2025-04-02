@@ -11,6 +11,7 @@
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 		<!--NETSDK1152-->
 		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+		<CETCompat>false</CETCompat>
 	</PropertyGroup>
 
 	<ItemGroup>
