@@ -2005,9 +2005,9 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Ridu Weekly Points</value>
   </data>
   <data name="Common_Disabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>Đã tắt</value>
   </data>
   <data name="Common_Enabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>Đã bật</value>
   </data>
 </root>
