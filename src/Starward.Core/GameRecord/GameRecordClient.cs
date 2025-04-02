@@ -525,7 +525,7 @@ public abstract class GameRecordClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [Obsolete("不可用，返回未登录错误", true)]
-    public async Task<ZZZGachaWiki> GetZZZGachaWikiAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    public Task<ZZZGachaWiki> GetZZZGachaWikiAsync(GameRecordRole role, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
         //var items = await GetZZZUpgradeGuideItemListAsync(role, cancellationToken: cancellationToken);

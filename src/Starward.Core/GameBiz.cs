@@ -9,10 +9,10 @@ public record struct GameBiz
     public string Value => _value ?? "";
 
 
-    public string Game => Value.Contains("_") ? Value.Substring(0, Value.IndexOf('_')) : Value;
+    public string Game => Value.Contains('_') ? Value.Substring(0, Value.IndexOf('_')) : Value;
 
 
-    public string Server => Value.Contains("_") ? Value.Substring(Value.IndexOf('_') + 1) : "";
+    public string Server => Value.Contains('_') ? Value.Substring(Value.IndexOf('_') + 1) : "";
 
 
 

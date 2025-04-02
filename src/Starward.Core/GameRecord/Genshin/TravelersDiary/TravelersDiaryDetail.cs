@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.Genshin.TravelersDiary;
 
@@ -21,17 +21,16 @@ public class TravelersDiaryDetail : TravelersDiaryBase, IJsonOnDeserialized
     /// </summary>
     public void OnDeserialized()
     {
-        if (!(List?.Any() ?? false))
+        if (List?.Count > 0)
         {
-            return;
-        }
-        var year = List[0].Time.Year;
-        var month = List[0].Time.Month;
-        foreach (var item in List)
-        {
-            item.Uid = Uid;
-            item.Year = year;
-            item.Month = month;
+            var year = List[0].Time.Year;
+            var month = List[0].Time.Month;
+            foreach (var item in List)
+            {
+                item.Uid = Uid;
+                item.Year = year;
+                item.Month = month;
+            }
         }
     }
 }

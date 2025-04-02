@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using System.Text.RegularExpressions;
 
 namespace Starward.Core.SelfQuery;
@@ -176,7 +176,7 @@ public class SelfQueryClient
             GenshinQueryType.Resin => $"{prefixUrl}/common/hk4e_self_help_query/User/GetResinLog{authQuery}&size=20&selfquery_type=4&end_id={endId}",
             GenshinQueryType.Artifact => $"{prefixUrl}/common/hk4e_self_help_query/User/GetArtifactLog{authQuery}&size=20&selfquery_type=2&end_id={endId}",
             GenshinQueryType.Weapon => $"{prefixUrl}/common/hk4e_self_help_query/User/GetWeaponLog{authQuery}&size=20&selfquery_type=4&end_id={endId}",
-            _ => throw new ArgumentOutOfRangeException($"Unknown query type ({type})", nameof(type)),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), $"Unknown query type ({type})"),
         };
         var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinQueryItem>>(url, cancellationToken);
         var list = wrapper.List ?? new List<GenshinQueryItem>(0);
@@ -224,7 +224,7 @@ public class SelfQueryClient
             StarRailQueryType.Relic => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Relic/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
             StarRailQueryType.Cone => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Cone/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
             StarRailQueryType.Power => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Power/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
-            _ => throw new ArgumentOutOfRangeException($"Unknown query type ({type})", nameof(type)),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), $"Unknown query type ({type})"),
         };
         var wrapper = await CommonGetAsync<SelfQueryListWrapper<StarRailQueryItem>>(url, cancellationToken);
         var list = wrapper.List ?? new List<StarRailQueryItem>(0);
@@ -269,7 +269,7 @@ public class SelfQueryClient
             ZZZQueryType.Engine => $"{prefixUrl}/common/nap_self_help_query/Engine/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
             ZZZQueryType.Disk => $"{prefixUrl}/common/nap_self_help_query/Disk/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
             ZZZQueryType.BattlePass => $"{prefixUrl}/common/nap_self_help_query/Coin/GetList{authQuery}&coin_type=battle_pass&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
-            _ => throw new ArgumentOutOfRangeException($"Unknown query type ({type})", nameof(type)),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), $"Unknown query type ({type})"),
         };
         var wrapper = await CommonGetAsync<SelfQueryListWrapper<ZZZQueryItem>>(url, cancellationToken);
         var list = wrapper.List ?? new List<ZZZQueryItem>(0);

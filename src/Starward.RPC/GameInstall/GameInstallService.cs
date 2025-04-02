@@ -77,7 +77,7 @@ internal class GameInstallService
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Cancel all install task");
         }
     }
 
@@ -265,7 +265,7 @@ internal class GameInstallService
             task.State = GameInstallState.Finish;
             _logger.LogInformation("GameInstallTask Finished, GameBiz: {game_biz}, Operation: {operation}", task.GameId.GameBiz, task.Operation);
         }
-        catch (OperationCanceledException ex)
+        catch (OperationCanceledException)
         {
             _logger.LogInformation("GameInstallTask canceled, GameBiz: {game_biz}, Operation: {operation}, CancelState: {state}", task.GameId.GameBiz, task.Operation, task.CancelState);
             task.State = task.CancelState;

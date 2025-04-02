@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using System.Text.RegularExpressions;
 
 namespace Starward.Core.Gacha.ZZZ;
@@ -90,7 +90,7 @@ public class ZZZGachaClient : GachaLogClient
 
     protected override async Task<List<T>> GetGachaLogByQueryAsync<T>(string gachaUrlPrefix, GachaLogQuery param, CancellationToken cancellationToken = default)
     {
-        await Task.Delay(Random.Shared.Next(200, 300));
+        await Task.Delay(Random.Shared.Next(200, 300), cancellationToken);
         var url = $"{gachaUrlPrefix}&{param}";
         var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<GachaLogResult<T>>), GachaLogJsonContext.Default, cancellationToken) as miHoYoApiWrapper<GachaLogResult<T>>;
         if (wrapper is null)

@@ -42,7 +42,7 @@ internal class FileCombinedStream : Stream
 
 
 
-    private readonly IList<FileStream> _fileStreams;
+    private readonly List<FileStream> _fileStreams;
 
     private readonly long[] _streamLengths;
 

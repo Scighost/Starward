@@ -65,7 +65,7 @@ internal class EnviromentController : Env.EnvBase
     }
 
 
-    private async void StopProcess()
+    private static async void StopProcess()
     {
         await Task.Delay(200);
         Environment.Exit(0);

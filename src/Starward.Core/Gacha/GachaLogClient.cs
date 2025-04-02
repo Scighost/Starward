@@ -87,7 +87,7 @@ public abstract class GachaLogClient
         {
             var param = new GachaLogQuery(gachaType, 1, 1, 0);
             var list = await GetGachaLogByQueryAsync<GachaLogItem>(prefix, param);
-            if (list.Any())
+            if (list.Count != 0)
             {
                 return list.First().Uid;
             }
@@ -235,7 +235,7 @@ public abstract class GachaLogClient
 
     protected virtual async Task<List<T>> GetGachaLogByQueryAsync<T>(string gachaUrlPrefix, GachaLogQuery param, CancellationToken cancellationToken = default) where T : GachaLogItem
     {
-        await Task.Delay(Random.Shared.Next(200, 300));
+        await Task.Delay(Random.Shared.Next(200, 300), cancellationToken);
         var url = $"{gachaUrlPrefix}&{param}";
         var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<GachaLogResult<T>>), GachaLogJsonContext.Default, cancellationToken) as miHoYoApiWrapper<GachaLogResult<T>>;
         if (wrapper is null)

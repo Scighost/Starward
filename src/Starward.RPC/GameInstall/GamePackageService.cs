@@ -883,7 +883,7 @@ internal partial class GamePackageService
         {
             return await _hoyoplayClient.GetGameSophonChunkBuildAsync(gameBranch, gameBranchPackage, tag, cancellationToken);
         }
-        catch (miHoYoApiException ex)
+        catch (miHoYoApiException)
         {
             // not found (-202)
             return null;
@@ -906,7 +906,7 @@ internal partial class GamePackageService
                 return build;
             }
         }
-        catch (miHoYoApiException ex)
+        catch (miHoYoApiException)
         {
             return null;
         }
