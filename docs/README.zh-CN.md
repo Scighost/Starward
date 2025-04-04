@@ -21,7 +21,7 @@ Starward 是一个为了解决 HoYoPlay (米哈游启动器) 的缺点而开发�
 - 已安装 [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2)
 - 已安装 [WebP 映像扩展](https://apps.microsoft.com/detail/9pg2dk419drg)
 - 为了更好的使用体验，请在系统设置中开启**透明效果**和**动画效果**
->"WebP 映像扩展"一般情况下系统自带，LTSC版系统用户可能需要手动安装
+>[WebP 映像扩展](https://apps.microsoft.com/detail/9pg2dk419drg) 一般情况下系统自带，LTSC版系统用户可能需要手动安装。
 
 然后在 [GitHub Release](https://github.com/Scighost/Starward/releases) 下载对应 CPU 架构的压缩包，解压后运行 `Starward.exe` 并按提示操作。
 
