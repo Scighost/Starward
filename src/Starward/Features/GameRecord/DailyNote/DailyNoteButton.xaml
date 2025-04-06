@@ -400,8 +400,8 @@
                                     <TextBlock VerticalAlignment="Top"
                                                FontSize="10"
                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                               Text="+1"
-                                               Visibility="{x:Bind StarRailDailyNote.StaminaTomorrowRecovery}" />
+                                               Text="{x:Bind StarRailDailyNote.StaminaRecoveryDaysRemaining}"
+                                               Visibility="{x:Bind StarRailDailyNote.StaminaRecoveryBeyondTomorrow}" />
                                 </StackPanel>
                                 <TextBlock FontSize="12"
                                            Foreground="{ThemeResource SystemFillColorSuccessBrush}"
