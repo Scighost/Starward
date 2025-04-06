@@ -16,7 +16,7 @@
         <local:SelfQueryStatsNumberBrushConverter x:Key="SelfQueryStatsNumberBrushConverter" />
     </Page.Resources>
 
-    <Grid>
+    <Grid Margin="0,12,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="44" />
             <RowDefinition Height="Auto" />
