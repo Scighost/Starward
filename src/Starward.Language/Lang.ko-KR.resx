@@ -1834,106 +1834,106 @@
     <value>클라우드 게임</value>
   </data>
   <data name="GameAccountSwitcher_TheCurrentlyLoggedInAccountIsNotSaved" xml:space="preserve">
-    <value>The currently logged-in account is not saved.</value>
+    <value>현재 로그인 된 계정이 저장되지 않음.</value>
   </data>
   <data name="SettingPage_RegistryBasedGameAccountSwitchingFeature" xml:space="preserve">
-    <value>Registry-based Game Account Switching Feature</value>
+    <value>레지스트리 기반 계정전환 기능</value>
   </data>
   <data name="ToolboxSetting_ZZZGachaItemImages" xml:space="preserve">
-    <value>ZZZ Gacha Item Images</value>
+    <value>젠레스 존 제로 뽑기 아이템</value>
   </data>
   <data name="ToolboxSetting_DisplayItemImagesInZZZGachaRecordPage" xml:space="preserve">
-    <value>Display item images in ZZZ gacha record page.</value>
+    <value>젠레스 존 제로 뽑기기록 페이지에서 아이템 이미지 표시.</value>
   </data>
   <data name="ZZZGachaInfoWindow_Miyoushe" xml:space="preserve">
     <value>Miyoushe</value>
   </data>
   <data name="ZZZGachaInfoWindow_FetchDataForAllLanguages" xml:space="preserve">
-    <value>Fetch Data for All Languages</value>
+    <value>모든 언어 받기</value>
   </data>
   <data name="ZZZGachaInfoWindow_SaveToDatabase" xml:space="preserve">
-    <value>Save to Database</value>
+    <value>데이터베이스에 저장</value>
   </data>
   <data name="ZZZGachaInfoWindow_ExportToFolder" xml:space="preserve">
-    <value>Export to Folder</value>
+    <value>폴더에 저장</value>
   </data>
   <data name="ZZZGachaInfoWindow_ZZZGachaInfoWindowGuide" xml:space="preserve">
-    <value>This tool is used to update item images in Zenless Zone Zero gacha records.
-Click "Miyoushe" or "HoYoLAB" in the top left corner, log in, and wait for the data to be retrieved. If logging in via HoYoLAB, you also need to click "Fetch Data for All Languages".
-After retrieving the data, you can save it to the database in any language or export it to a folder.
-You are welcome to submit the exported data to the following repository:</value>
+    <value>이 도구는 "젠레스 존 제로" 의 뽑기기록 페이지에서 아이템 이미지를 불러오기 위해 사용됩니다.
+우측 상단의 「Miyoushe」 또는 「HoYoLAB」 을 클릭해 로그인 해 데이터를 불러올 수 있습니다. 「HoYoLAB」 을 통해 로그인하는 경우 「모든 언어 받기」 를 추가로 클릭해야 합니다.
+데이터를 모두 불러온 후 언어를 지정해 데이터베이스에 저장하거나 폴더에 저장할 수 있습니다.
+불러온 데이터를 아래의 창고에 업로드 해주세요:</value>
   </data>
   <data name="SettingPage_Toolbox" xml:space="preserve">
-    <value>Toolbox</value>
+    <value>도구 상자</value>
   </data>
   <data name="ToolboxSetting_GachaRecordsImportExport" xml:space="preserve">
-    <value>Gacha Records Import &amp; Export</value>
+    <value>뽑기기록 내보내기 &amp; 불러오기</value>
   </data>
   <data name="UIGFGachaService_UidMismatchDetectedExpected0ButFound1" xml:space="preserve">
-    <value>Uid mismatch detected. Expected: {0}, but found: {1}.</value>
+    <value>Uid 가 일치하지 않습니다.예정됨: {0}, 추가됨: {1}.</value>
   </data>
   <data name="UIGFGachaService_ImportSuccessfulButNoRecordItemName" xml:space="preserve">
-    <value>Import successful, but some records are missing item names. Please go to the gacha record settings, change the language, and apply.</value>
+    <value>불러오기 성공, 일부 기록에 아이템 이름이 정의되지 않았습니다. 뽑기기록 설정페이지로 이동해 언어를 설정해주세요.</value>
   </data>
   <data name="UIGFGachaService_ImportSuccessful" xml:space="preserve">
-    <value>Import successful.</value>
+    <value>불러오기 성공.</value>
   </data>
   <data name="UIGFGachaService_0FieldIsMissingInAGachaRecord" xml:space="preserve">
-    <value>"{0}" field is missing in a gacha record.</value>
+    <value>"{0}" 를 포함한 뽑기 기록이 없습니다.</value>
   </data>
   <data name="GachaImportAndExportWindow_Export" xml:space="preserve">
-    <value>Export</value>
+    <value>내보내기</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectTheGachaRecordsToExport" xml:space="preserve">
-    <value>Select the gacha records to export.</value>
+    <value>내보낼 뽑기기록을 선택하세요.</value>
   </data>
   <data name="GachaImportAndExportWindow_TheLastGachaPull" xml:space="preserve">
-    <value>The Last Gacha Pull</value>
+    <value>마지막 뽑기기록</value>
   </data>
   <data name="GachaImportAndExportWindow_Count" xml:space="preserve">
-    <value>Count</value>
+    <value>개수</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeServerTimeZone" xml:space="preserve">
-    <value>Time (Server Time Zone)</value>
+    <value>시간 (서버시간)</value>
   </data>
   <data name="GachaImportAndExportWindow_Name" xml:space="preserve">
-    <value>Name</value>
+    <value>이름</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectTheFileToImport" xml:space="preserve">
-    <value>Select the file to import.</value>
+    <value>불러올 파일을 선택하세요.</value>
   </data>
   <data name="GachaImportAndExportWindow_Import" xml:space="preserve">
-    <value>Import</value>
+    <value>불러오기</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffsetWarning" xml:space="preserve">
-    <value>Before importing, please ensure that the time of the last gacha pull matches the time displayed in the game. If they do not match, please adjust the time zone offset.</value>
+    <value>불러오기 전에, 마지막 뽑기기록의 시간과 게임속 시간이 일치한지 확인하세요. 일치하지 않을경우 시간대를 조정해주세요.</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffset" xml:space="preserve">
-    <value>Time Zone Offset</value>
+    <value>시간대 조정</value>
   </data>
   <data name="GachaImportAndExportWindow_OffsetTime" xml:space="preserve">
-    <value>Offset Time</value>
+    <value>조정후 시간</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectFile" xml:space="preserve">
-    <value>Select File</value>
+    <value>파일 선택</value>
   </data>
   <data name="DailyNoteButton_BH3_TimeNeededForRecovery" xml:space="preserve">
-    <value>Time Needed for Recovery</value>
+    <value>복구에 필요한 시간</value>
   </data>
   <data name="DailyNoteButton_BH3_DailyBP" xml:space="preserve">
-    <value>Daily BP</value>
+    <value>수련 포인트</value>
   </data>
   <data name="DailyNoteButton_Genshin_DailyCommissionRewards" xml:space="preserve">
-    <value>Daily Commission Rewards</value>
+    <value>일일 의뢰 보상</value>
   </data>
   <data name="DailyNoteButton_Genshin_DailyCommission" xml:space="preserve">
-    <value>Daily Commission</value>
+    <value>일일 의뢰</value>
   </data>
   <data name="DailyNoteButton_Genshin_EncounterPoints" xml:space="preserve">
-    <value>Encounter Points</value>
+    <value>수련 포인트</value>
   </data>
   <data name="DailyNoteButton_Genshin_RealmCurrency" xml:space="preserve">
-    <value>Realm Currency</value>
+    <value>선계 화폐</value>
   </data>
   <data name="DailyNoteButton_Genshin_Expedition" xml:space="preserve">
     <value>Expedition</value>
