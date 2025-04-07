@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <sf:PageBase x:Class="Starward.Features.GameRecord.GameRecordPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -27,8 +27,7 @@
             </NavigationView.Resources>
 
             <NavigationView.PaneCustomContent>
-                <Grid Margin="0,12,0,0"
-                      Height="56"
+                <Grid Height="56"
                       HorizontalAlignment="Stretch"
                       ColumnSpacing="8">
                     <Grid.ColumnDefinitions>

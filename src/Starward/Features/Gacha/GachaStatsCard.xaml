@@ -217,7 +217,8 @@
                                            Foreground="{ThemeResource Rarity5ForegroundBrush}"
                                            IsTextScaleFactorEnabled="False"
                                            Opacity="{x:Bind UpTextOpacity}"
-                                           Text="up!" />
+                                           Text="up!"
+                                           Visibility="{x:Bind HasUpItem, Converter={StaticResource BoolToVisibilityConverter}}" />
                             </Grid>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>

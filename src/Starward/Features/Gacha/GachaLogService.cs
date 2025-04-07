@@ -236,6 +236,7 @@ internal abstract class GachaLogService
                         Name = Lang.GachaStatsCard_Pity,
                         Pity = stats.Pity_5,
                         Time = list.Last().Time,
+                        HasUpItem = GachaNoUp.Dictionary.TryGetValue($"{CurrentGameBiz}{type.Value}", out _),
                     });
                     stats.List_4.Insert(0, new GachaLogItemEx
                     {
@@ -243,6 +244,7 @@ internal abstract class GachaLogService
                         Name = Lang.GachaStatsCard_Pity,
                         Pity = stats.Pity_4,
                         Time = list.Last().Time,
+                        HasUpItem = GachaNoUp.Dictionary.TryGetValue($"{CurrentGameBiz}{type.Value}", out _),
                     });
                 }
             }
