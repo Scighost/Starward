@@ -211,13 +211,13 @@ internal class GameInstallService
         try
         {
             _logger.LogInformation("""
-            Start game install task: 
-            Operation: {operation}
-            GameId: {gameId} {gameBiz}
-            InstallPath: {installPath}
-            AudioLanguage: {audioLanguage}
-            HardLinkPath: {hardLinkPath}
-            """, task.Operation, task.GameId.Id, task.GameId.GameBiz, task.InstallPath, task.AudioLanguage, task.HardLinkPath);
+                Start game install task: 
+                Operation: {operation}
+                GameId: {gameId} {gameBiz}
+                InstallPath: {installPath}
+                AudioLanguage: {audioLanguage}
+                HardLinkPath: {hardLinkPath}
+                """, task.Operation, task.GameId.Id, task.GameId.GameBiz, task.InstallPath, task.AudioLanguage, task.HardLinkPath);
             Directory.CreateDirectory(task.InstallPath);
             GamePackageService gamePackageService = _serviceProvider.GetRequiredService<GamePackageService>();
             if (task.AudioLanguage is not AudioLanguage.None)
@@ -264,6 +264,12 @@ internal class GameInstallService
 
             task.State = GameInstallState.Finish;
             _logger.LogInformation("GameInstallTask Finished, GameBiz: {game_biz}, Operation: {operation}", task.GameId.GameBiz, task.Operation);
+        }
+        catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
+        {
+            _logger.LogError(ex, "PrepareGameInstallTaskAsync");
+            task.State = GameInstallState.Error;
+            task.ErrorMessage = ex.InnerException.Message;
         }
         catch (OperationCanceledException)
         {

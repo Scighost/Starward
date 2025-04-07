@@ -424,6 +424,12 @@ internal partial class GameInstallHelper
                     }
                 }
             }
+            catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
+            {
+                Interlocked.Add(ref task._progress_DownloadFinishBytes, -size_download);
+                Interlocked.Add(ref task._progress_WriteFinishBytes, -size_write);
+                throw ex.InnerException;
+            }
             catch (Exception)
             {
                 Interlocked.Add(ref task._progress_DownloadFinishBytes, -size_download);
@@ -543,6 +549,11 @@ internal partial class GameInstallHelper
                     Interlocked.Add(ref task._progress_DownloadFinishBytes, read);
                     Interlocked.Add(ref task.networkDownloadBytes, read);
                 }
+            }
+            catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
+            {
+                Interlocked.Add(ref task._progress_DownloadFinishBytes, -fs.Position);
+                throw ex.InnerException;
             }
             catch
             {
