@@ -173,6 +173,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40" />
                                     <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" MinWidth="20" />
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="1"
@@ -189,10 +190,9 @@
                                            Text="{x:Bind Name}"
                                            TextTrimming="CharacterEllipsis"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
-                                <TextBlock Grid.Column="2"
+                                <TextBlock Grid.Column="3"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
-                                           Margin="0,0,0,5"
                                            IsTextScaleFactorEnabled="False"
                                            Text="{x:Bind Pity}"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
@@ -202,25 +202,22 @@
                                            Text="{x:Bind Name}"
                                            TextTrimming="CharacterEllipsis"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                <TextBlock Grid.Column="2"
+                                <TextBlock Grid.Column="3"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
-                                           Margin="0,0,0,5"
                                            Foreground="{ThemeResource Rarity5ForegroundBrush}"
                                            IsTextScaleFactorEnabled="False"
                                            Text="{x:Bind Pity}"
                                            Visibility="{x:Bind IsPointerIn, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                <TextBlock Grid.Column="1"
+                                <TextBlock Grid.Column="2"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
-                                           Margin="0,0,0,5"
                                            FontSize="12"
                                            FontStyle="Italic"
                                            Foreground="{ThemeResource Rarity5ForegroundBrush}"
                                            IsTextScaleFactorEnabled="False"
                                            Opacity="{x:Bind UpTextOpacity}"
-                                           Text="up!"
-                                           Visibility="{x:Bind HasUpItem, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                           Text="up!" />
                             </Grid>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
