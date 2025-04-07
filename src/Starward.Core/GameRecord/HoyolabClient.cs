@@ -21,7 +21,7 @@ public class HoyolabClient : GameRecordClient
 
     public override string UAContent => $"Mozilla/5.0 (Linux; Android 13; Pixel 5 Build/TQ3A.230901.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/118.0.0.0 Mobile Safari/537.36 miHoYoBBSOversea/{AppVersion}";
 
-    public override string AppVersion => "2.59.0";
+    public override string AppVersion => "3.8.0";
 
     protected override string ApiSalt => "okr4obncj8bw5a65hbnn5oo6ixjc3l9w";
 
@@ -87,11 +87,19 @@ public class HoyolabClient : GameRecordClient
     /// <returns></returns>
     public override async Task<List<GameRecordRole>> GetAllGameRolesAsync(string cookie, CancellationToken cancellationToken = default)
     {
+        Lock @lock = new();
         var list = new List<GameRecordRole>();
-        foreach (GameBiz gameBiz in new GameBiz[] { GameBiz.bh3_global, GameBiz.hk4e_global, GameBiz.hkrpg_global, GameBiz.nap_global })
+        await Parallel.ForEachAsync([GameBiz.bh3_global, GameBiz.hk4e_global, GameBiz.hkrpg_global, GameBiz.nap_global], cancellationToken, async (GameBiz gameBiz, CancellationToken token) =>
         {
-            list.AddRange(await GetGameRolesAsync(cookie, gameBiz, cancellationToken));
-        }
+            var roles = await GetGameRolesAsync(cookie, gameBiz, token);
+            if (roles.Count > 0)
+            {
+                lock (@lock)
+                {
+                    list.AddRange(roles);
+                }
+            }
+        });
         return list;
     }
 
@@ -121,7 +129,12 @@ public class HoyolabClient : GameRecordClient
             foreach (var item in data.List)
             {
                 item.Cookie = cookie;
-                item.HeadIcon = await GetGameRoleHeadIconAsync(item, cancellationToken);
+                try
+                {
+                    item.HeadIcon = await GetGameRoleHeadIconAsync(item, cancellationToken);
+                }
+                catch (miHoYoApiException) { }
+
             }
         }
         return data.List ?? new List<GameRecordRole>();

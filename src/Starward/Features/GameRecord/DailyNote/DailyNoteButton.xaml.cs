@@ -72,6 +72,8 @@ public sealed partial class DailyNoteButton : UserControl
     public ZZZDailyNote ZZZDailyNote { get; set => SetProperty(ref field, value); }
 
 
+    public string? ErrorMessage { get; set => SetProperty(ref field, value); }
+
 
 
     private void Button_DailyNote_Loaded(object sender, RoutedEventArgs e)
@@ -119,6 +121,7 @@ public sealed partial class DailyNoteButton : UserControl
             if (GameRecordRole is not null)
             {
                 this.Visibility = Visibility.Visible;
+                ErrorMessage = null;
                 await _gameRecordService.UpdateDeviceFpAsync();
                 if (IsBH3Enabled)
                 {
@@ -137,10 +140,13 @@ public sealed partial class DailyNoteButton : UserControl
                     ZZZDailyNote = await _gameRecordService.GetZZZDailyNoteAsync(GameRecordRole, forceUpdate.Value);
                 }
             }
-
         }
         catch (Exception ex)
         {
+            if (ex is miHoYoApiException)
+            {
+                ErrorMessage = $"Error Code: {ex.Message}";
+            }
             _logger.LogError(ex, "Refresh daily note failed (Biz: {GameBiz}, Server: {GameServer}, Uid: {Uid})", CurrentGameId?.GameBiz, GameRecordRole?.Region, GameRecordRole?.Uid);
         }
     }

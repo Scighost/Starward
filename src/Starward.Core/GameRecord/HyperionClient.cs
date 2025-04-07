@@ -22,7 +22,7 @@ public class HyperionClient : GameRecordClient
 
     public override string UAContent => $"Mozilla/5.0 (Linux; Android 13; Pixel 5 Build/TQ3A.230901.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/118.0.0.0 Mobile Safari/537.36 miHoYoBBS/{AppVersion}";
 
-    public override string AppVersion => "2.75.2";
+    public override string AppVersion => "2.85.1";
 
     protected override string ApiSalt => "t0qEgfub6cvueAPgR5m9aQWWVciEer7v";
 
@@ -84,11 +84,19 @@ public class HyperionClient : GameRecordClient
     /// <returns></returns>
     public override async Task<List<GameRecordRole>> GetAllGameRolesAsync(string cookie, CancellationToken cancellationToken = default)
     {
+        Lock @lock = new();
         var list = new List<GameRecordRole>();
-        foreach (GameBiz gameBiz in new GameBiz[] { GameBiz.bh3_cn, GameBiz.hk4e_cn, GameBiz.hkrpg_cn, GameBiz.nap_cn })
+        await Parallel.ForEachAsync([GameBiz.bh3_cn, GameBiz.hk4e_cn, GameBiz.hkrpg_cn, GameBiz.nap_cn], cancellationToken, async (GameBiz gameBiz, CancellationToken token) =>
         {
-            list.AddRange(await GetGameRolesAsync(cookie, gameBiz, cancellationToken));
-        }
+            var roles = await GetGameRolesAsync(cookie, gameBiz, token);
+            if (roles.Count > 0)
+            {
+                lock (@lock)
+                {
+                    list.AddRange(roles);
+                }
+            }
+        });
         return list;
     }
 
@@ -107,21 +115,25 @@ public class HyperionClient : GameRecordClient
         {
             throw new ArgumentNullException(nameof(cookie));
         }
-        string url = $"https://api-takumi.mihoyo.com/binding/api/getUserGameRolesByCookie?game_biz={gameBiz}";
+        string url = $"https://passport-api.mihoyo.com/binding/api/getUserGameRolesByCookieToken?game_biz={gameBiz}";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, cookie);
-        request.Headers.Add(DS, CreateSecret2(url));
-        request.Headers.Add(X_Request_With, com_mihoyo_hyperion);
-        request.Headers.Add(x_rpc_app_version, AppVersion);
-        request.Headers.Add(x_rpc_client_type, "5");
-        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
+        //request.Headers.Add(DS, CreateSecret2(url));
+        //request.Headers.Add(X_Request_With, com_mihoyo_hyperion);
+        //request.Headers.Add(x_rpc_app_version, AppVersion);
+        //request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(Referer, "https://act.mihoyo.com/");
         var data = await CommonSendAsync<GameRecordRoleWrapper>(request, cancellationToken);
         if (data.List is not null)
         {
             foreach (var item in data.List)
             {
                 item.Cookie = cookie;
-                item.HeadIcon = await GetGameRoleHeadIconAsync(item, cancellationToken);
+                try
+                {
+                    item.HeadIcon = await GetGameRoleHeadIconAsync(item, cancellationToken);
+                }
+                catch (miHoYoApiException) { }
             }
         }
         return data.List ?? new List<GameRecordRole>();

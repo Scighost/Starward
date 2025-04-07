@@ -85,6 +85,15 @@
                     <MenuFlyoutSeparator Grid.Row="1" Margin="0,8,0,8" />
 
 
+                    <!--  错误信息  -->
+                    <TextBlock Grid.Row="2"
+                               HorizontalAlignment="Center"
+                               FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind ErrorMessage}"
+                               TextWrapping="Wrap" />
+
+
                     <!--  崩坏3  -->
                     <Grid x:Name="Grid_BH3"
                           Grid.Row="2"
