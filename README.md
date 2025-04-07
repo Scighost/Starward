@@ -21,7 +21,10 @@ First, your device needs to meet the following requirements:
 
 - Windows 10 1809 (17763) and above.
 - [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2) installed.
+- [WebP Image Extension](https://apps.microsoft.com/detail/9pg2dk419drg) installed.
 - For better experience, please enable **Transparency effects** and **Animation effects** in the system settings.
+
+>[WebP Imaging Extension](https://apps.microsoft.com/detail/9pg2dk419drg) is typically bundled with your system. If the application isn’t displaying background images correctly, please ensure it’s installed.
 
 Next, download the package for your CPU architecture from [GitHub Release](https://github.com/Scighost/Starward/releases). Extract it, then run `Starward.exe` and follow the prompts.
 
