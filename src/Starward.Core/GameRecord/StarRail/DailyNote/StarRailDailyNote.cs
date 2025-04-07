@@ -43,10 +43,16 @@ public class StarRailDailyNote
 
 
     /// <summary>
-    /// 明天开拓力回满
+    /// 隔天开拓力回满
     /// </summary>
     [JsonIgnore]
-    public bool StaminaTomorrowRecovery => StaminaFullTime.LocalDateTime.Date > CurrentTime.LocalDateTime.Date;
+    public bool StaminaRecoveryBeyondTomorrow => StaminaFullTime.LocalDateTime.Date > CurrentTime.LocalDateTime.Date;
+
+    /// <summary>
+    /// 开拓力回满剩余天数
+    /// </summary>
+    [JsonIgnore]
+    public string StaminaRecoveryDaysRemaining => (StaminaFullTime.LocalDateTime.Date - CurrentTime.LocalDateTime.Date).Days.ToString("+0");
 
     /// <summary>
     /// 已接取委托次数

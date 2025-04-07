@@ -29,7 +29,7 @@
             <NavigationView.PaneHeader>
                 <TextBlock Margin="16,12,0,8"
                            FontSize="20"
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           FontWeight="Bold"
                            Text="{x:Bind lang:Lang.SettingPage_AppSettings}" />
             </NavigationView.PaneHeader>
 

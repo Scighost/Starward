@@ -348,7 +348,7 @@ public sealed partial class GameRecordPage : PageBase
             _gameRecordService.SetLastSelectGameRecordRole(CurrentGameBiz, role);
             if (frame.SourcePageType?.Name is not nameof(LoginPage))
             {
-                NavigateTo(frame.SourcePageType);
+                NavigateTo(frame.SourcePageType, force_navigate: true);
             }
         }
     }
@@ -470,13 +470,13 @@ public sealed partial class GameRecordPage : PageBase
 
 
 
-    private void NavigateTo(Type? page, object? parameter = null)
+    private void NavigateTo(Type? page, object? parameter = null, bool force_navigate = false)
     {
         if (page is null)
         {
             return;
         }
-        if (frame.SourcePageType == page)
+        if (!force_navigate && frame.SourcePageType == page)
         {
             return;
         }

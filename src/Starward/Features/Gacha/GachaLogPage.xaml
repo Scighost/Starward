@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
 
 
-        <TextBlock Margin="20,0,0,0"
+        <TextBlock Margin="24,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="20"

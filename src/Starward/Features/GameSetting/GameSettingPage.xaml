@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer>
-            <Grid Margin="24,24,0,24" ColumnSpacing="24">
+            <Grid Margin="24,20,0,24" ColumnSpacing="24">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
