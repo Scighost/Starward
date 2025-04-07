@@ -452,7 +452,7 @@ public sealed partial class ZZZGachaInfoWindow : WindowEx
                                 {
                                     Game = GameBiz.nap,
                                     Language = key[^5..],
-                                    List = list,
+                                    List = list.OrderBy(x => x.Id).ToList(),
                                 },
                             };
                             string json = JsonSerializer.Serialize(obj, AppConfig.JsonSerializerOptions);
