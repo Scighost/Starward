@@ -142,6 +142,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Total Score 的本地化字符串。
+        /// </summary>
+        public static string ApocalypticShadowPage_SumScore {
+            get {
+                return ResourceManager.GetString("ApocalypticShadowPage_SumScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Always display navigation sidebar icons 的本地化字符串。
         /// </summary>
         public static string AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons {
@@ -778,6 +787,15 @@ namespace Starward.Language {
         public static string DailyNoteButton_ZZZ_WaitingToOpen {
             get {
                 return ResourceManager.GetString("DailyNoteButton_ZZZ_WaitingToOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Global Top 的本地化字符串。
+        /// </summary>
+        public static string DeadlyAssaultPage_GlobalTopPercent {
+            get {
+                return ResourceManager.GetString("DeadlyAssaultPage_GlobalTopPercent", resourceCulture);
             }
         }
         
@@ -2619,6 +2637,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Deadly Assault 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_DeadlyAssault {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_DeadlyAssault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Delete Game Role 的本地化字符串。
         /// </summary>
         public static string HoyolabToolboxPage_DeleteGameRole {
@@ -2707,6 +2734,15 @@ namespace Starward.Language {
         public static string HoyolabToolboxPage_RefreshInfo {
             get {
                 return ResourceManager.GetString("HoyolabToolboxPage_RefreshInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Shiyu Defense 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_ShiyuDefense {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_ShiyuDefense", resourceCulture);
             }
         }
         
@@ -4798,6 +4834,42 @@ namespace Starward.Language {
         public static string SettingPage_WouldLikeToReselectDataFolder {
             get {
                 return ResourceManager.GetString("SettingPage_WouldLikeToReselectDataFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 4-7 Layer Clear Time 的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_47LayerClearTime {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_47LayerClearTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Clear Time:  的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_ClearTime {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_ClearTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fastest State Time 的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_FastestStateTime {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_FastestStateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Highest Stage Cleared 的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_HighestStageCleared {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_HighestStageCleared", resourceCulture);
             }
         }
         

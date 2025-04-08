@@ -238,6 +238,8 @@ public sealed partial class GameRecordPage : PageBase
         {
             NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
             NavigationViewItem_InterKnotMonthlyReport.Visibility = Visibility.Visible;
+            NavigationViewItem_ShiyuDefense.Visibility = Visibility.Visible;
+            NavigationViewItem_DeadlyAssault.Visibility = Visibility.Visible;
             // 绝区零战绩图片
             Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/bc8f0b7384b306c80f2a1fcca9f3d14b_8590605504999484795.png"));
         }
@@ -507,6 +509,8 @@ public sealed partial class GameRecordPage : PageBase
                     nameof(ApocalypticShadowPage) => typeof(ApocalypticShadowPage),
                     nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
                     nameof(InterKnotMonthlyReportPage) => typeof(InterKnotMonthlyReportPage),
+                    nameof(ShiyuDefensePage) => typeof(ShiyuDefensePage),
+                    nameof(DeadlyAssaultPage) => typeof(DeadlyAssaultPage),
                     _ => null,
                 };
                 NavigateTo(type);

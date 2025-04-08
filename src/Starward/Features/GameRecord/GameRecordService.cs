@@ -16,6 +16,8 @@ using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
+using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
+using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
 using Starward.Features.Database;
 using System;
 using System.Collections.Generic;
@@ -942,6 +944,148 @@ internal class GameRecordService
         return dapper.Query<InterKnotReportDetailItem>("SELECT * FROM InterKnotReportDetailItem WHERE Uid=@uid AND DataMonth=@month AND DataType=@type ORDER BY Time;", new { uid, month, type }).ToList();
     }
 
+
+
+
+    #endregion
+
+
+
+
+    #region Shiyu Defense
+
+
+
+    public async Task<ShiyuDefenseInfo> RefreshShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    {
+        var info = await _gameRecordClient.GetShiyuDefenseInfoAsync(role, schedule);
+        if (info.ScheduleId == 0)
+        {
+            return info;
+        }
+        var obj = new
+        {
+            role.Uid,
+            info.ScheduleId,
+            info.BeginTime,
+            info.EndTime,
+            info.Rating,
+            info.RatingCount,
+            info.HasData,
+            info.FastLayerTime,
+            info.MaxLayer,
+            info.HadalBeginTime,
+            info.HadalEndTime,
+            info.BattleTime47,
+            Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+        };
+        using var dapper = DatabaseService.CreateConnection();
+        dapper.Execute("""
+            INSERT OR REPLACE INTO ShiyuDefenseInfo (Uid, ScheduleId, BeginTime, EndTime, Rating, RatingCount, HasData, FastLayerTime, MaxLayer, HadalBeginTime, HadalEndTime, BattleTime47, Value)
+            VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @Rating, @RatingCount, @HasData, @FastLayerTime, @MaxLayer, @HadalBeginTime, @HadalEndTime, @BattleTime47, @Value);
+            """, obj);
+        return info;
+    }
+
+
+
+    public List<ShiyuDefenseInfo> GetShiyuDefenseInfoList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<ShiyuDefenseInfo>();
+        }
+        using var dapper = DatabaseService.CreateConnection();
+        var list = dapper.Query<ShiyuDefenseInfo>("""
+            SELECT Uid, ScheduleId, BeginTime, EndTime, Rating, RatingCount, HasData, FastLayerTime, MaxLayer, HadalBeginTime, HadalEndTime, BattleTime47 FROM ShiyuDefenseInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
+            """, new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public ShiyuDefenseInfo? GetShiyuDefenseInfo(GameRecordRole role, int scheduleId)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        var value = dapper.QueryFirstOrDefault<string>("""
+            SELECT Value FROM ShiyuDefenseInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
+            """, new { role.Uid, scheduleId });
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+        return JsonSerializer.Deserialize<ShiyuDefenseInfo>(value);
+    }
+
+
+
+    #endregion
+
+
+
+
+    #region Deadly Assault
+
+
+
+    public async Task<DeadlyAssaultInfo> RefreshDeadlyAssaultInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    {
+        var info = await _gameRecordClient.GetDeadlyAssaultInfoAsync(role, schedule);
+        if (info.ZoneId == 0)
+        {
+            return info;
+        }
+        var obj = new
+        {
+            role.Uid,
+            info.StartTime,
+            info.EndTime,
+            info.RankPercent,
+            info.HasData,
+            info.NickName,
+            info.AvatarIcon,
+            info.TotalScore,
+            info.TotalStar,
+            info.ZoneId,
+            Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+        };
+        using var dapper = DatabaseService.CreateConnection();
+        dapper.Execute("""
+            INSERT OR REPLACE INTO DeadlyAssaultInfo (Uid, StartTime, EndTime, RankPercent, HasData, NickName, AvatarIcon, TotalScore, TotalStar, ZoneId, Value)
+            VALUES (@Uid, @StartTime, @EndTime, @RankPercent, @HasData, @NickName, @AvatarIcon, @TotalScore, @TotalStar, @ZoneId, @Value);
+            """, obj);
+        return info;
+    }
+
+
+
+    public List<DeadlyAssaultInfo> GetDeadlyAssaultInfoList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<DeadlyAssaultInfo>();
+        }
+        using var dapper = DatabaseService.CreateConnection();
+        var list = dapper.Query<DeadlyAssaultInfo>("""
+            SELECT Uid, StartTime, EndTime, RankPercent, HasData, NickName, AvatarIcon, TotalScore, TotalStar, ZoneId FROM DeadlyAssaultInfo WHERE Uid = @Uid ORDER BY ZoneId DESC;
+            """, new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public DeadlyAssaultInfo? GetDeadlyAssaultInfo(GameRecordRole role, int zoneId)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        var value = dapper.QueryFirstOrDefault<string>("""
+            SELECT Value FROM DeadlyAssaultInfo WHERE Uid = @Uid And ZoneId = @zoneId LIMIT 1;
+            """, new { role.Uid, zoneId });
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+        return JsonSerializer.Deserialize<DeadlyAssaultInfo>(value);
+    }
 
 
 

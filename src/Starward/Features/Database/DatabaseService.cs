@@ -231,7 +231,7 @@ internal static class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11, Sql_v12, Sql_v13];
+    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11, Sql_v12, Sql_v13, Sql_v14];
 
 
     private const string Sql_v1 = """
@@ -804,6 +804,49 @@ internal static class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_ZZZGachaInfo_Name ON ZZZGachaInfo (Name);
 
         PRAGMA USER_VERSION = 13;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v14 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS ShiyuDefenseInfo
+        (
+            Uid            INTEGER NOT NULL,
+            ScheduleId     INTEGER NOT NULL,
+            BeginTime      TEXT    NOT NULL,
+            EndTime        TEXT    NOT NULL,
+            Rating         INTEGER NOT NULL,
+            RatingCount    INTEGER NOT NULL,
+            HasData        INTEGER NOT NULL,
+            FastLayerTime  INTEGER NOT NULL,
+            MaxLayer       INTEGER NOT NULL,
+            HadalBeginTime TEXT    NOT NULL,
+            HadalEndTime   TEXT    NOT NULL,
+            BattleTime47   INTEGER NOT NULL,
+            Value          TEXT    NOT NULL,
+            PRIMARY KEY (Uid, ScheduleId)
+        );
+        CREATE INDEX IF NOT EXISTS IX_ShiyuDefenseInfo_ScheduleId ON ShiyuDefenseInfo (ScheduleId);
+
+        CREATE TABLE IF NOT EXISTS DeadlyAssaultInfo
+        (
+            Uid            INTEGER NOT NULL,
+            StartTime      TEXT    NOT NULL,
+            EndTime        TEXT    NOT NULL,
+            RankPercent    TEXT    NOT NULL,
+            HasData        INTEGER NOT NULL,
+            NickName       TEXT    NOT NULL,
+            AvatarIcon     TEXT    NOT NULL,
+            TotalScore     INTEGER NOT NULL,
+            TotalStar      INTEGER NOT NULL,
+            ZoneId         INTEGER NOT NULL,
+            Value          TEXT    NOT NULL,
+            PRIMARY KEY (Uid, ZoneId)
+        );
+        CREATE INDEX IF NOT EXISTS IX_DeadlyAssaultInfo_ZoneId ON DeadlyAssaultInfo (ZoneId);
+
+        PRAGMA USER_VERSION = 14;
         COMMIT TRANSACTION;
         """;
 
