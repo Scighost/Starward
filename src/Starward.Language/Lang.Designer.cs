@@ -142,11 +142,11 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Total Score 的本地化字符串。
+        ///   查找类似 Total Score: 的本地化字符串。
         /// </summary>
-        public static string ApocalypticShadowPage_SumScore {
+        public static string ApocalypticShadowPage_TotalScore {
             get {
-                return ResourceManager.GetString("ApocalypticShadowPage_SumScore", resourceCulture);
+                return ResourceManager.GetString("ApocalypticShadowPage_TotalScore", resourceCulture);
             }
         }
         
@@ -3905,6 +3905,15 @@ namespace Starward.Language {
         public static string PreDownloadDialog_StartPreInstall {
             get {
                 return ResourceManager.GetString("PreDownloadDialog_StartPreInstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Score: 的本地化字符串。
+        /// </summary>
+        public static string PureFictionPage_Score {
+            get {
+                return ResourceManager.GetString("PureFictionPage_Score", resourceCulture);
             }
         }
         

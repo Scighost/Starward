@@ -2028,8 +2028,8 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="ShiyuDefensePage_ClearTime" xml:space="preserve">
     <value>Clear Time: </value>
   </data>
-  <data name="ApocalypticShadowPage_SumScore" xml:space="preserve">
-    <value>Total Score</value>
+  <data name="ApocalypticShadowPage_TotalScore" xml:space="preserve">
+    <value>Total Score:</value>
   </data>
   <data name="DeadlyAssaultPage_GlobalTopPercent" xml:space="preserve">
     <value>Global Top</value>
@@ -2054,5 +2054,8 @@ You are welcome to submit the exported data to the following repository:</value>
   </data>
   <data name="DeadlyAssaultPage_TotalScore" xml:space="preserve">
     <value>Total Score</value>
+  </data>
+  <data name="PureFictionPage_Score" xml:space="preserve">
+    <value>Score:</value>
   </data>
 </root>

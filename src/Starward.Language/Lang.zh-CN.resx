@@ -2028,7 +2028,7 @@
   <data name="ShiyuDefensePage_ClearTime" xml:space="preserve">
     <value>通关时长：</value>
   </data>
-  <data name="ApocalypticShadowPage_SumScore" xml:space="preserve">
+  <data name="ApocalypticShadowPage_TotalScore" xml:space="preserve">
     <value>总分：</value>
   </data>
   <data name="DeadlyAssaultPage_GlobalTopPercent" xml:space="preserve">
@@ -2054,5 +2054,8 @@
   </data>
   <data name="DeadlyAssaultPage_TotalScore" xml:space="preserve">
     <value>总分</value>
+  </data>
+  <data name="PureFictionPage_Score" xml:space="preserve">
+    <value>积分：</value>
   </data>
 </root>

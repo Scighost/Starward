@@ -309,7 +309,7 @@
                                     </ItemsControl>
                                     <!--  总分  -->
                                     <TextBlock HorizontalAlignment="Right" FontSize="12">
-                                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ApocalypticShadowPage_SumScore}" />
+                                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ApocalypticShadowPage_TotalScore}" />
                                         <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind TotalScore}" />
                                     </TextBlock>
                                 </StackPanel>
@@ -346,8 +346,9 @@
                                            Grid.ColumnSpan="3"
                                            Margin="0,4,0,0"
                                            HorizontalAlignment="Right"
-                                           FontSize="12">
-                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="积分：" />
+                                           FontSize="12"
+                                           Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.PureFictionPage_Score}" />
                                     <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind Node1.Score}" />
                                 </TextBlock>
 
@@ -426,8 +427,9 @@
                                            Grid.ColumnSpan="3"
                                            Margin="0,4,0,0"
                                            HorizontalAlignment="Right"
-                                           FontSize="12">
-                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="积分：" />
+                                           FontSize="12"
+                                           Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.PureFictionPage_Score}" />
                                     <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind Node2.Score}" />
                                 </TextBlock>
 
