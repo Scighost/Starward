@@ -68,6 +68,8 @@ public class DeadlyAssaultInfo
     public int TotalStar { get; set; }
 
 
+    [JsonExtensionData]
+    public Dictionary<string, object>? ExtensionData { get; set; }
 
 
 }
