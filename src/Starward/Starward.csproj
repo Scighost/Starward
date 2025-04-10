@@ -48,7 +48,7 @@
 		<PackageReference Include="Scighost.WinUI" Version="0.1.0" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1" />
 		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-		<PackageReference Include="Starward.Assets" Version="0.5.3" />
+		<PackageReference Include="Starward.Assets" Version="0.5.4" />
 		<PackageReference Include="Starward.NativeLib" Version="0.2.4" />
 		<PackageReference Include="Vanara.PInvoke.ComCtl32" Version="4.1.1" />
 		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="4.1.1" />
