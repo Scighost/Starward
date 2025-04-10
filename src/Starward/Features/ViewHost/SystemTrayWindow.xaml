@@ -8,6 +8,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
+             xmlns:sfgg="using:Starward.Features.GameSelector"
+             xmlns:sh="using:Starward.Helpers"
              x:DefaultBindMode="OneWay"
              Closed="WindowEx_Closed"
              mc:Ignorable="d">
@@ -20,6 +22,58 @@
                         ToolTipText="Starward" />
 
         <StackPanel Padding="8">
+
+            <ItemsControl ItemsSource="{x:Bind InstalledGames}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="sfgg:GameBizIcon">
+                        <Button Name="Button_StartGame"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                            Click="Button_StartGame_Click"
+                            Tag="{Binding}">
+                            <Grid ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid Width="28"
+                                      Height="28"
+                                      sh:PointerCursor.CursorShape="Hand"
+                                      CornerRadius="8"
+                                      IsDoubleTapEnabled="True"
+                                      IsTapEnabled="True"
+                                      Shadow="{ThemeResource ThemeShadow}"
+                                      Translation="0,0,16">
+                                    <sc:CachedImage Width="28"
+                                            Height="28"
+                                            Source="{x:Bind GameIcon}" />
+                                    <Image Width="14"
+                                            Height="14"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom">
+                                        <Image.Source>
+                                            <BitmapImage DecodePixelHeight="14"
+                                                         DecodePixelType="Logical"
+                                                         DecodePixelWidth="14"
+                                                         UriSource="{x:Bind ServerIcon}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Border Background="#60000000" Opacity="{x:Bind MaskOpacity}">
+                                        <Border.OpacityTransition>
+                                            <ScalarTransition />
+                                        </Border.OpacityTransition>
+                                    </Border>
+                                </Grid>
+                                <TextBlock Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           Text="{x:Bind ServerName}"
+                                           TextTrimming="None" />
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
             <Button Height="36"
                     HorizontalAlignment="Stretch"

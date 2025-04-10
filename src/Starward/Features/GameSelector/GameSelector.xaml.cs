@@ -77,7 +77,7 @@ public sealed partial class GameSelector : UserControl
 
     public void InitializeGameSelector()
     {
-        List<GameInfo> gameInfos = GetCachedGameInfos();
+        List<GameInfo> gameInfos = GameLauncherService.GetCachedGameInfos();
         InitializeGameIconsArea(gameInfos);
         InitializeGameServerArea(gameInfos);
         InitializeInstalledGamesCommand.Execute(null);
@@ -116,22 +116,6 @@ public sealed partial class GameSelector : UserControl
         catch { }
     }
 
-
-
-
-    private List<GameInfo> GetCachedGameInfos()
-    {
-        try
-        {
-            string? json = AppConfig.CachedGameInfo;
-            if (!string.IsNullOrWhiteSpace(json))
-            {
-                return JsonSerializer.Deserialize<List<GameInfo>>(json) ?? [];
-            }
-        }
-        catch { }
-        return [];
-    }
 
 
 
@@ -840,6 +824,7 @@ public sealed partial class GameSelector : UserControl
                     return;
                 }
 
+                WeakReferenceMessenger.Default.Send(new InstalledGameRefreshedMessage());
                 InstalledGamesActualSize = $"{(totalSize - fileSize + actualSize) / GB:F2}GB";
                 InstalledGamesSavedSize = $"{(fileSize - actualSize) / GB:F2}GB";
             }
@@ -861,7 +846,7 @@ public sealed partial class GameSelector : UserControl
     {
         try
         {
-            List<GameInfo> gameInfos = GetCachedGameInfos();
+            List<GameInfo> gameInfos = GameLauncherService.GetCachedGameInfos();
             var sb = new StringBuilder();
             foreach (GameInfo item in gameInfos)
             {
