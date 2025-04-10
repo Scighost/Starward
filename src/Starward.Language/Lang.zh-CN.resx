@@ -2013,4 +2013,46 @@
   <data name="Common_Enabled" xml:space="preserve">
     <value>已启用</value>
   </data>
+  <data name="HoyolabToolboxPage_ShiyuDefense" xml:space="preserve">
+    <value>式舆防卫战</value>
+  </data>
+  <data name="HoyolabToolboxPage_DeadlyAssault" xml:space="preserve">
+    <value>危局强袭战</value>
+  </data>
+  <data name="ShiyuDefensePage_HighestStageCleared" xml:space="preserve">
+    <value>最高通关防线</value>
+  </data>
+  <data name="ShiyuDefensePage_47LayerClearTime" xml:space="preserve">
+    <value>4-7层通关时长</value>
+  </data>
+  <data name="ShiyuDefensePage_ClearTime" xml:space="preserve">
+    <value>通关时长：</value>
+  </data>
+  <data name="ApocalypticShadowPage_SumScore" xml:space="preserve">
+    <value>总分：</value>
+  </data>
+  <data name="DeadlyAssaultPage_GlobalTopPercent" xml:space="preserve">
+    <value>全服排名</value>
+  </data>
+  <data name="ShiyuDefensePage_FastestStateTime" xml:space="preserve">
+    <value>最快通关时间</value>
+  </data>
+  <data name="ShiyuDefensePage_FrontierEffects" xml:space="preserve">
+    <value>防线效果</value>
+  </data>
+  <data name="ShiyuDefensePage_EnemyDetails" xml:space="preserve">
+    <value>敌方详情</value>
+  </data>
+  <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
+    <value>弱点</value>
+  </data>
+  <data name="ShiyuDefensePage_Resistance" xml:space="preserve">
+    <value>抗性</value>
+  </data>
+  <data name="ClearedAt" xml:space="preserve">
+    <value>通关时刻</value>
+  </data>
+  <data name="DeadlyAssaultPage_TotalScore" xml:space="preserve">
+    <value>总分</value>
+  </data>
 </root>

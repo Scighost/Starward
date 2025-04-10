@@ -389,7 +389,7 @@
                                                     Stretch="UniformToFill" />
                                     <Border HorizontalAlignment="Left"
                                             VerticalAlignment="Top"
-                                            Background="Black"
+                                            Background="#0A0A0A"
                                             CornerRadius="0,0,4,0">
                                         <sc:CachedImage Width="20"
                                                         Height="20"

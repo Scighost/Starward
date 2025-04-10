@@ -1,10 +1,9 @@
 using Microsoft.UI.Xaml;
 
-namespace Starward.Features.GameRecord.StarRail;
+namespace Starward.Features.GameRecord;
 
-static class AvatarRankHelper
+public static class AvatarRankHelper
 {
-
     public static Visibility RankToVisibility(int rank)
     {
         return rank > 0 ? Visibility.Visible : Visibility.Collapsed;

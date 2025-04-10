@@ -10,7 +10,9 @@ using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using Starward.Core.GameRecord.ZZZ.DailyNote;
+using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
+using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
 using Starward.Core.GameRecord.ZZZ.UpgradeGuide;
 
 namespace Starward.Core.GameRecord;
@@ -681,6 +683,47 @@ public class HoyolabClient : GameRecordClient
         return data.List ?? new List<GameRecordRole>();
     }
 
+
+    /// <summary>
+    /// 式舆防卫战
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="schedule">1当期，2上期</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<ShiyuDefenseInfo> GetShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    {
+        var url = $"https://sg-public-api.hoyolab.com/event/game_record_zzz/api/zzz/challenge?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}&need_all=true";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(Referer, "https://act.hoyolab.com");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
+        return await CommonSendAsync<ShiyuDefenseInfo>(request, cancellationToken);
+    }
+
+
+    /// <summary>
+    /// 危局强袭战
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="schedule">1当期，2上期</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<DeadlyAssaultInfo> GetDeadlyAssaultInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    {
+        var url = $"https://sg-public-api.hoyolab.com/event/game_record_zzz/api/zzz/mem_detail?schedule_type={schedule}&region={role.Region}&uid={role.Uid}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(Referer, "https://act.hoyolab.com");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
+        return await CommonSendAsync<DeadlyAssaultInfo>(request, cancellationToken);
+    }
 
 
     /// <summary>

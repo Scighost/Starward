@@ -11,6 +11,7 @@
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
              xmlns:sfg="using:Starward.Features.Gacha"
+             xmlns:sfgr="using:Starward.Features.GameRecord"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
@@ -308,7 +309,7 @@
                                     </ItemsControl>
                                     <!--  总分  -->
                                     <TextBlock HorizontalAlignment="Right" FontSize="12">
-                                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="总分：" />
+                                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ApocalypticShadowPage_SumScore}" />
                                         <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind TotalScore}" />
                                     </TextBlock>
                                 </StackPanel>
@@ -370,7 +371,7 @@
                                                         VerticalAlignment="Top"
                                                         Background="#A0000000"
                                                         CornerRadius="0,12,0,8"
-                                                        Visibility="{x:Bind local:AvatarRankHelper.RankToVisibility(Rank)}">
+                                                        Visibility="{x:Bind sfgr:AvatarRankHelper.RankToVisibility(Rank)}">
                                                     <TextBlock Margin="4,2,4,2"
                                                                FontSize="14"
                                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -451,7 +452,7 @@
                                                         VerticalAlignment="Top"
                                                         Background="#A0000000"
                                                         CornerRadius="0,12,0,8"
-                                                        Visibility="{x:Bind local:AvatarRankHelper.RankToVisibility(Rank)}">
+                                                        Visibility="{x:Bind sfgr:AvatarRankHelper.RankToVisibility(Rank)}">
                                                     <TextBlock Margin="4,2,4,2"
                                                                FontSize="14"
                                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"

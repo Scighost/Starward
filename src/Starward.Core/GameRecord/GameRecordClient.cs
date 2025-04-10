@@ -9,6 +9,8 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
+using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
+using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Core.Gacha.ZZZ;
 using Starward.Core.GameRecord.ZZZ.UpgradeGuide;
@@ -469,6 +471,25 @@ public abstract class GameRecordClient
     #region ZZZ
 
 
+    /// <summary>
+    /// 式舆防卫战
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="schedule">1当期，2上期</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<ShiyuDefenseInfo> GetShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default);
+
+
+    /// <summary>
+    /// 危局强袭战
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="schedule">1当期，2上期</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<DeadlyAssaultInfo> GetDeadlyAssaultInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default);
+
 
     /// <summary>
     /// 获取绝区零账号信息
@@ -477,8 +498,6 @@ public abstract class GameRecordClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public abstract Task<List<GameRecordRole>> GetZZZGameRolesAsync(string cookie, CancellationToken cancellationToken = default);
-
-
 
 
     /// <summary>

@@ -10,7 +10,9 @@ using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using Starward.Core.GameRecord.ZZZ.DailyNote;
+using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
+using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
 using Starward.Core.GameRecord.ZZZ.UpgradeGuide;
 using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
@@ -38,6 +40,8 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<UpgradeGuidIconInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<GenshinDailyNote>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<StarRailDailyNote>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<ShiyuDefenseInfo>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<DeadlyAssaultInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ZZZDailyNote>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<BH3DailyNote>))]
 [JsonSerializable(typeof(DateTimeObjectJsonConverter.DateTimeObject))]
