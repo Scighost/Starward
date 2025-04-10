@@ -11,6 +11,7 @@
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
              xmlns:sfg="using:Starward.Features.Gacha"
+             xmlns:sfgr="using:Starward.Features.GameRecord"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
@@ -289,7 +290,7 @@
                                                         VerticalAlignment="Top"
                                                         Background="#A0000000"
                                                         CornerRadius="0,12,0,8"
-                                                        Visibility="{x:Bind Rank, Converter={StaticResource IntToVisibilityConverter}}">
+                                                        Visibility="{x:Bind sfgr:AvatarRankHelper.RankToVisibility(Rank)}">
                                                     <TextBlock Margin="4,2,4,2"
                                                                FontSize="14"
                                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -343,7 +344,7 @@
                                                         VerticalAlignment="Top"
                                                         Background="#A0000000"
                                                         CornerRadius="0,12,0,8"
-                                                        Visibility="{x:Bind Rank, Converter={StaticResource IntToVisibilityConverter}}">
+                                                        Visibility="{x:Bind sfgr:AvatarRankHelper.RankToVisibility(Rank)}">
                                                     <TextBlock Margin="4,2,4,2"
                                                                FontSize="14"
                                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"

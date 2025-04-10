@@ -232,6 +232,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Cleared at 的本地化字符串。
+        /// </summary>
+        public static string ClearedAt {
+            get {
+                return ResourceManager.GetString("ClearedAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 You could change the option again in setting page. 的本地化字符串。
         /// </summary>
         public static string CloseWindowDialog_YouCouldChangeTheOptionAgainInSettingPage {
@@ -796,6 +805,15 @@ namespace Starward.Language {
         public static string DeadlyAssaultPage_GlobalTopPercent {
             get {
                 return ResourceManager.GetString("DeadlyAssaultPage_GlobalTopPercent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Total Score 的本地化字符串。
+        /// </summary>
+        public static string DeadlyAssaultPage_TotalScore {
+            get {
+                return ResourceManager.GetString("DeadlyAssaultPage_TotalScore", resourceCulture);
             }
         }
         
@@ -4856,6 +4874,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Enemy Details 的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_EnemyDetails {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_EnemyDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Fastest State Time 的本地化字符串。
         /// </summary>
         public static string ShiyuDefensePage_FastestStateTime {
@@ -4865,11 +4892,38 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Frontier Effects 的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_FrontierEffects {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_FrontierEffects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Highest Stage Cleared 的本地化字符串。
         /// </summary>
         public static string ShiyuDefensePage_HighestStageCleared {
             get {
                 return ResourceManager.GetString("ShiyuDefensePage_HighestStageCleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Resistance 的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_Resistance {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_Resistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Weakness 的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_Weakness {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_Weakness", resourceCulture);
             }
         }
         

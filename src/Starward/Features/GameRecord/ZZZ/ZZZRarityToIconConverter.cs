@@ -1,19 +1,19 @@
-﻿using Microsoft.UI.Xaml.Data;
-using System;
-using Starward.Core.GameRecord.ZZZ.Common;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System;
 
 namespace Starward.Features.GameRecord.ZZZ;
 
-internal class ZZZRarityImageConverter : IValueConverter
+internal class ZZZRarityToIconConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        var img = (ZZZRarity)value switch
+        var img = value switch
         {
-            ZZZRarity.A => "ms-appx:///Assets/Image/A_Rank.png",
-            ZZZRarity.S => "ms-appx:///Assets/Image/S_Rank.png",
-            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+            "S" => "ms-appx:///Assets/Image/S_Level_S.png",
+            "A" => "ms-appx:///Assets/Image/A_Level_S.png",
+            "B" => "ms-appx:///Assets/Image/B_Level_S.png",
+            _ => "ms-appx:///Assets/Image/Transparent.png",
         };
         return new BitmapImage(new Uri(img));
     }

@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -64,12 +63,10 @@ public sealed partial class ShiyuDefensePage : PageBase
 
 
 
-    [ObservableProperty]
-    private List<ShiyuDefenseInfo> shiyuDefenseList;
+    public List<ShiyuDefenseInfo> ShiyuDefenseList { get; set => SetProperty(ref field, value); }
 
 
-    [ObservableProperty]
-    private ShiyuDefenseInfo? currentShiyuDefense;
+    public ShiyuDefenseInfo? CurrentShiyuDefense { get; set => SetProperty(ref field, value); }
 
 
 
@@ -82,7 +79,7 @@ public sealed partial class ShiyuDefensePage : PageBase
             if (list.Count != 0)
             {
                 ShiyuDefenseList = list;
-                ListView_ForgottenHall.SelectedIndex = 0;
+                ListView_ShiyuDefense.SelectedIndex = 0;
             }
             else
             {
@@ -130,7 +127,7 @@ public sealed partial class ShiyuDefensePage : PageBase
 
 
 
-    private void ListView_ForgottenHall_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void ListView_ShiyuDefense_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         try
         {
@@ -150,18 +147,14 @@ public sealed partial class ShiyuDefensePage : PageBase
     public static string PerformancesTime(int second)
     {
         var ts = TimeSpan.FromSeconds(second);
-        return $"{ts.Minutes}m {ts.Seconds}s";
+        return $"{ts.Minutes}m {ts.Seconds:D2}s";
     }
 
 
-    private void TextBlock_Deepest_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
+    public static Visibility ElementWeaknessVisibility(int value, int weakOrResist)
     {
-        TextBlock_Deepest.SetValue(Grid.ColumnSpanProperty, 2);
-        TextBlock_Battles.SetValue(Grid.RowProperty, 1);
-        TextBlock_Battles.SetValue(Grid.ColumnProperty, 1);
-        TextBlock_Battles.SetValue(Grid.ColumnSpanProperty, 2);
+        return value == weakOrResist ? Visibility.Visible : Visibility.Collapsed;
     }
-
 
 
 

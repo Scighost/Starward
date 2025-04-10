@@ -3,28 +3,26 @@ using System.Text.Json.Serialization;
 namespace Starward.Core.GameRecord.ZZZ.ShiyuDefense;
 
 /// <summary>
-/// 式舆防卫战buff
+/// 式舆防卫战评分
 /// </summary>
-public class ShiyuDefenseBuff
+public class ShiyuDefenseRatingTimes
 {
 
     /// <summary>
-    /// 名称
+    /// 次数
     /// </summary>
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
+    [JsonPropertyName("times")]
+    public int Times { get; set; }
 
     /// <summary>
-    /// 详细描述，格式化富文本
+    /// 评分，SABC
     /// </summary>
-    [JsonPropertyName("text")]
-    public string Text { get; set; }
+    [JsonPropertyName("rating")]
+    public string Rating { get; set; }
 
 
     [JsonExtensionData]
     public Dictionary<string, object>? ExtensionData { get; set; }
 
+
 }
-
-
-

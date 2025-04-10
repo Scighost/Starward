@@ -2037,4 +2037,22 @@
   <data name="ShiyuDefensePage_FastestStateTime" xml:space="preserve">
     <value>最快通关时间</value>
   </data>
+  <data name="ShiyuDefensePage_FrontierEffects" xml:space="preserve">
+    <value>防线效果</value>
+  </data>
+  <data name="ShiyuDefensePage_EnemyDetails" xml:space="preserve">
+    <value>敌方详情</value>
+  </data>
+  <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
+    <value>弱点</value>
+  </data>
+  <data name="ShiyuDefensePage_Resistance" xml:space="preserve">
+    <value>抗性</value>
+  </data>
+  <data name="ClearedAt" xml:space="preserve">
+    <value>通关时刻</value>
+  </data>
+  <data name="DeadlyAssaultPage_TotalScore" xml:space="preserve">
+    <value>总分</value>
+  </data>
 </root>

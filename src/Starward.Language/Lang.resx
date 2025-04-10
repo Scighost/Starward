@@ -2037,4 +2037,22 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="ShiyuDefensePage_FastestStateTime" xml:space="preserve">
     <value>Fastest State Time</value>
   </data>
+  <data name="ShiyuDefensePage_FrontierEffects" xml:space="preserve">
+    <value>Frontier Effects</value>
+  </data>
+  <data name="ShiyuDefensePage_EnemyDetails" xml:space="preserve">
+    <value>Enemy Details</value>
+  </data>
+  <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
+    <value>Weakness</value>
+  </data>
+  <data name="ShiyuDefensePage_Resistance" xml:space="preserve">
+    <value>Resistance</value>
+  </data>
+  <data name="ClearedAt" xml:space="preserve">
+    <value>Cleared at</value>
+  </data>
+  <data name="DeadlyAssaultPage_TotalScore" xml:space="preserve">
+    <value>Total Score</value>
+  </data>
 </root>

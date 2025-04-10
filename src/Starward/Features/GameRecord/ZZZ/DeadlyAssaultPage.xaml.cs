@@ -1,10 +1,8 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using Starward.Controls;
 using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
@@ -14,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Numerics;
 using System.Threading.Tasks;
 
 
@@ -66,12 +63,10 @@ public sealed partial class DeadlyAssaultPage : PageBase
 
 
 
-    [ObservableProperty]
-    private List<DeadlyAssaultInfo> deadlyAssaultList;
+    public List<DeadlyAssaultInfo> DeadlyAssaultList { get; set => SetProperty(ref field, value); }
 
 
-    [ObservableProperty]
-    private DeadlyAssaultInfo? currentDeadlyAssault;
+    public DeadlyAssaultInfo? CurrentDeadlyAssault { get; set => SetProperty(ref field, value); }
 
 
 
@@ -84,7 +79,7 @@ public sealed partial class DeadlyAssaultPage : PageBase
             if (list.Count != 0)
             {
                 DeadlyAssaultList = list;
-                ListView_ForgottenHall.SelectedIndex = 0;
+                ListView_DeadlyAssault.SelectedIndex = 0;
             }
             else
             {
@@ -132,7 +127,7 @@ public sealed partial class DeadlyAssaultPage : PageBase
 
 
 
-    private void ListView_ForgottenHall_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void ListView_DeadlyAssault_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         try
         {
@@ -150,20 +145,13 @@ public sealed partial class DeadlyAssaultPage : PageBase
 
 
 
-
-    private void TextBlock_Deepest_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
+    public static string RankPercentText(int value)
     {
-        TextBlock_Deepest.SetValue(Grid.ColumnSpanProperty, 2);
-        TextBlock_Battles.SetValue(Grid.RowProperty, 1);
-        TextBlock_Battles.SetValue(Grid.ColumnProperty, 1);
-        TextBlock_Battles.SetValue(Grid.ColumnSpanProperty, 2);
+        int d = value / 100;
+        int p = value % 100;
+        return $"{d}.{p:D2}%";
     }
 
-    private void BossBg_Loaded(object sender, RoutedEventArgs e)
-    {
-        if (sender is CachedImage image)
-        {
-            image.Translation += new Vector3(0, 0, 32);
-        }
-    }
+
+
 }

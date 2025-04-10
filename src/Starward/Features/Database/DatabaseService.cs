@@ -816,15 +816,11 @@ internal static class DatabaseService
             ScheduleId     INTEGER NOT NULL,
             BeginTime      TEXT    NOT NULL,
             EndTime        TEXT    NOT NULL,
-            Rating         INTEGER NOT NULL,
-            RatingCount    INTEGER NOT NULL,
             HasData        INTEGER NOT NULL,
-            FastLayerTime  INTEGER NOT NULL,
+            MaxRating      Text,
+            MaxRatingTimes INTEGER NOT NULL,
             MaxLayer       INTEGER NOT NULL,
-            HadalBeginTime TEXT    NOT NULL,
-            HadalEndTime   TEXT    NOT NULL,
-            BattleTime47   INTEGER NOT NULL,
-            Value          TEXT    NOT NULL,
+            Value          TEXT,
             PRIMARY KEY (Uid, ScheduleId)
         );
         CREATE INDEX IF NOT EXISTS IX_ShiyuDefenseInfo_ScheduleId ON ShiyuDefenseInfo (ScheduleId);
@@ -832,16 +828,14 @@ internal static class DatabaseService
         CREATE TABLE IF NOT EXISTS DeadlyAssaultInfo
         (
             Uid            INTEGER NOT NULL,
+            ZoneId         INTEGER NOT NULL,
             StartTime      TEXT    NOT NULL,
             EndTime        TEXT    NOT NULL,
-            RankPercent    TEXT    NOT NULL,
             HasData        INTEGER NOT NULL,
-            NickName       TEXT    NOT NULL,
-            AvatarIcon     TEXT    NOT NULL,
+            RankPercent    INTEGER NOT NULL,
             TotalScore     INTEGER NOT NULL,
             TotalStar      INTEGER NOT NULL,
-            ZoneId         INTEGER NOT NULL,
-            Value          TEXT    NOT NULL,
+            Value          TEXT,
             PRIMARY KEY (Uid, ZoneId)
         );
         CREATE INDEX IF NOT EXISTS IX_DeadlyAssaultInfo_ZoneId ON DeadlyAssaultInfo (ZoneId);

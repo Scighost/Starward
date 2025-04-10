@@ -9,10 +9,10 @@ using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
-using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
-using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
 using Starward.Core.GameRecord.ZZZ.DailyNote;
+using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
+using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
 using Starward.Core.GameRecord.ZZZ.UpgradeGuide;
 
 namespace Starward.Core.GameRecord;
@@ -680,8 +680,7 @@ public class HoyolabClient : GameRecordClient
     /// <returns></returns>
     public override async Task<ShiyuDefenseInfo> GetShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
     {
-        // TODO: 修改成正确的链接
-        var url = $"https://bbs-api-os.hoyolab.com/event/game_record_zzz/api/zzz/challenge?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}&need_all=true";
+        var url = $"https://sg-public-api.hoyolab.com/event/game_record_zzz/api/zzz/challenge?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}&need_all=true";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(DS, CreateSecret2(url));
@@ -702,8 +701,7 @@ public class HoyolabClient : GameRecordClient
     /// <returns></returns>
     public override async Task<DeadlyAssaultInfo> GetDeadlyAssaultInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
     {
-        // TODO: 修改成正确的链接
-        var url = $"https://bbs-api-os.hoyolab.com/event/game_record_zzz/api/zzz/mem_detail?schedule_type={schedule}&region={role.Region}&uid={role.Uid}";
+        var url = $"https://sg-public-api.hoyolab.com/event/game_record_zzz/api/zzz/mem_detail?schedule_type={schedule}&region={role.Region}&uid={role.Uid}";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(DS, CreateSecret2(url));

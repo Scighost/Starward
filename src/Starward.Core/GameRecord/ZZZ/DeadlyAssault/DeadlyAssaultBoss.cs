@@ -1,7 +1,10 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.ZZZ.DeadlyAssault;
 
+/// <summary>
+/// 危局强袭战Boss
+/// </summary>
 public class DeadlyAssaultBoss
 {
 

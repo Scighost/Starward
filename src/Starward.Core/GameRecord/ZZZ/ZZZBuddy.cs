@@ -1,6 +1,6 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
-namespace Starward.Core.GameRecord.ZZZ.Common;
+namespace Starward.Core.GameRecord.ZZZ;
 
 public class ZZZBuddy
 {
@@ -12,8 +12,7 @@ public class ZZZBuddy
     public int Level { get; set; }
 
     [JsonPropertyName("rarity")]
-    [JsonConverter(typeof(JsonStringEnumConverter<ZZZRarity>))]
-    public ZZZRarity Rarity { get; set; }
+    public string Rarity { get; set; }
 
     [JsonPropertyName("bangboo_rectangle_url")]
     public string RectangleUrl { get; set; }

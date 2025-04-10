@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <sf:PageBase x:Class="Starward.Features.GameRecord.GameRecordPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -328,6 +328,7 @@
                         </Grid>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
+
                 <!--  模拟宇宙  -->
                 <NavigationViewItem Name="NavigationViewItem_SimulatedUniverse"
                                     Tag="SimulatedUniversePage"
@@ -396,40 +397,6 @@
                         </Grid>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
-                <!--  式舆防卫战  -->
-                <NavigationViewItem Name="NavigationViewItem_ShiyuDefense"
-                                    Tag="ShiyuDefensePage"
-                                    Visibility="Collapsed">
-                    <NavigationViewItem.Content>
-                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Image Width="20" Source="ms-appx:///Assets/Image/ShiyuDefense.png" />
-                            <TextBlock Grid.Column="1"
-                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_ShiyuDefense}"
-                                       TextTrimming="CharacterEllipsis" />
-                        </Grid>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
-                <!--  危局强袭战  -->
-                <NavigationViewItem Name="NavigationViewItem_DeadlyAssault"
-                                    Tag="DeadlyAssaultPage"
-                                    Visibility="Collapsed">
-                    <NavigationViewItem.Content>
-                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Image Width="20" Source="ms-appx:///Assets/Image/DeadlyAssault.png" />
-                            <TextBlock Grid.Column="1"
-                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_DeadlyAssault}"
-                                       TextTrimming="CharacterEllipsis" />
-                        </Grid>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
                 <!--  开拓月历  -->
                 <NavigationViewItem Name="NavigationViewItem_TrailblazeMonthlyCalendar"
                                     Tag="TrailblazeCalendarPage"
@@ -447,6 +414,7 @@
                         </Grid>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
+
                 <!--  绳网月报  -->
                 <NavigationViewItem Name="NavigationViewItem_InterKnotMonthlyReport"
                                     Tag="InterKnotMonthlyReportPage"
@@ -460,6 +428,40 @@
                             <Image Width="20" Source="ms-appx:///Assets/Image/54085a560686bda74c3025944b65260e_8414768992789038554.gif" />
                             <TextBlock Grid.Column="1"
                                        Text="{x:Bind lang:Lang.HoyolabToolboxPage_InterKnotMonthlyReport}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                <!--  式舆防卫战  -->
+                <NavigationViewItem Name="NavigationViewItem_ShiyuDefense"
+                                    Tag="ShiyuDefensePage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/d123daeb4a7960524371e769944555f1.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_ShiyuDefense}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                <!--  危局强袭战  -->
+                <NavigationViewItem Name="NavigationViewItem_DeadlyAssault"
+                                    Tag="DeadlyAssaultPage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/286c59f117e997c10676888648b6e1b4.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_DeadlyAssault}"
                                        TextTrimming="CharacterEllipsis" />
                         </Grid>
                     </NavigationViewItem.Content>
