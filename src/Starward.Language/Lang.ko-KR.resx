@@ -2014,48 +2014,48 @@
     <value>활성화됨</value>
   </data>
   <data name="HoyolabToolboxPage_ShiyuDefense" xml:space="preserve">
-    <value>Shiyu Defense</value>
+    <value>시유 방어전</value>
   </data>
   <data name="HoyolabToolboxPage_DeadlyAssault" xml:space="preserve">
-    <value>Deadly Assault</value>
+    <value>위험한 강습전</value>
   </data>
   <data name="ShiyuDefensePage_HighestStageCleared" xml:space="preserve">
-    <value>Highest Stage Cleared</value>
+    <value>최고기록</value>
   </data>
   <data name="ShiyuDefensePage_47LayerClearTime" xml:space="preserve">
-    <value>4-7 Layer Clear Time</value>
+    <value>4-7 층 클리어 소요 시간</value>
   </data>
   <data name="ShiyuDefensePage_ClearTime" xml:space="preserve">
-    <value>Clear Time: </value>
+    <value>소요 시간: </value>
   </data>
   <data name="ApocalypticShadowPage_TotalScore" xml:space="preserve">
-    <value>Total Score:</value>
+    <value>총점:</value>
   </data>
   <data name="DeadlyAssaultPage_GlobalTopPercent" xml:space="preserve">
-    <value>Global Top</value>
+    <value>글로벌 순위</value>
   </data>
   <data name="ShiyuDefensePage_FastestStateTime" xml:space="preserve">
-    <value>Fastest State Time</value>
+    <value>최고 기록</value>
   </data>
   <data name="ShiyuDefensePage_FrontierEffects" xml:space="preserve">
-    <value>Frontier Effects</value>
+    <value>스테이지 버프</value>
   </data>
   <data name="ShiyuDefensePage_EnemyDetails" xml:space="preserve">
-    <value>Enemy Details</value>
+    <value>적 상세</value>
   </data>
   <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
-    <value>Weakness</value>
+    <value>적 약점</value>
   </data>
   <data name="ShiyuDefensePage_Resistance" xml:space="preserve">
-    <value>Resistance</value>
+    <value>적 저항</value>
   </data>
   <data name="ClearedAt" xml:space="preserve">
-    <value>Cleared at</value>
+    <value>클리어 일시</value>
   </data>
   <data name="DeadlyAssaultPage_TotalScore" xml:space="preserve">
-    <value>Total Score</value>
+    <value>총점</value>
   </data>
   <data name="PureFictionPage_Score" xml:space="preserve">
-    <value>Score:</value>
+    <value>점수:</value>
   </data>
 </root>
