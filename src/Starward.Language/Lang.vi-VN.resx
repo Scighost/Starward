@@ -2055,4 +2055,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="PureFictionPage_Score" xml:space="preserve">
     <value>Score:</value>
   </data>
+  <data name="GachaLogPage_ImportAndExport" xml:space="preserve">
+    <value>Import &amp; Export</value>
+  </data>
+  <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
+    <value>Hide Gacha Banners</value>
+  </data>
 </root>
