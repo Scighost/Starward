@@ -40,7 +40,7 @@ internal abstract class GachaLogService
 
     protected abstract List<GachaLogItemEx> GetGachaLogItemsByQueryType(IEnumerable<GachaLogItemEx> items, IGachaType type);
 
-    protected IReadOnlyCollection<IGachaType> QueryGachaTypes => _client.QueryGachaTypes;
+    public IReadOnlyCollection<IGachaType> QueryGachaTypes => _client.QueryGachaTypes;
 
 
 

@@ -2058,4 +2058,10 @@
   <data name="PureFictionPage_Score" xml:space="preserve">
     <value>积分：</value>
   </data>
+  <data name="GachaLogPage_ImportAndExport" xml:space="preserve">
+    <value>导入 &amp; 导出</value>
+  </data>
+  <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
+    <value>隐藏卡池</value>
+  </data>
 </root>

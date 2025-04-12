@@ -1800,6 +1800,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Hide Gacha Banners 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_HideGachaBanners {
+            get {
+                return ResourceManager.GetString("GachaLogPage_HideGachaBanners", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import &amp; Export 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_ImportAndExport {
+            get {
+                return ResourceManager.GetString("GachaLogPage_ImportAndExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Import from JSON 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_ImportFromJson {

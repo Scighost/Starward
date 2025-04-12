@@ -791,6 +791,16 @@ public static class AppConfig
     }
 
 
+    public static string? GetDisplayGachaBanners(GameBiz biz)
+    {
+        return GetValue<string>(default, $"display_gacha_banners_{biz}");
+    }
+
+    public static void SetDisplayGachaBanners(GameBiz biz, string value)
+    {
+        SetValue(value, $"display_gacha_banners_{biz}");
+    }
+
 
 
     #endregion

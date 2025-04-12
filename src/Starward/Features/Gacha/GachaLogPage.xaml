@@ -82,15 +82,17 @@
                         <StackPanel MinWidth="200" Spacing="8">
                             <!--  其他设置  -->
                             <TextBlock FontSize="16" Text="{x:Bind lang:Lang.GachaLogPage_OtherSettings}" />
+
+                            <!--  复制 URL  -->
                             <Button Margin="0,8,0,0" Command="{x:Bind CopyUrlCommand}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon Name="FontIcon_CopyUrl"
                                               FontSize="16"
                                               Glyph="&#xE8C8;" />
-                                    <!--  复制 URL  -->
                                     <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_CopyURL}" />
                                 </StackPanel>
                             </Button>
+
                             <!--  总是出现 Authkey Timeout  -->
                             <TextBlock Margin="0,8,0,0"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -102,6 +104,7 @@
                                     <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_ClearURLCacheFiles}" />
                                 </StackPanel>
                             </Button>
+
                             <!--  语言  -->
                             <StackPanel Margin="0,4,0,0"
                                         Orientation="Horizontal"
@@ -135,77 +138,100 @@
                                     </StackPanel>
                                 </Button>
                             </Grid>
-                            <!--  导出为  -->
-                            <StackPanel Margin="0,8,0,0"
-                                        Orientation="Horizontal"
-                                        Spacing="8">
-                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.GachaLogPage_ExportAs}" />
-                                <Button Padding="1"
-                                        VerticalAlignment="Bottom"
-                                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                                    <FontIcon FontSize="12" Glyph="&#xE9CE;" />
-                                    <Button.Flyout>
-                                        <Flyout>
-                                            <TextBlock>
-                                                <Hyperlink NavigateUri="https://uigf.org/" UnderlineStyle="None">
-                                                    <Run Text="UIGF/SRGF" />
-                                                </Hyperlink>
-                                            </TextBlock>
-                                        </Flyout>
-                                    </Button.Flyout>
-                                </Button>
-                            </StackPanel>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Button x:Name="Button_Export_Excel"
-                                        HorizontalAlignment="Stretch"
-                                        Command="{x:Bind ExportGachaLogCommand}"
-                                        CommandParameter="excel"
-                                        Content="Excel"
-                                        CornerRadius="4,0,0,4" />
-                                <Button x:Name="Button_Export_JSON"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Stretch"
-                                        Command="{x:Bind ExportGachaLogCommand}"
-                                        CommandParameter="json"
-                                        Content="Json"
-                                        CornerRadius="0,4,4,0" />
-                            </Grid>
-                            <Button x:Name="Button_Import"
-                                    HorizontalAlignment="Stretch"
-                                    Command="{x:Bind ImportGachaLogCommand}">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <FontIcon Margin="0,2,0,0"
-                                              FontSize="16"
-                                              Glyph="&#xEA52;" />
-                                    <!--  从 Json 导入  -->
-                                    <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_ImportFromJson}" />
-                                </StackPanel>
+
+                            <!--  分割线  -->
+                            <MenuFlyoutSeparator />
+
+                            <!--  导入导出  -->
+                            <Button HorizontalAlignment="Stretch" Content="{x:Bind lang:Lang.GachaLogPage_ImportAndExport}">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <StackPanel MinWidth="200" Spacing="8">
+                                            <!--  导出为  -->
+                                            <StackPanel Margin="0,8,0,0"
+                                                        Orientation="Horizontal"
+                                                        Spacing="8">
+                                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.GachaLogPage_ExportAs}" />
+                                                <Button Padding="1"
+                                                        VerticalAlignment="Bottom"
+                                                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                                    <FontIcon FontSize="12" Glyph="&#xE9CE;" />
+                                                    <Button.Flyout>
+                                                        <Flyout>
+                                                            <TextBlock>
+                                                                <Hyperlink NavigateUri="https://uigf.org/" UnderlineStyle="None">
+                                                                    <Run Text="UIGF/SRGF" />
+                                                                </Hyperlink>
+                                                            </TextBlock>
+                                                        </Flyout>
+                                                    </Button.Flyout>
+                                                </Button>
+                                            </StackPanel>
+                                            <!--  Excel Json  -->
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Button x:Name="Button_Export_Excel"
+                                                        HorizontalAlignment="Stretch"
+                                                        Command="{x:Bind ExportGachaLogCommand}"
+                                                        CommandParameter="excel"
+                                                        Content="Excel"
+                                                        CornerRadius="4,0,0,4" />
+                                                <Button x:Name="Button_Export_JSON"
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Stretch"
+                                                        Command="{x:Bind ExportGachaLogCommand}"
+                                                        CommandParameter="json"
+                                                        Content="Json"
+                                                        CornerRadius="0,4,4,0" />
+                                            </Grid>
+                                            <!--  从 Json 导入  -->
+                                            <Button x:Name="Button_Import"
+                                                    HorizontalAlignment="Stretch"
+                                                    Command="{x:Bind ImportGachaLogCommand}">
+                                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                                    <FontIcon Margin="0,2,0,0"
+                                                              FontSize="16"
+                                                              Glyph="&#xEA52;" />
+                                                    <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_ImportFromJson}" />
+                                                </StackPanel>
+                                            </Button>
+                                            <!--  UIGF v4.0  -->
+                                            <Button x:Name="Button_UIGF4"
+                                                    HorizontalAlignment="Stretch"
+                                                    Command="{x:Bind OpenUIGF4WindowCommand}"
+                                                    Content="UIGF v4.0" />
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
                             </Button>
-                            <Button x:Name="Button_UIGF4"
-                                    HorizontalAlignment="Stretch"
-                                    Command="{x:Bind OpenUIGF4WindowCommand}"
-                                    Content="UIGF v4.0" />
-                            <!--  展示新手卡池  -->
-                            <ToggleSwitch IsOn="{x:Bind ShowNoviceGacha, Mode=TwoWay}"
-                                          OffContent="{x:Bind lang:Lang.GachaLogPage_ShowNoviceGachaType}"
-                                          OnContent="{x:Bind lang:Lang.GachaLogPage_ShowNoviceGachaType}" />
-                            <!--  展示集录祈愿  -->
-                            <ToggleSwitch x:Name="ToggleSwitch_ShowChronicledWish"
-                                          Margin="0,-8,0,0"
-                                          IsOn="{x:Bind ShowChronicledWish, Mode=TwoWay}"
-                                          OffContent="{x:Bind lang:Lang.GachaLogPage_ShowChronicledWish}"
-                                          OnContent="{x:Bind lang:Lang.GachaLogPage_ShowChronicledWish}"
-                                          Visibility="Collapsed" />
-                            <Button>
+
+                            <!--  隐藏卡池  -->
+                            <Button HorizontalAlignment="Stretch" Content="{x:Bind lang:Lang.GachaLogPage_HideGachaBanners}">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <ListView x:Name="ListView_GachaBanners"
+                                                  MinWidth="200"
+                                                  ItemsSource="{x:Bind GachaBanners}"
+                                                  SelectionMode="Multiple">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="local:GachaBanner">
+                                                    <TextBlock Text="{x:Bind ToLocalization()}" />
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+
+                            <!--  删除记录  -->
+                            <Button HorizontalAlignment="Stretch">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon FontSize="14"
                                               Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                               Glyph="&#xE74D;" />
-                                    <!--  删除记录  -->
                                     <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{x:Bind lang:Lang.GachaLogPage_DeleteRecords}" />
                                 </StackPanel>
                                 <Button.Flyout>
@@ -262,13 +288,11 @@
                    PanePlacement="Right">
 
 
-            <ScrollViewer x:Name="ScrollViewer_GachaStats"
-                          ScrollViewer.HorizontalScrollMode="Disabled"
-                          SizeChanged="ScrollViewer_GachaStats_SizeChanged">
+            <ScrollViewer x:Name="ScrollViewer_GachaStats" ScrollViewer.HorizontalScrollMode="Disabled">
                 <Grid x:Name="Grid_GachaStats" Margin="20,0,20,12">
                     <ItemsControl x:Name="ItemsControl_GachaStats"
                                   x:Load="{x:Bind IsZZZGachaStatsCardVisible, Converter={StaticResource BoolReversedConverter}}"
-                                  ItemsSource="{x:Bind GachaTypeStatsCollection}">
+                                  ItemsSource="{x:Bind DisplayGachaTypeStatsCollection}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal" Spacing="12" />
@@ -277,14 +301,14 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="local:GachaTypeStats">
                                 <local:GachaStatsCard Loaded="GachaStatsCard_Loaded"
-                                                      PointerEntered="GachaStatsCard_PointerEntered"
+                                                      Unloaded="GachaStatsCard_Unloaded"
                                                       WarpTypeStats="{x:Bind}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     <ItemsControl x:Name="ItemsControl_ZZZGachaStats"
                                   x:Load="{x:Bind IsZZZGachaStatsCardVisible}"
-                                  ItemsSource="{x:Bind GachaTypeStatsCollection}">
+                                  ItemsSource="{x:Bind DisplayGachaTypeStatsCollection}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal" Spacing="12" />
@@ -293,7 +317,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="local:GachaTypeStats">
                                 <local:ZZZGachaStatsCard Loaded="GachaStatsCard_Loaded"
-                                                         PointerEntered="GachaStatsCard_PointerEntered"
+                                                         Unloaded="GachaStatsCard_Unloaded"
                                                          WarpTypeStats="{x:Bind}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

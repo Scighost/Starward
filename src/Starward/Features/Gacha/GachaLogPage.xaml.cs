@@ -5,13 +5,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Gacha;
-using Starward.Core.Gacha.Genshin;
-using Starward.Core.Gacha.StarRail;
 using Starward.Features.Gacha.UIGF;
 using Starward.Features.GameLauncher;
 using Starward.Frameworks;
@@ -56,7 +53,6 @@ public sealed partial class GachaLogPage : PageBase
         if (CurrentGameBiz.Game == GameBiz.hk4e)
         {
             EnableGenshinGachaItemStats = true;
-            ToggleSwitch_ShowChronicledWish.Visibility = Visibility.Visible;
             _gachaLogService = AppConfig.GetService<GenshinGachaService>();
             Image_Emoji.Source = new BitmapImage(AppConfig.EmojiPaimon);
         }
@@ -84,99 +80,20 @@ public sealed partial class GachaLogPage : PageBase
     public bool IsZZZGachaStatsCardVisible { get; set => SetProperty(ref field, value); }
 
 
-
     public string GachaTypeText { get; set => SetProperty(ref field, value); }
-
 
 
     public ObservableCollection<long> UidList { get; set => SetProperty(ref field, value); }
 
 
     [ObservableProperty]
-    private long? selectUid;
+    public partial long? SelectUid { get; set; }
     partial void OnSelectUidChanged(long? value)
     {
         AppConfig.SetLastUidInGachaLogPage(CurrentGameBiz.Game, value ?? 0);
         UpdateGachaTypeStats(value);
     }
 
-
-
-
-    [ObservableProperty]
-    private bool showNoviceGacha = AppConfig.ShowNoviceGacha;
-    partial void OnShowNoviceGachaChanged(bool value)
-    {
-        AppConfig.ShowNoviceGacha = value;
-        if (noviceGachaTypeStats != null && GachaTypeStatsCollection != null)
-        {
-            if (value && !GachaTypeStatsCollection.Contains(noviceGachaTypeStats))
-            {
-                GachaTypeStatsCollection.Add(noviceGachaTypeStats);
-            }
-            if (!value && GachaTypeStatsCollection.Contains(noviceGachaTypeStats))
-            {
-                GachaTypeStatsCollection.Remove(noviceGachaTypeStats);
-            }
-        }
-        UpdateGachaStatsCardLayout();
-    }
-
-
-    [ObservableProperty]
-    private bool showChronicledWish = AppConfig.ShowChronicledWish;
-    partial void OnShowChronicledWishChanged(bool value)
-    {
-        AppConfig.ShowChronicledWish = value;
-        if (chronicledWishStats != null && GachaTypeStatsCollection != null)
-        {
-            if (value && !GachaTypeStatsCollection.Contains(chronicledWishStats))
-            {
-                GachaTypeStatsCollection.Add(chronicledWishStats);
-            }
-            if (!value && GachaTypeStatsCollection.Contains(chronicledWishStats))
-            {
-                GachaTypeStatsCollection.Remove(chronicledWishStats);
-            }
-        }
-        UpdateGachaStatsCardLayout();
-    }
-
-
-    public string? GachaLanguage
-    {
-        get;
-        set
-        {
-            if (SetProperty(ref field, value))
-            {
-                AppConfig.GachaLanguage = value;
-            }
-        }
-    } = AppConfig.GachaLanguage;
-
-
-
-
-    public bool EnableGenshinGachaItemStats { get; set => SetProperty(ref field, value); }
-
-    public bool EnableStarRailGachaItemStats { get; set => SetProperty(ref field, value); }
-
-    public bool EnableZZZGachaItemStats { get; set => SetProperty(ref field, value); }
-
-
-    public ObservableCollection<GachaTypeStats> GachaTypeStatsCollection { get; set => SetProperty(ref field, value); }
-
-    public List<GachaLogItemEx>? GachaItemStats { get; set => SetProperty(ref field, value); }
-
-
-
-
-    private GachaTypeStats? noviceGachaTypeStats;
-
-    private GachaTypeStats? chronicledWishStats;
-
-    private int errorCount = 0;
 
 
 
@@ -200,18 +117,22 @@ public sealed partial class GachaLogPage : PageBase
     protected override void OnUnloaded()
     {
         WeakReferenceMessenger.Default.UnregisterAll(this);
-        if (GachaTypeStatsCollection is not null)
+        if (DisplayGachaTypeStatsCollection is not null)
         {
-            GachaTypeStatsCollection.Clear();
-            GachaTypeStatsCollection = null!;
+            DisplayGachaTypeStatsCollection.Clear();
+            DisplayGachaTypeStatsCollection = null!;
         }
         if (GachaItemStats is not null)
         {
             GachaItemStats.Clear();
             GachaItemStats = null;
         }
-        noviceGachaTypeStats = null;
-        chronicledWishStats = null;
+        ListView_GachaBanners.SelectionChanged -= ListView_GachaBanners_SelectionChanged;
+        if (GachaBanners is not null)
+        {
+            GachaBanners.Clear();
+            GachaBanners = null!;
+        }
     }
 
 
@@ -220,6 +141,7 @@ public sealed partial class GachaLogPage : PageBase
     {
         try
         {
+            InitializeGachaBanners();
             SelectUid = null;
             UidList = new(_gachaLogService.GetUids());
             var lastUid = AppConfig.GetLastUidInGachaLogPage(CurrentGameBiz.Game);
@@ -243,45 +165,6 @@ public sealed partial class GachaLogPage : PageBase
     }
 
 
-
-    private void UpdateGachaTypeStats(long? uid)
-    {
-        try
-        {
-            if (uid is null or 0)
-            {
-                GachaTypeStatsCollection = [];
-                noviceGachaTypeStats = null;
-                chronicledWishStats = null;
-                GachaItemStats = null;
-                StackPanel_Emoji.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                (var gachaStats, var itemStats) = _gachaLogService.GetGachaTypeStats(uid.Value);
-                if (CurrentGameBiz.Game is GameBiz.hk4e or GameBiz.hkrpg)
-                {
-                    noviceGachaTypeStats = gachaStats.FirstOrDefault(x => x.GachaType == GenshinGachaType.NoviceWish || x.GachaType == StarRailGachaType.DepartureWarp);
-                    chronicledWishStats = gachaStats.FirstOrDefault(x => x.GachaType == GenshinGachaType.ChronicledWish);
-                }
-                if (noviceGachaTypeStats != null && !ShowNoviceGacha)
-                {
-                    gachaStats.Remove(noviceGachaTypeStats);
-                }
-                if (chronicledWishStats != null && !ShowChronicledWish)
-                {
-                    gachaStats.Remove(chronicledWishStats);
-                }
-                GachaTypeStatsCollection = [.. gachaStats];
-                GachaItemStats = itemStats;
-                StackPanel_Emoji.Visibility = Visibility.Collapsed;
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "UpdateGachaTypeStats");
-        }
-    }
 
 
 
@@ -307,6 +190,178 @@ public sealed partial class GachaLogPage : PageBase
         SplitView_Content.IsPaneOpen = true;
     }
 
+
+
+
+    #region Gacha Stats
+
+
+
+    public bool EnableGenshinGachaItemStats { get; set => SetProperty(ref field, value); }
+
+    public bool EnableStarRailGachaItemStats { get; set => SetProperty(ref field, value); }
+
+    public bool EnableZZZGachaItemStats { get; set => SetProperty(ref field, value); }
+
+    public List<GachaBanner> GachaBanners { get; set => SetProperty(ref field, value); }
+
+
+    public ObservableCollection<GachaTypeStats> DisplayGachaTypeStatsCollection { get; set => SetProperty(ref field, value); }
+
+
+    public List<GachaLogItemEx>? GachaItemStats { get; set => SetProperty(ref field, value); }
+
+
+    private List<GachaTypeStats>? gachaTypeStats;
+
+
+    private int errorCount = 0;
+
+
+    private void InitializeGachaBanners()
+    {
+        GachaBanners = _gachaLogService.QueryGachaTypes.Select(x => new GachaBanner(x)).ToList();
+        string? banner = AppConfig.GetDisplayGachaBanners(CurrentGameBiz.Game);
+        if (!string.IsNullOrWhiteSpace(banner))
+        {
+            foreach (var item in banner.Split(','))
+            {
+                if (int.TryParse(item, out int type))
+                {
+                    if (GachaBanners.FirstOrDefault(x => x.Value == type) is GachaBanner gachaType)
+                    {
+                        ListView_GachaBanners.SelectedItems.Add(gachaType);
+                    }
+                }
+            }
+        }
+        if (ListView_GachaBanners.SelectedItems.Count == 0)
+        {
+            foreach (var item in GachaBanners)
+            {
+                ListView_GachaBanners.SelectedItems.Add(item);
+            }
+        }
+        ListView_GachaBanners.SelectionChanged -= ListView_GachaBanners_SelectionChanged;
+        ListView_GachaBanners.SelectionChanged += ListView_GachaBanners_SelectionChanged;
+    }
+
+
+    private void ListView_GachaBanners_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        try
+        {
+            string value = string.Join(',', ListView_GachaBanners.SelectedItems.Cast<GachaBanner>().Select(x => x.Value));
+            AppConfig.SetDisplayGachaBanners(CurrentGameBiz.Game, value);
+            UpdateDisplayGachaTypeStats();
+        }
+        catch { }
+    }
+
+
+
+    private void UpdateGachaTypeStats(long? uid)
+    {
+        try
+        {
+            if (uid is null or 0)
+            {
+                gachaTypeStats = null;
+                DisplayGachaTypeStatsCollection = [];
+                GachaItemStats = null;
+                StackPanel_Emoji.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                (gachaTypeStats, GachaItemStats) = _gachaLogService.GetGachaTypeStats(uid.Value);
+                UpdateDisplayGachaTypeStats();
+                StackPanel_Emoji.Visibility = Visibility.Collapsed;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "UpdateGachaTypeStats");
+        }
+    }
+
+
+    private void UpdateDisplayGachaTypeStats()
+    {
+        if (gachaTypeStats is null)
+        {
+            return;
+        }
+        DisplayGachaTypeStatsCollection ??= [];
+        DisplayGachaTypeStatsCollection.Clear();
+        var list = ListView_GachaBanners.SelectedItems.Cast<GachaBanner>().ToList();
+        if (list.Count == 0)
+        {
+            list = GachaBanners;
+        }
+        foreach (var item in list)
+        {
+            if (gachaTypeStats.FirstOrDefault(x => x.GachaType == item.Value) is GachaTypeStats stats)
+            {
+                DisplayGachaTypeStatsCollection.Add(stats);
+            }
+        }
+    }
+
+
+    private void UpdateGachaStatsCardLayout()
+    {
+        try
+        {
+            if (ItemsControl_GachaStats != null)
+            {
+                int count = ItemsControl_GachaStats.Items.Count;
+                if (count > 0)
+                {
+                    double width = (Grid_GachaStats.ActualWidth - (count - 1) * 12) / count;
+                    for (int i = 0; i < count; i++)
+                    {
+                        var a = ItemsControl_GachaStats.ContainerFromIndex(i);
+                        if (ItemsControl_GachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
+                        {
+                            presenter.Width = width;
+                        }
+                    }
+                }
+            }
+            if (ItemsControl_ZZZGachaStats != null)
+            {
+                int count = ItemsControl_ZZZGachaStats.Items.Count;
+                if (count > 0)
+                {
+                    double width = (Grid_GachaStats.ActualWidth - (count - 1) * 12) / count;
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (ItemsControl_ZZZGachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
+                        {
+                            presenter.Width = width;
+                        }
+                    }
+                }
+            }
+        }
+        catch { }
+    }
+
+
+    private void GachaStatsCard_Loaded(object sender, RoutedEventArgs e)
+    {
+        UpdateGachaStatsCardLayout();
+    }
+
+
+    private void GachaStatsCard_Unloaded(object sender, RoutedEventArgs e)
+    {
+        UpdateGachaStatsCardLayout();
+    }
+
+
+
+    #endregion
 
 
 
@@ -513,6 +568,17 @@ public sealed partial class GachaLogPage : PageBase
     #region Gacha Setting Panel
 
 
+    public string? GachaLanguage
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.GachaLanguage = value;
+            }
+        }
+    } = AppConfig.GachaLanguage;
 
 
 
@@ -762,144 +828,6 @@ public sealed partial class GachaLogPage : PageBase
 
 
 
-    #endregion
-
-
-
-    #region Layout
-
-
-    private void ScrollViewer_GachaStats_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        UpdateGachaStatsCardLayout();
-    }
-
-
-    private void GachaStatsCard_Loaded(object sender, RoutedEventArgs e)
-    {
-        UpdateGachaStatsCardLayout();
-    }
-
-
-    private void GachaStatsCard_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        if (sender is FrameworkElement element)
-        {
-            UpdateGachaStatsCardLayout(element);
-        }
-    }
-
-
-
-    private void UpdateGachaStatsCardLayout(FrameworkElement? card = null)
-    {
-        ContentPresenter? container = null;
-        if (card is not null)
-        {
-            container = VisualTreeHelper.GetParent(card) as ContentPresenter;
-        }
-        const int CardWidth = 320;
-        try
-        {
-            if (ItemsControl_GachaStats != null)
-            {
-                int count = ItemsControl_GachaStats.Items.Count;
-                if (count > 0)
-                {
-                    double width = (Grid_GachaStats.ActualWidth - (count - 1) * 12) / count;
-                    Storyboard storyboard = new();
-                    if (width >= CardWidth || container is null)
-                    {
-                        for (int i = 0; i < count; i++)
-                        {
-                            if (ItemsControl_GachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
-                            {
-                                presenter.Width = width;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        width = (Grid_GachaStats.ActualWidth - (count - 1) * 12 - CardWidth) / (count - 1);
-                        for (int i = 0; i < count; i++)
-                        {
-                            if (ItemsControl_GachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
-                            {
-                                DoubleAnimation ani;
-                                if (presenter == container)
-                                {
-                                    ani = CreateDoubleAnimation(CardWidth);
-                                }
-                                else
-                                {
-                                    ani = CreateDoubleAnimation(width);
-                                }
-                                Storyboard.SetTarget(ani, presenter);
-                                storyboard.Children.Add(ani);
-                            }
-                        }
-                    }
-                    storyboard.Begin();
-                }
-            }
-            if (ItemsControl_ZZZGachaStats != null)
-            {
-                int count = ItemsControl_ZZZGachaStats.Items.Count;
-                if (count > 0)
-                {
-                    double width = (Grid_GachaStats.ActualWidth - (count - 1) * 12) / count;
-                    Storyboard storyboard = new();
-                    if (width >= CardWidth || container is null)
-                    {
-                        for (int i = 0; i < count; i++)
-                        {
-                            if (ItemsControl_ZZZGachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
-                            {
-                                presenter.Width = width;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        width = (Grid_GachaStats.ActualWidth - (count - 1) * 12 - CardWidth) / (count - 1);
-                        for (int i = 0; i < count; i++)
-                        {
-                            if (ItemsControl_ZZZGachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
-                            {
-                                DoubleAnimation ani;
-                                if (presenter == container)
-                                {
-                                    ani = CreateDoubleAnimation(CardWidth);
-                                }
-                                else
-                                {
-                                    ani = CreateDoubleAnimation(width);
-                                }
-                                Storyboard.SetTarget(ani, presenter);
-                                storyboard.Children.Add(ani);
-                            }
-                        }
-                    }
-                    storyboard.Begin();
-                }
-            }
-        }
-        catch { }
-    }
-
-
-    private DoubleAnimation CreateDoubleAnimation(double value)
-    {
-        DoubleAnimation animation = new()
-        {
-            To = value,
-            EnableDependentAnimation = true,
-            Duration = new Duration(TimeSpan.FromMilliseconds(150)),
-            EasingFunction = new CircleEase { EasingMode = EasingMode.EaseInOut }
-        };
-        Storyboard.SetTargetProperty(animation, nameof(Width));
-        return animation;
-    }
 
 
 
