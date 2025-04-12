@@ -52,6 +52,12 @@ jobs:
     - name: Create Metadata
       run: ./metadata.ps1 -Architecture $env:Platform -Version $env:Version
 
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Starward_Portable_${{ needs.version.outputs.version }}_${{ matrix.platform }}.7z
+        path: build/release/package/Starward_Portable_${{ needs.version.outputs.version }}_${{ matrix.platform }}.7z
+
     - name: Setup OssUtil
       run: |
         Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil-v1.7.19-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
