@@ -109,29 +109,6 @@ internal class GameRecordService
 
 
 
-    private BattleChronicleWindow? _battleChronicleWindow;
-
-
-    public void ShowBattleChronicleWindow(GameBiz gameBiz, GameRecordRole? gameRecordRole)
-    {
-        // 窗口关闭后 AppWindow is null
-        if (_battleChronicleWindow?.AppWindow is null)
-        {
-            _battleChronicleWindow = new BattleChronicleWindow
-            {
-                CurrentRole = gameRecordRole,
-            };
-        }
-        else if (_battleChronicleWindow.CurrentRole != gameRecordRole)
-        {
-            _battleChronicleWindow.CurrentRole = gameRecordRole;
-        }
-        _battleChronicleWindow.Activate();
-    }
-
-
-
-
 
     #region Game Role
 

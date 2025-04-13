@@ -101,6 +101,7 @@ public sealed partial class GameRecordPage : PageBase
         NavigationViewItem_UpdateDeviceInfo.Tapped -= NavigationViewItem_UpdateDeviceInfo_Tapped;
         CurrentRole = null;
         GameRoleList = null!;
+        _battleChronicleWindow = null;
     }
 
 
@@ -528,16 +529,31 @@ public sealed partial class GameRecordPage : PageBase
 
 
 
+    private BattleChronicleWindow? _battleChronicleWindow;
+
+
+
     private void ShowBattleChronicleWindow()
     {
-        _gameRecordService.ShowBattleChronicleWindow(CurrentGameBiz, CurrentRole);
+        // 窗口关闭后 AppWindow is null
+        if (_battleChronicleWindow?.AppWindow is null)
+        {
+            _battleChronicleWindow = new BattleChronicleWindow
+            {
+                CurrentRole = CurrentRole,
+            };
+        }
+        else if (_battleChronicleWindow.CurrentRole != CurrentRole)
+        {
+            _battleChronicleWindow.CurrentRole = CurrentRole;
+        }
+        _battleChronicleWindow.Activate();
     }
 
 
 
 
     #endregion
-
 
 
 
