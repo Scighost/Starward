@@ -7,8 +7,6 @@
              xmlns:local="using:Starward.Features.GameSelector"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-             xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
-             xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
              xmlns:s="using:Starward"
              xmlns:sc="using:Starward.Controls"
              xmlns:sh="using:Starward.Helpers"
@@ -194,12 +192,12 @@
                                     </Grid.Resources>
                                     <!--  动画触发  -->
                                     <mxi:Interaction.Behaviors>
-                                        <mxic:EventTriggerBehavior EventName="PointerEntered">
-                                            <mxim:ControlStoryboardAction Storyboard="{StaticResource PointerInStoryboard}" />
-                                        </mxic:EventTriggerBehavior>
-                                        <mxic:EventTriggerBehavior EventName="PointerExited">
-                                            <mxim:ControlStoryboardAction Storyboard="{StaticResource PointerOutStoryboard}" />
-                                        </mxic:EventTriggerBehavior>
+                                        <mxi:EventTriggerBehavior EventName="PointerEntered">
+                                            <mxi:ControlStoryboardAction Storyboard="{StaticResource PointerInStoryboard}" />
+                                        </mxi:EventTriggerBehavior>
+                                        <mxi:EventTriggerBehavior EventName="PointerExited">
+                                            <mxi:ControlStoryboardAction Storyboard="{StaticResource PointerOutStoryboard}" />
+                                        </mxi:EventTriggerBehavior>
                                     </mxi:Interaction.Behaviors>
                                     <!--  服务器列表  -->
                                     <FlyoutBase.AttachedFlyout>

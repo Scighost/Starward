@@ -1,7 +1,6 @@
 <sf:PageBase x:Class="Starward.Features.Screenshot.ScreenshotPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:actions="using:Microsoft.Xaml.Interactions.Core"
              xmlns:activity="using:Microsoft.Xaml.Interactivity"
              xmlns:animations="using:CommunityToolkit.WinUI.Animations"
              xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
@@ -9,7 +8,6 @@
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Features.Screenshot"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:media="using:Microsoft.Xaml.Interactions.Media"
              xmlns:s="using:Starward"
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
@@ -212,14 +210,14 @@
                                     </Storyboard>
                                 </Grid.Resources>
                                 <activity:Interaction.Behaviors>
-                                    <actions:EventTriggerBehavior EventName="PointerEntered">
+                                    <activity:EventTriggerBehavior EventName="PointerEntered">
                                         <behaviors:StartAnimationAction Animation="{Binding ElementName=ImageZoomInAnimation}" />
-                                        <media:ControlStoryboardAction Storyboard="{StaticResource GridShowOnStoryboard}" />
-                                    </actions:EventTriggerBehavior>
-                                    <actions:EventTriggerBehavior EventName="PointerExited">
+                                        <activity:ControlStoryboardAction Storyboard="{StaticResource GridShowOnStoryboard}" />
+                                    </activity:EventTriggerBehavior>
+                                    <activity:EventTriggerBehavior EventName="PointerExited">
                                         <behaviors:StartAnimationAction Animation="{Binding ElementName=ImageZoomOutAnimation}" />
-                                        <media:ControlStoryboardAction Storyboard="{StaticResource GridShowOffStoryboard}" />
-                                    </actions:EventTriggerBehavior>
+                                        <activity:ControlStoryboardAction Storyboard="{StaticResource GridShowOffStoryboard}" />
+                                    </activity:EventTriggerBehavior>
                                 </activity:Interaction.Behaviors>
                             </Grid>
                         </DataTemplate>
