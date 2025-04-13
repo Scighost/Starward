@@ -530,7 +530,13 @@ public sealed partial class BBSWebBridge : UserControl
 
     private JsResult? PushPage(JsParam param)
     {
-        webview2.CoreWebView2.Navigate(param.Payload?["page"]?.ToString());
+        string? url = param.Payload?["page"]?.ToString();
+        if (!string.IsNullOrWhiteSpace(url))
+        {
+            // 避免在浏览星穹铁道我的全部角色时，出现版本过低的错误
+            url = url.Replace("rolePageAccessNotAllowed=&", "");
+            webview2.CoreWebView2.Navigate(url);
+        }
         return null;
     }
 
