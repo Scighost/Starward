@@ -456,8 +456,7 @@ public sealed partial class BBSWebBridge : UserControl
                 string file = Path.GetTempFileName();
                 await File.WriteAllBytesAsync(file, screenshotBytes);
                 var storage = await StorageFile.GetFileFromPathAsync(file);
-                ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, storage);
-                InAppToast.MainWindow?.Information(Lang.BBSWebBridge_ImageCopiedToClipboard);
+                ClipboardHelper.SetBitmap(storage);
                 CloseScreenshotGrid();
             }
         }
