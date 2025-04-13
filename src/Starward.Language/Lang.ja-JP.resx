@@ -1198,7 +1198,7 @@
     <value>高度な設定</value>
   </data>
   <data name="LauncherPage_ThisDay" xml:space="preserve">
-    <value>この日</value>
+    <value>今日</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowOption" xml:space="preserve">
     <value>ウィンドウを閉じた時</value>
@@ -1896,28 +1896,28 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Time (Server Time Zone)</value>
   </data>
   <data name="GachaImportAndExportWindow_Name" xml:space="preserve">
-    <value>Name</value>
+    <value>名前</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectTheFileToImport" xml:space="preserve">
-    <value>Select the file to import.</value>
+    <value>インポートするファイルを選択してください。</value>
   </data>
   <data name="GachaImportAndExportWindow_Import" xml:space="preserve">
-    <value>Import</value>
+    <value>インポート</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffsetWarning" xml:space="preserve">
-    <value>Before importing, please ensure that the time of the last gacha pull matches the time displayed in the game. If they do not match, please adjust the time zone offset.</value>
+    <value>インポートする前に、ゲームに表示されている時間と最後のガチャ回しの時間が一致していることを確認してください。 一致しない場合は、タイムゾーンのオフセットを調整してください。</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffset" xml:space="preserve">
-    <value>Time Zone Offset</value>
+    <value>タイムゾーンオフセット</value>
   </data>
   <data name="GachaImportAndExportWindow_OffsetTime" xml:space="preserve">
-    <value>Offset Time</value>
+    <value>オフセット時間</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectFile" xml:space="preserve">
-    <value>Select File</value>
+    <value>ファイルを選択</value>
   </data>
   <data name="DailyNoteButton_BH3_TimeNeededForRecovery" xml:space="preserve">
-    <value>Time Needed for Recovery</value>
+    <value>復旧に必要な時間</value>
   </data>
   <data name="DailyNoteButton_BH3_DailyBP" xml:space="preserve">
     <value>Daily BP</value>
@@ -1950,10 +1950,10 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>日常訓練</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
-    <value>Echo of War</value>
+    <value>歴戦余韻</value>
   </data>
   <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
-    <value>Bonus Synchronicity Points</value>
+    <value>追加適合値</value>
   </data>
   <data name="DailyNoteButton_StarRail_OngoingAssignments" xml:space="preserve">
     <value>Ongoing Assignments</value>
@@ -1971,10 +1971,10 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>日常タスク</value>
   </data>
   <data name="DailyNoteButton_ZZZ_EngagementToday" xml:space="preserve">
-    <value>Engagement Today</value>
+    <value>本日の活躍度</value>
   </data>
   <data name="DailyNoteButton_ZZZ_ScratchCardMania" xml:space="preserve">
-    <value>Scratch Card Mania</value>
+    <value>スクラッチカード</value>
   </data>
   <data name="DailyNoteButton_ZZZ_Complete" xml:space="preserve">
     <value>完了</value>
@@ -1983,7 +1983,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>未完了</value>
   </data>
   <data name="DailyNoteButton_ZZZ_VideoStoreManagement" xml:space="preserve">
-    <value>Video Store Management</value>
+    <value>ビデオ屋の経営</value>
   </data>
   <data name="DailyNoteButton_ZZZ_WaitingToOpen" xml:space="preserve">
     <value>Waiting to Open</value>
@@ -2001,7 +2001,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Bounty Commission Progress</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RemainingRefreshTime" xml:space="preserve">
-    <value>Remaining Refresh Time</value>
+    <value>今周期の残り時間</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RiduWeeklyPoints" xml:space="preserve">
     <value>Ridu Weekly Points</value>
@@ -2019,7 +2019,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Deadly Assault</value>
   </data>
   <data name="ShiyuDefensePage_HighestStageCleared" xml:space="preserve">
-    <value>Highest Stage Cleared</value>
+    <value>防衛戦の最高到達記録</value>
   </data>
   <data name="ShiyuDefensePage_47LayerClearTime" xml:space="preserve">
     <value>激変ノードクリア時間</value>
@@ -2040,7 +2040,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Frontier Effects</value>
   </data>
   <data name="ShiyuDefensePage_EnemyDetails" xml:space="preserve">
-    <value>Enemy Details</value>
+    <value>敵の詳細</value>
   </data>
   <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
     <value>Weakness</value>
