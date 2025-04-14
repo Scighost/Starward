@@ -1842,7 +1842,7 @@
     <value>ZZZ Gacha Item Images</value>
   </data>
   <data name="ToolboxSetting_DisplayItemImagesInZZZGachaRecordPage" xml:space="preserve">
-    <value>Display item images in ZZZ gacha record page.</value>
+    <value>ZZZガチャ記録ページにアイテム画像を表示します。</value>
   </data>
   <data name="ZZZGachaInfoWindow_Miyoushe" xml:space="preserve">
     <value>Miyoushe</value>
@@ -1878,22 +1878,22 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>正常にインポートされました。</value>
   </data>
   <data name="UIGFGachaService_0FieldIsMissingInAGachaRecord" xml:space="preserve">
-    <value>"{0}" field is missing in a gacha record.</value>
+    <value>"{0}" フィールドがガチャ記録にありません。</value>
   </data>
   <data name="GachaImportAndExportWindow_Export" xml:space="preserve">
     <value>書き出し</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectTheGachaRecordsToExport" xml:space="preserve">
-    <value>Select the gacha records to export.</value>
+    <value>エクスポートするガチャ記録を選択してください。</value>
   </data>
   <data name="GachaImportAndExportWindow_TheLastGachaPull" xml:space="preserve">
-    <value>The Last Gacha Pull</value>
+    <value>最後のガチャ引き</value>
   </data>
   <data name="GachaImportAndExportWindow_Count" xml:space="preserve">
-    <value>Count</value>
+    <value>回数</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeServerTimeZone" xml:space="preserve">
-    <value>Time (Server Time Zone)</value>
+    <value>時刻 (サーバータイムゾーン)</value>
   </data>
   <data name="GachaImportAndExportWindow_Name" xml:space="preserve">
     <value>名前</value>
@@ -1941,10 +1941,10 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Full Time</value>
   </data>
   <data name="DailyNoteButton_StarRail_FullyRecovered" xml:space="preserve">
-    <value>Fully Recovered</value>
+    <value>全部回復</value>
   </data>
   <data name="DailyNoteButton_StarRail_ReservedTrailblazePower" xml:space="preserve">
-    <value>Reserved Trailblaze Power</value>
+    <value>予備開拓力</value>
   </data>
   <data name="DailyNoteButton_StarRail_DailyTraining" xml:space="preserve">
     <value>日常訓練</value>
