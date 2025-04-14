@@ -1848,7 +1848,7 @@
     <value>Miyoushe</value>
   </data>
   <data name="ZZZGachaInfoWindow_FetchDataForAllLanguages" xml:space="preserve">
-    <value>Fetch Data for All Languages</value>
+    <value>すべての言語のデータを取得</value>
   </data>
   <data name="ZZZGachaInfoWindow_SaveToDatabase" xml:space="preserve">
     <value>データベースへ保存</value>
@@ -1923,19 +1923,19 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Daily BP</value>
   </data>
   <data name="DailyNoteButton_Genshin_DailyCommissionRewards" xml:space="preserve">
-    <value>Daily Commission Rewards</value>
+    <value>デイリー任務報酬</value>
   </data>
   <data name="DailyNoteButton_Genshin_DailyCommission" xml:space="preserve">
-    <value>Daily Commission</value>
+    <value>デイリー依頼</value>
   </data>
   <data name="DailyNoteButton_Genshin_EncounterPoints" xml:space="preserve">
-    <value>Encounter Points</value>
+    <value>修練ポイント</value>
   </data>
   <data name="DailyNoteButton_Genshin_RealmCurrency" xml:space="preserve">
-    <value>Realm Currency</value>
+    <value>洞天宝銭</value>
   </data>
   <data name="DailyNoteButton_Genshin_Expedition" xml:space="preserve">
-    <value>Expedition</value>
+    <value>探索派遣</value>
   </data>
   <data name="DailyNoteButton_StarRail_FullTime" xml:space="preserve">
     <value>Full Time</value>
@@ -2022,7 +2022,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>防衛戦の最高到達記録</value>
   </data>
   <data name="ShiyuDefensePage_47LayerClearTime" xml:space="preserve">
-    <value>激変ノードクリア時間</value>
+    <value>4-7 レイヤークリア時間</value>
   </data>
   <data name="ShiyuDefensePage_ClearTime" xml:space="preserve">
     <value>クリア時間: </value>
