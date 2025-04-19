@@ -1921,7 +1921,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Daily BP</value>
   </data>
   <data name="DailyNoteButton_Genshin_DailyCommissionRewards" xml:space="preserve">
-    <value>Daily Commission Rewards</value>
+    <value>Phần thưởng ủy thác hằng ngày</value>
   </data>
   <data name="DailyNoteButton_Genshin_DailyCommission" xml:space="preserve">
     <value>Daily Commission</value>
@@ -1933,7 +1933,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Realm Currency</value>
   </data>
   <data name="DailyNoteButton_Genshin_Expedition" xml:space="preserve">
-    <value>Expedition</value>
+    <value>Đã thám hiểm</value>
   </data>
   <data name="DailyNoteButton_StarRail_FullTime" xml:space="preserve">
     <value>Full Time</value>
@@ -1978,7 +1978,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Complete</value>
   </data>
   <data name="DailyNoteButton_ZZZ_Incomplete" xml:space="preserve">
-    <value>Incomplete</value>
+    <value>Chưa Hoàn Thành</value>
   </data>
   <data name="DailyNoteButton_ZZZ_VideoStoreManagement" xml:space="preserve">
     <value>Video Store Management</value>
