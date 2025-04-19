@@ -1903,7 +1903,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Nhập vào</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffsetWarning" xml:space="preserve">
-    <value>Before importing, please ensure that the time of the last gacha pull matches the time displayed in the game. If they do not match, please adjust the time zone offset.</value>
+    <value></value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffset" xml:space="preserve">
     <value>Time Zone Offset</value>
