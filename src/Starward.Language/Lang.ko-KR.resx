@@ -941,13 +941,13 @@
     <value>압축해제 시 더 많은 공간이 필요할수 있습니다.</value>
   </data>
   <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
-    <value>스킬트리 활성화 완료</value>
+    <value>전개한 방정식</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
-    <value>기물 개방완료</value>
+    <value>획득한 기물</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
-    <value>축복 개방완료</value>
+    <value>획득한 축복</value>
   </data>
   <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
     <value>이번 회차 클리어 휫수</value>
@@ -2059,9 +2059,9 @@
     <value>점수:</value>
   </data>
   <data name="GachaLogPage_ImportAndExport" xml:space="preserve">
-    <value>Import &amp; Export</value>
+    <value>불러오기 &amp; 내보내기</value>
   </data>
   <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
-    <value>Hide Gacha Banners</value>
+    <value>뽑기 배너 숨기기</value>
   </data>
 </root>
