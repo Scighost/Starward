@@ -2014,10 +2014,10 @@
     <value>已啟用</value>
   </data>
   <data name="HoyolabToolboxPage_ShiyuDefense" xml:space="preserve">
-    <value>Shiyu Defense</value>
+    <value>式輿防衛戰</value>
   </data>
   <data name="HoyolabToolboxPage_DeadlyAssault" xml:space="preserve">
-    <value>Deadly Assault</value>
+    <value>危局強襲戰</value>
   </data>
   <data name="ShiyuDefensePage_HighestStageCleared" xml:space="preserve">
     <value>Highest Stage Cleared</value>
@@ -2026,13 +2026,13 @@
     <value>4-7 Layer Clear Time</value>
   </data>
   <data name="ShiyuDefensePage_ClearTime" xml:space="preserve">
-    <value>Clear Time: </value>
+    <value>通關時長：</value>
   </data>
   <data name="ApocalypticShadowPage_TotalScore" xml:space="preserve">
-    <value>Total Score:</value>
+    <value>總分： </value>
   </data>
   <data name="DeadlyAssaultPage_GlobalTopPercent" xml:space="preserve">
-    <value>Global Top</value>
+    <value>全服排名</value>
   </data>
   <data name="ShiyuDefensePage_FastestStateTime" xml:space="preserve">
     <value>Fastest State Time</value>
@@ -2044,13 +2044,13 @@
     <value>Enemy Details</value>
   </data>
   <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
-    <value>Weakness</value>
+    <value>弱點</value>
   </data>
   <data name="ShiyuDefensePage_Resistance" xml:space="preserve">
-    <value>Resistance</value>
+    <value>抗性</value>
   </data>
   <data name="ClearedAt" xml:space="preserve">
-    <value>Cleared at</value>
+    <value>通關時間</value>
   </data>
   <data name="DeadlyAssaultPage_TotalScore" xml:space="preserve">
     <value>Total Score</value>
