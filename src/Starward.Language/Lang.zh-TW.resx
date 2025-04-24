@@ -2020,10 +2020,10 @@
     <value>危局強襲戰</value>
   </data>
   <data name="ShiyuDefensePage_HighestStageCleared" xml:space="preserve">
-    <value>Highest Stage Cleared</value>
+    <value>最高通關防線</value>
   </data>
   <data name="ShiyuDefensePage_47LayerClearTime" xml:space="preserve">
-    <value>4-7 Layer Clear Time</value>
+    <value>4-7層通關時長</value>
   </data>
   <data name="ShiyuDefensePage_ClearTime" xml:space="preserve">
     <value>通關時長：</value>
@@ -2035,13 +2035,13 @@
     <value>全服排名</value>
   </data>
   <data name="ShiyuDefensePage_FastestStateTime" xml:space="preserve">
-    <value>Fastest State Time</value>
+    <value>最快通關時間</value>
   </data>
   <data name="ShiyuDefensePage_FrontierEffects" xml:space="preserve">
-    <value>Frontier Effects</value>
+    <value>防線效果</value>
   </data>
   <data name="ShiyuDefensePage_EnemyDetails" xml:space="preserve">
-    <value>Enemy Details</value>
+    <value>敵方詳情</value>
   </data>
   <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
     <value>弱點</value>
@@ -2050,18 +2050,18 @@
     <value>抗性</value>
   </data>
   <data name="ClearedAt" xml:space="preserve">
-    <value>通關時間</value>
+    <value>通關時刻</value>
   </data>
   <data name="DeadlyAssaultPage_TotalScore" xml:space="preserve">
-    <value>Total Score</value>
+    <value>總分 </value>
   </data>
   <data name="PureFictionPage_Score" xml:space="preserve">
-    <value>Score:</value>
+    <value>得分：</value>
   </data>
   <data name="GachaLogPage_ImportAndExport" xml:space="preserve">
-    <value>Import &amp; Export</value>
+    <value>匯入&amp;匯出</value>
   </data>
   <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
-    <value>Hide Gacha Banners</value>
+    <value>隱藏卡池</value>
   </data>
 </root>
