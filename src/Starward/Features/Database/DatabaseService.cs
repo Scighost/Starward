@@ -92,7 +92,12 @@ internal static class DatabaseService
     {
         try
         {
+#if DEBUG
+            return;
+#endif
+#pragma warning disable CS0162 // 检测到无法访问的代码
             string folder = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\DatabaseBackup");
+#pragma warning restore CS0162 // 检测到无法访问的代码
             Directory.CreateDirectory(folder);
             string file = Path.Combine(folder, $"StarwardDatbase_AutoBackup_{DateTime.Now:yyyyMMdd_HHmmss}.db");
             string archive = Path.ChangeExtension(file, ".7z");
