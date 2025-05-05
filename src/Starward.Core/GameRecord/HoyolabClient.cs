@@ -46,6 +46,7 @@ public class HoyolabClient : GameRecordClient
     protected override Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken = default)
     {
         request.Headers.Add(x_rpc_language, Language);
+        request.Headers.Add("x-rpc-lang", Language);
         return base.CommonSendAsync<T>(request, cancellationToken);
     }
 
