@@ -111,38 +111,39 @@ public sealed partial class PreDownloadDialog : ContentDialog
                 TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
                 return;
             }
-            GamePackage package = await _hoYoPlayService.GetGamePackageAsync(CurrentGameId);
-            if (package.PreDownload.Major is null)
-            {
-                _logger.LogWarning("PreDownloadMajor of ({GameBiz}) is null.", CurrentGameId.GameBiz);
-                TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
-                return;
-            }
-
-            _hasPatch = package.PreDownload.Patches.Count > 0;
-            _canPatch = package.PreDownload.Patches.Any(x => x.Version == _localGameVersion);
-            if (_hasPatch && !_canPatch)
-            {
-                TextBlock_NoPatches.Visibility = Visibility.Visible;
-            }
-
             if (config.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
             {
-                var branch = await _hoYoPlayService.GetGameBranchAsync(CurrentGameId);
-                if (branch?.PreDownload is not null)
+                GameBranch? gameBranch = await _hoYoPlayService.GetGameBranchAsync(CurrentGameId);
+                if (gameBranch?.PreDownload is null)
                 {
-                    if (_canPatch)
-                    {
-                        _gameSophonPatchBuild = await _hoYoPlayService.GetGameSophonPatchBuildAsync(branch, branch.PreDownload);
-                    }
-                    if (_gameSophonPatchBuild is null)
-                    {
-                        _gameSophonChunkBuild = await _hoYoPlayService.GetGameSophonChunkBuildAsync(branch, branch.PreDownload);
-                    }
+                    _logger.LogWarning("GameBranch.PreDownload of ({GameBiz}) is null.", CurrentGameId.GameBiz);
+                    TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
+                    return;
+                }
+                _hasPatch = gameBranch.PreDownload.DiffTags.Count > 0;
+                _canPatch = gameBranch.PreDownload.DiffTags.Any(x => x == _localGameVersion);
+                if (_hasPatch && !_canPatch)
+                {
+                    TextBlock_NoPatches.Visibility = Visibility.Visible;
+                }
+                if (_canPatch)
+                {
+                    _gameSophonPatchBuild = await _hoYoPlayService.GetGameSophonPatchBuildAsync(gameBranch, gameBranch.PreDownload);
+                }
+                if (_gameSophonPatchBuild is null)
+                {
+                    _gameSophonChunkBuild = await _hoYoPlayService.GetGameSophonChunkBuildAsync(gameBranch, gameBranch.PreDownload);
                 }
             }
-            if (_gameSophonPatchBuild is null && _gameSophonChunkBuild is null)
+            else
             {
+                GamePackage package = await _hoYoPlayService.GetGamePackageAsync(CurrentGameId);
+                if (package.PreDownload.Major is null)
+                {
+                    _logger.LogWarning("PreDownloadMajor of ({GameBiz}) is null.", CurrentGameId.GameBiz);
+                    TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
+                    return;
+                }
                 _gamePackage = package;
             }
             _audioLanguage = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId);

@@ -34,7 +34,7 @@ message SophonPatchManifest {
     // 新版本所有文件
     repeated SophonPatchFile patches = 1;
     // 需要删除的文件
-    repeated SophonPatchDeleteInfo deletes = 2;
+    // repeated SophonPatchDeleteInfo deletes = 2;
 }
 
 // Patch 更新模式，新版本游戏文件

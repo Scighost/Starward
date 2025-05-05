@@ -122,6 +122,7 @@ internal partial class GamePackageService
 
             _logger.LogInformation("""
                 Prepare game package ({GameBiz}) finished:
+                Operation: {Operation}
                 DefaultDownloadMode: {DefaultDownloadMode}
                 LatestGameVersion: {LatestGameVersion}
                 PredownloadVersion: {PredownloadVersion}
@@ -133,9 +134,10 @@ internal partial class GamePackageService
                 GameChannelSDK: {GameChannelSDK}
                 DeprecatedFileConfig: {DeprecatedFileConfig}
                 TaskFiles: {TaskFiles}
-                DonwloadMode: {DownloadMode}
+                DownloadMode: {DownloadMode}
                 """,
                 task.GameId.GameBiz,
+                task.Operation,
                 task.GameConfig.DefaultDownloadMode,
                 task.LatestGameVersion,
                 task.PredownloadVersion,
@@ -209,71 +211,69 @@ internal partial class GamePackageService
             throw new ArgumentNullException($"LocalGameVersion of ({gameId.GameBiz}) is null.");
         }
         task.LocalGameVersion = localVersion.ToString();
-        GamePackage? package = await GetGamePackageAsync(gameId, cancellationToken);
-        if (package is null)
+        if (task.GameConfig!.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
         {
-            _logger.LogError("GamePackage of ({GameBiz}) is null.", gameId.GameBiz);
-            throw new ArgumentNullException($"GamePackage of ({gameId.GameBiz}) is null.");
-        }
-        if (task.Operation is GameInstallOperation.Predownload && package.PreDownload.Major is null)
-        {
-            _logger.LogError("Predownload package of ({GameBiz}) is null.", gameId.GameBiz);
-            throw new NotSupportedException($"Predownload package of ({gameId.GameBiz}) is null.");
-        }
-        task.LatestGameVersion = package.Main.Major?.Version;
-        if (package.PreDownload.Major is null)
-        {
-            // 更新
-            // 本地游戏版本是否有补丁
-            bool canPatch = package.Main.Patches.Any(x => x.Version == localVersion.ToString());
-
-            if (task.GameConfig!.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
+            GameBranch? branch = await _hoyoplayClient.GetGameBranchAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
+            if (branch is null)
             {
-                var branch = await _hoyoplayClient.GetGameBranchAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
-                if (branch?.Main is not null)
+                _logger.LogWarning("GameBranch of ({GameBiz}) is null.", gameId.GameBiz);
+                throw new ArgumentNullException($"GameBranch of ({gameId.GameBiz}) is null.");
+            }
+            task.LatestGameVersion = branch.Main.Tag;
+            if (branch.PreDownload is null)
+            {
+                // 更新
+                // 本地游戏版本是否有补丁
+                bool canPatch = branch.Main.DiffTags.Any(x => x == task.LocalGameVersion);
+                if (canPatch)
                 {
-                    if (canPatch)
-                    {
-                        task.GameSophonPatchBuild = await GetGameSophonPatchBuildAsync(branch, branch.Main, cancellationToken);
-                    }
-                    if (task.GameSophonPatchBuild is null)
-                    {
-                        task.GameSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, "", cancellationToken);
-                        task.LocalVersionSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, localVersion.ToString(), cancellationToken);
-                    }
+                    task.GameSophonPatchBuild = await GetGameSophonPatchBuildAsync(branch, branch.Main, cancellationToken);
+                }
+                if (task.GameSophonPatchBuild is null)
+                {
+                    task.GameSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, "", cancellationToken);
+                    task.LocalVersionSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, localVersion.ToString(), cancellationToken);
                 }
             }
-            if (task.GameSophonPatchBuild is null && task.GameSophonChunkBuild is null)
+            else
             {
-                task.GamePackage = package;
+                // 预下载
+                task.PredownloadVersion = branch.PreDownload.Tag;
+                bool canPatch = branch.PreDownload.DiffTags.Any(x => x == task.LocalGameVersion);
+                if (canPatch)
+                {
+                    task.GameSophonPatchBuild = await GetGameSophonPatchBuildAsync(branch, branch.PreDownload, cancellationToken);
+                }
+                if (task.GameSophonPatchBuild is null)
+                {
+                    task.GameSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.PreDownload, "", cancellationToken);
+                    task.LocalVersionSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.PreDownload, localVersion.ToString(), cancellationToken);
+                }
             }
         }
         else
         {
-            // 预下载
-            task.PredownloadVersion = package.PreDownload.Major.Version;
-
-            //bool hasPatch = package.PreDownload.Patches.Count > 0;
-            bool canPatch = package.PreDownload.Patches.Any(x => x.Version == localVersion.ToString());
-
-            if (task.GameConfig!.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK)
+            GamePackage? package = await GetGamePackageAsync(gameId, cancellationToken);
+            if (package is null)
             {
-                var branch = await _hoyoplayClient.GetGameBranchAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
-                if (branch?.PreDownload is not null)
-                {
-                    if (canPatch)
-                    {
-                        task.GameSophonPatchBuild = await GetGameSophonPatchBuildAsync(branch, branch.PreDownload, cancellationToken);
-                    }
-                    if (task.GameSophonPatchBuild is null)
-                    {
-                        task.GameSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.PreDownload, "", cancellationToken);
-                        task.LocalVersionSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.PreDownload, localVersion.ToString(), cancellationToken);
-                    }
-                }
+                _logger.LogError("GamePackage of ({GameBiz}) is null.", gameId.GameBiz);
+                throw new ArgumentNullException($"GamePackage of ({gameId.GameBiz}) is null.");
             }
-            if (task.GameSophonPatchBuild is null && task.GameSophonChunkBuild is null)
+            if (task.Operation is GameInstallOperation.Predownload && package.PreDownload.Major is null)
             {
+                _logger.LogError("Predownload package of ({GameBiz}) is null.", gameId.GameBiz);
+                throw new NotSupportedException($"Predownload package of ({gameId.GameBiz}) is null.");
+            }
+            task.LatestGameVersion = package.Main.Major?.Version;
+            if (package.PreDownload.Major is null)
+            {
+                // 更新
+                task.GamePackage = package;
+            }
+            else
+            {
+                // 预下载
+                task.PredownloadVersion = package.PreDownload.Major.Version;
                 task.GamePackage = package;
             }
         }
@@ -305,10 +305,10 @@ internal partial class GamePackageService
                 {
                     SophonPatchManifest patchManifest = await GetSophonPatchManifestAsync(manifest, cancellationToken);
                     patches.AddRange(patchManifest.Patches);
-                    if (patchManifest.Deletes.FirstOrDefault(x => x.Tag == localVersion) is SophonPatchDeleteInfo info)
-                    {
-                        deletes.AddRange(info.Deletes);
-                    }
+                    //if (patchManifest.Deletes.FirstOrDefault(x => x.Tag == localVersion) is SophonPatchDeleteInfo info)
+                    //{
+                    //    deletes.AddRange(info.Deletes);
+                    //}
                     foreach (SophonPatchFile item in patchManifest.Patches)
                     {
                         taskFiles.Add(GameInstallFile.FromSophonPatchFile(item, task.InstallPath, localVersion, manifest.DiffDownload.UrlPrefix));
@@ -322,10 +322,10 @@ internal partial class GamePackageService
                         {
                             SophonPatchManifest patchManifest = await GetSophonPatchManifestAsync(audioManifest, cancellationToken);
                             patches.AddRange(patchManifest.Patches);
-                            if (patchManifest.Deletes.FirstOrDefault(x => x.Tag == localVersion) is SophonPatchDeleteInfo info)
-                            {
-                                deletes.AddRange(info.Deletes);
-                            }
+                            //if (patchManifest.Deletes.FirstOrDefault(x => x.Tag == localVersion) is SophonPatchDeleteInfo info)
+                            //{
+                            //    deletes.AddRange(info.Deletes);
+                            //}
                             foreach (SophonPatchFile item in patchManifest.Patches)
                             {
                                 taskFiles.Add(GameInstallFile.FromSophonPatchFile(item, task.InstallPath, localVersion, audioManifest.DiffDownload.UrlPrefix));

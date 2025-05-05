@@ -168,10 +168,29 @@ internal partial class GameLauncherService
     /// <returns></returns>
     public async Task<(Version? Latest, Version? Predownload)> GetLatestGameVersionAsync(GameId gameId)
     {
-        var package = await _hoYoPlayService.GetGamePackageAsync(gameId);
-        _ = Version.TryParse(package.Main.Major?.Version, out Version? latestVersion);
-        _ = Version.TryParse(package.PreDownload.Major?.Version, out Version? predownloadVersion);
-        return (latestVersion, predownloadVersion);
+        GameConfig? config = await _hoYoPlayService.GetGameConfigAsync(gameId);
+        if (config is null)
+        {
+            throw new ArgumentOutOfRangeException($"Game config is null ({gameId.Id}, {gameId.GameBiz}).");
+        }
+        if (config.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
+        {
+            GameBranch? gameBranch = await _hoYoPlayService.GetGameBranchAsync(gameId);
+            if (gameBranch is null)
+            {
+                throw new ArgumentOutOfRangeException($"Game branch is null ({gameId.Id}, {gameId.GameBiz}).");
+            }
+            _ = Version.TryParse(gameBranch.Main.Tag, out Version? latestVersion);
+            _ = Version.TryParse(gameBranch.PreDownload?.Tag, out Version? predownloadVersion);
+            return (latestVersion, predownloadVersion);
+        }
+        else
+        {
+            GamePackage package = await _hoYoPlayService.GetGamePackageAsync(gameId);
+            _ = Version.TryParse(package.Main.Major?.Version, out Version? latestVersion);
+            _ = Version.TryParse(package.PreDownload.Major?.Version, out Version? predownloadVersion);
+            return (latestVersion, predownloadVersion);
+        }
     }
 
 

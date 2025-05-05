@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.HoYoPlay;
 
@@ -50,5 +50,12 @@ public class GameBranchPackage
     /// </summary>
     [JsonPropertyName("tag")]
     public string Tag { get; set; }
+
+
+    /// <summary>
+    /// 可使用 LDIFF 更新的游戏版本
+    /// </summary>
+    [JsonPropertyName("diff_tags")]
+    public List<string> DiffTags { get; set; }
 
 }

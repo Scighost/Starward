@@ -69,11 +69,35 @@ internal partial class GamePackageService
         {
             return false;
         }
-        GamePackage package = await _hoYoPlayService.GetGamePackageAsync(gameId);
-        if (package.PreDownload.Major is null)
+        string? predownloadVersion = null;
+        GameConfig? gameConfig = await _hoYoPlayService.GetGameConfigAsync(gameId);
+        if (gameConfig is null)
         {
-            return false;
+            throw new ArgumentOutOfRangeException($"Game config is null ({gameId.Id}, {gameId.GameBiz}).");
         }
+        if (gameConfig.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
+        {
+            GameBranch? gameBranch = await _hoYoPlayService.GetGameBranchAsync(gameId);
+            if (gameBranch is null)
+            {
+                throw new ArgumentOutOfRangeException($"Game branch is null ({gameId.Id}, {gameId.GameBiz}).");
+            }
+            if (gameBranch.PreDownload is null)
+            {
+                return false;
+            }
+            predownloadVersion = gameBranch.PreDownload?.Tag;
+        }
+        else
+        {
+            GamePackage package = await _hoYoPlayService.GetGamePackageAsync(gameId);
+            if (package.PreDownload.Major is null)
+            {
+                return false;
+            }
+            predownloadVersion = package.PreDownload.Major.Version;
+        }
+
         var config = Path.Join(installPath, "config.ini");
         if (File.Exists(config))
         {
@@ -81,7 +105,7 @@ internal partial class GamePackageService
             string? localVersion = GameVersionRegex().Match(str).Groups[1].Value.Trim();
             string? predownload = PreDownloadRegex().Match(str).Groups[1].Value.Trim();
             AudioLanguage lang = await GetAudioLanguageAsync(gameId, installPath);
-            return predownload == $"{localVersion},{package.PreDownload.Major.Version},{lang}";
+            return predownload == $"{localVersion},{predownloadVersion},{lang}";
         }
         return false;
     }

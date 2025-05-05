@@ -640,7 +640,7 @@ internal partial class GameInstallHelper
             {
                 if (!dict.TryGetValue(item.Patch.Id, out _))
                 {
-                    string path = Path.Combine(task.InstallPath, "chunk", item.Patch.Id);
+                    string path = Path.Combine(task.InstallPath, "ldiff", item.Patch.Id);
                     dict.TryAdd(item.Patch.Id, new PredownloadFile
                     {
                         FullPath = path,
@@ -868,12 +868,12 @@ internal partial class GameInstallHelper
             return;
         }
         Directory.CreateDirectory(Path.GetDirectoryName(file.FullPath)!);
-        string chunk = Path.Combine(task.InstallPath, "chunk", file.Patch.Id);
-        using FileSliceStream fs_chunk = new FileSliceStream(chunk, file.Patch.PatchOffset, file.Patch.PatchLength);
+        string ldiff = Path.Combine(task.InstallPath, "ldiff", file.Patch.Id);
+        using FileSliceStream fs_ldiff = new FileSliceStream(ldiff, file.Patch.PatchOffset, file.Patch.PatchLength);
         string path_tmp = file.FullPath + "_tmp";
         using FileStream fs_tmp = File.Open(path_tmp, FileMode.Create, FileAccess.ReadWrite);
-        await fs_chunk.CopyToAsync(fs_tmp, cancellationToken);
-        await fs_chunk.DisposeAsync();
+        await fs_ldiff.CopyToAsync(fs_tmp, cancellationToken);
+        await fs_ldiff.DisposeAsync();
         await fs_tmp.DisposeAsync();
         if (string.IsNullOrWhiteSpace(file.Patch.OriginalFileFullPath))
         {

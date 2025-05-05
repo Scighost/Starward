@@ -744,6 +744,11 @@ internal class GameInstallService
                 {
                     Directory.Delete(chunk, true);
                 }
+                string ldiff = Path.Combine(task.InstallPath, "ldiff");
+                if (Directory.Exists(ldiff))
+                {
+                    Directory.Delete(ldiff, true);
+                }
                 string staging = Path.Combine(task.InstallPath, "staging");
                 if (Directory.Exists(staging))
                 {
