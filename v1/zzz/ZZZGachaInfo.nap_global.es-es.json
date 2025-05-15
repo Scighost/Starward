@@ -214,6 +214,14 @@
         "profession": 3
       },
       {
+        "id": 1291,
+        "name": "Hugo",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1291.png",
+        "rarity": 4,
+        "element_type": 202,
+        "profession": 1
+      },
+      {
         "id": 1311,
         "name": "Astra Yao",
         "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1311.png",
@@ -264,7 +272,7 @@
       {
         "id": 12001,
         "name": "Fase lunar - Plenilunio",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/656c0dd0893d5002cc6dbf0b4ea680f4.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/8afce04ef713be6b350ca09fd754de51.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 1
@@ -272,7 +280,7 @@
       {
         "id": 12002,
         "name": "Fase lunar - Luna menguante",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/0998a2480c5fc1c114cf3ed4901df2d7.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/d13af6bdd8f2c83b9e7b8a137f5360a0.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 1
@@ -280,7 +288,7 @@
       {
         "id": 12003,
         "name": "Fase lunar - Novilunio",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/e83d0db5bc2b1bf863351246b62f6b5f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/6bd49dc40dc878e337f67c44b50e4736.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 1
@@ -288,7 +296,7 @@
       {
         "id": 12004,
         "name": "Repercusión - Modelo I",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/bb579a62fd155ad3d52ff429327053c7.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/a0804ee98b6ed1b5cf8e80b059a665db.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 4
@@ -296,7 +304,7 @@
       {
         "id": 12005,
         "name": "Repercusión - Modelo II",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/fae73f8919af9323f2b70e10ee8ffc51.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/6250db345f456d1daca2bdaeeac4f1fe.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 4
@@ -304,7 +312,7 @@
       {
         "id": 12006,
         "name": "Repercusión - Modelo III",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/53ce749d5619ef1b3f48eb706d92b36b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/f926dfd3c801f54df0dc0995ada1cd75.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 4
@@ -312,7 +320,7 @@
       {
         "id": 12007,
         "name": "Turbulencia - Arcabuz",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/f97b24179cebb45db746096d39c8755e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/062abbbf8e0fa5f264009b35445cba0c.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 2
@@ -320,7 +328,7 @@
       {
         "id": 12008,
         "name": "Turbulencia - Flecha",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/056a18aa9e20bfc1b0c6fad84971f63e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/c8e32bbb6abdab4c4fc88445ddb9a9d1.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 2
@@ -328,7 +336,7 @@
       {
         "id": 12009,
         "name": "Turbulencia - Hacha",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/f34e5b8ab217047ffb17c89201fe6f07.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/6895061720f1fa632c89b8342e625c5c.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 2
@@ -336,7 +344,7 @@
       {
         "id": 12010,
         "name": "Tormenta magnética - Alfa",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/6d73c0fe9899e3a2300b738297d32476.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/d7dcaec923dafe98829f92d06a96f7a0.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 3
@@ -344,7 +352,7 @@
       {
         "id": 12011,
         "name": "Tormenta magnética - Bravo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/118212975f6be5ae7433b9abe22fa4a8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/179520e42ee43f3eccd5313061fbdbac.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 3
@@ -352,7 +360,7 @@
       {
         "id": 12012,
         "name": "Tormenta magnética - Charlie",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/50382ebde316b6aca89c4e5c41b1bed3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/d29cb80981ef6c620490e5e422adf568.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 3
@@ -360,7 +368,7 @@
       {
         "id": 12013,
         "name": "Identidad - Raíz",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/d9a13190614f719ec8f494c27b42b262.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/e678c30d79236751982298974ea47330.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 5
@@ -368,7 +376,7 @@
       {
         "id": 12014,
         "name": "Identidad - Desinencia",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/2e6dae606e0aaf413328b94f0a759178.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/d0d7e2456ffe23bfae15b481a351adc5.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 5
@@ -376,7 +384,7 @@
       {
         "id": 13001,
         "name": "Estrella callejera",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/c1c3853ea1ae1ff52720e7d71762e972.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/1f51593bd70939361ff981f8c805b976.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -384,7 +392,7 @@
       {
         "id": 13002,
         "name": "Lapso de tiempo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/83edfd4737d8fcdd86001f8863fa90b3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/8d8d486fc185d488988bd21f16df8517.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -392,7 +400,7 @@
       {
         "id": 13003,
         "name": "Gastrónomo selvático",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/44b551f5e4ae6203dbe76a32e756c3a0.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/712470f8df77fed9926a166a561da17d.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -400,7 +408,7 @@
       {
         "id": 13004,
         "name": "Motor estelar",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/20e2869f563c357b33ca746c3d95d0c2.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/008e4402d45dd064437fc507f393e9cb.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -408,7 +416,7 @@
       {
         "id": 13005,
         "name": "Última cena",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/02f42257845c3396d9dc0a783d68b35d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/1fd065cd7cf58feadd8ed9f3a7fae65b.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -416,7 +424,7 @@
       {
         "id": 13006,
         "name": "Fósil preciado",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/a5d7e6ddea4230c9ea00034e30430b94.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/b1f0c2b5aa0476e4f0e3c575411b5f91.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -424,7 +432,7 @@
       {
         "id": 13007,
         "name": "Transmorfer original",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/ccc15d8ba8dd1277f6222162ca6cd513.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/e6162be1af19548508c533beea3d71c9.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -432,7 +440,7 @@
       {
         "id": 13008,
         "name": "Llanto mielgo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/f9c683f749a4239a6dac2c049c1cb28f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/ec08a93a873eadbc57cdaca381ce8ef8.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -440,7 +448,7 @@
       {
         "id": 13009,
         "name": "Brillo labial electrizante",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/d704c29927fb51e503bd9be049d0f78e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/132e9c81bb5e9400f7595c0495bf6a8e.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -448,7 +456,7 @@
       {
         "id": 13010,
         "name": "Cesta conejera",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/77b29e5e1c90e3f3042512194585d68b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/efd358e66cc608b742109337c5765ca1.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -456,7 +464,7 @@
       {
         "id": 13011,
         "name": "Primavera termal",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/0473cecbf294a210dfc94dfa732c0674.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/cce60f6977bbf54744065b34ba2256e7.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -464,7 +472,7 @@
       {
         "id": 13013,
         "name": "Florescencia aurífera",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/b9af2f646815ae4a595a107f5a92bc7b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/18fe64fbdd898be6b35ab4a03540cac7.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -472,7 +480,7 @@
       {
         "id": 13015,
         "name": "Anhelo marcato",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/c72a693d3bd74ffec3297e57dc0dd74d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/abda8e7930148d9a8da7fcfff2c5b84b.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -480,7 +488,7 @@
       {
         "id": 13101,
         "name": "Batería de Demara (II)",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/549486da0f534915143b19e9bf0e54ff.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/10ef94935b7402f2b75ab90950e6f0c5.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -488,7 +496,7 @@
       {
         "id": 13103,
         "name": "Cámara acorazada",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/a92690e1e735f57c4acf6a8fdc25cd60.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/2b2a3fd17384036647caad7c7fc7accb.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -496,7 +504,7 @@
       {
         "id": 13106,
         "name": "Amo de llaves",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/65207cb26b1871ca1f0f6d483cd04ed9.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/ddbd593dde324b73df8de835d6a587a8.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -504,7 +512,7 @@
       {
         "id": 13108,
         "name": "Réplica de motor estelar",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/67b37a7e152a17aec49dc08952069d07.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/63c9221301dec45b432268acef6e4d62.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -512,7 +520,7 @@
       {
         "id": 13111,
         "name": "Taladradora giratoria - Eje rojo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/875bab06ff118ffbde2d16693f646072.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/06cbd53b7e2b99a17d419360d1940b3b.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -520,7 +528,7 @@
       {
         "id": 13112,
         "name": "Cilindro neumático de Bigger",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/bf4479bd864a9392ac49d6c21c5a0ea3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/c83d044a9c8d949cc0c1e7afacfdb720.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -528,7 +536,7 @@
       {
         "id": 13113,
         "name": "Demonio cohibido",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/8b4c6731d21ee7d9d7521aacb72b1892.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/26a5fff03c1b00b671ccf0c1bbe7cefd.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -536,7 +544,7 @@
       {
         "id": 13115,
         "name": "Cañón bombástico",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/8161ed7730c7565e7de59b78f9d9ced5.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/dbff15a9e73f91b7395cdf9a1282c1db.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -544,7 +552,7 @@
       {
         "id": 13127,
         "name": "Pacificador especializado",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/5d67d57fa36282535bb371c01374674e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/149272e25b2b0996dd352cf59fc60ff3.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -552,7 +560,7 @@
       {
         "id": 13128,
         "name": "Viaje estruendoso",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/adb61526d7e3f6c70fce43352594cfc5.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/12031df6ce6fcde6669301fff2ffe02e.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -560,7 +568,7 @@
       {
         "id": 13135,
         "name": "Cúter",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/2bada197e85394555d30269d4aa89df7.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/7b9e134d643c5cd2ed955f4c6467848c.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -568,7 +576,7 @@
       {
         "id": 14001,
         "name": "Rotor de cañón",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/ee71d41b60ef2ba1c3ce4ea798a8d4ac.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/063823eccaffe8571c4c101dc780835a.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -576,7 +584,7 @@
       {
         "id": 14002,
         "name": "Bola de juego desenfrenada",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/0711196706079d54e6f41fb6629052ef.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/9631443f347d67423dda43ad3cbf3b5a.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -584,7 +592,7 @@
       {
         "id": 14003,
         "name": "Barril giratorio",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/e96ef12b0b2158bea19601425a2d28b6.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/09b2961d221ac16c05735c6c0a1923cf.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -592,7 +600,7 @@
       {
         "id": 14102,
         "name": "Almohadillas férreas",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/5f04a90989560d101c8e68d4db1d6f7c.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/9fbb88e58b47beb06cd83304a245df34.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -600,7 +608,7 @@
       {
         "id": 14104,
         "name": "Petrazufre",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/205316b707270f6dfca7312386d9696a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/55b06a551aeaaa4771d947f6a679efa9.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -608,7 +616,7 @@
       {
         "id": 14107,
         "name": "Colmillos furibundos",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/9f8b9c1db7845f966bed58896588b908.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/3d6388cdac6e200a4f9c446b06264c63.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 5
@@ -616,7 +624,7 @@
       {
         "id": 14109,
         "name": "Templo a la granizada estelífera",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/202dabbf58e85854635f6518882102af.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/a4d38c88a4112e597bbee66211a1aaba.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -624,7 +632,7 @@
       {
         "id": 14110,
         "name": "Engranaje infernal",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/af0d1ffbe6a9936563ecec97f5e77f18.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/fc8541d7dd0f487278dce5f554741f81.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -632,7 +640,7 @@
       {
         "id": 14114,
         "name": "El sometido",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/606225e8a5df73882c6fab4c814a9860.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/4983bd0598c35e317723e114c2f94855.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -640,7 +648,7 @@
       {
         "id": 14116,
         "name": "Láurea ardiente",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/6521d8ed4ec9be045caf4e1176704f40.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/956b24d8a85b41a7f0da2a16230ac351.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -648,7 +656,7 @@
       {
         "id": 14117,
         "name": "Coctelera incandescente",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/aaa5b58e3eadaa28d0ac6382d730d32c.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/23cf27339567e5bd1705d65f9af03abf.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -656,7 +664,7 @@
       {
         "id": 14118,
         "name": "Compilador quimérico",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/2ef0a6430f2a3430554e2ae1f8d57640.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/51c5036e4d1539389ec78481c13c0893.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -664,7 +672,7 @@
       {
         "id": 14119,
         "name": "Visitante de altamar",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/53dcbcb7c62af9a517fe9cd4cd486fa9.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/049032184a6020ad598fb2176b51ce2d.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -672,7 +680,7 @@
       {
         "id": 14120,
         "name": "Dispensador de fármacos zanshin",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/f4d9c726993668844fb47b1a2fdc619a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/c7c0936b544bcb9f628e45e729f9472e.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -680,7 +688,7 @@
       {
         "id": 14121,
         "name": "Cuna plañidera",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/bdd69a6499cc6638a138e2040a33dedf.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/62ffaec2d929a830daeeac934a9c3d17.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 4
@@ -688,7 +696,7 @@
       {
         "id": 14122,
         "name": "Urdidor del tiempo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/d0588886164bc3bf24ae60056d5af939.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/70a18669952dec8f90d4616edf9461aa.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -696,7 +704,7 @@
       {
         "id": 14124,
         "name": "Antidisturbios (VI)",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/709813ab2a529a08ae3984302a458531.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/2c622ae65e756d023d5b6e57bbb54d5e.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -704,7 +712,7 @@
       {
         "id": 14125,
         "name": "Tetera esmeraldina",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/a68c0b4a0e6045bb94a7cb0a53edd67e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/0b958b51556f8f77c0c784f3b03f010a.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -712,15 +720,23 @@
       {
         "id": 14126,
         "name": "Aguijón agudo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/031f251103111d79998ba55cbe84234c.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/28d24c76f06614a7fa3ad7ba35872053.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
       },
       {
+        "id": 14129,
+        "name": "Miríada de eclipses",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/21d6a9ff3d9404b9d994aa935211fd31.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
         "id": 14131,
         "name": "Envanecimiento primoroso",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/eaaaec9d7871cb428975a5b05fca4ee3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/53715d2c90c12c540cacb7835980743a.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 4
@@ -728,7 +744,7 @@
       {
         "id": 14132,
         "name": "Acordes del corazón nocturno",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/52c0836e1c5a5135eae3beb1a8890484.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/970051e05f99e277620ddda7b7442009.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -736,7 +752,7 @@
       {
         "id": 14133,
         "name": "Revoloteo ensoñador",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/cd99825045e0ecb748a4ef05774bde24.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/e1f2256a807acc75ee4689be3c28ec14.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -744,7 +760,7 @@
       {
         "id": 14136,
         "name": "Visión espectral",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/54521ca7d8d1a1e53b4cee51be66f88d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/a5902a0db75a1c0e96a7b75132904ec2.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -752,7 +768,7 @@
       {
         "id": 14138,
         "name": "Inocencia sacrificada",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/745b6a1e787e4155cda49638cef5b17a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/2be549727a39355f9ad81f7480c69cc7.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -760,7 +776,7 @@
       {
         "id": 53001,
         "name": "Pingubú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/8c9c3fbd3c7519b7f986d2b7e66a71b5.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/79bc5b659c59c5b8c7ba7b06a5666901.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -768,7 +784,7 @@
       {
         "id": 53002,
         "name": "Manekibú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/9f2e6df868a7fdc9ceeb96f17a7bb261.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/9465b29fb23e38f0d8d3e7f53aa44d6a.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -776,7 +792,7 @@
       {
         "id": 53003,
         "name": "Explorabú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/33b56b1ff563f0519590f0ffe7bdafdd.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/bb0cff95d6baaa9f388913f4e27e7d5d.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -784,7 +800,7 @@
       {
         "id": 53004,
         "name": "Sumobú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/7fcb72d42d056f177f17acbd95175c9e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/53f201bd475215f07fc11f4119dc0531.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -792,7 +808,7 @@
       {
         "id": 53005,
         "name": "Cartonbú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/e53de6aad1191819baab4032f7f221db.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/45e680570c912d29e0785c9e67b6b382.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -800,7 +816,7 @@
       {
         "id": 53006,
         "name": "Bolsabú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/addda59c021f48ce3ba054fb3ce058fc.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/c8c6d68a905673adad0bdcca87214a9d.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -808,7 +824,7 @@
       {
         "id": 53007,
         "name": "Lloronbú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/d6135d82bfc1c71b85a30bea06c85252.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/5540e76d1c36b2dde7a4c694776ddba6.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -816,7 +832,7 @@
       {
         "id": 53008,
         "name": "Aguacabú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/b7a625197a65f8e6d9d49d92bffe449e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/d72ae56cfe8517ac4453091f9de403e8.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -824,7 +840,7 @@
       {
         "id": 53009,
         "name": "Dianabú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/9b3a7d48d79401d31ccdbe54a3024cd2.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/c33a50932a8789c6a07c1c6da7b0f9bd.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -832,7 +848,7 @@
       {
         "id": 53010,
         "name": "Electrobú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/2cd6bcf13064a5cfda6a029e064b1c34.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/7a1c253dd2b16b12138a707b913f5781.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -840,7 +856,7 @@
       {
         "id": 53011,
         "name": "Magnebú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/b1a29c8999ab0e62cc717156e30ec5be.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/85ed7da551704776297586abff7260ce.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -848,7 +864,7 @@
       {
         "id": 53012,
         "name": "Valvulabú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/252b9703dd692e504959e87595e795b7.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/7d5fcfed2baa458dda51270d90a3bc76.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -856,7 +872,7 @@
       {
         "id": 53013,
         "name": "Malotebú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/5d9ebb4818f093375a71b33fefb83560.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/85b13c40fc608da21207a9f54d703a93.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -864,7 +880,7 @@
       {
         "id": 53014,
         "name": "Currabú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/903bf3fef5558eb9cae144b6351b9651.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/c9d52624dd3933ceb753677b837c7b72.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -872,7 +888,7 @@
       {
         "id": 53015,
         "name": "Peleabú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/ba04112cc892a7f96b0edff8d3576b67.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/d14382af04381de3c4c576477a88e5eb.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -880,7 +896,7 @@
       {
         "id": 53017,
         "name": "Caballerobú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/ed3ebb305496ff737f12ddec7091ad5b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/c61b6d2a1eb9bf1052cdc2eff95328fe.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -888,7 +904,7 @@
       {
         "id": 54001,
         "name": "Tiburonbú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/d3e20dff8e252aaf3d56b4b51cea2dd9.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/839094d11fb7a3c6a843696883a0cf15.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -896,7 +912,7 @@
       {
         "id": 54002,
         "name": "Amparo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/24acb2b848b8387201fabbe7677ca5d5.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/4a50f82dfee04714be3e00877b0a0b6b.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -904,7 +920,7 @@
       {
         "id": 54003,
         "name": "Belcebú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/24ddb44404d02a83d33a6d450b47bb09.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/89f51a3cd7930d2b40b846cd842362b1.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -912,7 +928,7 @@
       {
         "id": 54004,
         "name": "Mayordomo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/4aad912bbbe62aab38a28a433a8fd382.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/7d9864dbc6157c660263853e4f6e852f.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -920,7 +936,7 @@
       {
         "id": 54005,
         "name": "Amillion",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/9ef958bec32ba6acb069259cbb0e4bab.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/cf6d9ee7921c9387cc890289cf863f22.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -928,7 +944,7 @@
       {
         "id": 54006,
         "name": "Sonibú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/fd116949806c4b4ec3d08068609e808f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/9c764536a84ba2aaa1e076651a7d2a04.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -936,7 +952,7 @@
       {
         "id": 54008,
         "name": "Cablebú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/98b0583dce9c273bc1403c97bf779c56.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/5661a457245474da9dd89fcda7b748e2.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -944,7 +960,7 @@
       {
         "id": 54009,
         "name": "Ecobú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/f3405733dad988918b4a11118a9174b0.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/40b5c430851ce4e1772ed43de1b8dfd2.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -952,7 +968,7 @@
       {
         "id": 54011,
         "name": "Moccus Tinto",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/da5030100e4f00b672eef974e61b5648.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/6ed590f224540c1e58ae8f82d3d04f88.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -960,7 +976,7 @@
       {
         "id": 54012,
         "name": "Cui",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/52c3e345cfa9d6796ada02054380346b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/721217b3b7857a682d554e4f6e939d3b.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -968,7 +984,7 @@
       {
         "id": 54013,
         "name": "Revolverbú",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/f8b78c6144e8e9e35d6dc87088f96a7f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/b3319069654f509af6f72c3e6d94a51f.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -976,7 +992,7 @@
       {
         "id": 54014,
         "name": "Agente Gulliver",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/54da627f5d7a03b34ed6850784ae0e7a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/7c1455e33d7ab0575494e3a7fc2b704b.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -984,7 +1000,7 @@
       {
         "id": 54015,
         "name": "Snap",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/4ddfae8916054490819232f18de0373f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/bba45816d872d891b6f6d2835ecf7ed2.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -992,7 +1008,7 @@
       {
         "id": 54016,
         "name": "Robin",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uea52b/c6ec9d430b37a664714cc2ea047e7c87.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u3294b/df374d26225e777ad5ae49e49c383bda.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
