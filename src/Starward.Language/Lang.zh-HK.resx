@@ -879,62 +879,62 @@
     <value>今個月共獲得</value>
   </data>
   <data name="TravelersDiaryPage_AcquiredThisDay" xml:space="preserve">
-    <value>Acquired this day</value>
+    <value>今個月共獲得</value>
   </data>
   <data name="TravelersDiaryPage_PrimogemsObtained" xml:space="preserve">
-    <value>Primogems obtained</value>
+    <value>原石收入組成</value>
   </data>
   <data name="SpiralAbyssPage_DeepestDescent" xml:space="preserve">
-    <value>Deepest Descent</value>
+    <value>最深抵達</value>
   </data>
   <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
-    <value>Battles Fought</value>
+    <value>出戰次數</value>
   </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
-    <value>times</value>
+    <value>次</value>
     <comment>battle count 12 times</comment>
   </data>
   <data name="Common_Accept" xml:space="preserve">
-    <value>Accept</value>
+    <value>接受</value>
   </data>
   <data name="Common_Reject" xml:space="preserve">
-    <value>Reject</value>
+    <value>拒絕</value>
   </data>
   <data name="HoyolabToolboxPage_WarningAgain" xml:space="preserve">
-    <value>Warning Again</value>
+    <value>再次警告</value>
   </data>
   <data name="Common_Disclaimer" xml:space="preserve">
-    <value>Disclaimer</value>
+    <value>免責聲明</value>
   </data>
   <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
-    <value>The features of this page requires you to log in to your Hyperion/HoYoLAB account, and Starward will save your login credentials (Cookie) and impersonate you to send requests to miHoYo's server. This method is risky and we are not responsible if your account is abnormal or banned as a result.
+    <value>呢個頁面嘅功能需要你登入你嘅 米游社/HoYoLAB account， Starward 會儲存你嘅登入憑證（ Cookie ），並模仿你本人向 miHoYo 嘅 server 發送請求。呢個方法係有風險嘅，如果你嘅 account 因此出現異常或者被 ban，本應用唔會負責。
 
-Do you accept the risk and continue to use it?</value>
+你接受唔接受風險同繼續用佢？</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
-    <value>Stellar Jade Sources</value>
+    <value>星瓊收入組成</value>
   </data>
   <data name="ForgottenHallPage_Period" xml:space="preserve">
-    <value>Period</value>
+    <value>統計週期</value>
   </data>
   <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
-    <value>Cycles used:</value>
+    <value>使用輪：</value>
   </data>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
-    <value>Team Setup</value>
+    <value>節點</value>
     <comment>example: forgotten hall team setup 1</comment>
   </data>
   <data name="Common_AccountError" xml:space="preserve">
-    <value>Account Error</value>
+    <value>Account 異常</value>
   </data>
   <data name="Common_NetworkError" xml:space="preserve">
-    <value>Network Error</value>
+    <value>網路異常</value>
   </data>
   <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
-    <value>Verify Account</value>
+    <value>驗證帳戶</value>
   </data>
   <data name="DownloadGameService_RepairMode" xml:space="preserve">
-    <value>Repair Mode</value>
+    <value>修復模式</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
     <value>It takes additional storage space when unzip.</value>
