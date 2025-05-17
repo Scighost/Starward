@@ -1645,120 +1645,120 @@
     <value>重新定位遊戲</value>
   </data>
   <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
-    <value>Size</value>
+    <value>大小</value>
   </data>
   <data name="GameLauncherSettingDialog_BasicInformation" xml:space="preserve">
-    <value>Basic Information</value>
+    <value>基本資料</value>
   </data>
   <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
-    <value>Startup Arguments</value>
+    <value>啟動參數</value>
   </data>
   <data name="GameLauncherSettingDialog_CustomBackground" xml:space="preserve">
-    <value>Custom Background</value>
+    <value>自訂背景</value>
   </data>
   <data name="GameLauncherSettingDialog_GamePackages" xml:space="preserve">
-    <value>Game Packages</value>
+    <value>遊戲資源包</value>
   </data>
   <data name="GameLauncherSettingDialog_CommandLineArgument" xml:space="preserve">
-    <value>Command Line Argument</value>
+    <value>指令行參數</value>
   </data>
   <data name="GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument" xml:space="preserve">
-    <value>See more information about command line argument.</value>
+    <value>查看有關指令行參數嘅更多資訊。</value>
   </data>
   <data name="GameLauncherSettingDialog_UseVersionPoster" xml:space="preserve">
-    <value>Use Version Poster</value>
+    <value>使用版本海報</value>
   </data>
   <data name="GameSelector_ActualSizeOfInstalledGames" xml:space="preserve">
-    <value>Actual Size of Installed Games</value>
+    <value>已安裝遊戲實際佔用空間</value>
   </data>
   <data name="GameSelector_StorageSpaceSavedByHardLinks" xml:space="preserve">
-    <value>Storage Space Saved by Hard Links</value>
+    <value>通過硬連結嚟節省存儲空間</value>
   </data>
   <data name="GameLauncherSettingDialog_CannotDecodeFile" xml:space="preserve">
-    <value>Cannot decode file.</value>
+    <value>無法解碼檔案。</value>
   </data>
   <data name="GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs" xml:space="preserve">
-    <value>An unknown error occurred. Please check the logs.</value>
+    <value>發生未知錯誤，請檢查日誌。</value>
   </data>
   <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
-    <value>Drag and drop image / video files.</value>
+    <value>拖放圖片 / 影片檔案。</value>
   </data>
   <data name="GameSelector_Calculating" xml:space="preserve">
-    <value>Calculating</value>
+    <value>計算緊</value>
     <comment>Calculating storage space usage.</comment>
   </data>
   <data name="SettingPage_General" xml:space="preserve">
-    <value>General</value>
+    <value>一般</value>
     <comment>General Setting</comment>
   </data>
   <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
-    <value>For a better experience, please enable the following features in system settings.</value>
+    <value>為咗更好嘅體驗，請係系統設定入面啟用以下功能。</value>
   </data>
   <data name="PlayTimeButton_Last7Days" xml:space="preserve">
-    <value>Last 7 Days</value>
+    <value>最近 7 日</value>
   </data>
   <data name="PlayTimeButton_LastStartup" xml:space="preserve">
-    <value>Last Startup</value>
+    <value>上次啟動</value>
   </data>
   <data name="UpdateWindow_AutoRestartAfterUpdate" xml:space="preserve">
-    <value>Auto-restart after update</value>
+    <value>更新咗之後自動重新啟動應用程式</value>
   </data>
   <data name="UpdateWindow_DisplayUpdateContentAfterRestart" xml:space="preserve">
-    <value>Display update content after restart</value>
+    <value>重新啟動程式之後展示更新內容</value>
   </data>
   <data name="Common_WebView2ComponentInitializationFailed" xml:space="preserve">
-    <value>WebView2 component initialization failed.</value>
+    <value>WebView2 元件初始化失敗。</value>
   </data>
   <data name="SettingPage_RPCService" xml:space="preserve">
-    <value>RPC Service</value>
+    <value>RPC 服務</value>
   </data>
   <data name="SettingPage_RPCService_Desc" xml:space="preserve">
-    <value>The RPC service is an independent process used to avoid restarting when downloading games, updating software, and other features that require administrator privileges.</value>
+    <value>RPC 服務係一個獨立嘅處理程序，用係下載遊戲、更新軟件、以及其他需要系統管理員權限嘅功能，避免重新啟動。</value>
   </data>
   <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
-    <value>Keep RPC Service Running in the Background</value>
+    <value>保持 RPC 服務係後台工作</value>
   </data>
   <data name="SettingPage_RPCServiceWarningIfAppInRemovableStorage" xml:space="preserve">
-    <value>Detected that the application is in a removable storage device, it is not recommended to keep the RPC service running in the background.</value>
+    <value>偵測到應用程式處於可移動儲存裝置中，唔建議保持 RPC 服務係後台運作。</value>
   </data>
   <data name="ZZZGachaService_ImportSignalSearchRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} signal search record(s) successfully.</value>
+    <value>成功匯入調頻記錄 {0} 條。</value>
   </data>
   <data name="InstallGameDialog_HardLinkDesc" xml:space="preserve">
-    <value>If the selected path is on the same drive as the clients of other installed servers, multiple clients for different servers can be installed using hard links, which occupy a minimal amount of additional storage space.</value>
+    <value>如果選擇嘅路徑同已安裝嘅其他區服嘅客戶端位於同一個磁碟機，可通過硬鏈接，佔用極小嘅額外儲存空間，安裝多個唔同區服嘅客戶端。</value>
   </data>
   <data name="InstallGameDialog_SupportHardLinks" xml:space="preserve">
-    <value>Support Hard Links</value>
+    <value>支持硬連結</value>
   </data>
   <data name="PreDownloadDialog_NoPatchesWarning" xml:space="preserve">
-    <value>There are no patch packagees available. It is recommended to update the game to the latest version before starting pre-install.</value>
+    <value>無可用嘅修補包。建議將遊戲 update 到最新版本之後再開始預先下載。</value>
   </data>
   <data name="PreDownloadDialog_StartPreInstall" xml:space="preserve">
-    <value>Start Pre-Install</value>
+    <value>開始預先下載</value>
   </data>
   <data name="GameLauncherSettingDialog_StartRepairing" xml:space="preserve">
-    <value>Start Repairing</value>
+    <value>開始修復</value>
   </data>
   <data name="PreDownloadButton_PreInstallFinished" xml:space="preserve">
-    <value>Pre-Install Finished</value>
+    <value>預先下載已完成</value>
   </data>
   <data name="Common_Error" xml:space="preserve">
-    <value>Error</value>
+    <value>錯誤</value>
   </data>
   <data name="StartGameButton_InQueue" xml:space="preserve">
-    <value>In Queue</value>
+    <value>排緊隊</value>
   </data>
   <data name="RPCServiceExitedUnexpectedly" xml:space="preserve">
-    <value>RPC service exited unexpectedly.</value>
+    <value>RPC 服務意外退出。</value>
   </data>
   <data name="StartGameButton_Install" xml:space="preserve">
-    <value>Install</value>
+    <value>安裝</value>
   </data>
   <data name="StartGameButton_Verify" xml:space="preserve">
-    <value>Verify</value>
+    <value>校驗</value>
   </data>
   <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
-    <value>RPC Service is not Running</value>
+    <value>RPC 服務未執行</value>
   </data>
   <data name="SettingPage_RunService" xml:space="preserve">
     <value>Run Service</value>
