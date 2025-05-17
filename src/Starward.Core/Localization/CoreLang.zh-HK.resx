@@ -118,178 +118,178 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GachaType_CharacterEventWarp" xml:space="preserve">
-    <value>Character Event Warp</value>
+    <value>角色活動躍遷</value>
   </data>
   <data name="GachaType_CharacterEventWish" xml:space="preserve">
-    <value>Character Event Wish</value>
+    <value>角色活動祈願</value>
   </data>
   <data name="GachaType_CharacterEventWish_2" xml:space="preserve">
-    <value>Character Event Wish - 2</value>
+    <value>角色活動祈願-2</value>
   </data>
   <data name="GachaType_DepartureWarp" xml:space="preserve">
-    <value>Departure Warp</value>
+    <value>始發躍遷</value>
   </data>
   <data name="GachaType_LightConeEventWarp" xml:space="preserve">
-    <value>Light Cone Event Warp</value>
+    <value>光錐活動躍遷</value>
   </data>
   <data name="GachaType_NoviceWish" xml:space="preserve">
-    <value>Novice Wish</value>
+    <value>新手祈願</value>
   </data>
   <data name="GachaType_PermanentWish" xml:space="preserve">
-    <value>Permanent Wish</value>
+    <value>常駐祈願</value>
   </data>
   <data name="GachaType_StellarWarp" xml:space="preserve">
-    <value>Stellar Warp</value>
+    <value>群星躍遷</value>
   </data>
   <data name="GachaType_WeaponEventWish" xml:space="preserve">
-    <value>Weapon Event Wish</value>
+    <value>武器活動祈願</value>
   </data>
   <data name="Gacha_CannotParseTheWarpRecordURL" xml:space="preserve">
-    <value>Cannot parse the warp record URL.</value>
+    <value>解析唔到嘅躍遷記錄嘅 URL</value>
   </data>
   <data name="Gacha_CannotParseTheWishRecordURL" xml:space="preserve">
-    <value>Cannot parse the wish record URL.</value>
+    <value>解析唔到嘅祈願記錄的URL</value>
   </data>
   <data name="PostType_Activity" xml:space="preserve">
-    <value>Events</value>
+    <value>活動</value>
   </data>
   <data name="PostType_Announcement" xml:space="preserve">
-    <value>Notices</value>
+    <value>公告</value>
   </data>
   <data name="PostType_Information" xml:space="preserve">
-    <value>Info</value>
+    <value>資訊</value>
   </data>
   <data name="Game_GenshinImpact" xml:space="preserve">
-    <value>Genshin Impact</value>
+    <value>原神</value>
   </data>
   <data name="Game_HonkaiStarRail" xml:space="preserve">
-    <value>Honkai: Star Rail</value>
+    <value>崩壞：星穹鐵道</value>
   </data>
   <data name="Game_HonkaiImpact3rd" xml:space="preserve">
-    <value>Honkai Impact 3rd</value>
+    <value>崩壞 3rd</value>
   </data>
   <data name="GameServer_ChinaServer" xml:space="preserve">
-    <value>China Server</value>
+    <value>大陸版 server</value>
   </data>
   <data name="GameServer_GlobalServer" xml:space="preserve">
-    <value>Global Server</value>
+    <value>國際版 server</value>
   </data>
   <data name="GameServer_ChinaCloudServer" xml:space="preserve">
-    <value>China Cloud Server</value>
+    <value>大陸雲端游戲</value>
   </data>
   <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
-    <value>Europe &amp; Americas Servers</value>
+    <value>歐美 server</value>
   </data>
   <data name="GameServer_JapanServer" xml:space="preserve">
-    <value>Japan Server</value>
+    <value>日本 server</value>
   </data>
   <data name="GameServer_KoreaServer" xml:space="preserve">
-    <value>Korea Server</value>
+    <value>韓國 server</value>
   </data>
   <data name="GameServer_SEAServer" xml:space="preserve">
-    <value>Southeast Asia Server</value>
+    <value>東南亞 server</value>
     <comment>Southeast Asia and Australia Server</comment>
   </data>
   <data name="GameServer_TraditionalChineseServer" xml:space="preserve">
-    <value>Traditional Chinese Server</value>
+    <value>繁體中文 server</value>
   </data>
   <data name="GenshinQueryType_GenesisCrystal" xml:space="preserve">
-    <value>Genesis Crystals</value>
+    <value>創世結晶</value>
   </data>
   <data name="GenshinQueryType_Primogem" xml:space="preserve">
-    <value>Primogems</value>
+    <value>原石</value>
   </data>
   <data name="GenshinQueryType_OriginalResin" xml:space="preserve">
-    <value>Original Resins</value>
+    <value>原粹樹脂</value>
   </data>
   <data name="GenshinQueryType_Artifact" xml:space="preserve">
-    <value>Artifacts</value>
+    <value>聖遺物</value>
   </data>
   <data name="GenshinQueryType_Weapon" xml:space="preserve">
-    <value>Weapons</value>
+    <value>武器</value>
   </data>
   <data name="StarRailQueryType_StellarJade" xml:space="preserve">
-    <value>Stellar Jade</value>
+    <value>星瓊</value>
   </data>
   <data name="StarRailQueryType_OneiricShared" xml:space="preserve">
-    <value>Oneiric Shared</value>
+    <value>古老夢華</value>
   </data>
   <data name="StarRailQueryType_Relic" xml:space="preserve">
-    <value>Relic</value>
+    <value>遺器</value>
   </data>
   <data name="StarRailQueryType_LightCone" xml:space="preserve">
-    <value>Light Cone</value>
+    <value>光錐</value>
   </data>
   <data name="StarRailQueryType_TrailblazePower" xml:space="preserve">
-    <value>Trailblaze Power</value>
+    <value>開拓力</value>
   </data>
   <data name="GameServer_BilibiliServer" xml:space="preserve">
-    <value>Bilibili Server</value>
+    <value>嗶哩嗶哩 server</value>
   </data>
   <data name="GachaType_ChronicledWish" xml:space="preserve">
-    <value>Chronicled Wish</value>
+    <value>集錄祈願</value>
   </data>
   <data name="Game_ZZZ" xml:space="preserve">
-    <value>Zenless Zone Zero</value>
+    <value>絕區零</value>
   </data>
   <data name="GameServer_ZZZCBT3" xml:space="preserve">
-    <value>CBT3</value>
+    <value>喧響測試</value>
   </data>
   <data name="GameServer_ChinaOfficial" xml:space="preserve">
-    <value>China Official</value>
+    <value>大陸官方</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>Global Official</value>
+    <value>國際官方</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
-    <value>China Cloud</value>
+    <value>大陸雲端游戲</value>
   </data>
   <data name="GameServer_Bilibili" xml:space="preserve">
-    <value>Bilibili</value>
+    <value>嗶哩嗶哩</value>
   </data>
   <data name="GameServer_EuropeAmericas" xml:space="preserve">
-    <value>Europe &amp; Americas</value>
+    <value>歐美</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
-    <value>Japan</value>
+    <value>日本</value>
   </data>
   <data name="GameServer_Korea" xml:space="preserve">
-    <value>Korea</value>
+    <value>韓國</value>
   </data>
   <data name="GameServer_SoutheastAsia" xml:space="preserve">
-    <value>Southeast Asia</value>
+    <value>東南亞</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
-    <value>Traditional Chinese</value>
+    <value>繁體中文</value>
   </data>
   <data name="GachaType_StandardChannel" xml:space="preserve">
-    <value>Standard Channel</value>
+    <value>常駐頻道</value>
   </data>
   <data name="GachaType_ExclusiveChannel" xml:space="preserve">
-    <value>Exclusive Channel</value>
+    <value>獨家頻道</value>
   </data>
   <data name="GachaType_WEngineChannel" xml:space="preserve">
-    <value>W-Engine Channel</value>
+    <value>音擎頻道</value>
   </data>
   <data name="GachaType_BangbooChannel" xml:space="preserve">
-    <value>Bangboo Channel</value>
+    <value>邦布頻道</value>
   </data>
   <data name="ZZZQueryType_Monochrome" xml:space="preserve">
-    <value>Monochrome</value>
+    <value>菲林底片</value>
   </data>
   <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
-    <value>Ploychrome</value>
+    <value>菲林</value>
   </data>
   <data name="ZZZQueryType_Bundle" xml:space="preserve">
-    <value>Bundle</value>
+    <value>禮包</value>
   </data>
   <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
-    <value>Battery Charge</value>
+    <value>電量</value>
   </data>
   <data name="ZZZQueryType_WEngine" xml:space="preserve">
-    <value>W-Engine</value>
+    <value>音擎</value>
   </data>
   <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
-    <value>Drive Disc</value>
+    <value>驅動光碟</value>
   </data>
 </root>
