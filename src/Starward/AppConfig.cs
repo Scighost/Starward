@@ -286,7 +286,6 @@ public static class AppConfig
             sc.AddSingleton<GameLauncherService>();
             sc.AddSingleton<GamePackageService>();
             sc.AddSingleton<PlayTimeService>();
-            sc.AddSingleton<GameSettingService>();
             sc.AddSingleton<GameNoticeService>();
 
             sc.AddSingleton<GenshinGachaClient>();

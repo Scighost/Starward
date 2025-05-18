@@ -1,4 +1,4 @@
-﻿<sf:PageBase x:Class="Starward.Features.GameSetting.GameSettingPage"
+<sf:PageBase x:Class="Starward.Features.GameSetting.GameSettingPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -84,55 +84,17 @@
 
                 <StackPanel Grid.Row="1"
                             Grid.Column="1"
-                            Margin="-12,0,0,0"
+                            Spacing="12"
                             Visibility="{x:Bind IsGraphicsSettingEnable}">
                     <!--  图形设置  -->
                     <TextBlock FontSize="20"
                                FontWeight="Bold"
                                Text="{x:Bind lang:Lang.GameSettingPage_GraphicsSetting}" />
-                    <!--  图像质量预设  -->
-                    <TextBlock Margin="0,12,0,0"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="{x:Bind lang:Lang.GameSettingPage_GraphicsQualityPreset}" />
-                    <ComboBox Width="120"
-                              Margin="0,8,0,0"
-                              SelectedIndex="{x:Bind GraphicsQualityIndex, Mode=TwoWay}">
-                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Custom}" />
-                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryLow}" />
-                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
-                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
-                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
-                        <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryHigh}" />
-                    </ComboBox>
-                    <VariableSizedWrapGrid Margin="0,8,0,0"
-                                           ItemHeight="36"
-                                           ItemWidth="164"
-                                           MaximumRowsOrColumns="3"
-                                           Orientation="Horizontal">
-                        <!--  渲染精度  -->
-                        <TextBlock Margin="0,0,0,8"
-                                   VerticalAlignment="Bottom"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind lang:Lang.GameSettingPage_RenderScale}"
-                                   VariableSizedWrapGrid.ColumnSpan="2" />
-                        <TextBlock Margin="0,0,40,8"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Bottom"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind RenderScale.ToString('F1', x:Null)}" />
-                        <Slider Name="Slider_RenderScale"
-                                Margin="0,0,44,0"
-                                HorizontalAlignment="Stretch"
-                                Maximum="2.0"
-                                Minimum="0.6"
-                                StepFrequency="0.2"
-                                TickFrequency="0.2"
-                                TickPlacement="Outside"
-                                VariableSizedWrapGrid.ColumnSpan="3"
-                                Value="{x:Bind RenderScale, Mode=TwoWay}" />
-                        <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                            <!--  帧率  -->
+                    <!--  星铁帧率  -->
+                    <StackPanel x:Name="StackPanel_StarRailFPS"
+                                Spacing="8"
+                                Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
                             <TextBlock VerticalAlignment="Bottom"
                                        FontWeight="Bold"
                                        Text="{x:Bind lang:Lang.GameSettingPage_FPS}" />
@@ -145,111 +107,20 @@
                                           Glyph="&#xE9CE;" />
                                 <Button.Flyout>
                                     <Flyout>
-                                        <!--  帧率设置为 120 后将导致游戏内图形设置无法使用  -->
+                                        <!--  帧率 120 在游戏内显示为 30 是正常现象  -->
                                         <TextBlock MaxWidth="360"
-                                                   Text="{x:Bind lang:Lang.GameSettingPage_FPSWarning}"
+                                                   Text="{x:Bind lang:Lang.ItIsNormalFor120FPSToDisplayAs30FPSInTheGame}"
                                                    TextWrapping="Wrap" />
                                     </Flyout>
                                 </Button.Flyout>
                             </Button>
                         </StackPanel>
-                        <!--  垂直同步  -->
-                        <TextBlock Margin="0,0,0,8"
-                                   VerticalAlignment="Bottom"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind lang:Lang.GameSettingPage_VSync}" />
-                        <!--  抗锯齿  -->
-                        <TextBlock Margin="0,0,0,8"
-                                   VerticalAlignment="Bottom"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind lang:Lang.GameSettingPage_AntiAliasing}" />
-                        <ComboBox Width="120" SelectedIndex="{x:Bind FpsIndex, Mode=TwoWay}">
+                        <ComboBox Width="120" SelectedIndex="{x:Bind StarRailFpsIndex, Mode=TwoWay}">
                             <ComboBoxItem Content="30" />
                             <ComboBoxItem Content="60" />
                             <ComboBoxItem Content="120" />
                         </ComboBox>
-                        <ComboBox Width="120" SelectedIndex="{x:Bind VSyncIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Off}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_On}" />
-                        </ComboBox>
-                        <ComboBox Width="120" SelectedIndex="{x:Bind AAModeIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Off}" />
-                            <ComboBoxItem Content="TAA" />
-                            <ComboBoxItem Content="FXAA" />
-                        </ComboBox>
-                        <!--  阴影质量  -->
-                        <TextBlock Margin="0,0,0,8"
-                                   VerticalAlignment="Bottom"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind lang:Lang.GameSettingPage_ShadowQuality}" />
-                        <!--  反射质量  -->
-                        <TextBlock Margin="0,0,0,8"
-                                   VerticalAlignment="Bottom"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind lang:Lang.GameSettingPage_ReflectionQuality}" />
-                        <!--  角色质量  -->
-                        <TextBlock Margin="0,0,0,8"
-                                   VerticalAlignment="Bottom"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind lang:Lang.GameSettingPage_CharacterQuality}" />
-                        <ComboBox Width="120" SelectedIndex="{x:Bind ShadowQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Off}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
-                        </ComboBox>
-                        <ComboBox Width="120" SelectedIndex="{x:Bind ReflectionQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryLow}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryHigh}" />
-                        </ComboBox>
-                        <ComboBox Width="120" SelectedIndex="{x:Bind CharacterQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
-                        </ComboBox>
-                        <!--  场景细节  -->
-                        <TextBlock Margin="0,0,0,8"
-                                   VerticalAlignment="Bottom"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind lang:Lang.GameSettingPage_EnvironmentDetail}" />
-                        <!--  泛光效果  -->
-                        <TextBlock Margin="0,0,0,8"
-                                   VerticalAlignment="Bottom"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind lang:Lang.GameSettingPage_BloomEffect}" />
-                        <!--  光照质量  -->
-                        <TextBlock Margin="0,0,0,8"
-                                   VerticalAlignment="Bottom"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind lang:Lang.GameSettingPage_LightQuality}" />
-                        <ComboBox Width="120" SelectedIndex="{x:Bind EnvDetailQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryLow}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryHigh}" />
-                        </ComboBox>
-                        <ComboBox Width="120" SelectedIndex="{x:Bind BloomQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Off}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryLow}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryHigh}" />
-                        </ComboBox>
-                        <ComboBox Width="120" SelectedIndex="{x:Bind LightQualityIndex, Mode=TwoWay}">
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryLow}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Low}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
-                            <ComboBoxItem Content="{x:Bind lang:Lang.GameSettingPage_VeryHigh}" />
-                        </ComboBox>
-
-
-                    </VariableSizedWrapGrid>
+                    </StackPanel>
                 </StackPanel>
 
 

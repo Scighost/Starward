@@ -3314,6 +3314,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 It is normal for 120 FPS to display as 30 FPS in the game. 的本地化字符串。
+        /// </summary>
+        public static string ItIsNormalFor120FPSToDisplayAs30FPSInTheGame {
+            get {
+                return ResourceManager.GetString("ItIsNormalFor120FPSToDisplayAs30FPSInTheGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Chinese 的本地化字符串。
         /// </summary>
         public static string Language_Chinese {

@@ -1,4 +1,3 @@
-﻿using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Starward.Core;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Text.Json.Nodes;
 
 namespace Starward.Features.GameSetting;
 
-internal class GameSettingService
+internal static class GameSettingService
 {
 
 
@@ -35,19 +34,7 @@ internal class GameSettingService
 
 
 
-
-    private readonly ILogger<GameSettingService> _logger;
-
-
-    public GameSettingService(ILogger<GameSettingService> logger)
-    {
-        _logger = logger;
-    }
-
-
-
-
-    public GraphicsSettings_PCResolution_h431323223? GetGameResolutionSetting(GameBiz biz)
+    public static GraphicsSettings_PCResolution_h431323223? GetGameResolutionSetting(GameBiz biz)
     {
         var keyPath = biz.GetGameRegistryKey();
         if (biz.ToGame().Value is GameBiz.bh3 or GameBiz.hkrpg)
@@ -85,13 +72,12 @@ internal class GameSettingService
                 return new GraphicsSettings_PCResolution_h431323223 { Width = width, Height = height, IsFullScreen = fullScreen };
             }
         }
-        _logger.LogInformation("Resolution of game {biz} is null", biz);
         return null;
     }
 
 
 
-    public void SetGameResolutionSetting(GameBiz biz, GraphicsSettings_PCResolution_h431323223 model)
+    public static void SetGameResolutionSetting(GameBiz biz, GraphicsSettings_PCResolution_h431323223 model)
     {
         var keyPath = biz.GetGameRegistryKey();
         if (biz.ToGame() == GameBiz.bh3)
@@ -127,7 +113,7 @@ internal class GameSettingService
 
 
 
-    public int? GetGameVoiceLanguageSetting(GameBiz biz)
+    public static int? GetGameVoiceLanguageSetting(GameBiz biz)
     {
         var keyPath = biz.GetGameRegistryKey();
         if (biz.ToGame() == GameBiz.hk4e)
@@ -137,8 +123,7 @@ internal class GameSettingService
             {
                 var str = Encoding.UTF8.GetString(data).TrimEnd('\0');
                 var node = JsonNode.Parse(str);
-                var value = (int)(node?["deviceVoiceLanguageType"] ?? -1);
-                return value >= 0 ? value : null;
+                return node?["deviceVoiceLanguageType"]?.GetValue<int>();
             }
         }
         if (biz.ToGame() == GameBiz.hkrpg)
@@ -157,15 +142,14 @@ internal class GameSettingService
                 };
             }
         }
-        _logger.LogInformation("Voice language of game {biz} is null", biz);
         return null;
     }
 
 
-    public void SetGameVoiceLanguageSetting(GameBiz biz, int lang)
+    public static void SetGameVoiceLanguageSetting(GameBiz biz, int lang)
     {
         var keyPath = biz.GetGameRegistryKey();
-        if (biz.ToGame() == GameBiz.hk4e)
+        if (biz.Game is GameBiz.hk4e)
         {
             var data = Registry.GetValue(keyPath, GENERAL_DATA_h2389025596, null) as byte[];
             JsonNode? node = null;
@@ -173,22 +157,12 @@ internal class GameSettingService
             {
                 var str = Encoding.UTF8.GetString(data).TrimEnd('\0');
                 node = JsonNode.Parse(str);
-                if (node != null)
-                {
-                    node["deviceVoiceLanguageType"] = lang;
-                }
+                node?["deviceVoiceLanguageType"] = lang;
             }
-            if (node != null)
-            {
-                var str = node.ToJsonString() + "\0";
-                Registry.SetValue(keyPath, GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes(str));
-            }
-            else
-            {
-                Registry.SetValue(keyPath, GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes($"{{\"deviceVoiceLanguageType\": {lang}}}\0"));
-            }
+            string value = $"{node?.ToJsonString() ?? ($$"""{"deviceVoiceLanguageType":{{lang}}}""")}\0";
+            Registry.SetValue(keyPath, GENERAL_DATA_h2389025596, Encoding.UTF8.GetBytes(value));
         }
-        if (biz.ToGame() == GameBiz.hkrpg)
+        if (biz.Game is GameBiz.hkrpg)
         {
             var str = lang switch
             {
@@ -207,59 +181,56 @@ internal class GameSettingService
 
 
 
-    public int? GetGraphicsQualitySetting(GameBiz biz)
+    public static int GetStarRailFPSIndex(GameBiz biz)
     {
-        var keyPath = biz.GetGameRegistryKey();
-        if (biz.ToGame() == GameBiz.hkrpg)
+        if (biz.Game is GameBiz.hkrpg)
         {
-            var value = (int)(Registry.GetValue(keyPath, GraphicsSettings_GraphicsQuality_h523255858, 0) ?? -1);
-            return value >= 0 ? value : null;
-        }
-        _logger.LogInformation("Graphics quality of game {biz} is null", biz);
-        return null;
-    }
-
-
-
-    public void SetGraphicsQualitySetting(GameBiz biz, int value)
-    {
-        if (biz.ToGame() == GameBiz.hkrpg)
-        {
-            var keyPath = biz.GetGameRegistryKey();
-            Registry.SetValue(keyPath, GraphicsSettings_GraphicsQuality_h523255858, value);
-        }
-    }
-
-
-
-    public GraphicsSettings_Model_h2986158309? GetGraphicsSettingModel(GameBiz biz)
-    {
-        var keyPath = biz.GetGameRegistryKey();
-        if (biz.ToGame() == GameBiz.hkrpg)
-        {
-            var data = Registry.GetValue(keyPath, GraphicsSettings_Model_h2986158309, null) as byte[];
+            string key = biz.GetGameRegistryKey();
+            byte[]? data = Registry.GetValue(key, GraphicsSettings_Model_h2986158309, null) as byte[];
             if (data is not null)
             {
-                var str = Encoding.UTF8.GetString(data).TrimEnd('\0');
-                return JsonSerializer.Deserialize<GraphicsSettings_Model_h2986158309>(str);
+                string str = Encoding.UTF8.GetString(data).TrimEnd('\0');
+                JsonNode? node = JsonNode.Parse(str);
+                if (node is not null)
+                {
+                    int fps = node["FPS"]?.GetValue<int>() ?? 60;
+                    return fps switch
+                    {
+                        30 => 0,
+                        120 => 2,
+                        _ => 1,
+                    };
+                }
             }
         }
-        _logger.LogInformation("Graphics setting model of game {biz} is null", biz);
-        return null;
+        return 1;
     }
 
 
-
-    public void SetGraphicsSettingModel(GameBiz biz, GraphicsSettings_Model_h2986158309? model)
+    public static void SetStarRailFPSIndex(GameBiz biz, int fpsIndex)
     {
-        if (biz.ToGame() == GameBiz.hkrpg)
+        if (biz.Game is GameBiz.hkrpg)
         {
-            var keyPath = biz.GetGameRegistryKey();
-            var str = JsonSerializer.Serialize(model) + "\0";
-            Registry.SetValue(keyPath, GraphicsSettings_Model_h2986158309, Encoding.UTF8.GetBytes(str));
+            int fps = fpsIndex switch
+            {
+                0 => 30,
+                1 => 60,
+                2 => 120,
+                _ => 60,
+            };
+            string key = biz.GetGameRegistryKey();
+            JsonNode? node = null;
+            byte[]? data = Registry.GetValue(key, GraphicsSettings_Model_h2986158309, null) as byte[];
+            if (data is not null)
+            {
+                string str = Encoding.UTF8.GetString(data).TrimEnd('\0');
+                node = JsonNode.Parse(str);
+                node?["FPS"] = fps;
+            }
+            string value = $"{node?.ToJsonString() ?? ($$"""{"FPS":{{fps}}}""")}\0";
+            Registry.SetValue(key, GraphicsSettings_Model_h2986158309, Encoding.UTF8.GetBytes(value));
         }
     }
-
 
 
 
