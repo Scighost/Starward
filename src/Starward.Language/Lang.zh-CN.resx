@@ -2064,4 +2064,7 @@
   <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
     <value>隐藏卡池</value>
   </data>
+  <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
+    <value>120 帧率在游戏中显示为 30 是正常现象。</value>
+  </data>
 </root>
