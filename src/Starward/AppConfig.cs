@@ -19,7 +19,6 @@ using Starward.Features.GameAccount;
 using Starward.Features.GameInstall;
 using Starward.Features.GameLauncher;
 using Starward.Features.GameRecord;
-using Starward.Features.GameSetting;
 using Starward.Features.HoYoPlay;
 using Starward.Features.PlayTime;
 using Starward.Features.RPC;
@@ -633,6 +632,16 @@ public static class AppConfig
     public static bool EnableHardLink
     {
         get => GetValue(true);
+        set => SetValue(value);
+    }
+
+
+    /// <summary>
+    /// 原神HDR
+    /// </summary>
+    public static bool EnableGenshinHDR
+    {
+        get => GetValue(false);
         set => SetValue(value);
     }
 

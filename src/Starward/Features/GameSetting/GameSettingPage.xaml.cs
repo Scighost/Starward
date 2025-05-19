@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.Graphics.Display;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -8,8 +9,10 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Features.GameLauncher;
 using Starward.Frameworks;
+using Starward.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -62,6 +65,17 @@ public sealed partial class GameSettingPage : PageBase
     {
         InitializeResolutionItem();
         await InitializeGameSettingAsync();
+    }
+
+
+    protected override void OnUnloaded()
+    {
+        if (_displayInformation is not null)
+        {
+            _displayInformation.AdvancedColorInfoChanged -= _displayInformation_AdvancedColorInfoChanged;
+            _displayInformation.Dispose();
+            _displayInformation = null!;
+        }
     }
 
 
@@ -122,7 +136,6 @@ public sealed partial class GameSettingPage : PageBase
     }
 
 
-
     public int ResolutionHeight
     {
         get;
@@ -149,8 +162,6 @@ public sealed partial class GameSettingPage : PageBase
     }
 
 
-
-
     public int StarRailFpsIndex
     {
         get;
@@ -163,6 +174,21 @@ public sealed partial class GameSettingPage : PageBase
         }
     }
 
+
+    public bool EnableGenshinHDR
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                IsApplyButtonEnable = true;
+            }
+        }
+    }
+
+
+    public bool SupportHDR { get; set => SetProperty(ref field, value); }
 
 
     private async Task InitializeGameSettingAsync()
@@ -185,6 +211,15 @@ public sealed partial class GameSettingPage : PageBase
                 IsGraphicsSettingEnable = true;
                 StackPanel_StarRailFPS.Visibility = Visibility.Visible;
                 StarRailFpsIndex = GameSettingService.GetStarRailFPSIndex(CurrentGameBiz);
+            }
+            if (CurrentGameBiz.Game is GameBiz.hk4e)
+            {
+                IsGraphicsSettingEnable = true;
+                StackPanel_GenshinHDR.Visibility = Visibility.Visible;
+                EnableGenshinHDR = AppConfig.EnableGenshinHDR;
+                _displayInformation = DisplayInformation.CreateForWindowId(this.XamlRoot.GetAppWindow().Id);
+                _displayInformation.AdvancedColorInfoChanged += _displayInformation_AdvancedColorInfoChanged;
+                SupportHDR = _displayInformation.GetAdvancedColorInfo().IsAdvancedColorKindAvailable(DisplayAdvancedColorKind.HighDynamicRange);
             }
             StartArgument = AppConfig.GetStartArgument(CurrentGameBiz);
             var resolutionSetting = GameSettingService.GetGameResolutionSetting(CurrentGameBiz);
@@ -224,7 +259,6 @@ public sealed partial class GameSettingPage : PageBase
             IsApplyButtonEnable = false;
         }
     }
-
 
 
 
@@ -326,6 +360,19 @@ public sealed partial class GameSettingPage : PageBase
     }
 
 
+    [RelayCommand]
+    private async Task OpenGenshinHDRLumianceSettingWindow()
+    {
+        try
+        {
+            await new GenshinHDRLuminanceSettingDialog { XamlRoot = this.XamlRoot, CurrentGameBiz = this.CurrentGameBiz }.ShowAsync();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
+    }
+
 
 
     [RelayCommand]
@@ -359,6 +406,11 @@ public sealed partial class GameSettingPage : PageBase
                 {
                     GameSettingService.SetStarRailFPSIndex(CurrentGameBiz, StarRailFpsIndex);
                 }
+                if (CurrentGameBiz.Game is GameBiz.hk4e)
+                {
+                    AppConfig.EnableGenshinHDR = EnableGenshinHDR;
+                    GameSettingService.SetGenshinEnableHDR(CurrentGameBiz, EnableGenshinHDR);
+                }
             }
             // 游戏运行时应用的设置无法生效
             ErrorMessage = Lang.GameSettingPage_SettingNotEffect;
@@ -371,6 +423,18 @@ public sealed partial class GameSettingPage : PageBase
         }
     }
 
+
+
+    private DisplayInformation _displayInformation;
+
+    private void _displayInformation_AdvancedColorInfoChanged(DisplayInformation sender, object args)
+    {
+        try
+        {
+            SupportHDR = sender.GetAdvancedColorInfo().IsAdvancedColorKindAvailable(DisplayAdvancedColorKind.HighDynamicRange);
+        }
+        catch { }
+    }
 
 
 

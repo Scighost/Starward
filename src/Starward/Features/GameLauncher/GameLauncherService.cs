@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Features.GameSetting;
 using Starward.Features.HoYoPlay;
 using Starward.Features.PlayTime;
 using Starward.Helpers;
@@ -329,6 +330,10 @@ internal partial class GameLauncherService
                 {
                     arg += $" login_auth_ticket={ticket}";
                 }
+            }
+            if (gameId.GameBiz.Game is GameBiz.hk4e)
+            {
+                GameSettingService.SetGenshinEnableHDR(gameId.GameBiz, AppConfig.EnableGenshinHDR);
             }
             _logger.LogInformation("Start game ({biz})\r\npath: {exe}\r\narg: {arg}", gameId, exe, arg);
             var info = new ProcessStartInfo

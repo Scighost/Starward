@@ -90,6 +90,7 @@
                     <TextBlock FontSize="20"
                                FontWeight="Bold"
                                Text="{x:Bind lang:Lang.GameSettingPage_GraphicsSetting}" />
+
                     <!--  星铁帧率  -->
                     <StackPanel x:Name="StackPanel_StarRailFPS"
                                 Spacing="8"
@@ -121,6 +122,25 @@
                             <ComboBoxItem Content="120" />
                         </ComboBox>
                     </StackPanel>
+
+                    <!--  原神 HDR  -->
+                    <StackPanel x:Name="StackPanel_GenshinHDR"
+                                Spacing="8"
+                                Visibility="Collapsed">
+                        <TextBlock FontWeight="Bold" Text="HDR" />
+                        <CheckBox Content="{x:Bind lang:Lang.GameSettingPage_EnableHDR}" IsChecked="{x:Bind EnableGenshinHDR, Mode=TwoWay}" />
+                        <Button Command="{x:Bind OpenGenshinHDRLumianceSettingWindowCommand}" Content="{x:Bind lang:Lang.GameSettingPage_HDRBrightnessSetting}" />
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind lang:Lang.GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsThePrimaryDisplay}"
+                                   TextWrapping="Wrap" />
+                        <InfoBar Title="{x:Bind lang:Lang.GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled}"
+                                 Margin="0,0,24,0"
+                                 IsClosable="False"
+                                 IsOpen="True"
+                                 Severity="Warning"
+                                 Visibility="{x:Bind SupportHDR, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                    </StackPanel>
+
                 </StackPanel>
 
 

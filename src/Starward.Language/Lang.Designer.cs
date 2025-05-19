@@ -458,6 +458,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Restore Defaults 的本地化字符串。
+        /// </summary>
+        public static string Common_RestoreDefaults {
+            get {
+                return ResourceManager.GetString("Common_RestoreDefaults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Save 的本地化字符串。
         /// </summary>
         public static string Common_Save {
@@ -2376,6 +2385,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Enable HDR 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_EnableHDR {
+            get {
+                return ResourceManager.GetString("GameSettingPage_EnableHDR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Environment Detail 的本地化字符串。
         /// </summary>
         public static string GameSettingPage_EnvironmentDetail {
@@ -2448,11 +2466,30 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 HDR Brightness Setting 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_HDRBrightnessSetting {
+            get {
+                return ResourceManager.GetString("GameSettingPage_HDRBrightnessSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 High 的本地化字符串。
         /// </summary>
         public static string GameSettingPage_High {
             get {
                 return ResourceManager.GetString("GameSettingPage_High", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 If you have multiple monitors, you need to set the HDR-supported monitor as the primary display. 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsThePrimaryDisplay {
+            get {
+                return ResourceManager.GetString("GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsTheP" +
+                        "rimaryDisplay", resourceCulture);
             }
         }
         
@@ -2574,6 +2611,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 The current monitor does not support HDR or Windows HDR is not enabled. 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled {
+            get {
+                return ResourceManager.GetString("GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Very High 的本地化字符串。
         /// </summary>
         public static string GameSettingPage_VeryHigh {
@@ -2624,6 +2670,114 @@ namespace Starward.Language {
         public static string GenshinGachaService_ImportWishRecordsSuccessfully {
             get {
                 return ResourceManager.GetString("GenshinGachaService_ImportWishRecordsSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Adapt to Monitor Brightness 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_AdaptToMonitorBrightness {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_AdaptToMonitorBrightness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Color Space 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_ColorSpace {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_ColorSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 High Dynamic Range 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_HighDynamicRange {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_HighDynamicRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Max Full-Screen Luminance 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_MaxFullScreenLuminance {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_MaxFullScreenLuminance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Max Luminance 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_MaxLuminance {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_MaxLuminance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Monitor Information 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_MonitorInformation {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_MonitorInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Peak Luminance 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_PeakLuminance {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_PeakLuminance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Scenery Brightness 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_SceneryBrightness {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_SceneryBrightness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 SDR White Luminance 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_SDRWhiteLuminance {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_SDRWhiteLuminance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Standard Dynamic Range 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_StandardDynamicRange {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_StandardDynamicRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 UI Brightness 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_UIBrightness {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_UIBrightness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Wide Color Gamut 的本地化字符串。
+        /// </summary>
+        public static string GenshinHDRLuminanceSettingDialog_WideColorGamut {
+            get {
+                return ResourceManager.GetString("GenshinHDRLuminanceSettingDialog_WideColorGamut", resourceCulture);
             }
         }
         
