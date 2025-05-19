@@ -160,7 +160,7 @@ public sealed partial class MainWindow : WindowEx
             {
                 Close();
                 AppInstance.GetCurrent().UnregisterKey();
-                Task backupTask = Task.Run(DatabaseService.AutoBackupToLocalLow);
+                Task backupTask = Task.Run(DatabaseService.AutoBackupToAppDataLocal);
                 Task timeTask = Task.Delay(30000);
                 await Task.WhenAny(backupTask, timeTask);
                 App.Current.Exit();

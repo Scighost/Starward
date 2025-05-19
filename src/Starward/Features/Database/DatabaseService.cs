@@ -88,7 +88,7 @@ internal static class DatabaseService
 
 
 
-    public static void AutoBackupToLocalLow()
+    public static void AutoBackupToAppDataLocal()
     {
         try
         {
@@ -99,10 +99,10 @@ internal static class DatabaseService
             string folder = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\DatabaseBackup");
 #pragma warning restore CS0162 // 检测到无法访问的代码
             Directory.CreateDirectory(folder);
-            string file = Path.Combine(folder, $"StarwardDatbase_AutoBackup_{DateTime.Now:yyyyMMdd_HHmmss}.db");
+            string file = Path.Combine(folder, $"StarwardDatabase_AutoBackup_{DateTime.Now:yyyyMMdd_HHmmss}.db");
             string archive = Path.ChangeExtension(file, ".7z");
             string archive_tmp = archive + "_tmp";
-            string[] files = Directory.GetFiles(folder, "StarwardDatbase_AutoBackup_*.7z");
+            string[] files = Directory.GetFiles(folder, "StarwardDatabase_AutoBackup_*.7z");
             if (files.Length == 0)
             {
                 BackupDatabase(file);
