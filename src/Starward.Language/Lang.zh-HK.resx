@@ -2064,6 +2064,6 @@
     <value>隱藏卡池</value>
   </data>
   <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
-    <value>It is normal for 120 FPS to display as 30 FPS in the game.</value>
+    <value>120 FPS 係遊戲入面顯示為 30 FPS 係正常狀況。</value>
   </data>
 </root>
