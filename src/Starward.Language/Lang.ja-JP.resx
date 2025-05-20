@@ -1839,7 +1839,7 @@
     <value>レジストリベースのゲームアカウント切り替え機能</value>
   </data>
   <data name="ToolboxSetting_ZZZGachaItemImages" xml:space="preserve">
-    <value>ZZZ Gacha Item Images</value>
+    <value>ZZZのガチャアイテム画像</value>
   </data>
   <data name="ToolboxSetting_DisplayItemImagesInZZZGachaRecordPage" xml:space="preserve">
     <value>ZZZガチャ記録ページにアイテム画像を表示します。</value>
@@ -2064,16 +2064,16 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>ガチャのバナーを隠す</value>
   </data>
   <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
-    <value>It is normal for 120 FPS to display as 30 FPS in the game.</value>
+    <value>ゲーム内で120FPSが30FPSで表示されるのは正常です。</value>
   </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
-    <value>Enable HDR</value>
+    <value>HDRを有効化</value>
   </data>
   <data name="Common_RestoreDefaults" xml:space="preserve">
-    <value>Restore Defaults</value>
+    <value>既定に復元</value>
   </data>
   <data name="GameSettingPage_HDRBrightnessSetting" xml:space="preserve">
-    <value>HDR Brightness Setting</value>
+    <value>HDR輝度設定</value>
   </data>
   <data name="GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsThePrimaryDisplay" xml:space="preserve">
     <value>If you have multiple monitors, you need to set the HDR-supported monitor as the primary display.</value>
@@ -2094,10 +2094,10 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>UI Brightness</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MonitorInformation" xml:space="preserve">
-    <value>Monitor Information</value>
+    <value>ディスプレイ情報</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_ColorSpace" xml:space="preserve">
-    <value>Color Space</value>
+    <value>カラースペース</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_PeakLuminance" xml:space="preserve">
     <value>Peak Luminance</value>
