@@ -1995,7 +1995,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Revenue Available</value>
   </data>
   <data name="DailyNoteButton_ZZZ_SeasonMissions" xml:space="preserve">
-    <value>Season Missions</value>
+    <value>シーズンミッション</value>
   </data>
   <data name="DailyNoteButton_ZZZ_BountyCommissionProgress" xml:space="preserve">
     <value>Bounty Commission Progress</value>
@@ -2082,16 +2082,16 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>The current monitor does not support HDR or Windows HDR is not enabled.</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_AdaptToMonitorBrightness" xml:space="preserve">
-    <value>Adapt to Monitor Brightness</value>
+    <value>ディスプレイの輝度に合わせる</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MaxLuminance" xml:space="preserve">
     <value>Max Luminance</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_SceneryBrightness" xml:space="preserve">
-    <value>Scenery Brightness</value>
+    <value>風景の明るさ</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_UIBrightness" xml:space="preserve">
-    <value>UI Brightness</value>
+    <value>UIの明るさ</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MonitorInformation" xml:space="preserve">
     <value>ディスプレイ情報</value>
@@ -2109,12 +2109,12 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>SDR White Luminance</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_StandardDynamicRange" xml:space="preserve">
-    <value>Standard Dynamic Range</value>
+    <value>スタンダードダイナミックレンジ (SDR)</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_WideColorGamut" xml:space="preserve">
     <value>Wide Color Gamut</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_HighDynamicRange" xml:space="preserve">
-    <value>High Dynamic Range</value>
+    <value>ハイダイナミックレンジ (HDR)</value>
   </data>
 </root>
