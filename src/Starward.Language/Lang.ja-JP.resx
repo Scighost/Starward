@@ -2109,12 +2109,12 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>SDR White Luminance</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_StandardDynamicRange" xml:space="preserve">
-    <value>スタンダードダイナミックレンジ (SDR)</value>
+    <value>スタンダードダイナミックレンジ</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_WideColorGamut" xml:space="preserve">
     <value>Wide Color Gamut</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_HighDynamicRange" xml:space="preserve">
-    <value>ハイダイナミックレンジ (HDR)</value>
+    <value>ハイダイナミックレンジ</value>
   </data>
 </root>
