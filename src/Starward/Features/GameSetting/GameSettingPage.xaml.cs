@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Display;
 using Microsoft.UI.Windowing;
@@ -8,6 +9,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Features.GameLauncher;
+using Starward.Features.GameSelector;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
@@ -370,6 +372,10 @@ public sealed partial class GameSettingPage : PageBase
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
+        }
+        finally
+        {
+            WeakReferenceMessenger.Default.Send(new MainWindowDragRectAdaptToGameIconMessage());
         }
     }
 

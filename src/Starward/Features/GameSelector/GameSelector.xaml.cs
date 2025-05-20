@@ -54,6 +54,7 @@ public sealed partial class GameSelector : UserControl
         this.Loaded += GameSelector_Loaded;
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
         WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
+        WeakReferenceMessenger.Default.Register<MainWindowDragRectAdaptToGameIconMessage>(this, OnMainWindowStateChanged);
     }
 
 
@@ -114,6 +115,13 @@ public sealed partial class GameSelector : UserControl
             }
         }
         catch { }
+    }
+
+
+
+    private void OnMainWindowStateChanged(object? _, MainWindowDragRectAdaptToGameIconMessage message)
+    {
+        UpdateDragRectangles();
     }
 
 

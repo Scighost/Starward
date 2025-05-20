@@ -40,6 +40,7 @@ public sealed partial class GenshinHDRLuminanceSettingDialog : ContentDialog
     {
         try
         {
+            this.XamlRoot.SetWindowDragRectangles([new Rect(0, 0, 10000, 48)]);
             _displayInformation = DisplayInformation.CreateForWindowId(this.XamlRoot.GetAppWindow().Id);
             _displayInformation.AdvancedColorInfoChanged += _displayInformation_AdvancedColorInfoChanged;
             UpdateDisplayInfomation(_displayInformation);
