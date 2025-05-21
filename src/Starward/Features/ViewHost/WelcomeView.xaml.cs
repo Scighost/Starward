@@ -51,9 +51,12 @@ public sealed partial class WelcomeView : UserControl
     public bool CanStartStarward { get; set => SetProperty(ref field, value); }
 
 
+    public bool IsWin11 { get; set => SetProperty(ref field, value); }
+
 
     private async void Grid_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        IsWin11 = Environment.OSVersion.Version >= new Version(10, 0, 22000);
         InitializeDefaultUserDataFolder();
         await CheckWritePermissionAsync();
         CheckWebView2Support();
@@ -192,7 +195,7 @@ public sealed partial class WelcomeView : UserControl
         }
         catch (Exception ex)
         {
-            NetworkSpeed = Lang.Common_NetworkError;
+            NetworkSpeed = Lang.WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates;
             Debug.WriteLine(ex);
         }
     }
@@ -235,9 +238,13 @@ public sealed partial class WelcomeView : UserControl
 
 
 
-    private async void Hyperlink_VisualEffects_Click(Microsoft.UI.Xaml.Documents.Hyperlink sender, Microsoft.UI.Xaml.Documents.HyperlinkClickEventArgs args)
+    private async void Hyperlink_Click(Microsoft.UI.Xaml.Documents.Hyperlink sender, Microsoft.UI.Xaml.Documents.HyperlinkClickEventArgs args)
     {
-        await Launcher.LaunchUriAsync(new Uri("ms-settings:easeofaccess-visualeffects"));
+        try
+    {
+            await Launcher.LaunchUriAsync(sender.NavigateUri);
+        }
+        catch { }
     }
 
 

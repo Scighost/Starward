@@ -2118,4 +2118,16 @@
   <data name="GenshinHDRLuminanceSettingDialog_HighDynamicRange" xml:space="preserve">
     <value>高动态范围</value>
   </data>
+  <data name="WelcomeView_IfStarwardTakesALongTimeToStartItIsRecommendedToDisableSmartAppControlInWindowsSecurity" xml:space="preserve">
+    <value>如果 Starward 启动时间过长，建议关闭 Windows 安全中心的智能应用控制功能。</value>
+  </data>
+  <data name="WelcomeView_OpenWindowsSecurity" xml:space="preserve">
+    <value>打开 Windows 安全中心</value>
+  </data>
+  <data name="WelcomeView_LearnMore" xml:space="preserve">
+    <value>了解更多</value>
+  </data>
+  <data name="WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates" xml:space="preserve">
+    <value>网络错误，您仍可继续使用 Starward，但无法接收到后续更新。</value>
+  </data>
 </root>

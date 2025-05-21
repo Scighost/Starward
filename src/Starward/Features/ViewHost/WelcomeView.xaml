@@ -20,7 +20,7 @@
 
 
 
-        <StackPanel Margin="48,80,48,80">
+        <StackPanel Margin="48,0,48,0" VerticalAlignment="Center">
             <!--  欢迎  -->
             <TextBlock FontSize="24"
                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
@@ -34,7 +34,7 @@
                        TextWrapping="Wrap" />
 
             <!--  数据文件夹  -->
-            <TextBlock Margin="0,36,0,0"
+            <TextBlock Margin="0,28,0,0"
                        FontSize="16"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False"
@@ -70,7 +70,7 @@
             </StackPanel>
 
             <!--  必要的检查  -->
-            <TextBlock Margin="0,36,0,0"
+            <TextBlock Margin="0,24,0,0"
                        FontSize="16"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        IsTextScaleFactorEnabled="False"
@@ -78,7 +78,7 @@
 
             <!--  网络状态  -->
             <StackPanel Height="32"
-                        Margin="0,20,0,0"
+                        Margin="0,16,0,0"
                         Orientation="Horizontal"
                         Spacing="12">
                 <FontIcon Margin="0,0,-4,0"
@@ -118,7 +118,7 @@
 
             <!--  WebView2  -->
             <StackPanel Height="32"
-                        Margin="0,12,0,0"
+                        Margin="0,8,0,0"
                         Orientation="Horizontal"
                         Spacing="12">
                 <FontIcon Margin="0,0,-4,0"
@@ -151,7 +151,7 @@
 
             <!--  WebP  -->
             <StackPanel Height="32"
-                        Margin="0,12,0,0"
+                        Margin="0,8,0,0"
                         Orientation="Horizontal"
                         Spacing="12">
                 <FontIcon Margin="0,0,-4,0"
@@ -183,24 +183,46 @@
             </StackPanel>
 
             <!--  透明/动画效果  -->
-            <TextBlock Margin="0,24,0,0"
+            <TextBlock Margin="0,20,0,0"
+                       HorizontalAlignment="Left"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings}"
                        TextWrapping="Wrap" />
             <TextBlock Margin="0,12,0,0" HorizontalAlignment="Left">
-                <Hyperlink Click="Hyperlink_VisualEffects_Click"
+                <Hyperlink Click="Hyperlink_Click"
                            NavigateUri="ms-settings:easeofaccess-visualeffects"
                            UnderlineStyle="None">
                     <Run Text="{x:Bind lang:Lang.AppearanceSettingPage_TransparencyEffects}" />
                 </Hyperlink>
                 <Run Text="" />
                 <Run Text="" />
-                <Hyperlink Click="Hyperlink_VisualEffects_Click"
+                <Hyperlink Click="Hyperlink_Click"
                            NavigateUri="ms-settings:easeofaccess-visualeffects"
                            UnderlineStyle="None">
                     <Run Text="{x:Bind lang:Lang.AppearanceSettingPage_AnimationEffects}" />
                 </Hyperlink>
             </TextBlock>
+
+            <!--  智能应用控制提醒  -->
+            <TextBlock Margin="0,20,0,0"
+                       HorizontalAlignment="Left"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.WelcomeView_IfStarwardTakesALongTimeToStartItIsRecommendedToDisableSmartAppControlInWindowsSecurity}"
+                       TextWrapping="Wrap"
+                       Visibility="{x:Bind IsWin11}" />
+            <TextBlock Margin="0,12,0,0"
+                       HorizontalAlignment="Left"
+                       Visibility="{x:Bind IsWin11}">
+                <Hyperlink Click="Hyperlink_Click"
+                           NavigateUri="https://github.com/Scighost/Starward/issues/1388"
+                           UnderlineStyle="None">
+                    <Run Text="{x:Bind lang:Lang.WelcomeView_OpenWindowsSecurity}" />
+                    <Run Text="" />
+                    <Run Text="" />
+                    <Run Text="{x:Bind lang:Lang.WelcomeView_LearnMore}" />
+                </Hyperlink>
+            </TextBlock>
+
 
         </StackPanel>
 

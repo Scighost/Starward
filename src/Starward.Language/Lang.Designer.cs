@@ -5856,6 +5856,16 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 If Starward takes a long time to start, it is recommended to disable Smart App Control in Windows Security. 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_IfStarwardTakesALongTimeToStartItIsRecommendedToDisableSmartAppControlInWindowsSecurity {
+            get {
+                return ResourceManager.GetString("WelcomeView_IfStarwardTakesALongTimeToStartItIsRecommendedToDisableSmartAppContro" +
+                        "lInWindowsSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Installed 的本地化字符串。
         /// </summary>
         public static string WelcomeView_Installed {
@@ -5874,6 +5884,25 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Learn More 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_LearnMore {
+            get {
+                return ResourceManager.GetString("WelcomeView_LearnMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Network error. You can continue using Starward, but you won&apos;t receive future updates. 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates {
+            get {
+                return ResourceManager.GetString("WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates" +
+                        "", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Network Status 的本地化字符串。
         /// </summary>
         public static string WelcomeView_NetworkStatus {
@@ -5888,6 +5917,15 @@ namespace Starward.Language {
         public static string WelcomeView_NotInstalled {
             get {
                 return ResourceManager.GetString("WelcomeView_NotInstalled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open Windows Security 的本地化字符串。
+        /// </summary>
+        public static string WelcomeView_OpenWindowsSecurity {
+            get {
+                return ResourceManager.GetString("WelcomeView_OpenWindowsSecurity", resourceCulture);
             }
         }
         
