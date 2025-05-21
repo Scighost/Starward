@@ -69,6 +69,22 @@ public sealed partial class MainWindow : WindowEx
 
 
 
+    public override void CenterInScreen(int? width = null, int? height = null)
+    {
+        width = width <= 0 ? null : width;
+        height = height <= 0 ? null : height;
+        User32.GetCursorPos(out POINT point);
+        DisplayArea display = DisplayArea.GetFromPoint(new PointInt32(point.X, point.Y), DisplayAreaFallback.Nearest);
+        double scale = UIScale;
+        int w = (int)((width * scale) ?? AppWindow.Size.Width);
+        int h = (int)((height * scale) ?? AppWindow.Size.Height);
+        int x = display.WorkArea.X + (display.WorkArea.Width - w) / 2;
+        int y = display.WorkArea.Y + (display.WorkArea.Height - h) / 2;
+        AppWindow.MoveAndResize(new RectInt32(x, y, w, h));
+    }
+
+
+
     public override void Show()
     {
         if (Math.Abs((double)AppWindow.Size.Width / AppWindow.Size.Height - 1200d / 676) > 0.01)
