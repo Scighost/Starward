@@ -16,7 +16,9 @@ using Starward.Features.Screenshot;
 using Starward.Features.SelfQuery;
 using Starward.Features.Setting;
 using Starward.Features.Update;
+using Starward.Helpers;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 
@@ -69,6 +71,7 @@ public sealed partial class MainView : UserControl
 
     private void MainView_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        CheckSystemProxy();
         _ = CheckUpdateOrShowRecentUpdateContentAsync();
         AppConfig.GetService<RpcService>().TrySetEnviromentAsync();
     }
@@ -266,6 +269,23 @@ public sealed partial class MainView : UserControl
         {
             _logger.LogError(ex, "Check update");
         }
+    }
+
+
+
+
+    private async void CheckSystemProxy()
+    {
+        try
+        {
+            await Task.Delay(1500);
+            Uri? proxy = HttpClient.DefaultProxy.GetProxy(new Uri("https://starward.scighost.com"));
+            if (proxy is not null)
+            {
+                InAppToast.MainWindow?.Information(Lang.MainView_CheckSystemProxy_SystemProxyIsEnabled, proxy.ToString(), 5000);
+            }
+        }
+        catch { }
     }
 
 

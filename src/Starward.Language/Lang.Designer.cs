@@ -4018,6 +4018,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 System proxy is enabled. 的本地化字符串。
+        /// </summary>
+        public static string MainView_CheckSystemProxy_SystemProxyIsEnabled {
+            get {
+                return ResourceManager.GetString("MainView_CheckSystemProxy_SystemProxyIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Last 7 Days 的本地化字符串。
         /// </summary>
         public static string PlayTimeButton_Last7Days {

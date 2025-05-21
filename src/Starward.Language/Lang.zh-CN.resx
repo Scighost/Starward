@@ -2130,4 +2130,7 @@
   <data name="WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates" xml:space="preserve">
     <value>网络错误，您仍可继续使用 Starward，但无法接收到后续更新。</value>
   </data>
+  <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
+    <value>系统代理已启用</value>
+  </data>
 </root>
