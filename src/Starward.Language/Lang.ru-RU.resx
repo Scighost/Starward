@@ -2120,18 +2120,36 @@
     <value>Высокий динамический диапазон</value>
   </data>
   <data name="WelcomeView_IfStarwardTakesALongTimeToStartItIsRecommendedToDisableSmartAppControlInWindowsSecurity" xml:space="preserve">
-    <value>If Starward takes a long time to start, it is recommended to disable Smart App Control in Windows Security.</value>
+    <value>Если Starward запускается слишком долго, рекомендуется отключить функцию Smart App Control в разделе "Безопасность Windows".
+
+
+
+
+
+
+
+
+
+
+
+Инструменты
+
+
+
+ChatGPT может допускать ошибки. Проверьте важную информацию. См. настройки cookie-файлов.
+</value>
   </data>
   <data name="WelcomeView_OpenWindowsSecurity" xml:space="preserve">
-    <value>Open Windows Security</value>
+    <value>Открыть безопасность Windows</value>
   </data>
   <data name="WelcomeView_LearnMore" xml:space="preserve">
-    <value>Learn More</value>
+    <value>Подробнее</value>
   </data>
   <data name="WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates" xml:space="preserve">
-    <value>Network error. You can continue using Starward, but you won't receive future updates.</value>
+    <value>Сетевая ошибка. Вы можете продолжить использовать Starward, но не будете получать будущие обновления.
+</value>
   </data>
   <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
-    <value>System proxy is enabled.</value>
+    <value>Системный прокси-сервер включён.</value>
   </data>
 </root>
