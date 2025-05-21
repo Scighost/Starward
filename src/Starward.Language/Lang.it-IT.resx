@@ -2130,4 +2130,7 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates" xml:space="preserve">
     <value>Network error. You can continue using Starward, but you won't receive future updates.</value>
   </data>
+  <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
+    <value>System proxy is enabled.</value>
+  </data>
 </root>
