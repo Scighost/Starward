@@ -1,4 +1,4 @@
-﻿using Microsoft.UI;
+using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System.Linq;
@@ -30,7 +30,7 @@ internal static class XamlRootExtension
         }
         WindowId id = xamlRoot.ContentIslandEnvironment.AppWindowId;
         AppWindow appWindow = AppWindow.GetFromWindowId(id);
-        double scale = User32.GetDpiForWindow((nint)id.Value) / 96d;
+        double scale = xamlRoot.RasterizationScale;
         var value = rects.Select(rect => RectToRectInt32(rect, scale)).ToArray();
         appWindow.TitleBar.SetDragRectangles(value);
     }
@@ -50,9 +50,7 @@ internal static class XamlRootExtension
         {
             return 1;
         }
-
-        WindowId id = xamlRoot.ContentIslandEnvironment.AppWindowId;
-        return User32.GetDpiForWindow((nint)id.Value) / 96d;
+        return xamlRoot.RasterizationScale;
     }
 
 

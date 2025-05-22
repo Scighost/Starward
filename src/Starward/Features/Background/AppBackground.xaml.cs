@@ -43,7 +43,8 @@ public sealed partial class AppBackground : UserControl
         WeakReferenceMessenger.Default.Register<BackgroundChangedMessage>(this, OnBackgroundChanged);
         WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
         WeakReferenceMessenger.Default.Register<VideoBgVolumeChangedMessage>(this, OnVideoBgVolumeChanged);
-        Unloaded += (_, _) => { DisposeVideoResource(); WeakReferenceMessenger.Default.UnregisterAll(this); };
+        this.Loaded += AppBackground_Loaded;
+        this.Unloaded += AppBackground_Unloaded;
     }
 
 
@@ -90,6 +91,34 @@ public sealed partial class AppBackground : UserControl
     private int videoBgVolume = AppConfig.VideoBgVolume;
 
     private string? lastBackgroundFile;
+
+
+    private double lastScale = 1;
+
+
+    private void AppBackground_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        this.XamlRoot.Changed -= XamlRoot_Changed;
+        this.XamlRoot.Changed += XamlRoot_Changed;
+    }
+
+
+    private void AppBackground_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        DisposeVideoResource();
+        this.XamlRoot.Changed -= XamlRoot_Changed;
+        WeakReferenceMessenger.Default.UnregisterAll(this);
+    }
+
+
+    private void XamlRoot_Changed(Microsoft.UI.Xaml.XamlRoot sender, Microsoft.UI.Xaml.XamlRootChangedEventArgs args)
+    {
+        if (lastScale != sender.RasterizationScale)
+        {
+            UpdateBackgroundCommand.Execute(null);
+        }
+    }
+
 
 
     private void DisposeVideoResource()
@@ -141,7 +170,7 @@ public sealed partial class AppBackground : UserControl
     private CancellationTokenSource? updateBackgroundCts;
 
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = true)]
     public async Task UpdateBackgroundAsync()
     {
         try
@@ -166,7 +195,14 @@ public sealed partial class AppBackground : UserControl
                 }
                 if (file == lastBackgroundFile)
                 {
-                    continue;
+                    if (BackgroundService.FileIsSupportedVideo(file))
+                    {
+                        continue;
+                    }
+                    if (lastScale == this.XamlRoot.GetUIScaleFactor())
+                    {
+                        continue;
+                    }
                 }
 
                 DisposeVideoResource();
@@ -182,6 +218,7 @@ public sealed partial class AppBackground : UserControl
                         await ChangeBackgroundImageAsync(file, cancellationToken);
                     }
                     lastBackgroundFile = file;
+                    lastScale = this.XamlRoot.GetUIScaleFactor();
                 }
             }
         }

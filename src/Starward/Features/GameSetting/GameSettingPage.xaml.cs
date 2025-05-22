@@ -367,6 +367,7 @@ public sealed partial class GameSettingPage : PageBase
     {
         try
         {
+            WeakReferenceMessenger.Default.Send(new MainWindowDragRectAdaptToGameIconMessage(true));
             await new GenshinHDRLuminanceSettingDialog { XamlRoot = this.XamlRoot, CurrentGameBiz = this.CurrentGameBiz }.ShowAsync();
         }
         catch (Exception ex)

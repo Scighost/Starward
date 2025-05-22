@@ -40,6 +40,8 @@ public sealed partial class GenshinHDRLuminanceSettingDialog : ContentDialog
     {
         try
         {
+            this.XamlRoot.Changed -= XamlRoot_Changed;
+            this.XamlRoot.Changed += XamlRoot_Changed;
             this.XamlRoot.SetWindowDragRectangles([new Rect(0, 0, 10000, 48)]);
             _displayInformation = DisplayInformation.CreateForWindowId(this.XamlRoot.GetAppWindow().Id);
             _displayInformation.AdvancedColorInfoChanged += _displayInformation_AdvancedColorInfoChanged;
@@ -57,6 +59,17 @@ public sealed partial class GenshinHDRLuminanceSettingDialog : ContentDialog
         }
     }
 
+
+    private void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
+    {
+        try
+        {
+            sender.SetWindowDragRectangles([new Rect(0, 0, 10000, 48)]);
+        }
+        catch { }
+    }
+
+
     private void GenshinHDRLuminanceSettingDialog_Unloaded(object sender, RoutedEventArgs e)
     {
         try
@@ -68,6 +81,7 @@ public sealed partial class GenshinHDRLuminanceSettingDialog : ContentDialog
             _displayInformation?.Dispose();
             CanvasSwapChainPanel_Mora.SwapChain?.Dispose();
             CanvasSwapChainPanel_Scene.SwapChain?.Dispose();
+            this.XamlRoot.Changed -= XamlRoot_Changed;
         }
         catch (Exception ex)
         {

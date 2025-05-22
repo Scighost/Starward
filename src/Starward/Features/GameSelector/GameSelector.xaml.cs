@@ -74,6 +74,10 @@ public sealed partial class GameSelector : UserControl
     public bool IsPinned { get; set => SetProperty(ref field, value); }
 
 
+    private bool ignoreDpiChanged = false;
+
+    private double lastScale = 1;
+
 
 
     public void InitializeGameSelector()
@@ -88,8 +92,25 @@ public sealed partial class GameSelector : UserControl
 
     private async void GameSelector_Loaded(object sender, RoutedEventArgs e)
     {
+        this.XamlRoot.Changed -= XamlRoot_Changed;
+        this.XamlRoot.Changed += XamlRoot_Changed;
         await Task.Delay(1000);
         await UpdateGameInfoAsync();
+    }
+
+
+
+    private void XamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
+    {
+        if (ignoreDpiChanged)
+        {
+            return;
+        }
+        if (lastScale != sender.RasterizationScale)
+        {
+            lastScale = sender.RasterizationScale;
+            UpdateDragRectangles();
+        }
     }
 
 
@@ -121,7 +142,11 @@ public sealed partial class GameSelector : UserControl
 
     private void OnMainWindowStateChanged(object? _, MainWindowDragRectAdaptToGameIconMessage message)
     {
-        UpdateDragRectangles();
+        if (!message.IgnoreDpiChanged)
+        {
+            UpdateDragRectangles();
+        }
+        ignoreDpiChanged = message.IgnoreDpiChanged;
     }
 
 
