@@ -229,7 +229,15 @@ internal static class GameSettingService
                 node = JsonNode.Parse(str);
                 node?["FPS"] = fps;
             }
-            string value = $"{node?.ToJsonString() ?? ($$"""{"FPS":{{fps}}}""")}\0";
+
+            string? value = node?.ToJsonString();
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                value = $$"""
+                    {"FPS":{{fps}},"EnableVSync":false,"RenderScale":1.0,"ResolutionQuality":3,"ShadowQuality":3,"LightQuality":3,"CharacterQuality":3,"EnvDetailQuality":3,"ReflectionQuality":3,"SFXQuality":3,"BloomQuality":3,"AAMode":1,"EnableMetalFXSU":false,"EnableHalfResTransparent":false,"EnableSelfShadow":1,"DlssQuality":0}
+                    """;
+            }
+            value += "\0";
             Registry.SetValue(key, GraphicsSettings_Model_h2986158309, Encoding.UTF8.GetBytes(value));
         }
     }
