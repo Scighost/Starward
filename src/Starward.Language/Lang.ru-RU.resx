@@ -2065,4 +2065,91 @@
   <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
     <value>Скрыть баннеры Гачи</value>
   </data>
+  <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
+    <value>В игре 120 FPS может отображаться как 30 FPS.</value>
+  </data>
+  <data name="GameSettingPage_EnableHDR" xml:space="preserve">
+    <value>Включить HDR</value>
+  </data>
+  <data name="Common_RestoreDefaults" xml:space="preserve">
+    <value>Восстановить значения по умолчанию</value>
+  </data>
+  <data name="GameSettingPage_HDRBrightnessSetting" xml:space="preserve">
+    <value>Настройка яркости HDR</value>
+  </data>
+  <data name="GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsThePrimaryDisplay" xml:space="preserve">
+    <value>Если у вас несколько мониторов, вам нужно установить в качестве основного дисплея монитор, поддерживаемый HDR.</value>
+  </data>
+  <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled" xml:space="preserve">
+    <value>Текущий монитор не поддерживает HDR или Windows HDR не включен.</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_AdaptToMonitorBrightness" xml:space="preserve">
+    <value>Адаптировать к яркости монитора</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_MaxLuminance" xml:space="preserve">
+    <value>Макс. яркость</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_SceneryBrightness" xml:space="preserve">
+    <value>Яркость</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_UIBrightness" xml:space="preserve">
+    <value>Яркость интерфейса</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_MonitorInformation" xml:space="preserve">
+    <value>Информация о мониторе</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_ColorSpace" xml:space="preserve">
+    <value>Цветовое пространство</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_PeakLuminance" xml:space="preserve">
+    <value>Пиковая яркость</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_MaxFullScreenLuminance" xml:space="preserve">
+    <value>Макс. яркость полноэкранного режима</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_SDRWhiteLuminance" xml:space="preserve">
+    <value>Белая яркость SDR</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_StandardDynamicRange" xml:space="preserve">
+    <value>Стандартный динамический диапазон</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_WideColorGamut" xml:space="preserve">
+    <value>Широкая цветовая гамма</value>
+  </data>
+  <data name="GenshinHDRLuminanceSettingDialog_HighDynamicRange" xml:space="preserve">
+    <value>Высокий динамический диапазон</value>
+  </data>
+  <data name="WelcomeView_IfStarwardTakesALongTimeToStartItIsRecommendedToDisableSmartAppControlInWindowsSecurity" xml:space="preserve">
+    <value>Если Starward запускается слишком долго, рекомендуется отключить функцию Smart App Control в разделе "Безопасность Windows".
+
+
+
+
+
+
+
+
+
+
+
+Инструменты
+
+
+
+ChatGPT может допускать ошибки. Проверьте важную информацию. См. настройки cookie-файлов.
+</value>
+  </data>
+  <data name="WelcomeView_OpenWindowsSecurity" xml:space="preserve">
+    <value>Открыть безопасность Windows</value>
+  </data>
+  <data name="WelcomeView_LearnMore" xml:space="preserve">
+    <value>Подробнее</value>
+  </data>
+  <data name="WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates" xml:space="preserve">
+    <value>Сетевая ошибка. Вы можете продолжить использовать Starward, но не будете получать будущие обновления.
+</value>
+  </data>
+  <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
+    <value>Системный прокси-сервер включён.</value>
+  </data>
 </root>
