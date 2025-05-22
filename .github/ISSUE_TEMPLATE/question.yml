@@ -10,8 +10,6 @@ body:
       label: Checklist
       description: Your question may be closed without any reply if duplicate.
       options:
-        - label: I have already read [docs/Tips.md](https://github.com/Scighost/Starward/blob/main/docs/Tips.md), but my question is not solved.
-          required: true
         - label: My question was not mentioned by others, and it is not a duplicate question.
           required: true
 

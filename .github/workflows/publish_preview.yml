@@ -58,6 +58,19 @@ jobs:
         name: Starward_Portable_${{ needs.version.outputs.version }}_${{ matrix.platform }}.7z
         path: build/release/package/Starward_Portable_${{ needs.version.outputs.version }}_${{ matrix.platform }}.7z
 
+    - name: Upload Metadata
+      uses: actions/upload-artifact@v4
+      with:
+        name: metadata_${{ matrix.platform }}
+        path: build/metadata/
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        draft: true
+        prerelease: true
+        files: ./build/release/package/*
+
     - name: Setup OssUtil
       run: |
         Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil-v1.7.19-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
@@ -67,19 +80,6 @@ jobs:
 
     - name: Upload to OSS
       run: ossutil cp -rf ./build/release/ oss://starward/release/ --meta Content-Type:multipart/mixed
-
-    - name: Upload Metadata
-      uses: actions/upload-artifact@v4
-      with:
-        name: metadata_${{ matrix.platform }}
-        path: build/metadata/
-
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
-      with:
-        draft: true
-        prerelease: true
-        files: ./build/release/package/*
 
 
   metadata:
