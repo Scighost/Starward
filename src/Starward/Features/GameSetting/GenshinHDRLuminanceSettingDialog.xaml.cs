@@ -246,7 +246,7 @@ public sealed partial class GenshinHDRLuminanceSettingDialog : ContentDialog
     private void UpdateDisplayInfomation(DisplayInformation display)
     {
         var info = display.GetAdvancedColorInfo();
-        SupportHDR = info.IsAdvancedColorKindAvailable(DisplayAdvancedColorKind.HighDynamicRange);
+        SupportHDR = info.CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange;
         string kind = info.CurrentAdvancedColorKind switch
         {
             DisplayAdvancedColorKind.StandardDynamicRange => $"{Lang.GenshinHDRLuminanceSettingDialog_StandardDynamicRange} (SDR)",

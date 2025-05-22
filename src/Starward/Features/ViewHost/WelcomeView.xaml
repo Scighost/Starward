@@ -214,11 +214,15 @@
                        HorizontalAlignment="Left"
                        Visibility="{x:Bind IsWin11}">
                 <Hyperlink Click="Hyperlink_Click"
-                           NavigateUri="https://github.com/Scighost/Starward/issues/1388"
+                           NavigateUri="windowsdefender://smartapp"
                            UnderlineStyle="None">
                     <Run Text="{x:Bind lang:Lang.WelcomeView_OpenWindowsSecurity}" />
-                    <Run Text="" />
-                    <Run Text="" />
+                </Hyperlink>
+                <Run Text="" />
+                <Run Text="" />
+                <Hyperlink Click="Hyperlink_Click"
+                           NavigateUri="https://github.com/Scighost/Starward/issues/1388"
+                           UnderlineStyle="None">
                     <Run Text="{x:Bind lang:Lang.WelcomeView_LearnMore}" />
                 </Hyperlink>
             </TextBlock>

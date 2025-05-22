@@ -221,7 +221,7 @@ public sealed partial class GameSettingPage : PageBase
                 EnableGenshinHDR = AppConfig.EnableGenshinHDR;
                 _displayInformation = DisplayInformation.CreateForWindowId(this.XamlRoot.GetAppWindow().Id);
                 _displayInformation.AdvancedColorInfoChanged += _displayInformation_AdvancedColorInfoChanged;
-                SupportHDR = _displayInformation.GetAdvancedColorInfo().IsAdvancedColorKindAvailable(DisplayAdvancedColorKind.HighDynamicRange);
+                SupportHDR = _displayInformation.GetAdvancedColorInfo().CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange;
             }
             StartArgument = AppConfig.GetStartArgument(CurrentGameBiz);
             var resolutionSetting = GameSettingService.GetGameResolutionSetting(CurrentGameBiz);
@@ -438,7 +438,7 @@ public sealed partial class GameSettingPage : PageBase
     {
         try
         {
-            SupportHDR = sender.GetAdvancedColorInfo().IsAdvancedColorKindAvailable(DisplayAdvancedColorKind.HighDynamicRange);
+            SupportHDR = sender.GetAdvancedColorInfo().CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange;
         }
         catch { }
     }

@@ -241,7 +241,11 @@ public sealed partial class WelcomeView : UserControl
     private async void Hyperlink_Click(Microsoft.UI.Xaml.Documents.Hyperlink sender, Microsoft.UI.Xaml.Documents.HyperlinkClickEventArgs args)
     {
         try
-    {
+        {
+            if (sender.NavigateUri.Scheme is "http" or "https")
+            {
+                return;
+            }
             await Launcher.LaunchUriAsync(sender.NavigateUri);
         }
         catch { }
