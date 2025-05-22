@@ -196,7 +196,6 @@ public sealed partial class AdvancedSetting : UserControl
         try
         {
             await _rpcService.EnsureRpcServerRunningAsync();
-            await Task.Delay(1000);
             await GetRpcServerStateAsync();
         }
         catch (Exception ex)
@@ -212,7 +211,7 @@ public sealed partial class AdvancedSetting : UserControl
     {
         try
         {
-            await _rpcService.StopRpcServerAsync(DateTime.UtcNow.AddSeconds(1));
+            await _rpcService.StopRpcServerAsync(DateTime.UtcNow.AddSeconds(3));
             await Task.Delay(1000);
             await GetRpcServerStateAsync();
         }

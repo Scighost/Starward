@@ -1,3 +1,4 @@
+using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Starward.RPC;
 using Starward.RPC.Env;
@@ -67,6 +68,10 @@ internal class RpcService
         {
             return false;
         }
+        catch (RpcException ex) when (ex.Status is { StatusCode: StatusCode.DeadlineExceeded })
+        {
+            throw new TimeoutException("Checking RPC server timed out.");
+        }
         return true;
     }
 
@@ -80,7 +85,7 @@ internal class RpcService
             ParentProcessId = Environment.ProcessId,
             KeepRunningOnExited = AppConfig.KeepRpcServerRunningInBackground,
             DownloadRateLimit = Math.Clamp(AppConfig.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue),
-        });
+        }, deadline: DateTime.UtcNow.AddSeconds(3));
     }
 
 

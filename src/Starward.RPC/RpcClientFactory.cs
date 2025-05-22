@@ -41,7 +41,7 @@ public static class RpcClientFactory
         try
         {
             var client = new Env.Env.EnvClient(CreateChannel());
-            var info = await client.GetRpcServerInfoAsync(new EmptyMessage(), deadline: DateTime.UtcNow.AddSeconds(3));
+            var info = await client.GetRpcServerInfoAsync(new EmptyMessage(), deadline: DateTime.UtcNow.AddSeconds(5));
             return process ?? Process.GetProcessById(info.ProcessId);
         }
         catch (RpcException ex) when (ex.Status is { StatusCode: StatusCode.DeadlineExceeded })
