@@ -43,7 +43,7 @@
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250513003" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4188" />
-		<PackageReference Include="MiniExcel" Version="1.41.1" />
+		<PackageReference Include="MiniExcel" Version="1.41.2" />
 		<PackageReference Include="NuGet.Versioning" Version="6.14.0" />
 		<PackageReference Include="Scighost.WinUI" Version="0.1.0" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1" />
