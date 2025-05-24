@@ -98,7 +98,11 @@ public sealed partial class GenshinHDRLuminanceSettingDialog : ContentDialog
 
     private CanvasBitmap uiBitmap;
 
-    public bool SupportHDR { get; set => SetProperty(ref field, value); }
+    public bool HDRNotSupported { get; set => SetProperty(ref field, value); }
+
+    public bool HDRNotEnabled { get; set => SetProperty(ref field, value); }
+
+    public bool HDREnabled { get; set => SetProperty(ref field, value); }
 
     public string DisplayInfomation { get; set => SetProperty(ref field, value); }
 
@@ -245,8 +249,18 @@ public sealed partial class GenshinHDRLuminanceSettingDialog : ContentDialog
 
     private void UpdateDisplayInfomation(DisplayInformation display)
     {
+        HDRNotEnabled = false;
+        HDRNotSupported = false;
         var info = display.GetAdvancedColorInfo();
-        SupportHDR = info.CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange;
+        if (!info.IsAdvancedColorKindAvailable(DisplayAdvancedColorKind.HighDynamicRange))
+        {
+            HDRNotSupported = true;
+        }
+        else if (info.CurrentAdvancedColorKind is not DisplayAdvancedColorKind.HighDynamicRange)
+        {
+            HDRNotEnabled = true;
+        }
+        HDREnabled = info.CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange;
         string kind = info.CurrentAdvancedColorKind switch
         {
             DisplayAdvancedColorKind.StandardDynamicRange => $"{Lang.GenshinHDRLuminanceSettingDialog_StandardDynamicRange} (SDR)",

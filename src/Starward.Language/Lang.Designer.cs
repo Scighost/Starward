@@ -2611,6 +2611,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 The current monitor does not support HDR. 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_TheCurrentMonitorDoesNotSupportHDR {
+            get {
+                return ResourceManager.GetString("GameSettingPage_TheCurrentMonitorDoesNotSupportHDR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The current monitor does not support HDR or Windows HDR is not enabled. 的本地化字符串。
         /// </summary>
         public static string GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled {
@@ -2661,6 +2670,15 @@ namespace Starward.Language {
         public static string GameSettingPage_VSync {
             get {
                 return ResourceManager.GetString("GameSettingPage_VSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Windows HDR is not turned on. 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_WindowsHDRIsNotTurnedOn {
+            get {
+                return ResourceManager.GetString("GameSettingPage_WindowsHDRIsNotTurnedOn", resourceCulture);
             }
         }
         

@@ -63,15 +63,20 @@
                     <!--  适应显示器亮度  -->
                     <Button Command="{x:Bind AutoAdjustCommand}"
                             Content="{x:Bind lang:Lang.GenshinHDRLuminanceSettingDialog_AdaptToMonitorBrightness}"
-                            IsEnabled="{x:Bind SupportHDR}" />
+                            IsEnabled="{x:Bind HDREnabled}" />
                     <!--  恢复默认值  -->
                     <Button Command="{x:Bind ResetCommand}" Content="{x:Bind lang:Lang.Common_RestoreDefaults}" />
                 </StackPanel>
-                <InfoBar Title="{x:Bind lang:Lang.GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled}"
+                <InfoBar Title="{x:Bind lang:Lang.GameSettingPage_TheCurrentMonitorDoesNotSupportHDR}"
                          IsClosable="False"
                          IsOpen="True"
                          Severity="Warning"
-                         Visibility="{x:Bind SupportHDR, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                         Visibility="{x:Bind HDRNotSupported}" />
+                <InfoBar Title="{x:Bind lang:Lang.GameSettingPage_WindowsHDRIsNotTurnedOn}"
+                         IsClosable="False"
+                         IsOpen="True"
+                         Severity="Warning"
+                         Visibility="{x:Bind HDRNotEnabled}" />
             </StackPanel>
 
 

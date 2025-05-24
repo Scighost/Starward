@@ -190,7 +190,9 @@ public sealed partial class GameSettingPage : PageBase
     }
 
 
-    public bool SupportHDR { get; set => SetProperty(ref field, value); }
+    public bool HDRNotSupported { get; set => SetProperty(ref field, value); }
+
+    public bool HDRNotEnabled { get; set => SetProperty(ref field, value); }
 
 
     private async Task InitializeGameSettingAsync()
@@ -221,7 +223,7 @@ public sealed partial class GameSettingPage : PageBase
                 EnableGenshinHDR = AppConfig.EnableGenshinHDR;
                 _displayInformation = DisplayInformation.CreateForWindowId(this.XamlRoot.GetAppWindow().Id);
                 _displayInformation.AdvancedColorInfoChanged += _displayInformation_AdvancedColorInfoChanged;
-                SupportHDR = _displayInformation.GetAdvancedColorInfo().CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange;
+                UpdateHdrState(_displayInformation);
             }
             StartArgument = AppConfig.GetStartArgument(CurrentGameBiz);
             var resolutionSetting = GameSettingService.GetGameResolutionSetting(CurrentGameBiz);
@@ -436,9 +438,25 @@ public sealed partial class GameSettingPage : PageBase
 
     private void _displayInformation_AdvancedColorInfoChanged(DisplayInformation sender, object args)
     {
+        UpdateHdrState(sender);
+    }
+
+
+    private void UpdateHdrState(DisplayInformation displayInformation)
+    {
         try
         {
-            SupportHDR = sender.GetAdvancedColorInfo().CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange;
+            HDRNotEnabled = false;
+            HDRNotSupported = false;
+            var info = displayInformation.GetAdvancedColorInfo();
+            if (!info.IsAdvancedColorKindAvailable(DisplayAdvancedColorKind.HighDynamicRange))
+            {
+                HDRNotSupported = true;
+            }
+            else if (info.CurrentAdvancedColorKind is not DisplayAdvancedColorKind.HighDynamicRange)
+            {
+                HDRNotEnabled = true;
+            }
         }
         catch { }
     }

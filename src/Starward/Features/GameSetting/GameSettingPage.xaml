@@ -133,12 +133,18 @@
                         <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="{x:Bind lang:Lang.GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsThePrimaryDisplay}"
                                    TextWrapping="Wrap" />
-                        <InfoBar Title="{x:Bind lang:Lang.GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled}"
+                        <InfoBar Title="{x:Bind lang:Lang.GameSettingPage_TheCurrentMonitorDoesNotSupportHDR}"
                                  Margin="0,0,24,0"
                                  IsClosable="False"
                                  IsOpen="True"
                                  Severity="Warning"
-                                 Visibility="{x:Bind SupportHDR, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                                 Visibility="{x:Bind HDRNotSupported}" />
+                        <InfoBar Title="{x:Bind lang:Lang.GameSettingPage_WindowsHDRIsNotTurnedOn}"
+                                 Margin="0,0,24,0"
+                                 IsClosable="False"
+                                 IsOpen="True"
+                                 Severity="Warning"
+                                 Visibility="{x:Bind HDRNotEnabled}" />
                     </StackPanel>
 
                 </StackPanel>
