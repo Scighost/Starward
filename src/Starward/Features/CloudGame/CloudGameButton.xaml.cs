@@ -59,6 +59,22 @@ public sealed partial class CloudGameButton : UserControl
             {
                 key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Genshin Impact Cloud";
             }
+            else if (CurrentGameId?.GameBiz == GameBiz.nap_cn)
+            {
+                string? exe = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\ZenlessZoneZeroCloud", "DisplayIcon", null) as string;
+                if (File.Exists(exe))
+                {
+                    ExePath = exe;
+                    string exeName = Path.GetFileName(exe);
+                    int session = Process.GetCurrentProcess().SessionId;
+                    Process? p = Process.GetProcessesByName(exeName.Replace(".exe", "")).FirstOrDefault(x => x.SessionId == session);
+                    if (p is not null)
+                    {
+                        RunningProcessInfo = $"{Lang.LauncherPage_GameIsRunning}\n{exeName} ({p.Id})";
+                    }
+                }
+                return;
+            }
             if (!string.IsNullOrWhiteSpace(key))
             {
                 string? folder = Registry.GetValue(key, "InstallPath", null) as string;
@@ -141,6 +157,10 @@ public sealed partial class CloudGameButton : UserControl
             else if (CurrentGameId?.GameBiz == GameBiz.hk4e_global)
             {
                 url = "https://cloudgenshin.hoyoverse.com/";
+            }
+            else if (CurrentGameId?.GameBiz == GameBiz.nap)
+            {
+                url = "https://zzz.mihoyo.com/cloud-feat/";
             }
             if (!string.IsNullOrWhiteSpace(url))
             {

@@ -247,6 +247,7 @@ internal partial class GameFeatureConfig
         SupportHardLink = true,
         SupportGameAccountSwitcher = true,
         SupportDailyNote = true,
+        SupportCloudGame = true,
     };
 
 
