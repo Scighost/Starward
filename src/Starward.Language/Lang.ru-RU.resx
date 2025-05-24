@@ -2152,4 +2152,10 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
     <value>Системный прокси-сервер включён.</value>
   </data>
+  <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDR" xml:space="preserve">
+    <value>The current monitor does not support HDR.</value>
+  </data>
+  <data name="GameSettingPage_WindowsHDRIsNotTurnedOn" xml:space="preserve">
+    <value>Windows HDR is not turned on.</value>
+  </data>
 </root>
