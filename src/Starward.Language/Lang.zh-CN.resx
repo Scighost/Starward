@@ -2133,4 +2133,10 @@
   <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
     <value>系统代理已启用</value>
   </data>
+  <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDR" xml:space="preserve">
+    <value>当前显示器不支持 HDR</value>
+  </data>
+  <data name="GameSettingPage_WindowsHDRIsNotTurnedOn" xml:space="preserve">
+    <value>Windows HDR 未打开</value>
+  </data>
 </root>
