@@ -2131,4 +2131,10 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
     <value>System proxy is enabled.</value>
   </data>
+  <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDR" xml:space="preserve">
+    <value>The current monitor does not support HDR.</value>
+  </data>
+  <data name="GameSettingPage_WindowsHDRIsNotTurnedOn" xml:space="preserve">
+    <value>Windows HDR is not turned on.</value>
+  </data>
 </root>
