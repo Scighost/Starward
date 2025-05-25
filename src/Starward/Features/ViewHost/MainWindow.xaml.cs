@@ -7,6 +7,7 @@ using Microsoft.Windows.AppLifecycle;
 using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.GameLauncher;
+using Starward.Features.Overlay;
 using Starward.Frameworks;
 using System;
 using System.ComponentModel;
@@ -292,7 +293,10 @@ public sealed partial class MainWindow : WindowEx
         {
             if (wParam == 44444)
             {
-                this.Show();
+                if (!RunningGameService.OpenOverlayWindow())
+                {
+                    this.Show();
+                }
             }
         }
         return base.WindowSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);

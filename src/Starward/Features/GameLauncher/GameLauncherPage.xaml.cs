@@ -8,6 +8,7 @@ using Starward.Core.HoYoPlay;
 using Starward.Features.Background;
 using Starward.Features.GameInstall;
 using Starward.Features.HoYoPlay;
+using Starward.Features.Overlay;
 using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
@@ -376,7 +377,6 @@ public sealed partial class GameLauncherPage : PageBase
     private partial Process? GameProcess { get; set; }
     partial void OnGameProcessChanged(Process? oldValue, Process? newValue)
     {
-        oldValue?.Dispose();
         processTimer?.Stop();
         if (processTimer is null)
         {
@@ -387,6 +387,7 @@ public sealed partial class GameLauncherPage : PageBase
         {
             processTimer?.Start();
             RunningGameInfo = $"{newValue.ProcessName}.exe ({newValue.Id})";
+            RunningGameService.AddRuninngGame(CurrentGameBiz, newValue);
         }
         else
         {
