@@ -539,6 +539,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 {0} Day(s) Remaining 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_0DaySRemaining {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_0DaySRemaining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Daily BP 的本地化字符串。
         /// </summary>
         public static string DailyNoteButton_BH3_DailyBP {
@@ -598,6 +607,33 @@ namespace Starward.Language {
         public static string DailyNoteButton_Genshin_RealmCurrency {
             get {
                 return ResourceManager.GetString("DailyNoteButton_Genshin_RealmCurrency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Inter-Knot Membership 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_InterKnotMembership {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_InterKnotMembership", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Polychromes Claimed 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_PolychromesClaimed {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_PolychromesClaimed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Polychromes Unclaimed 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_PolychromesUnclaimed {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_PolychromesUnclaimed", resourceCulture);
             }
         }
         

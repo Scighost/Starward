@@ -2139,4 +2139,16 @@
   <data name="GameSettingPage_WindowsHDRIsNotTurnedOn" xml:space="preserve">
     <value>Windows HDR 未打开</value>
   </data>
+  <data name="DailyNoteButton_InterKnotMembership" xml:space="preserve">
+    <value>绳网会员</value>
+  </data>
+  <data name="DailyNoteButton_PolychromesUnclaimed" xml:space="preserve">
+    <value>菲林未领取</value>
+  </data>
+  <data name="DailyNoteButton_PolychromesClaimed" xml:space="preserve">
+    <value>菲林已领取</value>
+  </data>
+  <data name="DailyNoteButton_0DaySRemaining" xml:space="preserve">
+    <value>剩余 {0} 天</value>
+  </data>
 </root>

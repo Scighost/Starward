@@ -511,6 +511,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <!--  电量  -->
@@ -542,8 +543,42 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <!--  每日任务  -->
+                        <!--  绳网会员  -->
                         <Grid Grid.Row="1"
+                              ColumnSpacing="24"
+                              Visibility="{x:Bind ZZZDailyNote.MemberCard.IsOpen}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{x:Bind lang:Lang.DailyNoteButton_InterKnotMembership}" />
+                            <TextBlock Grid.Row="1"
+                                       FontSize="12"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Bind local:DailyNoteButton.ZZZMemberCardRemainingDaysToString(ZZZDailyNote.MemberCard.RemainingDays)}" />
+                            <TextBlock Grid.RowSpan="2"
+                                       Grid.Column="1"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                                       Text="{x:Bind lang:Lang.DailyNoteButton_PolychromesUnclaimed}"
+                                       Visibility="{x:Bind ZZZDailyNote.MemberCard.PolychromesClaimed, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                            <TextBlock Grid.RowSpan="2"
+                                       Grid.Column="1"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Bind lang:Lang.DailyNoteButton_PolychromesClaimed}"
+                                       Visibility="{x:Bind ZZZDailyNote.MemberCard.PolychromesClaimed}" />
+                        </Grid>
+
+                        <!--  每日任务  -->
+                        <Grid Grid.Row="2"
                               ColumnSpacing="24"
                               RowSpacing="4">
                             <Grid.RowDefinitions>
@@ -629,7 +664,7 @@
                         </Grid>
 
                         <!--  周期任务  -->
-                        <Grid Grid.Row="2"
+                        <Grid Grid.Row="3"
                               ColumnSpacing="24"
                               RowSpacing="4">
                             <Grid.RowDefinitions>

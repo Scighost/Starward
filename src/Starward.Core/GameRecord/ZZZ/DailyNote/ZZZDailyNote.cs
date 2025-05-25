@@ -84,5 +84,10 @@ public class ZZZDailyNote
     [JsonPropertyName("weekly_task")]
     public WeeklyTask? WeeklyTask { get; set; }
 
+    /// <summary>
+    /// 绳网会员
+    /// </summary>
+    [JsonPropertyName("member_card")]
+    public MemberCard MemberCard { get; set; }
 
 }

@@ -152,4 +152,16 @@ public sealed partial class DailyNoteButton : UserControl
     }
 
 
+
+
+
+    public static string ZZZMemberCardRemainingDaysToString(int remainingDays)
+    {
+        return string.Format(Lang.DailyNoteButton_0DaySRemaining, remainingDays);
+    }
+
+
+
+
+
 }
