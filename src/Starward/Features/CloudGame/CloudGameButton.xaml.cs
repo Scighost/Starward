@@ -158,7 +158,7 @@ public sealed partial class CloudGameButton : UserControl
             {
                 url = "https://cloudgenshin.hoyoverse.com/";
             }
-            else if (CurrentGameId?.GameBiz == GameBiz.nap)
+            else if (CurrentGameId?.GameBiz == GameBiz.nap_cn)
             {
                 url = "https://zzz.mihoyo.com/cloud-feat/";
             }
