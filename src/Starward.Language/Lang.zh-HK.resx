@@ -247,7 +247,7 @@
     <value>準備中</value>
   </data>
   <data name="DownloadGamePage_Downloading" xml:space="preserve">
-    <value>Download緊</value>
+    <value>Download 緊</value>
   </data>
   <data name="DownloadGamePage_Verifying" xml:space="preserve">
     <value>驗證緊</value>
@@ -757,7 +757,7 @@
     <value>依家更新</value>
   </data>
   <data name="UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage" xml:space="preserve">
-    <value>你要自己 download 新版本嘅安裝包</value>
+    <value>你要自己去 download 新版本嘅安裝包</value>
   </data>
   <data name="UpdatePage_PreviewChannel" xml:space="preserve">
     <value>預覽版</value>
@@ -1473,7 +1473,7 @@
     <value>數字 0 代表唔限速</value>
   </data>
   <data name="SettingPage_Download" xml:space="preserve">
-    <value>Download 緊嘅時候</value>
+    <value>下載</value>
   </data>
   <data name="DownloadGamePage_Paused" xml:space="preserve">
     <value>已暫停</value>
