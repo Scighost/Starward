@@ -1473,7 +1473,7 @@
     <value>數字 0 代表唔限速</value>
   </data>
   <data name="SettingPage_Download" xml:space="preserve">
-    <value>Download 緊</value>
+    <value>Download 緊嘅時候</value>
   </data>
   <data name="DownloadGamePage_Paused" xml:space="preserve">
     <value>已暫停</value>
@@ -2139,15 +2139,15 @@
     <value>Windows HDR 未開啟。</value>
   </data>
   <data name="DailyNoteButton_InterKnotMembership" xml:space="preserve">
-    <value>Inter-Knot Membership</value>
+    <value>繩網會員</value>
   </data>
   <data name="DailyNoteButton_PolychromesUnclaimed" xml:space="preserve">
-    <value>Polychromes Unclaimed</value>
+    <value>菲林未拎</value>
   </data>
   <data name="DailyNoteButton_PolychromesClaimed" xml:space="preserve">
-    <value>Polychromes Claimed</value>
+    <value>菲林拎咗啦</value>
   </data>
   <data name="DailyNoteButton_0DaySRemaining" xml:space="preserve">
-    <value>{0} Day(s) Remaining</value>
+    <value>仲有 {0} 日</value>
   </data>
 </root>
