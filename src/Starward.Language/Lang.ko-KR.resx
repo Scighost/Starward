@@ -2139,4 +2139,16 @@
   <data name="GameSettingPage_WindowsHDRIsNotTurnedOn" xml:space="preserve">
     <value>Windows HDR is not turned on.</value>
   </data>
+  <data name="DailyNoteButton_InterKnotMembership" xml:space="preserve">
+    <value>Inter-Knot Membership</value>
+  </data>
+  <data name="DailyNoteButton_PolychromesUnclaimed" xml:space="preserve">
+    <value>Polychromes Unclaimed</value>
+  </data>
+  <data name="DailyNoteButton_PolychromesClaimed" xml:space="preserve">
+    <value>Polychromes Claimed</value>
+  </data>
+  <data name="DailyNoteButton_0DaySRemaining" xml:space="preserve">
+    <value>{0} Day(s) Remaining</value>
+  </data>
 </root>
