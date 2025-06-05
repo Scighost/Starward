@@ -81,7 +81,7 @@ public sealed partial class GenshinHDRLuminanceSettingDialog : ContentDialog
             _displayInformation?.Dispose();
             CanvasSwapChainPanel_Mora.SwapChain?.Dispose();
             CanvasSwapChainPanel_Scene.SwapChain?.Dispose();
-            this.XamlRoot.Changed -= XamlRoot_Changed;
+            this.XamlRoot?.Changed -= XamlRoot_Changed;
         }
         catch (Exception ex)
         {

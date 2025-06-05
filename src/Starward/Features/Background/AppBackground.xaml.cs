@@ -106,7 +106,7 @@ public sealed partial class AppBackground : UserControl
     private void AppBackground_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         DisposeVideoResource();
-        this.XamlRoot.Changed -= XamlRoot_Changed;
+        this.XamlRoot?.Changed -= XamlRoot_Changed;
         WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 

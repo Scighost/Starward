@@ -36,6 +36,7 @@ internal static class RunningGameService
 
     public static void AddRuninngGame(GameBiz gameBiz, Process process)
     {
+        return;
         try
         {
             lock (_runningGameLock)
