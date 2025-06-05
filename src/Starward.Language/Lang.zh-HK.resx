@@ -247,7 +247,7 @@
     <value>準備中</value>
   </data>
   <data name="DownloadGamePage_Downloading" xml:space="preserve">
-    <value>Download緊</value>
+    <value>Download 緊</value>
   </data>
   <data name="DownloadGamePage_Verifying" xml:space="preserve">
     <value>驗證緊</value>
@@ -757,7 +757,7 @@
     <value>依家更新</value>
   </data>
   <data name="UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage" xml:space="preserve">
-    <value>你要自己 download 新版本嘅安裝包</value>
+    <value>你要自己去 download 新版本嘅安裝包</value>
   </data>
   <data name="UpdatePage_PreviewChannel" xml:space="preserve">
     <value>預覽版</value>
@@ -1473,7 +1473,7 @@
     <value>數字 0 代表唔限速</value>
   </data>
   <data name="SettingPage_Download" xml:space="preserve">
-    <value>Download 緊</value>
+    <value>下載</value>
   </data>
   <data name="DownloadGamePage_Paused" xml:space="preserve">
     <value>已暫停</value>
@@ -2067,75 +2067,87 @@
     <value>120 FPS 係遊戲入面顯示為 30 FPS 係正常狀況。</value>
   </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
-    <value>Enable HDR</value>
+    <value>開啟 HDR</value>
   </data>
   <data name="Common_RestoreDefaults" xml:space="preserve">
-    <value>Restore Defaults</value>
+    <value>回覆預設設定</value>
   </data>
   <data name="GameSettingPage_HDRBrightnessSetting" xml:space="preserve">
-    <value>HDR Brightness Setting</value>
+    <value>HDR 亮度設定</value>
   </data>
   <data name="GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsThePrimaryDisplay" xml:space="preserve">
-    <value>If you have multiple monitors, you need to set the HDR-supported monitor as the primary display.</value>
+    <value>如果有多過1個顯示器，你要將支持 HDR 嘅顯示器設定為主要顯示器。</value>
   </data>
   <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled" xml:space="preserve">
-    <value>The current monitor does not support HDR or Windows HDR is not enabled.</value>
+    <value>當前嘅顯示器唔支持 HDR 或者 Windows HDR 未開啟。</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_AdaptToMonitorBrightness" xml:space="preserve">
-    <value>Adapt to Monitor Brightness</value>
+    <value>適配顯示器亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MaxLuminance" xml:space="preserve">
-    <value>Max Luminance</value>
+    <value>最光</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_SceneryBrightness" xml:space="preserve">
-    <value>Scenery Brightness</value>
+    <value>場景亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_UIBrightness" xml:space="preserve">
-    <value>UI Brightness</value>
+    <value>介面亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MonitorInformation" xml:space="preserve">
-    <value>Monitor Information</value>
+    <value>顯示器資料</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_ColorSpace" xml:space="preserve">
-    <value>Color Space</value>
+    <value>顏色空間</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_PeakLuminance" xml:space="preserve">
-    <value>Peak Luminance</value>
+    <value>峰值亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MaxFullScreenLuminance" xml:space="preserve">
-    <value>Max Full-Screen Luminance</value>
+    <value>最高全屏亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_SDRWhiteLuminance" xml:space="preserve">
-    <value>SDR White Luminance</value>
+    <value>SDR 白色亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_StandardDynamicRange" xml:space="preserve">
-    <value>Standard Dynamic Range</value>
+    <value>標準動態範圍</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_WideColorGamut" xml:space="preserve">
-    <value>Wide Color Gamut</value>
+    <value>廣色域</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_HighDynamicRange" xml:space="preserve">
-    <value>High Dynamic Range</value>
+    <value>高動態範圍</value>
   </data>
   <data name="WelcomeView_IfStarwardTakesALongTimeToStartItIsRecommendedToDisableSmartAppControlInWindowsSecurity" xml:space="preserve">
-    <value>If Starward takes a long time to start, it is recommended to disable Smart App Control in Windows Security.</value>
+    <value>如果Starward啟動時間要好耐，建議係Windows安全中停用智慧應用程式控制。</value>
   </data>
   <data name="WelcomeView_OpenWindowsSecurity" xml:space="preserve">
-    <value>Open Windows Security</value>
+    <value>打開 Windows 安全</value>
   </data>
   <data name="WelcomeView_LearnMore" xml:space="preserve">
-    <value>Learn More</value>
+    <value>了解更多</value>
   </data>
   <data name="WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates" xml:space="preserve">
-    <value>Network error. You can continue using Starward, but you won't receive future updates.</value>
+    <value>網絡出錯，您可以繼續使用 Starward ，但係沒辦法收到更新。</value>
   </data>
   <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
-    <value>System proxy is enabled.</value>
+    <value>系統代理已開啟。</value>
   </data>
   <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDR" xml:space="preserve">
-    <value>The current monitor does not support HDR.</value>
+    <value>當前顯示器唔支持 HDR。</value>
   </data>
   <data name="GameSettingPage_WindowsHDRIsNotTurnedOn" xml:space="preserve">
-    <value>Windows HDR is not turned on.</value>
+    <value>Windows HDR 未開啟。</value>
+  </data>
+  <data name="DailyNoteButton_InterKnotMembership" xml:space="preserve">
+    <value>繩網會員</value>
+  </data>
+  <data name="DailyNoteButton_PolychromesUnclaimed" xml:space="preserve">
+    <value>菲林未拎</value>
+  </data>
+  <data name="DailyNoteButton_PolychromesClaimed" xml:space="preserve">
+    <value>菲林拎咗啦</value>
+  </data>
+  <data name="DailyNoteButton_0DaySRemaining" xml:space="preserve">
+    <value>仲有 {0} 日</value>
   </data>
 </root>
