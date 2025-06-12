@@ -278,18 +278,18 @@
     <value>Película</value>
   </data>
   <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
-    <value>Ploychrome</value>
+    <value>Fotograma</value>
   </data>
   <data name="ZZZQueryType_Bundle" xml:space="preserve">
-    <value>Bundle</value>
+    <value>Manojo</value>
   </data>
   <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
-    <value>Battery Charge</value>
+    <value>Pila</value>
   </data>
   <data name="ZZZQueryType_WEngine" xml:space="preserve">
-    <value>W-Engine</value>
+    <value>Amplificador</value>
   </data>
   <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
-    <value>Drive Disc</value>
+    <value>Pista de disco</value>
   </data>
 </root>
