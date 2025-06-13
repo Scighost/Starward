@@ -35,12 +35,12 @@ internal class GameInstallService
     private readonly GameInstallHelper _gameInstallHelper;
 
 
-    private readonly ConcurrentDictionary<GameId, GameInstallTask> _tasks = new();
+    private readonly ConcurrentDictionary<GameId, GameInstallContext> _tasks = new();
 
 
-    public event EventHandler<GameInstallTask>? TaskStateChanged;
+    public event EventHandler<GameInstallContext>? TaskStateChanged;
 
-    public GameInstallTask? CurrentTask { get; private set; }
+    public GameInstallContext? CurrentTask { get; private set; }
 
 
 
@@ -84,9 +84,9 @@ internal class GameInstallService
 
 
 
-    public bool TryGetTask(GameId gameId, [NotNullWhen(true)] out GameInstallTask? task)
+    public bool TryGetTask(GameId gameId, [NotNullWhen(true)] out GameInstallContext? context)
     {
-        return _tasks.TryGetValue(gameId, out task);
+        return _tasks.TryGetValue(gameId, out context);
     }
 
 
@@ -96,26 +96,26 @@ internal class GameInstallService
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    public GameInstallTaskDTO StartOrContinueTask(GameInstallTaskRequest request)
+    public GameInstallContextDTO StartOrContinueTask(GameInstallRequest request)
     {
-        if (_tasks.TryGetValue(request.GetGameId(), out GameInstallTask? task))
+        if (_tasks.TryGetValue(request.GetGameId(), out GameInstallContext? context))
         {
-            if (task.Operation != (GameInstallOperation)request.Operation)
+            if (context.Operation != (GameInstallOperation)request.Operation)
             {
                 // 操作不一样，则取消上次任务
-                _logger.LogInformation("The new task operation is different from the previous task, cancel the previous task, GameBiz: {game_biz}, Operation: {operation}", task.GameId.GameBiz, task.Operation);
-                task.Cancel(GameInstallState.Stop);
-                _tasks.TryRemove(task.GameId, out _);
-                task = request.ToTask();
-                _tasks.TryAdd(task.GameId, task);
+                _logger.LogInformation("The new task operation is different from the previous task, cancel the previous task, GameBiz: {game_biz}, Operation: {operation}", context.GameId.GameBiz, context.Operation);
+                context.Cancel(GameInstallState.Stop);
+                _tasks.TryRemove(context.GameId, out _);
+                context = request.ToTask();
+                _tasks.TryAdd(context.GameId, context);
             }
         }
         else
         {
-            task = request.ToTask();
-            _tasks.TryAdd(task.GameId, task);
+            context = request.ToTask();
+            _tasks.TryAdd(context.GameId, context);
         }
-        return StartOrContinueTask(task);
+        return StartOrContinueTask(context);
     }
 
 
@@ -123,36 +123,36 @@ internal class GameInstallService
     /// <summary>
     /// 开始或继续任务
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <returns></returns>
-    private GameInstallTaskDTO StartOrContinueTask(GameInstallTask task)
+    private GameInstallContextDTO StartOrContinueTask(GameInstallContext context)
     {
-        if (task.State is GameInstallState.Stop && CurrentTask != null && CurrentTask != task)
+        if (context.State is GameInstallState.Stop && CurrentTask != null && CurrentTask != context)
         {
             // 第一次开始时，如果有其他任务在执行，排队
-            _logger.LogInformation("Queueing GameInstallTask, GameBiz: {game_biz}, Operation: {operation}", task.GameId.GameBiz, task.Operation);
-            task.State = GameInstallState.Queueing;
-            return GameInstallTaskDTO.FromTask(task);
+            _logger.LogInformation("Queueing GameInstallTask, GameBiz: {game_biz}, Operation: {operation}", context.GameId.GameBiz, context.Operation);
+            context.State = GameInstallState.Queueing;
+            return GameInstallContextDTO.FromTask(context);
         }
-        if (CurrentTask != null && CurrentTask != task)
+        if (CurrentTask != null && CurrentTask != context)
         {
             CurrentTask.Cancel(GameInstallState.Queueing);
             TaskStateChanged?.Invoke(this, CurrentTask);
         }
-        CurrentTask = task;
-        if (task.State is GameInstallState.Finish)
+        CurrentTask = context;
+        if (context.State is GameInstallState.Finish)
         {
-            ChangeToAnotherTask(task);
-            return GameInstallTaskDTO.FromTask(task);
+            ChangeToAnotherTask(context);
+            return GameInstallContextDTO.FromTask(context);
         }
-        else if (task.State is GameInstallState.Waiting or GameInstallState.Downloading or GameInstallState.Decompressing or GameInstallState.Verifying)
+        else if (context.State is GameInstallState.Waiting or GameInstallState.Downloading or GameInstallState.Decompressing or GameInstallState.Verifying)
         {
-            return GameInstallTaskDTO.FromTask(task);
+            return GameInstallContextDTO.FromTask(context);
         }
-        task.State = GameInstallState.Waiting;
-        task.ErrorMessage = null;
-        _ = PrepareGameInstallTaskAsync(task, task.CancellationToken);
-        return GameInstallTaskDTO.FromTask(task);
+        context.State = GameInstallState.Waiting;
+        context.ErrorMessage = null;
+        _ = PrepareGameInstallTaskAsync(context, context.CancellationToken);
+        return GameInstallContextDTO.FromTask(context);
     }
 
 
@@ -162,18 +162,18 @@ internal class GameInstallService
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    public GameInstallTaskDTO PauseTask(GameInstallTaskRequest request)
+    public GameInstallContextDTO PauseTask(GameInstallRequest request)
     {
-        if (_tasks.TryGetValue(request.GetGameId(), out GameInstallTask? task))
+        if (_tasks.TryGetValue(request.GetGameId(), out GameInstallContext? context))
         {
-            task.Cancel(GameInstallState.Paused);
+            context.Cancel(GameInstallState.Paused);
         }
         else
         {
-            task = request.ToTask();
-            task.State = GameInstallState.Stop;
+            context = request.ToTask();
+            context.State = GameInstallState.Stop;
         }
-        return GameInstallTaskDTO.FromTask(task);
+        return GameInstallContextDTO.FromTask(context);
     }
 
 
@@ -182,19 +182,19 @@ internal class GameInstallService
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    public GameInstallTaskDTO StopTask(GameInstallTaskRequest request)
+    public GameInstallContextDTO StopTask(GameInstallRequest request)
     {
-        if (_tasks.TryRemove(request.GetGameId(), out GameInstallTask? task))
+        if (_tasks.TryRemove(request.GetGameId(), out GameInstallContext? context))
         {
-            task.Cancel(GameInstallState.Stop);
-            task.State = GameInstallState.Stop;
+            context.Cancel(GameInstallState.Stop);
+            context.State = GameInstallState.Stop;
         }
         else
         {
-            task = request.ToTask();
-            task.State = GameInstallState.Stop;
+            context = request.ToTask();
+            context.State = GameInstallState.Stop;
         }
-        return GameInstallTaskDTO.FromTask(task);
+        return GameInstallContextDTO.FromTask(context);
     }
 
 
@@ -203,10 +203,10 @@ internal class GameInstallService
     /// <summary>
     /// 准备游戏任务
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task PrepareGameInstallTaskAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    public async Task PrepareGameInstallTaskAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -217,72 +217,72 @@ internal class GameInstallService
                 InstallPath: {installPath}
                 AudioLanguage: {audioLanguage}
                 HardLinkPath: {hardLinkPath}
-                """, task.Operation, task.GameId.Id, task.GameId.GameBiz, task.InstallPath, task.AudioLanguage, task.HardLinkPath);
-            Directory.CreateDirectory(task.InstallPath);
+                """, context.Operation, context.GameId.Id, context.GameId.GameBiz, context.InstallPath, context.AudioLanguage, context.HardLinkPath);
+            Directory.CreateDirectory(context.InstallPath);
             GamePackageService gamePackageService = _serviceProvider.GetRequiredService<GamePackageService>();
-            if (task.AudioLanguage is not AudioLanguage.None)
+            if (context.AudioLanguage is not AudioLanguage.None)
             {
-                await gamePackageService.SetAudioLanguageAsync(task.GameId, task.InstallPath, task.AudioLanguage, cancellationToken);
+                await gamePackageService.SetAudioLanguageAsync(context.GameId, context.InstallPath, context.AudioLanguage, cancellationToken);
             }
-            if (task.TaskFiles is null)
+            if (context.TaskFiles is null)
             {
-                await gamePackageService.PrepareGamePackageAsync(task, cancellationToken);
+                await gamePackageService.PrepareGamePackageAsync(context, cancellationToken);
             }
 
-            foreach (string item in Directory.GetFiles(task.InstallPath, "*", SearchOption.AllDirectories))
+            foreach (string item in Directory.GetFiles(context.InstallPath, "*", SearchOption.AllDirectories))
             {
                 // 设置所有文件为正常状态，防止遇到只读文件报错
                 File.SetAttributes(item, FileAttributes.Normal);
             }
 
-            if (task.Operation is GameInstallOperation.Install)
+            if (context.Operation is GameInstallOperation.Install)
             {
                 // 安装
-                await ExecuteInstallTaskAsync(task, cancellationToken);
+                await ExecuteInstallTaskAsync(context, cancellationToken);
             }
-            else if (task.Operation is GameInstallOperation.Update)
+            else if (context.Operation is GameInstallOperation.Update)
             {
                 // 更新
-                await ExecuteUpdateTaskAsnyc(task, cancellationToken);
+                await ExecuteUpdateTaskAsnyc(context, cancellationToken);
             }
-            else if (task.Operation is GameInstallOperation.Predownload)
+            else if (context.Operation is GameInstallOperation.Predownload)
             {
                 // 预下载
-                await ExecutePredownloadTaskAsync(task, cancellationToken);
+                await ExecutePredownloadTaskAsync(context, cancellationToken);
             }
-            else if (task.Operation is GameInstallOperation.Repair)
+            else if (context.Operation is GameInstallOperation.Repair)
             {
                 // 修复
-                await ExecuteRepairTaskAsync(task, cancellationToken);
+                await ExecuteRepairTaskAsync(context, cancellationToken);
             }
             else
             {
-                _logger.LogWarning("GameInstallTask ({GameBiz}): Unsupported Operation: {operation}", task.GameId.GameBiz, task.Operation);
+                _logger.LogWarning("GameInstallTask ({GameBiz}): Unsupported Operation: {operation}", context.GameId.GameBiz, context.Operation);
             }
 
-            ClearDeprecatedFiles(task);
+            ClearDeprecatedFiles(context);
 
-            task.State = GameInstallState.Finish;
-            _logger.LogInformation("GameInstallTask Finished, GameBiz: {game_biz}, Operation: {operation}", task.GameId.GameBiz, task.Operation);
+            context.State = GameInstallState.Finish;
+            _logger.LogInformation("GameInstallTask Finished, GameBiz: {game_biz}, Operation: {operation}", context.GameId.GameBiz, context.Operation);
         }
         catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
         {
             _logger.LogError(ex, "PrepareGameInstallTaskAsync");
-            task.State = GameInstallState.Error;
-            task.ErrorMessage = ex.InnerException.Message;
+            context.State = GameInstallState.Error;
+            context.ErrorMessage = ex.InnerException.Message;
         }
         catch (OperationCanceledException)
         {
-            _logger.LogInformation("GameInstallTask canceled, GameBiz: {game_biz}, Operation: {operation}, CancelState: {state}", task.GameId.GameBiz, task.Operation, task.CancelState);
-            task.State = task.CancelState;
+            _logger.LogInformation("GameInstallTask canceled, GameBiz: {game_biz}, Operation: {operation}, CancelState: {state}", context.GameId.GameBiz, context.Operation, context.CancelState);
+            context.State = context.CancelState;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "PrepareGameInstallTaskAsync");
-            task.State = GameInstallState.Error;
-            task.ErrorMessage = ex.Message;
+            context.State = GameInstallState.Error;
+            context.ErrorMessage = ex.Message;
         }
-        ChangeToAnotherTask(task);
+        ChangeToAnotherTask(context);
     }
 
 
@@ -291,15 +291,15 @@ internal class GameInstallService
     /// <summary>
     /// 切换到另一个任务
     /// </summary>
-    /// <param name="task"></param>
-    private void ChangeToAnotherTask(GameInstallTask task)
+    /// <param name="context"></param>
+    private void ChangeToAnotherTask(GameInstallContext context)
     {
-        if (task.State is GameInstallState.Stop or GameInstallState.Finish)
+        if (context.State is GameInstallState.Stop or GameInstallState.Finish)
         {
-            _tasks.TryRemove(task.GameId, out _);
+            _tasks.TryRemove(context.GameId, out _);
         }
-        TaskStateChanged?.Invoke(this, task);
-        if (_tasks.Values.FirstOrDefault(x => x.State is not GameInstallState.Paused and not GameInstallState.Error && x != task) is GameInstallTask anotherTask)
+        TaskStateChanged?.Invoke(this, context);
+        if (_tasks.Values.FirstOrDefault(x => x.State is not GameInstallState.Paused and not GameInstallState.Error && x != context) is GameInstallContext anotherTask)
         {
             CurrentTask = anotherTask;
             StartOrContinueTask(anotherTask);
@@ -316,21 +316,21 @@ internal class GameInstallService
     /// <summary>
     /// 开始安装
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <returns></returns>
-    private async Task ExecuteInstallTaskAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task ExecuteInstallTaskAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
-        if (task.DownloadMode is GameInstallDownloadMode.Chunk)
+        if (context.DownloadMode is GameInstallDownloadMode.Chunk)
         {
-            await ExecuteInstallTaskDownloadModeChunkAsync(task, cancellationToken);
+            await ExecuteInstallTaskDownloadModeChunkAsync(context, cancellationToken);
         }
-        else if (task.DownloadMode is GameInstallDownloadMode.CompressedPackage)
+        else if (context.DownloadMode is GameInstallDownloadMode.CompressedPackage)
         {
-            await ExecuteInstallTaskDownloadModePackageAsync(task, cancellationToken);
+            await ExecuteInstallTaskDownloadModePackageAsync(context, cancellationToken);
         }
 
-        await DownloadGameChannelSDKAsync(task, cancellationToken);
-        await SetGameConfigIniAsync(task);
+        await DownloadGameChannelSDKAsync(context, cancellationToken);
+        await SetGameConfigIniAsync(context);
     }
 
 
@@ -338,12 +338,12 @@ internal class GameInstallService
     /// <summary>
     /// 安装游戏，下载模式为 Chunk
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <returns></returns>
-    private async Task ExecuteInstallTaskDownloadModeChunkAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task ExecuteInstallTaskDownloadModeChunkAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
         long downloadBytes = 0, writeBytes = 0;
-        foreach (GameInstallFile item in task.TaskFiles ?? [])
+        foreach (GameInstallFile item in context.TaskFiles ?? [])
         {
             writeBytes += item.Size;
             foreach (GameInstallFileChunk chunk in item.Chunks ?? [])
@@ -351,16 +351,16 @@ internal class GameInstallService
                 downloadBytes += chunk.CompressedSize;
             }
         }
-        task.Progress_DownloadTotalBytes = downloadBytes;
-        task.Progress_DownloadFinishBytes = 0;
-        task.Progress_WriteTotalBytes = writeBytes;
-        task.Progress_WriteFinishBytes = 0;
+        context.Progress_DownloadTotalBytes = downloadBytes;
+        context.Progress_DownloadFinishBytes = 0;
+        context.Progress_WriteTotalBytes = writeBytes;
+        context.Progress_WriteFinishBytes = 0;
 
-        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode chunk", task.GameId.GameBiz);
-        task.State = GameInstallState.Downloading;
-        await Parallel.ForEachAsync(task.TaskFiles ?? [], cancellationToken, async (GameInstallFile file, CancellationToken token) =>
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode chunk", context.GameId.GameBiz);
+        context.State = GameInstallState.Downloading;
+        await Parallel.ForEachAsync(context.TaskFiles ?? [], cancellationToken, async (GameInstallFile file, CancellationToken token) =>
         {
-            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadChunksToFileAsync(task, file, false, token), token);
+            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadChunksToFileAsync(context, file, false, token), token);
             file.IsFinished = true;
         });
     }
@@ -370,26 +370,26 @@ internal class GameInstallService
     /// <summary>
     /// 安装游戏，下载模式为 CompressedPackage
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <returns></returns>
-    private async Task ExecuteInstallTaskDownloadModePackageAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task ExecuteInstallTaskDownloadModePackageAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
-        var packages = task.TaskFiles!.SelectMany(x => x.CompressedPackages!).ToList();
-        task.Progress_DownloadTotalBytes = packages.Sum(x => x.Size);
-        task.Progress_DownloadFinishBytes = 0;
+        var packages = context.TaskFiles!.SelectMany(x => x.CompressedPackages!).ToList();
+        context.Progress_DownloadTotalBytes = packages.Sum(x => x.Size);
+        context.Progress_DownloadFinishBytes = 0;
 
-        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode package", task.GameId.GameBiz);
-        task.State = GameInstallState.Downloading;
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode package", context.GameId.GameBiz);
+        context.State = GameInstallState.Downloading;
         await Parallel.ForEachAsync(packages, cancellationToken, async (GameInstallCompressedPackage package, CancellationToken token) =>
         {
-            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(task, package.FullPath, package.Url, package.Size, package.MD5, token), token);
+            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(context, package.FullPath, package.Url, package.Size, package.MD5, token), token);
         });
 
-        _logger.LogInformation("GameInstallTask ({GameBiz}): Start decompressing in mode package", task.GameId.GameBiz);
-        task.State = GameInstallState.Decompressing;
-        task.Progress_Percent = 0;
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Start decompressing in mode package", context.GameId.GameBiz);
+        context.State = GameInstallState.Decompressing;
+        context.Progress_Percent = 0;
         double totalSize = packages.Sum(x => x.Size);
-        foreach (GameInstallFile item in task.TaskFiles ?? [])
+        foreach (GameInstallFile item in context.TaskFiles ?? [])
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -398,11 +398,11 @@ internal class GameInstallService
             double ratio = item.Size / totalSize;
             if (item.IsFinished)
             {
-                task.Progress_Percent += ratio;
+                context.Progress_Percent += ratio;
                 continue;
             }
             // SevenZipExtractor 解压被取消不会抛出异常
-            await _gameInstallHelper.ExtractCompressedPackageAsync(task, item, ratio, cancellationToken);
+            await _gameInstallHelper.ExtractCompressedPackageAsync(context, item, ratio, cancellationToken);
             item.IsFinished = true;
         }
         if (cancellationToken.IsCancellationRequested)
@@ -418,17 +418,17 @@ internal class GameInstallService
     /// <summary>
     /// 开始更新
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <returns></returns>
-    private async Task ExecuteUpdateTaskAsnyc(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task ExecuteUpdateTaskAsnyc(GameInstallContext context, CancellationToken cancellationToken = default)
     {
         // 如果音频包缓存目录和资源目录不一样，则移动缓存目录的文件到资源目录
-        if (!string.IsNullOrWhiteSpace(task.GameConfig?.AudioPackageCacheDir)
-            && !string.IsNullOrWhiteSpace(task.GameConfig?.AudioPackageResDir)
-            && task.GameConfig.AudioPackageCacheDir != task.GameConfig.AudioPackageResDir)
+        if (!string.IsNullOrWhiteSpace(context.GameConfig?.AudioPackageCacheDir)
+            && !string.IsNullOrWhiteSpace(context.GameConfig?.AudioPackageResDir)
+            && context.GameConfig.AudioPackageCacheDir != context.GameConfig.AudioPackageResDir)
         {
-            string cache = Path.GetFullPath(Path.Combine(task.InstallPath, task.GameConfig.AudioPackageCacheDir));
-            string res = Path.GetFullPath(Path.Combine(task.InstallPath, task.GameConfig.AudioPackageResDir));
+            string cache = Path.GetFullPath(Path.Combine(context.InstallPath, context.GameConfig.AudioPackageCacheDir));
+            string res = Path.GetFullPath(Path.Combine(context.InstallPath, context.GameConfig.AudioPackageResDir));
             if (Directory.Exists(cache))
             {
                 string[] files = Directory.GetFiles(cache, "*", SearchOption.AllDirectories);
@@ -439,25 +439,25 @@ internal class GameInstallService
                     Directory.CreateDirectory(Path.GetDirectoryName(target)!);
                     File.Move(source, target, true);
                 }
-                _logger.LogInformation("GameInstallTask ({GameBiz}): Move audio package cache files (Count: {count}) from {cacheDir} to res dir {resDir}", task.GameId.GameBiz, files.Length, cache, res);
+                _logger.LogInformation("GameInstallTask ({GameBiz}): Move audio package cache files (Count: {count}) from {cacheDir} to res dir {resDir}", context.GameId.GameBiz, files.Length, cache, res);
             }
         }
 
-        if (task.DownloadMode is GameInstallDownloadMode.Patch)
+        if (context.DownloadMode is GameInstallDownloadMode.Patch)
         {
-            await ExecuteUpdateTaskDownloadPatchAsync(task, cancellationToken);
+            await ExecuteUpdateTaskDownloadPatchAsync(context, cancellationToken);
         }
-        else if (task.DownloadMode is GameInstallDownloadMode.Chunk)
+        else if (context.DownloadMode is GameInstallDownloadMode.Chunk)
         {
-            await ExecuteUpdateTaskDownloadModeChunkAsync(task, cancellationToken);
+            await ExecuteUpdateTaskDownloadModeChunkAsync(context, cancellationToken);
         }
-        else if (task.DownloadMode is GameInstallDownloadMode.CompressedPackage)
+        else if (context.DownloadMode is GameInstallDownloadMode.CompressedPackage)
         {
-            await ExecuteUpdateTaskDownloadPackageAsync(task, cancellationToken);
+            await ExecuteUpdateTaskDownloadPackageAsync(context, cancellationToken);
         }
 
-        await DownloadGameChannelSDKAsync(task, cancellationToken);
-        await SetGameConfigIniAsync(task, ("predownload", null));
+        await DownloadGameChannelSDKAsync(context, cancellationToken);
+        await SetGameConfigIniAsync(context, ("predownload", null));
     }
 
 
@@ -466,54 +466,54 @@ internal class GameInstallService
     /// <summary>
     /// 开始更新，下载模式为 Patch
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <returns></returns>
-    private async Task ExecuteUpdateTaskDownloadPatchAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task ExecuteUpdateTaskDownloadPatchAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
-        List<PredownloadFile> files = GameInstallHelper.GetPredownloadFiles(task);
+        List<PredownloadFile> files = GameInstallHelper.GetPredownloadFiles(context);
 
-        task.Progress_DownloadTotalBytes = files.Sum(x => x.Size);
-        task.Progress_DownloadFinishBytes = 0;
-        task.State = GameInstallState.Downloading;
+        context.Progress_DownloadTotalBytes = files.Sum(x => x.Size);
+        context.Progress_DownloadFinishBytes = 0;
+        context.State = GameInstallState.Downloading;
 
-        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode patch", task.GameId.GameBiz);
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode patch", context.GameId.GameBiz);
         await Parallel.ForEachAsync(files, cancellationToken, async (PredownloadFile item, CancellationToken token) =>
         {
-            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(task, item, token), token);
+            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(context, item, token), token);
         });
 
-        _logger.LogInformation("GameInstallTask ({GameBiz}): Start merging in mode patch, file count: {count}", task.GameId.GameBiz, task.TaskFiles?.Count);
-        task.State = GameInstallState.Merging;
-        task.Progress_Percent = 0;
-        double totalCount = task.TaskFiles?.Count ?? 1;
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Start merging in mode patch, file count: {count}", context.GameId.GameBiz, context.TaskFiles?.Count);
+        context.State = GameInstallState.Merging;
+        context.Progress_Percent = 0;
+        double totalCount = context.TaskFiles?.Count ?? 1;
         double increase = 1 / totalCount;
         Lock _lock = new();
-        await Parallel.ForEachAsync(task.TaskFiles ?? [], cancellationToken, async (GameInstallFile item, CancellationToken token) =>
+        await Parallel.ForEachAsync(context.TaskFiles ?? [], cancellationToken, async (GameInstallFile item, CancellationToken token) =>
         {
             if (item.IsFinished)
             {
                 lock (_lock)
                 {
-                    task.Progress_Percent += increase;
+                    context.Progress_Percent += increase;
                 }
                 return;
             }
-            await _gameInstallHelper.PatchDiffFileAsync(task, item, cancellationToken);
-            task.Progress_Percent += increase;
+            await _gameInstallHelper.PatchDiffFileAsync(context, item, cancellationToken);
+            context.Progress_Percent += increase;
             item.IsFinished = true;
         });
 
-        if (task.SophonPatchDeleteFiles is not null)
+        if (context.SophonPatchDeleteFiles is not null)
         {
-            foreach (SophonPatchDeleteFile item in task.SophonPatchDeleteFiles)
+            foreach (SophonPatchDeleteFile item in context.SophonPatchDeleteFiles)
             {
-                string path = Path.Combine(task.InstallPath, item.File);
+                string path = Path.Combine(context.InstallPath, item.File);
                 if (File.Exists(path))
                 {
                     File.Delete(path);
                 }
             }
-            _logger.LogInformation("GameInstallTask ({GameBiz}): Delete files by SophonPatchDeleteFiles, file count: {count}", task.GameId.GameBiz, task.SophonPatchDeleteFiles.Count);
+            _logger.LogInformation("GameInstallTask ({GameBiz}): Delete files by SophonPatchDeleteFiles, file count: {count}", context.GameId.GameBiz, context.SophonPatchDeleteFiles.Count);
         }
 
     }
@@ -523,12 +523,12 @@ internal class GameInstallService
     /// <summary>
     /// 开始更新，下载模式为 Chunk
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <returns></returns>
-    private async Task ExecuteUpdateTaskDownloadModeChunkAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task ExecuteUpdateTaskDownloadModeChunkAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
         long downloadBytes = 0, writeBytes = 0;
-        foreach (GameInstallFile item in task.TaskFiles ?? [])
+        foreach (GameInstallFile item in context.TaskFiles ?? [])
         {
             writeBytes += item.Size;
             foreach (GameInstallFileChunk chunk in item.Chunks ?? [])
@@ -539,16 +539,16 @@ internal class GameInstallService
                 }
             }
         }
-        task.Progress_DownloadTotalBytes = downloadBytes;
-        task.Progress_DownloadFinishBytes = 0;
-        task.Progress_WriteTotalBytes = writeBytes;
-        task.Progress_WriteFinishBytes = 0;
+        context.Progress_DownloadTotalBytes = downloadBytes;
+        context.Progress_DownloadFinishBytes = 0;
+        context.Progress_WriteTotalBytes = writeBytes;
+        context.Progress_WriteFinishBytes = 0;
 
-        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode chunk", task.GameId.GameBiz);
-        task.State = GameInstallState.Downloading;
-        await Parallel.ForEachAsync(task.TaskFiles ?? [], cancellationToken, async (GameInstallFile file, CancellationToken token) =>
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode chunk", context.GameId.GameBiz);
+        context.State = GameInstallState.Downloading;
+        await Parallel.ForEachAsync(context.TaskFiles ?? [], cancellationToken, async (GameInstallFile file, CancellationToken token) =>
         {
-            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadChunksToFileAsync(task, file, true, token), token);
+            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadChunksToFileAsync(context, file, true, token), token);
             file.IsFinished = true;
         });
     }
@@ -558,28 +558,28 @@ internal class GameInstallService
     /// <summary>
     /// 开始更新，下载模式为 CompressedPackage
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <returns></returns>
     /// <exception cref="OperationCanceledException"></exception>
-    private async Task ExecuteUpdateTaskDownloadPackageAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task ExecuteUpdateTaskDownloadPackageAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
-        List<PredownloadFile> files = GameInstallHelper.GetPredownloadFiles(task);
+        List<PredownloadFile> files = GameInstallHelper.GetPredownloadFiles(context);
 
-        task.Progress_DownloadTotalBytes = files.Sum(x => x.Size);
-        task.Progress_DownloadFinishBytes = 0;
-        task.State = GameInstallState.Downloading;
+        context.Progress_DownloadTotalBytes = files.Sum(x => x.Size);
+        context.Progress_DownloadFinishBytes = 0;
+        context.State = GameInstallState.Downloading;
 
-        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode package", task.GameId.GameBiz);
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode package", context.GameId.GameBiz);
         await Parallel.ForEachAsync(files, cancellationToken, async (PredownloadFile item, CancellationToken token) =>
         {
-            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(task, item, token), token);
+            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(context, item, token), token);
         });
 
-        _logger.LogInformation("GameInstallTask ({GameBiz}): Start decompressing in mode package", task.GameId.GameBiz);
-        task.State = GameInstallState.Decompressing;
-        task.Progress_Percent = 0;
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Start decompressing in mode package", context.GameId.GameBiz);
+        context.State = GameInstallState.Decompressing;
+        context.Progress_Percent = 0;
         double totalSize = files.Sum(x => x.Size);
-        foreach (GameInstallFile item in task.TaskFiles ?? [])
+        foreach (GameInstallFile item in context.TaskFiles ?? [])
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -588,11 +588,11 @@ internal class GameInstallService
             double ratio = item.Size / totalSize;
             if (item.IsFinished)
             {
-                task.Progress_Percent += ratio;
+                context.Progress_Percent += ratio;
                 continue;
             }
             // SevenZipExtractor 解压被取消不会抛出异常
-            await _gameInstallHelper.ExtractCompressedPackageAsync(task, item, ratio, cancellationToken);
+            await _gameInstallHelper.ExtractCompressedPackageAsync(context, item, ratio, cancellationToken);
             item.IsFinished = true;
         }
         if (cancellationToken.IsCancellationRequested)
@@ -607,24 +607,24 @@ internal class GameInstallService
     /// <summary>
     /// 开始预下载
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <returns></returns>
-    private async Task ExecutePredownloadTaskAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task ExecutePredownloadTaskAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
-        List<PredownloadFile> files = GameInstallHelper.GetPredownloadFiles(task);
+        List<PredownloadFile> files = GameInstallHelper.GetPredownloadFiles(context);
 
-        task.Progress_DownloadTotalBytes = files.Sum(x => x.Size);
-        task.Progress_DownloadFinishBytes = 0;
-        task.State = GameInstallState.Downloading;
+        context.Progress_DownloadTotalBytes = files.Sum(x => x.Size);
+        context.Progress_DownloadFinishBytes = 0;
+        context.State = GameInstallState.Downloading;
 
-        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode predownload", task.GameId.GameBiz);
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode predownload", context.GameId.GameBiz);
         await Parallel.ForEachAsync(files, cancellationToken, async (PredownloadFile item, CancellationToken token) =>
         {
-            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(task, item, token), token);
+            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(context, item, token), token);
         });
         GamePackageService gamePackageService = _serviceProvider.GetRequiredService<GamePackageService>();
-        string value = $"{task.LocalGameVersion},{task.PredownloadVersion},{task.AudioLanguage}";
-        await SetGameConfigIniAsync(task, ("predownload", value));
+        string value = $"{context.LocalGameVersion},{context.PredownloadVersion},{context.AudioLanguage}";
+        await SetGameConfigIniAsync(context, ("predownload", value));
     }
 
 
@@ -632,18 +632,18 @@ internal class GameInstallService
     /// <summary>
     /// 开始修复
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private async Task ExecuteRepairTaskAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task ExecuteRepairTaskAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
         // 如果音频包缓存目录和资源目录不一样，则移动缓存目录的文件到资源目录
-        if (!string.IsNullOrWhiteSpace(task.GameConfig?.AudioPackageCacheDir)
-            && !string.IsNullOrWhiteSpace(task.GameConfig?.AudioPackageResDir)
-            && task.GameConfig.AudioPackageCacheDir != task.GameConfig.AudioPackageResDir)
+        if (!string.IsNullOrWhiteSpace(context.GameConfig?.AudioPackageCacheDir)
+            && !string.IsNullOrWhiteSpace(context.GameConfig?.AudioPackageResDir)
+            && context.GameConfig.AudioPackageCacheDir != context.GameConfig.AudioPackageResDir)
         {
-            string cache = Path.GetFullPath(Path.Combine(task.InstallPath, task.GameConfig.AudioPackageCacheDir));
-            string res = Path.GetFullPath(Path.Combine(task.InstallPath, task.GameConfig.AudioPackageResDir));
+            string cache = Path.GetFullPath(Path.Combine(context.InstallPath, context.GameConfig.AudioPackageCacheDir));
+            string res = Path.GetFullPath(Path.Combine(context.InstallPath, context.GameConfig.AudioPackageResDir));
             if (Directory.Exists(cache))
             {
                 string[] files = Directory.GetFiles(cache, "*", SearchOption.AllDirectories);
@@ -654,32 +654,32 @@ internal class GameInstallService
                     Directory.CreateDirectory(Path.GetDirectoryName(target)!);
                     File.Move(source, target, true);
                 }
-                _logger.LogInformation("GameInstallTask ({GameBiz}): Move audio package cache files (Count: {count}) from {cacheDir} to res dir {resDir}", task.GameId.GameBiz, files.Length, cache, res);
+                _logger.LogInformation("GameInstallTask ({GameBiz}): Move audio package cache files (Count: {count}) from {cacheDir} to res dir {resDir}", context.GameId.GameBiz, files.Length, cache, res);
             }
         }
 
-        if (task.DownloadMode is GameInstallDownloadMode.Chunk)
+        if (context.DownloadMode is GameInstallDownloadMode.Chunk)
         {
-            await ExecuteInstallTaskDownloadModeChunkAsync(task, cancellationToken);
+            await ExecuteInstallTaskDownloadModeChunkAsync(context, cancellationToken);
         }
-        else if (task.DownloadMode is GameInstallDownloadMode.SingleFile)
+        else if (context.DownloadMode is GameInstallDownloadMode.SingleFile)
         {
-            task.Progress_DownloadTotalBytes = task.TaskFiles!.Sum(x => x.Size);
-            task.Progress_DownloadFinishBytes = 0;
+            context.Progress_DownloadTotalBytes = context.TaskFiles!.Sum(x => x.Size);
+            context.Progress_DownloadFinishBytes = 0;
 
-            _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode single file", task.GameId.GameBiz);
-            task.State = GameInstallState.Downloading;
-            await Parallel.ForEachAsync(task.TaskFiles!, cancellationToken, async (GameInstallFile file, CancellationToken token) =>
+            _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading in mode single file", context.GameId.GameBiz);
+            context.State = GameInstallState.Downloading;
+            await Parallel.ForEachAsync(context.TaskFiles!, cancellationToken, async (GameInstallFile file, CancellationToken token) =>
             {
-                await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(task, file, token), token);
+                await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadToFileAsync(context, file, token), token);
                 file.IsFinished = true;
             });
         }
 
         // todo celar useless audio
 
-        await DownloadGameChannelSDKAsync(task, cancellationToken);
-        await SetGameConfigIniAsync(task);
+        await DownloadGameChannelSDKAsync(context, cancellationToken);
+        await SetGameConfigIniAsync(context);
     }
 
 
@@ -687,13 +687,13 @@ internal class GameInstallService
     /// <summary>
     /// 下载游戏渠道 SDK
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private async Task DownloadGameChannelSDKAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task DownloadGameChannelSDKAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading GameChannelSDK", task.GameId.GameBiz);
-        await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadGameChannelSDKAsync(task, token), cancellationToken);
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading GameChannelSDK", context.GameId.GameBiz);
+        await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadGameChannelSDKAsync(context, token), cancellationToken);
     }
 
 
@@ -701,13 +701,13 @@ internal class GameInstallService
     /// <summary>
     /// 清理文件
     /// </summary>
-    /// <param name="task"></param>
-    private void ClearDeprecatedFiles(GameInstallTask task)
+    /// <param name="context"></param>
+    private void ClearDeprecatedFiles(GameInstallContext context)
     {
-        if (task.Operation is not GameInstallOperation.Predownload)
+        if (context.Operation is not GameInstallOperation.Predownload)
         {
             int count = 0;
-            foreach (GameInstallFile item in task.TaskFiles ?? [])
+            foreach (GameInstallFile item in context.TaskFiles ?? [])
             {
                 foreach (GameInstallCompressedPackage package in item.CompressedPackages ?? [])
                 {
@@ -718,44 +718,44 @@ internal class GameInstallService
                     }
                 }
             }
-            foreach (GameDeprecatedFile item in task.DeprecatedFileConfig?.DeprecatedFiles ?? [])
+            foreach (GameDeprecatedFile item in context.DeprecatedFileConfig?.DeprecatedFiles ?? [])
             {
-                string path = Path.Combine(task.InstallPath, item.Name);
+                string path = Path.Combine(context.InstallPath, item.Name);
                 if (File.Exists(path))
                 {
                     File.Delete(path);
                     count++;
                 }
             }
-            if (task.PredownloadVersion is null)
+            if (context.PredownloadVersion is null)
             {
-                foreach (string file in Directory.GetFiles(task.InstallPath, "*_tmp", SearchOption.AllDirectories))
+                foreach (string file in Directory.GetFiles(context.InstallPath, "*_tmp", SearchOption.AllDirectories))
                 {
                     File.Delete(file);
                     count++;
                 }
-                foreach (string file in Directory.GetFiles(task.InstallPath, "*.hdiff", SearchOption.AllDirectories))
+                foreach (string file in Directory.GetFiles(context.InstallPath, "*.hdiff", SearchOption.AllDirectories))
                 {
                     File.Delete(file);
                     count++;
                 }
-                string chunk = Path.Combine(task.InstallPath, "chunk");
+                string chunk = Path.Combine(context.InstallPath, "chunk");
                 if (Directory.Exists(chunk))
                 {
                     Directory.Delete(chunk, true);
                 }
-                string ldiff = Path.Combine(task.InstallPath, "ldiff");
+                string ldiff = Path.Combine(context.InstallPath, "ldiff");
                 if (Directory.Exists(ldiff))
                 {
                     Directory.Delete(ldiff, true);
                 }
-                string staging = Path.Combine(task.InstallPath, "staging");
+                string staging = Path.Combine(context.InstallPath, "staging");
                 if (Directory.Exists(staging))
                 {
                     Directory.Delete(staging, true);
                 }
             }
-            _logger.LogInformation("GameInstallTask ({GameBiz}): Clear deprecated files, count: {count}", task.GameId.GameBiz, count);
+            _logger.LogInformation("GameInstallTask ({GameBiz}): Clear deprecated files, count: {count}", context.GameId.GameBiz, count);
         }
     }
 
@@ -765,12 +765,12 @@ internal class GameInstallService
     /// <summary>
     /// 设置游戏的 config.ini
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <param name="keyValuePairs"></param>
     /// <returns></returns>
-    private async Task SetGameConfigIniAsync(GameInstallTask task, params IEnumerable<(string Key, string? Value)> keyValuePairs)
+    private async Task SetGameConfigIniAsync(GameInstallContext context, params IEnumerable<(string Key, string? Value)> keyValuePairs)
     {
-        string path = Path.Join(task.InstallPath, "config.ini");
+        string path = Path.Join(context.InstallPath, "config.ini");
         using MemoryStream ms = new MemoryStream();
         if (File.Exists(path))
         {
@@ -784,34 +784,34 @@ internal class GameInstallService
             }
         }
         IConfigurationRoot config = new ConfigurationBuilder().AddIniStream(ms).Build();
-        if (task.Operation is GameInstallOperation.Predownload)
+        if (context.Operation is GameInstallOperation.Predownload)
         {
-            config["game_version"] = task.LocalGameVersion;
+            config["game_version"] = context.LocalGameVersion;
         }
         else
         {
-            config["game_version"] = task.LatestGameVersion;
+            config["game_version"] = context.LatestGameVersion;
         }
-        if (task.GameId.GameBiz.Server is "cn")
+        if (context.GameId.GameBiz.Server is "cn")
         {
             config["channel"] = "1";
             config["sub_channel"] = "1";
             config["cps"] = "hyp_mihoyo";
         }
-        else if (task.GameId.GameBiz.Server is "global")
+        else if (context.GameId.GameBiz.Server is "global")
         {
             config["channel"] = "1";
             config["sub_channel"] = "0";
             config["cps"] = "hyp_hoyoverse";
         }
-        else if (task.GameId.GameBiz.Server is "bilibili")
+        else if (context.GameId.GameBiz.Server is "bilibili")
         {
             config["channel"] = "14";
             config["sub_channel"] = "0";
             config["cps"] = "hyp_mihoyo";
         }
-        config["sdk_version"] = task.GameChannelSDK?.Version ?? "";
-        config["game_biz"] = task.GameId.GameBiz;
+        config["sdk_version"] = context.GameChannelSDK?.Version ?? "";
+        config["game_biz"] = context.GameId.GameBiz;
 
         foreach ((string key, string? value) in keyValuePairs)
         {
@@ -823,9 +823,9 @@ internal class GameInstallService
         {
             sb.AppendLine($"{item.Key}={item.Value}");
         }
-        Directory.CreateDirectory(task.InstallPath);
+        Directory.CreateDirectory(context.InstallPath);
         await File.WriteAllTextAsync(path, sb.ToString());
-        _logger.LogInformation("GameInstallTask ({GameBiz}): Set config.ini, path: {path}", task.GameId.GameBiz, path);
+        _logger.LogInformation("GameInstallTask ({GameBiz}): Set config.ini, path: {path}", context.GameId.GameBiz, path);
     }
 
 

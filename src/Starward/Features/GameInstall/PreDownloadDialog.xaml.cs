@@ -10,9 +10,16 @@ using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
 using Starward.RPC.GameInstall;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
+using ZstdSharp;
 
 
 namespace Starward.Features.GameInstall;
@@ -32,6 +39,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
 
     private readonly GameInstallService _gameInstallService = AppConfig.GetService<GameInstallService>();
 
+    private readonly HttpClient _httpClient = AppConfig.GetService<HttpClient>();
 
     public PreDownloadDialog()
     {
@@ -80,6 +88,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
 
     private AudioLanguage _audioLanguage;
 
+    private List<string> _ignoreMatchingFields;
 
     private async Task GetGamePackageAsync()
     {
@@ -111,6 +120,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
                 TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
                 return;
             }
+            _ignoreMatchingFields = GetIgnoreMatchingFields(_installationPath, config);
             if (config.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
             {
                 GameBranch? gameBranch = await _hoYoPlayService.GetGameBranchAsync(CurrentGameId);
@@ -135,7 +145,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
                     _gameSophonChunkBuild = await _hoYoPlayService.GetGameSophonChunkBuildAsync(gameBranch, gameBranch.PreDownload);
                 }
             }
-            else
+            if (_gameSophonPatchBuild is null && _gameSophonChunkBuild is null)
             {
                 GamePackage package = await _hoYoPlayService.GetGamePackageAsync(CurrentGameId);
                 if (package.PreDownload.Major is null)
@@ -147,7 +157,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
                 _gamePackage = package;
             }
             _audioLanguage = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId);
-            ComputePackageSize();
+            await ComputePackageSizeAsync();
             CheckCanPreDownload();
         }
         catch (Exception ex)
@@ -182,7 +192,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
 
 
 
-    private void ComputePackageSize()
+    private async Task ComputePackageSizeAsync()
     {
         try
         {
@@ -232,45 +242,53 @@ public sealed partial class PreDownloadDialog : ContentDialog
             }
             else if (_gameSophonChunkBuild is not null)
             {
-                if (_gameSophonChunkBuild.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonChunkManifest manifest)
+                List<GameSophonChunkManifest> manifests = GetAvailableGameSophonChunkManifests(_gameSophonChunkBuild, _audioLanguage, _ignoreMatchingFields);
+                foreach (GameSophonChunkManifest manifest in manifests)
                 {
                     size += manifest.Stats.CompressedSize;
                     unzipSize += manifest.Stats.UncompressedSize;
                 }
-                foreach (var lang in Enum.GetValues<AudioLanguage>())
-                {
-                    if (_audioLanguage.HasFlag(lang))
-                    {
-                        if (_gameSophonChunkBuild.Manifests.FirstOrDefault(x => x.MatchingField == lang.ToDescription()) is GameSophonChunkManifest audioManifest)
-                        {
-                            size += audioManifest.Stats.CompressedSize;
-                            unzipSize += audioManifest.Stats.UncompressedSize;
-                        }
-                    }
-                }
             }
             else if (_gameSophonPatchBuild is not null)
             {
-                if (_gameSophonPatchBuild.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonPatchManifest manifest)
+                List<GameSophonPatchManifest> manifests = GetAvaliableGameSophonPatchManifests(_gameSophonPatchBuild, _audioLanguage, _ignoreMatchingFields);
+                foreach (GameSophonPatchManifest manifest in manifests)
                 {
-                    if (manifest.Stats.TryGetValue(_localGameVersion, out GameSophonManifestStats? stats))
+                    bool isGameOrAudio = manifest.MatchingField is "game" or "zh-cn" or "en-us" or "ja-jp" or "ko-kr";
+                    if (isGameOrAudio)
                     {
-                        size += stats.CompressedSize;
-                        unzipSize += stats.UncompressedSize;
-                    }
-                }
-                foreach (var lang in Enum.GetValues<AudioLanguage>())
-                {
-                    if (_audioLanguage.HasFlag(lang))
-                    {
-                        if (_gameSophonPatchBuild.Manifests.FirstOrDefault(x => x.MatchingField == lang.ToDescription()) is GameSophonPatchManifest audioManifest)
+                        if (manifest.Stats.TryGetValue(_localGameVersion, out var stats))
                         {
-                            if (audioManifest.Stats.TryGetValue(_localGameVersion, out GameSophonManifestStats? stats))
+                            size += stats.CompressedSize;
+                            unzipSize += stats.UncompressedSize;
+                        }
+                    }
+                    else
+                    {
+                        SophonPatchManifest patchManifest = await GetSophonPatchManifestAsync(manifest);
+                        List<SophonPatch> patches = new();
+                        foreach (SophonPatchFile item in patchManifest.Patches)
+                        {
+                            if (item.Patches.FirstOrDefault(x => x.Tag == _localGameVersion) is SophonPatchInfo info)
                             {
-                                size += stats.CompressedSize;
-                                unzipSize += stats.UncompressedSize;
+                                if (string.IsNullOrWhiteSpace(info.Patch?.OriginalFileName))
+                                {
+                                    string path = Path.Join(_installationPath, item.File);
+                                    if (File.Exists(path) && new FileInfo(path).Length == item.Size)
+                                    {
+                                        // 排除已存在的文件
+                                        continue;
+                                    }
+                                }
+                                if (info.Patch is not null)
+                                {
+                                    patches.Add(info.Patch);
+                                }
                             }
                         }
+                        long patchSize = patches.DistinctBy(x => x.Id).Sum(x => x.PatchFileSize);
+                        size += patchSize;
+                        unzipSize += patchSize;
                     }
                 }
             }
@@ -325,7 +343,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
     {
         try
         {
-            GameInstallTask? task = await _gameInstallService.StartPredownloadAsync(CurrentGameId, _installationPath, _audioLanguage);
+            GameInstallContext? task = await _gameInstallService.StartPredownloadAsync(CurrentGameId, _installationPath, _audioLanguage);
             if (task is not null && task.State is not GameInstallState.Stop and not GameInstallState.Error)
             {
                 WeakReferenceMessenger.Default.Send(new GameInstallTaskStartedMessage(task));
@@ -348,6 +366,164 @@ public sealed partial class PreDownloadDialog : ContentDialog
         this.Hide();
     }
 
+
+
+
+
+    public static List<string> GetIgnoreMatchingFields(string installPath, GameConfig gameConfig)
+    {
+        List<string> ignoreMatchingFields = new List<string>();
+        if (gameConfig is not null)
+        {
+            string file = Path.Join(installPath, gameConfig.ResCategoryDir);
+            if (File.Exists(file))
+            {
+                string[] lines = File.ReadAllLines(file);
+                // eg. {"category":"10302","is_delete":true}
+                foreach (string line in lines)
+                {
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        var obj = JsonSerializer.Deserialize<IgnoreMatchingField>(line);
+                        if (obj?.IsDelete is true && !string.IsNullOrWhiteSpace(obj.Category))
+                        {
+                            ignoreMatchingFields.Add(obj.Category);
+                        }
+                    }
+                }
+            }
+        }
+        return ignoreMatchingFields;
+    }
+
+
+
+    private class IgnoreMatchingField
+    {
+        [JsonPropertyName("category")]
+        public string Category { get; set; }
+
+        [JsonPropertyName("is_delete")]
+        public bool IsDelete { get; set; }
+    }
+
+
+
+    public static List<GameSophonChunkManifest> GetAvailableGameSophonChunkManifests(GameSophonChunkBuild build, AudioLanguage audioLanguage, IEnumerable<string> ignoreMatchingFields)
+    {
+        List<GameSophonChunkManifest> manifests = new();
+        foreach (GameSophonChunkManifest manifest in build.Manifests)
+        {
+            if (ignoreMatchingFields.Contains(manifest.MatchingField))
+            {
+                continue;
+            }
+            if (manifest.MatchingField.Length == 5 && manifest.MatchingField[2] == '-')
+            {
+                // 跳过语音包
+                continue;
+            }
+            manifests.Add(manifest);
+        }
+        foreach (AudioLanguage lang in Enum.GetValues<AudioLanguage>())
+        {
+            if (audioLanguage.HasFlag(lang))
+            {
+                if (build.Manifests.FirstOrDefault(x => x.MatchingField == lang.ToDescription()) is GameSophonChunkManifest audioManifest)
+                {
+                    manifests.Add(audioManifest);
+                }
+            }
+        }
+        return manifests;
+    }
+
+
+
+    public static List<GameSophonPatchManifest> GetAvaliableGameSophonPatchManifests(GameSophonPatchBuild build, AudioLanguage audioLanguage, IEnumerable<string> ignoreMatchingFields)
+    {
+        List<GameSophonPatchManifest> manifests = new();
+        foreach (GameSophonPatchManifest manifest in build.Manifests)
+        {
+            if (ignoreMatchingFields.Contains(manifest.MatchingField))
+            {
+                continue;
+            }
+            if (manifest.MatchingField.Length == 5 && manifest.MatchingField[2] == '-')
+            {
+                // 跳过语音包
+                continue;
+            }
+            manifests.Add(manifest);
+        }
+        foreach (AudioLanguage lang in Enum.GetValues<AudioLanguage>())
+        {
+            if (audioLanguage.HasFlag(lang))
+            {
+                if (build.Manifests.FirstOrDefault(x => x.MatchingField == lang.ToDescription()) is GameSophonPatchManifest audioManifest)
+                {
+                    manifests.Add(audioManifest);
+                }
+            }
+        }
+        return manifests;
+    }
+
+
+    private async Task<SophonPatchManifest> GetSophonPatchManifestAsync(GameSophonPatchManifest manifest, CancellationToken cancellationToken = default)
+    {
+        byte[] bytes = await EnsureSophonManifestFileAsync(manifest.ManifestDownload, manifest.Manifest, cancellationToken);
+        return SophonPatchManifest.Parser.ParseFrom(bytes);
+    }
+
+
+
+    private async Task<byte[]> EnsureSophonManifestFileAsync(GameSophonManifestUrl manifestUrl, GameSophonManifestFile manifestFile, CancellationToken cancellationToken = default)
+    {
+        string cache = Path.Combine(AppConfig.CacheFolder, "game");
+        Directory.CreateDirectory(cache);
+        string file = Path.Combine(cache, manifestFile.Id);
+        bool needDownload = true;
+        if (File.Exists(file) && new FileInfo(file).Length == manifestFile.CompressedSize)
+        {
+            using FileStream fs = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using DecompressionStream ds = new DecompressionStream(fs);
+            using MemoryStream ms = new MemoryStream();
+            await ds.CopyToAsync(ms, cancellationToken);
+            ms.Position = 0;
+            byte[] md5 = await MD5.HashDataAsync(ms, cancellationToken);
+            if (string.Equals(Convert.ToHexString(md5), manifestFile.Checksum, StringComparison.OrdinalIgnoreCase))
+            {
+                return ms.ToArray();
+            }
+            _logger.LogWarning("Manifest file ({Id}) checksum mismatch, re-downloading.", manifestFile.Id);
+            fs.Dispose();
+            File.Delete(file);
+        }
+        if (needDownload)
+        {
+            using FileStream fs = File.Open(file, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+            string url = $"{manifestUrl.UrlPrefix.TrimEnd('/')}/{manifestFile.Id}";
+            using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
+            using HttpResponseMessage response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            using Stream hs = await response.Content.ReadAsStreamAsync(cancellationToken);
+            await hs.CopyToAsync(fs, cancellationToken);
+        }
+        {
+            using FileStream fs = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using DecompressionStream ds = new DecompressionStream(fs);
+            using MemoryStream ms = new MemoryStream();
+            await ds.CopyToAsync(ms, cancellationToken);
+            ms.Position = 0;
+            byte[] md5 = await MD5.HashDataAsync(ms, cancellationToken);
+            if (string.Equals(Convert.ToHexString(md5), manifestFile.Checksum, StringComparison.OrdinalIgnoreCase))
+            {
+                return ms.ToArray();
+            }
+        }
+        throw new Exception($"Download manifest file ({manifestFile.Id}) failed.");
+    }
 
 
 

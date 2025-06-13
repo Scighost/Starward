@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Logging;
 using SharpSevenZip;
 using SharpSevenZip.Exceptions;
+using Snap.HPatch;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Pipelines;
 using System.Linq;
@@ -118,7 +118,7 @@ internal partial class GameInstallHelper
     /// <param name="md5"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<bool> CheckFileMD5Async(GameInstallTask task, string? path, long size, string md5, CancellationToken cancellationToken = default)
+    public async Task<bool> CheckFileMD5Async(GameInstallContext task, string? path, long size, string md5, CancellationToken cancellationToken = default)
     {
         if (!File.Exists(path))
         {
@@ -155,7 +155,7 @@ internal partial class GameInstallHelper
     /// <param name="md5"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<bool> CheckFileMD5Async(GameInstallTask task, Stream stream, string md5, CancellationToken cancellationToken = default)
+    public async Task<bool> CheckFileMD5Async(GameInstallContext task, Stream stream, string md5, CancellationToken cancellationToken = default)
     {
         byte[] buffer = new byte[MD5_BUFFER_SIZE];
         using MD5 md5Hash = MD5.Create();
@@ -186,7 +186,7 @@ internal partial class GameInstallHelper
     /// <param name="md5"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<bool> CheckFileMD5InDownloadProgressAsync(GameInstallTask task, string? path, long size, string md5, CancellationToken cancellationToken = default)
+    public async Task<bool> CheckFileMD5InDownloadProgressAsync(GameInstallContext task, string? path, long size, string md5, CancellationToken cancellationToken = default)
     {
         if (!File.Exists(path))
         {
@@ -234,7 +234,7 @@ internal partial class GameInstallHelper
     /// <param name="md5"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<bool> CheckFileMD5InReadProgressAsync(GameInstallTask task, string? path, long size, string md5, CancellationToken cancellationToken = default)
+    public async Task<bool> CheckFileMD5InReadProgressAsync(GameInstallContext task, string? path, long size, string md5, CancellationToken cancellationToken = default)
     {
         if (!File.Exists(path))
         {
@@ -279,7 +279,7 @@ internal partial class GameInstallHelper
     /// <param name="file"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<bool> HardLinkAsync(GameInstallTask task, GameInstallFile file, CancellationToken cancellationToken = default)
+    public async Task<bool> HardLinkAsync(GameInstallContext task, GameInstallFile file, CancellationToken cancellationToken = default)
     {
         if (!await CheckFileMD5Async(task, file.HardLinkTarget, file.Size, file.MD5, cancellationToken))
         {
@@ -313,7 +313,7 @@ internal partial class GameInstallHelper
     /// <param name="updateMode">是否在更新</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task DownloadChunksToFileAsync(GameInstallTask task, GameInstallFile file, bool updateMode = false, CancellationToken cancellationToken = default)
+    public async Task DownloadChunksToFileAsync(GameInstallContext task, GameInstallFile file, bool updateMode = false, CancellationToken cancellationToken = default)
     {
         long downloadBytes = file.Chunks?.Sum(x => x.CompressedSize) ?? 0, writeBytes = file.Size;
         if (file.IsFinished || await HardLinkAsync(task, file, cancellationToken) || await CheckFileMD5Async(task, file.FullPath, file.Size, file.MD5, cancellationToken))
@@ -469,7 +469,7 @@ internal partial class GameInstallHelper
     /// <param name="item"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task DownloadToFileAsync(GameInstallTask task, GameInstallFile file, CancellationToken cancellationToken = default)
+    public async Task DownloadToFileAsync(GameInstallContext task, GameInstallFile file, CancellationToken cancellationToken = default)
     {
         if (file.IsFinished || await HardLinkAsync(task, file, cancellationToken))
         {
@@ -490,7 +490,7 @@ internal partial class GameInstallHelper
     /// <param name="item"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task DownloadToFileAsync(GameInstallTask task, PredownloadFile item, CancellationToken cancellationToken = default)
+    public async Task DownloadToFileAsync(GameInstallContext task, PredownloadFile item, CancellationToken cancellationToken = default)
     {
         await DownloadToFileAsync(task, item.FullPath, item.Url, item.Size, item.MD5, cancellationToken);
     }
@@ -508,7 +508,7 @@ internal partial class GameInstallHelper
     /// <param name="md5"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task DownloadToFileAsync(GameInstallTask task, string path, string url, long size, string md5, CancellationToken cancellationToken = default)
+    public async Task DownloadToFileAsync(GameInstallContext task, string path, string url, long size, string md5, CancellationToken cancellationToken = default)
     {
         if (await CheckFileMD5InDownloadProgressAsync(task, path, size, md5, cancellationToken))
         {
@@ -585,7 +585,7 @@ internal partial class GameInstallHelper
     /// </summary>
     /// <param name="task"></param>
     /// <returns></returns>
-    public static List<PredownloadFile> GetPredownloadFiles(GameInstallTask task)
+    public static List<PredownloadFile> GetPredownloadFiles(GameInstallContext task)
     {
         Dictionary<string, PredownloadFile> dict = new();
         foreach (GameInstallFile item in task.TaskFiles ?? [])
@@ -664,7 +664,7 @@ internal partial class GameInstallHelper
     /// <param name="file"></param>
     /// <param name="percentRatio"></param>
     /// <param name="cancellationToken"></param>
-    public async Task ExtractCompressedPackageAsync(GameInstallTask task, GameInstallFile file, double percentRatio, CancellationToken cancellationToken = default)
+    public async Task ExtractCompressedPackageAsync(GameInstallContext task, GameInstallFile file, double percentRatio, CancellationToken cancellationToken = default)
     {
         if (file.DownloadMode is not GameInstallDownloadMode.CompressedPackage)
         {
@@ -727,15 +727,10 @@ internal partial class GameInstallHelper
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="FileNotFoundException"></exception>
-    private async Task PatchCompressedPackageDiffFilesAsync(GameInstallTask task, GameInstallFile file, double percentRatio, CancellationToken cancellationToken = default)
+    private async Task PatchCompressedPackageDiffFilesAsync(GameInstallContext task, GameInstallFile file, double percentRatio, CancellationToken cancellationToken = default)
     {
-        string hpatch = Path.Combine(AppContext.BaseDirectory, "hpatchz.exe");
-        if (!File.Exists(hpatch))
-        {
-            throw new FileNotFoundException("Cannot find file hpatchz.exe");
-        }
-        Lock _lock = new();
 
+        Lock _lock = new();
         string hdiffmap = Path.Combine(task.InstallPath, "hdiffmap.json");
         if (File.Exists(hdiffmap))
         {
@@ -744,36 +739,34 @@ internal partial class GameInstallHelper
             if (diffmap?.DiffMapItems is not null)
             {
                 double increase = percentRatio / diffmap.DiffMapItems.Count;
-                await Parallel.ForEachAsync(diffmap.DiffMapItems, cancellationToken, async (item, token) =>
+                Parallel.ForEach(diffmap.DiffMapItems, new ParallelOptions { CancellationToken = cancellationToken }, item =>
                 {
                     string source = Path.GetFullPath(Path.Join(task.InstallPath, item.SourceFileName));
                     string target = Path.GetFullPath(Path.Join(task.InstallPath, item.TargetFileName));
                     string diff = Path.GetFullPath(Path.Join(task.InstallPath, item.PatchFileName));
                     if (File.Exists(source) && File.Exists(diff))
                     {
-                        using Process? process = Process.Start(new ProcessStartInfo
+                        using FileStream fs_source = File.OpenRead(source);
+                        using FileStream fs_diff = File.OpenRead(diff);
+                        string target_tmp = $"{target}_tmp";
+                        using FileStream fs_target = File.Create(target_tmp);
+                        bool result = HPatch.PatchZstandard(fs_source, fs_diff, fs_target);
+                        if (result)
                         {
-                            FileName = hpatch,
-                            Arguments = $"""-f "{source}" "{diff}" "{target}"  """,
-                            CreateNoWindow = true,
-                            RedirectStandardOutput = true,
-                        });
-                        if (process != null)
-                        {
-                            await process.WaitForExitAsync(token);
-                            if (process.ExitCode != 0)
+                            fs_target.Dispose();
+                            File.Move(target_tmp, target, true);
+                            if (File.Exists(diff))
                             {
-                                string output = await process.StandardOutput.ReadToEndAsync(cancellationToken);
-                                _logger.LogWarning("Patch file failed.\nSource -> Target: {source} -> {target}\n{output}", item.SourceFileName, item.TargetFileName, output);
+                                File.Delete(diff);
+                            }
+                            if (source != target && File.Exists(source))
+                            {
+                                File.Delete(source);
                             }
                         }
-                        if (File.Exists(diff))
+                        else
                         {
-                            File.Delete(diff);
-                        }
-                        if (source != target && File.Exists(source))
-                        {
-                            File.Delete(source);
+                            _logger.LogWarning("Patch file failed.\nSource -> Target: {source} -> {target}", item.SourceFileName, item.TargetFileName);
                         }
                     }
                     else
@@ -796,31 +789,29 @@ internal partial class GameInstallHelper
             using FileStream fs = File.OpenRead(hdifffiles);
             List<HDiffFile> files = await DeserilizerLinesAsync<HDiffFile>(fs, cancellationToken);
             double increase = percentRatio / files.Count;
-            await Parallel.ForEachAsync(files, cancellationToken, async (item, token) =>
+            Parallel.ForEach(files, new ParallelOptions { CancellationToken = cancellationToken }, item =>
             {
                 string target = Path.GetFullPath(Path.Join(task.InstallPath, item.RemoteName));
                 string diff = $"{target}.hdiff";
                 if (File.Exists(target) && File.Exists(diff))
                 {
-                    using Process? process = Process.Start(new ProcessStartInfo
+                    using FileStream fs_source = File.OpenRead(target);
+                    using FileStream fs_diff = File.OpenRead(diff);
+                    string target_tmp = $"{target}_tmp";
+                    using FileStream fs_target = File.Create(target_tmp);
+                    bool result = HPatch.PatchZstandard(fs_source, fs_diff, fs_target);
+                    if (result)
                     {
-                        FileName = hpatch,
-                        Arguments = $"""-f "{target}" "{diff}" "{target}"  """,
-                        CreateNoWindow = true,
-                        RedirectStandardOutput = true,
-                    });
-                    if (process != null)
-                    {
-                        await process.WaitForExitAsync(cancellationToken);
-                        if (process.ExitCode != 0)
+                        fs_target.Dispose();
+                        File.Move(target_tmp, target, true);
+                        if (File.Exists(diff))
                         {
-                            string output = await process.StandardOutput.ReadToEndAsync(cancellationToken);
-                            _logger.LogWarning("Patch file failed.\nSource -> Target: {source} -> {target}\n{output}", target, target, output);
+                            File.Delete(diff);
                         }
                     }
-                    if (File.Exists(diff))
+                    else
                     {
-                        File.Delete(diff);
+                        _logger.LogWarning("Patch file failed.\nSource -> Target: {source} -> {target}", target, target);
                     }
                     lock (_lock)
                     {
@@ -861,7 +852,7 @@ internal partial class GameInstallHelper
     /// <param name="file"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task PatchDiffFileAsync(GameInstallTask task, GameInstallFile file, CancellationToken cancellationToken = default)
+    public async Task PatchDiffFileAsync(GameInstallContext task, GameInstallFile file, CancellationToken cancellationToken = default)
     {
         if (file.IsFinished || file.Patch is null)
         {
@@ -872,51 +863,50 @@ internal partial class GameInstallHelper
         using FileSliceStream fs_ldiff = new FileSliceStream(ldiff, file.Patch.PatchOffset, file.Patch.PatchLength);
         string path_tmp = file.FullPath + "_tmp";
         using FileStream fs_tmp = File.Open(path_tmp, FileMode.Create, FileAccess.ReadWrite);
-        await fs_ldiff.CopyToAsync(fs_tmp, cancellationToken);
-        await fs_ldiff.DisposeAsync();
-        await fs_tmp.DisposeAsync();
         if (string.IsNullOrWhiteSpace(file.Patch.OriginalFileFullPath))
         {
-            File.Move(path_tmp, file.FullPath, true);
-        }
-        else
-        {
-            string hpatch = Path.Combine(AppContext.BaseDirectory, "hpatchz.exe");
-            string diff = file.FullPath + ".hdiff";
-            File.Move(path_tmp, diff, true);
-            string source = file.Patch.OriginalFileFullPath;
-            string target = file.FullPath;
-            if (File.Exists(source) && File.Exists(diff))
+            bool result = false;
+            if (file.Patch.Compression)
             {
-                using Process? process = Process.Start(new ProcessStartInfo
+                result = HPatch.PatchZstandard(null, fs_ldiff, fs_tmp);
+            }
+            else
+            {
+                await fs_ldiff.CopyToAsync(fs_tmp, cancellationToken);
+            }
+            if (result)
+            {
+                fs_tmp.Dispose();
+                File.Move(path_tmp, file.FullPath, true);
+            }
+            else
+            {
+                _logger.LogWarning("Patch file failed. File: {file}", file.FullPath);
+            }
+        }
+        else if (File.Exists(file.Patch.OriginalFileFullPath))
+        {
+
+            using FileStream fs_source = File.OpenRead(file.Patch.OriginalFileFullPath);
+            bool result = HPatch.PatchZstandard(fs_source, fs_ldiff, fs_tmp);
+            if (result)
+            {
+                fs_source.Dispose();
+                fs_tmp.Dispose();
+                File.Move(path_tmp, file.FullPath, true);
+                if (file.Patch.OriginalFileFullPath != file.FullPath && File.Exists(file.Patch.OriginalFileFullPath))
                 {
-                    FileName = hpatch,
-                    Arguments = $"""-f "{source}" "{diff}" "{target}"  """,
-                    CreateNoWindow = true,
-                    RedirectStandardOutput = true,
-                });
-                if (process != null)
-                {
-                    await process.WaitForExitAsync(cancellationToken);
-                    if (process.ExitCode != 0)
-                    {
-                        string output = await process.StandardOutput.ReadToEndAsync(cancellationToken);
-                        _logger.LogWarning("Patch file failed.\nSource -> Target: {source} -> {target}\n{output}", source, target, output);
-                    }
-                }
-                if (File.Exists(diff))
-                {
-                    File.Delete(diff);
-                }
-                if (source != target && File.Exists(source))
-                {
-                    File.Delete(source);
+                    File.Delete(file.Patch.OriginalFileFullPath);
                 }
             }
             else
             {
-                _logger.LogWarning("Source file not found {file}", source);
+                _logger.LogWarning("Patch file failed. File: {file}", file.FullPath);
             }
+        }
+        else
+        {
+            _logger.LogWarning("Source file not found {file}", file.Patch.OriginalFileFullPath);
         }
     }
 
@@ -928,7 +918,7 @@ internal partial class GameInstallHelper
     /// <param name="task"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task DownloadGameChannelSDKAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    public async Task DownloadGameChannelSDKAsync(GameInstallContext task, CancellationToken cancellationToken = default)
     {
         if (task.GameChannelSDK is null)
         {

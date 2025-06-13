@@ -41,13 +41,13 @@ internal class GameInstallService
 
 
 
-    private ConcurrentDictionary<GameId, GameInstallTask> _tasks = new();
+    private ConcurrentDictionary<GameId, GameInstallContext> _tasks = new();
 
 
 
 
 
-    public GameInstallTask? GetGameInstallTask(GameId gameId)
+    public GameInstallContext? GetGameInstallTask(GameId gameId)
     {
         return _tasks.GetValueOrDefault(gameId);
     }
@@ -62,13 +62,13 @@ internal class GameInstallService
         {
             if (RpcService.CheckRpcServerRunning())
             {
-                GameInstallTaskList list = await _gameInstallerClient.SyncGameInstallTasksAsync(new EmptyMessage(), deadline: DateTime.UtcNow.AddSeconds(1));
-                Dictionary<GameId, GameInstallTask> tasks = _tasks.Values.ToDictionary(x => x.GameId);
+                GameInstallContextList list = await _gameInstallerClient.SyncGameInstallContextAsync(new EmptyMessage(), deadline: DateTime.UtcNow.AddSeconds(1));
+                Dictionary<GameId, GameInstallContext> tasks = _tasks.Values.ToDictionary(x => x.GameId);
                 _tasks.Clear();
-                foreach (GameInstallTaskDTO? item in list.Tasks)
+                foreach (GameInstallContextDTO? item in list.List)
                 {
                     GameId gameId = new() { GameBiz = item.GameBiz, Id = item.GameId };
-                    if (tasks.Remove(gameId, out GameInstallTask? task))
+                    if (tasks.Remove(gameId, out GameInstallContext? task))
                     {
                         task.Timestamp = item.Timestamp;
                         task.State = (GameInstallState)item.State;
@@ -88,7 +88,7 @@ internal class GameInstallService
                     }
                     else
                     {
-                        task = new GameInstallTask
+                        task = new GameInstallContext
                         {
                             GameId = gameId,
                             InstallPath = item.InstallPath,
@@ -146,7 +146,7 @@ internal class GameInstallService
             if (RpcService.CheckRpcServerRunning())
             {
                 using var call = _gameInstallerClient.GetTaskProgress(new EmptyMessage());
-                await foreach (GameInstallTaskDTO item in call.ResponseStream.ReadAllAsync().ConfigureAwait(false))
+                await foreach (GameInstallContextDTO item in call.ResponseStream.ReadAllAsync().ConfigureAwait(false))
                 {
                     AddOrUpdateTask(item);
                 }
@@ -169,7 +169,7 @@ internal class GameInstallService
                 else
                 {
                     _logger.LogWarning("RPC server is not running, set {count} running install tasks state to error.", _tasks.Count);
-                    foreach (GameInstallTask item in _tasks.Values)
+                    foreach (GameInstallContext item in _tasks.Values)
                     {
                         item.State = GameInstallState.Error;
                         item.ErrorMessage = Lang.RPCServiceExitedUnexpectedly;
@@ -186,10 +186,10 @@ internal class GameInstallService
 
 
 
-    private GameInstallTask AddOrUpdateTask(GameInstallTaskDTO dto)
+    private GameInstallContext AddOrUpdateTask(GameInstallContextDTO dto)
     {
         GameId gameId = dto.GetGameId();
-        if (_tasks.TryGetValue(gameId, out GameInstallTask? task))
+        if (_tasks.TryGetValue(gameId, out GameInstallContext? task))
         {
             dto.UpdateTask(task);
         }
@@ -207,37 +207,37 @@ internal class GameInstallService
 
 
 
-    public async Task<GameInstallTask?> StartInstallAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
+    public async Task<GameInstallContext?> StartInstallAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
         return await StartOrContinueTaskAsync(GameInstallOperation.Install, gameId, installPath, audioLanguage);
     }
 
 
 
-    public async Task<GameInstallTask?> StartPredownloadAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
+    public async Task<GameInstallContext?> StartPredownloadAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
         return await StartOrContinueTaskAsync(GameInstallOperation.Predownload, gameId, installPath, audioLanguage);
     }
 
 
 
-    public async Task<GameInstallTask?> StartUpdateAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
+    public async Task<GameInstallContext?> StartUpdateAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
         return await StartOrContinueTaskAsync(GameInstallOperation.Update, gameId, installPath, audioLanguage);
     }
 
 
 
-    public async Task<GameInstallTask?> StartRepairAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
+    public async Task<GameInstallContext?> StartRepairAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
         return await StartOrContinueTaskAsync(GameInstallOperation.Repair, gameId, installPath, audioLanguage);
     }
 
 
 
-    private async Task<GameInstallTask?> StartOrContinueTaskAsync(GameInstallOperation operation, GameId gameId, string installPath, AudioLanguage audioLanguage)
+    private async Task<GameInstallContext?> StartOrContinueTaskAsync(GameInstallOperation operation, GameId gameId, string installPath, AudioLanguage audioLanguage)
     {
-        var request = new GameInstallTaskRequest
+        var request = new GameInstallRequest
         {
             GameBiz = gameId.GameBiz,
             GameId = gameId.Id,
@@ -269,11 +269,11 @@ internal class GameInstallService
 
 
 
-    public async Task<GameInstallTask> PauseTaskAsync(GameInstallTask task)
+    public async Task<GameInstallContext> PauseTaskAsync(GameInstallContext task)
     {
         if (RpcService.CheckRpcServerRunning())
         {
-            var request = GameInstallTaskRequest.FromTask(task);
+            var request = GameInstallRequest.FromTask(task);
             await _rpcService.EnsureRpcServerRunningAsync();
             _logger.LogInformation("Pause game install task: {gameId} {gameBiz}", task.GameId.Id, task.GameId.GameBiz);
             var dto = await _gameInstallerClient.PauseTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
@@ -290,9 +290,9 @@ internal class GameInstallService
 
 
 
-    public async Task<GameInstallTask> ContinueTaskAsync(GameInstallTask task)
+    public async Task<GameInstallContext> ContinueTaskAsync(GameInstallContext task)
     {
-        var request = GameInstallTaskRequest.FromTask(task);
+        var request = GameInstallRequest.FromTask(task);
         if (await _rpcService.EnsureRpcServerRunningAsync())
         {
             _logger.LogInformation("Continue game install task: {gameId} {gameBiz}", task.GameId.Id, task.GameId.GameBiz);
@@ -305,11 +305,11 @@ internal class GameInstallService
 
 
 
-    public async Task<GameInstallTask> StopTaskAsync(GameInstallTask task)
+    public async Task<GameInstallContext> StopTaskAsync(GameInstallContext task)
     {
         if (RpcService.CheckRpcServerRunning())
         {
-            var request = GameInstallTaskRequest.FromTask(task);
+            var request = GameInstallRequest.FromTask(task);
             await _rpcService.EnsureRpcServerRunningAsync();
             _logger.LogInformation("Stop game install task: {gameId} {gameBiz}", task.GameId.Id, task.GameId.GameBiz);
             var dto = await _gameInstallerClient.StopTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
@@ -376,7 +376,7 @@ internal class GameInstallService
                 string biz = $"{game}_{server}";
                 if (gameId.GameBiz != biz)
                 {
-                    if (_tasks.Values.FirstOrDefault(x => x.GameId.GameBiz == biz) is GameInstallTask task)
+                    if (_tasks.Values.FirstOrDefault(x => x.GameId.GameBiz == biz) is GameInstallContext task)
                     {
                         if (task.Operation is GameInstallOperation.Install or GameInstallOperation.Update or GameInstallOperation.Repair)
                         {

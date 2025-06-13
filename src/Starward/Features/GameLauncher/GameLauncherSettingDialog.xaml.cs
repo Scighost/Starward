@@ -384,7 +384,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     /// </summary>
     private void CheckCanRepairGame()
     {
-        if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallTask task)
+        if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallContext task)
         {
             if (task.State is not GameInstallState.Stop or GameInstallState.Finish)
             {
@@ -441,7 +441,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
                     _ => AudioLanguage.None,
                 };
             }
-            GameInstallTask? task = await _gameInstallService.StartRepairAsync(CurrentGameId, InstallPath, audio);
+            GameInstallContext? task = await _gameInstallService.StartRepairAsync(CurrentGameId, InstallPath, audio);
             if (task is not null && task.State is not GameInstallState.Stop and not GameInstallState.Error)
             {
                 WeakReferenceMessenger.Default.Send(new GameInstallTaskStartedMessage(task));
@@ -562,7 +562,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallTask task)
+            if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallContext task)
             {
                 if (task.State is not GameInstallState.Stop or GameInstallState.Finish)
                 {

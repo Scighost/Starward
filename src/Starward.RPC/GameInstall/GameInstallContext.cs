@@ -7,9 +7,9 @@ using System.Threading;
 namespace Starward.RPC.GameInstall;
 
 /// <summary>
-/// 游戏安装任务
+/// 游戏安装上下文
 /// </summary>
-public class GameInstallTask
+public class GameInstallContext
 {
 
     public GameId GameId { get; init; }
@@ -202,15 +202,15 @@ public class GameInstallTask
 
 
 
-public partial class GameInstallTaskDTO
+public partial class GameInstallContextDTO
 {
 
     public GameId GetGameId() => new GameId { GameBiz = GameBiz, Id = GameId };
 
 
-    public GameInstallTask UpdateTask(GameInstallTask? task = null)
+    public GameInstallContext UpdateTask(GameInstallContext? task = null)
     {
-        task ??= new GameInstallTask
+        task ??= new GameInstallContext
         {
             AudioLanguage = (AudioLanguage)AudioLanguage,
             GameId = GetGameId(),
@@ -238,7 +238,7 @@ public partial class GameInstallTaskDTO
 
 
 
-    public static GameInstallTaskDTO FromTask(GameInstallTask task) => new GameInstallTaskDTO
+    public static GameInstallContextDTO FromTask(GameInstallContext task) => new GameInstallContextDTO
     {
         AudioLanguage = (int)task.AudioLanguage,
         GameBiz = task.GameId.GameBiz,
@@ -266,13 +266,13 @@ public partial class GameInstallTaskDTO
 }
 
 
-public partial class GameInstallTaskRequest
+public partial class GameInstallRequest
 {
 
     public GameId GetGameId() => new GameId { GameBiz = GameBiz, Id = GameId };
 
 
-    public GameInstallTask ToTask() => new GameInstallTask
+    public GameInstallContext ToTask() => new GameInstallContext
     {
         AudioLanguage = (AudioLanguage)AudioLanguage,
         GameId = GetGameId(),
@@ -282,9 +282,9 @@ public partial class GameInstallTaskRequest
     };
 
 
-    public static GameInstallTaskRequest FromTask(GameInstallTask task)
+    public static GameInstallRequest FromTask(GameInstallContext task)
     {
-        return new GameInstallTaskRequest
+        return new GameInstallRequest
         {
             GameBiz = task.GameId.GameBiz,
             GameId = task.GameId.Id,

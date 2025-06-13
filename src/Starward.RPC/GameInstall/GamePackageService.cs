@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -95,30 +97,30 @@ internal partial class GamePackageService
     /// <summary>
     /// 准备游戏包
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    public async Task PrepareGamePackageAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    public async Task PrepareGamePackageAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
         try
         {
-            task.GameConfig = await GetGameConfigAsync(task.GameId, cancellationToken);
-            if (task.GameConfig is null)
+            context.GameConfig = await GetGameConfigAsync(context.GameId, cancellationToken);
+            if (context.GameConfig is null)
             {
-                _logger.LogWarning("GameConfig of ({GameBiz}) is null.", task.GameId.GameBiz);
-                throw new ArgumentNullException($"GameConfig of ({task.GameId.GameBiz}) is null.");
+                _logger.LogWarning("GameConfig of ({GameBiz}) is null.", context.GameId.GameBiz);
+                throw new ArgumentNullException($"GameConfig of ({context.GameId.GameBiz}) is null.");
             }
-            if (task.Operation is GameInstallOperation.Predownload or GameInstallOperation.Update)
+            if (context.Operation is GameInstallOperation.Predownload or GameInstallOperation.Update)
             {
-                await PrepareForPredownloadOrUpdateAsync(task, cancellationToken);
+                await PrepareForPredownloadOrUpdateAsync(context, cancellationToken);
             }
-            else if (task.Operation is GameInstallOperation.Install or GameInstallOperation.Repair)
+            else if (context.Operation is GameInstallOperation.Install or GameInstallOperation.Repair)
             {
-                await PrepareForInstallOrRepairAsync(task, cancellationToken);
+                await PrepareForInstallOrRepairAsync(context, cancellationToken);
             }
-            task.GameChannelSDK = await GetGameChannelSDKAsync(task.GameId, cancellationToken);
-            task.DeprecatedFileConfig = await GetGameDeprecatedFileAsync(task.GameId, cancellationToken);
+            context.GameChannelSDK = await GetGameChannelSDKAsync(context.GameId, cancellationToken);
+            context.DeprecatedFileConfig = await GetGameDeprecatedFileAsync(context.GameId, cancellationToken);
 
             _logger.LogInformation("""
                 Prepare game package ({GameBiz}) finished:
@@ -136,24 +138,24 @@ internal partial class GamePackageService
                 TaskFiles: {TaskFiles}
                 DownloadMode: {DownloadMode}
                 """,
-                task.GameId.GameBiz,
-                task.Operation,
-                task.GameConfig.DefaultDownloadMode,
-                task.LatestGameVersion,
-                task.PredownloadVersion,
-                task.LocalGameVersion,
-                task.GameSophonChunkBuild?.Tag,
-                task.LocalVersionSophonChunkBuild?.Tag,
-                task.GameSophonPatchBuild?.Tag,
-                task.GamePackage?.Main.Major?.Version,
-                task.GameChannelSDK?.Version,
-                task.DeprecatedFileConfig?.DeprecatedFiles?.Count,
-                task.TaskFiles?.Count,
-                task.DownloadMode);
+                context.GameId.GameBiz,
+                context.Operation,
+                context.GameConfig.DefaultDownloadMode,
+                context.LatestGameVersion,
+                context.PredownloadVersion,
+                context.LocalGameVersion,
+                context.GameSophonChunkBuild?.Tag,
+                context.LocalVersionSophonChunkBuild?.Tag,
+                context.GameSophonPatchBuild?.Tag,
+                context.GamePackage?.Main.Major?.Version,
+                context.GameChannelSDK?.Version,
+                context.DeprecatedFileConfig?.DeprecatedFiles?.Count,
+                context.TaskFiles?.Count,
+                context.DownloadMode);
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {
-            _logger.LogError(ex, "Prepare game package ({GameBiz})", task.GameId.GameBiz);
+            _logger.LogError(ex, "Prepare game package ({GameBiz})", context.GameId.GameBiz);
             throw;
         }
     }
@@ -162,56 +164,56 @@ internal partial class GamePackageService
     /// <summary>
     /// 准备安装或修复
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private async Task PrepareForInstallOrRepairAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task PrepareForInstallOrRepairAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
-        GameId gameId = task.GameId;
-        if (task.GameConfig!.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
+        GameId gameId = context.GameId;
+        if (context.GameConfig!.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
         {
             var branch = await _hoyoplayClient.GetGameBranchAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
             if (branch is not null)
             {
-                task.LatestGameVersion = branch.Main.Tag;
-                task.PredownloadVersion = branch.PreDownload?.Tag;
-                task.GameSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, "", cancellationToken);
-                Version? localVersion = await GetLocalGameVersionAsync(task.InstallPath);
+                context.LatestGameVersion = branch.Main.Tag;
+                context.PredownloadVersion = branch.PreDownload?.Tag;
+                context.GameSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, "", cancellationToken);
+                Version? localVersion = await GetLocalGameVersionAsync(context.InstallPath);
                 if (localVersion is not null)
                 {
-                    task.LocalVersionSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, localVersion.ToString(), cancellationToken);
+                    context.LocalVersionSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, localVersion.ToString(), cancellationToken);
                 }
             }
         }
-        if (task.GameSophonChunkBuild is null)
+        if (context.GameSophonChunkBuild is null)
         {
-            task.GamePackage = await GetGamePackageAsync(gameId, cancellationToken);
-            task.LatestGameVersion = task.GamePackage?.Main.Major?.Version;
-            task.PredownloadVersion = task.GamePackage?.PreDownload.Major?.Version;
+            context.GamePackage = await GetGamePackageAsync(gameId, cancellationToken);
+            context.LatestGameVersion = context.GamePackage?.Main.Major?.Version;
+            context.PredownloadVersion = context.GamePackage?.PreDownload.Major?.Version;
         }
-        await PrepareGameInstallTaskFilesAsync(task, null, cancellationToken);
+        await PrepareGameInstallContextFilesAsync(context, null, cancellationToken);
     }
 
 
     /// <summary>
     /// 准备预下载或更新
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    private async Task PrepareForPredownloadOrUpdateAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task PrepareForPredownloadOrUpdateAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
-        GameId gameId = task.GameId;
+        GameId gameId = context.GameId;
         // 本地游戏版本
-        Version? localVersion = await GetLocalGameVersionAsync(task.InstallPath);
+        Version? localVersion = await GetLocalGameVersionAsync(context.InstallPath);
         if (localVersion is null)
         {
             _logger.LogWarning("LocalGameVersion of ({GameBiz}) is null.", gameId.GameBiz);
             throw new ArgumentNullException($"LocalGameVersion of ({gameId.GameBiz}) is null.");
         }
-        task.LocalGameVersion = localVersion.ToString();
-        if (task.GameConfig!.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
+        context.LocalGameVersion = localVersion.ToString();
+        if (context.GameConfig!.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
         {
             GameBranch? branch = await _hoyoplayClient.GetGameBranchAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
             if (branch is null)
@@ -219,35 +221,35 @@ internal partial class GamePackageService
                 _logger.LogWarning("GameBranch of ({GameBiz}) is null.", gameId.GameBiz);
                 throw new ArgumentNullException($"GameBranch of ({gameId.GameBiz}) is null.");
             }
-            task.LatestGameVersion = branch.Main.Tag;
+            context.LatestGameVersion = branch.Main.Tag;
             if (branch.PreDownload is null)
             {
                 // 更新
                 // 本地游戏版本是否有补丁
-                bool canPatch = branch.Main.DiffTags.Any(x => x == task.LocalGameVersion);
+                bool canPatch = branch.Main.DiffTags.Any(x => x == context.LocalGameVersion);
                 if (canPatch)
                 {
-                    task.GameSophonPatchBuild = await GetGameSophonPatchBuildAsync(branch, branch.Main, cancellationToken);
+                    context.GameSophonPatchBuild = await GetGameSophonPatchBuildAsync(branch, branch.Main, cancellationToken);
                 }
-                if (task.GameSophonPatchBuild is null)
+                if (context.GameSophonPatchBuild is null)
                 {
-                    task.GameSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, "", cancellationToken);
-                    task.LocalVersionSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, localVersion.ToString(), cancellationToken);
+                    context.GameSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, "", cancellationToken);
+                    context.LocalVersionSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.Main, localVersion.ToString(), cancellationToken);
                 }
             }
             else
             {
                 // 预下载
-                task.PredownloadVersion = branch.PreDownload.Tag;
-                bool canPatch = branch.PreDownload.DiffTags.Any(x => x == task.LocalGameVersion);
+                context.PredownloadVersion = branch.PreDownload.Tag;
+                bool canPatch = branch.PreDownload.DiffTags.Any(x => x == context.LocalGameVersion);
                 if (canPatch)
                 {
-                    task.GameSophonPatchBuild = await GetGameSophonPatchBuildAsync(branch, branch.PreDownload, cancellationToken);
+                    context.GameSophonPatchBuild = await GetGameSophonPatchBuildAsync(branch, branch.PreDownload, cancellationToken);
                 }
-                if (task.GameSophonPatchBuild is null)
+                if (context.GameSophonPatchBuild is null)
                 {
-                    task.GameSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.PreDownload, "", cancellationToken);
-                    task.LocalVersionSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.PreDownload, localVersion.ToString(), cancellationToken);
+                    context.GameSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.PreDownload, "", cancellationToken);
+                    context.LocalVersionSophonChunkBuild = await GetGameSophonChunkBuildAsync(branch, branch.PreDownload, localVersion.ToString(), cancellationToken);
                 }
             }
         }
@@ -259,25 +261,25 @@ internal partial class GamePackageService
                 _logger.LogError("GamePackage of ({GameBiz}) is null.", gameId.GameBiz);
                 throw new ArgumentNullException($"GamePackage of ({gameId.GameBiz}) is null.");
             }
-            if (task.Operation is GameInstallOperation.Predownload && package.PreDownload.Major is null)
+            if (context.Operation is GameInstallOperation.Predownload && package.PreDownload.Major is null)
             {
                 _logger.LogError("Predownload package of ({GameBiz}) is null.", gameId.GameBiz);
                 throw new NotSupportedException($"Predownload package of ({gameId.GameBiz}) is null.");
             }
-            task.LatestGameVersion = package.Main.Major?.Version;
+            context.LatestGameVersion = package.Main.Major?.Version;
             if (package.PreDownload.Major is null)
             {
                 // 更新
-                task.GamePackage = package;
+                context.GamePackage = package;
             }
             else
             {
                 // 预下载
-                task.PredownloadVersion = package.PreDownload.Major.Version;
-                task.GamePackage = package;
+                context.PredownloadVersion = package.PreDownload.Major.Version;
+                context.GamePackage = package;
             }
         }
-        await PrepareGameInstallTaskFilesAsync(task, localVersion.ToString(), cancellationToken);
+        await PrepareGameInstallContextFilesAsync(context, localVersion.ToString(), cancellationToken);
     }
 
 
@@ -286,68 +288,82 @@ internal partial class GamePackageService
     /// <summary>
     /// 准备游戏任务的所有文件信息
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="context"></param>
     /// <param name="localVersion"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private async Task PrepareGameInstallTaskFilesAsync(GameInstallTask task, string? localVersion = null, CancellationToken cancellationToken = default)
+    private async Task PrepareGameInstallContextFilesAsync(GameInstallContext context, string? localVersion = null, CancellationToken cancellationToken = default)
     {
         List<GameInstallFile> taskFiles = new();
-        if (task.Operation is GameInstallOperation.Predownload or GameInstallOperation.Update && !string.IsNullOrWhiteSpace(localVersion))
+        if (context.Operation is GameInstallOperation.Predownload or GameInstallOperation.Update && !string.IsNullOrWhiteSpace(localVersion))
         {
             // 预下载或更新
-            if (task.GameSophonPatchBuild is not null)
+            if (context.GameSophonPatchBuild is not null)
             {
-                task.DownloadMode = GameInstallDownloadMode.Patch;
+                context.DownloadMode = GameInstallDownloadMode.Patch;
                 List<SophonPatchFile> patches = new();
                 List<SophonPatchDeleteFile> deletes = new();
-                if (task.GameSophonPatchBuild.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonPatchManifest manifest)
+                List<string> ignoreMatchingFields = GetIgnoreMatchingFields(context);
+                List<GameSophonPatchManifest> manifests = GetAvaliableGameSophonPatchManifests(context.GameSophonPatchBuild, context.AudioLanguage, ignoreMatchingFields);
+                foreach (GameSophonPatchManifest manifest in manifests)
                 {
+                    bool compression = manifest.DiffDownload.Compression is not 0;
+                    bool isGameOrAudio = manifest.MatchingField is "game" or "zh-cn" or "en-us" or "ja-jp" or "ko-kr";
                     SophonPatchManifest patchManifest = await GetSophonPatchManifestAsync(manifest, cancellationToken);
                     patches.AddRange(patchManifest.Patches);
-                    //if (patchManifest.Deletes.FirstOrDefault(x => x.Tag == localVersion) is SophonPatchDeleteInfo info)
-                    //{
-                    //    deletes.AddRange(info.Deletes);
-                    //}
+                    if (patchManifest.DeleteTags.FirstOrDefault(x => x.Tag == localVersion) is SophonPatchDeleteTag deleteTag)
+                    {
+                        deletes.AddRange(deleteTag.DeleteCollection.DeleteFiles);
+                    }
                     foreach (SophonPatchFile item in patchManifest.Patches)
                     {
-                        taskFiles.Add(GameInstallFile.FromSophonPatchFile(item, task.InstallPath, localVersion, manifest.DiffDownload.UrlPrefix));
-                    }
-                }
-                foreach (var lang in Enum.GetValues<AudioLanguage>())
-                {
-                    if (task.AudioLanguage.HasFlag(lang))
-                    {
-                        if (task.GameSophonPatchBuild.Manifests.FirstOrDefault(x => x.MatchingField == lang.ToDescription()) is GameSophonPatchManifest audioManifest)
+                        var file = GameInstallFile.FromSophonPatchFile(item, context.InstallPath, localVersion, manifest.DiffDownload.UrlPrefix);
+                        if (!isGameOrAudio && string.IsNullOrWhiteSpace(file.Patch?.OriginalFileName))
                         {
-                            SophonPatchManifest patchManifest = await GetSophonPatchManifestAsync(audioManifest, cancellationToken);
-                            patches.AddRange(patchManifest.Patches);
-                            //if (patchManifest.Deletes.FirstOrDefault(x => x.Tag == localVersion) is SophonPatchDeleteInfo info)
-                            //{
-                            //    deletes.AddRange(info.Deletes);
-                            //}
-                            foreach (SophonPatchFile item in patchManifest.Patches)
+                            if (File.Exists(file.FullPath) && new FileInfo(file.FullPath).Length == file.Size)
                             {
-                                taskFiles.Add(GameInstallFile.FromSophonPatchFile(item, task.InstallPath, localVersion, audioManifest.DiffDownload.UrlPrefix));
+                                // todo 存在少数文件大小一致但内容不同
+                                // 排除已存在的文件
+                                continue;
                             }
                         }
+                        if (compression && file.Patch is not null)
+                        {
+                            file.Patch.Compression = true;
+                        }
+                        taskFiles.Add(file);
                     }
                 }
-                task.SophonPatchFiles = patches;
-                task.SophonPatchDeleteFiles = deletes;
+                // 排除不需要删除的文件
+                var dict = new Dictionary<string, SophonPatchFile>();
+                foreach (var item in patches)
+                {
+                    dict.TryAdd(item.File, item);
+                }
+                for (int i = 0; i < deletes.Count; i++)
+                {
+                    if (dict.ContainsKey(deletes[i].File))
+                    {
+                        deletes.RemoveAt(i);
+                        i--;
+                    }
+                }
+                context.SophonPatchFiles = patches;
+                context.SophonPatchDeleteFiles = deletes;
             }
-            else if (task.GameSophonChunkBuild is not null)
+            else if (context.GameSophonChunkBuild is not null)
             {
-                task.DownloadMode = GameInstallDownloadMode.Chunk;
+                context.DownloadMode = GameInstallDownloadMode.Chunk;
                 List<SophonChunkFile> chunks = new();
                 List<SophonChunkFile> localChunks = new();
-
-                if (task.GameSophonChunkBuild.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonChunkManifest manifest)
+                List<string> ignoreMatchingFields = GetIgnoreMatchingFields(context);
+                List<GameSophonChunkManifest> manifests = GetAvailableGameSophonChunkManifests(context.GameSophonChunkBuild, context.AudioLanguage, ignoreMatchingFields);
+                foreach (GameSophonChunkManifest manifest in manifests)
                 {
                     List<SophonChunkFile> items = await GetSophonChunkFilesAsync(manifest, cancellationToken);
                     chunks.AddRange(items);
                     Dictionary<string, SophonChunkFile> dict;
-                    if (task.LocalVersionSophonChunkBuild?.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonChunkManifest localManifest)
+                    if (context.LocalVersionSophonChunkBuild?.Manifests.FirstOrDefault(x => x.MatchingField == manifest.MatchingField) is GameSophonChunkManifest localManifest)
                     {
                         List<SophonChunkFile> localItems = await GetSophonChunkFilesAsync(localManifest);
                         localChunks.AddRange(localItems);
@@ -362,76 +378,45 @@ internal partial class GamePackageService
                         if (!item.IsFolder)
                         {
                             dict.TryGetValue(item.File, out SophonChunkFile? localFile);
-                            taskFiles.Add(GameInstallFile.FromSophonChunkFile(item, localFile, task.InstallPath, manifest.ChunkDownload.UrlPrefix));
+                            taskFiles.Add(GameInstallFile.FromSophonChunkFile(item, localFile, context.InstallPath, manifest.ChunkDownload.UrlPrefix));
                         }
                     }
                 }
-                foreach (var lang in Enum.GetValues<AudioLanguage>())
-                {
-                    if (task.AudioLanguage.HasFlag(lang))
-                    {
-                        if (task.GameSophonChunkBuild.Manifests.FirstOrDefault(x => x.MatchingField == lang.ToDescription()) is GameSophonChunkManifest audioManifest)
-                        {
-                            List<SophonChunkFile> items = await GetSophonChunkFilesAsync(audioManifest, cancellationToken);
-                            chunks.AddRange(items);
-                            Dictionary<string, SophonChunkFile> dict;
-                            if (task.LocalVersionSophonChunkBuild?.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonChunkManifest localAudioManifest)
-                            {
-                                List<SophonChunkFile> localItems = await GetSophonChunkFilesAsync(localAudioManifest);
-                                localChunks.AddRange(localItems);
-                                dict = localItems.ToDictionary(x => x.File);
-                            }
-                            else
-                            {
-                                dict = new();
-                            }
-                            foreach (SophonChunkFile item in items)
-                            {
-                                if (!item.IsFolder)
-                                {
-                                    dict.TryGetValue(item.File, out SophonChunkFile? localFile);
-                                    taskFiles.Add(GameInstallFile.FromSophonChunkFile(item, localFile, task.InstallPath, audioManifest.ChunkDownload.UrlPrefix));
-                                }
-                            }
-                        }
-                    }
-                }
-
-                task.SophonChunkFiles = chunks;
+                context.SophonChunkFiles = chunks;
                 if (localChunks.Count > 0)
                 {
-                    task.LocalVersionSophonChunkFiles = localChunks;
+                    context.LocalVersionSophonChunkFiles = localChunks;
                 }
             }
-            else if (task.GamePackage is not null)
+            else if (context.GamePackage is not null)
             {
-                task.DownloadMode = GameInstallDownloadMode.CompressedPackage;
-                if (task.GamePackage.PreDownload.Major is null)
+                context.DownloadMode = GameInstallDownloadMode.CompressedPackage;
+                if (context.GamePackage.PreDownload.Major is null)
                 {
-                    if (task.GamePackage.Main.Patches.FirstOrDefault(x => x.Version == localVersion) is GamePackageResource patch)
+                    if (context.GamePackage.Main.Patches.FirstOrDefault(x => x.Version == localVersion) is GamePackageResource patch)
                     {
-                        taskFiles.Add(GameInstallFile.FromGamePackageResource(patch, task.InstallPath));
+                        taskFiles.Add(GameInstallFile.FromGamePackageResource(patch, context.InstallPath));
                         foreach (var lang in Enum.GetValues<AudioLanguage>())
                         {
-                            if (task.AudioLanguage.HasFlag(lang))
+                            if (context.AudioLanguage.HasFlag(lang))
                             {
                                 if (patch.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile packageFile)
                                 {
-                                    taskFiles.Add(GameInstallFile.FromGamePackageFile(packageFile, task.InstallPath));
+                                    taskFiles.Add(GameInstallFile.FromGamePackageFile(packageFile, context.InstallPath));
                                 }
                             }
                         }
                     }
                     else
                     {
-                        taskFiles.Add(GameInstallFile.FromGamePackageResource(task.GamePackage.Main.Major!, task.InstallPath));
+                        taskFiles.Add(GameInstallFile.FromGamePackageResource(context.GamePackage.Main.Major!, context.InstallPath));
                         foreach (var lang in Enum.GetValues<AudioLanguage>())
                         {
-                            if (task.AudioLanguage.HasFlag(lang))
+                            if (context.AudioLanguage.HasFlag(lang))
                             {
-                                if (task.GamePackage.Main.Major!.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile packageFile)
+                                if (context.GamePackage.Main.Major!.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile packageFile)
                                 {
-                                    taskFiles.Add(GameInstallFile.FromGamePackageFile(packageFile, task.InstallPath));
+                                    taskFiles.Add(GameInstallFile.FromGamePackageFile(packageFile, context.InstallPath));
                                 }
                             }
                         }
@@ -439,30 +424,30 @@ internal partial class GamePackageService
                 }
                 else
                 {
-                    if (task.GamePackage.PreDownload.Patches.FirstOrDefault(x => x.Version == localVersion) is GamePackageResource patch)
+                    if (context.GamePackage.PreDownload.Patches.FirstOrDefault(x => x.Version == localVersion) is GamePackageResource patch)
                     {
-                        taskFiles.Add(GameInstallFile.FromGamePackageResource(patch, task.InstallPath));
+                        taskFiles.Add(GameInstallFile.FromGamePackageResource(patch, context.InstallPath));
                         foreach (var lang in Enum.GetValues<AudioLanguage>())
                         {
-                            if (task.AudioLanguage.HasFlag(lang))
+                            if (context.AudioLanguage.HasFlag(lang))
                             {
                                 if (patch.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile packageFile)
                                 {
-                                    taskFiles.Add(GameInstallFile.FromGamePackageFile(packageFile, task.InstallPath));
+                                    taskFiles.Add(GameInstallFile.FromGamePackageFile(packageFile, context.InstallPath));
                                 }
                             }
                         }
                     }
                     else
                     {
-                        taskFiles.Add(GameInstallFile.FromGamePackageResource(task.GamePackage.PreDownload.Major!, task.InstallPath));
+                        taskFiles.Add(GameInstallFile.FromGamePackageResource(context.GamePackage.PreDownload.Major!, context.InstallPath));
                         foreach (var lang in Enum.GetValues<AudioLanguage>())
                         {
-                            if (task.AudioLanguage.HasFlag(lang))
+                            if (context.AudioLanguage.HasFlag(lang))
                             {
-                                if (task.GamePackage.PreDownload.Major!.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile packageFile)
+                                if (context.GamePackage.PreDownload.Major!.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile packageFile)
                                 {
-                                    taskFiles.Add(GameInstallFile.FromGamePackageFile(packageFile, task.InstallPath));
+                                    taskFiles.Add(GameInstallFile.FromGamePackageFile(packageFile, context.InstallPath));
                                 }
                             }
                         }
@@ -470,14 +455,16 @@ internal partial class GamePackageService
                 }
             }
         }
-        else if (task.Operation is GameInstallOperation.Install)
+        else if (context.Operation is GameInstallOperation.Install)
         {
             // 安装
-            if (task.GameSophonChunkBuild is not null)
+            if (context.GameSophonChunkBuild is not null)
             {
-                task.DownloadMode = GameInstallDownloadMode.Chunk;
+                context.DownloadMode = GameInstallDownloadMode.Chunk;
                 List<SophonChunkFile> chunks = new();
-                if (task.GameSophonChunkBuild.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonChunkManifest manifest)
+                List<string> ignoreMatchingFields = GetIgnoreMatchingFields(context);
+                List<GameSophonChunkManifest> manifests = GetAvailableGameSophonChunkManifests(context.GameSophonChunkBuild, context.AudioLanguage, ignoreMatchingFields);
+                foreach (GameSophonChunkManifest manifest in manifests)
                 {
                     List<SophonChunkFile> items = await GetSophonChunkFilesAsync(manifest, cancellationToken);
                     chunks.AddRange(items);
@@ -485,61 +472,44 @@ internal partial class GamePackageService
                     {
                         if (!item.IsFolder)
                         {
-                            taskFiles.Add(GameInstallFile.FromSophonChunkFile(item, null, task.InstallPath, manifest.ChunkDownload.UrlPrefix));
+                            taskFiles.Add(GameInstallFile.FromSophonChunkFile(item, null, context.InstallPath, manifest.ChunkDownload.UrlPrefix));
                         }
                     }
                 }
-                foreach (AudioLanguage lang in Enum.GetValues<AudioLanguage>())
-                {
-                    if (task.AudioLanguage.HasFlag(lang))
-                    {
-                        if (task.GameSophonChunkBuild.Manifests.FirstOrDefault(x => x.MatchingField == lang.ToDescription()) is GameSophonChunkManifest audioManifest)
-                        {
-                            List<SophonChunkFile> items = await GetSophonChunkFilesAsync(audioManifest, cancellationToken);
-                            chunks.AddRange(items);
-                            foreach (SophonChunkFile item in items)
-                            {
-                                if (!item.IsFolder)
-                                {
-                                    taskFiles.Add(GameInstallFile.FromSophonChunkFile(item, null, task.InstallPath, audioManifest.ChunkDownload.UrlPrefix));
-                                }
-                            }
-                        }
-                    }
-                }
-                task.SophonChunkFiles = chunks;
+                context.SophonChunkFiles = chunks;
             }
-            else if (task.GamePackage is not null)
+            else if (context.GamePackage is not null)
             {
-                task.DownloadMode = GameInstallDownloadMode.CompressedPackage;
-                taskFiles.Add(GameInstallFile.FromGamePackageResource(task.GamePackage.Main.Major!, task.InstallPath));
+                context.DownloadMode = GameInstallDownloadMode.CompressedPackage;
+                taskFiles.Add(GameInstallFile.FromGamePackageResource(context.GamePackage.Main.Major!, context.InstallPath));
                 foreach (AudioLanguage lang in Enum.GetValues<AudioLanguage>())
                 {
-                    if (task.AudioLanguage.HasFlag(lang))
+                    if (context.AudioLanguage.HasFlag(lang))
                     {
-                        if (task.GamePackage.Main.Major?.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile gamePackageFile)
+                        if (context.GamePackage.Main.Major?.AudioPackages.FirstOrDefault(x => x.Language == lang.ToDescription()) is GamePackageFile gamePackageFile)
                         {
-                            taskFiles.Add(GameInstallFile.FromGamePackageFile(gamePackageFile, task.InstallPath));
+                            taskFiles.Add(GameInstallFile.FromGamePackageFile(gamePackageFile, context.InstallPath));
                         }
                     }
                 }
             }
         }
-        else if (task.Operation is GameInstallOperation.Repair)
+        else if (context.Operation is GameInstallOperation.Repair)
         {
             // 修复
-            if (task.GameSophonChunkBuild is not null)
+            if (context.GameSophonChunkBuild is not null)
             {
-                task.DownloadMode = GameInstallDownloadMode.Chunk;
+                context.DownloadMode = GameInstallDownloadMode.Chunk;
                 List<SophonChunkFile> chunks = new();
                 List<SophonChunkFile> localChunks = new();
-
-                if (task.GameSophonChunkBuild.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonChunkManifest manifest)
+                List<string> ignoreMatchingFields = GetIgnoreMatchingFields(context);
+                List<GameSophonChunkManifest> manifests = GetAvailableGameSophonChunkManifests(context.GameSophonChunkBuild, context.AudioLanguage, ignoreMatchingFields);
+                foreach (GameSophonChunkManifest manifest in manifests)
                 {
                     List<SophonChunkFile> items = await GetSophonChunkFilesAsync(manifest, cancellationToken);
                     chunks.AddRange(items);
                     Dictionary<string, SophonChunkFile> dict;
-                    if (task.LocalVersionSophonChunkBuild?.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonChunkManifest localManifest)
+                    if (context.LocalVersionSophonChunkBuild?.Manifests.FirstOrDefault(x => x.MatchingField == manifest.MatchingField) is GameSophonChunkManifest localManifest)
                     {
                         List<SophonChunkFile> localItems = await GetSophonChunkFilesAsync(localManifest);
                         localChunks.AddRange(localItems);
@@ -554,81 +524,50 @@ internal partial class GamePackageService
                         if (!item.IsFolder)
                         {
                             dict.TryGetValue(item.File, out SophonChunkFile? localFile);
-                            taskFiles.Add(GameInstallFile.FromSophonChunkFile(item, localFile, task.InstallPath, manifest.ChunkDownload.UrlPrefix));
+                            taskFiles.Add(GameInstallFile.FromSophonChunkFile(item, localFile, context.InstallPath, manifest.ChunkDownload.UrlPrefix));
                         }
                     }
                 }
-                foreach (var lang in Enum.GetValues<AudioLanguage>())
-                {
-                    if (task.AudioLanguage.HasFlag(lang))
-                    {
-                        if (task.GameSophonChunkBuild.Manifests.FirstOrDefault(x => x.MatchingField == lang.ToDescription()) is GameSophonChunkManifest audioManifest)
-                        {
-                            List<SophonChunkFile> items = await GetSophonChunkFilesAsync(audioManifest, cancellationToken);
-                            chunks.AddRange(items);
-                            Dictionary<string, SophonChunkFile> dict;
-                            if (task.LocalVersionSophonChunkBuild?.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonChunkManifest localAudioManifest)
-                            {
-                                List<SophonChunkFile> localItems = await GetSophonChunkFilesAsync(localAudioManifest);
-                                localChunks.AddRange(localItems);
-                                dict = localItems.ToDictionary(x => x.File);
-                            }
-                            else
-                            {
-                                dict = new();
-                            }
-                            foreach (SophonChunkFile item in items)
-                            {
-                                if (!item.IsFolder)
-                                {
-                                    dict.TryGetValue(item.File, out SophonChunkFile? localFile);
-                                    taskFiles.Add(GameInstallFile.FromSophonChunkFile(item, localFile, task.InstallPath, audioManifest.ChunkDownload.UrlPrefix));
-                                }
-                            }
-                        }
-                    }
-                }
-
-                task.SophonChunkFiles = chunks;
+                context.SophonChunkFiles = chunks;
                 if (localChunks.Count > 0)
                 {
-                    task.LocalVersionSophonChunkFiles = localChunks;
+                    context.LocalVersionSophonChunkFiles = localChunks;
                 }
             }
-            else if (task.GamePackage is not null)
+            else if (context.GamePackage is not null)
             {
-                if (!string.IsNullOrWhiteSpace(task.GamePackage.Main.Major?.ResListUrl))
+                if (!string.IsNullOrWhiteSpace(context.GamePackage.Main.Major?.ResListUrl))
                 {
-                    string prefix = task.GamePackage.Main.Major.ResListUrl.TrimEnd('/');
-                    task.DownloadMode = GameInstallDownloadMode.SingleFile;
-                    var pkg_versions = await GetPkgVersionItemsAsync(task, cancellationToken);
+                    string prefix = context.GamePackage.Main.Major.ResListUrl.TrimEnd('/');
+                    context.DownloadMode = GameInstallDownloadMode.SingleFile;
+                    var pkg_versions = await GetPkgVersionItemsAsync(context, cancellationToken);
                     foreach (PkgVersionItem item in pkg_versions)
                     {
-                        taskFiles.Add(GameInstallFile.FromPkgVersionItem(item, task.InstallPath, prefix));
+                        taskFiles.Add(GameInstallFile.FromPkgVersionItem(item, context.InstallPath, prefix));
                     }
                 }
             }
         }
 
         // 硬链接
-        if (Directory.Exists(task.HardLinkPath)
-            && Path.GetFullPath(task.InstallPath) != Path.GetFullPath(task.HardLinkPath)
-            && Path.GetPathRoot(task.HardLinkPath) == Path.GetPathRoot(task.InstallPath)
-            && new DriveInfo(task.InstallPath).DriveFormat is "NTFS")
+        if (Directory.Exists(context.HardLinkPath)
+            && Path.GetFullPath(context.InstallPath) != Path.GetFullPath(context.HardLinkPath)
+            && Path.GetPathRoot(context.HardLinkPath) == Path.GetPathRoot(context.InstallPath)
+            && new DriveInfo(context.InstallPath).DriveFormat is "NTFS")
         {
-            if (task.Operation is GameInstallOperation.Update && task.DownloadMode is GameInstallDownloadMode.Patch)
+            if (context.Operation is GameInstallOperation.Update && context.DownloadMode is GameInstallDownloadMode.Patch)
             {
-                Version? hardLinkVersion = await GetLocalGameVersionAsync(task.HardLinkPath);
-                if (hardLinkVersion is not null && task.LatestGameVersion == hardLinkVersion.ToString())
+                Version? hardLinkVersion = await GetLocalGameVersionAsync(context.HardLinkPath);
+                if (hardLinkVersion is not null && context.LatestGameVersion == hardLinkVersion.ToString())
                 {
                     // patch 更新模式下，如果硬链接目录版本和最新版本一致，则直接硬链接
-                    _logger.LogInformation("Change patch update operation of {GameBiz} to repair because of hard link, path: {path}.", task.GameId.GameBiz, task.HardLinkPath);
-                    task.Operation = GameInstallOperation.Repair;
-                    await PrepareGamePackageAsync(task, cancellationToken);
+                    _logger.LogInformation("Change patch update operation of {GameBiz} to repair because of hard link, path: {path}.", context.GameId.GameBiz, context.HardLinkPath);
+                    context.Operation = GameInstallOperation.Repair;
+                    await PrepareGamePackageAsync(context, cancellationToken);
                     return;
                 }
             }
-            GameBiz gameBiz = task.GameId.GameBiz;
+            GameBiz gameBiz = context.GameId.GameBiz;
             if (gameBiz.Game is GameBiz.hk4e)
             {
                 const string YuanShen_Data = nameof(YuanShen_Data);
@@ -641,7 +580,7 @@ internal partial class GamePackageService
                     _ => "",
                 };
                 string target = "";
-                foreach (var dir in Directory.GetDirectories(task.HardLinkPath, "*_Data"))
+                foreach (var dir in Directory.GetDirectories(context.HardLinkPath, "*_Data"))
                 {
                     string name = Path.GetFileName(dir);
                     if (name is "YuanShen_Data" or "GenshinImpact_Data")
@@ -658,7 +597,7 @@ internal partial class GamePackageService
                         {
                             if (!string.IsNullOrWhiteSpace(item.File))
                             {
-                                item.HardLinkTarget = Path.GetFullPath(Path.Join(task.HardLinkPath, item.File));
+                                item.HardLinkTarget = Path.GetFullPath(Path.Join(context.HardLinkPath, item.File));
                             }
                         }
                     }
@@ -668,32 +607,32 @@ internal partial class GamePackageService
                         {
                             if (!string.IsNullOrWhiteSpace(item.File))
                             {
-                                item.HardLinkTarget = Path.GetFullPath(Path.Join(task.HardLinkPath, item.File.Replace(source, target)));
+                                item.HardLinkTarget = Path.GetFullPath(Path.Join(context.HardLinkPath, item.File.Replace(source, target)));
                             }
                         }
                     }
                 }
-                _logger.LogInformation("Hard link {GameBiz} link target path: {Target}", task.GameId.GameBiz, task.HardLinkPath);
+                _logger.LogInformation("Hard link {GameBiz} link target path: {Target}", context.GameId.GameBiz, context.HardLinkPath);
             }
-            else if (gameBiz.Game is GameBiz.hkrpg)
+            else if (gameBiz.Game is GameBiz.hkrpg && context.GameConfig!.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK)
             {
-                Version? hardLinkVersion = await GetLocalGameVersionAsync(task.HardLinkPath);
-                if (hardLinkVersion is not null && task.LatestGameVersion == hardLinkVersion.ToString())
+                Version? hardLinkVersion = await GetLocalGameVersionAsync(context.HardLinkPath);
+                if (hardLinkVersion is not null && context.LatestGameVersion == hardLinkVersion.ToString())
                 {
-                    if (task.Operation is GameInstallOperation.Install or GameInstallOperation.Update)
+                    if (context.Operation is GameInstallOperation.Install or GameInstallOperation.Update)
                     {
                         // 星穹铁道硬链接时，需要改为修复模式
-                        _logger.LogInformation("Change {GameBiz} operation to repair because of hard link.", task.GameId.GameBiz);
-                        task.Operation = GameInstallOperation.Repair;
-                        await PrepareGameInstallTaskFilesAsync(task, localVersion, cancellationToken);
+                        _logger.LogInformation("Change {GameBiz} operation to repair because of hard link.", context.GameId.GameBiz);
+                        context.Operation = GameInstallOperation.Repair;
+                        await PrepareGameInstallContextFilesAsync(context, localVersion, cancellationToken);
                         return;
                     }
-                    else if (task.Operation is GameInstallOperation.Repair)
+                    else if (context.Operation is GameInstallOperation.Repair)
                     {
-                        string folder = Path.GetFullPath(Path.Combine(task.HardLinkPath, task.GameConfig!.AudioPackageResDir));
+                        string folder = Path.GetFullPath(Path.Combine(context.HardLinkPath, context.GameConfig!.AudioPackageResDir));
                         if (Directory.Exists(folder))
                         {
-                            string targetFolder = Path.GetFullPath(Path.Combine(task.InstallPath, task.GameConfig.AudioPackageResDir));
+                            string targetFolder = Path.GetFullPath(Path.Combine(context.InstallPath, context.GameConfig.AudioPackageResDir));
                             string[] files = Directory.GetFiles(folder, "*", SearchOption.AllDirectories);
                             foreach (string item in files)
                             {
@@ -705,16 +644,16 @@ internal partial class GamePackageService
                                 Directory.CreateDirectory(Path.GetDirectoryName(target)!);
                                 Kernel32.CreateHardLink(target, item);
                             }
-                            _logger.LogInformation("Hard link {count} audio files ({GameBiz}) from {path}", files.Length, task.GameId.GameBiz, targetFolder);
+                            _logger.LogInformation("Hard link {count} audio files ({GameBiz}) from {path}", files.Length, context.GameId.GameBiz, targetFolder);
                         }
                         foreach (var item in taskFiles)
                         {
                             if (!string.IsNullOrWhiteSpace(item.File))
                             {
-                                item.HardLinkTarget = Path.GetFullPath(Path.Join(task.HardLinkPath, item.File));
+                                item.HardLinkTarget = Path.GetFullPath(Path.Join(context.HardLinkPath, item.File));
                             }
                         }
-                        _logger.LogInformation("Hard link {GameBiz} link target path: {Target}", task.GameId.GameBiz, task.HardLinkPath);
+                        _logger.LogInformation("Hard link {GameBiz} link target path: {Target}", context.GameId.GameBiz, context.HardLinkPath);
                     }
                 }
             }
@@ -724,17 +663,117 @@ internal partial class GamePackageService
                 {
                     if (!string.IsNullOrWhiteSpace(item.File))
                     {
-                        item.HardLinkTarget = Path.GetFullPath(Path.Join(task.HardLinkPath, item.File));
+                        item.HardLinkTarget = Path.GetFullPath(Path.Join(context.HardLinkPath, item.File));
                     }
                 }
-                _logger.LogInformation("Hard link {GameBiz} link target path: {Target}", task.GameId.GameBiz, task.HardLinkPath);
+                _logger.LogInformation("Hard link {GameBiz} link target path: {Target}", context.GameId.GameBiz, context.HardLinkPath);
             }
         }
 
-        task.TaskFiles = taskFiles;
+        context.TaskFiles = taskFiles;
     }
 
 
+
+
+    public static List<string> GetIgnoreMatchingFields(GameInstallContext context)
+    {
+        List<string> ignoreMatchingFields = new List<string>();
+        if (context.GameConfig is not null)
+        {
+            string file = Path.Join(context.InstallPath, context.GameConfig.ResCategoryDir);
+            if (File.Exists(file))
+            {
+                string[] lines = File.ReadAllLines(file);
+                // eg. {"category":"10302","is_delete":true}
+                foreach (string line in lines)
+                {
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        var obj = JsonSerializer.Deserialize<IgnoreMatchingField>(line);
+                        if (obj?.IsDelete is true && !string.IsNullOrWhiteSpace(obj.Category))
+                        {
+                            ignoreMatchingFields.Add(obj.Category);
+                        }
+                    }
+                }
+            }
+        }
+        return ignoreMatchingFields;
+    }
+
+
+
+    private class IgnoreMatchingField
+    {
+        [JsonPropertyName("category")]
+        public string Category { get; set; }
+
+        [JsonPropertyName("is_delete")]
+        public bool IsDelete { get; set; }
+    }
+
+
+
+    public static List<GameSophonChunkManifest> GetAvailableGameSophonChunkManifests(GameSophonChunkBuild build, AudioLanguage audioLanguage, IEnumerable<string> ignoreMatchingFields)
+    {
+        List<GameSophonChunkManifest> manifests = new();
+        foreach (GameSophonChunkManifest manifest in build.Manifests)
+        {
+            if (ignoreMatchingFields.Contains(manifest.MatchingField))
+            {
+                continue;
+            }
+            if (manifest.MatchingField.Length == 5 && manifest.MatchingField[2] == '-')
+            {
+                // 跳过语音包
+                continue;
+            }
+            manifests.Add(manifest);
+        }
+        foreach (AudioLanguage lang in Enum.GetValues<AudioLanguage>())
+        {
+            if (audioLanguage.HasFlag(lang))
+            {
+                if (build.Manifests.FirstOrDefault(x => x.MatchingField == lang.ToDescription()) is GameSophonChunkManifest audioManifest)
+                {
+                    manifests.Add(audioManifest);
+                }
+            }
+        }
+        return manifests;
+    }
+
+
+
+    public static List<GameSophonPatchManifest> GetAvaliableGameSophonPatchManifests(GameSophonPatchBuild build, AudioLanguage audioLanguage, IEnumerable<string> ignoreMatchingFields)
+    {
+        List<GameSophonPatchManifest> manifests = new();
+        foreach (GameSophonPatchManifest manifest in build.Manifests)
+        {
+            if (ignoreMatchingFields.Contains(manifest.MatchingField))
+            {
+                continue;
+            }
+            if (manifest.MatchingField.Length == 5 && manifest.MatchingField[2] == '-')
+            {
+                // 跳过语音包
+                continue;
+            }
+            manifests.Add(manifest);
+        }
+        foreach (AudioLanguage lang in Enum.GetValues<AudioLanguage>())
+        {
+            if (audioLanguage.HasFlag(lang))
+            {
+                if (build.Manifests.FirstOrDefault(x => x.MatchingField == lang.ToDescription()) is GameSophonPatchManifest audioManifest)
+                {
+                    manifests.Add(audioManifest);
+                }
+            }
+        }
+        return manifests;
+    }
 
 
 
@@ -802,30 +841,30 @@ internal partial class GamePackageService
 
 
 
-    private async Task<List<PkgVersionItem>> GetPkgVersionItemsAsync(GameInstallTask task, CancellationToken cancellationToken = default)
+    private async Task<List<PkgVersionItem>> GetPkgVersionItemsAsync(GameInstallContext context, CancellationToken cancellationToken = default)
     {
         List<PkgVersionItem> list = new();
-        if (task.GamePackage is not null)
+        if (context.GamePackage is not null)
         {
-            string? prefix = task.GamePackage.Main.Major!.ResListUrl;
+            string? prefix = context.GamePackage.Main.Major!.ResListUrl;
             if (!string.IsNullOrWhiteSpace(prefix))
             {
-                list.AddRange(await DownloadAndParsePkgVersionAsync(task.InstallPath, prefix, "pkg_version", cancellationToken));
-                if (task.AudioLanguage.HasFlag(AudioLanguage.Chinese))
+                list.AddRange(await DownloadAndParsePkgVersionAsync(context.InstallPath, prefix, "pkg_version", cancellationToken));
+                if (context.AudioLanguage.HasFlag(AudioLanguage.Chinese))
                 {
-                    list.AddRange(await DownloadAndParsePkgVersionAsync(task.InstallPath, prefix, "Audio_Chinese_pkg_version", cancellationToken));
+                    list.AddRange(await DownloadAndParsePkgVersionAsync(context.InstallPath, prefix, "Audio_Chinese_pkg_version", cancellationToken));
                 }
-                if (task.AudioLanguage.HasFlag(AudioLanguage.English))
+                if (context.AudioLanguage.HasFlag(AudioLanguage.English))
                 {
-                    list.AddRange(await DownloadAndParsePkgVersionAsync(task.InstallPath, prefix, "Audio_English(US)_pkg_version", cancellationToken));
+                    list.AddRange(await DownloadAndParsePkgVersionAsync(context.InstallPath, prefix, "Audio_English(US)_pkg_version", cancellationToken));
                 }
-                if (task.AudioLanguage.HasFlag(AudioLanguage.Japanese))
+                if (context.AudioLanguage.HasFlag(AudioLanguage.Japanese))
                 {
-                    list.AddRange(await DownloadAndParsePkgVersionAsync(task.InstallPath, prefix, "Audio_Japanese_pkg_version", cancellationToken));
+                    list.AddRange(await DownloadAndParsePkgVersionAsync(context.InstallPath, prefix, "Audio_Japanese_pkg_version", cancellationToken));
                 }
-                if (task.AudioLanguage.HasFlag(AudioLanguage.Korean))
+                if (context.AudioLanguage.HasFlag(AudioLanguage.Korean))
                 {
-                    list.AddRange(await DownloadAndParsePkgVersionAsync(task.InstallPath, prefix, "Audio_Korean_pkg_version", cancellationToken));
+                    list.AddRange(await DownloadAndParsePkgVersionAsync(context.InstallPath, prefix, "Audio_Korean_pkg_version", cancellationToken));
                 }
             }
         }
@@ -865,7 +904,10 @@ internal partial class GamePackageService
 
     private async Task<GameConfig?> GetGameConfigAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
-        return await _hoyoplayClient.GetGameConfigAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
+        GameConfig? config = await _hoyoplayClient.GetGameConfigAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
+        // 强制使用 Chunk 作为默认下载模式
+        config?.DefaultDownloadMode = DownloadMode.DOWNLOAD_MODE_CHUNK;
+        return config;
     }
 
 

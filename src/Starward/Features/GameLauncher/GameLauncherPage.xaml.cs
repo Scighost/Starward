@@ -595,7 +595,7 @@ public sealed partial class GameLauncherPage : PageBase
             if (localGameVersion is not null && latestGameVersion > localGameVersion)
             {
                 AudioLanguage audio = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId, GameInstallPath);
-                GameInstallTask? task = await _gameInstallService.StartUpdateAsync(CurrentGameId, GameInstallPath!, audio);
+                GameInstallContext? task = await _gameInstallService.StartUpdateAsync(CurrentGameId, GameInstallPath!, audio);
                 if (task is not null)
                 {
                     _gameInstallTask = task;
@@ -624,7 +624,7 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
-    private GameInstallTask? _gameInstallTask;
+    private GameInstallContext? _gameInstallTask;
 
 
 

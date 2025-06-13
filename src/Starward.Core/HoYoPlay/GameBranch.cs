@@ -36,7 +36,7 @@ public class GameBranchPackage
     [JsonPropertyName("package_id")]
     public string PackageId { get; set; }
 
-    // main or pre_download
+    // main or predownload
     [JsonPropertyName("branch")]
     public string Branch { get; set; }
 
@@ -57,5 +57,26 @@ public class GameBranchPackage
     /// </summary>
     [JsonPropertyName("diff_tags")]
     public List<string> DiffTags { get; set; }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [JsonPropertyName("categories")]
+    public List<GameBranchPackageCategory> Categories { get; set; }
+
+}
+
+
+
+public class GameBranchPackageCategory
+{
+
+    [JsonPropertyName("category_id")]
+    public string CategoryId { get; set; }
+
+
+    [JsonPropertyName("matching_field")]
+    public string MatchingField { get; set; }
 
 }

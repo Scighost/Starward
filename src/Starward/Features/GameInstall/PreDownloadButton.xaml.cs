@@ -176,7 +176,7 @@ public sealed partial class PreDownloadButton : UserControl
 
 
 
-    public void UpdateGameInstallTaskState(GameInstallTask task)
+    public void UpdateGameInstallTaskState(GameInstallContext task)
     {
         State = task.State;
         long total = task.Progress_DownloadTotalBytes;

@@ -247,7 +247,7 @@ public sealed partial class StartGameButton : UserControl
 
 
 
-    public void UpdateGameInstallTaskState(GameInstallTask task)
+    public void UpdateGameInstallTaskState(GameInstallContext task)
     {
         InstallState = task.State;
         DownloadBytesText = ToBytesText(task.Progress_DownloadFinishBytes, task.Progress_DownloadTotalBytes);

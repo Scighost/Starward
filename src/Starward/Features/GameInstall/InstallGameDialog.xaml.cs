@@ -251,8 +251,13 @@ public sealed partial class InstallGameDialog : ContentDialog
             }
             else if (_gameSophonChunkBuild is not null)
             {
-                if (_gameSophonChunkBuild.Manifests.FirstOrDefault(x => x.MatchingField is "game") is GameSophonChunkManifest manifest)
+                foreach (GameSophonChunkManifest manifest in _gameSophonChunkBuild.Manifests)
                 {
+                    if (manifest.MatchingField.Length == 5 && manifest.MatchingField[2] == '-')
+                    {
+                        // 跳过语音包
+                        continue;
+                    }
                     size += manifest.Stats.UncompressedSize;
                 }
                 foreach (string? lang in langs)
@@ -377,7 +382,7 @@ public sealed partial class InstallGameDialog : ContentDialog
     {
         try
         {
-            GameInstallTask? task = await _gameInstallService.StartInstallAsync(CurrentGameId, InstallationPath, _audioLanguage);
+            GameInstallContext? task = await _gameInstallService.StartInstallAsync(CurrentGameId, InstallationPath, _audioLanguage);
             if (task is not null && task.State is not GameInstallState.Stop and not GameInstallState.Error)
             {
                 GameLauncherService.ChangeGameInstallPath(CurrentGameId, InstallationPath);
