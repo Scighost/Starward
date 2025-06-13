@@ -4,6 +4,7 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
 using Starward.Features.RPC;
+using Starward.Helpers;
 using Starward.RPC;
 using Starward.RPC.GameInstall;
 using System;
@@ -380,14 +381,14 @@ internal class GameInstallService
                     {
                         if (task.Operation is GameInstallOperation.Install or GameInstallOperation.Update or GameInstallOperation.Repair)
                         {
-                            if (!string.IsNullOrWhiteSpace(task.InstallPath) && Path.GetPathRoot(task.InstallPath) == Path.GetPathRoot(installPath) && new DriveInfo(installPath).DriveFormat is "NTFS")
+                            if (!string.IsNullOrWhiteSpace(task.InstallPath) && Path.GetPathRoot(task.InstallPath) == Path.GetPathRoot(installPath) && DriveHelper.GetDriveFormat(installPath) is "NTFS")
                             {
                                 return task.InstallPath;
                             }
                         }
                     }
                     string? path = GameLauncherService.GetGameInstallPath(biz);
-                    if (!string.IsNullOrWhiteSpace(path) && Path.GetPathRoot(path) == Path.GetPathRoot(installPath) && new DriveInfo(path).DriveFormat is "NTFS")
+                    if (!string.IsNullOrWhiteSpace(path) && Path.GetPathRoot(path) == Path.GetPathRoot(installPath) && DriveHelper.GetDriveFormat(path) is "NTFS")
                     {
                         Version? version = await _gameLauncherService.GetLocalGameVersionAsync(biz, path);
                         if (lastPath is null)

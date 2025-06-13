@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.HoYoPlay;
+using Starward.Helpers;
 using Starward.RPC.GameInstall;
 using System;
 using System.Collections.Generic;
@@ -196,7 +197,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
     {
         try
         {
-            AvailableSpaceBytes = new DriveInfo(_installationPath).AvailableFreeSpace;
+            AvailableSpaceBytes = DriveHelper.GetDriveAvailableSpace(_installationPath);
             long size = 0, unzipSize = 0;
             if (_gamePackage is not null)
             {

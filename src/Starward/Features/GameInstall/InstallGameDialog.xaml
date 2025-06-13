@@ -94,7 +94,8 @@
             <StackPanel x:Name="StackPanel_FreeSpace"
                         Margin="1,8,0,0"
                         Orientation="Horizontal"
-                        Spacing="8">
+                        Spacing="8"
+                        Visibility="{x:Bind ErrorMessage, Converter={StaticResource ObjectToVisibilityReversedConverter}}">
                 <TextBlock FontSize="12"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            IsTextScaleFactorEnabled="False"
@@ -113,6 +114,15 @@
                     <Run Text="{x:Bind AvailableSpaceText}" />
                 </TextBlock>
             </StackPanel>
+
+            <!--  不要选择驱动器的根目录  -->
+            <TextBlock Margin="1,8,1,0"
+                       FontSize="12"
+                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind ErrorMessage}"
+                       TextWrapping="Wrap"
+                       Visibility="{x:Bind ErrorMessage, Converter={StaticResource ObjectToVisibilityConverter}}" />
 
 
             <!--  Auto Create Subfolder  -->

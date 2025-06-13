@@ -198,6 +198,9 @@ public sealed partial class InstallGameDialog : ContentDialog
     public string InstallationPath { get; set => SetProperty(ref field, value); }
 
 
+    public string? ErrorMessage { get; set => SetProperty(ref field, value); }
+
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(UnzipSpaceText))]
     public partial long UnzipSpaceBytes { get; set; }
@@ -290,14 +293,23 @@ public sealed partial class InstallGameDialog : ContentDialog
     {
         try
         {
+            ErrorMessage = null;
+            Button_StartInstallation.IsEnabled = false;
             if (_gamePackage is not null || _gameSophonChunkBuild is not null)
             {
-                if (Path.IsPathFullyQualified(InstallationPath) && Path.GetPathRoot(InstallationPath) != InstallationPath)
+                if (DriveHelper.GetDriveType(InstallationPath) is DriveType.Network && !new Uri(InstallationPath).IsUnc)
+                {
+                    ErrorMessage = Lang.InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes;
+                }
+                else if (Path.GetPathRoot(InstallationPath) == InstallationPath)
+                {
+                    ErrorMessage = Lang.LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive;
+                }
+                else if (Path.IsPathFullyQualified(InstallationPath))
                 {
                     if (!(_needAudioPackage ^ Segmented_SelectLanguage.SelectedItems.Count > 0))
                     {
                         Button_StartInstallation.IsEnabled = true;
-                        return;
                     }
                 }
             }
@@ -306,7 +318,6 @@ public sealed partial class InstallGameDialog : ContentDialog
         {
             _logger.LogError(ex, "Check can start installation.");
         }
-        Button_StartInstallation.IsEnabled = false;
     }
 
 
@@ -341,8 +352,7 @@ public sealed partial class InstallGameDialog : ContentDialog
         {
             TextBlock_InstallationPath.FontSize = 14;
             InstallationPath = path;
-            StackPanel_FreeSpace.Visibility = Visibility.Visible;
-            AvailableSpaceBytes = new DriveInfo(path).AvailableFreeSpace;
+            AvailableSpaceBytes = DriveHelper.GetDriveAvailableSpace(path);
             CheckCanStartInstallation();
         }
         catch (Exception ex)

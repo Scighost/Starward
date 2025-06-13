@@ -553,7 +553,7 @@ internal partial class GamePackageService
         if (Directory.Exists(context.HardLinkPath)
             && Path.GetFullPath(context.InstallPath) != Path.GetFullPath(context.HardLinkPath)
             && Path.GetPathRoot(context.HardLinkPath) == Path.GetPathRoot(context.InstallPath)
-            && new DriveInfo(context.InstallPath).DriveFormat is "NTFS")
+            && DriveHelper.GetDriveFormat(context.InstallPath) is "NTFS")
         {
             if (context.Operation is GameInstallOperation.Update && context.DownloadMode is GameInstallDownloadMode.Patch)
             {

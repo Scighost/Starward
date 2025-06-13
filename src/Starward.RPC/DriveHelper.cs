@@ -1,7 +1,7 @@
 using System.IO;
 using Vanara.PInvoke;
 
-namespace Starward.Helpers;
+namespace Starward.RPC;
 
 internal abstract class DriveHelper
 {

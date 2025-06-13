@@ -360,14 +360,23 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         try
         {
             string? previousInstallPath = InstallPath;
-            string? folder = await GameLauncherService.ChangeGameInstallPathAsync(CurrentGameId, this.XamlRoot);
+            string? folder = await FileDialogHelper.PickFolderAsync(this.XamlRoot);
             if (!string.IsNullOrWhiteSpace(folder))
             {
-                await InitializeBasicInfoAsync();
-                WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
-                if (previousInstallPath != folder)
+                if (DriveHelper.GetDriveType(folder) is DriveType.Network && !new Uri(folder).IsUnc)
                 {
-                    await TryStopGameInstallTaskAsync();
+                    TextBlock_NetworkDriveWarning.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    TextBlock_NetworkDriveWarning.Visibility = Visibility.Collapsed;
+                    GameLauncherService.ChangeGameInstallPath(CurrentGameId, folder);
+                    await InitializeBasicInfoAsync();
+                    WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
+                    if (previousInstallPath != folder)
+                    {
+                        await TryStopGameInstallTaskAsync();
+                    }
                 }
             }
         }

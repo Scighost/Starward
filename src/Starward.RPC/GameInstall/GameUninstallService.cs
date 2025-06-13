@@ -158,7 +158,7 @@ internal class GameUninstallService
 
     private static bool CanHardLink(string source, string dest)
     {
-        return Path.GetPathRoot(source) == Path.GetPathRoot(dest) && new DriveInfo(dest).DriveFormat is "NTFS";
+        return Path.GetPathRoot(source) == Path.GetPathRoot(dest) && DriveHelper.GetDriveFormat(dest) is "NTFS";
     }
 
 

@@ -211,6 +211,13 @@
                             </Button>
                         </Grid>
 
+                        <!--  网络驱动器警告  -->
+                        <TextBlock x:Name="TextBlock_NetworkDriveWarning"
+                                   FontSize="12"
+                                   Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                                   Text="{x:Bind lang:Lang.InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes}"
+                                   TextWrapping="Wrap"
+                                   Visibility="Collapsed" />
 
                         <!--  卸载警告  -->
                         <Grid x:Name="Grid_UninstallWarning"
