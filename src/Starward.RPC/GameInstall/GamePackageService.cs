@@ -50,7 +50,12 @@ internal partial class GamePackageService
         if (File.Exists(config))
         {
             var str = await File.ReadAllTextAsync(config);
-            _ = Version.TryParse(GameVersionRegex().Match(str).Groups[1].Value, out Version? version);
+            var matches = GameVersionRegex().Matches(str);
+            Version? version = null;
+            if (matches.Count > 0)
+            {
+                _ = Version.TryParse(matches[^1].Groups[1].Value, out version);
+            }
             return version;
         }
         else
