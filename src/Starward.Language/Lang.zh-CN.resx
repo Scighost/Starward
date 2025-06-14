@@ -2152,6 +2152,6 @@
     <value>剩余 {0} 天</value>
   </data>
   <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
-    <value>不支持映射的网络驱动器，请改用以双反斜杠（\\）开头的网络共享路径。</value>
+    <value>不支持映射的网络驱动器，请使用以双反斜杠（\\）开头的网络共享路径。</value>
   </data>
 </root>
