@@ -1933,10 +1933,10 @@
     <value>歷練點</value>
   </data>
   <data name="DailyNoteButton_Genshin_RealmCurrency" xml:space="preserve">
-    <value>Realm Currency</value>
+    <value>洞天寶錢</value>
   </data>
   <data name="DailyNoteButton_Genshin_Expedition" xml:space="preserve">
-    <value>Expedition</value>
+    <value>探索派遣</value>
   </data>
   <data name="DailyNoteButton_StarRail_FullTime" xml:space="preserve">
     <value>回滿時間</value>
@@ -2065,90 +2065,93 @@
     <value>隱藏卡池</value>
   </data>
   <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
-    <value>It is normal for 120 FPS to display as 30 FPS in the game.</value>
+    <value>120 幀在遊戲裡顯示為 30 是正常現象。</value>
   </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
-    <value>Enable HDR</value>
+    <value>啟用 HDR</value>
   </data>
   <data name="Common_RestoreDefaults" xml:space="preserve">
-    <value>Restore Defaults</value>
+    <value>還原預設值</value>
   </data>
   <data name="GameSettingPage_HDRBrightnessSetting" xml:space="preserve">
-    <value>HDR Brightness Setting</value>
+    <value>HDR 亮度設定</value>
   </data>
   <data name="GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsThePrimaryDisplay" xml:space="preserve">
-    <value>If you have multiple monitors, you need to set the HDR-supported monitor as the primary display.</value>
+    <value>如果有多個顯示器，需要把支援 HDR 的設定為主顯示器。</value>
   </data>
   <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled" xml:space="preserve">
-    <value>The current monitor does not support HDR or Windows HDR is not enabled.</value>
+    <value>當前顯示器不支持 HDR 或者 Windows HDR 未開啟。</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_AdaptToMonitorBrightness" xml:space="preserve">
-    <value>Adapt to Monitor Brightness</value>
+    <value>適配顯示器亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MaxLuminance" xml:space="preserve">
-    <value>Max Luminance</value>
+    <value>最大亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_SceneryBrightness" xml:space="preserve">
-    <value>Scenery Brightness</value>
+    <value>場景亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_UIBrightness" xml:space="preserve">
-    <value>UI Brightness</value>
+    <value>界面亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MonitorInformation" xml:space="preserve">
-    <value>Monitor Information</value>
+    <value>顯示器訊息</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_ColorSpace" xml:space="preserve">
-    <value>Color Space</value>
+    <value>顏色空間</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_PeakLuminance" xml:space="preserve">
-    <value>Peak Luminance</value>
+    <value>峰值亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MaxFullScreenLuminance" xml:space="preserve">
-    <value>Max Full-Screen Luminance</value>
+    <value>最高全螢幕亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_SDRWhiteLuminance" xml:space="preserve">
-    <value>SDR White Luminance</value>
+    <value>SDR 白色亮度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_StandardDynamicRange" xml:space="preserve">
-    <value>Standard Dynamic Range</value>
+    <value>標準動態範圍</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_WideColorGamut" xml:space="preserve">
-    <value>Wide Color Gamut</value>
+    <value>廣色域</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_HighDynamicRange" xml:space="preserve">
-    <value>High Dynamic Range</value>
+    <value>高動態範圍</value>
   </data>
   <data name="WelcomeView_IfStarwardTakesALongTimeToStartItIsRecommendedToDisableSmartAppControlInWindowsSecurity" xml:space="preserve">
-    <value>If Starward takes a long time to start, it is recommended to disable Smart App Control in Windows Security.</value>
+    <value>如果 Starward 啟動時間過長，建議關閉 Windows 安全中心的SmartApp控制功能。</value>
   </data>
   <data name="WelcomeView_OpenWindowsSecurity" xml:space="preserve">
-    <value>Open Windows Security</value>
+    <value>開啟 Windows 安全中心</value>
   </data>
   <data name="WelcomeView_LearnMore" xml:space="preserve">
-    <value>Learn More</value>
+    <value>了解更多</value>
   </data>
   <data name="WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates" xml:space="preserve">
-    <value>Network error. You can continue using Starward, but you won't receive future updates.</value>
+    <value>網絡出錯，您可以繼續使用 Starward ，但無法收到更新。</value>
   </data>
   <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
-    <value>System proxy is enabled.</value>
+    <value>系統代理已開啟。</value>
   </data>
   <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDR" xml:space="preserve">
-    <value>The current monitor does not support HDR.</value>
+    <value>當前顯示器不支持 HDR。</value>
   </data>
   <data name="GameSettingPage_WindowsHDRIsNotTurnedOn" xml:space="preserve">
-    <value>Windows HDR is not turned on.</value>
+    <value>Windows HDR 未開啟。</value>
   </data>
   <data name="DailyNoteButton_InterKnotMembership" xml:space="preserve">
-    <value>Inter-Knot Membership</value>
+    <value>繩網會員</value>
   </data>
   <data name="DailyNoteButton_PolychromesUnclaimed" xml:space="preserve">
-    <value>Polychromes Unclaimed</value>
+    <value>菲林未領取</value>
   </data>
   <data name="DailyNoteButton_PolychromesClaimed" xml:space="preserve">
-    <value>Polychromes Claimed</value>
+    <value>菲林已領取</value>
   </data>
   <data name="DailyNoteButton_0DaySRemaining" xml:space="preserve">
-    <value>{0} Day(s) Remaining</value>
+    <value>剩下 {0} 天</value>
+  </data>
+  <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
+    <value>Mapped network drives are not supported. Please use a network share path starting with double backslashes (\\).</value>
   </data>
 </root>
