@@ -106,7 +106,7 @@ internal partial class GamePackageService
             var matches = GameVersionRegex().Matches(str);
             if (matches.Count > 0)
             {
-                localVersion= matches[^1].Groups[1].Value.Trim();
+                localVersion = matches[^1].Groups[1].Value.Trim();
             }
             string? predownload = PreDownloadRegex().Match(str).Groups[1].Value.Trim();
             AudioLanguage lang = await GetAudioLanguageAsync(gameId, installPath);
