@@ -648,6 +648,18 @@ public sealed partial class UpdateWindow : WindowEx
               <article class="markdown-body" style="background: transparent;">
                 {{html}}
               </article>
+              <script>
+                document.querySelectorAll('img[data-canonical-src]').forEach(img => {
+                  const canonical = img.getAttribute('data-canonical-src');
+                  if (canonical) {
+                    img.src = canonical;
+                  }
+                  const parent = img.parentElement;
+                  if (parent && parent.tagName.toLowerCase() === 'a') {
+                    parent.href = canonical;
+                  }
+                });
+              </script>
             </body>
             </html>
             """;
