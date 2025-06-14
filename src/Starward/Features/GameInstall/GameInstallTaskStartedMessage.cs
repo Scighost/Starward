@@ -4,9 +4,9 @@ namespace Starward.Features.GameInstall;
 
 class GameInstallTaskStartedMessage
 {
-    public GameInstallTask InstallTask { get; init; }
+    public GameInstallContext InstallTask { get; init; }
 
-    public GameInstallTaskStartedMessage(GameInstallTask installTask)
+    public GameInstallTaskStartedMessage(GameInstallContext installTask)
     {
         InstallTask = installTask;
     }

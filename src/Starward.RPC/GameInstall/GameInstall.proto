@@ -11,15 +11,15 @@ import "Common.proto";
 
 service GameInstaller {
     
-    rpc SyncGameInstallTasks (EmptyMessage) returns (GameInstallTaskList);
+    rpc SyncGameInstallContext (EmptyMessage) returns (GameInstallContextList);
 
-    rpc GetTaskProgress (EmptyMessage) returns (stream GameInstallTaskDTO);
+    rpc GetTaskProgress (EmptyMessage) returns (stream GameInstallContextDTO);
 
-    rpc StartOrContinueTask (GameInstallTaskRequest) returns (GameInstallTaskDTO);
+    rpc StartOrContinueTask (GameInstallRequest) returns (GameInstallContextDTO);
 
-    rpc PauseTask (GameInstallTaskRequest) returns (GameInstallTaskDTO);
+    rpc PauseTask (GameInstallRequest) returns (GameInstallContextDTO);
 
-    rpc StopTask (GameInstallTaskRequest) returns (GameInstallTaskDTO);
+    rpc StopTask (GameInstallRequest) returns (GameInstallContextDTO);
 
     rpc GetRateLimiter (EmptyMessage) returns (RateLimiterMessage);
 
@@ -29,11 +29,11 @@ service GameInstaller {
 
 }
 
-message GameInstallTaskList {
-    repeated GameInstallTaskDTO tasks = 1;
+message GameInstallContextList {
+    repeated GameInstallContextDTO list = 1;
 }
 
-message GameInstallTaskDTO {
+message GameInstallContextDTO {
     string game_biz = 1;
     string game_id = 2;
     string install_path = 3;
@@ -58,7 +58,7 @@ message GameInstallTaskDTO {
     int64 remain_time_seconds = 21;
 }
 
-message GameInstallTaskRequest {
+message GameInstallRequest {
     string game_biz = 1;
     string game_id = 2;
     string install_path = 3;

@@ -257,4 +257,6 @@ internal class GameInstallFilePatch
 
     public required string OriginalFileFullPath { get; set; }
 
+    public bool Compression { get; set; }
+
 }

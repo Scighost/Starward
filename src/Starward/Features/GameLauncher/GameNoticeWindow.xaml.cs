@@ -127,7 +127,7 @@ public sealed partial class GameNoticeWindow : WindowEx
             Close();
             return;
         }
-        timer = new Timer(5000);
+        timer = new Timer(10000);
         timer.AutoReset = false;
         timer.Elapsed += (_, _) => DispatcherQueue.TryEnqueue(Close);
         timer.Start();

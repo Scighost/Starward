@@ -32,7 +32,7 @@ internal class GameInstallController : GameInstaller.GameInstallerBase
 
 
 
-    public override Task<GameInstallTaskDTO> StartOrContinueTask(GameInstallTaskRequest request, ServerCallContext context)
+    public override Task<GameInstallContextDTO> StartOrContinueTask(GameInstallRequest request, ServerCallContext context)
     {
         return Task.FromResult(_gameInstallService.StartOrContinueTask(request));
     }
@@ -40,7 +40,7 @@ internal class GameInstallController : GameInstaller.GameInstallerBase
 
 
 
-    public override Task<GameInstallTaskDTO> PauseTask(GameInstallTaskRequest request, ServerCallContext context)
+    public override Task<GameInstallContextDTO> PauseTask(GameInstallRequest request, ServerCallContext context)
     {
         return Task.FromResult(_gameInstallService.PauseTask(request));
     }
@@ -48,7 +48,7 @@ internal class GameInstallController : GameInstaller.GameInstallerBase
 
 
 
-    public override Task<GameInstallTaskDTO> StopTask(GameInstallTaskRequest request, ServerCallContext context)
+    public override Task<GameInstallContextDTO> StopTask(GameInstallRequest request, ServerCallContext context)
     {
         return Task.FromResult(_gameInstallService.StopTask(request));
     }
@@ -70,7 +70,7 @@ internal class GameInstallController : GameInstaller.GameInstallerBase
         try
         {
             GameId gameId = new GameId { GameBiz = request.GameBiz, Id = request.GameId };
-            if (_gameInstallService.TryGetTask(gameId, out GameInstallTask? task))
+            if (_gameInstallService.TryGetTask(gameId, out GameInstallContext? task))
             {
                 // 停止正在进行的安装任务
                 task.Cancel(GameInstallState.Stop);
@@ -93,10 +93,10 @@ internal class GameInstallController : GameInstaller.GameInstallerBase
 
 
 
-    private IServerStreamWriter<GameInstallTaskDTO>? _taskProgressStream;
+    private IServerStreamWriter<GameInstallContextDTO>? _taskProgressStream;
 
 
-    public override async Task GetTaskProgress(EmptyMessage request, IServerStreamWriter<GameInstallTaskDTO> responseStream, ServerCallContext context)
+    public override async Task GetTaskProgress(EmptyMessage request, IServerStreamWriter<GameInstallContextDTO> responseStream, ServerCallContext context)
     {
         try
         {
@@ -110,7 +110,7 @@ internal class GameInstallController : GameInstaller.GameInstallerBase
                     return;
                 }
                 _gameInstallService.CurrentTask.RefreshSpeed();
-                await responseStream.WriteAsync(GameInstallTaskDTO.FromTask(_gameInstallService.CurrentTask));
+                await responseStream.WriteAsync(GameInstallContextDTO.FromTask(_gameInstallService.CurrentTask));
             }
         }
         catch (Exception ex)
@@ -130,11 +130,11 @@ internal class GameInstallController : GameInstaller.GameInstallerBase
 
 
 
-    private async void _gameInstallService_TaskStateChanged(object? sender, GameInstallTask e)
+    private async void _gameInstallService_TaskStateChanged(object? sender, GameInstallContext e)
     {
         if (_taskProgressStream is not null)
         {
-            await _taskProgressStream.WriteAsync(GameInstallTaskDTO.FromTask(e));
+            await _taskProgressStream.WriteAsync(GameInstallContextDTO.FromTask(e));
         }
     }
 

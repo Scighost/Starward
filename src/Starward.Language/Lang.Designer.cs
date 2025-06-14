@@ -3360,6 +3360,16 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Mapped network drives are not supported. Please use a network share path starting with double backslashes (\\). 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathSta" +
+                        "rtingWithDoubleBackslashes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 No write permission, please restart as administrator. 的本地化字符串。
         /// </summary>
         public static string InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator {

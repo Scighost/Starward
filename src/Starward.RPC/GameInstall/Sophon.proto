@@ -34,7 +34,9 @@ message SophonPatchManifest {
     // 新版本所有文件
     repeated SophonPatchFile patches = 1;
     // 需要删除的文件
-    // repeated SophonPatchDeleteInfo deletes = 2;
+    repeated SophonPatchDeleteTag delete_tags = 2;
+    // 压缩模式
+    int32 compress_mode = 3;
 }
 
 // Patch 更新模式，新版本游戏文件
@@ -70,10 +72,16 @@ message SophonPatch {
     string original_file_md5 = 10;
 }
 
-message SophonPatchDeleteInfo {
+
+message SophonPatchDeleteTag {
     // 更新前游戏版本
     string tag = 1;
-    repeated SophonPatchDeleteFile deletes = 2;
+    SophonPatchDeleteFileCollection delete_collection = 2;
+}
+
+
+message SophonPatchDeleteFileCollection {
+    repeated SophonPatchDeleteFile delete_files = 1;
 }
 
 // Patch 更新模式，需要删除文件

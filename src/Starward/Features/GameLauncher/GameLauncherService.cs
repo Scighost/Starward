@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameSetting;
@@ -146,7 +145,12 @@ internal partial class GameLauncherService
         if (File.Exists(config))
         {
             var str = await File.ReadAllTextAsync(config);
-            _ = Version.TryParse(GameVersionRegex().Match(str).Groups[1].Value, out Version? version);
+            var matches = GameVersionRegex().Matches(str);
+            Version? version = null;
+            if (matches.Count > 0)
+            {
+                _ = Version.TryParse(matches[^1].Groups[1].Value, out version);
+            }
             return version;
         }
         else
@@ -366,27 +370,6 @@ internal partial class GameLauncherService
         return null;
     }
 
-
-
-
-    /// <summary>
-    /// 选取并修改游戏安装目录
-    /// </summary>
-    /// <param name="gameId"></param>
-    /// <param name="xamlRoot"></param>
-    /// <returns></returns>
-    public static async Task<string?> ChangeGameInstallPathAsync(GameId gameId, XamlRoot xamlRoot)
-    {
-        string? folder = await FileDialogHelper.PickFolderAsync(xamlRoot);
-        if (string.IsNullOrWhiteSpace(folder))
-        {
-            return null;
-        }
-        string relativePath = GetRelativePathIfInRemovableStorage(folder, out bool removable);
-        AppConfig.SetGameInstallPath(gameId.GameBiz, relativePath);
-        AppConfig.SetGameInstallPathRemovable(gameId.GameBiz, removable);
-        return folder;
-    }
 
 
 

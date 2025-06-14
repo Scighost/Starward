@@ -297,11 +297,19 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            string? folder = await GameLauncherService.ChangeGameInstallPathAsync(CurrentGameId, this.XamlRoot);
+            string? folder = await FileDialogHelper.PickFolderAsync(this.XamlRoot);
             if (!string.IsNullOrWhiteSpace(folder))
             {
-                CheckGameVersion();
-                WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
+                if (DriveHelper.GetDriveType(folder) is DriveType.Network && !new Uri(folder).IsUnc)
+                {
+                    InAppToast.MainWindow?.Warning(null, Lang.InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes, 0);
+                }
+                else
+                {
+                    GameLauncherService.ChangeGameInstallPath(CurrentGameId, folder);
+                    CheckGameVersion();
+                    WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
+                }
             }
         }
         catch (Exception ex)
@@ -595,7 +603,7 @@ public sealed partial class GameLauncherPage : PageBase
             if (localGameVersion is not null && latestGameVersion > localGameVersion)
             {
                 AudioLanguage audio = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId, GameInstallPath);
-                GameInstallTask? task = await _gameInstallService.StartUpdateAsync(CurrentGameId, GameInstallPath!, audio);
+                GameInstallContext? task = await _gameInstallService.StartUpdateAsync(CurrentGameId, GameInstallPath!, audio);
                 if (task is not null)
                 {
                     _gameInstallTask = task;
@@ -624,7 +632,7 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
-    private GameInstallTask? _gameInstallTask;
+    private GameInstallContext? _gameInstallTask;
 
 
 

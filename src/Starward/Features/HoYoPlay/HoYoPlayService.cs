@@ -198,6 +198,8 @@ public class HoYoPlayService
             }
             config = list.FirstOrDefault(x => x.GameId == gameId);
         }
+        // 强制使用 Chunk 作为默认下载模式
+        config?.DefaultDownloadMode = DownloadMode.DOWNLOAD_MODE_CHUNK;
         return config;
     }
 

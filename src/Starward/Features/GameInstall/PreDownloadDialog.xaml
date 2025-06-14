@@ -115,7 +115,8 @@
         <StackPanel HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
                     Orientation="Horizontal"
-                    Spacing="4">
+                    Spacing="4"
+                    Visibility="Collapsed">
             <TextBlock Margin="0,0,0,2"
                        VerticalAlignment="Center"
                        FontSize="12"
