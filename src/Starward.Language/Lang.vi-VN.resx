@@ -1903,7 +1903,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Nhập vào</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffsetWarning" xml:space="preserve">
-    <value></value>
+    <value>Trước khi nhập vào, vui lòng chắc chắn thời gian lần cuối Cầu Nguyện giống với thời gian hiển thị trong game. Nếu chúng không giống, vui lòng đặt lại thời gian khu vực.</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffset" xml:space="preserve">
     <value>Time Zone Offset</value>
@@ -1930,7 +1930,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Encounter Points</value>
   </data>
   <data name="DailyNoteButton_Genshin_RealmCurrency" xml:space="preserve">
-    <value>Realm Currency</value>
+    <value>Tiền Động Tiên</value>
   </data>
   <data name="DailyNoteButton_Genshin_Expedition" xml:space="preserve">
     <value>Đã thám hiểm</value>
@@ -2092,7 +2092,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>UI Brightness</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MonitorInformation" xml:space="preserve">
-    <value>Monitor Information</value>
+    <value>Thông tin màn hình</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_ColorSpace" xml:space="preserve">
     <value>Color Space</value>
@@ -2131,7 +2131,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>System proxy is enabled.</value>
   </data>
   <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDR" xml:space="preserve">
-    <value>The current monitor does not support HDR.</value>
+    <value>Màn hình hiện tại không hỗ trợ HDR.</value>
   </data>
   <data name="GameSettingPage_WindowsHDRIsNotTurnedOn" xml:space="preserve">
     <value>Windows HDR is not turned on.</value>
@@ -2146,7 +2146,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Polychromes Claimed</value>
   </data>
   <data name="DailyNoteButton_0DaySRemaining" xml:space="preserve">
-    <value>{0} Day(s) Remaining</value>
+    <value>Còn lại {0} ngày</value>
   </data>
   <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
     <value>Mapped network drives are not supported. Please use a network share path starting with double backslashes (\\).</value>
