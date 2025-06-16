@@ -619,7 +619,7 @@ internal partial class GamePackageService
                 }
                 _logger.LogInformation("Hard link {GameBiz} link target path: {Target}", context.GameId.GameBiz, context.HardLinkPath);
             }
-            else if (gameBiz.Game is GameBiz.hkrpg && context.GameConfig!.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK)
+            else if (gameBiz.Game is GameBiz.hkrpg && context.GameConfig?.DefaultDownloadMode is not DownloadMode.DOWNLOAD_MODE_CHUNK)
             {
                 Version? hardLinkVersion = await GetLocalGameVersionAsync(context.HardLinkPath);
                 if (hardLinkVersion is not null && context.LatestGameVersion == hardLinkVersion.ToString())

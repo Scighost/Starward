@@ -873,6 +873,7 @@ internal partial class GameInstallHelper
             else
             {
                 await fs_ldiff.CopyToAsync(fs_tmp, cancellationToken);
+                result = true;
             }
             if (result)
             {
