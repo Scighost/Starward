@@ -2173,4 +2173,7 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
     <value>Сопоставленные сетевые диски не поддерживаются. Пожалуйста, используйте сетевой путь, начинающийся с двойного обратного слэша (\\).</value>
   </data>
+  <data name="ScreenCaptureInfoWindow_ScreenshotSaved" xml:space="preserve">
+    <value>Screenshot Saved</value>
+  </data>
 </root>
