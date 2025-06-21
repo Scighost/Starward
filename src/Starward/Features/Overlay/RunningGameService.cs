@@ -36,15 +36,11 @@ internal static class RunningGameService
 
     public static void AddRuninngGame(GameBiz gameBiz, Process process)
     {
-        return;
         try
         {
             lock (_runningGameLock)
             {
-                if (_runningGames.FirstOrDefault(x => x.Pid == process.Id) is RunningGame runningGame)
-                {
-                }
-                else
+                if (_runningGames.FirstOrDefault(x => x.Pid == process.Id) is not RunningGame runningGame)
                 {
                     runningGame = new RunningGame(gameBiz, process);
                     const uint EVENT_SYSTEM_FOREGROUND = 0x0003;

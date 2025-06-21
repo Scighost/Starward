@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+		<TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 		<LangVersion>preview</LangVersion>
 		<RootNamespace>Starward</RootNamespace>
@@ -32,6 +32,7 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250402" />
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.250402" />
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.2.250402" />
+		<PackageReference Include="ComputeSharp.D2D1.WinUI" Version="3.2.0" />
 		<PackageReference Include="Dapper" Version="2.1.66" />
 		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.3.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.6" />

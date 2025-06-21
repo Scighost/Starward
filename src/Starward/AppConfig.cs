@@ -22,6 +22,7 @@ using Starward.Features.GameRecord;
 using Starward.Features.HoYoPlay;
 using Starward.Features.PlayTime;
 using Starward.Features.RPC;
+using Starward.Features.Screenshot;
 using Starward.Features.SelfQuery;
 using Starward.Features.Update;
 using Starward.Features.ViewHost;
@@ -310,6 +311,8 @@ public static class AppConfig
 
             sc.AddSingleton<GameAuthLoginService>();
             sc.AddSingleton<GameAccountService>();
+
+            sc.AddSingleton<ScreenCaptureService>();
 
             _serviceProvider = sc.BuildServiceProvider();
         }

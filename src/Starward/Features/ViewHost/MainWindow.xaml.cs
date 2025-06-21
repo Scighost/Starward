@@ -8,6 +8,7 @@ using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.GameLauncher;
 using Starward.Features.Overlay;
+using Starward.Features.Screenshot;
 using Starward.Frameworks;
 using System;
 using System.ComponentModel;
@@ -43,6 +44,7 @@ public sealed partial class MainWindow : WindowEx
         if (AppConfig.EnableHotkey ?? false)
         {
             User32.RegisterHotKey(WindowHandle, 44444, User32.HotKeyModifiers.MOD_ALT | User32.HotKeyModifiers.MOD_NOREPEAT, (uint)User32.VK.VK_S);
+            User32.RegisterHotKey(WindowHandle, 44445, User32.HotKeyModifiers.MOD_ALT | User32.HotKeyModifiers.MOD_NOREPEAT, (uint)User32.VK.VK_A);
         }
     }
 
@@ -297,6 +299,11 @@ public sealed partial class MainWindow : WindowEx
                 {
                     this.Show();
                 }
+            }
+            else if (wParam == 44445)
+            {
+                // 截图
+                ScreenCaptureService.Capture();
             }
         }
         return base.WindowSubclassProc(hWnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);

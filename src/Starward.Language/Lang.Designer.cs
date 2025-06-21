@@ -4181,6 +4181,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Screenshot Saved 的本地化字符串。
+        /// </summary>
+        public static string ScreenCaptureInfoWindow_ScreenshotSaved {
+            get {
+                return ResourceManager.GetString("ScreenCaptureInfoWindow_ScreenshotSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Backed up {0} new screenshots. 的本地化字符串。
         /// </summary>
         public static string ScreenshotPage_BackedUpNewScreenshots {

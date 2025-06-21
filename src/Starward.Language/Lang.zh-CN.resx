@@ -2154,4 +2154,7 @@
   <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
     <value>不支持映射的网络驱动器，请使用以双反斜杠（\\）开头的网络共享路径。</value>
   </data>
+  <data name="ScreenCaptureInfoWindow_ScreenshotSaved" xml:space="preserve">
+    <value>截图已保存</value>
+  </data>
 </root>
