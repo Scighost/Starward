@@ -2151,4 +2151,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
     <value>Mapped network drives are not supported. Please use a network share path starting with double backslashes (\\).</value>
   </data>
+  <data name="ScreenCaptureInfoWindow_ScreenshotSaved" xml:space="preserve">
+    <value>Screenshot Saved</value>
+  </data>
 </root>
