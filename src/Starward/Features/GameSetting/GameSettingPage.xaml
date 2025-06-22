@@ -121,6 +121,10 @@
                             <ComboBoxItem Content="60" />
                             <ComboBoxItem Content="120" />
                         </ComboBox>
+                        <!-- 请确保游戏内图像质量选项设置为自定义以避免如上帧率设置被游戏预设覆盖 -->
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind lang:Lang.GameSettingPage_MakeSureThatTheInGameImageQualitySettingIsSetToCustomToMakeTheFrameRateSettingTakeEffect}"
+                                   TextWrapping="Wrap" />
                     </StackPanel>
 
                     <!--  原神 HDR  -->
