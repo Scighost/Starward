@@ -392,7 +392,7 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Tài khoản này không có bản ghi gacha trong 6 tháng gần nhất.</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>Tìm được {0} bản ghi, đã thêm {1} bản ghi.</value>
+    <value>Đã tìm được {0} bản ghi, đã thêm {1} bản ghi.</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
