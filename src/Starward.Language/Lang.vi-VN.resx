@@ -1933,76 +1933,76 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Tiền Động Tiên</value>
   </data>
   <data name="DailyNoteButton_Genshin_Expedition" xml:space="preserve">
-    <value>Đã thám hiểm</value>
+    <value>Phái Đi Thám Hiểm</value>
   </data>
   <data name="DailyNoteButton_StarRail_FullTime" xml:space="preserve">
-    <value>Full Time</value>
+    <value>Thời gian hồi đầy</value>
   </data>
   <data name="DailyNoteButton_StarRail_FullyRecovered" xml:space="preserve">
-    <value>Fully Recovered</value>
+    <value>Đã hồi đầy</value>
   </data>
   <data name="DailyNoteButton_StarRail_ReservedTrailblazePower" xml:space="preserve">
-    <value>Reserved Trailblaze Power</value>
+    <value>Sức Mạnh Khai Phá Dự Bị</value>
   </data>
   <data name="DailyNoteButton_StarRail_DailyTraining" xml:space="preserve">
-    <value>Daily Training</value>
+    <value>Huấn Luyện Mỗi Ngày</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
-    <value>Echo of War</value>
+    <value>Dư Âm Chiến Đấu</value>
   </data>
   <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
-    <value>Bonus Synchronicity Points</value>
+    <value>Điểm Đồng Bộ Thêm</value>
   </data>
   <data name="DailyNoteButton_StarRail_OngoingAssignments" xml:space="preserve">
-    <value>Ongoing Assignments</value>
+    <value>Thực Hiện Uỷ Thác</value>
   </data>
   <data name="DailyNoteButton_StarRail_AllFinished" xml:space="preserve">
-    <value>All Finished</value>
+    <value>Tất Cả Đã Hoàn Thành</value>
   </data>
   <data name="DailyNoteButton_StarRail_FinishedTime" xml:space="preserve">
-    <value>Finished Time</value>
+    <value>Thời Gian Hoàn Thành</value>
   </data>
   <data name="DailyNoteButton_ZZZ_BatteryCharge" xml:space="preserve">
-    <value>Battery Charge</value>
+    <value>Điện Lượng</value>
   </data>
   <data name="DailyNoteButton_ZZZ_DailyMissions" xml:space="preserve">
-    <value>Daily Missions</value>
+    <value>Nhiệm Vụ Ngày</value>
   </data>
   <data name="DailyNoteButton_ZZZ_EngagementToday" xml:space="preserve">
-    <value>Engagement Today</value>
+    <value>Năng Động Hôm Nay</value>
   </data>
   <data name="DailyNoteButton_ZZZ_ScratchCardMania" xml:space="preserve">
-    <value>Scratch Card Mania</value>
+    <value>Thẻ Cào</value>
   </data>
   <data name="DailyNoteButton_ZZZ_Complete" xml:space="preserve">
-    <value>Complete</value>
+    <value>Hoàn thành</value>
   </data>
   <data name="DailyNoteButton_ZZZ_Incomplete" xml:space="preserve">
     <value>Chưa Hoàn Thành</value>
   </data>
   <data name="DailyNoteButton_ZZZ_VideoStoreManagement" xml:space="preserve">
-    <value>Video Store Management</value>
+    <value>Kinh Doanh Tiệm Băng Hình</value>
   </data>
   <data name="DailyNoteButton_ZZZ_WaitingToOpen" xml:space="preserve">
     <value>Waiting to Open</value>
   </data>
   <data name="DailyNoteButton_ZZZ_CurrentlyOpen" xml:space="preserve">
-    <value>Currently Open</value>
+    <value>Đang kinh doanh</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RevenueAvailable" xml:space="preserve">
     <value>Revenue Available</value>
   </data>
   <data name="DailyNoteButton_ZZZ_SeasonMissions" xml:space="preserve">
-    <value>Season Missions</value>
+    <value>Nhiệm Vụ Chu Kỳ</value>
   </data>
   <data name="DailyNoteButton_ZZZ_BountyCommissionProgress" xml:space="preserve">
-    <value>Bounty Commission Progress</value>
+    <value>Tiến Độ Ủy Thác Treo Thưởng</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RemainingRefreshTime" xml:space="preserve">
     <value>Remaining Refresh Time</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RiduWeeklyPoints" xml:space="preserve">
-    <value>Ridu Weekly Points</value>
+    <value>Điểm Số Ridu Hàng Tuần</value>
   </data>
   <data name="Common_Disabled" xml:space="preserve">
     <value>Đã tắt</value>
@@ -2011,7 +2011,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Đã bật</value>
   </data>
   <data name="HoyolabToolboxPage_ShiyuDefense" xml:space="preserve">
-    <value>Shiyu Defense</value>
+    <value>Bảo Vệ Trụ Shiyu</value>
   </data>
   <data name="HoyolabToolboxPage_DeadlyAssault" xml:space="preserve">
     <value>Deadly Assault</value>
@@ -2065,19 +2065,19 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>It is normal for 120 FPS to display as 30 FPS in the game.</value>
   </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
-    <value>Enable HDR</value>
+    <value>Bật HDR</value>
   </data>
   <data name="Common_RestoreDefaults" xml:space="preserve">
     <value>Restore Defaults</value>
   </data>
   <data name="GameSettingPage_HDRBrightnessSetting" xml:space="preserve">
-    <value>HDR Brightness Setting</value>
+    <value>Cài đặt Độ sáng HDR</value>
   </data>
   <data name="GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsThePrimaryDisplay" xml:space="preserve">
-    <value>If you have multiple monitors, you need to set the HDR-supported monitor as the primary display.</value>
+    <value>Nếu bạn có nhiều màn hình, bạn cần phải cài đặt màn hình hỗ trợ HDR thành màn hình chính.</value>
   </data>
   <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled" xml:space="preserve">
-    <value>The current monitor does not support HDR or Windows HDR is not enabled.</value>
+    <value>Màn hình hiện tại không hỗ trợ HDR hoặc Windows HDR chưa được bật.</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_AdaptToMonitorBrightness" xml:space="preserve">
     <value>Tự động điều chỉnh theo độ sáng màn hình</value>
