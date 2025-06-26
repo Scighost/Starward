@@ -1,7 +1,6 @@
 using Microsoft.Graphics.Canvas;
 using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -11,9 +10,8 @@ using Windows.Graphics.DirectX;
 
 namespace Starward.Features.Screenshot;
 
-internal class ScreenCaptureContext
+internal class ScreenCaptureContext : IDisposable
 {
-
 
     public nint WindowHandle { get; private set; }
 
@@ -24,18 +22,14 @@ internal class ScreenCaptureContext
     public GraphicsCaptureSession? CaptureSession { get; private set; }
 
 
-
     public event EventHandler CaptureWindowClosed;
-
 
 
     private Lock _lock = new();
 
     private SizeInt32 lastSize;
 
-    private bool isStartCapture;
-
-    public bool _windowClosed;
+    private bool _windowClosed;
 
     private readonly ConcurrentQueue<TaskCompletionSource<Direct3D11CaptureFrame>> frameCompletionQueue = new();
 
@@ -55,21 +49,49 @@ internal class ScreenCaptureContext
     }
 
 
-
     private void OnCaptureItemClosed(GraphicsCaptureItem sender, object args)
     {
-        CaptureSession?.Dispose();
-        CaptureSession = null;
-        FramePool?.Dispose();
-        FramePool = null;
+        Dispose();
         _windowClosed = true;
         CaptureWindowClosed?.Invoke(this, EventArgs.Empty);
     }
 
 
+    public async Task<Direct3D11CaptureFrame> CaptureAsync(CancellationToken cancellationToken = default)
+    {
+        if (_windowClosed)
+        {
+            throw new InvalidOperationException("The capture context has been closed and cannot be used.");
+        }
+        var completionSource = new TaskCompletionSource<Direct3D11CaptureFrame>();
+        cancellationToken.Register(() => completionSource.TrySetCanceled());
+        frameCompletionQueue.Enqueue(completionSource);
+        StartCapture();
+        return await completionSource.Task.ConfigureAwait(false);
+    }
+
+
+    private void StartCapture()
+    {
+        try
+        {
+            if (CaptureSession is null)
+            {
+                Dispose();
+                RecreateResource();
+            }
+            CaptureSession!.StartCapture();
+        }
+        catch (ObjectDisposedException)
+        {
+            RecreateResource();
+            CaptureSession!.StartCapture();
+        }
+    }
+
+
     private void OnFrameArrived(Direct3D11CaptureFramePool sender, object args)
     {
-        Debug.WriteLine("Frame arrived");
         if (sender.TryGetNextFrame() is Direct3D11CaptureFrame frame)
         {
             if (lastSize == frame.ContentSize)
@@ -85,66 +107,24 @@ internal class ScreenCaptureContext
                 completionSource?.TrySetResult(frame);
                 if (frameCompletionQueue.IsEmpty)
                 {
-                    CaptureSession?.Dispose();
-                    CaptureSession = null;
-                    isStartCapture = false;
+                    Dispose();
                     RecreateResource();
                 }
             }
             else
             {
+                frame.Dispose();
                 FramePool?.Recreate(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 2, frame.ContentSize);
                 lastSize = frame.ContentSize;
-                frame.Dispose();
             }
         }
     }
-
-
-
-
-
-    public async Task<Direct3D11CaptureFrame> CaptureAsync(CancellationToken cancellationToken = default)
-    {
-        if (_windowClosed)
-        {
-            throw new InvalidOperationException("The capture context has been closed and cannot be used.");
-        }
-        if (frameCompletionQueue.Count >= 5)
-        {
-            throw new Exception("Too many pending capture requests, please try again later.");
-        }
-        var completionSource = new TaskCompletionSource<Direct3D11CaptureFrame>();
-        cancellationToken.Register(() => completionSource.TrySetCanceled());
-        frameCompletionQueue.Enqueue(completionSource);
-        if (CaptureSession is null)
-        {
-            RecreateResource();
-        }
-        if (!isStartCapture)
-        {
-            CaptureSession!.StartCapture();
-            isStartCapture = true;
-        }
-        return await completionSource.Task.ConfigureAwait(false);
-    }
-
 
 
     public void RecreateResource()
     {
         lock (_lock)
         {
-            if (CaptureSession is not null)
-            {
-                return;
-            }
-            FramePool?.Dispose();
-            FramePool = null;
-            if (_windowClosed)
-            {
-                return;
-            }
             FramePool = Direct3D11CaptureFramePool.CreateFreeThreaded(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 2, lastSize);
             FramePool.FrameArrived += OnFrameArrived;
             CaptureSession = FramePool.CreateCaptureSession(CaptureItem);
@@ -165,7 +145,13 @@ internal class ScreenCaptureContext
         }
     }
 
-
+    public void Dispose()
+    {
+        FramePool?.Dispose();
+        CaptureSession?.Dispose();
+        FramePool = null;
+        CaptureSession = null;
+    }
 
 }
 

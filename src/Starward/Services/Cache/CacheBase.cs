@@ -1,13 +1,15 @@
 using System;
+using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Hashing;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -335,7 +337,18 @@ public abstract class CacheBase<T>
     /// <returns>file name</returns>
     protected virtual string GetCacheFileName(Uri uri)
     {
-        return Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes(uri.ToString())));
+        byte[] hashBytes = ArrayPool<byte>.Shared.Rent(24);
+        try
+        {
+            ReadOnlySpan<byte> pathSpan = MemoryMarshal.AsBytes(uri.ToString().AsSpan());
+            XxHash64.Hash(pathSpan, hashBytes.AsSpan(0, 8));
+            MD5.HashData(pathSpan, hashBytes.AsSpan(8, 16));
+            return Convert.ToHexString(hashBytes.AsSpan(0, 24));
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(hashBytes);
+        }
     }
 
 

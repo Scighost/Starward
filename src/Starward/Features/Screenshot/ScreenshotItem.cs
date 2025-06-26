@@ -1,69 +1,98 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Starward.Features.Screenshot;
 
-public class ScreenshotItem
+public partial class ScreenshotItem
 {
 
-    public string Title { get; set; }
+    public string Name { get; set; }
 
     public string FullName { get; set; }
 
     public DateTime CreationTime { get; set; }
 
+    public string CreationTimeText { get; set; }
+
+    public string TimeMonth { get; set; }
+
+
+    public ScreenshotItem(string file) : this(new FileInfo(file))
+    {
+
+    }
+
 
     public ScreenshotItem(FileInfo info)
     {
         FullName = info.FullName;
-        var name = Path.GetFileNameWithoutExtension(info.Name);
+        Name = Path.GetFileNameWithoutExtension(info.Name);
+        if (TryParseCreationTime(Name, out var time))
+        {
+            CreationTime = time;
+        }
+        else
+        {
+            CreationTime = info.CreationTime;
+        }
+        CreationTimeText = CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
+        TimeMonth = CreationTime.ToString("yyyy-MM");
+    }
+
+
+
+    private static bool TryParseCreationTime(string name, out DateTime time)
+    {
+        // star rail
         if (name.StartsWith("StarRail_Image_"))
         {
             name = name["StarRail_Image_".Length..];
             if (int.TryParse(name, out int ts))
             {
-                var time = DateTimeOffset.FromUnixTimeSeconds(ts);
-                CreationTime = time.LocalDateTime;
-                Title = CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
-                return;
+                time = DateTimeOffset.FromUnixTimeSeconds(ts).LocalDateTime;
+                return true;
             }
         }
+        // cloud genshin
         if (name.StartsWith("GenshinlmpactPhoto "))
         {
             name = name["GenshinlmpactPhoto ".Length..];
-            if (DateTime.TryParseExact(name, "yyyy_MM_dd HH_mm_ss", null, DateTimeStyles.None, out var time1))
-            {
-                CreationTime = time1;
-                Title = CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
-                return;
-            }
+            return DateTime.TryParseExact(name, "yyyy_MM_dd HH_mm_ss", null, DateTimeStyles.None, out time);
         }
-        if (DateTime.TryParseExact(name, "yyyyMMddHHmmss", null, DateTimeStyles.None, out var time2))
+        // genshin zzz
+        if (DateTime.TryParseExact(name, "yyyyMMddHHmmss", null, DateTimeStyles.None, out time))
         {
-            CreationTime = time2;
-            Title = CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
-            return;
+            return true;
         }
-        if (DateTime.TryParseExact(name[..Math.Min(19, name.Length)], "yyyy-MM-dd-HH-mm-ss", null, DateTimeStyles.None, out var time3))
+        // honkai 3rd
+        if (DateTime.TryParseExact(name[..Math.Min(19, name.Length)], "yyyy-MM-dd-HH-mm-ss", null, DateTimeStyles.None, out time))
         {
-            CreationTime = time3;
-            Title = CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
-            return;
+            return true;
         }
-        if (string.IsNullOrWhiteSpace(Title))
+        // nvidia
+        if (DateTime.TryParseExact(NvidiaNameRegex().Match(name).Groups[1].Value, "yyyy.MM.dd - HH.mm.ss.ff", null, DateTimeStyles.None, out time))
         {
-            Title = name;
-            CreationTime = info.CreationTime;
+            return true;
         }
+        // xbox
+        if (DateTime.TryParseExact(name, "yyyy_M_d HH_mm_ss", null, DateTimeStyles.None, out time))
+        {
+            return true;
+        }
+        return false;
     }
 
 
+    [GeneratedRegex(@"(\d{4})\.(\d{2})\.(\d{2}) - (\d{2})\.(\d{2})\.(\d{2})\.(\d+)")]
+    private static partial Regex NvidiaNameRegex();
+
+
+
 }
-
-
 
 
 public class ScreenshotItemGroup : ObservableCollection<ScreenshotItem>

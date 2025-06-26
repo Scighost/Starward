@@ -649,6 +649,15 @@ public static class AppConfig
     }
 
 
+    /// <summary>
+    /// 截图文件夹
+    /// </summary>
+    public static string? ScreenshotFolder
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
 
     #endregion
 
@@ -810,6 +819,27 @@ public static class AppConfig
     public static void SetDisplayGachaBanners(GameBiz biz, string value)
     {
         SetValue(value, $"display_gacha_banners_{biz}");
+    }
+
+
+    /// <summary>
+    /// 外部截图文件夹
+    /// </summary>
+    /// <param name="biz"></param>
+    /// <returns></returns>
+    public static string? GetExternalScreenshotFolder(GameBiz biz)
+    {
+        return GetValue<string>(default, $"external_screenshot_folder_{biz}");
+    }
+
+    /// <summary>
+    /// 外部截图文件夹
+    /// </summary>
+    /// <param name="biz"></param>
+    /// <param name="value"></param>
+    public static void SetExternalScreenshotFolder(GameBiz biz, string? value)
+    {
+        SetValue(value, $"external_screenshot_folder_{biz}");
     }
 
 

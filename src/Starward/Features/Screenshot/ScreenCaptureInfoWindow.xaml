@@ -11,9 +11,6 @@
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
-
-
-
     <Grid x:Name="RootGrid"
           Padding="10"
           Background="#D0202020"
@@ -26,20 +23,23 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
+
+        <!--  截图  -->
         <Border Width="72"
                 Height="72"
-                Margin="8,0,0,0"
+                Margin="4,0,0,0"
                 VerticalAlignment="Center"
-                CornerRadius="4">
+                CornerRadius="4"
+                Visibility="{x:Bind IsSuccess}">
             <Image x:Name="ThumbnailImage"
                    Width="72"
                    Height="72" />
         </Border>
-
-
+        <!--  已保存  -->
         <StackPanel Grid.Column="1"
                     VerticalAlignment="Center"
-                    Spacing="2">
+                    Spacing="2"
+                    Visibility="{x:Bind IsSuccess}">
             <TextBlock IsTextScaleFactorEnabled="False"
                        Text="{x:Bind lang:Lang.ScreenCaptureInfoWindow_ScreenshotSaved}"
                        TextWrapping="Wrap" />
@@ -49,11 +49,54 @@
                        IsTextScaleFactorEnabled="False"
                        Visibility="Collapsed" />
         </StackPanel>
-
-
+        <!--  打开  -->
         <Button Grid.Column="2"
                 Command="{x:Bind OpenImageCommand}"
-                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                UseSystemFocusVisuals="False"
+                Visibility="{x:Bind IsSuccess}">
+            <StackPanel Spacing="8">
+                <FontIcon HorizontalAlignment="Center"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE8A7;"
+                          IsTextScaleFactorEnabled="False" />
+                <TextBlock HorizontalAlignment="Center"
+                           FontSize="12"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="{x:Bind lang:Lang.Common_Open}" />
+            </StackPanel>
+        </Button>
+
+
+        <!--  截图失败提示  -->
+        <Image Width="72"
+               Height="72"
+               Margin="4,0,0,0"
+               VerticalAlignment="Center"
+               Source="ms-appx:///Assets/Image/UI_EmotionIcon5.png"
+               Visibility="{x:Bind IsError}" />
+        <!--  错误提醒  -->
+        <StackPanel Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Spacing="2"
+                    Visibility="{x:Bind IsError}">
+            <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.ScreenCaptureInfoWindow_ScreenshotFailed}"
+                       TextWrapping="Wrap" />
+            <TextBlock FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.ScreenCaptureInfoWindow_CheckTheLogForMoreInformation}"
+                       TextWrapping="Wrap" />
+        </StackPanel>
+        <!--  打开  -->
+        <Button Grid.Column="2"
+                Command="{x:Bind OpenLogCommand}"
+                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                UseSystemFocusVisuals="False"
+                Visibility="{x:Bind IsError}">
             <StackPanel Spacing="8">
                 <FontIcon HorizontalAlignment="Center"
                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -69,6 +112,5 @@
 
 
     </Grid>
-
 
 </sf:WindowEx>

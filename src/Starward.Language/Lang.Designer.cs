@@ -449,6 +449,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Remove 的本地化字符串。
+        /// </summary>
+        public static string Common_Remove {
+            get {
+                return ResourceManager.GetString("Common_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Restart 的本地化字符串。
         /// </summary>
         public static string Common_Restart {
@@ -4181,11 +4190,56 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Check the log for more information. 的本地化字符串。
+        /// </summary>
+        public static string ScreenCaptureInfoWindow_CheckTheLogForMoreInformation {
+            get {
+                return ResourceManager.GetString("ScreenCaptureInfoWindow_CheckTheLogForMoreInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Screenshot Failed 的本地化字符串。
+        /// </summary>
+        public static string ScreenCaptureInfoWindow_ScreenshotFailed {
+            get {
+                return ResourceManager.GetString("ScreenCaptureInfoWindow_ScreenshotFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Screenshot Saved 的本地化字符串。
         /// </summary>
         public static string ScreenCaptureInfoWindow_ScreenshotSaved {
             get {
                 return ResourceManager.GetString("ScreenCaptureInfoWindow_ScreenshotSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Add Folder 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotFolderManageDialog_AddFolder {
+            get {
+                return ResourceManager.GetString("ScreenshotFolderManageDialog_AddFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Backing up... 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotFolderManageDialog_BackingUp {
+            get {
+                return ResourceManager.GetString("ScreenshotFolderManageDialog_BackingUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to backup screenshots. 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotFolderManageDialog_FailedToBackupScreenshots {
+            get {
+                return ResourceManager.GetString("ScreenshotFolderManageDialog_FailedToBackupScreenshots", resourceCulture);
             }
         }
         
@@ -4213,6 +4267,15 @@ namespace Starward.Language {
         public static string ScreenshotPage_GameScreenshot {
             get {
                 return ResourceManager.GetString("ScreenshotPage_GameScreenshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Manage Screenshot Folders 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotPage_ManageScreenshotFolders {
+            get {
+                return ResourceManager.GetString("ScreenshotPage_ManageScreenshotFolders", resourceCulture);
             }
         }
         
