@@ -2065,6 +2065,9 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
     <value>It is normal for 120 FPS to display as 30 FPS in the game.</value>
   </data>
+  <data name="GameSettingPage_DoNotChangeGraphicsQualitySettingInGame" xml:space="preserve">
+    <value>Do not change the "Graphics Quality" setting in-game to any option other than "Custom", to prevent frame rate configurations from malfunctioning.</value>
+  </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
     <value>Enable HDR</value>
   </data>
