@@ -2069,7 +2069,7 @@
     <value>В игре 120 FPS может отображаться как 30 FPS.</value>
   </data>
   <data name="GameSettingPage_DoNotChangeGraphicsQualitySettingInGame" xml:space="preserve">
-    <value>Do not change the "Graphics Quality" setting in-game to any option other than "Custom", to prevent frame rate configurations from malfunctioning.</value>
+    <value>Не изменяйте параметр "Качество графики" в игре на значение, отличное от "Пользовательское", чтобы избежать сбоев в настройках частоты кадров.</value>
   </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
     <value>Включить HDR</value>
