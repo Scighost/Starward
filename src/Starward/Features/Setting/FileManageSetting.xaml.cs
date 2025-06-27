@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using SharpSevenZip;
-using Starward.Controls;
 using Starward.Features.Database;
 using System;
 using System.Collections.Concurrent;
@@ -382,7 +381,6 @@ public sealed partial class FileManageSetting : UserControl
             await DeleteFolderAsync(Path.Combine(local, "update"));
             await DeleteFolderAsync(Path.Combine(local, "game"));
             await ClearDuplicateBgAsync();
-            CachedImage.ClearCache();
         }
         catch (Exception ex)
         {

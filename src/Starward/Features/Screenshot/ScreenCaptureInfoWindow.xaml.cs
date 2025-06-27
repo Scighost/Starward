@@ -21,6 +21,7 @@ using Vanara.PInvoke;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Graphics.DirectX;
+using Windows.Storage;
 using Windows.System;
 
 
@@ -30,12 +31,9 @@ namespace Starward.Features.Screenshot;
 public sealed partial class ScreenCaptureInfoWindow : WindowEx
 {
 
-
-
     private const int WindowWidth = 320;
 
     private const int WindowHeight = 100;
-
 
 
     public ScreenCaptureInfoWindow()
@@ -47,9 +45,6 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (_, _) => this.Bindings.Update());
         this.Closed += (_, _) => WeakReferenceMessenger.Default.UnregisterAll(this);
     }
-
-
-
 
 
     private void InitializeWindow()
@@ -72,15 +67,16 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     }
 
 
+    public bool IsSuccess { get; set => SetProperty(ref field, value); }
+
+    public bool IsError { get; set => SetProperty(ref field, value); }
+
 
     private int _repeatCount;
 
-
     private string _lastFile;
 
-
     private CanvasImageSource _imageSource;
-
 
     private CancellationTokenSource? _cancellationTokenSource;
 
@@ -99,6 +95,8 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     {
         try
         {
+            IsSuccess = true;
+            IsError = false;
             _lastFile = file;
             CropImage(hwnd, bitmap, maxCLL);
             _cancellationTokenSource?.Cancel();
@@ -106,12 +104,8 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
             _openImageCancellationToken = _cancellationTokenSource.Token;
             DisplayWindow(hwnd, _cancellationTokenSource.Token);
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch { }
     }
-
 
 
     /// <summary>
@@ -180,6 +174,25 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
         ThumbnailImage.Source = _imageSource;
     }
 
+
+    /// <summary>
+    /// 显示错误信息
+    /// </summary>
+    /// <param name="hwnd"></param>
+    /// <param name="ex"></param>
+    public void CaptureError(nint hwnd)
+    {
+        try
+        {
+            IsError = true;
+            IsSuccess = false;
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+            _openImageCancellationToken = _cancellationTokenSource.Token;
+            DisplayWindow(hwnd, _cancellationTokenSource.Token);
+        }
+        catch { }
+    }
 
 
 
@@ -255,14 +268,12 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     }
 
 
-
     private void ShowWindow(RectInt32 rect)
     {
         AppWindow.MoveAndResize(rect);
         User32.ShowWindow(WindowHandle, ShowWindowCommand.SW_SHOWNOACTIVATE);
         StartShowAnimation();
     }
-
 
 
     private async Task HideWindowAsync(CancellationToken cancellationToken)
@@ -277,11 +288,9 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
 
 
 
-
     private Vector3KeyFrameAnimation _showAnimation;
 
     private Vector3KeyFrameAnimation _hideAnimation;
-
 
 
     private void StartShowAnimation()
@@ -297,7 +306,6 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     }
 
 
-
     private void StartHideAnimation()
     {
         _contentVisual ??= ElementCompositionPreview.GetElementVisual(RootGrid);
@@ -311,10 +319,8 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     }
 
 
-
-
     [RelayCommand]
-    private async Task OpenImage()
+    private async Task OpenImageAsync()
     {
         try
         {
@@ -324,6 +330,23 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
         catch { }
     }
 
+
+    [RelayCommand]
+    private async Task OpenLogAsync()
+    {
+        try
+        {
+            var file = await StorageFile.GetFileFromPathAsync(AppConfig.LogFile);
+            if (file is not null)
+            {
+                var options = new FolderLauncherOptions();
+                options.ItemsToSelect.Add(file);
+                await Launcher.LaunchFolderAsync(await file.GetParentAsync(), options);
+                await HideWindowAsync(_openImageCancellationToken);
+            }
+        }
+        catch { }
+    }
 
 
 }
