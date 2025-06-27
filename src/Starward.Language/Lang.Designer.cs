@@ -2430,6 +2430,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Do not change the &quot;Graphics Quality&quot; setting in-game to any option other than &quot;Custom&quot;, to prevent frame rate configurations from malfunctioning. 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_DoNotChangeGraphicsQualitySettingInGame {
+            get {
+                return ResourceManager.GetString("GameSettingPage_DoNotChangeGraphicsQualitySettingInGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Enable HDR 的本地化字符串。
         /// </summary>
         public static string GameSettingPage_EnableHDR {
