@@ -238,6 +238,8 @@ internal static class GameSettingService
                     """;
             }
             value += "\0";
+            // 画质预设设置为0（自定义）时，帧率设置方能生效
+            Registry.SetValue(key, GraphicsSettings_GraphicsQuality_h523255858, 0);
             Registry.SetValue(key, GraphicsSettings_Model_h2986158309, Encoding.UTF8.GetBytes(value));
         }
     }
