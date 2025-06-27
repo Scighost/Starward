@@ -2067,8 +2067,8 @@
   <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
     <value>120 帧率在游戏中显示为 30 是正常现象。</value>
   </data>
-  <data name="GameSettingPage_MakeSureThatTheInGameImageQualitySettingIsSetToCustomToMakeTheFrameRateSettingTakeEffect" xml:space="preserve">
-    <value>请确保游戏内图像质量选项设置为自定义以避免如上帧率设置被游戏预设覆盖</value>
+  <data name="GameSettingPage_DoNotChangeGraphicsQualitySettingInGame" xml:space="preserve">
+    <value>请勿修改游戏内“图像质量”为“自定义”之外的选项，避免帧率设置失效。</value>
   </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
     <value>启用 HDR</value>
