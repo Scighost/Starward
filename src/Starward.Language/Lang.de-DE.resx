@@ -2062,12 +2062,6 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
     <value>Hide Gacha Banners</value>
   </data>
-  <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
-    <value>It is normal for 120 FPS to display as 30 FPS in the game.</value>
-  </data>
-  <data name="GameSettingPage_DoNotChangeGraphicsQualitySettingInGame" xml:space="preserve">
-    <value>Do not change the "Graphics Quality" setting in-game to any option other than "Custom", to prevent frame rate configurations from malfunctioning.</value>
-  </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
     <value>Enable HDR</value>
   </data>
@@ -2178,5 +2172,8 @@ You are welcome to submit the exported data to the following repository:</value>
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
     <value>Check the log for more information.</value>
+  </data>
+  <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
+    <value>Don't change the in-game "Graphics Quality" preset, or the FPS setting may not work. If you set 120 FPS but see 30 FPS in the game settings, that's expected.</value>
   </data>
 </root>
