@@ -2195,6 +2195,6 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>См. журнал для получения подробностей.</value>
   </data>
   <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
-    <value>Don't change the in-game "Graphics Quality" preset, or the FPS setting may not work. If you set 120 FPS but see 30 FPS in the game settings, that's expected.</value>
+    <value>Не изменяйте предустановку "Качество графики" в игре, иначе настройка FPS может не работать. Если вы установили 120 FPS, но в настройках игры отображается 30 FPS — это нормально.</value>
   </data>
 </root>
