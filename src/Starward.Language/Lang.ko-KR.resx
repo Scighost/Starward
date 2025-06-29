@@ -2064,12 +2064,6 @@
   <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
     <value>뽑기 배너 숨기기</value>
   </data>
-  <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
-    <value>120 FPS 로 설정시 게임내 오버레이에는 30 FPS 로 표시됩니다.</value>
-  </data>
-  <data name="GameSettingPage_DoNotChangeGraphicsQualitySettingInGame" xml:space="preserve">
-    <value>Do not change the "Graphics Quality" setting in-game to any option other than "Custom", to prevent frame rate configurations from malfunctioning.</value>
-  </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
     <value>HDR 활성화</value>
   </data>
@@ -2180,5 +2174,8 @@
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
     <value>Check the log for more information.</value>
+  </data>
+  <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
+    <value>Don't change the in-game "Graphics Quality" preset, or the FPS setting may not work. If you set 120 FPS but see 30 FPS in the game settings, that's expected.</value>
   </data>
 </root>
