@@ -2064,12 +2064,6 @@
   <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
     <value>隐藏卡池</value>
   </data>
-  <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
-    <value>120 帧率在游戏中显示为 30 是正常现象。</value>
-  </data>
-  <data name="GameSettingPage_DoNotChangeGraphicsQualitySettingInGame" xml:space="preserve">
-    <value>请勿修改游戏内“图像质量”为“自定义”之外的选项，避免帧率设置失效。</value>
-  </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
     <value>启用 HDR</value>
   </data>
@@ -2180,5 +2174,8 @@
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
     <value>查看日志了解更多信息</value>
+  </data>
+  <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
+    <value>请勿修改游戏内「图像质量」预设，避免帧率设置失效。若设置为 120 帧而游戏内显示为 30 帧，这是正常现象。</value>
   </data>
 </root>

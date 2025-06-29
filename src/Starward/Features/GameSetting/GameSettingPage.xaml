@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer>
-            <Grid Margin="24,20,0,24" ColumnSpacing="24">
+            <Grid Margin="24,20,24,24" ColumnSpacing="24">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -95,35 +95,17 @@
                     <StackPanel x:Name="StackPanel_StarRailFPS"
                                 Spacing="8"
                                 Visibility="Collapsed">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Bottom"
-                                       FontWeight="Bold"
-                                       Text="{x:Bind lang:Lang.GameSettingPage_FPS}" />
-                            <Button Margin="8,0,0,0"
-                                    Padding="1"
-                                    VerticalAlignment="Bottom"
-                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                                <FontIcon FontSize="14"
-                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                          Glyph="&#xE9CE;" />
-                                <Button.Flyout>
-                                    <Flyout>
-                                        <!--  帧率 120 在游戏内显示为 30 是正常现象  -->
-                                        <TextBlock MaxWidth="360"
-                                                   Text="{x:Bind lang:Lang.ItIsNormalFor120FPSToDisplayAs30FPSInTheGame}"
-                                                   TextWrapping="Wrap" />
-                                    </Flyout>
-                                </Button.Flyout>
-                            </Button>
-                        </StackPanel>
+                        <TextBlock VerticalAlignment="Bottom"
+                                   FontWeight="Bold"
+                                   Text="{x:Bind lang:Lang.GameSettingPage_FPS}" />
                         <ComboBox Width="120" SelectedIndex="{x:Bind StarRailFpsIndex, Mode=TwoWay}">
                             <ComboBoxItem Content="30" />
                             <ComboBoxItem Content="60" />
                             <ComboBoxItem Content="120" />
                         </ComboBox>
-                        <!-- 请勿修改游戏内“图像质量”为“自定义”之外的选项，避免帧率设置失效。 -->
+                        <!--  请勿将游戏内「图像质量」修改为「自定义」以外的选项  -->
                         <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="{x:Bind lang:Lang.GameSettingPage_DoNotChangeGraphicsQualitySettingInGame}"
+                                   Text="{x:Bind lang:Lang.GameSettingPage_StarRailFpsTip}"
                                    TextWrapping="Wrap" />
                     </StackPanel>
 
