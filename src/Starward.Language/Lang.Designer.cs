@@ -2421,15 +2421,6 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Do not change the &quot;Graphics Quality&quot; setting in-game to any option other than &quot;Custom&quot;, to prevent frame rate configurations from malfunctioning. 的本地化字符串。
-        /// </summary>
-        public static string GameSettingPage_DoNotChangeGraphicsQualitySettingInGame {
-            get {
-                return ResourceManager.GetString("GameSettingPage_DoNotChangeGraphicsQualitySettingInGame", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Enable HDR 的本地化字符串。
         /// </summary>
         public static string GameSettingPage_EnableHDR {
@@ -2634,6 +2625,15 @@ namespace Starward.Language {
         public static string GameSettingPage_ShadowQuality {
             get {
                 return ResourceManager.GetString("GameSettingPage_ShadowQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Don&apos;t change the in-game &quot;Graphics Quality&quot; preset, or the FPS setting may not work. If you set 120 FPS but see 30 FPS in the game settings, that&apos;s expected. 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_StarRailFpsTip {
+            get {
+                return ResourceManager.GetString("GameSettingPage_StarRailFpsTip", resourceCulture);
             }
         }
         
@@ -3537,15 +3537,6 @@ namespace Starward.Language {
         public static string InterKnotMonthlyReportPage_ShiyuDefenseRewards {
             get {
                 return ResourceManager.GetString("InterKnotMonthlyReportPage_ShiyuDefenseRewards", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 It is normal for 120 FPS to display as 30 FPS in the game. 的本地化字符串。
-        /// </summary>
-        public static string ItIsNormalFor120FPSToDisplayAs30FPSInTheGame {
-            get {
-                return ResourceManager.GetString("ItIsNormalFor120FPSToDisplayAs30FPSInTheGame", resourceCulture);
             }
         }
         

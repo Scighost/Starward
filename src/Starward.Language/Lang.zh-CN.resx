@@ -2064,12 +2064,6 @@
   <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
     <value>隐藏卡池</value>
   </data>
-  <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
-    <value>120 帧率在游戏中显示为 30 是正常现象。</value>
-  </data>
-  <data name="GameSettingPage_DoNotChangeGraphicsQualitySettingInGame" xml:space="preserve">
-    <value>请勿修改游戏内“图像质量”为“自定义”之外的选项，避免帧率设置失效。</value>
-  </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
     <value>启用 HDR</value>
   </data>
@@ -2156,5 +2150,32 @@
   </data>
   <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
     <value>不支持映射的网络驱动器，请使用以双反斜杠（\\）开头的网络共享路径。</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_ScreenshotSaved" xml:space="preserve">
+    <value>截图已保存</value>
+  </data>
+  <data name="ScreenshotPage_ManageScreenshotFolders" xml:space="preserve">
+    <value>管理截图文件夹</value>
+  </data>
+  <data name="ScreenshotFolderManageDialog_AddFolder" xml:space="preserve">
+    <value>添加文件夹</value>
+  </data>
+  <data name="ScreenshotFolderManageDialog_BackingUp" xml:space="preserve">
+    <value>备份中……</value>
+  </data>
+  <data name="Common_Remove" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="ScreenshotFolderManageDialog_FailedToBackupScreenshots" xml:space="preserve">
+    <value>备份截图失败</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_ScreenshotFailed" xml:space="preserve">
+    <value>截图失败</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
+    <value>查看日志了解更多信息</value>
+  </data>
+  <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
+    <value>请勿修改游戏内「图像质量」预设，避免帧率设置失效。若设置为 120 帧而游戏内显示为 30 帧，这是正常现象。</value>
   </data>
 </root>
