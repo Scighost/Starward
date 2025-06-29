@@ -2063,12 +2063,6 @@
   <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
     <value>隱藏卡池</value>
   </data>
-  <data name="ItIsNormalFor120FPSToDisplayAs30FPSInTheGame" xml:space="preserve">
-    <value>120 FPS 係遊戲入面顯示為 30 FPS 係正常狀況。</value>
-  </data>
-  <data name="GameSettingPage_DoNotChangeGraphicsQualitySettingInGame" xml:space="preserve">
-    <value>Do not change the "Graphics Quality" setting in-game to any option other than "Custom", to prevent frame rate configurations from malfunctioning.</value>
-  </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
     <value>開啟 HDR</value>
   </data>
@@ -2179,5 +2173,8 @@
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
     <value>Check the log for more information.</value>
+  </data>
+  <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
+    <value>Don't change the in-game "Graphics Quality" preset, or the FPS setting may not work. If you set 120 FPS but see 30 FPS in the game settings, that's expected.</value>
   </data>
 </root>
