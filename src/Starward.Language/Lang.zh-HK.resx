@@ -688,7 +688,7 @@
     <value>重新選擇資料目錄</value>
   </data>
   <data name="SettingPage_DeleteAllSettings" xml:space="preserve">
-    <value>Delete 所有設定</value>
+    <value>Delete 所有 Settings</value>
   </data>
   <data name="SettingPage_ClearCachedFiles" xml:space="preserve">
     <value>清除快取檔案</value>
@@ -1144,7 +1144,7 @@
     <value>捐贈</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
-    <value>URL 協議 (實驗緊)</value>
+    <value>URL 協議 (試驗緊)</value>
   </data>
   <data name="SettingPage_URLProtocolDesc" xml:space="preserve">
     <value>其他軟件可以透過 URL 協議使用 Starward 嘅部分功能</value>
@@ -1713,7 +1713,7 @@
     <value>RPC 服務</value>
   </data>
   <data name="SettingPage_RPCService_Desc" xml:space="preserve">
-    <value>RPC 服務係一個獨立嘅處理程序，用係下載遊戲、更新軟件、以及其他需要系統管理員權限嘅功能，避免重新啟動。</value>
+    <value>RPC 服務係一個獨立嘅處理程式，用係下載遊戲、更新軟件、以及其他需要系統管理員權限嘅功能，避免重新啟動。</value>
   </data>
   <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
     <value>保持 RPC 服務係後台工作</value>
@@ -2148,33 +2148,33 @@
     <value>仲有 {0} 日</value>
   </data>
   <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
-    <value>Mapped network drives are not supported. Please use a network share path starting with double backslashes (\\).</value>
+    <value>唔支援映射嘅網路驅動器。請使用以雙反斜線 (\\) 開頭嘅網路共享路徑。</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotSaved" xml:space="preserve">
-    <value>Screenshot Saved</value>
+    <value>Cap 圖已 save</value>
   </data>
   <data name="ScreenshotPage_ManageScreenshotFolders" xml:space="preserve">
-    <value>Manage Screenshot Folders</value>
+    <value>管理 Cap 圖資料夾</value>
   </data>
   <data name="ScreenshotFolderManageDialog_AddFolder" xml:space="preserve">
-    <value>Add Folder</value>
+    <value>增加資料夾</value>
   </data>
   <data name="ScreenshotFolderManageDialog_BackingUp" xml:space="preserve">
-    <value>Backing up...</value>
+    <value>Back up 緊……</value>
   </data>
   <data name="Common_Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>去除</value>
   </data>
   <data name="ScreenshotFolderManageDialog_FailedToBackupScreenshots" xml:space="preserve">
-    <value>Failed to backup screenshots.</value>
+    <value>Cap 圖資料夾 Back up 唔到</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotFailed" xml:space="preserve">
-    <value>Screenshot Failed</value>
+    <value>Cap 圖失敗</value>
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
-    <value>Check the log for more information.</value>
+    <value>查看日志嚟瞭解更多消息</value>
   </data>
   <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
-    <value>Don't change the in-game "Graphics Quality" preset, or the FPS setting may not work. If you set 120 FPS but see 30 FPS in the game settings, that's expected.</value>
+    <value>請你唔好更改游戲入面嘅「畫面品質」預設，防止 FPS settings 失效。如果 set 為 120 FPS 但係游戲入面顯示為 30 FPS ，呢個係正常現象。</value>
   </data>
 </root>
