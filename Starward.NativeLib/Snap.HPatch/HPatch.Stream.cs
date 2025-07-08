@@ -80,7 +80,7 @@ public static unsafe partial class HPatch
         {
             Handle = GCHandle.ToIntPtr(GCHandle.Alloc(stream));
             Length = length;
-            Read = &StreamWrite;
+            Read = &StreamRead;
             Write = &StreamWrite;
         }
 

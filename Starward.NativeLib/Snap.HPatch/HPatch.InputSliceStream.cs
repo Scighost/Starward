@@ -62,7 +62,15 @@ public static unsafe partial class HPatch
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            throw new NotSupportedException("Seeking is not supported in StreamInputStream.");
+            offset = origin switch
+            {
+                SeekOrigin.Begin => offset,
+                SeekOrigin.Current => Position + offset,
+                SeekOrigin.End => Length + offset,
+                _ => throw new ArgumentOutOfRangeException(nameof(origin), "Invalid seek origin.")
+            };
+            Position = offset;
+            return offset;
         }
 
         public override void SetLength(long value)

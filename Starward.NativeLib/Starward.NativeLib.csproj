@@ -4,7 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Version>0.3.0</Version>
+        <Version>0.3.1</Version>
         <Authors>Scighost</Authors>
         <PackageProjectUrl>https://github.com/Scighost/Starward/tree/large-resource</PackageProjectUrl>
         <Description>7z.dll v24.09
