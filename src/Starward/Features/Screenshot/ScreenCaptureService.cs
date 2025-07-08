@@ -206,7 +206,7 @@ internal class ScreenCaptureService
         int width = (int)renderTarget.SizeInPixels.Width;
         int height = (int)renderTarget.SizeInPixels.Height;
         using WicBitmapSource wicBitmapSource = WicBitmapSource.FromMemory(width, height, pixelFormatGuid, pixelBytes.Length / height, pixelBytes);
-        string metaPrefix = hdr ? "/idf" : "";
+        string metaPrefix = hdr ? "/ifd" : "";
         var metaList = new List<WicMetadataKeyValue>
         {
             new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, $"{metaPrefix}/xmp/xmp:CreatorTool"), "Starward Launcher", DirectN.PropertyType.VT_LPWSTR),
@@ -265,16 +265,16 @@ internal class ScreenCaptureService
     /// </summary>
     /// <param name="canvasBitmap"></param>
     /// <returns></returns>
-    private static float GetMaxCLL(CanvasBitmap canvasBitmap)
+    public static float GetMaxCLL(CanvasBitmap canvasBitmap)
     {
         float pixelScale = MathF.Min(0.5f, 2048f / MathF.Max(canvasBitmap.SizeInPixels.Width, canvasBitmap.SizeInPixels.Height));
-        var scaleEfect = new ScaleEffect
+        using var scaleEfect = new ScaleEffect
         {
             Source = canvasBitmap,
             Scale = new Vector2(pixelScale, pixelScale),
             BufferPrecision = CanvasBufferPrecision.Precision16Float,
         };
-        var colorEffect = new ColorMatrixEffect
+        using var colorEffect = new ColorMatrixEffect
         {
             Source = scaleEfect,
             ColorMatrix = new Matrix5x4(
@@ -283,20 +283,23 @@ internal class ScreenCaptureService
                 0.0722f / 125, 0, 0, 0,
                 0, 0, 0, 1,
                 0, 0, 0, 0),
+            BufferPrecision = CanvasBufferPrecision.Precision16Float,
         };
-        var gammaEffect = new GammaTransferEffect
+        using var gammaEffect = new GammaTransferEffect
         {
             Source = colorEffect,
             RedExponent = 0.1f,
             GreenDisable = true,
             BlueDisable = true,
             AlphaDisable = true,
+            BufferPrecision = CanvasBufferPrecision.Precision16Float,
         };
-        var histogramEffect = new HistogramEffect
+        using var histogramEffect = new HistogramEffect
         {
             Source = gammaEffect,
             NumBins = 512,
             ChannelSelect = HistogramEffectChannelSelector.R,
+            BufferPrecision = CanvasBufferPrecision.Precision16Float,
         };
         using CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(), 1, 1, 96);
         using var ds = renderTarget.CreateDrawingSession();

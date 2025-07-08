@@ -79,7 +79,7 @@ public partial class ScreenshotItem
             return true;
         }
         // xbox
-        if (DateTime.TryParseExact(name, "yyyy_M_d HH_mm_ss", null, DateTimeStyles.None, out time))
+        if (DateTime.TryParseExact(XBoxNameRegex().Match(name).Groups[1].Value, "yyyy_M_d H_mm_ss", null, DateTimeStyles.None, out time))
         {
             return true;
         }
@@ -89,6 +89,10 @@ public partial class ScreenshotItem
 
     [GeneratedRegex(@"(\d{4})\.(\d{2})\.(\d{2}) - (\d{2})\.(\d{2})\.(\d{2})\.(\d+)")]
     private static partial Regex NvidiaNameRegex();
+
+
+    [GeneratedRegex(@"(\d{4})_(\d{1,2})_(\d{1,2}) (\d{1,2})_(\d{2})_(\d{2})")]
+    private static partial Regex XBoxNameRegex();
 
 
 

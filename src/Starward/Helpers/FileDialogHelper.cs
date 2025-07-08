@@ -1,4 +1,4 @@
-﻿// https://referencesource.microsoft.com/#system.windows.forms/winforms/Managed/System/WinForms/FileDialog_Vista_Interop.cs
+// https://referencesource.microsoft.com/#system.windows.forms/winforms/Managed/System/WinForms/FileDialog_Vista_Interop.cs
 
 using Microsoft.UI.Xaml;
 using System;
@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
+using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 using static Starward.Helpers.FileDialogNative;
@@ -47,14 +48,13 @@ internal static class FileDialogHelper
             {
                 IFileOpenDialog? dialog = null;
                 IShellItem? shell = null;
-
                 try
                 {
                     dialog = new NativeFileOpenDialog();
-                    dialog.SetOptions(FOS.FOS_NOREADONLYRETURN | FOS.FOS_DONTADDTORECENT);
-
+                    dialog.GetOptions(out var options);
+                    options |= FOS.FOS_DONTADDTORECENT;
+                    dialog.SetOptions(options);
                     SetFileTypeFilter(dialog, fileTypeFilter);
-
                     try
                     {
                         ((HRESULT)dialog.Show(parentWindow)).ThrowIfFailed();
@@ -63,8 +63,6 @@ internal static class FileDialogHelper
                     {
                         return null;
                     }
-
-
                     dialog.GetResult(out shell);
                     shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var name);
                     return name;
@@ -82,6 +80,71 @@ internal static class FileDialogHelper
     public static async Task<string?> PickSingleFileAsync(XamlRoot xamlRoot, params (string Name, string Extension)[] fileTypeFilter)
     {
         return await PickSingleFileAsync((nint)xamlRoot.ContentIslandEnvironment.AppWindowId.Value, fileTypeFilter);
+    }
+
+
+    public static async Task<List<string>> PickMultipleFilesAsync(nint parentWindow, params (string Name, string Extension)[] fileTypeFilter)
+    {
+        try
+        {
+            var picker = new FileOpenPicker
+            {
+                SuggestedStartLocation = PickerLocationId.ComputerFolder
+            };
+            foreach (var filter in fileTypeFilter)
+            {
+                picker.FileTypeFilter.Add(filter.Extension);
+            }
+            InitializeWithWindow.Initialize(picker, parentWindow);
+            IReadOnlyList<StorageFile> files = await picker.PickMultipleFilesAsync();
+            return files.Select(x => x.Path).ToList();
+        }
+        catch (COMException)
+        {
+            return await Task.Run(() =>
+            {
+                IFileOpenDialog? dialog = null;
+                IShellItemArray? shellArray = null;
+                try
+                {
+                    dialog = new NativeFileOpenDialog();
+                    dialog.GetOptions(out var options);
+                    options |= FOS.FOS_ALLOWMULTISELECT;
+                    options |= FOS.FOS_DONTADDTORECENT;
+                    dialog.SetOptions(options);
+                    SetFileTypeFilter(dialog, fileTypeFilter);
+                    try
+                    {
+                        ((HRESULT)dialog.Show(parentWindow)).ThrowIfFailed();
+                    }
+                    catch (Win32Exception ex) when (ex.NativeErrorCode == ERROR_CANCELLED)
+                    {
+                        return [];
+                    }
+                    dialog.GetResults(out shellArray);
+                    shellArray.GetCount(out uint count);
+                    List<string> names = new List<string>((int)count);
+                    for (int i = 0; i < count; i++)
+                    {
+                        shellArray.GetItemAt((uint)i, out IShellItem shellItem);
+                        shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var name);
+                        names.Add(name);
+                    }
+                    return names;
+                }
+                finally
+                {
+                    if (dialog != null) Marshal.FinalReleaseComObject(dialog);
+                    if (shellArray != null) Marshal.FinalReleaseComObject(shellArray);
+                }
+            }).ConfigureAwait(false);
+        }
+    }
+
+
+    public static async Task<List<string>> PickMultipleFilesAsync(XamlRoot xamlRoot, params (string Name, string Extension)[] fileTypeFilter)
+    {
+        return await PickMultipleFilesAsync((nint)xamlRoot.ContentIslandEnvironment.AppWindowId.Value, fileTypeFilter);
     }
 
 
@@ -111,19 +174,19 @@ internal static class FileDialogHelper
             {
                 IFileSaveDialog? dialog = null;
                 IShellItem? shell = null;
-
                 try
                 {
                     dialog = new NativeFileSaveDialog();
-                    dialog.SetOptions(FOS.FOS_NOREADONLYRETURN | FOS.FOS_DONTADDTORECENT | FOS.FOS_OVERWRITEPROMPT);
-
+                    dialog.GetOptions(out var options);
+                    options |= FOS.FOS_NOREADONLYRETURN;
+                    options |= FOS.FOS_DONTADDTORECENT;
+                    options |= FOS.FOS_OVERWRITEPROMPT;
+                    dialog.SetOptions(options);
                     if (!string.IsNullOrWhiteSpace(fileName))
                     {
                         dialog.SetFileName(fileName);
                     }
-
                     var types = SetFileTypeFilter(dialog, fileTypeFilter);
-
                     try
                     {
                         ((HRESULT)dialog.Show(parentWindow)).ThrowIfFailed();
@@ -132,7 +195,6 @@ internal static class FileDialogHelper
                     {
                         return null;
                     }
-
                     dialog.GetResult(out shell);
                     shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var name);
                     dialog.GetFileTypeIndex(out uint index);
@@ -166,18 +228,18 @@ internal static class FileDialogHelper
         if (fileTypeFilter == null || count == 0)
         {
             count++;
-            types = new COMDLG_FILTERSPEC[] { new COMDLG_FILTERSPEC { pszName = "all", pszSpec = "*" } };
+            types = [new COMDLG_FILTERSPEC { pszName = "All", pszSpec = "*" }];
         }
         else
         if (count == 1)
         {
-            types = new COMDLG_FILTERSPEC[] { new COMDLG_FILTERSPEC { pszName = fileTypeFilter[0].Name, pszSpec = "*" + fileTypeFilter[0].Spec } };
+            types = [new COMDLG_FILTERSPEC { pszName = fileTypeFilter[0].Name, pszSpec = "*" + fileTypeFilter[0].Spec }];
         }
         else
         {
             count++;
             types = new COMDLG_FILTERSPEC[count];
-            types[0] = new COMDLG_FILTERSPEC { pszName = "all", pszSpec = string.Join(';', fileTypeFilter.Select(x => $"*{x.Spec}")) };
+            types[0] = new COMDLG_FILTERSPEC { pszName = "All", pszSpec = string.Join(';', fileTypeFilter.Select(x => $"*{x.Spec}")) };
             fileTypeFilter.Select(x => new COMDLG_FILTERSPEC { pszName = x.Name, pszSpec = x.Spec }).ToArray().CopyTo(types, 1);
         }
         dialog.SetFileTypes(count, types);
@@ -209,8 +271,11 @@ internal static class FileDialogHelper
                 try
                 {
                     dialog = new NativeFileOpenDialog();
-                    dialog.SetOptions(FOS.FOS_NOREADONLYRETURN | FOS.FOS_DONTADDTORECENT | FOS.FOS_PICKFOLDERS);
-
+                    dialog.GetOptions(out var options);
+                    options |= FOS.FOS_NOREADONLYRETURN;
+                    options |= FOS.FOS_DONTADDTORECENT;
+                    options |= FOS.FOS_PICKFOLDERS;
+                    dialog.SetOptions(options);
                     try
                     {
                         ((HRESULT)dialog.Show(parentWindow)).ThrowIfFailed();
@@ -219,7 +284,6 @@ internal static class FileDialogHelper
                     {
                         return null;
                     }
-
                     dialog.GetResult(out shell);
                     shell.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var name);
                     return name;

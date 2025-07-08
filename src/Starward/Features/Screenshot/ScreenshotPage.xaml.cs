@@ -81,7 +81,6 @@ public sealed partial class ScreenshotPage : PageBase
             _folders = null!;
             _screenshotDict.Clear();
             _screenshotDict = null!;
-            Screenshots?.Clear();
             Screenshots = null!;
             _defaultScrollController = null!;
             _detailLabelToolTip?.Content = null;
@@ -261,7 +260,7 @@ public sealed partial class ScreenshotPage : PageBase
 
 
 
-    private static bool IsSupportedExtension(string file)
+    public static bool IsSupportedExtension(string file)
     {
         return Path.GetExtension(file) is ".jpg" or ".png" or ".jxr";
     }
@@ -281,7 +280,17 @@ public sealed partial class ScreenshotPage : PageBase
         {
             if (Screenshots is not null)
             {
-                double offset = args.ScrollOffset / ItemsView_Images.ScrollView.ExtentHeight;
+                double offset = 0;
+                double viewportHeight = ItemsView_Images.ScrollView.ViewportHeight;
+                double extentHeight = ItemsView_Images.ScrollView.ExtentHeight;
+                if (args.ScrollOffset < viewportHeight / 2 || args.ScrollOffset > extentHeight - viewportHeight / 2)
+                {
+                    offset = args.ScrollOffset / ItemsView_Images.ScrollView.ExtentHeight;
+                }
+                else
+                {
+                    offset = (args.ScrollOffset + viewportHeight / 2) / ItemsView_Images.ScrollView.ExtentHeight;
+                }
                 if (offset < 0 || offset > 1)
                 {
                     args.Content = null;
@@ -508,10 +517,13 @@ public sealed partial class ScreenshotPage : PageBase
         {
             if (sender is FrameworkElement grid && grid.DataContext is ScreenshotItem item)
             {
-                new ImageViewWindow { CurrentImage = item, ImageCollection = Screenshots?.ToList(), }.Activate();
+                _ = new ImageViewWindow2().ShowWindowAsync(this.XamlRoot.ContentIslandEnvironment.AppWindowId, item, Screenshots);
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open ImageViewWindow");
+        }
     }
 
 

@@ -72,7 +72,7 @@ internal readonly partial struct SrgbEOTFShader : ID2D1PixelShader
         float4 color = D2D.GetInput(0);
         float3 rgb = color.RGB;
         float3 isLow = Hlsl.Step(rgb, 0.04045f);
-        rgb = Hlsl.Lerp(Hlsl.Pow(Hlsl.Abs((rgb + 0.055f) / 1.055f), 2.4f) - 0.055f, rgb / 12.92f, isLow);
+        rgb = Hlsl.Lerp(Hlsl.Pow(Hlsl.Abs((rgb + 0.055f) / 1.055f), 2.4f), rgb / 12.92f, isLow);
         return new float4(rgb, color.A);
     }
 

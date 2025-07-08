@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Window x:Class="Starward.Features.Screenshot.ImageViewWindow2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:lang="using:Starward.Language"
+        xmlns:local="using:Starward.Features.Screenshot"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mgcux="using:Microsoft.Graphics.Canvas.UI.Xaml"
+        xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+        xmlns:sc="using:Starward.Controls"
+        xmlns:sf="using:Starward.Frameworks"
+        Title="{x:Bind CurrentFileName}"
+        x:DefaultBindMode="OneWay"
+        mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid"
+          KeyDown="RootGrid_KeyDown"
+          Loaded="RootGrid_Loaded"
+          SizeChanged="Grid_SizeChanged"
+          Unloaded="RootGrid_Unloaded">
+        <Grid.Resources>
+            <local:ZoomFactorPercentConverter x:Key="ZoomFactorPercentConverter" />
+            <FontFamily x:Key="PhotoFluentIcons">ms-appx:///Assets/Font/PhotosIcons.ttf#Photos Fluent Icons</FontFamily>
+            <x:Boolean x:Key="False">False</x:Boolean>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="RowDefinition_0" Height="48" />
+            <RowDefinition />
+            <RowDefinition x:Name="RowDefinition_2" Height="Auto" />
+            <RowDefinition x:Name="RowDefinition_3" Height="48" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition x:Name="ColumnDefinition_1" Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+
+        <!--  图片文件名  -->
+        <TextBlock Grid.ColumnSpan="2"
+                   Margin="300,0,300,0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="12"
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   Text="{x:Bind CurrentFileName}"
+                   TextTrimming="CharacterEllipsis" />
+
+
+        <!--  左上角  -->
+        <StackPanel x:Name="StackPanel_LeftTopCommands"
+                    Grid.ColumnSpan="2"
+                    Padding="6,0,6,0"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    Spacing="6">
+            <!--  编辑图像  -->
+            <Button x:Name="Button_EditImage"
+                    Height="36"
+                    Padding="10,5,10,5"
+                    BorderThickness="0"
+                    Click="Button_EditImage_Click"
+                    Style="{ThemeResource AccentButtonStyle}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon FontFamily="{ThemeResource PhotoFluentIcons}"
+                              FontSize="16"
+                              Glyph="&#xEF77;"
+                              IsTextScaleFactorEnabled="False" />
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="12"
+                               IsTextScaleFactorEnabled="False"
+                               Text="{x:Bind lang:Lang.Common_Edit}" />
+                </StackPanel>
+            </Button>
+            <!--  打开菜单  -->
+            <Button x:Name="Button_OpenMenu"
+                    Width="40"
+                    Height="36"
+                    Margin="8,0,0,0"
+                    Padding="0"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE8DA;"
+                          IsTextScaleFactorEnabled="False" />
+                <Button.Flyout>
+                    <MenuFlyout x:Name="MenuFlyout_Open" Placement="BottomEdgeAlignedLeft">
+                        <!--  打开新文件  -->
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_OpenNewFile"
+                                        Click="MenuFlyoutItem_OpenNewFile_Click"
+                                        IsTextScaleFactorEnabled="False"
+                                        Text="{x:Bind lang:Lang.ImageViewWindow2_OpenNewFiles}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8E5;" IsTextScaleFactorEnabled="False" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <!--  在资源管理器中打开  -->
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_OpenInExplorer"
+                                        Click="MenuFlyoutItem_OpenInExplorer_Click"
+                                        IsTextScaleFactorEnabled="False"
+                                        Text="{x:Bind lang:Lang.ImageViewWindow2_OpenInExplorer}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEC50;" IsTextScaleFactorEnabled="False" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <!--  使用默认应用打开  -->
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_OpenWithDefault"
+                                        Click="MenuFlyoutItem_OpenWithDefault_Click"
+                                        IsTextScaleFactorEnabled="False"
+                                        Text="{x:Bind lang:Lang.ImageViewWindow2_OpenWithDefaultApp}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE91B;" IsTextScaleFactorEnabled="False" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <!--  打开方式  -->
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_OpenWith"
+                                        Click="MenuFlyoutItem_OpenWith_Click"
+                                        IsTextScaleFactorEnabled="False"
+                                        Text="{x:Bind lang:Lang.ImageViewWindow2_OpenWith}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE7AC;" IsTextScaleFactorEnabled="False" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+            <!--  复制菜单  -->
+            <Button x:Name="Button_CopyMenu"
+                    Width="40"
+                    Height="36"
+                    Padding="0"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE8C8;"
+                          IsTextScaleFactorEnabled="False" />
+                <Button.Flyout>
+                    <MenuFlyout x:Name="MenuFlyout_Copy" Placement="BottomEdgeAlignedLeft">
+                        <!--  复制文件  -->
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_CopyFile"
+                                        Click="MenuFlyoutItem_CopyFile_Click"
+                                        IsTextScaleFactorEnabled="False"
+                                        Text="{x:Bind lang:Lang.ImageViewWindow2_CopyFile}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xF413;" IsTextScaleFactorEnabled="False" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <!--  复制路径  -->
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_CopyPath"
+                                        Click="MenuFlyoutItem_CopyPath_Click"
+                                        IsTextScaleFactorEnabled="False"
+                                        Text="{x:Bind lang:Lang.ImageViewWindow2_CopyPath}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE62F;" IsTextScaleFactorEnabled="False" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <!--  复制图像  -->
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_CopyImage"
+                                        Click="MenuFlyoutItem_CopyImage_Click"
+                                        IsTextScaleFactorEnabled="False"
+                                        Text="{x:Bind lang:Lang.ImageViewWindow2_CopyImage}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8B9;" IsTextScaleFactorEnabled="False" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+            <!--  另存为  -->
+            <Button Width="40"
+                    Height="36"
+                    Padding="0"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind lang:Lang.ImageViewWindow2_SaveAs}">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE78C;"
+                          IsTextScaleFactorEnabled="False" />
+                <Button.Flyout>
+                    <Flyout x:Name="Flyout_SaveAs" Placement="BottomEdgeAlignedLeft">
+                        <StackPanel Spacing="12">
+                            <TextBlock IsTextScaleFactorEnabled="False"
+                                       Text="{x:Bind lang:Lang.ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature}"
+                                       TextWrapping="Wrap" />
+                            <Button x:Name="Button_SaveAs"
+                                    Click="Button_SaveAs_Click"
+                                    Content="{x:Bind lang:Lang.ImageViewWindow2_SaveAs}"
+                                    IsTextScaleFactorEnabled="False" />
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+            <!--  删除  -->
+            <Button Width="40"
+                    Height="36"
+                    Padding="0"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind lang:Lang.Common_Delete}">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE74D;"
+                          IsTextScaleFactorEnabled="False" />
+                <Button.Flyout>
+                    <Flyout x:Name="Flyout_DeleteImage" Placement="BottomEdgeAlignedLeft">
+                        <StackPanel Spacing="12">
+                            <TextBlock IsTextScaleFactorEnabled="False"
+                                       Text="{x:Bind lang:Lang.ImageViewWindow2_DeleteImageFile}"
+                                       TextWrapping="Wrap" />
+                            <Button x:Name="Button_DeleteImage"
+                                    Click="Button_DeleteImage_Click"
+                                    Content="{x:Bind lang:Lang.LauncherPage_ConfirmDelete}"
+                                    IsTextScaleFactorEnabled="False" />
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
+
+
+        <!--  右上角  -->
+        <StackPanel x:Name="StackPanel_RightTopCommands"
+                    Grid.ColumnSpan="2"
+                    Margin="0,0,144,0"
+                    Padding="0,0,4,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Spacing="6">
+            <!--  全屏  -->
+            <Button x:Name="Button_OpenFullScreen"
+                    Width="40"
+                    Height="36"
+                    Padding="0"
+                    Click="Button_OpenFullScreen_Click"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind lang:Lang.GameSettingPage_FullScreen}">
+                <FontIcon FontSize="14"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE740;"
+                          IsTextScaleFactorEnabled="False" />
+            </Button>
+            <AppBarSeparator Foreground="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
+        </StackPanel>
+
+
+        <!--  图片  -->
+        <ScrollViewer x:Name="ScrollViewer_Image"
+                      Grid.Row="1"
+                      HorizontalContentAlignment="Center"
+                      AllowDrop="True"
+                      DoubleTapped="ScrollViewer_Image_DoubleTapped"
+                      DragOver="ScrollViewer_Image_DragOver"
+                      Drop="ScrollViewer_Image_Drop"
+                      HorizontalScrollBarVisibility="Hidden"
+                      HorizontalScrollMode="Enabled"
+                      MaxZoomFactor="5"
+                      PointerMoved="ScrollViewer_Image_PointerMoved"
+                      PointerPressed="ScrollViewer_Image_PointerPressed"
+                      PointerReleased="ScrollViewer_Image_PointerReleased"
+                      PointerWheelChanged="ScrollViewer_Image_PointerWheelChanged"
+                      VerticalScrollBarVisibility="Hidden"
+                      VerticalScrollMode="Enabled"
+                      ZoomMode="Enabled">
+            <mgcux:CanvasSwapChainPanel x:Name="CanvasSwapChainPanel_Image"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+        </ScrollViewer>
+
+
+        <!--  上一张图  -->
+        <Button x:Name="Button_PreviousImage"
+                Grid.Row="1"
+                Width="80"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                Background="Transparent"
+                BorderThickness="0"
+                Click="Button_PreviousImage_Click"
+                CornerRadius="0"
+                Opacity="0"
+                ToolTipService.ToolTip="{x:Bind lang:Lang.ImageViewWindow2_Previous}"
+                Visibility="{x:Bind local:ImageViewWindow2.ObjectToVisibility(ScreenshotCollection)}">
+            <FontIcon Glyph="&#xE76B;" IsTextScaleFactorEnabled="False" />
+            <Button.Resources>
+                <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="ControlFillColorTransparentBrush" />
+                <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="ControlFillColorTransparentBrush" />
+                <Storyboard x:Key="ButtonShowAnimation">
+                    <DoubleAnimation Storyboard.TargetName="Button_PreviousImage"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="1"
+                                     Duration="0:0:0.083" />
+                </Storyboard>
+                <Storyboard x:Key="ButtonHideAnimation">
+                    <DoubleAnimation Storyboard.TargetName="Button_PreviousImage"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="0"
+                                     Duration="0:0:0.083" />
+
+                </Storyboard>
+            </Button.Resources>
+            <mxi:Interaction.Behaviors>
+                <mxi:EventTriggerBehavior EventName="PointerEntered">
+                    <mxi:ControlStoryboardAction Storyboard="{StaticResource ButtonShowAnimation}" />
+                </mxi:EventTriggerBehavior>
+                <mxi:EventTriggerBehavior EventName="PointerExited">
+                    <mxi:ControlStoryboardAction Storyboard="{StaticResource ButtonHideAnimation}" />
+                </mxi:EventTriggerBehavior>
+            </mxi:Interaction.Behaviors>
+        </Button>
+
+
+        <!--  下一张图  -->
+        <Button x:Name="Button_NextImage"
+                Grid.Row="1"
+                Width="80"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Right"
+                Background="Transparent"
+                BorderThickness="0"
+                Click="Button_NextImage_Click"
+                CornerRadius="0"
+                Opacity="0"
+                ToolTipService.ToolTip="{x:Bind lang:Lang.ImageViewWindow2_Next}"
+                Visibility="{x:Bind local:ImageViewWindow2.ObjectToVisibility(ScreenshotCollection)}">
+            <FontIcon Glyph="&#xE76C;" IsTextScaleFactorEnabled="False" />
+            <Button.Resources>
+                <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="ControlFillColorTransparentBrush" />
+                <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="ControlFillColorTransparentBrush" />
+                <Storyboard x:Key="ButtonShowAnimation">
+                    <DoubleAnimation Storyboard.TargetName="Button_NextImage"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="1"
+                                     Duration="0:0:0.083" />
+                </Storyboard>
+                <Storyboard x:Key="ButtonHideAnimation">
+                    <DoubleAnimation Storyboard.TargetName="Button_NextImage"
+                                     Storyboard.TargetProperty="Opacity"
+                                     To="0"
+                                     Duration="0:0:0.083" />
+
+                </Storyboard>
+            </Button.Resources>
+            <mxi:Interaction.Behaviors>
+                <mxi:EventTriggerBehavior EventName="PointerEntered">
+                    <mxi:ControlStoryboardAction Storyboard="{StaticResource ButtonShowAnimation}" />
+                </mxi:EventTriggerBehavior>
+                <mxi:EventTriggerBehavior EventName="PointerExited">
+                    <mxi:ControlStoryboardAction Storyboard="{StaticResource ButtonHideAnimation}" />
+                </mxi:EventTriggerBehavior>
+            </mxi:Interaction.Behaviors>
+        </Button>
+
+
+        <!--  没有要显示的图像  -->
+        <StackPanel x:Name="StackPanel_NoImage"
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="12"
+                    Visibility="Collapsed">
+            <TextBlock HorizontalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.ImageViewWindow2_NoImageToDisplay}" />
+            <Button x:Name="Button_OpenFiles"
+                    HorizontalAlignment="Center"
+                    Click="MenuFlyoutItem_OpenNewFile_Click"
+                    Content="{x:Bind lang:Lang.Common_OpenFiles}"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    IsTextScaleFactorEnabled="False" />
+        </StackPanel>
+
+
+        <!--  显示图像遇到错误  -->
+        <StackPanel x:Name="StackPanel_DisplayImageError"
+                    Grid.Row="1"
+                    Margin="48"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="12"
+                    Visibility="Collapsed">
+            <FontIcon HorizontalAlignment="Center"
+                      FontFamily="{ThemeResource PhotoFluentIcons}"
+                      FontSize="40"
+                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                      Glyph="&#xF86A;"
+                      IsTextScaleFactorEnabled="False" />
+            <TextBlock HorizontalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.ImageViewWindow2_FailedToDisplayImage}" />
+            <TextBlock x:Name="TextBlock_DisplayImageError"
+                       HorizontalAlignment="Center"
+                       FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       TextWrapping="Wrap" />
+        </StackPanel>
+
+
+        <!--  全屏时窗口按键  -->
+        <StackPanel x:Name="StackPanel_FullScreenWindowCaption"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed">
+            <!--  最小化  -->
+            <Button x:Name="Button_Minimize"
+                    Width="48"
+                    Height="48"
+                    Padding="0"
+                    BorderThickness="0"
+                    Click="Button_Minimize_Click"
+                    CornerRadius="0">
+                <FontIcon FontSize="10"
+                          Glyph="&#xE921;"
+                          IsTextScaleFactorEnabled="False" />
+                <Button.Resources>
+                    <StaticResource x:Key="ButtonBackground" ResourceKey="WindowCaptionButtonBackground" />
+                    <StaticResource x:Key="ButtonForeground" ResourceKey="TextFillColorSecondaryBrush" />
+                    <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="WindowCaptionButtonBackgroundPointerOver" />
+                    <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="WindowCaptionButtonBackgroundPressed" />
+                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="WindowCaptionButtonStrokePointerOver" />
+                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="WindowCaptionButtonStrokePressed" />
+                </Button.Resources>
+            </Button>
+            <!--  退出全屏  -->
+            <Button x:Name="Button_CloseFullScreen"
+                    Width="48"
+                    Height="48"
+                    Padding="0"
+                    BorderThickness="0"
+                    Click="Button_CloseFullScreen_Click"
+                    CornerRadius="0">
+                <FontIcon FontSize="12"
+                          Glyph="&#xE73F;"
+                          IsTextScaleFactorEnabled="False" />
+                <Button.Resources>
+                    <StaticResource x:Key="ButtonBackground" ResourceKey="WindowCaptionButtonBackground" />
+                    <StaticResource x:Key="ButtonForeground" ResourceKey="TextFillColorSecondaryBrush" />
+                    <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="WindowCaptionButtonBackgroundPointerOver" />
+                    <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="WindowCaptionButtonBackgroundPressed" />
+                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="WindowCaptionButtonStrokePointerOver" />
+                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="WindowCaptionButtonStrokePressed" />
+                </Button.Resources>
+            </Button>
+            <!--  关闭  -->
+            <Button x:Name="Button_CloseWindow"
+                    Width="48"
+                    Height="48"
+                    Padding="0"
+                    BorderThickness="0"
+                    Click="Button_CloseWindow_Click"
+                    CornerRadius="0">
+                <FontIcon FontSize="10"
+                          Glyph="&#xE8BB;"
+                          IsTextScaleFactorEnabled="False" />
+                <Button.Resources>
+                    <StaticResource x:Key="ButtonBackground" ResourceKey="WindowCaptionButtonBackground" />
+                    <StaticResource x:Key="ButtonForeground" ResourceKey="TextFillColorSecondaryBrush" />
+                    <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="CloseButtonBackgroundPointerOver" />
+                    <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="CloseButtonBackgroundPressed" />
+                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="CloseButtonStrokePointerOver" />
+                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="CloseButtonStrokePressed" />
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+
+
+        <!--  图片加载中  -->
+        <ProgressBar x:Name="ProgressBar_ImageLoading"
+                     Grid.Row="1"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Bottom"
+                     IsIndeterminate="True"
+                     Visibility="Collapsed" />
+
+
+        <!--  图库缩略图  -->
+        <GridView x:Name="GridView_ImageCollection"
+                  Grid.Row="2"
+                  Margin="0,8,0,0"
+                  HorizontalAlignment="Center"
+                  ItemsSource="{x:Bind ScreenshotCollection}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollMode="Enabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                  ScrollViewer.VerticalScrollMode="Disabled"
+                  SelectedItem="{x:Bind CurrentScreenshot}"
+                  SelectionChanged="GridView_ImageCollection_SelectionChanged"
+                  SelectionMode="Single"
+                  Visibility="{x:Bind ToggleButton_ShowGallery.IsChecked}">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="local:ScreenshotItem">
+                    <sc:CachedImage Width="128"
+                                    Height="72"
+                                    IsThumbnail="True"
+                                    Source="{x:Bind FullName}" />
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+
+
+        <!--  左下角  -->
+        <StackPanel Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    Margin="6,0,452,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="6">
+            <!--  显示图库  -->
+            <ToggleButton x:Name="ToggleButton_ShowGallery"
+                          Width="40"
+                          Height="36"
+                          Padding="0"
+                          IsEnabled="{x:Bind local:ImageViewWindow2.ObjectToBool(ScreenshotCollection)}"
+                          Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                          ToolTipService.ToolTip="{x:Bind lang:Lang.ImageViewWindow2_ShowGallery}">
+                <Grid>
+                    <FontIcon FontFamily="{ThemeResource PhotoFluentIcons}"
+                              FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="&#xEAB5;"
+                              IsTextScaleFactorEnabled="False"
+                              Visibility="{x:Bind local:ImageViewWindow2.ObjectToVisibilityReversed(ToggleButton_ShowGallery.IsChecked)}" />
+                    <FontIcon FontFamily="{ThemeResource PhotoFluentIcons}"
+                              FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="&#xEABF;"
+                              IsTextScaleFactorEnabled="False"
+                              Visibility="{x:Bind ToggleButton_ShowGallery.IsChecked}" />
+                </Grid>
+            </ToggleButton>
+            <!--  当前图片索引  -->
+            <TextBlock x:Name="TextBlock_ImageIndex"
+                       Margin="0,0,8,0"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Visibility="{x:Bind local:ImageViewWindow2.ObjectToVisibility(ScreenshotCollection)}">
+                <Run Text="{x:Bind local:ImageViewWindow2.AddOne(GridView_ImageCollection.SelectedIndex)}" /><Run Text="/" /><Run Text="{x:Bind ScreenshotCollection.Count}" />
+            </TextBlock>
+            <AppBarSeparator Foreground="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
+            <!--  像素大小  -->
+            <FontIcon Margin="12,0,4,0"
+                      FontSize="16"
+                      Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                      Glyph="&#xE61F;"
+                      IsTextScaleFactorEnabled="False"
+                      Visibility="{x:Bind local:ImageViewWindow2.ObjectToVisibility(CurrentPixelSizeText)}" />
+            <TextBlock VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind CurrentPixelSizeText}"
+                       Visibility="{x:Bind local:ImageViewWindow2.ObjectToVisibility(CurrentPixelSizeText)}" />
+            <!--  文件大小  -->
+            <FontIcon Margin="12,0,4,0"
+                      FontSize="16"
+                      Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                      Glyph="&#xE74E;"
+                      IsTextScaleFactorEnabled="False"
+                      Visibility="{x:Bind local:ImageViewWindow2.ObjectToVisibility(CurrentFileSizeText)}" />
+            <TextBlock VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind CurrentFileSizeText}"
+                       Visibility="{x:Bind local:ImageViewWindow2.ObjectToVisibility(CurrentFileSizeText)}" />
+        </StackPanel>
+
+
+        <!--  右下角  -->
+        <StackPanel Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    Margin="6,0,6,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="6">
+            <!--  适应页面  -->
+            <Button x:Name="Button_ZoomToFitFactor"
+                    Width="40"
+                    Height="36"
+                    Padding="0"
+                    Click="Button_ZoomToFitFactor_Click"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind lang:Lang.ImageViewWindow2_FitToWindow}">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE9A6;"
+                          IsTextScaleFactorEnabled="False" />
+            </Button>
+            <!--  缩放率  -->
+            <TextBlock MinWidth="36"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       HorizontalTextAlignment="Center"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind ScrollViewer_Image.ZoomFactor.ToString('P0', x:Null)}" />
+            <!--  缩小  -->
+            <Button x:Name="Button_ZoomOut"
+                    Width="40"
+                    Height="36"
+                    Padding="0"
+                    Click="Button_ZoomOut_Click"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind lang:Lang.ImageViewPage_ZoomOut}">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE71F;"
+                          IsTextScaleFactorEnabled="False" />
+            </Button>
+            <!--  缩放滑块  -->
+            <Slider x:Name="Slider_ZoomFactor"
+                    Width="160"
+                    VerticalAlignment="Center"
+                    ManipulationDelta="Slider_ZoomFactor_ManipulationDelta"
+                    ManipulationMode="TranslateX,System"
+                    Maximum="5"
+                    Minimum="0.1"
+                    StepFrequency="0.01"
+                    ThumbToolTipValueConverter="{StaticResource ZoomFactorPercentConverter}"
+                    Value="{x:Bind ScrollViewer_Image.ZoomFactor}" />
+            <!--  放大  -->
+            <Button x:Name="Button_ZoomIn"
+                    Width="40"
+                    Height="36"
+                    Padding="0"
+                    Click="Button_ZoomIn_Click"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind lang:Lang.ImageViewPage_ZoomIn}">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE8A3;"
+                          IsTextScaleFactorEnabled="False" />
+            </Button>
+        </StackPanel>
+
+
+        <!--  编辑  -->
+        <Grid x:Name="Grid_EditImage"
+              Grid.Row="1"
+              Grid.Column="1"
+              Width="360"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              BorderThickness="1"
+              CornerRadius="8,0,0,8"
+              Visibility="Collapsed">
+            <ScrollViewer Padding="12">
+                <StackPanel>
+                    <TextBlock Margin="0,0,0,20"
+                               FontSize="20"
+                               Text="{x:Bind lang:Lang.ImageViewWindow2_EditImage}" />
+                    <!--  显示模式  -->
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.ImageViewWindow2_DisplayMode}" />
+                        <cwc:Segmented x:Name="Segmented_DisplayMode"
+                                       IsTextScaleFactorEnabled="False"
+                                       SelectedIndex="{x:Bind DisplayMode, Mode=TwoWay}">
+                            <cwc:SegmentedItem Width="80" Content="Auto" />
+                            <cwc:SegmentedItem Width="80" Content="SDR" />
+                            <cwc:SegmentedItem Width="80" Content="HDR" />
+                        </cwc:Segmented>
+                    </StackPanel>
+                    <!--  SDK 映射亮度  -->
+                    <TextBlock Margin="0,12,0,0"
+                               IsTextScaleFactorEnabled="False"
+                               Text="{x:Bind lang:Lang.ImageViewWindow2_SDRMappedLuminance}" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock MinWidth="60"
+                                   VerticalAlignment="Center"
+                                   IsTextScaleFactorEnabled="False">
+                            <Run Text="{x:Bind SDRLuminance}" />
+                            <Run Text="nits" />
+                        </TextBlock>
+                        <Slider MinWidth="260"
+                                Maximum="500"
+                                Minimum="100"
+                                Value="{x:Bind SDRLuminance, Mode=TwoWay}" />
+                    </StackPanel>
+                    <!--  导出图像  -->
+                    <Button x:Name="Button_ExportImage"
+                            Height="32"
+                            Margin="0,12,0,0"
+                            BorderThickness="0"
+                            Click="Button_ExportImage_Click"
+                            Style="{ThemeResource AccentButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon FontSize="16" Glyph="&#xE792;" />
+                            <TextBlock Text="{x:Bind lang:Lang.ImageViewWindow2_ExportImage}" />
+                        </StackPanel>
+                    </Button>
+                    <!--  分割线  -->
+                    <MenuFlyoutSeparator Margin="0,12,0,12" />
+                    <!--  图像信息  -->
+                    <TextBlock IsTextScaleFactorEnabled="False" Text="{x:Bind lang:Lang.ImageViewWindow2_ImageInformation}" />
+                    <TextBlock Margin="0,4,0,0"
+                               FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               IsTextScaleFactorEnabled="False"
+                               Text="{x:Bind ImageInformationText}" />
+                    <!--  显示器信息  -->
+                    <TextBlock Margin="0,12,0,0"
+                               IsTextScaleFactorEnabled="False"
+                               Text="{x:Bind lang:Lang.GenshinHDRLuminanceSettingDialog_MonitorInformation}" />
+                    <TextBlock Margin="0,4,0,0"
+                               FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               IsTextScaleFactorEnabled="False"
+                               Text="{x:Bind MonitorInformationText}" />
+                </StackPanel>
+            </ScrollViewer>
+            <!--  关闭编辑面板  -->
+            <Button x:Name="Button_CloseEditGrid"
+                    Width="36"
+                    Height="36"
+                    Margin="4"
+                    Padding="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Click="Button_CloseEditGrid_Click"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE711;"
+                          IsTextScaleFactorEnabled="False" />
+            </Button>
+        </Grid>
+
+
+        <!--  提醒  -->
+        <InfoBar x:Name="InfoBar_Tips"
+                 Grid.RowSpan="4"
+                 Grid.ColumnSpan="2"
+                 MaxWidth="600"
+                 Margin="100,0,100,80"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Bottom"
+                 IsOpen="False" />
+
+
+
+    </Grid>
+
+</Window>

@@ -46,6 +46,7 @@ internal static class RunningGameService
                     const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
                     runningGame.WinEventHook = User32.SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, HINSTANCE.NULL, hookProc, (uint)process.Id, 0, User32.WINEVENT.WINEVENT_OUTOFCONTEXT);
                     _runningGames.Add(runningGame);
+                    _latestActiveGame = runningGame;
                     Debug.WriteLine($"Added running game: {runningGame.Name} ({runningGame.Pid})");
                 }
                 _timer.Start();

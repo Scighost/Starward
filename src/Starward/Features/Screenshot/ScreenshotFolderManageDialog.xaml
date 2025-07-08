@@ -35,19 +35,12 @@
 
 
         <TextBlock Margin="24,24,0,12"
-                   FontSize="16"
-                   Text="{x:Bind lang:Lang.ScreenshotPage_ManageScreenshotFolders}" />
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                   Text="{x:Bind lang:Lang.ScreenshotFolderManageDialog_ImagesFromTheFollowingFoldersWillBeDisplayedInTheGallery}"
+                   TextWrapping="Wrap" />
 
 
         <MenuFlyoutSeparator Grid.Row="1" Margin="24,0,24,0" />
-
-        <!--  添加文件夹  -->
-        <Button Margin="0,0,24,8"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Command="{x:Bind AddFolderCommand}">
-            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ScreenshotFolderManageDialog_AddFolder}" />
-        </Button>
 
 
         <ListView Grid.Row="2"
@@ -135,6 +128,16 @@
                    Visibility="Collapsed" />
 
 
+        <!--  添加文件夹  -->
+        <Button Grid.Row="4"
+                Margin="24"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Command="{x:Bind AddFolderCommand}">
+            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ScreenshotFolderManageDialog_AddFolder}" />
+        </Button>
+
+
         <!--  保存 / 取消  -->
         <StackPanel Grid.Row="4"
                     Margin="24"
@@ -147,7 +150,6 @@
                     Style="{ThemeResource AccentButtonStyle}" />
             <Button Command="{x:Bind CancelCommand}" Content="{x:Bind lang:Lang.Common_Cancel}" />
         </StackPanel>
-
 
 
     </Grid>
