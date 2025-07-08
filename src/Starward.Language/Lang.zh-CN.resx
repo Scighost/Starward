@@ -2178,4 +2178,94 @@
   <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
     <value>请勿修改游戏内「图像质量」预设，避免帧率设置失效。若设置为 120 帧而游戏内显示为 30 帧，这是正常现象。</value>
   </data>
+  <data name="ScreenshotFolderManageDialog_ImagesFromTheFollowingFoldersWillBeDisplayedInTheGallery" xml:space="preserve">
+    <value>以下文件夹中的图片都会显示在图库中</value>
+  </data>
+  <data name="ImageViewWindow2_OpenInExplorer" xml:space="preserve">
+    <value>在资源管理器中打开</value>
+  </data>
+  <data name="ImageViewWindow2_OpenWith" xml:space="preserve">
+    <value>打开方式</value>
+  </data>
+  <data name="ImageViewWindow2_Previous" xml:space="preserve">
+    <value>上一个</value>
+    <comment>Previous Image</comment>
+  </data>
+  <data name="ImageViewWindow2_Next" xml:space="preserve">
+    <value>下一个</value>
+    <comment>Next Image</comment>
+  </data>
+  <data name="ImageViewWindow2_ShowGallery" xml:space="preserve">
+    <value>显示图库</value>
+  </data>
+  <data name="ImageViewWindow2_FitToWindow" xml:space="preserve">
+    <value>适应窗口大小</value>
+    <comment>Zoom image fit to window</comment>
+  </data>
+  <data name="ImageViewWindow2_CopyFile" xml:space="preserve">
+    <value>复制文件</value>
+  </data>
+  <data name="ImageViewWindow2_CopyPath" xml:space="preserve">
+    <value>复制路径</value>
+  </data>
+  <data name="ImageViewWindow2_CopyImage" xml:space="preserve">
+    <value>复制图像</value>
+  </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="ImageViewWindow2_SaveAs" xml:space="preserve">
+    <value>另存为</value>
+  </data>
+  <data name="ImageViewWindow2_ImageInformation" xml:space="preserve">
+    <value>图像信息</value>
+  </data>
+  <data name="ImageViewWindow2_EditImage" xml:space="preserve">
+    <value>编辑图像</value>
+  </data>
+  <data name="ImageViewWindow2_DisplayMode" xml:space="preserve">
+    <value>显示模式</value>
+  </data>
+  <data name="ImageViewWindow2_SDRMappedLuminance" xml:space="preserve">
+    <value>SDR 映射亮度</value>
+  </data>
+  <data name="ImageViewWindow2_Auto" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="ImageViewWindow2_ExportImage" xml:space="preserve">
+    <value>导出图像</value>
+  </data>
+  <data name="ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature" xml:space="preserve">
+    <value>如需将 HDR 图像转换为 SDR，请使用「编辑」功能。</value>
+  </data>
+  <data name="ImageViewWindow2_DeleteImageFile" xml:space="preserve">
+    <value>删除图像文件</value>
+  </data>
+  <data name="ImageViewWindow2_CopiedToClipboard" xml:space="preserve">
+    <value>已复制到剪贴板</value>
+  </data>
+  <data name="ImageViewWindow2_FileDoesNotExist" xml:space="preserve">
+    <value>文件不存在</value>
+  </data>
+  <data name="ImageViewWindow2_OpenWithDefaultApp" xml:space="preserve">
+    <value>使用默认应用打开</value>
+  </data>
+  <data name="ImageViewWindow2_NoImageToDisplay" xml:space="preserve">
+    <value>没有要显示的图像</value>
+  </data>
+  <data name="Common_OpenFiles" xml:space="preserve">
+    <value>打开文件</value>
+  </data>
+  <data name="ImageViewWindow2_OpenNewFiles" xml:space="preserve">
+    <value>打开新文件</value>
+  </data>
+  <data name="ImageViewWindow2_FailedToDisplayImage" xml:space="preserve">
+    <value>图像加载失败</value>
+  </data>
+  <data name="ImageViewWindow2_FailedToSaveImage" xml:space="preserve">
+    <value>保存图像失败</value>
+  </data>
+  <data name="ImageViewWindow2_FailedToDeleteImageFile" xml:space="preserve">
+    <value>删除图像文件失败</value>
+  </data>
 </root>
