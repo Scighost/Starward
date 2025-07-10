@@ -2266,4 +2266,40 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="ImageViewWindow2_FailedToDeleteImageFile" xml:space="preserve">
     <value>Failed to Delete Image File</value>
   </data>
+  <data name="ImageViewWindow2_UnableToDeleteTheFile" xml:space="preserve">
+    <value>Unable to Delete the File</value>
+  </data>
+  <data name="ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse" xml:space="preserve">
+    <value>Insufficient permissions or the file is in use.</value>
+  </data>
+  <data name="HotkeyInput_ClickToSetShortcutKeys" xml:space="preserve">
+    <value>Click to Set Shortcut Keys</value>
+  </data>
+  <data name="HotkeyInput_PressTheShortcutKeys" xml:space="preserve">
+    <value>Press the Shortcut Keys</value>
+  </data>
+  <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUse" xml:space="preserve">
+    <value>The shortcut keys ({0}) is already in use.</value>
+  </data>
+  <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0" xml:space="preserve">
+    <value>Failed to register the shortcut keys ({0}).</value>
+  </data>
+  <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUsePleaseModifyItInSettingsPage" xml:space="preserve">
+    <value>The shortcut keys ({0}) is already in use. Please modify it in Settings page.</value>
+  </data>
+  <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0PleaseRetryInSettingsPage" xml:space="preserve">
+    <value>Failed to register the shortcut keys ({0}). Please retry in Settings page.</value>
+  </data>
+  <data name="ScreenshotSetting_ScreenshotShortcut" xml:space="preserve">
+    <value>Screenshot Shortcut</value>
+  </data>
+  <data name="HotkeySetting_OpenMainWindow" xml:space="preserve">
+    <value>Open Main Window</value>
+  </data>
+  <data name="HotkeySetting_FailedToRegisterTheShortcutKeys" xml:space="preserve">
+    <value>Failed to register the shortcut keys.</value>
+  </data>
+  <data name="SettingPage_KeyboardShortcut" xml:space="preserve">
+    <value>Keyboard Shortcut</value>
+  </data>
 </root>
