@@ -113,8 +113,6 @@ public static class AppConfig
                 string text = File.ReadAllText(ConfigPath);
                 string lang = Regex.Match(text, @"Language=(.+)").Groups[1].Value.Trim();
                 string folder = Regex.Match(text, @"UserDataFolder=(.+)").Groups[1].Value.Trim();
-                bool.TryParse(Regex.Match(text, @"EnableHotkey=(.+)").Groups[1].Value.Trim(), out bool hotkey);
-                EnableHotkey = hotkey;
                 bool.TryParse(Regex.Match(text, @"EnableLoginAuthTicket=(.+)").Groups[1].Value.Trim(), out bool enabled);
                 EnableLoginAuthTicket = enabled;
                 stoken = Regex.Match(text, @"stoken=(.+)").Groups[1].Value.Trim();
@@ -187,9 +185,6 @@ public static class AppConfig
     public static string LogFile { get; private set; }
 
 
-    public static bool? EnableHotkey { get; set; }
-
-
     public static bool? EnableLoginAuthTicket { get; set; }
 
     public static string? stoken { get; set; }
@@ -218,10 +213,6 @@ public static class AppConfig
             {
                 sb.AppendLine($"Language={Language}");
                 sb.AppendLine($"UserDataFolder=");
-            }
-            if (EnableHotkey.HasValue)
-            {
-                sb.AppendLine($"{nameof(EnableHotkey)}={EnableHotkey}");
             }
             if (EnableLoginAuthTicket.HasValue)
             {
@@ -659,6 +650,28 @@ public static class AppConfig
     }
 
 
+    /// <summary>
+    /// 显示主窗口快捷键
+    /// </summary>
+    public static string? ShowMainWindowHotkey
+    {
+        // Alt + S
+        get => GetValue("1+83");
+        set => SetValue(value);
+    }
+
+
+    /// <summary>
+    /// 截图快捷键
+    /// </summary>
+    public static string? ScreenshotCaptureHotkey
+    {
+        // Alt + D
+        get => GetValue("1+68");
+        set => SetValue(value);
+    }
+
+
     #endregion
 
 
@@ -872,7 +885,7 @@ public static class AppConfig
 
 
 
-    private static T? GetValue<T>(T? defaultValue = default, [CallerMemberName] string? key = null)
+    public static T? GetValue<T>(T? defaultValue = default, [CallerMemberName] string? key = null)
     {
         if (string.IsNullOrWhiteSpace(key))
         {
@@ -920,7 +933,7 @@ public static class AppConfig
     }
 
 
-    private static void SetValue<T>(T? value, [CallerMemberName] string? key = null)
+    public static void SetValue<T>(T? value, [CallerMemberName] string? key = null)
     {
         if (string.IsNullOrWhiteSpace(key))
         {

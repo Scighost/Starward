@@ -2265,4 +2265,43 @@
   <data name="ImageViewWindow2_FailedToDeleteImageFile" xml:space="preserve">
     <value>删除图像文件失败</value>
   </data>
+  <data name="ImageViewWindow2_UnableToDeleteTheFile" xml:space="preserve">
+    <value>无法删除文件</value>
+  </data>
+  <data name="ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse" xml:space="preserve">
+    <value>没有权限或文件正在使用</value>
+  </data>
+  <data name="HotkeyInput_ClickToSetShortcutKeys" xml:space="preserve">
+    <value>点击设置快捷键</value>
+  </data>
+  <data name="HotkeyInput_PressTheShortcutKeys" xml:space="preserve">
+    <value>按下快捷键</value>
+  </data>
+  <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUse" xml:space="preserve">
+    <value>快捷键 ({0}) 已被占用</value>
+  </data>
+  <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0" xml:space="preserve">
+    <value>快捷键 ({0}) 注册失败</value>
+  </data>
+  <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUsePleaseModifyItInSettingsPage" xml:space="preserve">
+    <value>快捷键 ({0}) 已被占用，请在设置页面中修改。</value>
+  </data>
+  <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0PleaseRetryInSettingsPage" xml:space="preserve">
+    <value>快捷键 ({0}) 注册失败，请在设置页面中重试。</value>
+  </data>
+  <data name="ScreenshotSetting_ScreenshotShortcut" xml:space="preserve">
+    <value>截图快捷键</value>
+  </data>
+  <data name="HotkeySetting_OpenMainWindow" xml:space="preserve">
+    <value>打开主窗口</value>
+  </data>
+  <data name="HotkeySetting_FailedToRegisterTheShortcutKeys" xml:space="preserve">
+    <value>快捷键注册失败</value>
+  </data>
+  <data name="SettingPage_KeyboardShortcut" xml:space="preserve">
+    <value>键盘快捷键</value>
+  </data>
+  <data name="HotkeyManager_TheShortcut0IsAlreadyInUsePleaseModifyItInSettingsPage" xml:space="preserve">
+    <value>快捷键 ({0}) 已被占用，请在设置页面中修改。</value>
+  </data>
 </root>

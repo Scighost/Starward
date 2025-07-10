@@ -1,9 +1,7 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml.Controls;
 using Starward.Features.RPC;
+using Starward.Frameworks;
 using Starward.Helpers;
 using Starward.RPC.GameInstall;
 using System;
@@ -14,8 +12,7 @@ using Windows.System;
 
 namespace Starward.Features.Setting;
 
-[INotifyPropertyChanged]
-public sealed partial class DownloadSetting : UserControl
+public sealed partial class DownloadSetting : PageBase
 {
 
     private readonly ILogger<DownloadSetting> _logger = AppConfig.GetLogger<DownloadSetting>();
@@ -25,16 +22,6 @@ public sealed partial class DownloadSetting : UserControl
     public DownloadSetting()
     {
         this.InitializeComponent();
-        this.Loaded += DownloadSetting_Loaded;
-        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (_, _) => this.Bindings.Update());
-        this.Unloaded += (_, _) => WeakReferenceMessenger.Default.UnregisterAll(this);
-    }
-
-
-
-    private async void DownloadSetting_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-    {
-        await Task.Delay(300);
         InitializeDefaultInstallPath();
     }
 

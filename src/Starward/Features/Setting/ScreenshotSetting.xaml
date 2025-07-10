@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sf:PageBase x:Class="Starward.Features.Setting.ScreenshotSetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Features.Setting"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sf="using:Starward.Frameworks"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+
+    <ScrollViewer x:Name="scr" Background="{x:Null}">
+        <StackPanel>
+
+            <!--  游戏截图  -->
+            <TextBlock FontSize="20" Text="{x:Bind lang:Lang.MainPage_GameScreenshot}" />
+
+            <!--  截图快捷键  -->
+            <StackPanel Margin="0,12,0,0"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                <TextBlock MinWidth="200"
+                           VerticalAlignment="Center"
+                           Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotShortcut}" />
+                <local:HotkeyInput x:Name="HotkeyInput_ScreenshotCapture"
+                                   MinWidth="200"
+                                   HotkeyDeleted="HotkeyInput_HotkeyDeleted"
+                                   HotkeyEditFinished="HotkeyInput_HotkeyEditFinished"
+                                   HotkeyEditing="HotkeyInput_HotkeyEditing"
+                                   HotkeyId="44445"
+                                   WindowHandle="{x:Bind WindowHandle}" />
+            </StackPanel>
+
+
+        </StackPanel>
+    </ScrollViewer>
+
+</sf:PageBase>

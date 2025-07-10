@@ -1,19 +1,17 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Starward.Features.ViewHost;
+using Starward.Frameworks;
 using System;
 using System.Globalization;
-using System.Threading.Tasks;
 using Windows.System;
 
 
 namespace Starward.Features.Setting;
 
-[INotifyPropertyChanged]
-public sealed partial class GeneralSetting : UserControl
+public sealed partial class GeneralSetting : PageBase
 {
 
     private readonly ILogger<GeneralSetting> _logger = AppConfig.GetLogger<GeneralSetting>();
@@ -22,14 +20,12 @@ public sealed partial class GeneralSetting : UserControl
     public GeneralSetting()
     {
         this.InitializeComponent();
-        this.Loaded += GeneralSetting_Loaded;
     }
 
 
 
-    private async void GeneralSetting_Loaded(object sender, RoutedEventArgs e)
+    protected override void OnLoaded()
     {
-        await Task.Delay(300);
         InitializeLanguageSelector();
         InitializeCloseWindowOption();
     }

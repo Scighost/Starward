@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<UserControl x:Class="Starward.Features.Setting.GeneralSetting"
+<sf:PageBase x:Class="Starward.Features.Setting.GeneralSetting"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Features.Setting"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sf="using:Starward.Frameworks"
              xmlns:sfv="using:Starward.Features.ViewHost"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
@@ -83,4 +84,4 @@
         </StackPanel>
     </ScrollViewer>
 
-</UserControl>
+</sf:PageBase>

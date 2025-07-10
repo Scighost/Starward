@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<UserControl x:Class="Starward.Features.Setting.FileManageSetting"
+<sf:PageBase x:Class="Starward.Features.Setting.FileManageSetting"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,6 +7,7 @@
              xmlns:local="using:Starward.Features.Setting"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:s="using:Starward"
+             xmlns:sf="using:Starward.Frameworks"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
@@ -194,4 +195,4 @@
         </StackPanel>
     </ScrollViewer>
 
-</UserControl>
+</sf:PageBase>

@@ -1,17 +1,14 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml.Controls;
 using Starward.Features.Update;
+using Starward.Frameworks;
 using System;
 using System.Threading.Tasks;
 
 
 namespace Starward.Features.Setting;
 
-[INotifyPropertyChanged]
-public sealed partial class AboutSetting : UserControl
+public sealed partial class AboutSetting : PageBase
 {
 
 
@@ -21,8 +18,6 @@ public sealed partial class AboutSetting : UserControl
     public AboutSetting()
     {
         this.InitializeComponent();
-        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (_, _) => this.Bindings.Update());
-        this.Unloaded += (_, _) => WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
 

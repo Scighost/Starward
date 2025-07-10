@@ -1,12 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Starward.Features.RPC;
 using Starward.Features.UrlProtocol;
+using Starward.Frameworks;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -16,8 +15,7 @@ using Windows.System;
 
 namespace Starward.Features.Setting;
 
-[INotifyPropertyChanged]
-public sealed partial class AdvancedSetting : UserControl
+public sealed partial class AdvancedSetting : PageBase
 {
 
     private readonly ILogger<AdvancedSetting> _logger = AppConfig.GetLogger<AdvancedSetting>();
@@ -29,16 +27,12 @@ public sealed partial class AdvancedSetting : UserControl
     public AdvancedSetting()
     {
         this.InitializeComponent();
-        Loaded += AdvancedSetting_Loaded;
-        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (_, _) => this.Bindings.Update());
-        this.Unloaded += (_, _) => WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
 
 
-    private async void AdvancedSetting_Loaded(object sender, RoutedEventArgs e)
+    protected override void OnLoaded()
     {
-        await Task.Delay(300);
         _ = GetRpcServerStateAsync();
         CheckUrlProtocol();
     }

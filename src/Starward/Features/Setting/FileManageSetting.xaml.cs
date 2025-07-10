@@ -1,12 +1,10 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using SharpSevenZip;
 using Starward.Features.Database;
+using Starward.Frameworks;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -20,8 +18,7 @@ using Windows.System;
 
 namespace Starward.Features.Setting;
 
-[INotifyPropertyChanged]
-public sealed partial class FileManageSetting : UserControl
+public sealed partial class FileManageSetting : PageBase
 {
 
     private readonly ILogger<FileManageSetting> _logger = AppConfig.GetLogger<FileManageSetting>();
@@ -30,16 +27,12 @@ public sealed partial class FileManageSetting : UserControl
     public FileManageSetting()
     {
         this.InitializeComponent();
-        Loaded += FileManageSetting_Loaded;
-        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (_, _) => this.Bindings.Update());
-        this.Unloaded += (_, _) => WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
 
 
-    private async void FileManageSetting_Loaded(object sender, RoutedEventArgs e)
+    protected override void OnLoaded()
     {
-        await Task.Delay(300);
         GetLastBackupTime();
         _ = UpdateCacheSizeAsync();
     }

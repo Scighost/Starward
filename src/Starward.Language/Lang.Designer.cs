@@ -2872,6 +2872,78 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Click to Set Shortcut Keys 的本地化字符串。
+        /// </summary>
+        public static string HotkeyInput_ClickToSetShortcutKeys {
+            get {
+                return ResourceManager.GetString("HotkeyInput_ClickToSetShortcutKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Press the Shortcut Keys 的本地化字符串。
+        /// </summary>
+        public static string HotkeyInput_PressTheShortcutKeys {
+            get {
+                return ResourceManager.GetString("HotkeyInput_PressTheShortcutKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to register the shortcut keys ({0}). 的本地化字符串。
+        /// </summary>
+        public static string HotkeyManager_FailedToRegisterTheShortcutKeys0 {
+            get {
+                return ResourceManager.GetString("HotkeyManager_FailedToRegisterTheShortcutKeys0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to register the shortcut keys ({0}). Please retry in Settings page. 的本地化字符串。
+        /// </summary>
+        public static string HotkeyManager_FailedToRegisterTheShortcutKeys0PleaseRetryInSettingsPage {
+            get {
+                return ResourceManager.GetString("HotkeyManager_FailedToRegisterTheShortcutKeys0PleaseRetryInSettingsPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The shortcut keys ({0}) is already in use. 的本地化字符串。
+        /// </summary>
+        public static string HotkeyManager_TheShortcutKeys0IsAlreadyInUse {
+            get {
+                return ResourceManager.GetString("HotkeyManager_TheShortcutKeys0IsAlreadyInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The shortcut keys ({0}) is already in use. Please modify it in Settings page. 的本地化字符串。
+        /// </summary>
+        public static string HotkeyManager_TheShortcutKeys0IsAlreadyInUsePleaseModifyItInSettingsPage {
+            get {
+                return ResourceManager.GetString("HotkeyManager_TheShortcutKeys0IsAlreadyInUsePleaseModifyItInSettingsPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to register the shortcut keys. 的本地化字符串。
+        /// </summary>
+        public static string HotkeySetting_FailedToRegisterTheShortcutKeys {
+            get {
+                return ResourceManager.GetString("HotkeySetting_FailedToRegisterTheShortcutKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open Main Window 的本地化字符串。
+        /// </summary>
+        public static string HotkeySetting_OpenMainWindow {
+            get {
+                return ResourceManager.GetString("HotkeySetting_OpenMainWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 HoYoLAB Toolbox 的本地化字符串。
         /// </summary>
         public static string HoYoLABToolbox {
@@ -3279,6 +3351,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Insufficient permissions or the file is in use. 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Next 的本地化字符串。
         /// </summary>
         public static string ImageViewWindow2_Next {
@@ -3374,6 +3455,15 @@ namespace Starward.Language {
         public static string ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature {
             get {
                 return ResourceManager.GetString("ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unable to Delete the File 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_UnableToDeleteTheFile {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_UnableToDeleteTheFile", resourceCulture);
             }
         }
         
@@ -4569,6 +4659,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Screenshot Shortcut 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_ScreenshotShortcut {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_ScreenshotShortcut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 This folder will be automatically deleted after the software update 的本地化字符串。
         /// </summary>
         public static string SelectDirectoryPage_AutoDeleteAfterUpdate {
@@ -5107,6 +5206,15 @@ namespace Starward.Language {
         public static string SettingPage_KeepRPCServiceRunningInTheBackground {
             get {
                 return ResourceManager.GetString("SettingPage_KeepRPCServiceRunningInTheBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Keyboard Shortcut 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_KeyboardShortcut {
+            get {
+                return ResourceManager.GetString("SettingPage_KeyboardShortcut", resourceCulture);
             }
         }
         

@@ -72,6 +72,7 @@ public sealed partial class MainView : UserControl
     private void MainView_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         CheckSystemProxy();
+        HotkeyManager.InitializeHotkey(this.XamlRoot.GetWindowHandle());
         _ = CheckUpdateOrShowRecentUpdateContentAsync();
         AppConfig.GetService<RpcService>().TrySetEnviromentAsync();
     }

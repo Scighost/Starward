@@ -1,8 +1,7 @@
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using Starward.Frameworks;
+using System;
 
 
 namespace Starward.Features.Setting;
@@ -14,40 +13,9 @@ public sealed partial class SettingPage : PageBase
     public SettingPage()
     {
         this.InitializeComponent();
+        Frame_Setting.Navigate(typeof(AboutSetting));
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (_, _) => this.Bindings.Update());
     }
-
-
-
-    private void FlipView_Settings_Loaded(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            var grid = VisualTreeHelper.GetChild(FlipView_Settings, 0);
-            if (grid != null)
-            {
-                var count = VisualTreeHelper.GetChildrenCount(grid);
-                if (count > 0)
-                {
-                    for (int i = 0; i < count; i++)
-                    {
-                        var child = VisualTreeHelper.GetChild(grid, i);
-                        if (child is Button button)
-                        {
-                            button.IsHitTestVisible = false;
-                            button.Opacity = 0;
-                        }
-                        else if (child is ScrollViewer scrollViewer)
-                        {
-                            scrollViewer.PointerWheelChanged += (_, e) => e.Handled = true;
-                        }
-                    }
-                }
-            }
-        }
-        catch { }
-    }
-
 
 
 
@@ -55,23 +23,21 @@ public sealed partial class SettingPage : PageBase
     {
         try
         {
-            if (args.InvokedItemContainer?.Tag is string index && int.TryParse(index, out int target))
+            Type? type = args.InvokedItemContainer?.Tag switch
             {
-                int steps = target - FlipView_Settings.SelectedIndex;
-                if (steps > 0)
-                {
-                    for (int i = 0; i < steps; i++)
-                    {
-                        FlipView_Settings.SelectedIndex++;
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < -steps; i++)
-                    {
-                        FlipView_Settings.SelectedIndex--;
-                    }
-                }
+                nameof(AboutSetting) => typeof(AboutSetting),
+                nameof(GeneralSetting) => typeof(GeneralSetting),
+                nameof(DownloadSetting) => typeof(DownloadSetting),
+                nameof(FileManageSetting) => typeof(FileManageSetting),
+                nameof(ScreenshotSetting) => typeof(ScreenshotSetting),
+                nameof(AdvancedSetting) => typeof(AdvancedSetting),
+                nameof(ToolboxSetting) => typeof(ToolboxSetting),
+                nameof(HotkeySetting) => typeof(HotkeySetting),
+                _ => null,
+            };
+            if (type is not null)
+            {
+                Frame_Setting.Navigate(type);
             }
         }
         catch { }
@@ -79,10 +45,8 @@ public sealed partial class SettingPage : PageBase
 
 
 
-
     protected override void OnUnloaded()
     {
-        FlipView_Settings.Items.Clear();
         WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 

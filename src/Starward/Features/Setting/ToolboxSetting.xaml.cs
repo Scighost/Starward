@@ -1,17 +1,14 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Starward.Features.Gacha.UIGF;
 using Starward.Features.Gacha.ZZZGachaToolbox;
+using Starward.Frameworks;
 using System.Collections.Generic;
 
 
 namespace Starward.Features.Setting;
 
-[INotifyPropertyChanged]
-public sealed partial class ToolboxSetting : UserControl
+public sealed partial class ToolboxSetting : PageBase
 {
 
 
@@ -21,18 +18,15 @@ public sealed partial class ToolboxSetting : UserControl
     public ToolboxSetting()
     {
         this.InitializeComponent();
-        this.Loaded += ToolboxSetting_Loaded;
-        this.Unloaded += ToolboxSetting_Unloaded;
     }
 
 
 
-    private void ToolboxSetting_Loaded(object sender, RoutedEventArgs e)
+    protected override void OnLoaded()
     {
-        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, OnLanguageChanged);
         ToolboxItems =
-        [
-            new ToolboxItem("\xE794",
+         [
+             new ToolboxItem("\xE794",
                             null,
                             nameof(UIGF4GachaWindow),
                             nameof(Lang.ToolboxSetting_GachaRecordsImportExport),
@@ -47,9 +41,8 @@ public sealed partial class ToolboxSetting : UserControl
 
 
 
-    private void ToolboxSetting_Unloaded(object sender, RoutedEventArgs e)
+    protected override void OnUnloaded()
     {
-        WeakReferenceMessenger.Default.UnregisterAll(this);
         ToolboxItems = null!;
     }
 

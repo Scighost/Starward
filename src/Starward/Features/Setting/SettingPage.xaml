@@ -37,31 +37,43 @@
                 <!--  关于  -->
                 <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_About}"
                                     IsSelected="True"
-                                    Tag="0">
+                                    Tag="AboutSetting">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <!--  通用  -->
-                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_General}" Tag="1">
+                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_General}" Tag="GeneralSetting">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE81E;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <!--  下载  -->
-                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_Download}" Tag="2">
+                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_Download}" Tag="DownloadSetting">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEBD3;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <!--  文件管理  -->
-                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_FileManagement}" Tag="3">
+                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_FileManagement}" Tag="FileManageSetting">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8F1;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <!--  截图  -->
+                <NavigationViewItem Content="{x:Bind lang:Lang.MainPage_GameScreenshot}" Tag="ScreenshotSetting">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE91B;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <!--  快捷键  -->
+                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_KeyboardShortcut}" Tag="HotkeySetting">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEDA7;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <!--  高级  -->
-                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_Advanced}" Tag="4">
+                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_Advanced}" Tag="AdvancedSetting">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEA86;" />
                     </NavigationViewItem.Icon>
@@ -70,58 +82,14 @@
                 <NavigationViewItemSeparator />
 
                 <!--  工具箱  -->
-                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_Toolbox}" Tag="5">
+                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_Toolbox}" Tag="ToolboxSetting">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC7A;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 
-
-            <FlipView x:Name="FlipView_Settings"
-                      Margin="24,24,24,0"
-                      Background="Transparent"
-                      Loaded="FlipView_Settings_Loaded">
-                <FlipView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </FlipView.ItemsPanel>
-
-
-                <!--  关于  -->
-                <FlipViewItem>
-                    <local:AboutSetting />
-                </FlipViewItem>
-
-                <!--  常规  -->
-                <FlipViewItem>
-                    <local:GeneralSetting />
-                </FlipViewItem>
-
-                <!--  下载  -->
-                <FlipViewItem>
-                    <local:DownloadSetting />
-                </FlipViewItem>
-
-                <!--  文件管理  -->
-                <FlipViewItem>
-                    <local:FileManageSetting />
-                </FlipViewItem>
-
-                <!--  高级  -->
-                <FlipViewItem>
-                    <local:AdvancedSetting />
-                </FlipViewItem>
-
-                <!--  工具箱  -->
-                <FlipViewItem>
-                    <local:ToolboxSetting />
-                </FlipViewItem>
-
-
-            </FlipView>
-
+            <Frame Name="Frame_Setting" Margin="24,24,24,0" />
 
         </NavigationView>
 
