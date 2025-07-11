@@ -839,7 +839,7 @@ public static class AppConfig
 
 
 
-    private static T? GetValue<T>(T? defaultValue = default, [CallerMemberName] string? key = null)
+    public static T? GetValue<T>(T? defaultValue = default, [CallerMemberName] string? key = null)
     {
         if (string.IsNullOrWhiteSpace(key))
         {
@@ -887,7 +887,7 @@ public static class AppConfig
     }
 
 
-    private static void SetValue<T>(T? value, [CallerMemberName] string? key = null)
+    public static void SetValue<T>(T? value, [CallerMemberName] string? key = null)
     {
         if (string.IsNullOrWhiteSpace(key))
         {

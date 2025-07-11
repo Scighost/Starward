@@ -377,6 +377,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Edit 的本地化字符串。
+        /// </summary>
+        public static string Common_Edit {
+            get {
+                return ResourceManager.GetString("Common_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Enabled 的本地化字符串。
         /// </summary>
         public static string Common_Enabled {
@@ -431,6 +440,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Open Files 的本地化字符串。
+        /// </summary>
+        public static string Common_OpenFiles {
+            get {
+                return ResourceManager.GetString("Common_OpenFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Refresh 的本地化字符串。
         /// </summary>
         public static string Common_Refresh {
@@ -445,6 +463,15 @@ namespace Starward.Language {
         public static string Common_Reject {
             get {
                 return ResourceManager.GetString("Common_Reject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Remove 的本地化字符串。
+        /// </summary>
+        public static string Common_Remove {
+            get {
+                return ResourceManager.GetString("Common_Remove", resourceCulture);
             }
         }
         
@@ -2845,6 +2872,78 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Click to Set Shortcut Keys 的本地化字符串。
+        /// </summary>
+        public static string HotkeyInput_ClickToSetShortcutKeys {
+            get {
+                return ResourceManager.GetString("HotkeyInput_ClickToSetShortcutKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Press the Shortcut Keys 的本地化字符串。
+        /// </summary>
+        public static string HotkeyInput_PressTheShortcutKeys {
+            get {
+                return ResourceManager.GetString("HotkeyInput_PressTheShortcutKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to register the shortcut keys ({0}). 的本地化字符串。
+        /// </summary>
+        public static string HotkeyManager_FailedToRegisterTheShortcutKeys0 {
+            get {
+                return ResourceManager.GetString("HotkeyManager_FailedToRegisterTheShortcutKeys0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to register the shortcut keys ({0}). Please retry in Settings page. 的本地化字符串。
+        /// </summary>
+        public static string HotkeyManager_FailedToRegisterTheShortcutKeys0PleaseRetryInSettingsPage {
+            get {
+                return ResourceManager.GetString("HotkeyManager_FailedToRegisterTheShortcutKeys0PleaseRetryInSettingsPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The shortcut keys ({0}) is already in use. 的本地化字符串。
+        /// </summary>
+        public static string HotkeyManager_TheShortcutKeys0IsAlreadyInUse {
+            get {
+                return ResourceManager.GetString("HotkeyManager_TheShortcutKeys0IsAlreadyInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The shortcut keys ({0}) is already in use. Please modify it in Settings page. 的本地化字符串。
+        /// </summary>
+        public static string HotkeyManager_TheShortcutKeys0IsAlreadyInUsePleaseModifyItInSettingsPage {
+            get {
+                return ResourceManager.GetString("HotkeyManager_TheShortcutKeys0IsAlreadyInUsePleaseModifyItInSettingsPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to register the shortcut keys. 的本地化字符串。
+        /// </summary>
+        public static string HotkeySetting_FailedToRegisterTheShortcutKeys {
+            get {
+                return ResourceManager.GetString("HotkeySetting_FailedToRegisterTheShortcutKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open Main Window 的本地化字符串。
+        /// </summary>
+        public static string HotkeySetting_OpenMainWindow {
+            get {
+                return ResourceManager.GetString("HotkeySetting_OpenMainWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 HoYoLAB Toolbox 的本地化字符串。
         /// </summary>
         public static string HoYoLABToolbox {
@@ -3113,6 +3212,258 @@ namespace Starward.Language {
         public static string ImageViewPage_ZoomOut {
             get {
                 return ResourceManager.GetString("ImageViewPage_ZoomOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Auto 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_Auto {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_Auto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copied to clipboard. 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_CopiedToClipboard {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_CopiedToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy File 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_CopyFile {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_CopyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy Image 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_CopyImage {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_CopyImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy Path 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_CopyPath {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_CopyPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete Image File 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_DeleteImageFile {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_DeleteImageFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Display Mode 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_DisplayMode {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_DisplayMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Edit Image 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_EditImage {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_EditImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Export Image 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_ExportImage {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_ExportImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to Delete Image File 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_FailedToDeleteImageFile {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_FailedToDeleteImageFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to Display Image 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_FailedToDisplayImage {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_FailedToDisplayImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to Save Image 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_FailedToSaveImage {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_FailedToSaveImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File does not exist. 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_FileDoesNotExist {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_FileDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fit to Window 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_FitToWindow {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_FitToWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Image Information 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_ImageInformation {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_ImageInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Insufficient permissions or the file is in use. 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Next 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_Next {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No Image to Display 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_NoImageToDisplay {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_NoImageToDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open in Explorer 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_OpenInExplorer {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_OpenInExplorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open New Files 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_OpenNewFiles {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_OpenNewFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open with 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_OpenWith {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_OpenWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open with Default App 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_OpenWithDefaultApp {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_OpenWithDefaultApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Previous 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_Previous {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_Previous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Save As 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_SaveAs {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_SaveAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 SDR Mapped Luminance 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_SDRMappedLuminance {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_SDRMappedLuminance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show Gallery 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_ShowGallery {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_ShowGallery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 To convert an HDR image to SDR, please use the Edit feature. 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unable to Delete the File 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_UnableToDeleteTheFile {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_UnableToDeleteTheFile", resourceCulture);
             }
         }
         
@@ -4181,6 +4532,70 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Check the log for more information. 的本地化字符串。
+        /// </summary>
+        public static string ScreenCaptureInfoWindow_CheckTheLogForMoreInformation {
+            get {
+                return ResourceManager.GetString("ScreenCaptureInfoWindow_CheckTheLogForMoreInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Screenshot Failed 的本地化字符串。
+        /// </summary>
+        public static string ScreenCaptureInfoWindow_ScreenshotFailed {
+            get {
+                return ResourceManager.GetString("ScreenCaptureInfoWindow_ScreenshotFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Screenshot Saved 的本地化字符串。
+        /// </summary>
+        public static string ScreenCaptureInfoWindow_ScreenshotSaved {
+            get {
+                return ResourceManager.GetString("ScreenCaptureInfoWindow_ScreenshotSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Add Folder 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotFolderManageDialog_AddFolder {
+            get {
+                return ResourceManager.GetString("ScreenshotFolderManageDialog_AddFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Backing up... 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotFolderManageDialog_BackingUp {
+            get {
+                return ResourceManager.GetString("ScreenshotFolderManageDialog_BackingUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to backup screenshots. 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotFolderManageDialog_FailedToBackupScreenshots {
+            get {
+                return ResourceManager.GetString("ScreenshotFolderManageDialog_FailedToBackupScreenshots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Images from the following folders will be displayed in the gallery. 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotFolderManageDialog_ImagesFromTheFollowingFoldersWillBeDisplayedInTheGallery {
+            get {
+                return ResourceManager.GetString("ScreenshotFolderManageDialog_ImagesFromTheFollowingFoldersWillBeDisplayedInTheGal" +
+                        "lery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Backed up {0} new screenshots. 的本地化字符串。
         /// </summary>
         public static string ScreenshotPage_BackedUpNewScreenshots {
@@ -4208,6 +4623,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Manage Screenshot Folders 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotPage_ManageScreenshotFolders {
+            get {
+                return ResourceManager.GetString("ScreenshotPage_ManageScreenshotFolders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Open Backup Folder 的本地化字符串。
         /// </summary>
         public static string ScreenshotPage_OpenBackupFolder {
@@ -4231,6 +4655,15 @@ namespace Starward.Language {
         public static string ScreenshotPage_ScreenshotFolderDoesNotExist {
             get {
                 return ResourceManager.GetString("ScreenshotPage_ScreenshotFolderDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Screenshot Shortcut 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_ScreenshotShortcut {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_ScreenshotShortcut", resourceCulture);
             }
         }
         
@@ -4773,6 +5206,15 @@ namespace Starward.Language {
         public static string SettingPage_KeepRPCServiceRunningInTheBackground {
             get {
                 return ResourceManager.GetString("SettingPage_KeepRPCServiceRunningInTheBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Keyboard Shortcut 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_KeyboardShortcut {
+            get {
+                return ResourceManager.GetString("SettingPage_KeyboardShortcut", resourceCulture);
             }
         }
         
