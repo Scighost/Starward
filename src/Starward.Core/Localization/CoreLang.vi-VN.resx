@@ -292,4 +292,10 @@
   <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
     <value>Đĩa</value>
   </data>
+  <data name="GachaType_CharacterCollaborationWarp" xml:space="preserve">
+    <value>Character Collaboration Warp</value>
+  </data>
+  <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
+    <value>Light Cone Collaboration Warp</value>
+  </data>
 </root>
