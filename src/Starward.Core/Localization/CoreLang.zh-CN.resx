@@ -292,4 +292,10 @@
   <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
     <value>驱动盘</value>
   </data>
+  <data name="GachaType_CharacterCollaborationWarp" xml:space="preserve">
+    <value>角色联动跃迁</value>
+  </data>
+  <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
+    <value>光锥联动跃迁</value>
+  </data>
 </root>
