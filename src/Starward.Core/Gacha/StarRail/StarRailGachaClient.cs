@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
 namespace Starward.Core.Gacha.StarRail;
 
@@ -7,7 +7,7 @@ public class StarRailGachaClient : GachaLogClient
 
 
 
-    public override IReadOnlyCollection<IGachaType> QueryGachaTypes { get; init; } = new StarRailGachaType[] { 1, 2, 11, 12 }.Cast<IGachaType>().ToList().AsReadOnly();
+    public override IReadOnlyCollection<IGachaType> QueryGachaTypes { get; init; } = new StarRailGachaType[] { 1, 2, 11, 12, 21, 22 }.Cast<IGachaType>().ToList().AsReadOnly();
 
 
 
@@ -68,7 +68,21 @@ public class StarRailGachaClient : GachaLogClient
 
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
-        return await GetGachaLogAsync<StarRailGachaItem>(gachaUrl, endId, lang, progress, cancellationToken);
+        endId = Math.Clamp(endId, 0, long.MaxValue);
+        var prefix = GetGachaUrlPrefix(gachaUrl, lang);
+        var result = new List<StarRailGachaItem>();
+        foreach (var gachaType in QueryGachaTypes)
+        {
+            if (gachaType.Value is StarRailGachaType.CharacterCollaborationWarp or StarRailGachaType.LightConeCollaborationWarp)
+            {
+                result.AddRange(await GetGachaLogByTypeAsync<StarRailGachaItem>(prefix.Replace("/getGachaLog", "/getLdGachaLog"), gachaType, endId, progress, cancellationToken));
+            }
+            else
+            {
+                result.AddRange(await GetGachaLogByTypeAsync<StarRailGachaItem>(prefix, gachaType, endId, progress, cancellationToken));
+            }
+        }
+        return result;
     }
 
 

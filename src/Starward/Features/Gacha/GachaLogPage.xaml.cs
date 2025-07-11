@@ -242,6 +242,17 @@ public sealed partial class GachaLogPage : PageBase
                 ListView_GachaBanners.SelectedItems.Add(item);
             }
         }
+        if (CurrentGameBiz.Game is GameBiz.hkrpg && !AppConfig.GetValue(false, "SavedStarRailBannersAfterCollaborationStarting"))
+        {
+            if (ListView_GachaBanners.SelectedItems.Cast<GachaBanner>().FirstOrDefault(x => x.Value == 21) is null)
+            {
+                ListView_GachaBanners.SelectedItems.Add(GachaBanners.FirstOrDefault(x => x.Value == 21));
+            }
+            if (ListView_GachaBanners.SelectedItems.Cast<GachaBanner>().FirstOrDefault(x => x.Value == 22) is null)
+            {
+                ListView_GachaBanners.SelectedItems.Add(GachaBanners.FirstOrDefault(x => x.Value == 22));
+            }
+        }
         ListView_GachaBanners.SelectionChanged -= ListView_GachaBanners_SelectionChanged;
         ListView_GachaBanners.SelectionChanged += ListView_GachaBanners_SelectionChanged;
     }
@@ -253,6 +264,10 @@ public sealed partial class GachaLogPage : PageBase
         {
             string value = string.Join(',', ListView_GachaBanners.SelectedItems.Cast<GachaBanner>().Select(x => x.Value));
             AppConfig.SetDisplayGachaBanners(CurrentGameBiz.Game, value);
+            if (CurrentGameBiz.Game is GameBiz.hkrpg)
+            {
+                AppConfig.SetValue(true, "SavedStarRailBannersAfterCollaborationStarting");
+            }
             UpdateDisplayGachaTypeStats();
         }
         catch { }
@@ -317,7 +332,8 @@ public sealed partial class GachaLogPage : PageBase
                 int count = ItemsControl_GachaStats.Items.Count;
                 if (count > 0)
                 {
-                    double width = (Grid_GachaStats.ActualWidth - (count - 1) * 12) / count;
+                    double width = (ScrollViewer_GachaStats.ActualWidth - 40 - (count - 1) * 12) / count;
+                    width = Math.Clamp(width, 262, double.MaxValue);
                     for (int i = 0; i < count; i++)
                     {
                         var a = ItemsControl_GachaStats.ContainerFromIndex(i);
@@ -333,7 +349,8 @@ public sealed partial class GachaLogPage : PageBase
                 int count = ItemsControl_ZZZGachaStats.Items.Count;
                 if (count > 0)
                 {
-                    double width = (Grid_GachaStats.ActualWidth - (count - 1) * 12) / count;
+                    double width = (ScrollViewer_GachaStats.ActualWidth - 40 - (count - 1) * 12) / count;
+                    width = Math.Clamp(width, 262, double.MaxValue);
                     for (int i = 0; i < count; i++)
                     {
                         if (ItemsControl_ZZZGachaStats.ContainerFromIndex(i) is ContentPresenter presenter)
@@ -482,12 +499,13 @@ public sealed partial class GachaLogPage : PageBase
         catch (miHoYoApiException ex)
         {
             _logger.LogWarning("Request mihoyo api error: {error}", ex.Message);
-            if (ex.ReturnCode == -101)
+            // 原铁 -101 绝 -1
+            if (ex.ReturnCode is -101 or -1)
             {
                 // authkey timeout
                 // 请在游戏中打开抽卡记录页面后再重试
                 errorCount++;
-                if (errorCount > 2 && IsGachaCacheFileExists())
+                if (errorCount > 1 && IsGachaCacheFileExists())
                 {
                     errorCount = 0;
                     InAppToast.MainWindow?.ShowWithButton(InfoBarSeverity.Warning,

@@ -67,7 +67,7 @@ public class GachaNoUp
             Name = "刻晴",
             NoUpTimes =
             [
-                (new DateTime(2020, 9, 1), new DateTime(2021, 2, 17, 18, 00, 00)),
+                (new DateTime(2020, 9, 1), new DateTime(2021, 2, 17, 17, 59, 59)),
                 (new DateTime(2021, 3, 2, 16, 00, 00), DateTime.MaxValue),
             ],
         });
@@ -149,7 +149,11 @@ public class GachaNoUp
         {
             Id = 1205,
             Name = "刃",
-            NoUpTimes = [(new DateTime(2025, 4, 8, 18, 00, 00), DateTime.MaxValue)],
+            NoUpTimes =
+            [
+                (new DateTime(2025, 4, 8, 18, 00, 00), new DateTime(2025, 7, 23, 11, 59, 59)),
+                (new DateTime(2025, 8, 12, 15, 00, 00), DateTime.MaxValue),
+            ],
         });
         hkrpg11.Items.Add(1208, new GachaNoUpItem
         {
@@ -203,6 +207,115 @@ public class GachaNoUp
             NoUpTimes = [(new DateTime(2023, 4, 1), DateTime.MaxValue)],
         });
         Dictionary.Add("hkrpg12", hkrpg12);
+
+        GachaNoUp hkrpg21 = new GachaNoUp { Game = GameBiz.hkrpg, GachaType = StarRailGachaType.CharacterCollaborationWarp };
+        hkrpg21.Items.Add(1003, new GachaNoUpItem
+        {
+            Id = 1003,
+            Name = "姬子",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg21.Items.Add(1004, new GachaNoUpItem
+        {
+            Id = 1004,
+            Name = "瓦尔特",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg21.Items.Add(1101, new GachaNoUpItem
+        {
+            Id = 1101,
+            Name = "布洛妮娅",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg21.Items.Add(1104, new GachaNoUpItem
+        {
+            Id = 1104,
+            Name = "杰帕德",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg21.Items.Add(1107, new GachaNoUpItem
+        {
+            Id = 1107,
+            Name = "克拉拉",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg21.Items.Add(1209, new GachaNoUpItem
+        {
+            Id = 1209,
+            Name = "彦卿",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg21.Items.Add(1211, new GachaNoUpItem
+        {
+            Id = 1211,
+            Name = "白露",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        // 3.2版本，自定义非UP五星角色
+        hkrpg21.Items.Add(1102, new GachaNoUpItem
+        {
+            Id = 1102,
+            Name = "希儿",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg21.Items.Add(1205, new GachaNoUpItem
+        {
+            Id = 1205,
+            Name = "刃",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg21.Items.Add(1208, new GachaNoUpItem
+        {
+            Id = 1208,
+            Name = "符玄",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        Dictionary.Add("hkrpg21", hkrpg21);
+
+        GachaNoUp hkrpg22 = new GachaNoUp { Game = GameBiz.hkrpg, GachaType = StarRailGachaType.LightConeCollaborationWarp };
+        hkrpg22.Items.Add(23000, new GachaNoUpItem
+        {
+            Id = 23000,
+            Name = "银河铁道之夜",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg22.Items.Add(23002, new GachaNoUpItem
+        {
+            Id = 23002,
+            Name = "无可取代的东西",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg22.Items.Add(23003, new GachaNoUpItem
+        {
+            Id = 23003,
+            Name = "但战斗还未结束",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg22.Items.Add(23004, new GachaNoUpItem
+        {
+            Id = 23004,
+            Name = "以世界之名",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg22.Items.Add(23005, new GachaNoUpItem
+        {
+            Id = 23005,
+            Name = "制胜的瞬间",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg22.Items.Add(23012, new GachaNoUpItem
+        {
+            Id = 23012,
+            Name = "如泥酣眠",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        hkrpg22.Items.Add(23013, new GachaNoUpItem
+        {
+            Id = 23013,
+            Name = "时节不居",
+            NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        Dictionary.Add("hkrpg22", hkrpg22);
     }
 
 
