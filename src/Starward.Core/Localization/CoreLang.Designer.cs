@@ -88,6 +88,15 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Character Collaboration Warp 的本地化字符串。
+        /// </summary>
+        public static string GachaType_CharacterCollaborationWarp {
+            get {
+                return ResourceManager.GetString("GachaType_CharacterCollaborationWarp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Character Event Warp 的本地化字符串。
         /// </summary>
         public static string GachaType_CharacterEventWarp {
@@ -138,6 +147,15 @@ namespace Starward.Core.Localization {
         public static string GachaType_ExclusiveChannel {
             get {
                 return ResourceManager.GetString("GachaType_ExclusiveChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Light Cone Collaboration Warp 的本地化字符串。
+        /// </summary>
+        public static string GachaType_LightConeCollaborationWarp {
+            get {
+                return ResourceManager.GetString("GachaType_LightConeCollaborationWarp", resourceCulture);
             }
         }
         

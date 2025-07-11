@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace Starward.Core.Gacha.StarRail;
 
@@ -34,6 +34,20 @@ public readonly record struct StarRailGachaType(int Value) : IGachaType
     public const int LightConeEventWarp = 12;
 
 
+    /// <summary>
+    /// 角色联动跃迁
+    /// </summary>
+    [Description("角色联动跃迁")]
+    public const int CharacterCollaborationWarp = 21;
+
+
+    /// <summary>
+    /// 光锥联动跃迁
+    /// </summary>
+    [Description("光锥联动跃迁")]
+    public const int LightConeCollaborationWarp = 22;
+
+
 
     public string ToLocalization() => Value switch
     {
@@ -41,6 +55,8 @@ public readonly record struct StarRailGachaType(int Value) : IGachaType
         DepartureWarp => CoreLang.GachaType_DepartureWarp,
         CharacterEventWarp => CoreLang.GachaType_CharacterEventWarp,
         LightConeEventWarp => CoreLang.GachaType_LightConeEventWarp,
+        CharacterCollaborationWarp => CoreLang.GachaType_CharacterCollaborationWarp,
+        LightConeCollaborationWarp => CoreLang.GachaType_LightConeCollaborationWarp,
         _ => "",
     };
 
