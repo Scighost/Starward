@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI.Xaml;
@@ -35,16 +35,20 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
 
     private const int WindowHeight = 100;
 
+    private readonly ILogger<ScreenCaptureInfoWindow> _logger = AppConfig.GetLogger<ScreenCaptureInfoWindow>();
+
 
     public ScreenCaptureInfoWindow()
     {
         InitializeComponent();
         SystemBackdrop = new TransparentBackdrop();
         InitializeWindow();
+        // 不能删除，防止在 SW_SHOWNOACTIVATE 显示后没有文字
         this.Bindings.Update();
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (_, _) => this.Bindings.Update());
-        this.Closed += (_, _) => WeakReferenceMessenger.Default.UnregisterAll(this);
+        this.Closed += ScreenCaptureInfoWindow_Closed;
     }
+
 
 
     private void InitializeWindow()
@@ -67,6 +71,16 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     }
 
 
+    private void ScreenCaptureInfoWindow_Closed(object sender, WindowEventArgs args)
+    {
+        WeakReferenceMessenger.Default.UnregisterAll(this);
+        this.Closed -= ScreenCaptureInfoWindow_Closed;
+        Button_OpenImage.Click -= Button_OpenImage_Click;
+        Button_OpenLog.Click -= Button_OpenLog_Click;
+        _imageViewWindow2 = null;
+    }
+
+
     public bool IsSuccess { get; set => SetProperty(ref field, value); }
 
     public bool IsError { get; set => SetProperty(ref field, value); }
@@ -82,6 +96,8 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
 
     private CancellationToken _openImageCancellationToken;
 
+
+    private ImageViewWindow2? _imageViewWindow2;
 
 
     /// <summary>
@@ -263,7 +279,7 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
         catch (TaskCanceledException) { }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Failed to display screenshot info window.");
         }
     }
 
@@ -319,20 +335,22 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     }
 
 
-    [RelayCommand]
-    private async Task OpenImageAsync()
+    private async void Button_OpenImage_Click(object sender, RoutedEventArgs e)
     {
         try
         {
-            await Launcher.LaunchUriAsync(new(_lastFile));
+            if (_imageViewWindow2?.AppWindow is null)
+            {
+                _imageViewWindow2 = new();
+            }
+            await _imageViewWindow2.ShowWindowAsync(AppWindow.Id, _lastFile, true);
             await HideWindowAsync(_openImageCancellationToken);
         }
         catch { }
     }
 
 
-    [RelayCommand]
-    private async Task OpenLogAsync()
+    private async void Button_OpenLog_Click(object sender, RoutedEventArgs e)
     {
         try
         {

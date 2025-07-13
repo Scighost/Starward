@@ -17,21 +17,82 @@
             <!--  游戏截图  -->
             <TextBlock FontSize="20" Text="{x:Bind lang:Lang.MainPage_GameScreenshot}" />
 
+            <!--  内置截图功能会将图片保存到以下文件夹  -->
+            <TextBlock Margin="0,12,0,0"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder}"
+                       TextWrapping="Wrap" />
+
+            <!--  截图文件夹  -->
+            <Grid Margin="0,12,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <!--  修改截图文件夹  -->
+                <Button Grid.Column="0"
+                        Height="40"
+                        Padding="16,0,16,0"
+                        BorderThickness="0"
+                        Command="{x:Bind ChangeScreenshotFolderCommand}"
+                        CornerRadius="8,20,20,8"
+                        Style="{ThemeResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE8DE;" />
+                        <TextBlock Text="{x:Bind lang:Lang.Common_ChangeFolder}" />
+                    </StackPanel>
+                </Button>
+                <!--  当前截图文件夹  -->
+                <Button Grid.Column="1"
+                        Height="40"
+                        Margin="16,0,0,0"
+                        Padding="20,0,20,1"
+                        BorderThickness="0"
+                        Command="{x:Bind OpenScreenshotFolderCommand}"
+                        CornerRadius="20">
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+                                   MaxLines="2"
+                                   Text="{x:Bind ScreenshotFolder}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="Wrap" />
+                        <FontIcon Grid.Column="1"
+                                  Margin="0,2,2,0"
+                                  FontSize="14"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE8A7;" />
+                    </Grid>
+                </Button>
+            </Grid>
+
+
             <!--  截图快捷键  -->
-            <StackPanel Margin="0,12,0,0"
-                        Orientation="Horizontal"
-                        Spacing="12">
-                <TextBlock MinWidth="200"
-                           VerticalAlignment="Center"
-                           Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotShortcut}" />
-                <local:HotkeyInput x:Name="HotkeyInput_ScreenshotCapture"
-                                   MinWidth="200"
-                                   HotkeyDeleted="HotkeyInput_HotkeyDeleted"
-                                   HotkeyEditFinished="HotkeyInput_HotkeyEditFinished"
-                                   HotkeyEditing="HotkeyInput_HotkeyEditing"
-                                   HotkeyId="44445"
-                                   WindowHandle="{x:Bind WindowHandle}" />
-            </StackPanel>
+            <TextBlock Margin="0,20,0,0"
+                       FontSize="20"
+                       Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotShortcut}" />
+
+            <!--  如果注册单键快捷键 (F1-F12)，需要以管理员权限运行 Starward，否则在游戏中快捷键无法生效。  -->
+            <TextBlock Margin="0,12,0,0"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.HotkeySetting_SingleKeyShortcutsTips}"
+                       TextWrapping="Wrap" />
+
+            <!--  设置快捷键  -->
+            <local:HotkeyInput x:Name="HotkeyInput_ScreenshotCapture"
+                               MinWidth="200"
+                               Margin="0,12,0,0"
+                               HorizontalAlignment="Left"
+                               HotkeyDeleted="HotkeyInput_HotkeyDeleted"
+                               HotkeyEditFinished="HotkeyInput_HotkeyEditFinished"
+                               HotkeyEditing="HotkeyInput_HotkeyEditing"
+                               HotkeyId="44445"
+                               WindowHandle="{x:Bind WindowHandle}" />
 
 
         </StackPanel>

@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
@@ -8,12 +9,14 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Starward.Features.Setting;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -50,6 +53,7 @@ public sealed partial class ImageViewWindow2 : Window
         SystemBackdrop = new MicaBackdrop();
         WindowHandle = (IntPtr)AppWindow.Id.Value;
         InitializeWindow();
+        WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (_, _) => this.Bindings.Update());
     }
 
 
@@ -89,6 +93,7 @@ public sealed partial class ImageViewWindow2 : Window
     {
         try
         {
+            WeakReferenceMessenger.Default.UnregisterAll(this);
             _loadImageCts?.Cancel();
             _loadImageCts?.Dispose();
             CanvasSwapChainPanel_Image.SwapChain = null;
@@ -143,7 +148,6 @@ public sealed partial class ImageViewWindow2 : Window
         }
         catch { }
     }
-
 
 
     private void ResetState()
@@ -866,11 +870,51 @@ public sealed partial class ImageViewWindow2 : Window
     }
 
 
+    public async Task ShowWindowAsync(Microsoft.UI.WindowId windowId, string file, bool showGallary)
+    {
+        try
+        {
+            if (showGallary)
+            {
+                string? folder = Path.GetDirectoryName(file);
+                if (Directory.Exists(folder))
+                {
+                    var list = Directory.GetFiles(folder)
+                                        .Where(ScreenshotPage.IsSupportedExtension)
+                                        .Select(x => new ScreenshotItem(x))
+                                        .OrderByDescending(x => x.CreationTime)
+                                        .ToList();
+                    ScreenshotCollection = new(list);
+                }
+            }
+            if (ScreenshotCollection?.FirstOrDefault(x => x.FullName == file) is ScreenshotItem item)
+            {
+                CurrentScreenshot = item;
+            }
+            else
+            {
+                CurrentScreenshot = new ScreenshotItem(file);
+                ScreenshotCollection ??= new();
+                ScreenshotCollection.Insert(0, CurrentScreenshot);
+            }
+            DisplayArea area = DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Nearest);
+            CenterInScreen(area, 1200, 676);
+            User32.ShowWindow(WindowHandle, ShowWindowCommand.SW_SHOWMAXIMIZED);
+            await Task.Delay(1);
+            await LoadImageAsync(CurrentScreenshot.FullName);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to show image view window");
+        }
+    }
+
+
     private void Button_EditImage_Click(object sender, RoutedEventArgs e)
     {
         try
         {
-            Grid_EditImage.Visibility = Visibility.Visible;
+            Grid_EditImage.Visibility = Grid_EditImage.Visibility is Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
             ResetZoomFactor();
         }
         catch { }
@@ -1117,7 +1161,9 @@ public sealed partial class ImageViewWindow2 : Window
         }
         catch (UnauthorizedAccessException ex)
         {
-            // todo
+            // TODO 使用 RPC 删除
+            ShowInfo(InfoBarSeverity.Warning, Lang.ImageViewWindow2_UnableToDeleteTheFile, Lang.ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse, 5000);
+            _logger.LogError(ex, "Failed to delete image file");
         }
         catch (Exception ex)
         {
@@ -1463,6 +1509,23 @@ public sealed partial class ImageViewWindow2 : Window
     {
         return (value + 1).ToString();
     }
+
+
+    public void CenterInScreen(DisplayArea displayArea, int width, int height)
+    {
+        nint monitor = Win32Interop.GetMonitorFromDisplayId(displayArea.DisplayId);
+        GetDpiForMonitor(monitor, 0, out uint dpiX, out uint dpiY);
+        double scale = dpiX / 96.0;
+        int w = (int)(width * scale);
+        int h = (int)(height * scale);
+        int x = displayArea.WorkArea.X + (displayArea.WorkArea.Width - w) / 2;
+        int y = displayArea.WorkArea.Y + (displayArea.WorkArea.Height - h) / 2;
+        AppWindow.MoveAndResize(new RectInt32(x, y, w, h));
+    }
+
+
+    [LibraryImport("Shcore.dll")]
+    private static partial int GetDpiForMonitor(nint hmonitor, int dpiType, out uint dpiX, out uint dpiY);
 
 
     #endregion

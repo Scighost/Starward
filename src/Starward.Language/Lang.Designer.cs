@@ -323,6 +323,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Change Folder 的本地化字符串。
+        /// </summary>
+        public static string Common_ChangeFolder {
+            get {
+                return ResourceManager.GetString("Common_ChangeFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Confirm 的本地化字符串。
         /// </summary>
         public static string Common_Confirm {
@@ -2944,6 +2953,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 If you register single-key shortcuts (F1–F12), you need to run Starward with administrator privileges; otherwise, the shortcuts may not work in the game. 的本地化字符串。
+        /// </summary>
+        public static string HotkeySetting_SingleKeyShortcutsTips {
+            get {
+                return ResourceManager.GetString("HotkeySetting_SingleKeyShortcutsTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 HoYoLAB Toolbox 的本地化字符串。
         /// </summary>
         public static string HoYoLABToolbox {
@@ -4668,6 +4686,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 The built-in screenshot feature will save images to the following folder. 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 This folder will be automatically deleted after the software update 的本地化字符串。
         /// </summary>
         public static string SelectDirectoryPage_AutoDeleteAfterUpdate {
@@ -5210,11 +5237,11 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Keyboard Shortcut 的本地化字符串。
+        ///   查找类似 Keyboard Shortcuts 的本地化字符串。
         /// </summary>
-        public static string SettingPage_KeyboardShortcut {
+        public static string SettingPage_KeyboardShortcuts {
             get {
-                return ResourceManager.GetString("SettingPage_KeyboardShortcut", resourceCulture);
+                return ResourceManager.GetString("SettingPage_KeyboardShortcuts", resourceCulture);
             }
         }
         

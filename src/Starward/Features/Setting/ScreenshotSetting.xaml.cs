@@ -1,9 +1,14 @@
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
+using System.IO;
+using System.Threading.Tasks;
 using Vanara.PInvoke;
+using Windows.System;
 
 
 namespace Starward.Features.Setting;
@@ -21,8 +26,12 @@ public sealed partial class ScreenshotSetting : PageBase
     {
         InitializeComponent();
         InitializeHotkeyInput();
+        InitializeScreenshotFolder();
     }
 
+
+
+    #region Hotkey
 
 
     private void InitializeHotkeyInput()
@@ -83,7 +92,7 @@ public sealed partial class ScreenshotSetting : PageBase
                         {
                             InAppToast.MainWindow?.Warning(null, string.Format(Lang.HotkeyManager_FailedToRegisterTheShortcutKeys0, hotkey), 5000);
                         }
-                        ((HotkeyInput)sender).State = HoykeyInputState.Success;
+                        ((HotkeyInput)sender).State = HoykeyInputState.Warning;
                     }
                     else
                     {
@@ -104,6 +113,83 @@ public sealed partial class ScreenshotSetting : PageBase
         }
     }
 
+
+    #endregion
+
+
+
+    #region Screenshot Folder
+
+
+    public string ScreenshotFolder { get; set => SetProperty(ref field, value); }
+
+
+    private void InitializeScreenshotFolder()
+    {
+        try
+        {
+            string? folder = AppConfig.ScreenshotFolder;
+            if (Directory.Exists(folder))
+            {
+                ScreenshotFolder = folder;
+            }
+            else
+            {
+                ScreenshotFolder = Path.Join(AppConfig.UserDataFolder, "Screenshots");
+                Directory.CreateDirectory(ScreenshotFolder);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to initialize screenshot folder");
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task ChangeScreenshotFolder()
+    {
+        try
+        {
+            string? folder = await FileDialogHelper.PickFolderAsync(this.XamlRoot);
+            if (Directory.Exists(folder))
+            {
+                ScreenshotFolder = folder;
+                AppConfig.ScreenshotFolder = folder;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to change screenshot folder");
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task OpenScreenshotFolder()
+    {
+        try
+        {
+            if (Directory.Exists(ScreenshotFolder))
+            {
+                await Launcher.LaunchFolderPathAsync(ScreenshotFolder);
+            }
+        }
+        catch { }
+    }
+
+
+    #endregion
+
+
+
+    private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
+    {
+        if (sender.FontSize > 12)
+        {
+            sender.FontSize -= 1;
+        }
+    }
 
 
 }

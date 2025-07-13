@@ -122,7 +122,7 @@ public sealed partial class HotkeyInput : UserControl
 
     public bool SetHotkey(uint fsModifiers, uint key)
     {
-        return SetHotkey((VirtualKeyModifiers)ChangeModifiesBit(fsModifiers), (VirtualKey)key);
+        return SetHotkey((VirtualKeyModifiers)SwitchModifiesBit01(fsModifiers), (VirtualKey)key);
     }
 
 
@@ -308,7 +308,7 @@ public sealed partial class HotkeyInput : UserControl
 
     public static string? GetHotkeyText(uint fsModifiers, uint key)
     {
-        return GetHotkeyText((VirtualKeyModifiers)ChangeModifiesBit(fsModifiers), (VirtualKey)key);
+        return GetHotkeyText((VirtualKeyModifiers)SwitchModifiesBit01(fsModifiers), (VirtualKey)key);
     }
 
 
@@ -332,7 +332,7 @@ public sealed partial class HotkeyInput : UserControl
 
     public static bool IsHotkeyAvaliable(uint fsModifiers, uint key)
     {
-        return IsHotkeyAvaliable((VirtualKeyModifiers)ChangeModifiesBit(fsModifiers), (VirtualKey)key);
+        return IsHotkeyAvaliable((VirtualKeyModifiers)SwitchModifiesBit01(fsModifiers), (VirtualKey)key);
     }
 
 
@@ -368,7 +368,7 @@ public sealed partial class HotkeyInput : UserControl
             HotkeyId = HotkeyId,
             Modifiers = Modifiers,
             Key = Key,
-            fsModifiers = ChangeModifiesBit((uint)Modifiers),
+            fsModifiers = SwitchModifiesBit01((uint)Modifiers),
         });
     }
 
@@ -383,7 +383,7 @@ public sealed partial class HotkeyInput : UserControl
                 HotkeyId = HotkeyId,
                 Modifiers = _editingModifiers,
                 Key = _editingKey,
-                fsModifiers = ChangeModifiesBit((uint)_editingModifiers),
+                fsModifiers = SwitchModifiesBit01((uint)_editingModifiers),
                 HotkeyAvaliable = true,
                 HotkeyChanged = Modifiers != _editingModifiers || Key != _editingKey,
             };
@@ -401,7 +401,7 @@ public sealed partial class HotkeyInput : UserControl
                 HotkeyId = HotkeyId,
                 Modifiers = Modifiers,
                 Key = Key,
-                fsModifiers = ChangeModifiesBit((uint)Modifiers),
+                fsModifiers = SwitchModifiesBit01((uint)Modifiers),
                 HotkeyAvaliable = IsHotkeyAvaliable(Modifiers, Key),
                 HotkeyChanged = false,
             };
@@ -413,7 +413,7 @@ public sealed partial class HotkeyInput : UserControl
     }
 
 
-    private static uint ChangeModifiesBit(uint modifiers)
+    private static uint SwitchModifiesBit01(uint modifiers)
     {
         uint bit0 = (modifiers & 0b01);
         uint bit1 = (modifiers & 0b10);

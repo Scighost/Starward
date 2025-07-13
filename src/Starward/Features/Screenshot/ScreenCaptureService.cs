@@ -188,11 +188,11 @@ internal class ScreenCaptureService
         string? targetFolder = AppConfig.ScreenshotFolder;
         if (Directory.Exists(targetFolder))
         {
-            screenshotFolder = Path.GetFullPath(Path.Join(targetFolder, runningGame.GameBiz.Game));
+            screenshotFolder = Path.GetFullPath(Path.Join(targetFolder, runningGame.Process.ProcessName));
         }
         else
         {
-            screenshotFolder = Path.GetFullPath(Path.Join(AppConfig.UserDataFolder, "Screenshots", runningGame.GameBiz.Game));
+            screenshotFolder = Path.GetFullPath(Path.Join(AppConfig.UserDataFolder, "Screenshots", runningGame.Process.ProcessName));
         }
         Directory.CreateDirectory(screenshotFolder);
 

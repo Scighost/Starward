@@ -127,10 +127,10 @@ public sealed partial class ScreenshotPage : PageBase
             _screenshotDict.Clear();
             Screenshots = null!;
 
-            string? backupFolder = AppConfig.ScreenshotFolder;
-            if (Directory.Exists(backupFolder))
+            (string? backupFolder, string? screenshotFolder) = await GetGameScreenshotPathAsync();
+            if (backupFolder is not null)
             {
-                string folder = Path.GetFullPath(Path.Join(backupFolder, CurrentGameBiz.Game));
+                string folder = Path.GetFullPath(backupFolder);
                 if (_folders.FirstOrDefault(x => x.Folder == folder) is null)
                 {
                     var watcher = CreateFileSystemWatcher(folder);
@@ -138,25 +138,9 @@ public sealed partial class ScreenshotPage : PageBase
                     _folders.Add(new(folder) { Backup = true });
                 }
             }
-            else
+            if (screenshotFolder is not null)
             {
-                backupFolder = Path.Join(AppConfig.UserDataFolder, "Screenshots", CurrentGameBiz.Game);
-                if (Directory.Exists(backupFolder))
-                {
-                    string folder = Path.GetFullPath(backupFolder);
-                    if (_folders.FirstOrDefault(x => x.Folder == folder) is null)
-                    {
-                        var watcher = CreateFileSystemWatcher(folder);
-                        _watchers.Add(watcher);
-                        _folders.Add(new(folder) { Backup = true });
-                    }
-                }
-            }
-
-            string? inGameFolder = await GetGameScreenshotPathAsync();
-            if (Directory.Exists(inGameFolder))
-            {
-                string folder = Path.GetFullPath(inGameFolder);
+                string folder = Path.GetFullPath(screenshotFolder);
                 if (_folders.FirstOrDefault(x => x.Folder == folder) is null)
                 {
                     var watcher = CreateFileSystemWatcher(folder);
@@ -232,30 +216,50 @@ public sealed partial class ScreenshotPage : PageBase
 
 
 
-    public async Task<string?> GetGameScreenshotPathAsync()
+    public async Task<(string? BackupFolder, string? ScreenshotFolder)> GetGameScreenshotPathAsync()
     {
         try
         {
-            string? folder = GameLauncherService.GetGameInstallPath(CurrentGameId);
-            var relativePath = CurrentGameBiz.Game switch
+            string? backupFolder = null, screenshotFolder = null;
+            string? name = GameLauncherService.GetGameExeName(CurrentGameBiz)?.Replace(".exe", "");
+            string? relativePath = CurrentGameBiz.Game switch
             {
                 GameBiz.hk4e => "ScreenShot",
                 GameBiz.hkrpg => @"StarRail_Data\ScreenShots",
                 GameBiz.bh3 => @"ScreenShot",
                 GameBiz.nap => @"ScreenShot",
-                _ => (await _hoyoplayService.GetGameConfigAsync(CurrentGameId))?.GameScreenshotDir,
+                _ => null,
             };
-            folder = Path.Join(folder, relativePath);
+            if (name is null || relativePath is null)
+            {
+                var config = await _hoyoplayService.GetGameConfigAsync(CurrentGameId);
+                if (config is not null)
+                {
+                    name ??= config.ExeFileName.Replace(".exe", "");
+                    relativePath ??= config.GameScreenshotDir;
+                }
+            }
+            string? folder = AppConfig.ScreenshotFolder;
+            if (!Directory.Exists(folder))
+            {
+                folder = Path.Join(AppConfig.UserDataFolder, "Screenshots");
+            }
+            folder = Path.Join(folder, name);
+            Directory.CreateDirectory(folder);
+            backupFolder = folder;
+            string? installPath = GameLauncherService.GetGameInstallPath(CurrentGameId);
+            folder = Path.Join(installPath, relativePath);
             if (Directory.Exists(folder))
             {
-                return Path.GetFullPath(folder);
+                screenshotFolder = folder;
             }
+            return (backupFolder, screenshotFolder);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Get game screenshot path");
         }
-        return null;
+        return (null, null);
     }
 
 

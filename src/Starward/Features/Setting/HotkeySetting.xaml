@@ -14,10 +14,16 @@
         <StackPanel>
 
             <!--  快捷键  -->
-            <TextBlock FontSize="20" Text="{x:Bind lang:Lang.SettingPage_KeyboardShortcut}" />
+            <TextBlock FontSize="20" Text="{x:Bind lang:Lang.SettingPage_KeyboardShortcuts}" />
+
+            <!--  如果注册单键快捷键 (F1-F12)，需要以管理员权限运行 Starward，否则在游戏中快捷键无法生效。  -->
+            <TextBlock Margin="0,12,0,0"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.HotkeySetting_SingleKeyShortcutsTips}"
+                       TextWrapping="Wrap" />
 
             <!--  显示主窗口  -->
-            <StackPanel Margin="0,12,0,0"
+            <StackPanel Margin="0,20,0,0"
                         Orientation="Horizontal"
                         Spacing="12">
                 <TextBlock MinWidth="200"
@@ -33,7 +39,7 @@
             </StackPanel>
 
             <!--  游戏截图  -->
-            <StackPanel Margin="0,12,0,0"
+            <StackPanel Margin="0,8,0,0"
                         Orientation="Horizontal"
                         Spacing="12">
                 <TextBlock MinWidth="200"

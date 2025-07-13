@@ -83,9 +83,9 @@ internal static class HotkeyManager
             if (error.Succeeded && (info.Modifiers != modifiers || info.Key != key))
             {
                 AppConfig.SetValue($"{(uint)modifiers}+{(uint)key}", info.ConfigSetting);
-                info.Modifiers = modifiers;
-                info.Key = key;
             }
+            info.Modifiers = modifiers;
+            info.Key = key;
             info.IsRegistered = error.Succeeded;
             info.Error = error;
             return error;

@@ -50,8 +50,9 @@
                        Visibility="Collapsed" />
         </StackPanel>
         <!--  打开  -->
-        <Button Grid.Column="2"
-                Command="{x:Bind OpenImageCommand}"
+        <Button x:Name="Button_OpenImage"
+                Grid.Column="2"
+                Click="Button_OpenImage_Click"
                 Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                 UseSystemFocusVisuals="False"
                 Visibility="{x:Bind IsSuccess}">
@@ -92,8 +93,9 @@
                        TextWrapping="Wrap" />
         </StackPanel>
         <!--  打开  -->
-        <Button Grid.Column="2"
-                Command="{x:Bind OpenLogCommand}"
+        <Button x:Name="Button_OpenLog"
+                Grid.Column="2"
+                Click="Button_OpenLog_Click"
                 Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                 UseSystemFocusVisuals="False"
                 Visibility="{x:Bind IsError}">

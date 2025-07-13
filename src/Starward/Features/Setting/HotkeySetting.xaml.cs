@@ -85,7 +85,7 @@ public sealed partial class HotkeySetting : PageBase
                         {
                             InAppToast.MainWindow?.Warning(null, string.Format(Lang.HotkeyManager_FailedToRegisterTheShortcutKeys0, hotkey));
                         }
-                        ((HotkeyInput)sender).State = HoykeyInputState.Success;
+                        ((HotkeyInput)sender).State = HoykeyInputState.Warning;
                     }
                     else
                     {

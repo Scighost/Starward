@@ -151,33 +151,37 @@ public sealed partial class ScreenshotFolderManageDialog : ContentDialog
                 {
                     if (Directory.Exists(folder.Folder))
                     {
-                        string? backupFolder = AppConfig.ScreenshotFolder;
-                        if (!Directory.Exists(backupFolder))
+                        if (ScreenshotFolders?.FirstOrDefault(x => x.Backup) is ScreenshotFolder screenshotFolder)
                         {
-                            backupFolder = Path.Join(AppConfig.UserDataFolder, "Screenshots", CurrentGameId.GameBiz.Game);
-                        }
-                        Directory.CreateDirectory(backupFolder);
-                        StackPanel_BackingUp.Visibility = Visibility.Visible;
-                        int count = await Task.Run(() =>
-                        {
-
-                            int count = 0;
-                            var files = Directory.GetFiles(folder.Folder);
-                            foreach (var item in files)
+                            string backupFolder = screenshotFolder.Folder;
+                            Directory.CreateDirectory(backupFolder);
+                            StackPanel_BackingUp.Visibility = Visibility.Visible;
+                            int count = await Task.Run(() =>
                             {
-                                var target = Path.Combine(backupFolder, Path.GetFileName(item));
-                                if (!File.Exists(target))
+
+                                int count = 0;
+                                var files = Directory.GetFiles(folder.Folder);
+                                foreach (var item in files)
                                 {
-                                    File.Copy(item, target);
-                                    count++;
+                                    var target = Path.Combine(backupFolder, Path.GetFileName(item));
+                                    if (!File.Exists(target))
+                                    {
+                                        File.Copy(item, target);
+                                        count++;
+                                    }
                                 }
-                            }
-                            return count;
-                        });
-                        StackPanel_BackingUp.Visibility = Visibility.Collapsed;
-                        TextBlock_BackupResult.Visibility = Visibility.Visible;
-                        TextBlock_BackupResult.Text = string.Format(Lang.ScreenshotPage_BackedUpNewScreenshots, count);
+                                return count;
+                            });
+                            StackPanel_BackingUp.Visibility = Visibility.Collapsed;
+                            TextBlock_BackupResult.Visibility = Visibility.Visible;
+                            TextBlock_BackupResult.Text = string.Format(Lang.ScreenshotPage_BackedUpNewScreenshots, count);
+                            return;
+                        }
                     }
+                    _logger.LogWarning("Game exe name of {GameBiz} is null, cannot backup screenshots.", CurrentGameId.GameBiz);
+                    TextBlock_BackupResult.Visibility = Visibility.Visible;
+                    TextBlock_BackupResult.Text = Lang.ScreenshotFolderManageDialog_FailedToBackupScreenshots;
+                    return;
                 }
             }
             catch (Exception ex)

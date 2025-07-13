@@ -651,12 +651,12 @@
         <Grid x:Name="Grid_EditImage"
               Grid.Row="1"
               Grid.Column="1"
-              Width="360"
+              MinWidth="360"
               BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
               BorderThickness="1"
               CornerRadius="8,0,0,8"
               Visibility="Collapsed">
-            <ScrollViewer Padding="12">
+            <ScrollViewer Padding="12" VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Margin="0,0,0,20"
                                FontSize="20"

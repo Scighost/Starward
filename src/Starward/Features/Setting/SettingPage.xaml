@@ -67,7 +67,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <!--  快捷键  -->
-                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_KeyboardShortcut}" Tag="HotkeySetting">
+                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_KeyboardShortcuts}" Tag="HotkeySetting">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEDA7;" />
                     </NavigationViewItem.Icon>
