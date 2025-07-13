@@ -2320,7 +2320,16 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="HotkeySetting_FailedToRegisterTheShortcutKeys" xml:space="preserve">
     <value>Не удалось зарегистрировать сочетания клавиш.</value>
   </data>
-  <data name="SettingPage_KeyboardShortcut" xml:space="preserve">
-    <value>Сочетание клавиш</value>
+  <data name="ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder" xml:space="preserve">
+    <value>The built-in screenshot feature will save images to the following folder.</value>
+  </data>
+  <data name="Common_ChangeFolder" xml:space="preserve">
+    <value>Change Folder</value>
+  </data>
+  <data name="HotkeySetting_SingleKeyShortcutsTips" xml:space="preserve">
+    <value>If you register single-key shortcuts (F1–F12), you need to run Starward with administrator privileges; otherwise, the shortcuts may not work in the game.</value>
+  </data>
+  <data name="SettingPage_KeyboardShortcuts" xml:space="preserve">
+    <value>Keyboard Shortcuts</value>
   </data>
 </root>
