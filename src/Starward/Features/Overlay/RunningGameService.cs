@@ -1,4 +1,5 @@
 using Starward.Core;
+using Starward.Features.GamepadControl;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -49,6 +50,7 @@ internal static class RunningGameService
                     _latestActiveGame = runningGame;
                     Debug.WriteLine($"Added running game: {runningGame.Name} ({runningGame.Pid})");
                 }
+                GamepadController.DisableGamepadGuideButtonForGameBarBecauseOfGameStart();
                 _timer.Start();
             }
         }
@@ -60,6 +62,12 @@ internal static class RunningGameService
     public static RunningGame? GetLatestActiveGame()
     {
         return _latestActiveGame;
+    }
+
+
+    public static int GetRunningGameCount()
+    {
+        return _runningGames.Count;
     }
 
 
@@ -91,6 +99,7 @@ internal static class RunningGameService
                         _overlayWindow.Close();
                     }
                 });
+                GamepadController.RestoreGamepadGuideButtonForGameBarBecauseOfGameExit();
             }
         }
     }

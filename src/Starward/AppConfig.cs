@@ -672,6 +672,44 @@ public static class AppConfig
     }
 
 
+    /// <summary>
+    /// 手柄控制
+    /// </summary>
+    public static bool EnableGamepadSimulateInput
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
+    public static int GamepadGuideButtonMode
+    {
+        get => GetValue<int>();
+        set => SetValue(value);
+    }
+
+
+    public static string? GamepadShareButtonMapKeys
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
+    public static string? GamepadGuideButtonMapKeys
+    {
+        get => GetValue<string>();
+        set => SetValue(value);
+    }
+
+
+    public static int GamepadShareButtonMode
+    {
+        get => GetValue<int>();
+        set => SetValue(value);
+    }
+
+
     #endregion
 
 

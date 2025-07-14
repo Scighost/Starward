@@ -10,6 +10,10 @@
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
+    <Page.Resources>
+        <FontFamily x:Key="XboxFluent2">ms-appx:///Assets/Font/XboxFluent2.ttf#Xbox Fluent v2</FontFamily>
+    </Page.Resources>
+
     <Grid>
 
         <NavigationView IsBackButtonVisible="Collapsed"
@@ -70,6 +74,12 @@
                 <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_KeyboardShortcuts}" Tag="HotkeySetting">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEDA7;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <!--  手柄增强  -->
+                <NavigationViewItem Content="{x:Bind lang:Lang.SettingPage_ControllerEnhancement}" Tag="GamepadControlSetting">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{ThemeResource XboxFluent2}" Glyph="&#xE9CD;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <!--  高级  -->

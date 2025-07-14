@@ -33,6 +33,7 @@ public sealed partial class SettingPage : PageBase
                 nameof(AdvancedSetting) => typeof(AdvancedSetting),
                 nameof(ToolboxSetting) => typeof(ToolboxSetting),
                 nameof(HotkeySetting) => typeof(HotkeySetting),
+                nameof(GamepadControlSetting) => typeof(GamepadControlSetting),
                 _ => null,
             };
             if (type is not null)

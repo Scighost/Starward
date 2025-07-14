@@ -2349,6 +2349,170 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Press both thumbstick buttons simultaneously to activate controller-based keyboard and mouse simulation. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_BothThumbsticksDesc {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_BothThumbsticksDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Button Mapping 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_ButtonMapping {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_ButtonMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 • When mapping the Guide button, the default Xbox Game Bar shortcut will be disabled. Other software (such as Steam Big Picture Mode) may also respond to the Guide button. If conflicts occur, you must manually disable those features. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_ButtonMappingGuideDesc {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_ButtonMappingGuideDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 • When mapping to keyboard keys, enter the key names as they appear on the keyboard, separated by spaces. For example, to map a button to &quot;Ctrl + Alt + F1&quot;, input: &quot;Ctrl Alt F1&quot;. For numpad keys, add Pad before the key, such as: Pad8, Pad+ . This feature requires Starward to run with administrator privileges to work correctly in games. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_ButtonMappingKeyboardDesc {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_ButtonMappingKeyboardDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The Share button still triggers Xbox Game Bar screenshots, and there&apos;s currently no good solution. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_ButtonMappingShareDesc {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_ButtonMappingShareDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enter key text 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_EnterKeyText {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_EnterKeyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to initialize the GameInput component. Controller enhancement is unavailable. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancementIsUnavailable {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancemen" +
+                        "tIsUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 GameInputRedist component detected. Simulated input is unavailable. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_GameInputRedistComponentDetectedSimulatedInputIsUnavailable {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_GameInputRedistComponentDetectedSimulatedInputIsUnavailable" +
+                        "", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Game Screenshot 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_GameScreenshot {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_GameScreenshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Guide Button 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_GuideButton {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_GuideButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Keyboard Keys 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_KeyboardKeys {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_KeyboardKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Press and hold the Guide button to open the Starward main window. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_LongPressGuideButtonDesc {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_LongPressGuideButtonDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No Action 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_NoAction {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_NoAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Only Xbox protocol controllers are supported. Compatibility with other types of controllers is not guaranteed. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_OnlySupportXboxControllerProtocol {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_OnlySupportXboxControllerProtocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Share Button 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_ShareButton {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_ShareButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Simulate Input 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_SimulateInput {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_SimulateInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Simulate keyboard and mouse input using a game controller. This feature requires Starward to run with administrator privileges to work correctly in games. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_SimulateInputDesc {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_SimulateInputDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unrecognized key 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_UnrecognizedKey {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_UnrecognizedKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Diff Packages 的本地化字符串。
         /// </summary>
         public static string GameResourcePage_DiffPackages {
@@ -5080,6 +5244,15 @@ namespace Starward.Language {
         public static string SettingPage_Completed {
             get {
                 return ResourceManager.GetString("SettingPage_Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Controller Enhancement 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_ControllerEnhancement {
+            get {
+                return ResourceManager.GetString("SettingPage_ControllerEnhancement", resourceCulture);
             }
         }
         

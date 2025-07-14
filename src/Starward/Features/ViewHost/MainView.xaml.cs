@@ -9,6 +9,7 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Gacha;
 using Starward.Features.GameLauncher;
+using Starward.Features.GamepadControl;
 using Starward.Features.GameRecord;
 using Starward.Features.GameSetting;
 using Starward.Features.RPC;
@@ -73,6 +74,7 @@ public sealed partial class MainView : UserControl
     {
         CheckSystemProxy();
         HotkeyManager.InitializeHotkey(this.XamlRoot.GetWindowHandle());
+        GamepadController.Initialize();
         _ = CheckUpdateOrShowRecentUpdateContentAsync();
         AppConfig.GetService<RpcService>().TrySetEnviromentAsync();
     }
