@@ -2313,4 +2313,61 @@
   <data name="SettingPage_KeyboardShortcuts" xml:space="preserve">
     <value>键盘快捷键</value>
   </data>
+  <data name="SettingPage_ControllerEnhancement" xml:space="preserve">
+    <value>手柄增强</value>
+  </data>
+  <data name="GamepadControlSetting_SimulateInput" xml:space="preserve">
+    <value>模拟输入</value>
+  </data>
+  <data name="GamepadControlSetting_GuideButton" xml:space="preserve">
+    <value>导航键</value>
+  </data>
+  <data name="GamepadControlSetting_NoAction" xml:space="preserve">
+    <value>无操作</value>
+  </data>
+  <data name="GamepadControlSetting_GameScreenshot" xml:space="preserve">
+    <value>游戏截图</value>
+  </data>
+  <data name="GamepadControlSetting_KeyboardKeys" xml:space="preserve">
+    <value>键盘按键</value>
+  </data>
+  <data name="GamepadControlSetting_EnterKeyText" xml:space="preserve">
+    <value>输入按键文本</value>
+  </data>
+  <data name="GamepadControlSetting_ShareButton" xml:space="preserve">
+    <value>分享键</value>
+  </data>
+  <data name="GamepadControlSetting_ButtonMapping" xml:space="preserve">
+    <value>按键映射</value>
+  </data>
+  <data name="GamepadControlSetting_UnrecognizedKey" xml:space="preserve">
+    <value>无法识别按键</value>
+  </data>
+  <data name="GamepadControlSetting_OnlySupportXboxControllerProtocol" xml:space="preserve">
+    <value>仅适配 Xbox 协议手柄，不能保证其他类型手柄的使用体验。</value>
+  </data>
+  <data name="GamepadControlSetting_SimulateInputDesc" xml:space="preserve">
+    <value>使用手柄模拟键鼠操作。需要以管理员权限运行 Starward，才能在游戏中使用此功能。</value>
+  </data>
+  <data name="GamepadControlSetting_LongPressGuideButtonDesc" xml:space="preserve">
+    <value>长按导航键，打开 Starward 主窗口。</value>
+  </data>
+  <data name="GamepadControlSetting_BothThumbsticksDesc" xml:space="preserve">
+    <value>同时按下左右摇杆键，激活手柄模拟键鼠功能。</value>
+  </data>
+  <data name="GamepadControlSetting_GameInputRedistComponentDetectedSimulatedInputIsUnavailable" xml:space="preserve">
+    <value>检测到已安装 GameInputRedist 组件，模拟输入功能不可用。</value>
+  </data>
+  <data name="GamepadControlSetting_ButtonMappingGuideDesc" xml:space="preserve">
+    <value>• 映射导航键时，Xbox Game Bar 的默认快捷操作将被禁用；其他程序（如 Steam 的大屏幕模式）也可能响应导航键，如有冲突需手动关闭相关功能。</value>
+  </data>
+  <data name="GamepadControlSetting_ButtonMappingKeyboardDesc" xml:space="preserve">
+    <value>• 映射为键盘按键时，请输入键盘按键上的文字，多个按键之间用空格分隔。例如，将按键映射为“Ctrl + Alt + F1”组合键，应输入“Ctrl Alt F1”，小键盘按键需在文字前添加 Pad，例如 Pad8，Pad+ 。需要以管理员权限运行 Starward，才能在游戏中使用此功能。</value>
+  </data>
+  <data name="GamepadControlSetting_ButtonMappingShareDesc" xml:space="preserve">
+    <value>• 按下分享键仍会触发 Xbox Game Bar 的截图功能，暂时没有好的解决办法。</value>
+  </data>
+  <data name="GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancementIsUnavailable" xml:space="preserve">
+    <value>GameInput 组件初始化失败，手柄增强不可用。</value>
+  </data>
 </root>
