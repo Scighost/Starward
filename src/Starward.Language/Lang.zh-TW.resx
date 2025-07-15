@@ -2370,34 +2370,34 @@
   <data name="GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancementIsUnavailable" xml:space="preserve">
     <value>Failed to initialize the GameInput component. Controller enhancement is unavailable.</value>
   </data>
-  <data name="ScreenCaptureInfoWindow_SimulatedInputIsActive" xml:space="preserve">
-    <value>Simulated input is active.</value>
+  <data name="SimulateInputTipsWindow_ControllerSimulatedInputIsActive" xml:space="preserve">
+    <value>Controller simulated input is active.</value>
   </data>
-  <data name="ScreenCaptureInfoWindow_ShowHideButtonHints" xml:space="preserve">
+  <data name="SimulateInputTipsWindow_ShowHideButtonHints" xml:space="preserve">
     <value>Show / Hide Button Hints</value>
   </data>
-  <data name="ScreenCaptureInfoWindow_MouseMove" xml:space="preserve">
+  <data name="SimulateInputTipsWindow_MouseMove" xml:space="preserve">
     <value>Mouse Move</value>
   </data>
-  <data name="ScreenCaptureInfoWindow_MouseWheel" xml:space="preserve">
+  <data name="SimulateInputTipsWindow_MouseWheel" xml:space="preserve">
     <value>Mouse Wheel</value>
   </data>
-  <data name="ScreenCaptureInfoWindow_MouseLeftButton" xml:space="preserve">
+  <data name="SimulateInputTipsWindow_MouseLeftButton" xml:space="preserve">
     <value>Mouse Left Button</value>
   </data>
-  <data name="ScreenCaptureInfoWindow_MouseRightButton" xml:space="preserve">
+  <data name="SimulateInputTipsWindow_MouseRightButton" xml:space="preserve">
     <value>Mouse Right Button</value>
   </data>
-  <data name="ScreenCaptureInfoWindow_KeyboardEscKey" xml:space="preserve">
+  <data name="SimulateInputTipsWindow_KeyboardEscKey" xml:space="preserve">
     <value>Keyboard Esc Key</value>
   </data>
-  <data name="ScreenCaptureInfoWindow_KeyboardArrowKeys" xml:space="preserve">
+  <data name="SimulateInputTipsWindow_KeyboardArrowKeys" xml:space="preserve">
     <value>Keyboard Arrow Keys</value>
   </data>
-  <data name="ScreenCaptureInfoWindow_LocateMousePointer" xml:space="preserve">
+  <data name="SimulateInputTipsWindow_LocateMousePointer" xml:space="preserve">
     <value>Locate Mouse Pointer</value>
   </data>
-  <data name="ScreenCaptureInfoWindow_StopSimualteInput" xml:space="preserve">
+  <data name="SimulateInputTipsWindow_StopSimualteInput" xml:space="preserve">
     <value>Stop Simualte Input</value>
   </data>
 </root>
