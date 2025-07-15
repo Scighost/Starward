@@ -2370,4 +2370,34 @@
   <data name="GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancementIsUnavailable" xml:space="preserve">
     <value>GameInput 组件初始化失败，手柄增强不可用。</value>
   </data>
+  <data name="ScreenCaptureInfoWindow_SimulatedInputIsActive" xml:space="preserve">
+    <value>模拟输入已激活</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_ShowHideButtonHints" xml:space="preserve">
+    <value>显示 / 隐藏按键提示</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_MouseMove" xml:space="preserve">
+    <value>鼠标移动</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_MouseWheel" xml:space="preserve">
+    <value>鼠标滚轮</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_MouseLeftButton" xml:space="preserve">
+    <value>鼠标左键</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_MouseRightButton" xml:space="preserve">
+    <value>鼠标右键</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_KeyboardEscKey" xml:space="preserve">
+    <value>键盘 Esc 键</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_KeyboardArrowKeys" xml:space="preserve">
+    <value>键盘方向键</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_LocateMousePointer" xml:space="preserve">
+    <value>定位鼠标指针</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_StopSimualteInput" xml:space="preserve">
+    <value>停止模拟输入</value>
+  </data>
 </root>
