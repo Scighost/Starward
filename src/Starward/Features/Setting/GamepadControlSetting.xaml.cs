@@ -128,6 +128,15 @@ public sealed partial class GamepadControlSetting : PageBase
             {
                 GamepadController.GamepadShareButtonMode = value;
                 AppConfig.GamepadShareButtonMode = value;
+                if (value is 2)
+                {
+                    GamepadShareButtonModeIsKeyboard = true;
+                }
+                else
+                {
+                    GamepadShareButtonModeIsKeyboard = false;
+                    GamepadShareButtonKeyTextEditSuccess = false;
+                }
             }
         }
     } = GamepadController.GamepadShareButtonMode;

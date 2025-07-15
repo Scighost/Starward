@@ -5923,6 +5923,96 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Controller simulated input is active. 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_ControllerSimulatedInputIsActive {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_ControllerSimulatedInputIsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Keyboard Arrow Keys 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_KeyboardArrowKeys {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_KeyboardArrowKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Keyboard Esc Key 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_KeyboardEscKey {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_KeyboardEscKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Locate Mouse Pointer 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_LocateMousePointer {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_LocateMousePointer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mouse Left Button 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_MouseLeftButton {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_MouseLeftButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mouse Move 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_MouseMove {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_MouseMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mouse Right Button 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_MouseRightButton {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_MouseRightButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mouse Wheel 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_MouseWheel {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_MouseWheel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show / Hide Button Hints 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_ShowHideButtonHints {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_ShowHideButtonHints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Stop Simualte Input 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_StopSimualteInput {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_StopSimualteInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Battles Fought 的本地化字符串。
         /// </summary>
         public static string SpiralAbyssPage_BattlesFought {

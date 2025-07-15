@@ -25,6 +25,8 @@ internal static class GamepadController
 
     private static System.Timers.Timer _inputLoopTimer;
 
+    public static IGameInput? GameInputInstance => _gameInput;
+
 
     public static void Initialize()
     {
@@ -124,7 +126,8 @@ internal static class GamepadController
     public static void Stop()
     {
         _inputLoopTimer.Stop();
-        _canHandleInput = false;
+        _simulateInputEnabled = false;
+        HideSimulateInputTipsWindow();
     }
 
 
@@ -571,7 +574,16 @@ internal static class GamepadController
 
     private static void GuideLongPress()
     {
-        _dispatcherQueue.TryEnqueue(MainWindow.Current.Show);
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            MainWindow.Current.ShowByGamepad();
+            if (_simulateInputTipsWindow?.AppWindow is null)
+            {
+                _simulateInputTipsWindow = new();
+            }
+            _simulateInputTipsWindow.Activate();
+            _simulateInputEnabled = true;
+        });
     }
 
 
@@ -615,7 +627,7 @@ internal static class GamepadController
 
     private static GameInputGamepadButtons _lastGamepadButtons;
 
-    private static bool _canHandleInput = false;
+    private static bool _simulateInputEnabled = false;
 
     private static void InputLoop()
     {
@@ -636,7 +648,7 @@ internal static class GamepadController
 
             CheckGamepadThumbSticks(currentGamepadState.buttons);
 
-            if (!_canHandleInput)
+            if (!_simulateInputEnabled)
             {
                 return;
             }
@@ -670,11 +682,18 @@ internal static class GamepadController
         bool thumbSticksChanged = currentThumbSticks != _lastThumbSticks;
         if (thumbSticksChanged && currentThumbSticks == ThumbSticks)
         {
-            _canHandleInput = !_canHandleInput;
+            _simulateInputEnabled = !_simulateInputEnabled;
+            if (_simulateInputEnabled)
+            {
+                ShowSimulateInputTipsWindow();
+            }
+            else
+            {
+                HideSimulateInputTipsWindow();
+            }
         }
         _lastThumbSticks = currentThumbSticks;
     }
-
 
 
 
@@ -757,7 +776,6 @@ internal static class GamepadController
         KeyEvent(changedButtons, state.buttons, GameInputGamepadButtons.DPadRight, VirtualKeyCode.RIGHT);
         KeyEvent(changedButtons, state.buttons, GameInputGamepadButtons.DPadDown, VirtualKeyCode.DOWN);
     }
-
 
 
     private static void KeyEvent(GameInputGamepadButtons changedButtons, GameInputGamepadButtons currentButtons, GameInputGamepadButtons keyButton, VirtualKeyCode vk)
@@ -851,6 +869,41 @@ internal static class GamepadController
     {
         Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\GameDVR", "AppCaptureEnabled", 0, RegistryValueKind.DWord);
     }
+
+
+    #endregion
+
+
+
+    #region Simulate Input Window
+
+
+
+    private static SimulateInputTipsWindow? _simulateInputTipsWindow;
+
+
+
+    private static void ShowSimulateInputTipsWindow()
+    {
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            if (_simulateInputTipsWindow?.AppWindow is null)
+            {
+                _simulateInputTipsWindow = new();
+            }
+            _simulateInputTipsWindow.Activate();
+        });
+    }
+
+
+    private static void HideSimulateInputTipsWindow()
+    {
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            _simulateInputTipsWindow?.Hide();
+        });
+    }
+
 
 
     #endregion

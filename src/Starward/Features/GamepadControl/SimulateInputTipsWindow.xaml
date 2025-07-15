@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sf:WindowEx x:Class="Starward.Features.GamepadControl.SimulateInputTipsWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:Starward.Language"
+             xmlns:local="using:Starward.Features.GamepadControl"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sf="using:Starward.Frameworks"
+             Title="SimulateInputTipsWindow"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid">
+
+        <Grid.Resources>
+            <FontFamily x:Key="XboxFluent2">ms-appx:///Assets/Font/XboxFluent2.ttf#Xbox Fluent v2</FontFamily>
+        </Grid.Resources>
+
+        <Border x:Name="Border_CursorMask"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="{ThemeResource ControlOnImageFillColorDefaultBrush}" />
+
+
+        <Expander x:Name="Expander_ButtonHints"
+                  MinWidth="200"
+                  Margin="60,120,0,0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  HorizontalContentAlignment="Left"
+                  Background="#A0000000"
+                  BorderBrush="#A0000000"
+                  BorderThickness="0"
+                  CornerRadius="8"
+                  IsExpanded="True"
+                  Opacity="0">
+            <Expander.OpacityTransition>
+                <ScalarTransition />
+            </Expander.OpacityTransition>
+            <Expander.Resources>
+                <x:Double x:Key="ExpanderChevronButtonSize">0</x:Double>
+                <x:Double x:Key="ExpanderChevronGlyphSize">0</x:Double>
+                <Thickness x:Key="ExpanderHeaderBorderThickness">0</Thickness>
+                <Thickness x:Key="ExpanderContentUpBorderThickness">0</Thickness>
+                <Thickness x:Key="ExpanderContentDownBorderThickness">0</Thickness>
+                <SolidColorBrush x:Key="ExpanderHeaderBackground">#60000000</SolidColorBrush>
+            </Expander.Resources>
+
+            <!--  模拟输入已激活  -->
+            <Expander.Header>
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xE9CD;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_ControllerSimulatedInputIsActive}" />
+                </StackPanel>
+            </Expander.Header>
+
+            <StackPanel Spacing="10">
+                <!--  按键提醒  -->
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xEA12;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_ShowHideButtonHints}" />
+                </StackPanel>
+                <!--  左摇杆，移动鼠标  -->
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xEA2B;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_MouseMove}" />
+                </StackPanel>
+                <!--  右摇杆，鼠标滚轮  -->
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xEA2C;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_MouseWheel}" />
+                </StackPanel>
+                <!--  A 鼠标左键  -->
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xE992;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_MouseLeftButton}" />
+                </StackPanel>
+                <!--  X 鼠标右键  -->
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xE98F;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_MouseRightButton}" />
+                </StackPanel>
+                <!--  B 键盘 Esc 键  -->
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xE991;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_KeyboardEscKey}" />
+                </StackPanel>
+                <!--  DPad 键盘方向键  -->
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xE9A0;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_KeyboardArrowKeys}" />
+                </StackPanel>
+                <!--  LT 定位鼠标指针  -->
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xE9A3;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_LocateMousePointer}" />
+                </StackPanel>
+                <!--  停止模拟输入  -->
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xE9A4;" />
+                    <TextBlock Margin="4,0,4,0"
+                               VerticalAlignment="Center"
+                               FontSize="20"
+                               Text="+" />
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xE9C8;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_StopSimualteInput}" />
+                </StackPanel>
+
+            </StackPanel>
+        </Expander>
+
+    </Grid>
+
+</sf:WindowEx>

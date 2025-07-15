@@ -95,6 +95,15 @@ public sealed partial class MainWindow : WindowEx
 
 
 
+    public void ShowByGamepad()
+    {
+        CenterInScreen(1200, 676);
+        User32.SetCursorPos(AppWindow.Position.X + AppWindow.Size.Width / 2, AppWindow.Position.Y + AppWindow.Size.Height / 2);
+        base.Show();
+    }
+
+
+
     private void LoadContentView()
     {
         if (string.IsNullOrWhiteSpace(AppConfig.UserDataFolder))
