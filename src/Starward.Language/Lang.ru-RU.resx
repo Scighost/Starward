@@ -2419,4 +2419,27 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="SimulateInputTipsWindow_StopSimualteInput" xml:space="preserve">
     <value>Остановить эмуляцию ввода</value>
   </data>
+  <data name="ScreenshotSetting_TestScreenshot" xml:space="preserve">
+    <value>Test Screenshot</value>
+  </data>
+  <data name="ScreenshotSetting_AutoConvertToSDRImage" xml:space="preserve">
+    <value>Auto Convert to SDR Image</value>
+  </data>
+  <data name="ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved" xml:space="preserve">
+    <value>When capturing HDR images, SDR version will also be saved.</value>
+  </data>
+  <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
+    <value>The screenshot feature captures the currently running game. If multiple games are running, the most recently focused game will be selected. Note the following limitations:
+• Minimized game windows cannot be captured.
+• Parts of the game window that extend beyond the screen will not be included.
+• In rare cases, a non-game window may be captured instead.</value>
+  </data>
+  <data name="ScreenshotSetting_ScreenshotWin10Limit" xml:space="preserve">
+    <value>On Windows 10, the screenshot feature has the following additional limitations:
+• A colored border may appear around the game window during capture.
+• The mouse pointer cannot be hidden.</value>
+  </data>
+  <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
+    <value>If you want to capture screenshots with a controller, please use Key Mapping in the Controller Enhancement page.</value>
+  </data>
 </root>
