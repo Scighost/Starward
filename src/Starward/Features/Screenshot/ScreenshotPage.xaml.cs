@@ -489,9 +489,9 @@ public sealed partial class ScreenshotPage : PageBase
 
 
 
-
-    private async void Button_CopyImage_Click(object sender, RoutedEventArgs e)
+    private async void Button_CopyImage_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
+        e.Handled = true;
         if (sender is Button button)
         {
             if (button.DataContext is ScreenshotItem item)

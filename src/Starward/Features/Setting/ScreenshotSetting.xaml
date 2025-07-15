@@ -95,6 +95,52 @@
                                WindowHandle="{x:Bind WindowHandle}" />
 
 
+            <!--  自动转换为 SDR 图片  -->
+            <ToggleSwitch Margin="0,16,0,0"
+                          IsOn="{x:Bind AutoConvertScreenshotToSDR, Mode=TwoWay}"
+                          OffContent="{x:Bind lang:Lang.ScreenshotSetting_AutoConvertToSDRImage}"
+                          OnContent="{x:Bind lang:Lang.ScreenshotSetting_AutoConvertToSDRImage}" />
+
+            <!--  如果截图为 HDR 图像，将同时保存 SDR 图片。  -->
+            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved}"
+                       TextWrapping="Wrap" />
+
+            <!--  测试截图  -->
+            <Button Margin="0,20,0,0"
+                    Command="{x:Bind TestCaptureCommand}"
+                    Content="{x:Bind lang:Lang.ScreenshotSetting_TestScreenshot}" />
+
+            <!--  截图错误  -->
+            <TextBlock x:Name="TextBlock_CaptureError"
+                       Margin="0,12,0,0"
+                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                       Visibility="Collapsed" />
+
+            <MenuFlyoutSeparator Margin="0,12,0,12" />
+
+            <!--  功能介绍和限制  -->
+            <TextBlock FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotFetureDescAndLimit}"
+                       TextWrapping="Wrap" />
+
+            <!--  Win10 的额外限制  -->
+            <TextBlock Margin="0,8,0,0"
+                       FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotWin10Limit}"
+                       TextWrapping="Wrap" />
+
+
+            <!--  手柄截图建议  -->
+            <TextBlock Margin="0,8,0,0"
+                       FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotWithGamepadSuggestion}"
+                       TextWrapping="Wrap" />
+
+
         </StackPanel>
     </ScrollViewer>
 

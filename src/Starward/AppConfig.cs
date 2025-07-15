@@ -710,6 +710,13 @@ public static class AppConfig
     }
 
 
+    public static bool AutoConvertScreenshotToSDR
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
+
     #endregion
 
 

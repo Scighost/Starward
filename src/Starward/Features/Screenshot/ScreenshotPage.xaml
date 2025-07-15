@@ -212,10 +212,9 @@
                                         Padding="0"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Top"
-                                        Click="Button_CopyImage_Click"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        RequestedTheme="Dark"
-                                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                                        Tapped="Button_CopyImage_Tapped">
                                     <Button.ContentTransitions>
                                         <TransitionCollection>
                                             <ContentThemeTransition />

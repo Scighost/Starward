@@ -1,13 +1,20 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Display;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Starward.Features.Screenshot;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
+using Windows.Graphics.Capture;
+using Windows.Graphics.DirectX;
 using Windows.System;
 
 
@@ -27,6 +34,19 @@ public sealed partial class ScreenshotSetting : PageBase
         InitializeComponent();
         InitializeHotkeyInput();
         InitializeScreenshotFolder();
+    }
+
+
+
+    private ScreenCaptureInfoWindow? _infoWindow;
+
+
+    protected override void OnUnloaded()
+    {
+        if (_infoWindow?.AppWindow is not null)
+        {
+            _infoWindow.Close();
+        }
     }
 
 
@@ -180,6 +200,125 @@ public sealed partial class ScreenshotSetting : PageBase
 
 
     #endregion
+
+
+
+
+    public bool AutoConvertScreenshotToSDR
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.AutoConvertScreenshotToSDR = value;
+            }
+        }
+    } = AppConfig.AutoConvertScreenshotToSDR;
+
+
+
+
+    [RelayCommand]
+    private async Task TestCaptureAsync()
+    {
+        try
+        {
+            HMONITOR monitor = User32.MonitorFromWindow(WindowHandle, User32.MonitorFlags.MONITOR_DEFAULTTONEAREST);
+            using Direct3D11CaptureFrame frame = await ScreenCaptureHelper.CaptureMonitorAsync(monitor.DangerousGetHandle());
+            DateTimeOffset frameTime = DateTimeOffset.Now;
+            using CanvasBitmap canvasBitmap = CanvasBitmap.CreateFromDirect3D11Surface(CanvasDevice.GetSharedDevice(), frame.Surface, 96);
+            DisplayId displayId = new DisplayId((ulong)monitor.DangerousGetHandle());
+            DisplayAdvancedColorInfo colorInfo = DisplayInformation.CreateForDisplayId(displayId).GetAdvancedColorInfo();
+            float maxCLL = ScreenCaptureService.GetMaxCLL(canvasBitmap);
+            float sdrWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits;
+            bool hdr = maxCLL > sdrWhiteLevel;
+            Directory.CreateDirectory(Path.Combine(ScreenshotFolder, "Starward"));
+            string filePath = Path.Join(ScreenshotFolder, "Starward", $"Starward_{frameTime:yyyyMMdd_HHmmssff}.{(hdr ? "jxr" : "png")}");
+            if (hdr)
+            {
+                await ScreenCaptureService.SaveImageAsync(canvasBitmap, filePath, frameTime);
+                if (AutoConvertScreenshotToSDR)
+                {
+                    using HdrToneMapEffect toneMapEffect = new()
+                    {
+                        Source = canvasBitmap,
+                        InputMaxLuminance = maxCLL,
+                        OutputMaxLuminance = sdrWhiteLevel,
+                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                    };
+                    using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
+                    {
+                        Source = toneMapEffect,
+                        InputWhiteLevel = 80,
+                        OutputWhiteLevel = sdrWhiteLevel,
+                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                    };
+                    SrgbGammaEffect gammaEffect = new()
+                    {
+                        Source = whiteLevelEffect,
+                        GammaMode = SrgbGammaMode.OETF,
+                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                    };
+                    using CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(),
+                                                            canvasBitmap.SizeInPixels.Width,
+                                                            canvasBitmap.SizeInPixels.Height,
+                                                            96,
+                                                            DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                            CanvasAlphaMode.Premultiplied);
+                    using (CanvasDrawingSession ds = renderTarget.CreateDrawingSession())
+                    {
+                        ds.Clear(Colors.Transparent);
+                        ds.DrawImage(gammaEffect);
+                    }
+
+                    string sdrPath = Path.ChangeExtension(filePath, ".png");
+                    await ScreenCaptureService.SaveImageAsync(renderTarget, sdrPath, frameTime);
+                }
+            }
+            else
+            {
+                using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
+                {
+                    Source = canvasBitmap,
+                    InputWhiteLevel = 80,
+                    OutputWhiteLevel = sdrWhiteLevel,
+                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                };
+                using SrgbGammaEffect gammaEffect = new()
+                {
+                    Source = whiteLevelEffect,
+                    GammaMode = SrgbGammaMode.OETF,
+                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                };
+                CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(),
+                                                   canvasBitmap.SizeInPixels.Width,
+                                                   canvasBitmap.SizeInPixels.Height,
+                                                   96,
+                                                   DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                   CanvasAlphaMode.Premultiplied);
+                using (CanvasDrawingSession ds = renderTarget.CreateDrawingSession())
+                {
+                    ds.Clear(Colors.Transparent);
+                    ds.DrawImage(gammaEffect);
+                }
+                await ScreenCaptureService.SaveImageAsync(renderTarget, filePath, frameTime);
+            }
+            if (_infoWindow?.AppWindow is null)
+            {
+                _infoWindow = new ScreenCaptureInfoWindow();
+            }
+            _infoWindow.CaptureSuccess(displayId, canvasBitmap, filePath, maxCLL);
+            TextBlock_CaptureError.Text = string.Empty;
+            TextBlock_CaptureError.Visibility = Visibility.Collapsed;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to capture self window");
+            TextBlock_CaptureError.Text = ex.Message;
+            TextBlock_CaptureError.Visibility = Visibility.Visible;
+        }
+    }
+
 
 
 

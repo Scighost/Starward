@@ -3,6 +3,8 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Display;
 using Microsoft.UI;
+using Starward.Core;
+using Starward.Features.GameSetting;
 using Starward.Features.Overlay;
 using System;
 using System.Collections.Concurrent;
@@ -76,7 +78,7 @@ internal class ScreenCaptureService
         }
         try
         {
-            (CanvasBitmap? renderTarget, string? file, float maxCLL) = await CaptureAndSaveAsync(runningGame);
+            (CanvasBitmap? renderTarget, string? file, float maxCLL, float sdrWhiteLevel, DateTimeOffset frameTime) = await CaptureAndSaveAsync(runningGame);
             using (renderTarget)
             {
                 if (_infoWindow?.AppWindow is null)
@@ -84,6 +86,10 @@ internal class ScreenCaptureService
                     _infoWindow = new ScreenCaptureInfoWindow();
                 }
                 _infoWindow.CaptureSuccess(runningGame.WindowHandle, renderTarget, file, maxCLL);
+                if (maxCLL > sdrWhiteLevel && AppConfig.AutoConvertScreenshotToSDR)
+                {
+                    await SaveAsSdrAsync(renderTarget, file, runningGame, maxCLL, sdrWhiteLevel, frameTime).ConfigureAwait(false);
+                }
             }
         }
         catch (Exception ex)
@@ -97,7 +103,6 @@ internal class ScreenCaptureService
         }
     }
 
-    private static int i;
 
 
     /// <summary>
@@ -105,7 +110,7 @@ internal class ScreenCaptureService
     /// </summary>
     /// <param name="runningGame"></param>
     /// <returns></returns>
-    private async Task<(CanvasBitmap CanvasBitmap, string FilePath, float MaxCLL)> CaptureAndSaveAsync(RunningGame runningGame)
+    private async Task<(CanvasBitmap CanvasBitmap, string FilePath, float MaxCLL, float SdrWhiteLevel, DateTimeOffset FrameTime)> CaptureAndSaveAsync(RunningGame runningGame)
     {
         if (!_captureContexts.TryGetValue(runningGame.WindowHandle, out ScreenCaptureContext? context))
         {
@@ -116,9 +121,9 @@ internal class ScreenCaptureService
         var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
         using var frame = await context.CaptureAsync(cts.Token).ConfigureAwait(false);
         DateTimeOffset frameTime = DateTimeOffset.Now;
-        (CanvasRenderTarget renderTarget, float maxCLL) = await ProceedImageAsync(frame, runningGame).ConfigureAwait(false);
+        (CanvasRenderTarget renderTarget, float maxCLL, float sdrWhiteLevel) = await ProceedImageAsync(frame, runningGame).ConfigureAwait(false);
         string filePath = await SaveImageAsync(renderTarget, runningGame, frameTime).ConfigureAwait(false);
-        return (renderTarget, filePath, maxCLL);
+        return (renderTarget, filePath, maxCLL, sdrWhiteLevel, frameTime);
     }
 
 
@@ -128,7 +133,7 @@ internal class ScreenCaptureService
     /// <param name="frame"></param>
     /// <param name="runningGame"></param>
     /// <returns></returns>
-    private async Task<(CanvasRenderTarget CanvasRenderTarget, float MaxCLL)> ProceedImageAsync(Direct3D11CaptureFrame frame, RunningGame runningGame)
+    private static async Task<(CanvasRenderTarget CanvasRenderTarget, float MaxCLL, float SdrWhiteLevel)> ProceedImageAsync(Direct3D11CaptureFrame frame, RunningGame runningGame)
     {
         return await Task.Run(() =>
         {
@@ -168,11 +173,69 @@ internal class ScreenCaptureService
             }
             ds.Clear(Colors.Transparent);
             ds.DrawImage(output, 0, 0, clientRect);
-            return (renderTarget, maxCLL);
+            return (renderTarget, maxCLL, (float)colorInfo.SdrWhiteLevelInNits);
         }).ConfigureAwait(false);
-
     }
 
+
+    /// <summary>
+    /// 保存为 SDR 图像
+    /// </summary>
+    /// <param name="canvasImage"></param>
+    /// <param name="filePath"></param>
+    /// <param name="runningGame"></param>
+    /// <param name="maxCLL"></param>
+    /// <param name="sdrWhiteLevel"></param>
+    /// <param name="frameTime"></param>
+    /// <returns></returns>
+    private static async Task SaveAsSdrAsync(CanvasBitmap canvasImage, string filePath, RunningGame runningGame, float maxCLL, float sdrWhiteLevel, DateTimeOffset frameTime)
+    {
+        await Task.Run(async () =>
+        {
+            if (canvasImage.Format is DirectXPixelFormat.R16G16B16A16Float)
+            {
+                float outputMaxLuminance = sdrWhiteLevel;
+                if (runningGame.GameBiz.Game is GameBiz.hk4e)
+                {
+                    (_, outputMaxLuminance, _) = GameSettingService.GetGenshinHDRLuminance(runningGame.GameBiz);
+                }
+                using HdrToneMapEffect toneMapEffect = new()
+                {
+                    Source = canvasImage,
+                    InputMaxLuminance = maxCLL,
+                    OutputMaxLuminance = outputMaxLuminance,
+                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                };
+                using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
+                {
+                    Source = toneMapEffect,
+                    InputWhiteLevel = 80,
+                    OutputWhiteLevel = outputMaxLuminance,
+                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                };
+                SrgbGammaEffect gammaEffect = new()
+                {
+                    Source = whiteLevelEffect,
+                    GammaMode = SrgbGammaMode.OETF,
+                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                };
+                using CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(),
+                                                        canvasImage.SizeInPixels.Width,
+                                                        canvasImage.SizeInPixels.Height,
+                                                        96,
+                                                        DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                        CanvasAlphaMode.Premultiplied);
+                using (CanvasDrawingSession ds = renderTarget.CreateDrawingSession())
+                {
+                    ds.Clear(Colors.Transparent);
+                    ds.DrawImage(gammaEffect);
+                }
+
+                filePath = Path.ChangeExtension(filePath, ".png");
+                await SaveImageAsync(renderTarget, filePath, frameTime).ConfigureAwait(false);
+            }
+        }).ConfigureAwait(false);
+    }
 
 
     /// <summary>
@@ -184,44 +247,70 @@ internal class ScreenCaptureService
     /// <returns></returns>
     private static async Task<string> SaveImageAsync(CanvasRenderTarget renderTarget, RunningGame runningGame, DateTimeOffset frameTime)
     {
-        string screenshotFolder;
-        string? targetFolder = AppConfig.ScreenshotFolder;
-        if (Directory.Exists(targetFolder))
+        return await Task.Run(async () =>
         {
-            screenshotFolder = Path.GetFullPath(Path.Join(targetFolder, runningGame.Process.ProcessName));
-        }
-        else
+            string screenshotFolder;
+            string? targetFolder = AppConfig.ScreenshotFolder;
+            if (Directory.Exists(targetFolder))
+            {
+                screenshotFolder = Path.GetFullPath(Path.Join(targetFolder, runningGame.Process.ProcessName));
+            }
+            else
+            {
+                screenshotFolder = Path.GetFullPath(Path.Join(AppConfig.UserDataFolder, "Screenshots", runningGame.Process.ProcessName));
+            }
+            Directory.CreateDirectory(screenshotFolder);
+
+            bool hdr = renderTarget.Format is not DirectXPixelFormat.R8G8B8A8UIntNormalized;
+            string fileName = $"{runningGame.Process.ProcessName}_{frameTime:yyyyMMdd_HHmmssff}.{(hdr ? "jxr" : "png")}";
+            string filePath = Path.Combine(screenshotFolder, fileName);
+            await SaveImageAsync(renderTarget, filePath, frameTime).ConfigureAwait(false);
+            return filePath;
+        });
+    }
+
+
+    /// <summary>
+    /// 保存图片
+    /// </summary>
+    /// <param name="canvasBitmap"></param>
+    /// <param name="filePath"></param>
+    /// <param name="frameTime"></param>
+    /// <returns></returns>
+    /// <exception cref="NotSupportedException"></exception>
+    public static async Task SaveImageAsync(CanvasBitmap canvasBitmap, string filePath, DateTimeOffset frameTime)
+    {
+        string? directory = Path.GetDirectoryName(filePath);
+        if (!string.IsNullOrWhiteSpace(directory))
         {
-            screenshotFolder = Path.GetFullPath(Path.Join(AppConfig.UserDataFolder, "Screenshots", runningGame.Process.ProcessName));
+            Directory.CreateDirectory(directory);
         }
-        Directory.CreateDirectory(screenshotFolder);
 
-        bool hdr = renderTarget.Format == DirectXPixelFormat.R16G16B16A16Float;
-        Guid pixelFormatGuid = hdr ? WicPixelFormat.GUID_WICPixelFormat64bppRGBAHalf : WicPixelFormat.GUID_WICPixelFormat32bppBGRA;
-        Guid containerGuid = hdr ? WicCodec.GUID_ContainerFormatWmp : WicCodec.GUID_ContainerFormatPng;
-        string fileName = $"{runningGame.Process.ProcessName}_{frameTime:yyyyMMdd_HHmmssff}.{(hdr ? "jxr" : "png")}";
-        string filePath = Path.Combine(screenshotFolder, fileName);
+        Guid containerGuid = canvasBitmap.Format is DirectXPixelFormat.R8G8B8A8UIntNormalized ? WicCodec.GUID_ContainerFormatPng : WicCodec.GUID_ContainerFormatWmp;
+        Guid pixelFormatGuid = canvasBitmap.Format switch
+        {
+            DirectXPixelFormat.B8G8R8A8UIntNormalized => WicPixelFormat.GUID_WICPixelFormat32bppBGRA,
+            DirectXPixelFormat.R16G16B16A16Float => WicPixelFormat.GUID_WICPixelFormat64bppRGBAHalf,
+            DirectXPixelFormat.R32G32B32A32Float => WicPixelFormat.GUID_WICPixelFormat128bppRGBAFloat,
+            _ => throw new NotSupportedException($"Unsupported pixel format: {canvasBitmap.Format}"),
+        };
 
-        byte[] pixelBytes = renderTarget.GetPixelBytes();
-        int width = (int)renderTarget.SizeInPixels.Width;
-        int height = (int)renderTarget.SizeInPixels.Height;
+        byte[] pixelBytes = canvasBitmap.GetPixelBytes();
+        int width = (int)canvasBitmap.SizeInPixels.Width;
+        int height = (int)canvasBitmap.SizeInPixels.Height;
         using WicBitmapSource wicBitmapSource = WicBitmapSource.FromMemory(width, height, pixelFormatGuid, pixelBytes.Length / height, pixelBytes);
-        string metaPrefix = hdr ? "/ifd" : "";
         var metaList = new List<WicMetadataKeyValue>
         {
-            new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, $"{metaPrefix}/xmp/xmp:CreatorTool"), "Starward Launcher", DirectN.PropertyType.VT_LPWSTR),
-            new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, $"{metaPrefix}/xmp/xmp:CreateDate"), frameTime.ToString("yyyy-MM-ddTHH:mm:sszzz"), DirectN.PropertyType.VT_LPWSTR),
-            new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, "System.Author"), Environment.UserName, DirectN.PropertyType.VT_LPWSTR)
+           new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, "System.ApplicationName"), "Starward Launcher", DirectN.PropertyType.VT_LPWSTR),
+           new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, "System.Photo.DateTaken"), frameTime, DirectN.PropertyType.VT_FILETIME),
         };
+
         using var ms = new MemoryStream();
         wicBitmapSource.Save(ms, containerGuid, encoderOptions: new Dictionary<string, object> { ["Lossless"] = true }, metadata: metaList);
-
         using var fs = File.Create(filePath);
         ms.Seek(0, SeekOrigin.Begin);
         await ms.CopyToAsync(fs).ConfigureAwait(false);
-        return filePath;
     }
-
 
 
     /// <summary>

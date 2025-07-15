@@ -20,7 +20,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
-using WicNet;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Graphics;
@@ -1096,25 +1095,7 @@ public sealed partial class ImageViewWindow2 : Window
                 ds.Clear(Colors.Transparent);
                 ds.DrawImage(bitmap);
             }
-            byte[] pixelBytes = renderTarget.GetPixelBytes();
-            int width = (int)renderTarget.SizeInPixels.Width;
-            int height = (int)renderTarget.SizeInPixels.Height;
-            Guid pixelFormatGuid = hdr ? WicPixelFormat.GUID_WICPixelFormat64bppRGBAHalf : WicPixelFormat.GUID_WICPixelFormat32bppBGRA;
-            Guid containerGuid = hdr ? WicCodec.GUID_ContainerFormatWmp : WicCodec.GUID_ContainerFormatPng;
-            using WicBitmapSource wicBitmapSource = WicBitmapSource.FromMemory(width, height, pixelFormatGuid, pixelBytes.Length / height, pixelBytes);
-            string metaPrefix = hdr ? "/ifd" : "";
-            var metaList = new List<WicMetadataKeyValue>
-            {
-                new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, $"{metaPrefix}/xmp/xmp:CreatorTool"), "Starward Launcher", DirectN.PropertyType.VT_LPWSTR),
-                new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, $"{metaPrefix}/xmp/xmp:CreateDate"), DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"), DirectN.PropertyType.VT_LPWSTR),
-                new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, "System.Author"), Environment.UserName, DirectN.PropertyType.VT_LPWSTR)
-            };
-            using var ms = new MemoryStream();
-            wicBitmapSource.Save(ms, containerGuid, encoderOptions: new Dictionary<string, object> { ["Lossless"] = true }, metadata: metaList);
-
-            using var fs = File.Create(path);
-            ms.Seek(0, SeekOrigin.Begin);
-            await ms.CopyToAsync(fs).ConfigureAwait(false);
+            await ScreenCaptureService.SaveImageAsync(renderTarget, path, DateTimeOffset.Now);
             var file = await StorageFile.GetFileFromPathAsync(path);
             var folder = await file.GetParentAsync();
             var folderOptions = new FolderLauncherOptions();
@@ -1335,25 +1316,7 @@ public sealed partial class ImageViewWindow2 : Window
                 ds.Clear(Colors.Transparent);
                 ds.DrawImage(output);
             }
-            byte[] pixelBytes = renderTarget.GetPixelBytes();
-            int width = (int)renderTarget.SizeInPixels.Width;
-            int height = (int)renderTarget.SizeInPixels.Height;
-            Guid pixelFormatGuid = hdr ? WicPixelFormat.GUID_WICPixelFormat64bppRGBAHalf : WicPixelFormat.GUID_WICPixelFormat32bppBGRA;
-            Guid containerGuid = hdr ? WicCodec.GUID_ContainerFormatWmp : WicCodec.GUID_ContainerFormatPng;
-            using WicBitmapSource wicBitmapSource = WicBitmapSource.FromMemory(width, height, pixelFormatGuid, pixelBytes.Length / height, pixelBytes);
-            string metaPrefix = hdr ? "/ifd" : "";
-            var metaList = new List<WicMetadataKeyValue>
-            {
-                new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, $"{metaPrefix}/xmp/xmp:CreatorTool"), "Starward Launcher", DirectN.PropertyType.VT_LPWSTR),
-                new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, $"{metaPrefix}/xmp/xmp:CreateDate"), DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"), DirectN.PropertyType.VT_LPWSTR),
-                new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, "System.Author"), Environment.UserName, DirectN.PropertyType.VT_LPWSTR)
-            };
-            using var ms = new MemoryStream();
-            wicBitmapSource.Save(ms, containerGuid, encoderOptions: new Dictionary<string, object> { ["Lossless"] = true }, metadata: metaList);
-
-            using var fs = File.Create(path);
-            ms.Seek(0, SeekOrigin.Begin);
-            await ms.CopyToAsync(fs).ConfigureAwait(false);
+            await ScreenCaptureService.SaveImageAsync(renderTarget, path, DateTimeOffset.Now);
             var file = await StorageFile.GetFileFromPathAsync(path);
             var folder = await file.GetParentAsync();
             var folderOptions = new FolderLauncherOptions();

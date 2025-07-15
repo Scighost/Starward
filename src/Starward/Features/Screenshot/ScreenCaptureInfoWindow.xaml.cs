@@ -114,7 +114,7 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
             IsSuccess = true;
             IsError = false;
             _lastFile = file;
-            CropImage(hwnd, bitmap, maxCLL);
+            CropImage(bitmap, User32.GetDpiForWindow(hwnd), maxCLL);
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
             _openImageCancellationToken = _cancellationTokenSource.Token;
@@ -124,15 +124,42 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     }
 
 
+    public void CaptureSuccess(Microsoft.UI.DisplayId displayId, CanvasBitmap bitmap, string file, float maxCLL = -1)
+    {
+        try
+        {
+            IsSuccess = true;
+            IsError = false;
+            _lastFile = file;
+            CropImage(bitmap, GetDpiForMonitor(displayId), maxCLL);
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+            _openImageCancellationToken = _cancellationTokenSource.Token;
+            DisplayWindow(displayId, _cancellationTokenSource.Token);
+        }
+        catch { }
+    }
+
+
+    [LibraryImport("Shcore.dll")]
+    private static partial int GetDpiForMonitor(nint hmonitor, int dpiType, out uint dpiX, out uint dpiY);
+
+
+    private static uint GetDpiForMonitor(Microsoft.UI.DisplayId displayId)
+    {
+        GetDpiForMonitor((nint)displayId.Value, 0, out uint dpiX, out uint dpiY);
+        return dpiX;
+    }
+
+
     /// <summary>
     /// 剪裁并缩放至正方形大小
     /// </summary>
     /// <param name="hwnd"></param>
     /// <param name="bitmap"></param>
     /// <param name="maxCLL"></param>
-    private void CropImage(nint hwnd, CanvasBitmap bitmap, float maxCLL = -1)
+    private void CropImage(CanvasBitmap bitmap, uint dpi, float maxCLL = -1)
     {
-        float dpi = User32.GetDpiForWindow(hwnd);
         float dpiScale = dpi / 96f;
         float targetSize = 72 * dpiScale;
 
@@ -284,6 +311,39 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     }
 
 
+    private async void DisplayWindow(Microsoft.UI.DisplayId displayId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            float dpiScale = GetDpiForMonitor(displayId) / 96f;
+            int width = (int)(WindowWidth * dpiScale);
+            int height = (int)(WindowHeight * dpiScale);
+            var area = DisplayArea.GetFromDisplayId(displayId);
+            int targetX = area.OuterBounds.X + area.OuterBounds.Width - width;
+            int targetY = area.OuterBounds.Y + (int)(area.OuterBounds.Height * 0.25) - height / 2;
+
+            _repeatCount++;
+            if (_repeatCount > 1)
+            {
+                TextBlock_Repeat.Visibility = Visibility.Visible;
+                TextBlock_Repeat.Text = $"+{_repeatCount}";
+            }
+
+            ShowWindow(new RectInt32(targetX, targetY, width, height));
+            await Task.Delay(3000, cancellationToken);
+            if (!cancellationToken.IsCancellationRequested)
+            {
+                await HideWindowAsync(cancellationToken);
+            }
+        }
+        catch (TaskCanceledException) { }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to display screenshot info window.");
+        }
+    }
+
+
     private void ShowWindow(RectInt32 rect)
     {
         AppWindow.MoveAndResize(rect);
@@ -296,7 +356,7 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     {
         StartHideAnimation();
         await Task.Delay(600, cancellationToken);
-        AppWindow.Hide();
+        AppWindow?.Hide();
         _repeatCount = 0;
         TextBlock_Repeat.Text = "";
         TextBlock_Repeat.Visibility = Visibility.Collapsed;

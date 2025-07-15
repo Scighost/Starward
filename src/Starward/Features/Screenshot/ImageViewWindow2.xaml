@@ -742,7 +742,7 @@
         <InfoBar x:Name="InfoBar_Tips"
                  Grid.RowSpan="4"
                  Grid.ColumnSpan="2"
-                 MaxWidth="600"
+                 MaxWidth="800"
                  Margin="100,0,100,80"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Bottom"

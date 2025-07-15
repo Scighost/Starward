@@ -2302,7 +2302,7 @@
     <value>快捷键注册失败</value>
   </data>
   <data name="ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder" xml:space="preserve">
-    <value>内置截图功能会将图片保存到以下文件夹</value>
+    <value>内置截图功能会将图片保存到以下文件夹。</value>
   </data>
   <data name="Common_ChangeFolder" xml:space="preserve">
     <value>修改文件夹</value>
@@ -2399,5 +2399,28 @@
   </data>
   <data name="SimulateInputTipsWindow_StopSimualteInput" xml:space="preserve">
     <value>停止模拟输入</value>
+  </data>
+  <data name="ScreenshotSetting_TestScreenshot" xml:space="preserve">
+    <value>测试截图</value>
+  </data>
+  <data name="ScreenshotSetting_AutoConvertToSDRImage" xml:space="preserve">
+    <value>自动转换为 SDR 图片</value>
+  </data>
+  <data name="ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved" xml:space="preserve">
+    <value>如果截图为 HDR 图像，将同时保存 SDR 图片。</value>
+  </data>
+  <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
+    <value>截图功能将捕获当前正在运行的游戏画面。如果同时运行多个游戏，将优先截取最后获得焦点的游戏窗口。请注意，此功能存在以下限制：
+• 无法捕获已最小化的游戏窗口；
+• 超出屏幕显示范围的游戏区域无法被捕获；
+• 极少数情况下，可能会捕获到非游戏窗口的内容。</value>
+  </data>
+  <data name="ScreenshotSetting_ScreenshotWin10Limit" xml:space="preserve">
+    <value>在 Windows 10 系统上，截图功能还存在以下额外限制：
+• 游戏窗口周围可能会出现彩色边框；
+• 鼠标指针无法隐藏。</value>
+  </data>
+  <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
+    <value>如果需要使用手柄截图，请在「手柄增强」页面启用「按键映射」功能。</value>
   </data>
 </root>

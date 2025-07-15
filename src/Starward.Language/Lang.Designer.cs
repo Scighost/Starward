@@ -4841,6 +4841,27 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Auto Convert to SDR Image 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_AutoConvertToSDRImage {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_AutoConvertToSDRImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The screenshot feature captures the currently running game. If multiple games are running, the most recently focused game will be selected. Note the following limitations:
+        ///• Minimized game windows cannot be captured.
+        ///• Parts of the game window that extend beyond the screen will not be included.
+        ///• In rare cases, a non-game window may be captured instead. 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_ScreenshotFetureDescAndLimit {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_ScreenshotFetureDescAndLimit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Screenshot Shortcut 的本地化字符串。
         /// </summary>
         public static string ScreenshotSetting_ScreenshotShortcut {
@@ -4850,11 +4871,49 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 On Windows 10, the screenshot feature has the following additional limitations:
+        ///• A colored border may appear around the game window during capture.
+        ///• The mouse pointer cannot be hidden. 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_ScreenshotWin10Limit {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_ScreenshotWin10Limit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 If you want to capture screenshots with a controller, please use Key Mapping in the Controller Enhancement page. 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_ScreenshotWithGamepadSuggestion {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_ScreenshotWithGamepadSuggestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Test Screenshot 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_TestScreenshot {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_TestScreenshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The built-in screenshot feature will save images to the following folder. 的本地化字符串。
         /// </summary>
         public static string ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder {
             get {
                 return ResourceManager.GetString("ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 When capturing HDR images, SDR version will also be saved. 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved", resourceCulture);
             }
         }
         

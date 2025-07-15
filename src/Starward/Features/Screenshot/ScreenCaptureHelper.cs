@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Foundation.Metadata;
+using Windows.Graphics;
 using Windows.Graphics.Capture;
 using Windows.Graphics.DirectX;
 using Windows.UI;
@@ -16,6 +17,8 @@ internal partial class ScreenCaptureHelper
 {
 
     public static readonly bool IsTryCreateFromWindowIdPresent = ApiInformation.IsMethodPresent("Windows.Graphics.Capture.GraphicsCaptureItem", "TryCreateFromWindowId");
+
+    public static readonly bool IsTryCreateFromDisplayId = ApiInformation.IsMethodPresent("Windows.Graphics.Capture.GraphicsCaptureItem", "TryCreateFromDisplayId");
 
     public static readonly bool IsIncludeSecondaryWindowsPresent = ApiInformation.IsPropertyPresent("Windows.Graphics.Capture.GraphicsCaptureSession", "IncludeSecondaryWindows");
 
@@ -36,6 +39,20 @@ internal partial class ScreenCaptureHelper
             throw new InvalidOperationException("Cannot capture a minimized window.");
         }
         GraphicsCaptureItem item = CreateGraphicsCaptureItemForWindow(hwnd);
+        return await CaptureAsync(item, cancellationToken);
+    }
+
+
+    public static async Task<Direct3D11CaptureFrame> CaptureMonitorAsync(nint monitor, CancellationToken cancellationToken = default)
+    {
+        GraphicsCaptureItem item = CreateGraphicsCaptureItemForMonitor(monitor);
+        return await CaptureAsync(item, cancellationToken);
+    }
+
+
+
+    public static async Task<Direct3D11CaptureFrame> CaptureAsync(GraphicsCaptureItem item, CancellationToken cancellationToken = default)
+    {
         using Direct3D11CaptureFramePool framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 1, item.Size);
         using GraphicsCaptureSession session = framePool.CreateCaptureSession(item);
 #pragma warning disable CA1416 // 验证平台兼容性
@@ -79,6 +96,23 @@ internal partial class ScreenCaptureHelper
         {
             Guid GraphicsCaptureItemGuid = new("79C3F95B-31F7-4EC2-A464-632EF5D30760");
             nint abi = GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>().CreateForWindow(hwnd, GraphicsCaptureItemGuid);
+            graphicsCaptureItem = GraphicsCaptureItem.FromAbi(abi);
+        }
+        return graphicsCaptureItem;
+    }
+
+
+    public static GraphicsCaptureItem CreateGraphicsCaptureItemForMonitor(nint monitor)
+    {
+        GraphicsCaptureItem graphicsCaptureItem;
+        if (IsTryCreateFromDisplayId)
+        {
+            graphicsCaptureItem = GraphicsCaptureItem.TryCreateFromDisplayId(new DisplayId((ulong)monitor));
+        }
+        else
+        {
+            Guid GraphicsCaptureItemGuid = new("79C3F95B-31F7-4EC2-A464-632EF5D30760");
+            nint abi = GraphicsCaptureItem.As<IGraphicsCaptureItemInterop>().CreateForMonitor(monitor, GraphicsCaptureItemGuid);
             graphicsCaptureItem = GraphicsCaptureItem.FromAbi(abi);
         }
         return graphicsCaptureItem;
