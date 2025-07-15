@@ -2333,90 +2333,90 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Сочетания клавиш</value>
   </data>
   <data name="SettingPage_ControllerEnhancement" xml:space="preserve">
-    <value>Controller Enhancement</value>
+    <value>Расширенные функции контроллера</value>
   </data>
   <data name="GamepadControlSetting_SimulateInput" xml:space="preserve">
-    <value>Simulate Input</value>
+    <value>Эмулировать ввод</value>
   </data>
   <data name="GamepadControlSetting_GuideButton" xml:space="preserve">
-    <value>Guide Button</value>
+    <value>Кнопка Guide</value>
   </data>
   <data name="GamepadControlSetting_NoAction" xml:space="preserve">
-    <value>No Action</value>
+    <value>Не назначено</value>
   </data>
   <data name="GamepadControlSetting_GameScreenshot" xml:space="preserve">
-    <value>Game Screenshot</value>
+    <value>Скриншот игры</value>
   </data>
   <data name="GamepadControlSetting_KeyboardKeys" xml:space="preserve">
-    <value>Keyboard Keys</value>
+    <value>Клавиши клавиатуры</value>
   </data>
   <data name="GamepadControlSetting_EnterKeyText" xml:space="preserve">
-    <value>Enter key text</value>
+    <value>Введите текст кнопки</value>
   </data>
   <data name="GamepadControlSetting_ShareButton" xml:space="preserve">
-    <value>Share Button</value>
+    <value>Кнопка «Поделиться»</value>
   </data>
   <data name="GamepadControlSetting_ButtonMapping" xml:space="preserve">
-    <value>Button Mapping</value>
+    <value>Назначение кнопок</value>
   </data>
   <data name="GamepadControlSetting_UnrecognizedKey" xml:space="preserve">
-    <value>Unrecognized key</value>
+    <value>Неизвестная кнопка</value>
   </data>
   <data name="GamepadControlSetting_OnlySupportXboxControllerProtocol" xml:space="preserve">
-    <value>Only Xbox protocol controllers are supported. Compatibility with other types of controllers is not guaranteed.</value>
+    <value>Поддерживаются только контроллеры по протоколу Xbox. Совместимость с другими типами контроллеров не гарантируется.</value>
   </data>
   <data name="GamepadControlSetting_SimulateInputDesc" xml:space="preserve">
-    <value>Simulate keyboard and mouse input using a game controller. This feature requires Starward to run with administrator privileges to work correctly in games.</value>
+    <value>Эмуляция ввода с клавиатуры и мыши с помощью игрового контроллера. Для корректной работы в играх Starward необходимо запускать с правами администратора.</value>
   </data>
   <data name="GamepadControlSetting_LongPressGuideButtonDesc" xml:space="preserve">
-    <value>Press and hold the Guide button to open the Starward main window.</value>
+    <value>Нажмите и удерживайте кнопку Guide, чтобы открыть главное окно Starward.</value>
   </data>
   <data name="GamepadControlSetting_BothThumbsticksDesc" xml:space="preserve">
-    <value>Press both thumbstick buttons simultaneously to activate controller-based keyboard and mouse simulation.</value>
+    <value>Одновременно нажмите обе кнопки на стиках, чтобы активировать эмуляцию клавиатуры и мыши с помощью контроллера.</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistComponentDetectedSimulatedInputIsUnavailable" xml:space="preserve">
-    <value>GameInputRedist component detected. Simulated input is unavailable.</value>
+    <value>Обнаружен компонент GameInputRedist. Эмуляция ввода недоступна.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingGuideDesc" xml:space="preserve">
-    <value>• When mapping the Guide button, the default Xbox Game Bar shortcut will be disabled. Other software (such as Steam Big Picture Mode) may also respond to the Guide button. If conflicts occur, you must manually disable those features.</value>
+    <value>• При назначении кнопки Guide стандартное сочетание клавиш Xbox Game Bar будет отключено. Другие программы (например, Steam в режиме Big Picture) также могут реагировать на кнопку Guide. В случае конфликтов потребуется вручную отключить соответствующие функции.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingKeyboardDesc" xml:space="preserve">
-    <value>• When mapping to keyboard keys, enter the key names as they appear on the keyboard, separated by spaces. For example, to map a button to "Ctrl + Alt + F1", input: "Ctrl Alt F1". For numpad keys, add Pad before the key, such as: Pad8, Pad+ . This feature requires Starward to run with administrator privileges to work correctly in games.</value>
+    <value>• При назначении клавиш клавиатуры вводите их имена так, как они указаны на клавиатуре, разделяя пробелами. Например, чтобы назначить кнопку сочетанию «Ctrl + Alt + F1», введите: «Ctrl Alt F1». Для клавиш на цифровой клавиатуре добавляйте префикс Pad, например: Pad8, Pad+. Для корректной работы этой функции в играх Starward необходимо запускать с правами администратора.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingShareDesc" xml:space="preserve">
-    <value>The Share button still triggers Xbox Game Bar screenshots, and there's currently no good solution.</value>
+    <value>Кнопка «Поделиться» по-прежнему запускает скриншоты Xbox Game Bar, и в настоящее время нет хорошего решения.</value>
   </data>
   <data name="GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancementIsUnavailable" xml:space="preserve">
-    <value>Failed to initialize the GameInput component. Controller enhancement is unavailable.</value>
+    <value>Не удалось инициализировать компонент GameInput. Улучшенные функции контроллера недоступны.</value>
   </data>
   <data name="SimulateInputTipsWindow_ControllerSimulatedInputIsActive" xml:space="preserve">
-    <value>Controller simulated input is active.</value>
+    <value>Эмуляция ввода с контроллера активна.</value>
   </data>
   <data name="SimulateInputTipsWindow_ShowHideButtonHints" xml:space="preserve">
-    <value>Show / Hide Button Hints</value>
+    <value>Показать / Скрыть подсказки кнопок</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseMove" xml:space="preserve">
-    <value>Mouse Move</value>
+    <value>Движение мышки</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseWheel" xml:space="preserve">
-    <value>Mouse Wheel</value>
+    <value>Колесо мыши</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseLeftButton" xml:space="preserve">
-    <value>Mouse Left Button</value>
+    <value>Левая кнопка мыши</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseRightButton" xml:space="preserve">
-    <value>Mouse Right Button</value>
+    <value>Правая кнопка мыши</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardEscKey" xml:space="preserve">
-    <value>Keyboard Esc Key</value>
+    <value>Клавиша Esc</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardArrowKeys" xml:space="preserve">
-    <value>Keyboard Arrow Keys</value>
+    <value>Клавиши со стрелками</value>
   </data>
   <data name="SimulateInputTipsWindow_LocateMousePointer" xml:space="preserve">
-    <value>Locate Mouse Pointer</value>
+    <value>Найти указатель мыши</value>
   </data>
   <data name="SimulateInputTipsWindow_StopSimualteInput" xml:space="preserve">
-    <value>Stop Simualte Input</value>
+    <value>Остановить эмуляцию ввода</value>
   </data>
 </root>
