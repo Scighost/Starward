@@ -261,7 +261,7 @@ internal class ScreenCaptureService
             }
             Directory.CreateDirectory(screenshotFolder);
 
-            bool hdr = renderTarget.Format is not DirectXPixelFormat.R8G8B8A8UIntNormalized;
+            bool hdr = renderTarget.Format is not DirectXPixelFormat.B8G8R8A8UIntNormalized;
             string fileName = $"{runningGame.Process.ProcessName}_{frameTime:yyyyMMdd_HHmmssff}.{(hdr ? "jxr" : "png")}";
             string filePath = Path.Combine(screenshotFolder, fileName);
             await SaveImageAsync(renderTarget, filePath, frameTime).ConfigureAwait(false);
@@ -286,7 +286,7 @@ internal class ScreenCaptureService
             Directory.CreateDirectory(directory);
         }
 
-        Guid containerGuid = canvasBitmap.Format is DirectXPixelFormat.R8G8B8A8UIntNormalized ? WicCodec.GUID_ContainerFormatPng : WicCodec.GUID_ContainerFormatWmp;
+        Guid containerGuid = canvasBitmap.Format is DirectXPixelFormat.B8G8R8A8UIntNormalized ? WicCodec.GUID_ContainerFormatPng : WicCodec.GUID_ContainerFormatWmp;
         Guid pixelFormatGuid = canvasBitmap.Format switch
         {
             DirectXPixelFormat.B8G8R8A8UIntNormalized => WicPixelFormat.GUID_WICPixelFormat32bppBGRA,

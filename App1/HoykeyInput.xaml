@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="App1.HoykeyInput"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:App1"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+
+
+    <Grid MinWidth="200" ColumnSpacing="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="Grid_EditHotkey"
+              Grid.ColumnSpan="2"
+              Background="Transparent"
+              BorderBrush="{ThemeResource TextFillColorTertiaryBrush}"
+              BorderThickness="1"
+              CornerRadius="4"
+              KeyDown="Grid_EditHotkey_KeyDown"
+              KeyUp="Grid_EditHotkey_KeyUp"
+              LostFocus="Grid_EditHotkey_LostFocus">
+            <Button x:Name="Button_EditHotkey"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="Button_EditHotkey_Click">
+                <Button.Resources>
+                    <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="ControlFillColorTransparentBrush" />
+                    <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="ControlFillColorTransparentBrush" />
+                </Button.Resources>
+            </Button>
+            <TextBlock x:Name="TextBlock_EditingText"
+                       Margin="4,8,4,8"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                       IsHitTestVisible="False"
+                       Text="{x:Bind EditingText}" />
+            <TextBlock x:Name="TextBlock_ClickToSetHotkey"
+                       Margin="4,8,4,8"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsHitTestVisible="False"
+                       Text="Click to Set Hotkey" />
+            <TextBlock x:Name="TextBlock_HotkeyText"
+                       Margin="4,8,4,8"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                       IsHitTestVisible="False"
+                       Text="{x:Bind HotkeyText}" />
+            <TextBlock x:Name="TextBlock_HotkeyText_Warning"
+                       Margin="4,8,4,8"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                       IsHitTestVisible="False"
+                       Text="{x:Bind HotkeyText}" />
+        </Grid>
+
+        <Button x:Name="Button_DeleteHotkey"
+                Grid.Column="1"
+                Margin="0,0,4,0"
+                Padding="4"
+                VerticalAlignment="Center"
+                Click="Button_DeleteHotkey_Click"
+                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                Visibility="Collapsed">
+            <FontIcon FontSize="16"
+                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                      Glyph="&#xEA39;"
+                      IsTextScaleFactorEnabled="False" />
+        </Button>
+
+        <Button x:Name="Button_Success"
+                Grid.Column="1"
+                Margin="0,0,4,0"
+                Padding="4"
+                VerticalAlignment="Center"
+                IsEnabled="False"
+                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                Visibility="Collapsed">
+            <FontIcon FontSize="16"
+                      Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                      Glyph="&#xE930;"
+                      IsTextScaleFactorEnabled="False" />
+        </Button>
+
+    </Grid>
+
+</UserControl>

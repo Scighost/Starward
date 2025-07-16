@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Window x:Class="App1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="using:App1"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sq="using:System.Linq"
+        Title="App1"
+        x:DefaultBindMode="OneWay"
+        mc:Ignorable="d">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="BaseAlt" />
+    </Window.SystemBackdrop>
+
+
+
+    <Grid>
+
+
+
+
+
+        <Border x:Name="Boder_Mask"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="#A0202020"
+                PointerMoved="Boder_Mask_PointerMoved"
+                PointerPressed="Boder_Mask_PointerPressed"
+                PointerReleased="Boder_Mask_PointerReleased" />
+
+        <TextBlock x:Name="TextBlock_Info"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
+
+        <Button Click="Button_Click" Content="Test" />
+
+
+    </Grid>
+
+
+</Window>
