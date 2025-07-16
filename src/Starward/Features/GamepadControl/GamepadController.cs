@@ -657,6 +657,7 @@ internal static class GamepadController
             ulong currentRreadingTimestamp = currentReading.GetTimestamp();
 
             MouseMove(currentGamepadState);
+            SwitchWindow(currentGamepadState, currentTimestamp);
             if (currentTimestamp - _lastScrollTimestamp > 100_000)
             {
                 MouseScroll(currentGamepadState);
@@ -791,6 +792,54 @@ internal static class GamepadController
                 _inputSimulator.Keyboard.KeyUp(vk);
             }
         }
+    }
+
+
+
+    private static ulong _lastSwitchWindowTimestamp = 0;
+
+    private static GameInputGamepadButtons _lastShoulderButtons;
+
+    private static void SwitchWindow(GameInputGamepadState state, ulong currentTimestamp)
+    {
+        const GameInputGamepadButtons ShoulderButtons = GameInputGamepadButtons.LeftShoulder | GameInputGamepadButtons.RightShoulder;
+        GameInputGamepadButtons currentShoulderButtons = state.buttons & ShoulderButtons;
+        GameInputGamepadButtons changedShoulderButtons = _lastShoulderButtons ^ currentShoulderButtons;
+        if (changedShoulderButtons > 0 && currentShoulderButtons == 0)
+        {
+            // 松开所有肩键
+            _inputSimulator.Keyboard.KeyUp(VirtualKeyCode.MENU);
+        }
+        else if (changedShoulderButtons.HasFlag(GameInputGamepadButtons.LeftShoulder) && currentShoulderButtons.HasFlag(GameInputGamepadButtons.LeftShoulder))
+        {
+            // 按下左肩键
+            _inputSimulator.Keyboard.KeyDown(VirtualKeyCode.MENU);
+            _inputSimulator.Keyboard.KeyDown(VirtualKeyCode.SHIFT, VirtualKeyCode.TAB);
+            _inputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT, VirtualKeyCode.TAB);
+        }
+        else if (changedShoulderButtons.HasFlag(GameInputGamepadButtons.RightShoulder) && currentShoulderButtons.HasFlag(GameInputGamepadButtons.RightShoulder))
+        {
+            // 按下右肩键
+            _inputSimulator.Keyboard.KeyDown(VirtualKeyCode.MENU);
+            _inputSimulator.Keyboard.KeyDown(VirtualKeyCode.TAB);
+            _inputSimulator.Keyboard.KeyUp(VirtualKeyCode.TAB);
+        }
+        else if (currentShoulderButtons > 0 && currentTimestamp - _lastSwitchWindowTimestamp > 400_000)
+        {
+            // 长按肩键
+            if (currentShoulderButtons is GameInputGamepadButtons.LeftShoulder)
+            {
+                _inputSimulator.Keyboard.KeyDown(VirtualKeyCode.SHIFT, VirtualKeyCode.TAB);
+                _inputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT, VirtualKeyCode.TAB);
+            }
+            if (currentShoulderButtons is GameInputGamepadButtons.RightShoulder)
+            {
+                _inputSimulator.Keyboard.KeyDown(VirtualKeyCode.TAB);
+                _inputSimulator.Keyboard.KeyUp(VirtualKeyCode.TAB);
+            }
+            _lastSwitchWindowTimestamp = currentTimestamp;
+        }
+        _lastShoulderButtons = currentShoulderButtons;
     }
 
 

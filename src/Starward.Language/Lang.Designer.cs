@@ -6072,6 +6072,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Switch Windows 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_SwitchWindows {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_SwitchWindows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Battles Fought 的本地化字符串。
         /// </summary>
         public static string SpiralAbyssPage_BattlesFought {

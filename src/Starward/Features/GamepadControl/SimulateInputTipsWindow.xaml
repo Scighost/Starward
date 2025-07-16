@@ -132,6 +132,19 @@
                                VerticalAlignment="Center"
                                Text="{x:Bind lang:Lang.SimulateInputTipsWindow_LocateMousePointer}" />
                 </StackPanel>
+                <!--  LB RB 切换窗口  -->
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xE9AA;" />
+                    <FontIcon Margin="8,0,0,0"
+                              FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xE9A8;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_SwitchWindows}" />
+                </StackPanel>
                 <!--  停止模拟输入  -->
                 <StackPanel Orientation="Horizontal">
                     <FontIcon FontFamily="{ThemeResource XboxFluent2}"
