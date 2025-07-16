@@ -11,7 +11,7 @@
              mc:Ignorable="d">
 
 
-    <ScrollViewer x:Name="scr" Background="{x:Null}">
+    <ScrollViewer Background="{x:Null}">
         <StackPanel>
 
             <!--  游戏截图  -->
@@ -24,7 +24,7 @@
                        TextWrapping="Wrap" />
 
             <!--  截图文件夹  -->
-            <Grid Margin="0,12,0,0">
+            <Grid Margin="0,8,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
@@ -73,12 +73,12 @@
 
 
             <!--  截图快捷键  -->
-            <TextBlock Margin="0,20,0,0"
+            <TextBlock Margin="0,16,0,0"
                        FontSize="20"
                        Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotShortcut}" />
 
             <!--  如果注册单键快捷键 (F1-F12)，需要以管理员权限运行 Starward，否则在游戏中快捷键无法生效。  -->
-            <TextBlock Margin="0,12,0,0"
+            <TextBlock Margin="0,8,0,0"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.HotkeySetting_SingleKeyShortcutsTips}"
                        TextWrapping="Wrap" />
@@ -95,8 +95,14 @@
                                WindowHandle="{x:Bind WindowHandle}" />
 
 
+            <!--  自动复制截图文件  -->
+            <ToggleSwitch Margin="0,12,0,0"
+                          IsOn="{x:Bind AutoCopyScreenshotToClipboard, Mode=TwoWay}"
+                          OffContent="{x:Bind lang:Lang.ScreenshotSetting_AutoCopyScreenshotFile}"
+                          OnContent="{x:Bind lang:Lang.ScreenshotSetting_AutoCopyScreenshotFile}" />
+
             <!--  自动转换为 SDR 图片  -->
-            <ToggleSwitch Margin="0,16,0,0"
+            <ToggleSwitch Margin="0,-4,0,0"
                           IsOn="{x:Bind AutoConvertScreenshotToSDR, Mode=TwoWay}"
                           OffContent="{x:Bind lang:Lang.ScreenshotSetting_AutoConvertToSDRImage}"
                           OnContent="{x:Bind lang:Lang.ScreenshotSetting_AutoConvertToSDRImage}" />
@@ -107,7 +113,7 @@
                        TextWrapping="Wrap" />
 
             <!--  测试截图  -->
-            <Button Margin="0,20,0,0"
+            <Button Margin="0,12,0,0"
                     Command="{x:Bind TestCaptureCommand}"
                     Content="{x:Bind lang:Lang.ScreenshotSetting_TestScreenshot}" />
 

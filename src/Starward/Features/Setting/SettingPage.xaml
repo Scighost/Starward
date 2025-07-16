@@ -99,7 +99,7 @@
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 
-            <Frame Name="Frame_Setting" Margin="24,24,24,0" />
+            <Frame Name="Frame_Setting" Margin="24,24,0,0" />
 
         </NavigationView>
 

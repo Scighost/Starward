@@ -816,6 +816,7 @@ internal static class GamepadController
             _inputSimulator.Keyboard.KeyDown(VirtualKeyCode.MENU);
             _inputSimulator.Keyboard.KeyDown(VirtualKeyCode.SHIFT, VirtualKeyCode.TAB);
             _inputSimulator.Keyboard.KeyUp(VirtualKeyCode.SHIFT, VirtualKeyCode.TAB);
+            _lastSwitchWindowTimestamp = currentTimestamp;
         }
         else if (changedShoulderButtons.HasFlag(GameInputGamepadButtons.RightShoulder) && currentShoulderButtons.HasFlag(GameInputGamepadButtons.RightShoulder))
         {
@@ -823,6 +824,17 @@ internal static class GamepadController
             _inputSimulator.Keyboard.KeyDown(VirtualKeyCode.MENU);
             _inputSimulator.Keyboard.KeyDown(VirtualKeyCode.TAB);
             _inputSimulator.Keyboard.KeyUp(VirtualKeyCode.TAB);
+            _lastSwitchWindowTimestamp = currentTimestamp;
+        }
+        else if (changedShoulderButtons.HasFlag(GameInputGamepadButtons.LeftShoulder) && !currentShoulderButtons.HasFlag(GameInputGamepadButtons.LeftShoulder))
+        {
+            // 松开左肩键
+            _lastSwitchWindowTimestamp = currentTimestamp;
+        }
+        else if (changedShoulderButtons.HasFlag(GameInputGamepadButtons.RightShoulder) && !currentShoulderButtons.HasFlag(GameInputGamepadButtons.RightShoulder))
+        {
+            // 松开右肩键
+            _lastSwitchWindowTimestamp = currentTimestamp;
         }
         else if (currentShoulderButtons > 0 && currentTimestamp - _lastSwitchWindowTimestamp > 400_000)
         {

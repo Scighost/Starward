@@ -2429,4 +2429,7 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="SimulateInputTipsWindow_SwitchWindows" xml:space="preserve">
     <value>Switch Windows</value>
   </data>
+  <data name="ScreenshotSetting_AutoCopyScreenshotFile" xml:space="preserve">
+    <value>Auto Copy Screenshot File</value>
+  </data>
 </root>

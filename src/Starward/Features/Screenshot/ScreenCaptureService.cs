@@ -6,19 +6,23 @@ using Microsoft.UI;
 using Starward.Core;
 using Starward.Features.GameSetting;
 using Starward.Features.Overlay;
+using Starward.Helpers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
 using WicNet;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Graphics.Capture;
 using Windows.Graphics.DirectX;
+using Windows.Storage;
 
 namespace Starward.Features.Screenshot;
 
@@ -81,6 +85,7 @@ internal class ScreenCaptureService
             (CanvasBitmap? renderTarget, string? file, float maxCLL, float sdrWhiteLevel, DateTimeOffset frameTime) = await CaptureAndSaveAsync(runningGame);
             using (renderTarget)
             {
+                await CopyToClipboardAsync(file);
                 if (_infoWindow?.AppWindow is null)
                 {
                     _infoWindow = new ScreenCaptureInfoWindow();
@@ -88,7 +93,8 @@ internal class ScreenCaptureService
                 _infoWindow.CaptureSuccess(runningGame.WindowHandle, renderTarget, file, maxCLL);
                 if (maxCLL > sdrWhiteLevel && AppConfig.AutoConvertScreenshotToSDR)
                 {
-                    await SaveAsSdrAsync(renderTarget, file, runningGame, maxCLL, sdrWhiteLevel, frameTime).ConfigureAwait(false);
+                    string? sdrFilePath = await SaveAsSdrAsync(renderTarget, file, runningGame, maxCLL, sdrWhiteLevel, frameTime).ConfigureAwait(false);
+                    await CopyToClipboardAsync(sdrFilePath);
                 }
             }
         }
@@ -188,53 +194,53 @@ internal class ScreenCaptureService
     /// <param name="sdrWhiteLevel"></param>
     /// <param name="frameTime"></param>
     /// <returns></returns>
-    private static async Task SaveAsSdrAsync(CanvasBitmap canvasImage, string filePath, RunningGame runningGame, float maxCLL, float sdrWhiteLevel, DateTimeOffset frameTime)
+    private static async Task<string?> SaveAsSdrAsync(CanvasBitmap canvasImage, string filePath, RunningGame runningGame, float maxCLL, float sdrWhiteLevel, DateTimeOffset frameTime)
     {
-        await Task.Run(async () =>
+        if (canvasImage.Format is DirectXPixelFormat.R16G16B16A16Float)
         {
-            if (canvasImage.Format is DirectXPixelFormat.R16G16B16A16Float)
+            await Task.Delay(1).ConfigureAwait(false);
+            float outputMaxLuminance = sdrWhiteLevel;
+            if (runningGame.GameBiz.Game is GameBiz.hk4e)
             {
-                float outputMaxLuminance = sdrWhiteLevel;
-                if (runningGame.GameBiz.Game is GameBiz.hk4e)
-                {
-                    (_, outputMaxLuminance, _) = GameSettingService.GetGenshinHDRLuminance(runningGame.GameBiz);
-                }
-                using HdrToneMapEffect toneMapEffect = new()
-                {
-                    Source = canvasImage,
-                    InputMaxLuminance = maxCLL,
-                    OutputMaxLuminance = outputMaxLuminance,
-                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                };
-                using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
-                {
-                    Source = toneMapEffect,
-                    InputWhiteLevel = 80,
-                    OutputWhiteLevel = outputMaxLuminance,
-                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                };
-                SrgbGammaEffect gammaEffect = new()
-                {
-                    Source = whiteLevelEffect,
-                    GammaMode = SrgbGammaMode.OETF,
-                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                };
-                using CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(),
-                                                        canvasImage.SizeInPixels.Width,
-                                                        canvasImage.SizeInPixels.Height,
-                                                        96,
-                                                        DirectXPixelFormat.B8G8R8A8UIntNormalized,
-                                                        CanvasAlphaMode.Premultiplied);
-                using (CanvasDrawingSession ds = renderTarget.CreateDrawingSession())
-                {
-                    ds.Clear(Colors.Transparent);
-                    ds.DrawImage(gammaEffect);
-                }
-
-                filePath = Path.ChangeExtension(filePath, ".png");
-                await SaveImageAsync(renderTarget, filePath, frameTime).ConfigureAwait(false);
+                (_, outputMaxLuminance, _) = GameSettingService.GetGenshinHDRLuminance(runningGame.GameBiz);
             }
-        }).ConfigureAwait(false);
+            using HdrToneMapEffect toneMapEffect = new()
+            {
+                Source = canvasImage,
+                InputMaxLuminance = maxCLL,
+                OutputMaxLuminance = outputMaxLuminance,
+                BufferPrecision = CanvasBufferPrecision.Precision16Float,
+            };
+            using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
+            {
+                Source = toneMapEffect,
+                InputWhiteLevel = 80,
+                OutputWhiteLevel = outputMaxLuminance,
+                BufferPrecision = CanvasBufferPrecision.Precision16Float,
+            };
+            SrgbGammaEffect gammaEffect = new()
+            {
+                Source = whiteLevelEffect,
+                GammaMode = SrgbGammaMode.OETF,
+                BufferPrecision = CanvasBufferPrecision.Precision16Float,
+            };
+            using CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(),
+                                                    canvasImage.SizeInPixels.Width,
+                                                    canvasImage.SizeInPixels.Height,
+                                                    96,
+                                                    DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                    CanvasAlphaMode.Premultiplied);
+            using (CanvasDrawingSession ds = renderTarget.CreateDrawingSession())
+            {
+                ds.Clear(Colors.Transparent);
+                ds.DrawImage(gammaEffect);
+            }
+
+            filePath = Path.ChangeExtension(filePath, ".png");
+            await SaveImageAsync(renderTarget, filePath, frameTime).ConfigureAwait(false);
+            return filePath;
+        }
+        return null;
     }
 
 
@@ -310,6 +316,28 @@ internal class ScreenCaptureService
         using var fs = File.Create(filePath);
         ms.Seek(0, SeekOrigin.Begin);
         await ms.CopyToAsync(fs).ConfigureAwait(false);
+    }
+
+
+    public static async Task CopyToClipboardAsync(string? filePath)
+    {
+        // 0x800401D0
+        const int CLIPBRD_E_CANT_OPEN = -2147221040;
+        if (AppConfig.AutoCopyScreenshotToClipboard)
+        {
+            if (File.Exists(filePath))
+            {
+                var file = await StorageFile.GetFileFromPathAsync(filePath);
+                try
+                {
+                    ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
+                }
+                catch (COMException ex) when (ex.HResult == CLIPBRD_E_CANT_OPEN)
+                {
+                    ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
+                }
+            }
+        }
     }
 
 

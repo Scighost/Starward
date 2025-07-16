@@ -217,6 +217,18 @@ public sealed partial class ScreenshotSetting : PageBase
 
 
 
+    public bool AutoCopyScreenshotToClipboard
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.AutoCopyScreenshotToClipboard = value;
+            }
+        }
+    } = AppConfig.AutoCopyScreenshotToClipboard;
+
+
 
     [RelayCommand]
     private async Task TestCaptureAsync()
@@ -237,6 +249,7 @@ public sealed partial class ScreenshotSetting : PageBase
             if (hdr)
             {
                 await ScreenCaptureService.SaveImageAsync(canvasBitmap, filePath, frameTime);
+                await ScreenCaptureService.CopyToClipboardAsync(filePath);
                 if (AutoConvertScreenshotToSDR)
                 {
                     using HdrToneMapEffect toneMapEffect = new()
@@ -273,6 +286,7 @@ public sealed partial class ScreenshotSetting : PageBase
 
                     string sdrPath = Path.ChangeExtension(filePath, ".png");
                     await ScreenCaptureService.SaveImageAsync(renderTarget, sdrPath, frameTime);
+                    await ScreenCaptureService.CopyToClipboardAsync(sdrPath);
                 }
             }
             else
@@ -302,6 +316,7 @@ public sealed partial class ScreenshotSetting : PageBase
                     ds.DrawImage(gammaEffect);
                 }
                 await ScreenCaptureService.SaveImageAsync(renderTarget, filePath, frameTime);
+                await ScreenCaptureService.CopyToClipboardAsync(filePath);
             }
             if (_infoWindow?.AppWindow is null)
             {

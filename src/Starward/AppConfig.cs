@@ -717,6 +717,13 @@ public static class AppConfig
     }
 
 
+    public static bool AutoCopyScreenshotToClipboard
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
+
     #endregion
 
 

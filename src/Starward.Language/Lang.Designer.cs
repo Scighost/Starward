@@ -4850,6 +4850,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Auto Copy Screenshot File 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_AutoCopyScreenshotFile {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_AutoCopyScreenshotFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The screenshot feature captures the currently running game. If multiple games are running, the most recently focused game will be selected. Note the following limitations:
         ///• Minimized game windows cannot be captured.
         ///• Parts of the game window that extend beyond the screen will not be included.
