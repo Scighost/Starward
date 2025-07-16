@@ -2420,29 +2420,32 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Остановить эмуляцию ввода</value>
   </data>
   <data name="ScreenshotSetting_TestScreenshot" xml:space="preserve">
-    <value>Test Screenshot</value>
+    <value> Тестовый скриншот</value>
   </data>
   <data name="ScreenshotSetting_AutoConvertToSDRImage" xml:space="preserve">
-    <value>Auto Convert to SDR Image</value>
+    <value>Автоматически преобразовывать в изображение SDR</value>
   </data>
   <data name="ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved" xml:space="preserve">
-    <value>When capturing HDR images, SDR version will also be saved.</value>
+    <value>При захвате HDR-изображений также будет сохраняться версия в SDR.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
-    <value>The screenshot feature captures the currently running game. If multiple games are running, the most recently focused game will be selected. Note the following limitations:
-• Minimized game windows cannot be captured.
-• Parts of the game window that extend beyond the screen will not be included.
-• In rare cases, a non-game window may be captured instead.</value>
+    <value>Функция создания скриншота захватывает текущую запущенную игру. Если запущено несколько игр, будет выбрана та, которая была в фокусе последней. Обратите внимание на следующие ограничения:
+• Минимизированные игровые окна не могут быть захвачены.
+• Части окна игры, выходящие за пределы экрана, не будут включены.
+• В редких случаях может быть захвачено не игровое окно.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWin10Limit" xml:space="preserve">
-    <value>On Windows 10, the screenshot feature has the following additional limitations:
-• A colored border may appear around the game window during capture.
-• The mouse pointer cannot be hidden.</value>
+    <value>На Windows 10 функция создания скриншотов имеет следующие дополнительные ограничения:
+• Во время захвата вокруг окна игры может появляться цветная рамка.
+• Указатель мыши нельзя скрыть.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
-    <value>If you want to capture screenshots with a controller, please use Button Mapping in the Controller Enhancement page.</value>
+    <value> Если вы хотите делать скриншоты с помощью контроллера, используйте назначение кнопок на странице «Улучшение контроллера».</value>
   </data>
   <data name="TheScreenshotFeatureDoesNotSupportCloudGame" xml:space="preserve">
-    <value>The screenshot feature does not support cloud game.</value>
+    <value>Функция создания скриншотов не поддерживает облачные игры.</value>
+  </data>
+  <data name="SimulateInputTipsWindow_SwitchWindows" xml:space="preserve">
+    <value>Переключить окна</value>
   </data>
 </root>
