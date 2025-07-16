@@ -339,6 +339,16 @@ internal partial class GameLauncherService
             {
                 GameSettingService.SetGenshinEnableHDR(gameId.GameBiz, AppConfig.EnableGenshinHDR);
             }
+            if (gameId.GameBiz.Game is GameBiz.nap)
+            {
+                var setting = GameSettingService.GetGameResolutionSetting(gameId.GameBiz);
+                if (setting is not null)
+                {
+                    arg += $" -screen-width {setting.Width}";
+                    arg += $" -screen-height {setting.Height}";
+                    arg += $" -screen-fullscreen {(setting.IsFullScreen ? "1" : "0")}";
+                }
+            }
             _logger.LogInformation("Start game ({biz})\r\npath: {exe}\r\narg: {arg}", gameId, exe, arg);
             var info = new ProcessStartInfo
             {
