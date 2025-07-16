@@ -2425,4 +2425,7 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="TheScreenshotFeatureDoesNotSupportCloudGame" xml:space="preserve">
     <value>The screenshot feature does not support cloud game.</value>
   </data>
+  <data name="SimulateInputTipsWindow_SwitchWindows" xml:space="preserve">
+    <value>Switch Windows</value>
+  </data>
 </root>
