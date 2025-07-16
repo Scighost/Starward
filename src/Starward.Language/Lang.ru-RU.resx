@@ -2333,7 +2333,7 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Сочетания клавиш</value>
   </data>
   <data name="SettingPage_ControllerEnhancement" xml:space="preserve">
-    <value>Расширенные функции контроллера</value>
+    <value>Улучшение контроллера</value>
   </data>
   <data name="GamepadControlSetting_SimulateInput" xml:space="preserve">
     <value>Эмулировать ввод</value>
@@ -2449,6 +2449,6 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Переключить окна</value>
   </data>
   <data name="ScreenshotSetting_AutoCopyScreenshotFile" xml:space="preserve">
-    <value>Auto Copy Screenshot File</value>
+    <value>Автоматически копировать файл скриншота</value>
   </data>
 </root>
