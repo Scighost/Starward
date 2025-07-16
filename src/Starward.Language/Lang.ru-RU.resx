@@ -2445,4 +2445,7 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="TheScreenshotFeatureDoesNotSupportCloudGame" xml:space="preserve">
     <value>The screenshot feature does not support cloud game.</value>
   </data>
+  <data name="SimulateInputTipsWindow_SwitchWindows" xml:space="preserve">
+    <value>Switch Windows</value>
+  </data>
 </root>
