@@ -2418,6 +2418,9 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
 • The mouse pointer cannot be hidden.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
-    <value>If you want to capture screenshots with a controller, please use Key Mapping in the Controller Enhancement page.</value>
+    <value>If you want to capture screenshots with a controller, please use Button Mapping in the Controller Enhancement page.</value>
+  </data>
+  <data name="TheScreenshotFeatureDoesNotSupportCloudGame" xml:space="preserve">
+    <value>The screenshot feature does not support cloud game.</value>
   </data>
 </root>
