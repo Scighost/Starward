@@ -121,6 +121,19 @@ public sealed partial class GameSettingPage : PageBase
     }
 
 
+    public bool UsePopupWindow
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                IsApplyButtonEnable = true;
+            }
+        }
+    }
+
+
 
     public bool EnableCustomResolution { get; set => SetProperty(ref field, value); }
 
@@ -226,6 +239,7 @@ public sealed partial class GameSettingPage : PageBase
                 UpdateHdrState(_displayInformation);
             }
             StartArgument = AppConfig.GetStartArgument(CurrentGameBiz);
+            UsePopupWindow = AppConfig.GetUsePopupWindow(CurrentGameBiz);
             var resolutionSetting = GameSettingService.GetGameResolutionSetting(CurrentGameBiz);
             if (resolutionSetting != null)
             {
@@ -404,6 +418,7 @@ public sealed partial class GameSettingPage : PageBase
                     Height = ResolutionHeight,
                 };
                 GameSettingService.SetGameResolutionSetting(CurrentGameBiz, model);
+                AppConfig.SetUsePopupWindow(CurrentGameBiz, UsePopupWindow);
             }
             if (IsLanguageSettingEnable)
             {
