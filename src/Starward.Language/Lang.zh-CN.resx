@@ -2410,10 +2410,10 @@
     <value>如果截图为 HDR 图像，将同时保存 SDR 图片。</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
-    <value>截图功能将捕获当前正在运行的游戏画面。如果同时运行多个游戏，将优先截取最后获得焦点的游戏窗口。请注意，此功能存在以下限制：
-• 无法捕获已最小化的游戏窗口；
-• 超出屏幕显示范围的游戏区域无法被捕获；
-• 极少数情况下，可能会捕获到非游戏窗口的内容。</value>
+    <value>截图功能将截取当前正在运行的游戏画面。如果同时运行多个游戏，将优先截取最后获得焦点的游戏窗口。请注意，此功能存在以下限制：
+• 无法截取已最小化的游戏窗口；
+• 超出屏幕显示范围的游戏区域无法被截取；
+• 极少数情况下，可能会截取到非游戏窗口的内容。</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWin10Limit" xml:space="preserve">
     <value>在 Windows 10 系统上，截图功能还存在以下额外限制：
