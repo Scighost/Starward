@@ -126,7 +126,7 @@
                        TextWrapping="Wrap" />
 
             <!--  Win10 的额外限制  -->
-            <TextBlock Margin="0,8,0,0"
+            <TextBlock Margin="0,6,0,0"
                        FontSize="12"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotWin10Limit}"
@@ -134,10 +134,17 @@
 
 
             <!--  手柄截图建议  -->
-            <TextBlock Margin="0,8,0,0"
+            <TextBlock Margin="0,6,0,0"
                        FontSize="12"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotWithGamepadSuggestion}"
+                       TextWrapping="Wrap" />
+
+            <!--  不支持云游戏  -->
+            <TextBlock Margin="0,6,0,0"
+                       FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.TheScreenshotFeatureDoesNotSupportCloudGame}"
                        TextWrapping="Wrap" />
 
 

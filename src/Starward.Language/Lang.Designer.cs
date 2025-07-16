@@ -4882,7 +4882,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 If you want to capture screenshots with a controller, please use Key Mapping in the Controller Enhancement page. 的本地化字符串。
+        ///   查找类似 If you want to capture screenshots with a controller, please use Button Mapping in the Controller Enhancement page. 的本地化字符串。
         /// </summary>
         public static string ScreenshotSetting_ScreenshotWithGamepadSuggestion {
             get {
@@ -6311,6 +6311,15 @@ namespace Starward.Language {
         public static string SwitchClientPage_TheTowFoldersExistAtTheSameTime {
             get {
                 return ResourceManager.GetString("SwitchClientPage_TheTowFoldersExistAtTheSameTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The screenshot feature does not support cloud game. 的本地化字符串。
+        /// </summary>
+        public static string TheScreenshotFeatureDoesNotSupportCloudGame {
+            get {
+                return ResourceManager.GetString("TheScreenshotFeatureDoesNotSupportCloudGame", resourceCulture);
             }
         }
         

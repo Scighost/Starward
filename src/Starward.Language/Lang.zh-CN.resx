@@ -2423,4 +2423,7 @@
   <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
     <value>如果需要使用手柄截图，请在「手柄增强」页面启用「按键映射」功能。</value>
   </data>
+  <data name="TheScreenshotFeatureDoesNotSupportCloudGame" xml:space="preserve">
+    <value>截图功能不支持云游戏。</value>
+  </data>
 </root>
