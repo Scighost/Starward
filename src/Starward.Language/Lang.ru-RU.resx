@@ -2448,4 +2448,7 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="SimulateInputTipsWindow_SwitchWindows" xml:space="preserve">
     <value>Переключить окна</value>
   </data>
+  <data name="ScreenshotSetting_AutoCopyScreenshotFile" xml:space="preserve">
+    <value>Auto Copy Screenshot File</value>
+  </data>
 </root>
