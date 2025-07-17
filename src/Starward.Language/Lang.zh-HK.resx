@@ -2431,4 +2431,7 @@
   <data name="ScreenshotSetting_AutoCopyScreenshotFile" xml:space="preserve">
     <value>Auto Copy Screenshot File</value>
   </data>
+  <data name="GameSettingPage_UsePopupWindow" xml:space="preserve">
+    <value>Use Popup Window</value>
+  </data>
 </root>
