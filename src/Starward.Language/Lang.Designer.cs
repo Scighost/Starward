@@ -2874,6 +2874,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Use Popup Window 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_UsePopupWindow {
+            get {
+                return ResourceManager.GetString("GameSettingPage_UsePopupWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Very High 的本地化字符串。
         /// </summary>
         public static string GameSettingPage_VeryHigh {

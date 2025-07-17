@@ -335,6 +335,11 @@ internal partial class GameLauncherService
                     arg += $" login_auth_ticket={ticket}";
                 }
             }
+            if (AppConfig.GetUsePopupWindow(gameId.GameBiz))
+            {
+                arg += " -popupwindow";
+            }
+
             if (gameId.GameBiz.Game is GameBiz.hk4e)
             {
                 GameSettingService.SetGenshinEnableHDR(gameId.GameBiz, AppConfig.EnableGenshinHDR);

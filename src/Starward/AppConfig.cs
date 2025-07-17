@@ -850,6 +850,27 @@ public static class AppConfig
     }
 
 
+    /// <summary>
+    /// 无边框窗口
+    /// </summary>
+    /// <param name="biz"></param>
+    /// <returns></returns>
+    public static bool GetUsePopupWindow(GameBiz biz)
+    {
+        return GetValue<bool>(false, $"use_popup_window_{biz}");
+    }
+
+    /// <summary>
+    /// 无边框窗口
+    /// </summary>
+    /// <param name="biz"></param>
+    /// <param name="value"></param>
+    public static void SetUsePopupWindow(GameBiz biz, bool value)
+    {
+        SetValue(value, $"use_popup_window_{biz}");
+    }
+
+
 
     public static long GetLastUidInGachaLogPage(GameBiz biz)
     {

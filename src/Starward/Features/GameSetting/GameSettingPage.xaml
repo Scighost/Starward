@@ -34,8 +34,13 @@
                     <CheckBox Margin="0,8,0,0"
                               Content="{x:Bind lang:Lang.GameSettingPage_FullScreen}"
                               IsChecked="{x:Bind EnableFullScreen, Mode=TwoWay}" />
+                    <!--  无边框窗口  -->
+                    <CheckBox Margin="0,8,0,0"
+                              Content="{x:Bind lang:Lang.GameSettingPage_UsePopupWindow}"
+                              IsChecked="{x:Bind UsePopupWindow, Mode=TwoWay}" />
                     <!--  自定义分辨率  -->
-                    <CheckBox Content="{x:Bind lang:Lang.GameSettingPage_CustomResolution}" IsChecked="{x:Bind EnableCustomResolution, Mode=TwoWay}" />
+                    <CheckBox Margin="0,8,0,0"
+                              Content="{x:Bind lang:Lang.GameSettingPage_CustomResolution}" IsChecked="{x:Bind EnableCustomResolution, Mode=TwoWay}" />
                     <ComboBox Name="ComboBox_Resolution"
                               Width="160"
                               Margin="0,8,0,0"
