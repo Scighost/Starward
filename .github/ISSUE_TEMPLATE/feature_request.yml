@@ -27,4 +27,4 @@ body:
       label: Solution or Design
       description: How to implement the feature? If about UI/UX, please provide a simple design diagram.
     validations:
-      required: true
+      required: false
