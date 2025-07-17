@@ -2451,4 +2451,7 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="ScreenshotSetting_AutoCopyScreenshotFile" xml:space="preserve">
     <value>Автоматически копировать файл скриншота</value>
   </data>
+  <data name="GameSettingPage_UsePopupWindow" xml:space="preserve">
+    <value>Use Popup Window</value>
+  </data>
 </root>
