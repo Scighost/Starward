@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Version>0.1.0</Version>
+		<Authors>Scighost</Authors>
+		<Description>Image codec of Starward.</Description>
+		<PackageProjectUrl>https://github.com/Scighost/Starward/tree/large-resource</PackageProjectUrl>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Update="$(MSBuildThisFileDirectory)runtimes\**">
+			<PackagePath>.\</PackagePath>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<Pack>true</Pack>
+		</None>
+	</ItemGroup>
+
+</Project>
