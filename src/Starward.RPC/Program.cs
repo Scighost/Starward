@@ -12,6 +12,7 @@ using Starward.RPC.Env;
 using Starward.RPC.GameInstall;
 using Starward.RPC.Update;
 using System;
+using System.Collections;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
@@ -19,6 +20,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.AccessControl;
 using System.Security.Principal;
+using System.Text;
 using System.Threading;
 
 
@@ -26,10 +28,22 @@ AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
 void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 {
-    var folder = Path.Combine(AppConfig.CacheFolder, "crash");
-    Directory.CreateDirectory(folder);
-    var file = Path.Combine(folder, $"crash_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
-    File.WriteAllText(file, e.ExceptionObject.ToString());
+    var logFolder = Path.Combine(AppConfig.CacheFolder, "log");
+    Directory.CreateDirectory(logFolder);
+    var logFile = Path.Combine(logFolder, $"Starward_{DateTime.Now:yyMMdd}.log");
+    var sb = new StringBuilder();
+    sb.AppendLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] RPC Crash:");
+    sb.AppendLine(e.ExceptionObject.ToString());
+    if (e.ExceptionObject is Exception { Data.Count: > 0 } ex)
+    {
+        foreach (DictionaryEntry item in ex.Data)
+        {
+            sb.AppendLine($"{item.Key}: {item.Value}");
+        }
+    }
+    using var fs = File.Open(logFile, FileMode.Append, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete);
+    using var sw = new StreamWriter(fs);
+    sw.Write(sb);
 }
 
 var builder = WebApplication.CreateBuilder(args);
