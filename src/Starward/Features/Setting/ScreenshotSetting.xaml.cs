@@ -252,40 +252,8 @@ public sealed partial class ScreenshotSetting : PageBase
                 await ScreenCaptureService.CopyToClipboardAsync(filePath);
                 if (AutoConvertScreenshotToSDR)
                 {
-                    using HdrToneMapEffect toneMapEffect = new()
-                    {
-                        Source = canvasBitmap,
-                        InputMaxLuminance = maxCLL,
-                        OutputMaxLuminance = sdrWhiteLevel,
-                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                    };
-                    using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
-                    {
-                        Source = toneMapEffect,
-                        InputWhiteLevel = 80,
-                        OutputWhiteLevel = sdrWhiteLevel,
-                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                    };
-                    SrgbGammaEffect gammaEffect = new()
-                    {
-                        Source = whiteLevelEffect,
-                        GammaMode = SrgbGammaMode.OETF,
-                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                    };
-                    using CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(),
-                                                            canvasBitmap.SizeInPixels.Width,
-                                                            canvasBitmap.SizeInPixels.Height,
-                                                            96,
-                                                            DirectXPixelFormat.B8G8R8A8UIntNormalized,
-                                                            CanvasAlphaMode.Premultiplied);
-                    using (CanvasDrawingSession ds = renderTarget.CreateDrawingSession())
-                    {
-                        ds.Clear(Colors.Transparent);
-                        ds.DrawImage(gammaEffect);
-                    }
-
-                    string sdrPath = Path.ChangeExtension(filePath, ".png");
-                    await ScreenCaptureService.SaveImageAsync(renderTarget, sdrPath, frameTime);
+                    string sdrPath = Path.ChangeExtension(filePath, ".jpg");
+                    await ScreenCaptureService.SaveAsUhdrImageAsync(canvasBitmap, sdrPath, maxCLL, sdrWhiteLevel);
                     await ScreenCaptureService.CopyToClipboardAsync(sdrPath);
                 }
             }

@@ -3,6 +3,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Display;
 using Microsoft.UI;
+using Starward.Codec.UltraHdr;
 using Starward.Core;
 using Starward.Features.GameSetting;
 using Starward.Features.Overlay;
@@ -93,7 +94,7 @@ internal class ScreenCaptureService
                 _infoWindow.CaptureSuccess(runningGame.WindowHandle, renderTarget, file, maxCLL);
                 if (maxCLL > sdrWhiteLevel && AppConfig.AutoConvertScreenshotToSDR)
                 {
-                    string? sdrFilePath = await SaveAsSdrAsync(renderTarget, file, runningGame, maxCLL, sdrWhiteLevel, frameTime).ConfigureAwait(false);
+                    string? sdrFilePath = await SaveAsSdrAsync(renderTarget, file, runningGame, maxCLL, sdrWhiteLevel, frameTime);
                     await CopyToClipboardAsync(sdrFilePath);
                 }
             }
@@ -204,40 +205,8 @@ internal class ScreenCaptureService
             {
                 (_, outputMaxLuminance, _) = GameSettingService.GetGenshinHDRLuminance(runningGame.GameBiz);
             }
-            using HdrToneMapEffect toneMapEffect = new()
-            {
-                Source = canvasImage,
-                InputMaxLuminance = maxCLL,
-                OutputMaxLuminance = outputMaxLuminance,
-                BufferPrecision = CanvasBufferPrecision.Precision16Float,
-            };
-            using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
-            {
-                Source = toneMapEffect,
-                InputWhiteLevel = 80,
-                OutputWhiteLevel = outputMaxLuminance,
-                BufferPrecision = CanvasBufferPrecision.Precision16Float,
-            };
-            SrgbGammaEffect gammaEffect = new()
-            {
-                Source = whiteLevelEffect,
-                GammaMode = SrgbGammaMode.OETF,
-                BufferPrecision = CanvasBufferPrecision.Precision16Float,
-            };
-            using CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(),
-                                                    canvasImage.SizeInPixels.Width,
-                                                    canvasImage.SizeInPixels.Height,
-                                                    96,
-                                                    DirectXPixelFormat.B8G8R8A8UIntNormalized,
-                                                    CanvasAlphaMode.Premultiplied);
-            using (CanvasDrawingSession ds = renderTarget.CreateDrawingSession())
-            {
-                ds.Clear(Colors.Transparent);
-                ds.DrawImage(gammaEffect);
-            }
-
-            filePath = Path.ChangeExtension(filePath, ".png");
-            await SaveImageAsync(renderTarget, filePath, frameTime).ConfigureAwait(false);
+            filePath = Path.ChangeExtension(filePath, ".jpg");
+            await SaveAsUhdrImageAsync(canvasImage, filePath, maxCLL, outputMaxLuminance).ConfigureAwait(false);
             return filePath;
         }
         return null;
@@ -332,7 +301,7 @@ internal class ScreenCaptureService
                 {
                     ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
                 }
-                catch (COMException ex) when (ex.HResult == CLIPBRD_E_CANT_OPEN)
+                catch (COMException)
                 {
                     ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
                 }
@@ -461,4 +430,204 @@ internal class ScreenCaptureService
     }
 
 
+
+
+    public static async Task SaveAsUhdrImageAsync(CanvasBitmap canvasImage, string filePath, float maxCLL, float sdrWhiteLevel)
+    {
+        if (canvasImage.Format is DirectXPixelFormat.R16G16B16A16Float)
+        {
+            await Task.Delay(1).ConfigureAwait(false);
+            using HdrToneMapEffect toneMapEffect = new()
+            {
+                Source = canvasImage,
+                InputMaxLuminance = maxCLL,
+                OutputMaxLuminance = sdrWhiteLevel,
+                DisplayMode = HdrToneMapEffectDisplayMode.Hdr,
+                BufferPrecision = CanvasBufferPrecision.Precision16Float,
+            };
+            using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
+            {
+                Source = toneMapEffect,
+                InputWhiteLevel = 80,
+                OutputWhiteLevel = sdrWhiteLevel,
+                BufferPrecision = CanvasBufferPrecision.Precision16Float,
+            };
+            using SrgbGammaEffect gammaEffect = new()
+            {
+                Source = whiteLevelEffect,
+                GammaMode = SrgbGammaMode.OETF,
+                BufferPrecision = CanvasBufferPrecision.Precision16Float,
+            };
+            using UhdrPixelGainEffect uhdrPixelGainEffect = new()
+            {
+                SdrSource = toneMapEffect,
+                HdrSource = canvasImage,
+            };
+
+            using CanvasRenderTarget renderTarget_gain = new(CanvasDevice.GetSharedDevice(),
+                                                    canvasImage.SizeInPixels.Width,
+                                                    canvasImage.SizeInPixels.Height,
+                                                    96,
+                                                    DirectXPixelFormat.R32G32B32A32Float,
+                                                    CanvasAlphaMode.Premultiplied);
+            using (CanvasDrawingSession ds = renderTarget_gain.CreateDrawingSession())
+            {
+                ds.Units = CanvasUnits.Pixels;
+                ds.Clear(Colors.Transparent);
+                ds.DrawImage(uhdrPixelGainEffect);
+            }
+            byte[] gainPixelBytes = renderTarget_gain.GetPixelBytes();
+            float[] contentBoost = GetContentMinMaxBoost(gainPixelBytes);
+
+
+            using UhdrGainmapEffect uhdrGainmapEffect = new()
+            {
+                PixelGainSource = renderTarget_gain,
+                MinContentBoost = MemoryMarshal.Cast<float, float3>(contentBoost)[0],
+                MaxContentBoost = MemoryMarshal.Cast<float, float3>(contentBoost)[1],
+            };
+            using CanvasRenderTarget renderTarget_gainmap = new(CanvasDevice.GetSharedDevice(),
+                                                    canvasImage.SizeInPixels.Width,
+                                                    canvasImage.SizeInPixels.Height,
+                                                    96,
+                                                    DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                    CanvasAlphaMode.Premultiplied);
+            using (CanvasDrawingSession ds = renderTarget_gainmap.CreateDrawingSession())
+            {
+                ds.Units = CanvasUnits.Pixels;
+                ds.Clear(Colors.Transparent);
+                ds.DrawImage(uhdrGainmapEffect);
+            }
+
+            using CanvasRenderTarget renderTarget_sdr = new(CanvasDevice.GetSharedDevice(),
+                                                   canvasImage.SizeInPixels.Width,
+                                                   canvasImage.SizeInPixels.Height,
+                                                   96,
+                                                   DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                   CanvasAlphaMode.Premultiplied);
+            using (CanvasDrawingSession ds = renderTarget_sdr.CreateDrawingSession())
+            {
+                ds.Units = CanvasUnits.Pixels;
+                ds.Clear(Colors.Transparent);
+                ds.DrawImage(gammaEffect);
+            }
+
+            MemoryStream ms_base = new();
+            MemoryStream ms_gainmap = new();
+            await renderTarget_sdr.SaveAsync(ms_base.AsRandomAccessStream(), CanvasBitmapFileFormat.Jpeg);
+            await renderTarget_gainmap.SaveAsync(ms_gainmap.AsRandomAccessStream(), CanvasBitmapFileFormat.Jpeg);
+
+            using var encoder = new UhdrEncoder();
+            unsafe
+            {
+                fixed (byte* b = ms_base.ToArray(), g = ms_gainmap.ToArray())
+                {
+                    UhdrCompressedImage baseImage = new UhdrCompressedImage
+                    {
+                        Data = (nint)b,
+                        DataSize = (uint)ms_base.Length,
+                        Capacity = (uint)ms_base.Length,
+                        ColorGamut = UhdrColorGamut.BT709,
+                        ColorRange = UhdrColorRange.FullRange,
+                        ColorTransfer = UhdrColorTransfer.SRGB,
+                    };
+                    UhdrCompressedImage gainmapImage = new UhdrCompressedImage
+                    {
+                        Data = (nint)g,
+                        DataSize = (uint)ms_gainmap.Length,
+                        Capacity = (uint)ms_gainmap.Length,
+                        ColorGamut = UhdrColorGamut.BT709,
+                        ColorRange = UhdrColorRange.FullRange,
+                        ColorTransfer = UhdrColorTransfer.SRGB,
+                    };
+                    encoder.SetCompressedImage(baseImage, UhdrImageLabel.Base);
+                    encoder.SetGainmapImage(gainmapImage, new UhdrGainmapMetadata
+                    {
+                        MinContentBoost0 = contentBoost[0],
+                        MinContentBoost1 = contentBoost[1],
+                        MinContentBoost2 = contentBoost[2],
+                        MaxContentBoost0 = contentBoost[3],
+                        MaxContentBoost1 = contentBoost[4],
+                        MaxContentBoost2 = contentBoost[5],
+                        Gamma0 = 1,
+                        Gamma1 = 1,
+                        Gamma2 = 1,
+                        OffsetSdr0 = 0.015625f,
+                        OffsetSdr1 = 0.015625f,
+                        OffsetSdr2 = 0.015625f,
+                        OffsetHdr0 = 0.015625f,
+                        OffsetHdr1 = 0.015625f,
+                        OffsetHdr2 = 0.015625f,
+                        HdrCapacityMin = 1,
+                        HdrCapacityMax = MathF.Max(MathF.Max(contentBoost[3], contentBoost[4]), contentBoost[5]),
+                        UseBaseColorSpace = 1,
+                    });
+                }
+            }
+            encoder.Encode();
+            byte[] bytes = encoder.GetEncodedBytes().ToArray();
+            await File.WriteAllBytesAsync(filePath, bytes).ConfigureAwait(false);
+        }
+    }
+
+
+    /// <summary>
+    /// return min rgb, max rgb
+    /// </summary>
+    /// <param name="pixelBytes"></param>
+    /// <returns></returns>
+    public static float[] GetContentMinMaxBoost(byte[] pixelBytes)
+    {
+        const float PQ_MAX = 10000f / 203;
+        float[] contentBoost = [PQ_MAX, PQ_MAX, PQ_MAX, 0, 0, 0];
+        var span = MemoryMarshal.Cast<byte, float>(pixelBytes);
+        if (Vector.IsHardwareAccelerated && Vector<float>.Count % 4 == 0)
+        {
+            Vector<float> minBoost = new Vector<float>(PQ_MAX);
+            Vector<float> maxBoost = new Vector<float>(0);
+            int remaining = span.Length % Vector<float>.Count;
+            for (int i = 0; i < span.Length - remaining; i += Vector<float>.Count)
+            {
+                var value = new Vector<float>(span.Slice(i, Vector<float>.Count));
+                minBoost = Vector.Min(minBoost, value);
+                maxBoost = Vector.Max(maxBoost, value);
+            }
+            for (int i = 0; i < Vector<float>.Count; i += 4)
+            {
+                contentBoost[0] = MathF.Min(contentBoost[0], minBoost[i]);
+                contentBoost[1] = MathF.Min(contentBoost[1], minBoost[i + 1]);
+                contentBoost[2] = MathF.Min(contentBoost[2], minBoost[i + 2]);
+                contentBoost[3] = MathF.Max(contentBoost[3], maxBoost[i]);
+                contentBoost[4] = MathF.Max(contentBoost[4], maxBoost[i + 1]);
+                contentBoost[5] = MathF.Max(contentBoost[5], maxBoost[i + 2]);
+            }
+            for (int i = span.Length - remaining; i < span.Length; i += 4)
+            {
+                contentBoost[0] = MathF.Min(contentBoost[0], span[i]);
+                contentBoost[1] = MathF.Min(contentBoost[1], span[i + 1]);
+                contentBoost[2] = MathF.Min(contentBoost[2], span[i + 2]);
+                contentBoost[3] = MathF.Max(contentBoost[3], span[i]);
+                contentBoost[4] = MathF.Max(contentBoost[4], span[i + 1]);
+                contentBoost[5] = MathF.Max(contentBoost[5], span[i + 2]);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < span.Length; i += 4)
+            {
+                contentBoost[0] = MathF.Min(contentBoost[0], span[i]);
+                contentBoost[1] = MathF.Min(contentBoost[1], span[i + 1]);
+                contentBoost[2] = MathF.Min(contentBoost[2], span[i + 2]);
+                contentBoost[3] = MathF.Max(contentBoost[3], span[i]);
+                contentBoost[4] = MathF.Max(contentBoost[4], span[i + 1]);
+                contentBoost[5] = MathF.Max(contentBoost[5], span[i + 2]);
+            }
+        }
+        return contentBoost;
+    }
+
+
 }
+
+
+

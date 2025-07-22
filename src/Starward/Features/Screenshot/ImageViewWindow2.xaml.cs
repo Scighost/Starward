@@ -9,6 +9,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Starward.Codec.UltraHdr;
 using Starward.Features.Setting;
 using Starward.Helpers;
 using System;
@@ -1287,36 +1288,168 @@ public sealed partial class ImageViewWindow2 : Window
             var bitmap = _sourceBitmap;
             string name = Path.GetFileNameWithoutExtension(CurrentFileName);
             ICanvasImage output = GetDrawOutput(out int displayMode);
-            bool hdr = displayMode is 2;
-            if (!hdr)
+            bool imageHdr = bitmap.Format is not DirectXPixelFormat.B8G8R8A8UIntNormalized;
+            bool displayHdr = displayMode is 2;
+
+            string? path;
+            if (displayHdr)
             {
-                output = new WhiteLevelAdjustmentEffect
+                // hdr image & hdr display
+                path = await FileDialogHelper.OpenSaveFileDialogAsync(Content.XamlRoot, name, ("JPEG XR", ".jxr"));
+                if (string.IsNullOrWhiteSpace(path))
                 {
-                    Source = output,
+                    return;
+                }
+                await ScreenCaptureService.SaveImageAsync(bitmap, path, DateTimeOffset.Now);
+            }
+            else if (!imageHdr)
+            {
+                // sdr image & sdr display
+                path = await FileDialogHelper.OpenSaveFileDialogAsync(Content.XamlRoot, name, ("Portable Network Graphics", ".png"));
+                if (string.IsNullOrWhiteSpace(path))
+                {
+                    return;
+                }
+                await ScreenCaptureService.SaveImageAsync(bitmap, path, DateTimeOffset.Now);
+            }
+            else
+            {
+                // hdr image & sdr display
+                path = await FileDialogHelper.OpenSaveFileDialogAsync(Content.XamlRoot, name, ("JPEG", ".jpg"));
+                if (string.IsNullOrWhiteSpace(path))
+                {
+                    return;
+                }
+
+                var toneMapEffect = new HdrToneMapEffect
+                {
+                    Source = bitmap,
+                    DisplayMode = HdrToneMapEffectDisplayMode.Hdr,
+                    InputMaxLuminance = MaxCLL,
+                    OutputMaxLuminance = SDRLuminance,
+                };
+                using UhdrPixelGainEffect uhdrPixelGainEffect = new()
+                {
+                    SdrSource = toneMapEffect,
+                    HdrSource = bitmap,
+                };
+
+                using CanvasRenderTarget renderTarget_gain = new(CanvasDevice.GetSharedDevice(),
+                                                        bitmap.SizeInPixels.Width,
+                                                        bitmap.SizeInPixels.Height,
+                                                        96,
+                                                        DirectXPixelFormat.R32G32B32A32Float,
+                                                        CanvasAlphaMode.Premultiplied);
+                using (CanvasDrawingSession ds = renderTarget_gain.CreateDrawingSession())
+                {
+                    ds.Units = CanvasUnits.Pixels;
+                    ds.Clear(Colors.Transparent);
+                    ds.DrawImage(uhdrPixelGainEffect);
+                }
+                byte[] gainPixelBytes = renderTarget_gain.GetPixelBytes();
+                float[] contentBoost = ScreenCaptureService.GetContentMinMaxBoost(gainPixelBytes);
+
+                using UhdrGainmapEffect uhdrGainmapEffect = new()
+                {
+                    PixelGainSource = renderTarget_gain,
+                    MinContentBoost = MemoryMarshal.Cast<float, float3>(contentBoost)[0],
+                    MaxContentBoost = MemoryMarshal.Cast<float, float3>(contentBoost)[1],
+                };
+                using CanvasRenderTarget renderTarget_gainmap = new(CanvasDevice.GetSharedDevice(),
+                                                        bitmap.SizeInPixels.Width,
+                                                        bitmap.SizeInPixels.Height,
+                                                        96,
+                                                        DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                        CanvasAlphaMode.Premultiplied);
+                using (CanvasDrawingSession ds = renderTarget_gainmap.CreateDrawingSession())
+                {
+                    ds.Units = CanvasUnits.Pixels;
+                    ds.Clear(Colors.Transparent);
+                    ds.DrawImage(uhdrGainmapEffect);
+                }
+
+                using var whiteLevelEffect = new WhiteLevelAdjustmentEffect
+                {
+                    Source = toneMapEffect,
                     InputWhiteLevel = 80,
-                    OutputWhiteLevel = (float)_displayInformation.GetAdvancedColorInfo().SdrWhiteLevelInNits,
+                    OutputWhiteLevel = SDRLuminance,
                     BufferPrecision = CanvasBufferPrecision.Precision16Float,
                 };
-                output = new SrgbGammaEffect
+                using var gammaEffect = new SrgbGammaEffect
                 {
-                    Source = output,
+                    Source = whiteLevelEffect,
                     GammaMode = SrgbGammaMode.OETF,
-                    BufferPrecision = CanvasBufferPrecision.Precision16Float
+                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
                 };
+                using CanvasRenderTarget renderTarget_sdr = new(CanvasDevice.GetSharedDevice(),
+                                                       bitmap.SizeInPixels.Width,
+                                                       bitmap.SizeInPixels.Height,
+                                                       96,
+                                                       DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                       CanvasAlphaMode.Premultiplied);
+                using (CanvasDrawingSession ds = renderTarget_sdr.CreateDrawingSession())
+                {
+                    ds.Units = CanvasUnits.Pixels;
+                    ds.Clear(Colors.Transparent);
+                    ds.DrawImage(gammaEffect);
+                }
+
+                MemoryStream ms_base = new();
+                MemoryStream ms_gainmap = new();
+                await renderTarget_sdr.SaveAsync(ms_base.AsRandomAccessStream(), CanvasBitmapFileFormat.Jpeg);
+                await renderTarget_gainmap.SaveAsync(ms_gainmap.AsRandomAccessStream(), CanvasBitmapFileFormat.Jpeg);
+
+                using var encoder = new UhdrEncoder();
+                unsafe
+                {
+                    fixed (byte* b = ms_base.ToArray(), g = ms_gainmap.ToArray())
+                    {
+                        UhdrCompressedImage baseImage = new UhdrCompressedImage
+                        {
+                            Data = (nint)b,
+                            DataSize = (uint)ms_base.Length,
+                            Capacity = (uint)ms_base.Length,
+                            ColorGamut = UhdrColorGamut.BT709,
+                            ColorRange = UhdrColorRange.FullRange,
+                            ColorTransfer = UhdrColorTransfer.SRGB,
+                        };
+                        UhdrCompressedImage gainmapImage = new UhdrCompressedImage
+                        {
+                            Data = (nint)g,
+                            DataSize = (uint)ms_gainmap.Length,
+                            Capacity = (uint)ms_gainmap.Length,
+                            ColorGamut = UhdrColorGamut.BT709,
+                            ColorRange = UhdrColorRange.FullRange,
+                            ColorTransfer = UhdrColorTransfer.SRGB,
+                        };
+                        encoder.SetCompressedImage(baseImage, UhdrImageLabel.Base);
+                        encoder.SetGainmapImage(gainmapImage, new UhdrGainmapMetadata
+                        {
+                            MinContentBoost0 = contentBoost[0],
+                            MinContentBoost1 = contentBoost[1],
+                            MinContentBoost2 = contentBoost[2],
+                            MaxContentBoost0 = contentBoost[3],
+                            MaxContentBoost1 = contentBoost[4],
+                            MaxContentBoost2 = contentBoost[5],
+                            Gamma0 = 1,
+                            Gamma1 = 1,
+                            Gamma2 = 1,
+                            OffsetSdr0 = 0.015625f,
+                            OffsetSdr1 = 0.015625f,
+                            OffsetSdr2 = 0.015625f,
+                            OffsetHdr0 = 0.015625f,
+                            OffsetHdr1 = 0.015625f,
+                            OffsetHdr2 = 0.015625f,
+                            HdrCapacityMin = 1,
+                            HdrCapacityMax = MathF.Max(MathF.Max(contentBoost[3], contentBoost[4]), contentBoost[5]),
+                            UseBaseColorSpace = 1,
+                        });
+                    }
+                }
+                encoder.Encode();
+                byte[] bytes = encoder.GetEncodedBytes().ToArray();
+                await File.WriteAllBytesAsync(path, bytes);
             }
-            string? path = await FileDialogHelper.OpenSaveFileDialogAsync(Content.XamlRoot, name, hdr ? ("JPEG XR", ".jxr") : ("Portable Network Graphics", ".png"));
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                return;
-            }
-            using var renderTarget = new CanvasRenderTarget(CanvasDevice.GetSharedDevice(), bitmap.SizeInPixels.Width, bitmap.SizeInPixels.Height, 96, hdr ? DirectXPixelFormat.R16G16B16A16Float : DirectXPixelFormat.B8G8R8A8UIntNormalized, CanvasAlphaMode.Premultiplied);
-            using (var ds = renderTarget.CreateDrawingSession())
-            {
-                ds.Units = CanvasUnits.Pixels;
-                ds.Clear(Colors.Transparent);
-                ds.DrawImage(output);
-            }
-            await ScreenCaptureService.SaveImageAsync(renderTarget, path, DateTimeOffset.Now);
             var file = await StorageFile.GetFileFromPathAsync(path);
             var folder = await file.GetParentAsync();
             var folderOptions = new FolderLauncherOptions();
