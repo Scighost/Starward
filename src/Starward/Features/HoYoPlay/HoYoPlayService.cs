@@ -198,8 +198,8 @@ public class HoYoPlayService
             }
             config = list.FirstOrDefault(x => x.GameId == gameId);
         }
-        // 强制使用 Chunk 作为默认下载模式
-        if (config is not null && config.GameId.GameBiz.Value is not GameBiz.bh3_global)
+        // 仅星穹铁道强制使用 Chunk 作为默认下载模式
+        if (config is not null && config.GameId.GameBiz.Value is GameBiz.hkrpg)
         {
             config.DefaultDownloadMode = DownloadMode.DOWNLOAD_MODE_CHUNK;
         }

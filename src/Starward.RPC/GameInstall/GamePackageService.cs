@@ -910,8 +910,8 @@ internal partial class GamePackageService
     private async Task<GameConfig?> GetGameConfigAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         GameConfig? config = await _hoyoplayClient.GetGameConfigAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
-        // 强制使用 Chunk 作为默认下载模式
-        if (config is not null && config.GameId.GameBiz.Value is not GameBiz.bh3_global)
+        // 仅星穹铁道强制使用 Chunk 作为默认下载模式
+        if (config is not null && config.GameId.GameBiz.Value is GameBiz.hkrpg)
         {
             config.DefaultDownloadMode = DownloadMode.DOWNLOAD_MODE_CHUNK;
         }
