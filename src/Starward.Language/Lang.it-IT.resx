@@ -2432,4 +2432,13 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="ScreenshotSetting_AutoCopyScreenshotFile" xml:space="preserve">
     <value>Auto Copy Screenshot File</value>
   </data>
+  <data name="GameSettingPage_UsePopupWindow" xml:space="preserve">
+    <value>Use Popup Window</value>
+  </data>
+  <data name="ToolboxSetting_ImageViewer" xml:space="preserve">
+    <value>Image Viewer</value>
+  </data>
+  <data name="ToolboxSetting_ViewOrEditImage" xml:space="preserve">
+    <value>View / Edit Image</value>
+  </data>
 </root>
