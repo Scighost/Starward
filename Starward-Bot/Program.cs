@@ -13,8 +13,7 @@ var host = new HostBuilder()
         services.AddMemoryCache();
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
-        services.AddSingleton<WebhookEventProcessor, IssueEventProcessor>();
-        services.AddSingleton<WebhookEventProcessor, ReleaseEventProcessor>();
+        services.AddSingleton<WebhookEventProcessor, MyProcessor>();
     })
     .ConfigureGitHubWebhooks(Environment.GetEnvironmentVariable("WEBHOOK_SECRET"))
     .Build();

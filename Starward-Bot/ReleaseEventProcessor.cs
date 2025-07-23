@@ -63,7 +63,7 @@ internal class ReleaseEventProcessor : WebhookEventProcessor
 
 
 
-    protected override async Task ProcessReleaseWebhookAsync(WebhookHeaders headers, ReleaseEvent releaseEvent, ReleaseAction action)
+    protected override async ValueTask ProcessReleaseWebhookAsync(WebhookHeaders headers, ReleaseEvent releaseEvent, ReleaseAction action, CancellationToken cancellationToken = default)
     {
         try
         {
