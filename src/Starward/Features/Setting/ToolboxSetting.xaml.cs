@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Starward.Features.Gacha.UIGF;
 using Starward.Features.Gacha.ZZZGachaToolbox;
+using Starward.Features.Screenshot;
 using Starward.Frameworks;
 using System.Collections.Generic;
 
@@ -26,7 +27,7 @@ public sealed partial class ToolboxSetting : PageBase
     {
         ToolboxItems =
          [
-             new ToolboxItem("\xE794",
+            new ToolboxItem("\xE794",
                             null,
                             nameof(UIGF4GachaWindow),
                             nameof(Lang.ToolboxSetting_GachaRecordsImportExport),
@@ -36,6 +37,11 @@ public sealed partial class ToolboxSetting : PageBase
                             nameof(ZZZGachaInfoWindow),
                             nameof(Lang.ToolboxSetting_ZZZGachaItemImages),
                             nameof(Lang.ToolboxSetting_DisplayItemImagesInZZZGachaRecordPage)),
+            new ToolboxItem("\xE91B",
+                            null,
+                            nameof(ImageViewWindow2),
+                            nameof(Lang.ToolboxSetting_ImageViewer),
+                            nameof(Lang.ToolboxSetting_ViewOrEditImage)),
         ];
     }
 
@@ -65,17 +71,25 @@ public sealed partial class ToolboxSetting : PageBase
 
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is FrameworkElement { DataContext: ToolboxItem item })
+        try
         {
-            if (item.Tag is nameof(ZZZGachaInfoWindow))
+            if (sender is FrameworkElement { DataContext: ToolboxItem item })
             {
-                new ZZZGachaInfoWindow().Activate();
-            }
-            if (item.Tag is nameof(UIGF4GachaWindow))
-            {
-                new UIGF4GachaWindow().Activate();
+                if (item.Tag is nameof(ZZZGachaInfoWindow))
+                {
+                    new ZZZGachaInfoWindow().Activate();
+                }
+                if (item.Tag is nameof(UIGF4GachaWindow))
+                {
+                    new UIGF4GachaWindow().Activate();
+                }
+                if (item.Tag is nameof(ImageViewWindow2))
+                {
+                    new ImageViewWindow2().ShowWindow(XamlRoot.ContentIslandEnvironment.AppWindowId);
+                }
             }
         }
+        catch { }
     }
 
 

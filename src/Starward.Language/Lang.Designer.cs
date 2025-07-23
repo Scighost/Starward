@@ -6369,6 +6369,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Image Viewer 的本地化字符串。
+        /// </summary>
+        public static string ToolboxSetting_ImageViewer {
+            get {
+                return ResourceManager.GetString("ToolboxSetting_ImageViewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 View / Edit Image 的本地化字符串。
+        /// </summary>
+        public static string ToolboxSetting_ViewOrEditImage {
+            get {
+                return ResourceManager.GetString("ToolboxSetting_ViewOrEditImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 ZZZ Gacha Item Images 的本地化字符串。
         /// </summary>
         public static string ToolboxSetting_ZZZGachaItemImages {

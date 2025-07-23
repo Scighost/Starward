@@ -910,6 +910,24 @@ public sealed partial class ImageViewWindow2 : Window
     }
 
 
+    public void ShowWindow(Microsoft.UI.WindowId windowId)
+    {
+        try
+        {
+            StackPanel_NoImage.Visibility = Visibility.Visible;
+            var parentWindow = AppWindow.GetFromWindowId(windowId);
+            PointInt32 point = parentWindow.Position;
+            SizeInt32 size = parentWindow.Size;
+            AppWindow.MoveAndResize(new RectInt32(point.X, point.Y, size.Width, size.Height));
+            User32.ShowWindow(WindowHandle, ShowWindowCommand.SW_SHOWMAXIMIZED);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to show image view window");
+        }
+    }
+
+
     private void Button_EditImage_Click(object sender, RoutedEventArgs e)
     {
         try
