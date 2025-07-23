@@ -2435,4 +2435,10 @@
   <data name="GameSettingPage_UsePopupWindow" xml:space="preserve">
     <value>使用无边框窗口</value>
   </data>
+  <data name="ToolboxSetting_ImageViewer" xml:space="preserve">
+    <value>图片浏览器</value>
+  </data>
+  <data name="ToolboxSetting_ViewOrEditImage" xml:space="preserve">
+    <value>查看 / 编辑图片</value>
+  </data>
 </root>
