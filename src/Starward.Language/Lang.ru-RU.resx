@@ -2455,9 +2455,9 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Использовать Всплывающее окно</value>
   </data>
   <data name="ToolboxSetting_ImageViewer" xml:space="preserve">
-    <value>Image Viewer</value>
+    <value>Просмотр изображений</value>
   </data>
   <data name="ToolboxSetting_ViewOrEditImage" xml:space="preserve">
-    <value>View / Edit Image</value>
+    <value>Просмотреть / Редактировать изображение</value>
   </data>
 </root>
