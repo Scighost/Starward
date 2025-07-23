@@ -2432,4 +2432,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="GameSettingPage_UsePopupWindow" xml:space="preserve">
     <value>Use Popup Window</value>
   </data>
+  <data name="ToolboxSetting_ImageViewer" xml:space="preserve">
+    <value>Image Viewer</value>
+  </data>
+  <data name="ToolboxSetting_ViewOrEditImage" xml:space="preserve">
+    <value>View / Edit Image</value>
+  </data>
 </root>
