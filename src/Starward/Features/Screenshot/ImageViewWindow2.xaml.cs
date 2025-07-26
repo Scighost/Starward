@@ -1459,7 +1459,7 @@ public sealed partial class ImageViewWindow2 : Window
                             OffsetHdr1 = 0.015625f,
                             OffsetHdr2 = 0.015625f,
                             HdrCapacityMin = 1,
-                            HdrCapacityMax = MathF.Max(MathF.Max(contentBoost[3], contentBoost[4]), contentBoost[5]),
+                            HdrCapacityMax = MathF.Max(MathF.Max(contentBoost[3], contentBoost[4]), MathF.Max(contentBoost[5], 1)),
                             UseBaseColorSpace = 1,
                         });
                     }
