@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Starward.Frameworks;
 using System;
@@ -8,6 +9,9 @@ namespace Starward.Features.Setting;
 
 public sealed partial class SettingPage : PageBase
 {
+
+
+    private readonly ILogger<SettingPage> _logger = AppConfig.GetLogger<SettingPage>();
 
 
     public SettingPage()
@@ -41,7 +45,10 @@ public sealed partial class SettingPage : PageBase
                 Frame_Setting.Navigate(type);
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Setting page navigate.");
+        }
     }
 
 

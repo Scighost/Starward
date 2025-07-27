@@ -1,8 +1,7 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
 using Starward.Features.GamepadControl;
 using Starward.Frameworks;
-using System;
-using System.IO;
 
 
 namespace Starward.Features.Setting;
@@ -19,7 +18,6 @@ public sealed partial class GamepadControlSetting : PageBase
     {
         InitializeComponent();
         DetectedGameInputRedist();
-        GameInputInitializeFailed = !GamepadController.Initialized;
     }
 
 
@@ -41,17 +39,27 @@ public sealed partial class GamepadControlSetting : PageBase
 
 
 
-    public bool GameInputInitializeFailed { get; set => SetProperty(ref field, value); }
-
-
-    public bool GameInputRedistInstalled { get; set => SetProperty(ref field, value); }
-
 
     private void DetectedGameInputRedist()
     {
         try
         {
-            GameInputRedistInstalled = File.Exists(Path.Combine(Environment.SystemDirectory, "GameInputRedist.dll"));
+            if (GamepadController.GameInputRedistOutdate)
+            {
+                TextBlock_GameInputRedistOutdate.Visibility = Visibility.Visible;
+            }
+            else if (GamepadController.NeedInstallGameInputRedist)
+            {
+                TextBlock_NeedInstallGameInputRedistOnWin10.Visibility = Visibility.Visible;
+            }
+            else if (!GamepadController.Initialized)
+            {
+                TextBlock_GameInputInitializeFailed.Visibility = Visibility.Collapsed;
+            }
+            if (GamepadController.Initialized && GamepadController.GameInputRedistInstalled)
+            {
+                TextBlock_GameInputRedistInstalled.Visibility = Visibility.Visible;
+            }
         }
         catch { }
     }

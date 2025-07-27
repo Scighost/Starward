@@ -2394,6 +2394,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Click to download. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_ClickToDownload {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_ClickToDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Enter key text 的本地化字符串。
         /// </summary>
         public static string GamepadControlSetting_EnterKeyText {
@@ -2419,6 +2428,24 @@ namespace Starward.Language {
             get {
                 return ResourceManager.GetString("GamepadControlSetting_GameInputRedistComponentDetectedSimulatedInputIsUnavailable" +
                         "", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Microsoft GameInput component detected. Simulated input is unavailable when the app is running in the background. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_GameInputRedistInstalled {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_GameInputRedistInstalled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 An outdated Microsoft GameInput component is installed. Please uninstall or update it. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_GameInputRedistOutdate {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_GameInputRedistOutdate", resourceCulture);
             }
         }
         
@@ -2455,6 +2482,15 @@ namespace Starward.Language {
         public static string GamepadControlSetting_LongPressGuideButtonDesc {
             get {
                 return ResourceManager.GetString("GamepadControlSetting_LongPressGuideButtonDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 On Windows 10, the Microsoft GameInput component must be installed for the controller enhancement feature to work properly. 的本地化字符串。
+        /// </summary>
+        public static string GamepadControlSetting_NeedInstallGameInputRedistOnWin10 {
+            get {
+                return ResourceManager.GetString("GamepadControlSetting_NeedInstallGameInputRedistOnWin10", resourceCulture);
             }
         }
         

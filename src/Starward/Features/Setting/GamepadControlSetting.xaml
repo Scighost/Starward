@@ -27,12 +27,37 @@
                        Text="{x:Bind lang:Lang.GamepadControlSetting_OnlySupportXboxControllerProtocol}"
                        TextWrapping="Wrap" />
 
+            <!--  已安装过时的 GameInputRedist 组件。  -->
+            <TextBlock x:Name="TextBlock_GameInputRedistOutdate"
+                       Margin="0,8,0,0"
+                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed">
+                <Run Text="{x:Bind lang:Lang.GamepadControlSetting_GameInputRedistOutdate}" />
+                <Hyperlink NavigateUri="https://starward.scighost.com/resource/gameinput/GameInputRedist.msi" UnderlineStyle="None">
+                    <Run Text="{x:Bind lang:Lang.GamepadControlSetting_ClickToDownload}" />
+                </Hyperlink>
+            </TextBlock>
+
+            <!--  Windows 10 系统需要安装 GameInputRedist 组件。  -->
+            <TextBlock x:Name="TextBlock_NeedInstallGameInputRedistOnWin10"
+                       Margin="0,8,0,0"
+                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed">
+                <Run Text="{x:Bind lang:Lang.GamepadControlSetting_NeedInstallGameInputRedistOnWin10}" />
+                <Hyperlink NavigateUri="https://starward.scighost.com/resource/gameinput/GameInputRedist.msi" UnderlineStyle="None">
+                    <Run Text="{x:Bind lang:Lang.GamepadControlSetting_ClickToDownload}" />
+                </Hyperlink>
+            </TextBlock>
+
             <!--  GameInput 组件初始化失败，手柄增强不可用。  -->
-            <TextBlock Margin="0,8,0,0"
+            <TextBlock x:Name="TextBlock_GameInputInitializeFailed"
+                       Margin="0,8,0,0"
                        Foreground="{ThemeResource SystemFillColorCautionBrush}"
                        Text="{x:Bind lang:Lang.GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancementIsUnavailable}"
                        TextWrapping="Wrap"
-                       Visibility="{x:Bind GameInputInitializeFailed}" />
+                       Visibility="Collapsed" />
 
             <MenuFlyoutSeparator Margin="0,12,0,12" />
 
@@ -74,11 +99,12 @@
             </StackPanel>
 
             <!--  检测到已安装 GameInputRedist  -->
-            <TextBlock Margin="0,12,0,0"
+            <TextBlock x:Name="TextBlock_GameInputRedistInstalled"
+                       Margin="0,12,0,0"
                        Foreground="{ThemeResource SystemFillColorCautionBrush}"
-                       Text="{x:Bind lang:Lang.GamepadControlSetting_GameInputRedistComponentDetectedSimulatedInputIsUnavailable}"
+                       Text="{x:Bind lang:Lang.GamepadControlSetting_GameInputRedistInstalled}"
                        TextWrapping="Wrap"
-                       Visibility="{x:Bind GameInputRedistInstalled}" />
+                       Visibility="Collapsed" />
 
             <MenuFlyoutSeparator Margin="0,12,0,12" />
 

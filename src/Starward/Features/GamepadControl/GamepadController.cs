@@ -5,7 +5,9 @@ using Starward.Features.Screenshot;
 using Starward.Features.ViewHost;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,6 +34,25 @@ internal static class GamepadController
     {
         try
         {
+            bool win11 = Environment.OSVersion.Version.Build >= 22000;
+            string GameInputRedist = Path.Combine(Environment.SystemDirectory, "GameInputRedist.dll");
+            if (File.Exists(GameInputRedist))
+            {
+                GameInputRedistInstalled = true;
+                if (Version.TryParse(FileVersionInfo.GetVersionInfo(GameInputRedist).FileVersion, out var version))
+                {
+                    if (version.Major < 1)
+                    {
+                        GameInputRedistOutdate = true;
+                        return;
+                    }
+                }
+            }
+            if (!win11 && !GameInputRedistInstalled)
+            {
+                NeedInstallGameInputRedist = true;
+                return;
+            }
             if (GameInput.Create(out _gameInput))
             {
                 _inputSimulator = new InputSimulator();
@@ -58,6 +79,13 @@ internal static class GamepadController
 
 
     public static bool Initialized { get; private set; }
+
+
+    public static bool NeedInstallGameInputRedist { get; private set; }
+
+    public static bool GameInputRedistInstalled { get; private set; }
+
+    public static bool GameInputRedistOutdate { get; private set; }
 
 
     public static bool EnableGamepadSimulateInput { get; set { field = value; DeviceOrEnableChanged(); } }
@@ -106,6 +134,10 @@ internal static class GamepadController
 
     private static void DeviceOrEnableChanged()
     {
+        if (!Initialized)
+        {
+            return;
+        }
         if (GamepadConnected && EnableGamepadSimulateInput)
         {
             Start();
@@ -191,6 +223,10 @@ internal static class GamepadController
 
     public static string GetGamepadGuideButtonMapKeysText()
     {
+        if (!Initialized)
+        {
+            return "";
+        }
         return string.Join(" ", GamepadGuideButtonMapKeys.Modifiers.Concat(GamepadGuideButtonMapKeys.Keys)
             .Select(x => VirtualKeyToKeyName.GetValueOrDefault((VirtualKey)x)));
     }
@@ -198,6 +234,10 @@ internal static class GamepadController
 
     public static string GetGamepadShareButtonMapKeysText()
     {
+        if (!Initialized)
+        {
+            return "";
+        }
         return string.Join(" ", GamepadShareButtonMapKeys.Modifiers.Concat(GamepadShareButtonMapKeys.Keys)
             .Select(x => VirtualKeyToKeyName.GetValueOrDefault((VirtualKey)x)));
     }
