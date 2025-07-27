@@ -271,7 +271,39 @@ internal partial class GameLauncherService
     {
         int currentSessionId = Process.GetCurrentProcess().SessionId;
         var name = (await GetGameExeNameAsync(gameId)).Replace(".exe", "");
-        return Process.GetProcessesByName(name).Where(x => x.SessionId == currentSessionId).FirstOrDefault();
+        return Process.GetProcessesByName(name).Where(x => x.SessionId == currentSessionId && !IsProcessPending(x)).FirstOrDefault();
+    }
+
+
+
+    /// <summary>
+    /// 检测进程挂起
+    /// </summary>
+    /// <param name="process"></param>
+    /// <returns></returns>
+    public static bool IsProcessPending(Process process)
+    {
+        if (process.HasExited)
+        {
+            return false;
+        }
+        try
+        {
+            foreach (ProcessThread thread in process.Threads)
+            {
+                if (thread.ThreadState is not ThreadState.Wait)
+                {
+                    return false;
+                }
+                else if (thread.WaitReason is not ThreadWaitReason.Suspended)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        catch { }
+        return false;
     }
 
 
