@@ -266,7 +266,7 @@ public sealed partial class ScreenshotPage : PageBase
 
     public static bool IsSupportedExtension(string file)
     {
-        return Path.GetExtension(file) is ".jpg" or ".png" or ".jxr";
+        return Path.GetExtension(file) is ".bmp" or ".jpg" or ".png" or ".jxr" or ".webp" or ".heic" or ".avif" or ".jxl";
     }
 
 

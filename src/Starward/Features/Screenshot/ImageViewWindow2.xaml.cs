@@ -1143,6 +1143,12 @@ public sealed partial class ImageViewWindow2 : Window
                     if (index + 1 < ScreenshotCollection.Count)
                     {
                         next = ScreenshotCollection[index + 1];
+                        ScreenshotCollection.Remove(CurrentScreenshot);
+                    }
+                    else
+                    {
+                        ScreenshotCollection.Remove(CurrentScreenshot);
+                        next = ScreenshotCollection.LastOrDefault();
                     }
                 }
                 var file = await StorageFile.GetFileFromPathAsync(CurrentFilePath);
