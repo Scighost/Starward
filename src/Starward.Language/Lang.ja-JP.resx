@@ -2440,4 +2440,16 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="ToolboxSetting_ViewOrEditImage" xml:space="preserve">
     <value>View / Edit Image</value>
   </data>
+  <data name="GamepadControlSetting_GameInputRedistInstalled" xml:space="preserve">
+    <value>Microsoft GameInput component detected. Simulated input is unavailable when the app is running in the background.</value>
+  </data>
+  <data name="GamepadControlSetting_GameInputRedistOutdate" xml:space="preserve">
+    <value>An outdated Microsoft GameInput component is installed. Please uninstall or update it.</value>
+  </data>
+  <data name="GamepadControlSetting_NeedInstallGameInputRedistOnWin10" xml:space="preserve">
+    <value>On Windows 10, the Microsoft GameInput component must be installed for the controller enhancement feature to work properly.</value>
+  </data>
+  <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
+    <value>Click to download.</value>
+  </data>
 </root>
