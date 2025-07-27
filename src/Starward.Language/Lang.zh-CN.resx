@@ -2441,4 +2441,16 @@
   <data name="ToolboxSetting_ViewOrEditImage" xml:space="preserve">
     <value>查看 / 编辑图片</value>
   </data>
+  <data name="GamepadControlSetting_GameInputRedistInstalled" xml:space="preserve">
+    <value>检测到已安装 Microsoft GameInput 组件，应用在后台时模拟输入不可用。</value>
+  </data>
+  <data name="GamepadControlSetting_GameInputRedistOutdate" xml:space="preserve">
+    <value>已安装过时的 Microsoft GameInput 组件，需要卸载或更新。</value>
+  </data>
+  <data name="GamepadControlSetting_NeedInstallGameInputRedistOnWin10" xml:space="preserve">
+    <value>Windows 10 系统需要安装 Microsoft GameInput 组件，手柄增强功能才能正常使用。</value>
+  </data>
+  <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
+    <value>点击下载。</value>
+  </data>
 </root>
