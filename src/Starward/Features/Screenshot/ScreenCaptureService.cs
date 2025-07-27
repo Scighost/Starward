@@ -17,12 +17,12 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
-using WicNet;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Graphics.Capture;
 using Windows.Graphics.DirectX;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
 
 namespace Starward.Features.Screenshot;
@@ -261,27 +261,46 @@ internal class ScreenCaptureService
             Directory.CreateDirectory(directory);
         }
 
-        Guid containerGuid = canvasBitmap.Format is DirectXPixelFormat.B8G8R8A8UIntNormalized ? WicCodec.GUID_ContainerFormatPng : WicCodec.GUID_ContainerFormatWmp;
-        Guid pixelFormatGuid = canvasBitmap.Format switch
-        {
-            DirectXPixelFormat.B8G8R8A8UIntNormalized => WicPixelFormat.GUID_WICPixelFormat32bppBGRA,
-            DirectXPixelFormat.R16G16B16A16Float => WicPixelFormat.GUID_WICPixelFormat64bppRGBAHalf,
-            DirectXPixelFormat.R32G32B32A32Float => WicPixelFormat.GUID_WICPixelFormat128bppRGBAFloat,
-            _ => throw new NotSupportedException($"Unsupported pixel format: {canvasBitmap.Format}"),
-        };
-
-        byte[] pixelBytes = canvasBitmap.GetPixelBytes();
-        int width = (int)canvasBitmap.SizeInPixels.Width;
-        int height = (int)canvasBitmap.SizeInPixels.Height;
-        using WicBitmapSource wicBitmapSource = WicBitmapSource.FromMemory(width, height, pixelFormatGuid, pixelBytes.Length / height, pixelBytes);
-        var metaList = new List<WicMetadataKeyValue>
-        {
-           new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, "System.ApplicationName"), "Starward Launcher", DirectN.PropertyType.VT_LPWSTR),
-           new(new WicMetadataKey(WicCodec.CLSID_WICXMPMetadataWriter, "System.Photo.DateTaken"), frameTime, DirectN.PropertyType.VT_FILETIME),
-        };
-
         using var ms = new MemoryStream();
-        wicBitmapSource.Save(ms, containerGuid, encoderOptions: new Dictionary<string, object> { ["Lossless"] = true }, metadata: metaList);
+
+        if (canvasBitmap.Format is DirectXPixelFormat.B8G8R8A8UIntNormalized)
+        {
+            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, ms.AsRandomAccessStream());
+            byte[] bytes = canvasBitmap.GetPixelBytes();
+            encoder.SetPixelData(BitmapPixelFormat.Bgra8,
+                                 BitmapAlphaMode.Premultiplied,
+                                 canvasBitmap.SizeInPixels.Width,
+                                 canvasBitmap.SizeInPixels.Height,
+                                 96,
+                                 96,
+                                 bytes);
+            try
+            {
+                await encoder.BitmapProperties.SetPropertiesAsync(new Dictionary<string, BitmapTypedValue>
+                {
+                    ["/xmp/xmp:CreatorTool"] = new BitmapTypedValue("Starward Launcher", PropertyType.String),
+                    ["/xmp/xmp:CreateDate"] = new BitmapTypedValue(frameTime.ToString("yyyy-MM-ddTHH:mm:sszzz"), PropertyType.String),
+                });
+            }
+            catch
+            {
+                try
+                {
+                    await encoder.BitmapProperties.SetPropertiesAsync(new Dictionary<string, BitmapTypedValue>
+                    {
+                        ["/[0]tEXt/{str=Software}"] = new BitmapTypedValue("Starward Launcher", PropertyType.String),
+                        ["/[1]tEXt/{str=Creation Time}"] = new BitmapTypedValue(frameTime.ToString("yyyy-MM-ddTHH:mm:sszzz"), PropertyType.String),
+                    });
+                }
+                catch { }
+            }
+            await encoder.FlushAsync();
+        }
+        else
+        {
+            await canvasBitmap.SaveAsync(ms.AsRandomAccessStream(), CanvasBitmapFileFormat.JpegXR, 0.95f);
+        }
+
         using var fs = File.Create(filePath);
         ms.Seek(0, SeekOrigin.Begin);
         await ms.CopyToAsync(fs).ConfigureAwait(false);

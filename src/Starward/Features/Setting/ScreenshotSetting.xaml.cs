@@ -297,7 +297,7 @@ public sealed partial class ScreenshotSetting : PageBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to capture self window");
-            TextBlock_CaptureError.Text = ex.Message;
+            TextBlock_CaptureError.Text = $"{Lang.ScreenCaptureInfoWindow_ScreenshotFailed}: {ex.Message}";
             TextBlock_CaptureError.Visibility = Visibility.Visible;
         }
     }
