@@ -2362,95 +2362,95 @@
     <value>• 가이드 버튼을 매핑에 사용 할 경우 기본 Xbox Game Bar 바로가기를 사용할 수 없습니다. Steam Big Picture Mode 모드 등 다른 가이드 버튼을 사용하는 프로그램과 충돌할 수 있습니다. 계속 사용하려면 해당 기능들을 수동으로 비활성화 해주세요.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingKeyboardDesc" xml:space="preserve">
-    <value>• When mapping to keyboard keys, enter the key names as they appear on the keyboard, separated by spaces. For example, to map a button to "Ctrl + Alt + F1", input: "Ctrl Alt F1". For numpad keys, add Pad before the key, such as: Pad8, Pad+ . This feature requires Starward to run with administrator privileges to work correctly in games.</value>
+    <value>• 키보드 매핑 시 키보드상의 문자를 입력하세요. 키 조합은 스페이스바 로 구분해주세요. (예: "Ctrl + Alt + F1" 을 입력하고 싶으면 "Ctrl + Alt + F1" 로 입력하세요.) 숫자 키패드를 사용하려면 숫자앞에 Pad를 추가하세요. (예:Pad8, Pad+ ) 위 기능은 Starward 를 관리자 권한으로 실행해야 사용할 수 있습니다.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingShareDesc" xml:space="preserve">
-    <value>The Share button still triggers Xbox Game Bar screenshots, and there's currently no good solution.</value>
+    <value>• 공유 버튼은 Xbox Game Bar 의 스크린샷 기능을 불러올 수 있습니다. 현재 해결방법이 제공되지 않습니다.</value>
   </data>
   <data name="GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancementIsUnavailable" xml:space="preserve">
-    <value>Failed to initialize the GameInput component. Controller enhancement is unavailable.</value>
+    <value>GameInput 모듈 로드 실패, 컨트롤러 확장기능을 사용할 수 없습니다.</value>
   </data>
   <data name="SimulateInputTipsWindow_ControllerSimulatedInputIsActive" xml:space="preserve">
-    <value>Controller simulated input is active.</value>
+    <value>컨트롤러 시뮬레이션 입력 기능이 활성화 되었습니다.</value>
   </data>
   <data name="SimulateInputTipsWindow_ShowHideButtonHints" xml:space="preserve">
-    <value>Show / Hide Button Hints</value>
+    <value>입력키 보이기/숨기기</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseMove" xml:space="preserve">
-    <value>Mouse Move</value>
+    <value>마우스 이동</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseWheel" xml:space="preserve">
-    <value>Mouse Wheel</value>
+    <value>마우스 휠</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseLeftButton" xml:space="preserve">
-    <value>Mouse Left Button</value>
+    <value>마우스 클릭</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseRightButton" xml:space="preserve">
-    <value>Mouse Right Button</value>
+    <value>마우스 우클릭</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardEscKey" xml:space="preserve">
-    <value>Keyboard Esc Key</value>
+    <value>키보드 Esc 키</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardArrowKeys" xml:space="preserve">
-    <value>Keyboard Arrow Keys</value>
+    <value>키보드 방향키</value>
   </data>
   <data name="SimulateInputTipsWindow_LocateMousePointer" xml:space="preserve">
-    <value>Locate Mouse Pointer</value>
+    <value>마우스 포인터 찾기</value>
   </data>
   <data name="SimulateInputTipsWindow_StopSimualteInput" xml:space="preserve">
-    <value>Stop Simualte Input</value>
+    <value>시뮬레이션 입력 중지</value>
   </data>
   <data name="ScreenshotSetting_TestScreenshot" xml:space="preserve">
-    <value>Test Screenshot</value>
+    <value>스크린샷 테스트</value>
   </data>
   <data name="ScreenshotSetting_AutoConvertToSDRImage" xml:space="preserve">
-    <value>Auto Convert to SDR Image</value>
+    <value>SDR 이미지 자동변환</value>
   </data>
   <data name="ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved" xml:space="preserve">
-    <value>When capturing HDR images, SDR version will also be saved.</value>
+    <value>HDR 이미지로 스크린샷 하면 SDR 이미지도 함께 저장됩니다.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
-    <value>The screenshot feature captures the currently running game. If multiple games are running, the most recently focused game will be selected. Note the following limitations:
-• Minimized game windows cannot be captured.
-• Parts of the game window that extend beyond the screen will not be included.
-• In rare cases, a non-game window may be captured instead.</value>
+    <value>스크린샷 기능은 현재 실행중인 게임화면을 캡쳐합니다. 여러 게임을 동시에 실행중이면 마지막으로 포어그라운드에서 실행된 게임화면이 캡쳐됩니다. 위 기능은 아래 제한사항이 있습니다:
+• 최소화 된 게임은 캡쳐할 수 없습니다.
+• 모니터 화면 밖의 영역은 캡쳐할 수 없습니다.
+• 극히 드물게 게임화면이 아닌 다른 윈도우의 내용이 캡쳐될 수 있습니다.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWin10Limit" xml:space="preserve">
-    <value>On Windows 10, the screenshot feature has the following additional limitations:
-• A colored border may appear around the game window during capture.
-• The mouse pointer cannot be hidden.</value>
+    <value>Windows 10 운영체제에서 스크린샷 기능은 아래와 같은 추가 제한 사항이 있습니다.
+• 게임 윈도우 가장자리에 유채색 테두리가 포함될 수 있습니다.
+• 마우스 포인터를 숨길 수 없습니다.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
-    <value>If you want to capture screenshots with a controller, please use Button Mapping in the Controller Enhancement page.</value>
+    <value>컨트롤러를 이용해 스크린샷 기능을 사용하려면,「컨트롤러 확장기능」 에서 「시뮬레이션 입력」기능을 활성화 해주세요.</value>
   </data>
   <data name="TheScreenshotFeatureDoesNotSupportCloudGame" xml:space="preserve">
-    <value>The screenshot feature does not support cloud game.</value>
+    <value>스크린샷 기능은 현재 클라우드 게임에서 지원되지 않습니다.</value>
   </data>
   <data name="SimulateInputTipsWindow_SwitchWindows" xml:space="preserve">
-    <value>Switch Windows</value>
+    <value>윈도우 전환</value>
   </data>
   <data name="ScreenshotSetting_AutoCopyScreenshotFile" xml:space="preserve">
-    <value>Auto Copy Screenshot File</value>
+    <value>스크린샷 자동 복사</value>
   </data>
   <data name="GameSettingPage_UsePopupWindow" xml:space="preserve">
-    <value>Use Popup Window</value>
+    <value>테두리 없는 창 모드</value>
   </data>
   <data name="ToolboxSetting_ImageViewer" xml:space="preserve">
-    <value>Image Viewer</value>
+    <value>이미지 뷰어</value>
   </data>
   <data name="ToolboxSetting_ViewOrEditImage" xml:space="preserve">
-    <value>View / Edit Image</value>
+    <value>이미지 열기/편집</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistInstalled" xml:space="preserve">
-    <value>Microsoft GameInput component detected. Simulated input is unavailable when the app is running in the background.</value>
+    <value>Microsoft GameInput 모듈이 감지되었습니다. 프로그램이 백그라운드에서 실행될 때 시뮬레이션 입력 기능을 사용할 수 없습니다.</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistOutdate" xml:space="preserve">
-    <value>An outdated Microsoft GameInput component is installed. Please uninstall or update it.</value>
+    <value>Microsoft GameInput 모듈 버전이 너무 낮습니다. 재설치 혹은 업데이트를 진행하세요.</value>
   </data>
   <data name="GamepadControlSetting_NeedInstallGameInputRedistOnWin10" xml:space="preserve">
-    <value>On Windows 10, the Microsoft GameInput component must be installed for the controller enhancement feature to work properly.</value>
+    <value>Windows 10 운영체제에서는 Microsoft GameInput 모듈을 설치한 후 컨트롤러 확장기능을 정상적으로 사용할 수 있습니다.</value>
   </data>
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
-    <value>Click to download.</value>
+    <value>클릭하여 다운로드.</value>
   </data>
 </root>
