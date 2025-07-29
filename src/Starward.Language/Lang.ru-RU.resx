@@ -2461,15 +2461,15 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Просмотреть / Редактировать изображение</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistInstalled" xml:space="preserve">
-    <value>Microsoft GameInput component detected. Simulated input is unavailable when the app is running in the background.</value>
+    <value>Обнаружен компонент Microsoft GameInput. Симулированный ввод недоступен, пока приложение работает в фоновом режиме.</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistOutdate" xml:space="preserve">
-    <value>An outdated Microsoft GameInput component is installed. Please uninstall or update it.</value>
+    <value>Устаревший компонент Microsoft GameInput установлен. Пожалуйста, удалите или обновите его.</value>
   </data>
   <data name="GamepadControlSetting_NeedInstallGameInputRedistOnWin10" xml:space="preserve">
-    <value>On Windows 10, the Microsoft GameInput component must be installed for the controller enhancement feature to work properly.</value>
+    <value>Для корректной работы функции улучшения контроллера в Windows 10 должен быть установлен компонент Microsoft GameInput .</value>
   </data>
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
-    <value>Click to download.</value>
+    <value>Нажмите, чтобы скачать.</value>
   </data>
 </root>
