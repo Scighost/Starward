@@ -283,12 +283,12 @@ internal partial class GameLauncherService
     /// <returns></returns>
     public static bool IsProcessPending(Process process)
     {
-        if (process.HasExited)
-        {
-            return false;
-        }
         try
         {
+            if (process.HasExited)
+            {
+                return false;
+            }
             foreach (ProcessThread thread in process.Threads)
             {
                 if (thread.ThreadState is not ThreadState.Wait)
@@ -303,7 +303,7 @@ internal partial class GameLauncherService
             return true;
         }
         catch { }
-        return false;
+        return true;
     }
 
 
