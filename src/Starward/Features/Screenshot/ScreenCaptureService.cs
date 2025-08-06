@@ -147,7 +147,7 @@ internal class ScreenCaptureService
             using CanvasBitmap canvasBitmap = CanvasBitmap.CreateFromDirect3D11Surface(CanvasDevice.GetSharedDevice(), frame.Surface, 96);
             DisplayAdvancedColorInfo colorInfo = GetAdvancedColorInfoFromWindowHandle(runningGame.WindowHandle);
             float maxCLL = GetMaxCLL(canvasBitmap);
-            bool hdr = maxCLL > colorInfo.SdrWhiteLevelInNits;
+            bool hdr = maxCLL > colorInfo.SdrWhiteLevelInNits + 2;
             bool clip = TryClipClient(runningGame.WindowHandle, frame.ContentSize, out Rect clientRect);
             if (!clip)
             {
@@ -393,7 +393,7 @@ internal class ScreenCaptureService
         using var gammaEffect = new GammaTransferEffect
         {
             Source = colorEffect,
-            RedExponent = 0.1f,
+            RedExponent = 0.5f,
             GreenDisable = true,
             BlueDisable = true,
             AlphaDisable = true,
@@ -402,7 +402,7 @@ internal class ScreenCaptureService
         using var histogramEffect = new HistogramEffect
         {
             Source = gammaEffect,
-            NumBins = 512,
+            NumBins = 500,
             ChannelSelect = HistogramEffectChannelSelector.R,
             BufferPrecision = CanvasBufferPrecision.Precision16Float,
         };
@@ -410,7 +410,7 @@ internal class ScreenCaptureService
         using var ds = renderTarget.CreateDrawingSession();
         ds.DrawImage(histogramEffect);
         ds.Dispose();
-        float[] histogram = new float[512];
+        float[] histogram = new float[500];
         histogramEffect.GetHistogramOutput(histogram);
         int maxBinIndex = 0;
         float cumulative = 0;
@@ -423,7 +423,7 @@ internal class ScreenCaptureService
                 break;
             }
         }
-        return MathF.Pow((maxBinIndex + 0.5f) / histogram.Length, 10) * 10000;
+        return MathF.Pow((maxBinIndex + 0.5f) / histogram.Length, 2f) * 10000;
     }
 
 
