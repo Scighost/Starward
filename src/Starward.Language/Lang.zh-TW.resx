@@ -2192,7 +2192,7 @@
     <comment>Previous Image</comment>
   </data>
   <data name="ImageViewWindow2_Next" xml:space="preserve">
-    <value>Next</value>
+    <value>下一個</value>
     <comment>Next Image</comment>
   </data>
   <data name="ImageViewWindow2_ShowGallery" xml:space="preserve">
