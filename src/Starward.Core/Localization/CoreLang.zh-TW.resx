@@ -293,9 +293,9 @@
     <value>驅動光碟</value>
   </data>
   <data name="GachaType_CharacterCollaborationWarp" xml:space="preserve">
-    <value>Character Collaboration Warp</value>
+    <value>角色聯動躍遷</value>
   </data>
   <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
-    <value>Light Cone Collaboration Warp</value>
+    <value>光錐聯動躍遷</value>
   </data>
 </root>

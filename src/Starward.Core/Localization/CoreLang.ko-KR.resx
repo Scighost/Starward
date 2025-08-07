@@ -293,9 +293,9 @@
     <value>디스크</value>
   </data>
   <data name="GachaType_CharacterCollaborationWarp" xml:space="preserve">
-    <value>Character Collaboration Warp</value>
+    <value>캐릭터 콜라보 워프</value>
   </data>
   <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
-    <value>Light Cone Collaboration Warp</value>
+    <value>광추 콜라보 워프</value>
   </data>
 </root>
