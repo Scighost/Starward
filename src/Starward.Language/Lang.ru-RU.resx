@@ -383,7 +383,7 @@
     <value>История Молитв</value>
   </data>
   <data name="GachaLogService_WarpRecords" xml:space="preserve">
-    <value>История Прижков</value>
+    <value>История Прыжков</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
     <value>Получение UID</value>
