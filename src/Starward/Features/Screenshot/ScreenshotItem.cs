@@ -12,13 +12,17 @@ public partial class ScreenshotItem
 
     public string Name { get; set; }
 
-    public string FullName { get; set; }
+    public string FilePath { get; set; }
+
+    public string FileName { get; set; }
+
+    public string FileInfo { get; set; }
 
     public DateTime CreationTime { get; set; }
 
     public string CreationTimeText { get; set; }
 
-    public string TimeMonth { get; set; }
+    public string TimeMonthDay { get; set; }
 
 
     public ScreenshotItem(string file) : this(new FileInfo(file))
@@ -29,7 +33,9 @@ public partial class ScreenshotItem
 
     public ScreenshotItem(FileInfo info)
     {
-        FullName = info.FullName;
+        FilePath = info.FullName;
+        FileName = info.Name;
+        FileInfo = GetFileInfo(info);
         Name = Path.GetFileNameWithoutExtension(info.Name);
         if (TryParseCreationTime(Name, out var time))
         {
@@ -40,7 +46,7 @@ public partial class ScreenshotItem
             CreationTime = info.CreationTime;
         }
         CreationTimeText = CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
-        TimeMonth = CreationTime.ToString("yyyy-MM");
+        TimeMonthDay = CreationTime.ToString("yyyy-MM-dd");
     }
 
 
@@ -95,6 +101,14 @@ public partial class ScreenshotItem
     private static partial Regex XBoxNameRegex();
 
 
+    private static string GetFileInfo(FileInfo info)
+    {
+        const double KB = 1 << 10, MB = 1 << 20;
+        string ext = info.Extension.Replace(".", "").ToUpper() + "  ";
+        string size = info.Length >= MB ? $"{info.Length / MB:F2} MB" : $"{info.Length / KB:F2} KB";
+        return $"{ext}{size}".Trim();
+    }
+
 
 }
 
@@ -106,6 +120,11 @@ public class ScreenshotItemGroup : ObservableCollection<ScreenshotItem>
 
 
     public ScreenshotItemGroup(string header, IEnumerable<ScreenshotItem> list) : base(list)
+    {
+        Header = header;
+    }
+
+    public ScreenshotItemGroup(string header) : base()
     {
         Header = header;
     }

@@ -1,12 +1,10 @@
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
-using Starward.Controls;
 using Starward.Core;
 using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
@@ -19,7 +17,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
@@ -63,7 +60,7 @@ public sealed partial class ScreenshotPage : PageBase
     protected override async void OnLoaded()
     {
         await Task.Delay(16);
-        await InitializeAsync();
+        Initialize();
     }
 
 
@@ -81,25 +78,22 @@ public sealed partial class ScreenshotPage : PageBase
             _folders = null!;
             _screenshotDict.Clear();
             _screenshotDict = null!;
-            Screenshots = null!;
-            _defaultScrollController = null!;
-            _detailLabelToolTip?.Content = null;
-            _detailLabelToolTip?.IsOpen = false;
-            _detailLabelToolTip = null;
-            AnnotatedScrollBar.Labels.Clear();
-            ItemsView_Images.Loaded -= ItemsView_Images_Loaded;
-            AnnotatedScrollBar.Loaded -= AnnotatedScrollBar_Loaded;
-            AnnotatedScrollBar.DetailLabelRequested -= AnnotatedScrollBar_DetailLabelRequested;
-            AnnotatedScrollBar.PointerEntered -= AnnotatedScrollBar_PointerEntered;
-            AnnotatedScrollBar.PointerExited -= AnnotatedScrollBar_PointerExited;
-            AnnotatedScrollBar.PointerPressed -= AnnotatedScrollBar_PointerPressed;
-            AnnotatedScrollBar.PointerReleased -= AnnotatedScrollBar_PointerReleased;
-            AnnotatedScrollBar = null;
+            ScreenshotGroups = null!;
+            ScreenshotViewSource.Source = null;
         }
         catch { }
-
     }
 
+
+
+    public bool MutliSelect
+    {
+        get; set
+        {
+            field = value;
+            GridView_Images.SelectionMode = value ? ListViewSelectionMode.Multiple : ListViewSelectionMode.None;
+        }
+    }
 
 
     private List<FileSystemWatcher> _watchers = new();
@@ -108,14 +102,12 @@ public sealed partial class ScreenshotPage : PageBase
 
     private Dictionary<string, ScreenshotItem> _screenshotDict = new();
 
-    public ObservableCollection<ScreenshotItem> Screenshots { get; set => SetProperty(ref field, value); }
+    public CollectionViewSource ScreenshotViewSource { get; set => SetProperty(ref field, value); } = new() { IsSourceGrouped = true };
+
+    public ObservableCollection<ScreenshotItemGroup> ScreenshotGroups { get; set { if (SetProperty(ref field, value)) { ScreenshotViewSource.Source = value; } } }
 
 
-    private IScrollController _defaultScrollController;
-
-
-
-    private async Task InitializeAsync()
+    private async void Initialize()
     {
         try
         {
@@ -125,22 +117,22 @@ public sealed partial class ScreenshotPage : PageBase
             }
             _folders.Clear();
             _screenshotDict.Clear();
-            Screenshots = null!;
+            ScreenshotGroups = null!;
 
-            (string? backupFolder, string? screenshotFolder) = await GetGameScreenshotPathAsync();
-            if (backupFolder is not null)
+            (string? defaultFolder, string? inGameFolder) = await GetGameScreenshotPathAsync();
+            if (defaultFolder is not null)
             {
-                string folder = Path.GetFullPath(backupFolder);
+                string folder = Path.GetFullPath(defaultFolder);
                 if (_folders.FirstOrDefault(x => x.Folder == folder) is null)
                 {
                     var watcher = CreateFileSystemWatcher(folder);
                     _watchers.Add(watcher);
-                    _folders.Add(new(folder) { Backup = true });
+                    _folders.Add(new(folder) { Default = true });
                 }
             }
-            if (screenshotFolder is not null)
+            if (inGameFolder is not null)
             {
-                string folder = Path.GetFullPath(screenshotFolder);
+                string folder = Path.GetFullPath(inGameFolder);
                 if (_folders.FirstOrDefault(x => x.Folder == folder) is null)
                 {
                     var watcher = CreateFileSystemWatcher(folder);
@@ -179,7 +171,7 @@ public sealed partial class ScreenshotPage : PageBase
                     {
                         continue;
                     }
-                    if (IsSupportedExtension(file) && !File.GetAttributes(file).HasFlag((System.IO.FileAttributes)0x440000))
+                    if (ScreenshotHelper.IsSupportedExtension(file) && !File.GetAttributes(file).HasFlag((System.IO.FileAttributes)0x440000))
                     {
                         var item = new ScreenshotItem(file);
                         screenshots.Add(item);
@@ -189,31 +181,14 @@ public sealed partial class ScreenshotPage : PageBase
             }
 
             var list = screenshots.OrderByDescending(x => x.CreationTime).ToList();
-            Screenshots = new(list);
-            await Task.Delay(100);
-            UpdateLabels();
+            var groups = screenshots.GroupBy(x => x.TimeMonthDay).Select(x => new ScreenshotItemGroup(x.Key, x)).ToList();
+            ScreenshotGroups = new(groups);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Initialize");
         }
     }
-
-
-
-    private FileSystemWatcher CreateFileSystemWatcher(string folder)
-    {
-        var watcher = new FileSystemWatcher(folder);
-        watcher.NotifyFilter = NotifyFilters.FileName;
-        watcher.Filters.Add("*.jpg");
-        watcher.Filters.Add("*.png");
-        watcher.Filters.Add("*.jxr");
-        watcher.Created += FileSystemWatcher_Created;
-        watcher.Deleted += FileSystemWatcher_Deleted;
-        watcher.EnableRaisingEvents = true;
-        return watcher;
-    }
-
 
 
     public async Task<(string? BackupFolder, string? ScreenshotFolder)> GetGameScreenshotPathAsync()
@@ -263,135 +238,19 @@ public sealed partial class ScreenshotPage : PageBase
     }
 
 
-
-    public static bool IsSupportedExtension(string file)
+    private FileSystemWatcher CreateFileSystemWatcher(string folder)
     {
-        return Path.GetExtension(file) is ".bmp" or ".jpg" or ".png" or ".jxr" or ".webp" or ".heic" or ".avif" or ".jxl";
-    }
-
-
-
-    private void ItemsView_Images_Loaded(object sender, RoutedEventArgs e)
-    {
-        _defaultScrollController ??= ItemsView_Images.VerticalScrollController;
-    }
-
-
-
-    private void AnnotatedScrollBar_DetailLabelRequested(AnnotatedScrollBar sender, AnnotatedScrollBarDetailLabelRequestedEventArgs args)
-    {
-        try
+        var watcher = new FileSystemWatcher(folder);
+        watcher.NotifyFilter = NotifyFilters.FileName;
+        foreach (var item in ScreenshotHelper.WatcherFilters)
         {
-            if (Screenshots is not null)
-            {
-                double offset = 0;
-                double viewportHeight = ItemsView_Images.ScrollView.ViewportHeight;
-                double extentHeight = ItemsView_Images.ScrollView.ExtentHeight;
-                if (args.ScrollOffset < viewportHeight / 2 || args.ScrollOffset > extentHeight - viewportHeight / 2)
-                {
-                    offset = args.ScrollOffset / ItemsView_Images.ScrollView.ExtentHeight;
-                }
-                else
-                {
-                    offset = (args.ScrollOffset + viewportHeight / 2) / ItemsView_Images.ScrollView.ExtentHeight;
-                }
-                if (offset < 0 || offset > 1)
-                {
-                    args.Content = null;
-                    _detailLabelToolTip?.IsOpen = false;
-                }
-                else
-                {
-                    int index = (int)Math.Ceiling(offset * (Screenshots.Count - 1));
-                    index = Math.Clamp(index, 0, Screenshots.Count - 1);
-                    args.Content = Screenshots[index].CreationTime.ToString("yyyy-MM-dd");
-                }
-            }
+            watcher.Filters.Add(item);
         }
-        catch { }
+        watcher.Created += FileSystemWatcher_Created;
+        watcher.Deleted += FileSystemWatcher_Deleted;
+        watcher.EnableRaisingEvents = true;
+        return watcher;
     }
-
-
-
-    private void UpdateLabels()
-    {
-        try
-        {
-            if (Screenshots?.Count > 0)
-            {
-                double count = Screenshots.Count;
-                if (ItemsView_Images.ScrollView.ExtentHeight / ItemsView_Images.ScrollView.ViewportHeight > 3)
-                {
-                    AnnotatedScrollBar.Labels.Clear();
-                    double extentHeight = ItemsView_Images.ScrollView.ExtentHeight;
-
-                    int lastYear = int.MinValue;
-                    int lastYearMonth = int.MinValue;
-                    var labels = new List<AnnotatedScrollBarLabel>();
-                    for (int i = Screenshots.Count - 1; i >= 0; i--)
-                    {
-                        int year = Screenshots[i].CreationTime.Year;
-                        int yearMonth = year * 100 + Screenshots[i].CreationTime.Month;
-                        if (year > lastYear)
-                        {
-                            double offset = extentHeight * i / count;
-                            labels.Add(new AnnotatedScrollBarLabel(year.ToString(), offset));
-                            lastYear = year;
-                            lastYearMonth = yearMonth;
-                        }
-                        else if (yearMonth > lastYearMonth)
-                        {
-                            double offset = extentHeight * i / count;
-                            lastYearMonth = yearMonth;
-                            labels.Add(new AnnotatedScrollBarLabel("•", offset));
-                        }
-                    }
-
-                    double lastOffset = double.MaxValue;
-                    bool lastIsYear = false;
-                    foreach (var item in labels)
-                    {
-                        if (item.Content is not "•")
-                        {
-                            AnnotatedScrollBar.Labels.Insert(0, item);
-                            lastOffset = item.ScrollOffset;
-                            lastIsYear = true;
-                        }
-                        else if (lastIsYear)
-                        {
-                            if (Math.Abs(item.ScrollOffset - lastOffset) / extentHeight >= 0.04)
-                            {
-                                AnnotatedScrollBar.Labels.Insert(0, item);
-                                lastOffset = item.ScrollOffset;
-                                lastIsYear = false;
-                            }
-                        }
-                        else
-                        {
-                            AnnotatedScrollBar.Labels.Insert(0, item);
-                            lastOffset = item.ScrollOffset;
-                        }
-                    }
-
-                    AnnotatedScrollBar.Opacity = 1;
-                    AnnotatedScrollBar.IsHitTestVisible = true;
-                    AnnotatedScrollBar.Visibility = Visibility.Visible;
-                    ItemsView_Images.VerticalScrollController = AnnotatedScrollBar.ScrollController;
-                    return;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Update labels");
-        }
-        if (_defaultScrollController is not null)
-        {
-            AnnotatedScrollBar.Visibility = Visibility.Collapsed;
-            ItemsView_Images.VerticalScrollController = _defaultScrollController;
-        }
-    }
-
 
 
     private async void FileSystemWatcher_Created(object sender, FileSystemEventArgs e)
@@ -405,16 +264,23 @@ public sealed partial class ScreenshotPage : PageBase
                 {
                     return;
                 }
-                if (IsSupportedExtension(e.FullPath) && File.Exists(e.FullPath))
+                if (ScreenshotHelper.IsSupportedExtension(e.FullPath) && File.Exists(e.FullPath))
                 {
-                    await WaitForFileReleaseAsync(e.FullPath, CancellationToken.None);
+                    await ScreenshotHelper.WaitForFileReleaseAsync(e.FullPath, CancellationToken.None);
                     var item = new ScreenshotItem(e.FullPath);
                     _screenshotDict[name] = item;
                     DispatcherQueue.TryEnqueue(() =>
                     {
-                        Screenshots ??= new();
-                        Screenshots.Insert(0, item);
-                        UpdateLabels();
+                        ScreenshotGroups ??= new();
+                        if (ScreenshotGroups.FirstOrDefault(x => x.Header == item.TimeMonthDay) is ScreenshotItemGroup group)
+                        {
+                            group.Insert(0, item);
+                        }
+                        else
+                        {
+                            var newGroup = new ScreenshotItemGroup(item.TimeMonthDay, [item]);
+                            ScreenshotGroups.Insert(0, newGroup);
+                        }
                     });
                 }
             }
@@ -426,43 +292,35 @@ public sealed partial class ScreenshotPage : PageBase
     }
 
 
-
     private void FileSystemWatcher_Deleted(object sender, FileSystemEventArgs e)
     {
         try
         {
-            if (Screenshots?.FirstOrDefault(x => x.FullName == e.FullPath) is ScreenshotItem item)
+            string name = Path.GetFileName(e.FullPath);
+            if (_screenshotDict.TryGetValue(name, out ScreenshotItem? item))
             {
-                _screenshotDict.Remove(Path.GetFileName(e.FullPath));
-                DispatcherQueue.TryEnqueue(() => Screenshots?.Remove(item));
-                UpdateLabels();
+                if (e.FullPath == item.FilePath)
+                {
+                    if (ScreenshotGroups?.FirstOrDefault(x => x.Header == item.TimeMonthDay) is ScreenshotItemGroup group)
+                    {
+                        if (group.Contains(item))
+                        {
+                            _screenshotDict.Remove(item.Name);
+                            DispatcherQueue.TryEnqueue(() =>
+                            {
+                                group.Remove(item);
+                                if (group.Count == 0)
+                                {
+                                    ScreenshotGroups.Remove(group);
+                                }
+                            });
+                        }
+                    }
+                }
             }
         }
         catch { }
     }
-
-
-
-    private static async Task WaitForFileReleaseAsync(string filePath, CancellationToken cancellation = default)
-    {
-        int count = 0;
-        while (count < 30)
-        {
-            using var handle = Kernel32.CreateFile2(filePath, Kernel32.FileAccess.GENERIC_READ, 0, Kernel32.CreationOption.OPEN_EXISTING);
-            if (handle.IsNull || handle.IsInvalid)
-            {
-                await Task.Delay(100, cancellation);
-                count++;
-                continue;
-            }
-            break;
-        }
-    }
-
-
-
-
-    #region Action
 
 
     [RelayCommand]
@@ -481,74 +339,49 @@ public sealed partial class ScreenshotPage : PageBase
             {
                 string folder = string.Join(';', dialog.Folders.Where(x => x.CanRemove).Select(x => x.Folder));
                 AppConfig.SetExternalScreenshotFolder(CurrentGameBiz, folder);
-                await InitializeAsync();
+                Initialize();
             }
         }
         catch { }
     }
 
 
-
-    private async void Button_CopyImage_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
-    {
-        e.Handled = true;
-        if (sender is Button button)
-        {
-            if (button.DataContext is ScreenshotItem item)
-            {
-                try
-                {
-                    _logger.LogInformation("Copy image: {file}", item.FullName);
-                    var file = await StorageFile.GetFileFromPathAsync(item.FullName);
-                    ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
-                    button.Content = new FontIcon { Glyph = "\uE8FB", FontSize = 16 };
-                    await Task.Delay(3000);
-                    button.Content = new FontIcon { Glyph = "\uE8C8", FontSize = 16 };
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Copy image");
-                }
-            }
-        }
-    }
-
-
-
-    private void Grid_ImageItem_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    private void GridView_Images_ItemClick(object sender, ItemClickEventArgs e)
     {
         try
         {
-            if (sender is FrameworkElement grid && grid.DataContext is ScreenshotItem item)
+            if (GridView_Images.SelectionMode is ListViewSelectionMode.None)
             {
-                _ = new ImageViewWindow2().ShowWindowAsync(this.XamlRoot.ContentIslandEnvironment.AppWindowId, item, Screenshots);
+                if (e.ClickedItem is ScreenshotItem item)
+                {
+                    _ = new ImageViewWindow2().ShowWindowAsync(this.XamlRoot.ContentIslandEnvironment.AppWindowId, item, null);
+                }
             }
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Open ImageViewWindow");
-        }
+        catch { }
     }
 
 
-
-    private async void Grid_ImageItem_DragStarting(UIElement sender, DragStartingEventArgs args)
+    private async void GridView_Images_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
     {
         try
         {
-            if (sender is FrameworkElement grid && grid.DataContext is ScreenshotItem item)
+            var list = new List<StorageFile>();
+            foreach (var dragItem in e.Items)
             {
-                var deferral = args.GetDeferral();
-                args.AllowedOperations = DataPackageOperation.Copy;
-                var file = await StorageFile.GetFileFromPathAsync(item.FullName);
-                args.Data.SetStorageItems([file], true);
-                var bitmap = CachedImage.GetCachedThumbnail(item.FullName);
-                if (bitmap is not null)
+                if (dragItem is ScreenshotItem item)
                 {
-                    bitmap.DecodePixelHeight = (int)(grid.ActualHeight * this.XamlRoot.GetUIScaleFactor());
-                    args.DragUI.SetContentFromBitmapImage(bitmap);
+                    if (File.Exists(item.FilePath))
+                    {
+                        var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                        list.Add(file);
+                    }
                 }
-                deferral.Complete();
+            }
+            if (list.Count > 0)
+            {
+                e.Data.RequestedOperation = DataPackageOperation.Copy;
+                e.Data.SetStorageItems(list, true);
             }
         }
         catch (Exception ex)
@@ -558,78 +391,209 @@ public sealed partial class ScreenshotPage : PageBase
     }
 
 
-
-
-
-
-    #endregion
-
-
-
-
-    #region AnnotatedScrollBar.DetailLabelToolTip
-
-    // https://github.com/microsoft/microsoft-ui-xaml/issues/9726
-
-
-    private ToolTip? _detailLabelToolTip;
-
-    private bool _isPointerHovered;
-
-    private bool _isPointerPressed;
-
-
-    private void AnnotatedScrollBar_Loaded(object sender, RoutedEventArgs e)
+    private async void MenuFlyoutItem_CopyFile_Click(object sender, RoutedEventArgs e)
     {
-        if (AnnotatedScrollBar.FindDescendant("PART_ToolTipRail") is DependencyObject border)
+        try
         {
-            if (ToolTipService.GetToolTip(border) is ToolTip toolTip)
+            if (GridView_Images.SelectionMode is ListViewSelectionMode.Multiple && GridView_Images.SelectedItems.Count > 0)
             {
-                _detailLabelToolTip = toolTip;
+                var list = new List<StorageFile>();
+                foreach (ScreenshotItem item in GridView_Images.SelectedItems.Cast<ScreenshotItem>())
+                {
+                    if (File.Exists(item.FilePath))
+                    {
+                        var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                        list.Add(file);
+                    }
+                }
+                if (list.Count > 0)
+                {
+                    ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, list.ToArray());
+                    InAppToast.MainWindow?.Success(Lang.ImageViewWindow2_CopiedToClipboard, string.Format(Lang.ScreenshotPage_Total0Files, list.Count), 1500);
+                }
+            }
+            else if (sender is FrameworkElement fe && fe.DataContext is ScreenshotItem item)
+            {
+                if (File.Exists(item.FilePath))
+                {
+                    var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
+                    InAppToast.MainWindow?.Success(Lang.ImageViewWindow2_CopiedToClipboard, null, 1500);
+                }
+                else
+                {
+                    InAppToast.MainWindow?.Warning(Lang.ImageViewWindow2_FileDoesNotExist, item.FilePath, 3000);
+                }
             }
         }
-    }
-
-
-
-    private void AnnotatedScrollBar_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        _isPointerHovered = true;
-    }
-
-
-    private void AnnotatedScrollBar_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        if (!_isPointerPressed)
+        catch (Exception ex)
         {
-            _detailLabelToolTip?.IsOpen = false;
+            _logger.LogError(ex, "Failed to copy file to clipboard");
         }
-        _isPointerHovered = false;
     }
 
 
-    private void AnnotatedScrollBar_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    private async void MenuFlyoutItem_CopyAsJPG_Click(object sender, RoutedEventArgs e)
     {
-        _isPointerPressed = true;
-    }
-
-    private void AnnotatedScrollBar_PointerReleased(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        if (!_isPointerHovered)
+        try
         {
-            _detailLabelToolTip?.IsOpen = false;
+            if (sender is FrameworkElement fe && fe.DataContext is ScreenshotItem item)
+            {
+                if (File.Exists(item.FilePath))
+                {
+                    string jpgFilePath = await ScreenshotHelper.ConvertToJpgAsync(item.FilePath);
+                    var file = await StorageFile.GetFileFromPathAsync(jpgFilePath);
+                    ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
+                    InAppToast.MainWindow?.Success(Lang.ImageViewWindow2_CopiedToClipboard, null, 1500);
+                }
+                else
+                {
+                    InAppToast.MainWindow?.Warning(Lang.ImageViewWindow2_FileDoesNotExist, item.FilePath, 3000);
+                }
+            }
         }
-        _isPointerPressed = false;
+        catch (Exception ex)
+        {
+            InAppToast.MainWindow?.Error(Lang.ImageViewWindow2_CopyAsJPG, ex.Message, 3000);
+            _logger.LogError(ex, "Failed to copy file as JPG to clipboard");
+        }
     }
 
 
+    private async void MenuFlyoutItem_OpenInExplorer_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement fe && fe.DataContext is ScreenshotItem item)
+            {
+                if (File.Exists(item.FilePath))
+                {
+                    var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    var options = new FolderLauncherOptions();
+                    options.ItemsToSelect.Add(file);
+                    await Launcher.LaunchFolderAsync(await file.GetParentAsync(), options);
+                }
+                else
+                {
+                    InAppToast.MainWindow?.Warning(Lang.ImageViewWindow2_FileDoesNotExist, item.FilePath, 3000);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to open file in explorer");
+        }
+    }
 
 
+    private async void MenuFlyoutItem_OpenWithDefault_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement fe && fe.DataContext is ScreenshotItem item)
+            {
+                if (File.Exists(item.FilePath))
+                {
+                    var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    await Launcher.LaunchFileAsync(file);
+                }
+                else
+                {
+                    InAppToast.MainWindow?.Warning(Lang.ImageViewWindow2_FileDoesNotExist, item.FilePath, 3000);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to open file with default application");
+        }
+    }
 
 
-    #endregion
+    private async void MenuFlyoutItem_OpenWith_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement fe && fe.DataContext is ScreenshotItem item)
+            {
+                if (File.Exists(item.FilePath))
+                {
+                    var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    var options = new LauncherOptions { DisplayApplicationPicker = true };
+                    await Launcher.LaunchFileAsync(file, options);
+                }
+                else
+                {
+                    InAppToast.MainWindow?.Warning(Lang.ImageViewWindow2_FileDoesNotExist, item.FilePath, 3000);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to open file with application picker");
+        }
+    }
 
 
+    private async void MenuFlyoutItem_Delete_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (GridView_Images.SelectionMode is ListViewSelectionMode.Multiple && GridView_Images.SelectedItems.Count > 0)
+            {
+                var list = GridView_Images.SelectedItems.Cast<ScreenshotItem>().ToList();
+                foreach (ScreenshotItem item in list)
+                {
+                    if (File.Exists(item.FilePath))
+                    {
+                        var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                        await file.DeleteAsync();
+                    }
+                    if (ScreenshotGroups?.FirstOrDefault(x => x.Header == item.TimeMonthDay) is ScreenshotItemGroup group)
+                    {
+                        if (group.Remove(item))
+                        {
+                            _screenshotDict.Remove(item.FileName);
+                            if (group.Count == 0)
+                            {
+                                ScreenshotGroups.Remove(group);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (sender is FrameworkElement fe && fe.DataContext is ScreenshotItem item)
+            {
+                if (File.Exists(item.FilePath))
+                {
+                    var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    await file.DeleteAsync();
+                }
+                if (ScreenshotGroups?.FirstOrDefault(x => x.Header == item.TimeMonthDay) is ScreenshotItemGroup group)
+                {
+                    if (group.Remove(item))
+                    {
+                        _screenshotDict.Remove(item.FileName);
+                        if (group.Count == 0)
+                        {
+                            ScreenshotGroups.Remove(group);
+                        }
+                    }
+                }
+            }
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            // TODO 使用 RPC 删除
+            InAppToast.MainWindow?.Warning(Lang.ImageViewWindow2_UnableToDeleteTheFile, Lang.ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse, 5000);
+            _logger.LogError(ex, "Failed to delete image file");
+        }
+        catch (Exception ex)
+        {
+            //ShowInfo(InfoBarSeverity.Error, Lang.ImageViewWindow2_FailedToDeleteImageFile, ex.Message, 0);
+            _logger.LogError(ex, "Failed to delete image file");
+        }
+    }
 
 
 }

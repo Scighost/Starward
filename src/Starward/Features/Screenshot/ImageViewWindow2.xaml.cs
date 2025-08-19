@@ -555,7 +555,7 @@ public sealed partial class ImageViewWindow2 : Window
         if (e.AddedItems.FirstOrDefault() is ScreenshotItem item && item != CurrentScreenshot)
         {
             CurrentScreenshot = item;
-            _ = LoadImageAsync(item.FullName);
+            _ = LoadImageAsync(item.FilePath);
         }
     }
 
@@ -727,7 +727,7 @@ public sealed partial class ImageViewWindow2 : Window
             if (index > 0)
             {
                 CurrentScreenshot = ScreenshotCollection[index - 1];
-                _ = LoadImageAsync(CurrentScreenshot.FullName);
+                _ = LoadImageAsync(CurrentScreenshot.FilePath);
             }
         }
         catch { }
@@ -746,7 +746,7 @@ public sealed partial class ImageViewWindow2 : Window
             if (index < ScreenshotCollection.Count - 1)
             {
                 CurrentScreenshot = ScreenshotCollection[index + 1];
-                _ = LoadImageAsync(CurrentScreenshot.FullName);
+                _ = LoadImageAsync(CurrentScreenshot.FilePath);
             }
         }
         catch { }
@@ -861,7 +861,7 @@ public sealed partial class ImageViewWindow2 : Window
             AppWindow.MoveAndResize(new RectInt32(point.X, point.Y, size.Width, size.Height));
             User32.ShowWindow(WindowHandle, ShowWindowCommand.SW_SHOWMAXIMIZED);
             await Task.Delay(1);
-            await LoadImageAsync(screenshotItem.FullName);
+            await LoadImageAsync(screenshotItem.FilePath);
         }
         catch (Exception ex)
         {
@@ -880,14 +880,14 @@ public sealed partial class ImageViewWindow2 : Window
                 if (Directory.Exists(folder))
                 {
                     var list = Directory.GetFiles(folder)
-                                        .Where(ScreenshotPage.IsSupportedExtension)
+                                        .Where(ScreenshotPage2.IsSupportedExtension)
                                         .Select(x => new ScreenshotItem(x))
                                         .OrderByDescending(x => x.CreationTime)
                                         .ToList();
                     ScreenshotCollection = new(list);
                 }
             }
-            if (ScreenshotCollection?.FirstOrDefault(x => x.FullName == file) is ScreenshotItem item)
+            if (ScreenshotCollection?.FirstOrDefault(x => x.FilePath == file) is ScreenshotItem item)
             {
                 CurrentScreenshot = item;
             }
@@ -901,7 +901,7 @@ public sealed partial class ImageViewWindow2 : Window
             CenterInScreen(area, 1200, 676);
             User32.ShowWindow(WindowHandle, ShowWindowCommand.SW_SHOWMAXIMIZED);
             await Task.Delay(1);
-            await LoadImageAsync(CurrentScreenshot.FullName);
+            await LoadImageAsync(CurrentScreenshot.FilePath);
         }
         catch (Exception ex)
         {
@@ -944,14 +944,14 @@ public sealed partial class ImageViewWindow2 : Window
         try
         {
             var files = await FileDialogHelper.PickMultipleFilesAsync(Content.XamlRoot);
-            var items = files.Where(ScreenshotPage.IsSupportedExtension).Select(x => new ScreenshotItem(x)).ToList();
+            var items = files.Where(ScreenshotPage2.IsSupportedExtension).Select(x => new ScreenshotItem(x)).ToList();
             if (items.Count == 0)
             {
                 return;
             }
             ScreenshotCollection = new(items);
             CurrentScreenshot = items.First();
-            await LoadImageAsync(CurrentScreenshot.FullName);
+            await LoadImageAsync(CurrentScreenshot.FilePath);
         }
         catch (Exception ex)
         {
@@ -1156,7 +1156,7 @@ public sealed partial class ImageViewWindow2 : Window
                 if (next is not null)
                 {
                     CurrentScreenshot = next;
-                    await LoadImageAsync(CurrentScreenshot.FullName);
+                    await LoadImageAsync(CurrentScreenshot.FilePath);
                 }
                 else
                 {
@@ -1253,7 +1253,7 @@ public sealed partial class ImageViewWindow2 : Window
         try
         {
             var items = await e.DataView.GetStorageItemsAsync();
-            if (items.Count == 1 && items[0] is StorageFile { Path: "" } image && ScreenshotPage.IsSupportedExtension(image.FileType))
+            if (items.Count == 1 && items[0] is StorageFile { Path: "" } image && ScreenshotPage2.IsSupportedExtension(image.FileType))
             {
                 // 从浏览器或其他应用拖入的非本地文件图片
                 await LoadImageAsync(image);
@@ -1268,14 +1268,14 @@ public sealed partial class ImageViewWindow2 : Window
             var list = new List<string>();
             foreach (var item in items)
             {
-                if (item is StorageFile { Path: not "" } file && ScreenshotPage.IsSupportedExtension(file.FileType))
+                if (item is StorageFile { Path: not "" } file && ScreenshotPage2.IsSupportedExtension(file.FileType))
                 {
                     list.Add(file.Path);
                 }
                 else if (item is StorageFolder folder)
                 {
                     var files = await folder.GetFilesAsync();
-                    list.AddRange(files.Where(x => ScreenshotPage.IsSupportedExtension(x.FileType)).Select(x => x.Path));
+                    list.AddRange(files.Where(x => ScreenshotPage2.IsSupportedExtension(x.FileType)).Select(x => x.Path));
                 }
             }
             var screenshotItems = list.Select(x => new ScreenshotItem(x)).ToList();
@@ -1285,7 +1285,7 @@ public sealed partial class ImageViewWindow2 : Window
             }
             ScreenshotCollection = new(screenshotItems);
             CurrentScreenshot = screenshotItems.First();
-            await LoadImageAsync(CurrentScreenshot.FullName);
+            await LoadImageAsync(CurrentScreenshot.FilePath);
         }
         catch (Exception ex)
         {

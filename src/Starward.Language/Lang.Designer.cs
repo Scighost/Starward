@@ -3461,6 +3461,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Copy as JPG 的本地化字符串。
+        /// </summary>
+        public static string ImageViewWindow2_CopyAsJPG {
+            get {
+                return ResourceManager.GetString("ImageViewWindow2_CopyAsJPG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Copy File 的本地化字符串。
         /// </summary>
         public static string ImageViewWindow2_CopyFile {
@@ -4859,6 +4868,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Multi Select 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotPage_MultiSelect {
+            get {
+                return ResourceManager.GetString("ScreenshotPage_MultiSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Open Backup Folder 的本地化字符串。
         /// </summary>
         public static string ScreenshotPage_OpenBackupFolder {
@@ -4882,6 +4900,15 @@ namespace Starward.Language {
         public static string ScreenshotPage_ScreenshotFolderDoesNotExist {
             get {
                 return ResourceManager.GetString("ScreenshotPage_ScreenshotFolderDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Total {0} files. 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotPage_Total0Files {
+            get {
+                return ResourceManager.GetString("ScreenshotPage_Total0Files", resourceCulture);
             }
         }
         

@@ -505,7 +505,7 @@
                     <sc:CachedImage Width="128"
                                     Height="72"
                                     IsThumbnail="True"
-                                    Source="{x:Bind FullName}" />
+                                    Source="{x:Bind FilePath}" />
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

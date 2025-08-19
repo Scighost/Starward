@@ -9,130 +9,17 @@
              xmlns:s="using:Starward"
              xmlns:sc="using:Starward.Controls"
              xmlns:sf="using:Starward.Frameworks"
+             xmlns:sh="using:Starward.Helpers"
              xmlns:ui="using:CommunityToolkit.WinUI"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
-    <Page.Resources>
-        <!--  https://github.com/microsoft/microsoft-ui-xaml/blob/main/src/controls/dev/AnnotatedScrollBar/AnnotatedScrollBar.xaml  -->
-        <x:Double x:Key="ThumbHeight">3</x:Double>
-        <x:Double x:Key="ThumbWidth">26</x:Double>
-        <x:Double x:Key="LabelsGridMinWidth">40</x:Double>
-        <Style x:Key="CustomAnnotatedScrollBarStyle" TargetType="AnnotatedScrollBar">
-            <Setter Property="MinWidth" Value="{StaticResource LabelsGridMinWidth}" />
-            <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="LabelTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <Border MinWidth="{StaticResource LabelsGridMinWidth}">
-                            <TextBlock Margin="0,-5,0,-2"
-                                       HorizontalAlignment="Right"
-                                       AutomationProperties.AccessibilityView="Raw"
-                                       HorizontalTextAlignment="Right"
-                                       Style="{StaticResource BodyTextBlockStyle}"
-                                       Text="{Binding Content}"
-                                       TextWrapping="NoWrap" />
-                        </Border>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="AnnotatedScrollBar">
-                        <Grid x:Name="PART_RootGrid" IsTapEnabled="True">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="auto" />
-                            </Grid.RowDefinitions>
-                            <RepeatButton x:Name="PART_VerticalIncrementRepeatButton"
-                                          Grid.Row="0"
-                                          Padding="9.5,5,9.5,6"
-                                          HorizontalAlignment="Right"
-                                          AutomationProperties.AccessibilityView="Raw"
-                                          IsTabStop="False"
-                                          Style="{StaticResource ScrollButtonStyle}">
-                                <FontIcon x:Name="PART_VerticalIncrementRepeatIcon"
-                                          FontSize="{StaticResource ScrollButtonFontSize}"
-                                          Glyph="&#xEDDB;" />
-                            </RepeatButton>
-                            <Grid x:Name="PART_VerticalGrid" Grid.Row="1">
-                                <Grid x:Name="PART_LabelsGrid"
-                                      MinWidth="{StaticResource LabelsGridMinWidth}"
-                                      HorizontalAlignment="Center"
-                                      Background="Transparent" />
-                                <Border x:Name="PART_ToolTipRail"
-                                        Width="1"
-                                        HorizontalAlignment="Right">
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip x:Name="PART_DetailLabelToolTip"
-                                                 MaxWidth="{StaticResource AnnotatedScrollBarTooltipMaxWidth}"
-                                                 HorizontalAlignment="Right"
-                                                 VerticalContentAlignment="Center"
-                                                 BorderThickness="0"
-                                                 Placement="Left">
-                                            <ContentPresenter x:Name="PART_TooltipContentPresenter">
-                                                <ContentPresenter.ContentTemplate>
-                                                    <DataTemplate>
-                                                        <Border Margin="-2">
-                                                            <TextBlock HorizontalAlignment="Right"
-                                                                       VerticalAlignment="Center"
-                                                                       AutomationProperties.AccessibilityView="Raw"
-                                                                       FontFamily="Consolas"
-                                                                       FontSize="14"
-                                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                                       Text="{Binding}"
-                                                                       TextWrapping="WrapWholeWords"
-                                                                       Typography.StylisticSet7="True" />
-                                                        </Border>
-                                                    </DataTemplate>
-                                                </ContentPresenter.ContentTemplate>
-                                            </ContentPresenter>
-                                        </ToolTip>
-                                    </ToolTipService.ToolTip>
-                                </Border>
-                                <Border x:Name="PART_VerticalThumbGhost"
-                                        Grid.Row="1"
-                                        Width="{StaticResource ThumbWidth}"
-                                        Height="{StaticResource ThumbHeight}"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Background="{ThemeResource AccentFillColorDisabledBrush}"
-                                        CornerRadius="{StaticResource ThumbCornerRadius}"
-                                        Visibility="Collapsed" />
-                                <Border x:Name="PART_VerticalThumb"
-                                        Grid.Row="1"
-                                        Width="{StaticResource ThumbWidth}"
-                                        Height="{StaticResource ThumbHeight}"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Background="{ThemeResource VerticalThumbBrush}"
-                                        CornerRadius="{StaticResource ThumbCornerRadius}" />
-                            </Grid>
-                            <RepeatButton x:Name="PART_VerticalDecrementRepeatButton"
-                                          Grid.Row="2"
-                                          Padding="9.5,5,9.5,6"
-                                          HorizontalAlignment="Right"
-                                          AutomationProperties.AccessibilityView="Raw"
-                                          IsTabStop="False"
-                                          Style="{StaticResource ScrollButtonStyle}">
-                                <FontIcon x:Name="PART_VerticalDecrementRepeatIcon"
-                                          FontSize="{StaticResource ScrollButtonFontSize}"
-                                          Glyph="&#xEDDC;" />
-                            </RepeatButton>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="44" />
             <RowDefinition />
         </Grid.RowDefinitions>
-
 
         <TextBlock Margin="24,0,0,0"
                    HorizontalAlignment="Left"
@@ -142,10 +29,13 @@
                    Text="{x:Bind lang:Lang.ScreenshotPage_GameScreenshot}" />
 
 
-        <StackPanel Margin="0,0,38,0"
+        <StackPanel Margin="0,0,28,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal"
-                    Spacing="16">
+                    Spacing="12">
+            <ToggleButton x:Name="ToggleButton_MultiSelect"
+                          Content="{x:Bind lang:Lang.ScreenshotPage_MultiSelect}"
+                          IsChecked="{x:Bind MutliSelect, Mode=TwoWay}" />
             <Button Command="{x:Bind ManageScreenshotFolderCommand}" Content="{x:Bind lang:Lang.ScreenshotPage_ManageScreenshotFolders}" />
         </StackPanel>
 
@@ -166,154 +56,191 @@
         </StackPanel>
 
 
-        <ItemsView x:Name="ItemsView_Images"
-                   Grid.Row="1"
-                   Padding="24,0,0,12"
-                   IsItemInvokedEnabled="False"
-                   ItemsSource="{x:Bind Screenshots}"
-                   Loaded="ItemsView_Images_Loaded"
-                   SelectionMode="None">
-            <ItemsView.Layout>
-                <UniformGridLayout MinColumnSpacing="12"
-                                   MinItemHeight="115"
-                                   MinItemWidth="204"
-                                   MinRowSpacing="12" />
-            </ItemsView.Layout>
-            <ItemsView.ItemTemplate>
+
+        <GridView x:Name="GridView_Images"
+                  Grid.Row="1"
+                  Padding="24,0,12,12"
+                  CanDragItems="{x:Bind s:AppConfig.IsAdmin, Converter={StaticResource BoolReversedConverter}}"
+                  DragItemsStarting="GridView_Images_DragItemsStarting"
+                  IsItemClickEnabled="True"
+                  ItemClick="GridView_Images_ItemClick"
+                  ItemsSource="{x:Bind ScreenshotViewSource.View, FallbackValue={x:Null}}"
+                  SelectionMode="None">
+            <GridView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderContainerStyle>
+                        <Style TargetType="GridViewHeaderItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <!--  Remove default rectangle border  -->
+                                    <ControlTemplate TargetType="ContentControl">
+                                        <ContentPresenter HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Center"
+                                                          Content="{Binding}" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.HeaderContainerStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontSize="14"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       IsTextScaleFactorEnabled="False"
+                                       Text="{Binding Header}" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </GridView.GroupStyle>
+            <GridView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="0,0,12,12" />
+                    <Setter Property="CornerRadius" Value="4" />
+                </Style>
+            </GridView.ItemContainerStyle>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid AreStickyGroupHeadersEnabled="False"
+                                   ItemHeight="128"
+                                   ItemWidth="218"
+                                   Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local:ScreenshotItem">
-                    <ItemContainer>
-                        <Grid Name="Grid_ImageItem"
-                              ui:UIElementExtensions.ClipToBounds="True"
-                              CanDrag="{x:Bind s:AppConfig.IsAdmin, Converter={StaticResource BoolReversedConverter}}"
-                              CornerRadius="4"
-                              DataContext="{x:Bind}"
-                              DragStarting="Grid_ImageItem_DragStarting"
-                              IsRightTapEnabled="False"
-                              Tapped="Grid_ImageItem_Tapped">
-                            <sc:CachedImage Name="Image_Thumb"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            ui:VisualExtensions.NormalizedCenterPoint="0.5"
-                                            Background="{ThemeResource ControlAltFillColorTertiaryBrush}"
-                                            IsThumbnail="True"
-                                            RenderTransformOrigin="0.5,0.5"
-                                            Source="{x:Bind FullName}"
-                                            Stretch="UniformToFill">
-                                <sc:CachedImage.RenderTransform>
-                                    <ScaleTransform />
-                                </sc:CachedImage.RenderTransform>
-                            </sc:CachedImage>
-                            <Grid Name="Grid_ImageInfo"
-                                  Background="#60000000"
-                                  Opacity="0">
-                                <Button Name="Button_CopyImage"
-                                        Height="28"
-                                        MinWidth="32"
-                                        Padding="0"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                                        Tapped="Button_CopyImage_Tapped">
-                                    <Button.ContentTransitions>
-                                        <TransitionCollection>
-                                            <ContentThemeTransition />
-                                        </TransitionCollection>
-                                    </Button.ContentTransitions>
-                                    <FontIcon FontSize="16" Glyph="&#xE8C8;" />
-                                </Button>
-                                <TextBlock Margin="8,0,8,4"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Bottom"
-                                           FontSize="12"
-                                           Foreground="#F3F3F3"
-                                           Text="{x:Bind CreationTimeText}"
-                                           TextTrimming="CharacterEllipsis" />
-                            </Grid>
-                            <Grid.Resources>
-                                <CircleEase x:Key="CircleEase" EasingMode="EaseOut" />
-                                <Storyboard x:Key="GridShowOnStoryboard">
-                                    <DoubleAnimation EasingFunction="{StaticResource CircleEase}"
-                                                     Storyboard.TargetName="Grid_ImageInfo"
-                                                     Storyboard.TargetProperty="Opacity"
-                                                     To="1"
-                                                     Duration="0:0:0.6" />
-                                    <DoubleAnimation EasingFunction="{StaticResource CircleEase}"
-                                                     Storyboard.TargetName="Image_Thumb"
-                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                                     To="1.2"
-                                                     Duration="0:0:1" />
-                                    <DoubleAnimation EasingFunction="{StaticResource CircleEase}"
-                                                     Storyboard.TargetName="Image_Thumb"
-                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                                     To="1.2"
-                                                     Duration="0:0:0.6" />
-                                </Storyboard>
-                                <Storyboard x:Key="GridShowOffStoryboard">
-                                    <DoubleAnimation EasingFunction="{StaticResource CircleEase}"
-                                                     Storyboard.TargetName="Grid_ImageInfo"
-                                                     Storyboard.TargetProperty="Opacity"
-                                                     To="0"
-                                                     Duration="0:0:1" />
-                                    <DoubleAnimation EasingFunction="{StaticResource CircleEase}"
-                                                     Storyboard.TargetName="Image_Thumb"
-                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
-                                                     To="1"
-                                                     Duration="0:0:1" />
-                                    <DoubleAnimation EasingFunction="{StaticResource CircleEase}"
-                                                     Storyboard.TargetName="Image_Thumb"
-                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
-                                                     To="1"
-                                                     Duration="0:0:1" />
-                                </Storyboard>
-                            </Grid.Resources>
-                            <mxi:Interaction.Behaviors>
-                                <mxi:EventTriggerBehavior EventName="PointerEntered">
-                                    <mxi:ControlStoryboardAction Storyboard="{StaticResource GridShowOnStoryboard}" />
-                                </mxi:EventTriggerBehavior>
-                                <mxi:EventTriggerBehavior EventName="PointerExited">
-                                    <mxi:ControlStoryboardAction Storyboard="{StaticResource GridShowOffStoryboard}" />
-                                </mxi:EventTriggerBehavior>
-                            </mxi:Interaction.Behaviors>
-                        </Grid>
-                    </ItemContainer>
+                    <Grid Name="Grid_ImageItem"
+                          sh:PointerCursor.CursorShape="Hand"
+                          ui:UIElementExtensions.ClipToBounds="True">
+                        <sc:CachedImage Name="Image_Thumb"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        ui:VisualExtensions.NormalizedCenterPoint="0.5"
+                                        Background="{ThemeResource ControlAltFillColorTertiaryBrush}"
+                                        IsThumbnail="True"
+                                        RenderTransformOrigin="0.5,0.5"
+                                        Source="{x:Bind FilePath}"
+                                        Stretch="UniformToFill">
+                            <sc:CachedImage.RenderTransform>
+                                <ScaleTransform />
+                            </sc:CachedImage.RenderTransform>
+                        </sc:CachedImage>
+                        <Grid.ContextFlyout>
+                            <MenuBarItemFlyout>
+                                <MenuBarItemFlyout.MenuFlyoutPresenterStyle>
+                                    <Style BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}" TargetType="MenuFlyoutPresenter">
+                                        <Setter Property="BorderThickness" Value="0" />
+                                    </Style>
+                                </MenuBarItemFlyout.MenuFlyoutPresenterStyle>
+                                <!--  图片信息  -->
+                                <MenuFlyoutItem IsEnabled="False" Text="{x:Bind FileInfo}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE946;" IsTextScaleFactorEnabled="False" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator />
+                                <!--  复制文件  -->
+                                <MenuFlyoutItem x:Name="MenuFlyoutItem_CopyFile"
+                                                Click="MenuFlyoutItem_CopyFile_Click"
+                                                IsTextScaleFactorEnabled="False"
+                                                Text="{x:Bind lang:Lang.ImageViewWindow2_CopyFile}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8C8;" IsTextScaleFactorEnabled="False" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <!--  复制为 JPG  -->
+                                <MenuFlyoutItem x:Name="MenuFlyoutItem_CopyAsJPG"
+                                                Click="MenuFlyoutItem_CopyAsJPG_Click"
+                                                IsTextScaleFactorEnabled="False"
+                                                Text="{x:Bind lang:Lang.ImageViewWindow2_CopyAsJPG}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xF413;" IsTextScaleFactorEnabled="False" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator />
+                                <!--  在资源管理器中打开  -->
+                                <MenuFlyoutItem x:Name="MenuFlyoutItem_OpenInExplorer"
+                                                Click="MenuFlyoutItem_OpenInExplorer_Click"
+                                                IsTextScaleFactorEnabled="False"
+                                                Text="{x:Bind lang:Lang.ImageViewWindow2_OpenInExplorer}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xEC50;" IsTextScaleFactorEnabled="False" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <!--  使用默认应用打开  -->
+                                <MenuFlyoutItem x:Name="MenuFlyoutItem_OpenWithDefault"
+                                                Click="MenuFlyoutItem_OpenWithDefault_Click"
+                                                IsTextScaleFactorEnabled="False"
+                                                Text="{x:Bind lang:Lang.ImageViewWindow2_OpenWithDefaultApp}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE91B;" IsTextScaleFactorEnabled="False" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <!--  打开方式  -->
+                                <MenuFlyoutItem x:Name="MenuFlyoutItem_OpenWith"
+                                                Click="MenuFlyoutItem_OpenWith_Click"
+                                                IsTextScaleFactorEnabled="False"
+                                                Text="{x:Bind lang:Lang.ImageViewWindow2_OpenWith}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE7AC;" IsTextScaleFactorEnabled="False" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator />
+                                <!--  删除  -->
+                                <MenuFlyoutItem x:Name="MenuFlyoutItem_Delete"
+                                                Click="MenuFlyoutItem_Delete_Click"
+                                                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                                IsTextScaleFactorEnabled="False"
+                                                Text="{x:Bind lang:Lang.Common_Delete}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE74D;" IsTextScaleFactorEnabled="False" />
+                                    </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem.Resources>
+                                        <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                        <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                    </MenuFlyoutItem.Resources>
+                                </MenuFlyoutItem>
+                            </MenuBarItemFlyout>
+                        </Grid.ContextFlyout>
+                        <Grid.Resources>
+                            <CircleEase x:Key="CircleEase" EasingMode="EaseOut" />
+                            <Storyboard x:Key="GridZoomInStoryboard">
+                                <DoubleAnimation EasingFunction="{StaticResource CircleEase}"
+                                                 Storyboard.TargetName="Image_Thumb"
+                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                 To="1.15"
+                                                 Duration="0:0:0.3" />
+                                <DoubleAnimation EasingFunction="{StaticResource CircleEase}"
+                                                 Storyboard.TargetName="Image_Thumb"
+                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                 To="1.15"
+                                                 Duration="0:0:0.3" />
+                            </Storyboard>
+                            <Storyboard x:Key="GridZoomOutStoryboard">
+                                <DoubleAnimation EasingFunction="{StaticResource CircleEase}"
+                                                 Storyboard.TargetName="Image_Thumb"
+                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                 To="1"
+                                                 Duration="0:0:0.6" />
+                                <DoubleAnimation EasingFunction="{StaticResource CircleEase}"
+                                                 Storyboard.TargetName="Image_Thumb"
+                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                 To="1"
+                                                 Duration="0:0:0.6" />
+                            </Storyboard>
+                        </Grid.Resources>
+                        <mxi:Interaction.Behaviors>
+                            <mxi:EventTriggerBehavior EventName="PointerEntered">
+                                <mxi:ControlStoryboardAction Storyboard="{StaticResource GridZoomInStoryboard}" />
+                            </mxi:EventTriggerBehavior>
+                            <mxi:EventTriggerBehavior EventName="PointerExited">
+                                <mxi:ControlStoryboardAction Storyboard="{StaticResource GridZoomOutStoryboard}" />
+                            </mxi:EventTriggerBehavior>
+                        </mxi:Interaction.Behaviors>
+                    </Grid>
                 </DataTemplate>
-            </ItemsView.ItemTemplate>
-        </ItemsView>
-
-
-        <AnnotatedScrollBar x:Name="AnnotatedScrollBar"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Margin="0,0,4,0"
-                            HorizontalAlignment="Right"
-                            DetailLabelRequested="AnnotatedScrollBar_DetailLabelRequested"
-                            IsHitTestVisible="False"
-                            Loaded="AnnotatedScrollBar_Loaded"
-                            Opacity="0"
-                            PointerEntered="AnnotatedScrollBar_PointerEntered"
-                            PointerExited="AnnotatedScrollBar_PointerExited"
-                            PointerPressed="AnnotatedScrollBar_PointerPressed"
-                            PointerReleased="AnnotatedScrollBar_PointerReleased"
-                            Style="{ThemeResource CustomAnnotatedScrollBarStyle}">
-            <AnnotatedScrollBar.OpacityTransition>
-                <ScalarTransition />
-            </AnnotatedScrollBar.OpacityTransition>
-            <AnnotatedScrollBar.LabelTemplate>
-                <DataTemplate x:DataType="AnnotatedScrollBarLabel">
-                    <TextBlock Width="{StaticResource ThumbWidth}"
-                               HorizontalAlignment="Center"
-                               FontSize="12"
-                               HorizontalTextAlignment="Center"
-                               IsTextScaleFactorEnabled="False"
-                               Text="{x:Bind Content}" />
-                </DataTemplate>
-            </AnnotatedScrollBar.LabelTemplate>
-        </AnnotatedScrollBar>
+            </GridView.ItemTemplate>
+        </GridView>
 
 
     </Grid>
-
-
-
 </sf:PageBase>

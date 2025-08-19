@@ -92,7 +92,7 @@ internal class ScreenCaptureService
                     _infoWindow = new ScreenCaptureInfoWindow();
                 }
                 _infoWindow.CaptureSuccess(runningGame.WindowHandle, renderTarget, file, maxCLL);
-                if (maxCLL > sdrWhiteLevel && AppConfig.AutoConvertScreenshotToSDR)
+                if (maxCLL > sdrWhiteLevel + 5 && AppConfig.AutoConvertScreenshotToSDR)
                 {
                     string? sdrFilePath = await SaveAsSdrAsync(renderTarget, file, runningGame, maxCLL, sdrWhiteLevel, frameTime);
                     await CopyToClipboardAsync(sdrFilePath);
@@ -151,7 +151,7 @@ internal class ScreenCaptureService
             if (colorInfo.CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange)
             {
                 maxCLL = GetMaxCLL(canvasBitmap);
-                hdr = maxCLL > colorInfo.SdrWhiteLevelInNits + 2;
+                hdr = maxCLL > colorInfo.SdrWhiteLevelInNits + 5;
             }
             bool clip = TryClipClient(runningGame.WindowHandle, frame.ContentSize, out Rect clientRect);
             if (!clip)
