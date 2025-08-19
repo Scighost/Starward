@@ -2453,4 +2453,13 @@
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
     <value>点击下载。</value>
   </data>
+  <data name="ImageViewWindow2_CopyAsJPG" xml:space="preserve">
+    <value>复制为 JPG</value>
+  </data>
+  <data name="ScreenshotPage_MultiSelect" xml:space="preserve">
+    <value>多选</value>
+  </data>
+  <data name="ScreenshotPage_Total0Files" xml:space="preserve">
+    <value>总计 {0} 个文件。</value>
+  </data>
 </root>
