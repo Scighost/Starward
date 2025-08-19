@@ -146,8 +146,13 @@ internal class ScreenCaptureService
         {
             using CanvasBitmap canvasBitmap = CanvasBitmap.CreateFromDirect3D11Surface(CanvasDevice.GetSharedDevice(), frame.Surface, 96);
             DisplayAdvancedColorInfo colorInfo = GetAdvancedColorInfoFromWindowHandle(runningGame.WindowHandle);
-            float maxCLL = GetMaxCLL(canvasBitmap);
-            bool hdr = maxCLL > colorInfo.SdrWhiteLevelInNits + 2;
+            bool hdr = false;
+            float maxCLL = 0;
+            if (colorInfo.CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange)
+            {
+                maxCLL = GetMaxCLL(canvasBitmap);
+                hdr = maxCLL > colorInfo.SdrWhiteLevelInNits + 2;
+            }
             bool clip = TryClipClient(runningGame.WindowHandle, frame.ContentSize, out Rect clientRect);
             if (!clip)
             {
