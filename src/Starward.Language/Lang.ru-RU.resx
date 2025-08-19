@@ -2472,4 +2472,13 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
     <value>Нажмите, чтобы скачать.</value>
   </data>
+  <data name="ImageViewWindow2_CopyAsJPG" xml:space="preserve">
+    <value>Copy as JPG</value>
+  </data>
+  <data name="ScreenshotPage_MultiSelect" xml:space="preserve">
+    <value>Multi Select</value>
+  </data>
+  <data name="ScreenshotPage_Total0Files" xml:space="preserve">
+    <value>Total {0} files.</value>
+  </data>
 </root>
