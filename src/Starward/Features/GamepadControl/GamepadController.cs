@@ -71,6 +71,7 @@ internal static class GamepadController
                 SetGamepadGuideButtonMapKeys(AppConfig.GamepadGuideButtonMapKeys, out _);
                 SetGamepadShareButtonMapKeys(AppConfig.GamepadShareButtonMapKeys, out _);
                 Initialized = true;
+                Start();
             }
         }
         catch { }
@@ -778,8 +779,8 @@ internal static class GamepadController
         {
             return;
         }
-        int dx = (int)(x * MathF.Pow(magnitude, 1.5f) * 10);
-        int dy = (int)(y * MathF.Pow(magnitude, 1.5f) * 10);
+        int dx = MathF.Abs(x) < 0.2f ? 0 : (int)(x * MathF.Pow(magnitude, 1.5f) * 10);
+        int dy = MathF.Abs(y) < 0.2f ? 0 : (int)(y * MathF.Pow(magnitude, 1.5f) * 10);
         _inputSimulator.Mouse.HorizontalScroll(dx).VerticalScroll(dy);
     }
 
@@ -800,9 +801,9 @@ internal static class GamepadController
                 _inputSimulator.Mouse.LeftButtonUp();
             }
         }
-        if (changedButtons.HasFlag(GameInputGamepadButtons.X))
+        if (changedButtons.HasFlag(GameInputGamepadButtons.B))
         {
-            if (state.buttons.HasFlag(GameInputGamepadButtons.X))
+            if (state.buttons.HasFlag(GameInputGamepadButtons.B))
             {
                 _inputSimulator.Mouse.RightButtonDown();
             }
@@ -811,7 +812,8 @@ internal static class GamepadController
                 _inputSimulator.Mouse.RightButtonUp();
             }
         }
-        KeyEvent(changedButtons, state.buttons, GameInputGamepadButtons.B, VirtualKeyCode.ESCAPE);
+        KeyEvent(changedButtons, state.buttons, GameInputGamepadButtons.X, VirtualKeyCode.RETURN);
+        KeyEvent(changedButtons, state.buttons, GameInputGamepadButtons.Y, VirtualKeyCode.ESCAPE);
         KeyEvent(changedButtons, state.buttons, GameInputGamepadButtons.DPadLeft, VirtualKeyCode.LEFT);
         KeyEvent(changedButtons, state.buttons, GameInputGamepadButtons.DPadUp, VirtualKeyCode.UP);
         KeyEvent(changedButtons, state.buttons, GameInputGamepadButtons.DPadRight, VirtualKeyCode.RIGHT);

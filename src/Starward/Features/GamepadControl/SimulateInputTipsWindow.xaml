@@ -96,20 +96,29 @@
                                VerticalAlignment="Center"
                                Text="{x:Bind lang:Lang.SimulateInputTipsWindow_MouseLeftButton}" />
                 </StackPanel>
-                <!--  X 鼠标右键  -->
+                <!--  B 鼠标右键  -->
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{ThemeResource XboxFluent2}"
+                              FontSize="24"
+                              Glyph="&#xE991;" />
+                    <TextBlock Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_MouseRightButton}" />
+                </StackPanel>
+                <!--  X 键盘 Enter 键  -->
                 <StackPanel Orientation="Horizontal">
                     <FontIcon FontFamily="{ThemeResource XboxFluent2}"
                               FontSize="24"
                               Glyph="&#xE98F;" />
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
-                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_MouseRightButton}" />
+                               Text="{x:Bind lang:Lang.SimulateInputTipsWindow_KeyboardEnterKey}" />
                 </StackPanel>
-                <!--  B 键盘 Esc 键  -->
+                <!--  Y 键盘 Esc 键  -->
                 <StackPanel Orientation="Horizontal">
                     <FontIcon FontFamily="{ThemeResource XboxFluent2}"
                               FontSize="24"
-                              Glyph="&#xE991;" />
+                              Glyph="&#xE990;" />
                     <TextBlock Margin="12,0,0,0"
                                VerticalAlignment="Center"
                                Text="{x:Bind lang:Lang.SimulateInputTipsWindow_KeyboardEscKey}" />

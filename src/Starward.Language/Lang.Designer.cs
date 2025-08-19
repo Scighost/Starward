@@ -6081,6 +6081,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Keyboard Enter Key 的本地化字符串。
+        /// </summary>
+        public static string SimulateInputTipsWindow_KeyboardEnterKey {
+            get {
+                return ResourceManager.GetString("SimulateInputTipsWindow_KeyboardEnterKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Keyboard Esc Key 的本地化字符串。
         /// </summary>
         public static string SimulateInputTipsWindow_KeyboardEscKey {

@@ -2462,4 +2462,7 @@
   <data name="ScreenshotPage_Total0Files" xml:space="preserve">
     <value>总计 {0} 个文件。</value>
   </data>
+  <data name="SimulateInputTipsWindow_KeyboardEnterKey" xml:space="preserve">
+    <value>键盘 Enter 键</value>
+  </data>
 </root>
