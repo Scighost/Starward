@@ -2453,4 +2453,13 @@
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
     <value>클릭하여 다운로드.</value>
   </data>
+  <data name="ImageViewWindow2_CopyAsJPG" xml:space="preserve">
+    <value>Copy as JPG</value>
+  </data>
+  <data name="ScreenshotPage_MultiSelect" xml:space="preserve">
+    <value>Multi Select</value>
+  </data>
+  <data name="ScreenshotPage_Total0Files" xml:space="preserve">
+    <value>Total {0} files.</value>
+  </data>
 </root>
