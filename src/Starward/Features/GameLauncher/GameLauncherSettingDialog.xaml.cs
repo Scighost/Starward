@@ -734,31 +734,6 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
     /// <summary>
-    /// 是否使用版本海报
-    /// </summary>
-    [ObservableProperty]
-    public bool _UseVersionPoster;
-    partial void OnUseVersionPosterChanged(bool value)
-    {
-        AppConfig.SetUseVersionPoster(CurrentGameBiz, value);
-        if (value && EnableCustomBg)
-        {
-            EnableCustomBg = false;
-        }
-        else
-        {
-            WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
-        }
-    }
-
-
-    /// <summary>
-    /// 版本海报，文件名，存储在 UserDataFolder/bg
-    /// </summary>
-    public string? VersionPoster { get; set => SetProperty(ref field, value); }
-
-
-    /// <summary>
     /// 是否启用自定义背景
     /// </summary>
     [ObservableProperty]
@@ -784,32 +759,9 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
     private void InitializeCustomBg()
     {
-        _UseVersionPoster = AppConfig.GetUseVersionPoster(CurrentGameBiz);
         _EnableCustomBg = AppConfig.GetEnableCustomBg(CurrentGameBiz);
         CustomBg = AppConfig.GetCustomBg(CurrentGameBiz);
-        VersionPoster = AppConfig.GetVersionPoster(CurrentGameBiz);
-        OnPropertyChanged(nameof(UseVersionPoster));
         OnPropertyChanged(nameof(EnableCustomBg));
-    }
-
-
-
-    /// <summary>
-    /// 打开版本海报
-    /// </summary>
-    /// <returns></returns>
-    [RelayCommand]
-    private async Task OpenVersionPosterAsync()
-    {
-        try
-        {
-            string path = Path.Join(AppConfig.UserDataFolder, "bg", VersionPoster);
-            if (File.Exists(path))
-            {
-                await Launcher.LaunchUriAsync(new Uri(path));
-            }
-        }
-        catch { }
     }
 
 
