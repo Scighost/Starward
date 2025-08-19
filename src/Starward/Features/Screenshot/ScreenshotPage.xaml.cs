@@ -78,6 +78,7 @@ public sealed partial class ScreenshotPage : PageBase
             _folders = null!;
             _screenshotDict.Clear();
             _screenshotDict = null!;
+            _screenshotItems = null;
             ScreenshotGroups = null!;
             ScreenshotViewSource.Source = null;
         }
@@ -101,6 +102,8 @@ public sealed partial class ScreenshotPage : PageBase
     private List<ScreenshotFolder> _folders = new();
 
     private Dictionary<string, ScreenshotItem> _screenshotDict = new();
+
+    private ObservableCollection<ScreenshotItem>? _screenshotItems;
 
     public CollectionViewSource ScreenshotViewSource { get; set => SetProperty(ref field, value); } = new() { IsSourceGrouped = true };
 
@@ -180,8 +183,8 @@ public sealed partial class ScreenshotPage : PageBase
                 }
             }
 
-            var list = screenshots.OrderByDescending(x => x.CreationTime).ToList();
-            var groups = screenshots.GroupBy(x => x.TimeMonthDay).Select(x => new ScreenshotItemGroup(x.Key, x)).ToList();
+            _screenshotItems = new(screenshots.OrderByDescending(x => x.CreationTime).ToList());
+            var groups = _screenshotItems.GroupBy(x => x.TimeMonthDay).Select(x => new ScreenshotItemGroup(x.Key, x)).ToList();
             ScreenshotGroups = new(groups);
         }
         catch (Exception ex)
@@ -272,6 +275,8 @@ public sealed partial class ScreenshotPage : PageBase
                     DispatcherQueue.TryEnqueue(() =>
                     {
                         ScreenshotGroups ??= new();
+                        _screenshotItems ??= new();
+                        _screenshotItems.Insert(0, item);
                         if (ScreenshotGroups.FirstOrDefault(x => x.Header == item.TimeMonthDay) is ScreenshotItemGroup group)
                         {
                             group.Insert(0, item);
@@ -308,6 +313,7 @@ public sealed partial class ScreenshotPage : PageBase
                             _screenshotDict.Remove(item.Name);
                             DispatcherQueue.TryEnqueue(() =>
                             {
+                                _screenshotItems?.Remove(item);
                                 group.Remove(item);
                                 if (group.Count == 0)
                                 {
@@ -354,7 +360,7 @@ public sealed partial class ScreenshotPage : PageBase
             {
                 if (e.ClickedItem is ScreenshotItem item)
                 {
-                    _ = new ImageViewWindow2().ShowWindowAsync(this.XamlRoot.ContentIslandEnvironment.AppWindowId, item, null);
+                    _ = new ImageViewWindow2().ShowWindowAsync(this.XamlRoot.ContentIslandEnvironment.AppWindowId, item, _screenshotItems);
                 }
             }
         }
@@ -549,6 +555,7 @@ public sealed partial class ScreenshotPage : PageBase
                         var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
                         await file.DeleteAsync();
                     }
+                    _screenshotItems?.Remove(item);
                     if (ScreenshotGroups?.FirstOrDefault(x => x.Header == item.TimeMonthDay) is ScreenshotItemGroup group)
                     {
                         if (group.Remove(item))
@@ -569,6 +576,7 @@ public sealed partial class ScreenshotPage : PageBase
                     var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
                     await file.DeleteAsync();
                 }
+                _screenshotItems?.Remove(item);
                 if (ScreenshotGroups?.FirstOrDefault(x => x.Header == item.TimeMonthDay) is ScreenshotItemGroup group)
                 {
                     if (group.Remove(item))
@@ -590,7 +598,6 @@ public sealed partial class ScreenshotPage : PageBase
         }
         catch (Exception ex)
         {
-            //ShowInfo(InfoBarSeverity.Error, Lang.ImageViewWindow2_FailedToDeleteImageFile, ex.Message, 0);
             _logger.LogError(ex, "Failed to delete image file");
         }
     }
