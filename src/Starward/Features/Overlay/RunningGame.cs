@@ -19,8 +19,9 @@ public class RunningGame
     {
         get
         {
-            if (field == 0)
+            if (!User32.IsWindow(field) || !User32.IsWindowVisible(field))
             {
+                Process.Refresh();
                 field = Process.MainWindowHandle;
             }
             return field;

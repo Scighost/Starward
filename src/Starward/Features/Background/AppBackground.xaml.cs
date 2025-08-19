@@ -342,9 +342,9 @@ public sealed partial class AppBackground : UserControl
 
 
 
-    private async void OnBackgroundChanged(object _, BackgroundChangedMessage message)
+    private void OnBackgroundChanged(object _, BackgroundChangedMessage message)
     {
-        await UpdateBackgroundAsync();
+        UpdateBackgroundCommand.Execute(null);
     }
 
 

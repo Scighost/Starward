@@ -258,7 +258,7 @@ public sealed partial class ImageViewWindow : WindowEx
         try
         {
             StorageFile? file = null;
-            var uri = new Uri(CurrentImage.FullName);
+            var uri = new Uri(CurrentImage.FilePath);
             if (uri.Scheme is "ms-appx")
             {
                 file = await StorageFile.GetFileFromApplicationUriAsync(uri);
@@ -269,7 +269,7 @@ public sealed partial class ImageViewWindow : WindowEx
             }
             if (file is null)
             {
-                _logger.LogWarning("Cannot find file: {file}", CurrentImage.FullName);
+                _logger.LogWarning("Cannot find file: {file}", CurrentImage.FilePath);
             }
             else
             {
@@ -295,13 +295,13 @@ public sealed partial class ImageViewWindow : WindowEx
     {
         try
         {
-            if (File.Exists(CurrentImage.FullName))
+            if (File.Exists(CurrentImage.FilePath))
             {
-                await Launcher.LaunchUriAsync(new Uri(CurrentImage.FullName));
+                await Launcher.LaunchUriAsync(new Uri(CurrentImage.FilePath));
             }
             else
             {
-                _logger.LogWarning("Cannot find file: {file}", CurrentImage.FullName);
+                _logger.LogWarning("Cannot find file: {file}", CurrentImage.FilePath);
             }
         }
         catch (Exception ex)

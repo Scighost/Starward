@@ -3,9 +3,11 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Background;
+using Starward.Features.CloudGame;
 using Starward.Features.GameInstall;
 using Starward.Features.HoYoPlay;
 using Starward.Features.Overlay;
@@ -62,7 +64,9 @@ public sealed partial class GameLauncherPage : PageBase
         InitializeGameFeature();
         CheckGameVersion();
         UpdateGameInstallTask();
+        CheckCloudGame();
         _ = InitializeGameServerAsync();
+        _ = InitializeBackgameImageSwitcherAsync();
         WeakReferenceMessenger.Default.Register<GameInstallPathChangedMessage>(this, OnGameInstallPathChanged);
         WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
         WeakReferenceMessenger.Default.Register<RemovableStorageDeviceChangedMessage>(this, OnRemovableStorageDeviceChanged);
@@ -814,6 +818,107 @@ public sealed partial class GameLauncherPage : PageBase
     }
 
 
+
+
+    #endregion
+
+
+
+    #region Switch Background Image
+
+
+    public List<string> BackgroundImageUrls { get; set => SetProperty(ref field, value); }
+
+
+    private int currentBackgroundImageIndex;
+    public int CurrentBackgroundImageIndex
+    {
+        get => currentBackgroundImageIndex; set
+        {
+            if (SetProperty(ref currentBackgroundImageIndex, value))
+            {
+                ChangeBackgroundImageIndex(value);
+            }
+        }
+    }
+
+
+    private async Task InitializeBackgameImageSwitcherAsync()
+    {
+        try
+        {
+            BackgroundImageUrls = await _backgroundService.GetBackgroundAndPosterImageUrlsAsync(CurrentGameId);
+            if (BackgroundImageUrls.Count > 1)
+            {
+                Border_SwitchBackgroundImage.Visibility = Visibility.Visible;
+                string? lastBg = AppConfig.GetBg(CurrentGameBiz);
+                if (!string.IsNullOrWhiteSpace(lastBg) && BackgroundImageUrls.FirstOrDefault(x => Path.GetFileName(x) == lastBg) is string lastUrl)
+                {
+                    currentBackgroundImageIndex = Math.Clamp(BackgroundImageUrls.IndexOf(lastUrl), 0, BackgroundImageUrls.Count - 1);
+                    OnPropertyChanged(nameof(CurrentBackgroundImageIndex));
+                }
+            }
+            else
+            {
+                Border_SwitchBackgroundImage.Visibility = Visibility.Collapsed;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Initialize background image switcher {GameBiz}", CurrentGameBiz);
+        }
+    }
+
+
+    private void ChangeBackgroundImageIndex(int index)
+    {
+        try
+        {
+            if (index < 0 || index >= BackgroundImageUrls.Count)
+            {
+                return;
+            }
+            AppConfig.SetBg(CurrentGameBiz, Path.GetFileName(BackgroundImageUrls[index]));
+            WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
+        }
+        catch { }
+    }
+
+
+    private void Border_SwitchBackgroundImage_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        Border_SwitchBackgroundImage.Opacity = 1;
+    }
+
+
+    private void Border_SwitchBackgroundImage_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        Border_SwitchBackgroundImage.Opacity = 0;
+    }
+
+
+    #endregion
+
+
+
+    #region Cloud Game
+
+
+    private void CheckCloudGame()
+    {
+        try
+        {
+            Process? process = CloudGameService.GetCloudGameProcess(CurrentGameId);
+            if (process is not null)
+            {
+                RunningGameService.AddRuninngGame(CurrentGameBiz, process);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Check cloud game {GameBiz}", CurrentGameBiz);
+        }
+    }
 
 
     #endregion

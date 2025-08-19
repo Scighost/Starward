@@ -113,9 +113,10 @@ internal class ScreenCaptureContext : IDisposable
             }
             else
             {
+                SizeInt32 contentSize = frame.ContentSize;
                 frame.Dispose();
-                FramePool?.Recreate(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 2, frame.ContentSize);
-                lastSize = frame.ContentSize;
+                sender.Recreate(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 2, contentSize);
+                lastSize = contentSize;
             }
         }
     }

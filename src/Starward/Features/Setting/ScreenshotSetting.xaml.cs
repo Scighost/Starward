@@ -242,7 +242,7 @@ public sealed partial class ScreenshotSetting : PageBase
             DisplayId displayId = new DisplayId((ulong)monitor.DangerousGetHandle());
             DisplayAdvancedColorInfo colorInfo = DisplayInformation.CreateForDisplayId(displayId).GetAdvancedColorInfo();
             float maxCLL = ScreenCaptureService.GetMaxCLL(canvasBitmap);
-            float sdrWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits;
+            float sdrWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits + 2;
             bool hdr = maxCLL > sdrWhiteLevel;
             Directory.CreateDirectory(Path.Combine(ScreenshotFolder, "Starward"));
             string filePath = Path.Join(ScreenshotFolder, "Starward", $"Starward_{frameTime:yyyyMMdd_HHmmssff}.{(hdr ? "jxr" : "png")}");

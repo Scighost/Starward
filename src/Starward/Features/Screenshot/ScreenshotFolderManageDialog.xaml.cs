@@ -151,7 +151,7 @@ public sealed partial class ScreenshotFolderManageDialog : ContentDialog
                 {
                     if (Directory.Exists(folder.Folder))
                     {
-                        if (ScreenshotFolders?.FirstOrDefault(x => x.Backup) is ScreenshotFolder screenshotFolder)
+                        if (ScreenshotFolders?.FirstOrDefault(x => x.Default) is ScreenshotFolder screenshotFolder)
                         {
                             string backupFolder = screenshotFolder.Folder;
                             Directory.CreateDirectory(backupFolder);

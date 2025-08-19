@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -78,7 +79,10 @@ internal class ScreenCaptureService
         }
         if (User32.IsIconic(runningGame.WindowHandle))
         {
-            _logger.LogWarning("Cannot capture a minimized window.");
+            int count = User32.GetWindowTextLength(runningGame.WindowHandle);
+            var sb = new StringBuilder(count);
+            User32.GetWindowText(runningGame.WindowHandle, sb, count);
+            _logger.LogWarning("Cannot capture a minimized window. HWND: {hwnd}, Title: {title}", runningGame.WindowHandle, sb.ToString());
             return;
         }
         try
@@ -92,7 +96,7 @@ internal class ScreenCaptureService
                     _infoWindow = new ScreenCaptureInfoWindow();
                 }
                 _infoWindow.CaptureSuccess(runningGame.WindowHandle, renderTarget, file, maxCLL);
-                if (maxCLL > sdrWhiteLevel && AppConfig.AutoConvertScreenshotToSDR)
+                if (maxCLL > sdrWhiteLevel + 5 && AppConfig.AutoConvertScreenshotToSDR)
                 {
                     string? sdrFilePath = await SaveAsSdrAsync(renderTarget, file, runningGame, maxCLL, sdrWhiteLevel, frameTime);
                     await CopyToClipboardAsync(sdrFilePath);
@@ -146,8 +150,13 @@ internal class ScreenCaptureService
         {
             using CanvasBitmap canvasBitmap = CanvasBitmap.CreateFromDirect3D11Surface(CanvasDevice.GetSharedDevice(), frame.Surface, 96);
             DisplayAdvancedColorInfo colorInfo = GetAdvancedColorInfoFromWindowHandle(runningGame.WindowHandle);
-            float maxCLL = GetMaxCLL(canvasBitmap);
-            bool hdr = maxCLL > colorInfo.SdrWhiteLevelInNits;
+            bool hdr = false;
+            float maxCLL = 0;
+            if (colorInfo.CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange)
+            {
+                maxCLL = GetMaxCLL(canvasBitmap);
+                hdr = maxCLL > colorInfo.SdrWhiteLevelInNits + 5;
+            }
             bool clip = TryClipClient(runningGame.WindowHandle, frame.ContentSize, out Rect clientRect);
             if (!clip)
             {
@@ -393,7 +402,7 @@ internal class ScreenCaptureService
         using var gammaEffect = new GammaTransferEffect
         {
             Source = colorEffect,
-            RedExponent = 0.1f,
+            RedExponent = 0.5f,
             GreenDisable = true,
             BlueDisable = true,
             AlphaDisable = true,
@@ -402,7 +411,7 @@ internal class ScreenCaptureService
         using var histogramEffect = new HistogramEffect
         {
             Source = gammaEffect,
-            NumBins = 512,
+            NumBins = 500,
             ChannelSelect = HistogramEffectChannelSelector.R,
             BufferPrecision = CanvasBufferPrecision.Precision16Float,
         };
@@ -410,7 +419,7 @@ internal class ScreenCaptureService
         using var ds = renderTarget.CreateDrawingSession();
         ds.DrawImage(histogramEffect);
         ds.Dispose();
-        float[] histogram = new float[512];
+        float[] histogram = new float[500];
         histogramEffect.GetHistogramOutput(histogram);
         int maxBinIndex = 0;
         float cumulative = 0;
@@ -423,7 +432,7 @@ internal class ScreenCaptureService
                 break;
             }
         }
-        return MathF.Pow((maxBinIndex + 0.5f) / histogram.Length, 10) * 10000;
+        return MathF.Pow((maxBinIndex + 0.5f) / histogram.Length, 2f) * 10000;
     }
 
 

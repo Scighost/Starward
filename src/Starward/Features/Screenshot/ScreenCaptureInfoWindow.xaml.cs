@@ -120,7 +120,10 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
             _openImageCancellationToken = _cancellationTokenSource.Token;
             DisplayWindow(hwnd, _cancellationTokenSource.Token);
         }
-        catch { }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "CaptureSuccess");
+        }
     }
 
 
@@ -137,7 +140,10 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
             _openImageCancellationToken = _cancellationTokenSource.Token;
             DisplayWindow(displayId, _cancellationTokenSource.Token);
         }
-        catch { }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "CaptureSuccess");
+        }
     }
 
 
@@ -234,7 +240,10 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
             _openImageCancellationToken = _cancellationTokenSource.Token;
             DisplayWindow(hwnd, _cancellationTokenSource.Token);
         }
-        catch { }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "CaptureError");
+        }
     }
 
 

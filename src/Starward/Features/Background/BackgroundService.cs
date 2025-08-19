@@ -142,10 +142,10 @@ public class BackgroundService
         {
             return path;
         }
-        if (TryGetVersionPosterBgFilePath(gameId, out path))
-        {
-            return path;
-        }
+        //if (TryGetVersionPosterBgFilePath(gameId, out path))
+        //{
+        //    return path;
+        //}
         path = GetBgFilePath(AppConfig.GetBg(gameId.GameBiz));
         return File.Exists(path) ? path : null;
     }
@@ -158,12 +158,29 @@ public class BackgroundService
     /// <param name="gameId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private async Task<string?> GetBackgroundImageUrlAsync(GameId gameId, CancellationToken cancellationToken = default)
+    private async Task<List<string>> GetBackgroundImageUrlAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         var background = await _hoYoPlayService.GetGameBackgroundAsync(gameId, cancellationToken);
-        return background.Backgrounds.FirstOrDefault()?.Background.Url;
+        return background.Backgrounds?.Select(x => x.Background.Url).ToList() ?? [];
     }
 
+
+    /// <summary>
+    /// 背景图和版本海报链接
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<string>> GetBackgroundAndPosterImageUrlsAsync(GameId gameId, CancellationToken cancellationToken = default)
+    {
+        List<string> urls = await GetBackgroundImageUrlAsync(gameId, cancellationToken);
+        string? posterUrl = await GetVersionPosterUrlAsync(gameId, cancellationToken);
+        if (!string.IsNullOrWhiteSpace(posterUrl))
+        {
+            urls.Add(posterUrl);
+        }
+        return urls;
+    }
 
 
     /// <summary>
@@ -210,7 +227,7 @@ public class BackgroundService
     private async Task<string?> GetVersionPosterUrlAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         var info = await _hoYoPlayService.GetGameInfoAsync(gameId, cancellationToken);
-        return info.Display.Background?.Url;
+        return info?.Display?.Background?.Url;
     }
 
 
@@ -275,14 +292,15 @@ public class BackgroundService
                 apiCts.CancelAfter(1000);
                 downloadCts.CancelAfter(3000);
             }
-            if (AppConfig.GetUseVersionPoster(gameId.GameBiz))
+            List<string> urls = await GetBackgroundAndPosterImageUrlsAsync(gameId, apiCancelToken);
+            string? lastBg = AppConfig.GetBg(gameId.GameBiz);
+            if (!string.IsNullOrWhiteSpace(lastBg) && urls.FirstOrDefault(x => Path.GetFileName(x) == lastBg) is string lastUrl)
             {
-                url = await GetVersionPosterUrlAsync(gameId, apiCancelToken);
-                usePoster = true;
+                url = lastUrl;
             }
             else
             {
-                url = await GetBackgroundImageUrlAsync(gameId, apiCancelToken);
+                url = urls.FirstOrDefault();
             }
             if (string.IsNullOrWhiteSpace(url))
             {

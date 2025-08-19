@@ -53,6 +53,36 @@
 
 
 
+        <!--  背景图切换  -->
+        <Border x:Name="Border_SwitchBackgroundImage"
+                Height="60"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                Opacity="0"
+                PointerEntered="Border_SwitchBackgroundImage_PointerEntered"
+                PointerExited="Border_SwitchBackgroundImage_PointerExited"
+                Visibility="Collapsed">
+            <PipsPager x:Name="PipsPager_SwitchBackgroundImage"
+                       Margin="0,0,0,8"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom"
+                       NextButtonVisibility="VisibleOnPointerOver"
+                       NumberOfPages="{x:Bind BackgroundImageUrls.Count}"
+                       PreviousButtonVisibility="VisibleOnPointerOver"
+                       SelectedPageIndex="{x:Bind CurrentBackgroundImageIndex, Mode=TwoWay}" />
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0.0" Color="#00000000" />
+                    <GradientStop Offset="1.0" Color="#80000000" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border.OpacityTransition>
+                <ScalarTransition />
+            </Border.OpacityTransition>
+        </Border>
+
+
+
         <!--  游戏通知  -->
         <local:GameBannerAndPost x:Name="GameBannerAndPost"
                                  Margin="60,0,0,40"

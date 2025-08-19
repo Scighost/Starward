@@ -46,7 +46,7 @@
                             ImageExOpened="_Image_ImageOpened"
                             IsDoubleTapEnabled="True"
                             SizeChanged="_Image_SizeChanged"
-                            Source="{x:Bind CurrentImage.FullName}">
+                            Source="{x:Bind CurrentImage.FilePath}">
                 <sc:CachedImage.RotationTransition>
                     <ScalarTransition />
                 </sc:CachedImage.RotationTransition>
@@ -86,7 +86,7 @@
                 <DataTemplate x:DataType="local:ScreenshotItem">
                     <sc:CachedImage Height="80"
                                     IsThumbnail="True"
-                                    Source="{x:Bind FullName}" />
+                                    Source="{x:Bind FilePath}" />
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

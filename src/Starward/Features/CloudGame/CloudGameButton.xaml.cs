@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
+using Starward.Features.Overlay;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -122,6 +123,7 @@ public sealed partial class CloudGameButton : UserControl
                 });
                 if (p is not null)
                 {
+                    RunningGameService.AddRuninngGame(CurrentGameId.GameBiz, p);
                     WeakReferenceMessenger.Default.Send(new GameStartedMessage());
                     await Task.Delay(3000);
                     if (!p.HasExited)
