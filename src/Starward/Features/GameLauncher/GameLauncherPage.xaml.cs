@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Background;
+using Starward.Features.CloudGame;
 using Starward.Features.GameInstall;
 using Starward.Features.HoYoPlay;
 using Starward.Features.Overlay;
@@ -63,6 +64,7 @@ public sealed partial class GameLauncherPage : PageBase
         InitializeGameFeature();
         CheckGameVersion();
         UpdateGameInstallTask();
+        CheckCloudGame();
         _ = InitializeGameServerAsync();
         _ = InitializeBackgameImageSwitcherAsync();
         WeakReferenceMessenger.Default.Register<GameInstallPathChangedMessage>(this, OnGameInstallPathChanged);
@@ -863,7 +865,7 @@ public sealed partial class GameLauncherPage : PageBase
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Initialize background image switcher {GameBiz}", CurrentGameBiz);
         }
     }
 
@@ -892,6 +894,30 @@ public sealed partial class GameLauncherPage : PageBase
     private void Border_SwitchBackgroundImage_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
         Border_SwitchBackgroundImage.Opacity = 0;
+    }
+
+
+    #endregion
+
+
+
+    #region Cloud Game
+
+
+    private void CheckCloudGame()
+    {
+        try
+        {
+            Process? process = CloudGameService.GetCloudGameProcess(CurrentGameId);
+            if (process is not null)
+            {
+                RunningGameService.AddRuninngGame(CurrentGameBiz, process);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Check cloud game {GameBiz}", CurrentGameBiz);
+        }
     }
 
 

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -78,7 +79,10 @@ internal class ScreenCaptureService
         }
         if (User32.IsIconic(runningGame.WindowHandle))
         {
-            _logger.LogWarning("Cannot capture a minimized window.");
+            int count = User32.GetWindowTextLength(runningGame.WindowHandle);
+            var sb = new StringBuilder(count);
+            User32.GetWindowText(runningGame.WindowHandle, sb, count);
+            _logger.LogWarning("Cannot capture a minimized window. HWND: {hwnd}, Title: {title}", runningGame.WindowHandle, sb.ToString());
             return;
         }
         try
