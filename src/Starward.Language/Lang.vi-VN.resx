@@ -2450,4 +2450,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
     <value>Click to download.</value>
   </data>
+  <data name="ImageViewWindow2_CopyAsJPG" xml:space="preserve">
+    <value>Copy as JPG</value>
+  </data>
+  <data name="ScreenshotPage_MultiSelect" xml:space="preserve">
+    <value>Multi Select</value>
+  </data>
+  <data name="ScreenshotPage_Total0Files" xml:space="preserve">
+    <value>Total {0} files.</value>
+  </data>
 </root>
