@@ -76,18 +76,19 @@
                                     <ControlTemplate TargetType="ContentControl">
                                         <ContentPresenter HorizontalAlignment="Stretch"
                                                           VerticalAlignment="Center"
-                                                          Content="{Binding}" />
+                                                          Content="{TemplateBinding Content}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
                         </Style>
                     </GroupStyle.HeaderContainerStyle>
                     <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="local:ScreenshotItemGroup">
                             <TextBlock FontSize="14"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        IsTextScaleFactorEnabled="False"
-                                       Text="{Binding Header}" />
+                                       Text="{x:Bind Header}" />
                         </DataTemplate>
                     </GroupStyle.HeaderTemplate>
                 </GroupStyle>
