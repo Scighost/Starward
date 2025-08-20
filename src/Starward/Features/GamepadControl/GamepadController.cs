@@ -71,7 +71,7 @@ internal static class GamepadController
                 SetGamepadGuideButtonMapKeys(AppConfig.GamepadGuideButtonMapKeys, out _);
                 SetGamepadShareButtonMapKeys(AppConfig.GamepadShareButtonMapKeys, out _);
                 Initialized = true;
-                Start();
+                DeviceOrEnableChanged();
             }
         }
         catch { }
