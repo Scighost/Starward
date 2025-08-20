@@ -71,6 +71,7 @@ public sealed partial class GameLauncherPage : PageBase
         WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowStateChanged);
         WeakReferenceMessenger.Default.Register<RemovableStorageDeviceChangedMessage>(this, OnRemovableStorageDeviceChanged);
         WeakReferenceMessenger.Default.Register<GameInstallTaskStartedMessage>(this, OnGameInstallTaskStarted);
+        WeakReferenceMessenger.Default.Register<BackgroundChangedMessage>(this, OnBackgroundChanged);
     }
 
 
@@ -843,10 +844,21 @@ public sealed partial class GameLauncherPage : PageBase
     }
 
 
+    private void OnBackgroundChanged(object _, BackgroundChangedMessage message)
+    {
+        _ = InitializeBackgameImageSwitcherAsync();
+    }
+
+
     private async Task InitializeBackgameImageSwitcherAsync()
     {
         try
         {
+            if (BackgroundService.TryGetCustomBgFilePath(CurrentGameId, out _))
+            {
+                Border_SwitchBackgroundImage.Visibility = Visibility.Collapsed;
+                return;
+            }
             BackgroundImageUrls = await _backgroundService.GetBackgroundAndPosterImageUrlsAsync(CurrentGameId);
             if (BackgroundImageUrls.Count > 1)
             {

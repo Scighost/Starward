@@ -64,7 +64,7 @@ public class BackgroundService
     /// <param name="gameId"></param>
     /// <param name="path"></param>
     /// <returns></returns>
-    private static bool TryGetCustomBgFilePath(GameId gameId, out string? path)
+    public static bool TryGetCustomBgFilePath(GameId gameId, out string? path)
     {
         path = null;
         if (gameId is null)
