@@ -4,10 +4,13 @@
 		<TargetFramework>net9.0-windows</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<LangVersion>preview</LangVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Version>0.1.0</Version>
 		<Authors>Scighost</Authors>
-		<Description>Image codec of Starward.</Description>
+		<Description>Image codec wrappers of JPEG XL (libjxl 0.11.1), UltraHDR (libultrahdr 1.4.0).</Description>
+		<PackageTags>JpegXL;JXL;UltraHDR</PackageTags>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageProjectUrl>https://github.com/Scighost/Starward/tree/large-resource</PackageProjectUrl>
 	</PropertyGroup>
 
