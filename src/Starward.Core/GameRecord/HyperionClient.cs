@@ -2,6 +2,7 @@ using Starward.Core.GameRecord.BH3.DailyNote;
 using Starward.Core.GameRecord.Genshin.DailyNote;
 using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
+using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
 using Starward.Core.GameRecord.StarRail.DailyNote;
@@ -24,7 +25,7 @@ public class HyperionClient : GameRecordClient
 
     public override string UAContent => $"Mozilla/5.0 (Linux; Android 13; Pixel 5 Build/TQ3A.230901.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/118.0.0.0 Mobile Safari/537.36 miHoYoBBS/{AppVersion}";
 
-    public override string AppVersion => "2.85.1";
+    public override string AppVersion => "2.90.1";
 
     protected override string ApiSalt => "t0qEgfub6cvueAPgR5m9aQWWVciEer7v";
 
@@ -421,6 +422,38 @@ public class HyperionClient : GameRecordClient
             item.MaxRoundId = item.Stat.MaxRoundId;
             item.Heraldry = item.Stat.Heraldry;
             item.MedalNum = item.Stat.MedalNum;
+        }
+        return warpper.Data;
+    }
+
+
+    /// <summary>
+    /// 幽境危战
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<List<StygianOnslaughtInfo>> GetStygianOnslaughtInfosAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        var url = $"https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/hard_challenge?server={role.Region}&role_id={role.Uid}&need_detail=true";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        request.Headers.Add(X_Request_With, com_mihoyo_hyperion);
+        var warpper = await CommonSendAsync<StygianOnslaughtWrapper>(request, cancellationToken);
+        foreach (var item in warpper.Data)
+        {
+            item.Uid = role.Uid;
+            item.ScheduleId = item.Schedule.ScheduleId;
+            item.StartDateTime = item.Schedule.StartDateTime;
+            item.EndDateTime = item.Schedule.EndDateTime;
+            item.Difficulty = item.SinglePlayer.Best?.Difficulty ?? 0;
+            item.Second = item.SinglePlayer.Best?.Seconds ?? 0;
         }
         return warpper.Data;
     }

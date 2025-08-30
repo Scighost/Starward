@@ -7,6 +7,7 @@ using Starward.Core.GameRecord.BH3.DailyNote;
 using Starward.Core.GameRecord.Genshin.DailyNote;
 using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
+using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
 using Starward.Core.GameRecord.StarRail.DailyNote;
@@ -1123,6 +1124,71 @@ internal class GameRecordService
 
     #endregion
 
+
+
+
+    #region Stygian Onslaught
+
+
+    public async Task<List<StygianOnslaughtInfo>> RefreshStygianOnslaughtInfosAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        var infos = await _gameRecordClient.GetStygianOnslaughtInfosAsync(role, cancellationToken);
+        if (infos.Count == 0)
+        {
+            return infos;
+        }
+        using var dapper = DatabaseService.CreateConnection();
+        using var t = dapper.BeginTransaction();
+        foreach (var info in infos)
+        {
+            var obj = new
+            {
+                info.Uid,
+                info.ScheduleId,
+                info.StartDateTime,
+                info.EndDateTime,
+                info.Difficulty,
+                info.Second,
+                Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+            };
+            dapper.Execute("""
+            INSERT OR REPLACE INTO StygianOnslaughtInfo (Uid, ScheduleId, StartDateTime, EndDateTime, Difficulty, Second, Value)
+            VALUES (@Uid, @ScheduleId, @StartDateTime, @EndDateTime, @Difficulty, @Second, @Value);
+            """, obj, t);
+        }
+        t.Commit();
+        return infos;
+    }
+
+
+
+    public List<StygianOnslaughtInfo> GetStygianOnslaughtInfoList(GameRecordRole role)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        var list = dapper.Query<StygianOnslaughtInfo>("""
+            SELECT Uid, ScheduleId, StartDateTime, EndDateTime, Difficulty, Second FROM StygianOnslaughtInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
+            """, new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public StygianOnslaughtInfo? GetStygianOnslaughtInfo(GameRecordRole role, int scheduleId)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        var value = dapper.QueryFirstOrDefault<string>("""
+            SELECT Value FROM StygianOnslaughtInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
+            """, new { role.Uid, scheduleId });
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return null;
+        }
+        return JsonSerializer.Deserialize<StygianOnslaughtInfo>(value);
+    }
+
+
+
+    #endregion
 
 
 }

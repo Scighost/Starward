@@ -236,7 +236,7 @@ internal static class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11, Sql_v12, Sql_v13, Sql_v14];
+    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11, Sql_v12, Sql_v13, Sql_v14, Sql_v15];
 
 
     private const string Sql_v1 = """
@@ -846,6 +846,26 @@ internal static class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_DeadlyAssaultInfo_ZoneId ON DeadlyAssaultInfo (ZoneId);
 
         PRAGMA USER_VERSION = 14;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v15 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS StygianOnslaughtInfo
+        (
+            Uid           INTEGER NOT NULL,
+            ScheduleId    INTEGER NOT NULL,
+            StartDateTime TEXT    NOT NULL,
+            EndDateTime   TEXT    NOT NULL,
+            Difficulty    INTEGER NOT NULL,
+            Second        INTEGER NOT NULL,
+            Value         TEXT,
+            PRIMARY KEY (Uid, ScheduleId)
+        );
+        CREATE INDEX IF NOT EXISTS IX_StygianOnslaughtInfo_ScheduleId ON StygianOnslaughtInfo (ScheduleId);
+
+        PRAGMA USER_VERSION = 15;
         COMMIT TRANSACTION;
         """;
 

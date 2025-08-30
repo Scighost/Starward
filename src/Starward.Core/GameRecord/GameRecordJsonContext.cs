@@ -2,6 +2,7 @@ using Starward.Core.GameRecord.BH3.DailyNote;
 using Starward.Core.GameRecord.Genshin.DailyNote;
 using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
+using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
 using Starward.Core.GameRecord.StarRail.DailyNote;
@@ -24,6 +25,7 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<GameRecordRoleWrapper>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<GameRecordIndex>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<SpiralAbyssInfo>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<StygianOnslaughtWrapper>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<TravelersDiarySummary>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<TravelersDiaryDetail>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<TrailblazeCalendarSummary>))]

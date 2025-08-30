@@ -18,6 +18,7 @@ using Starward.Core.GameRecord.Genshin.DailyNote;
 using Starward.Core.GameRecord.StarRail.DailyNote;
 using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.GameRecord.BH3.DailyNote;
+using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 
 
 
@@ -348,6 +349,16 @@ public abstract class GameRecordClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public abstract Task<List<ImaginariumTheaterInfo>> GetImaginariumTheaterInfosAsync(GameRecordRole role, CancellationToken cancellationToken = default);
+
+
+
+    /// <summary>
+    /// 幽境危战
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<List<StygianOnslaughtInfo>> GetStygianOnslaughtInfosAsync(GameRecordRole role, CancellationToken cancellationToken = default);
 
 
 

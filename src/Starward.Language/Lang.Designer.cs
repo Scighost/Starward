@@ -3344,6 +3344,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Stygian Onslaught 的本地化字符串。
+        /// </summary>
+        public static string HoyolabToolboxPage_StygianOnslaught {
+            get {
+                return ResourceManager.GetString("HoyolabToolboxPage_StygianOnslaught", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The device fingerprint is already updated. 的本地化字符串。
         /// </summary>
         public static string HoyolabToolboxPage_TheDeviceFingerprintIsAlreadyUpdated {
@@ -6329,6 +6338,42 @@ namespace Starward.Language {
         public static string StartGameButton_Waiting {
             get {
                 return ResourceManager.GetString("StartGameButton_Waiting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Battle Time 的本地化字符串。
+        /// </summary>
+        public static string StygianOnslaughtPage_BattleTime {
+            get {
+                return ResourceManager.GetString("StygianOnslaughtPage_BattleTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Co-Op 的本地化字符串。
+        /// </summary>
+        public static string StygianOnslaughtPage_CoOp {
+            get {
+                return ResourceManager.GetString("StygianOnslaughtPage_CoOp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Highest Total Damage Dealt 的本地化字符串。
+        /// </summary>
+        public static string StygianOnslaughtPage_HighestTotalDamageDealt {
+            get {
+                return ResourceManager.GetString("StygianOnslaughtPage_HighestTotalDamageDealt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Single Player 的本地化字符串。
+        /// </summary>
+        public static string StygianOnslaughtPage_SinglePlayer {
+            get {
+                return ResourceManager.GetString("StygianOnslaughtPage_SinglePlayer", resourceCulture);
             }
         }
         

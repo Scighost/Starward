@@ -2465,4 +2465,19 @@
   <data name="SimulateInputTipsWindow_KeyboardEnterKey" xml:space="preserve">
     <value>键盘 Enter 键</value>
   </data>
+  <data name="HoyolabToolboxPage_StygianOnslaught" xml:space="preserve">
+    <value>幽境危战</value>
+  </data>
+  <data name="StygianOnslaughtPage_SinglePlayer" xml:space="preserve">
+    <value>单人</value>
+  </data>
+  <data name="StygianOnslaughtPage_CoOp" xml:space="preserve">
+    <value>多人</value>
+  </data>
+  <data name="StygianOnslaughtPage_BattleTime" xml:space="preserve">
+    <value>战斗用时</value>
+  </data>
+  <data name="StygianOnslaughtPage_HighestTotalDamageDealt" xml:space="preserve">
+    <value>最高总伤害</value>
+  </data>
 </root>
