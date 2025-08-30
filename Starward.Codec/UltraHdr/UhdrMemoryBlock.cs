@@ -32,3 +32,19 @@ public struct UhdrMemoryBlock
     }
 
 }
+
+
+public struct UhdrMemoryBlockPtr
+{
+    private IntPtr _ptr;
+    public bool IsNull => _ptr == IntPtr.Zero;
+
+    public UhdrMemoryBlock ToMemoryBlock()
+    {
+        if (IsNull)
+        {
+            throw new InvalidOperationException("Pointer is null. Cannot convert to UhdrMemoryBlock.");
+        }
+        return Marshal.PtrToStructure<UhdrMemoryBlock>(_ptr);
+    }
+}

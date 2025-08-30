@@ -33,7 +33,7 @@ public class JxlDecoderLite
     /// </summary>
     /// <param name="buffer">The buffer containing the file data.</param>
     /// <returns>The signature check result.</returns>
-    public unsafe static JxlSignature CheckSignature(ReadOnlySpan<byte> buffer)
+    public static unsafe JxlSignature CheckSignature(ReadOnlySpan<byte> buffer)
     {
         fixed (byte* p = buffer)
         {
@@ -363,11 +363,6 @@ public class JxlDecoderLite
             {
                 JxlParallelRunnerNativeMethod.JxlResizableParallelRunnerDestroy(_parallelRunnerPtr);
                 _parallelRunnerPtr = IntPtr.Zero;
-            }
-            if (_jxlParallelRunnerFunction != IntPtr.Zero)
-            {
-                NativeLibrary.Free(_jxlParallelRunnerFunction);
-                _jxlParallelRunnerFunction = IntPtr.Zero;
             }
             if (_pinnedBytes.IsAllocated)
             {

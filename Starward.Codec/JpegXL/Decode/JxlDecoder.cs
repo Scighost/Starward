@@ -22,7 +22,7 @@ public class JxlDecoder : IDisposable
 
 
 
-    public unsafe static JxlSignature CheckSignature(ReadOnlySpan<byte> buffer)
+    public static unsafe JxlSignature CheckSignature(ReadOnlySpan<byte> buffer)
     {
         fixed (byte* p = buffer)
         {

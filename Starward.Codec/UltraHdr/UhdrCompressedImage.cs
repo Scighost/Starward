@@ -33,3 +33,22 @@ public struct UhdrCompressedImage
     /// </summary>
     public UhdrColorRange ColorRange;
 }
+
+
+
+public struct UhdrCompressedImagePtr
+{
+    private IntPtr _ptr;
+
+    public bool IsNull => _ptr == IntPtr.Zero;
+
+
+    public UhdrCompressedImage ToCompressedImage()
+    {
+        if (IsNull)
+        {
+            throw new InvalidOperationException("Pointer is null. Cannot convert to UhdrCompressedImage.");
+        }
+        return Marshal.PtrToStructure<UhdrCompressedImage>(_ptr);
+    }
+}

@@ -1,7 +1,6 @@
 using Starward.Codec.JpegXL.CMS;
 using Starward.Codec.JpegXL.CodeStream;
 using Starward.Codec.JpegXL.ParallelRunner;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Starward.Codec.JpegXL.Encode;
@@ -399,11 +398,6 @@ public class JxlEncoder : IDisposable
             {
                 JxlParallelRunnerNativeMethod.JxlThreadParallelRunnerDestroy(_parallelRunnerPtr);
                 _parallelRunnerPtr = IntPtr.Zero;
-            }
-            if (_jxlParallelRunnerFunction != IntPtr.Zero)
-            {
-                NativeLibrary.Free(_jxlParallelRunnerFunction);
-                _jxlParallelRunnerFunction = IntPtr.Zero;
             }
             disposedValue = true;
         }

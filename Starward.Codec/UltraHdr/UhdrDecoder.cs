@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-
 namespace Starward.Codec.UltraHdr;
 
 
@@ -29,10 +27,12 @@ namespace Starward.Codec.UltraHdr;
 public class UhdrDecoder : UhdrCodec
 {
 
+    protected UhdrDecoderPtr _decodePtr => base._codecPtr;
+
     public UhdrDecoder()
     {
-        _codecHandle = UhdrNativeMethod.uhdr_create_decoder();
-        if (_codecHandle == IntPtr.Zero)
+        base._codecPtr = UhdrNativeMethod.uhdr_create_decoder();
+        if (_decodePtr == IntPtr.Zero)
         {
             throw new UhdrException(UhdrCodecError.Error, "Failed to create UHDR decoder.");
         }
@@ -54,16 +54,6 @@ public class UhdrDecoder : UhdrCodec
 
 
     /// <summary>
-    /// Reset decoder instance.
-    /// Clears all previous settings and resets to default state and ready for re-initialization and usage.
-    /// </summary>
-    public void ResetDecoder()
-    {
-        UhdrNativeMethod.uhdr_reset_decoder(_codecHandle);
-    }
-
-
-    /// <summary>
     /// Add compressed image descriptor to decoder context. The function goes through all the
     /// fields of the image descriptor and checks for their sanity. If no anomalies are seen then the
     /// image is added to internal list. Repeated calls to this function will replace the old entry with the current.
@@ -71,13 +61,12 @@ public class UhdrDecoder : UhdrCodec
     /// <param name="image">image descriptor</param>
     public void SetImage(UhdrCompressedImage image)
     {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_image(_codecHandle, ref image);
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_image(_decodePtr, ref image);
         errorInfo.ThrowIfError();
     }
 
 
     /// <summary>
-    /// /// <summary>
     /// Add compressed image descriptor to decoder context. The function goes through all the
     /// fields of the image descriptor and checks for their sanity. If no anomalies are seen then the
     /// image is added to internal list. Repeated calls to this function will replace the old entry with the current.
@@ -96,7 +85,7 @@ public class UhdrDecoder : UhdrCodec
                 ColorTransfer = UhdrColorTransfer.Unspecified,
                 ColorRange = UhdrColorRange.Unspecified
             };
-            UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_image(_codecHandle, ref image);
+            UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_image(_decodePtr, ref image);
             errorInfo.ThrowIfError();
         }
     }
@@ -109,7 +98,7 @@ public class UhdrDecoder : UhdrCodec
     /// <param name="format">output image pixel format</param>
     public void SetOutImagePixelFormat(UhdrPixelFormat format)
     {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_img_format(_codecHandle, format);
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_img_format(_decodePtr, format);
         errorInfo.ThrowIfError();
     }
 
@@ -124,7 +113,7 @@ public class UhdrDecoder : UhdrCodec
     /// <param name="colorTransfer">output color transfer</param>
     public void SetOutColorTransfer(UhdrColorTransfer colorTransfer)
     {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_color_transfer(_codecHandle, colorTransfer);
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_color_transfer(_decodePtr, colorTransfer);
         errorInfo.ThrowIfError();
     }
 
@@ -137,7 +126,7 @@ public class UhdrDecoder : UhdrCodec
     /// <param name="displayBoost">hdr capacity of target display. Any real number >= 1.0f</param>
     public void SetOutMaxDisplayBoost(float displayBoost)
     {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_max_display_boost(_codecHandle, displayBoost);
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_max_display_boost(_decodePtr, displayBoost);
         errorInfo.ThrowIfError();
     }
 
@@ -149,7 +138,7 @@ public class UhdrDecoder : UhdrCodec
     /// </summary>
     public void Probe()
     {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_probe(_codecHandle);
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_probe(_decodePtr);
         errorInfo.ThrowIfError();
     }
 
@@ -160,7 +149,7 @@ public class UhdrDecoder : UhdrCodec
     /// <returns>-1 if probe call is unsuccessful, base image width otherwise</returns>
     public int GetImageWidth()
     {
-        return UhdrNativeMethod.uhdr_dec_get_image_width(_codecHandle);
+        return UhdrNativeMethod.uhdr_dec_get_image_width(_decodePtr);
     }
 
 
@@ -170,7 +159,7 @@ public class UhdrDecoder : UhdrCodec
     /// <returns>-1 if probe call is unsuccessful, base image height otherwise</returns>
     public int GetImageHeight()
     {
-        return UhdrNativeMethod.uhdr_dec_get_image_height(_codecHandle);
+        return UhdrNativeMethod.uhdr_dec_get_image_height(_decodePtr);
     }
 
 
@@ -180,7 +169,7 @@ public class UhdrDecoder : UhdrCodec
     /// <returns>-1 if probe call is unsuccessful, gain map image width otherwise</returns>
     public int GetGainmapWidth()
     {
-        return UhdrNativeMethod.uhdr_dec_get_gainmap_width(_codecHandle);
+        return UhdrNativeMethod.uhdr_dec_get_gainmap_width(_decodePtr);
     }
 
 
@@ -190,7 +179,7 @@ public class UhdrDecoder : UhdrCodec
     /// <returns>-1 if probe call is unsuccessful, gain map image height otherwise</returns>
     public int GetGainmapHeight()
     {
-        return UhdrNativeMethod.uhdr_dec_get_gainmap_height(_codecHandle);
+        return UhdrNativeMethod.uhdr_dec_get_gainmap_height(_decodePtr);
     }
 
 
@@ -199,14 +188,14 @@ public class UhdrDecoder : UhdrCodec
     /// </summary>
     public ReadOnlySpan<byte> GetExifData()
     {
-        nint memory_block_t = UhdrNativeMethod.uhdr_dec_get_exif(_codecHandle);
-        if (memory_block_t == IntPtr.Zero)
+        UhdrMemoryBlockPtr memoryBlockPtr = UhdrNativeMethod.uhdr_dec_get_exif(_decodePtr);
+        if (memoryBlockPtr.IsNull)
         {
             return ReadOnlySpan<byte>.Empty;
         }
         else
         {
-            return Marshal.PtrToStructure<UhdrMemoryBlock>(memory_block_t).AsSpan();
+            return memoryBlockPtr.ToMemoryBlock().AsSpan();
         }
     }
 
@@ -214,18 +203,17 @@ public class UhdrDecoder : UhdrCodec
     /// <summary>
     /// Get icc information
     /// </summary>
-    /// <param name="index"></param>
     /// <returns></returns>
     public ReadOnlySpan<byte> GetIccData()
     {
-        nint memory_block_t = UhdrNativeMethod.uhdr_dec_get_icc(_codecHandle);
-        if (memory_block_t == IntPtr.Zero)
+        UhdrMemoryBlockPtr memoryBlockPtr = UhdrNativeMethod.uhdr_dec_get_icc(_decodePtr);
+        if (memoryBlockPtr.IsNull)
         {
             return ReadOnlySpan<byte>.Empty;
         }
         else
         {
-            return Marshal.PtrToStructure<UhdrMemoryBlock>(memory_block_t).AsSpan();
+            return memoryBlockPtr.ToMemoryBlock().AsSpan();
         }
     }
 
@@ -236,14 +224,14 @@ public class UhdrDecoder : UhdrCodec
     /// <returns></returns>
     public ReadOnlySpan<byte> GetBaseImage()
     {
-        nint memory_block_t = UhdrNativeMethod.uhdr_dec_get_base_image(_codecHandle);
-        if (memory_block_t == IntPtr.Zero)
+        UhdrMemoryBlockPtr memoryBlockPtr = UhdrNativeMethod.uhdr_dec_get_base_image(_decodePtr);
+        if (memoryBlockPtr.IsNull)
         {
             return ReadOnlySpan<byte>.Empty;
         }
         else
         {
-            return Marshal.PtrToStructure<UhdrMemoryBlock>(memory_block_t).AsSpan();
+            return memoryBlockPtr.ToMemoryBlock().AsSpan();
         }
     }
 
@@ -254,14 +242,14 @@ public class UhdrDecoder : UhdrCodec
     /// <returns></returns>
     public ReadOnlySpan<byte> GetGainmapImage()
     {
-        nint memory_block_t = UhdrNativeMethod.uhdr_dec_get_gainmap_image(_codecHandle);
-        if (memory_block_t == IntPtr.Zero)
+        UhdrMemoryBlockPtr memoryBlockPtr = UhdrNativeMethod.uhdr_dec_get_gainmap_image(_decodePtr);
+        if (memoryBlockPtr.IsNull)
         {
             return ReadOnlySpan<byte>.Empty;
         }
         else
         {
-            return Marshal.PtrToStructure<UhdrMemoryBlock>(memory_block_t).AsSpan();
+            return memoryBlockPtr.ToMemoryBlock().AsSpan();
         }
     }
 
@@ -273,14 +261,14 @@ public class UhdrDecoder : UhdrCodec
     /// <exception cref="UhdrException"></exception>
     public UhdrGainmapMetadata GetGainmapMetadata()
     {
-        nint metadata_t = UhdrNativeMethod.uhdr_dec_get_gainmap_metadata(_codecHandle);
-        if (metadata_t == IntPtr.Zero)
+        UhdrGainmapMetadataPtr metadataPtr = UhdrNativeMethod.uhdr_dec_get_gainmap_metadata(_decodePtr);
+        if (metadataPtr.IsNull)
         {
             throw new UhdrException(UhdrCodecError.Error, "Failed to get gainmap metadata.");
         }
         else
         {
-            return Marshal.PtrToStructure<UhdrGainmapMetadata>(metadata_t);
+            return metadataPtr.ToGainmapMetadata();
         }
     }
 
@@ -292,7 +280,7 @@ public class UhdrDecoder : UhdrCodec
     /// </summary>
     public void Decode()
     {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_decode(_codecHandle);
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_decode(_decodePtr);
         errorInfo.ThrowIfError();
     }
 
@@ -304,14 +292,14 @@ public class UhdrDecoder : UhdrCodec
     /// <exception cref="UhdrException"></exception>
     public UhdrRawImage GetDecodedImage()
     {
-        nint image_t = UhdrNativeMethod.uhdr_get_decoded_image(_codecHandle);
-        if (image_t == IntPtr.Zero)
+        UhdrRawImagePtr imagePtr = UhdrNativeMethod.uhdr_get_decoded_image(_decodePtr);
+        if (imagePtr.IsNull)
         {
             throw new UhdrException(UhdrCodecError.Error, "Failed to get decoded image.");
         }
         else
         {
-            return Marshal.PtrToStructure<UhdrRawImage>(image_t);
+            return imagePtr.ToRawImage();
         }
     }
 
@@ -323,14 +311,14 @@ public class UhdrDecoder : UhdrCodec
     /// <exception cref="UhdrException"></exception>
     public UhdrRawImage GetDecodedGainmapImage()
     {
-        nint image_t = UhdrNativeMethod.uhdr_get_decoded_gainmap_image(_codecHandle);
-        if (image_t == IntPtr.Zero)
+        var imagePtr = UhdrNativeMethod.uhdr_get_decoded_gainmap_image(_decodePtr);
+        if (imagePtr.IsNull)
         {
             throw new UhdrException(UhdrCodecError.Error, "Failed to get decoded gainmap image.");
         }
         else
         {
-            return Marshal.PtrToStructure<UhdrRawImage>(image_t);
+            return imagePtr.ToRawImage();
         }
     }
 

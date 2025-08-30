@@ -20,6 +20,7 @@ public class avifEncoderLite : IDisposable
         _encoder->speed = 6;
         _encoder->quality = 90;
         _encoder->qualityAlpha = 90;
+        _encoder->autoTiling = true;
     }
 
 

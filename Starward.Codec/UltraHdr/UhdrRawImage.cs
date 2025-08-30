@@ -37,14 +37,26 @@ public struct UhdrRawImage
     /// <summary>
     /// pointer to the top left pixel for each plane
     /// </summary>
-    public IntPtr Plane0;
-    public IntPtr Plane1;
-    public IntPtr Plane2;
+    public FixedArray3<IntPtr> Plane;
 
     /// <summary>
     /// stride in pixels between rows for each plane
     /// </summary>
-    public uint Stride0;
-    public uint Stride1;
-    public uint Stride2;
+    public FixedArray3<uint> Stride;
+}
+
+
+public struct UhdrRawImagePtr
+{
+    private IntPtr _ptr;
+    public bool IsNull => _ptr == IntPtr.Zero;
+
+    public UhdrRawImage ToRawImage()
+    {
+        if (IsNull)
+        {
+            throw new InvalidOperationException("Pointer is null. Cannot convert to UhdrRawImage.");
+        }
+        return Marshal.PtrToStructure<UhdrRawImage>(_ptr);
+    }
 }

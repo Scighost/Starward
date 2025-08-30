@@ -1055,7 +1055,7 @@ public static partial class JxlEncoderNativeMethod
     /// <param name="callback">used to return the debug image</param>
     /// <param name="opaque">user supplied parameter to the image callback</param>
     [LibraryImport(LibraryName)]
-    public unsafe static partial void JxlEncoderSetDebugImageCallback(JxlEncoderFrameSettingsPtr frame_settings, JxlDebugImageCallback callback, IntPtr opaque);
+    public static unsafe partial void JxlEncoderSetDebugImageCallback(JxlEncoderFrameSettingsPtr frame_settings, JxlDebugImageCallback callback, IntPtr opaque);
 
 
 }

@@ -150,7 +150,7 @@ public partial struct JxlCmsInterface
 
 
     [LibraryImport("jxl_cms")]
-    private unsafe static partial JxlCmsInterface* JxlGetDefaultCms();
+    private static unsafe partial JxlCmsInterface* JxlGetDefaultCms();
 
 
     /// <summary>
@@ -158,7 +158,7 @@ public partial struct JxlCmsInterface
     /// transform colors.
     /// </summary>
     /// <returns></returns>
-    public unsafe static JxlCmsInterface GetDefault()
+    public static unsafe JxlCmsInterface GetDefault()
     {
         return *JxlGetDefaultCms();
     }

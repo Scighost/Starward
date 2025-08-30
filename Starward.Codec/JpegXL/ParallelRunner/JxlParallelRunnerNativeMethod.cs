@@ -24,7 +24,7 @@ public static partial class JxlParallelRunnerNativeMethod
     /// <param name="end_range">The end of the range for the parallel execution (exclusive).</param>
     /// <returns>A status code indicating success or failure. See <see cref="JxlParallelRetCode"/>.</returns>
     [LibraryImport(LibraryName)]
-    public unsafe static partial JxlParallelRetCode JxlThreadParallelRunner(JxlThreadParallelRunnerPtr runner_opaque, void* jpegxl_opaque, JxlParallelRunInit init, JxlParallelRunFunction func, uint start_range, uint end_range);
+    public static unsafe partial JxlParallelRetCode JxlThreadParallelRunner(JxlThreadParallelRunnerPtr runner_opaque, void* jpegxl_opaque, JxlParallelRunInit init, JxlParallelRunFunction func, uint start_range, uint end_range);
 
     /// <summary>
     /// Creates the runner for <see cref="JxlThreadParallelRunner"/>. Use as the opaque runner.
@@ -70,7 +70,7 @@ public static partial class JxlParallelRunnerNativeMethod
     /// <param name="end_range">The end of the range for the parallel execution (exclusive).</param>
     /// <returns>A status code indicating success or failure. See <see cref="JxlParallelRetCode"/>.</returns>
     [LibraryImport(LibraryName)]
-    public unsafe static partial JxlParallelRetCode JxlResizableParallelRunner(JxlResizableParallelRunnerPtr runner_opaque, void* jpegxl_opaque, JxlParallelRunInit init, JxlParallelRunFunction func, uint start_range, uint end_range);
+    public static unsafe partial JxlParallelRetCode JxlResizableParallelRunner(JxlResizableParallelRunnerPtr runner_opaque, void* jpegxl_opaque, JxlParallelRunInit init, JxlParallelRunFunction func, uint start_range, uint end_range);
 
     /// <summary>
     /// Creates the runner for <see cref="JxlResizableParallelRunner"/>. Use as the opaque

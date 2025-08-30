@@ -16,6 +16,7 @@ public class avifImageWrapper : IDisposable
         _image->colorPrimaries = avifColorPrimaries.BT709;
         _image->transferCharacteristics = avifTransferCharacteristics.SRGB;
         _image->matrixCoefficients = avifMatrixCoefficients.BT709;
+        _image->yuvRange = avifRange.Full;
     }
 
 

@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-
 namespace Starward.Codec.UltraHdr;
 
 
@@ -69,23 +67,16 @@ namespace Starward.Codec.UltraHdr;
 public class UhdrEncoder : UhdrCodec, IDisposable
 {
 
+    protected new UhdrEncoderPtr _codecHandle => base._codecPtr;
+
+
     public UhdrEncoder()
     {
-        _codecHandle = UhdrNativeMethod.uhdr_create_encoder();
+        base._codecPtr = UhdrNativeMethod.uhdr_create_encoder();
         if (_codecHandle == IntPtr.Zero)
         {
             throw new UhdrException(UhdrCodecError.Error, "Failed to create UHDR encoder.");
         }
-    }
-
-
-    /// <summary>
-    /// Reset encoder instance.
-    /// Clears all previous settings and resets to default state and ready for re-initialization and usage.
-    /// </summary>
-    public void ResetEncoder()
-    {
-        UhdrNativeMethod.uhdr_reset_encoder(_codecHandle);
     }
 
 
@@ -100,6 +91,39 @@ public class UhdrEncoder : UhdrCodec, IDisposable
     {
         UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_enc_set_raw_image(_codecHandle, ref rawImage, intent);
         errorInfo.ThrowIfError();
+    }
+
+
+    /// <summary>
+    /// Add raw image descriptor to encoder context. The function goes through all the fields of
+    /// the image descriptor and checks for their sanity. If no anomalies are seen then the image is
+    /// added to internal list. Repeated calls to this function will replace the old entry with the current.
+    /// </summary>
+    /// <param name="intent">HDR or SDR</param>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    /// <param name="bytes"></param>
+    /// <param name="pixelFormat">Only RGB supported</param>
+    /// <param name="colorGamut"></param>
+    /// <param name="colorTransfer"></param>
+    /// <param name="colorRange"></param>
+    public unsafe void SetRawImage(UhdrImageLabel intent, uint width, uint height, ReadOnlySpan<byte> bytes, UhdrPixelFormat pixelFormat, UhdrColorGamut colorGamut, UhdrColorTransfer colorTransfer, UhdrColorRange colorRange)
+    {
+        fixed (byte* ptr = bytes)
+        {
+            UhdrRawImage rawImage = new UhdrRawImage
+            {
+                PixelFormat = pixelFormat,
+                ColorGamut = colorGamut,
+                ColorTransfer = colorTransfer,
+                ColorRange = colorRange,
+                Height = height,
+                Width = width,
+            };
+            rawImage.Plane[0] = (IntPtr)ptr;
+            rawImage.Stride[0] = width;
+            SetRawImage(rawImage, intent);
+        }
     }
 
 
@@ -122,9 +146,12 @@ public class UhdrEncoder : UhdrCodec, IDisposable
     /// fields of the image descriptor and checks for their sanity. If no anomalies are seen then the
     /// image is added to internal list. Repeated calls to this function will replace the old entry with the current.
     /// </summary>
-    /// <param name="compressedImage">image descriptor</param>
     /// <param name="intent">SDR / HDR / Base</param>
-    public unsafe void SetCompressedImage(ReadOnlySpan<byte> bytes, UhdrImageLabel intent)
+    /// <param name="bytes">image bytes</param>
+    /// <param name="colorGamut"></param>
+    /// <param name="colorTransfer"></param>
+    /// <param name="colorRange"></param>
+    public unsafe void SetCompressedImage(UhdrImageLabel intent, ReadOnlySpan<byte> bytes, UhdrColorGamut colorGamut = UhdrColorGamut.Unspecified, UhdrColorTransfer colorTransfer = UhdrColorTransfer.Unspecified, UhdrColorRange colorRange = UhdrColorRange.Unspecified)
     {
         fixed (byte* p = bytes)
         {
@@ -133,9 +160,9 @@ public class UhdrEncoder : UhdrCodec, IDisposable
                 Data = (IntPtr)p,
                 DataSize = (ulong)bytes.Length,
                 Capacity = (ulong)bytes.Length,
-                ColorGamut = UhdrColorGamut.Unspecified,
-                ColorTransfer = UhdrColorTransfer.Unspecified,
-                ColorRange = UhdrColorRange.Unspecified,
+                ColorGamut = colorGamut,
+                ColorTransfer = colorTransfer,
+                ColorRange = colorRange,
             };
             UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_enc_set_compressed_image(_codecHandle, ref compressedImage, intent);
             errorInfo.ThrowIfError();
@@ -164,9 +191,12 @@ public class UhdrEncoder : UhdrCodec, IDisposable
     /// the image descriptor and checks for their sanity. If no anomalies are seen then the image is
     /// added to internal list. Repeated calls to this function will replace the old entry with the current.
     /// </summary>
-    /// <param name="gainmapImage">gainmap image desciptor</param>
     /// <param name="gainmapMetadata"> gainmap metadata descriptor</param>
-    public unsafe void SetGainmapImage(ReadOnlySpan<byte> bytes, UhdrGainmapMetadata gainmapMetadata)
+    /// <param name="bytes">gainmap image bytes</param>
+    /// <param name="colorGamut"></param>
+    /// <param name="colorTransfer"></param>
+    /// <param name="colorRange"></param>
+    public unsafe void SetGainmapImage(UhdrGainmapMetadata gainmapMetadata, ReadOnlySpan<byte> bytes, UhdrColorGamut colorGamut = UhdrColorGamut.Unspecified, UhdrColorTransfer colorTransfer = UhdrColorTransfer.Unspecified, UhdrColorRange colorRange = UhdrColorRange.Unspecified)
     {
         fixed (byte* p = bytes)
         {
@@ -175,9 +205,9 @@ public class UhdrEncoder : UhdrCodec, IDisposable
                 Data = (IntPtr)p,
                 DataSize = (ulong)bytes.Length,
                 Capacity = (ulong)bytes.Length,
-                ColorGamut = UhdrColorGamut.Unspecified,
-                ColorTransfer = UhdrColorTransfer.Unspecified,
-                ColorRange = UhdrColorRange.Unspecified,
+                ColorGamut = colorGamut,
+                ColorTransfer = colorTransfer,
+                ColorRange = colorRange,
             };
             UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_enc_set_gainmap_image(_codecHandle, ref compressedImage, ref gainmapMetadata);
             errorInfo.ThrowIfError();
@@ -339,14 +369,14 @@ public class UhdrEncoder : UhdrCodec, IDisposable
     /// Get encoded ultra hdr image
     /// </summary>
     /// <exception cref="UhdrException"></exception>
-    public UhdrCompressedImage GetEncodedImage()
+    public unsafe UhdrCompressedImage GetEncodedImage()
     {
-        IntPtr imagePtr = UhdrNativeMethod.uhdr_get_encoded_stream(_codecHandle);
-        if (imagePtr == IntPtr.Zero)
+        UhdrCompressedImagePtr imagePtr = UhdrNativeMethod.uhdr_get_encoded_stream(_codecHandle);
+        if (imagePtr.IsNull)
         {
             throw new UhdrException(UhdrCodecError.Error, "Failed to get encoded stream from UHDR encoder.");
         }
-        return Marshal.PtrToStructure<UhdrCompressedImage>(imagePtr);
+        return imagePtr.ToCompressedImage();
     }
 
 }

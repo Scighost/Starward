@@ -8,7 +8,7 @@ public abstract class UhdrCodec : IDisposable
     public static string CommitHash => "5fa99b5271a3c80a13c78062d7adc6310222dd8e";
 
 
-    protected IntPtr _codecHandle;
+    protected IntPtr _codecPtr;
 
 
     /// <summary>
@@ -37,7 +37,7 @@ public abstract class UhdrCodec : IDisposable
     /// <param name="enable">enable/disbale gpu acceleration</param>
     public void EnableGpuAcceleration(bool enable)
     {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_enable_gpu_acceleration(_codecHandle, enable ? 1 : 0);
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_enable_gpu_acceleration(_codecPtr, enable ? 1 : 0);
         errorInfo.ThrowIfError();
     }
 
@@ -48,7 +48,7 @@ public abstract class UhdrCodec : IDisposable
     /// <param name="direction">MirrorVertical or MirrorHorizontal</param>
     public void AddEffectMirror(UhdrMirrorDirection direction)
     {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_add_effect_mirror(_codecHandle, direction);
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_add_effect_mirror(_codecPtr, direction);
         errorInfo.ThrowIfError();
     }
 
@@ -62,7 +62,7 @@ public abstract class UhdrCodec : IDisposable
     /// <param name="degrees">clockwise degrees</param>
     public void AddEffectRotate(int degrees)
     {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_add_effect_rotate(_codecHandle, degrees);
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_add_effect_rotate(_codecPtr, degrees);
         errorInfo.ThrowIfError();
     }
 
@@ -76,7 +76,7 @@ public abstract class UhdrCodec : IDisposable
     /// <param name="bottom"></param>
     public void AddEffectCrop(int left, int right, int top, int bottom)
     {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_add_effect_crop(_codecHandle, left, right, top, bottom);
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_add_effect_crop(_codecPtr, left, right, top, bottom);
         errorInfo.ThrowIfError();
     }
 
@@ -88,7 +88,7 @@ public abstract class UhdrCodec : IDisposable
     /// <param name="height"></param>
     public void AddEffectResize(int width, int height)
     {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_add_effect_resize(_codecHandle, width, height);
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_add_effect_resize(_codecPtr, width, height);
         errorInfo.ThrowIfError();
     }
 
@@ -104,8 +104,8 @@ public abstract class UhdrCodec : IDisposable
             {
 
             }
-            UhdrNativeMethod.uhdr_release_encoder(_codecHandle);
-            _codecHandle = IntPtr.Zero;
+            UhdrNativeMethod.uhdr_release_encoder(_codecPtr);
+            _codecPtr = IntPtr.Zero;
             disposedValue = true;
         }
     }
