@@ -2484,4 +2484,19 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="SimulateInputTipsWindow_KeyboardEnterKey" xml:space="preserve">
     <value>Клавиша Enter на клавиатуре</value>
   </data>
+  <data name="HoyolabToolboxPage_StygianOnslaught" xml:space="preserve">
+    <value>Stygian Onslaught</value>
+  </data>
+  <data name="StygianOnslaughtPage_SinglePlayer" xml:space="preserve">
+    <value>Single Player</value>
+  </data>
+  <data name="StygianOnslaughtPage_CoOp" xml:space="preserve">
+    <value>Co-Op</value>
+  </data>
+  <data name="StygianOnslaughtPage_BattleTime" xml:space="preserve">
+    <value>Battle Time</value>
+  </data>
+  <data name="StygianOnslaughtPage_HighestTotalDamageDealt" xml:space="preserve">
+    <value>Highest Total Damage Dealt</value>
+  </data>
 </root>
