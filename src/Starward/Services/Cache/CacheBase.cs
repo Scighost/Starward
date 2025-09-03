@@ -188,31 +188,21 @@ public abstract class CacheBase<T>
         }
 
         var folder = await GetCacheFolderAsync().ConfigureAwait(false);
-        var files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
-
-        var filesToDelete = new List<StorageFile>();
-        var keys = new List<string>();
-
-        Dictionary<string, StorageFile> hashDictionary = new();
-
-        foreach (var file in files)
-        {
-            hashDictionary.Add(file.Name, file);
-        }
 
         foreach (var uri in uriForCachedItems)
         {
             string fileName = GetCacheFileName(uri);
-            if (hashDictionary.TryGetValue(fileName, out var file))
+            var file = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
+            if (file is not null)
             {
-                filesToDelete.Add(file);
-                keys.Add(fileName);
+                try
+                {
+                    await file.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask().ConfigureAwait(false);
+                }
+                catch { }
+                _inMemoryFileStorage.Remove([fileName]);
             }
         }
-
-        await CacheBase<T>.InternalClearAsync(filesToDelete).ConfigureAwait(false);
-
-        _inMemoryFileStorage.Remove(keys);
     }
 
     /// <summary>
