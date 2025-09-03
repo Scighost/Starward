@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -19,7 +19,6 @@ internal static class ClipboardHelper
             };
             data.SetText(value);
             Clipboard.SetContent(data);
-            Clipboard.Flush();
         }
     }
 
@@ -33,7 +32,6 @@ internal static class ClipboardHelper
         };
         data.SetBitmap(value);
         Clipboard.SetContent(data);
-        Clipboard.Flush();
     }
 
 
@@ -46,7 +44,6 @@ internal static class ClipboardHelper
         };
         data.SetBitmap(value);
         Clipboard.SetContent(data);
-        Clipboard.Flush();
     }
 
 
@@ -59,7 +56,6 @@ internal static class ClipboardHelper
         };
         data.SetBitmap(value);
         Clipboard.SetContent(data);
-        Clipboard.Flush();
     }
 
 
@@ -72,7 +68,6 @@ internal static class ClipboardHelper
         };
         data.SetStorageItems(items);
         Clipboard.SetContent(data);
-        Clipboard.Flush();
     }
 
 

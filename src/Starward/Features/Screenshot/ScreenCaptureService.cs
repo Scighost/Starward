@@ -316,26 +316,18 @@ internal class ScreenCaptureService
     }
 
 
+
     public static async Task CopyToClipboardAsync(string? filePath)
     {
-        // 0x800401D0
-        const int CLIPBRD_E_CANT_OPEN = -2147221040;
         if (AppConfig.AutoCopyScreenshotToClipboard)
         {
             if (File.Exists(filePath))
             {
                 var file = await StorageFile.GetFileFromPathAsync(filePath);
-                try
-                {
-                    ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
-                }
-                catch (COMException)
-                {
                     ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
                 }
             }
         }
-    }
 
 
     /// <summary>
