@@ -38,16 +38,30 @@
         <!--  已保存  -->
         <StackPanel Grid.Column="1"
                     VerticalAlignment="Center"
-                    Spacing="2"
+                    Spacing="4"
                     Visibility="{x:Bind IsSuccess}">
-            <TextBlock IsTextScaleFactorEnabled="False"
-                       Text="{x:Bind lang:Lang.ScreenCaptureInfoWindow_ScreenshotSaved}"
-                       TextWrapping="Wrap" />
-            <TextBlock x:Name="TextBlock_Repeat"
-                       FontSize="12"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+            <TextBlock x:Name="TextBlock_State"
                        IsTextScaleFactorEnabled="False"
-                       Visibility="Collapsed" />
+                       TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <ProgressRing x:Name="ProgressRing_Process"
+                              Width="12"
+                              Height="12"
+                              IsIndeterminate="True"
+                              Visibility="Collapsed" />
+                <FontIcon x:Name="FontIcon_Complete"
+                          FontSize="16"
+                          Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                          Glyph="&#xE930;"
+                          IsTextScaleFactorEnabled="False"
+                          Visibility="Collapsed" />
+                <TextBlock x:Name="TextBlock_Repeat"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Visibility="Collapsed" />
+            </StackPanel>
         </StackPanel>
         <!--  打开  -->
         <Button x:Name="Button_OpenImage"
@@ -55,7 +69,7 @@
                 Click="Button_OpenImage_Click"
                 Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
                 UseSystemFocusVisuals="False"
-                Visibility="{x:Bind IsSuccess}">
+                Visibility="Collapsed">
             <StackPanel Spacing="8">
                 <FontIcon HorizontalAlignment="Center"
                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"

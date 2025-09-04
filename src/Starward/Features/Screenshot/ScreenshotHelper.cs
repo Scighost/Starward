@@ -14,12 +14,12 @@ internal static class ScreenshotHelper
 
     public static bool IsSupportedExtension(string file)
     {
-        return Path.GetExtension(file) is ".bmp" or ".jpg" or ".png" or ".jxr" or ".webp" or ".heic" or ".avif" or ".jxl";
+        return Path.GetExtension(file) is ".jpg" or ".png" or ".jxr" or ".webp" or ".heic" or ".avif" or ".jxl";
     }
 
 
 
-    public static List<string> WatcherFilters { get; } = new List<string> { "*.bmp", "*.jpg", "*.png", "*.jxr", "*.webp", "*.heic", "*.avif", "*.jxl" };
+    public static List<string> WatcherFilters { get; } = new List<string> { "*.jpg", "*.png", "*.jxr", "*.webp", "*.heic", "*.avif", "*.jxl" };
 
 
 

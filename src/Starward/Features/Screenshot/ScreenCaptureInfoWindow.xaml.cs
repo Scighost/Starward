@@ -13,6 +13,7 @@ using Starward.Features.Setting;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
+using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -86,9 +87,12 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     public bool IsError { get; set => SetProperty(ref field, value); }
 
 
-    private int _repeatCount;
 
-    private string _lastFile;
+    private int _captureImageCount;
+
+    private int _finishedImageCount;
+
+    private string? _lastFile;
 
     private CanvasImageSource _imageSource;
 
@@ -98,6 +102,42 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
 
 
     private ImageViewWindow2? _imageViewWindow2;
+
+
+
+    /// <summary>
+    /// 开始截图后调用此方法显示信息
+    /// </summary>
+    /// <param name="hwnd"></param>
+    /// <param name="bitmap"></param>
+    /// <param name="maxCLL"></param>
+    public void CaptureStart(nint hwnd, CanvasBitmap bitmap, float maxCLL = -1)
+    {
+        IsSuccess = true;
+        IsError = false;
+        _captureImageCount++;
+        CropImage(bitmap, User32.GetDpiForWindow(hwnd), maxCLL);
+        _cancellationTokenSource?.Cancel();
+        DisplayWindow(hwnd, true);
+    }
+
+
+    /// <summary>
+    /// 开始截图后调用此方法显示信息
+    /// </summary>
+    /// <param name="hwnd"></param>
+    /// <param name="bitmap"></param>
+    /// <param name="maxCLL"></param>
+    public void CaptureStart(Microsoft.UI.DisplayId displayId, CanvasBitmap bitmap, float maxCLL = -1)
+    {
+        IsSuccess = true;
+        IsError = false;
+        _captureImageCount++;
+        CropImage(bitmap, GetDpiForMonitor(displayId), maxCLL);
+        _cancellationTokenSource?.Cancel();
+        DisplayWindow(displayId, true);
+    }
+
 
 
     /// <summary>
@@ -111,14 +151,18 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     {
         try
         {
+            if (IsError)
+            {
+                CropImage(bitmap, User32.GetDpiForWindow(hwnd), maxCLL);
+            }
             IsSuccess = true;
             IsError = false;
             _lastFile = file;
-            CropImage(bitmap, User32.GetDpiForWindow(hwnd), maxCLL);
+            _finishedImageCount++;
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
             _openImageCancellationToken = _cancellationTokenSource.Token;
-            DisplayWindow(hwnd, _cancellationTokenSource.Token);
+            DisplayWindow(hwnd, false, _cancellationTokenSource.Token);
         }
         catch (Exception ex)
         {
@@ -131,14 +175,18 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     {
         try
         {
+            if (IsError)
+            {
+                CropImage(bitmap, GetDpiForMonitor(displayId), maxCLL);
+            }
             IsSuccess = true;
             IsError = false;
             _lastFile = file;
-            CropImage(bitmap, GetDpiForMonitor(displayId), maxCLL);
+            _finishedImageCount++;
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
             _openImageCancellationToken = _cancellationTokenSource.Token;
-            DisplayWindow(displayId, _cancellationTokenSource.Token);
+            DisplayWindow(displayId, false, _cancellationTokenSource.Token);
         }
         catch (Exception ex)
         {
@@ -235,10 +283,11 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
         {
             IsError = true;
             IsSuccess = false;
+            _finishedImageCount++;
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
             _openImageCancellationToken = _cancellationTokenSource.Token;
-            DisplayWindow(hwnd, _cancellationTokenSource.Token);
+            DisplayWindow(hwnd, false, _cancellationTokenSource.Token);
         }
         catch (Exception ex)
         {
@@ -251,7 +300,7 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     private Visual _contentVisual;
 
 
-    private async void DisplayWindow(nint hwnd, CancellationToken cancellationToken)
+    private async void DisplayWindow(nint hwnd, bool doNotClose = false, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -298,15 +347,23 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
                 targetY = rcMonitor.top + (int)(rcMonitor.Height * 0.25) - height / 2;
             }
 
-            _repeatCount++;
-            if (_repeatCount > 1)
+            bool complete = _finishedImageCount == _captureImageCount;
+            TextBlock_State.Text = complete ? Lang.ScreenCaptureInfoWindow_ScreenshotSaved : Lang.ScreenCaptureInfoWindow_ProcessingImage;
+            ProgressRing_Process.Visibility = complete ? Visibility.Collapsed : Visibility.Visible;
+            FontIcon_Complete.Visibility = complete ? Visibility.Visible : Visibility.Collapsed;
+            if (_captureImageCount > 1)
             {
                 TextBlock_Repeat.Visibility = Visibility.Visible;
-                TextBlock_Repeat.Text = $"+{_repeatCount}";
+                TextBlock_Repeat.Text = $"{_finishedImageCount}/{_captureImageCount}";
             }
+            Button_OpenImage.Visibility = IsSuccess && _finishedImageCount > 0 ? Visibility.Visible : Visibility.Collapsed;
 
             ShowWindow(new RectInt32(targetX, targetY, width, height));
-            await Task.Delay(3000, cancellationToken);
+            if (doNotClose)
+            {
+                return;
+            }
+            await Task.Delay(2000, cancellationToken);
             if (!cancellationToken.IsCancellationRequested)
             {
                 await HideWindowAsync(cancellationToken);
@@ -320,7 +377,7 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     }
 
 
-    private async void DisplayWindow(Microsoft.UI.DisplayId displayId, CancellationToken cancellationToken)
+    private async void DisplayWindow(Microsoft.UI.DisplayId displayId, bool doNotClose, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -331,15 +388,22 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
             int targetX = area.OuterBounds.X + area.OuterBounds.Width - width;
             int targetY = area.OuterBounds.Y + (int)(area.OuterBounds.Height * 0.25) - height / 2;
 
-            _repeatCount++;
-            if (_repeatCount > 1)
+            bool complete = _finishedImageCount == _captureImageCount;
+            TextBlock_State.Text = complete ? Lang.ScreenCaptureInfoWindow_ScreenshotSaved : Lang.ScreenCaptureInfoWindow_ProcessingImage;
+            ProgressRing_Process.Visibility = complete ? Visibility.Collapsed : Visibility.Visible;
+            FontIcon_Complete.Visibility = complete ? Visibility.Visible : Visibility.Collapsed;
+            if (_captureImageCount > 1)
             {
                 TextBlock_Repeat.Visibility = Visibility.Visible;
-                TextBlock_Repeat.Text = $"+{_repeatCount}";
+                TextBlock_Repeat.Text = $"{_finishedImageCount}/{_captureImageCount}";
             }
 
             ShowWindow(new RectInt32(targetX, targetY, width, height));
-            await Task.Delay(3000, cancellationToken);
+            if (doNotClose)
+            {
+                return;
+            }
+            await Task.Delay(2000, cancellationToken);
             if (!cancellationToken.IsCancellationRequested)
             {
                 await HideWindowAsync(cancellationToken);
@@ -356,17 +420,23 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     private void ShowWindow(RectInt32 rect)
     {
         AppWindow.MoveAndResize(rect);
-        User32.ShowWindow(WindowHandle, ShowWindowCommand.SW_SHOWNOACTIVATE);
+        AppWindow.Show(false);
         StartShowAnimation();
     }
 
 
     private async Task HideWindowAsync(CancellationToken cancellationToken)
     {
+        if (_finishedImageCount < _captureImageCount)
+        {
+            return;
+        }
         StartHideAnimation();
         await Task.Delay(600, cancellationToken);
         AppWindow?.Hide();
-        _repeatCount = 0;
+        _captureImageCount = 0;
+        _finishedImageCount = 0;
+        _lastFile = null;
         TextBlock_Repeat.Text = "";
         TextBlock_Repeat.Visibility = Visibility.Collapsed;
     }
@@ -377,9 +447,15 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
 
     private Vector3KeyFrameAnimation _hideAnimation;
 
+    private long _lastShowAnimationTs;
 
     private void StartShowAnimation()
     {
+        long ts = Stopwatch.GetTimestamp();
+        if (ts - _lastShowAnimationTs < 0.6 * Stopwatch.Frequency)
+        {
+            return;
+        }
         _contentVisual ??= ElementCompositionPreview.GetElementVisual(RootGrid);
         if (_showAnimation is null)
         {
@@ -388,6 +464,7 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
             _showAnimation.Duration = TimeSpan.FromSeconds(0.6);
         }
         _contentVisual.StartAnimation(nameof(_contentVisual.Offset), _showAnimation);
+        _lastShowAnimationTs = ts;
     }
 
 
@@ -408,12 +485,19 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     {
         try
         {
+            if (string.IsNullOrWhiteSpace(_lastFile))
+            {
+                return;
+            }
             if (_imageViewWindow2?.AppWindow is null)
             {
                 _imageViewWindow2 = new();
             }
             await _imageViewWindow2.ShowWindowAsync(AppWindow.Id, _lastFile, true);
-            await HideWindowAsync(_openImageCancellationToken);
+            if (_finishedImageCount == _captureImageCount)
+            {
+                await HideWindowAsync(_openImageCancellationToken);
+            }
         }
         catch { }
     }
@@ -429,7 +513,10 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
                 var options = new FolderLauncherOptions();
                 options.ItemsToSelect.Add(file);
                 await Launcher.LaunchFolderAsync(await file.GetParentAsync(), options);
-                await HideWindowAsync(_openImageCancellationToken);
+                if (_finishedImageCount == _captureImageCount)
+                {
+                    await HideWindowAsync(_openImageCancellationToken);
+                }
             }
         }
         catch { }

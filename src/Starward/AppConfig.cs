@@ -724,6 +724,26 @@ public static class AppConfig
     }
 
 
+    /// <summary>
+    /// 0: PNG, 1: AVIF, 2: JPEG XL
+    /// </summary>
+    public static int ScreenCaptureSavedFormat
+    {
+        get => GetValue(0);
+        set => SetValue(value);
+    }
+
+
+    /// <summary>
+    /// 0: Middle, 1: High, 2: Lossless
+    /// </summary>
+    public static int ScreenCaptureEncodeQuality
+    {
+        get => GetValue(1);
+        set => SetValue(value);
+    }
+
+
     #endregion
 
 

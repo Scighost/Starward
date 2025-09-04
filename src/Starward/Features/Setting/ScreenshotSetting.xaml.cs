@@ -204,6 +204,37 @@ public sealed partial class ScreenshotSetting : PageBase
 
 
 
+    public int ScreenshotForamt
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                OnPropertyChanged(nameof(ScreenshotQualityVisibility));
+                AppConfig.ScreenCaptureSavedFormat = value;
+            }
+        }
+    } = AppConfig.ScreenCaptureSavedFormat;
+
+
+
+    public int ScreenshotQuality
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.ScreenCaptureEncodeQuality = value;
+            }
+        }
+    } = AppConfig.ScreenCaptureEncodeQuality;
+
+
+
+    public Visibility ScreenshotQualityVisibility => ScreenshotForamt > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+
+
     public bool AutoConvertScreenshotToSDR
     {
         get; set
@@ -242,13 +273,41 @@ public sealed partial class ScreenshotSetting : PageBase
             DisplayId displayId = new DisplayId((ulong)monitor.DangerousGetHandle());
             DisplayAdvancedColorInfo colorInfo = DisplayInformation.CreateForDisplayId(displayId).GetAdvancedColorInfo();
             float maxCLL = ScreenCaptureService.GetMaxCLL(canvasBitmap);
-            float sdrWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits + 2;
+            float sdrWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits + 5;
             bool hdr = maxCLL > sdrWhiteLevel;
+
+            if (_infoWindow?.AppWindow is null)
+            {
+                _infoWindow = new ScreenCaptureInfoWindow();
+            }
+
             Directory.CreateDirectory(Path.Combine(ScreenshotFolder, "Starward"));
-            string filePath = Path.Join(ScreenshotFolder, "Starward", $"Starward_{frameTime:yyyyMMdd_HHmmssff}.{(hdr ? "jxr" : "png")}");
+            string filePath;
             if (hdr)
             {
-                await ScreenCaptureService.SaveImageAsync(canvasBitmap, filePath, frameTime);
+                _infoWindow.CaptureStart(displayId, canvasBitmap, maxCLL);
+                string extension = ScreenshotForamt switch
+                {
+                    2 => "jxl",
+                    _ => "avif",
+                };
+                filePath = Path.Join(ScreenshotFolder, "Starward", $"Starward_{frameTime:yyyyMMdd_HHmmssff}.{extension}");
+                using MemoryStream ms = new();
+                if (extension is "avif")
+                {
+                    await ScreenCaptureService.SaveAsAvifAsync(canvasBitmap, ms, frameTime);
+                }
+                else if (extension is "jxl")
+                {
+                    await ScreenCaptureService.SaveAsJxlAsync(canvasBitmap, ms, frameTime);
+                }
+                else
+                {
+                    throw new NotSupportedException($"Unsupported image format: {extension}");
+                }
+                using var fs = File.Create(filePath);
+                ms.Seek(0, SeekOrigin.Begin);
+                await ms.CopyToAsync(fs);
                 await ScreenCaptureService.CopyToClipboardAsync(filePath);
                 if (AutoConvertScreenshotToSDR)
                 {
@@ -272,24 +331,48 @@ public sealed partial class ScreenshotSetting : PageBase
                     GammaMode = SrgbGammaMode.OETF,
                     BufferPrecision = CanvasBufferPrecision.Precision16Float,
                 };
-                CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(),
-                                                   canvasBitmap.SizeInPixels.Width,
-                                                   canvasBitmap.SizeInPixels.Height,
-                                                   96,
-                                                   DirectXPixelFormat.B8G8R8A8UIntNormalized,
-                                                   CanvasAlphaMode.Premultiplied);
+                using CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(),
+                                                    canvasBitmap.SizeInPixels.Width,
+                                                    canvasBitmap.SizeInPixels.Height,
+                                                    96,
+                                                    DirectXPixelFormat.R8G8B8A8UIntNormalized,
+                                                    CanvasAlphaMode.Premultiplied);
                 using (CanvasDrawingSession ds = renderTarget.CreateDrawingSession())
                 {
-                    ds.Clear(Colors.Transparent);
                     ds.DrawImage(gammaEffect);
                 }
-                await ScreenCaptureService.SaveImageAsync(renderTarget, filePath, frameTime);
+                _infoWindow.CaptureStart(displayId, renderTarget, maxCLL);
+
+                string extension = ScreenshotForamt switch
+                {
+                    1 => "avif",
+                    2 => "jxl",
+                    _ => "png",
+                };
+                filePath = Path.Join(ScreenshotFolder, "Starward", $"Starward_{frameTime:yyyyMMdd_HHmmssff}.{extension}");
+                using MemoryStream ms = new();
+                if (extension is "png")
+                {
+                    await ScreenCaptureService.SaveAsPNGAsnyc(renderTarget, ms, frameTime);
+                }
+                else if (extension is "avif")
+                {
+                    await ScreenCaptureService.SaveAsAvifAsync(renderTarget, ms, frameTime);
+                }
+                else if (extension is "jxl")
+                {
+                    await ScreenCaptureService.SaveAsJxlAsync(renderTarget, ms, frameTime);
+                }
+                else
+                {
+                    throw new NotSupportedException($"Unsupported image format: {extension}");
+                }
+                using var fs = File.Create(filePath);
+                ms.Seek(0, SeekOrigin.Begin);
+                await ms.CopyToAsync(fs);
                 await ScreenCaptureService.CopyToClipboardAsync(filePath);
             }
-            if (_infoWindow?.AppWindow is null)
-            {
-                _infoWindow = new ScreenCaptureInfoWindow();
-            }
+
             _infoWindow.CaptureSuccess(displayId, canvasBitmap, filePath, maxCLL);
             TextBlock_CaptureError.Text = string.Empty;
             TextBlock_CaptureError.Visibility = Visibility.Collapsed;

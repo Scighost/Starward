@@ -2480,4 +2480,16 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="StygianOnslaughtPage_HighestTotalDamageDealt" xml:space="preserve">
     <value>Highest Total Damage Dealt</value>
   </data>
+  <data name="ScreenshotSetting_OtherOptions" xml:space="preserve">
+    <value>Other Options</value>
+  </data>
+  <data name="ScreenshotSetting_Lossless" xml:space="preserve">
+    <value>Lossless</value>
+  </data>
+  <data name="ScreenshotSetting_FormatAndQuality" xml:space="preserve">
+    <value>Format and Quality</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_ProcessingImage" xml:space="preserve">
+    <value>Processing Image</value>
+  </data>
 </root>

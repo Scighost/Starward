@@ -4786,6 +4786,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Processing Image 的本地化字符串。
+        /// </summary>
+        public static string ScreenCaptureInfoWindow_ProcessingImage {
+            get {
+                return ResourceManager.GetString("ScreenCaptureInfoWindow_ProcessingImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Screenshot Failed 的本地化字符串。
         /// </summary>
         public static string ScreenCaptureInfoWindow_ScreenshotFailed {
@@ -4936,6 +4945,33 @@ namespace Starward.Language {
         public static string ScreenshotSetting_AutoCopyScreenshotFile {
             get {
                 return ResourceManager.GetString("ScreenshotSetting_AutoCopyScreenshotFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Format and Quality 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_FormatAndQuality {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_FormatAndQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Lossless 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_Lossless {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_Lossless", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Other Options 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_OtherOptions {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_OtherOptions", resourceCulture);
             }
         }
         

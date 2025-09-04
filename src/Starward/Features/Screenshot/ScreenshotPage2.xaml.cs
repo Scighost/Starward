@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
-using Starward.Controls;
 using Starward.Core;
 using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
@@ -177,7 +176,7 @@ public sealed partial class ScreenshotPage2 : PageBase
                     {
                         continue;
                     }
-                    if (IsSupportedExtension(file) && !File.GetAttributes(file).HasFlag((System.IO.FileAttributes)0x440000))
+                    if (ScreenshotHelper.IsSupportedExtension(file) && !File.GetAttributes(file).HasFlag((System.IO.FileAttributes)0x440000))
                     {
                         var item = new ScreenshotItem(file);
                         screenshots.Add(item);
@@ -258,13 +257,6 @@ public sealed partial class ScreenshotPage2 : PageBase
             _logger.LogError(ex, "Get game screenshot path");
         }
         return (null, null);
-    }
-
-
-
-    public static bool IsSupportedExtension(string file)
-    {
-        return Path.GetExtension(file) is ".bmp" or ".jpg" or ".png" or ".jxr" or ".webp" or ".heic" or ".avif" or ".jxl";
     }
 
 
@@ -403,7 +395,7 @@ public sealed partial class ScreenshotPage2 : PageBase
                 {
                     return;
                 }
-                if (IsSupportedExtension(e.FullPath) && File.Exists(e.FullPath))
+                if (ScreenshotHelper.IsSupportedExtension(e.FullPath) && File.Exists(e.FullPath))
                 {
                     await ScreenshotHelper.WaitForFileReleaseAsync(e.FullPath, CancellationToken.None);
                     var item = new ScreenshotItem(e.FullPath);
@@ -523,12 +515,6 @@ public sealed partial class ScreenshotPage2 : PageBase
                 args.AllowedOperations = DataPackageOperation.Copy;
                 var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
                 args.Data.SetStorageItems([file], true);
-                var bitmap = CachedImage.GetCachedThumbnail(item.FilePath);
-                if (bitmap is not null)
-                {
-                    bitmap.DecodePixelHeight = (int)(grid.ActualHeight * this.XamlRoot.GetUIScaleFactor());
-                    args.DragUI.SetContentFromBitmapImage(bitmap);
-                }
                 deferral.Complete();
             }
         }

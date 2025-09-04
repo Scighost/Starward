@@ -168,30 +168,6 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
-            <!--  另存为  -->
-            <Button Width="40"
-                    Height="36"
-                    Padding="0"
-                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
-                    ToolTipService.ToolTip="{x:Bind lang:Lang.ImageViewWindow2_SaveAs}">
-                <FontIcon FontSize="16"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xE78C;"
-                          IsTextScaleFactorEnabled="False" />
-                <Button.Flyout>
-                    <Flyout x:Name="Flyout_SaveAs" Placement="BottomEdgeAlignedLeft">
-                        <StackPanel Spacing="12">
-                            <TextBlock IsTextScaleFactorEnabled="False"
-                                       Text="{x:Bind lang:Lang.ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature}"
-                                       TextWrapping="Wrap" />
-                            <Button x:Name="Button_SaveAs"
-                                    Click="Button_SaveAs_Click"
-                                    Content="{x:Bind lang:Lang.ImageViewWindow2_SaveAs}"
-                                    IsTextScaleFactorEnabled="False" />
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
             <!--  删除  -->
             <Button Width="40"
                     Height="36"

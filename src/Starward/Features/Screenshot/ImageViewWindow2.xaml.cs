@@ -53,6 +53,7 @@ public sealed partial class ImageViewWindow2 : Window
         SystemBackdrop = new MicaBackdrop();
         WindowHandle = (IntPtr)AppWindow.Id.Value;
         InitializeWindow();
+        InitializeResource();
         WeakReferenceMessenger.Default.Register<LanguageChangedMessage>(this, (_, _) => this.Bindings.Update());
     }
 
@@ -73,7 +74,6 @@ public sealed partial class ImageViewWindow2 : Window
     {
         _lastUIScale = Content.XamlRoot.RasterizationScale;
         Content.XamlRoot.Changed += XamlRoot_Changed;
-        InitializeResource();
     }
 
 
@@ -131,7 +131,6 @@ public sealed partial class ImageViewWindow2 : Window
             MenuFlyoutItem_CopyFile.Click -= MenuFlyoutItem_CopyFile_Click;
             MenuFlyoutItem_CopyPath.Click -= MenuFlyoutItem_CopyPath_Click;
             MenuFlyoutItem_CopyImage.Click -= MenuFlyoutItem_CopyImage_Click;
-            Button_SaveAs.Click -= Button_SaveAs_Click;
             Button_DeleteImage.Click -= Button_DeleteImage_Click;
             Button_OpenFullScreen.Click -= Button_OpenFullScreen_Click;
             Button_PreviousImage.Click -= Button_PreviousImage_Click;
@@ -221,7 +220,7 @@ public sealed partial class ImageViewWindow2 : Window
     {
         try
         {
-            if (bitmap.Format is not DirectXPixelFormat.B8G8R8A8UIntNormalized)
+            if (bitmap.Format is not DirectXPixelFormat.B8G8R8A8UIntNormalized and not DirectXPixelFormat.R8G8B8A8UIntNormalized)
             {
                 IsHDRImage = true;
                 MaxCLL = ScreenCaptureService.GetMaxCLL(bitmap);
@@ -585,8 +584,7 @@ public sealed partial class ImageViewWindow2 : Window
                 CanvasBitmap? bitmap = null;
                 CurrentFilePath = filePath;
                 CurrentFileName = Path.GetFileName(filePath);
-                using var fs = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-                bitmap = await CanvasBitmap.LoadAsync(CanvasDevice.GetSharedDevice(), fs.AsRandomAccessStream()).AsTask(token);
+                bitmap = await ImageLoader.LoadCanvasBitmapAsync(filePath, token);
                 if (token.IsCancellationRequested)
                 {
                     bitmap.Dispose();
@@ -631,8 +629,7 @@ public sealed partial class ImageViewWindow2 : Window
             CanvasBitmap? bitmap = null;
             CurrentFilePath = file.Path;
             CurrentFileName = file.Name;
-            using var fs = await file.OpenReadAsync();
-            bitmap = await CanvasBitmap.LoadAsync(CanvasDevice.GetSharedDevice(), fs).AsTask(token);
+            bitmap = await ImageLoader.LoadCanvasBitmapAsync(file.Path, token);
             if (token.IsCancellationRequested)
             {
                 bitmap.Dispose();
@@ -795,7 +792,7 @@ public sealed partial class ImageViewWindow2 : Window
         var colorInfo = _displayInformation.GetAdvancedColorInfo();
         bool monitorIsHDR = colorInfo.CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange;
         float sdrWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits;
-        if (_sourceBitmap.Format is DirectXPixelFormat.B8G8R8A8UIntNormalized)
+        if (_sourceBitmap.Format is DirectXPixelFormat.B8G8R8A8UIntNormalized or DirectXPixelFormat.R8G8B8A8UIntNormalized)
         {
             // SDR 图像
             displayMode = 1;
@@ -880,7 +877,7 @@ public sealed partial class ImageViewWindow2 : Window
                 if (Directory.Exists(folder))
                 {
                     var list = Directory.GetFiles(folder)
-                                        .Where(ScreenshotPage2.IsSupportedExtension)
+                                        .Where(ScreenshotHelper.IsSupportedExtension)
                                         .Select(x => new ScreenshotItem(x))
                                         .OrderByDescending(x => x.CreationTime)
                                         .ToList();
@@ -944,7 +941,7 @@ public sealed partial class ImageViewWindow2 : Window
         try
         {
             var files = await FileDialogHelper.PickMultipleFilesAsync(Content.XamlRoot);
-            var items = files.Where(ScreenshotPage2.IsSupportedExtension).Select(x => new ScreenshotItem(x)).ToList();
+            var items = files.Where(ScreenshotHelper.IsSupportedExtension).Select(x => new ScreenshotItem(x)).ToList();
             if (items.Count == 0)
             {
                 return;
@@ -1091,44 +1088,6 @@ public sealed partial class ImageViewWindow2 : Window
     }
 
 
-    private async void Button_SaveAs_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            if (_sourceBitmap is null)
-            {
-                return;
-            }
-            var bitmap = _sourceBitmap;
-            string name = Path.GetFileNameWithoutExtension(CurrentFileName);
-            bool hdr = bitmap.Format is not DirectXPixelFormat.B8G8R8A8UIntNormalized;
-            string? path = await FileDialogHelper.OpenSaveFileDialogAsync(Content.XamlRoot, name, hdr ? ("JPEG XR", ".jxr") : ("Portable Network Graphics", ".png"));
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                return;
-            }
-            using var renderTarget = new CanvasRenderTarget(CanvasDevice.GetSharedDevice(), bitmap.SizeInPixels.Width, bitmap.SizeInPixels.Height, 96, hdr ? DirectXPixelFormat.R16G16B16A16Float : DirectXPixelFormat.B8G8R8A8UIntNormalized, CanvasAlphaMode.Premultiplied);
-            using (var ds = renderTarget.CreateDrawingSession())
-            {
-                ds.Units = CanvasUnits.Pixels;
-                ds.Clear(Colors.Transparent);
-                ds.DrawImage(bitmap);
-            }
-            await ScreenCaptureService.SaveImageAsync(renderTarget, path, DateTimeOffset.Now);
-            var file = await StorageFile.GetFileFromPathAsync(path);
-            var folder = await file.GetParentAsync();
-            var folderOptions = new FolderLauncherOptions();
-            folderOptions.ItemsToSelect.Add(file);
-            await Launcher.LaunchFolderAsync(folder, folderOptions);
-            Flyout_SaveAs.Hide();
-        }
-        catch (Exception ex)
-        {
-            ShowInfo(InfoBarSeverity.Error, Lang.ImageViewWindow2_FailedToSaveImage, ex.Message, 0);
-            _logger.LogError(ex, "Failed to save image as new file");
-        }
-    }
-
 
     private async void Button_DeleteImage_Click(object sender, RoutedEventArgs e)
     {
@@ -1253,7 +1212,7 @@ public sealed partial class ImageViewWindow2 : Window
         try
         {
             var items = await e.DataView.GetStorageItemsAsync();
-            if (items.Count == 1 && items[0] is StorageFile { Path: "" } image && ScreenshotPage2.IsSupportedExtension(image.FileType))
+            if (items.Count == 1 && items[0] is StorageFile { Path: "" } image && ScreenshotHelper.IsSupportedExtension(image.FileType))
             {
                 // 从浏览器或其他应用拖入的非本地文件图片
                 await LoadImageAsync(image);
@@ -1268,14 +1227,14 @@ public sealed partial class ImageViewWindow2 : Window
             var list = new List<string>();
             foreach (var item in items)
             {
-                if (item is StorageFile { Path: not "" } file && ScreenshotPage2.IsSupportedExtension(file.FileType))
+                if (item is StorageFile { Path: not "" } file && ScreenshotHelper.IsSupportedExtension(file.FileType))
                 {
                     list.Add(file.Path);
                 }
                 else if (item is StorageFolder folder)
                 {
                     var files = await folder.GetFilesAsync();
-                    list.AddRange(files.Where(x => ScreenshotPage2.IsSupportedExtension(x.FileType)).Select(x => x.Path));
+                    list.AddRange(files.Where(x => ScreenshotHelper.IsSupportedExtension(x.FileType)).Select(x => x.Path));
                 }
             }
             var screenshotItems = list.Select(x => new ScreenshotItem(x)).ToList();
@@ -1312,14 +1271,14 @@ public sealed partial class ImageViewWindow2 : Window
             var bitmap = _sourceBitmap;
             string name = Path.GetFileNameWithoutExtension(CurrentFileName);
             ICanvasImage output = GetDrawOutput(out int displayMode);
-            bool imageHdr = bitmap.Format is not DirectXPixelFormat.B8G8R8A8UIntNormalized;
+            bool imageHdr = bitmap.Format is not DirectXPixelFormat.B8G8R8A8UIntNormalized and not DirectXPixelFormat.R8G8B8A8UIntNormalized;
             bool displayHdr = displayMode is 2;
 
             string? path;
             if (displayHdr)
             {
                 // hdr image & hdr display
-                path = await FileDialogHelper.OpenSaveFileDialogAsync(Content.XamlRoot, name, ("JPEG XR", ".jxr"));
+                path = await FileDialogHelper.OpenSaveFileDialogAsync(Content.XamlRoot, name, ("AVIF", ".avif"), ("JPEG XL", ".jxl"));
                 if (string.IsNullOrWhiteSpace(path))
                 {
                     return;
@@ -1329,7 +1288,7 @@ public sealed partial class ImageViewWindow2 : Window
             else if (!imageHdr)
             {
                 // sdr image & sdr display
-                path = await FileDialogHelper.OpenSaveFileDialogAsync(Content.XamlRoot, name, ("Portable Network Graphics", ".png"));
+                path = await FileDialogHelper.OpenSaveFileDialogAsync(Content.XamlRoot, name, ("PNG", ".png"), ("AVIF", ".avif"), ("JPEG XL", ".jxl"));
                 if (string.IsNullOrWhiteSpace(path))
                 {
                     return;
@@ -1383,7 +1342,7 @@ public sealed partial class ImageViewWindow2 : Window
                                                         bitmap.SizeInPixels.Width,
                                                         bitmap.SizeInPixels.Height,
                                                         96,
-                                                        DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                        DirectXPixelFormat.R8G8B8A8UIntNormalized,
                                                         CanvasAlphaMode.Premultiplied);
                 using (CanvasDrawingSession ds = renderTarget_gainmap.CreateDrawingSession())
                 {
@@ -1409,7 +1368,7 @@ public sealed partial class ImageViewWindow2 : Window
                                                        bitmap.SizeInPixels.Width,
                                                        bitmap.SizeInPixels.Height,
                                                        96,
-                                                       DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                       DirectXPixelFormat.R8G8B8A8UIntNormalized,
                                                        CanvasAlphaMode.Premultiplied);
                 using (CanvasDrawingSession ds = renderTarget_sdr.CreateDrawingSession())
                 {
@@ -1447,27 +1406,22 @@ public sealed partial class ImageViewWindow2 : Window
                             ColorTransfer = UhdrColorTransfer.SRGB,
                         };
                         encoder.SetCompressedImage(baseImage, UhdrImageLabel.Base);
-                        encoder.SetGainmapImage(gainmapImage, new UhdrGainmapMetadata
+                        UhdrGainmapMetadata metadata = new UhdrGainmapMetadata
                         {
-                            MinContentBoost0 = contentBoost[0],
-                            MinContentBoost1 = contentBoost[1],
-                            MinContentBoost2 = contentBoost[2],
-                            MaxContentBoost0 = contentBoost[3],
-                            MaxContentBoost1 = contentBoost[4],
-                            MaxContentBoost2 = contentBoost[5],
-                            Gamma0 = 1,
-                            Gamma1 = 1,
-                            Gamma2 = 1,
-                            OffsetSdr0 = 0.015625f,
-                            OffsetSdr1 = 0.015625f,
-                            OffsetSdr2 = 0.015625f,
-                            OffsetHdr0 = 0.015625f,
-                            OffsetHdr1 = 0.015625f,
-                            OffsetHdr2 = 0.015625f,
+                            Gamma = new FixedArray3<float>(1),
+                            OffsetSdr = new FixedArray3<float>(0.015625f),
+                            OffsetHdr = new FixedArray3<float>(0.015625f),
                             HdrCapacityMin = 1,
                             HdrCapacityMax = MathF.Max(MathF.Max(contentBoost[3], contentBoost[4]), MathF.Max(contentBoost[5], 1)),
                             UseBaseColorSpace = 1,
-                        });
+                        };
+                        metadata.MinContentBoost[0] = contentBoost[0];
+                        metadata.MinContentBoost[1] = contentBoost[1];
+                        metadata.MinContentBoost[2] = contentBoost[2];
+                        metadata.MaxContentBoost[0] = contentBoost[3];
+                        metadata.MaxContentBoost[1] = contentBoost[4];
+                        metadata.MaxContentBoost[2] = contentBoost[5];
+                        encoder.SetGainmapImage(gainmapImage, metadata);
                     }
                 }
                 encoder.Encode();

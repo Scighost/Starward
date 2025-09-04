@@ -2,6 +2,7 @@
 <sf:PageBase x:Class="Starward.Features.Setting.ScreenshotSetting"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Features.Setting"
@@ -12,7 +13,7 @@
 
 
     <ScrollViewer Background="{x:Null}">
-        <StackPanel>
+        <StackPanel Padding="0,0,24,24">
 
             <!--  游戏截图  -->
             <TextBlock FontSize="20" Text="{x:Bind lang:Lang.MainPage_GameScreenshot}" />
@@ -95,8 +96,37 @@
                                WindowHandle="{x:Bind WindowHandle}" />
 
 
+            <!--  其他选项  -->
+            <TextBlock Margin="0,16,0,0"
+                       FontSize="20"
+                       Text="{x:Bind lang:Lang.ScreenshotSetting_OtherOptions}" />
+
+            <!--  图像格式和质量  -->
+            <StackPanel Margin="0,8,0,0"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.ScreenshotSetting_FormatAndQuality}" />
+                <cwc:Segmented x:Name="Segmented_ScreenshotFormat"
+                               VerticalAlignment="Center"
+                               SelectedIndex="{x:Bind ScreenshotForamt, Mode=TwoWay}">
+                    <cwc:SegmentedItem MinWidth="80" Content="PNG" />
+                    <cwc:SegmentedItem Content="AVIF" />
+                    <cwc:SegmentedItem Content="JPEG XL" />
+                </cwc:Segmented>
+                <cwc:Segmented x:Name="Segmented_ScreenshotQuality"
+                               VerticalAlignment="Center"
+                               SelectedIndex="{x:Bind ScreenshotQuality, Mode=TwoWay}"
+                               Visibility="{x:Bind ScreenshotQualityVisibility}">
+                    <cwc:SegmentedItem MinWidth="80" Content="{x:Bind lang:Lang.GameSettingPage_Medium}" />
+                    <cwc:SegmentedItem Content="{x:Bind lang:Lang.GameSettingPage_High}" />
+                    <cwc:SegmentedItem Content="{x:Bind lang:Lang.ScreenshotSetting_Lossless}" />
+                </cwc:Segmented>
+            </StackPanel>
+
+
+
             <!--  自动复制截图文件  -->
-            <ToggleSwitch Margin="0,12,0,0"
+            <ToggleSwitch Margin="0,8,0,0"
                           IsOn="{x:Bind AutoCopyScreenshotToClipboard, Mode=TwoWay}"
                           OffContent="{x:Bind lang:Lang.ScreenshotSetting_AutoCopyScreenshotFile}"
                           OnContent="{x:Bind lang:Lang.ScreenshotSetting_AutoCopyScreenshotFile}" />
@@ -131,28 +161,12 @@
                        Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotFetureDescAndLimit}"
                        TextWrapping="Wrap" />
 
-            <!--  Win10 的额外限制  -->
-            <TextBlock Margin="0,6,0,0"
-                       FontSize="12"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotWin10Limit}"
-                       TextWrapping="Wrap" />
-
-
             <!--  手柄截图建议  -->
             <TextBlock Margin="0,6,0,0"
                        FontSize="12"
                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="{x:Bind lang:Lang.ScreenshotSetting_ScreenshotWithGamepadSuggestion}"
                        TextWrapping="Wrap" />
-
-            <!--  不支持云游戏  -->
-            <TextBlock Margin="0,6,0,0"
-                       FontSize="12"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="{x:Bind lang:Lang.TheScreenshotFeatureDoesNotSupportCloudGame}"
-                       TextWrapping="Wrap" />
-
 
         </StackPanel>
     </ScrollViewer>

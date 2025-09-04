@@ -3,6 +3,11 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Display;
 using Microsoft.UI;
+using Starward.Codec.AVIF;
+using Starward.Codec.JpegXL;
+using Starward.Codec.JpegXL.CMS;
+using Starward.Codec.JpegXL.CodeStream;
+using Starward.Codec.JpegXL.Encode;
 using Starward.Codec.UltraHdr;
 using Starward.Core;
 using Starward.Features.GameSetting;
@@ -41,6 +46,7 @@ internal class ScreenCaptureService
 
     private ConcurrentDictionary<nint, ScreenCaptureContext> _captureContexts = new();
 
+    private static SemaphoreSlim _encodeSlim = new(1);
 
 
     public ScreenCaptureService(ILogger<ScreenCaptureService> logger)
@@ -87,18 +93,20 @@ internal class ScreenCaptureService
         }
         try
         {
-            (CanvasBitmap? renderTarget, string? file, float maxCLL, float sdrWhiteLevel, DateTimeOffset frameTime) = await CaptureAndSaveAsync(runningGame);
-            using (renderTarget)
+            (CanvasBitmap canvasBitmap, float maxCLL, float sdrWhiteLevel, DateTimeOffset frameTime) = await CaptureAndProceedImageAsync(runningGame);
+            using (canvasBitmap)
             {
-                await CopyToClipboardAsync(file);
                 if (_infoWindow?.AppWindow is null)
                 {
                     _infoWindow = new ScreenCaptureInfoWindow();
                 }
-                _infoWindow.CaptureSuccess(runningGame.WindowHandle, renderTarget, file, maxCLL);
+                _infoWindow.CaptureStart(runningGame.WindowHandle, canvasBitmap, maxCLL);
+                string filePath = await SaveImageAsync(canvasBitmap, runningGame, frameTime);
+                await CopyToClipboardAsync(filePath);
+                _infoWindow.CaptureSuccess(runningGame.WindowHandle, canvasBitmap, filePath, maxCLL);
                 if (maxCLL > sdrWhiteLevel + 5 && AppConfig.AutoConvertScreenshotToSDR)
                 {
-                    string? sdrFilePath = await SaveAsSdrAsync(renderTarget, file, runningGame, maxCLL, sdrWhiteLevel, frameTime);
+                    string? sdrFilePath = await SaveAsSdrAsync(canvasBitmap, filePath, runningGame, maxCLL, sdrWhiteLevel, frameTime);
                     await CopyToClipboardAsync(sdrFilePath);
                 }
             }
@@ -115,13 +123,7 @@ internal class ScreenCaptureService
     }
 
 
-
-    /// <summary>
-    /// 截图并保存
-    /// </summary>
-    /// <param name="runningGame"></param>
-    /// <returns></returns>
-    private async Task<(CanvasBitmap CanvasBitmap, string FilePath, float MaxCLL, float SdrWhiteLevel, DateTimeOffset FrameTime)> CaptureAndSaveAsync(RunningGame runningGame)
+    private async Task<(CanvasBitmap CanvasBitmap, float MaxCLL, float SdrWhiteLevel, DateTimeOffset FrameTime)> CaptureAndProceedImageAsync(RunningGame runningGame)
     {
         if (!_captureContexts.TryGetValue(runningGame.WindowHandle, out ScreenCaptureContext? context))
         {
@@ -132,10 +134,10 @@ internal class ScreenCaptureService
         var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
         using var frame = await context.CaptureAsync(cts.Token).ConfigureAwait(false);
         DateTimeOffset frameTime = DateTimeOffset.Now;
-        (CanvasRenderTarget renderTarget, float maxCLL, float sdrWhiteLevel) = await ProceedImageAsync(frame, runningGame).ConfigureAwait(false);
-        string filePath = await SaveImageAsync(renderTarget, runningGame, frameTime).ConfigureAwait(false);
-        return (renderTarget, filePath, maxCLL, sdrWhiteLevel, frameTime);
+        (CanvasBitmap canvasBitmap, float maxCLL, float sdrWhiteLevel) = await ProceedImageAsync(frame, runningGame).ConfigureAwait(false);
+        return (canvasBitmap, maxCLL, sdrWhiteLevel, frameTime);
     }
+
 
 
     /// <summary>
@@ -144,7 +146,7 @@ internal class ScreenCaptureService
     /// <param name="frame"></param>
     /// <param name="runningGame"></param>
     /// <returns></returns>
-    private static async Task<(CanvasRenderTarget CanvasRenderTarget, float MaxCLL, float SdrWhiteLevel)> ProceedImageAsync(Direct3D11CaptureFrame frame, RunningGame runningGame)
+    private static async Task<(CanvasBitmap CanvasBitmap, float MaxCLL, float SdrWhiteLevel)> ProceedImageAsync(Direct3D11CaptureFrame frame, RunningGame runningGame)
     {
         return await Task.Run(() =>
         {
@@ -166,29 +168,37 @@ internal class ScreenCaptureService
                                                    (float)clientRect.Width,
                                                    (float)clientRect.Height,
                                                    96,
-                                                   hdr ? DirectXPixelFormat.R16G16B16A16Float : DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                   hdr ? DirectXPixelFormat.R16G16B16A16Float : DirectXPixelFormat.R8G8B8A8UIntNormalized,
                                                    CanvasAlphaMode.Premultiplied);
-            using CanvasDrawingSession ds = renderTarget.CreateDrawingSession();
-            ICanvasImage output = canvasBitmap;
-            if (!hdr)
+            try
             {
-                WhiteLevelAdjustmentEffect whiteLevelEffect = new()
+                using CanvasDrawingSession ds = renderTarget.CreateDrawingSession();
+                ICanvasImage output = canvasBitmap;
+                if (!hdr)
                 {
-                    Source = canvasBitmap,
-                    InputWhiteLevel = 80,
-                    OutputWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits,
-                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                };
-                SrgbGammaEffect gammaEffect = new()
-                {
-                    Source = whiteLevelEffect,
-                    GammaMode = SrgbGammaMode.OETF,
-                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                };
-                output = gammaEffect;
+                    WhiteLevelAdjustmentEffect whiteLevelEffect = new()
+                    {
+                        Source = canvasBitmap,
+                        InputWhiteLevel = 80,
+                        OutputWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits,
+                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                    };
+                    SrgbGammaEffect gammaEffect = new()
+                    {
+                        Source = whiteLevelEffect,
+                        GammaMode = SrgbGammaMode.OETF,
+                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                    };
+                    output = gammaEffect;
+                }
+                ds.Clear(Colors.Transparent);
+                ds.DrawImage(output, 0, 0, clientRect);
             }
-            ds.Clear(Colors.Transparent);
-            ds.DrawImage(output, 0, 0, clientRect);
+            catch
+            {
+                renderTarget.Dispose();
+                throw;
+            }
             return (renderTarget, maxCLL, (float)colorInfo.SdrWhiteLevelInNits);
         }).ConfigureAwait(false);
     }
@@ -225,11 +235,11 @@ internal class ScreenCaptureService
     /// <summary>
     /// 保存为文件
     /// </summary>
-    /// <param name="renderTarget"></param>
+    /// <param name="canvasBitmap"></param>
     /// <param name="runningGame"></param>
     /// <param name="frameTime"></param>
     /// <returns></returns>
-    private static async Task<string> SaveImageAsync(CanvasRenderTarget renderTarget, RunningGame runningGame, DateTimeOffset frameTime)
+    private static async Task<string> SaveImageAsync(CanvasBitmap canvasBitmap, RunningGame runningGame, DateTimeOffset frameTime)
     {
         return await Task.Run(async () =>
         {
@@ -245,10 +255,36 @@ internal class ScreenCaptureService
             }
             Directory.CreateDirectory(screenshotFolder);
 
-            bool hdr = renderTarget.Format is not DirectXPixelFormat.B8G8R8A8UIntNormalized;
-            string fileName = $"{runningGame.Process.ProcessName}_{frameTime:yyyyMMdd_HHmmssff}.{(hdr ? "jxr" : "png")}";
+            bool hdr = canvasBitmap.Format is not DirectXPixelFormat.B8G8R8A8UIntNormalized and not DirectXPixelFormat.R8G8B8A8UIntNormalized;
+            string extension = (hdr, AppConfig.ScreenCaptureSavedFormat) switch
+            {
+                (_, 1) => "avif",
+                (_, 2) => "jxl",
+                (false, _) => "png",
+                (true, _) => "avif",
+            };
+            string fileName = $"{runningGame.Process.ProcessName}_{frameTime:yyyyMMdd_HHmmssff}.{extension}";
             string filePath = Path.Combine(screenshotFolder, fileName);
-            await SaveImageAsync(renderTarget, filePath, frameTime).ConfigureAwait(false);
+            using MemoryStream ms = new();
+            if (extension is "png")
+            {
+                await SaveAsPNGAsnyc(canvasBitmap, ms, frameTime).ConfigureAwait(false);
+            }
+            else if (extension is "avif")
+            {
+                await SaveAsAvifAsync(canvasBitmap, ms, frameTime).ConfigureAwait(false);
+            }
+            else if (extension is "jxl")
+            {
+                await SaveAsJxlAsync(canvasBitmap, ms, frameTime).ConfigureAwait(false);
+            }
+            else
+            {
+                throw new NotSupportedException($"Unsupported image format: {extension}");
+            }
+            using var fs = File.Create(filePath);
+            ms.Seek(0, SeekOrigin.Begin);
+            await ms.CopyToAsync(fs).ConfigureAwait(false);
             return filePath;
         });
     }
@@ -271,48 +307,279 @@ internal class ScreenCaptureService
         }
 
         using var ms = new MemoryStream();
-
-        if (canvasBitmap.Format is DirectXPixelFormat.B8G8R8A8UIntNormalized)
+        await _encodeSlim.WaitAsync().ConfigureAwait(false);
+        try
         {
-            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, ms.AsRandomAccessStream());
-            byte[] bytes = canvasBitmap.GetPixelBytes();
-            encoder.SetPixelData(BitmapPixelFormat.Bgra8,
-                                 BitmapAlphaMode.Premultiplied,
-                                 canvasBitmap.SizeInPixels.Width,
-                                 canvasBitmap.SizeInPixels.Height,
-                                 96,
-                                 96,
-                                 bytes);
-            try
+            string extension = Path.GetExtension(filePath).ToLowerInvariant();
+            if (extension is ".png")
             {
-                await encoder.BitmapProperties.SetPropertiesAsync(new Dictionary<string, BitmapTypedValue>
-                {
-                    ["/xmp/xmp:CreatorTool"] = new BitmapTypedValue("Starward Launcher", PropertyType.String),
-                    ["/xmp/xmp:CreateDate"] = new BitmapTypedValue(frameTime.ToString("yyyy-MM-ddTHH:mm:sszzz"), PropertyType.String),
-                });
+                await SaveAsPNGAsnyc(canvasBitmap, ms, frameTime).ConfigureAwait(false);
             }
-            catch
+            else if (extension is ".avif")
             {
-                try
-                {
-                    await encoder.BitmapProperties.SetPropertiesAsync(new Dictionary<string, BitmapTypedValue>
-                    {
-                        ["/[0]tEXt/{str=Software}"] = new BitmapTypedValue("Starward Launcher", PropertyType.String),
-                        ["/[1]tEXt/{str=Creation Time}"] = new BitmapTypedValue(frameTime.ToString("yyyy-MM-ddTHH:mm:sszzz"), PropertyType.String),
-                    });
-                }
-                catch { }
+                await SaveAsAvifAsync(canvasBitmap, ms, frameTime).ConfigureAwait(false);
             }
-            await encoder.FlushAsync();
+            else if (extension is ".jxl")
+            {
+                await SaveAsJxlAsync(canvasBitmap, ms, frameTime).ConfigureAwait(false);
+            }
+            else
+            {
+                throw new NotSupportedException($"Unsupported save as image format: {extension}");
+            }
         }
-        else
+        finally
         {
-            await canvasBitmap.SaveAsync(ms.AsRandomAccessStream(), CanvasBitmapFileFormat.JpegXR, 0.95f);
+            _encodeSlim.Release();
         }
 
         using var fs = File.Create(filePath);
         ms.Seek(0, SeekOrigin.Begin);
         await ms.CopyToAsync(fs).ConfigureAwait(false);
+    }
+
+
+
+    public static async Task SaveAsPNGAsnyc(CanvasBitmap bitmap, Stream stream, DateTimeOffset frameTime)
+    {
+        var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream.AsRandomAccessStream());
+        byte[] bytes = bitmap.GetPixelBytes();
+        if (bitmap.Format is DirectXPixelFormat.R8G8B8A8UIntNormalized)
+        {
+            encoder.SetPixelData(BitmapPixelFormat.Rgba8,
+                                 BitmapAlphaMode.Premultiplied,
+                                 bitmap.SizeInPixels.Width,
+                                 bitmap.SizeInPixels.Height,
+                                 96,
+                                 96,
+                                 bytes);
+        }
+        else if (bitmap.Format is DirectXPixelFormat.B8G8R8A8UIntNormalized)
+        {
+            encoder.SetPixelData(BitmapPixelFormat.Bgra8,
+                                 BitmapAlphaMode.Premultiplied,
+                                 bitmap.SizeInPixels.Width,
+                                 bitmap.SizeInPixels.Height,
+                                 96,
+                                 96,
+                                 bytes);
+        }
+        else
+        {
+            throw new NotSupportedException($"{bitmap.Format} is not supported for PNG encoding.");
+        }
+        try
+        {
+            await encoder.BitmapProperties.SetPropertiesAsync(new Dictionary<string, BitmapTypedValue>
+            {
+                ["/xmp/xmp:CreatorTool"] = new BitmapTypedValue("Starward Launcher", PropertyType.String),
+                ["/xmp/xmp:CreateDate"] = new BitmapTypedValue(frameTime.ToString("yyyy-MM-ddTHH:mm:sszzz"), PropertyType.String),
+            });
+        }
+        catch
+        {
+            try
+            {
+                await encoder.BitmapProperties.SetPropertiesAsync(new Dictionary<string, BitmapTypedValue>
+                {
+                    ["/[0]tEXt/{str=Software}"] = new BitmapTypedValue("Starward Launcher", PropertyType.String),
+                    ["/[1]tEXt/{str=Creation Time}"] = new BitmapTypedValue(frameTime.ToString("yyyy-MM-ddTHH:mm:sszzz"), PropertyType.String),
+                });
+            }
+            catch { }
+        }
+        await encoder.FlushAsync();
+    }
+
+
+    public static async Task SaveAsAvifAsync(CanvasBitmap bitmap, Stream stream, DateTimeOffset frameTime, int quality = -1, CancellationToken cancellationToken = default)
+    {
+        uint width = bitmap.SizeInPixels.Width;
+        uint height = bitmap.SizeInPixels.Height;
+        if (quality == -1)
+        {
+            quality = AppConfig.ScreenCaptureEncodeQuality switch
+            {
+                0 => 80,
+                1 => 95,
+                2 => 100,
+                _ => 95,
+            };
+        }
+
+        if (bitmap.Format is DirectXPixelFormat.R8G8B8A8UIntNormalized or DirectXPixelFormat.B8G8R8A8UIntNormalized)
+        {
+            await Task.Run(() =>
+            {
+                avifRGBFormat format = bitmap.Format switch
+                {
+                    DirectXPixelFormat.R8G8B8A8UIntNormalized => avifRGBFormat.RGBA,
+                    DirectXPixelFormat.B8G8R8A8UIntNormalized => avifRGBFormat.BGRA,
+                    _ => throw new NotSupportedException($"{bitmap.Format} is not supported for AVIF encoding."),
+                };
+                int maxThreads = GetSuggestedThreads();
+                using var encoder = new avifEncoderLite();
+                encoder.Quality = quality;
+                encoder.QualityAlpha = quality;
+                encoder.MaxThreads = maxThreads;
+                using var rgb = new avifRGBImageWrapper(width, height, 8, format);
+                rgb.IgnoreAlpha = true;
+                rgb.MaxThreads = maxThreads;
+                rgb.SetPixelBytes(bitmap.GetPixelBytes());
+                using var image = new avifImageWrapper(width, height, 8, avifPixelFormat.YUV444);
+                image.ColorPrimaries = avifColorPrimaries.BT709;
+                image.TransferCharacteristics = avifTransferCharacteristics.SRGB;
+                image.MatrixCoefficients = avifMatrixCoefficients.BT709;
+                image.SetXMPMetadata(BuildXMPMetadata(frameTime));
+                image.FromRGBImage(rgb);
+                encoder.AddImage(image, 1, avifAddImageFlag.Single);
+                stream.Write(encoder.Encode());
+            }, cancellationToken).ConfigureAwait(false);
+        }
+        else if (bitmap.Format is DirectXPixelFormat.R16G16B16A16Float or DirectXPixelFormat.R32G32B32A32Float)
+        {
+            await Task.Run(() =>
+            {
+                using var renderTarget = new CanvasRenderTarget(CanvasDevice.GetSharedDevice(), width, height, 96, DirectXPixelFormat.R16G16B16A16UIntNormalized, CanvasAlphaMode.Premultiplied);
+                using (var ds = renderTarget.CreateDrawingSession())
+                {
+                    var effect = new ScRGBToHDR10Effect
+                    {
+                        Source = bitmap,
+                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                    };
+                    ds.DrawImage(effect);
+                }
+                int maxThreads = GetSuggestedThreads();
+                using var encoder = new avifEncoderLite();
+                encoder.Quality = quality;
+                encoder.QualityAlpha = quality;
+                encoder.MaxThreads = maxThreads;
+                using var rgb = new avifRGBImageWrapper(width, height, 16, avifRGBFormat.RGBA);
+                rgb.IgnoreAlpha = true;
+                rgb.MaxThreads = maxThreads;
+                rgb.SetPixelBytes(renderTarget.GetPixelBytes());
+                using var image = new avifImageWrapper(width, height, 10, avifPixelFormat.YUV444);
+                image.ColorPrimaries = avifColorPrimaries.BT2020;
+                image.TransferCharacteristics = avifTransferCharacteristics.SMPTE2084;
+                image.MatrixCoefficients = avifMatrixCoefficients.BT2020_NCL;
+                image.SetXMPMetadata(BuildXMPMetadata(frameTime));
+                image.FromRGBImage(rgb);
+                encoder.AddImage(image, 1, avifAddImageFlag.Single);
+                stream.Write(encoder.Encode());
+            }, cancellationToken).ConfigureAwait(false);
+        }
+        else
+        {
+            throw new NotSupportedException($"{bitmap.Format} is not supported for AVIF encoding.");
+        }
+    }
+
+
+    public static async Task SaveAsJxlAsync(CanvasBitmap bitmap, Stream stream, DateTimeOffset frameTime, int quality = -1, CancellationToken cancellationToken = default)
+    {
+        uint width = bitmap.SizeInPixels.Width;
+        uint height = bitmap.SizeInPixels.Height;
+        float distance = quality switch
+        {
+            -1 => AppConfig.ScreenCaptureEncodeQuality switch
+            {
+                0 => 2,
+                1 => 0.5f,
+                2 => 0,
+                _ => 0.5f,
+            },
+            _ => JxlEncoderNativeMethod.JxlEncoderDistanceFromQuality(quality),
+        };
+        bool lossless = distance == 0;
+
+        if (bitmap.Format is DirectXPixelFormat.R8G8B8A8UIntNormalized or DirectXPixelFormat.B8G8R8A8UIntNormalized)
+        {
+            byte[] pixelBytes;
+            if (bitmap.Format is DirectXPixelFormat.B8G8R8A8UIntNormalized)
+            {
+                using var renderTarget = new CanvasRenderTarget(CanvasDevice.GetSharedDevice(), width, height, 96, DirectXPixelFormat.R8G8B8A8UIntNormalized, CanvasAlphaMode.Premultiplied);
+                using (var ds = renderTarget.CreateDrawingSession())
+                {
+                    ds.DrawImage(bitmap);
+                }
+                pixelBytes = renderTarget.GetPixelBytes();
+            }
+            else
+            {
+                pixelBytes = bitmap.GetPixelBytes();
+            }
+            await Task.Run(() =>
+            {
+                using var encoder = new JxlEncoder();
+                encoder.SetBasicInfo(new JxlBasicInfo(width, height, JxlPixelFormat.R8G8B8A8UInt, true) { UsesOriginalProfile = lossless });
+                encoder.SetColorEncoding(JxlColorEncoding.SRGB);
+                encoder.AddBox(JxlBoxType.XMP, BuildXMPMetadata(frameTime), false);
+                encoder.RunnerThreads = (uint)GetSuggestedThreads();
+                var frameSettings = encoder.CreateFrameSettings();
+                frameSettings.Distance = distance;
+                frameSettings.Lossless = lossless;
+                frameSettings.AddImageFrame(JxlPixelFormat.R8G8B8A8UInt, pixelBytes);
+                encoder.Encode(stream);
+            }, cancellationToken).ConfigureAwait(false);
+        }
+        else if (bitmap.Format is DirectXPixelFormat.R16G16B16A16Float or DirectXPixelFormat.R32G32B32A32Float)
+        {
+            await Task.Run(() =>
+            {
+                using var renderTarget = new CanvasRenderTarget(CanvasDevice.GetSharedDevice(), width, height, 96, DirectXPixelFormat.R16G16B16A16UIntNormalized, CanvasAlphaMode.Premultiplied);
+                using (var ds = renderTarget.CreateDrawingSession())
+                {
+                    var effect = new ScRGBToHDR10Effect
+                    {
+                        Source = bitmap,
+                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                    };
+                    ds.DrawImage(effect);
+                }
+                using var encoder = new JxlEncoder();
+                encoder.SetBasicInfo(new JxlBasicInfo(width, height, JxlPixelFormat.R16G16B16A16UInt, true) { UsesOriginalProfile = lossless, BitsPerSample = 10, AlphaBits = 10 });
+                encoder.SetColorEncoding(JxlColorEncoding.HDR10);
+                encoder.AddBox(JxlBoxType.XMP, BuildXMPMetadata(frameTime), false);
+                encoder.RunnerThreads = (uint)GetSuggestedThreads();
+                var frameSettings = encoder.CreateFrameSettings();
+                frameSettings.Distance = distance;
+                frameSettings.Lossless = lossless;
+                frameSettings.AddImageFrame(JxlPixelFormat.R16G16B16A16UInt, renderTarget.GetPixelBytes());
+                encoder.Encode(stream);
+            }, cancellationToken).ConfigureAwait(false);
+        }
+        else
+        {
+            throw new NotSupportedException($"{bitmap.Format} is not supported for JPEG XL encoding.");
+        }
+    }
+
+
+    private static int GetSuggestedThreads()
+    {
+        int threads = Environment.ProcessorCount;
+        if (threads >= 16)
+        {
+            return threads - 4;
+        }
+        else if (threads >= 8)
+        {
+            return threads - 2;
+        }
+        else
+        {
+            return threads;
+        }
+    }
+
+
+    private static byte[] BuildXMPMetadata(DateTimeOffset time)
+    {
+        string value = $"""
+            <x:xmpmeta xmlns:x="adobe:ns:meta/"><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><rdf:Description xmlns:xmp="http://ns.adobe.com/xap/1.0/"><xmp:CreatorTool>Starward Launcher</xmp:CreatorTool><xmp:CreateDate>{time:yyyy-MM-ddTHH:mm:sszzz}</xmp:CreateDate></rdf:Description></rdf:RDF></x:xmpmeta>
+            """;
+        return Encoding.UTF8.GetBytes(value);
     }
 
 
@@ -324,10 +591,10 @@ internal class ScreenCaptureService
             if (File.Exists(filePath))
             {
                 var file = await StorageFile.GetFileFromPathAsync(filePath);
-                    ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
-                }
+                ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
             }
         }
+    }
 
 
     /// <summary>
@@ -510,7 +777,7 @@ internal class ScreenCaptureService
                                                     canvasImage.SizeInPixels.Width,
                                                     canvasImage.SizeInPixels.Height,
                                                     96,
-                                                    DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                    DirectXPixelFormat.R8G8B8A8UIntNormalized,
                                                     CanvasAlphaMode.Premultiplied);
             using (CanvasDrawingSession ds = renderTarget_gainmap.CreateDrawingSession())
             {
@@ -523,7 +790,7 @@ internal class ScreenCaptureService
                                                    canvasImage.SizeInPixels.Width,
                                                    canvasImage.SizeInPixels.Height,
                                                    96,
-                                                   DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                                                   DirectXPixelFormat.R8G8B8A8UIntNormalized,
                                                    CanvasAlphaMode.Premultiplied);
             using (CanvasDrawingSession ds = renderTarget_sdr.CreateDrawingSession())
             {
@@ -561,27 +828,22 @@ internal class ScreenCaptureService
                         ColorTransfer = UhdrColorTransfer.SRGB,
                     };
                     encoder.SetCompressedImage(baseImage, UhdrImageLabel.Base);
-                    encoder.SetGainmapImage(gainmapImage, new UhdrGainmapMetadata
+                    UhdrGainmapMetadata metadata = new UhdrGainmapMetadata
                     {
-                        MinContentBoost0 = contentBoost[0],
-                        MinContentBoost1 = contentBoost[1],
-                        MinContentBoost2 = contentBoost[2],
-                        MaxContentBoost0 = contentBoost[3],
-                        MaxContentBoost1 = contentBoost[4],
-                        MaxContentBoost2 = contentBoost[5],
-                        Gamma0 = 1,
-                        Gamma1 = 1,
-                        Gamma2 = 1,
-                        OffsetSdr0 = 0.015625f,
-                        OffsetSdr1 = 0.015625f,
-                        OffsetSdr2 = 0.015625f,
-                        OffsetHdr0 = 0.015625f,
-                        OffsetHdr1 = 0.015625f,
-                        OffsetHdr2 = 0.015625f,
+                        Gamma = new Codec.UltraHdr.FixedArray3<float>(1),
+                        OffsetSdr = new Codec.UltraHdr.FixedArray3<float>(0.015625f),
+                        OffsetHdr = new Codec.UltraHdr.FixedArray3<float>(0.015625f),
                         HdrCapacityMin = 1,
                         HdrCapacityMax = MathF.Max(MathF.Max(contentBoost[3], contentBoost[4]), MathF.Max(contentBoost[5], 1)),
                         UseBaseColorSpace = 1,
-                    });
+                    };
+                    metadata.MinContentBoost[0] = contentBoost[0];
+                    metadata.MinContentBoost[1] = contentBoost[1];
+                    metadata.MinContentBoost[2] = contentBoost[2];
+                    metadata.MaxContentBoost[0] = contentBoost[3];
+                    metadata.MaxContentBoost[1] = contentBoost[4];
+                    metadata.MaxContentBoost[2] = contentBoost[5];
+                    encoder.SetGainmapImage(gainmapImage, metadata);
                 }
             }
             encoder.Encode();

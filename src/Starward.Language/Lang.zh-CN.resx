@@ -2480,4 +2480,16 @@
   <data name="StygianOnslaughtPage_HighestTotalDamageDealt" xml:space="preserve">
     <value>最高总伤害</value>
   </data>
+  <data name="ScreenshotSetting_OtherOptions" xml:space="preserve">
+    <value>其他选项</value>
+  </data>
+  <data name="ScreenshotSetting_Lossless" xml:space="preserve">
+    <value>无损</value>
+  </data>
+  <data name="ScreenshotSetting_FormatAndQuality" xml:space="preserve">
+    <value>格式和质量</value>
+  </data>
+  <data name="ScreenCaptureInfoWindow_ProcessingImage" xml:space="preserve">
+    <value>正在处理图像</value>
+  </data>
 </root>
