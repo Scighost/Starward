@@ -33,6 +33,15 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     Spacing="12">
+            <TextBlock x:Name="TextBlock_SelectCount"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind SelectCountText}"
+                       Visibility="Collapsed" />
+            <Button x:Name="Button_BatchConvert"
+                    Command="{x:Bind OpenImageBatchConvertWindowCommand}"
+                    Content="{x:Bind lang:Lang.ScreenshotPage_BatchConvert}"
+                    Visibility="Collapsed" />
             <ToggleButton x:Name="ToggleButton_MultiSelect"
                           Content="{x:Bind lang:Lang.ScreenshotPage_MultiSelect}"
                           IsChecked="{x:Bind MutliSelect, Mode=TwoWay}" />
@@ -65,6 +74,7 @@
                   IsItemClickEnabled="True"
                   ItemClick="GridView_Images_ItemClick"
                   ItemsSource="{x:Bind ScreenshotViewSource.View, FallbackValue={x:Null}}"
+                  SelectionChanged="GridView_Images_SelectionChanged"
                   SelectionMode="None">
             <GridView.GroupStyle>
                 <GroupStyle>

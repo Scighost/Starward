@@ -332,6 +332,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Clear 的本地化字符串。
+        /// </summary>
+        public static string Common_Clear {
+            get {
+                return ResourceManager.GetString("Common_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Confirm 的本地化字符串。
         /// </summary>
         public static string Common_Confirm {
@@ -418,6 +427,15 @@ namespace Starward.Language {
         public static string Common_Exit {
             get {
                 return ResourceManager.GetString("Common_Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed 的本地化字符串。
+        /// </summary>
+        public static string Common_Failed {
+            get {
+                return ResourceManager.GetString("Common_Failed", resourceCulture);
             }
         }
         
@@ -535,6 +553,15 @@ namespace Starward.Language {
         public static string Common_Start {
             get {
                 return ResourceManager.GetString("Common_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Success 的本地化字符串。
+        /// </summary>
+        public static string Common_Success {
+            get {
+                return ResourceManager.GetString("Common_Success", resourceCulture);
             }
         }
         
@@ -3425,6 +3452,123 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Convert failed 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_ConvertFailed {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_ConvertFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 If Output File Exists 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_IfOutputFileExists {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_IfOutputFileExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Image Batch Convert 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_ImageBatchConvert {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_ImageBatchConvert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No read or write permission 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_NoReadOrWritePermission {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_NoReadOrWritePermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Original File Folder 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_OriginalFileFolder {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_OriginalFileFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Output Folder 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_OutputFolder {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_OutputFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Overwrite 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_Overwrite {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_Overwrite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Quality 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_Quality {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_Quality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Rename 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_Rename {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Same as original file format 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_SameAsOriginalFileFormat {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_SameAsOriginalFileFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select Output Format 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_SelectOutputFormat {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_SelectOutputFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Skip (Default) 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_SkipDefault {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_SkipDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start Convert 的本地化字符串。
+        /// </summary>
+        public static string ImageBatchConvertWindow_StartConvert {
+            get {
+                return ResourceManager.GetString("ImageBatchConvertWindow_StartConvert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Rotate 的本地化字符串。
         /// </summary>
         public static string ImageViewPage_Rotate {
@@ -4864,6 +5008,15 @@ namespace Starward.Language {
         public static string ScreenshotPage_BackupScreenshots {
             get {
                 return ResourceManager.GetString("ScreenshotPage_BackupScreenshots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Batch Convert 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotPage_BatchConvert {
+            get {
+                return ResourceManager.GetString("ScreenshotPage_BatchConvert", resourceCulture);
             }
         }
         

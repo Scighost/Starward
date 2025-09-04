@@ -93,8 +93,13 @@ public sealed partial class ScreenshotPage : PageBase
         {
             field = value;
             GridView_Images.SelectionMode = value ? ListViewSelectionMode.Multiple : ListViewSelectionMode.None;
+            Button_BatchConvert.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+            TextBlock_SelectCount.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
         }
     }
+
+
+    public string SelectCountText { get; set => SetProperty(ref field, value); }
 
 
     private List<FileSystemWatcher> _watchers = new();
@@ -286,6 +291,7 @@ public sealed partial class ScreenshotPage : PageBase
                             var newGroup = new ScreenshotItemGroup(item.TimeMonthDay, [item]);
                             ScreenshotGroups.Insert(0, newGroup);
                         }
+                        UpdateSelectCountText();
                     });
                 }
             }
@@ -319,6 +325,7 @@ public sealed partial class ScreenshotPage : PageBase
                                 {
                                     ScreenshotGroups.Remove(group);
                                 }
+                                UpdateSelectCountText();
                             });
                         }
                     }
@@ -326,6 +333,22 @@ public sealed partial class ScreenshotPage : PageBase
             }
         }
         catch { }
+    }
+
+
+
+    [RelayCommand]
+    private void OpenImageBatchConvertWindow()
+    {
+        try
+        {
+            var list = GridView_Images.SelectedItems.Cast<ScreenshotItem>().ToList();
+            new ImageBatchConvertWindow().Activate(list);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open image batch convert window");
+        }
     }
 
 
@@ -346,6 +369,7 @@ public sealed partial class ScreenshotPage : PageBase
                 string folder = string.Join(';', dialog.Folders.Where(x => x.CanRemove).Select(x => x.Folder));
                 AppConfig.SetExternalScreenshotFolder(CurrentGameBiz, folder);
                 Initialize();
+                UpdateSelectCountText();
             }
         }
         catch { }
@@ -394,6 +418,22 @@ public sealed partial class ScreenshotPage : PageBase
         {
             _logger.LogError(ex, "Drag image starting");
         }
+    }
+
+
+    private void GridView_Images_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        UpdateSelectCountText();
+    }
+
+
+    private void UpdateSelectCountText()
+    {
+        try
+        {
+            SelectCountText = $"{GridView_Images.SelectedItems.Count}/{_screenshotItems?.Count ?? 0}";
+        }
+        catch { }
     }
 
 
