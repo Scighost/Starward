@@ -21,13 +21,13 @@ public static class ScrollViewerExtensions
         return get_ArePointerWheelEventsIgnored(iScrollViewerPrivate);
     }
 
-    public unsafe static void SetArePointerWheelEventsIgnored(this ScrollViewer scrollViewer, bool value)
+    public static unsafe void SetArePointerWheelEventsIgnored(this ScrollViewer scrollViewer, bool value)
     {
         IObjectReference iScrollViewerPrivate = ((IWinRTObject)scrollViewer).NativeObject.As<IUnknownVftbl>(IScrollViewerPrivateGuid);
         set_ArePointerWheelEventsIgnored(iScrollViewerPrivate, value);
     }
 
-    private unsafe static bool get_ArePointerWheelEventsIgnored(IObjectReference _obj)
+    private static unsafe bool get_ArePointerWheelEventsIgnored(IObjectReference _obj)
     {
         IntPtr thisPtr = _obj.ThisPtr;
         byte b = 0;
@@ -35,7 +35,7 @@ public static class ScrollViewerExtensions
         return b != 0;
     }
 
-    private unsafe static void set_ArePointerWheelEventsIgnored(IObjectReference _obj, bool value)
+    private static unsafe void set_ArePointerWheelEventsIgnored(IObjectReference _obj, bool value)
     {
         IntPtr thisPtr = _obj.ThisPtr;
         ExceptionHelpers.ThrowExceptionForHR(((delegate* unmanaged[Stdcall]<IntPtr, byte, int>)(*(IntPtr*)((nint)(*(IntPtr*)(void*)thisPtr) + (nint)8 * (nint)sizeof(delegate* unmanaged[Stdcall]<IntPtr, byte, int>))))(thisPtr, value ? ((byte)1) : ((byte)0)));

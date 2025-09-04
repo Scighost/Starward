@@ -1,4 +1,4 @@
-﻿using Microsoft.UI;
+using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System;
@@ -49,14 +49,14 @@ public abstract partial class WindowEx : Window
 
 
 
-    protected unsafe virtual IntPtr WindowSubclassProc(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
+    protected virtual unsafe IntPtr WindowSubclassProc(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
     {
         return ComCtl32.DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }
 
 
 
-    protected unsafe virtual IntPtr InputSiteSubclassProc(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
+    protected virtual unsafe IntPtr InputSiteSubclassProc(HWND hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, nuint uIdSubclass, IntPtr dwRefData)
     {
         return ComCtl32.DefSubclassProc(hWnd, uMsg, wParam, lParam);
     }

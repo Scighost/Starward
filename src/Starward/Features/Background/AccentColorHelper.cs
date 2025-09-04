@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI;
@@ -17,7 +17,7 @@ internal static class AccentColorHelper
 
 
 
-    public unsafe static Color? GetAccentColor(byte[] bgra, int width, int height)
+    public static unsafe Color? GetAccentColor(byte[] bgra, int width, int height)
     {
         if (bgra.Length % 4 == 0)
         {
@@ -32,7 +32,7 @@ internal static class AccentColorHelper
 
 
 
-    public unsafe static Color? GetAccentColor(IBuffer buffer, int width, int height)
+    public static unsafe Color? GetAccentColor(IBuffer buffer, int width, int height)
     {
         int length = (int)buffer.Length;
         if (length > 0 && length % 4 == 0)
@@ -47,7 +47,7 @@ internal static class AccentColorHelper
 
 
 
-    public unsafe static Color? GetAccentColor(nint bufferPtr, uint capacity, int width, int height)
+    public static unsafe Color? GetAccentColor(nint bufferPtr, uint capacity, int width, int height)
     {
         if (capacity > 0 && capacity % 4 == 0)
         {
@@ -59,7 +59,7 @@ internal static class AccentColorHelper
 
 
 
-    private unsafe static Color? GetAccentColorInternal(void* bgra, int width, int height)
+    private static unsafe Color? GetAccentColorInternal(void* bgra, int width, int height)
     {
         try
         {
