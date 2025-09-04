@@ -397,6 +397,7 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
                 TextBlock_Repeat.Visibility = Visibility.Visible;
                 TextBlock_Repeat.Text = $"{_finishedImageCount}/{_captureImageCount}";
             }
+            Button_OpenImage.Visibility = IsSuccess && _finishedImageCount > 0 ? Visibility.Visible : Visibility.Collapsed;
 
             ShowWindow(new RectInt32(targetX, targetY, width, height));
             if (doNotClose)
