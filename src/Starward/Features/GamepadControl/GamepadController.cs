@@ -904,26 +904,12 @@ internal static class GamepadController
     #region Xbox Game Bar
 
 
-    private static bool _gameBarGuideButtonDisabled = false;
-
-    private static bool _gameBarGuideButtonCached = false;
-
 
     public static void DisableGamepadGuideButtonForGameBar()
     {
         try
         {
-            if (Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\GameBar", "UseNexusForGameBarEnabled", 1) is 1)
-            {
-                _gameBarGuideButtonCached = true;
-                Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\GameBar", "UseNexusForGameBarEnabled", 0, RegistryValueKind.DWord);
-                _gameBarGuideButtonDisabled = true;
-            }
-            else if (!_gameBarGuideButtonDisabled)
-            {
-                _gameBarGuideButtonDisabled = true;
-                _gameBarGuideButtonCached = false;
-            }
+            Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\GameBar", "UseNexusForGameBarEnabled", 0, RegistryValueKind.DWord);
         }
         catch { }
     }
@@ -933,12 +919,7 @@ internal static class GamepadController
     {
         try
         {
-            if (_gameBarGuideButtonDisabled)
-            {
-                int value = _gameBarGuideButtonCached ? 1 : 0;
-                Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\GameBar", "UseNexusForGameBarEnabled", value, RegistryValueKind.DWord);
-                _gameBarGuideButtonDisabled = false;
-            }
+            Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\GameBar", "UseNexusForGameBarEnabled", 1, RegistryValueKind.DWord);
         }
         catch { }
     }
