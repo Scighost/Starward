@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Starward.Codec.AVIF;
@@ -19,6 +20,13 @@ public class avifRGBImageWrapper : IDisposable
         _rgbImage.format = format;
         _rgbImage.maxThreads = Environment.ProcessorCount;
         _rgbImage.rowBytes = width * (depth > 8 ? 2u : 1u) * avifNativeMethod.avifRGBFormatChannelCount(format);
+    }
+
+
+    public avifRGBImageWrapper(avifRGBImage rgbImage)
+    {
+        _rgbImage = rgbImage;
+        _rgbImage.maxThreads = Environment.ProcessorCount;
     }
 
 
@@ -58,6 +66,12 @@ public class avifRGBImageWrapper : IDisposable
     }
 
 
+    public unsafe ReadOnlySpan<byte> GetPixelBytes()
+    {
+        return _rgbImage.GetPixelBytes();
+    }
+
+
 
     private bool disposedValue;
 
@@ -76,6 +90,14 @@ public class avifRGBImageWrapper : IDisposable
             {
                 _dataHandle.Free();
             }
+            else
+            {
+                unsafe
+                {
+                    avifNativeMethod.avifRGBImageFreePixels((avifRGBImage*)Unsafe.AsPointer(ref _rgbImage));
+                }
+            }
+
             disposedValue = true;
         }
     }

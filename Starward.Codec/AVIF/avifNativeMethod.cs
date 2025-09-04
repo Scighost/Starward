@@ -307,7 +307,7 @@ public static partial class avifNativeMethod
 
 
     /// <summary>
-    /// Scales the YUV/A planes in-place. dstWidth and dstHeight must both be <= AVIF_DEFAULT_IMAGE_DIMENSION_LIMIT and
+    /// Scales the YUV/A planes in-place. dstWidth and dstHeight must both be &lt;= AVIF_DEFAULT_IMAGE_DIMENSION_LIMIT and
     /// dstWidth*dstHeight should be &lt;= AVIF_DEFAULT_IMAGE_SIZE_LIMIT.
     /// </summary>
     /// <param name="image"></param>
@@ -579,7 +579,7 @@ public static partial class avifNativeMethod
     /// function can be called next to retrieve the number of top rows that can be immediately accessed
     /// from the luma plane of decoder->image, and alpha if any. The corresponding rows from the chroma planes,
     /// if any, can also be accessed (half rounded up if subsampled, same number of rows otherwise).
-    /// If a gain map is present and  (imageContentToDecode & AVIF_IMAGE_CONTENT_GAIN_MAP) is nonzero,
+    /// If a gain map is present and  (imageContentToDecode &amp; AVIF_IMAGE_CONTENT_GAIN_MAP) is nonzero,
     /// the gain map's planes can also be accessed in the same way.
     /// If the gain map's height is different from the main image, then the number of available gain map
     /// rows is at least:

@@ -8,7 +8,7 @@ namespace Starward.Codec.JpegXL.Decode;
 /// <summary>
 /// A lightweight JPEG XL decoder.
 /// </summary>
-public class JxlDecoderLite
+public class JxlDecoderLite : IDisposable
 {
     /// <summary>
     /// Gets the version of the underlying JxlDecoder library.
@@ -93,18 +93,7 @@ public class JxlDecoderLite
         JxlDecoderNativeMethod.JxlDecoderSetCms(_decoderPtr, _cmsInterface);
     }
 
-    /// <summary>
-    /// Creates a new instance of the <see cref="JxlDecoderLite"/> class from a stream asynchronously.
-    /// </summary>
-    /// <param name="stream">The input stream.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A new instance of the <see cref="JxlDecoderLite"/> class.</returns>
-    public static async Task<JxlDecoderLite> CreateAsync(Stream stream, CancellationToken cancellationToken = default)
-    {
-        byte[] bytes = new byte[stream.Length];
-        await stream.ReadAtLeastAsync(bytes, bytes.Length, false, cancellationToken);
-        return Create(bytes);
-    }
+
 
     /// <summary>
     /// Creates a new instance of the <see cref="JxlDecoderLite"/> class from a byte array.
@@ -114,31 +103,47 @@ public class JxlDecoderLite
     public static JxlDecoderLite Create(byte[] bytes)
     {
         var decoder = new JxlDecoderLite();
-        decoder.Initialize(bytes);
-        return decoder;
+        try
+        {
+            decoder.Initialize(bytes);
+            return decoder;
+        }
+        catch
+        {
+            decoder.Dispose();
+            throw;
+        }
+    }
+
+
+    /// <summary>
+    /// Creates a new instance of the <see cref="JxlDecoderLite"/> class from a stream asynchronously.
+    /// </summary>
+    /// <param name="stream">The input stream.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A new instance of the <see cref="JxlDecoderLite"/> class.</returns>
+    public static async Task<JxlDecoderLite> CreateAsync(Stream stream, CancellationToken cancellationToken = default)
+    {
+        byte[] bytes = new byte[stream.Length];
+        await stream.ReadExactlyAsync(bytes, cancellationToken);
+        return Create(bytes);
     }
 
 
 
 
-    /// <summary>
-    /// GCHandle for the pinned input byte array.
-    /// </summary>
     private GCHandle _pinnedBytes;
 
-    /// <summary>
-    /// The basic information of the JPEG XL image.
-    /// </summary>
+
+    private int _inputBytesLength;
+
+
     private JxlBasicInfo _basicInfo;
 
-    /// <summary>
-    /// The pixel format of the output image.
-    /// </summary>
+
     private JxlPixelFormat _pixelFormat;
 
-    /// <summary>
-    /// The color encoding of the image.
-    /// </summary>
+
     private JxlColorEncoding _colorEncoding;
 
     /// <summary>
@@ -152,9 +157,24 @@ public class JxlDecoderLite
     public uint Height => _basicInfo.YSize;
 
     /// <summary>
+    /// Gets the color encoding of the image.
+    /// </summary>
+    public JxlColorEncoding ColorEncoding => _colorEncoding;
+
+    /// <summary>
     /// Gets the pixel format of the image.
     /// </summary>
     public JxlPixelFormat PixelFormat => _pixelFormat;
+
+
+    private byte[]? _exifData;
+
+    private GCHandle _pinnedExifData;
+
+    private byte[]? _xmpData;
+
+    private GCHandle _pinnedXmpData;
+
 
     /// <summary>
     /// The buffer for the decoded pixels.
@@ -179,24 +199,24 @@ public class JxlDecoderLite
         {
             throw new JxlDecodeException("Invalid JPEG XL signature.");
         }
-        JxlDecoderStatus status = JxlDecoderNativeMethod.JxlDecoderSubscribeEvents(_decoderPtr, JxlDecoderStatus.BasicInfo | JxlDecoderStatus.ColorEncoding | JxlDecoderStatus.FullImage);
+        JxlDecoderStatus status = JxlDecoderNativeMethod.JxlDecoderSubscribeEvents(_decoderPtr, JxlDecoderStatus.BasicInfo | JxlDecoderStatus.ColorEncoding | JxlDecoderStatus.Box | JxlDecoderStatus.BoxComplete);
         if (status != JxlDecoderStatus.Success)
         {
             throw new JxlDecodeException($"Failed to subscribe events.");
         }
-        _pinnedBytes = GCHandle.Alloc(bytes, GCHandleType.Pinned);
-        unsafe
+        status = JxlDecoderNativeMethod.JxlDecoderSetDecompressBoxes(_decoderPtr, true);
+        if (status != JxlDecoderStatus.Success)
         {
-            fixed (byte* p = bytes)
-            {
-                status = JxlDecoderNativeMethod.JxlDecoderSetInput(_decoderPtr, (nint)p, (nuint)bytes.Length);
-                if (status != JxlDecoderStatus.Success)
-                {
-                    throw new JxlDecodeException($"Failed to set input.");
-                }
-                JxlDecoderNativeMethod.JxlDecoderCloseInput(_decoderPtr);
-            }
+            throw new JxlDecodeException($"Failed to set decompress boxes.");
         }
+        _pinnedBytes = GCHandle.Alloc(bytes, GCHandleType.Pinned);
+        _inputBytesLength = bytes.Length;
+        status = JxlDecoderNativeMethod.JxlDecoderSetInput(_decoderPtr, _pinnedBytes.AddrOfPinnedObject(), (nuint)bytes.Length);
+        if (status != JxlDecoderStatus.Success)
+        {
+            throw new JxlDecodeException($"Failed to set input.");
+        }
+        JxlDecoderNativeMethod.JxlDecoderCloseInput(_decoderPtr);
         ProcessInfo();
     }
 
@@ -208,6 +228,7 @@ public class JxlDecoderLite
     /// <exception cref="NotSupportedException">Thrown when the pixel format is not supported.</exception>
     private void ProcessInfo()
     {
+        JxlBoxType boxType = new();
         while (true)
         {
             JxlDecoderStatus status = JxlDecoderNativeMethod.JxlDecoderProcessInput(_decoderPtr);
@@ -226,10 +247,10 @@ public class JxlDecoderLite
                     DataType = (_basicInfo.BitsPerSample, _basicInfo.ExponentBitsPerSample) switch
                     {
                         (8, 0) => JxlDataType.UInt8,
-                        (16, 0) => JxlDataType.UInt16,
+                        ( > 8, 0) => JxlDataType.UInt16,
                         (16, 5) => JxlDataType.Float16,
                         (32, 8) => JxlDataType.Float,
-                        _ => throw new NotSupportedException($"Unsupported bits per sample: {_basicInfo.BitsPerSample}, exponent bits per sample: {_basicInfo.ExponentBitsPerSample}"),
+                        _ => throw new JxlDecodeException($"Unsupported bits per sample: {_basicInfo.BitsPerSample}, exponent bits per sample: {_basicInfo.ExponentBitsPerSample}"),
                     },
                     Endianness = JxlEndianness.Native,
                     Align = 0
@@ -238,6 +259,89 @@ public class JxlDecoderLite
             else if (status is JxlDecoderStatus.ColorEncoding)
             {
                 status = JxlDecoderNativeMethod.JxlDecoderGetColorAsEncodedProfile(_decoderPtr, JxlColorProfileTarget.Data, ref _colorEncoding);
+            }
+            else if (status is JxlDecoderStatus.Box)
+            {
+                status = JxlDecoderNativeMethod.JxlDecoderGetBoxType(_decoderPtr, ref boxType, true);
+                if (status != JxlDecoderStatus.Success)
+                {
+                    throw new JxlDecodeException("Failed to get box type.");
+                }
+                JxlDecoderNativeMethod.JxlDecoderReleaseBoxBuffer(_decoderPtr);
+                if (boxType == JxlBoxType.Exif)
+                {
+                    ulong size = 0;
+                    status = JxlDecoderNativeMethod.JxlDecoderGetBoxSizeContents(_decoderPtr, ref size);
+                    if (status != JxlDecoderStatus.Success)
+                    {
+                        throw new JxlDecodeException("Failed to get Exif box size.");
+                    }
+                    _exifData = new byte[size];
+                    _pinnedExifData = GCHandle.Alloc(_exifData, GCHandleType.Pinned);
+                    status = JxlDecoderNativeMethod.JxlDecoderSetBoxBuffer(_decoderPtr, _pinnedExifData.AddrOfPinnedObject(), (nuint)size);
+                    if (status != JxlDecoderStatus.Success)
+                    {
+                        throw new JxlDecodeException("Failed to set Exif box buffer.");
+                    }
+                }
+                if (boxType == JxlBoxType.XMP)
+                {
+                    ulong size = 0;
+                    status = JxlDecoderNativeMethod.JxlDecoderGetBoxSizeContents(_decoderPtr, ref size);
+                    if (status != JxlDecoderStatus.Success)
+                    {
+                        throw new JxlDecodeException("Failed to get XMP box size.");
+                    }
+                    _xmpData = new byte[size];
+                    _pinnedXmpData = GCHandle.Alloc(_xmpData, GCHandleType.Pinned);
+                    status = JxlDecoderNativeMethod.JxlDecoderSetBoxBuffer(_decoderPtr, _pinnedXmpData.AddrOfPinnedObject(), (nuint)size);
+                    if (status != JxlDecoderStatus.Success)
+                    {
+                        throw new JxlDecodeException("Failed to set XMP box buffer.");
+                    }
+                }
+            }
+            else if (status is JxlDecoderStatus.BoxNeedMoreOutput)
+            {
+                nuint remain = JxlDecoderNativeMethod.JxlDecoderReleaseBoxBuffer(_decoderPtr);
+                if (boxType == JxlBoxType.Exif)
+                {
+                    int offset = _exifData!.Length - (int)remain;
+                    _pinnedExifData.Free();
+                    Array.Resize(ref _exifData, _exifData.Length * 2);
+                    _pinnedExifData = GCHandle.Alloc(_exifData, GCHandleType.Pinned);
+                    status = JxlDecoderNativeMethod.JxlDecoderSetBoxBuffer(_decoderPtr, _pinnedExifData.AddrOfPinnedObject() + offset, (nuint)(_exifData.Length - offset));
+                    if (status != JxlDecoderStatus.Success)
+                    {
+                        throw new JxlDecodeException("Failed to set Exif box buffer.");
+                    }
+                }
+                if (boxType == JxlBoxType.XMP)
+                {
+                    int offset = _xmpData!.Length - (int)remain;
+                    _pinnedXmpData.Free();
+                    Array.Resize(ref _xmpData, _xmpData.Length * 2);
+                    _pinnedXmpData = GCHandle.Alloc(_xmpData, GCHandleType.Pinned);
+                    status = JxlDecoderNativeMethod.JxlDecoderSetBoxBuffer(_decoderPtr, _pinnedXmpData.AddrOfPinnedObject() + offset, (nuint)(_xmpData.Length - offset));
+                    if (status != JxlDecoderStatus.Success)
+                    {
+                        throw new JxlDecodeException("Failed to set XMP box buffer.");
+                    }
+                }
+            }
+            else if (status is JxlDecoderStatus.BoxComplete)
+            {
+                nuint remain = JxlDecoderNativeMethod.JxlDecoderReleaseBoxBuffer(_decoderPtr);
+                if (boxType == JxlBoxType.Exif && _exifData != null)
+                {
+                    _pinnedExifData.Free();
+                    Array.Resize(ref _exifData, _exifData.Length - (int)remain);
+                }
+                if (boxType == JxlBoxType.XMP && _xmpData != null)
+                {
+                    _pinnedXmpData.Free();
+                    Array.Resize(ref _xmpData, _xmpData.Length - (int)remain);
+                }
             }
             else if (status is JxlDecoderStatus.Error or JxlDecoderStatus.NeedMoreInput)
             {
@@ -249,6 +353,20 @@ public class JxlDecoderLite
             }
         }
     }
+
+
+    /// <summary>
+    ///  Exif data as a byte array.
+    /// </summary>
+    /// <returns></returns>
+    public byte[]? GetExifData() => _exifData;
+
+
+    /// <summary>
+    /// XMP data as a byte array.
+    /// </summary>
+    /// <returns></returns>
+    public byte[]? GetXMPData() => _xmpData;
 
 
     /// <summary>
@@ -264,6 +382,7 @@ public class JxlDecoderLite
             {
                 return _pixelBuffer;
             }
+            _decodePixelFormat = PixelFormat;
             ProcessImage();
             if (_pixelBuffer == null)
             {
@@ -281,12 +400,53 @@ public class JxlDecoderLite
     }
 
 
+
+    private JxlPixelFormat _decodePixelFormat;
+
+
+    public byte[] GetPixelBytes(JxlPixelFormat pixelFormat)
+    {
+        try
+        {
+            if (_pixelBuffer != null)
+            {
+                return _pixelBuffer;
+            }
+            _decodePixelFormat = pixelFormat;
+            ProcessImage();
+            if (_pixelBuffer == null)
+            {
+                throw new JxlDecodeException("Pixel buffer is null.");
+            }
+            return _pixelBuffer;
+        }
+        finally
+        {
+            if (_pinnedPixelBuffer.IsAllocated)
+            {
+                _pinnedPixelBuffer.Free();
+            }
+        }
+    }
+
+
+
+    private void Rewind()
+    {
+        JxlDecoderNativeMethod.JxlDecoderRewind(_decoderPtr);
+        JxlDecoderNativeMethod.JxlDecoderSubscribeEvents(_decoderPtr, JxlDecoderStatus.FullImage);
+        JxlDecoderNativeMethod.JxlDecoderSetInput(_decoderPtr, _pinnedBytes.AddrOfPinnedObject(), (nuint)_inputBytesLength);
+        JxlDecoderNativeMethod.JxlDecoderCloseInput(_decoderPtr);
+    }
+
+
     /// <summary>
     /// Processes the input to get the full image.
     /// </summary>
     /// <exception cref="JxlDecodeException">Thrown when decoding fails.</exception>
     private void ProcessImage()
     {
+        Rewind();
         while (true)
         {
             JxlDecoderStatus status = JxlDecoderNativeMethod.JxlDecoderProcessInput(_decoderPtr);
@@ -297,20 +457,17 @@ public class JxlDecoderLite
             else if (status is JxlDecoderStatus.NeedImageOutBuffer)
             {
                 nuint bufferSize = 0;
-                JxlDecoderNativeMethod.JxlDecoderImageOutBufferSize(_decoderPtr, _pixelFormat, ref bufferSize);
+                JxlDecoderNativeMethod.JxlDecoderImageOutBufferSize(_decoderPtr, _decodePixelFormat, ref bufferSize);
                 _pixelBuffer = new byte[bufferSize];
                 _pinnedPixelBuffer = GCHandle.Alloc(_pixelBuffer, GCHandleType.Pinned);
                 unsafe
                 {
-                    fixed (byte* p = _pixelBuffer)
+                    status = JxlDecoderNativeMethod.JxlDecoderSetImageOutBuffer(_decoderPtr, _decodePixelFormat, _pinnedPixelBuffer.AddrOfPinnedObject(), bufferSize);
+                    if (status != JxlDecoderStatus.Success)
                     {
-                        status = JxlDecoderNativeMethod.JxlDecoderSetImageOutBuffer(_decoderPtr, _pixelFormat, (nint)p, bufferSize);
-                        if (status != JxlDecoderStatus.Success)
-                        {
-                            _pinnedPixelBuffer.Free();
-                            _pixelBuffer = null;
-                            throw new JxlDecodeException("Failed to set image out buffer.");
-                        }
+                        _pinnedPixelBuffer.Free();
+                        _pixelBuffer = null;
+                        throw new JxlDecodeException("Failed to set image out buffer.");
                     }
                 }
             }
@@ -350,6 +507,8 @@ public class JxlDecoderLite
             {
                 // 释放托管状态(托管对象)
                 _pixelBuffer = null;
+                _exifData = null;
+                _xmpData = null;
             }
 
             // 释放未托管的资源(未托管的对象)并重写终结器
@@ -367,6 +526,14 @@ public class JxlDecoderLite
             if (_pinnedBytes.IsAllocated)
             {
                 _pinnedBytes.Free();
+            }
+            if (_pinnedExifData.IsAllocated)
+            {
+                _pinnedExifData.Free();
+            }
+            if (_pinnedXmpData.IsAllocated)
+            {
+                _pinnedXmpData.Free();
             }
             disposedValue = true;
         }

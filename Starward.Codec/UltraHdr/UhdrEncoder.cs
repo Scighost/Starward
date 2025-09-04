@@ -67,7 +67,7 @@ namespace Starward.Codec.UltraHdr;
 public class UhdrEncoder : UhdrCodec, IDisposable
 {
 
-    protected new UhdrEncoderPtr _codecHandle => base._codecPtr;
+    protected UhdrEncoderPtr _codecHandle => base._codecPtr;
 
 
     public UhdrEncoder()

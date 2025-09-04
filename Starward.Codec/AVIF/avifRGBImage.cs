@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Starward.Codec.AVIF;
@@ -36,8 +35,7 @@ public struct avifRGBImage
         }
         else
         {
-            uint size = avifNativeMethod.avifRGBImagePixelSize((avifRGBImage*)Unsafe.AsPointer(ref this));
-            return new ReadOnlySpan<byte>((void*)pixels, (int)size);
+            return new ReadOnlySpan<byte>((void*)pixels, (int)(rowBytes * height));
         }
     }
 

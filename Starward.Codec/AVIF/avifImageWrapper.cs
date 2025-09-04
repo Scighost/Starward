@@ -19,6 +19,11 @@ public class avifImageWrapper : IDisposable
         _image->yuvRange = avifRange.Full;
     }
 
+    internal unsafe avifImageWrapper(avifImage* image)
+    {
+        _image = image;
+    }
+
 
     public unsafe uint Width => _image->width;
 
@@ -48,12 +53,26 @@ public class avifImageWrapper : IDisposable
 
     public unsafe avifRGBImageWrapper ToRGBImage(uint depth, avifRGBFormat format)
     {
-        var rgbImage = new avifRGBImageWrapper(_image->width, _image->height, depth, format);
-        fixed (avifRGBImage* p = &rgbImage._rgbImage)
+        var rgbImage = new avifRGBImage();
+        try
         {
-            avifNativeMethod.avifImageYUVToRGB(_image, p).ThrowIfFailed();
+            avifNativeMethod.avifRGBImageSetDefaults(&rgbImage, _image);
+            if (depth < rgbImage.depth)
+            {
+                throw new ArgumentOutOfRangeException(nameof(depth), "Set depth must be greater than or equal to image depth.");
+            }
+            rgbImage.depth = depth;
+            rgbImage.format = format;
+            avifNativeMethod.avifRGBImageAllocatePixels(&rgbImage).ThrowIfFailed("avifRGBImageAllocatePixels failed:");
+            rgbImage.maxThreads = Environment.ProcessorCount;
+            avifNativeMethod.avifImageYUVToRGB(_image, &rgbImage).ThrowIfFailed("avifImageYUVToRGB failed:");
+            return new avifRGBImageWrapper(rgbImage);
         }
-        return rgbImage;
+        catch
+        {
+            avifNativeMethod.avifRGBImageFreePixels(&rgbImage);
+            throw;
+        }
     }
 
 
@@ -73,12 +92,32 @@ public class avifImageWrapper : IDisposable
     }
 
 
+    public unsafe ReadOnlySpan<byte> GetProfileICC()
+    {
+        if (_image->icc.Data == 0 || _image->icc.Size == 0)
+        {
+            return ReadOnlySpan<byte>.Empty;
+        }
+        return new ReadOnlySpan<byte>(_image->icc.Data.ToPointer(), (int)_image->icc.Size);
+    }
+
+
     public unsafe void SetExifMetadata(ReadOnlySpan<byte> exif)
     {
         fixed (byte* p = exif)
         {
             avifNativeMethod.avifImageSetMetadataExif(_image, (IntPtr)p, (uint)exif.Length).ThrowIfFailed("Set Exif metadata.");
         }
+    }
+
+
+    public unsafe ReadOnlySpan<byte> GetExifMetadata()
+    {
+        if (_image->exif.Data == 0 || _image->exif.Size == 0)
+        {
+            return ReadOnlySpan<byte>.Empty;
+        }
+        return new ReadOnlySpan<byte>(_image->exif.Data.ToPointer(), (int)_image->exif.Size);
     }
 
 
@@ -91,6 +130,21 @@ public class avifImageWrapper : IDisposable
     }
 
 
+    public unsafe ReadOnlySpan<byte> GetXMPMetadata()
+    {
+        if (_image->xmp.Data == 0 || _image->xmp.Size == 0)
+        {
+            return ReadOnlySpan<byte>.Empty;
+        }
+        return new ReadOnlySpan<byte>(_image->xmp.Data.ToPointer(), (int)_image->xmp.Size);
+    }
+
+
+
+    internal void SuppressDispose(bool value)
+    {
+        disposedValue = true;
+    }
 
 
 

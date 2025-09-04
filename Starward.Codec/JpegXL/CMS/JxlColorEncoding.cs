@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace Starward.Codec.JpegXL.CMS;
@@ -6,7 +7,7 @@ namespace Starward.Codec.JpegXL.CMS;
 /// Color encoding of the image as structured information.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct JxlColorEncoding
+public struct JxlColorEncoding : IEquatable<JxlColorEncoding>
 {
     /// <summary>
     /// Color space of the image data.
@@ -110,6 +111,51 @@ public struct JxlColorEncoding
         Primaries = JxlPrimaries.BT2100,
         TransferFunction = JxlTransferFunction.PQ,
     };
+
+
+    public bool Equals(JxlColorEncoding other)
+    {
+        if (ColorSpace != other.ColorSpace)
+            return false;
+
+        if (WhitePoint != JxlWhitePoint.Custom && other.WhitePoint != JxlWhitePoint.Custom && WhitePoint != other.WhitePoint)
+            return false;
+
+        if (Primaries != JxlPrimaries.Custom && other.Primaries != JxlPrimaries.Custom && Primaries != other.Primaries)
+            return false;
+
+        // Compare TransferFunction - if both are not Custom/Gamma and different, return false
+        if (TransferFunction != JxlTransferFunction.Gamma && other.TransferFunction != JxlTransferFunction.Gamma && TransferFunction != other.TransferFunction)
+            return false;
+
+        if (ColorSpace == other.ColorSpace && WhitePoint == other.WhitePoint && Primaries == other.Primaries && TransferFunction == other.TransferFunction)
+        {
+            return true;
+        }
+
+        return WhitePointXY.Equals(other.WhitePointXY) &&
+               PrimariesRedXY.Equals(other.PrimariesRedXY) &&
+               PrimariesGreenXY.Equals(other.PrimariesGreenXY) &&
+               PrimariesBlueXY.Equals(other.PrimariesBlueXY) &&
+               Gamma.Equals(other.Gamma) &&
+               RenderingIntent == other.RenderingIntent;
+    }
+
+
+    public override bool Equals([NotNullWhen(true)] object? obj)
+    {
+        return obj is JxlColorEncoding encoding && this.Equals(encoding);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
+
+    public static bool operator ==(JxlColorEncoding left, JxlColorEncoding right) => left.Equals(right);
+
+    public static bool operator !=(JxlColorEncoding left, JxlColorEncoding right) => !(left == right);
 
 
 }

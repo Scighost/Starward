@@ -516,7 +516,7 @@ public static partial class JxlEncoderNativeMethod
     /// when using this function without <see cref="JxlEncoderUseContainer"/>, or adding a box
     /// type that would result in an invalid file format.</returns>
     [LibraryImport(LibraryName)]
-    public static partial JxlEncoderStatus JxlEncoderAddBox(JxlEncoderPtr enc, JxlBoxType type, IntPtr contents, nuint size, [MarshalAs(UnmanagedType.Bool)] bool compress_box);
+    public static partial JxlEncoderStatus JxlEncoderAddBox(JxlEncoderPtr enc, in JxlBoxType type, IntPtr contents, nuint size, [MarshalAs(UnmanagedType.Bool)] bool compress_box);
 
 
     /// <summary>

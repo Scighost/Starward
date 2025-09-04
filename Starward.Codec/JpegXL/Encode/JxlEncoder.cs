@@ -30,7 +30,7 @@ public class JxlEncoder : IDisposable
 
     private JxlEncoderPtr _encoderPtr;
 
-    private JxlThreadParallelRunnerPtr _parallelRunnerPtr;
+    private JxlResizableParallelRunnerPtr _parallelRunnerPtr;
 
     private IntPtr _jxlParallelRunnerFunction;
 
@@ -48,11 +48,12 @@ public class JxlEncoder : IDisposable
         {
             throw new JxlEncodeException("Failed to create JxlEncoder.");
         }
-        _parallelRunnerPtr = JxlThreadParallelRunnerPtr.GetDefault();
-        _jxlParallelRunnerFunction = JxlParallelRunnerNativeMethod.GetJxlThreadParallelRunner();
+        _parallelRunnerPtr = JxlResizableParallelRunnerPtr.GetDefault();
+        _jxlParallelRunnerFunction = JxlParallelRunnerNativeMethod.GetJxlResizableParallelRunner();
         _cmsInterface = JxlCmsInterface.GetDefault();
         JxlEncoderNativeMethod.JxlEncoderSetParallelRunner(_encoderPtr, _jxlParallelRunnerFunction, _parallelRunnerPtr);
         JxlEncoderNativeMethod.JxlEncoderSetCms(_encoderPtr, _cmsInterface);
+        RunnerThreads = (uint)Environment.ProcessorCount;
     }
 
 
@@ -69,6 +70,7 @@ public class JxlEncoder : IDisposable
         {
             throw new JxlEncodeException($"Failed to set basic info.");
         }
+        RunnerThreads = JxlParallelRunnerNativeMethod.JxlResizableParallelRunnerSuggestThreads(basicInfo.XSize, basicInfo.YSize);
     }
 
 
@@ -104,6 +106,21 @@ public class JxlEncoder : IDisposable
                     throw new JxlEncodeException($"Failed to set ICC profile.");
                 }
             }
+        }
+    }
+
+
+
+    /// <summary>
+    /// Gets or sets the number of threads used by the runner for parallel execution.
+    /// </summary>
+    public uint RunnerThreads
+    {
+        get => field;
+        set
+        {
+            field = value;
+            JxlParallelRunnerNativeMethod.JxlResizableParallelRunnerSetThreads(_parallelRunnerPtr, value);
         }
     }
 
@@ -396,7 +413,7 @@ public class JxlEncoder : IDisposable
             }
             if (_parallelRunnerPtr != IntPtr.Zero)
             {
-                JxlParallelRunnerNativeMethod.JxlThreadParallelRunnerDestroy(_parallelRunnerPtr);
+                JxlParallelRunnerNativeMethod.JxlResizableParallelRunnerDestroy(_parallelRunnerPtr);
                 _parallelRunnerPtr = IntPtr.Zero;
             }
             disposedValue = true;

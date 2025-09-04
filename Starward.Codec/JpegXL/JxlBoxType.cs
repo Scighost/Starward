@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -39,6 +40,16 @@ public struct JxlBoxType : IEquatable<JxlBoxType>, IEquatable<ReadOnlySpan<byte>
             throw new ArgumentOutOfRangeException(nameof(value), "Box type string must be at most 4 characters.");
         }
         Encoding.UTF8.GetBytes(value, MemoryMarshal.CreateSpan(ref _element0, 4));
+    }
+
+
+    /// <summary>
+    /// Box type as a string.
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        return Encoding.UTF8.GetString(this.AsSpan());
     }
 
     /// <summary>
@@ -87,6 +98,18 @@ public struct JxlBoxType : IEquatable<JxlBoxType>, IEquatable<ReadOnlySpan<byte>
     }
 
 
+    public override bool Equals([NotNullWhen(true)] object? obj)
+    {
+        return obj is JxlBoxType boxType && this.Equals(boxType);
+    }
+
+
+    public override int GetHashCode()
+    {
+        return this.ToString().GetHashCode();
+    }
+
+
     /// <summary>
     /// EXIF metadata box type ("Exif").
     /// </summary>
@@ -107,5 +130,9 @@ public struct JxlBoxType : IEquatable<JxlBoxType>, IEquatable<ReadOnlySpan<byte>
     /// </summary>
     public static JxlBoxType HDRGainMap => new("jhgm "u8);
 
+
+    public static bool operator ==(JxlBoxType left, JxlBoxType right) => left.Equals(right);
+
+    public static bool operator !=(JxlBoxType left, JxlBoxType right) => !left.Equals(right);
 
 }

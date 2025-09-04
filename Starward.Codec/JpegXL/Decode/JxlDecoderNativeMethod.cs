@@ -1021,7 +1021,7 @@ public static partial class JxlDecoderNativeMethod
     /// <returns><see cref="JxlDecoderStatus.Success"/> if the value is available, <see cref="JxlDecoderStatus.Error"/> if
     /// not, for example the JPEG XL file does not use the container format.</returns>
     [LibraryImport(LibraryName)]
-    public static partial JxlDecoderStatus JxlDecoderGetBoxType(JxlDecoderPtr dec, IntPtr type, [MarshalAs(UnmanagedType.Bool)] bool decompressed);
+    public static partial JxlDecoderStatus JxlDecoderGetBoxType(JxlDecoderPtr dec, ref JxlBoxType type, [MarshalAs(UnmanagedType.Bool)] bool decompressed);
 
 
     /// <summary>
