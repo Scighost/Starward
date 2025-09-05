@@ -200,7 +200,7 @@ internal abstract class GachaLogService
                     stats.Pity_5 = 0;
                 }
                 stats.Average_5 = (double)(stats.Count - stats.Pity_5) / stats.Count_5;
-                stats.Pity_4 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 4);
+                stats.Pity_4 = list.Count - 1 - Math.Max(list.FindLastIndex(x => x.RankType == 4), list.FindLastIndex(x => x.RankType == 5));
 
                 if (stats.Count_5_Up > 0)
                 {
@@ -215,6 +215,10 @@ internal abstract class GachaLogService
                     if (item.RankType == 4)
                     {
                         item.Pity = pity_4;
+                        pity_4 = 0;
+                    }
+                    if (item.RankType == 5)
+                    {
                         pity_4 = 0;
                     }
                 }
