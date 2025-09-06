@@ -134,7 +134,7 @@
                         <Run Text="" />
                         <Run Text="{x:Bind CurrentInfo.Schedule.StartDateTime.ToString('yyyy/MM/dd', x:Null)}" />
                         <Run Text=" - " />
-                        <Run Text="{x:Bind CurrentInfo.Schedule.StartDateTime.ToString('yyyy/MM/dd', x:Null)}" />
+                        <Run Text="{x:Bind CurrentInfo.Schedule.EndDateTime.ToString('yyyy/MM/dd', x:Null)}" />
                     </TextBlock>
                 </Grid>
 
