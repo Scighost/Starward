@@ -2563,4 +2563,13 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="ImageBatchConvertWindow_ImageBatchConvert" xml:space="preserve">
     <value>Пакетная конвертация изображений</value>
   </data>
+  <data name="ScreenshotSetting_ClearThumbnailCache" xml:space="preserve">
+    <value>Clear Thumbnail Cache</value>
+  </data>
+  <data name="ScreenshotSetting_ClearSuccessfully" xml:space="preserve">
+    <value>Clear Successfully</value>
+  </data>
+  <data name="ScreenshotSetting_ClearFailed" xml:space="preserve">
+    <value>Clear Failed</value>
+  </data>
 </root>
