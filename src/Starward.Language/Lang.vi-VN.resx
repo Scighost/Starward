@@ -2540,4 +2540,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="ImageBatchConvertWindow_ImageBatchConvert" xml:space="preserve">
     <value>Image Batch Convert</value>
   </data>
+  <data name="ScreenshotSetting_ClearThumbnailCache" xml:space="preserve">
+    <value>Clear Thumbnail Cache</value>
+  </data>
+  <data name="ScreenshotSetting_ClearSuccessfully" xml:space="preserve">
+    <value>Clear Successfully</value>
+  </data>
+  <data name="ScreenshotSetting_ClearFailed" xml:space="preserve">
+    <value>Clear Failed</value>
+  </data>
 </root>
