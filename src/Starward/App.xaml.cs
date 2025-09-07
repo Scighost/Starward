@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Text;
+using System.Timers;
 
 
 namespace Starward;
@@ -16,6 +17,7 @@ public partial class App : Application
 
     private readonly DispatcherQueue _uiDispatcherQueue;
 
+    private readonly Timer _gcTimer = new(TimeSpan.FromSeconds(60));
 
     public static new App Current => (App)Application.Current;
 
@@ -26,6 +28,7 @@ public partial class App : Application
         RequestedTheme = ApplicationTheme.Dark;
         _uiDispatcherQueue = DispatcherQueue.GetForCurrentThread();
         UnhandledException += App_UnhandledException;
+        _gcTimer.Elapsed += (_, _) => GC.Collect();
         _ = AppConfig.Language;
     }
 
