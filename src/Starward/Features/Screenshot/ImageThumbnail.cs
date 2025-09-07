@@ -276,4 +276,14 @@ internal static class ImageThumbnail
 
 
 
+    public static void ClearThumbnailCache()
+    {
+        if (Directory.Exists(CacheFolder))
+        {
+            Directory.Delete(CacheFolder, true);
+        }
+    }
+
+
+
 }

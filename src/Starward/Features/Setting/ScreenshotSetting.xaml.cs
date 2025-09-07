@@ -387,6 +387,21 @@ public sealed partial class ScreenshotSetting : PageBase
 
 
 
+    [RelayCommand]
+    private void ClearThumbnailCache()
+    {
+        try
+        {
+            ImageThumbnail.ClearThumbnailCache();
+            InAppToast.MainWindow?.Success(Lang.ScreenshotSetting_ClearSuccessfully);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to clear thumbnail cache");
+            InAppToast.MainWindow?.Error(ex, Lang.ScreenshotSetting_ClearFailed);
+        }
+    }
+
 
     private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
     {

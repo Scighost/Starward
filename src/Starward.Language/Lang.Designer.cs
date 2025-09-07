@@ -5102,6 +5102,33 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Clear Failed 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_ClearFailed {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_ClearFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Clear Successfully 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_ClearSuccessfully {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_ClearSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Clear Thumbnail Cache 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_ClearThumbnailCache {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_ClearThumbnailCache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Format and Quality 的本地化字符串。
         /// </summary>
         public static string ScreenshotSetting_FormatAndQuality {

@@ -142,10 +142,14 @@
                        Text="{x:Bind lang:Lang.ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved}"
                        TextWrapping="Wrap" />
 
-            <!--  测试截图  -->
-            <Button Margin="0,12,0,0"
-                    Command="{x:Bind TestCaptureCommand}"
-                    Content="{x:Bind lang:Lang.ScreenshotSetting_TestScreenshot}" />
+            <StackPanel Margin="0,12,0,0"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                <!--  测试截图  -->
+                <Button Command="{x:Bind TestCaptureCommand}" Content="{x:Bind lang:Lang.ScreenshotSetting_TestScreenshot}" />
+                <!--  清除缩略图缓存  -->
+                <Button Command="{x:Bind ClearThumbnailCacheCommand}" Content="{x:Bind lang:Lang.ScreenshotSetting_ClearThumbnailCache}" />
+            </StackPanel>
 
             <!--  截图错误  -->
             <TextBlock x:Name="TextBlock_CaptureError"
