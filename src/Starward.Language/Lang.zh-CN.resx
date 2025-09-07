@@ -2543,4 +2543,13 @@
   <data name="ImageBatchConvertWindow_ImageBatchConvert" xml:space="preserve">
     <value>图像批量转换</value>
   </data>
+  <data name="ScreenshotSetting_ClearThumbnailCache" xml:space="preserve">
+    <value>清除缩略图缓存</value>
+  </data>
+  <data name="ScreenshotSetting_ClearSuccessfully" xml:space="preserve">
+    <value>清除成功</value>
+  </data>
+  <data name="ScreenshotSetting_ClearFailed" xml:space="preserve">
+    <value>清除失败</value>
+  </data>
 </root>
