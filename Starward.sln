@@ -12,7 +12,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward.Core", "src\Starwa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward", "src\Starward\Starward.csproj", "{CD1EC7A8-4DA1-4998-9B84-F948AA98CDE3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Starward.Launcher", "src\Starward.Launcher\Starward.Launcher.vcxproj", "{BC2FB0E5-F79E-4EA0-8380-73F96ECB6F2E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Starward.LegacyLauncher", "src\Starward.LegacyLauncher\Starward.LegacyLauncher.vcxproj", "{BC2FB0E5-F79E-4EA0-8380-73F96ECB6F2E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward.Language", "src\Starward.Language\Starward.Language.csproj", "{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}"
 EndProject
