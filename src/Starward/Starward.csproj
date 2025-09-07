@@ -34,6 +34,7 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.2.250402" />
 		<PackageReference Include="ComputeSharp.D2D1.WinUI" Version="3.2.0" />
 		<PackageReference Include="Dapper" Version="2.1.66" />
+		<PackageReference Include="dotnetCampus.Ipc" Version="2.0.0-alpha424" />
 		<PackageReference Include="H.InputSimulator" Version="1.5.0" />
 		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.3.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.8" />

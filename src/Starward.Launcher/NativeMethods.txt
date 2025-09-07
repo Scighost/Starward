@@ -1,0 +1,11 @@
+﻿MessageBox
+SetProcessDPIAware
+AllocConsole
+GetMessage
+TranslateMessage
+DispatchMessage
+PostThreadMessage
+AttachThreadInput
+GetWindowThreadProcessId
+GetCurrentThreadId
+WM_QUIT

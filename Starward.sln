@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward.Language", "src\St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starward.RPC", "src\Starward.RPC\Starward.RPC.csproj", "{06BFFD9A-927E-4A68-B70D-F915047785B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starward.Launcher", "src\Starward.Launcher\Starward.Launcher.csproj", "{6C387BC9-618E-40AF-A470-94D128E8EEE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +112,22 @@ Global
 		{06BFFD9A-927E-4A68-B70D-F915047785B8}.Release|x64.Build.0 = Release|Any CPU
 		{06BFFD9A-927E-4A68-B70D-F915047785B8}.Release|x86.ActiveCfg = Release|Any CPU
 		{06BFFD9A-927E-4A68-B70D-F915047785B8}.Release|x86.Build.0 = Release|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Debug|x64.Build.0 = Debug|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Debug|x86.Build.0 = Debug|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Release|ARM64.Build.0 = Release|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Release|x64.ActiveCfg = Release|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Release|x64.Build.0 = Release|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Release|x86.ActiveCfg = Release|Any CPU
+		{6C387BC9-618E-40AF-A470-94D128E8EEE1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

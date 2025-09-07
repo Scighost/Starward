@@ -43,6 +43,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Configuration;
 
 namespace Starward;
 
@@ -152,8 +153,7 @@ public static class AppConfig
 
 
     #region Configuration
-
-
+    
 
     public static string? StarwardLauncherExecutePath { get; private set; }
 
@@ -243,10 +243,20 @@ public static class AppConfig
     #region Service Provider
 
 
+    public static IConfiguration CommandLineConfiguration { get; private set; }
+
 
     private static IServiceProvider _serviceProvider;
 
 
+    public static IConfiguration WithCommandLine(string[] args)
+    {
+        CommandLineConfiguration = new ConfigurationBuilder()
+            .AddCommandLine(args)
+            .Build();
+        return CommandLineConfiguration;
+    }
+    
 
     private static void BuildServiceProvider()
     {
@@ -304,6 +314,8 @@ public static class AppConfig
             sc.AddSingleton<GameAccountService>();
 
             sc.AddSingleton<ScreenCaptureService>();
+
+            sc.AddSingleton<IConfiguration>(CommandLineConfiguration);
 
             _serviceProvider = sc.BuildServiceProvider();
         }

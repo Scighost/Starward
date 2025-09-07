@@ -27,9 +27,9 @@ public static class Program
     {
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+        IConfiguration config = AppConfig.WithCommandLine(args);
         if (args.Length > 0)
         {
-            IConfiguration config = new ConfigurationBuilder().AddCommandLine(args).Build();
             if (args[0].ToLower() is "playtime")
             {
                 int pid = config.GetValue<int>("pid");
