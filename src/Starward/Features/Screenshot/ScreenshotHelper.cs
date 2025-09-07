@@ -53,7 +53,7 @@ internal static class ScreenshotHelper
         using var fs = File.OpenRead(filePath);
         var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
         var ms = new MemoryStream();
-        var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, ms.AsRandomAccessStream(), [new KeyValuePair<string, BitmapTypedValue>("ImageQuality", new BitmapTypedValue(0.95f, PropertyType.Single))]);
+        var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, ms.AsRandomAccessStream());
         encoder.SetSoftwareBitmap(await decoder.GetSoftwareBitmapAsync());
         await encoder.FlushAsync();
         await File.WriteAllBytesAsync(jpgFilePath, ms.ToArray());

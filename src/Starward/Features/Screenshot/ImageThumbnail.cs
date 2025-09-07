@@ -35,7 +35,7 @@ internal static class ImageThumbnail
     private const string JxlImageBase64 = "/woAEBAUNwIIBAEAGABLGIsVggE=";
 
 
-    private static List<KeyValuePair<string, BitmapTypedValue>> ImageQuality = [new KeyValuePair<string, BitmapTypedValue>("ImageQuality", new BitmapTypedValue(0.8f, Windows.Foundation.PropertyType.Single))];
+    private static List<KeyValuePair<string, BitmapTypedValue>> ImageQuality = [new KeyValuePair<string, BitmapTypedValue>("ImageQuality", new BitmapTypedValue(0.6f, Windows.Foundation.PropertyType.Single))];
 
 
     private static readonly SemaphoreSlim Semaphore = new(Math.Clamp(Environment.ProcessorCount / 2, 1, int.MaxValue));

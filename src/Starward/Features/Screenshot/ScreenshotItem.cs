@@ -51,33 +51,36 @@ public partial class ScreenshotItem
 
 
 
-    private static bool TryParseCreationTime(string name, out DateTime time)
+    public static bool TryParseCreationTime(string name, out DateTime time)
     {
-        // star rail
-        if (name.StartsWith("StarRail_Image_"))
+        // starward
+        if (DateTime.TryParseExact(StarwardNameRegex().Match(name).Groups[1].Value, "yyyyMMdd_HHmmssff", null, DateTimeStyles.None, out time))
         {
-            name = name["StarRail_Image_".Length..];
-            if (int.TryParse(name, out int ts))
-            {
-                time = DateTimeOffset.FromUnixTimeSeconds(ts).LocalDateTime;
-                return true;
-            }
-        }
-        // cloud genshin
-        if (name.StartsWith("GenshinlmpactPhoto "))
-        {
-            name = name["GenshinlmpactPhoto ".Length..];
-            return DateTime.TryParseExact(name, "yyyy_MM_dd HH_mm_ss", null, DateTimeStyles.None, out time);
+            return true;
         }
         // genshin zzz
         if (DateTime.TryParseExact(name, "yyyyMMddHHmmss", null, DateTimeStyles.None, out time))
         {
             return true;
         }
+        // star rail
+        if (name.StartsWith("StarRail_Image_"))
+        {
+            if (int.TryParse(name["StarRail_Image_".Length..], out int ts))
+            {
+                time = DateTimeOffset.FromUnixTimeSeconds(ts).LocalDateTime;
+                return true;
+            }
+        }
         // honkai 3rd
         if (DateTime.TryParseExact(name[..Math.Min(19, name.Length)], "yyyy-MM-dd-HH-mm-ss", null, DateTimeStyles.None, out time))
         {
             return true;
+        }
+        // cloud genshin
+        if (name.StartsWith("GenshinlmpactPhoto "))
+        {
+            return DateTime.TryParseExact(name["GenshinlmpactPhoto ".Length..], "yyyy_MM_dd HH_mm_ss", null, DateTimeStyles.None, out time);
         }
         // nvidia
         if (DateTime.TryParseExact(NvidiaNameRegex().Match(name).Groups[1].Value, "yyyy.MM.dd - HH.mm.ss.ff", null, DateTimeStyles.None, out time))
@@ -89,8 +92,13 @@ public partial class ScreenshotItem
         {
             return true;
         }
+
         return false;
     }
+
+
+    [GeneratedRegex(@"(\d{8})_(\d{8})")]
+    private static partial Regex StarwardNameRegex();
 
 
     [GeneratedRegex(@"(\d{4})\.(\d{2})\.(\d{2}) - (\d{2})\.(\d{2})\.(\d{2})\.(\d+)")]

@@ -392,20 +392,17 @@ internal class ScreenCaptureService
     }
 
 
-    public static async Task SaveAsAvifAsync(CanvasBitmap bitmap, Stream stream, DateTimeOffset frameTime, int quality = -1, CancellationToken cancellationToken = default)
+    public static async Task SaveAsAvifAsync(CanvasBitmap bitmap, Stream stream, DateTimeOffset frameTime)
     {
         uint width = bitmap.SizeInPixels.Width;
         uint height = bitmap.SizeInPixels.Height;
-        if (quality == -1)
+        int quality = AppConfig.ScreenCaptureEncodeQuality switch
         {
-            quality = AppConfig.ScreenCaptureEncodeQuality switch
-            {
-                0 => 80,
-                1 => 95,
-                2 => 100,
-                _ => 95,
-            };
-        }
+            0 => 80,
+            1 => 95,
+            2 => 100,
+            _ => 95,
+        };
 
         if (bitmap.Format is DirectXPixelFormat.R8G8B8A8UIntNormalized or DirectXPixelFormat.B8G8R8A8UIntNormalized)
         {
@@ -434,7 +431,7 @@ internal class ScreenCaptureService
                 image.FromRGBImage(rgb);
                 encoder.AddImage(image, 1, avifAddImageFlag.Single);
                 stream.Write(encoder.Encode());
-            }, cancellationToken).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
         else if (bitmap.Format is DirectXPixelFormat.R16G16B16A16Float or DirectXPixelFormat.R32G32B32A32Float)
         {
@@ -459,7 +456,7 @@ internal class ScreenCaptureService
                 rgb.IgnoreAlpha = true;
                 rgb.MaxThreads = maxThreads;
                 rgb.SetPixelBytes(renderTarget.GetPixelBytes());
-                using var image = new avifImageWrapper(width, height, 10, avifPixelFormat.YUV444);
+                using var image = new avifImageWrapper(width, height, 12, avifPixelFormat.YUV444);
                 image.ColorPrimaries = avifColorPrimaries.BT2020;
                 image.TransferCharacteristics = avifTransferCharacteristics.SMPTE2084;
                 image.MatrixCoefficients = avifMatrixCoefficients.BT2020_NCL;
@@ -467,7 +464,7 @@ internal class ScreenCaptureService
                 image.FromRGBImage(rgb);
                 encoder.AddImage(image, 1, avifAddImageFlag.Single);
                 stream.Write(encoder.Encode());
-            }, cancellationToken).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
         else
         {
@@ -476,20 +473,16 @@ internal class ScreenCaptureService
     }
 
 
-    public static async Task SaveAsJxlAsync(CanvasBitmap bitmap, Stream stream, DateTimeOffset frameTime, int quality = -1, CancellationToken cancellationToken = default)
+    public static async Task SaveAsJxlAsync(CanvasBitmap bitmap, Stream stream, DateTimeOffset frameTime)
     {
         uint width = bitmap.SizeInPixels.Width;
         uint height = bitmap.SizeInPixels.Height;
-        float distance = quality switch
+        float distance = AppConfig.ScreenCaptureEncodeQuality switch
         {
-            -1 => AppConfig.ScreenCaptureEncodeQuality switch
-            {
-                0 => 2,
-                1 => 0.5f,
-                2 => 0,
-                _ => 0.5f,
-            },
-            _ => JxlEncoderNativeMethod.JxlEncoderDistanceFromQuality(quality),
+            0 => 2,
+            1 => 0.5f,
+            2 => 0,
+            _ => 0.5f,
         };
         bool lossless = distance == 0;
 
@@ -521,7 +514,7 @@ internal class ScreenCaptureService
                 frameSettings.Lossless = lossless;
                 frameSettings.AddImageFrame(JxlPixelFormat.R8G8B8A8UInt, pixelBytes);
                 encoder.Encode(stream);
-            }, cancellationToken).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
         else if (bitmap.Format is DirectXPixelFormat.R16G16B16A16Float or DirectXPixelFormat.R32G32B32A32Float)
         {
@@ -538,7 +531,7 @@ internal class ScreenCaptureService
                     ds.DrawImage(effect);
                 }
                 using var encoder = new JxlEncoder();
-                encoder.SetBasicInfo(new JxlBasicInfo(width, height, JxlPixelFormat.R16G16B16A16UInt, true) { UsesOriginalProfile = lossless, BitsPerSample = 10, AlphaBits = 10 });
+                encoder.SetBasicInfo(new JxlBasicInfo(width, height, JxlPixelFormat.R16G16B16A16UInt, true) { UsesOriginalProfile = lossless });
                 encoder.SetColorEncoding(JxlColorEncoding.HDR10);
                 encoder.AddBox(JxlBoxType.XMP, BuildXMPMetadata(frameTime), false);
                 encoder.RunnerThreads = (uint)GetSuggestedThreads();
@@ -547,7 +540,7 @@ internal class ScreenCaptureService
                 frameSettings.Lossless = lossless;
                 frameSettings.AddImageFrame(JxlPixelFormat.R16G16B16A16UInt, renderTarget.GetPixelBytes());
                 encoder.Encode(stream);
-            }, cancellationToken).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
         else
         {
@@ -574,7 +567,7 @@ internal class ScreenCaptureService
     }
 
 
-    private static byte[] BuildXMPMetadata(DateTimeOffset time)
+    public static byte[] BuildXMPMetadata(DateTimeOffset time)
     {
         string value = $"""
             <x:xmpmeta xmlns:x="adobe:ns:meta/"><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><rdf:Description xmlns:xmp="http://ns.adobe.com/xap/1.0/"><xmp:CreatorTool>Starward Launcher</xmp:CreatorTool><xmp:CreateDate>{time:yyyy-MM-ddTHH:mm:sszzz}</xmp:CreateDate></rdf:Description></rdf:RDF></x:xmpmeta>
