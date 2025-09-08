@@ -1906,7 +1906,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Trước khi nhập vào, vui lòng chắc chắn thời gian lần cuối Cầu Nguyện giống với thời gian hiển thị trong game. Nếu chúng không giống, vui lòng đặt lại thời gian khu vực.</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffset" xml:space="preserve">
-    <value>Time Zone Offset</value>
+    <value>Độ lệch múi giờ</value>
   </data>
   <data name="GachaImportAndExportWindow_OffsetTime" xml:space="preserve">
     <value>Offset Time</value>
@@ -2539,5 +2539,14 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="ImageBatchConvertWindow_ImageBatchConvert" xml:space="preserve">
     <value>Image Batch Convert</value>
+  </data>
+  <data name="ScreenshotSetting_ClearThumbnailCache" xml:space="preserve">
+    <value>Clear Thumbnail Cache</value>
+  </data>
+  <data name="ScreenshotSetting_ClearSuccessfully" xml:space="preserve">
+    <value>Clear Successfully</value>
+  </data>
+  <data name="ScreenshotSetting_ClearFailed" xml:space="preserve">
+    <value>Clear Failed</value>
   </data>
 </root>
