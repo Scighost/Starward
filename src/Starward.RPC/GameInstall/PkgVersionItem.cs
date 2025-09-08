@@ -16,3 +16,13 @@ internal class PkgVersionItem
     public long FileSize { get; set; }
 
 }
+
+
+
+internal class BlacklistItem
+{
+
+    [JsonPropertyName("fileName")]
+    public string FileName { get; set; }
+
+}

@@ -986,7 +986,7 @@ internal partial class GameInstallHelper
         List<T> list = new();
         using StreamReader sr = new(stream, leaveOpen: true);
         string? line;
-        while ((line = await sr.ReadLineAsync(cancellationToken)) is not null)
+        while (!string.IsNullOrWhiteSpace(line = await sr.ReadLineAsync(cancellationToken)))
         {
             T? item = JsonSerializer.Deserialize<T>(line);
             if (item is not null)

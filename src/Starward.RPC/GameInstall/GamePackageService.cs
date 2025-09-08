@@ -124,6 +124,22 @@ internal partial class GamePackageService
             {
                 await PrepareForInstallOrRepairAsync(context, cancellationToken);
             }
+            if (context.GameConfig.EnableResourceBlacklist && context.TaskFiles?.Count > 0)
+            {
+                string blacklistPath = Path.Join(context.InstallPath, context.GameConfig.BlacklistDir);
+                if (File.Exists(blacklistPath))
+                {
+                    using var fs = File.OpenRead(blacklistPath);
+                    var items = await GameInstallHelper.DeserilizerLinesAsync<BlacklistItem>(fs, cancellationToken);
+                    foreach (var item in items)
+                    {
+                        if (context.TaskFiles.FirstOrDefault(x => x.File == item.FileName) is GameInstallFile taskFile)
+                        {
+                            context.TaskFiles.Remove(taskFile);
+                        }
+                    }
+                }
+            }
             context.GameChannelSDK = await GetGameChannelSDKAsync(context.GameId, cancellationToken);
             context.DeprecatedFileConfig = await GetGameDeprecatedFileAsync(context.GameId, cancellationToken);
 
