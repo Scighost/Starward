@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -420,6 +420,55 @@ public class HoYoPlayClient
     }
 
 
+    /// <summary>
+    /// 获取游戏扫描信息，不同版本exe的md5
+    /// </summary>
+    /// <param name="launcherId"></param>
+    /// <param name="language"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<GameScanInfo>> GetGameScanInfosAsync(string launcherId, string language, CancellationToken cancellationToken = default)
+    {
+        string url = BuildUrl("getGameScanInfo", launcherId, language);
+        return await CommonGetAsync<List<GameScanInfo>>(url, "game_scan_info", cancellationToken);
+    }
+
+
+    /// <summary>
+    /// 获取游戏扫描信息，不同版本exe的md5
+    /// </summary>
+    /// <param name="launcherId"></param>
+    /// <param name="language"></param>
+    /// <param name="gameIds"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<GameScanInfo>> GetGameScanInfosAsync(string launcherId, string language, IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
+    {
+        string url = BuildUrl("getGameScanInfo", launcherId, language);
+        foreach (var gameId in gameIds)
+        {
+            url += $"&game_ids[]={gameId.Id}";
+        }
+        return await CommonGetAsync<List<GameScanInfo>>(url, "game_scan_info", cancellationToken);
+    }
+
+
+    /// <summary>
+    /// 获取游戏扫描信息，不同版本exe的md5
+    /// </summary>
+    /// <param name="launcherId"></param>
+    /// <param name="language"></param>
+    /// <param name="gameId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<GameConfig?> GetGameScanInfosAsync(string launcherId, string language, GameId gameId, CancellationToken cancellationToken = default)
+    {
+        string url = BuildUrl("getGameScanInfo", launcherId, language) + $"&game_ids[]={gameId.Id}";
+        var list = await CommonGetAsync<List<GameConfig>>(url, "game_scan_info", cancellationToken);
+        return list.FirstOrDefault(x => x.GameId == gameId);
+    }
+
+
 
     /// <summary>
     /// Chunk 下载模式的正式和预下载分支
@@ -561,6 +610,8 @@ public class HoYoPlayClient
         var request = new HttpRequestMessage(HttpMethod.Post, url);
         return await CommonSendAsync<GameSophonPatchBuild>(request, cancellationToken);
     }
+
+
 
 
 

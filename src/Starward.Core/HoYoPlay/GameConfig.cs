@@ -118,7 +118,11 @@ public class GameConfig
     [JsonPropertyName("game_log_export_config")]
     public object? GameLogExportConfig { get; set; }
 
-
+    /// <summary>
+    /// 用于标记已删除的过时任务资源的文件，后续更新和修复过程中不要再下载，文件内容举个例子：
+    /// {"fileName":"StarRail_Data/StreamingAssets/Video/Windows/CS_ChapLoop04_Act0540.usm"}
+    /// {"fileName":"StarRail_Data/StreamingAssets/Video/Windows/CS_ChapLoop_Black.usm"}
+    /// </summary>
     [JsonPropertyName("blacklist_dir")]
     public string BlacklistDir { get; set; }
 
@@ -129,6 +133,42 @@ public class GameConfig
 
     [JsonPropertyName("wpf_pkg_version_dir")]
     public string WpfPackageVersionDir { get; set; }
+
+
+    [JsonPropertyName("enable_audio_pkg_mgmt")]
+    public bool EnableAudioPackageMgmt { get; set; }
+
+
+    [JsonPropertyName("audio_pkg_config_dir")]
+    public string AudioPackageConfigDir { get; set; }
+
+
+    [JsonPropertyName("enable_resource_deletion_adapter")]
+    public bool EnableResourceDeletionAdapter { get; set; }
+
+
+    [JsonPropertyName("enable_resource_blacklist")]
+    public bool EnableResourceBlacklist { get; set; }
+
+
+    [JsonPropertyName("enable_redundant_file_cleanup")]
+    public bool EnableRedundantFileCleanup { get; set; }
+
+
+    [JsonPropertyName("redundant_file_cleanup_paths")]
+    public List<string> RedundantFileCleanupPaths { get; set; }
+
+
+    [JsonPropertyName("enable_v2_game_detection")]
+    public bool EnableV2GameDetection { get; set; }
+
+
+    [JsonPropertyName("related_processes")]
+    public List<string> RelatedProcesses { get; set; }
+
+
+    [JsonPropertyName("enable_ldiff")]
+    public bool EnableLdiff { get; set; }
 
 }
 

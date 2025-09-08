@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Nodes;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.HoYoPlay;
@@ -13,6 +13,7 @@ namespace Starward.Core.HoYoPlay;
 [JsonSerializable(typeof(List<GameDeprecatedFileConfig>))]
 [JsonSerializable(typeof(List<GameConfig>))]
 [JsonSerializable(typeof(List<GameBranch>))]
+[JsonSerializable(typeof(List<GameScanInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<GameSophonChunkBuild>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<GameSophonPatchBuild>))]
 
