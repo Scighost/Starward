@@ -54,7 +54,7 @@ internal class GenshinGachaService : GachaLogService
             """, new { uid }).ToList();
         foreach (IGachaType type in QueryGachaTypes)
         {
-            var l = GetGachaLogItemsByQueryType(list, (IGachaType)type);
+            var l = GetGachaLogItemsByQueryType(list, type);
             int index = 0;
             int pity = 0;
             bool hasNoUp = GachaNoUp.Dictionary.TryGetValue($"{CurrentGameBiz}{type.Value}", out var noUp);

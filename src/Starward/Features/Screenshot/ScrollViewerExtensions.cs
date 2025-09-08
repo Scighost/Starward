@@ -31,14 +31,14 @@ public static class ScrollViewerExtensions
     {
         IntPtr thisPtr = _obj.ThisPtr;
         byte b = 0;
-        ExceptionHelpers.ThrowExceptionForHR(((delegate* unmanaged[Stdcall]<IntPtr, byte*, int>)(*(IntPtr*)((nint)(*(IntPtr*)(void*)thisPtr) + (nint)7 * (nint)sizeof(delegate* unmanaged[Stdcall]<IntPtr, byte*, int>))))(thisPtr, &b));
+        ExceptionHelpers.ThrowExceptionForHR(((delegate* unmanaged[Stdcall]<IntPtr, byte*, int>)(*(IntPtr*)(*(IntPtr*)(void*)thisPtr + 7 * (nint)sizeof(delegate* unmanaged[Stdcall]<IntPtr, byte*, int>))))(thisPtr, &b));
         return b != 0;
     }
 
     private static unsafe void set_ArePointerWheelEventsIgnored(IObjectReference _obj, bool value)
     {
         IntPtr thisPtr = _obj.ThisPtr;
-        ExceptionHelpers.ThrowExceptionForHR(((delegate* unmanaged[Stdcall]<IntPtr, byte, int>)(*(IntPtr*)((nint)(*(IntPtr*)(void*)thisPtr) + (nint)8 * (nint)sizeof(delegate* unmanaged[Stdcall]<IntPtr, byte, int>))))(thisPtr, value ? ((byte)1) : ((byte)0)));
+        ExceptionHelpers.ThrowExceptionForHR(((delegate* unmanaged[Stdcall]<IntPtr, byte, int>)(*(IntPtr*)(*(IntPtr*)(void*)thisPtr + 8 * (nint)sizeof(delegate* unmanaged[Stdcall]<IntPtr, byte, int>))))(thisPtr, value ? ((byte)1) : ((byte)0)));
     }
 
 }

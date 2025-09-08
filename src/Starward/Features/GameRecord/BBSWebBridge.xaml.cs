@@ -630,7 +630,7 @@ public sealed partial class BBSWebBridge : UserControl
     private static string GetRandomString(int timestamp)
     {
         var sb = new StringBuilder(6);
-        var random = new Random((int)timestamp);
+        var random = new Random(timestamp);
         for (int i = 0; i < 6; i++)
         {
             int v8 = random.Next(0, 32768) % 26;

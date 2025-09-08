@@ -29,7 +29,8 @@ internal static class ImageLoader
         }
         else
         {
-            return await CanvasBitmap.LoadAsync(CanvasDevice.GetSharedDevice(), filePath).AsTask(cancellation);
+            using var fs = File.OpenRead(filePath);
+            return await CanvasBitmap.LoadAsync(CanvasDevice.GetSharedDevice(), fs.AsRandomAccessStream()).AsTask(cancellation);
         }
     }
 

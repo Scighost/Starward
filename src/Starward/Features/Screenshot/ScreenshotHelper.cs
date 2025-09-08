@@ -4,7 +4,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
-using Windows.Foundation;
 using Windows.Graphics.Imaging;
 
 namespace Starward.Features.Screenshot;
