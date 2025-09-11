@@ -71,7 +71,7 @@ internal class ScreenCaptureService
     private static DisplayAdvancedColorInfo GetAdvancedColorInfoFromWindowHandle(nint hwnd)
     {
         Microsoft.UI.DisplayId displayId = Win32Interop.GetDisplayIdFromMonitor(User32.MonitorFromWindow(hwnd, User32.MonitorFlags.MONITOR_DEFAULTTONEAREST).DangerousGetHandle());
-        DisplayInformation displayInformation = DisplayInformation.CreateForDisplayId(displayId);
+        using DisplayInformation displayInformation = DisplayInformation.CreateForDisplayId(displayId);
         return displayInformation.GetAdvancedColorInfo();
     }
 
@@ -151,55 +151,73 @@ internal class ScreenCaptureService
         return await Task.Run(() =>
         {
             using CanvasBitmap canvasBitmap = CanvasBitmap.CreateFromDirect3D11Surface(CanvasDevice.GetSharedDevice(), frame.Surface, 96);
-            DisplayAdvancedColorInfo colorInfo = GetAdvancedColorInfoFromWindowHandle(runningGame.WindowHandle);
-            bool hdr = false;
-            float maxCLL = 0;
-            if (colorInfo.CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange)
+            if (canvasBitmap.Format is DirectXPixelFormat.R8G8B8A8UIntNormalized)
             {
-                maxCLL = GetMaxCLL(canvasBitmap);
-                hdr = maxCLL > colorInfo.SdrWhiteLevelInNits + 5;
-            }
-            bool clip = TryClipClient(runningGame.WindowHandle, frame.ContentSize, out Rect clientRect);
-            if (!clip)
-            {
-                clientRect = new Rect(0, 0, frame.ContentSize.Width, frame.ContentSize.Height);
-            }
-            CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(),
-                                                   (float)clientRect.Width,
-                                                   (float)clientRect.Height,
-                                                   96,
-                                                   hdr ? DirectXPixelFormat.R16G16B16A16Float : DirectXPixelFormat.R8G8B8A8UIntNormalized,
-                                                   CanvasAlphaMode.Premultiplied);
-            try
-            {
-                using CanvasDrawingSession ds = renderTarget.CreateDrawingSession();
-                ICanvasImage output = canvasBitmap;
-                if (!hdr)
+                bool clip = TryClipClient(runningGame.WindowHandle, frame.ContentSize, out Rect clientRect);
+                if (!clip)
                 {
-                    WhiteLevelAdjustmentEffect whiteLevelEffect = new()
-                    {
-                        Source = canvasBitmap,
-                        InputWhiteLevel = 80,
-                        OutputWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits,
-                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                    };
-                    SrgbGammaEffect gammaEffect = new()
-                    {
-                        Source = whiteLevelEffect,
-                        GammaMode = SrgbGammaMode.OETF,
-                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                    };
-                    output = gammaEffect;
+                    clientRect = new Rect(0, 0, frame.ContentSize.Width, frame.ContentSize.Height);
                 }
-                ds.Clear(Colors.Transparent);
-                ds.DrawImage(output, 0, 0, clientRect);
+                CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(), (float)clientRect.Width, (float)clientRect.Height, 96, DirectXPixelFormat.R8G8B8A8UIntNormalized, CanvasAlphaMode.Premultiplied);
+                try
+                {
+                    using CanvasDrawingSession ds = renderTarget.CreateDrawingSession();
+                    ds.DrawImage(canvasBitmap, 0, 0, clientRect);
+                }
+                catch
+                {
+                    renderTarget.Dispose();
+                    throw;
+                }
+                return (renderTarget, -1, 80);
             }
-            catch
+            else
             {
-                renderTarget.Dispose();
-                throw;
+                DisplayAdvancedColorInfo colorInfo = GetAdvancedColorInfoFromWindowHandle(runningGame.WindowHandle);
+                bool hdr = false;
+                float maxCLL = 0;
+                if (colorInfo.CurrentAdvancedColorKind is DisplayAdvancedColorKind.HighDynamicRange)
+                {
+                    maxCLL = GetMaxCLL(canvasBitmap);
+                    hdr = maxCLL > colorInfo.SdrWhiteLevelInNits + 5;
+                }
+                bool clip = TryClipClient(runningGame.WindowHandle, frame.ContentSize, out Rect clientRect);
+                if (!clip)
+                {
+                    clientRect = new Rect(0, 0, frame.ContentSize.Width, frame.ContentSize.Height);
+                }
+                CanvasRenderTarget renderTarget = new(CanvasDevice.GetSharedDevice(), (float)clientRect.Width, (float)clientRect.Height, 96, hdr ? DirectXPixelFormat.R16G16B16A16Float : DirectXPixelFormat.R8G8B8A8UIntNormalized, CanvasAlphaMode.Premultiplied);
+                try
+                {
+                    using CanvasDrawingSession ds = renderTarget.CreateDrawingSession();
+                    ICanvasImage output = canvasBitmap;
+                    if (!hdr)
+                    {
+                        WhiteLevelAdjustmentEffect whiteLevelEffect = new()
+                        {
+                            Source = canvasBitmap,
+                            InputWhiteLevel = 80,
+                            OutputWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits,
+                            BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                        };
+                        SrgbGammaEffect gammaEffect = new()
+                        {
+                            Source = whiteLevelEffect,
+                            GammaMode = SrgbGammaMode.OETF,
+                            BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                        };
+                        output = gammaEffect;
+                    }
+                    ds.Clear(Colors.Transparent);
+                    ds.DrawImage(output, 0, 0, clientRect);
+                }
+                catch
+                {
+                    renderTarget.Dispose();
+                    throw;
+                }
+                return (renderTarget, maxCLL, (float)colorInfo.SdrWhiteLevelInNits);
             }
-            return (renderTarget, maxCLL, (float)colorInfo.SdrWhiteLevelInNits);
         }).ConfigureAwait(false);
     }
 

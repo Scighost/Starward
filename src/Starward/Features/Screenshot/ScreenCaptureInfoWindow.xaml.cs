@@ -283,7 +283,7 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
         {
             IsError = true;
             IsSuccess = false;
-            _finishedImageCount++;
+            //_finishedImageCount++;
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
             _openImageCancellationToken = _cancellationTokenSource.Token;

@@ -270,11 +270,20 @@ public sealed partial class ScreenshotSetting : PageBase
             using Direct3D11CaptureFrame frame = await ScreenCaptureHelper.CaptureMonitorAsync(monitor.DangerousGetHandle());
             DateTimeOffset frameTime = DateTimeOffset.Now;
             using CanvasBitmap canvasBitmap = CanvasBitmap.CreateFromDirect3D11Surface(CanvasDevice.GetSharedDevice(), frame.Surface, 96);
+
+            float maxCLL = -1;
+            float sdrWhiteLevel = 80;
+            bool hdr = false;
+
             DisplayId displayId = new DisplayId((ulong)monitor.DangerousGetHandle());
-            DisplayAdvancedColorInfo colorInfo = DisplayInformation.CreateForDisplayId(displayId).GetAdvancedColorInfo();
-            float maxCLL = ScreenCaptureService.GetMaxCLL(canvasBitmap);
-            float sdrWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits + 5;
-            bool hdr = maxCLL > sdrWhiteLevel;
+            if (canvasBitmap.Format is DirectXPixelFormat.R16G16B16A16Float)
+            {
+                using DisplayInformation displayInformation = DisplayInformation.CreateForDisplayId(displayId);
+                DisplayAdvancedColorInfo colorInfo = displayInformation.GetAdvancedColorInfo();
+                maxCLL = ScreenCaptureService.GetMaxCLL(canvasBitmap);
+                sdrWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits;
+                hdr = maxCLL > sdrWhiteLevel + 5;
+            }
 
             if (_infoWindow?.AppWindow is null)
             {
@@ -339,7 +348,14 @@ public sealed partial class ScreenshotSetting : PageBase
                                                     CanvasAlphaMode.Premultiplied);
                 using (CanvasDrawingSession ds = renderTarget.CreateDrawingSession())
                 {
-                    ds.DrawImage(gammaEffect);
+                    if (canvasBitmap.Format is DirectXPixelFormat.R8G8B8A8UIntNormalized)
+                    {
+                        ds.DrawImage(canvasBitmap);
+                    }
+                    else
+                    {
+                        ds.DrawImage(gammaEffect);
+                    }
                 }
                 _infoWindow.CaptureStart(displayId, renderTarget, maxCLL);
 

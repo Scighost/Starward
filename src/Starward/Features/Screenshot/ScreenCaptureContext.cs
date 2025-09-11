@@ -77,7 +77,6 @@ internal class ScreenCaptureContext : IDisposable
         {
             if (CaptureSession is null)
             {
-                Dispose();
                 RecreateResource();
             }
             CaptureSession!.StartCapture();
@@ -107,7 +106,6 @@ internal class ScreenCaptureContext : IDisposable
                 completionSource?.TrySetResult(frame);
                 if (frameCompletionQueue.IsEmpty)
                 {
-                    Dispose();
                     RecreateResource();
                 }
             }
@@ -126,7 +124,9 @@ internal class ScreenCaptureContext : IDisposable
     {
         lock (_lock)
         {
-            FramePool = Direct3D11CaptureFramePool.CreateFreeThreaded(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 2, lastSize);
+            Dispose();
+            FramePool = ScreenCaptureHelper.IsWin10 ? Direct3D11CaptureFramePool.Create(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R8G8B8A8UIntNormalized, 2, lastSize)
+                                                    : Direct3D11CaptureFramePool.CreateFreeThreaded(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 2, lastSize);
             FramePool.FrameArrived += OnFrameArrived;
             CaptureSession = FramePool.CreateCaptureSession(CaptureItem);
 #pragma warning disable CA1416 // 验证平台兼容性
@@ -148,10 +148,16 @@ internal class ScreenCaptureContext : IDisposable
 
     public void Dispose()
     {
-        FramePool?.Dispose();
-        CaptureSession?.Dispose();
-        FramePool = null;
-        CaptureSession = null;
+        if (CaptureSession is not null)
+        {
+            CaptureSession?.Dispose();
+            CaptureSession = null;
+        }
+        if (FramePool is not null)
+        {
+            FramePool.Dispose();
+            FramePool = null;
+        }
     }
 
 }

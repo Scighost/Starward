@@ -27,6 +27,8 @@ internal partial class ScreenCaptureHelper
     public static readonly bool IsIsCursorCaptureEnabledPresent = ApiInformation.IsPropertyPresent("Windows.Graphics.Capture.GraphicsCaptureSession", "IsCursorCaptureEnabled");
 
 
+    public static readonly bool IsWin10 = Environment.OSVersion.Version.Build < 22000;
+
 
     public static async Task<Direct3D11CaptureFrame> CaptureWindowAsync(nint hwnd, CancellationToken cancellationToken = default)
     {
@@ -53,7 +55,8 @@ internal partial class ScreenCaptureHelper
 
     public static async Task<Direct3D11CaptureFrame> CaptureAsync(GraphicsCaptureItem item, CancellationToken cancellationToken = default)
     {
-        using Direct3D11CaptureFramePool framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 1, item.Size);
+        using Direct3D11CaptureFramePool framePool = IsWin10 ? Direct3D11CaptureFramePool.Create(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R8G8B8A8UIntNormalized, 1, item.Size)
+                                                             : Direct3D11CaptureFramePool.CreateFreeThreaded(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 1, item.Size);
         using GraphicsCaptureSession session = framePool.CreateCaptureSession(item);
 #pragma warning disable CA1416 // 验证平台兼容性
         if (IsIncludeSecondaryWindowsPresent)
