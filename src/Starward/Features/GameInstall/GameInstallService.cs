@@ -342,6 +342,8 @@ internal class GameInstallService
                 GameId = gameId.Id,
                 InstallPath = installPath,
                 UserDataFolder = AppConfig.UserDataFolder,
+                ScreenshotFolder = AppConfig.ScreenshotFolder,
+                GameExeName = GameLauncherService.GetGameExeName(gameId.GameBiz),
             };
             var response = await _gameInstallerClient.UninstallGameAsync(request);
             if (response.Success)

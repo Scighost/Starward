@@ -76,6 +76,8 @@ message UninstallGameRequest {
     string game_id = 2;
     string install_path = 3;
     string user_data_folder = 4;
+    google.protobuf.StringValue screenshot_folder = 5;
+    google.protobuf.StringValue game_exe_name = 6;
 }
 
 message UninstallGameResponse {

@@ -57,9 +57,9 @@ internal class GameUninstallService
         {
             File.SetAttributes(file, FileAttributes.Normal);
         }
+        BackupScreenshot(request, gameConfig);
         _logger.LogInformation("Deleting folder {installPath} ({count} files).", installPath, files.Length);
         Directory.Delete(installPath, true);
-        BackupScreenshot(request, gameConfig);
         ClearCacheDir(request, gameConfig);
         _logger.LogInformation("Finished uninstall game ({gameBiz}): {installPath}", request.GameBiz, installPath);
     }
@@ -80,7 +80,29 @@ internal class GameUninstallService
         {
             sourceScreenshotFolder = Path.Join(request.InstallPath, gameConfig.GameScreenshotDir);
         }
-        string backupScreenshotFolder = Path.Join(userDataFolder, "Screenshots", ((GameBiz)request.GameBiz).Game);
+
+        string backupBaseFolder;
+        string backupScreenshotFolder;
+        if (Directory.Exists(request.ScreenshotFolder))
+        {
+            backupBaseFolder = request.ScreenshotFolder;
+        }
+        else
+        {
+            backupBaseFolder = Path.Join(userDataFolder, "Screenshots");
+        }
+        if (!string.IsNullOrWhiteSpace(request.GameExeName))
+        {
+            backupScreenshotFolder = Path.Join(backupBaseFolder, Path.GetFileNameWithoutExtension(request.GameExeName));
+        }
+        else if (!string.IsNullOrWhiteSpace(gameConfig?.ExeFileName))
+        {
+            backupScreenshotFolder = Path.Join(backupBaseFolder, Path.GetFileNameWithoutExtension(gameConfig.ExeFileName));
+        }
+        else
+        {
+            backupScreenshotFolder = Path.Join(backupBaseFolder, ((GameBiz)request.GameBiz).Game);
+        }
         if (Directory.Exists(userDataFolder) && Directory.Exists(sourceScreenshotFolder))
         {
             bool canHardLink = CanHardLink(sourceScreenshotFolder, backupScreenshotFolder);
