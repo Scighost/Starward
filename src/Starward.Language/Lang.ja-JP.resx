@@ -2115,16 +2115,16 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>ハイダイナミックレンジ</value>
   </data>
   <data name="WelcomeView_IfStarwardTakesALongTimeToStartItIsRecommendedToDisableSmartAppControlInWindowsSecurity" xml:space="preserve">
-    <value>If Starward takes a long time to start, it is recommended to disable Smart App Control in Windows Security.</value>
+    <value>Starwardの起動に時間がかかる場合は、Windowsセキュリティのスマート アプリ コントロールを無効にすることをおすすめします。</value>
   </data>
   <data name="WelcomeView_OpenWindowsSecurity" xml:space="preserve">
-    <value>Open Windows Security</value>
+    <value>Windowsセキュリティを開く</value>
   </data>
   <data name="WelcomeView_LearnMore" xml:space="preserve">
-    <value>Learn More</value>
+    <value>詳細</value>
   </data>
   <data name="WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates" xml:space="preserve">
-    <value>Network error. You can continue using Starward, but you won't receive future updates.</value>
+    <value>ネットワークエラーが発生しました。Starwardは引き続きご利用いただけますが、今後のアップデートを受信することはできません。</value>
   </data>
   <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
     <value>System proxy is enabled.</value>
@@ -2133,7 +2133,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>The current monitor does not support HDR.</value>
   </data>
   <data name="GameSettingPage_WindowsHDRIsNotTurnedOn" xml:space="preserve">
-    <value>Windows HDR is not turned on.</value>
+    <value>Windows HDRが有効になっていません。</value>
   </data>
   <data name="DailyNoteButton_InterKnotMembership" xml:space="preserve">
     <value>Inter-Knot Membership</value>
@@ -2145,31 +2145,31 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Polychromes Claimed</value>
   </data>
   <data name="DailyNoteButton_0DaySRemaining" xml:space="preserve">
-    <value>{0} Day(s) Remaining</value>
+    <value>残り {0} 日</value>
   </data>
   <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
     <value>Mapped network drives are not supported. Please use a network share path starting with double backslashes (\\).</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotSaved" xml:space="preserve">
-    <value>Screenshot Saved</value>
+    <value>スクリーンショットを保存しました</value>
   </data>
   <data name="ScreenshotPage_ManageScreenshotFolders" xml:space="preserve">
-    <value>Manage Screenshot Folders</value>
+    <value>スクリーンショットフォルダを管理</value>
   </data>
   <data name="ScreenshotFolderManageDialog_AddFolder" xml:space="preserve">
-    <value>Add Folder</value>
+    <value>フォルダを追加</value>
   </data>
   <data name="ScreenshotFolderManageDialog_BackingUp" xml:space="preserve">
-    <value>Backing up...</value>
+    <value>バックアップ中…</value>
   </data>
   <data name="Common_Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>削除</value>
   </data>
   <data name="ScreenshotFolderManageDialog_FailedToBackupScreenshots" xml:space="preserve">
     <value>Failed to backup screenshots.</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotFailed" xml:space="preserve">
-    <value>Screenshot Failed</value>
+    <value>スクリーンショットの撮影に失敗しました</value>
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
     <value>Check the log for more information.</value>
@@ -2181,17 +2181,17 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Images from the following folders will be displayed in the gallery.</value>
   </data>
   <data name="ImageViewWindow2_OpenInExplorer" xml:space="preserve">
-    <value>Open in Explorer</value>
+    <value>エクスプローラーで開く</value>
   </data>
   <data name="ImageViewWindow2_OpenWith" xml:space="preserve">
-    <value>Open with</value>
+    <value>次で開く:</value>
   </data>
   <data name="ImageViewWindow2_Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>前へ</value>
     <comment>Previous Image</comment>
   </data>
   <data name="ImageViewWindow2_Next" xml:space="preserve">
-    <value>Next</value>
+    <value>次へ</value>
     <comment>Next Image</comment>
   </data>
   <data name="ImageViewWindow2_ShowGallery" xml:space="preserve">
@@ -2250,22 +2250,22 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Open with Default App</value>
   </data>
   <data name="ImageViewWindow2_NoImageToDisplay" xml:space="preserve">
-    <value>No Image to Display</value>
+    <value>表示する画像がありません</value>
   </data>
   <data name="Common_OpenFiles" xml:space="preserve">
-    <value>Open Files</value>
+    <value>ファイルを開く</value>
   </data>
   <data name="ImageViewWindow2_OpenNewFiles" xml:space="preserve">
-    <value>Open New Files</value>
+    <value>新しいファイルを開く</value>
   </data>
   <data name="ImageViewWindow2_FailedToDisplayImage" xml:space="preserve">
-    <value>Failed to Display Image</value>
+    <value>画像の表示に失敗しました</value>
   </data>
   <data name="ImageViewWindow2_FailedToSaveImage" xml:space="preserve">
-    <value>Failed to Save Image</value>
+    <value>画像の保存に失敗しました</value>
   </data>
   <data name="ImageViewWindow2_FailedToDeleteImageFile" xml:space="preserve">
-    <value>Failed to Delete Image File</value>
+    <value>画像の削除に失敗しました</value>
   </data>
   <data name="ImageViewWindow2_UnableToDeleteTheFile" xml:space="preserve">
     <value>Unable to Delete the File</value>
@@ -2295,7 +2295,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Screenshot Shortcut</value>
   </data>
   <data name="HotkeySetting_OpenMainWindow" xml:space="preserve">
-    <value>Open Main Window</value>
+    <value>メインウィンドウを開く</value>
   </data>
   <data name="HotkeySetting_FailedToRegisterTheShortcutKeys" xml:space="preserve">
     <value>Failed to register the shortcut keys.</value>
@@ -2310,7 +2310,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>If you register single-key shortcuts (F1–F12), you need to run Starward with administrator privileges; otherwise, the shortcuts may not work in the game.</value>
   </data>
   <data name="SettingPage_KeyboardShortcuts" xml:space="preserve">
-    <value>Keyboard Shortcuts</value>
+    <value>キーボード ショートカット</value>
   </data>
   <data name="SettingPage_ControllerEnhancement" xml:space="preserve">
     <value>Controller Enhancement</value>
