@@ -54,7 +54,7 @@ public partial class ScreenshotItem
     public static bool TryParseCreationTime(string name, out DateTime time)
     {
         // starward
-        if (DateTime.TryParseExact(StarwardNameRegex().Match(name).Groups[1].Value, "yyyyMMdd_HHmmssff", null, DateTimeStyles.None, out time))
+        if (DateTime.TryParseExact(StarwardNameRegex().Match(name).Value, "yyyyMMdd_HHmmssff", null, DateTimeStyles.None, out time))
         {
             return true;
         }
@@ -83,12 +83,12 @@ public partial class ScreenshotItem
             return DateTime.TryParseExact(name["GenshinlmpactPhoto ".Length..], "yyyy_MM_dd HH_mm_ss", null, DateTimeStyles.None, out time);
         }
         // nvidia
-        if (DateTime.TryParseExact(NvidiaNameRegex().Match(name).Groups[1].Value, "yyyy.MM.dd - HH.mm.ss.ff", null, DateTimeStyles.None, out time))
+        if (DateTime.TryParseExact(NvidiaNameRegex().Match(name).Value, "yyyy.MM.dd - HH.mm.ss.ff", null, DateTimeStyles.None, out time))
         {
             return true;
         }
         // xbox
-        if (DateTime.TryParseExact(XBoxNameRegex().Match(name).Groups[1].Value, "yyyy_M_d H_mm_ss", null, DateTimeStyles.None, out time))
+        if (DateTime.TryParseExact(XBoxNameRegex().Match(name).Value, "yyyy_M_d H_mm_ss", null, DateTimeStyles.None, out time))
         {
             return true;
         }
@@ -97,15 +97,15 @@ public partial class ScreenshotItem
     }
 
 
-    [GeneratedRegex(@"(\d{8})_(\d{8})")]
+    [GeneratedRegex(@"\d{8}_\d{8}")]
     private static partial Regex StarwardNameRegex();
 
 
-    [GeneratedRegex(@"(\d{4})\.(\d{2})\.(\d{2}) - (\d{2})\.(\d{2})\.(\d{2})\.(\d+)")]
+    [GeneratedRegex(@"\d{4}\.\d{2}\.\d{2} - \d{2}\.\d{2}\.\d{2}\.\d+")]
     private static partial Regex NvidiaNameRegex();
 
 
-    [GeneratedRegex(@"(\d{4})_(\d{1,2})_(\d{1,2}) (\d{1,2})_(\d{2})_(\d{2})")]
+    [GeneratedRegex(@"\d{4}_\d{1,2}_\d{1,2} \d{1,2}_\d{2}_\d{2}")]
     private static partial Regex XBoxNameRegex();
 
 
