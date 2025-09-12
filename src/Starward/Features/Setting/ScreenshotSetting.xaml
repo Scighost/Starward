@@ -123,10 +123,16 @@
                 </cwc:Segmented>
             </StackPanel>
 
+            <!--  格式节省空间提示  -->
+            <TextBlock Margin="0,6,0,0"
+                       FontSize="12"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace}"
+                       TextWrapping="NoWrap" />
 
 
             <!--  自动复制截图文件  -->
-            <ToggleSwitch Margin="0,8,0,0"
+            <ToggleSwitch Margin="0,4,0,0"
                           IsOn="{x:Bind AutoCopyScreenshotToClipboard, Mode=TwoWay}"
                           OffContent="{x:Bind lang:Lang.ScreenshotSetting_AutoCopyScreenshotFile}"
                           OnContent="{x:Bind lang:Lang.ScreenshotSetting_AutoCopyScreenshotFile}" />

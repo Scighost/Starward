@@ -2552,4 +2552,7 @@
   <data name="ScreenshotSetting_ClearFailed" xml:space="preserve">
     <value>清除失败</value>
   </data>
+  <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
+    <value>高质量的 AVIF 和 JPEG XL 图片格式可节省约 85% 的存储空间。</value>
+  </data>
 </root>

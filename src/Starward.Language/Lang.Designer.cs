@@ -5138,6 +5138,16 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 High-quality AVIF and JPEG XL image formats save approximately 85% of storage space. 的本地化字符串。
+        /// </summary>
+        public static string ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace {
+            get {
+                return ResourceManager.GetString("ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorag" +
+                        "eSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Lossless 的本地化字符串。
         /// </summary>
         public static string ScreenshotSetting_Lossless {
