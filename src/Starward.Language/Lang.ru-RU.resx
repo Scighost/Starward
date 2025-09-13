@@ -2572,4 +2572,7 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="ScreenshotSetting_ClearFailed" xml:space="preserve">
     <value>Не удалось очистить</value>
   </data>
+  <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
+    <value>High-quality AVIF and JPEG XL image formats save approximately 85% of storage space.</value>
+  </data>
 </root>
