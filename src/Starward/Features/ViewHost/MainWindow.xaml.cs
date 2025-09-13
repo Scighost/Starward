@@ -86,7 +86,8 @@ public sealed partial class MainWindow : WindowEx
 
     public override void Show()
     {
-        if (Math.Abs((double)AppWindow.Size.Width / AppWindow.Size.Height - 1200d / 676) > 0.01)
+        double uiScale = UIScale;
+        if (Math.Abs(AppWindow.Size.Width - 1200 * uiScale) > 10 || Math.Abs(AppWindow.Size.Height - 676 * uiScale) > 10)
         {
             CenterInScreen(1200, 676);
         }
