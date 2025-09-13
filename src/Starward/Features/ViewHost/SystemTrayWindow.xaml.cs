@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using Vanara.PInvoke;
 using Windows.Foundation;
+using Microsoft.Extensions.Configuration;
 
 
 namespace Starward.Features.ViewHost;
@@ -71,7 +72,8 @@ public sealed partial class SystemTrayWindow : WindowEx
             string icon = Path.Combine(AppContext.BaseDirectory, "Assets", "logo.ico");
             if (File.Exists(icon))
             {
-                trayIcon.Icon = new(icon);
+                trayIcon.IconPath = icon;
+                trayIcon.Create(AppConfig.CommandLineConfiguration.GetValue<string>("Starward:Launcher:TrayIcon:Ipc"));
             }
         }
         catch { }

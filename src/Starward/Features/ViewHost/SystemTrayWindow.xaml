@@ -14,11 +14,9 @@
              mc:Ignorable="d">
 
     <Grid Name="RootGrid">
-        <hn:TaskbarIcon x:Name="trayIcon"
+        <sc:TaskbarIcon x:Name="trayIcon"
                         LeftClickCommand="{x:Bind ShowMainWindowCommand}"
-                        NoLeftClickDelay="True"
-                        RightClickCommand="{x:Bind ShowCommand}"
-                        ToolTipText="Starward" />
+                        RightClickCommand="{x:Bind ShowCommand}" />
 
         <StackPanel Padding="8">
 

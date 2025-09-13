@@ -1,6 +1,6 @@
 ﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ 生成的包含文件。
-// 供 Starward.Launcher.rc 使用
+// 供 Starward.LegacyLauncher.rc 使用
 //
 #define IDI_ICON1                       101
 
