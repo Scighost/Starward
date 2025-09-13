@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Graphics.DirectX;
 using Windows.Graphics.Imaging;
@@ -76,7 +77,10 @@ public sealed partial class ImageBatchConvertWindow : WindowEx
             Button_Import.Click -= Button_Import_Click;
             Button_OutputFolder.Click -= Button_OutputFolder_Click;
             Button_StartConvert.Click -= Button_StartConvert_Click;
+            Button_Stop.Click -= Button_Stop_Click;
             Button_Clear.Click -= Button_Clear_Click;
+            ListView_ImageConvertItems.DragOver -= ListView_ImageConvertItems_DragOver;
+            ListView_ImageConvertItems.Drop -= ListView_ImageConvertItems_Drop;
             _cancellationTokenSource?.Cancel();
             _itemsDict.Clear();
             _itemsDict = null!;
@@ -114,7 +118,7 @@ public sealed partial class ImageBatchConvertWindow : WindowEx
 
 
 
-    private CancellationTokenSource _cancellationTokenSource;
+    private CancellationTokenSource? _cancellationTokenSource;
 
     private Dictionary<string, ImageConvertItem> _itemsDict = new();
 
@@ -186,8 +190,15 @@ public sealed partial class ImageBatchConvertWindow : WindowEx
         try
         {
             DisableControls();
-            _cancellationTokenSource = new CancellationTokenSource();
-            await ConvertInternalAsync(_cancellationTokenSource.Token);
+            if (_cancellationTokenSource is null)
+            {
+                _cancellationTokenSource = new CancellationTokenSource();
+                await ConvertInternalAsync(_cancellationTokenSource.Token);
+            }
+            else
+            {
+                _cancellationTokenSource.Cancel();
+            }
         }
         catch (OperationCanceledException)
         {
@@ -199,7 +210,37 @@ public sealed partial class ImageBatchConvertWindow : WindowEx
         }
         finally
         {
+            _cancellationTokenSource = null;
             RestoreControls();
+        }
+    }
+
+
+    private void Button_Stop_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = null;
+            RestoreControls();
+            DisplayInfo = false;
+            foreach (var item in ImageConvertItems)
+            {
+                item.Converting = false;
+                item.ConvertError = false;
+                item.ConvertSuccess = false;
+                item.ErrorMessage = null!;
+                item.OutputFileName = null!;
+                item.OutputFilePath = null!;
+                item.OutputFileSize = 0;
+                item.OutputFileSizeText = null!;
+                item.FileDeltaPercent = null!;
+                item.FileDeltaTextBrush = null!;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Stop converting images failed");
         }
     }
 
@@ -219,6 +260,56 @@ public sealed partial class ImageBatchConvertWindow : WindowEx
             TotalOutputFileSize = 0;
         }
         catch { }
+    }
+
+
+    private void ListView_ImageConvertItems_DragOver(object sender, DragEventArgs e)
+    {
+        try
+        {
+            e.AcceptedOperation = DataPackageOperation.Copy;
+        }
+        catch { }
+    }
+
+
+    private async void ListView_ImageConvertItems_Drop(object sender, DragEventArgs e)
+    {
+        try
+        {
+            var items = await e.DataView.GetStorageItemsAsync();
+
+            var list = new List<string>();
+            foreach (IStorageItem? item in items)
+            {
+                if (item is StorageFile { Path: not "" } file && ScreenshotHelper.IsSupportedExtension(file.FileType))
+                {
+                    if (!_itemsDict.ContainsKey(file.Path))
+                    {
+                        var convertItem = new ImageConvertItem(file.Path);
+                        ImageConvertItems.Add(convertItem);
+                        _itemsDict[file.Path] = convertItem;
+                    }
+                }
+                else if (item is StorageFolder folder)
+                {
+                    var files = await folder.GetFilesAsync();
+                    foreach (var file1 in files)
+                    {
+                        if (ScreenshotHelper.IsSupportedExtension(file1.FileType) && !_itemsDict.ContainsKey(file1.Path))
+                        {
+                            var convertItem = new ImageConvertItem(file1.Path);
+                            ImageConvertItems.Add(convertItem);
+                            _itemsDict[file1.Path] = convertItem;
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Drop images");
+        }
     }
 
 
@@ -261,11 +352,11 @@ public sealed partial class ImageBatchConvertWindow : WindowEx
     {
         Button_Import.IsEnabled = false;
         Button_OutputFolder.IsEnabled = false;
-        Button_StartConvert.IsEnabled = false;
         Button_Clear.IsEnabled = false;
         ComboBox_OutputFormat.IsEnabled = false;
         ComboBox_OutputFileExists.IsEnabled = false;
         Slider_Quality.IsEnabled = false;
+        Button_StartConvert.Content = Lang.DownloadGamePage_Pause;
     }
 
 
@@ -274,11 +365,11 @@ public sealed partial class ImageBatchConvertWindow : WindowEx
     {
         Button_Import.IsEnabled = true;
         Button_OutputFolder.IsEnabled = true;
-        Button_StartConvert.IsEnabled = true;
         Button_Clear.IsEnabled = true;
         ComboBox_OutputFormat.IsEnabled = true;
         ComboBox_OutputFileExists.IsEnabled = true;
         Slider_Quality.IsEnabled = true;
+        Button_StartConvert.Content = Lang.ImageBatchConvertWindow_StartConvert;
     }
 
 

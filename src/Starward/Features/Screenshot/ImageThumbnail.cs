@@ -25,9 +25,9 @@ internal static class ImageThumbnail
     private static readonly string CacheFolder = Path.Combine(AppConfig.CacheFolder, "thumb");
 
 
-    private static readonly bool AvifDecoderSupported;
+    public static readonly bool AvifDecoderSupported;
 
-    private static readonly bool JxlDecoderSupported;
+    public static readonly bool JxlDecoderSupported;
 
 
     private const string AvifImageBase64 = "AAAAHGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZgAAAOltZXRhAAAAAAAAACFoZGxyAAAAAAAAAABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAAHmlsb2MAAAAARAAAAQABAAAAAQAAAQ0AAAASAAAAKGlpbmYAAAAAAAEAAAAaaW5mZQIAAAAAAQAAYXYwMUNvbG9yAAAAAGhpcHJwAAAASWlwY28AAAAUaXNwZQAAAAAAAAABAAAAAQAAAA5waXhpAAAAAAEIAAAADGF2MUOBABwAAAAAE2NvbHJuY2x4AAEAAAABgAAAABdpcG1hAAAAAAAAAAEAAQQBAoMEAAAAGm1kYXQSAAoEGAAGVTIIH/AAAQACH8A=";

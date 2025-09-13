@@ -95,12 +95,20 @@
                 </TextBlock>
             </StackPanel>
 
-            <!--  清除  -->
-            <Button x:Name="Button_Clear"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Click="Button_Clear_Click"
-                    Content="{x:Bind lang:Lang.Common_Clear}" />
+            <StackPanel HorizontalAlignment="Right"
+                        Orientation="Horizontal"
+                        Spacing="12">
+
+                <!--  停止  -->
+                <Button x:Name="Button_Stop"
+                        Click="Button_Stop_Click"
+                        Content="{x:Bind lang:Lang.DownloadGamePage_Stop}" />
+
+                <!--  清除  -->
+                <Button x:Name="Button_Clear"
+                        Click="Button_Clear_Click"
+                        Content="{x:Bind lang:Lang.Common_Clear}" />
+            </StackPanel>
         </Grid>
 
 
@@ -123,8 +131,12 @@
 
 
 
-        <ListView Grid.Row="3"
+        <ListView x:Name="ListView_ImageConvertItems"
+                  Grid.Row="3"
                   Margin="0,8,0,0"
+                  AllowDrop="True"
+                  DragOver="ListView_ImageConvertItems_DragOver"
+                  Drop="ListView_ImageConvertItems_Drop"
                   ItemsSource="{x:Bind ImageConvertItems}"
                   SelectionMode="None">
             <ListView.ItemTemplate>

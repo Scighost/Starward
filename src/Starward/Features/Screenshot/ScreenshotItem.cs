@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace Starward.Features.Screenshot;
 
-public partial class ScreenshotItem
+public partial class ScreenshotItem : ObservableObject
 {
 
     public string Name { get; set; }
@@ -16,7 +17,7 @@ public partial class ScreenshotItem
 
     public string FileName { get; set; }
 
-    public string FileInfo { get; set; }
+    public string FileInfo { get; set => SetProperty(ref field, value); }
 
     public DateTime CreationTime { get; set; }
 
@@ -112,11 +113,28 @@ public partial class ScreenshotItem
     private static string GetFileInfo(FileInfo info)
     {
         const double KB = 1 << 10, MB = 1 << 20;
-        string ext = info.Extension.Replace(".", "").ToUpper() + "  ";
+        string ext = info.Extension.Replace(".", "").ToUpper();
         string size = info.Length >= MB ? $"{info.Length / MB:F2} MB" : $"{info.Length / KB:F2} KB";
-        return $"{ext}{size}".Trim();
+        return $"{ext}  {size}".Trim();
     }
 
+
+
+    private bool _updatedPixelSize = false;
+
+    public async void UpdatePixelSize()
+    {
+        if (_updatedPixelSize)
+        {
+            return;
+        }
+        (uint width, uint height) = await ImageLoader.GetImagePixelSizeAsync(FilePath);
+        if (width > 0 && height > 0)
+        {
+            FileInfo = $"{FileInfo}  {width} x {height}";
+            _updatedPixelSize = true;
+        }
+    }
 
 }
 

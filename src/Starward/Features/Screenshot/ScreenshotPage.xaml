@@ -135,20 +135,36 @@
                                 <ScaleTransform />
                             </sc:CachedImage.RenderTransform>
                         </sc:CachedImage>
+                        <!--  右键菜单  -->
                         <Grid.ContextFlyout>
-                            <MenuBarItemFlyout>
-                                <MenuBarItemFlyout.MenuFlyoutPresenterStyle>
+                            <MenuFlyout>
+                                <MenuFlyout.MenuFlyoutPresenterStyle>
                                     <Style BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}" TargetType="MenuFlyoutPresenter">
                                         <Setter Property="BorderThickness" Value="0" />
                                     </Style>
-                                </MenuBarItemFlyout.MenuFlyoutPresenterStyle>
-                                <!--  图片信息  -->
-                                <MenuFlyoutItem IsEnabled="False" Text="{x:Bind FileInfo}">
+                                </MenuFlyout.MenuFlyoutPresenterStyle>
+                                <!--  文件格式，文件大小，像素大小  -->
+                                <MenuFlyoutItem x:Name="MenuFlyoutItem_ScreenshotInfo"
+                                                MinWidth="208"
+                                                FontSize="12"
+                                                IsEnabled="False"
+                                                IsTextScaleFactorEnabled="False"
+                                                Loading="MenuFlyoutItem_ScreenshotInfo_Loading"
+                                                Text="{x:Bind FileInfo}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE946;" IsTextScaleFactorEnabled="False" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator />
+                                <!--  打开  -->
+                                <MenuFlyoutItem x:Name="MenuFlyoutItem_Open"
+                                                Click="MenuFlyoutItem_Open_Click"
+                                                IsTextScaleFactorEnabled="False"
+                                                Text="{x:Bind lang:Lang.Common_Open}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8A7;" IsTextScaleFactorEnabled="False" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <!--  复制文件  -->
                                 <MenuFlyoutItem x:Name="MenuFlyoutItem_CopyFile"
                                                 Click="MenuFlyoutItem_CopyFile_Click"
@@ -210,7 +226,7 @@
                                         <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
                                     </MenuFlyoutItem.Resources>
                                 </MenuFlyoutItem>
-                            </MenuBarItemFlyout>
+                            </MenuFlyout>
                         </Grid.ContextFlyout>
                         <Grid.Resources>
                             <CircleEase x:Key="CircleEase" EasingMode="EaseOut" />

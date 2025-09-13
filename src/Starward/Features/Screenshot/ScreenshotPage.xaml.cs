@@ -437,6 +437,36 @@ public sealed partial class ScreenshotPage : PageBase
     }
 
 
+
+    private void MenuFlyoutItem_ScreenshotInfo_Loading(FrameworkElement sender, object args)
+    {
+        try
+        {
+            if (sender.DataContext is ScreenshotItem item)
+            {
+                item.UpdatePixelSize();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Get image pixel size");
+        }
+    }
+
+
+    private void MenuFlyoutItem_Open_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement { DataContext: ScreenshotItem item })
+            {
+                _ = new ImageViewWindow2().ShowWindowAsync(this.XamlRoot.ContentIslandEnvironment.AppWindowId, item, _screenshotItems);
+            }
+        }
+        catch { }
+    }
+
+
     private async void MenuFlyoutItem_CopyFile_Click(object sender, RoutedEventArgs e)
     {
         try

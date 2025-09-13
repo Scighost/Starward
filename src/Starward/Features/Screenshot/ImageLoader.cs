@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.DirectX;
+using Windows.Graphics.Imaging;
 
 namespace Starward.Features.Screenshot;
 
@@ -153,6 +154,26 @@ internal static class ImageLoader
 
 
 
+    public static async Task<(uint Width, uint Height)> GetImagePixelSizeAsync(string filePath)
+    {
+        string extension = Path.GetExtension(filePath).ToLowerInvariant();
+        using var fs = File.OpenRead(filePath);
+        if (extension is ".avif" && !ImageThumbnail.AvifDecoderSupported)
+        {
+            using var decoder = await avifDecoderLite.CreateAsync(fs);
+            return (decoder.Width, decoder.Height);
+        }
+        else if (extension is ".jxl" && !ImageThumbnail.JxlDecoderSupported)
+        {
+            using var decoder = await JxlDecoderLite.CreateAsync(fs);
+            return (decoder.Width, decoder.Height);
+        }
+        else
+        {
+            var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
+            return (decoder.PixelWidth, decoder.PixelHeight);
+        }
+    }
 
 
 }
