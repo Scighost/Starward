@@ -2519,39 +2519,39 @@
     <value>無讀取和寫入權限</value>
   </data>
   <data name="ImageBatchConvertWindow_ConvertFailed" xml:space="preserve">
-    <value>Convert failed</value>
+    <value>轉換失敗</value>
   </data>
   <data name="ImageBatchConvertWindow_IfOutputFileExists" xml:space="preserve">
-    <value>If Output File Exists</value>
+    <value>如果輸出文件已存在</value>
   </data>
   <data name="ImageBatchConvertWindow_SkipDefault" xml:space="preserve">
-    <value>Skip (Default)</value>
+    <value>跳過（默認）</value>
   </data>
   <data name="ImageBatchConvertWindow_Overwrite" xml:space="preserve">
-    <value>Overwrite</value>
+    <value>覆蓋</value>
   </data>
   <data name="ImageBatchConvertWindow_Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>重新命名</value>
   </data>
   <data name="Common_Success" xml:space="preserve">
-    <value>Success</value>
+    <value>成功</value>
   </data>
   <data name="Common_Failed" xml:space="preserve">
-    <value>Failed</value>
+    <value>失敗</value>
   </data>
   <data name="ImageBatchConvertWindow_ImageBatchConvert" xml:space="preserve">
-    <value>Image Batch Convert</value>
+    <value>影像批量轉換</value>
   </data>
   <data name="ScreenshotSetting_ClearThumbnailCache" xml:space="preserve">
-    <value>Clear Thumbnail Cache</value>
+    <value>清除除縮略圖緩存</value>
   </data>
   <data name="ScreenshotSetting_ClearSuccessfully" xml:space="preserve">
-    <value>Clear Successfully</value>
+    <value>清除成功</value>
   </data>
   <data name="ScreenshotSetting_ClearFailed" xml:space="preserve">
-    <value>Clear Failed</value>
+    <value>清除失敗</value>
   </data>
   <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
-    <value>High-quality AVIF and JPEG XL image formats save approximately 85% of storage space.</value>
+    <value>高質素嘅 AVIF 同 JPEG XL 圖像格式可以慳大約 85% 嘅存儲空間。</value>
   </data>
 </root>
