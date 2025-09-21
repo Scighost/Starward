@@ -2504,19 +2504,19 @@
     <value>清除</value>
   </data>
   <data name="ImageBatchConvertWindow_OutputFolder" xml:space="preserve">
-    <value>Output Folder</value>
+    <value>輸出資料夾</value>
   </data>
   <data name="ImageBatchConvertWindow_OriginalFileFolder" xml:space="preserve">
-    <value>Original File Folder</value>
+    <value>原文件所在資料夾</value>
   </data>
   <data name="ImageBatchConvertWindow_SameAsOriginalFileFormat" xml:space="preserve">
-    <value>Same as original file format</value>
+    <value>原文件格式同輸出格式一樣</value>
   </data>
   <data name="ImageBatchConvertWindow_SelectOutputFormat" xml:space="preserve">
-    <value>Select Output Format</value>
+    <value>選擇輸出格式</value>
   </data>
   <data name="ImageBatchConvertWindow_NoReadOrWritePermission" xml:space="preserve">
-    <value>No read or write permission</value>
+    <value>無讀取和寫入權限</value>
   </data>
   <data name="ImageBatchConvertWindow_ConvertFailed" xml:space="preserve">
     <value>Convert failed</value>
