@@ -91,6 +91,7 @@ internal class ScreenCaptureService
             _logger.LogWarning("Cannot capture a minimized window. HWND: {hwnd}, Title: {title}", runningGame.WindowHandle, sb.ToString());
             return;
         }
+        bool captureStarted = false;
         try
         {
             (CanvasBitmap canvasBitmap, float maxCLL, float sdrWhiteLevel, DateTimeOffset frameTime) = await CaptureAndProceedImageAsync(runningGame);
@@ -101,6 +102,7 @@ internal class ScreenCaptureService
                     _infoWindow = new ScreenCaptureInfoWindow();
                 }
                 _infoWindow.CaptureStart(runningGame.WindowHandle, canvasBitmap, maxCLL);
+                captureStarted = true;
                 string filePath = await SaveImageAsync(canvasBitmap, runningGame, frameTime);
                 await CopyToClipboardAsync(filePath);
                 _infoWindow.CaptureSuccess(runningGame.WindowHandle, canvasBitmap, filePath, maxCLL);
@@ -118,7 +120,7 @@ internal class ScreenCaptureService
             {
                 _infoWindow = new ScreenCaptureInfoWindow();
             }
-            _infoWindow.CaptureError(runningGame.WindowHandle);
+            _infoWindow.CaptureError(runningGame.WindowHandle, captureStarted);
         }
     }
 

@@ -277,13 +277,16 @@ public sealed partial class ScreenCaptureInfoWindow : WindowEx
     /// </summary>
     /// <param name="hwnd"></param>
     /// <param name="ex"></param>
-    public void CaptureError(nint hwnd)
+    public void CaptureError(nint hwnd, bool captureStarted)
     {
         try
         {
             IsError = true;
             IsSuccess = false;
-            //_finishedImageCount++;
+            if (captureStarted)
+            {
+                _finishedImageCount++;
+            }
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
             _openImageCancellationToken = _cancellationTokenSource.Token;
