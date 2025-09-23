@@ -2407,15 +2407,15 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>When capturing HDR images, SDR version will also be saved.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
-    <value>The screenshot feature captures the currently running game. If multiple games are running, the most recently focused game will be selected. Note the following limitations:
-• Minimized game windows cannot be captured.
-• Parts of the game window that extend beyond the screen will not be included.
-• In rare cases, a non-game window may be captured instead.</value>
+    <value>Tính năng chụp ảnh màn hình chụp trò chơi đang chạy. Nếu có nhiều trò chơi đang chạy cùng lúc, tính năng sẽ xử lí cửa sổ trò chơi vừa được thao tác gần nhất. Lưu ý các giới hạn sau:
+• Không thể chụp cửa sổ trò chơi đang được thu nhỏ.
+• Phần cửa sổ trò chơi ở ngoài rìa màn hình sẽ không được chụp.
+• Trong một số trường hợp hiếm gặp, tính năng có thể chụp sang cửa sổ khác.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWin10Limit" xml:space="preserve">
-    <value>On Windows 10, the screenshot feature has the following additional limitations:
-• A colored border may appear around the game window during capture.
-• The mouse pointer cannot be hidden.</value>
+    <value>Trên Windows 10, tính năng chụp màn hình có thêm các giới hạn sau:
+• Một viền màu có thể xuất hiện xung quanh cửa sổ trò chơi trong lúc chụp.
+• Con trỏ chuột không thể bị ẩn.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
     <value>If you want to capture screenshots with a controller, please use Button Mapping in the Controller Enhancement page.</value>
@@ -2427,7 +2427,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Switch Windows</value>
   </data>
   <data name="ScreenshotSetting_AutoCopyScreenshotFile" xml:space="preserve">
-    <value>Auto Copy Screenshot File</value>
+    <value>Tự động sao chép tệp tin chụp màn hình</value>
   </data>
   <data name="GameSettingPage_UsePopupWindow" xml:space="preserve">
     <value>Use Popup Window</value>
@@ -2478,13 +2478,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Highest Total Damage Dealt</value>
   </data>
   <data name="ScreenshotSetting_OtherOptions" xml:space="preserve">
-    <value>Other Options</value>
+    <value>Các tuỳ chọn khác</value>
   </data>
   <data name="ScreenshotSetting_Lossless" xml:space="preserve">
     <value>Lossless</value>
   </data>
   <data name="ScreenshotSetting_FormatAndQuality" xml:space="preserve">
-    <value>Format and Quality</value>
+    <value>Định dạng và Chất lượng</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ProcessingImage" xml:space="preserve">
     <value>Processing Image</value>
