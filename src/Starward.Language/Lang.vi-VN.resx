@@ -2272,7 +2272,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thiếu quyền hạn hoặc file đang được sử dụng.</value>
   </data>
   <data name="HotkeyInput_ClickToSetShortcutKeys" xml:space="preserve">
-    <value>Click to Set Shortcut Keys</value>
+    <value>Nhấn để đặt Shortcut</value>
   </data>
   <data name="HotkeyInput_PressTheShortcutKeys" xml:space="preserve">
     <value>Press the Shortcut Keys</value>
@@ -2302,13 +2302,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>The built-in screenshot feature will save images to the following folder.</value>
   </data>
   <data name="Common_ChangeFolder" xml:space="preserve">
-    <value>Change Folder</value>
+    <value>Thay đổi thư mục</value>
   </data>
   <data name="HotkeySetting_SingleKeyShortcutsTips" xml:space="preserve">
     <value>If you register single-key shortcuts (F1–F12), you need to run Starward with administrator privileges; otherwise, the shortcuts may not work in the game.</value>
   </data>
   <data name="SettingPage_KeyboardShortcuts" xml:space="preserve">
-    <value>Keyboard Shortcuts</value>
+    <value>Phím tắt</value>
   </data>
   <data name="SettingPage_ControllerEnhancement" xml:space="preserve">
     <value>Controller Enhancement</value>
