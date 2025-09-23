@@ -2257,19 +2257,19 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Open New Files</value>
   </data>
   <data name="ImageViewWindow2_FailedToDisplayImage" xml:space="preserve">
-    <value>Failed to Display Image</value>
+    <value>Hiện hình ảnh thất bại</value>
   </data>
   <data name="ImageViewWindow2_FailedToSaveImage" xml:space="preserve">
     <value>Failed to Save Image</value>
   </data>
   <data name="ImageViewWindow2_FailedToDeleteImageFile" xml:space="preserve">
-    <value>Failed to Delete Image File</value>
+    <value>Xoá file thất bại</value>
   </data>
   <data name="ImageViewWindow2_UnableToDeleteTheFile" xml:space="preserve">
-    <value>Unable to Delete the File</value>
+    <value>Không thể xoá file</value>
   </data>
   <data name="ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse" xml:space="preserve">
-    <value>Insufficient permissions or the file is in use.</value>
+    <value>Thiếu quyền hạn hoặc file đang được sử dụng.</value>
   </data>
   <data name="HotkeyInput_ClickToSetShortcutKeys" xml:space="preserve">
     <value>Click to Set Shortcut Keys</value>
