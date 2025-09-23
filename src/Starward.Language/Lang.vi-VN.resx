@@ -1990,7 +1990,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Đang kinh doanh</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RevenueAvailable" xml:space="preserve">
-    <value>Revenue Available</value>
+    <value>Chờ tổng kết</value>
   </data>
   <data name="DailyNoteButton_ZZZ_SeasonMissions" xml:space="preserve">
     <value>Nhiệm Vụ Chu Kỳ</value>
@@ -1999,7 +1999,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Tiến Độ Ủy Thác Treo Thưởng</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RemainingRefreshTime" xml:space="preserve">
-    <value>Remaining Refresh Time</value>
+    <value>Làm mới sau</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RiduWeeklyPoints" xml:space="preserve">
     <value>Điểm Số Ridu Hàng Tuần</value>
@@ -2059,7 +2059,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Nhập &amp; Xuất</value>
   </data>
   <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
-    <value>Hide Gacha Banners</value>
+    <value>Ẩn banner Gacha</value>
   </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
     <value>Bật HDR</value>
@@ -2200,7 +2200,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <comment>Zoom image fit to window</comment>
   </data>
   <data name="ImageViewWindow2_CopyFile" xml:space="preserve">
-    <value>Copy File</value>
+    <value>Sao chép Tập tin</value>
   </data>
   <data name="ImageViewWindow2_CopyPath" xml:space="preserve">
     <value>Copy Path</value>
@@ -2236,13 +2236,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>To convert an HDR image to SDR, please use the Edit feature.</value>
   </data>
   <data name="ImageViewWindow2_DeleteImageFile" xml:space="preserve">
-    <value>Delete Image File</value>
+    <value>Xoá Tập tin Hình ảnh</value>
   </data>
   <data name="ImageViewWindow2_CopiedToClipboard" xml:space="preserve">
-    <value>Copied to clipboard.</value>
+    <value>Đã sao chép vào bộ nhớ tạm.</value>
   </data>
   <data name="ImageViewWindow2_FileDoesNotExist" xml:space="preserve">
-    <value>File does not exist.</value>
+    <value>Tập tin không tồn tại.</value>
   </data>
   <data name="ImageViewWindow2_OpenWithDefaultApp" xml:space="preserve">
     <value>Open with Default App</value>
