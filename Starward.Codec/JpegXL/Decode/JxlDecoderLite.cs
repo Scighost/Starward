@@ -175,6 +175,10 @@ public class JxlDecoderLite : IDisposable
 
     private GCHandle _pinnedXmpData;
 
+    private byte[]? _iccData;
+
+    private GCHandle _pinnedIccData;
+
 
     /// <summary>
     /// The buffer for the decoded pixels.
@@ -259,6 +263,19 @@ public class JxlDecoderLite : IDisposable
             else if (status is JxlDecoderStatus.ColorEncoding)
             {
                 status = JxlDecoderNativeMethod.JxlDecoderGetColorAsEncodedProfile(_decoderPtr, JxlColorProfileTarget.Data, ref _colorEncoding);
+                nuint iccSize = 0;
+                status = JxlDecoderNativeMethod.JxlDecoderGetICCProfileSize(_decoderPtr, JxlColorProfileTarget.Data, ref iccSize);
+                if (status is JxlDecoderStatus.Success && iccSize > 0)
+                {
+                    _iccData = new byte[iccSize];
+                    _pinnedIccData = GCHandle.Alloc(_iccData, GCHandleType.Pinned);
+                    status = JxlDecoderNativeMethod.JxlDecoderGetColorAsICCProfile(_decoderPtr, JxlColorProfileTarget.Data, _pinnedIccData.AddrOfPinnedObject(), iccSize);
+                    if (status is not JxlDecoderStatus.Success)
+                    {
+                        _iccData = null;
+                    }
+                    _pinnedIccData.Free();
+                }
             }
             else if (status is JxlDecoderStatus.Box)
             {
@@ -367,6 +384,13 @@ public class JxlDecoderLite : IDisposable
     /// </summary>
     /// <returns></returns>
     public byte[]? GetXMPData() => _xmpData;
+
+
+    /// <summary>
+    /// ICC profile data as a byte array.
+    /// </summary>
+    /// <returns></returns>
+    public byte[]? GetICCData() => _iccData;
 
 
     /// <summary>

@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Starward.Codec.AVIF;
+namespace Starward.Codec;
 
 [InlineArray(3)]
 public struct FixedArray3<T> where T : struct

@@ -29,7 +29,7 @@ public class UhdrDecoder : UhdrCodec
 
     protected UhdrDecoderPtr _decodePtr => base._codecPtr;
 
-    public UhdrDecoder()
+    private UhdrDecoder()
     {
         base._codecPtr = UhdrNativeMethod.uhdr_create_decoder();
         if (_decodePtr == IntPtr.Zero)
@@ -54,6 +54,27 @@ public class UhdrDecoder : UhdrCodec
 
 
     /// <summary>
+    /// Image width in pixels
+    /// </summary>
+    public int ImageWidth { get; private set; }
+
+    /// <summary>
+    /// Image height in pixels
+    /// </summary>
+    public int ImageHeight { get; private set; }
+
+    /// <summary>
+    /// Gainmap image width in pixels
+    /// </summary>
+    public int GainmapWidth { get; private set; }
+
+    /// <summary>
+    /// Gainmap image height in pixels
+    /// </summary>
+    public int GainmapHeight { get; private set; }
+
+
+    /// <summary>
     /// Add compressed image descriptor to decoder context. The function goes through all the
     /// fields of the image descriptor and checks for their sanity. If no anomalies are seen then the
     /// image is added to internal list. Repeated calls to this function will replace the old entry with the current.
@@ -63,6 +84,7 @@ public class UhdrDecoder : UhdrCodec
     {
         UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_image(_decodePtr, ref image);
         errorInfo.ThrowIfError();
+        Probe();
     }
 
 
@@ -81,53 +103,14 @@ public class UhdrDecoder : UhdrCodec
                 Data = (nint)p,
                 DataSize = (ulong)bytes.Length,
                 Capacity = (ulong)bytes.Length,
-                ColorGamut = UhdrColorGamut.Unspecified,
+                ColorGamut = UhdrColorGamut.BT709,
                 ColorTransfer = UhdrColorTransfer.Unspecified,
-                ColorRange = UhdrColorRange.Unspecified
+                ColorRange = UhdrColorRange.FullRange,
             };
             UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_image(_decodePtr, ref image);
             errorInfo.ThrowIfError();
         }
-    }
-
-
-    /// <summary>
-    /// Set output image pixel format.
-    /// Supported values are #UHDR_IMG_FMT_64bppRGBAHalfFloat, #UHDR_IMG_FMT_32bppRGBA1010102, #UHDR_IMG_FMT_32bppRGBA8888.
-    /// </summary>
-    /// <param name="format">output image pixel format</param>
-    public void SetOutImagePixelFormat(UhdrPixelFormat format)
-    {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_img_format(_decodePtr, format);
-        errorInfo.ThrowIfError();
-    }
-
-
-    /// <summary>
-    /// Set output image color transfer characteristics. It should be noted that not all
-    /// combinations of output color format and output transfer function are supported. #UHDR_CT_SRGB
-    /// output color transfer shall be paired with #UHDR_IMG_FMT_32bppRGBA8888 only. #UHDR_CT_HLG,
-    /// #UHDR_CT_PQ shall be paired with #UHDR_IMG_FMT_32bppRGBA1010102. #UHDR_CT_LINEAR shall be paired
-    /// with #UHDR_IMG_FMT_64bppRGBAHalfFloat.
-    /// </summary>
-    /// <param name="colorTransfer">output color transfer</param>
-    public void SetOutColorTransfer(UhdrColorTransfer colorTransfer)
-    {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_color_transfer(_decodePtr, colorTransfer);
-        errorInfo.ThrowIfError();
-    }
-
-
-    /// <summary>
-    /// Set output display's HDR capacity. Value MUST be in linear scale. This value determines
-    /// the weight by which the gain map coefficients are scaled. If no value is configured, no weight is
-    /// applied to gainmap image.
-    /// </summary>
-    /// <param name="displayBoost">hdr capacity of target display. Any real number >= 1.0f</param>
-    public void SetOutMaxDisplayBoost(float displayBoost)
-    {
-        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_max_display_boost(_decodePtr, displayBoost);
-        errorInfo.ThrowIfError();
+        Probe();
     }
 
 
@@ -136,10 +119,14 @@ public class UhdrDecoder : UhdrCodec
     /// image information available to the client via uhdr_dec_get_() functions. It does not decompress
     /// the image. That is done by uhdr_decode().
     /// </summary>
-    public void Probe()
+    private void Probe()
     {
         UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_probe(_decodePtr);
         errorInfo.ThrowIfError();
+        ImageWidth = GetImageWidth();
+        ImageHeight = GetImageHeight();
+        GainmapWidth = GetGainmapWidth();
+        GainmapHeight = GetGainmapHeight();
     }
 
 
@@ -147,7 +134,7 @@ public class UhdrDecoder : UhdrCodec
     /// Get base image width
     /// </summary>
     /// <returns>-1 if probe call is unsuccessful, base image width otherwise</returns>
-    public int GetImageWidth()
+    private int GetImageWidth()
     {
         return UhdrNativeMethod.uhdr_dec_get_image_width(_decodePtr);
     }
@@ -157,7 +144,7 @@ public class UhdrDecoder : UhdrCodec
     /// Get base image height
     /// </summary>
     /// <returns>-1 if probe call is unsuccessful, base image height otherwise</returns>
-    public int GetImageHeight()
+    private int GetImageHeight()
     {
         return UhdrNativeMethod.uhdr_dec_get_image_height(_decodePtr);
     }
@@ -167,7 +154,7 @@ public class UhdrDecoder : UhdrCodec
     /// Get gainmap image width
     /// </summary>
     /// <returns>-1 if probe call is unsuccessful, gain map image width otherwise</returns>
-    public int GetGainmapWidth()
+    private int GetGainmapWidth()
     {
         return UhdrNativeMethod.uhdr_dec_get_gainmap_width(_decodePtr);
     }
@@ -177,7 +164,7 @@ public class UhdrDecoder : UhdrCodec
     /// Get gainmap image height
     /// </summary>
     /// <returns>-1 if probe call is unsuccessful, gain map image height otherwise</returns>
-    public int GetGainmapHeight()
+    private int GetGainmapHeight()
     {
         return UhdrNativeMethod.uhdr_dec_get_gainmap_height(_decodePtr);
     }
@@ -270,6 +257,46 @@ public class UhdrDecoder : UhdrCodec
         {
             return metadataPtr.ToGainmapMetadata();
         }
+    }
+
+
+    /// <summary>
+    /// Set output image pixel format.
+    /// Supported values are #UHDR_IMG_FMT_64bppRGBAHalfFloat, #UHDR_IMG_FMT_32bppRGBA1010102, #UHDR_IMG_FMT_32bppRGBA8888.
+    /// </summary>
+    /// <param name="format">output image pixel format</param>
+    public void SetOutImagePixelFormat(UhdrPixelFormat format)
+    {
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_img_format(_decodePtr, format);
+        errorInfo.ThrowIfError();
+    }
+
+
+    /// <summary>
+    /// Set output image color transfer characteristics. It should be noted that not all
+    /// combinations of output color format and output transfer function are supported. #UHDR_CT_SRGB
+    /// output color transfer shall be paired with #UHDR_IMG_FMT_32bppRGBA8888 only. #UHDR_CT_HLG,
+    /// #UHDR_CT_PQ shall be paired with #UHDR_IMG_FMT_32bppRGBA1010102. #UHDR_CT_LINEAR shall be paired
+    /// with #UHDR_IMG_FMT_64bppRGBAHalfFloat.
+    /// </summary>
+    /// <param name="colorTransfer">output color transfer</param>
+    public void SetOutColorTransfer(UhdrColorTransfer colorTransfer)
+    {
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_color_transfer(_decodePtr, colorTransfer);
+        errorInfo.ThrowIfError();
+    }
+
+
+    /// <summary>
+    /// Set output display's HDR capacity. Value MUST be in linear scale. This value determines
+    /// the weight by which the gain map coefficients are scaled. If no value is configured, no weight is
+    /// applied to gainmap image.
+    /// </summary>
+    /// <param name="displayBoost">hdr capacity of target display. Any real number >= 1.0f</param>
+    public void SetOutMaxDisplayBoost(float displayBoost)
+    {
+        UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_out_max_display_boost(_decodePtr, displayBoost);
+        errorInfo.ThrowIfError();
     }
 
 

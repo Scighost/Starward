@@ -104,6 +104,15 @@ public class avifDecoderLite : IDisposable
     public unsafe bool AlphaPresent => _decoder->alphaPresent;
 
 
+    public unsafe ReadOnlySpan<byte> GetIccData()
+    {
+        if (_decoder->image->icc.Data == 0 || _decoder->image->icc.Size == 0)
+        {
+            return ReadOnlySpan<byte>.Empty;
+        }
+        return new ReadOnlySpan<byte>(_decoder->image->icc.Data.ToPointer(), (int)_decoder->image->icc.Size);
+    }
+
 
 
     public unsafe avifImageWrapper GetNextImage()
