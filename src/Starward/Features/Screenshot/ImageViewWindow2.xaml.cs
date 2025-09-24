@@ -9,7 +9,8 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Starward.Codec.UltraHdr;
+using Starward.Codec.ICC;
+using Starward.Features.Codec;
 using Starward.Features.Setting;
 using Starward.Helpers;
 using System;
@@ -17,6 +18,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -215,6 +218,9 @@ public sealed partial class ImageViewWindow2 : Window
     public string MonitorInformationText { get; set => SetProperty(ref field, value); }
 
 
+    private ColorPrimaries MonitorColorPrimaries { get => field ?? ColorPrimaries.BT709; set; }
+
+
 
     private void UpdateImageInformation(CanvasBitmap bitmap)
     {
@@ -261,6 +267,41 @@ public sealed partial class ImageViewWindow2 : Window
         catch { }
     }
 
+
+    private void UpdateMonitorColorPrimaries(DisplayInformation displayInformation)
+    {
+        try
+        {
+            var stream = displayInformation.GetColorProfile();
+            if (stream is not null)
+            {
+                byte[] bytes = new byte[stream.Size];
+                stream.AsStream().ReadExactly(bytes);
+                MonitorColorPrimaries = ICCHelper.GetColorPrimariesFromIccData(bytes);
+            }
+            else
+            {
+                var info = displayInformation.GetAdvancedColorInfo();
+                MonitorColorPrimaries = info.CurrentAdvancedColorKind switch
+                {
+                    DisplayAdvancedColorKind.WideColorGamut => ColorPrimaries.BT709,
+                    DisplayAdvancedColorKind.HighDynamicRange => ColorPrimaries.BT709,
+                    DisplayAdvancedColorKind.StandardDynamicRange => new ColorPrimaries
+                    {
+                        Red = Unsafe.BitCast<Point, Vector2>(info.RedPrimary),
+                        Green = Unsafe.BitCast<Point, Vector2>(info.GreenPrimary),
+                        Blue = Unsafe.BitCast<Point, Vector2>(info.BluePrimary),
+                        White = Unsafe.BitCast<Point, Vector2>(info.WhitePoint),
+                    },
+                    _ => null!,
+                };
+            }
+        }
+        catch
+        {
+            MonitorColorPrimaries = ColorPrimaries.BT709;
+        }
+    }
 
 
     #endregion
@@ -521,12 +562,15 @@ public sealed partial class ImageViewWindow2 : Window
 
     private double _lastUIScale;
 
+    private ColorPrimaries ImageColorPrimaries { get => field ?? ColorPrimaries.BT709; set; }
+
 
     private void InitializeResource()
     {
         _displayInformation = DisplayInformation.CreateForWindowId(AppWindow.Id);
         _displayInformation.AdvancedColorInfoChanged += DisplayInformation_AdvancedColorInfoChanged;
         UpdateMonitorInformation(_displayInformation);
+        UpdateMonitorColorPrimaries(_displayInformation);
         _canvasSwapChain = new CanvasSwapChain(CanvasDevice.GetSharedDevice(), 1, 1, 96, DirectXPixelFormat.R16G16B16A16Float, 6, CanvasAlphaMode.Premultiplied);
         CanvasSwapChainPanel_Image.SwapChain = _canvasSwapChain;
     }
@@ -545,6 +589,7 @@ public sealed partial class ImageViewWindow2 : Window
     private void DisplayInformation_AdvancedColorInfoChanged(DisplayInformation sender, object args)
     {
         UpdateMonitorInformation(sender);
+        UpdateMonitorColorPrimaries(sender);
         DrawImage();
     }
 
@@ -584,7 +629,9 @@ public sealed partial class ImageViewWindow2 : Window
                 CanvasBitmap? bitmap = null;
                 CurrentFilePath = filePath;
                 CurrentFileName = Path.GetFileName(filePath);
-                bitmap = await ImageLoader.LoadCanvasBitmapAsync(filePath, token);
+                var imageInfo = await ImageLoader.LoadImageAsync(filePath, token);
+                ImageColorPrimaries = imageInfo.ColorPrimaries ?? ColorPrimaries.BT709;
+                bitmap = imageInfo.CanvasBitmap;
                 if (token.IsCancellationRequested)
                 {
                     bitmap.Dispose();
@@ -629,7 +676,9 @@ public sealed partial class ImageViewWindow2 : Window
             CanvasBitmap? bitmap = null;
             CurrentFilePath = file.Path;
             CurrentFileName = file.Name;
-            bitmap = await ImageLoader.LoadCanvasBitmapAsync(file.Path, token);
+            var imageInfo = await ImageLoader.LoadImageAsync(file.Path, token);
+            ImageColorPrimaries = imageInfo.ColorPrimaries ?? ColorPrimaries.BT709;
+            bitmap = imageInfo.CanvasBitmap;
             if (token.IsCancellationRequested)
             {
                 bitmap.Dispose();
@@ -834,6 +883,13 @@ public sealed partial class ImageViewWindow2 : Window
         {
             displayMode = 2;
         }
+        output = new ColorMatrixEffect
+        {
+            Source = output,
+            ColorMatrix = ToMatrix5x4(ColorPrimaries.GetColorTransferMatrix(ImageColorPrimaries, MonitorColorPrimaries)),
+            ClampOutput = false,
+            BufferPrecision = CanvasBufferPrecision.Precision16Float,
+        };
         return output;
     }
 
@@ -1269,9 +1325,11 @@ public sealed partial class ImageViewWindow2 : Window
                 return;
             }
             var bitmap = _sourceBitmap;
+            float maxCLL = MaxCLL, outputNits = SDRLuminance;
+            ColorPrimaries colorPrimaries = ImageColorPrimaries;
             string name = Path.GetFileNameWithoutExtension(CurrentFileName);
             ICanvasImage output = GetDrawOutput(out int displayMode);
-            bool imageHdr = bitmap.Format is not DirectXPixelFormat.B8G8R8A8UIntNormalized and not DirectXPixelFormat.R8G8B8A8UIntNormalized;
+            bool imageHdr = bitmap.Format is DirectXPixelFormat.R16G16B16A16Float or DirectXPixelFormat.R32G32B32A32Float;
             bool displayHdr = displayMode is 2;
 
             string? path;
@@ -1283,7 +1341,6 @@ public sealed partial class ImageViewWindow2 : Window
                 {
                     return;
                 }
-                await ScreenCaptureService.SaveImageAsync(bitmap, path, DateTimeOffset.Now);
             }
             else if (!imageHdr)
             {
@@ -1293,7 +1350,6 @@ public sealed partial class ImageViewWindow2 : Window
                 {
                     return;
                 }
-                await ScreenCaptureService.SaveImageAsync(bitmap, path, DateTimeOffset.Now);
             }
             else
             {
@@ -1303,131 +1359,23 @@ public sealed partial class ImageViewWindow2 : Window
                 {
                     return;
                 }
-
-                var toneMapEffect = new HdrToneMapEffect
-                {
-                    Source = bitmap,
-                    DisplayMode = HdrToneMapEffectDisplayMode.Hdr,
-                    InputMaxLuminance = MaxCLL,
-                    OutputMaxLuminance = SDRLuminance,
-                };
-                using UhdrPixelGainEffect uhdrPixelGainEffect = new()
-                {
-                    SdrSource = toneMapEffect,
-                    HdrSource = bitmap,
-                };
-
-                using CanvasRenderTarget renderTarget_gain = new(CanvasDevice.GetSharedDevice(),
-                                                        bitmap.SizeInPixels.Width,
-                                                        bitmap.SizeInPixels.Height,
-                                                        96,
-                                                        DirectXPixelFormat.R32G32B32A32Float,
-                                                        CanvasAlphaMode.Premultiplied);
-                using (CanvasDrawingSession ds = renderTarget_gain.CreateDrawingSession())
-                {
-                    ds.Units = CanvasUnits.Pixels;
-                    ds.Clear(Colors.Transparent);
-                    ds.DrawImage(uhdrPixelGainEffect);
-                }
-                byte[] gainPixelBytes = renderTarget_gain.GetPixelBytes();
-                float[] contentBoost = ScreenCaptureService.GetContentMinMaxBoost(gainPixelBytes);
-
-                using UhdrGainmapEffect uhdrGainmapEffect = new()
-                {
-                    PixelGainSource = renderTarget_gain,
-                    MinContentBoost = MemoryMarshal.Cast<float, float3>(contentBoost)[0],
-                    MaxContentBoost = MemoryMarshal.Cast<float, float3>(contentBoost)[1],
-                };
-                using CanvasRenderTarget renderTarget_gainmap = new(CanvasDevice.GetSharedDevice(),
-                                                        bitmap.SizeInPixels.Width,
-                                                        bitmap.SizeInPixels.Height,
-                                                        96,
-                                                        DirectXPixelFormat.R8G8B8A8UIntNormalized,
-                                                        CanvasAlphaMode.Premultiplied);
-                using (CanvasDrawingSession ds = renderTarget_gainmap.CreateDrawingSession())
-                {
-                    ds.Units = CanvasUnits.Pixels;
-                    ds.Clear(Colors.Transparent);
-                    ds.DrawImage(uhdrGainmapEffect);
-                }
-
-                using var whiteLevelEffect = new WhiteLevelAdjustmentEffect
-                {
-                    Source = toneMapEffect,
-                    InputWhiteLevel = 80,
-                    OutputWhiteLevel = SDRLuminance,
-                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                };
-                using var gammaEffect = new SrgbGammaEffect
-                {
-                    Source = whiteLevelEffect,
-                    GammaMode = SrgbGammaMode.OETF,
-                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                };
-                using CanvasRenderTarget renderTarget_sdr = new(CanvasDevice.GetSharedDevice(),
-                                                       bitmap.SizeInPixels.Width,
-                                                       bitmap.SizeInPixels.Height,
-                                                       96,
-                                                       DirectXPixelFormat.R8G8B8A8UIntNormalized,
-                                                       CanvasAlphaMode.Premultiplied);
-                using (CanvasDrawingSession ds = renderTarget_sdr.CreateDrawingSession())
-                {
-                    ds.Units = CanvasUnits.Pixels;
-                    ds.Clear(Colors.Transparent);
-                    ds.DrawImage(gammaEffect);
-                }
-
-                MemoryStream ms_base = new();
-                MemoryStream ms_gainmap = new();
-                await renderTarget_sdr.SaveAsync(ms_base.AsRandomAccessStream(), CanvasBitmapFileFormat.Jpeg);
-                await renderTarget_gainmap.SaveAsync(ms_gainmap.AsRandomAccessStream(), CanvasBitmapFileFormat.Jpeg);
-
-                using var encoder = new UhdrEncoder();
-                unsafe
-                {
-                    fixed (byte* b = ms_base.ToArray(), g = ms_gainmap.ToArray())
-                    {
-                        UhdrCompressedImage baseImage = new UhdrCompressedImage
-                        {
-                            Data = (nint)b,
-                            DataSize = (uint)ms_base.Length,
-                            Capacity = (uint)ms_base.Length,
-                            ColorGamut = UhdrColorGamut.BT709,
-                            ColorRange = UhdrColorRange.FullRange,
-                            ColorTransfer = UhdrColorTransfer.SRGB,
-                        };
-                        UhdrCompressedImage gainmapImage = new UhdrCompressedImage
-                        {
-                            Data = (nint)g,
-                            DataSize = (uint)ms_gainmap.Length,
-                            Capacity = (uint)ms_gainmap.Length,
-                            ColorGamut = UhdrColorGamut.BT709,
-                            ColorRange = UhdrColorRange.FullRange,
-                            ColorTransfer = UhdrColorTransfer.SRGB,
-                        };
-                        encoder.SetCompressedImage(baseImage, UhdrImageLabel.Base);
-                        UhdrGainmapMetadata metadata = new UhdrGainmapMetadata
-                        {
-                            Gamma = new FixedArray3<float>(1),
-                            OffsetSdr = new FixedArray3<float>(0.015625f),
-                            OffsetHdr = new FixedArray3<float>(0.015625f),
-                            HdrCapacityMin = 1,
-                            HdrCapacityMax = MathF.Max(MathF.Max(contentBoost[3], contentBoost[4]), MathF.Max(contentBoost[5], 1)),
-                            UseBaseColorSpace = 1,
-                        };
-                        metadata.MinContentBoost[0] = contentBoost[0];
-                        metadata.MinContentBoost[1] = contentBoost[1];
-                        metadata.MinContentBoost[2] = contentBoost[2];
-                        metadata.MaxContentBoost[0] = contentBoost[3];
-                        metadata.MaxContentBoost[1] = contentBoost[4];
-                        metadata.MaxContentBoost[2] = contentBoost[5];
-                        encoder.SetGainmapImage(gainmapImage, metadata);
-                    }
-                }
-                encoder.Encode();
-                byte[] bytes = encoder.GetEncodedBytes().ToArray();
-                await File.WriteAllBytesAsync(path, bytes);
             }
+
+            using var ms = new MemoryStream();
+            string extension = Path.GetExtension(path).ToLowerInvariant();
+            Task task = Path.GetExtension(path).ToLowerInvariant() switch
+            {
+                ".png" => ImageSaver.SaveAsPngAsync(bitmap, ms, colorPrimaries),
+                ".avif" => ImageSaver.SaveAsAvifAsync(bitmap, ms, colorPrimaries, 95),
+                ".jxl" => ImageSaver.SaveAsJxlAsync(bitmap, ms, colorPrimaries, 0.5f),
+                ".jpg" => ImageSaver.SaveAsUhdrAsync(bitmap, ms, maxCLL, outputNits),
+                _ => throw new ArgumentOutOfRangeException($"File extension '{extension}' is not supported."),
+            };
+            await task;
+
+            ms.Position = 0;
+            using var fs = File.Create(path);
+            await ms.CopyToAsync(fs);
             var file = await StorageFile.GetFileFromPathAsync(path);
             var folder = await file.GetParentAsync();
             var folderOptions = new FolderLauncherOptions();
@@ -1603,6 +1551,18 @@ public sealed partial class ImageViewWindow2 : Window
 
 
     #endregion
+
+
+
+    private static Matrix5x4 ToMatrix5x4(Matrix4x4 matrix4x4)
+    {
+        return new Matrix5x4(matrix4x4.M11, matrix4x4.M12, matrix4x4.M13, matrix4x4.M14,
+                             matrix4x4.M21, matrix4x4.M22, matrix4x4.M23, matrix4x4.M24,
+                             matrix4x4.M31, matrix4x4.M32, matrix4x4.M33, matrix4x4.M34,
+                             matrix4x4.M41, matrix4x4.M42, matrix4x4.M43, matrix4x4.M44,
+                             0, 0, 0, 0);
+    }
+
 
 
 }

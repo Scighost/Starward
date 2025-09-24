@@ -123,6 +123,8 @@
                           sh:PointerCursor.CursorShape="Hand"
                           ui:UIElementExtensions.ClipToBounds="True">
                         <sc:CachedImage Name="Image_Thumb"
+                                        Width="206"
+                                        Height="116"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         ui:VisualExtensions.NormalizedCenterPoint="0.5"

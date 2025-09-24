@@ -4,7 +4,7 @@ using ComputeSharp.D2D1.WinUI;
 using Microsoft.Graphics.Canvas;
 using Windows.Graphics.Effects;
 
-namespace Starward.Features.Screenshot;
+namespace Starward.Features.Codec;
 
 
 // https://en.wikipedia.org/wiki/SRGB

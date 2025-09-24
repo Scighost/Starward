@@ -30,7 +30,7 @@ internal partial class ScreenCaptureHelper
     public static readonly bool IsWin10 = Environment.OSVersion.Version.Build < 22000;
 
 
-    public static async Task<Direct3D11CaptureFrame> CaptureWindowAsync(nint hwnd, CancellationToken cancellationToken = default)
+    public static async Task<Direct3D11CaptureFrame> CaptureWindowAsync(nint hwnd, DirectXPixelFormat pixelFormat, CancellationToken cancellationToken = default)
     {
         if (!User32.IsWindow(hwnd))
         {
@@ -41,22 +41,22 @@ internal partial class ScreenCaptureHelper
             throw new InvalidOperationException("Cannot capture a minimized window.");
         }
         GraphicsCaptureItem item = CreateGraphicsCaptureItemForWindow(hwnd);
-        return await CaptureAsync(item, cancellationToken);
+        return await CaptureAsync(item, pixelFormat, cancellationToken);
     }
 
 
-    public static async Task<Direct3D11CaptureFrame> CaptureMonitorAsync(nint monitor, CancellationToken cancellationToken = default)
+    public static async Task<Direct3D11CaptureFrame> CaptureMonitorAsync(nint monitor, DirectXPixelFormat pixelFormat, CancellationToken cancellationToken = default)
     {
         GraphicsCaptureItem item = CreateGraphicsCaptureItemForMonitor(monitor);
-        return await CaptureAsync(item, cancellationToken);
+        return await CaptureAsync(item, pixelFormat, cancellationToken);
     }
 
 
 
-    public static async Task<Direct3D11CaptureFrame> CaptureAsync(GraphicsCaptureItem item, CancellationToken cancellationToken = default)
+    public static async Task<Direct3D11CaptureFrame> CaptureAsync(GraphicsCaptureItem item, DirectXPixelFormat pixelFormat, CancellationToken cancellationToken = default)
     {
         using Direct3D11CaptureFramePool framePool = IsWin10 ? Direct3D11CaptureFramePool.Create(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R8G8B8A8UIntNormalized, 1, item.Size)
-                                                             : Direct3D11CaptureFramePool.CreateFreeThreaded(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 1, item.Size);
+                                                             : Direct3D11CaptureFramePool.CreateFreeThreaded(CanvasDevice.GetSharedDevice(), pixelFormat, 1, item.Size);
         using GraphicsCaptureSession session = framePool.CreateCaptureSession(item);
 #pragma warning disable CA1416 // 验证平台兼容性
         if (IsIncludeSecondaryWindowsPresent)

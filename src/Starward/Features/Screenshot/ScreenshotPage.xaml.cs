@@ -179,7 +179,8 @@ public sealed partial class ScreenshotPage : PageBase
                     {
                         continue;
                     }
-                    if (ScreenshotHelper.IsSupportedExtension(file) && !File.GetAttributes(file).HasFlag((System.IO.FileAttributes)0x440000))
+                    // todo 优化加载速度
+                    if (ScreenshotHelper.IsSupportedExtension(file) /*&& !File.GetAttributes(file).HasFlag((System.IO.FileAttributes)0x440000)*/)
                     {
                         var item = new ScreenshotItem(file);
                         screenshots.Add(item);
@@ -511,6 +512,19 @@ public sealed partial class ScreenshotPage : PageBase
 
     private async void MenuFlyoutItem_CopyAsJPG_Click(object sender, RoutedEventArgs e)
     {
+        static string GetSizeString(long size)
+        {
+            const double KB = 1 << 10;
+            const double MB = 1 << 20;
+            if (size >= MB)
+            {
+                return $"{size / MB:F2} MB";
+            }
+            else
+            {
+                return $"{size / KB:F2} KB";
+            }
+        }
         try
         {
             if (sender is FrameworkElement fe && fe.DataContext is ScreenshotItem item)
@@ -520,7 +534,7 @@ public sealed partial class ScreenshotPage : PageBase
                     string jpgFilePath = await ScreenshotHelper.ConvertToJpgAsync(item.FilePath);
                     var file = await StorageFile.GetFileFromPathAsync(jpgFilePath);
                     ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
-                    InAppToast.MainWindow?.Success(Lang.ImageViewWindow2_CopiedToClipboard, null, 1500);
+                    InAppToast.MainWindow?.Success($"{Lang.ImageViewWindow2_CopiedToClipboard} ({GetSizeString(new FileInfo(jpgFilePath).Length)})", null, 1500);
                 }
                 else
                 {

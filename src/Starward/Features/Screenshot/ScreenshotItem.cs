@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Starward.Features.Codec;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,25 +27,21 @@ public partial class ScreenshotItem : ObservableObject
     public string TimeMonthDay { get; set; }
 
 
-    public ScreenshotItem(string file) : this(new FileInfo(file))
+    public ScreenshotItem(string file)
     {
-
-    }
-
-
-    public ScreenshotItem(FileInfo info)
-    {
-        FilePath = info.FullName;
-        FileName = info.Name;
-        FileInfo = GetFileInfo(info);
-        Name = Path.GetFileNameWithoutExtension(info.Name);
+        FilePath = file;
+        FileName = Path.GetFileName(file);
+        Name = Path.GetFileNameWithoutExtension(file);
         if (TryParseCreationTime(Name, out var time))
         {
             CreationTime = time;
         }
         else
         {
+            var info = new FileInfo(file);
             CreationTime = info.CreationTime;
+            FileInfo = GetFileInfo(info);
+            _fileInfoSet = true;
         }
         CreationTimeText = CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
         TimeMonthDay = CreationTime.ToString("yyyy-MM-dd");
@@ -110,6 +107,8 @@ public partial class ScreenshotItem : ObservableObject
     private static partial Regex XBoxNameRegex();
 
 
+
+
     private static string GetFileInfo(FileInfo info)
     {
         const double KB = 1 << 10, MB = 1 << 20;
@@ -119,21 +118,32 @@ public partial class ScreenshotItem : ObservableObject
     }
 
 
+    private bool _fileInfoSet = false;
 
     private bool _updatedPixelSize = false;
 
     public async void UpdatePixelSize()
     {
-        if (_updatedPixelSize)
+        try
         {
-            return;
+            if (_updatedPixelSize)
+            {
+                return;
+            }
+            if (!_fileInfoSet)
+            {
+                var info = new FileInfo(FilePath);
+                FileInfo = GetFileInfo(info);
+                _fileInfoSet = true;
+            }
+            (uint width, uint height) = await ImageLoader.GetImagePixelSizeAsync(FilePath);
+            if (width > 0 && height > 0)
+            {
+                FileInfo = $"{FileInfo}  {width} x {height}";
+                _updatedPixelSize = true;
+            }
         }
-        (uint width, uint height) = await ImageLoader.GetImagePixelSizeAsync(FilePath);
-        if (width > 0 && height > 0)
-        {
-            FileInfo = $"{FileInfo}  {width} x {height}";
-            _updatedPixelSize = true;
-        }
+        catch { }
     }
 
 }

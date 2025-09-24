@@ -2,7 +2,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Scighost.WinUI.ImageEx;
-using Starward.Features.Screenshot;
+using Starward.Features.Codec;
 using Starward.Services.Cache;
 using System;
 using System.IO;

@@ -9,6 +9,7 @@ using Starward.Codec.JpegXL;
 using Starward.Codec.JpegXL.CMS;
 using Starward.Codec.JpegXL.CodeStream;
 using Starward.Codec.JpegXL.Encode;
+using Starward.Features.Codec;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
@@ -666,11 +667,11 @@ public sealed partial class ImageBatchConvertWindow : WindowEx
             item.OutputFilePath = outputPath;
             return;
         }
-        using var bitmap = await ImageLoader.LoadCanvasBitmapAsync(item.SourceFilePath, cancellationToken);
+        using var imageInfo = await ImageLoader.LoadImageAsync(item.SourceFilePath, cancellationToken);
         if (_format == ".avif")
         {
             using var ms = new MemoryStream();
-            await SaveAsAvifAsync(bitmap, ms, item.SourceFileTime, _quality, cancellationToken);
+            await SaveAsAvifAsync(imageInfo.CanvasBitmap, ms, item.SourceFileTime, _quality, cancellationToken);
             using var fs = File.Create(outputPath);
             ms.Position = 0;
             await ms.CopyToAsync(fs, CancellationToken.None);
@@ -679,7 +680,7 @@ public sealed partial class ImageBatchConvertWindow : WindowEx
         if (_format == ".jxl")
         {
             using var ms = new MemoryStream();
-            await SaveAsJxlAsync(bitmap, ms, item.SourceFileTime, _quality, cancellationToken);
+            await SaveAsJxlAsync(imageInfo.CanvasBitmap, ms, item.SourceFileTime, _quality, cancellationToken);
             using var fs = File.Create(outputPath);
             ms.Position = 0;
             await ms.CopyToAsync(fs, CancellationToken.None);

@@ -5,7 +5,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Windows.Graphics.Effects;
 
-namespace Starward.Features.Screenshot;
+namespace Starward.Features.Codec;
 
 internal partial class ScRGBToHDR10Effect : CanvasEffect
 {

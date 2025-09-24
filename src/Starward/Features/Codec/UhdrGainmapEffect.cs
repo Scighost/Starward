@@ -5,7 +5,7 @@ using Microsoft.Graphics.Canvas;
 using System;
 using Windows.Graphics.Effects;
 
-namespace Starward.Features.Screenshot;
+namespace Starward.Features.Codec;
 
 
 public partial class UhdrPixelGainEffect : CanvasEffect

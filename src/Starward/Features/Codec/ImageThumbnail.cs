@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using WinRT;
 
-namespace Starward.Features.Screenshot;
+namespace Starward.Features.Codec;
 
 internal static class ImageThumbnail
 {

@@ -25,6 +25,8 @@ internal class ScreenCaptureContext : IDisposable
     public event EventHandler CaptureWindowClosed;
 
 
+    private DirectXPixelFormat _pixelFormat;
+
     private Lock _lock = new();
 
     private SizeInt32 lastSize;
@@ -57,11 +59,17 @@ internal class ScreenCaptureContext : IDisposable
     }
 
 
-    public async Task<Direct3D11CaptureFrame> CaptureAsync(CancellationToken cancellationToken = default)
+    public async Task<Direct3D11CaptureFrame> CaptureAsync(DirectXPixelFormat pixelFormat, CancellationToken cancellationToken = default)
     {
         if (_windowClosed)
         {
             throw new InvalidOperationException("The capture context has been closed and cannot be used.");
+        }
+        pixelFormat = ScreenCaptureHelper.IsWin10 ? DirectXPixelFormat.R8G8B8A8UIntNormalized : pixelFormat;
+        if (pixelFormat != _pixelFormat)
+        {
+            _pixelFormat = pixelFormat;
+            Dispose();
         }
         var completionSource = new TaskCompletionSource<Direct3D11CaptureFrame>();
         cancellationToken.Register(() => completionSource.TrySetCanceled());
@@ -113,7 +121,7 @@ internal class ScreenCaptureContext : IDisposable
             {
                 SizeInt32 contentSize = frame.ContentSize;
                 frame.Dispose();
-                sender.Recreate(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 2, contentSize);
+                sender.Recreate(CanvasDevice.GetSharedDevice(), _pixelFormat, 2, contentSize);
                 lastSize = contentSize;
             }
         }
@@ -126,7 +134,7 @@ internal class ScreenCaptureContext : IDisposable
         {
             Dispose();
             FramePool = ScreenCaptureHelper.IsWin10 ? Direct3D11CaptureFramePool.Create(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R8G8B8A8UIntNormalized, 2, lastSize)
-                                                    : Direct3D11CaptureFramePool.CreateFreeThreaded(CanvasDevice.GetSharedDevice(), DirectXPixelFormat.R16G16B16A16Float, 2, lastSize);
+                                                    : Direct3D11CaptureFramePool.CreateFreeThreaded(CanvasDevice.GetSharedDevice(), _pixelFormat, 2, lastSize);
             FramePool.FrameArrived += OnFrameArrived;
             CaptureSession = FramePool.CreateCaptureSession(CaptureItem);
 #pragma warning disable CA1416 // 验证平台兼容性
