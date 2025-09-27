@@ -224,7 +224,7 @@
     <value>開拓力</value>
   </data>
   <data name="GameServer_BilibiliServer" xml:space="preserve">
-    <value>bilibiliサーバー</value>
+    <value>Bilibili サーバー</value>
   </data>
   <data name="GachaType_ChronicledWish" xml:space="preserve">
     <value>集録祈願</value>
@@ -296,6 +296,6 @@
     <value>キャラクターコラボ跳躍</value>
   </data>
   <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
-    <value>Light Cone Collaboration Warp</value>
+    <value>キャラクター光円錐コラボ跳躍</value>
   </data>
 </root>
