@@ -293,7 +293,7 @@
     <value>ドライバディスク</value>
   </data>
   <data name="GachaType_CharacterCollaborationWarp" xml:space="preserve">
-    <value>Character Collaboration Warp</value>
+    <value>キャラクターコラボ跳躍</value>
   </data>
   <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
     <value>Light Cone Collaboration Warp</value>
