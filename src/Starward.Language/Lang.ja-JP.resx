@@ -2172,7 +2172,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>スクリーンショットの撮影に失敗しました</value>
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
-    <value>Check the log for more information.</value>
+    <value>詳細はログを確認してください。</value>
   </data>
   <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
     <value>Don't change the in-game "Graphics Quality" preset, or the FPS setting may not work. If you set 120 FPS but see 30 FPS in the game settings, that's expected.</value>
@@ -2235,7 +2235,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>画像をエクスポート</value>
   </data>
   <data name="ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature" xml:space="preserve">
-    <value>To convert an HDR image to SDR, please use the Edit feature.</value>
+    <value>HDR 画像を SDR に変換するには、編集機能を使用してください。</value>
   </data>
   <data name="ImageViewWindow2_DeleteImageFile" xml:space="preserve">
     <value>画像ファイルを削除</value>
@@ -2301,7 +2301,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>ショートカットキーを登録できませんでした。</value>
   </data>
   <data name="ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder" xml:space="preserve">
-    <value>The built-in screenshot feature will save images to the following folder.</value>
+    <value>内蔵のスクショ機能により、以下のフォルダーに画像を保存します。</value>
   </data>
   <data name="Common_ChangeFolder" xml:space="preserve">
     <value>フォルダーの変更</value>
