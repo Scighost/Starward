@@ -1,5 +1,5 @@
 using Microsoft.Win32;
-using SharpGameInput;
+using SharpGameInput.V0;
 using Starward.Features.Overlay;
 using Starward.Features.Screenshot;
 using Starward.Features.ViewHost;
@@ -53,7 +53,7 @@ internal static class GamepadController
                 NeedInstallGameInputRedist = true;
                 return;
             }
-            if (GameInput.Create(out _gameInput))
+            if (SharpGameInput.GameInput.CreateV0(out _gameInput))
             {
                 _inputSimulator = new InputSimulator();
                 _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
@@ -65,6 +65,15 @@ internal static class GamepadController
                                                   null, GameInputDeviceCallback, out _, out _);
                 _gameInput.RegisterSystemButtonCallback(null, GameInputSystemButtons.Guide | GameInputSystemButtons.Share,
                                                         null, GameInputSystemButtonCallback, out _, out _);
+                if (SharpGameInput.GameInput.TryCast(_gameInput, out SharpGameInput.V2.IGameInput? gameInputV2))
+                {
+                    using (gameInputV2)
+                    {
+                        gameInputV2.SetFocusPolicy(SharpGameInput.V2.GameInputFocusPolicy.EnableBackgroundInput
+                                                   | SharpGameInput.V2.GameInputFocusPolicy.EnableBackgroundGuideButton
+                                                   | SharpGameInput.V2.GameInputFocusPolicy.EnableBackgroundShareButton);
+                    }
+                }
                 EnableGamepadSimulateInput = AppConfig.EnableGamepadSimulateInput;
                 GamepadGuideButtonMode = AppConfig.GamepadGuideButtonMode;
                 GamepadShareButtonMode = AppConfig.GamepadShareButtonMode;

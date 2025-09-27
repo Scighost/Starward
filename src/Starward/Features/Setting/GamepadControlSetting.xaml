@@ -16,7 +16,7 @@
 
 
     <ScrollViewer x:Name="scr" Background="{x:Null}">
-        <StackPanel>
+        <StackPanel Padding="0,0,24,0">
 
             <!--  手柄增强  -->
             <TextBlock FontSize="20" Text="{x:Bind lang:Lang.SettingPage_ControllerEnhancement}" />
@@ -97,14 +97,6 @@
                            VerticalAlignment="Center"
                            Text="{x:Bind lang:Lang.GamepadControlSetting_BothThumbsticksDesc}" />
             </StackPanel>
-
-            <!--  检测到已安装 GameInputRedist  -->
-            <TextBlock x:Name="TextBlock_GameInputRedistInstalled"
-                       Margin="0,12,0,0"
-                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
-                       Text="{x:Bind lang:Lang.GamepadControlSetting_GameInputRedistInstalled}"
-                       TextWrapping="Wrap"
-                       Visibility="Collapsed" />
 
             <MenuFlyoutSeparator Margin="0,12,0,12" />
 

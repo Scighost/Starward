@@ -56,10 +56,6 @@ public sealed partial class GamepadControlSetting : PageBase
             {
                 TextBlock_GameInputInitializeFailed.Visibility = Visibility.Collapsed;
             }
-            if (GamepadController.Initialized && GamepadController.GameInputRedistInstalled)
-            {
-                TextBlock_GameInputRedistInstalled.Visibility = Visibility.Visible;
-            }
         }
         catch { }
     }

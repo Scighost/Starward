@@ -8,7 +8,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
-using SharpGameInput;
+using SharpGameInput.V0;
 using Starward.Features.Setting;
 using Starward.Frameworks;
 using Starward.Helpers;
