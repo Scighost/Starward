@@ -25,7 +25,7 @@ internal class ScreenCaptureContext : IDisposable
     public event EventHandler CaptureWindowClosed;
 
 
-    private DirectXPixelFormat _pixelFormat;
+    private DirectXPixelFormat _pixelFormat = DirectXPixelFormat.R8G8B8A8UIntNormalized;
 
     private Lock _lock = new();
 

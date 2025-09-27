@@ -7,7 +7,6 @@ using Microsoft.Windows.AppLifecycle;
 using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.GameLauncher;
-using Starward.Features.GamepadControl;
 using Starward.Features.Overlay;
 using Starward.Features.Screenshot;
 using Starward.Frameworks;
@@ -185,7 +184,6 @@ public sealed partial class MainWindow : WindowEx
             {
                 Close();
                 AppInstance.GetCurrent().UnregisterKey();
-                GamepadController.RestoreGamepadGuideButtonForGameBar();
                 Task backupTask = Task.Run(DatabaseService.AutoBackupToAppDataLocal);
                 Task timeTask = Task.Delay(30000);
                 await Task.WhenAny(backupTask, timeTask);

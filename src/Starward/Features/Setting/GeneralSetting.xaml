@@ -12,7 +12,7 @@
              mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel>
+        <StackPanel Padding="0,0,24,0">
 
 
             <!--  语言  -->

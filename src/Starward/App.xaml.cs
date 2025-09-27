@@ -1,6 +1,7 @@
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
+using Starward.Features.GamepadControl;
 using Starward.Features.UrlProtocol;
 using Starward.Features.ViewHost;
 using System;
@@ -140,6 +141,7 @@ public partial class App : Application
 
     public new void Exit()
     {
+        GamepadController.RestoreGamepadGuideButtonForGameBar();
         m_MainWindow?.Close();
         m_SystemTrayWindow?.Close();
         Application.Current.Exit();
