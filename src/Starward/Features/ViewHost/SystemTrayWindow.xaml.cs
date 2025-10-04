@@ -130,7 +130,7 @@ public sealed partial class SystemTrayWindow : WindowEx
     private async void Exit()
     {
         Hide();
-        trayIcon.Hide();
+        trayIcon?.Dispose();
         MainWindow.Current?.Close();
         Task backupTask = Task.Run(DatabaseService.AutoBackupToAppDataLocal);
         Task timeTask = Task.Delay(30000);
