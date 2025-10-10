@@ -11,21 +11,13 @@
 #include <vpx/vp8dx.h>
 #include <vpx/vpx_image.h>
 #include <vector>
+#include <libyuv.h>
 
 // VP9 支持的输出格式 (基于 Profile)
 // Profile 0: 8-bit 4:2:0
 // Profile 1: 8-bit 4:2:2, 4:4:4
 // Profile 2: 10-bit/12-bit 4:2:0
 // Profile 3: 10-bit/12-bit 4:2:2, 4:4:4
-
-// 定义 I422 - 8 - bit 4:2 : 2
-static const GUID MFVideoFormat_I422 =
-{ 0x32323449, 0x0000, 0x0010, {0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B, 0x71} };
-
-// 定义 I444 - 8-bit 4:4:4
-static const GUID MFVideoFormat_I444 =
-{ 0x34343449, 0x0000, 0x0010, {0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B, 0x71} };
-
 
 using namespace Microsoft::WRL;
 
@@ -143,15 +135,6 @@ private:
     HRESULT ShutdownDecoder();
     HRESULT DecodeFrame(IMFSample* pInputSample, IMFSample** ppOutputSample);
     HRESULT CreateOutputSample(const vpx_image_t* img, IMFSample** ppSample);
-    HRESULT ConvertToI420(const vpx_image_t* img, BYTE* pDest);
-    HRESULT ConvertToI422(const vpx_image_t* img, BYTE* pDest);
-    HRESULT ConvertToI444(const vpx_image_t* img, BYTE* pDest);
-    HRESULT ConvertToI420_10bit(const vpx_image_t* img, BYTE* pDest);
-    HRESULT ConvertToI422_10bit(const vpx_image_t* img, BYTE* pDest);
-    HRESULT ConvertToI444_10bit(const vpx_image_t* img, BYTE* pDest);
-    HRESULT ConvertToI420_12bit(const vpx_image_t* img, BYTE* pDest);
-    HRESULT ConvertToI422_12bit(const vpx_image_t* img, BYTE* pDest);
-    HRESULT ConvertToI444_12bit(const vpx_image_t* img, BYTE* pDest);
     HRESULT OnCheckInputType(IMFMediaType* pType);
     HRESULT OnCheckOutputType(IMFMediaType* pType);
     HRESULT OnSetInputType(IMFMediaType* pType);
@@ -161,7 +144,7 @@ private:
     bool IsValidInputType(IMFMediaType* pType);
     bool IsValidOutputType(IMFMediaType* pType);
     DWORD GetOutputBufferSize(const GUID& subtype, UINT32 width, UINT32 height);
-    GUID GetOutputFormatForVpxImage(const vpx_image_t* img);
+    HRESULT ConvertToI420(const vpx_image_t* img, BYTE* pDest);
 
 private:
     LONG m_nRefCount;

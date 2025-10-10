@@ -66,15 +66,9 @@ extern "C" __declspec(dllexport) HRESULT RegisterVP9DecoderLocal()
 		   { MFMediaType_Video, MFVideoFormat_VP90 }
 	};
 	MFT_REGISTER_TYPE_INFO outputTypes[] = {
-		{ MFMediaType_Video, MFVideoFormat_IYUV },
-		{ MFMediaType_Video, MFVideoFormat_I422 },
-		{ MFMediaType_Video, MFVideoFormat_I444 },
-		{ MFMediaType_Video, MFVideoFormat_P010 },
-		{ MFMediaType_Video, MFVideoFormat_P210 },
-		{ MFMediaType_Video, MFVideoFormat_Y410 },
-		{ MFMediaType_Video, MFVideoFormat_P016 },
-		{ MFMediaType_Video, MFVideoFormat_P216 },
-		{ MFMediaType_Video, MFVideoFormat_Y416 },
+		//{ MFMediaType_Video, MFVideoFormat_NV12 },
+		{ MFMediaType_Video, MFVideoFormat_I420 },
+		//{ MFMediaType_Video, MFVideoFormat_P016 },
 	};
 
 	HRESULT hr = MFTRegisterLocal(
@@ -87,10 +81,7 @@ extern "C" __declspec(dllexport) HRESULT RegisterVP9DecoderLocal()
 		ARRAYSIZE(outputTypes),
 		outputTypes
 	);
-	if (hr == S_OK)
-	{
-		MFShutdown(); // 刷新 MFT 列表
-	}
+	
 	return hr;
 }
 
@@ -101,6 +92,7 @@ extern "C" __declspec(dllexport) HRESULT UnregisterVP9DecoderLocal()
 	{
 		HRESULT hr = MFTUnregisterLocal(g_pClassFactory);
 		g_pClassFactory->Release();
+		g_pClassFactory = nullptr;
 		return hr;
 	}
 	return S_OK;
