@@ -2554,4 +2554,7 @@
   <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
     <value>高質素嘅 AVIF 同 JPEG XL 圖像格式可以慳大約 85% 嘅存儲空間。</value>
   </data>
+  <data name="Common_CopiedToClipboard" xml:space="preserve">
+    <value>Copied to clipboard.</value>
+  </data>
 </root>
