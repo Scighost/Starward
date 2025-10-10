@@ -73,8 +73,8 @@
         <ProgressBar HorizontalAlignment="Stretch"
                      VerticalAlignment="Bottom"
                      IsHitTestVisible="False"
-                     IsIndeterminate="{x:Bind UpdateBackgroundCommand.IsRunning}"
-                     Visibility="{x:Bind UpdateBackgroundCommand.IsRunning}" />
+                     IsIndeterminate="{x:Bind IsUpdateBackgroundRunning}"
+                     Visibility="{x:Bind IsUpdateBackgroundRunning}" />
 
 
     </Grid>

@@ -359,6 +359,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Copied to clipboard. 的本地化字符串。
+        /// </summary>
+        public static string Common_CopiedToClipboard {
+            get {
+                return ResourceManager.GetString("Common_CopiedToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Copy 的本地化字符串。
         /// </summary>
         public static string Common_Copy {

@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.HoYoPlay;
 
@@ -22,5 +22,8 @@ public class GameImage
     /// </summary>
     [JsonPropertyName("link")]
     public string Link { get; set; }
+
+    [JsonPropertyName("login_state_in_link")]
+    public bool LoginStateInLink { get; set; }
 
 }

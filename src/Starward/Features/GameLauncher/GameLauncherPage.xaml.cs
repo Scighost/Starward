@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 
 
 namespace Starward.Features.GameLauncher;
@@ -46,7 +47,7 @@ public sealed partial class GameLauncherPage : PageBase
     private readonly HoYoPlayService _hoYoPlayService = AppConfig.GetService<HoYoPlayService>();
 
 
-    private readonly DispatcherQueueTimer _dispatchTimer;
+    private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _dispatchTimer;
 
 
     public GameLauncherPage()
@@ -81,6 +82,7 @@ public sealed partial class GameLauncherPage : PageBase
         WeakReferenceMessenger.Default.UnregisterAll(this);
         _dispatchTimer.Tick -= UpdateGameInstallTaskProgress;
         _dispatchTimer.Stop();
+        BackgroundImages = null!;
     }
 
 
@@ -706,7 +708,7 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
-    private void UpdateGameInstallTaskProgress(DispatcherQueueTimer sender, object args)
+    private void UpdateGameInstallTaskProgress(Microsoft.UI.Dispatching.DispatcherQueueTimer sender, object args)
     {
         if (_gameInstallTask is null)
         {
@@ -828,13 +830,23 @@ public sealed partial class GameLauncherPage : PageBase
     #region Switch Background Image
 
 
-    public List<string> BackgroundImageUrls { get; set => SetProperty(ref field, value); }
+    private const string PlayIcon = "\uF5B0";
+
+    private const string PauseIcon = "\uE62E";
+
+
+    public List<GameBackground> BackgroundImages { get; set => SetProperty(ref field, value); }
+
+    public bool CanStopVideo { get; set => SetProperty(ref field, value); }
+
+    public string StartStopButtonIcon { get; set => SetProperty(ref field, value); }
 
 
     private int currentBackgroundImageIndex;
     public int CurrentBackgroundImageIndex
     {
-        get => currentBackgroundImageIndex; set
+        get => currentBackgroundImageIndex;
+        set
         {
             if (SetProperty(ref currentBackgroundImageIndex, value))
             {
@@ -846,7 +858,10 @@ public sealed partial class GameLauncherPage : PageBase
 
     private void OnBackgroundChanged(object _, BackgroundChangedMessage message)
     {
-        _ = InitializeBackgameImageSwitcherAsync();
+        if (message.GameBackground is null)
+        {
+            _ = InitializeBackgameImageSwitcherAsync();
+        }
     }
 
 
@@ -854,20 +869,23 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            if (BackgroundService.TryGetCustomBgFilePath(CurrentGameId, out _))
-            {
-                Border_SwitchBackgroundImage.Visibility = Visibility.Collapsed;
-                return;
-            }
-            BackgroundImageUrls = await _backgroundService.GetBackgroundAndPosterImageUrlsAsync(CurrentGameId);
-            if (BackgroundImageUrls.Count > 1)
+            CanStopVideo = false;
+            BackgroundImages = await _backgroundService.GetGameBackgroundsAsync(CurrentGameId);
+            if (BackgroundImages.Count > 1)
             {
                 Border_SwitchBackgroundImage.Visibility = Visibility.Visible;
-                string? lastBg = AppConfig.GetBg(CurrentGameBiz);
-                if (!string.IsNullOrWhiteSpace(lastBg) && BackgroundImageUrls.FirstOrDefault(x => Path.GetFileName(x) == lastBg) is string lastUrl)
+                GameBackground? currentBackground = await _backgroundService.GetSuggestedGameBackgroundAsync(CurrentGameId);
+                if (currentBackground != null && BackgroundImages.FirstOrDefault(x => x.Id == currentBackground.Id) is GameBackground current)
                 {
-                    currentBackgroundImageIndex = Math.Clamp(BackgroundImageUrls.IndexOf(lastUrl), 0, BackgroundImageUrls.Count - 1);
+                    currentBackgroundImageIndex = Math.Clamp(BackgroundImages.IndexOf(current), 0, BackgroundImages.Count - 1);
                     OnPropertyChanged(nameof(CurrentBackgroundImageIndex));
+                    CanStopVideo = current.Type is GameBackground.BACKGROUND_TYPE_VIDEO;
+                    if (CanStopVideo)
+                    {
+                        current.StopVideo = currentBackground.StopVideo;
+                        StartStopButtonIcon = current.StopVideo ? PlayIcon : PauseIcon;
+                    }
+                    AppConfig.SetGameBackgroundIds(CurrentGameBiz, string.Join(',', BackgroundImages.Select(x => x.Id)));
                 }
             }
             else
@@ -886,12 +904,17 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            if (index < 0 || index >= BackgroundImageUrls.Count)
+            if (index < 0 || index >= BackgroundImages.Count)
             {
                 return;
             }
-            AppConfig.SetBg(CurrentGameBiz, Path.GetFileName(BackgroundImageUrls[index]));
-            WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
+            GameBackground current = BackgroundImages[index];
+            WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage(current));
+            CanStopVideo = current.Type is GameBackground.BACKGROUND_TYPE_VIDEO;
+            if (CanStopVideo)
+            {
+                StartStopButtonIcon = current.StopVideo ? PlayIcon : PauseIcon;
+            }
         }
         catch { }
     }
@@ -906,6 +929,112 @@ public sealed partial class GameLauncherPage : PageBase
     private void Border_SwitchBackgroundImage_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
         Border_SwitchBackgroundImage.Opacity = 0;
+    }
+
+
+    private void Border_SwitchBackgroundImage_PointerWheelChanged(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (e.GetCurrentPoint(this).Properties.MouseWheelDelta < 0)
+        {
+            CurrentBackgroundImageIndex++;
+        }
+        else
+        {
+            CurrentBackgroundImageIndex--;
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task CopyCurrentBackgroundImageAsync()
+    {
+        try
+        {
+            string? path = null;
+            GameBackground? background = AppBackground.Current.CurrentGameBackground;
+            if (background?.Type is GameBackground.BACKGROUND_TYPE_CUSTOM)
+            {
+                path = background.Background.Url;
+            }
+            else if (background?.Type is GameBackground.BACKGROUND_TYPE_VIDEO && !background.StopVideo)
+            {
+                string name = Path.GetFileName(background.Video.Url);
+                path = BackgroundService.GetBgFilePath(name);
+            }
+            else if (background is not null)
+            {
+                string name = Path.GetFileName(background.Background.Url);
+                path = BackgroundService.GetBgFilePath(name);
+            }
+            if (File.Exists(path))
+            {
+                var file = await StorageFile.GetFileFromPathAsync(path);
+                ClipboardHelper.SetStorageItems(DataPackageOperation.Copy, file);
+                InAppToast.MainWindow?.Information(Lang.Common_CopiedToClipboard);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Copy current background image {GameBiz}", CurrentGameBiz);
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task SaveCurrentBackgroundImageAsync()
+    {
+        try
+        {
+            string? path = null;
+            GameBackground? background = AppBackground.Current.CurrentGameBackground;
+            if (background?.Type is GameBackground.BACKGROUND_TYPE_CUSTOM)
+            {
+                path = background.Background.Url;
+            }
+            else if (background?.Type is GameBackground.BACKGROUND_TYPE_VIDEO && !background.StopVideo)
+            {
+                string name = Path.GetFileName(background.Video.Url);
+                path = BackgroundService.GetBgFilePath(name);
+            }
+            else if (background is not null)
+            {
+                string name = Path.GetFileName(background.Background.Url);
+                path = BackgroundService.GetBgFilePath(name);
+            }
+            if (File.Exists(path))
+            {
+                var savePath = await FileDialogHelper.OpenSaveFileDialogAsync(this.XamlRoot, Path.GetFileName(path));
+                if (!string.IsNullOrWhiteSpace(savePath))
+                {
+                    File.Copy(path, savePath, true);
+                    var file = await StorageFile.GetFileFromPathAsync(savePath);
+                    var options = new FolderLauncherOptions();
+                    options.ItemsToSelect.Add(file);
+                    await Launcher.LaunchFolderAsync(await file.GetParentAsync(), options);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Save as current background image {GameBiz}", CurrentGameBiz);
+        }
+    }
+
+
+    [RelayCommand]
+    private void StartOrStopVideoBackground()
+    {
+        try
+        {
+            GameBackground current = BackgroundImages[CurrentBackgroundImageIndex];
+            if (current.Type is GameBackground.BACKGROUND_TYPE_VIDEO)
+            {
+                current.StopVideo = !current.StopVideo;
+                StartStopButtonIcon = current.StopVideo ? PlayIcon : PauseIcon;
+                WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage(current));
+            }
+        }
+        catch { }
     }
 
 

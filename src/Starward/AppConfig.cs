@@ -949,6 +949,17 @@ public static class AppConfig
     }
 
 
+    public static string? GetGameBackgroundIds(GameBiz biz)
+    {
+        return GetValue<string>(default, $"game_background_ids_{biz}");
+    }
+
+
+    public static void SetGameBackgroundIds(GameBiz biz, string? value)
+    {
+        SetValue(value, $"game_background_ids_{biz}");
+    }
+
 
     #endregion
 

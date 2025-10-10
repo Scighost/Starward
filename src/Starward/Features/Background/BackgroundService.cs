@@ -9,8 +9,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Sockets;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
@@ -22,17 +20,11 @@ namespace Starward.Features.Background;
 public class BackgroundService
 {
 
-
-
-
     private readonly ILogger<BackgroundService> _logger;
-
 
     private readonly HoYoPlayService _hoYoPlayService;
 
-
     private readonly HttpClient _httpClient;
-
 
 
 
@@ -45,14 +37,13 @@ public class BackgroundService
 
 
 
-
     /// <summary>
     /// 获取背景图文件路径，保存在 UserData\bg
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
     [return: NotNullIfNotNull(nameof(name))]
-    private static string? GetBgFilePath(string? name)
+    public static string? GetBgFilePath(string? name)
     {
         return Path.Join(AppConfig.UserDataFolder, "bg", name);
     }
@@ -64,7 +55,7 @@ public class BackgroundService
     /// <param name="gameId"></param>
     /// <param name="path"></param>
     /// <returns></returns>
-    public static bool TryGetCustomBgFilePath(GameId gameId, out string? path)
+    public static bool TryGetCustomBgFilePath(GameId gameId, [NotNullWhen(true)] out string? path)
     {
         path = null;
         if (gameId is null)
@@ -83,33 +74,6 @@ public class BackgroundService
     }
 
 
-
-    /// <summary>
-    /// 获取版本海报文件路径
-    /// </summary>
-    /// <param name="gameId"></param>
-    /// <param name="path"></param>
-    /// <returns></returns>
-    private static bool TryGetVersionPosterBgFilePath(GameId gameId, out string? path)
-    {
-        path = null;
-        if (gameId is null)
-        {
-            return false;
-        }
-        if (AppConfig.GetUseVersionPoster(gameId.GameBiz))
-        {
-            path = Path.Join(AppConfig.UserDataFolder, "bg", AppConfig.GetVersionPoster(gameId.GameBiz));
-            if (File.Exists(path))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-
     /// <summary>
     /// 文件是否是支持的视频格式，支持 mp4、mkv、flv、webm
     /// </summary>
@@ -119,12 +83,10 @@ public class BackgroundService
     {
         return Path.GetExtension(name) switch
         {
-            ".mp4" or ".mkv" or ".flv" or ".webm" => true,
+            ".mp4" or ".mkv" or ".webm" => true,
             _ => false,
         };
     }
-
-
 
 
     /// <summary>
@@ -142,27 +104,10 @@ public class BackgroundService
         {
             return path;
         }
-        //if (TryGetVersionPosterBgFilePath(gameId, out path))
-        //{
-        //    return path;
-        //}
         path = GetBgFilePath(AppConfig.GetBg(gameId.GameBiz));
         return File.Exists(path) ? path : null;
     }
 
-
-
-    /// <summary>
-    /// 获取游戏官方背景图 URL
-    /// </summary>
-    /// <param name="gameId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    private async Task<List<string>> GetBackgroundImageUrlAsync(GameId gameId, CancellationToken cancellationToken = default)
-    {
-        var background = await _hoYoPlayService.GetGameBackgroundAsync(gameId, cancellationToken);
-        return background.Backgrounds?.Select(x => x.Background.Url).ToList() ?? [];
-    }
 
 
     /// <summary>
@@ -171,171 +116,67 @@ public class BackgroundService
     /// <param name="gameId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<string>> GetBackgroundAndPosterImageUrlsAsync(GameId gameId, CancellationToken cancellationToken = default)
+    public async Task<List<GameBackground>> GetGameBackgroundsAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
-        List<string> urls = await GetBackgroundImageUrlAsync(gameId, cancellationToken);
-        string? posterUrl = await GetVersionPosterUrlAsync(gameId, cancellationToken);
-        if (!string.IsNullOrWhiteSpace(posterUrl))
+        GameBackgroundInfo backgroundInfo = await _hoYoPlayService.GetGameBackgroundAsync(gameId, cancellationToken);
+        List<GameBackground> backgrounds = backgroundInfo?.Backgrounds?.ToList() ?? [];
+        GameInfo gameInfo = await _hoYoPlayService.GetGameInfoAsync(gameId, cancellationToken);
+        if (!string.IsNullOrWhiteSpace(gameInfo?.Display?.Background?.Url))
         {
-            urls.Add(posterUrl);
+            backgrounds.Add(GameBackground.FromPosterUrl(gameInfo.Display.Background.Url));
         }
-        return urls;
-    }
-
-
-    /// <summary>
-    /// 更新版本海报
-    /// </summary>
-    /// <param name="gameId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    private async Task<string?> GetVersionPosterAsync(GameId gameId, CancellationToken cancellationToken = default)
-    {
-        try
+        if (TryGetCustomBgFilePath(gameId, out string? path))
         {
-            if (!AppConfig.GetUseVersionPoster(gameId.GameBiz))
-            {
-                return null;
-            }
-            var info = await _hoYoPlayService.GetGameInfoAsync(gameId, cancellationToken);
-            string? url = info.Display.Background?.Url;
-            if (!string.IsNullOrWhiteSpace(url) && AppConfig.UserDataFolder is not null)
-            {
-
-                string bg = Path.Combine(AppConfig.UserDataFolder, "bg");
-                Directory.CreateDirectory(bg);
-                string name = Path.GetFileName(url);
-                string path = Path.Combine(bg, name);
-                if (!File.Exists(path))
-                {
-                    byte[] bytes = await _httpClient.GetByteArrayAsync(url, cancellationToken);
-                    await File.WriteAllBytesAsync(path, bytes, cancellationToken);
-                }
-                AppConfig.SetVersionPoster(gameId.GameBiz, name);
-                return path;
-            }
+            backgrounds.Add(GameBackground.FromCustomFile(path));
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Get version poster ({GameBiz})", gameId.GameBiz);
-        }
-        return null;
+        return backgrounds;
     }
 
 
 
-    private async Task<string?> GetVersionPosterUrlAsync(GameId gameId, CancellationToken cancellationToken = default)
-    {
-        var info = await _hoYoPlayService.GetGameInfoAsync(gameId, cancellationToken);
-        return info?.Display?.Background?.Url;
-    }
-
-
-
-
-    /// <summary>
-    /// 获取背景图文件路径，最新的
-    /// </summary>
-    /// <param name="gameId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async IAsyncEnumerable<string?> GetBackgroundFileAsync(GameId gameId, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async Task<GameBackground?> GetSuggestedGameBackgroundAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         if (TryGetCustomBgFilePath(gameId, out string? file))
         {
-            yield return file;
+            return GameBackground.FromCustomFile(file);
         }
-        else
+        List<GameBackground> backgrounds = await GetGameBackgroundsAsync(gameId, cancellationToken);
+        GameBackground? bg = null;
+        string? lastBg = AppConfig.GetBg(gameId.GameBiz);
+        string? lastBgIds = AppConfig.GetGameBackgroundIds(gameId.GameBiz);
+        string firstBgId = backgrounds.FirstOrDefault()?.Id ?? string.Empty;
+        if (!string.IsNullOrWhiteSpace(lastBg) && (lastBgIds?.StartsWith(firstBgId) ?? false))
         {
-            if (cancellationToken.IsCancellationRequested)
+            // 没有新背景
+            if (backgrounds.FirstOrDefault(x => Path.GetFileName(x.Background.Url) == lastBg) is GameBackground bg1)
             {
-                yield return GetFallbackBackgroundImage(gameId);
-                yield break;
+                bg1.StopVideo = true;
+                bg = bg1;
             }
-            // 1s内api请求未完成或3s内文件下载未完成，先返回已缓存的图片
-            (file, bool error) = await GetBackgroundFileInternalAsync(gameId, cancellationToken: cancellationToken);
-            yield return file;
-            if (error)
+            else if (backgrounds.Where(x => x.Video != null).FirstOrDefault(x => Path.GetFileName(x.Video.Url) == lastBg) is GameBackground bg2)
             {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    yield return GetFallbackBackgroundImage(gameId);
-                    yield break;
-                }
-                // 无timeout，直到图片下载完成
-                (file, error) = await GetBackgroundFileInternalAsync(gameId, noTimeout: true, cancellationToken);
-                yield return file;
+                bg = bg2;
             }
         }
+        bg ??= backgrounds.FirstOrDefault();
+        return bg;
     }
 
 
 
-    /// <summary>
-    /// 获取背景图文件路径，最新的
-    /// </summary>
-    /// <param name="gameId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    private async Task<(string? File, bool Error)> GetBackgroundFileInternalAsync(GameId gameId, bool noTimeout = false, CancellationToken cancellationToken = default)
+    public async Task<string> GetBackgroundFileAsync(string url, CancellationToken cancellationToken = default)
     {
-        try
+        string name = Path.GetFileName(url);
+        string file = GetBgFilePath(name);
+        if (!File.Exists(file))
         {
-            string? url;
-            bool usePoster = false;
-            var apiCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            var downloadCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            CancellationToken apiCancelToken = apiCts.Token;
-            CancellationToken downloadCancelToken = downloadCts.Token;
-            if (!noTimeout)
-            {
-                apiCts.CancelAfter(1000);
-                downloadCts.CancelAfter(3000);
-            }
-            List<string> urls = await GetBackgroundAndPosterImageUrlsAsync(gameId, apiCancelToken);
-            string? lastBg = AppConfig.GetBg(gameId.GameBiz);
-            if (!string.IsNullOrWhiteSpace(lastBg) && urls.FirstOrDefault(x => Path.GetFileName(x) == lastBg) is string lastUrl)
-            {
-                url = lastUrl;
-            }
-            else
-            {
-                url = urls.FirstOrDefault();
-            }
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                _logger.LogWarning("Background of mihoyo api is null ({gameBiz})", gameId);
-                return (GetFallbackBackgroundImage(gameId), false);
-            }
-            string name = Path.GetFileName(url);
-            string file = GetBgFilePath(name);
-            if (!File.Exists(file))
-            {
-                var bytes = await _httpClient.GetByteArrayAsync(url, downloadCancelToken);
-                Directory.CreateDirectory(Path.GetDirectoryName(file)!);
-                await File.WriteAllBytesAsync(file, bytes, downloadCancelToken);
-            }
-            if (usePoster)
-            {
-                AppConfig.SetVersionPoster(gameId.GameBiz, name);
-            }
-            else
-            {
-                AppConfig.SetBg(gameId.GameBiz, name);
-            }
-            return (file, false);
+            var bytes = await _httpClient.GetByteArrayAsync(url, cancellationToken);
+            Directory.CreateDirectory(Path.GetDirectoryName(file)!);
+            await File.WriteAllBytesAsync(file, bytes, cancellationToken);
         }
-        catch (OperationCanceledException)
-        {
-            _logger.LogWarning("Get background image timeout ({GameBiz})", gameId.GameBiz);
-            return (GetFallbackBackgroundImage(gameId), true);
-        }
-        catch (Exception ex) when (ex is HttpRequestException or SocketException)
-        {
-            _logger.LogError(ex, "Get background image ({GameBiz})", gameId.GameBiz);
-            return (GetFallbackBackgroundImage(gameId), true);
-        }
+        return file;
     }
+
 
 
 
@@ -344,7 +185,7 @@ public class BackgroundService
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    private static string? GetFallbackBackgroundImage(GameId gameId)
+    public static string? GetFallbackBackgroundImage(GameId gameId)
     {
         string? bg = GetBgFilePath(AppConfig.GetBg(gameId.GameBiz));
         if (!File.Exists(bg))
@@ -430,9 +271,9 @@ public class BackgroundService
                 ("Image", ".png"),
                 ("Image", ".webp"),
                 ("Image", ".avif"),
+                ("Image", ".jxl"),
                 ("Video", ".mp4"),
                 ("Video", ".mkv"),
-                ("Video", ".flv"),
                 ("Video", ".webm"),
             };
         return await FileDialogHelper.PickSingleFileAsync(xamlRoot, filter);
@@ -445,7 +286,7 @@ public class BackgroundService
     /// </summary>
     /// <param name="file"></param>
     /// <returns></returns>
-    private async Task CheckBackgroundFileAvailableAsync(string file)
+    private static async Task CheckBackgroundFileAvailableAsync(string file)
     {
         if (FileIsSupportedVideo(file))
         {
@@ -460,10 +301,6 @@ public class BackgroundService
             var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
         }
     }
-
-
-
-
 
 
 }
