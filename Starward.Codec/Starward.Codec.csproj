@@ -7,7 +7,7 @@
 		<LangVersion>preview</LangVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-		<Version>0.4.0</Version>
+		<Version>0.4.1</Version>
 		<Authors>Scighost</Authors>
 		<Description>Image codec wrappers of AVIF (libavif 1.3.0), JPEG XL (libjxl 0.11.1), UltraHDR (libultrahdr 1.4.0), CMS (Little-CMS 2.17). VP9 decoder (libvpx 1.15.2) for windows media foundation.</Description>
 		<PackageTags>AVIF;JpegXL;UltraHDR;CMS;VP9</PackageTags>
