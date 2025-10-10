@@ -1,6 +1,6 @@
 namespace Starward.Codec.UltraHdr;
 
-public abstract class UhdrCodec : IDisposable
+public abstract class UhdrCodec
 {
 
     public static string Version => "1.4.0";
@@ -91,35 +91,5 @@ public abstract class UhdrCodec : IDisposable
         UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_add_effect_resize(_codecPtr, width, height);
         errorInfo.ThrowIfError();
     }
-
-
-
-    private bool disposedValue;
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!disposedValue)
-        {
-            if (disposing)
-            {
-
-            }
-            UhdrNativeMethod.uhdr_release_encoder(_codecPtr);
-            _codecPtr = IntPtr.Zero;
-            disposedValue = true;
-        }
-    }
-
-    ~UhdrCodec()
-    {
-        Dispose(disposing: false);
-    }
-
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
-
 
 }

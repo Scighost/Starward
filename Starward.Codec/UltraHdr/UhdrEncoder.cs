@@ -379,4 +379,32 @@ public class UhdrEncoder : UhdrCodec, IDisposable
         return imagePtr.ToCompressedImage();
     }
 
+
+    private bool disposedValue;
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+
+            }
+            UhdrNativeMethod.uhdr_release_encoder(_codecPtr);
+            _codecPtr = IntPtr.Zero;
+            disposedValue = true;
+        }
+    }
+
+    ~UhdrEncoder()
+    {
+        Dispose(disposing: false);
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
 }

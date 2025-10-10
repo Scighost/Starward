@@ -24,12 +24,12 @@ namespace Starward.Codec.UltraHdr;
 /// </para>
 /// </summary>
 
-public class UhdrDecoder : UhdrCodec
+public class UhdrDecoder : UhdrCodec, IDisposable
 {
 
     protected UhdrDecoderPtr _decodePtr => base._codecPtr;
 
-    private UhdrDecoder()
+    public UhdrDecoder()
     {
         base._codecPtr = UhdrNativeMethod.uhdr_create_decoder();
         if (_decodePtr == IntPtr.Zero)
@@ -44,11 +44,14 @@ public class UhdrDecoder : UhdrCodec
     /// </summary>
     /// <param name="bytes">A read-only span of bytes representing the image data to be decoded. This span must contain valid image data.</param>
     /// <returns>A <see cref="UhdrDecoder"/> instance initialized with the provided image data.</returns>
-    public static UhdrDecoder Create(ReadOnlySpan<byte> bytes)
+    public static UhdrDecoder Create(ReadOnlySpan<byte> bytes, bool skipProbe = false)
     {
         var decoder = new UhdrDecoder();
         decoder.SetImage(bytes);
-        decoder.Probe();
+        if (!skipProbe)
+        {
+            decoder.Probe();
+        }
         return decoder;
     }
 
@@ -84,7 +87,6 @@ public class UhdrDecoder : UhdrCodec
     {
         UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_image(_decodePtr, ref image);
         errorInfo.ThrowIfError();
-        Probe();
     }
 
 
@@ -110,7 +112,6 @@ public class UhdrDecoder : UhdrCodec
             UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_set_image(_decodePtr, ref image);
             errorInfo.ThrowIfError();
         }
-        Probe();
     }
 
 
@@ -119,7 +120,7 @@ public class UhdrDecoder : UhdrCodec
     /// image information available to the client via uhdr_dec_get_() functions. It does not decompress
     /// the image. That is done by uhdr_decode().
     /// </summary>
-    private void Probe()
+    public void Probe()
     {
         UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_dec_probe(_decodePtr);
         errorInfo.ThrowIfError();
@@ -307,6 +308,7 @@ public class UhdrDecoder : UhdrCodec
     /// </summary>
     public void Decode()
     {
+        Probe();
         UhdrErrorInfo errorInfo = UhdrNativeMethod.uhdr_decode(_decodePtr);
         errorInfo.ThrowIfError();
     }
@@ -349,5 +351,32 @@ public class UhdrDecoder : UhdrCodec
         }
     }
 
+
+    private bool disposedValue;
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+
+            }
+            UhdrNativeMethod.uhdr_release_decoder(_codecPtr);
+            _codecPtr = IntPtr.Zero;
+            disposedValue = true;
+        }
+    }
+
+    ~UhdrDecoder()
+    {
+        Dispose(disposing: false);
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
 
 }
