@@ -2558,4 +2558,13 @@
   <data name="Common_CopiedToClipboard" xml:space="preserve">
     <value>已复制到剪贴板</value>
   </data>
+  <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
+    <value>月谕模式</value>
+  </data>
+  <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
+    <value>圣牌</value>
+  </data>
+  <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
+    <value>圣牌挑战 {0}</value>
+  </data>
 </root>
