@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "VP9Decoder.h"
 #include <mfapi.h>
+#include <thread>
 
 
 static const GUID g_OutputFormats[] = {
-	//MFVideoFormat_NV12,   // 8-bit 4:2:0
-	MFVideoFormat_I420,   // 10-bit 4:2:0
+	MFVideoFormat_NV12,   // 8-bit 4:2:0
+	//MFVideoFormat_P010,   // 10-bit 4:2:0
 	//MFVideoFormat_P016,   // 16-bit 4:2:0
 };
 
@@ -616,7 +617,8 @@ HRESULT VP9Decoder::InitializeDecoder()
 	vpx_codec_iface_t* iface = vpx_codec_vp9_dx();
 	vpx_codec_dec_cfg_t cfg;
 	memset(&cfg, 0, sizeof(cfg));
-	cfg.threads = 4;
+	UINT threads = std::thread::hardware_concurrency();
+	cfg.threads = threads > 0 ? threads : 8;
 
 	vpx_codec_err_t err = vpx_codec_dec_init(&m_codec, iface, &cfg, 0);
 	if (err != VPX_CODEC_OK)
@@ -741,9 +743,9 @@ HRESULT VP9Decoder::CreateOutputSample(const vpx_image_t* img, IMFSample** ppSam
 		return hr;
 
 	// 根据输出格式和图像格式进行转换
-	if (m_outputSubtype == MFVideoFormat_I420)
+	if (m_outputSubtype == MFVideoFormat_NV12)
 	{
-		hr = ConvertToI420(img, pDest);
+		hr = ConvertToNV12(img, pDest);
 	}
 	else
 	{
@@ -875,7 +877,7 @@ bool VP9Decoder::IsValidOutputType(IMFMediaType* pType)
 
 DWORD VP9Decoder::GetOutputBufferSize(const GUID& subtype, UINT32 width, UINT32 height)
 {
-	if (subtype == MFVideoFormat_I420)
+	if (subtype == MFVideoFormat_NV12)
 	{
 		return width * height * 3 / 2; // 8-bit 4:2:0
 	}
@@ -885,7 +887,7 @@ DWORD VP9Decoder::GetOutputBufferSize(const GUID& subtype, UINT32 width, UINT32 
 	}
 }
 
-HRESULT VP9Decoder::ConvertToI420(const vpx_image_t* img, uint8_t* dst_buffer)
+HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 {
 	if (!img || !dst_buffer)
 		return E_POINTER;
@@ -893,21 +895,19 @@ HRESULT VP9Decoder::ConvertToI420(const vpx_image_t* img, uint8_t* dst_buffer)
 	UINT32 width = img->d_w;
 	UINT32 height = img->d_h;
 
-	// I420 布局
-	uint8_t* dst_y = dst_buffer;
-	uint8_t* dst_u = dst_y + width * height;
-	uint8_t* dst_v = dst_u + (width / 2) * (height / 2);
+	// NV12 布局
+	uint8_t* dst_y = dst_buffer;                    // Y 平面
+	uint8_t* dst_uv = dst_y + width * height;      // UV 平面（交错 U V U V ...）
 
 	int dst_stride_y = width;
-	int dst_stride_u = width / 2;
-	int dst_stride_v = width / 2;
+	int dst_stride_uv = width;  // UV 交错，每行有 width 个字节
 
 	bool is_high_bit_depth = (img->fmt & VPX_IMG_FMT_HIGHBITDEPTH) != 0;
 
 	if (!is_high_bit_depth)
 	{
 		// ========================================
-		// 8-bit 输入 -> I420
+		// 8-bit 输入 -> NV12
 		// ========================================
 		const uint8_t* src_y = img->planes[VPX_PLANE_Y];
 		const uint8_t* src_u = img->planes[VPX_PLANE_U];
@@ -921,33 +921,31 @@ HRESULT VP9Decoder::ConvertToI420(const vpx_image_t* img, uint8_t* dst_buffer)
 
 		if (img->fmt == VPX_IMG_FMT_I420)
 		{
-			// I420 -> I420 (直接复制)
-			result = libyuv::I420Copy(
+			// I420 -> NV12
+			result = libyuv::I420ToNV12(
 				src_y, src_stride_y,
 				src_u, src_stride_u,
 				src_v, src_stride_v,
 				dst_y, dst_stride_y,
-				dst_u, dst_stride_u,
-				dst_v, dst_stride_v,
+				dst_uv, dst_stride_uv,
 				width, height
 			);
 		}
 		else if (img->fmt == VPX_IMG_FMT_YV12)
 		{
-			// YV12 -> I420 (U 和 V 交换)
-			result = libyuv::I420Copy(
+			// YV12 -> NV12 (V 和 U 交换)
+			result = libyuv::I420ToNV12(
 				src_y, src_stride_y,
-				src_v, src_stride_v,  // V 和 U 交换
-				src_u, src_stride_u,
+				src_v, src_stride_v,  // V first in YV12
+				src_u, src_stride_u,  // U second
 				dst_y, dst_stride_y,
-				dst_u, dst_stride_u,
-				dst_v, dst_stride_v,
+				dst_uv, dst_stride_uv,
 				width, height
 			);
 		}
 		else if (img->fmt == VPX_IMG_FMT_I422)
 		{
-			// I422 -> I420 (垂直下采样)
+			// I422 -> NV12
 			// 复制 Y 平面
 			libyuv::CopyPlane(
 				src_y, src_stride_y,
@@ -955,53 +953,110 @@ HRESULT VP9Decoder::ConvertToI420(const vpx_image_t* img, uint8_t* dst_buffer)
 				width, height
 			);
 
-			// 垂直下采样 U 平面
+			// 垂直下采样并合并 U/V 到交错格式
+			// 方法：先下采样到临时 I420，再转 NV12
+			std::vector<uint8_t> temp_u((width / 2) * (height / 2));
+			std::vector<uint8_t> temp_v((width / 2) * (height / 2));
+
 			libyuv::ScalePlane(
 				src_u, src_stride_u,
-				width / 2, height,        // 源: 4:2:2
-				dst_u, dst_stride_u,
-				width / 2, height / 2,    // 目标: 4:2:0
+				width / 2, height,
+				temp_u.data(), width / 2,
+				width / 2, height / 2,
 				libyuv::kFilterBilinear
 			);
 
-			// 垂直下采样 V 平面
 			libyuv::ScalePlane(
 				src_v, src_stride_v,
 				width / 2, height,
-				dst_v, dst_stride_v,
+				temp_v.data(), width / 2,
 				width / 2, height / 2,
 				libyuv::kFilterBilinear
+			);
+
+			// 合并 U/V 为交错 UV
+			libyuv::MergeUVPlane(
+				temp_u.data(), width / 2,
+				temp_v.data(), width / 2,
+				dst_uv, dst_stride_uv,
+				width / 2, height / 2
 			);
 
 			result = 0;
 		}
 		else if (img->fmt == VPX_IMG_FMT_I444)
 		{
-			// I444 -> I420 (水平和垂直下采样)
-			result = libyuv::I444ToI420(
+			// I444 -> NV12
+			result = libyuv::I444ToNV12(
 				src_y, src_stride_y,
 				src_u, src_stride_u,
 				src_v, src_stride_v,
 				dst_y, dst_stride_y,
-				dst_u, dst_stride_u,
-				dst_v, dst_stride_v,
+				dst_uv, dst_stride_uv,
 				width, height
 			);
 		}
-		else if (img->fmt == VPX_IMG_FMT_NV12)
+		else if (img->fmt == VPX_IMG_FMT_I440)
 		{
-			// NV12 -> I420
-			const uint8_t* src_uv = src_u;  // NV12 的 UV 是交错的
-			int src_stride_uv = src_stride_u;
-
-			result = libyuv::NV12ToI420(
+			// I440 -> NV12
+			// 复制 Y
+			libyuv::CopyPlane(
 				src_y, src_stride_y,
-				src_uv, src_stride_uv,
 				dst_y, dst_stride_y,
-				dst_u, dst_stride_u,
-				dst_v, dst_stride_v,
 				width, height
 			);
+
+			// 水平下采样 U/V
+			std::vector<uint8_t> temp_u((width / 2) * (height / 2));
+			std::vector<uint8_t> temp_v((width / 2) * (height / 2));
+
+			libyuv::ScalePlane(
+				src_u, src_stride_u,
+				width, height / 2,
+				temp_u.data(), width / 2,
+				width / 2, height / 2,
+				libyuv::kFilterBilinear
+			);
+
+			libyuv::ScalePlane(
+				src_v, src_stride_v,
+				width, height / 2,
+				temp_v.data(), width / 2,
+				width / 2, height / 2,
+				libyuv::kFilterBilinear
+			);
+
+			// 合并 U/V
+			libyuv::MergeUVPlane(
+				temp_u.data(), width / 2,
+				temp_v.data(), width / 2,
+				dst_uv, dst_stride_uv,
+				width / 2, height / 2
+			);
+
+			result = 0;
+		}
+		else if (img->fmt == VPX_IMG_FMT_NV12)
+		{
+			// NV12 -> NV12 (直接复制)
+			// Y 平面
+			libyuv::CopyPlane(
+				src_y, src_stride_y,
+				dst_y, dst_stride_y,
+				width, height
+			);
+
+			// UV 平面（已经是交错的）
+			const uint8_t* src_uv = src_u;  // NV12 中 U 平面指针实际是 UV
+			int src_stride_uv = src_stride_u;
+
+			libyuv::CopyPlane(
+				src_uv, src_stride_uv,
+				dst_uv, dst_stride_uv,
+				width, height / 2
+			);
+
+			result = 0;
 		}
 		else
 		{
@@ -1013,7 +1068,7 @@ HRESULT VP9Decoder::ConvertToI420(const vpx_image_t* img, uint8_t* dst_buffer)
 	else
 	{
 		// ========================================
-		// 高位深度输入 (10-bit/12-bit) -> 8-bit I420
+		// 高位深度输入 (10-bit/12-bit) -> 8-bit NV12
 		// ========================================
 		const uint16_t* src_y_16 = (const uint16_t*)img->planes[VPX_PLANE_Y];
 		const uint16_t* src_u_16 = (const uint16_t*)img->planes[VPX_PLANE_U];
@@ -1023,116 +1078,309 @@ HRESULT VP9Decoder::ConvertToI420(const vpx_image_t* img, uint8_t* dst_buffer)
 		int src_stride_u = img->stride[VPX_PLANE_U] / 2;
 		int src_stride_v = img->stride[VPX_PLANE_V] / 2;
 
-		// 计算位移 (10-bit -> 8-bit: 右移2, 12-bit -> 8-bit: 右移4)
-		int shift = img->bit_depth - 8;
+		int result = 0;
 
-		// 转换 Y 平面 (16-bit -> 8-bit)
-		for (UINT32 y = 0; y < height; y++)
+		if (img->bit_depth == 10)
 		{
-			const uint16_t* src_row = src_y_16 + y * src_stride_y;
-			uint8_t* dst_row = dst_y + y * dst_stride_y;
+			// ===== 10-bit 输入 =====
 
-			for (UINT32 x = 0; x < width; x++)
+			if (img->fmt == VPX_IMG_FMT_I42016)
 			{
-				dst_row[x] = (uint8_t)(src_row[x] >> shift);
-			}
-		}
+				// I010 (10-bit 4:2:0) -> NV12 (8-bit 4:2:0)
+				// 先转为 I420(8-bit)，再转 NV12
+				std::vector<uint8_t> temp_i420(width * height * 3 / 2);
+				uint8_t* temp_y = temp_i420.data();
+				uint8_t* temp_u = temp_y + width * height;
+				uint8_t* temp_v = temp_u + (width / 2) * (height / 2);
 
-		// 根据色度子采样处理 UV 平面
-		if (img->fmt == VPX_IMG_FMT_I42016)
-		{
-			// I420(16) -> I420(8): 直接转换
-			for (UINT32 y = 0; y < height / 2; y++)
-			{
-				const uint16_t* src_u_row = src_u_16 + y * src_stride_u;
-				const uint16_t* src_v_row = src_v_16 + y * src_stride_v;
-				uint8_t* dst_u_row = dst_u + y * dst_stride_u;
-				uint8_t* dst_v_row = dst_v + y * dst_stride_v;
+				result = libyuv::I010ToI420(
+					src_y_16, src_stride_y,
+					src_u_16, src_stride_u,
+					src_v_16, src_stride_v,
+					temp_y, width,
+					temp_u, width / 2,
+					temp_v, width / 2,
+					width, height
+				);
 
-				for (UINT32 x = 0; x < width / 2; x++)
+				if (result == 0)
 				{
-					dst_u_row[x] = (uint8_t)(src_u_row[x] >> shift);
-					dst_v_row[x] = (uint8_t)(src_v_row[x] >> shift);
+					result = libyuv::I420ToNV12(
+						temp_y, width,
+						temp_u, width / 2,
+						temp_v, width / 2,
+						dst_y, dst_stride_y,
+						dst_uv, dst_stride_uv,
+						width, height
+					);
 				}
 			}
-		}
-		else if (img->fmt == VPX_IMG_FMT_I42216)
-		{
-			// I422(16) -> I420(8): 垂直下采样
-			for (UINT32 y = 0; y < height / 2; y++)
+			else if (img->fmt == VPX_IMG_FMT_I42216)
 			{
-				const uint16_t* src_u_row0 = src_u_16 + (y * 2) * src_stride_u;
-				const uint16_t* src_u_row1 = src_u_16 + (y * 2 + 1) * src_stride_u;
-				const uint16_t* src_v_row0 = src_v_16 + (y * 2) * src_stride_v;
-				const uint16_t* src_v_row1 = src_v_16 + (y * 2 + 1) * src_stride_v;
-				uint8_t* dst_u_row = dst_u + y * dst_stride_u;
-				uint8_t* dst_v_row = dst_v + y * dst_stride_v;
+				// I210 (10-bit 4:2:2) -> NV12 (8-bit 4:2:0)
+				std::vector<uint8_t> temp_i420(width * height * 3 / 2);
+				uint8_t* temp_y = temp_i420.data();
+				uint8_t* temp_u = temp_y + width * height;
+				uint8_t* temp_v = temp_u + (width / 2) * (height / 2);
 
-				for (UINT32 x = 0; x < width / 2; x++)
+				result = libyuv::I210ToI420(
+					src_y_16, src_stride_y,
+					src_u_16, src_stride_u,
+					src_v_16, src_stride_v,
+					temp_y, width,
+					temp_u, width / 2,
+					temp_v, width / 2,
+					width, height
+				);
+
+				if (result == 0)
 				{
-					// 垂直平均后转8-bit
-					uint32_t u_avg = (src_u_row0[x] + src_u_row1[x] + 1) >> 1;
-					uint32_t v_avg = (src_v_row0[x] + src_v_row1[x] + 1) >> 1;
-
-					dst_u_row[x] = (uint8_t)(u_avg >> shift);
-					dst_v_row[x] = (uint8_t)(v_avg >> shift);
+					result = libyuv::I420ToNV12(
+						temp_y, width,
+						temp_u, width / 2,
+						temp_v, width / 2,
+						dst_y, dst_stride_y,
+						dst_uv, dst_stride_uv,
+						width, height
+					);
 				}
 			}
-		}
-		else if (img->fmt == VPX_IMG_FMT_I44416)
-		{
-			// I444(16) -> I420(8): 2x2 下采样
-			for (UINT32 y = 0; y < height / 2; y++)
+			else if (img->fmt == VPX_IMG_FMT_I44416)
 			{
-				const uint16_t* src_u_row0 = src_u_16 + (y * 2) * src_stride_u;
-				const uint16_t* src_u_row1 = src_u_16 + (y * 2 + 1) * src_stride_u;
-				const uint16_t* src_v_row0 = src_v_16 + (y * 2) * src_stride_v;
-				const uint16_t* src_v_row1 = src_v_16 + (y * 2 + 1) * src_stride_v;
-				uint8_t* dst_u_row = dst_u + y * dst_stride_u;
-				uint8_t* dst_v_row = dst_v + y * dst_stride_v;
+				// I410 (10-bit 4:4:4) -> NV12 (8-bit 4:2:0)
+				std::vector<uint8_t> temp_i420(width * height * 3 / 2);
+				uint8_t* temp_y = temp_i420.data();
+				uint8_t* temp_u = temp_y + width * height;
+				uint8_t* temp_v = temp_u + (width / 2) * (height / 2);
 
-				for (UINT32 x = 0; x < width / 2; x++)
+				result = libyuv::I410ToI420(
+					src_y_16, src_stride_y,
+					src_u_16, src_stride_u,
+					src_v_16, src_stride_v,
+					temp_y, width,
+					temp_u, width / 2,
+					temp_v, width / 2,
+					width, height
+				);
+
+				if (result == 0)
 				{
-					// 2x2 块平均
-					uint32_t u_sum = src_u_row0[x * 2] + src_u_row0[x * 2 + 1] +
-						src_u_row1[x * 2] + src_u_row1[x * 2 + 1];
-					uint32_t v_sum = src_v_row0[x * 2] + src_v_row0[x * 2 + 1] +
-						src_v_row1[x * 2] + src_v_row1[x * 2 + 1];
-
-					uint32_t u_avg = (u_sum + 2) >> 2;
-					uint32_t v_avg = (v_sum + 2) >> 2;
-
-					dst_u_row[x] = (uint8_t)(u_avg >> shift);
-					dst_v_row[x] = (uint8_t)(v_avg >> shift);
+					result = libyuv::I420ToNV12(
+						temp_y, width,
+						temp_u, width / 2,
+						temp_v, width / 2,
+						dst_y, dst_stride_y,
+						dst_uv, dst_stride_uv,
+						width, height
+					);
 				}
 			}
-		}
-		else if (img->fmt == VPX_IMG_FMT_I44016)
-		{
-			// I440(16) -> I420(8): 水平下采样
-			for (UINT32 y = 0; y < height / 2; y++)
+			else if (img->fmt == VPX_IMG_FMT_I44016)
 			{
-				const uint16_t* src_u_row = src_u_16 + y * src_stride_u;
-				const uint16_t* src_v_row = src_v_16 + y * src_stride_v;
-				uint8_t* dst_u_row = dst_u + y * dst_stride_u;
-				uint8_t* dst_v_row = dst_v + y * dst_stride_v;
+				// I440(10-bit) -> NV12(8-bit)
+				std::vector<uint8_t> temp_i420(width * height * 3 / 2);
+				uint8_t* temp_y = temp_i420.data();
+				uint8_t* temp_u = temp_y + width * height;
+				uint8_t* temp_v = temp_u + (width / 2) * (height / 2);
 
-				for (UINT32 x = 0; x < width / 2; x++)
+				// 转换 Y
+				int scale = 1 << 2;  // 10-bit -> 8-bit
+				libyuv::Convert16To8Plane(
+					src_y_16, src_stride_y,
+					temp_y, width,
+					scale,
+					width, height
+				);
+
+				// 转换并水平下采样 U/V
+				std::vector<uint8_t> temp_u_440(width * (height / 2));
+				std::vector<uint8_t> temp_v_440(width * (height / 2));
+
+				libyuv::Convert16To8Plane(
+					src_u_16, src_stride_u,
+					temp_u_440.data(), width,
+					scale,
+					width, height / 2
+				);
+
+				libyuv::Convert16To8Plane(
+					src_v_16, src_stride_v,
+					temp_v_440.data(), width,
+					scale,
+					width, height / 2
+				);
+
+				// 水平下采样
+				libyuv::ScalePlane(
+					temp_u_440.data(), width,
+					width, height / 2,
+					temp_u, width / 2,
+					width / 2, height / 2,
+					libyuv::kFilterBilinear
+				);
+
+				libyuv::ScalePlane(
+					temp_v_440.data(), width,
+					width, height / 2,
+					temp_v, width / 2,
+					width / 2, height / 2,
+					libyuv::kFilterBilinear
+				);
+
+				// I420 -> NV12
+				result = libyuv::I420ToNV12(
+					temp_y, width,
+					temp_u, width / 2,
+					temp_v, width / 2,
+					dst_y, dst_stride_y,
+					dst_uv, dst_stride_uv,
+					width, height
+				);
+			}
+			else
+			{
+				return E_NOTIMPL;
+			}
+		}
+		else if (img->bit_depth == 12)
+		{
+			// ===== 12-bit 输入 - 手动转换 =====
+
+			// 创建临时 I420(8-bit) 缓冲区
+			std::vector<uint8_t> temp_i420(width * height * 3 / 2);
+			uint8_t* temp_y = temp_i420.data();
+			uint8_t* temp_u = temp_y + width * height;
+			uint8_t* temp_v = temp_u + (width / 2) * (height / 2);
+
+			// 手动转换 Y 平面（12-bit -> 8-bit）
+			for (UINT32 y = 0; y < height; y++)
+			{
+				const uint16_t* src_row = src_y_16 + y * src_stride_y;
+				uint8_t* dst_row = temp_y + y * width;
+
+				for (UINT32 x = 0; x < width; x++)
 				{
-					// 水平平均
-					uint32_t u_avg = (src_u_row[x * 2] + src_u_row[x * 2 + 1] + 1) >> 1;
-					uint32_t v_avg = (src_v_row[x * 2] + src_v_row[x * 2 + 1] + 1) >> 1;
+					// 方法1: 简单右移（快速但可能损失精度）
+					dst_row[x] = (uint8_t)(src_row[x] >> 4);
 
-					dst_u_row[x] = (uint8_t)(u_avg >> shift);
-					dst_v_row[x] = (uint8_t)(v_avg >> shift);
+					// 方法2: 精确转换（更准确的色彩）
+					// dst_row[x] = (uint8_t)((src_row[x] * 255 + 2047) / 4095);
 				}
 			}
+
+			if (img->fmt == VPX_IMG_FMT_I42016)
+			{
+				// I012 (12-bit 4:2:0) -> NV12
+				// 手动转换 U 平面
+				for (UINT32 y = 0; y < height / 2; y++)
+				{
+					const uint16_t* src_u_row = src_u_16 + y * src_stride_u;
+					const uint16_t* src_v_row = src_v_16 + y * src_stride_v;
+					uint8_t* dst_u_row = temp_u + y * (width / 2);
+					uint8_t* dst_v_row = temp_v + y * (width / 2);
+
+					for (UINT32 x = 0; x < width / 2; x++)
+					{
+						dst_u_row[x] = (uint8_t)(src_u_row[x] >> 4);
+						dst_v_row[x] = (uint8_t)(src_v_row[x] >> 4);
+					}
+				}
+			}
+			else if (img->fmt == VPX_IMG_FMT_I42216)
+			{
+				// I212 (12-bit 4:2:2) -> NV12
+				// 转换并垂直下采样
+				for (UINT32 y = 0; y < height / 2; y++)
+				{
+					const uint16_t* src_u_row0 = src_u_16 + (y * 2) * src_stride_u;
+					const uint16_t* src_u_row1 = src_u_16 + (y * 2 + 1) * src_stride_u;
+					const uint16_t* src_v_row0 = src_v_16 + (y * 2) * src_stride_v;
+					const uint16_t* src_v_row1 = src_v_16 + (y * 2 + 1) * src_stride_v;
+					uint8_t* dst_u_row = temp_u + y * (width / 2);
+					uint8_t* dst_v_row = temp_v + y * (width / 2);
+
+					for (UINT32 x = 0; x < width / 2; x++)
+					{
+						// 先平均，再转 8-bit
+						uint32_t u_avg = (src_u_row0[x] + src_u_row1[x] + 1) >> 1;
+						uint32_t v_avg = (src_v_row0[x] + src_v_row1[x] + 1) >> 1;
+
+						dst_u_row[x] = (uint8_t)(u_avg >> 4);
+						dst_v_row[x] = (uint8_t)(v_avg >> 4);
+					}
+				}
+			}
+			else if (img->fmt == VPX_IMG_FMT_I44416)
+			{
+				// I412 (12-bit 4:4:4) -> NV12
+				// 转换并 2x2 下采样
+				for (UINT32 y = 0; y < height / 2; y++)
+				{
+					const uint16_t* src_u_row0 = src_u_16 + (y * 2) * src_stride_u;
+					const uint16_t* src_u_row1 = src_u_16 + (y * 2 + 1) * src_stride_u;
+					const uint16_t* src_v_row0 = src_v_16 + (y * 2) * src_stride_v;
+					const uint16_t* src_v_row1 = src_v_16 + (y * 2 + 1) * src_stride_v;
+					uint8_t* dst_u_row = temp_u + y * (width / 2);
+					uint8_t* dst_v_row = temp_v + y * (width / 2);
+
+					for (UINT32 x = 0; x < width / 2; x++)
+					{
+						// 2x2 平均
+						uint32_t u_sum = src_u_row0[x * 2] + src_u_row0[x * 2 + 1] +
+							src_u_row1[x * 2] + src_u_row1[x * 2 + 1];
+						uint32_t v_sum = src_v_row0[x * 2] + src_v_row0[x * 2 + 1] +
+							src_v_row1[x * 2] + src_v_row1[x * 2 + 1];
+
+						uint32_t u_avg = (u_sum + 2) >> 2;
+						uint32_t v_avg = (v_sum + 2) >> 2;
+
+						dst_u_row[x] = (uint8_t)(u_avg >> 4);
+						dst_v_row[x] = (uint8_t)(v_avg >> 4);
+					}
+				}
+			}
+			else if (img->fmt == VPX_IMG_FMT_I44016)
+			{
+				// I412 (12-bit 4:4:0) -> NV12
+				// 转换并水平下采样
+				for (UINT32 y = 0; y < height / 2; y++)
+				{
+					const uint16_t* src_u_row = src_u_16 + y * src_stride_u;
+					const uint16_t* src_v_row = src_v_16 + y * src_stride_v;
+					uint8_t* dst_u_row = temp_u + y * (width / 2);
+					uint8_t* dst_v_row = temp_v + y * (width / 2);
+
+					for (UINT32 x = 0; x < width / 2; x++)
+					{
+						// 水平平均
+						uint32_t u_avg = (src_u_row[x * 2] + src_u_row[x * 2 + 1] + 1) >> 1;
+						uint32_t v_avg = (src_v_row[x * 2] + src_v_row[x * 2 + 1] + 1) >> 1;
+
+						dst_u_row[x] = (uint8_t)(u_avg >> 4);
+						dst_v_row[x] = (uint8_t)(v_avg >> 4);
+					}
+				}
+			}
+			else
+			{
+				return E_NOTIMPL;
+			}
+
+			// I420(8) -> NV12
+			result = libyuv::I420ToNV12(
+				temp_y, width,
+				temp_u, width / 2,
+				temp_v, width / 2,
+				dst_y, dst_stride_y,
+				dst_uv, dst_stride_uv,
+				width, height
+			);
 		}
 		else
 		{
 			return E_NOTIMPL;
 		}
 
-		return S_OK;
+		return (result == 0) ? S_OK : E_FAIL;
 	}
 }

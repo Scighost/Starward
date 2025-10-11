@@ -144,7 +144,7 @@ private:
     bool IsValidInputType(IMFMediaType* pType);
     bool IsValidOutputType(IMFMediaType* pType);
     DWORD GetOutputBufferSize(const GUID& subtype, UINT32 width, UINT32 height);
-    HRESULT ConvertToI420(const vpx_image_t* img, BYTE* pDest);
+    HRESULT ConvertToNV12(const vpx_image_t* img, BYTE* pDest);
 
 private:
     LONG m_nRefCount;

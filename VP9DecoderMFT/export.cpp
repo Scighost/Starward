@@ -66,15 +66,15 @@ extern "C" __declspec(dllexport) HRESULT RegisterVP9DecoderLocal()
 		   { MFMediaType_Video, MFVideoFormat_VP90 }
 	};
 	MFT_REGISTER_TYPE_INFO outputTypes[] = {
-		//{ MFMediaType_Video, MFVideoFormat_NV12 },
-		{ MFMediaType_Video, MFVideoFormat_I420 },
+		{ MFMediaType_Video, MFVideoFormat_NV12 },
+		//{ MFMediaType_Video, MFVideoFormat_P010 },
 		//{ MFMediaType_Video, MFVideoFormat_P016 },
 	};
 
 	HRESULT hr = MFTRegisterLocal(
 		g_pClassFactory,
 		MFT_CATEGORY_VIDEO_DECODER,
-		(LPWSTR)L"VP9 Profile 3 Video Decoder",
+		(LPWSTR)L"VP9 Video Decoder",
 		MFT_ENUM_FLAG_SYNCMFT | MFT_ENUM_FLAG_LOCALMFT,
 		ARRAYSIZE(inputTypes),
 		inputTypes,
