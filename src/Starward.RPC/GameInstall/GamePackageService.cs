@@ -124,6 +124,7 @@ internal partial class GamePackageService
             {
                 await PrepareForInstallOrRepairAsync(context, cancellationToken);
             }
+            context.WPFPackage = (await _hoyoplayClient.GetWPFPackageAsync(LauncherId.FromGameId(context.GameId)!, "en-us", context.GameId, cancellationToken))?.WPFPackage;
             if (context.GameConfig.EnableResourceBlacklist && context.TaskFiles?.Count > 0)
             {
                 string blacklistPath = Path.Join(context.InstallPath, context.GameConfig.BlacklistDir);
@@ -158,6 +159,7 @@ internal partial class GamePackageService
                 DeprecatedFileConfig: {DeprecatedFileConfig}
                 TaskFiles: {TaskFiles}
                 DownloadMode: {DownloadMode}
+                WPFVersion: {WPFVersion}
                 """,
                 context.GameId.GameBiz,
                 context.Operation,
@@ -172,7 +174,8 @@ internal partial class GamePackageService
                 context.GameChannelSDK?.Version,
                 context.DeprecatedFileConfig?.DeprecatedFiles?.Count,
                 context.TaskFiles?.Count,
-                context.DownloadMode);
+                context.DownloadMode,
+                context.WPFPackage?.Version);
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {

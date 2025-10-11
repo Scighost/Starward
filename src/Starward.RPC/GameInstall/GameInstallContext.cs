@@ -117,6 +117,9 @@ public class GameInstallContext
 
     internal GameDeprecatedFileConfig? DeprecatedFileConfig { get; set; }
 
+    internal WPFPackage? WPFPackage { get; set; }
+
+
 
     internal List<SophonChunkFile>? SophonChunkFiles { get; set; }
 
