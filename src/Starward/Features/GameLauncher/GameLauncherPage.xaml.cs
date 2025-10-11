@@ -932,15 +932,21 @@ public sealed partial class GameLauncherPage : PageBase
     }
 
 
+    int _switchBackgroundTotalDelta = 0;
+
     private void Border_SwitchBackgroundImage_PointerWheelChanged(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        if (e.GetCurrentPoint(this).Properties.MouseWheelDelta < 0)
+        int delta = e.GetCurrentPoint(this).Properties.MouseWheelDelta;
+        _switchBackgroundTotalDelta += delta;
+        if (_switchBackgroundTotalDelta <= -120)
         {
             CurrentBackgroundImageIndex++;
+            _switchBackgroundTotalDelta = 0;
         }
-        else
+        else if (_switchBackgroundTotalDelta >= 120)
         {
             CurrentBackgroundImageIndex--;
+            _switchBackgroundTotalDelta = 0;
         }
     }
 
