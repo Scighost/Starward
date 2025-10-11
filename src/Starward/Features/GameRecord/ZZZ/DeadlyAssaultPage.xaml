@@ -193,11 +193,13 @@
 
 
                 <!--  Boss 节点  -->
-                <ItemsRepeater Margin="0,8,0,0" ItemsSource="{x:Bind CurrentDeadlyAssault.AllNodes}">
-                    <ItemsRepeater.Layout>
-                        <StackLayout Spacing="16" />
-                    </ItemsRepeater.Layout>
-                    <ItemsRepeater.ItemTemplate>
+                <ItemsControl Margin="0,8,0,0" ItemsSource="{x:Bind CurrentDeadlyAssault.AllNodes}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="16" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="fic:DeadlyAssaultNode">
                             <Grid Padding="8,12,8,12"
                                   Background="{ThemeResource CustomOverlayAcrylicBrush}"
@@ -439,8 +441,8 @@
                                 </Grid>
                             </Grid>
                         </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
 
             </StackPanel>

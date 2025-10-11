@@ -430,14 +430,16 @@
                                                    Text="{x:Bind FinishDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                     </StackPanel>
                                     <!--  阵容  -->
-                                    <ItemsRepeater Grid.Row="1"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Top"
-                                                   ItemsSource="{x:Bind Avatars}">
-                                        <ItemsRepeater.Layout>
-                                            <StackLayout Orientation="Horizontal" Spacing="12" />
-                                        </ItemsRepeater.Layout>
-                                        <ItemsRepeater.ItemTemplate>
+                                    <ItemsControl Grid.Row="1"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Top"
+                                                  ItemsSource="{x:Bind Avatars}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" Spacing="12" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
                                             <DataTemplate x:DataType="scggi:ImaginariumTheaterAvatar">
                                                 <Grid Width="80" Height="97">
                                                     <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
@@ -454,8 +456,8 @@
                                                     </TextBlock>
                                                 </Grid>
                                             </DataTemplate>
-                                        </ItemsRepeater.ItemTemplate>
-                                    </ItemsRepeater>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                     <!--  Buff  -->
                                     <StackPanel Grid.Row="1"
                                                 Grid.Column="1"

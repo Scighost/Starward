@@ -270,15 +270,17 @@
                                     <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node1.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                 </TextBlock>
 
-                                <ItemsRepeater Grid.Row="2"
-                                               Grid.ColumnSpan="2"
-                                               HorizontalAlignment="Center"
-                                               ItemsSource="{x:Bind Node1.Avatars}"
-                                               Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
-                                    <ItemsRepeater.Layout>
-                                        <StackLayout Orientation="Horizontal" Spacing="12" />
-                                    </ItemsRepeater.Layout>
-                                    <ItemsRepeater.ItemTemplate>
+                                <ItemsControl Grid.Row="2"
+                                              Grid.ColumnSpan="2"
+                                              HorizontalAlignment="Center"
+                                              ItemsSource="{x:Bind Node1.Avatars}"
+                                              Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" Spacing="12" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="hall:ForgottenHallAvatar">
                                             <Grid Width="72" Height="84">
                                                 <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToSRBgConverter}}" />
@@ -309,8 +311,8 @@
                                                 </Border>
                                             </Grid>
                                         </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
                                 <!--  节点2  -->
                                 <TextBlock Grid.Row="3"
@@ -323,16 +325,18 @@
                                     <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node2.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                 </TextBlock>
 
-                                <ItemsRepeater Grid.Row="4"
-                                               Grid.ColumnSpan="2"
-                                               Margin="0,0,0,4"
-                                               HorizontalAlignment="Center"
-                                               ItemsSource="{x:Bind Node2.Avatars}"
-                                               Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
-                                    <ItemsRepeater.Layout>
-                                        <StackLayout Orientation="Horizontal" Spacing="12" />
-                                    </ItemsRepeater.Layout>
-                                    <ItemsRepeater.ItemTemplate>
+                                <ItemsControl Grid.Row="4"
+                                              Grid.ColumnSpan="2"
+                                              Margin="0,0,0,4"
+                                              HorizontalAlignment="Center"
+                                              ItemsSource="{x:Bind Node2.Avatars}"
+                                              Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" Spacing="12" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="hall:ForgottenHallAvatar">
                                             <Grid Width="72" Height="84">
                                                 <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToSRBgConverter}}" />
@@ -363,8 +367,8 @@
                                                 </Border>
                                             </Grid>
                                         </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
                                 <!--  快速通关  -->
                                 <StackPanel Grid.Row="1"
