@@ -3875,6 +3875,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Arcana 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_Arcana {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_Arcana", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Arcana Challenge {0} 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_ArcanaChallenge0 {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_ArcanaChallenge0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Best Record 的本地化字符串。
         /// </summary>
         public static string ImaginariumTheaterPage_BestRecord {
@@ -3925,6 +3943,15 @@ namespace Starward.Language {
         public static string ImaginariumTheaterPage_HighestDamageDealt {
             get {
                 return ResourceManager.GetString("ImaginariumTheaterPage_HighestDamageDealt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Lunar Mode 的本地化字符串。
+        /// </summary>
+        public static string ImaginariumTheaterPage_LunarMode {
+            get {
+                return ResourceManager.GetString("ImaginariumTheaterPage_LunarMode", resourceCulture);
             }
         }
         

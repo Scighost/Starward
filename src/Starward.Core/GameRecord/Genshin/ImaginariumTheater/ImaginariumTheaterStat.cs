@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 
@@ -24,7 +24,7 @@ public class ImaginariumTheaterStat
     public int Heraldry { get; set; }
 
     /// <summary>
-    /// int[8]，0 未获得明星挑战星章，1 获得明星挑战星章
+    /// int[10]，0 未获得明星挑战星章，1 获得明星挑战星章
     /// </summary>
     [JsonPropertyName("get_medal_round_list")]
     public List<int> GetMedalRoundList { get; set; }
@@ -52,6 +52,12 @@ public class ImaginariumTheaterStat
     /// </summary>
     [JsonPropertyName("rent_cnt")]
     public int RentCnt { get; set; }
+
+    /// <summary>
+    /// 圣牌挑战完成次数
+    /// </summary>
+    [JsonPropertyName("tarot_finished_cnt")]
+    public int TarotFinishedCnt { get; set; }
 
 
     [JsonExtensionData]

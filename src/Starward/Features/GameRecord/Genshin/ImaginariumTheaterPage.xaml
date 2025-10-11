@@ -174,8 +174,8 @@
                         <RowDefinition MinHeight="32" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*" />
                         <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.Row="1"
                             Grid.ColumnSpan="3"
@@ -220,6 +220,9 @@
                             <Run Text="{x:Bind local:ImaginariumTheaterPage.DifficultyMode(CurrentTheater.Stat.DifficultyId)}" />
                             <Run Text="" />
                             <Run Text="{x:Bind local:ImaginariumTheaterPage.ActX(CurrentTheater.Stat.MaxRoundId)}" />
+                            <Run Text="" />
+                            <Run Text="{x:Bind lang:Lang.ImaginariumTheaterPage_Arcana}" />
+                            <Run Text="{x:Bind CurrentTheater.Stat.TarotFinishedCnt}" />
                         </TextBlock>
                     </StackPanel>
 
@@ -235,12 +238,12 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="x:Int32">
                                 <Grid>
-                                    <Image Width="24"
-                                           Height="24"
+                                    <Image Width="20"
+                                           Height="20"
                                            Opacity="0.6"
                                            Source="{StaticResource StarIcon_2}" />
-                                    <Image Width="24"
-                                           Height="24"
+                                    <Image Width="20"
+                                           Height="20"
                                            Source="{StaticResource StarIcon_1}"
                                            Visibility="{x:Bind Converter={StaticResource TheaterStarIconVisibilityConverter}}" />
                                 </Grid>
@@ -292,8 +295,8 @@
                         <RowDefinition MinHeight="32" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*" />
                         <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.Row="1"
                             Grid.ColumnSpan="3"
@@ -416,7 +419,12 @@
                                         </Grid>
                                         <TextBlock VerticalAlignment="Center"
                                                    FontSize="16"
-                                                   Text="{x:Bind local:ImaginariumTheaterPage.ActX(RoundId)}" />
+                                                   Text="{x:Bind local:ImaginariumTheaterPage.ActX(RoundId)}"
+                                                   Visibility="{x:Bind IsTarot, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontSize="16"
+                                                   Text="{x:Bind local:ImaginariumTheaterPage.ArcanaChallengeX(TarotSerialNo)}"
+                                                   Visibility="{x:Bind IsTarot}" />
                                         <TextBlock VerticalAlignment="Center"
                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                    Text="{x:Bind FinishDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />

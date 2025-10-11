@@ -160,6 +160,7 @@ public sealed partial class ImaginariumTheaterPage : PageBase
             2 => Lang.ImaginariumTheaterPage_NormalMode,
             3 => Lang.ImaginariumTheaterPage_HardMode,
             4 => Lang.ImaginariumTheaterPage_VisionaryMode,
+            5 => Lang.ImaginariumTheaterPage_LunarMode,
             _ => "",
         };
     }
@@ -171,6 +172,11 @@ public sealed partial class ImaginariumTheaterPage : PageBase
         return string.Format(Lang.ImaginariumTheaterPage_Act0, x);
     }
 
+
+    public static string ArcanaChallengeX(int x)
+    {
+        return string.Format(Lang.ImaginariumTheaterPage_ArcanaChallenge0, x);
+    }
 
 
     public static Visibility StarIconVisibility(int value)
@@ -204,6 +210,7 @@ public sealed partial class ImaginariumTheaterPage : PageBase
             2 => new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_2.png")),
             3 => new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_3.png")),
             4 => new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_4.png")),
+            5 => new BitmapImage(new("ms-appx:///Assets/Image/UI_RoleCombat_Medal_5.png")),
             _ => null,
         };
     }
@@ -219,6 +226,7 @@ public sealed partial class ImaginariumTheaterPage : PageBase
             2 => "6",
             3 => "8",
             4 => "10",
+            5 => "12",
             _ => "-",
         };
     }
