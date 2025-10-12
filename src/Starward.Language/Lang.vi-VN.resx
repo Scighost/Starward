@@ -2552,4 +2552,16 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
     <value>High-quality AVIF and JPEG XL image formats save approximately 85% of storage space.</value>
   </data>
+  <data name="Common_CopiedToClipboard" xml:space="preserve">
+    <value>Copied to clipboard.</value>
+  </data>
+  <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
+    <value>Lunar Mode</value>
+  </data>
+  <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
+    <value>Arcana</value>
+  </data>
+  <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
+    <value>Arcana Challenge {0}</value>
+  </data>
 </root>
