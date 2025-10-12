@@ -2582,9 +2582,9 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Лунный режим</value>
   </data>
   <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
-    <value>Arcana</value>
+    <value>Арканы</value>
   </data>
   <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
-    <value>Arcana Challenge {0}</value>
+    <value>Аркана Испытания {0}</value>
   </data>
 </root>
