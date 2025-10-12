@@ -152,9 +152,9 @@ public sealed partial class ImaginariumTheaterPage : PageBase
 
 
 
-    public static string DifficultyMode(int mode)
+    public static string DifficultyMode(int difficult)
     {
-        return mode switch
+        return difficult switch
         {
             1 => Lang.ImaginariumTheaterPage_EasyMode,
             2 => Lang.ImaginariumTheaterPage_NormalMode,
@@ -165,6 +165,11 @@ public sealed partial class ImaginariumTheaterPage : PageBase
         };
     }
 
+
+    public static Visibility LunarModeVisibility(int difficult)
+    {
+        return difficult == 5 ? Visibility.Visible : Visibility.Collapsed;
+    }
 
 
     public static string ActX(int x)

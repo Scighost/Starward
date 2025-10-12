@@ -885,7 +885,6 @@ public sealed partial class GameLauncherPage : PageBase
                         current.StopVideo = currentBackground.StopVideo;
                         StartStopButtonIcon = current.StopVideo ? PlayIcon : PauseIcon;
                     }
-                    AppConfig.SetGameBackgroundIds(CurrentGameBiz, string.Join(',', BackgroundImages.Select(x => x.Id)));
                 }
             }
             else

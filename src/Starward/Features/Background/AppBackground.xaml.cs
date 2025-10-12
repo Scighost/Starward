@@ -13,6 +13,7 @@ using Starward.Features.ViewHost;
 using Starward.Helpers;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -115,24 +116,23 @@ public sealed partial class AppBackground : UserControl
     {
         try
         {
-
             var file = BackgroundService.GetCachedBackgroundFile(CurrentGameId);
             if (file != null)
             {
                 if (!BackgroundService.FileIsSupportedVideo(file))
                 {
                     BackgroundImageSource = new BitmapImage(new Uri(file));
-                    try
-                    {
-                        string? hex = AppConfig.AccentColor;
-                        if (!string.IsNullOrWhiteSpace(hex))
-                        {
-                            Color color = ColorHelper.ToColor(hex);
-                            AccentColorHelper.ChangeAppAccentColor(color);
-                        }
-                    }
-                    catch { }
                 }
+                try
+                {
+                    string? hex = AppConfig.AccentColor;
+                    if (!string.IsNullOrWhiteSpace(hex))
+                    {
+                        Color color = ColorHelper.ToColor(hex);
+                        AccentColorHelper.ChangeAppAccentColor(color);
+                    }
+                }
+                catch { }
             }
             else
             {
@@ -170,6 +170,7 @@ public sealed partial class AppBackground : UserControl
 
             for (int i = 0; i < 2; i++)
             {
+                bool cancelled = false;
                 string? filePath = null;
                 GameBackground? gameBackground = null;
                 try
@@ -203,6 +204,7 @@ public sealed partial class AppBackground : UserControl
                 }
                 catch (OperationCanceledException)
                 {
+                    cancelled = true;
                     filePath = BackgroundService.GetFallbackBackgroundImage(CurrentGameId);
                 }
                 catch (Exception ex)
@@ -236,9 +238,11 @@ public sealed partial class AppBackground : UserControl
                     _lastBackgroundFile = filePath;
                     _lastScale = this.XamlRoot.GetUIScaleFactor();
                     CurrentGameBackground = gameBackground;
-                    if (gameBackground?.Type is not GameBackground.BACKGROUND_TYPE_CUSTOM)
+                    if (!cancelled && gameBackground?.Type is not GameBackground.BACKGROUND_TYPE_CUSTOM)
                     {
                         AppConfig.SetBg(CurrentGameId.GameBiz, Path.GetFileName(filePath));
+                        var list = await _backgroundService.GetGameBackgroundsAsync(CurrentGameId);
+                        AppConfig.SetGameBackgroundIds(CurrentGameId.GameBiz, string.Join(',', list.Select(x => x.Id)));
                     }
                 }
             }

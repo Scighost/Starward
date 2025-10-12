@@ -220,7 +220,8 @@
                             <Run Text="{x:Bind local:ImaginariumTheaterPage.DifficultyMode(CurrentTheater.Stat.DifficultyId)}" />
                             <Run Text="" />
                             <Run Text="{x:Bind local:ImaginariumTheaterPage.ActX(CurrentTheater.Stat.MaxRoundId)}" />
-                            <Run Text="" />
+                        </TextBlock>
+                        <TextBlock VerticalAlignment="Center" Visibility="{x:Bind local:ImaginariumTheaterPage.LunarModeVisibility(CurrentTheater.Stat.DifficultyId)}">
                             <Run Text="{x:Bind lang:Lang.ImaginariumTheaterPage_Arcana}" />
                             <Run Text="{x:Bind CurrentTheater.Stat.TarotFinishedCnt}" />
                         </TextBlock>
