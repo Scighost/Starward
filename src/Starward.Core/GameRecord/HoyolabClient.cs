@@ -368,9 +368,9 @@ public class HoyolabClient : GameRecordClient
             item.StartTime = item.Schedule.StartDateTime;
             item.EndTime = item.Schedule.EndDateTime;
             item.DifficultyId = item.Stat.DifficultyId;
-            item.MaxRoundId = item.Stat.MaxRoundId;
+            item.MaxRoundId = item.Stat.MaxRoundId + item.Stat.TarotFinishedCnt;
             item.Heraldry = item.Stat.Heraldry;
-            item.MedalNum = item.Stat.MedalNum;
+            item.MedalNum = item.Stat.GetMedalRoundList.Count(x => x == 1);
         }
         return warpper.Data;
     }
