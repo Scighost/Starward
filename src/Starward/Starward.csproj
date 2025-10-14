@@ -51,7 +51,7 @@
 		<PackageReference Include="Serilog.Extensions.Logging" Version="9.0.2" />
 		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
 		<PackageReference Include="Starward.Assets" Version="0.5.9" />
-		<PackageReference Include="Starward.Codec" Version="0.4.2" />
+		<PackageReference Include="Starward.Codec" Version="0.4.4" />
 		<PackageReference Include="Starward.GameInput" Version="0.3.0" />
 		<PackageReference Include="Starward.NativeLib" Version="0.3.1" />
 		<PackageReference Include="Starward.Win2D" Version="1.3.2-release.1" />
