@@ -2576,15 +2576,15 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Высококачественные AVIF и JPEG XL форматы позволяют сэкономить около 85% пространства для хранения.</value>
   </data>
   <data name="Common_CopiedToClipboard" xml:space="preserve">
-    <value>Copied to clipboard.</value>
+    <value>Скопировано в буфер обмена.</value>
   </data>
   <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
-    <value>Lunar Mode</value>
+    <value>Лунный режим</value>
   </data>
   <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
-    <value>Arcana</value>
+    <value>Арканы</value>
   </data>
   <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
-    <value>Arcana Challenge {0}</value>
+    <value>Аркана Испытания {0}</value>
   </data>
 </root>

@@ -1444,7 +1444,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Dung lượng khả thi</value>
   </data>
   <data name="InstallGameDialog_NoWritePermissionPleaseRestartAsAdministrator" xml:space="preserve">
-    <value>Không có quyền ghi, vui lòng khởi động lại bằng quyền Quản Trị Viên (Administrator).</value>
+    <value>Không có quyền ghi, vui lòng khởi động lại bằng quyền admin.</value>
   </data>
   <data name="InstallGameDialog_ClickToRestart" xml:space="preserve">
     <value>Nhấn để khởi động lại</value>
@@ -1492,7 +1492,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Khởi động lại</value>
   </data>
   <data name="GameLauncherPage_PleaseRestartAsAdministrator" xml:space="preserve">
-    <value>Vui lòng khởi động bằng quyền Quản Trị Viên (Administrator).</value>
+    <value>Vui lòng khởi động bằng quyền admin.</value>
   </data>
   <data name="InstallGameDialog_CreateHardLink" xml:space="preserve">
     <value>Tạo Liên Kết Cứng</value>
@@ -1714,7 +1714,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Dịch vụ RPC</value>
   </data>
   <data name="SettingPage_RPCService_Desc" xml:space="preserve">
-    <value>Dịch vụ RPC là một tiến trình độc lập được sử dụng để tránh việc khởi động lại khi tải xuống trò chơi, cập nhật và các tính năng khác cần yêu cầu quyền quản trị viên.</value>
+    <value>Dịch vụ RPC là một tiến trình độc lập được sử dụng để tránh việc khởi động lại khi tải xuống trò chơi, cập nhật và các tính năng khác cần yêu cầu quyền admin.</value>
   </data>
   <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
     <value>Giữ dịch vụ RPC chạy ở chế độ nền</value>
@@ -2041,7 +2041,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Enemy Details</value>
   </data>
   <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
-    <value>Weakness</value>
+    <value>Điểm yếu</value>
   </data>
   <data name="ShiyuDefensePage_Resistance" xml:space="preserve">
     <value>Resistance</value>
@@ -2053,7 +2053,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Total Score</value>
   </data>
   <data name="PureFictionPage_Score" xml:space="preserve">
-    <value>Score:</value>
+    <value>Điểm:</value>
   </data>
   <data name="GachaLogPage_ImportAndExport" xml:space="preserve">
     <value>Nhập &amp; Xuất</value>
@@ -2161,22 +2161,22 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Backing up...</value>
   </data>
   <data name="Common_Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>Loại bỏ</value>
   </data>
   <data name="ScreenshotFolderManageDialog_FailedToBackupScreenshots" xml:space="preserve">
-    <value>Failed to backup screenshots.</value>
+    <value>Không thể sao lưu ảnh chụp màn hình.</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotFailed" xml:space="preserve">
     <value>Screenshot Failed</value>
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
-    <value>Check the log for more information.</value>
+    <value>Kiểm tra nhật ký để biết thêm thông tin.</value>
   </data>
   <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
-    <value>Don't change the in-game "Graphics Quality" preset, or the FPS setting may not work. If you set 120 FPS but see 30 FPS in the game settings, that's expected.</value>
+    <value>Đừng thay đổi thiết lập “Chất lượng đồ họa” trong trò chơi, vì điều này có thể khiến cài đặt FPS không hoạt động đúng cách. Nếu bạn chọn 120 FPS nhưng thấy 30 FPS trong menu cài đặt trò chơi, đó là hiện tượng bình thường.</value>
   </data>
   <data name="ScreenshotFolderManageDialog_ImagesFromTheFollowingFoldersWillBeDisplayedInTheGallery" xml:space="preserve">
-    <value>Images from the following folders will be displayed in the gallery.</value>
+    <value>Các hình ảnh trong các thư mục dưới đây sẽ được hiển thị trong thư viện.</value>
   </data>
   <data name="ImageViewWindow2_OpenInExplorer" xml:space="preserve">
     <value>Open in Explorer</value>
@@ -2209,10 +2209,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Copy Image</value>
   </data>
   <data name="Common_Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Chỉnh sửa</value>
   </data>
   <data name="ImageViewWindow2_SaveAs" xml:space="preserve">
-    <value>Save As</value>
+    <value>Lưu thành</value>
   </data>
   <data name="ImageViewWindow2_ImageInformation" xml:space="preserve">
     <value>Image Information</value>
@@ -2221,19 +2221,19 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Edit Image</value>
   </data>
   <data name="ImageViewWindow2_DisplayMode" xml:space="preserve">
-    <value>Display Mode</value>
+    <value>Chế độ hiển thị</value>
   </data>
   <data name="ImageViewWindow2_SDRMappedLuminance" xml:space="preserve">
     <value>SDR Mapped Luminance</value>
   </data>
   <data name="ImageViewWindow2_Auto" xml:space="preserve">
-    <value>Auto</value>
+    <value>Tự động</value>
   </data>
   <data name="ImageViewWindow2_ExportImage" xml:space="preserve">
     <value>Export Image</value>
   </data>
   <data name="ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature" xml:space="preserve">
-    <value>To convert an HDR image to SDR, please use the Edit feature.</value>
+    <value>Để chuyển đổi hình ảnh HDR sang SDR, vui lòng sử dụng tính năng Chỉnh sửa.</value>
   </data>
   <data name="ImageViewWindow2_DeleteImageFile" xml:space="preserve">
     <value>Xoá Tập tin Hình ảnh</value>
@@ -2251,10 +2251,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>No Image to Display</value>
   </data>
   <data name="Common_OpenFiles" xml:space="preserve">
-    <value>Open Files</value>
+    <value>Mở tập tin</value>
   </data>
   <data name="ImageViewWindow2_OpenNewFiles" xml:space="preserve">
-    <value>Open New Files</value>
+    <value>Mở tập tin mới</value>
   </data>
   <data name="ImageViewWindow2_FailedToDisplayImage" xml:space="preserve">
     <value>Hiện hình ảnh thất bại</value>
@@ -2293,7 +2293,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Screenshot Shortcut</value>
   </data>
   <data name="HotkeySetting_OpenMainWindow" xml:space="preserve">
-    <value>Open Main Window</value>
+    <value>Mở cửa sổ chính</value>
   </data>
   <data name="HotkeySetting_FailedToRegisterTheShortcutKeys" xml:space="preserve">
     <value>Failed to register the shortcut keys.</value>
@@ -2305,7 +2305,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thay đổi thư mục</value>
   </data>
   <data name="HotkeySetting_SingleKeyShortcutsTips" xml:space="preserve">
-    <value>If you register single-key shortcuts (F1–F12), you need to run Starward with administrator privileges; otherwise, the shortcuts may not work in the game.</value>
+    <value>Khi đặt phím tắt một phím (F1–F12), hãy khởi chạy Starward dưới quyền admin, vì nếu không thì phím tắt có thể bị vô hiệu trong game.</value>
   </data>
   <data name="SettingPage_KeyboardShortcuts" xml:space="preserve">
     <value>Phím tắt</value>
@@ -2341,10 +2341,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Unrecognized key</value>
   </data>
   <data name="GamepadControlSetting_OnlySupportXboxControllerProtocol" xml:space="preserve">
-    <value>Only Xbox protocol controllers are supported. Compatibility with other types of controllers is not guaranteed.</value>
+    <value>Chỉ hỗ trợ tay cầm theo giao thức Xbox. Không đảm bảo tương thích với các loại tay cầm khác.</value>
   </data>
   <data name="GamepadControlSetting_SimulateInputDesc" xml:space="preserve">
-    <value>Simulate keyboard and mouse input using a game controller. This feature requires Starward to run with administrator privileges to work correctly in games.</value>
+    <value>Mô phỏng nhập liệu bàn phím và chuột bằng tay cầm. Tính năng này cần Starward chạy với quyền admin để hoạt động đúng trong game.</value>
   </data>
   <data name="GamepadControlSetting_LongPressGuideButtonDesc" xml:space="preserve">
     <value>Press and hold the Guide button to open the Starward main window.</value>
@@ -2359,7 +2359,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>• When mapping the Guide button, the default Xbox Game Bar shortcut will be disabled. Other software (such as Steam Big Picture Mode) may also respond to the Guide button. If conflicts occur, you must manually disable those features.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingKeyboardDesc" xml:space="preserve">
-    <value>• When mapping to keyboard keys, enter the key names as they appear on the keyboard, separated by spaces. For example, to map a button to "Ctrl + Alt + F1", input: "Ctrl Alt F1". For numpad keys, add Pad before the key, such as: Pad8, Pad+ . This feature requires Starward to run with administrator privileges to work correctly in games.</value>
+    <value>• Khi gán sang phím bàn phím, nhập tên các phím như chúng xuất hiện trên bàn phím, cách nhau bởi dấu cách. Ví dụ: để gán một nút cho “Ctrl + Alt + F1”, nhập: "Ctrl Alt F1". Đối với phím số ở bàn phím numpad, thêm tiền tố Pad trước tên phím, ví dụ: Pad8, Pad+. Tính năng này cần Starward chạy với quyền admin để hoạt động chính xác trong trò chơi.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingShareDesc" xml:space="preserve">
     <value>The Share button still triggers Xbox Game Bar screenshots, and there's currently no good solution.</value>
@@ -2448,13 +2448,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>On Windows 10, the Microsoft GameInput component must be installed for the controller enhancement feature to work properly.</value>
   </data>
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
-    <value>Click to download.</value>
+    <value>Nhấn để tải.</value>
   </data>
   <data name="ImageViewWindow2_CopyAsJPG" xml:space="preserve">
     <value>Copy as JPG</value>
   </data>
   <data name="ScreenshotPage_MultiSelect" xml:space="preserve">
-    <value>Multi Select</value>
+    <value>Chọn nhiều</value>
   </data>
   <data name="ScreenshotPage_Total0Files" xml:space="preserve">
     <value>Total {0} files.</value>
@@ -2493,13 +2493,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Batch Convert</value>
   </data>
   <data name="ImageBatchConvertWindow_Quality" xml:space="preserve">
-    <value>Quality</value>
+    <value>Chất lượng</value>
   </data>
   <data name="ImageBatchConvertWindow_StartConvert" xml:space="preserve">
     <value>Start Convert</value>
   </data>
   <data name="Common_Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>Xoá</value>
   </data>
   <data name="ImageBatchConvertWindow_OutputFolder" xml:space="preserve">
     <value>Output Folder</value>
@@ -2523,19 +2523,19 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>If Output File Exists</value>
   </data>
   <data name="ImageBatchConvertWindow_SkipDefault" xml:space="preserve">
-    <value>Skip (Default)</value>
+    <value>Bỏ qua (Mặc định)</value>
   </data>
   <data name="ImageBatchConvertWindow_Overwrite" xml:space="preserve">
-    <value>Overwrite</value>
+    <value>Ghi đè</value>
   </data>
   <data name="ImageBatchConvertWindow_Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Đổi tên</value>
   </data>
   <data name="Common_Success" xml:space="preserve">
-    <value>Success</value>
+    <value>Thành công</value>
   </data>
   <data name="Common_Failed" xml:space="preserve">
-    <value>Failed</value>
+    <value>Thât bại</value>
   </data>
   <data name="ImageBatchConvertWindow_ImageBatchConvert" xml:space="preserve">
     <value>Image Batch Convert</value>
@@ -2553,7 +2553,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>High-quality AVIF and JPEG XL image formats save approximately 85% of storage space.</value>
   </data>
   <data name="Common_CopiedToClipboard" xml:space="preserve">
-    <value>Copied to clipboard.</value>
+    <value>Đã sao chép vào bộ nhớ tạm.</value>
   </data>
   <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
     <value>Lunar Mode</value>
