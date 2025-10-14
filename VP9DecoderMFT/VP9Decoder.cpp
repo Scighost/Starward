@@ -984,7 +984,7 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 
 			result = 0;
 		}
-		else if (img->fmt == VPX_IMG_FMT_I444)
+		else if (img->fmt == VPX_IMG_FMT_I444 && img->cs != VPX_CS_SRGB)
 		{
 			// I444 -> NV12
 			result = libyuv::I444ToNV12(
@@ -995,6 +995,33 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 				dst_uv, dst_stride_uv,
 				width, height
 			);
+		}
+		else if (img->fmt == VPX_IMG_FMT_I444 && img->cs == VPX_CS_SRGB)
+		{
+			// GBR -> NV12
+			std::vector<uint8_t> argb(width * height * 4);
+
+			for (UINT32 y = 0; y < height; y++)
+			{
+				const uint8_t* src_g_row = src_y + y * src_stride_y;
+				const uint8_t* src_b_row = src_u + y * src_stride_u;
+				const uint8_t* src_r_row = src_v + y * src_stride_v;
+				uint8_t* dst_row = argb.data() + y * width * 4;
+
+				for (UINT32 x = 0; x < width; x++)
+				{
+					dst_row[x * 4 + 0] = src_b_row[x];  // B
+					dst_row[x * 4 + 1] = src_g_row[x];  // G
+					dst_row[x * 4 + 2] = src_r_row[x];  // R
+					dst_row[x * 4 + 3] = 255;           // A
+				}
+			}
+
+			result = libyuv::ARGBToNV12(
+				argb.data(), width * 4,
+				dst_y, dst_stride_y,
+				dst_uv, dst_stride_uv,
+				width, height);
 		}
 		else if (img->fmt == VPX_IMG_FMT_I440)
 		{
