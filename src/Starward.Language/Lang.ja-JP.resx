@@ -1857,10 +1857,10 @@
     <value>フォルダーにエクスポート</value>
   </data>
   <data name="ZZZGachaInfoWindow_ZZZGachaInfoWindowGuide" xml:space="preserve">
-    <value>This tool is used to update item images in Zenless Zone Zero gacha records.
-Click "Miyoushe" or "HoYoLAB" in the top left corner, log in, and wait for the data to be retrieved. If logging in via HoYoLAB, you also need to click "Fetch Data for All Languages".
-After retrieving the data, you can save it to the database in any language or export it to a folder.
-You are welcome to submit the exported data to the following repository:</value>
+    <value>このツールは「ゼンレスゾーンゼロ」ガチャ記録内のアイテム画像を更新するために使用します。
+左上隅の「Miyoushe(米游社)」または「HoYoLAB」をクリックし、ログイン、そして、データ取得をお待ちください。HoYoLAB経由でログインする場合は、「すべての言語のデータを取得」もクリックする必要があります。
+データ取得後、任意の言語でデータベースに保存するか、フォルダへエクスポートできます。
+エクスポートしたデータは以下のリポジトリへご投稿ください:</value>
   </data>
   <data name="SettingPage_Toolbox" xml:space="preserve">
     <value>ツール</value>
@@ -1956,7 +1956,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>追加適合値</value>
   </data>
   <data name="DailyNoteButton_StarRail_OngoingAssignments" xml:space="preserve">
-    <value>Ongoing Assignments</value>
+    <value>依頼実行</value>
   </data>
   <data name="DailyNoteButton_StarRail_AllFinished" xml:space="preserve">
     <value>すべて完了</value>
@@ -1986,25 +1986,25 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>ビデオ屋の経営</value>
   </data>
   <data name="DailyNoteButton_ZZZ_WaitingToOpen" xml:space="preserve">
-    <value>Waiting to Open</value>
+    <value>営業待ち</value>
   </data>
   <data name="DailyNoteButton_ZZZ_CurrentlyOpen" xml:space="preserve">
-    <value>Currently Open</value>
+    <value>営業中</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RevenueAvailable" xml:space="preserve">
-    <value>Revenue Available</value>
+    <value>集計待ち</value>
   </data>
   <data name="DailyNoteButton_ZZZ_SeasonMissions" xml:space="preserve">
     <value>シーズンミッション</value>
   </data>
   <data name="DailyNoteButton_ZZZ_BountyCommissionProgress" xml:space="preserve">
-    <value>Bounty Commission Progress</value>
+    <value>懸賞依頼進捗</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RemainingRefreshTime" xml:space="preserve">
     <value>今周期の残り時間</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RiduWeeklyPoints" xml:space="preserve">
-    <value>Ridu Weekly Points</value>
+    <value>エリー週記獲得ポイント</value>
   </data>
   <data name="Common_Disabled" xml:space="preserve">
     <value>無効</value>
@@ -2016,7 +2016,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>式輿防衛戦</value>
   </data>
   <data name="HoyolabToolboxPage_DeadlyAssault" xml:space="preserve">
-    <value>Deadly Assault</value>
+    <value>危局強襲戦</value>
   </data>
   <data name="ShiyuDefensePage_HighestStageCleared" xml:space="preserve">
     <value>防衛戦の最高到達記録</value>
@@ -2109,7 +2109,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>スタンダードダイナミックレンジ</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_WideColorGamut" xml:space="preserve">
-    <value>Wide Color Gamut</value>
+    <value>広色域</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_HighDynamicRange" xml:space="preserve">
     <value>ハイダイナミックレンジ</value>
@@ -2136,13 +2136,13 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Windows HDRが有効になっていません。</value>
   </data>
   <data name="DailyNoteButton_InterKnotMembership" xml:space="preserve">
-    <value>Inter-Knot Membership</value>
+    <value>インターノット会員</value>
   </data>
   <data name="DailyNoteButton_PolychromesUnclaimed" xml:space="preserve">
-    <value>Polychromes Unclaimed</value>
+    <value>ポリクロームは受け取っていません</value>
   </data>
   <data name="DailyNoteButton_PolychromesClaimed" xml:space="preserve">
-    <value>Polychromes Claimed</value>
+    <value>ポリクロームは受け取り済みです</value>
   </data>
   <data name="DailyNoteButton_0DaySRemaining" xml:space="preserve">
     <value>残り {0} 日</value>
@@ -2358,7 +2358,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>GameInputRedist コンポーネントが検出されました。入力のシミュレーションは利用できません。</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingGuideDesc" xml:space="preserve">
-    <value>• When mapping the Guide button, the default Xbox Game Bar shortcut will be disabled. Other software (such as Steam Big Picture Mode) may also respond to the Guide button. If conflicts occur, you must manually disable those features.</value>
+    <value>• ガイドボタンをマッピングする場合、デフォルトの Xbox Game Bar ショートカットは無効になります。 他のソフトウェア (Steam Big Picture Modeなど) もガイドボタンに反応する可能性があります。競合が発生した場合は、それらの機能を手動で無効にする必要があります。</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingKeyboardDesc" xml:space="preserve">
     <value>• キーボードキーにマッピングする場合、キーボードに表示される名前をスペースで区切って入力します。 例えば、ボタンを「Ctrl + Alt + F1」にマッピングするには、「Ctrl Alt F1」と入力します。 numpadキーについては、Pad8、Pad+ のような、キーの前にPadを追加。 この機能はゲームで正しく動作するために、Starwardが管理者権限で実行する必要があります。</value>
@@ -2409,15 +2409,15 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>HDR画像をキャプチャすると、SDRバージョンも保存されます。</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
-    <value>The screenshot feature captures the currently running game. If multiple games are running, the most recently focused game will be selected. Note the following limitations:
-• Minimized game windows cannot be captured.
-• Parts of the game window that extend beyond the screen will not be included.
-• In rare cases, a non-game window may be captured instead.</value>
+    <value>スクリーンショット機能は、現在実行中のゲームをキャプチャします。複数のゲームが実行されている場合、直近でフォーカスされていたゲームが選択されます。以下の制限事項にご注意ください:
+• 最小化されたゲームウィンドウはキャプチャできません。
+• 画面からはみ出したゲームウィンドウはキャプチャされません。
+• まれに、ゲーム以外のウィンドウが誤ってキャプチャされる場合があります。</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWin10Limit" xml:space="preserve">
-    <value>On Windows 10, the screenshot feature has the following additional limitations:
-• A colored border may appear around the game window during capture.
-• The mouse pointer cannot be hidden.</value>
+    <value>Windows 10では、スクリーンショット機能に以下の追加制限があります:
+• ゲームのウィンドウをキャプチャ中に、色付きの枠線が表示される場合があります。
+• マウスポインタを非表示にすることはできません。</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
     <value>コントローラーでスクリーンショットをキャプチャしたい場合は、「コントローラーの拡張」ページの「ボタンの割り当て」を使用してください。</value>
