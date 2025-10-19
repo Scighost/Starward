@@ -2073,10 +2073,10 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>HDR輝度設定</value>
   </data>
   <data name="GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsThePrimaryDisplay" xml:space="preserve">
-    <value>If you have multiple monitors, you need to set the HDR-supported monitor as the primary display.</value>
+    <value>複数のモニタがある場合は、HDR対応モニタをプライマリディスプレイとして設定する必要があります。</value>
   </data>
   <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled" xml:space="preserve">
-    <value>The current monitor does not support HDR or Windows HDR is not enabled.</value>
+    <value>現在のモニターはHDRをサポートしていないか、Windows HDRが有効になっていません。</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_AdaptToMonitorBrightness" xml:space="preserve">
     <value>ディスプレイの輝度に合わせる</value>
@@ -2148,7 +2148,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>残り {0} 日</value>
   </data>
   <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
-    <value>Mapped network drives are not supported. Please use a network share path starting with double backslashes (\\).</value>
+    <value>マッピングされたネットワークドライブはサポートされていません。ダブルバックスラッシュ (\\)で始まるネットワーク共有パスを使用してください。</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotSaved" xml:space="preserve">
     <value>スクリーンショットを保存しました</value>
@@ -2175,10 +2175,10 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>詳細はログを確認してください。</value>
   </data>
   <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
-    <value>Don't change the in-game "Graphics Quality" preset, or the FPS setting may not work. If you set 120 FPS but see 30 FPS in the game settings, that's expected.</value>
+    <value>ゲーム内の「画質」プリセットを変更しないでください。FPS設定が動作しなくなるかもしれません。 120 FPSに設定し、ゲーム設定で30 FPSと表示されていても、想定の範囲内です。</value>
   </data>
   <data name="ScreenshotFolderManageDialog_ImagesFromTheFollowingFoldersWillBeDisplayedInTheGallery" xml:space="preserve">
-    <value>Images from the following folders will be displayed in the gallery.</value>
+    <value>ギャラリーには、以下のフォルダの画像が表示されます。</value>
   </data>
   <data name="ImageViewWindow2_OpenInExplorer" xml:space="preserve">
     <value>エクスプローラーで開く</value>
@@ -2271,7 +2271,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>ファイルを削除できませんでした</value>
   </data>
   <data name="ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse" xml:space="preserve">
-    <value>Insufficient permissions or the file is in use.</value>
+    <value>権限が不足しているか、ファイルが使用中です。</value>
   </data>
   <data name="HotkeyInput_ClickToSetShortcutKeys" xml:space="preserve">
     <value>クリックしてショートカットキーを設定</value>
@@ -2307,7 +2307,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>フォルダーの変更</value>
   </data>
   <data name="HotkeySetting_SingleKeyShortcutsTips" xml:space="preserve">
-    <value>If you register single-key shortcuts (F1–F12), you need to run Starward with administrator privileges; otherwise, the shortcuts may not work in the game.</value>
+    <value>シングルキーショートカット(F1-F12)を登録する場合は、Starwardを管理者権限で実行する必要があります。そうでなければ、ショートカットがゲームで動作しない場合があります。</value>
   </data>
   <data name="SettingPage_KeyboardShortcuts" xml:space="preserve">
     <value>キーボード ショートカット</value>
@@ -2343,34 +2343,34 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>認識できないキー</value>
   </data>
   <data name="GamepadControlSetting_OnlySupportXboxControllerProtocol" xml:space="preserve">
-    <value>Only Xbox protocol controllers are supported. Compatibility with other types of controllers is not guaranteed.</value>
+    <value>Xboxプロトコルコントローラーのみがサポートされています。他のタイプのコントローラーとの互換性は保証されません。</value>
   </data>
   <data name="GamepadControlSetting_SimulateInputDesc" xml:space="preserve">
-    <value>Simulate keyboard and mouse input using a game controller. This feature requires Starward to run with administrator privileges to work correctly in games.</value>
+    <value>ゲームコントローラーを使用してキーボードとマウスの入力をシミュレートします。この機能はゲームで正常に動作するためにStarwardを管理者権限で実行する必要があります。</value>
   </data>
   <data name="GamepadControlSetting_LongPressGuideButtonDesc" xml:space="preserve">
-    <value>Press and hold the Guide button to open the Starward main window.</value>
+    <value>ガイドボタンを長押しすると、Starwardのメインウィンドウが開きます。</value>
   </data>
   <data name="GamepadControlSetting_BothThumbsticksDesc" xml:space="preserve">
-    <value>Press both thumbstick buttons simultaneously to activate controller-based keyboard and mouse simulation.</value>
+    <value>両方のサムスティックを同時に押し込むと、コントローラーベースのキーボードとマウスシミュレーションが有効になります。</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistComponentDetectedSimulatedInputIsUnavailable" xml:space="preserve">
-    <value>GameInputRedist component detected. Simulated input is unavailable.</value>
+    <value>GameInputRedist コンポーネントが検出されました。入力のシミュレーションは利用できません。</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingGuideDesc" xml:space="preserve">
     <value>• When mapping the Guide button, the default Xbox Game Bar shortcut will be disabled. Other software (such as Steam Big Picture Mode) may also respond to the Guide button. If conflicts occur, you must manually disable those features.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingKeyboardDesc" xml:space="preserve">
-    <value>• When mapping to keyboard keys, enter the key names as they appear on the keyboard, separated by spaces. For example, to map a button to "Ctrl + Alt + F1", input: "Ctrl Alt F1". For numpad keys, add Pad before the key, such as: Pad8, Pad+ . This feature requires Starward to run with administrator privileges to work correctly in games.</value>
+    <value>• キーボードキーにマッピングする場合、キーボードに表示される名前をスペースで区切って入力します。 例えば、ボタンを「Ctrl + Alt + F1」にマッピングするには、「Ctrl Alt F1」と入力します。 numpadキーについては、Pad8、Pad+ のような、キーの前にPadを追加。 この機能はゲームで正しく動作するために、Starwardが管理者権限で実行する必要があります。</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingShareDesc" xml:space="preserve">
-    <value>The Share button still triggers Xbox Game Bar screenshots, and there's currently no good solution.</value>
+    <value>共有ボタンは引き続きXboxゲームバーのスクリーンショットをトリガーしますが、現時点では良い解決策はありません</value>
   </data>
   <data name="GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancementIsUnavailable" xml:space="preserve">
-    <value>Failed to initialize the GameInput component. Controller enhancement is unavailable.</value>
+    <value>GameInput コンポーネントの初期化に失敗しました。コントローラの拡張は使用できません。</value>
   </data>
   <data name="SimulateInputTipsWindow_ControllerSimulatedInputIsActive" xml:space="preserve">
-    <value>Controller simulated input is active.</value>
+    <value>コントローラの入力のシミュレーションはアクティブです。</value>
   </data>
   <data name="SimulateInputTipsWindow_ShowHideButtonHints" xml:space="preserve">
     <value>ボタンヒントの表示/非表示</value>
@@ -2406,7 +2406,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>SDR 画像に自動変換</value>
   </data>
   <data name="ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved" xml:space="preserve">
-    <value>When capturing HDR images, SDR version will also be saved.</value>
+    <value>HDR画像をキャプチャすると、SDRバージョンも保存されます。</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
     <value>The screenshot feature captures the currently running game. If multiple games are running, the most recently focused game will be selected. Note the following limitations:
@@ -2420,10 +2420,10 @@ You are welcome to submit the exported data to the following repository:</value>
 • The mouse pointer cannot be hidden.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
-    <value>If you want to capture screenshots with a controller, please use Button Mapping in the Controller Enhancement page.</value>
+    <value>コントローラーでスクリーンショットをキャプチャしたい場合は、「コントローラーの拡張」ページの「ボタンの割り当て」を使用してください。</value>
   </data>
   <data name="TheScreenshotFeatureDoesNotSupportCloudGame" xml:space="preserve">
-    <value>The screenshot feature does not support cloud game.</value>
+    <value>スクリーンショット機能はクラウドゲームに対応していません。</value>
   </data>
   <data name="SimulateInputTipsWindow_SwitchWindows" xml:space="preserve">
     <value>ウィンドウの切り替え</value>
@@ -2441,37 +2441,37 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>画像の表示/編集</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistInstalled" xml:space="preserve">
-    <value>Microsoft GameInput component detected. Simulated input is unavailable when the app is running in the background.</value>
+    <value>Microsoft GameInput コンポーネントが検出されました。バックグラウンドでアプリが実行されている場合、入力のシミュレーションは使用できません。</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistOutdate" xml:space="preserve">
-    <value>An outdated Microsoft GameInput component is installed. Please uninstall or update it.</value>
+    <value>古いMicrosoft GameInput コンポーネントがインストールされています。アンインストールまたはアップデートしてください。</value>
   </data>
   <data name="GamepadControlSetting_NeedInstallGameInputRedistOnWin10" xml:space="preserve">
-    <value>On Windows 10, the Microsoft GameInput component must be installed for the controller enhancement feature to work properly.</value>
+    <value>Windows 10 では、コントローラ機能が正常に動作するように、Microsoft GameInput コンポーネントをインストールする必要があります。</value>
   </data>
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
-    <value>Click to download.</value>
+    <value>クリックしてダウンロード。</value>
   </data>
   <data name="ImageViewWindow2_CopyAsJPG" xml:space="preserve">
     <value>JPG としてコピー</value>
   </data>
   <data name="ScreenshotPage_MultiSelect" xml:space="preserve">
-    <value>Multi Select</value>
+    <value>複数選択</value>
   </data>
   <data name="ScreenshotPage_Total0Files" xml:space="preserve">
-    <value>Total {0} files.</value>
+    <value>合計 {0} ファイル。</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardEnterKey" xml:space="preserve">
-    <value>Keyboard Enter Key</value>
+    <value>キーボードの Enter キー</value>
   </data>
   <data name="HoyolabToolboxPage_StygianOnslaught" xml:space="preserve">
-    <value>Stygian Onslaught</value>
+    <value>幽境の激戦</value>
   </data>
   <data name="StygianOnslaughtPage_SinglePlayer" xml:space="preserve">
-    <value>Single Player</value>
+    <value>ソロで挑戦</value>
   </data>
   <data name="StygianOnslaughtPage_CoOp" xml:space="preserve">
-    <value>Co-Op</value>
+    <value>マッチング挑戦</value>
   </data>
   <data name="StygianOnslaughtPage_BattleTime" xml:space="preserve">
     <value>戦闘時間</value>
@@ -2480,19 +2480,19 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Highest Total Damage Dealt</value>
   </data>
   <data name="ScreenshotSetting_OtherOptions" xml:space="preserve">
-    <value>Other Options</value>
+    <value>その他のオプション</value>
   </data>
   <data name="ScreenshotSetting_Lossless" xml:space="preserve">
-    <value>Lossless</value>
+    <value>ロスレス</value>
   </data>
   <data name="ScreenshotSetting_FormatAndQuality" xml:space="preserve">
-    <value>Format and Quality</value>
+    <value>フォーマットと品質</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ProcessingImage" xml:space="preserve">
-    <value>Processing Image</value>
+    <value>画像処理中</value>
   </data>
   <data name="ScreenshotPage_BatchConvert" xml:space="preserve">
-    <value>Batch Convert</value>
+    <value>一括変換</value>
   </data>
   <data name="ImageBatchConvertWindow_Quality" xml:space="preserve">
     <value>品質</value>
@@ -2552,18 +2552,18 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>失敗を削除</value>
   </data>
   <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
-    <value>High-quality AVIF and JPEG XL image formats save approximately 85% of storage space.</value>
+    <value>高品質の AVIF および JPEG XL 画像フォーマットは、ストレージスペースの約 85% を節約します。</value>
   </data>
   <data name="Common_CopiedToClipboard" xml:space="preserve">
-    <value>Copied to clipboard.</value>
+    <value>クリップボードにコピーしました。</value>
   </data>
   <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
-    <value>Lunar Mode</value>
+    <value>月諭モード</value>
   </data>
   <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
-    <value>Arcana</value>
+    <value>アルカナ</value>
   </data>
   <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
-    <value>Arcana Challenge {0}</value>
+    <value>アルカナ挑戦 {0}</value>
   </data>
 </root>
