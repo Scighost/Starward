@@ -338,6 +338,8 @@ public sealed partial class AppBackground : UserControl
 
     private int videoBgVolume = AppConfig.VideoBgVolume;
 
+    private SemaphoreSlim _videoSemaphore = new SemaphoreSlim(1, 1);
+
 
     private void StartMediaPlayer(string file)
     {
@@ -414,6 +416,11 @@ public sealed partial class AppBackground : UserControl
 
     private void MediaPlayer_VideoFrameAvailable(MediaPlayer sender, object args)
     {
+        if (_videoSemaphore.CurrentCount == 0)
+        {
+            return;
+        }
+        _videoSemaphore.Wait();
         DispatcherQueue?.TryEnqueue(() =>
         {
             try
@@ -438,6 +445,10 @@ public sealed partial class AppBackground : UserControl
                 }
             }
             catch { }
+            finally
+            {
+                _videoSemaphore.Release();
+            }
         });
     }
 
