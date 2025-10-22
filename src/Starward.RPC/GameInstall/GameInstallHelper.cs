@@ -1007,7 +1007,7 @@ internal partial class GameInstallHelper
             return;
         }
         string config = Path.Combine(context.InstallPath, "config.ini");
-        if (config is not null)
+        if (File.Exist(config))
         {
             string content = await File.ReadAllTextAsync(config, cancellationToken);
             string wpfVersion = Regex.Match(content, @"wpf_version=(.+)").Groups[1].Value.Trim();
