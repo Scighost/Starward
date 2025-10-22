@@ -2556,7 +2556,7 @@
     <value>높은 품질의 AVIF 와 JPEG XL 포맷은 85% 의 저장공간을 절약할 수 있습니다.</value>
   </data>
   <data name="Common_CopiedToClipboard" xml:space="preserve">
-    <value>Copied to clipboard.</value>
+    <value>클립보드에 복사됨.</value>
   </data>
   <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
     <value>Lunar Mode</value>
