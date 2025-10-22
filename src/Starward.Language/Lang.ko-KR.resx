@@ -2559,12 +2559,12 @@
     <value>클립보드에 복사됨.</value>
   </data>
   <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
-    <value>Lunar Mode</value>
+    <value>계시모드</value>
   </data>
   <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
-    <value>Arcana</value>
+    <value>계시 카드</value>
   </data>
   <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
-    <value>Arcana Challenge {0}</value>
+    <value>계시 모드 도전 {0} 회 완료</value>
   </data>
 </root>
