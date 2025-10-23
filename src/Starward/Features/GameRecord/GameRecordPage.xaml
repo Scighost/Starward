@@ -277,6 +277,23 @@
                         </Grid>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
+                <!--  旅行者札记  -->
+                <NavigationViewItem Name="NavigationViewItem_TravelersDiary"
+                                    Tag="TravelersDiaryPage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/4bb2f9e21b6c64201692c4ea76a2faca_7020708978085976578.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_TravelersDiary}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
                 <!--  深境螺旋  -->
                 <NavigationViewItem Name="NavigationViewItem_SpiralAbyss"
                                     Tag="SpiralAbyssPage"
@@ -328,9 +345,10 @@
                         </Grid>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
-                <!--  旅行者札记  -->
-                <NavigationViewItem Name="NavigationViewItem_TravelersDiary"
-                                    Tag="TravelersDiaryPage"
+
+                <!--  开拓月历  -->
+                <NavigationViewItem Name="NavigationViewItem_TrailblazeMonthlyCalendar"
+                                    Tag="TrailblazeCalendarPage"
                                     Visibility="Collapsed">
                     <NavigationViewItem.Content>
                         <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
@@ -338,14 +356,13 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Image Width="20" Source="ms-appx:///Assets/Image/4bb2f9e21b6c64201692c4ea76a2faca_7020708978085976578.png" />
+                            <Image Width="20" Source="ms-appx:///Assets/Image/097aa51ae0b4bc0c9c9e6aca6dab0744_10826781894277788.png" />
                             <TextBlock Grid.Column="1"
-                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_TravelersDiary}"
+                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_TrailblazeMonthlyCalendar}"
                                        TextTrimming="CharacterEllipsis" />
                         </Grid>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
-
                 <!--  模拟宇宙  -->
                 <NavigationViewItem Name="NavigationViewItem_SimulatedUniverse"
                                     Tag="SimulatedUniversePage"
@@ -410,23 +427,6 @@
                             <Image Width="20" Source="ms-appx:///Assets/Image/ApocalypticShadow.png" />
                             <TextBlock Grid.Column="1"
                                        Text="{x:Bind lang:Lang.HoyolabToolboxPage_ApocalypticShadow}"
-                                       TextTrimming="CharacterEllipsis" />
-                        </Grid>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
-                <!--  开拓月历  -->
-                <NavigationViewItem Name="NavigationViewItem_TrailblazeMonthlyCalendar"
-                                    Tag="TrailblazeCalendarPage"
-                                    Visibility="Collapsed">
-                    <NavigationViewItem.Content>
-                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Image Width="20" Source="ms-appx:///Assets/Image/097aa51ae0b4bc0c9c9e6aca6dab0744_10826781894277788.png" />
-                            <TextBlock Grid.Column="1"
-                                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_TrailblazeMonthlyCalendar}"
                                        TextTrimming="CharacterEllipsis" />
                         </Grid>
                     </NavigationViewItem.Content>
