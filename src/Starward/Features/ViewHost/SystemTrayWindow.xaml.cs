@@ -3,11 +3,14 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Starward;
+using Starward.Features.Database;
 using Starward.Features.Setting;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Foundation;
 
@@ -124,8 +127,14 @@ public sealed partial class SystemTrayWindow : WindowEx
 
 
     [RelayCommand]
-    private void Exit()
+    private async void Exit()
     {
+        Hide();
+        trayIcon?.Dispose();
+        MainWindow.Current?.Close();
+        Task backupTask = Task.Run(DatabaseService.AutoBackupToAppDataLocal);
+        Task timeTask = Task.Delay(30000);
+        await Task.WhenAny(backupTask, timeTask);
         App.Current.Exit();
     }
 
