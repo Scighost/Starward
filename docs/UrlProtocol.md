@@ -12,7 +12,7 @@ The parameter `game_biz`  in the following is game region identifier and can be 
 | game_biz (string) | Description                             |
 | ----------------- | --------------------------------------- |
 | hk4e_cn           | Genshin Impact (Mainland China)         |
-| hk4e_global       | Original Gods (Global)                  |
+| hk4e_global       | Genshin Impact (Global)                 |
 | hk4e_bilibili     | Genshin Impact (Bilibili)               |
 | hkrpg_cn          | Star Rail (Mainland China)              |
 | hkrpg_global      | Star Rail (Global)                      |
