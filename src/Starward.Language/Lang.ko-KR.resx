@@ -2567,4 +2567,7 @@
   <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
     <value>계시 모드 도전 {0} 회 완료</value>
   </data>
+  <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
+    <value>Miliastra Wonderland Ode</value>
+  </data>
 </root>
