@@ -142,6 +142,15 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Event Ode 的本地化字符串。
+        /// </summary>
+        public static string GachaType_EventOde {
+            get {
+                return ResourceManager.GetString("GachaType_EventOde", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Exclusive Channel 的本地化字符串。
         /// </summary>
         public static string GachaType_ExclusiveChannel {
@@ -192,6 +201,15 @@ namespace Starward.Core.Localization {
         public static string GachaType_StandardChannel {
             get {
                 return ResourceManager.GetString("GachaType_StandardChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Standard Ode 的本地化字符串。
+        /// </summary>
+        public static string GachaType_StandardOde {
+            get {
+                return ResourceManager.GetString("GachaType_StandardOde", resourceCulture);
             }
         }
         

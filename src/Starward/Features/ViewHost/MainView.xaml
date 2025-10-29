@@ -123,6 +123,19 @@
                         </Border>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
+                <!--  千星奇域颂愿  -->
+                <NavigationViewItem Name="NavigationViewItem_GenshinBeyondGacha"
+                                    Tag="GenshinBeyondGachaPage"
+                                    ToolTipService.ToolTip="{x:Bind lang:Lang.GenshinBeyondGachaPage_MiliastraWonderlandOde}">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE776;" />
+                    </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <Border Height="40">
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.GenshinBeyondGachaPage_MiliastraWonderlandOde}" />
+                        </Border>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
 
             <Frame Name="MainView_Frame" Margin="0,48,0,0" />

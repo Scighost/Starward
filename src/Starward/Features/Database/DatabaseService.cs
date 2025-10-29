@@ -236,7 +236,7 @@ internal static class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11, Sql_v12, Sql_v13, Sql_v14, Sql_v15];
+    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11, Sql_v12, Sql_v13, Sql_v14, Sql_v15, Sql_v16];
 
 
     private const string Sql_v1 = """
@@ -866,6 +866,31 @@ internal static class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_StygianOnslaughtInfo_ScheduleId ON StygianOnslaughtInfo (ScheduleId);
 
         PRAGMA USER_VERSION = 15;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v16 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS GenshinBeyondGachaItem
+        (
+            Uid         INTEGER,
+            Id          INTEGER,
+            Region      TEXT,
+            OpGachaType INTEGER,
+            ScheduleId  INTEGER,
+            ItemType    TEXT,
+            ItemId      INTEGER,
+            ItemName    TEXT,
+            RankType    INTEGER,
+            IsUp        INTEGER,
+            Time        TEXT,
+            PRIMARY KEY (Uid, Id)
+        );
+        CREATE INDEX IF NOT EXISTS IX_GenshinBeyondGachaItem_Id ON GenshinBeyondGachaItem (Id);
+        CREATE INDEX IF NOT EXISTS IX_GenshinBeyondGachaItem_OpGachaType ON GenshinBeyondGachaItem (OpGachaType);
+
+        PRAGMA USER_VERSION = 16;
         COMMIT TRANSACTION;
         """;
 

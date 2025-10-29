@@ -286,6 +286,8 @@ public static class AppConfig
             sc.AddSingleton<StarRailGachaService>();
             sc.AddSingleton<ZZZGachaService>();
             sc.AddSingleton<UIGFGachaService>();
+            sc.AddSingleton<GenshinBeyondGachaClient>();
+            sc.AddSingleton<GenshinBeyondGachaService>();
 
             sc.AddSingleton<HoyolabClient>();
             sc.AddSingleton<HyperionClient>();

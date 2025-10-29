@@ -127,6 +127,7 @@ public sealed partial class MainView : UserControl
         NavigationViewItem_GachaLog.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GachaLogPage)).ToVisibility();
         NavigationViewItem_HoyolabToolbox.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameRecordPage)).ToVisibility();
         NavigationViewItem_SelfQuery.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(SelfQueryPage)).ToVisibility();
+        NavigationViewItem_GenshinBeyondGacha.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GenshinBeyondGachaPage)).ToVisibility();
 
         // 抽卡记录名称
         string gachalogText = CurrentGameId?.GameBiz.Game switch
@@ -184,6 +185,7 @@ public sealed partial class MainView : UserControl
                         nameof(GachaLogPage) => typeof(GachaLogPage),
                         nameof(GameRecordPage) => typeof(GameRecordPage),
                         nameof(SelfQueryPage) => typeof(SelfQueryPage),
+                        nameof(GenshinBeyondGachaPage) => typeof(GenshinBeyondGachaPage),
                         _ => null,
                     };
                     NavigateTo(type);

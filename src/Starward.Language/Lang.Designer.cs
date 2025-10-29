@@ -3009,6 +3009,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Miliastra Wonderland Ode 的本地化字符串。
+        /// </summary>
+        public static string GenshinBeyondGachaPage_MiliastraWonderlandOde {
+            get {
+                return ResourceManager.GetString("GenshinBeyondGachaPage_MiliastraWonderlandOde", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Import {0} wish record(s) successfully. 的本地化字符串。
         /// </summary>
         public static string GenshinGachaService_ImportWishRecordsSuccessfully {
