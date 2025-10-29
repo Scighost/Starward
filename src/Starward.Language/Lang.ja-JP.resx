@@ -2566,4 +2566,7 @@
   <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
     <value>アルカナ挑戦 {0}</value>
   </data>
+  <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
+    <value>Miliastra Wonderland Ode</value>
+  </data>
 </root>
