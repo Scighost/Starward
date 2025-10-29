@@ -299,9 +299,9 @@
     <value>Совместный Прыжок события: Световой конус</value>
   </data>
   <data name="GachaType_StandardOde" xml:space="preserve">
-    <value>Standard Ode</value>
+    <value>Стандартная Ода</value>
   </data>
   <data name="GachaType_EventOde" xml:space="preserve">
-    <value>Event Ode</value>
+    <value>Ода события</value>
   </data>
 </root>
