@@ -890,6 +890,24 @@ internal static class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_GenshinBeyondGachaItem_Id ON GenshinBeyondGachaItem (Id);
         CREATE INDEX IF NOT EXISTS IX_GenshinBeyondGachaItem_OpGachaType ON GenshinBeyondGachaItem (OpGachaType);
 
+        ALTER TABLE ImaginariumTheaterInfo RENAME TO GenshinImaginariumTheaterInfo;
+        ALTER TABLE SpiralAbyssInfo RENAME TO GenshinSpiralAbyssInfo;
+        ALTER TABLE StygianOnslaughtInfo RENAME TO GenshinStygianOnslaughtInfo;
+        ALTER TABLE TravelersDiaryAwardItem RENAME TO GenshinTravelersDiaryAwardItem;
+        ALTER TABLE TravelersDiaryMonthData RENAME TO GenshinTravelersDiaryMonthData;
+
+        ALTER TABLE ApocalypticShadowInfo RENAME TO StarRailApocalypticShadowInfo;
+        ALTER TABLE ForgottenHallInfo RENAME TO StarRailForgottenHallInfo;
+        ALTER TABLE PureFictionInfo RENAME TO StarRailPureFictionInfo;
+        ALTER TABLE SimulatedUniverseRecord RENAME TO StarRailSimulatedUniverseRecord;
+        ALTER TABLE TrailblazeCalendarMonthData RENAME TO StarRailTrailblazeCalendarMonthData;
+        ALTER TABLE TrailblazeCalendarDetailItem RENAME TO StarRailTrailblazeCalendarDetailItem;
+
+        ALTER TABLE DeadlyAssaultInfo RENAME TO ZZZDeadlyAssaultInfo;
+        ALTER TABLE InterKnotReportSummary RENAME TO ZZZInterKnotReportSummary;
+        ALTER TABLE InterKnotReportDetailItem RENAME TO ZZZInterKnotReportDetailItem;
+        ALTER TABLE ShiyuDefenseInfo RENAME TO ZZZShiyuDefenseInfo;
+
         PRAGMA USER_VERSION = 16;
         COMMIT TRANSACTION;
         """;
