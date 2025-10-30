@@ -74,9 +74,12 @@ public sealed partial class MainView : UserControl
     {
         CheckSystemProxy();
         HotkeyManager.InitializeHotkey(this.XamlRoot.GetWindowHandle());
-        GamepadController.Initialize();
         _ = CheckUpdateOrShowRecentUpdateContentAsync();
         AppConfig.GetService<RpcService>().TrySetEnviromentAsync();
+        if (AppConfig.EnableGamepadController)
+        {
+            GamepadController.Initialize();
+        }
     }
 
 

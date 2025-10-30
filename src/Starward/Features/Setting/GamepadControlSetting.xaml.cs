@@ -21,6 +21,21 @@ public sealed partial class GamepadControlSetting : PageBase
     }
 
 
+  
+    public bool EnableGamepadController
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                GamepadController.Initialize();
+                AppConfig.EnableGamepadController = value;
+            }
+        }
+    } = AppConfig.EnableGamepadController;
+
+
     /// <summary>
     /// 模拟输入
     /// </summary>

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using SharpGameInput.V0;
 using Starward.Features.Overlay;
@@ -83,7 +84,10 @@ internal static class GamepadController
                 DeviceOrEnableChanged();
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            Serilog.Log.Error(ex, "Initialize GamepadController failed");
+        }
     }
 
 

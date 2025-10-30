@@ -746,6 +746,13 @@ public static class AppConfig
     }
 
 
+    public static bool EnableGamepadController
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
     #endregion
 
 

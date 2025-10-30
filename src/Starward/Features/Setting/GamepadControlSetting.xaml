@@ -19,7 +19,15 @@
         <StackPanel Padding="0,0,24,0">
 
             <!--  手柄增强  -->
-            <TextBlock FontSize="20" Text="{x:Bind lang:Lang.SettingPage_ControllerEnhancement}" />
+            <StackPanel HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        Spacing="20">
+                <TextBlock FontSize="20" Text="{x:Bind lang:Lang.SettingPage_ControllerEnhancement}" />
+                <ToggleSwitch Margin="0,-4,0,-4"
+                              IsOn="{x:Bind EnableGamepadController, Mode=TwoWay}"
+                              OffContent="{x:Bind lang:Lang.Common_Disabled}"
+                              OnContent="{x:Bind lang:Lang.Common_Enabled}" />
+            </StackPanel>
 
             <!--  仅适配 Xbox 协议手柄，不能保证其他类型手柄的使用体验。  -->
             <TextBlock Margin="0,8,0,0"
@@ -67,6 +75,7 @@
                         Spacing="20">
                 <TextBlock FontSize="20" Text="{x:Bind lang:Lang.GamepadControlSetting_SimulateInput}" />
                 <ToggleSwitch Margin="0,-4,0,-4"
+                              IsEnabled="{x:Bind EnableGamepadController}"
                               IsOn="{x:Bind EnableGamepadSimulateInput, Mode=TwoWay}"
                               OffContent="{x:Bind lang:Lang.Common_Disabled}"
                               OnContent="{x:Bind lang:Lang.Common_Enabled}" />
@@ -111,6 +120,7 @@
                 <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.GamepadControlSetting_GuideButton}" />
                 <ComboBox MinWidth="160"
                           VerticalAlignment="Center"
+                          IsEnabled="{x:Bind EnableGamepadController}"
                           SelectedIndex="{x:Bind GamepadGuideButtonMode, Mode=TwoWay}">
                     <ComboBoxItem Content="{x:Bind lang:Lang.GamepadControlSetting_NoAction}" />
                     <ComboBoxItem Content="{x:Bind lang:Lang.GamepadControlSetting_GameScreenshot}" />
@@ -118,6 +128,7 @@
                 </ComboBox>
                 <TextBox MinWidth="160"
                          HorizontalAlignment="Left"
+                         IsEnabled="{x:Bind EnableGamepadController}"
                          PlaceholderText="{x:Bind lang:Lang.GamepadControlSetting_EnterKeyText}"
                          Text="{x:Bind GamepadGuideButtonKeyText, Mode=TwoWay}"
                          Visibility="{x:Bind GamepadGuideButtonModeIsKeyboard}" />
@@ -140,6 +151,7 @@
                 <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.GamepadControlSetting_ShareButton}" />
                 <ComboBox MinWidth="160"
                           VerticalAlignment="Center"
+                          IsEnabled="{x:Bind EnableGamepadController}"
                           SelectedIndex="{x:Bind GamepadShareButtonMode, Mode=TwoWay}">
                     <ComboBoxItem Content="{x:Bind lang:Lang.GamepadControlSetting_NoAction}" />
                     <ComboBoxItem Content="{x:Bind lang:Lang.GamepadControlSetting_GameScreenshot}" />
@@ -147,6 +159,7 @@
                 </ComboBox>
                 <TextBox MinWidth="160"
                          HorizontalAlignment="Left"
+                         IsEnabled="{x:Bind EnableGamepadController}"
                          PlaceholderText="{x:Bind lang:Lang.GamepadControlSetting_EnterKeyText}"
                          Text="{x:Bind GamepadShareButtonKeyText, Mode=TwoWay}"
                          Visibility="{x:Bind GamepadShareButtonModeIsKeyboard}" />
