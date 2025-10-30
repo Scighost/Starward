@@ -54,15 +54,7 @@ public sealed partial class CloudGameButton : UserControl
             RunningProcessInfo = null;
             if (CurrentGameId?.GameBiz == GameBiz.hk4e_cn)
             {
-                key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Genshin Impact Cloud Game";
-            }
-            else if (CurrentGameId?.GameBiz == GameBiz.hk4e_global)
-            {
-                key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Genshin Impact Cloud";
-            }
-            else if (CurrentGameId?.GameBiz == GameBiz.nap_cn)
-            {
-                string? exe = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\ZenlessZoneZeroCloud", "DisplayIcon", null) as string;
+                string? exe = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\GenshinImpactCloudGame", "DisplayIcon", null) as string;
                 if (File.Exists(exe))
                 {
                     ExePath = exe;
@@ -74,10 +66,10 @@ public sealed partial class CloudGameButton : UserControl
                         RunningProcessInfo = $"{Lang.LauncherPage_GameIsRunning}\n{exeName} ({p.Id})";
                     }
                 }
-                return;
             }
-            if (!string.IsNullOrWhiteSpace(key))
+            else if (CurrentGameId?.GameBiz == GameBiz.hk4e_global)
             {
+                key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Genshin Impact Cloud";
                 string? folder = Registry.GetValue(key, "InstallPath", null) as string;
                 string? exeName = Registry.GetValue(key, "ExeName", null) as string;
                 string? path = Path.Join(folder, exeName);
@@ -86,6 +78,21 @@ public sealed partial class CloudGameButton : UserControl
                     ExePath = path;
                     int session = Process.GetCurrentProcess().SessionId;
                     Process? p = Process.GetProcessesByName(exeName!.Replace(".exe", "")).FirstOrDefault(x => x.SessionId == session);
+                    if (p is not null)
+                    {
+                        RunningProcessInfo = $"{Lang.LauncherPage_GameIsRunning}\n{exeName} ({p.Id})";
+                    }
+                }
+            }
+            else if (CurrentGameId?.GameBiz == GameBiz.nap_cn)
+            {
+                string? exe = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\ZenlessZoneZeroCloud", "DisplayIcon", null) as string;
+                if (File.Exists(exe))
+                {
+                    ExePath = exe;
+                    string exeName = Path.GetFileName(exe);
+                    int session = Process.GetCurrentProcess().SessionId;
+                    Process? p = Process.GetProcessesByName(exeName.Replace(".exe", "")).FirstOrDefault(x => x.SessionId == session);
                     if (p is not null)
                     {
                         RunningProcessInfo = $"{Lang.LauncherPage_GameIsRunning}\n{exeName} ({p.Id})";
