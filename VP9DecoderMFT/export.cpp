@@ -67,6 +67,7 @@ extern "C" __declspec(dllexport) HRESULT RegisterVP9DecoderLocal()
 	};
 	MFT_REGISTER_TYPE_INFO outputTypes[] = {
 		{ MFMediaType_Video, MFVideoFormat_NV12 },
+		{ MFMediaType_Video, MFVideoFormat_ARGB32 },
 		//{ MFMediaType_Video, MFVideoFormat_P010 },
 		//{ MFMediaType_Video, MFVideoFormat_P016 },
 	};

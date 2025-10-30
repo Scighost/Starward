@@ -6,8 +6,7 @@
 
 static const GUID g_OutputFormats[] = {
 	MFVideoFormat_NV12,   // 8-bit 4:2:0
-	//MFVideoFormat_P010,   // 10-bit 4:2:0
-	//MFVideoFormat_P016,   // 16-bit 4:2:0
+	MFVideoFormat_ARGB32,  // 8-bit RGB
 };
 
 static const DWORD g_NumOutputFormats = ARRAYSIZE(g_OutputFormats);
@@ -21,8 +20,8 @@ VP9Decoder::VP9Decoder()
 	, m_uiFrameRateNum(30)
 	, m_uiFrameRateDen(1)
 	, m_outputSubtype(GUID_NULL)
+	, m_suggestOutputSubtype(MFVideoFormat_NV12)
 {
-	InitializeCriticalSection(&m_critSec);
 	ZeroMemory(&m_codec, sizeof(m_codec));
 	MFCreateAttributes(&m_pAttributes, 3);
 }
@@ -30,7 +29,6 @@ VP9Decoder::VP9Decoder()
 VP9Decoder::~VP9Decoder()
 {
 	ShutdownDecoder();
-	DeleteCriticalSection(&m_critSec);
 }
 
 // IUnknown methods
@@ -118,7 +116,6 @@ STDMETHODIMP VP9Decoder::GetInputStreamInfo(DWORD dwInputStreamID, MFT_INPUT_STR
 	if (!pStreamInfo)
 		return E_POINTER;
 
-	EnterCriticalSection(&m_critSec);
 
 	pStreamInfo->dwFlags = MFT_INPUT_STREAM_WHOLE_SAMPLES |
 		MFT_INPUT_STREAM_SINGLE_SAMPLE_PER_BUFFER;
@@ -127,7 +124,6 @@ STDMETHODIMP VP9Decoder::GetInputStreamInfo(DWORD dwInputStreamID, MFT_INPUT_STR
 	pStreamInfo->cbAlignment = 0;
 	pStreamInfo->hnsMaxLatency = 0;
 
-	LeaveCriticalSection(&m_critSec);
 
 	return S_OK;
 }
@@ -140,7 +136,6 @@ STDMETHODIMP VP9Decoder::GetOutputStreamInfo(DWORD dwOutputStreamID, MFT_OUTPUT_
 	if (!pStreamInfo)
 		return E_POINTER;
 
-	EnterCriticalSection(&m_critSec);
 
 	pStreamInfo->dwFlags = MFT_OUTPUT_STREAM_WHOLE_SAMPLES |
 		MFT_OUTPUT_STREAM_SINGLE_SAMPLE_PER_BUFFER |
@@ -158,7 +153,6 @@ STDMETHODIMP VP9Decoder::GetOutputStreamInfo(DWORD dwOutputStreamID, MFT_OUTPUT_
 
 	pStreamInfo->cbAlignment = 0;
 
-	LeaveCriticalSection(&m_critSec);
 
 	return S_OK;
 }
@@ -168,13 +162,11 @@ STDMETHODIMP VP9Decoder::GetAttributes(IMFAttributes** ppAttributes)
 	if (!ppAttributes)
 		return E_POINTER;
 
-	EnterCriticalSection(&m_critSec);
 	*ppAttributes = m_pAttributes.Get();
 	if (*ppAttributes)
 	{
 		(*ppAttributes)->AddRef();
 	}
-	LeaveCriticalSection(&m_critSec);
 
 	return S_OK;
 }
@@ -261,7 +253,7 @@ STDMETHODIMP VP9Decoder::GetOutputAvailableType(
 	if (FAILED(hr))
 		return hr;
 
-	hr = pType->SetGUID(MF_MT_SUBTYPE, g_OutputFormats[dwTypeIndex]);
+	hr = pType->SetGUID(MF_MT_SUBTYPE, m_suggestOutputSubtype);
 	if (FAILED(hr))
 		return hr;
 
@@ -299,7 +291,6 @@ STDMETHODIMP VP9Decoder::SetInputType(DWORD dwInputStreamID, IMFMediaType* pType
 
 	HRESULT hr = S_OK;
 
-	EnterCriticalSection(&m_critSec);
 
 	if (m_pPendingSample)
 	{
@@ -328,7 +319,6 @@ STDMETHODIMP VP9Decoder::SetInputType(DWORD dwInputStreamID, IMFMediaType* pType
 	}
 
 done:
-	LeaveCriticalSection(&m_critSec);
 	return hr;
 }
 
@@ -340,9 +330,10 @@ STDMETHODIMP VP9Decoder::SetOutputType(DWORD dwOutputStreamID, IMFMediaType* pTy
 	if (dwFlags & ~MFT_SET_TYPE_TEST_ONLY)
 		return E_INVALIDARG;
 
+	m_pOutputType = pType;
+	pType->GetGUID(MF_MT_SUBTYPE, &m_outputSubtype);
 	HRESULT hr = S_OK;
 
-	EnterCriticalSection(&m_critSec);
 
 	if (m_pPendingSample)
 	{
@@ -371,7 +362,6 @@ STDMETHODIMP VP9Decoder::SetOutputType(DWORD dwOutputStreamID, IMFMediaType* pTy
 	}
 
 done:
-	LeaveCriticalSection(&m_critSec);
 	return hr;
 }
 
@@ -383,18 +373,15 @@ STDMETHODIMP VP9Decoder::GetInputCurrentType(DWORD dwInputStreamID, IMFMediaType
 	if (!ppType)
 		return E_POINTER;
 
-	EnterCriticalSection(&m_critSec);
 
 	if (!m_pInputType)
 	{
-		LeaveCriticalSection(&m_critSec);
 		return MF_E_TRANSFORM_TYPE_NOT_SET;
 	}
 
 	*ppType = m_pInputType.Get();
 	(*ppType)->AddRef();
 
-	LeaveCriticalSection(&m_critSec);
 
 	return S_OK;
 }
@@ -407,18 +394,15 @@ STDMETHODIMP VP9Decoder::GetOutputCurrentType(DWORD dwOutputStreamID, IMFMediaTy
 	if (!ppType)
 		return E_POINTER;
 
-	EnterCriticalSection(&m_critSec);
 
 	if (!m_pOutputType)
 	{
-		LeaveCriticalSection(&m_critSec);
 		return MF_E_TRANSFORM_TYPE_NOT_SET;
 	}
 
 	*ppType = m_pOutputType.Get();
 	(*ppType)->AddRef();
 
-	LeaveCriticalSection(&m_critSec);
 
 	return S_OK;
 }
@@ -431,7 +415,6 @@ STDMETHODIMP VP9Decoder::GetInputStatus(DWORD dwInputStreamID, DWORD* pdwFlags)
 	if (!pdwFlags)
 		return E_POINTER;
 
-	EnterCriticalSection(&m_critSec);
 
 	if (m_pPendingSample)
 	{
@@ -442,7 +425,6 @@ STDMETHODIMP VP9Decoder::GetInputStatus(DWORD dwInputStreamID, DWORD* pdwFlags)
 		*pdwFlags = MFT_INPUT_STATUS_ACCEPT_DATA;
 	}
 
-	LeaveCriticalSection(&m_critSec);
 
 	return S_OK;
 }
@@ -452,7 +434,6 @@ STDMETHODIMP VP9Decoder::GetOutputStatus(DWORD* pdwFlags)
 	if (!pdwFlags)
 		return E_POINTER;
 
-	EnterCriticalSection(&m_critSec);
 
 	if (m_pPendingSample)
 	{
@@ -463,7 +444,6 @@ STDMETHODIMP VP9Decoder::GetOutputStatus(DWORD* pdwFlags)
 		*pdwFlags = 0;
 	}
 
-	LeaveCriticalSection(&m_critSec);
 
 	return S_OK;
 }
@@ -482,7 +462,6 @@ STDMETHODIMP VP9Decoder::ProcessMessage(MFT_MESSAGE_TYPE eMessage, ULONG_PTR ulP
 {
 	HRESULT hr = S_OK;
 
-	EnterCriticalSection(&m_critSec);
 
 	switch (eMessage)
 	{
@@ -516,7 +495,6 @@ STDMETHODIMP VP9Decoder::ProcessMessage(MFT_MESSAGE_TYPE eMessage, ULONG_PTR ulP
 		break;
 	}
 
-	LeaveCriticalSection(&m_critSec);
 
 	return hr;
 }
@@ -533,8 +511,6 @@ STDMETHODIMP VP9Decoder::ProcessInput(DWORD dwInputStreamID, IMFSample* pSample,
 		return E_POINTER;
 
 	HRESULT hr = S_OK;
-
-	EnterCriticalSection(&m_critSec);
 
 	if (!m_pInputType || !m_pOutputType)
 	{
@@ -558,7 +534,6 @@ STDMETHODIMP VP9Decoder::ProcessInput(DWORD dwInputStreamID, IMFSample* pSample,
 	m_pPendingSample = pSample;
 
 done:
-	LeaveCriticalSection(&m_critSec);
 	return hr;
 }
 
@@ -575,8 +550,6 @@ STDMETHODIMP VP9Decoder::ProcessOutput(
 		return E_INVALIDARG;
 
 	HRESULT hr = S_OK;
-
-	EnterCriticalSection(&m_critSec);
 
 	if (!m_pInputType || !m_pOutputType)
 	{
@@ -600,11 +573,15 @@ STDMETHODIMP VP9Decoder::ProcessOutput(
 	{
 		m_pPendingSample.Reset();
 	}
+	else if (hr == MF_E_TRANSFORM_STREAM_CHANGE)
+	{
+		m_pPendingSample.Reset();
+		pOutputSamples->dwStatus = MFT_OUTPUT_DATA_BUFFER_FORMAT_CHANGE;
+	}
 
 	*pdwStatus = 0;
 
 done:
-	LeaveCriticalSection(&m_critSec);
 	return hr;
 }
 
@@ -675,6 +652,15 @@ HRESULT VP9Decoder::DecodeFrame(IMFSample* pInputSample, IMFSample** ppOutputSam
 		return MF_E_TRANSFORM_NEED_MORE_INPUT;
 	}
 
+	if (img->cs == VPX_CS_SRGB && img->fmt == VPX_IMG_FMT_I444)
+	{
+		m_suggestOutputSubtype = MFVideoFormat_ARGB32;
+	}
+	else
+	{
+		m_suggestOutputSubtype = MFVideoFormat_NV12;
+	}
+
 	// 使用实际解码出来的图像尺寸，而不是从媒体类型获取的尺寸
 	UINT32 actualWidth = img->d_w;
 	UINT32 actualHeight = img->d_h;
@@ -708,6 +694,10 @@ HRESULT VP9Decoder::DecodeFrame(IMFSample* pInputSample, IMFSample** ppOutputSam
 		(*ppOutputSample)->SetSampleDuration(duration);
 	}
 
+	if (m_suggestOutputSubtype != m_outputSubtype)
+	{
+		return MF_E_TRANSFORM_STREAM_CHANGE;
+	}
 	return S_OK;
 }
 
@@ -746,6 +736,10 @@ HRESULT VP9Decoder::CreateOutputSample(const vpx_image_t* img, IMFSample** ppSam
 	if (m_outputSubtype == MFVideoFormat_NV12)
 	{
 		hr = ConvertToNV12(img, pDest);
+	}
+	else if (m_outputSubtype == MFVideoFormat_ARGB32)
+	{
+		hr = ConvertToARGB32(img, pDest);
 	}
 	else
 	{
@@ -880,6 +874,10 @@ DWORD VP9Decoder::GetOutputBufferSize(const GUID& subtype, UINT32 width, UINT32 
 	if (subtype == MFVideoFormat_NV12)
 	{
 		return width * height * 3 / 2; // 8-bit 4:2:0
+	}
+	else if (subtype == MFVideoFormat_ARGB32)
+	{
+		return width * height * 4;     // 8-bit RGB
 	}
 	else
 	{
@@ -1410,4 +1408,52 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 
 		return (result == 0) ? S_OK : E_FAIL;
 	}
+}
+
+HRESULT VP9Decoder::ConvertToARGB32(const vpx_image_t* img, uint8_t* dst_buffer)
+{
+	if (!img || !dst_buffer)
+		return E_POINTER;
+
+	UINT32 width = img->d_w;
+	UINT32 height = img->d_h;
+
+	// RGB24 布局
+	uint8_t* dst = dst_buffer;
+
+	const uint8_t* src_y = img->planes[VPX_PLANE_Y];
+	const uint8_t* src_u = img->planes[VPX_PLANE_U];
+	const uint8_t* src_v = img->planes[VPX_PLANE_V];
+
+	int src_stride_y = img->stride[VPX_PLANE_Y];
+	int src_stride_u = img->stride[VPX_PLANE_U];
+	int src_stride_v = img->stride[VPX_PLANE_V];
+
+	int result = 0;
+
+	if (img->fmt == VPX_IMG_FMT_I444 && img->cs == VPX_CS_SRGB)
+	{
+		// GBR -> ARGB
+		for (UINT32 y = 0; y < height; y++)
+		{
+			const uint8_t* src_g_row = src_y + y * src_stride_y;
+			const uint8_t* src_b_row = src_u + y * src_stride_u;
+			const uint8_t* src_r_row = src_v + y * src_stride_v;
+			uint8_t* dst_row = dst_buffer + y * width * 4;
+
+			for (UINT32 x = 0; x < width; x++)
+			{
+				dst_row[x * 4 + 0] = src_b_row[x];  // B
+				dst_row[x * 4 + 1] = src_g_row[x];  // G
+				dst_row[x * 4 + 2] = src_r_row[x];  // R
+				dst_row[x * 4 + 3] = 255;           // A
+			}
+		}
+	}
+	else
+	{
+		return E_NOTIMPL;
+	}
+
+	return (result == 0) ? S_OK : E_FAIL;
 }
