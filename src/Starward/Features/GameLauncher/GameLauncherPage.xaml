@@ -17,13 +17,372 @@
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
+    <Page.Resources>
+        <x:Double x:Key="PipsPagerButtonWidth">20</x:Double>
+        <x:Double x:Key="PipsPagerButtonHeight">12</x:Double>
+        <x:Double x:Key="PipsPagerHorizontalOrientationButtonWidth">12</x:Double>
+        <x:Double x:Key="PipsPagerHorizontalOrientationButtonHeight">24</x:Double>
+        <x:Double x:Key="PipsPagerVerticalOrientationButtonWidth">24</x:Double>
+        <x:Double x:Key="PipsPagerVerticalOrientationButtonHeight">12</x:Double>
+        <Thickness x:Key="PipsPagerButtonBorderThickness">1</Thickness>
+        <Thickness x:Key="PipsPagerNavigationButtonBorderThickness">1</Thickness>
+        <x:String x:Key="PipsPagerSelectedGlyph">&#xEA3B;</x:String>
+        <x:String x:Key="PipsPagerNormalGlyph">&#xEA3B;</x:String>
+        <x:String x:Key="PipsPagerPreviousPageButtonGlyph">&#xEDDB;</x:String>
+        <x:String x:Key="PipsPagerNextPageButtonGlyph">&#xEDDC;</x:String>
+        <x:Double x:Key="PipsPagerNavigationButtonHeight">24</x:Double>
+        <x:Double x:Key="PipsPagerNavigationButtonWidth">24</x:Double>
+        <x:Double x:Key="PipsPagerNavigationButtonFontSize">12</x:Double>
+        <x:String x:Key="PipsPagerSelectedGlyphFontSize">8</x:String>
+        <x:String x:Key="PipsPagerNormalGlyphFontSize">6</x:String>
+        <x:Double x:Key="PipsPagerNavigationButtonScalePressed">0.875</x:Double>
+        <Style x:Key="CustomPipsPagerStyle" TargetType="PipsPager">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="PreviousButtonStyle" Value="{StaticResource PipsPagerPreviousPageButtonStyle}" />
+            <Setter Property="NextButtonStyle" Value="{StaticResource PipsPagerNextPageButtonStyle}" />
+            <Setter Property="SelectedPipStyle" Value="{StaticResource PipsPagerSelectedPipButtonStyle}" />
+            <Setter Property="NormalPipStyle" Value="{StaticResource PipsPagerNormalPipButtonStyle}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PipsPager">
+                        <StackPanel x:Name="RootPanel"
+                                    Background="{TemplateBinding Background}"
+                                    Orientation="{TemplateBinding Orientation}">
+                            <Button x:Name="PreviousPageButton"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Style="{TemplateBinding PreviousButtonStyle}"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="{Binding ElementName=PreviousPageButton, Path=(AutomationProperties.Name)}"
+                                    Visibility="Collapsed" />
+                            <ScrollViewer x:Name="PipsPagerScrollViewer"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          HorizontalScrollMode="Disabled"
+                                          IsHorizontalScrollChainingEnabled="False"
+                                          IsVerticalScrollChainingEnabled="False"
+                                          VerticalScrollBarVisibility="Hidden"
+                                          VerticalScrollMode="Disabled">
+                                <ItemsRepeater x:Name="PipsPagerItemsRepeater" ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PipsPagerItems}">
+                                    <ItemsRepeater.Layout>
+                                        <StackLayout Orientation="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Orientation}" />
+                                    </ItemsRepeater.Layout>
+                                    <ItemsRepeater.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button />
+                                        </DataTemplate>
+                                    </ItemsRepeater.ItemTemplate>
+                                </ItemsRepeater>
+                            </ScrollViewer>
+                            <Button x:Name="NextPageButton"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Style="{TemplateBinding NextButtonStyle}"
+                                    ToolTipService.Placement="Bottom"
+                                    ToolTipService.ToolTip="{Binding ElementName=NextPageButton, Path=(AutomationProperties.Name)}"
+                                    Visibility="Collapsed" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="PreviousPageButtonVisibilityStates">
+                                    <VisualState x:Name="PreviousPageButtonVisible" />
+                                    <VisualState x:Name="PreviousPageButtonHidden">
+                                        <VisualState.Setters>
+                                            <Setter Target="PreviousPageButton.Opacity" Value="0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PreviousPageButtonCollapsed">
+                                        <VisualState.Setters>
+                                            <Setter Target="PreviousPageButton.Visibility" Value="Collapsed" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="PreviousPageButtonIsEnabledStates">
+                                    <VisualState x:Name="PreviousPageButtonEnabled" />
+                                    <VisualState x:Name="PreviousPageButtonDisabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="PreviousPageButton.IsEnabled" Value="False" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="NextPageButtonVisibilityStates">
+                                    <VisualState x:Name="NextPageButtonVisible" />
+                                    <VisualState x:Name="NextPageButtonHidden">
+                                        <VisualState.Setters>
+                                            <Setter Target="NextPageButton.Opacity" Value="0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="NextPageButtonCollapsed">
+                                        <VisualState.Setters>
+                                            <Setter Target="NextPageButton.Visibility" Value="Collapsed" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="NextPageButtonIsEnabledStates">
+                                    <VisualState x:Name="NextPageButtonEnabled" />
+                                    <VisualState x:Name="NextPageButtonDisabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="NextPageButton.IsEnabled" Value="False" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="RootPanelOrientationStates">
+                                    <VisualState x:Name="VerticalOrientationView" />
+                                    <VisualState x:Name="HorizontalOrientationView">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootPanel.Orientation" Value="Horizontal" />
+                                            <Setter Target="PreviousPageButton.(ToolTipService.Placement)" Value="Left" />
+                                            <Setter Target="PreviousPageButton.RenderTransformOrigin" Value="0.5, 0.5" />
+                                            <Setter Target="PreviousPageButton.RenderTransform">
+                                                <Setter.Value>
+                                                    <RotateTransform Angle="-90" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter Target="NextPageButton.(ToolTipService.Placement)" Value="Right" />
+                                            <Setter Target="NextPageButton.RenderTransformOrigin" Value="0.5, 0.5" />
+                                            <Setter Target="NextPageButton.RenderTransform">
+                                                <Setter.Value>
+                                                    <RotateTransform Angle="-90" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="PipsPagerNavigationButtonBaseStyle" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource PipsPagerNavigationButtonBackground}" />
+            <Setter Property="Foreground" Value="{ThemeResource PipsPagerNavigationButtonForeground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource PipsPagerNavigationButtonBorderBrush}" />
+            <Setter Property="BorderThickness" Value="{StaticResource PipsPagerNavigationButtonBorderThickness}" />
+            <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{StaticResource PipsPagerNavigationButtonFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+            <Setter Property="FocusVisualMargin" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Width" Value="{StaticResource PipsPagerNavigationButtonWidth}" />
+            <Setter Property="Height" Value="{StaticResource PipsPagerNavigationButtonHeight}" />
+            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}">
+                            <Border RenderTransformOrigin="0.5, 0.5">
+                                <Border.RenderTransform>
+                                    <ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
+                                </Border.RenderTransform>
+                                <FontIcon x:Name="Content"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          FontFamily="{TemplateBinding FontFamily}"
+                                          FontSize="{TemplateBinding FontSize}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          Glyph="{TemplateBinding Content}"
+                                          MirroredWhenRightToLeft="True" />
+                            </Border>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerNavigationButtonBackgroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerNavigationButtonBorderBrushPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerNavigationButtonForegroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerNavigationButtonBackgroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerNavigationButtonBorderBrushPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerNavigationButtonForegroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames RepeatBehavior="Forever"
+                                                                           Storyboard.TargetName="ScaleTransform"
+                                                                           Storyboard.TargetProperty="ScaleX">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.016" Value="{ThemeResource PipsPagerNavigationButtonScalePressed}" />
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:30" Value="{ThemeResource PipsPagerNavigationButtonScalePressed}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames RepeatBehavior="Forever"
+                                                                           Storyboard.TargetName="ScaleTransform"
+                                                                           Storyboard.TargetProperty="ScaleY">
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.016" Value="{ThemeResource PipsPagerNavigationButtonScalePressed}" />
+                                                <DiscreteDoubleKeyFrame KeyTime="0:0:30" Value="{ThemeResource PipsPagerNavigationButtonScalePressed}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerNavigationButtonBackgroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerNavigationButtonBorderBrushDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerNavigationButtonForegroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="PipsPagerPreviousPageButtonStyle"
+               BasedOn="{StaticResource PipsPagerNavigationButtonBaseStyle}"
+               TargetType="Button">
+            <Setter Property="Content" Value="{StaticResource PipsPagerPreviousPageButtonGlyph}" />
+        </Style>
+        <Style x:Key="PipsPagerNextPageButtonStyle"
+               BasedOn="{StaticResource PipsPagerNavigationButtonBaseStyle}"
+               TargetType="Button">
+            <Setter Property="Content" Value="{StaticResource PipsPagerNextPageButtonGlyph}" />
+        </Style>
+        <Style x:Key="PipsPagerButtonBaseStyle" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource PipsPagerSelectionIndicatorBackground}" />
+            <Setter Property="Foreground" Value="{ThemeResource PipsPagerSelectionIndicatorForeground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource PipsPagerSelectionIndicatorBorderBrush}" />
+            <Setter Property="BorderThickness" Value="{StaticResource PipsPagerButtonBorderThickness}" />
+            <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+            <Setter Property="FocusVisualMargin" Value="0" />
+            <Setter Property="Content" Value="{StaticResource PipsPagerNormalGlyph}" />
+            <Setter Property="FontSize" Value="{StaticResource PipsPagerNormalGlyphFontSize}" />
+            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid"
+                              Width="{StaticResource PipsPagerHorizontalOrientationButtonWidth}"
+                              Height="{StaticResource PipsPagerHorizontalOrientationButtonHeight}"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}">
+                            <FontIcon x:Name="Content"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      AutomationProperties.AccessibilityView="Raw"
+                                      FontFamily="{TemplateBinding FontFamily}"
+                                      FontSize="{TemplateBinding FontSize}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      Glyph="{TemplateBinding Content}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerSelectionIndicatorBackgroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerSelectionIndicatorBorderBrushPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerSelectionIndicatorForegroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="FontSize">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PipsPagerSelectedGlyphFontSize}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerSelectionIndicatorBackgroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerSelectionIndicatorBorderBrushPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerSelectionIndicatorForegroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="FontSize">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PipsPagerNormalGlyphFontSize}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerSelectionIndicatorBackgroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerSelectionIndicatorBorderBrushDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PipsPagerSelectionIndicatorForegroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="OrientationStates">
+                                    <VisualState x:Name="HorizontalOrientation" />
+                                    <VisualState x:Name="VerticalOrientation">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.Width" Value="{ThemeResource PipsPagerVerticalOrientationButtonWidth}" />
+                                            <Setter Target="RootGrid.Height" Value="{ThemeResource PipsPagerVerticalOrientationButtonHeight}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="PipsPagerSelectedPipButtonStyle"
+               BasedOn="{StaticResource PipsPagerButtonBaseStyle}"
+               TargetType="Button">
+            <Setter Property="Content" Value="{StaticResource PipsPagerSelectedGlyph}" />
+            <Setter Property="FontSize" Value="{StaticResource PipsPagerSelectedGlyphFontSize}" />
+            <Setter Property="Background" Value="{ThemeResource PipsPagerSelectionIndicatorBackgroundSelected}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource PipsPagerSelectionIndicatorBorderBrushSelected}" />
+            <Setter Property="Foreground" Value="{ThemeResource PipsPagerSelectionIndicatorForegroundSelected}" />
+        </Style>
+        <Style x:Key="PipsPagerNormalPipButtonStyle"
+               BasedOn="{StaticResource PipsPagerButtonBaseStyle}"
+               TargetType="Button">
+            <Setter Property="Content" Value="{StaticResource PipsPagerNormalGlyph}" />
+            <Setter Property="FontSize" Value="{StaticResource PipsPagerNormalGlyphFontSize}" />
+        </Style>
+    </Page.Resources>
+
+
     <Grid x:Name="RootGrid"
           AllowDrop="True"
           Background="Transparent"
           DragLeave="RootGrid_DragLeave"
           DragOver="RootGrid_DragOver"
           Drop="RootGrid_Drop">
-
 
         <!--  拖放图片/视频文件提醒  -->
         <Border x:Name="Border_BackgroundDragIn"
@@ -51,8 +410,6 @@
             </StackPanel>
         </Border>
 
-
-
         <!--  背景图切换  -->
         <Border x:Name="Border_SwitchBackgroundImage"
                 Height="60"
@@ -61,19 +418,70 @@
                 Opacity="0"
                 PointerEntered="Border_SwitchBackgroundImage_PointerEntered"
                 PointerExited="Border_SwitchBackgroundImage_PointerExited"
+                PointerWheelChanged="Border_SwitchBackgroundImage_PointerWheelChanged"
                 Visibility="Collapsed">
-            <PipsPager x:Name="PipsPager_SwitchBackgroundImage"
-                       Margin="0,0,0,8"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Bottom"
-                       NextButtonVisibility="VisibleOnPointerOver"
-                       NumberOfPages="{x:Bind BackgroundImageUrls.Count}"
-                       PreviousButtonVisibility="VisibleOnPointerOver"
-                       SelectedPageIndex="{x:Bind CurrentBackgroundImageIndex, Mode=TwoWay}" />
+            <StackPanel Margin="16,0,0,4"
+                        Padding="4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Background="Transparent"
+                        Orientation="Horizontal"
+                        Spacing="4">
+                <!--  index 指示器  -->
+                <PipsPager x:Name="PipsPager_SwitchBackgroundImage"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           NextButtonVisibility="VisibleOnPointerOver"
+                           NumberOfPages="{x:Bind BackgroundImages.Count}"
+                           PreviousButtonVisibility="VisibleOnPointerOver"
+                           SelectedPageIndex="{x:Bind CurrentBackgroundImageIndex, Mode=TwoWay}"
+                           Style="{ThemeResource CustomPipsPagerStyle}" />
+                <AppBarSeparator Padding="0,4,0,4" />
+                <!--  复制  -->
+                <Button Padding="4"
+                        VerticalAlignment="Center"
+                        Command="{x:Bind CopyCurrentBackgroundImageCommand}"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                    <FontIcon FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="&#xE8C8;"
+                              IsTextScaleFactorEnabled="False" />
+                </Button>
+                <!--  另存为  -->
+                <Button Padding="4"
+                        Command="{x:Bind SaveCurrentBackgroundImageCommand}"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                    <FontIcon FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="&#xE74E;"
+                              IsTextScaleFactorEnabled="False" />
+                </Button>
+                <!--  播放/暂停  -->
+                <Button Padding="4"
+                        Command="{x:Bind StartOrStopVideoBackgroundCommand}"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Visibility="{x:Bind CanStopVideo}">
+                    <FontIcon FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="{x:Bind StartStopButtonIcon}"
+                              IsTextScaleFactorEnabled="False" />
+                </Button>
+                <!--  占位  -->
+                <Button Padding="4"
+                        IsHitTestVisible="False"
+                        Opacity="0"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        Visibility="{x:Bind CanStopVideo, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                    <FontIcon FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="{x:Bind StartStopButtonIcon}"
+                              IsTextScaleFactorEnabled="False" />
+                </Button>
+            </StackPanel>
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                     <GradientStop Offset="0.0" Color="#00000000" />
-                    <GradientStop Offset="1.0" Color="#80000000" />
+                    <GradientStop Offset="1.0" Color="#88000000" />
                 </LinearGradientBrush>
             </Border.Background>
             <Border.OpacityTransition>
@@ -81,16 +489,12 @@
             </Border.OpacityTransition>
         </Border>
 
-
-
         <!--  游戏通知  -->
         <local:GameBannerAndPost x:Name="GameBannerAndPost"
                                  Margin="60,0,0,40"
                                  HorizontalAlignment="Left"
                                  VerticalAlignment="Bottom"
                                  CurrentGameId="{x:Bind CurrentGameId}" />
-
-
 
         <!--  右下角按键  -->
         <Grid Margin="0,0,40,0"
@@ -175,8 +579,6 @@
 
         </Grid>
 
-
-
         <!--  游戏账号切换  -->
         <sfga:GameAccountSwitcher x:Name="GameLauncherPage_GameAccountSwitcher"
                                   Margin="0,0,40,100"
@@ -184,8 +586,6 @@
                                   VerticalAlignment="Bottom"
                                   x:Load="{x:Bind EnableGameAccountSwitcher}"
                                   CurrentGameBiz="{x:Bind CurrentGameBiz}" />
-
-
 
         <!--  崩坏三区服选择  -->
         <ComboBox Height="28"
@@ -203,8 +603,6 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-
-
 
         <!--  右边侧栏  -->
         <StackPanel Margin="4"
@@ -227,9 +625,6 @@
                                        CurrentGameId="{x:Bind CurrentGameId}" />
         </StackPanel>
 
-
-
     </Grid>
-
 
 </sf:PageBase>

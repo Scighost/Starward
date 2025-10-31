@@ -174,8 +174,8 @@
                         <RowDefinition MinHeight="32" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*" />
                         <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.Row="1"
                             Grid.ColumnSpan="3"
@@ -221,6 +221,10 @@
                             <Run Text="" />
                             <Run Text="{x:Bind local:ImaginariumTheaterPage.ActX(CurrentTheater.Stat.MaxRoundId)}" />
                         </TextBlock>
+                        <TextBlock VerticalAlignment="Center" Visibility="{x:Bind local:ImaginariumTheaterPage.LunarModeVisibility(CurrentTheater.Stat.DifficultyId)}">
+                            <Run Text="{x:Bind lang:Lang.ImaginariumTheaterPage_Arcana}" />
+                            <Run Text="{x:Bind CurrentTheater.Stat.TarotFinishedCnt}" />
+                        </TextBlock>
                     </StackPanel>
 
 
@@ -235,12 +239,12 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="x:Int32">
                                 <Grid>
-                                    <Image Width="24"
-                                           Height="24"
+                                    <Image Width="20"
+                                           Height="20"
                                            Opacity="0.6"
                                            Source="{StaticResource StarIcon_2}" />
-                                    <Image Width="24"
-                                           Height="24"
+                                    <Image Width="20"
+                                           Height="20"
                                            Source="{StaticResource StarIcon_1}"
                                            Visibility="{x:Bind Converter={StaticResource TheaterStarIconVisibilityConverter}}" />
                                 </Grid>
@@ -292,8 +296,8 @@
                         <RowDefinition MinHeight="32" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*" />
                         <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.Row="1"
                             Grid.ColumnSpan="3"
@@ -416,20 +420,27 @@
                                         </Grid>
                                         <TextBlock VerticalAlignment="Center"
                                                    FontSize="16"
-                                                   Text="{x:Bind local:ImaginariumTheaterPage.ActX(RoundId)}" />
+                                                   Text="{x:Bind local:ImaginariumTheaterPage.ActX(RoundId)}"
+                                                   Visibility="{x:Bind IsTarot, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontSize="16"
+                                                   Text="{x:Bind local:ImaginariumTheaterPage.ArcanaChallengeX(TarotSerialNo)}"
+                                                   Visibility="{x:Bind IsTarot}" />
                                         <TextBlock VerticalAlignment="Center"
                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                    Text="{x:Bind FinishDateTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                     </StackPanel>
                                     <!--  阵容  -->
-                                    <ItemsRepeater Grid.Row="1"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Top"
-                                                   ItemsSource="{x:Bind Avatars}">
-                                        <ItemsRepeater.Layout>
-                                            <StackLayout Orientation="Horizontal" Spacing="12" />
-                                        </ItemsRepeater.Layout>
-                                        <ItemsRepeater.ItemTemplate>
+                                    <ItemsControl Grid.Row="1"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Top"
+                                                  ItemsSource="{x:Bind Avatars}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" Spacing="12" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
                                             <DataTemplate x:DataType="scggi:ImaginariumTheaterAvatar">
                                                 <Grid Width="80" Height="97">
                                                     <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
@@ -446,8 +457,8 @@
                                                     </TextBlock>
                                                 </Grid>
                                             </DataTemplate>
-                                        </ItemsRepeater.ItemTemplate>
-                                    </ItemsRepeater>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                     <!--  Buff  -->
                                     <StackPanel Grid.Row="1"
                                                 Grid.Column="1"

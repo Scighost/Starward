@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -297,5 +297,11 @@
   </data>
   <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
     <value>Совместный Прыжок события: Световой конус</value>
+  </data>
+  <data name="GachaType_StandardOde" xml:space="preserve">
+    <value>Стандартная Ода</value>
+  </data>
+  <data name="GachaType_EventOde" xml:space="preserve">
+    <value>Ода события</value>
   </data>
 </root>

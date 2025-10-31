@@ -329,6 +329,7 @@ internal class GameInstallService
             await ExecuteInstallTaskDownloadModePackageAsync(context, cancellationToken);
         }
 
+        await DownloadWPFPackageAsync(context, cancellationToken);
         await DownloadGameChannelSDKAsync(context, cancellationToken);
         await SetGameConfigIniAsync(context);
     }
@@ -456,6 +457,7 @@ internal class GameInstallService
             await ExecuteUpdateTaskDownloadPackageAsync(context, cancellationToken);
         }
 
+        await DownloadWPFPackageAsync(context, cancellationToken);
         await DownloadGameChannelSDKAsync(context, cancellationToken);
         await SetGameConfigIniAsync(context, ("predownload", null));
     }
@@ -677,7 +679,7 @@ internal class GameInstallService
         }
 
         // todo celar useless audio
-
+        await DownloadWPFPackageAsync(context, cancellationToken);
         await DownloadGameChannelSDKAsync(context, cancellationToken);
         await SetGameConfigIniAsync(context);
     }
@@ -694,6 +696,21 @@ internal class GameInstallService
     {
         _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading GameChannelSDK", context.GameId.GameBiz);
         await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadGameChannelSDKAsync(context, token), cancellationToken);
+    }
+
+
+
+
+    private async Task DownloadWPFPackageAsync(GameInstallContext context, CancellationToken cancellationToken = default)
+    {
+        if (context.WPFPackage is not null)
+        {
+            _logger.LogInformation("GameInstallTask ({GameBiz}): Start downloading WPFPackage", context.GameId.GameBiz);
+            var state = context.State;
+            context.State = GameInstallState.Downloading;
+            await _polly.ExecuteAsync(async token => await _gameInstallHelper.DownloadWPFPackageAsync(context, token), cancellationToken);
+            context.State = state;
+        }
     }
 
 
@@ -812,6 +829,10 @@ internal class GameInstallService
         }
         config["sdk_version"] = context.GameChannelSDK?.Version ?? "";
         config["game_biz"] = context.GameId.GameBiz;
+        if (context.WPFPackage is not null)
+        {
+            config["wpf_version"] = context.WPFPackage.Version;
+        }
 
         foreach ((string key, string? value) in keyValuePairs)
         {

@@ -1857,10 +1857,10 @@
     <value>フォルダーにエクスポート</value>
   </data>
   <data name="ZZZGachaInfoWindow_ZZZGachaInfoWindowGuide" xml:space="preserve">
-    <value>This tool is used to update item images in Zenless Zone Zero gacha records.
-Click "Miyoushe" or "HoYoLAB" in the top left corner, log in, and wait for the data to be retrieved. If logging in via HoYoLAB, you also need to click "Fetch Data for All Languages".
-After retrieving the data, you can save it to the database in any language or export it to a folder.
-You are welcome to submit the exported data to the following repository:</value>
+    <value>このツールは「ゼンレスゾーンゼロ」ガチャ記録内のアイテム画像を更新するために使用します。
+左上隅の「Miyoushe(米游社)」または「HoYoLAB」をクリックし、ログイン、そして、データ取得をお待ちください。HoYoLAB経由でログインする場合は、「すべての言語のデータを取得」もクリックする必要があります。
+データ取得後、任意の言語でデータベースに保存するか、フォルダへエクスポートできます。
+エクスポートしたデータは以下のリポジトリへご投稿ください:</value>
   </data>
   <data name="SettingPage_Toolbox" xml:space="preserve">
     <value>ツール</value>
@@ -1920,7 +1920,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>復旧に必要な時間</value>
   </data>
   <data name="DailyNoteButton_BH3_DailyBP" xml:space="preserve">
-    <value>Daily BP</value>
+    <value>毎日BP経験値</value>
   </data>
   <data name="DailyNoteButton_Genshin_DailyCommissionRewards" xml:space="preserve">
     <value>デイリー任務報酬</value>
@@ -1938,7 +1938,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>探索派遣</value>
   </data>
   <data name="DailyNoteButton_StarRail_FullTime" xml:space="preserve">
-    <value>Full Time</value>
+    <value>全回復日時</value>
   </data>
   <data name="DailyNoteButton_StarRail_FullyRecovered" xml:space="preserve">
     <value>全部回復</value>
@@ -1956,7 +1956,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>追加適合値</value>
   </data>
   <data name="DailyNoteButton_StarRail_OngoingAssignments" xml:space="preserve">
-    <value>Ongoing Assignments</value>
+    <value>依頼実行</value>
   </data>
   <data name="DailyNoteButton_StarRail_AllFinished" xml:space="preserve">
     <value>すべて完了</value>
@@ -1986,25 +1986,25 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>ビデオ屋の経営</value>
   </data>
   <data name="DailyNoteButton_ZZZ_WaitingToOpen" xml:space="preserve">
-    <value>Waiting to Open</value>
+    <value>営業待ち</value>
   </data>
   <data name="DailyNoteButton_ZZZ_CurrentlyOpen" xml:space="preserve">
-    <value>Currently Open</value>
+    <value>営業中</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RevenueAvailable" xml:space="preserve">
-    <value>Revenue Available</value>
+    <value>集計待ち</value>
   </data>
   <data name="DailyNoteButton_ZZZ_SeasonMissions" xml:space="preserve">
     <value>シーズンミッション</value>
   </data>
   <data name="DailyNoteButton_ZZZ_BountyCommissionProgress" xml:space="preserve">
-    <value>Bounty Commission Progress</value>
+    <value>懸賞依頼進捗</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RemainingRefreshTime" xml:space="preserve">
     <value>今周期の残り時間</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RiduWeeklyPoints" xml:space="preserve">
-    <value>Ridu Weekly Points</value>
+    <value>エリー週記獲得ポイント</value>
   </data>
   <data name="Common_Disabled" xml:space="preserve">
     <value>無効</value>
@@ -2016,7 +2016,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>式輿防衛戦</value>
   </data>
   <data name="HoyolabToolboxPage_DeadlyAssault" xml:space="preserve">
-    <value>Deadly Assault</value>
+    <value>危局強襲戦</value>
   </data>
   <data name="ShiyuDefensePage_HighestStageCleared" xml:space="preserve">
     <value>防衛戦の最高到達記録</value>
@@ -2043,13 +2043,13 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>敵の詳細</value>
   </data>
   <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
-    <value>Weakness</value>
+    <value>弱点</value>
   </data>
   <data name="ShiyuDefensePage_Resistance" xml:space="preserve">
     <value>Resistance</value>
   </data>
   <data name="ClearedAt" xml:space="preserve">
-    <value>Cleared at</value>
+    <value>クリア日時</value>
   </data>
   <data name="DeadlyAssaultPage_TotalScore" xml:space="preserve">
     <value>合計スコア</value>
@@ -2073,16 +2073,16 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>HDR輝度設定</value>
   </data>
   <data name="GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsThePrimaryDisplay" xml:space="preserve">
-    <value>If you have multiple monitors, you need to set the HDR-supported monitor as the primary display.</value>
+    <value>複数のモニタがある場合は、HDR対応モニタをプライマリディスプレイとして設定する必要があります。</value>
   </data>
   <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled" xml:space="preserve">
-    <value>The current monitor does not support HDR or Windows HDR is not enabled.</value>
+    <value>現在のモニターはHDRをサポートしていないか、Windows HDRが有効になっていません。</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_AdaptToMonitorBrightness" xml:space="preserve">
     <value>ディスプレイの輝度に合わせる</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MaxLuminance" xml:space="preserve">
-    <value>Max Luminance</value>
+    <value>最大輝度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_SceneryBrightness" xml:space="preserve">
     <value>風景の明るさ</value>
@@ -2097,19 +2097,19 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>カラースペース</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_PeakLuminance" xml:space="preserve">
-    <value>Peak Luminance</value>
+    <value>ピーク輝度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MaxFullScreenLuminance" xml:space="preserve">
-    <value>Max Full-Screen Luminance</value>
+    <value>最大フルスクリーン輝度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_SDRWhiteLuminance" xml:space="preserve">
-    <value>SDR White Luminance</value>
+    <value>SDR 白色輝度</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_StandardDynamicRange" xml:space="preserve">
     <value>スタンダードダイナミックレンジ</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_WideColorGamut" xml:space="preserve">
-    <value>Wide Color Gamut</value>
+    <value>広色域</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_HighDynamicRange" xml:space="preserve">
     <value>ハイダイナミックレンジ</value>
@@ -2127,28 +2127,28 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>ネットワークエラーが発生しました。Starwardは引き続きご利用いただけますが、今後のアップデートを受信することはできません。</value>
   </data>
   <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
-    <value>System proxy is enabled.</value>
+    <value>システムプロキシは有効です。</value>
   </data>
   <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDR" xml:space="preserve">
-    <value>The current monitor does not support HDR.</value>
+    <value>現在のモニターは HDR に対応していません。</value>
   </data>
   <data name="GameSettingPage_WindowsHDRIsNotTurnedOn" xml:space="preserve">
     <value>Windows HDRが有効になっていません。</value>
   </data>
   <data name="DailyNoteButton_InterKnotMembership" xml:space="preserve">
-    <value>Inter-Knot Membership</value>
+    <value>インターノット会員</value>
   </data>
   <data name="DailyNoteButton_PolychromesUnclaimed" xml:space="preserve">
-    <value>Polychromes Unclaimed</value>
+    <value>ポリクロームは受け取っていません</value>
   </data>
   <data name="DailyNoteButton_PolychromesClaimed" xml:space="preserve">
-    <value>Polychromes Claimed</value>
+    <value>ポリクロームは受け取り済みです</value>
   </data>
   <data name="DailyNoteButton_0DaySRemaining" xml:space="preserve">
     <value>残り {0} 日</value>
   </data>
   <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
-    <value>Mapped network drives are not supported. Please use a network share path starting with double backslashes (\\).</value>
+    <value>マッピングされたネットワークドライブはサポートされていません。ダブルバックスラッシュ (\\)で始まるネットワーク共有パスを使用してください。</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotSaved" xml:space="preserve">
     <value>スクリーンショットを保存しました</value>
@@ -2166,19 +2166,19 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>削除</value>
   </data>
   <data name="ScreenshotFolderManageDialog_FailedToBackupScreenshots" xml:space="preserve">
-    <value>Failed to backup screenshots.</value>
+    <value>スクリーンショットをバックアップできませんでした。</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotFailed" xml:space="preserve">
     <value>スクリーンショットの撮影に失敗しました</value>
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
-    <value>Check the log for more information.</value>
+    <value>詳細はログを確認してください。</value>
   </data>
   <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
-    <value>Don't change the in-game "Graphics Quality" preset, or the FPS setting may not work. If you set 120 FPS but see 30 FPS in the game settings, that's expected.</value>
+    <value>ゲーム内の「画質」プリセットを変更しないでください。FPS設定が動作しなくなるかもしれません。 120 FPSに設定し、ゲーム設定で30 FPSと表示されていても、想定の範囲内です。</value>
   </data>
   <data name="ScreenshotFolderManageDialog_ImagesFromTheFollowingFoldersWillBeDisplayedInTheGallery" xml:space="preserve">
-    <value>Images from the following folders will be displayed in the gallery.</value>
+    <value>ギャラリーには、以下のフォルダの画像が表示されます。</value>
   </data>
   <data name="ImageViewWindow2_OpenInExplorer" xml:space="preserve">
     <value>エクスプローラーで開く</value>
@@ -2195,59 +2195,59 @@ You are welcome to submit the exported data to the following repository:</value>
     <comment>Next Image</comment>
   </data>
   <data name="ImageViewWindow2_ShowGallery" xml:space="preserve">
-    <value>Show Gallery</value>
+    <value>ギャラリーを表示</value>
   </data>
   <data name="ImageViewWindow2_FitToWindow" xml:space="preserve">
-    <value>Fit to Window</value>
+    <value>ウィンドウに合わせる</value>
     <comment>Zoom image fit to window</comment>
   </data>
   <data name="ImageViewWindow2_CopyFile" xml:space="preserve">
-    <value>Copy File</value>
+    <value>ファイルをコピー</value>
   </data>
   <data name="ImageViewWindow2_CopyPath" xml:space="preserve">
-    <value>Copy Path</value>
+    <value>パスをコピー</value>
   </data>
   <data name="ImageViewWindow2_CopyImage" xml:space="preserve">
-    <value>Copy Image</value>
+    <value>画像をコピー</value>
   </data>
   <data name="Common_Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>編集</value>
   </data>
   <data name="ImageViewWindow2_SaveAs" xml:space="preserve">
-    <value>Save As</value>
+    <value>名前を付けて保存</value>
   </data>
   <data name="ImageViewWindow2_ImageInformation" xml:space="preserve">
-    <value>Image Information</value>
+    <value>画像情報</value>
   </data>
   <data name="ImageViewWindow2_EditImage" xml:space="preserve">
-    <value>Edit Image</value>
+    <value>画像を編集</value>
   </data>
   <data name="ImageViewWindow2_DisplayMode" xml:space="preserve">
-    <value>Display Mode</value>
+    <value>表示モード</value>
   </data>
   <data name="ImageViewWindow2_SDRMappedLuminance" xml:space="preserve">
-    <value>SDR Mapped Luminance</value>
+    <value>SDR マッピングされた輝度</value>
   </data>
   <data name="ImageViewWindow2_Auto" xml:space="preserve">
-    <value>Auto</value>
+    <value>自動</value>
   </data>
   <data name="ImageViewWindow2_ExportImage" xml:space="preserve">
-    <value>Export Image</value>
+    <value>画像をエクスポート</value>
   </data>
   <data name="ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature" xml:space="preserve">
-    <value>To convert an HDR image to SDR, please use the Edit feature.</value>
+    <value>HDR 画像を SDR に変換するには、編集機能を使用してください。</value>
   </data>
   <data name="ImageViewWindow2_DeleteImageFile" xml:space="preserve">
-    <value>Delete Image File</value>
+    <value>画像ファイルを削除</value>
   </data>
   <data name="ImageViewWindow2_CopiedToClipboard" xml:space="preserve">
-    <value>Copied to clipboard.</value>
+    <value>クリップボードにコピーしました。</value>
   </data>
   <data name="ImageViewWindow2_FileDoesNotExist" xml:space="preserve">
-    <value>File does not exist.</value>
+    <value>ファイルが見つかりません。</value>
   </data>
   <data name="ImageViewWindow2_OpenWithDefaultApp" xml:space="preserve">
-    <value>Open with Default App</value>
+    <value>既定のアプリで開く</value>
   </data>
   <data name="ImageViewWindow2_NoImageToDisplay" xml:space="preserve">
     <value>表示する画像がありません</value>
@@ -2268,290 +2268,305 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>画像の削除に失敗しました</value>
   </data>
   <data name="ImageViewWindow2_UnableToDeleteTheFile" xml:space="preserve">
-    <value>Unable to Delete the File</value>
+    <value>ファイルを削除できませんでした</value>
   </data>
   <data name="ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse" xml:space="preserve">
-    <value>Insufficient permissions or the file is in use.</value>
+    <value>権限が不足しているか、ファイルが使用中です。</value>
   </data>
   <data name="HotkeyInput_ClickToSetShortcutKeys" xml:space="preserve">
-    <value>Click to Set Shortcut Keys</value>
+    <value>クリックしてショートカットキーを設定</value>
   </data>
   <data name="HotkeyInput_PressTheShortcutKeys" xml:space="preserve">
-    <value>Press the Shortcut Keys</value>
+    <value>ショートカットキーを押す</value>
   </data>
   <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUse" xml:space="preserve">
-    <value>The shortcut keys ({0}) is already in use.</value>
+    <value>ショートカットキー（{0}）は既に使用されています。</value>
   </data>
   <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0" xml:space="preserve">
-    <value>Failed to register the shortcut keys ({0}).</value>
+    <value>ショートカットキー（{0}）を登録できませんでした。</value>
   </data>
   <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUsePleaseModifyItInSettingsPage" xml:space="preserve">
-    <value>The shortcut keys ({0}) is already in use. Please modify it in Settings page.</value>
+    <value>ショートカットキー（{0}）は既に使用されています。設定ページで変更してください。</value>
   </data>
   <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0PleaseRetryInSettingsPage" xml:space="preserve">
-    <value>Failed to register the shortcut keys ({0}). Please retry in Settings page.</value>
+    <value>ショートカットキー（{0}）を登録できませんでした。設定ページで再試行してください。</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotShortcut" xml:space="preserve">
-    <value>Screenshot Shortcut</value>
+    <value>スクショのショートカット</value>
   </data>
   <data name="HotkeySetting_OpenMainWindow" xml:space="preserve">
     <value>メインウィンドウを開く</value>
   </data>
   <data name="HotkeySetting_FailedToRegisterTheShortcutKeys" xml:space="preserve">
-    <value>Failed to register the shortcut keys.</value>
+    <value>ショートカットキーを登録できませんでした。</value>
   </data>
   <data name="ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder" xml:space="preserve">
-    <value>The built-in screenshot feature will save images to the following folder.</value>
+    <value>内蔵のスクショ機能により、以下のフォルダーに画像を保存します。</value>
   </data>
   <data name="Common_ChangeFolder" xml:space="preserve">
-    <value>Change Folder</value>
+    <value>フォルダーの変更</value>
   </data>
   <data name="HotkeySetting_SingleKeyShortcutsTips" xml:space="preserve">
-    <value>If you register single-key shortcuts (F1–F12), you need to run Starward with administrator privileges; otherwise, the shortcuts may not work in the game.</value>
+    <value>シングルキーショートカット(F1-F12)を登録する場合は、Starwardを管理者権限で実行する必要があります。そうでなければ、ショートカットがゲームで動作しない場合があります。</value>
   </data>
   <data name="SettingPage_KeyboardShortcuts" xml:space="preserve">
     <value>キーボード ショートカット</value>
   </data>
   <data name="SettingPage_ControllerEnhancement" xml:space="preserve">
-    <value>Controller Enhancement</value>
+    <value>コントローラーの拡張</value>
   </data>
   <data name="GamepadControlSetting_SimulateInput" xml:space="preserve">
-    <value>Simulate Input</value>
+    <value>入力のシミュレーション</value>
   </data>
   <data name="GamepadControlSetting_GuideButton" xml:space="preserve">
-    <value>Guide Button</value>
+    <value>ガイドボタン</value>
   </data>
   <data name="GamepadControlSetting_NoAction" xml:space="preserve">
-    <value>No Action</value>
+    <value>動作なし</value>
   </data>
   <data name="GamepadControlSetting_GameScreenshot" xml:space="preserve">
-    <value>Game Screenshot</value>
+    <value>ゲームのスクショ</value>
   </data>
   <data name="GamepadControlSetting_KeyboardKeys" xml:space="preserve">
-    <value>Keyboard Keys</value>
+    <value>ショートカットキー</value>
   </data>
   <data name="GamepadControlSetting_EnterKeyText" xml:space="preserve">
-    <value>Enter key text</value>
+    <value>キーテキストを入力</value>
   </data>
   <data name="GamepadControlSetting_ShareButton" xml:space="preserve">
-    <value>Share Button</value>
+    <value>共有ボタン</value>
   </data>
   <data name="GamepadControlSetting_ButtonMapping" xml:space="preserve">
-    <value>Button Mapping</value>
+    <value>ボタンの割り当て</value>
   </data>
   <data name="GamepadControlSetting_UnrecognizedKey" xml:space="preserve">
-    <value>Unrecognized key</value>
+    <value>認識できないキー</value>
   </data>
   <data name="GamepadControlSetting_OnlySupportXboxControllerProtocol" xml:space="preserve">
-    <value>Only Xbox protocol controllers are supported. Compatibility with other types of controllers is not guaranteed.</value>
+    <value>Xboxプロトコルコントローラーのみがサポートされています。他のタイプのコントローラーとの互換性は保証されません。</value>
   </data>
   <data name="GamepadControlSetting_SimulateInputDesc" xml:space="preserve">
-    <value>Simulate keyboard and mouse input using a game controller. This feature requires Starward to run with administrator privileges to work correctly in games.</value>
+    <value>ゲームコントローラーを使用してキーボードとマウスの入力をシミュレートします。この機能はゲームで正常に動作するためにStarwardを管理者権限で実行する必要があります。</value>
   </data>
   <data name="GamepadControlSetting_LongPressGuideButtonDesc" xml:space="preserve">
-    <value>Press and hold the Guide button to open the Starward main window.</value>
+    <value>ガイドボタンを長押しすると、Starwardのメインウィンドウが開きます。</value>
   </data>
   <data name="GamepadControlSetting_BothThumbsticksDesc" xml:space="preserve">
-    <value>Press both thumbstick buttons simultaneously to activate controller-based keyboard and mouse simulation.</value>
+    <value>両方のサムスティックを同時に押し込むと、コントローラーベースのキーボードとマウスシミュレーションが有効になります。</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistComponentDetectedSimulatedInputIsUnavailable" xml:space="preserve">
-    <value>GameInputRedist component detected. Simulated input is unavailable.</value>
+    <value>GameInputRedist コンポーネントが検出されました。入力のシミュレーションは利用できません。</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingGuideDesc" xml:space="preserve">
-    <value>• When mapping the Guide button, the default Xbox Game Bar shortcut will be disabled. Other software (such as Steam Big Picture Mode) may also respond to the Guide button. If conflicts occur, you must manually disable those features.</value>
+    <value>• ガイドボタンをマッピングする場合、デフォルトの Xbox Game Bar ショートカットは無効になります。 他のソフトウェア (Steam Big Picture Modeなど) もガイドボタンに反応する可能性があります。競合が発生した場合は、それらの機能を手動で無効にする必要があります。</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingKeyboardDesc" xml:space="preserve">
-    <value>• When mapping to keyboard keys, enter the key names as they appear on the keyboard, separated by spaces. For example, to map a button to "Ctrl + Alt + F1", input: "Ctrl Alt F1". For numpad keys, add Pad before the key, such as: Pad8, Pad+ . This feature requires Starward to run with administrator privileges to work correctly in games.</value>
+    <value>• キーボードキーにマッピングする場合、キーボードに表示される名前をスペースで区切って入力します。 例えば、ボタンを「Ctrl + Alt + F1」にマッピングするには、「Ctrl Alt F1」と入力します。 numpadキーについては、Pad8、Pad+ のような、キーの前にPadを追加。 この機能はゲームで正しく動作するために、Starwardが管理者権限で実行する必要があります。</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingShareDesc" xml:space="preserve">
-    <value>The Share button still triggers Xbox Game Bar screenshots, and there's currently no good solution.</value>
+    <value>共有ボタンは引き続きXboxゲームバーのスクリーンショットをトリガーしますが、現時点では良い解決策はありません</value>
   </data>
   <data name="GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancementIsUnavailable" xml:space="preserve">
-    <value>Failed to initialize the GameInput component. Controller enhancement is unavailable.</value>
+    <value>GameInput コンポーネントの初期化に失敗しました。コントローラの拡張は使用できません。</value>
   </data>
   <data name="SimulateInputTipsWindow_ControllerSimulatedInputIsActive" xml:space="preserve">
-    <value>Controller simulated input is active.</value>
+    <value>コントローラの入力のシミュレーションはアクティブです。</value>
   </data>
   <data name="SimulateInputTipsWindow_ShowHideButtonHints" xml:space="preserve">
-    <value>Show / Hide Button Hints</value>
+    <value>ボタンヒントの表示/非表示</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseMove" xml:space="preserve">
-    <value>Mouse Move</value>
+    <value>マウス移動</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseWheel" xml:space="preserve">
-    <value>Mouse Wheel</value>
+    <value>マウスホイール</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseLeftButton" xml:space="preserve">
-    <value>Mouse Left Button</value>
+    <value>マウスの左ボタン</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseRightButton" xml:space="preserve">
-    <value>Mouse Right Button</value>
+    <value>マウスの右ボタン</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardEscKey" xml:space="preserve">
-    <value>Keyboard Esc Key</value>
+    <value>キーボードの Esc キー</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardArrowKeys" xml:space="preserve">
-    <value>Keyboard Arrow Keys</value>
+    <value>キーボードの矢印キー</value>
   </data>
   <data name="SimulateInputTipsWindow_LocateMousePointer" xml:space="preserve">
-    <value>Locate Mouse Pointer</value>
+    <value>マウスポインタを見つける</value>
   </data>
   <data name="SimulateInputTipsWindow_StopSimualteInput" xml:space="preserve">
-    <value>Stop Simualte Input</value>
+    <value>入力のシミュレーションを停止</value>
   </data>
   <data name="ScreenshotSetting_TestScreenshot" xml:space="preserve">
-    <value>Test Screenshot</value>
+    <value>テストスクショ</value>
   </data>
   <data name="ScreenshotSetting_AutoConvertToSDRImage" xml:space="preserve">
-    <value>Auto Convert to SDR Image</value>
+    <value>SDR 画像に自動変換</value>
   </data>
   <data name="ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved" xml:space="preserve">
-    <value>When capturing HDR images, SDR version will also be saved.</value>
+    <value>HDR画像をキャプチャすると、SDRバージョンも保存されます。</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
-    <value>The screenshot feature captures the currently running game. If multiple games are running, the most recently focused game will be selected. Note the following limitations:
-• Minimized game windows cannot be captured.
-• Parts of the game window that extend beyond the screen will not be included.
-• In rare cases, a non-game window may be captured instead.</value>
+    <value>スクリーンショット機能は、現在実行中のゲームをキャプチャします。複数のゲームが実行されている場合、直近でフォーカスされていたゲームが選択されます。以下の制限事項にご注意ください:
+• 最小化されたゲームウィンドウはキャプチャできません。
+• 画面からはみ出したゲームウィンドウはキャプチャされません。
+• まれに、ゲーム以外のウィンドウが誤ってキャプチャされる場合があります。</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWin10Limit" xml:space="preserve">
-    <value>On Windows 10, the screenshot feature has the following additional limitations:
-• A colored border may appear around the game window during capture.
-• The mouse pointer cannot be hidden.</value>
+    <value>Windows 10では、スクリーンショット機能に以下の追加制限があります:
+• ゲームのウィンドウをキャプチャ中に、色付きの枠線が表示される場合があります。
+• マウスポインタを非表示にすることはできません。</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
-    <value>If you want to capture screenshots with a controller, please use Button Mapping in the Controller Enhancement page.</value>
+    <value>コントローラーでスクリーンショットをキャプチャしたい場合は、「コントローラーの拡張」ページの「ボタンの割り当て」を使用してください。</value>
   </data>
   <data name="TheScreenshotFeatureDoesNotSupportCloudGame" xml:space="preserve">
-    <value>The screenshot feature does not support cloud game.</value>
+    <value>スクリーンショット機能はクラウドゲームに対応していません。</value>
   </data>
   <data name="SimulateInputTipsWindow_SwitchWindows" xml:space="preserve">
-    <value>Switch Windows</value>
+    <value>ウィンドウの切り替え</value>
   </data>
   <data name="ScreenshotSetting_AutoCopyScreenshotFile" xml:space="preserve">
-    <value>Auto Copy Screenshot File</value>
+    <value>スクショファイルの自動コピー</value>
   </data>
   <data name="GameSettingPage_UsePopupWindow" xml:space="preserve">
-    <value>Use Popup Window</value>
+    <value>ポップアップウィンドウを使用</value>
   </data>
   <data name="ToolboxSetting_ImageViewer" xml:space="preserve">
-    <value>Image Viewer</value>
+    <value>画像ビューアー</value>
   </data>
   <data name="ToolboxSetting_ViewOrEditImage" xml:space="preserve">
-    <value>View / Edit Image</value>
+    <value>画像の表示/編集</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistInstalled" xml:space="preserve">
-    <value>Microsoft GameInput component detected. Simulated input is unavailable when the app is running in the background.</value>
+    <value>Microsoft GameInput コンポーネントが検出されました。バックグラウンドでアプリが実行されている場合、入力のシミュレーションは使用できません。</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistOutdate" xml:space="preserve">
-    <value>An outdated Microsoft GameInput component is installed. Please uninstall or update it.</value>
+    <value>古いMicrosoft GameInput コンポーネントがインストールされています。アンインストールまたはアップデートしてください。</value>
   </data>
   <data name="GamepadControlSetting_NeedInstallGameInputRedistOnWin10" xml:space="preserve">
-    <value>On Windows 10, the Microsoft GameInput component must be installed for the controller enhancement feature to work properly.</value>
+    <value>Windows 10 では、コントローラ機能が正常に動作するように、Microsoft GameInput コンポーネントをインストールする必要があります。</value>
   </data>
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
-    <value>Click to download.</value>
+    <value>クリックしてダウンロード。</value>
   </data>
   <data name="ImageViewWindow2_CopyAsJPG" xml:space="preserve">
-    <value>Copy as JPG</value>
+    <value>JPG としてコピー</value>
   </data>
   <data name="ScreenshotPage_MultiSelect" xml:space="preserve">
-    <value>Multi Select</value>
+    <value>複数選択</value>
   </data>
   <data name="ScreenshotPage_Total0Files" xml:space="preserve">
-    <value>Total {0} files.</value>
+    <value>合計 {0} ファイル。</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardEnterKey" xml:space="preserve">
-    <value>Keyboard Enter Key</value>
+    <value>キーボードの Enter キー</value>
   </data>
   <data name="HoyolabToolboxPage_StygianOnslaught" xml:space="preserve">
-    <value>Stygian Onslaught</value>
+    <value>幽境の激戦</value>
   </data>
   <data name="StygianOnslaughtPage_SinglePlayer" xml:space="preserve">
-    <value>Single Player</value>
+    <value>ソロで挑戦</value>
   </data>
   <data name="StygianOnslaughtPage_CoOp" xml:space="preserve">
-    <value>Co-Op</value>
+    <value>マッチング挑戦</value>
   </data>
   <data name="StygianOnslaughtPage_BattleTime" xml:space="preserve">
-    <value>Battle Time</value>
+    <value>戦闘時間</value>
   </data>
   <data name="StygianOnslaughtPage_HighestTotalDamageDealt" xml:space="preserve">
     <value>Highest Total Damage Dealt</value>
   </data>
   <data name="ScreenshotSetting_OtherOptions" xml:space="preserve">
-    <value>Other Options</value>
+    <value>その他のオプション</value>
   </data>
   <data name="ScreenshotSetting_Lossless" xml:space="preserve">
-    <value>Lossless</value>
+    <value>ロスレス</value>
   </data>
   <data name="ScreenshotSetting_FormatAndQuality" xml:space="preserve">
-    <value>Format and Quality</value>
+    <value>フォーマットと品質</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ProcessingImage" xml:space="preserve">
-    <value>Processing Image</value>
+    <value>画像処理中</value>
   </data>
   <data name="ScreenshotPage_BatchConvert" xml:space="preserve">
-    <value>Batch Convert</value>
+    <value>一括変換</value>
   </data>
   <data name="ImageBatchConvertWindow_Quality" xml:space="preserve">
-    <value>Quality</value>
+    <value>品質</value>
   </data>
   <data name="ImageBatchConvertWindow_StartConvert" xml:space="preserve">
-    <value>Start Convert</value>
+    <value>変換を開始</value>
   </data>
   <data name="Common_Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>削除</value>
   </data>
   <data name="ImageBatchConvertWindow_OutputFolder" xml:space="preserve">
-    <value>Output Folder</value>
+    <value>出力先</value>
   </data>
   <data name="ImageBatchConvertWindow_OriginalFileFolder" xml:space="preserve">
-    <value>Original File Folder</value>
+    <value>元のファイルフォルダー</value>
   </data>
   <data name="ImageBatchConvertWindow_SameAsOriginalFileFormat" xml:space="preserve">
-    <value>Same as original file format</value>
+    <value>元のファイル形式と同じ</value>
   </data>
   <data name="ImageBatchConvertWindow_SelectOutputFormat" xml:space="preserve">
-    <value>Select Output Format</value>
+    <value>出力形式を選択</value>
   </data>
   <data name="ImageBatchConvertWindow_NoReadOrWritePermission" xml:space="preserve">
-    <value>No read or write permission</value>
+    <value>読み取りまたは書き込みの権限がありません</value>
   </data>
   <data name="ImageBatchConvertWindow_ConvertFailed" xml:space="preserve">
-    <value>Convert failed</value>
+    <value>変換できませんでした</value>
   </data>
   <data name="ImageBatchConvertWindow_IfOutputFileExists" xml:space="preserve">
-    <value>If Output File Exists</value>
+    <value>出力ファイルが存在した場合</value>
   </data>
   <data name="ImageBatchConvertWindow_SkipDefault" xml:space="preserve">
-    <value>Skip (Default)</value>
+    <value>スキップ（デフォルト）</value>
   </data>
   <data name="ImageBatchConvertWindow_Overwrite" xml:space="preserve">
-    <value>Overwrite</value>
+    <value>上書き</value>
   </data>
   <data name="ImageBatchConvertWindow_Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>名前を変更</value>
   </data>
   <data name="Common_Success" xml:space="preserve">
-    <value>Success</value>
+    <value>成功</value>
   </data>
   <data name="Common_Failed" xml:space="preserve">
-    <value>Failed</value>
+    <value>失敗</value>
   </data>
   <data name="ImageBatchConvertWindow_ImageBatchConvert" xml:space="preserve">
-    <value>Image Batch Convert</value>
+    <value>画像一括変換</value>
   </data>
   <data name="ScreenshotSetting_ClearThumbnailCache" xml:space="preserve">
-    <value>Clear Thumbnail Cache</value>
+    <value>サムネキャッシュを削除</value>
   </data>
   <data name="ScreenshotSetting_ClearSuccessfully" xml:space="preserve">
-    <value>Clear Successfully</value>
+    <value>正常に削除しました</value>
   </data>
   <data name="ScreenshotSetting_ClearFailed" xml:space="preserve">
-    <value>Clear Failed</value>
+    <value>失敗を削除</value>
   </data>
   <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
-    <value>High-quality AVIF and JPEG XL image formats save approximately 85% of storage space.</value>
+    <value>高品質の AVIF および JPEG XL 画像フォーマットは、ストレージスペースの約 85% を節約します。</value>
+  </data>
+  <data name="Common_CopiedToClipboard" xml:space="preserve">
+    <value>クリップボードにコピーしました。</value>
+  </data>
+  <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
+    <value>月諭モード</value>
+  </data>
+  <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
+    <value>アルカナ</value>
+  </data>
+  <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
+    <value>アルカナ挑戦 {0}</value>
+  </data>
+  <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
+    <value>Miliastra Wonderland Ode</value>
   </data>
 </root>

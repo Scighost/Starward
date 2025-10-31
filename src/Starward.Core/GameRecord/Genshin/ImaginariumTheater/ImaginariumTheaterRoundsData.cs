@@ -1,4 +1,4 @@
-﻿using Starward.Core.JsonConverter;
+using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.Genshin.ImaginariumTheater;
@@ -60,6 +60,19 @@ public class ImaginariumTheaterRoundsData
     /// </summary>
     [JsonPropertyName("splendour_buff")]
     public ImaginariumTheaterSplendourBuff SplendourBuff { get; set; }
+
+    /// <summary>
+    /// 是否是圣牌挑战
+    /// </summary>
+    [JsonPropertyName("is_tarot")]
+    public bool IsTarot { get; set; }
+
+
+    /// <summary>
+    /// 圣牌挑战第几轮
+    /// </summary>
+    [JsonPropertyName("tarot_serial_no")]
+    public int TarotSerialNo { get; set; }
 
 
     [JsonExtensionData]

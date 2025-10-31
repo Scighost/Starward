@@ -2575,4 +2575,19 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
     <value>Высококачественные AVIF и JPEG XL форматы позволяют сэкономить около 85% пространства для хранения.</value>
   </data>
+  <data name="Common_CopiedToClipboard" xml:space="preserve">
+    <value>Скопировано в буфер обмена.</value>
+  </data>
+  <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
+    <value>Лунный режим</value>
+  </data>
+  <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
+    <value>Арканы</value>
+  </data>
+  <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
+    <value>Аркана Испытания {0}</value>
+  </data>
+  <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
+    <value>Оды Астрального Предела</value>
+  </data>
 </root>

@@ -462,15 +462,17 @@
                                                         </ItemsRepeater>
                                                     </StackPanel>
                                                     <!--  上半阵容  -->
-                                                    <ItemsRepeater Grid.Row="2"
-                                                                   Grid.Column="0"
-                                                                   MinHeight="73"
-                                                                   HorizontalAlignment="Left"
-                                                                   ItemsSource="{x:Bind Battles, Converter={StaticResource SpiralAbyssBattleAvatarsSelectConverter}}">
-                                                        <ItemsRepeater.Layout>
-                                                            <StackLayout Orientation="Horizontal" Spacing="8" />
-                                                        </ItemsRepeater.Layout>
-                                                        <ItemsRepeater.ItemTemplate>
+                                                    <ItemsControl Grid.Row="2"
+                                                                  Grid.Column="0"
+                                                                  MinHeight="73"
+                                                                  HorizontalAlignment="Left"
+                                                                  ItemsSource="{x:Bind Battles, Converter={StaticResource SpiralAbyssBattleAvatarsSelectConverter}}">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <StackPanel Orientation="Horizontal" Spacing="8" />
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemTemplate>
                                                             <DataTemplate x:DataType="abyss:SpiralAbyssAvatar">
                                                                 <Grid Width="60">
                                                                     <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
@@ -486,18 +488,20 @@
                                                                     </TextBlock>
                                                                 </Grid>
                                                             </DataTemplate>
-                                                        </ItemsRepeater.ItemTemplate>
-                                                    </ItemsRepeater>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
                                                     <!--  下半阵容  -->
-                                                    <ItemsRepeater Grid.Row="2"
-                                                                   Grid.Column="2"
-                                                                   MinHeight="73"
-                                                                   HorizontalAlignment="Right"
-                                                                   ItemsSource="{x:Bind Battles, Converter={StaticResource SpiralAbyssBattleAvatarsSelectConverter}, ConverterParameter=1}">
-                                                        <ItemsRepeater.Layout>
-                                                            <StackLayout Orientation="Horizontal" Spacing="8" />
-                                                        </ItemsRepeater.Layout>
-                                                        <ItemsRepeater.ItemTemplate>
+                                                    <ItemsControl Grid.Row="2"
+                                                                  Grid.Column="2"
+                                                                  MinHeight="73"
+                                                                  HorizontalAlignment="Right"
+                                                                  ItemsSource="{x:Bind Battles, Converter={StaticResource SpiralAbyssBattleAvatarsSelectConverter}, ConverterParameter=1}">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <StackPanel Orientation="Horizontal" Spacing="8" />
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemTemplate>
                                                             <DataTemplate x:DataType="abyss:SpiralAbyssAvatar">
                                                                 <Grid Width="60">
                                                                     <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToGIBgConverter}}" />
@@ -513,8 +517,8 @@
                                                                     </TextBlock>
                                                                 </Grid>
                                                             </DataTemplate>
-                                                        </ItemsRepeater.ItemTemplate>
-                                                    </ItemsRepeater>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
                                                     <VisualStateManager.VisualStateGroups>
                                                         <VisualStateGroup>
                                                             <VisualState x:Name="NarrowState">

@@ -2555,4 +2555,19 @@
   <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
     <value>높은 품질의 AVIF 와 JPEG XL 포맷은 85% 의 저장공간을 절약할 수 있습니다.</value>
   </data>
+  <data name="Common_CopiedToClipboard" xml:space="preserve">
+    <value>클립보드에 복사됨.</value>
+  </data>
+  <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
+    <value>계시모드</value>
+  </data>
+  <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
+    <value>계시 카드</value>
+  </data>
+  <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
+    <value>계시 모드 도전 {0} 회 완료</value>
+  </data>
+  <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
+    <value>Miliastra Wonderland Ode</value>
+  </data>
 </root>

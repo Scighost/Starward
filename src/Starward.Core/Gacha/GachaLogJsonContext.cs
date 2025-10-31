@@ -10,6 +10,7 @@ namespace Starward.Core.Gacha;
 [JsonSerializable(typeof(miHoYoApiWrapper<GachaLogResult<StarRailGachaItem>>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<GachaLogResult<GenshinGachaItem>>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<GachaLogResult<ZZZGachaItem>>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<GenshinBeyondGachaResult>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<GenshinGachaWiki>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<StarRailGachaWiki>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<StarRailGachaInfoWrapper>))]

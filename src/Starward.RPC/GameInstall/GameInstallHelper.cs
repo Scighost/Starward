@@ -1000,4 +1000,44 @@ internal partial class GameInstallHelper
 
 
 
+    public async Task DownloadWPFPackageAsync(GameInstallContext context, CancellationToken cancellationToken = default)
+    {
+        if (context.WPFPackage is null)
+        {
+            return;
+        }
+        string config = Path.Combine(context.InstallPath, "config.ini");
+        if (File.Exists(config))
+        {
+            string content = await File.ReadAllTextAsync(config, cancellationToken);
+            string wpfVersion = Regex.Match(content, @"wpf_version=(.+)").Groups[1].Value.Trim();
+            if (wpfVersion == context.WPFPackage.Version)
+            {
+                return;
+            }
+        }
+
+        long size = context.WPFPackage.Size;
+        string url = context.WPFPackage.Url;
+        string md5 = context.WPFPackage.MD5;
+        context.Progress_DownloadTotalBytes = size;
+        context.Progress_DownloadFinishBytes = 0;
+        context.Progress_WriteTotalBytes = 0;
+        context.Progress_WriteFinishBytes = 0;
+        string name = Path.GetFileName(url);
+        int i = name.IndexOf('?');
+        if (i > 0)
+        {
+            name = name[..i];
+        }
+        string path = Path.Combine(context.InstallPath, name);
+        await DownloadToFileAsync(context, path, url, size, md5, cancellationToken);
+        using var archive = new SharpSevenZipExtractor(path);
+        archive.ExtractArchive(context.InstallPath);
+        archive.Dispose();
+        File.Delete(path);
+    }
+
+
+
 }

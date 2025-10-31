@@ -286,6 +286,8 @@ public static class AppConfig
             sc.AddSingleton<StarRailGachaService>();
             sc.AddSingleton<ZZZGachaService>();
             sc.AddSingleton<UIGFGachaService>();
+            sc.AddSingleton<GenshinBeyondGachaClient>();
+            sc.AddSingleton<GenshinBeyondGachaService>();
 
             sc.AddSingleton<HoyolabClient>();
             sc.AddSingleton<HyperionClient>();
@@ -744,6 +746,13 @@ public static class AppConfig
     }
 
 
+    public static bool EnableGamepadController
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
     #endregion
 
 
@@ -948,6 +957,17 @@ public static class AppConfig
         SetValue(value, $"external_screenshot_folder_{biz}");
     }
 
+
+    public static string? GetGameBackgroundIds(GameBiz biz)
+    {
+        return GetValue<string>(default, $"game_background_ids_{biz}");
+    }
+
+
+    public static void SetGameBackgroundIds(GameBiz biz, string? value)
+    {
+        SetValue(value, $"game_background_ids_{biz}");
+    }
 
 
     #endregion

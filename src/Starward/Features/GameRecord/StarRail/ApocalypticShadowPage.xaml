@@ -352,15 +352,17 @@
                                     <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind Node1.Score}" />
                                 </TextBlock>
 
-                                <ItemsRepeater Grid.Row="3"
-                                               Grid.ColumnSpan="3"
-                                               HorizontalAlignment="Center"
-                                               ItemsSource="{x:Bind Node1.Avatars}"
-                                               Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
-                                    <ItemsRepeater.Layout>
-                                        <StackLayout Orientation="Horizontal" Spacing="12" />
-                                    </ItemsRepeater.Layout>
-                                    <ItemsRepeater.ItemTemplate>
+                                <ItemsControl Grid.Row="3"
+                                              Grid.ColumnSpan="3"
+                                              HorizontalAlignment="Center"
+                                              ItemsSource="{x:Bind Node1.Avatars}"
+                                              Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" Spacing="12" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="fic:ApocalypticShadowAvatar">
                                             <Grid Width="72" Height="84">
                                                 <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToSRBgConverter}}" />
@@ -392,8 +394,8 @@
                                                 </Border>
                                             </Grid>
                                         </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
                                 <!--  节点2  -->
                                 <StackPanel Grid.Row="4"
@@ -433,16 +435,18 @@
                                     <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind Node2.Score}" />
                                 </TextBlock>
 
-                                <ItemsRepeater Grid.Row="6"
-                                               Grid.ColumnSpan="3"
-                                               Margin="0,0,0,4"
-                                               HorizontalAlignment="Center"
-                                               ItemsSource="{x:Bind Node2.Avatars}"
-                                               Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
-                                    <ItemsRepeater.Layout>
-                                        <StackLayout Orientation="Horizontal" Spacing="12" />
-                                    </ItemsRepeater.Layout>
-                                    <ItemsRepeater.ItemTemplate>
+                                <ItemsControl Grid.Row="6"
+                                              Grid.ColumnSpan="3"
+                                              Margin="0,0,0,4"
+                                              HorizontalAlignment="Center"
+                                              ItemsSource="{x:Bind Node2.Avatars}"
+                                              Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" Spacing="12" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="fic:ApocalypticShadowAvatar">
                                             <Grid Width="72" Height="84">
                                                 <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToSRBgConverter}}" />
@@ -474,8 +478,8 @@
                                                 </Border>
                                             </Grid>
                                         </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
                                 <!--  快速通关  -->
                                 <StackPanel Grid.Row="1"

@@ -12,7 +12,9 @@ public class ZZZAvatar
     [JsonPropertyName("level")]
     public int Level { get; set; }
 
-
+    /// <summary>
+    /// 稀有度 S A
+    /// </summary>
     [JsonPropertyName("rarity")]
     public string Rarity { get; set; }
 
@@ -24,7 +26,9 @@ public class ZZZAvatar
     [JsonPropertyName("avatar_profession")]
     public int Profession { get; set; }
 
-
+    /// <summary>
+    /// 影画
+    /// </summary>
     [JsonPropertyName("rank")]
     public int Rank { get; set; }
 

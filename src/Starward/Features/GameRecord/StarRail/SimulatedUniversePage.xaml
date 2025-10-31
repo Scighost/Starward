@@ -284,11 +284,13 @@
                                             </ItemsRepeater>
 
                                             <!--  buff  -->
-                                            <ItemsRepeater ItemsSource="{x:Bind BuffTypeList}">
-                                                <ItemsRepeater.Layout>
-                                                    <StackLayout Orientation="Horizontal" Spacing="8" />
-                                                </ItemsRepeater.Layout>
-                                                <ItemsRepeater.ItemTemplate>
+                                            <ItemsControl ItemsSource="{x:Bind BuffTypeList}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" Spacing="8" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
                                                     <DataTemplate x:DataType="su:SimulatedUniverseBuffType">
                                                         <Grid Width="48"
                                                               Height="48"
@@ -311,8 +313,8 @@
                                                             </Border>
                                                         </Grid>
                                                     </DataTemplate>
-                                                </ItemsRepeater.ItemTemplate>
-                                            </ItemsRepeater>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
 
                                         </StackPanel>
                                     </Expander.Header>
@@ -322,13 +324,15 @@
                                             <TextBlock HorizontalAlignment="Left"
                                                        Text="{x:Bind lang:Lang.SimulatedUniversePage_CachedCharacters}"
                                                        Visibility="{x:Bind CachedAvatars, Converter={StaticResource CollectionToVisibilityConverter}}" />
-                                            <ItemsRepeater Margin="0,8,0,0"
-                                                           ItemsSource="{x:Bind CachedAvatars}"
-                                                           Visibility="{x:Bind CachedAvatars, Converter={StaticResource CollectionToVisibilityConverter}}">
-                                                <ItemsRepeater.Layout>
-                                                    <UniformGridLayout MinColumnSpacing="8" MinRowSpacing="8" />
-                                                </ItemsRepeater.Layout>
-                                                <ItemsRepeater.ItemTemplate>
+                                            <ItemsControl Margin="0,8,0,0"
+                                                          ItemsSource="{x:Bind CachedAvatars}"
+                                                          Visibility="{x:Bind CachedAvatars, Converter={StaticResource CollectionToVisibilityConverter}}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" Spacing="8" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
                                                     <DataTemplate x:DataType="su:SimulatedUniverseAvatar">
                                                         <sc:CachedImage Width="32"
                                                                         Height="32"
@@ -336,8 +340,8 @@
                                                                         CornerRadius="16"
                                                                         Source="{x:Bind Icon}" />
                                                     </DataTemplate>
-                                                </ItemsRepeater.ItemTemplate>
-                                            </ItemsRepeater>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
                                             <!--  获得祝福  -->
                                             <TextBlock Margin="0,12,0,0"
                                                        HorizontalAlignment="Left"

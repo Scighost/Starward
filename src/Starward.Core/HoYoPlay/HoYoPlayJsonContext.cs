@@ -14,6 +14,7 @@ namespace Starward.Core.HoYoPlay;
 [JsonSerializable(typeof(List<GameConfig>))]
 [JsonSerializable(typeof(List<GameBranch>))]
 [JsonSerializable(typeof(List<GameScanInfo>))]
+[JsonSerializable(typeof(List<WPFPackageInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<GameSophonChunkBuild>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<GameSophonPatchBuild>))]
 

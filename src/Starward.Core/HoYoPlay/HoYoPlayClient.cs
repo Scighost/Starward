@@ -614,6 +614,57 @@ public class HoYoPlayClient
 
 
 
+    /// <summary>
+    /// WPF Package
+    /// </summary>
+    /// <param name="launcherId"></param>
+    /// <param name="language"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<WPFPackageInfo>> GetWPFPackagesAsync(string launcherId, string language, CancellationToken cancellationToken = default)
+    {
+        string url = BuildUrl("getWPFPackages", launcherId, language);
+        return await CommonGetAsync<List<WPFPackageInfo>>(url, "wpf_packages", cancellationToken);
+    }
+
+
+
+    /// <summary>
+    /// WPF Package
+    /// </summary>
+    /// <param name="launcherId"></param>
+    /// <param name="language"></param>
+    /// <param name="gameId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<WPFPackageInfo?> GetWPFPackageAsync(string launcherId, string language, GameId gameId, CancellationToken cancellationToken = default)
+    {
+        string url = BuildUrl("getWPFPackages", launcherId, language) + $"&game_ids[]={gameId.Id}";
+        var list = await CommonGetAsync<List<WPFPackageInfo>>(url, "wpf_packages", cancellationToken);
+        return list.FirstOrDefault(x => x.GameId == gameId);
+    }
+
+
+
+    /// <summary>
+    /// WPF Package
+    /// </summary>
+    /// <param name="launcherId"></param>
+    /// <param name="language"></param>
+    /// <param name="gameIds"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<WPFPackageInfo>> GetWPFPackagesAsync(string launcherId, string language, IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
+    {
+        string url = BuildUrl("getWPFPackages", launcherId, language);
+        foreach (var gameId in gameIds)
+        {
+            url += $"&game_ids[]={gameId.Id}";
+        }
+        return await CommonGetAsync<List<WPFPackageInfo>>(url, "wpf_packages", cancellationToken);
+    }
+
+
 
 
 }

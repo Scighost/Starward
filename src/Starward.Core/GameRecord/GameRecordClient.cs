@@ -19,6 +19,7 @@ using Starward.Core.GameRecord.StarRail.DailyNote;
 using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.GameRecord.BH3.DailyNote;
 using Starward.Core.GameRecord.Genshin.StygianOnslaught;
+using Starward.Core.GameRecord.ZZZ.ThresholdSimulation;
 
 
 
@@ -615,6 +616,28 @@ public abstract class GameRecordClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public abstract Task<ZZZDailyNote> GetZZZDailyNoteAsync(GameRecordRole role, CancellationToken cancellationToken = default);
+
+
+
+    /// <summary>
+    /// 绝区零临界推演
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<ThresholdSimulationAbstractInfo> GetZZZThresholdSimulationAbstractInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default);
+
+
+
+    /// <summary>
+    /// 绝区零临界推演
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="void_front_id"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<ThresholdSimulationDetailInfo> GetZZZThresholdSimulationDetailInfoAsync(GameRecordRole role, int void_front_id, CancellationToken cancellationToken = default);
+
 
 
 

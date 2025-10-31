@@ -2555,4 +2555,19 @@
   <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
     <value>高质量的 AVIF 和 JPEG XL 图片格式可节省约 85% 的存储空间。</value>
   </data>
+  <data name="Common_CopiedToClipboard" xml:space="preserve">
+    <value>已复制到剪贴板</value>
+  </data>
+  <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
+    <value>月谕模式</value>
+  </data>
+  <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
+    <value>圣牌</value>
+  </data>
+  <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
+    <value>圣牌挑战 {0}</value>
+  </data>
+  <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
+    <value>千星奇域颂愿</value>
+  </data>
 </root>

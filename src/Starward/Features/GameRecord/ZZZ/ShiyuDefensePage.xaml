@@ -457,11 +457,13 @@
                                             Orientation="Horizontal"
                                             Spacing="8">
                                     <!--  角色  -->
-                                    <ItemsRepeater ItemsSource="{x:Bind Node1.Avatars}">
-                                        <ItemsRepeater.Layout>
-                                            <StackLayout Orientation="Horizontal" Spacing="8" />
-                                        </ItemsRepeater.Layout>
-                                        <ItemsRepeater.ItemTemplate>
+                                    <ItemsControl ItemsSource="{x:Bind Node1.Avatars}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" Spacing="8" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
                                             <DataTemplate x:DataType="scgz:ZZZAvatar">
                                                 <Grid Width="76" Height="94">
                                                     <Border Width="76"
@@ -519,8 +521,8 @@
                                                     </Border>
                                                 </Grid>
                                             </DataTemplate>
-                                        </ItemsRepeater.ItemTemplate>
-                                    </ItemsRepeater>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                     <!--  邦布  -->
                                     <Grid Width="58"
                                           Height="78"
@@ -712,11 +714,13 @@
                                             Orientation="Horizontal"
                                             Spacing="8">
                                     <!--  角色  -->
-                                    <ItemsRepeater ItemsSource="{x:Bind Node2.Avatars}">
-                                        <ItemsRepeater.Layout>
-                                            <StackLayout Orientation="Horizontal" Spacing="8" />
-                                        </ItemsRepeater.Layout>
-                                        <ItemsRepeater.ItemTemplate>
+                                    <ItemsControl ItemsSource="{x:Bind Node2.Avatars}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" Spacing="8" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
                                             <DataTemplate x:DataType="scgz:ZZZAvatar">
                                                 <Grid Width="76" Height="94">
                                                     <Border Width="76"
@@ -774,8 +778,8 @@
                                                     </Border>
                                                 </Grid>
                                             </DataTemplate>
-                                        </ItemsRepeater.ItemTemplate>
-                                    </ItemsRepeater>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                     <!--  邦布  -->
                                     <Grid Width="58"
                                           Height="78"

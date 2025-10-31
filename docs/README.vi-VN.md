@@ -1,7 +1,7 @@
 # Starward
 
 > **Starward** xuất phát từ khẩu hiệu của Star Rail: May This Journey Lead Us **Starward**, rất phù hợp để dùng làm tên ứng dụng.
-> Starward là một trình khởi chạy mã nguồn mở của bên thứ ba được phát triển để giải quyết những thiếu sót nói trên. Nó hỗ trợ tất cả các trò chơi trên PC của HoYoverse và nhằm mục đích thay thế hoàn toàn trình khởi chạy chính thức. Ngoài những chức năng cơ bản của trình khởi chạy chính thức, tôi cũng sẽ tích hợp thêm một số tính năng dựa trên nhu cầu cá nhân, chẳng hạn như:
+> Starward là một trình khởi chạy mã nguồn mở của bên thứ ba được phát triển để giải quyết những thiếu sót của HoYoPlay (miHoYo Launcher). Nó hỗ trợ tất cả các trò chơi trên PC của HoYoverse và nhằm mục đích thay thế hoàn toàn trình khởi chạy chính thức. Ngoài những chức năng cơ bản của trình khởi chạy chính thức, tôi cũng sẽ tích hợp thêm một số tính năng dựa trên nhu cầu cá nhân, chẳng hạn như:
 
 -  Ghi lại thời gian chơi
 -  Chuyển đổi tài khoản trò chơi
@@ -16,7 +16,10 @@ Còn nhiều tính năng khác để chờ bạn khám phá...
 
 -  Phiên bản Windows 10 1809 (17763) trở về sau.
 -  Đã cài đặt [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2).
+-  Đã cài đặt [WebP Image Extension](https://apps.microsoft.com/detail/9pg2dk419drg)
 -  Để có trải nghiệm tốt hơn, vui lòng bật **Hiệu ứng trong suốt** và **Hiệu ứng động** trong cài đặt hệ thống.
+
+>[WebP Imaging Extension](https://apps.microsoft.com/detail/9pg2dk419drg) thường được tích hợp sẵn trong hệ thống của bạn. Nếu ứng dụng không hiển thị đúng hình nền, vui lòng đảm bảo rằng tiện ích này đã được cài đặt.
 
 Tiếp theo, tải xuống gói dành cho kiến ​​trúc CPU của bạn từ [GitHub Release](https://github.com/Scighost/Starward/releases). Giải nén nó, sau đó chạy `Starward.exe` và làm theo hướng dẫn.
 

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -297,5 +297,11 @@
   </data>
   <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
     <value>光锥联动跃迁</value>
+  </data>
+  <data name="GachaType_StandardOde" xml:space="preserve">
+    <value>常驻颂愿</value>
+  </data>
+  <data name="GachaType_EventOde" xml:space="preserve">
+    <value>活动颂愿</value>
   </data>
 </root>
