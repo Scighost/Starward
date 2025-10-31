@@ -345,7 +345,7 @@ internal class GameRecordService
         }
         using var dapper = DatabaseService.CreateConnection();
         dapper.Execute("""
-            INSERT OR REPLACE INTO TravelersDiaryMonthData
+            INSERT OR REPLACE INTO GenshinTravelersDiaryMonthData
             (Uid, Year, Month, CurrentPrimogems, CurrentMora, LastPrimogems, LastMora, CurrentPrimogemsLevel, PrimogemsChangeRate, MoraChangeRate, PrimogemsGroupBy)
             VALUES (@Uid, @Year, @Month, @CurrentPrimogems, @CurrentMora, @LastPrimogems, @LastMora, @CurrentPrimogemsLevel, @PrimogemsChangeRate, @MoraChangeRate, @PrimogemsGroupBy);
             """, summary.MonthData);
