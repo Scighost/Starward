@@ -299,9 +299,9 @@
     <value>광추 콜라보 워프</value>
   </data>
   <data name="GachaType_StandardOde" xml:space="preserve">
-    <value>Standard Ode</value>
+    <value>일반 축원</value>
   </data>
   <data name="GachaType_EventOde" xml:space="preserve">
-    <value>Event Ode</value>
+    <value>이벤트 축원</value>
   </data>
 </root>
