@@ -84,6 +84,14 @@ public class GenshinBeyondGachaClient
             {
                 gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
             }
+            else
+            {
+                lang = Regex.Match(gachaUrl, @"&lang=([^&]+)").Groups[1].Value;
+                if (!string.IsNullOrWhiteSpace(lang))
+                {
+                    gachaUrl = Regex.Replace(gachaUrl, @"&lang=([^&]+)", $"&lang={LanguageUtil.FilterLanguage(lang)}");
+                }
+            }
             return gachaUrl;
         }
         match = Regex.Match(gachaUrl, @"(https://gs\.hoyoverse\.com[!-z]+)");
@@ -95,6 +103,14 @@ public class GenshinBeyondGachaClient
             if (!string.IsNullOrWhiteSpace(lang))
             {
                 gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
+            }
+            else
+            {
+                lang = Regex.Match(gachaUrl, @"&lang=([^&]+)").Groups[1].Value;
+                if (!string.IsNullOrWhiteSpace(lang))
+                {
+                    gachaUrl = Regex.Replace(gachaUrl, @"&lang=([^&]+)", $"&lang={LanguageUtil.FilterLanguage(lang)}");
+                }
             }
             return gachaUrl;
         }
