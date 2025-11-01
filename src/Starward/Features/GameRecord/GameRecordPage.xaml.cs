@@ -218,21 +218,21 @@ public sealed partial class GameRecordPage : PageBase
         else if (CurrentGameBiz.Game is GameBiz.hk4e)
         {
             NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
+            NavigationViewItem_TravelersDiary.Visibility = Visibility.Visible;
             NavigationViewItem_SpiralAbyss.Visibility = Visibility.Visible;
             NavigationViewItem_ImaginariumTheater.Visibility = Visibility.Visible;
             NavigationViewItem_StygianOnslaught.Visibility = Visibility.Visible;
-            NavigationViewItem_TravelersDiary.Visibility = Visibility.Visible;
             // 原神战绩图片
             Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/ced4deac2162690105bbc8baad2b51a3_4109616186965788891.png"));
         }
         else if (CurrentGameBiz.Game is GameBiz.hkrpg)
         {
             NavigationViewItem_BattleChronicle.Visibility = Visibility.Visible;
+            NavigationViewItem_TrailblazeMonthlyCalendar.Visibility = Visibility.Visible;
             NavigationViewItem_SimulatedUniverse.Visibility = Visibility.Visible;
             NavigationViewItem_ForgottenHall.Visibility = Visibility.Visible;
             NavigationViewItem_PureFiction.Visibility = Visibility.Visible;
             NavigationViewItem_ApocalypticShadow.Visibility = Visibility.Visible;
-            NavigationViewItem_TrailblazeMonthlyCalendar.Visibility = Visibility.Visible;
             // 铁道战绩图片
             Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/ade9545750299456a3fcbc8c3b63521d_2941971308029698042.png"));
         }
@@ -502,15 +502,15 @@ public sealed partial class GameRecordPage : PageBase
                 }
                 var type = item.Tag switch
                 {
+                    nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
                     nameof(SpiralAbyssPage) => typeof(SpiralAbyssPage),
                     nameof(ImaginariumTheaterPage) => typeof(ImaginariumTheaterPage),
                     nameof(StygianOnslaughtPage) => typeof(StygianOnslaughtPage),
-                    nameof(TravelersDiaryPage) => typeof(TravelersDiaryPage),
+                    nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
                     nameof(SimulatedUniversePage) => typeof(SimulatedUniversePage),
                     nameof(ForgottenHallPage) => typeof(ForgottenHallPage),
                     nameof(PureFictionPage) => typeof(PureFictionPage),
                     nameof(ApocalypticShadowPage) => typeof(ApocalypticShadowPage),
-                    nameof(TrailblazeCalendarPage) => typeof(TrailblazeCalendarPage),
                     nameof(InterKnotMonthlyReportPage) => typeof(InterKnotMonthlyReportPage),
                     nameof(ShiyuDefensePage) => typeof(ShiyuDefensePage),
                     nameof(DeadlyAssaultPage) => typeof(DeadlyAssaultPage),
