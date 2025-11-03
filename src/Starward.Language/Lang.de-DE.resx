@@ -2568,4 +2568,10 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
     <value>Miliastra Wonderland Ode</value>
   </data>
+  <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
+    <value>Launch Game using CMD</value>
+  </data>
+  <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
+    <value>Avoid showing alerts about detecting illegal tool in the game.</value>
+  </data>
 </root>
