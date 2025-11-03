@@ -222,6 +222,22 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     } = AppConfig.DisableGameNoticeRedHot;
 
 
+    /// <summary>
+    /// 使用 CMD 启动游戏
+    /// </summary>
+    public bool StartGameWithCMD
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.StartGameWithCMD = value;
+            }
+        }
+    } = AppConfig.StartGameWithCMD;
+
+
 
 
     private async Task InitializeBasicInfoAsync()

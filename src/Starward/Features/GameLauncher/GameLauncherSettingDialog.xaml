@@ -368,6 +368,33 @@
                                       OffContent="{x:Bind lang:Lang.ExperienceSettingPage_DisableRedDotReminderForGameNotices}"
                                       OnContent="{x:Bind lang:Lang.ExperienceSettingPage_DisableRedDotReminderForGameNotices}" />
 
+                        <!--  使用 CMD 启动游戏  -->
+                        <StackPanel Margin="0,-12,0,0"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
+                            <ToggleSwitch IsOn="{x:Bind StartGameWithCMD, Mode=TwoWay}"
+                                          OffContent="{x:Bind lang:Lang.GameLauncherSettingDialog_LaunchGameUsingCMD}"
+                                          OnContent="{x:Bind lang:Lang.GameLauncherSettingDialog_LaunchGameUsingCMD}" />
+                            <Button Margin="0,2,0,0"
+                                    Padding="4"
+                                    VerticalAlignment="Center"
+                                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                <FontIcon FontSize="16"
+                                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                          Glyph="&#xE9CE;" />
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <TextBlock MaxWidth="380" TextWrapping="Wrap">
+                                            <Run Text="{x:Bind lang:Lang.GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame}" />
+                                            <Hyperlink NavigateUri="https://github.com/Scighost/Starward/issues/1634" UnderlineStyle="None">
+                                                <Run Text="#1634" />
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                        </StackPanel>
+
                     </StackPanel>
                 </FlipViewItem>
 
