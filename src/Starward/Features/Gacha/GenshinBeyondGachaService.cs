@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using Dapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
@@ -128,7 +127,10 @@ internal class GenshinBeyondGachaService
     public GenshinBeyondGachaTypeStats? GetGachaTypeStatsType1000(long uid)
     {
         using var dapper = DatabaseService.CreateConnection();
-        var list = dapper.Query<GenshinBeyondGachaItemEx>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid AND OpGachaType = 1000 ORDER BY Id;", new { uid }).ToList();
+        var list = dapper.Query<GenshinBeyondGachaItemEx>("""
+            SELECT item.*, info.Icon FROM GenshinBeyondGachaItem item LEFT JOIN GenshinBeyondGachaInfo info
+            ON item.ItemId = info.Id WHERE Uid = @uid AND OpGachaType = 1000 ORDER BY item.Id;
+            """, new { uid }).ToList();
         if (list.Count == 0)
         {
             return null;
@@ -206,7 +208,10 @@ internal class GenshinBeyondGachaService
     public GenshinBeyondGachaTypeStats? GetGachaTypeStatsType2000(long uid)
     {
         using var dapper = DatabaseService.CreateConnection();
-        var list = dapper.Query<GenshinBeyondGachaItemEx>($"SELECT * FROM {GachaTableName} WHERE Uid = @uid AND OpGachaType != 1000 ORDER BY Id;", new { uid }).ToList();
+        var list = dapper.Query<GenshinBeyondGachaItemEx>("""
+            SELECT item.*, info.Icon FROM GenshinBeyondGachaItem item LEFT JOIN GenshinBeyondGachaInfo info
+            ON item.ItemId = info.Id WHERE Uid = @uid AND OpGachaType != 1000 ORDER BY item.Id;
+            """, new { uid }).ToList();
         if (list.Count == 0)
         {
             return null;
@@ -281,6 +286,25 @@ internal class GenshinBeyondGachaService
     }
 
 
+    public List<GenshinBeyondGachaItemEx>? GetGachaItemStats(long uid)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        var list = dapper.Query<GenshinBeyondGachaItemEx>("""
+            SELECT item.*, info.Icon FROM GenshinBeyondGachaItem item LEFT JOIN GenshinBeyondGachaInfo info
+            ON item.ItemId = info.Id WHERE Uid = @uid ORDER BY item.Id;
+            """, new { uid }).ToList();
+        if (list.Count == 0)
+        {
+            return null;
+        }
+        return list.GroupBy(x => x.ItemId)
+                   .Select(x => { var item = x.First(); item.Count = x.Count(); return item; })
+                   .OrderByDescending(x => x.RankType)
+                   .ThenByDescending(x => x.Count)
+                   .ThenByDescending(x => x.Time)
+                   .ToList();
+    }
+
 
     public virtual int DeleteUid(long uid)
     {
@@ -297,6 +321,18 @@ internal class GenshinBeyondGachaService
     }
 
 
+
+    public async Task UpdateGachaInfoAsync(CancellationToken cancellationToken = default)
+    {
+        var data = await _client.GetGenshinBeyondGachaInfoAsync(cancellationToken);
+        using var dapper = DatabaseService.CreateConnection();
+        using var t = dapper.BeginTransaction();
+        const string insertSql = """INSERT OR REPLACE INTO GenshinBeyondGachaInfo (Id, Name, Rank, Icon) VALUES (@Id, @Name, @Rank, @Icon);""";
+        dapper.Execute(insertSql, data, t);
+        t.Commit();
+    }
+
+
 }
 
 
@@ -308,6 +344,10 @@ public partial class GenshinBeyondGachaItemEx : GenshinBeyondGachaItem
     public int Index { get; set; }
 
     public int Pity { get; set; }
+
+    public string Icon { get; set; }
+
+    public int Count { get; set; }
 
 }
 

@@ -10,6 +10,7 @@ using Starward.Features.GameLauncher;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -55,6 +56,7 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
     {
         await Task.Delay(16);
         Initialize();
+        await UpdateGachaInfoAsync();
     }
 
 
@@ -63,6 +65,7 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
     {
         GachaStatsType1000 = null;
         GachaStatsType2000 = null;
+        GachaItemStats = null;
     }
 
 
@@ -98,6 +101,7 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
 
     public GenshinBeyondGachaTypeStats? GachaStatsType2000 { get; set => SetProperty(ref field, value); }
 
+    public List<GenshinBeyondGachaItemEx>? GachaItemStats { get; set => SetProperty(ref field, value); }
 
 
     private int errorCount = 0;
@@ -114,6 +118,7 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
             {
                 GachaStatsType1000 = _gachaLogService.GetGachaTypeStatsType1000(uid.Value);
                 GachaStatsType2000 = _gachaLogService.GetGachaTypeStatsType2000(uid.Value);
+                GachaItemStats = _gachaLogService.GetGachaItemStats(uid.Value);
             }
 
             if (GachaStatsType1000 is null && GachaStatsType2000 is null)
@@ -128,6 +133,21 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "UpdateGachaTypeStats");
+        }
+    }
+
+
+
+
+    private async Task UpdateGachaInfoAsync()
+    {
+        try
+        {
+            await _gachaLogService.UpdateGachaInfoAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update wiki data hk4eugc");
         }
     }
 
@@ -398,6 +418,13 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
         return false;
     }
 
+
+
+    [RelayCommand]
+    private void OpenItemStatsPane()
+    {
+        SplitView_Content.IsPaneOpen = true;
+    }
 
 
 }

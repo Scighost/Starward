@@ -236,7 +236,7 @@ internal static class DatabaseService
     #region Database Structure
 
 
-    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11, Sql_v12, Sql_v13, Sql_v14, Sql_v15, Sql_v16];
+    private static readonly List<string> DatabaseSqls = [Sql_v1, Sql_v2, Sql_v3, Sql_v4, Sql_v5, Sql_v6, Sql_v7, Sql_v8, Sql_v9, Sql_v10, Sql_v11, Sql_v12, Sql_v13, Sql_v14, Sql_v15, Sql_v16, Sql_v17];
 
 
     private const string Sql_v1 = """
@@ -909,6 +909,22 @@ internal static class DatabaseService
         ALTER TABLE ShiyuDefenseInfo RENAME TO ZZZShiyuDefenseInfo;
 
         PRAGMA USER_VERSION = 16;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v17 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS GenshinBeyondGachaInfo
+        (
+            Id   INTEGER PRIMARY KEY,
+            Name TEXT,
+            Rank INTEGER NOT NULL,
+            Icon TEXT
+        );
+        CREATE INDEX IF NOT EXISTS IX_GenshinBeyondGachaInfo_Name ON GenshinBeyondGachaInfo (Name);
+
+        PRAGMA USER_VERSION = 17;
         COMMIT TRANSACTION;
         """;
 
