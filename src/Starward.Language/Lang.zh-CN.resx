@@ -2570,4 +2570,10 @@
   <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
     <value>千星奇域颂愿</value>
   </data>
+  <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
+    <value>使用 CMD 启动游戏</value>
+  </data>
+  <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
+    <value>避免在游戏中弹窗提醒检测到非法工具</value>
+  </data>
 </root>
