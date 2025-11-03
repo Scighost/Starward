@@ -2570,4 +2570,10 @@
   <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
     <value>별바다 세계 축원</value>
   </data>
+  <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
+    <value>Launch Game using CMD</value>
+  </data>
+  <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
+    <value>Avoid showing alerts about detecting illegal tool in the game.</value>
+  </data>
 </root>
