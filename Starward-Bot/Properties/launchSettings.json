@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Starward_Bot": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7028",
+      "launchBrowser": false
+    }
+  }
+}

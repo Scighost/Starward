@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Starward-Bot/Starward-Bot.csproj" />
+  <Project Path="UpdateGenshinBeyondGachaInfo/UpdateGenshinBeyondGachaInfo.csproj" />
+</Solution>
