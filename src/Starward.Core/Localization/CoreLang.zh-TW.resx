@@ -178,7 +178,7 @@
     <value>中國雲端伺服器</value>
   </data>
   <data name="GameServer_EuropeAmericasServers" xml:space="preserve">
-    <value>歐美服</value>
+    <value>歐美伺服器</value>
   </data>
   <data name="GameServer_JapanServer" xml:space="preserve">
     <value>日本伺服器</value>
