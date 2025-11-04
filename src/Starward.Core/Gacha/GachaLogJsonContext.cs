@@ -15,6 +15,7 @@ namespace Starward.Core.Gacha;
 [JsonSerializable(typeof(miHoYoApiWrapper<StarRailGachaWiki>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<StarRailGachaInfoWrapper>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ZZZGachaWiki>))]
+[JsonSerializable(typeof(List<GenshinBeyondGachaInfo>))]
 internal partial class GachaLogJsonContext : JsonSerializerContext
 {
 

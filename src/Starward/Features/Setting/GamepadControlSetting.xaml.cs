@@ -21,7 +21,7 @@ public sealed partial class GamepadControlSetting : PageBase
     }
 
 
-  
+
     public bool EnableGamepadController
     {
         get;

@@ -376,6 +376,11 @@ internal partial class GameLauncherService
             {
                 GameSettingService.SetGenshinEnableHDR(gameId.GameBiz, AppConfig.EnableGenshinHDR);
             }
+            if (!thirdPartyTool && AppConfig.StartGameWithCMD)
+            {
+                arg = $"""/c start "" "{exe}" {arg}""";
+                exe = "cmd.exe";
+            }
             _logger.LogInformation("Start game ({biz})\r\npath: {exe}\r\narg: {arg}", gameId, exe, arg);
             var info = new ProcessStartInfo
             {

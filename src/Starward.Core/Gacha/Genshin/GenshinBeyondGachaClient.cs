@@ -84,6 +84,14 @@ public class GenshinBeyondGachaClient
             {
                 gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
             }
+            else
+            {
+                lang = Regex.Match(gachaUrl, @"&lang=([^&]+)").Groups[1].Value;
+                if (!string.IsNullOrWhiteSpace(lang))
+                {
+                    gachaUrl = Regex.Replace(gachaUrl, @"&lang=([^&]+)", $"&lang={LanguageUtil.FilterLanguage(lang)}");
+                }
+            }
             return gachaUrl;
         }
         match = Regex.Match(gachaUrl, @"(https://gs\.hoyoverse\.com[!-z]+)");
@@ -95,6 +103,14 @@ public class GenshinBeyondGachaClient
             if (!string.IsNullOrWhiteSpace(lang))
             {
                 gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
+            }
+            else
+            {
+                lang = Regex.Match(gachaUrl, @"&lang=([^&]+)").Groups[1].Value;
+                if (!string.IsNullOrWhiteSpace(lang))
+                {
+                    gachaUrl = Regex.Replace(gachaUrl, @"&lang=([^&]+)", $"&lang={LanguageUtil.FilterLanguage(lang)}");
+                }
             }
             return gachaUrl;
         }
@@ -230,6 +246,15 @@ public class GenshinBeyondGachaClient
             }
         }
         return 0;
+    }
+
+
+
+    public async Task<List<GenshinBeyondGachaInfo>> GetGenshinBeyondGachaInfoAsync(CancellationToken cancellationToken = default)
+    {
+        const string url = "https://starward-static.scighost.com/game-assets/genshin/GenshinBeyondGachaInfo.json";
+        var result = await _httpClient.GetFromJsonAsync(url, typeof(List<GenshinBeyondGachaInfo>), GachaLogJsonContext.Default, cancellationToken) as List<GenshinBeyondGachaInfo>;
+        return result ?? [];
     }
 
 

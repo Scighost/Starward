@@ -2232,6 +2232,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Avoid showing alerts about detecting illegal tool in the game. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Basic Information 的本地化字符串。
         /// </summary>
         public static string GameLauncherSettingDialog_BasicInformation {
@@ -2300,6 +2309,15 @@ namespace Starward.Language {
         public static string GameLauncherSettingDialog_GamePackages {
             get {
                 return ResourceManager.GetString("GameLauncherSettingDialog_GamePackages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Launch Game using CMD 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LaunchGameUsingCMD {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LaunchGameUsingCMD", resourceCulture);
             }
         }
         

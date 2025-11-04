@@ -753,6 +753,16 @@ public static class AppConfig
     }
 
 
+    /// <summary>
+    /// 使用 CMD 启动游戏 <see href="https://github.com/Scighost/Starward/issues/1634"/>
+    /// </summary>
+    public static bool StartGameWithCMD
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+
     #endregion
 
 
