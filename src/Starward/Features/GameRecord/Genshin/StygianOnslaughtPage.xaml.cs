@@ -86,9 +86,12 @@ public sealed partial class StygianOnslaughtPage : PageBase
             {
                 SOList = list;
                 ListView_StygianOnslaughtPageList.SelectedIndex = 0;
+                CurrentInfo = _gameRecordService.GetStygianOnslaughtInfo(gameRole, SOList[0].ScheduleId);
+                HasData = CurrentInfo?.Schedule?.ScheduleId > 0;
+                CurrentSelectedBattle = CurrentInfo?.SinglePlayer;
                 Segmented_PlayerMode.SelectedIndex = 0;
-                CurrentSelectedBattle = SOList[0].SinglePlayer;
-                SegmentedItem_MultiPlayer.IsEnabled = SOList[0].MultiPlayer?.HasData ?? false;
+                SegmentedItem_MultiPlayer.IsEnabled = CurrentInfo?.MultiPlayer?.HasData ?? false;
+                Image_Emoji.Visibility = HasData ? Visibility.Collapsed : Visibility.Visible;
             }
             else
             {
