@@ -2591,9 +2591,9 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Оды Астрального Предела</value>
   </data>
   <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
-    <value>Launch Game using CMD</value>
+    <value>Запустить игру с помощью командной строки</value>
   </data>
   <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
-    <value>Avoid showing alerts about detecting illegal tool in the game.</value>
+    <value>Не показывать оповещения о обнаружении незаконных инструментов в игре.</value>
   </data>
 </root>
