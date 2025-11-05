@@ -386,13 +386,13 @@
     <value>跳躍の記録</value>
   </data>
   <data name="GachaLogService_GettingUid" xml:space="preserve">
-    <value>UIDを取得</value>
+    <value>UID を取得</value>
   </data>
   <data name="GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months" xml:space="preserve">
     <value>このアカウントは過去6ヶ月間のガチャの記録がありません</value>
   </data>
   <data name="GachaLogService_GetGachaResult" xml:space="preserve">
-    <value>{0}件の記録を取得し、{1}件の記録を追加しました。</value>
+    <value>{0} 件の記録を取得し、{1} 件の記録を追加しました。</value>
     <comment>{0} = {getCount} ,  {1} = {addCount}</comment>
   </data>
   <data name="GenshinGachaService_ImportWishRecordsSuccessfully" xml:space="preserve">
@@ -2031,7 +2031,7 @@
     <value>合計スコア:</value>
   </data>
   <data name="DeadlyAssaultPage_GlobalTopPercent" xml:space="preserve">
-    <value>Global Top</value>
+    <value>グローバルのトップ</value>
   </data>
   <data name="ShiyuDefensePage_FastestStateTime" xml:space="preserve">
     <value>Fastest State Time</value>
@@ -2477,7 +2477,7 @@
     <value>戦闘時間</value>
   </data>
   <data name="StygianOnslaughtPage_HighestTotalDamageDealt" xml:space="preserve">
-    <value>Highest Total Damage Dealt</value>
+    <value>最高合計ダメージ</value>
   </data>
   <data name="ScreenshotSetting_OtherOptions" xml:space="preserve">
     <value>その他のオプション</value>
@@ -2567,12 +2567,12 @@
     <value>アルカナ挑戦 {0}</value>
   </data>
   <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
-    <value>Miliastra Wonderland Ode</value>
+    <value>星々の幻境星願</value>
   </data>
   <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
-    <value>Launch Game using CMD</value>
+    <value>CMD を使用してゲームを起動</value>
   </data>
   <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
-    <value>Avoid showing alerts about detecting illegal tool in the game.</value>
+    <value>ゲーム内で不正なツールが検出された場合の警告を表示しないようにします。</value>
   </data>
 </root>
