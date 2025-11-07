@@ -378,7 +378,7 @@ internal partial class GameLauncherService
             }
             if (!thirdPartyTool && AppConfig.StartGameWithCMD)
             {
-                arg = $"""/c start "" "{exe}" {arg}""";
+                arg = $"""/c start "" /d "{Path.GetDirectoryName(exe)}" "{exe}" {arg}""";
                 exe = "cmd.exe";
             }
             _logger.LogInformation("Start game ({biz})\r\npath: {exe}\r\narg: {arg}", gameId, exe, arg);
