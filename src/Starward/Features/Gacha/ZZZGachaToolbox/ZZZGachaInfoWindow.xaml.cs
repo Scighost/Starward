@@ -55,7 +55,7 @@ public sealed partial class ZZZGachaInfoWindow : WindowEx
     {
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         Title = Lang.ToolboxSetting_ZZZGachaItemImages;
-        RootGrid.RequestedTheme = ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
+        RootGrid.RequestedTheme = ShouldAppsUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
         SystemBackdrop = new DesktopAcrylicBackdrop();
         AdaptTitleBarButtonColorToActuallTheme();
         SetIcon();

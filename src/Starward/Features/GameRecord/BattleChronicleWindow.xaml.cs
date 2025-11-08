@@ -25,7 +25,7 @@ public sealed partial class BattleChronicleWindow : WindowEx
     {
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         Title = Lang.HoyolabToolboxPage_BattleChronicle;
-        RootGrid.RequestedTheme = ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
+        RootGrid.RequestedTheme = ShouldAppsUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
         AdaptTitleBarButtonColorToActuallTheme();
         SetIcon();
         CenterInScreen();

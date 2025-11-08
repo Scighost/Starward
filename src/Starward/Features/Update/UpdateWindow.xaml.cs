@@ -63,7 +63,7 @@ public sealed partial class UpdateWindow : WindowEx
     {
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         Title = "Starward - Update";
-        RootGrid.RequestedTheme = ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
+        RootGrid.RequestedTheme = ShouldAppsUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
         SystemBackdrop = new DesktopAcrylicBackdrop();
         AdaptTitleBarButtonColorToActuallTheme();
         SetIcon();
@@ -456,7 +456,7 @@ public sealed partial class UpdateWindow : WindowEx
             StackPanel_Error.Visibility = Visibility.Collapsed;
 
             await webview.EnsureCoreWebView2Async();
-            webview.CoreWebView2.Profile.PreferredColorScheme = ShouldSystemUseDarkMode() ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
+            webview.CoreWebView2.Profile.PreferredColorScheme = ShouldAppsUseDarkMode() ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
             webview.CoreWebView2.DOMContentLoaded -= CoreWebView2_DOMContentLoaded;
             webview.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
             webview.CoreWebView2.NewWindowRequested -= CoreWebView2_NewWindowRequested;

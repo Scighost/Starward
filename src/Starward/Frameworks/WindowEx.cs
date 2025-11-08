@@ -200,6 +200,11 @@ public abstract partial class WindowEx : Window
 
 
     [return: MarshalAs(UnmanagedType.Bool)]
+    [LibraryImport("uxtheme.dll", EntryPoint = "#132", SetLastError = true)]
+    protected static partial bool ShouldAppsUseDarkMode();
+
+
+    [return: MarshalAs(UnmanagedType.Bool)]
     [LibraryImport("uxtheme.dll", EntryPoint = "#138", SetLastError = true)]
     protected static partial bool ShouldSystemUseDarkMode();
 

@@ -23,7 +23,7 @@ public sealed partial class TestUrlProtocolWindow : WindowEx
     private void InitializeWindow()
     {
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-        if (!ShouldSystemUseDarkMode())
+        if (!ShouldAppsUseDarkMode())
         {
             RootGrid.RequestedTheme = ElementTheme.Light;
         }

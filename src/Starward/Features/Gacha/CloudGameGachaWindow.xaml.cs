@@ -28,7 +28,7 @@ public sealed partial class CloudGameGachaWindow : WindowEx
     {
         this.InitializeComponent();
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-        if (ShouldSystemUseDarkMode())
+        if (ShouldAppsUseDarkMode())
         {
             RootGrid.RequestedTheme = ElementTheme.Dark;
         }
