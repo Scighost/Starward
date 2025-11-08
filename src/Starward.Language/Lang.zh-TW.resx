@@ -2576,4 +2576,7 @@
   <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
     <value>Avoid showing alerts about detecting illegal tool in the game.</value>
   </data>
+  <data name="UpdateWindow_FullPackage" xml:space="preserve">
+    <value>Full Package</value>
+  </data>
 </root>

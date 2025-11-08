@@ -299,9 +299,9 @@
     <value>キャラクター光円錐コラボ跳躍</value>
   </data>
   <data name="GachaType_StandardOde" xml:space="preserve">
-    <value>Standard Ode</value>
+    <value>通常星願</value>
   </data>
   <data name="GachaType_EventOde" xml:space="preserve">
-    <value>Event Ode</value>
+    <value>イベント星願</value>
   </data>
 </root>
