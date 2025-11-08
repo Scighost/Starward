@@ -2596,4 +2596,7 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
     <value>Не показывать оповещения о обнаружении незаконных инструментов в игре.</value>
   </data>
+  <data name="UpdateWindow_FullPackage" xml:space="preserve">
+    <value>Full Package</value>
+  </data>
 </root>
