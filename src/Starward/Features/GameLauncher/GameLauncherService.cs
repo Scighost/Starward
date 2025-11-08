@@ -393,7 +393,7 @@ internal partial class GameLauncherService
             Process? process = Process.Start(info);
             if (process != null)
             {
-                if (thirdPartyTool)
+                if (thirdPartyTool || AppConfig.StartGameWithCMD)
                 {
                     return await _playTimeService.StartProcessToLogAsync(gameId);
                 }
