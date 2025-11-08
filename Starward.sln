@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6F090A28-90DC-480B-AE52-61FD1F993D45}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,6 +17,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Starward.Language", "src\Starward.Language\Starward.Language.csproj", "{5FC2380B-F424-4EAE-BDEE-C0D4D4B1C7CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starward.RPC", "src\Starward.RPC\Starward.RPC.csproj", "{06BFFD9A-927E-4A68-B70D-F915047785B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTool", "src\BuildTool\BuildTool.csproj", "{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +112,22 @@ Global
 		{06BFFD9A-927E-4A68-B70D-F915047785B8}.Release|x64.Build.0 = Release|Any CPU
 		{06BFFD9A-927E-4A68-B70D-F915047785B8}.Release|x86.ActiveCfg = Release|Any CPU
 		{06BFFD9A-927E-4A68-B70D-F915047785B8}.Release|x86.Build.0 = Release|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Debug|x64.Build.0 = Debug|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Debug|x86.Build.0 = Debug|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Release|ARM64.Build.0 = Release|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Release|x64.ActiveCfg = Release|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Release|x64.Build.0 = Release|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Release|x86.ActiveCfg = Release|Any CPU
+		{C1E5EF9D-DE7B-35A3-D8B6-41BF6A74001F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

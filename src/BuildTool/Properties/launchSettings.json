@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "BuildTool": {
+      "commandName": "Project"
+    }
+  }
+}
