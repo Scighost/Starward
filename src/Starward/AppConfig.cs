@@ -266,8 +266,18 @@ public static class AppConfig
             sc.AddHttpClient().ConfigureHttpClientDefaults(config =>
             {
                 config.RemoveAllLoggers();
-                config.ConfigureHttpClient(client => client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppVersion}"));
-                config.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All });
+                config.ConfigureHttpClient(client =>
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppVersion}");
+                    client.DefaultRequestVersion = HttpVersion.Version20;
+                    client.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
+                });
+                config.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+                {
+                    AutomaticDecompression = DecompressionMethods.All,
+                    EnableMultipleHttp2Connections = true,
+                    EnableMultipleHttp3Connections = true,
+                });
             });
 
             sc.AddSingleton<HoYoPlayClient>();

@@ -1,4 +1,4 @@
-namespace BuildTool;
+namespace Starward.RPC.Update.Metadata;
 
 public enum InstallType
 {

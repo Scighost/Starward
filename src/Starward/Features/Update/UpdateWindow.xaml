@@ -97,21 +97,12 @@
                                          Tag="release" />
                         <!--  Window 内不能用 Converter  -->
                         <HyperlinkButton Click="HyperlinkButton_Click"
-                                         Tag="install"
-                                         Visibility="{x:Bind local:UpdateWindow.StringToVisibility(NewVersion.Install)}">
+                                         Tag="package"
+                                         Visibility="{x:Bind local:UpdateWindow.StringToVisibility(NewVersion.PackageUrl)}">
                             <TextBlock>
-                                <Run Text="{x:Bind lang:Lang.UpdatePage_DownloadInstaller}" />
+                                <Run Text="{x:Bind lang:Lang.UpdateWindow_FullPackage}" />
                                 <Run Text="" />
-                                <Run Text="(" /><Run Text="{x:Bind local:UpdateWindow.ByteLengthToString(NewVersion.InstallSize)}" /><Run Text=")" />
-                            </TextBlock>
-                        </HyperlinkButton>
-                        <HyperlinkButton Click="HyperlinkButton_Click"
-                                         Tag="portable"
-                                         Visibility="{x:Bind local:UpdateWindow.StringToVisibility(NewVersion.Portable)}">
-                            <TextBlock>
-                                <Run Text="{x:Bind lang:Lang.UpdatePage_DownloadPortable}" />
-                                <Run Text="" />
-                                <Run Text="(" /><Run Text="{x:Bind local:UpdateWindow.ByteLengthToString(NewVersion.PortableSize)}" /><Run Text=")" />
+                                <Run Text="(" /><Run Text="{x:Bind local:UpdateWindow.ByteLengthToString(NewVersion.PackageSize)}" /><Run Text=")" />
                             </TextBlock>
                         </HyperlinkButton>
                     </StackPanel>

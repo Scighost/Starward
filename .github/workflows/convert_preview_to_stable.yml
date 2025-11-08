@@ -9,13 +9,13 @@ permissions:
 
 jobs:
 
-  upload:
+  upload-metadata:
 
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Metadata
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         ref: metadata
 
@@ -41,4 +41,44 @@ jobs:
         rm -rf ./.git ./.github
         curl https://gosspublic.alicdn.com/ossutil/install.sh | sudo bash
         ossutil config -e ${{ secrets.OSS_ENDPOINT }} -i ${{ secrets.ACCESS_KEY_ID }} -k ${{ secrets.ACCESS_KEY_SECRET }}
-        ossutil cp -rf ./ oss://starward/metadata/    
+        ossutil cp -rf ./ oss://starward/metadata/
+
+
+  upload-static:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Static
+      uses: actions/checkout@v5
+      with:
+        ref: static
+
+    - name: Copy Files
+      shell: pwsh
+      run: |
+        Copy-Item release/release_info_preview.json release/release_info_stable.json -Force
+
+    - name: Push Static
+      run: |
+        git config --global user.name '${{ github.actor }}'
+        git config --global user.email '${{ github.actor }}@users.noreply.github.com'
+        git commit -am "convert preview to stable"
+        git push
+
+    - name: Setup ossutil
+      run: |
+        curl -o ${{runner.temp}}/ossutil-2.2.0-linux-amd64.zip https://gosspublic.alicdn.com/ossutil/v2/2.2.0/ossutil-2.2.0-linux-amd64.zip
+        unzip ${{runner.temp}}/ossutil-2.2.0-linux-amd64.zip -d ${{runner.temp}}
+        sudo cp ${{runner.temp}}/ossutil-2.2.0-linux-amd64/ossutil /usr/local/bin/ossutil
+        sudo chmod +x /usr/local/bin/ossutil
+        ossutil version
+
+    - name: Upload to OSS
+      run: |
+        rm -rf ./.git ./.github
+        ossutil cp ./ oss://starward-static/ -r -f -j 20
+      env:
+        OSS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+        OSS_ACCESS_KEY_SECRET: ${{ secrets.ACCESS_KEY_SECRET }}
+        OSS_REGION: ${{ secrets.OSS_REGION }}

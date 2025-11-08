@@ -18,20 +18,10 @@ public class MetadataClient
 {
 
 
-    private const string API_PREFIX_CLOUDFLARE = "https://starward.scighost.com/metadata";
-
-    private const string API_PREFIX_GITHUB = "https://raw.githubusercontent.com/Scighost/Starward/metadata";
-
-    private const string API_PREFIX_JSDELIVR = "https://cdn.jsdelivr.net/gh/Scighost/Starward@metadata";
 
 
-    private string API_PREFIX = API_PREFIX_CLOUDFLARE;
+    private string API_PREFIX = "https://starward-static.scighost.com/release";
 
-#if DEV
-    private const string API_VERSION = "dev";
-#else
-    private const string API_VERSION = "v1";
-#endif
 
 
     private readonly HttpClient _httpClient;
@@ -72,60 +62,60 @@ public class MetadataClient
 
     private string GetUrl(string suffix)
     {
-        return $"{API_PREFIX}/{API_VERSION}/{suffix}";
+        return $"{API_PREFIX}/{suffix}";
     }
 
 
 
 
-    public async Task<ReleaseVersion> GetVersionAsync(bool isPrerelease, Architecture architecture, CancellationToken cancellationToken = default)
+    public async Task<ReleaseInfoDetail> GetReleaseInfoAsync(bool isPrerelease, Architecture arch, InstallType type, CancellationToken cancellationToken = default)
     {
-#if DEV
-        isPrerelease = true;
-#endif
-        var name = (isPrerelease, architecture) switch
+        var name = isPrerelease switch
         {
-            (false, Architecture.X64) => "version_stable_x64.json",
-            (true, Architecture.X64) => "version_preview_x64.json",
-            (false, Architecture.Arm64) => "version_stable_arm64.json",
-            (true, Architecture.Arm64) => "version_preview_arm64.json",
-            _ => throw new PlatformNotSupportedException($"{architecture} is not supported."),
+            false => "release_info_stable.json",
+            true => "release_info_preview.json",
         };
-        var url = GetUrl(name);
-        return await CommonGetAsync<ReleaseVersion>(url, cancellationToken);
+        var releaseInfo = await CommonGetAsync<ReleaseInfo>(GetUrl(name), cancellationToken);
+        string key = $"{arch}-{type}".ToLower();
+        if (releaseInfo.Releases?.TryGetValue(key, out var value) ?? false)
+        {
+            return value;
+        }
+        else
+        {
+            throw new PlatformNotSupportedException($"Platform ({arch}, {type}) is not supported.");
+        }
+    }
+
+
+    public async Task<ReleaseInfoDetail> GetReleaseInfoAsync(string version, Architecture arch, InstallType type, CancellationToken cancellationToken = default)
+    {
+        string url = GetUrl($"history/release_info_{version}.json");
+        var releaseInfo = await CommonGetAsync<ReleaseInfo>(url, cancellationToken);
+        string key = $"{arch}-{type}".ToLower();
+        if (releaseInfo.Releases?.TryGetValue(key, out var value) ?? false)
+        {
+            return value;
+        }
+        else
+        {
+            throw new PlatformNotSupportedException($"Platform ({arch}, {type}) is not supported.");
+        }
     }
 
 
 
-    public async Task<ReleaseVersion> GetReleaseAsync(bool isPrerelease, Architecture architecture, CancellationToken cancellationToken = default)
+    public async Task<ReleaseManifest> GetReleaseManifestAsync(string url, CancellationToken cancellationToken = default)
     {
-#if DEV
-        isPrerelease = true;
-#endif
-        var name = (isPrerelease, architecture) switch
-        {
-            (false, Architecture.X64) => "release_stable_x64.json",
-            (true, Architecture.X64) => "release_preview_x64.json",
-            (false, Architecture.Arm64) => "release_stable_arm64.json",
-            (true, Architecture.Arm64) => "release_preview_arm64.json",
-            _ => throw new PlatformNotSupportedException($"{architecture} is not supported."),
-        };
-        var url = GetUrl(name);
-        return await CommonGetAsync<ReleaseVersion>(url, cancellationToken);
+        return await CommonGetAsync<ReleaseManifest>(url, cancellationToken);
     }
 
 
 
-    public async Task<ReleaseVersion> GetReleaseAsync(string version, Architecture architecture, CancellationToken cancellationToken = default)
+    public async Task<ReleaseManifest> GetReleaseManifestAsync(string version, Architecture arch, InstallType type, CancellationToken cancellationToken = default)
     {
-        var name = architecture switch
-        {
-            Architecture.X64 => $"history/release_{version}_x64.json",
-            Architecture.Arm64 => $"history/release_{version}_arm64.json",
-            _ => throw new PlatformNotSupportedException($"{architecture} is not supported."),
-        };
-        var url = GetUrl(name);
-        return await CommonGetAsync<ReleaseVersion>(url, cancellationToken);
+        string url = GetUrl($"manifest/manifest_{version}_{arch}_{type}.json".ToLower());
+        return await CommonGetAsync<ReleaseManifest>(url, cancellationToken);
     }
 
 

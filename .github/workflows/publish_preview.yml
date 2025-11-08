@@ -64,12 +64,12 @@ jobs:
         name: metadata_${{ matrix.platform }}
         path: build/metadata/
         
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
-      with:
-        draft: true
-        prerelease: true
-        files: ./build/release/package/*
+    # - name: Create Release
+    #   uses: softprops/action-gh-release@v1
+    #   with:
+    #     draft: true
+    #     prerelease: true
+    #     files: ./build/release/package/*
 
     - name: Setup OssUtil
       run: |

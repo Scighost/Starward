@@ -7162,6 +7162,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Full Package 的本地化字符串。
+        /// </summary>
+        public static string UpdateWindow_FullPackage {
+            get {
+                return ResourceManager.GetString("UpdateWindow_FullPackage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Before starting, some necessary environment checks are required. 的本地化字符串。
         /// </summary>
         public static string WelcomeView_BeforeStartingSomeNecessaryEnvironmentChecksAreRequired {

@@ -3,6 +3,7 @@ using Polly.Retry;
 using System.CommandLine;
 using System.Diagnostics;
 using System.IO.Hashing;
+using System.Net;
 using System.Net.Http.Json;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -13,15 +14,11 @@ namespace BuildTool;
 public class DiffCommand
 {
 
-    private readonly ResiliencePipeline _polly;
-
     private ZstdSharp.Decompressor _zstdDecompressor => new();
 
+    private readonly HttpClient _httpClient;
 
-    private readonly HttpClient _httpClient = new(new SocketsHttpHandler
-    {
-        AutomaticDecompression = System.Net.DecompressionMethods.All,
-    });
+    private readonly ResiliencePipeline _polly;
 
 
     public Command Command { get; set; } = new Command("diff", "Create diff files.");
@@ -30,7 +27,7 @@ public class DiffCommand
 
     private Option<Architecture> _archOption = new Option<Architecture>("--arch", "-a") { Description = "Release architecture.", DefaultValueFactory = (_) => Architecture.X64 };
 
-    private Option<ReleaseType> _typeOption = new Option<ReleaseType>("--type", "-t") { Description = "Release type.", DefaultValueFactory = (_) => ReleaseType.Portable };
+    private Option<InstallType> _typeOption = new Option<InstallType>("--type", "-t") { Description = "Release type.", DefaultValueFactory = (_) => InstallType.Portable };
 
     private Option<string> _newVersionOption = new Option<string>("--new-version", "-nv") { Description = "New version.", Required = true };
 
@@ -42,7 +39,7 @@ public class DiffCommand
 
 
     private Architecture arch;
-    private ReleaseType type;
+    private InstallType type;
     private string outputPath;
     private string newVersion;
     private string newPath;
@@ -66,10 +63,12 @@ public class DiffCommand
         Command.Options.Add(_oldVersionOption);
         Command.Options.Add(_oldPathOption);
         Command.SetAction(DiffAsync);
+
+        _httpClient = new(new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All });
         _httpClient.DefaultRequestHeaders.Add("User-Agent", "Starward Build Tool");
         _polly = new ResiliencePipelineBuilder().AddRetry(new RetryStrategyOptions
         {
-            MaxRetryAttempts = 5,
+            MaxRetryAttempts = 3,
             BackoffType = DelayBackoffType.Linear
         }).Build();
     }
@@ -207,7 +206,7 @@ public class DiffCommand
 
         newManifest.DiffFileCount = newManifest.Files.Count(f => f.Patch == null || f.Patch.Id != null);
         newManifest.DiffSize = newManifest.Files.Where(f => f.Patch != null).Sum(f => f.Patch!.PatchSize) + newManifest.Files.Where(x => x.Patch == null).Sum(x => x.CompressedSize);
-        if (type is ReleaseType.Setup)
+        if (type is InstallType.Setup)
         {
             newManifest.DeleteFiles = oldManifest.Files.Select(x => x.Path).Except(newManifest.Files.Select(f => f.Path)).ToList();
         }
@@ -223,7 +222,7 @@ public class DiffCommand
 
 
 
-    private async Task<ReleaseManifest> GetManifestAsync(string version, Architecture arch, ReleaseType type)
+    private async Task<ReleaseManifest> GetManifestAsync(string version, Architecture arch, InstallType type)
     {
         string name = $"manifest_{version}_{arch}_{type}".ToLower();
         string url = $"https://starward-static.scighost.com/release/manifest/{name}.json";

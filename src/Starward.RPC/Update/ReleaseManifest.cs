@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
-namespace BuildTool;
+namespace Starward.RPC.Update.Metadata;
 
 
 public class ReleaseManifest

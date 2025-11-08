@@ -18,9 +18,13 @@ message UpdateRequest {
     // 版本
     string version = 1;
     // CPU 架构
-    string architecture = 2;
+    int32 architecture = 2;
+    // Release Type
+    int32 install_type = 3;
     // 目标安装路径
-    string target_path = 3;
+    string target_path = 4;
+    // 当前版本
+    string current_version = 5;
 }
 
 

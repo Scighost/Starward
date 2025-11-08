@@ -1,4 +1,7 @@
+using Polly;
+using Polly.Retry;
 using System.CommandLine;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.Json;
@@ -7,6 +10,11 @@ namespace BuildTool;
 
 public class ReleaseCommand
 {
+
+    private readonly HttpClient _httpClient;
+
+    private readonly ResiliencePipeline _polly;
+
 
     public Command Command { get; set; } = new Command("release", "Create release info file.");
 
@@ -20,7 +28,7 @@ public class ReleaseCommand
 
     private Option<Architecture> _archOption = new Option<Architecture>("--arch", "-a") { Description = "Release architecture.", DefaultValueFactory = (_) => Architecture.X64 };
 
-    private Option<ReleaseType> _typeOption = new Option<ReleaseType>("--type", "-t") { Description = "Release type.", DefaultValueFactory = (_) => ReleaseType.Portable };
+    private Option<InstallType> _typeOption = new Option<InstallType>("--type", "-t") { Description = "Release type.", DefaultValueFactory = (_) => InstallType.Portable };
 
     private Option<DateTimeOffset> _timeOption = new Option<DateTimeOffset>("--time") { Description = "Build time.", DefaultValueFactory = (_) => DateTimeOffset.Now };
 
@@ -34,7 +42,7 @@ public class ReleaseCommand
     private string outputFile;
     private string version;
     private Architecture arch;
-    private ReleaseType type;
+    private InstallType type;
     private DateTimeOffset buildTime;
     private string package;
     private List<string> diffVersions;
@@ -56,6 +64,14 @@ public class ReleaseCommand
         _combineCommand.SetAction(Combine);
         Command.Subcommands.Add(_createCommand);
         Command.Subcommands.Add(_combineCommand);
+
+        _httpClient = new(new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All });
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", "Starward Build Tool");
+        _polly = new ResiliencePipelineBuilder().AddRetry(new RetryStrategyOptions
+        {
+            MaxRetryAttempts = 3,
+            BackoffType = DelayBackoffType.Linear
+        }).Build();
     }
 
 
@@ -89,7 +105,7 @@ public class ReleaseCommand
         {
             Version = version,
             Architecture = arch,
-            ReleaseType = type,
+            InstallType = type,
             BuildTime = buildTime,
             ManifestUrl = $"https://starward-static.scighost.com/release/manifest/{manifestName}.json",
         };
@@ -160,6 +176,31 @@ public class ReleaseCommand
             }
         }
 
+        foreach (var item in combined.Releases.ToList())
+        {
+            if (!await IsUrlValidAsync(item.Value.ManifestUrl))
+            {
+                combined.Releases.Remove(item.Key);
+                continue;
+            }
+            if (!await IsUrlValidAsync(item.Value.PackageUrl))
+            {
+                item.Value.PackageUrl = null;
+                item.Value.PackageHash = null;
+                item.Value.PackageSize = 0;
+            }
+            if (item.Value.Diffs is not null)
+            {
+                foreach (var diff in item.Value.Diffs.ToList())
+                {
+                    if (!await IsUrlValidAsync(diff.Value.ManifestUrl))
+                    {
+                        item.Value.Diffs.Remove(diff.Key);
+                    }
+                }
+            }
+        }
+
         byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(combined, new JsonSerializerOptions { WriteIndented = true });
         Directory.CreateDirectory(Path.GetDirectoryName(outputFile)!);
         await File.WriteAllBytesAsync(outputFile, jsonBytes);
@@ -169,6 +210,28 @@ public class ReleaseCommand
         Console.ResetColor();
     }
 
+
+    private async Task<bool> IsUrlValidAsync(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            return false;
+        }
+        try
+        {
+            return await _polly.ExecuteAsync(async _ =>
+            {
+                using var response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                return true;
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"URL validation failed for {url}: {ex.Message}");
+            return false;
+        }
+    }
 
 
 }

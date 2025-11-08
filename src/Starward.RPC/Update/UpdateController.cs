@@ -1,5 +1,6 @@
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using Starward.RPC.Update.Metadata;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -35,14 +36,14 @@ internal class UpdateController : Updater.UpdaterBase
         try
         {
             _logger.LogInformation("Start to update ({Version}), target path: {path}.", request.Version, request.TargetPath);
-            Architecture arch = request.Architecture switch
+            var release = await _metadataClient.GetReleaseInfoAsync(request.Version, (Architecture)request.Architecture, (InstallType)request.InstallType, context.CancellationToken);
+            string manifestUrl = release.ManifestUrl;
+            if (release.Diffs?.TryGetValue(request.CurrentVersion, out var diff) ?? false)
             {
-                "x64" => Architecture.X64,
-                "arm64" => Architecture.Arm64,
-                _ => RuntimeInformation.ProcessArchitecture,
-            };
-            var release = await _metadataClient.GetReleaseAsync(request.Version, arch, context.CancellationToken);
-            _ = _updateService.PrepareForUpdateAsync(release, request.TargetPath, context.CancellationToken);
+                manifestUrl = diff.ManifestUrl;
+            }
+            var manifest = await _metadataClient.GetReleaseManifestAsync(manifestUrl, context.CancellationToken);
+            _ = _updateService.PrepareForUpdateAsync(manifest, request.TargetPath, context.CancellationToken);
             using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(100));
             while (await timer.WaitForNextTickAsync(context.CancellationToken))
             {

@@ -1,0 +1,144 @@
+
+name: Publish Preview 2
+
+on:
+  push:
+    tags: ["*"]
+
+permissions:
+  pull-requests: write
+  contents: write
+
+
+jobs:
+
+  version:
+    runs-on: windows-latest
+    outputs: 
+      version: ${{ github.ref_name }}
+    steps:
+    - name: Version
+      run: Write-Host "publish version is ${{ github.ref_name }}" -Foreground Green
+
+
+  build:
+    runs-on: windows-latest
+    needs: version
+    outputs:
+      version: ${{ needs.version.outputs.version }}
+    strategy:
+      matrix:
+        platform: [x64, arm64]
+    env:
+      Platform: ${{ matrix.platform }}
+      Version: ${{ needs.version.outputs.version }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 9.0.x
+        global-json-file: global.json
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup hdiffpatch
+      run: |
+        Invoke-WebRequest https://github.com/sisong/HDiffPatch/releases/download/v4.12.0/hdiffpatch_v4.12.0_bin_windows64.zip -OutFile ${{runner.temp}}/hdiffpatch.zip
+        Expand-Archive -Path ${{runner.temp}}/hdiffpatch.zip -DestinationPath ${{runner.temp}}/hdiffpatch
+        Move-Item -Path ${{runner.temp}}/hdiffpatch/windows64/hdiffz.exe -Destination C:/Windows/System32/hdiffz.exe -Force
+        Move-Item -Path ${{runner.temp}}/hdiffpatch/windows64/hpatchz.exe -Destination C:/Windows/System32/hpatchz.exe -Force
+
+    - name: Build and Pack
+      run: ./publish.ps1 -Architecture $env:Platform -Version $env:Version
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload Package
+      uses: actions/upload-artifact@v5
+      with:
+        name: Starward_Portable_${{ env.Version }}_${{ env.Platform }}.7z
+        path: build/release/package/Starward_Portable_${{ env.Version }}_${{ env.Platform }}.7z
+
+    - name: Upload Release Info
+      uses: actions/upload-artifact@v5
+      with:
+        name: release_info_${{ env.Version }}_${{ env.Platform }}.json
+        path: build/release_info_${{ env.Version }}_${{ env.Platform }}.json
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        draft: true
+        prerelease: true
+        files: build/release/package/*
+
+    - name: Setup ossutil
+      run: |
+        Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/v2/2.2.0/ossutil-2.2.0-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
+        Expand-Archive -Path ${{runner.temp}}/ossutil.zip -DestinationPath ${{runner.temp}}
+        Move-Item -Path ${{runner.temp}}/ossutil-2.2.0-windows-amd64/ossutil.exe -Destination C:/Windows/System32/ossutil.exe -Force
+
+    - name: Upload to OSS
+      run: ossutil cp ./build/release/ oss://starward-static/release/ -r -f -j 20
+      env:
+        OSS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+        OSS_ACCESS_KEY_SECRET: ${{ secrets.ACCESS_KEY_SECRET }}
+        OSS_REGION: ${{ secrets.OSS_REGION }}
+
+
+  static:
+    runs-on: windows-latest
+    needs: build
+    env:
+      Version: ${{ needs.build.outputs.version }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - name: Checkout Static
+      uses: actions/checkout@v5
+      with:
+        ref: static
+        path: static
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 9.0.x
+        global-json-file: global.json
+
+    - name: Download Artifact x64
+      uses: actions/download-artifact@v5
+      with:
+        name: release_info_${{ env.Version }}_x64.json
+        path: build/
+
+    - name: Download Artifact arm64
+      uses: actions/download-artifact@v5
+      with:
+        name: release_info_${{ env.Version }}_arm64.json
+        path: build/
+
+    - name: Combine Release Info
+      shell: pwsh
+      run: |
+        dotnet run --project 'src/BuildTool' -c Release -- release combine "static/release/history/release_info_${{ env.Version }}.json" -i "build/release_info_${{ env.Version }}_x64.json" "build/release_info_${{ env.Version }}_arm64.json"
+        Copy-Item "static/release/history/release_info_${{ env.Version }}.json" "static/release/release_info_preview.json" -Force
+
+    - name: Create Static Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        path: static
+        branch: update-static-release
+        delete-branch: true
+        title: update static release ${{ env.Version }}
+        commit-message: update static release ${{ env.Version }}
+
+
+

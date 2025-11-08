@@ -112,8 +112,18 @@ builder.Services.AddGrpc(options =>
 builder.Services.AddHttpClient().ConfigureHttpClientDefaults(config =>
 {
     config.RemoveAllLoggers();
-    config.ConfigureHttpClient(client => client.DefaultRequestHeaders.Add("User-Agent", $"Starward.RPC/{AppConfig.AppVersion}"));
-    config.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All });
+    config.ConfigureHttpClient(client =>
+    {
+        client.DefaultRequestHeaders.Add("User-Agent", $"Starward.RPC/{AppConfig.AppVersion}");
+        client.DefaultRequestVersion = HttpVersion.Version20;
+        client.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
+    });
+    config.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+    {
+        AutomaticDecompression = DecompressionMethods.All,
+        EnableMultipleHttp2Connections = true,
+        EnableMultipleHttp3Connections = true,
+    });
 });
 builder.Services.AddHttpClient<HoYoPlayClient>().AddPolicyHandler(GetHttpRetryPolicy());
 

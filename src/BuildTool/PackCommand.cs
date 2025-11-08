@@ -22,14 +22,14 @@ public class PackCommand
 
     private Option<Architecture> archOption = new Option<Architecture>("--arch", "-a") { Description = "Release architecture.", DefaultValueFactory = (_) => Architecture.X64 };
 
-    private Option<ReleaseType> typeOption = new Option<ReleaseType>("--type", "-t") { Description = "Release type.", DefaultValueFactory = (_) => ReleaseType.Portable };
+    private Option<InstallType> typeOption = new Option<InstallType>("--type", "-t") { Description = "Release type.", DefaultValueFactory = (_) => InstallType.Portable };
 
 
     private string rootPath;
     private string outputPath;
     private string version;
     private Architecture arch;
-    private ReleaseType type;
+    private InstallType type;
 
 
     public PackCommand()
@@ -77,7 +77,7 @@ public class PackCommand
         {
             Version = version!,
             Architecture = arch,
-            ReleaseType = type,
+            InstallType = type,
             DiffVersion = null,
             UrlPrefix = "https://starward-static.scighost.com/release/file/",
             Files = new(),

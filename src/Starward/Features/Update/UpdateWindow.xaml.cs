@@ -12,6 +12,7 @@ using Starward.Features.Setting;
 using Starward.Frameworks;
 using Starward.RPC.Update;
 using Starward.RPC.Update.Github;
+using Starward.RPC.Update.Metadata;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -146,7 +147,7 @@ public sealed partial class UpdateWindow : WindowEx
 
 
 
-    public ReleaseVersion? NewVersion { get; set => SetProperty(ref field, value); }
+    public ReleaseInfoDetail? NewVersion { get; set => SetProperty(ref field, value); }
 
 
 #if DEV
@@ -165,9 +166,8 @@ public sealed partial class UpdateWindow : WindowEx
             {
                 var url = fe.Tag switch
                 {
-                    "release" => NewVersion.ReleasePage,
-                    "install" => NewVersion.Install,
-                    "portable" => NewVersion.Portable,
+                    "release" => $"https://github.com/Scighost/Starward/releases/tag/{NewVersion.Version}",
+                    "package" => NewVersion.PackageUrl,
                     _ => null,
                 };
                 _logger.LogInformation("Open url: {url}", url);

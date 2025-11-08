@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using NuGet.Versioning;
 using Starward.Features.RPC;
 using Starward.RPC.Update;
+using Starward.RPC.Update.Metadata;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -30,11 +31,15 @@ internal class UpdateService
 
 
 
-    public async Task<ReleaseVersion?> CheckUpdateAsync(bool disableIgnore = false)
+    public async Task<ReleaseInfoDetail?> CheckUpdateAsync(bool disableIgnore = false)
     {
         _ = NuGetVersion.TryParse(AppConfig.AppVersion, out var currentVersion);
         _ = NuGetVersion.TryParse(AppConfig.IgnoreVersion, out var ignoreVersion);
-        var release = await _metadataClient.GetVersionAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture);
+#if DEBUG
+        var release = await _metadataClient.GetReleaseInfoAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture, InstallType.Portable);
+#else
+        var release = await _metadataClient.GetReleaseInfoAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture, (InstallType)(AppConfig.IsPortable ? 1 : 0));
+#endif
         _logger.LogInformation("Current version: {currentVersion}, latest version: {latestVersion}, ignore version: {ignoreVersion}.", AppConfig.AppVersion, release?.Version, ignoreVersion);
         _ = NuGetVersion.TryParse(release?.Version, out var newVersion);
         if (newVersion! > currentVersion!)
@@ -71,7 +76,7 @@ internal class UpdateService
     private CancellationTokenSource? _cancellationTokenSource;
 
 
-    public async Task StartUpdateAsync(ReleaseVersion release)
+    public async Task StartUpdateAsync(ReleaseInfoDetail release)
     {
         if (_isUpdating || UpdateFinished)
         {
@@ -118,7 +123,7 @@ internal class UpdateService
 
 
 
-    private async Task StartInternalAsync(ReleaseVersion release, CancellationToken cancellationToken = default)
+    private async Task StartInternalAsync(ReleaseInfoDetail release, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -132,8 +137,10 @@ internal class UpdateService
             var request = new UpdateRequest
             {
                 Version = release.Version,
-                Architecture = release.Architecture,
+                Architecture = (int)release.Architecture,
+                InstallType = (int)release.InstallType,
                 TargetPath = Path.GetDirectoryName(AppConfig.StarwardLauncherExecutePath),
+                CurrentVersion = AppConfig.AppVersion,
             };
             using var call = client.Update(request, cancellationToken: cancellationToken);
             await foreach (UpdateProgress progress in call.ResponseStream.ReadAllAsync(cancellationToken))

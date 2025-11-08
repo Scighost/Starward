@@ -1,7 +1,9 @@
+using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
-namespace BuildTool;
+namespace Starward.RPC.Update.Metadata;
 
 public class ReleaseInfo
 {
@@ -35,13 +37,13 @@ public class ReleaseInfoDetail
     public bool DisableAutoUpdate { get; set; }
 
     [JsonPropertyName("package_url")]
-    public string? PackageUrl { get; set; }
+    public string PackageUrl { get; set; }
 
     [JsonPropertyName("package_size")]
     public long PackageSize { get; set; }
 
     [JsonPropertyName("package_hash")]
-    public string? PackageHash { get; set; }
+    public string PackageHash { get; set; }
 
     [JsonPropertyName("manifest_url")]
     public string ManifestUrl { get; set; }

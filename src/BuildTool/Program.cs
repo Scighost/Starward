@@ -17,4 +17,4 @@ rootCommand.Subcommands.Add(releaseCommand.Command);
 
 
 
-rootCommand.Parse(args).Invoke(new InvocationConfiguration { EnableDefaultExceptionHandler = false });
+return rootCommand.Parse(args).Invoke();
