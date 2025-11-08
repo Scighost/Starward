@@ -2575,4 +2575,7 @@
   <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
     <value>ゲーム内で不正なツールが検出された場合の警告を表示しないようにします。</value>
   </data>
+  <data name="UpdateWindow_FullPackage" xml:space="preserve">
+    <value>Full Package</value>
+  </data>
 </root>
