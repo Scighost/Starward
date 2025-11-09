@@ -316,9 +316,9 @@ internal class ScreenCaptureService
                     int quality = AppConfig.ScreenCaptureEncodeQuality switch
                     {
                         0 => 80,
-                        1 => 95,
+                        1 => 90,
                         2 => 100,
-                        _ => 95,
+                        _ => 90,
                     };
                     await ImageSaver.SaveAsAvifAsync(captureItem.CanvasBitmap, ms, captureItem.ColorPrimaries, quality, xmpData).ConfigureAwait(false);
                 }
@@ -327,9 +327,9 @@ internal class ScreenCaptureService
                     float distance = AppConfig.ScreenCaptureEncodeQuality switch
                     {
                         0 => 2,
-                        1 => 0.5f,
+                        1 => 1,
                         2 => 0,
-                        _ => 0.5f,
+                        _ => 1,
                     };
                     await ImageSaver.SaveAsJxlAsync(captureItem.CanvasBitmap, ms, captureItem.ColorPrimaries, distance, xmpData).ConfigureAwait(false);
                 }

@@ -294,16 +294,16 @@ public sealed partial class ScreenshotSetting : PageBase
             int quality = ScreenshotQuality switch
             {
                 0 => 80,
-                1 => 95,
+                1 => 90,
                 2 => 100,
-                _ => 95,
+                _ => 90,
             };
             float distance = ScreenshotQuality switch
             {
                 0 => 2,
-                1 => 0.5f,
+                1 => 1,
                 2 => 0,
-                _ => 0.5f,
+                _ => 1,
             };
 
             byte[] xmpData = ScreenCaptureService.BuildXMPMetadata(frameTime);

@@ -1366,8 +1366,8 @@ public sealed partial class ImageViewWindow2 : Window
             Task task = Path.GetExtension(path).ToLowerInvariant() switch
             {
                 ".png" => ImageSaver.SaveAsPngAsync(bitmap, ms, colorPrimaries),
-                ".avif" => ImageSaver.SaveAsAvifAsync(bitmap, ms, colorPrimaries, 95),
-                ".jxl" => ImageSaver.SaveAsJxlAsync(bitmap, ms, colorPrimaries, 0.5f),
+                ".avif" => ImageSaver.SaveAsAvifAsync(bitmap, ms, colorPrimaries, 90),
+                ".jxl" => ImageSaver.SaveAsJxlAsync(bitmap, ms, colorPrimaries, 1f),
                 ".jpg" => ImageSaver.SaveAsUhdrAsync(bitmap, ms, maxCLL, outputNits),
                 _ => throw new ArgumentOutOfRangeException($"File extension '{extension}' is not supported."),
             };
