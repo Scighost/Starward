@@ -8,6 +8,7 @@ using Starward.Helpers;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
@@ -175,7 +176,10 @@ public sealed partial class WelcomeView : UserControl
             const string url = "https://starward.scighost.com/metadata/test/test_100kb";
             NetworkDelay = null;
             NetworkSpeed = null;
-            using HttpClient httpClient = new HttpClient();
+            using HttpClient httpClient = new HttpClient(new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All })
+            {
+                DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher
+            };
             var sw = Stopwatch.StartNew();
             var response = await httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
             sw.Stop();

@@ -842,7 +842,7 @@ internal partial class GamePackageService
         {
             using FileStream fs = File.Open(file, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
             string url = $"{manifestUrl.UrlPrefix.TrimEnd('/')}/{manifestFile.Id}";
-            using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
+            using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
             using HttpResponseMessage response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
             response.EnsureSuccessStatusCode();
             using Stream hs = await response.Content.ReadAsStreamAsync(cancellationToken);

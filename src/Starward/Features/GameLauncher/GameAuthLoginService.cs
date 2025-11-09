@@ -64,6 +64,7 @@ public class GameAuthLoginService
         var request = new HttpRequestMessage(HttpMethod.Post, "https://passport-api.mihoyo.com/account/ma-cn-session/app/verify")
         {
             Content = JsonContent.Create(obj),
+            VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher,
         };
         request.Headers.Add("x-rpc-app_id", "ddxf5dufpuyo");
         request.Headers.Add("x-rpc-client_type", "3");
@@ -111,6 +112,7 @@ public class GameAuthLoginService
             var request = new HttpRequestMessage(HttpMethod.Post, "https://passport-api.mihoyo.com/account/ma-cn-verifier/app/createAuthTicketByGameBiz")
             {
                 Content = JsonContent.Create(obj),
+                VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher,
             };
             request.Headers.Add("x-rpc-app_id", "ddxf5dufpuyo");
             request.Headers.Add("x-rpc-client_type", "3");

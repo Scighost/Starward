@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -27,7 +28,10 @@ public class GenshinBeyondGachaClient
 
     public GenshinBeyondGachaClient(HttpClient? httpClient = null)
     {
-        _httpClient = httpClient ?? new HttpClient();
+        _httpClient = httpClient ?? new HttpClient(new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All })
+        {
+            DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher
+        };
     }
 
 

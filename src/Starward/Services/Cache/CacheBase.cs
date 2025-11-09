@@ -80,7 +80,7 @@ public abstract class CacheBase<T>
     /// <summary>
     /// Gets instance of <see cref="HttpClient"/>
     /// </summary>
-    protected HttpClient HttpClient => _httpClient ??= new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
+    protected HttpClient HttpClient => _httpClient ??= new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
 
 
     /// <summary>
@@ -539,7 +539,7 @@ public abstract class CacheBase<T>
 
     protected virtual HttpRequestMessage GetHttpRequestMessage(Uri uri)
     {
-        return new HttpRequestMessage(HttpMethod.Get, uri);
+        return new HttpRequestMessage(HttpMethod.Get, uri) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
     }
 
 

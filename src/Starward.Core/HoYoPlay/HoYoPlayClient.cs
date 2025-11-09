@@ -15,7 +15,7 @@ public class HoYoPlayClient
 
     public HoYoPlayClient(HttpClient? httpClient = null)
     {
-        _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
+        _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
     }
 
 
@@ -66,6 +66,7 @@ public class HoYoPlayClient
 
     private async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken = default)
     {
+        request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
         var response = await _httpClient.SendAsync(request, cancellationToken);
         response.EnsureSuccessStatusCode();
         var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), HoYoPlayJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;

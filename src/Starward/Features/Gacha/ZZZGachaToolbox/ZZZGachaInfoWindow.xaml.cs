@@ -210,7 +210,7 @@ public sealed partial class ZZZGachaInfoWindow : WindowEx
             {
                 string url = args.Request.Uri.Replace("/icon_info", "/item_list") + "&avatar_id=1011";
                 var headers = args.Request.Headers.ToList();
-                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                var request = new HttpRequestMessage(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
                 foreach (var header in headers)
                 {
                     request.Headers.Add(header.Key, header.Value);
@@ -249,7 +249,7 @@ public sealed partial class ZZZGachaInfoWindow : WindowEx
                         continue;
                     }
                     {
-                        var request = new HttpRequestMessage(HttpMethod.Get, url);
+                        var request = new HttpRequestMessage(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
                         foreach (var header in headers)
                         {
                             string value = header.Value;
@@ -272,7 +272,7 @@ public sealed partial class ZZZGachaInfoWindow : WindowEx
                         }
                     }
                     {
-                        var request = new HttpRequestMessage(HttpMethod.Get, url.Replace("/icon_info", "/item_list") + "&avatar_id=1011");
+                        var request = new HttpRequestMessage(HttpMethod.Get, url.Replace("/icon_info", "/item_list") + "&avatar_id=1011") { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
                         foreach (var header in headers)
                         {
                             string value = header.Value;

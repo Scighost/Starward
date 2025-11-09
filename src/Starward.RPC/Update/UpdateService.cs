@@ -283,7 +283,7 @@ internal class UpdateService
         Interlocked.Add(ref progress_DownloadBytes, fs.Length);
         if (fs.Length < size)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = new HttpRequestMessage(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
             request.Headers.Range = new RangeHeaderValue(fs.Length, null);
             var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
             response.EnsureSuccessStatusCode();

@@ -269,7 +269,6 @@ public static class AppConfig
                 config.ConfigureHttpClient(client =>
                 {
                     client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppVersion}");
-                    client.DefaultRequestVersion = HttpVersion.Version20;
                     client.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
                 });
                 config.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler

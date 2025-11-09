@@ -115,7 +115,6 @@ builder.Services.AddHttpClient().ConfigureHttpClientDefaults(config =>
     config.ConfigureHttpClient(client =>
     {
         client.DefaultRequestHeaders.Add("User-Agent", $"Starward.RPC/{AppConfig.AppVersion}");
-        client.DefaultRequestVersion = HttpVersion.Version20;
         client.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
     });
     config.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler

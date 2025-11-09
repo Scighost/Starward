@@ -66,7 +66,10 @@ public abstract class GachaLogClient
     {
         if (httpClient is null)
         {
-            _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All });
+            _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = System.Net.DecompressionMethods.All })
+            {
+                DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher
+            };
         }
         else
         {

@@ -33,7 +33,7 @@ public class MetadataClient
     public MetadataClient(int apiIndex = 0, HttpClient? httpClient = null)
     {
         SetApiPrefix(apiIndex);
-        _httpClient = httpClient ?? new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
+        _httpClient = httpClient ?? new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
     }
 
 

@@ -32,7 +32,7 @@ public class MetadataClient
         if (httpClient is null)
         {
             _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
-            _httpClient.DefaultRequestVersion = HttpVersion.Version20;
+            _httpClient.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "Starward.RPC");
         }
         else

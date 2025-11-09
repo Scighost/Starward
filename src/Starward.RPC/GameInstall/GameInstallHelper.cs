@@ -524,7 +524,7 @@ internal partial class GameInstallHelper
             try
             {
                 using HttpClient httpClient = _httpClientFactory.CreateClient();
-                HttpRequestMessage request = new(HttpMethod.Get, url);
+                HttpRequestMessage request = new(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
                 request.Headers.Range = new RangeHeaderValue(fs.Length, null);
                 using HttpResponseMessage response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
                 response.EnsureSuccessStatusCode();

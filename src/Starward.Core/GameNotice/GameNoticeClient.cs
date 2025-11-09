@@ -12,7 +12,7 @@ public class GameNoticeClient
 
     public GameNoticeClient(HttpClient? httpClient = null)
     {
-        _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
+        _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
     }
 
 
@@ -20,7 +20,7 @@ public class GameNoticeClient
 
     private async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken = default) where T : class
     {
-        request.Version = HttpVersion.Version20;
+        request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
         var response = await _httpClient.SendAsync(request, cancellationToken);
         response.EnsureSuccessStatusCode();
         var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), GameNoticeJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;

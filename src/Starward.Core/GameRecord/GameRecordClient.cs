@@ -153,7 +153,7 @@ public abstract class GameRecordClient
 
     public GameRecordClient(HttpClient? httpClient = null)
     {
-        _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultRequestVersion = HttpVersion.Version20 };
+        _httpClient = httpClient ?? new(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
     }
 
 
@@ -166,7 +166,7 @@ public abstract class GameRecordClient
 
     protected virtual async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken = default) where T : class
     {
-        request.Version = HttpVersion.Version20;
+        request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
         request.Headers.Add(Accept, Application_Json);
         request.Headers.Add(UserAgent, UAContent);
         var response = await _httpClient.SendAsync(request, cancellationToken);
