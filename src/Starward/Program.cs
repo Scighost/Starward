@@ -4,6 +4,7 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
 using Starward.Features.UrlProtocol;
+using Starward.RPC;
 using System;
 using System.Collections;
 using System.IO;
@@ -30,6 +31,11 @@ public static class Program
         if (args.Length > 0)
         {
             IConfiguration config = new ConfigurationBuilder().AddCommandLine(args).Build();
+            if (args[0].ToLower() is "rpc")
+            {
+                RpcRunner.Run(args);
+                return;
+            }
             if (args[0].ToLower() is "playtime")
             {
                 int pid = config.GetValue<int>("pid");

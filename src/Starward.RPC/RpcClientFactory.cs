@@ -12,6 +12,7 @@ namespace Starward.RPC;
 public static class RpcClientFactory
 {
 
+    public static string StartupMagic => AppConfig.StartupMagic;
 
 
     public static bool CheckRpcServerRunning()
@@ -22,7 +23,7 @@ public static class RpcClientFactory
 
 
 
-
+    [Obsolete("Not used", true)]
     public static async Task<Process> EnsureRpcServerRunningAsync()
     {
         Process? process = null;

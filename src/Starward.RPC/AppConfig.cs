@@ -38,7 +38,7 @@ internal static class AppConfig
 
     static AppConfig()
     {
-        AppVersion = typeof(Program).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "";
+        AppVersion = typeof(AppConfig).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "";
         MutexAndPipeName = $"Starward.RPC/{Process.GetCurrentProcess().SessionId}/{AppVersion}";
         IsAdmin = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 

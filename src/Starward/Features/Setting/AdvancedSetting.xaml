@@ -87,7 +87,7 @@
                               Glyph="&#xE9D9;" />
                     <TextBlock Foreground="{ThemeResource SystemFillColorSuccessBrush}" Text="{x:Bind lang:Lang.SettingPage_RPCServiceIsRunning}" />
                     <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" IsTextSelectionEnabled="True">
-                        <Run Text="Starward.RPC.exe" />
+                        <Run Text="Starward.exe" />
                         <Run Text="(" /><Run Text="{x:Bind RPCServerProcessId}" /><Run Text=")" />
                     </TextBlock>
                     <AppBarSeparator Padding="0" />
@@ -107,7 +107,7 @@
                               Glyph="&#xE9D9;" />
                     <TextBlock Foreground="{ThemeResource SystemFillColorCautionBrush}" Text="{x:Bind lang:Lang.SettingPage_CannotConnectRPCService}" />
                     <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" IsTextSelectionEnabled="True">
-                        <Run Text="Starward.RPC.exe" />
+                        <Run Text="Starward.exe" />
                         <Run Text="(" /><Run Text="{x:Bind RPCServerProcessId}" /><Run Text=")" />
                     </TextBlock>
                     <AppBarSeparator Padding="0" />

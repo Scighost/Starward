@@ -13,10 +13,6 @@ internal class RpcService
 {
 
 
-
-    private Process _rpcServerProcess;
-
-
     private ILogger<RpcService> _logger;
 
 
@@ -57,20 +53,31 @@ internal class RpcService
         const int ERROR_CANCELLED = 0x000004C7;
         try
         {
-            if (!CheckRpcServerRunning() || _rpcServerProcess is null)
+            if (!CheckRpcServerRunning())
             {
-                _rpcServerProcess?.Dispose();
-                _rpcServerProcess = await RpcClientFactory.EnsureRpcServerRunningAsync();
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = AppConfig.StarwardExecutePath,
+                    Verb = "runas",
+                    UseShellExecute = true,
+                    CreateNoWindow = true,
+                    Arguments = $"rpc {RpcClientFactory.StartupMagic} {Environment.ProcessId}",
+                });
+            }
+            try
+            {
+                var client = RpcClientFactory.CreateRpcClient<Env.EnvClient>();
+                await client.GetRpcServerInfoAsync(new EmptyMessage(), deadline: DateTime.UtcNow.AddSeconds(5));
+            }
+            catch (RpcException ex) when (ex.Status is { StatusCode: StatusCode.DeadlineExceeded })
+            {
+                throw new TimeoutException("Checking RPC server timed out.");
             }
             await SetEnviromentAsync();
         }
         catch (Win32Exception ex) when (ex.NativeErrorCode == ERROR_CANCELLED)
         {
             return false;
-        }
-        catch (RpcException ex) when (ex.Status is { StatusCode: StatusCode.DeadlineExceeded })
-        {
-            throw new TimeoutException("Checking RPC server timed out.");
         }
         return true;
     }

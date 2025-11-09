@@ -1,24 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
 		<TargetFramework>net9.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<LangVersion>preview</LangVersion>
-		<SelfContained>true</SelfContained>
-		<ApplicationIcon>logo.ico</ApplicationIcon>
+		<!--<SelfContained>true</SelfContained>-->
+		<!--<ApplicationIcon>logo.ico</ApplicationIcon>-->
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 		<!--NETSDK1152-->
-		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
-		<CETCompat>false</CETCompat>
+		<!--<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>-->
+		<!--<CETCompat>false</CETCompat>-->
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!--https://github.com/dotnet/sdk/issues/1675-->
 		<!--避免剪裁后 *.deps.json 不复制到输出目录，导致程序正常无法启动-->
-		<ContentWithTargetPath Include="$(ProjectDepsFilePath)" Condition="'$(GenerateDependencyFile)' == 'true'" CopyToOutputDirectory="PreserveNewest" TargetPath="$(ProjectDepsFileName)" />
+		<!--<ContentWithTargetPath Include="$(ProjectDepsFilePath)" Condition="'$(GenerateDependencyFile)' == 'true'" CopyToOutputDirectory="PreserveNewest" TargetPath="$(ProjectDepsFileName)" />-->
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,10 +38,10 @@
 	  <ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 	  <None Update="appsettings.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	</ItemGroup>
+	</ItemGroup>-->
 
 </Project>
