@@ -127,7 +127,7 @@
     <value>잔여공간</value>
   </data>
   <data name="DownloadGameDialog_RequiredSpaceForUnzipping" xml:space="preserve">
-    <value>필요 저장 공간</value>
+    <value>필요한 저장 용량:</value>
   </data>
   <data name="DownloadGameDialog_RepairMode" xml:space="preserve">
     <value>복구모드</value>
@@ -151,7 +151,7 @@
     <value>이 기능은 시험단계 입니다. 오류발생시 기본 실행기로 복구 할수 있습니다.</value>
   </data>
   <data name="DownloadGameDialog_FreeSpaceMayBeNotEnough" xml:space="preserve">
-    <value>잔여공간 부족</value>
+    <value>잔여용량 부족</value>
   </data>
   <data name="GachaStatsCard_Pity" xml:space="preserve">
     <value>천장</value>
@@ -2571,12 +2571,12 @@
     <value>별바다 세계 축원</value>
   </data>
   <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
-    <value>Launch Game using CMD</value>
+    <value>명령프롬프트 CMD 로 게임실행</value>
   </data>
   <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
-    <value>Avoid showing alerts about detecting illegal tool in the game.</value>
+    <value>게임 실행중 불법프로그램 탐지 경고창 무시하기.</value>
   </data>
   <data name="UpdateWindow_FullPackage" xml:space="preserve">
-    <value>Full Package</value>
+    <value>전체 패키지</value>
   </data>
 </root>
