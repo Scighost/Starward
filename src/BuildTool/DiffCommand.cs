@@ -201,7 +201,7 @@ public class DiffCommand
                 }
             }
             Interlocked.Increment(ref count);
-            Console.WriteLine($"[{count}/{newManifest.Files.Count}] Processed {newItem.Path}");
+            Console.WriteLine($"[{count}/{newManifest.Files.Count}] Create diff for {oldVersion}: {newItem.Path}");
         });
 
         newManifest.DiffFileCount = newManifest.Files.Count(f => f.Patch == null || f.Patch.Id != null);

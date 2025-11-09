@@ -221,7 +221,7 @@ public class ReleaseCommand
         {
             return await _polly.ExecuteAsync(async _ =>
             {
-                using var response = await _httpClient.GetAsync(url);
+                using var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
                 response.EnsureSuccessStatusCode();
                 return true;
             });
