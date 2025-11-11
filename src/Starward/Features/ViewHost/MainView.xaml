@@ -88,17 +88,6 @@
                         </Border>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
-                <!--  工具箱  -->
-                <NavigationViewItem Name="NavigationViewItem_HoyolabToolbox" Tag="GameRecordPage">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xF133;" />
-                    </NavigationViewItem.Icon>
-                    <NavigationViewItem.Content>
-                        <Border Height="40">
-                            <TextBlock x:Name="TextBlock_HoyolabToolbox" VerticalAlignment="Center" />
-                        </Border>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
                 <!--  抽卡记录  -->
                 <NavigationViewItem Name="NavigationViewItem_GachaLog" Tag="GachaLogPage">
                     <NavigationViewItem.Icon>
@@ -107,6 +96,17 @@
                     <NavigationViewItem.Content>
                         <Border Height="40">
                             <TextBlock x:Name="TextBlock_GachaLog" VerticalAlignment="Center" />
+                        </Border>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                <!--  工具箱  -->
+                <NavigationViewItem Name="NavigationViewItem_HoyolabToolbox" Tag="GameRecordPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xF133;" />
+                    </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <Border Height="40">
+                            <TextBlock x:Name="TextBlock_HoyolabToolbox" VerticalAlignment="Center" />
                         </Border>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
