@@ -91,4 +91,10 @@ public class ReleaseFilePatch
 
     [JsonPropertyName("patch_hash")]
     public string? PatchHash { get; set; }
+
+    [JsonPropertyName("offset")]
+    public long Offset { get; set; }
+
+    [JsonPropertyName("length")]
+    public long Length { get; set; }
 }

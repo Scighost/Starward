@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -35,7 +35,7 @@ internal class FileSliceStream : Stream
 
     public FileSliceStream(string filePath, long startPosition, long length)
     {
-        _sourceStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        _sourceStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
         _startPosition = startPosition;
         _length = length;
         _currentPosition = 0;

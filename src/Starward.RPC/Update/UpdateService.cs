@@ -2,10 +2,13 @@ using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Retry;
 using Snap.HPatch;
+using Starward.RPC.GameInstall;
 using Starward.RPC.Update.Metadata;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
@@ -226,10 +229,25 @@ internal class UpdateService
             Progress_TotalBytes = releaseManifest.DiffSize;
             Progress_TotalFileCount = releaseManifest.DiffFileCount;
         }
-        _logger.LogInformation("Update Starward, downloading {count} files", Progress_TotalFileCount);
-        await Parallel.ForEachAsync(releaseManifest.Files, cancellationToken, async (releaseFile, token) =>
+
+        List<(string Id, long Size, string Hash)> list = new();
+        foreach (var item in releaseManifest.Files)
         {
-            await _polly.ExecuteAsync(async (pollyToken) => await DownloadReleaseFileAsync(releaseFile, pollyToken), token);
+            if (item.Patch is null && !currentVersionFilesHash!.ContainsKey(item.Hash))
+            {
+                list.Add((item.Id, item.CompressedSize, item.CompressedHash));
+            }
+            else if (item.Patch?.Id is not null && item.Patch?.PatchHash is not null)
+            {
+                list.Add((item.Patch.Id, item.Patch.PatchSize, item.Patch.PatchHash));
+            }
+        }
+        list = list.DistinctBy(x => x.Id).ToList();
+
+        _logger.LogInformation("Update Starward, downloading {count} files", Progress_TotalFileCount);
+        await Parallel.ForEachAsync(list, cancellationToken, async (item, token) =>
+        {
+            await _polly.ExecuteAsync(async (pollyToken) => await DownloadReleaseFileAsync(item, pollyToken), token);
         });
     }
 
@@ -254,34 +272,14 @@ internal class UpdateService
 
 
 
-    private async Task DownloadReleaseFileAsync(ReleaseFile releaseFile, CancellationToken cancellationToken = default)
+    private async Task DownloadReleaseFileAsync((string Id, long Size, string Hash) item, CancellationToken cancellationToken = default)
     {
-        string? url = null;
-        string? path = null;
-        string? hash = null;
-        long size = 0;
-        if (releaseFile.Patch is null && !currentVersionFilesHash.ContainsKey(releaseFile.Hash))
-        {
-            url = releaseManifest.UrlPrefix + releaseFile.Id;
-            path = Path.Combine(updateCacheFolder, releaseFile.Id);
-            hash = releaseFile.CompressedHash;
-            size = releaseFile.CompressedSize;
-        }
-        else if (releaseFile.Patch?.Id is not null)
-        {
-            url = releaseManifest.UrlPrefix + releaseFile.Patch.Id;
-            path = Path.Combine(updateCacheFolder, releaseFile.Patch.Id);
-            hash = releaseFile.Patch.PatchHash;
-            size = releaseFile.Patch.PatchSize;
-        }
-        if (url is null || path is null || hash is null)
-        {
-            return;
-        }
+        string url = releaseManifest.UrlPrefix + item.Id;
+        string path = Path.Combine(updateCacheFolder, item.Id);
 
         using var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
         Interlocked.Add(ref progress_DownloadBytes, fs.Length);
-        if (fs.Length < size)
+        if (fs.Length < item.Size)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
             request.Headers.Range = new RangeHeaderValue(fs.Length, null);
@@ -305,14 +303,14 @@ internal class UpdateService
 
         fs.Position = 0;
         var sha256 = await SHA256.HashDataAsync(fs, cancellationToken);
-        if (string.Equals(Convert.ToHexString(sha256), hash, StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(Convert.ToHexString(sha256), item.Hash, StringComparison.OrdinalIgnoreCase))
         {
             return;
         }
         _logger.LogWarning("Checksum failed: {path}", path);
         fs.Dispose();
         File.Delete(path);
-        Interlocked.Add(ref progress_DownloadBytes, -size);
+        Interlocked.Add(ref progress_DownloadBytes, -item.Size);
         Interlocked.Decrement(ref progress_DownloadFileCount);
         throw new Exception($"Checksum failed: {path}");
     }
@@ -348,10 +346,10 @@ internal class UpdateService
                 string patchPath = Path.Combine(updateCacheFolder, releaseFile.Patch.Id);
                 if (File.Exists(patchPath))
                 {
-                    using var oldHandle = File.OpenHandle(oldPath2, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-                    using var patchHandle = File.OpenHandle(patchPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-                    using var newHandle = File.OpenHandle(path, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
-                    HPatch.PatchZstandard(oldHandle, patchHandle, newHandle);
+                    using var oldFs = File.Open(oldPath2, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+                    using var newFs = File.Open(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete);
+                    using var patchFs = new FileSliceStream(patchPath, releaseFile.Patch.Offset, releaseFile.Patch.Length == 0 ? releaseFile.Patch.PatchSize : releaseFile.Patch.Length);
+                    HPatch.PatchZstandard(oldFs, patchFs, newFs);
                 }
             }
         }

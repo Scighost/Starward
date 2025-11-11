@@ -196,6 +196,8 @@ public class DiffCommand
                         OldFileHash = oldItem2.Hash,
                         PatchSize = diffBytes.Length,
                         PatchHash = diffHash,
+                        Offset = 0,
+                        Length = diffBytes.Length,
                     };
                     File.Move(diffTempPath, Path.Join(outputFileFolder, newItem.Patch.Id), true);
                 }
