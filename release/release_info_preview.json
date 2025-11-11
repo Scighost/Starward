@@ -15,22 +15,6 @@
         "0.15.9": {
           "diff_version": "0.15.9",
           "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.16.0-preview.1_x64_portable_diff_0.15.9.json"
-        },
-        "0.15.8": {
-          "diff_version": "0.15.8",
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.16.0-preview.1_x64_portable_diff_0.15.8.json"
-        },
-        "0.15.7": {
-          "diff_version": "0.15.7",
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.16.0-preview.1_x64_portable_diff_0.15.7.json"
-        },
-        "0.15.6": {
-          "diff_version": "0.15.6",
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.16.0-preview.1_x64_portable_diff_0.15.6.json"
-        },
-        "0.15.5": {
-          "diff_version": "0.15.5",
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.16.0-preview.1_x64_portable_diff_0.15.5.json"
         }
       }
     },
@@ -48,22 +32,6 @@
         "0.15.9": {
           "diff_version": "0.15.9",
           "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.16.0-preview.1_arm64_portable_diff_0.15.9.json"
-        },
-        "0.15.8": {
-          "diff_version": "0.15.8",
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.16.0-preview.1_arm64_portable_diff_0.15.8.json"
-        },
-        "0.15.7": {
-          "diff_version": "0.15.7",
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.16.0-preview.1_arm64_portable_diff_0.15.7.json"
-        },
-        "0.15.6": {
-          "diff_version": "0.15.6",
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.16.0-preview.1_arm64_portable_diff_0.15.6.json"
-        },
-        "0.15.5": {
-          "diff_version": "0.15.5",
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.16.0-preview.1_arm64_portable_diff_0.15.5.json"
         }
       }
     }
