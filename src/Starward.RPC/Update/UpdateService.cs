@@ -122,11 +122,18 @@ internal class UpdateService
             var releaseFiles = new ConcurrentDictionary<string, string>();
             await Parallel.ForEachAsync(files, cancellationToken, async (file, token) =>
             {
-                using var fs = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-                var sha256 = await SHA256.HashDataAsync(fs, cancellationToken);
-                lock (releaseFiles)
+                try
                 {
-                    releaseFiles[Convert.ToHexStringLower(sha256)] = file;
+                    using var fs = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+                    var sha256 = await SHA256.HashDataAsync(fs, cancellationToken);
+                    lock (releaseFiles)
+                    {
+                        releaseFiles[Convert.ToHexStringLower(sha256)] = file;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Calculate file hash failed: {file}", file);
                 }
             });
             currentVersionFilesHash = releaseFiles;
@@ -244,11 +251,12 @@ internal class UpdateService
         }
         list = list.DistinctBy(x => x.Id).ToList();
 
-        _logger.LogInformation("Update Starward, downloading {count} files", Progress_TotalFileCount);
+        _logger.LogInformation("Update Starward, downloading {count} files, file size: {size}", Progress_TotalFileCount, Progress_TotalBytes);
         await Parallel.ForEachAsync(list, cancellationToken, async (item, token) =>
         {
             await _polly.ExecuteAsync(async (pollyToken) => await DownloadReleaseFileAsync(item, pollyToken), token);
         });
+        _logger.LogInformation("Update Starward, downloading files finished");
     }
 
 
