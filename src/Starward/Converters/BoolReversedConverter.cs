@@ -3,7 +3,7 @@ using System;
 
 namespace Starward.Converters;
 
-internal class BoolReversedConverter : IValueConverter
+internal partial class BoolReversedConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

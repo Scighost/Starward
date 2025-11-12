@@ -263,7 +263,7 @@ public sealed partial class ImaginariumTheaterPage : PageBase
 
 
 
-public class TheaterStarIconVisibilityConverter : IValueConverter
+public partial class TheaterStarIconVisibilityConverter : IValueConverter
 {
 
     public object Convert(object value, Type targetType, object parameter, string language)

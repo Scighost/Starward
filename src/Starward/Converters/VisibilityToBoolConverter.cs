@@ -4,7 +4,7 @@ using System;
 
 namespace Starward.Converters;
 
-class VisibilityToBoolConverter : IValueConverter
+public partial class VisibilityToBoolConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

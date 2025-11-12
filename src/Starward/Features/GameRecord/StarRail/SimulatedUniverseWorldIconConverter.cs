@@ -3,7 +3,7 @@ using System;
 
 namespace Starward.Features.GameRecord.StarRail;
 
-internal class SimulatedUniverseWorldIconConverter : IValueConverter
+internal partial class SimulatedUniverseWorldIconConverter : IValueConverter
 {
 
     public object Convert(object value, Type targetType, object parameter, string language)

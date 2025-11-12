@@ -6,7 +6,7 @@ using Windows.UI;
 
 namespace Starward.Features.GameRecord.StarRail;
 
-internal class SimulatedUniverseBuffBgConverter : IValueConverter
+internal partial class SimulatedUniverseBuffBgConverter : IValueConverter
 {
 
 

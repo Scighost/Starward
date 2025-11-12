@@ -3,7 +3,7 @@ using System;
 
 namespace Starward.Features.GameRecord.StarRail;
 
-internal class SimulatedUniverseRomanNumberConverter : IValueConverter
+internal partial class SimulatedUniverseRomanNumberConverter : IValueConverter
 {
 
     public object Convert(object value, Type targetType, object parameter, string language)

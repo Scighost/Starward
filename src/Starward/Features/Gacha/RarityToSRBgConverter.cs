@@ -3,7 +3,7 @@ using System;
 
 namespace Starward.Features.Gacha;
 
-internal class RarityToSRBgConverter : IValueConverter
+internal partial class RarityToSRBgConverter : IValueConverter
 {
 
     private const string Rarity1Background = "ms-appx:///Assets/Image/FrameIconRarity01.png";

@@ -3,7 +3,7 @@ using System;
 
 namespace Starward.Features.GameRecord.StarRail;
 
-internal class SimulatedUniverseBuffIconConverter : IValueConverter
+internal partial class SimulatedUniverseBuffIconConverter : IValueConverter
 {
 
     private const string Icon_120 = "ms-appx:///Assets/Image/RogueInterveneKnight.png";

@@ -401,7 +401,7 @@ public class GenshinBeyondGachaTypeStats
 }
 
 
-public class GenshinBeyondGachaPityProgressBackgroundBrushConverter : IValueConverter
+public partial class GenshinBeyondGachaPityProgressBackgroundBrushConverter : IValueConverter
 {
     private static Color Red = Color.FromArgb(0xFF, 0xC8, 0x3C, 0x23);
     private static Color Green = Color.FromArgb(0xFF, 0x00, 0xE0, 0x79);

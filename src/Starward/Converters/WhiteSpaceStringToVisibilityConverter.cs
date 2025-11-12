@@ -4,7 +4,7 @@ using System;
 
 namespace Starward.Converters;
 
-public class WhiteSpaceStringToVisibilityConverter : IValueConverter
+public partial class WhiteSpaceStringToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

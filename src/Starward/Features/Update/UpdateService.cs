@@ -131,6 +131,7 @@ internal class UpdateService
             {
                 // 操作取消
                 State = UpdateState.Stop;
+                _logger.LogWarning("Start rpc server cancelled.");
                 return;
             }
             var client = RpcService.CreateRpcClient<Updater.UpdaterClient>();

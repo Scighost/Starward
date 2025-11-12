@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Starward.Features.GameRecord.Genshin;
 
-public class SpiralAbyssBattleAvatarsSelectConverter : IValueConverter
+public partial class SpiralAbyssBattleAvatarsSelectConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

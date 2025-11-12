@@ -4,7 +4,7 @@ using System;
 
 namespace Starward.Features.GameAccount;
 
-public class GameAccountUidStringConverter : IValueConverter
+public partial class GameAccountUidStringConverter : IValueConverter
 {
 
     public object Convert(object value, Type targetType, object parameter, string language)
