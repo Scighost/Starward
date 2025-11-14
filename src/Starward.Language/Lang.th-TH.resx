@@ -778,8 +778,8 @@
     <value>ใช้ปลั๊กอินของบุุคคลที่ 3 ในการเริ่มเกม - เวลาที่เล่นจะไม่สามารถนับได้</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>กำหนดภาษาของประวัติการสุ่ม เช่น th-TH</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <value>Specify the language of gacha records, such as en-us.</value>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>ภาษา</value>
