@@ -4,7 +4,7 @@ using System;
 
 namespace Starward.Features.GameRecord.ZZZ;
 
-internal class ZZZRarityToIconConverter : IValueConverter
+internal partial class ZZZRarityToIconConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

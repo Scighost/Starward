@@ -4,7 +4,7 @@ using System;
 
 namespace Starward.Features.SelfQuery;
 
-internal class SelfQueryStatsNumberConverter : IValueConverter
+internal partial class SelfQueryStatsNumberConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
@@ -28,7 +28,7 @@ internal class SelfQueryStatsNumberConverter : IValueConverter
 
 
 
-internal class SelfQueryStatsNumberBrushConverter : IValueConverter
+internal partial class SelfQueryStatsNumberBrushConverter : IValueConverter
 {
 
     private static Brush? GreenBrush = App.Current.Resources["SystemFillColorSuccessBrush"] as Brush;

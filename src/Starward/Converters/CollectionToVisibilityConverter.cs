@@ -5,7 +5,7 @@ using System.Collections;
 
 namespace Starward.Converters;
 
-public class CollectionToVisibilityConverter : IValueConverter
+public partial class CollectionToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

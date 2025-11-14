@@ -3,7 +3,7 @@ using System;
 
 namespace Starward.Converters;
 
-internal class TimeSpanToStringConverter : IValueConverter
+internal partial class TimeSpanToStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

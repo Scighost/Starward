@@ -29,7 +29,7 @@ public class ZZZGachaClient : GachaLogClient
             gachaUrl = API_PREFIX_ZZZ_CN + auth;
             if (!string.IsNullOrWhiteSpace(lang))
             {
-                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
+                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={LanguageUtil.FilterLanguage(lang)}");
             }
             return gachaUrl;
         }
@@ -41,7 +41,7 @@ public class ZZZGachaClient : GachaLogClient
             gachaUrl = API_PREFIX_ZZZ_OS + auth;
             if (!string.IsNullOrWhiteSpace(lang))
             {
-                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
+                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={LanguageUtil.FilterLanguage(lang)}");
             }
             return gachaUrl;
         }
@@ -55,7 +55,7 @@ public class ZZZGachaClient : GachaLogClient
             gachaUrl = Regex.Replace(gachaUrl, @"&end_id=\d", "");
             if (!string.IsNullOrWhiteSpace(lang))
             {
-                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
+                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={LanguageUtil.FilterLanguage(lang)}");
             }
             return gachaUrl;
         }

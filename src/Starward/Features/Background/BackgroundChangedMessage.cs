@@ -7,7 +7,7 @@ internal class BackgroundChangedMessage
 
     public GameBackground? GameBackground { get; set; }
 
-    public BackgroundChangedMessage(GameBackground gameBackground = null)
+    public BackgroundChangedMessage(GameBackground? gameBackground = null)
     {
         GameBackground = gameBackground;
     }

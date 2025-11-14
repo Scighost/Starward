@@ -4,7 +4,7 @@ using System;
 
 namespace Starward.Converters;
 
-public class ObjectToVisibilityConverter : IValueConverter
+public partial class ObjectToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
@@ -19,7 +19,7 @@ public class ObjectToVisibilityConverter : IValueConverter
 }
 
 
-public class ObjectToVisibilityReversedConverter : IValueConverter
+public partial class ObjectToVisibilityReversedConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

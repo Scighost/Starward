@@ -3,7 +3,7 @@ using System;
 
 namespace Starward.Converters;
 
-internal class ByteLengthToStringConverter : IValueConverter
+internal partial class ByteLengthToStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

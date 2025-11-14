@@ -4,7 +4,7 @@ using System;
 
 namespace Starward.Features.Screenshot;
 
-public class ZoomFactorPercentConverter : IValueConverter
+public partial class ZoomFactorPercentConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

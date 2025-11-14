@@ -10,7 +10,7 @@ using Windows.UI;
 
 namespace Starward.Features.Gacha;
 
-internal class GachaPityProgressBackgroundBrushConverter : IValueConverter
+internal partial class GachaPityProgressBackgroundBrushConverter : IValueConverter
 {
 
     private static Color Red = Color.FromArgb(0xFF, 0xC8, 0x3C, 0x23);

@@ -5,7 +5,7 @@ using Windows.UI;
 
 namespace Starward.Features.GameRecord;
 
-internal class ColorToSolidColorBrushConverter : IValueConverter
+internal partial class ColorToSolidColorBrushConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

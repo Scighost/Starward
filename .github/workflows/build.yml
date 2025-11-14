@@ -23,12 +23,11 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Install .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: 9.0.x
         global-json-file: global.json
 
     - name: Setup MSBuild
@@ -47,7 +46,7 @@ jobs:
         Add-Content "build/Starward/version.ini" -Value "app_folder=app-build.$sha`r`nexe_name=Starward.exe"
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: Starward_${{ matrix.configuration }}_${{ matrix.platform }}_${{ steps.sha.outputs.sha }}
         path: build/Starward/

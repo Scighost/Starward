@@ -779,8 +779,8 @@ closing the program during decompression will cause game file corruption.</value
     <value>Use a third-party plugin to start instead. Game time cannot be recorded when enabled.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Specify the language of gacha records, such as en-US.</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <value>Specify the language of gacha records, such as en-us.</value>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>Language</value>
