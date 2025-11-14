@@ -779,8 +779,8 @@ cerrar el programa durante la descompresión causará corrupciones en los archiv
     <value>Utilice un plugin de terceros para iniciar el juego. El tiempo de juego no se puede contar cuando está habilitado.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Especifique el idioma de los registros del gacha, como: es-ES.</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <value>Especifique el idioma de los registros del gacha, como: es-es.</value>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>Idioma</value>
