@@ -779,8 +779,8 @@
     <value>使用第三方模組代替啟動，啟用後無法記錄遊戲時間。</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>指定抽卡記錄的語言，比如 zh-TW 。</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <value>指定抽卡記錄的語言，比如 zh-tw 。</value>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>語言</value>
