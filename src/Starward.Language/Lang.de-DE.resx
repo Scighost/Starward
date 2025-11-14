@@ -779,8 +779,8 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Verwenden Sie ein Drittanbieter-Plugin, um zu starten. Spielzeit kann nicht aufgezeichnet werden, wenn aktiviert.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Geben Sie die Sprache der Gacha-Datensätze an, wie zum Beispiel en-US.</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <value>Geben Sie die Sprache der Gacha-Datensätze an, wie zum Beispiel de-de.</value>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>Sprache</value>
