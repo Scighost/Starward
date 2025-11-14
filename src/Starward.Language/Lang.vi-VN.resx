@@ -780,7 +780,7 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>Chỉ định ngôn ngữ của bản ghi gacha, chẳng hạn như vi-vn.</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>Ngôn ngữ</value>

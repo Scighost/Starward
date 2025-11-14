@@ -780,7 +780,7 @@
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>ja-jpなど言語ごとのガチャの記録を指定します。</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>言語</value>

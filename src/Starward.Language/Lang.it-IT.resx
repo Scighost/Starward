@@ -780,7 +780,7 @@ la chiusura del programma durante la decompressione causerà la corruzione dei f
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>Specificare la lingua dei record gacha, esempio it-it.</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>Lingua</value>

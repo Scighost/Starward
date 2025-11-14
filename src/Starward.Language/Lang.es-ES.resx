@@ -780,7 +780,7 @@ cerrar el programa durante la descompresión causará corrupciones en los archiv
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>Especifique el idioma de los registros del gacha, como: es-es.</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>Idioma</value>

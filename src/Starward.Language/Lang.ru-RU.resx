@@ -780,7 +780,7 @@
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>Укажите язык записей гачи, например ru-ru.</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>Язык</value>

@@ -780,7 +780,7 @@
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
     <value>뽑기 기록에 사용할 언어를 지정하세요. 예: ko-kr</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>언어</value>
