@@ -86,7 +86,7 @@ public class GenshinBeyondGachaClient
             gachaUrl = API_PREFIX_YS_CN + auth;
             if (!string.IsNullOrWhiteSpace(lang))
             {
-                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
+                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={LanguageUtil.FilterLanguage(lang)}");
             }
             else
             {
@@ -106,7 +106,7 @@ public class GenshinBeyondGachaClient
             gachaUrl = API_PREFIX_YS_OS + auth;
             if (!string.IsNullOrWhiteSpace(lang))
             {
-                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
+                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={LanguageUtil.FilterLanguage(lang)}");
             }
             else
             {
@@ -128,7 +128,7 @@ public class GenshinBeyondGachaClient
             gachaUrl = Regex.Replace(gachaUrl, @"&end_id=\d", "");
             if (!string.IsNullOrWhiteSpace(lang))
             {
-                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
+                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={LanguageUtil.FilterLanguage(lang)}");
             }
             return gachaUrl;
         }

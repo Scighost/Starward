@@ -30,7 +30,7 @@ public class StarRailGachaClient : GachaLogClient
             gachaUrl = API_PREFIX_SR_CN + auth;
             if (!string.IsNullOrWhiteSpace(lang))
             {
-                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
+                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={LanguageUtil.FilterLanguage(lang)}");
             }
             return gachaUrl;
         }
@@ -42,7 +42,7 @@ public class StarRailGachaClient : GachaLogClient
             gachaUrl = API_PREFIX_SR_OS + auth;
             if (!string.IsNullOrWhiteSpace(lang))
             {
-                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
+                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={LanguageUtil.FilterLanguage(lang)}");
             }
             return gachaUrl;
         }
@@ -56,7 +56,7 @@ public class StarRailGachaClient : GachaLogClient
             gachaUrl = Regex.Replace(gachaUrl, @"&end_id=\d", "");
             if (!string.IsNullOrWhiteSpace(lang))
             {
-                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={lang}");
+                gachaUrl = Regex.Replace(gachaUrl, @"&lang=[^&]+", $"&lang={LanguageUtil.FilterLanguage(lang)}");
             }
             return gachaUrl;
         }
