@@ -9,8 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="Polly" Version="8.6.4" />
-    <PackageReference Include="System.CommandLine" Version="2.0.0-rc.2.25502.107" />
-    <PackageReference Include="System.IO.Hashing" Version="9.0.10" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0" />
+    <PackageReference Include="System.IO.Hashing" Version="9.0.11" />
     <PackageReference Include="ZstdSharp.Port" Version="0.8.6" />
   </ItemGroup>
 
