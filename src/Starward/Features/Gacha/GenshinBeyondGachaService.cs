@@ -171,7 +171,7 @@ internal class GenshinBeyondGachaService
         stats.Pity_4 = list.Last().Pity;
         if (list.Last().RankType == 4)
         {
-            stats.Pity_5 = 0;
+            stats.Pity_4 = 0;
         }
         stats.Average_4 = (double)(stats.Count - stats.Pity_4) / stats.Count_4;
         stats.Pity_3 = list.Count - 1 - list.FindLastIndex(x => x.RankType == 3);
