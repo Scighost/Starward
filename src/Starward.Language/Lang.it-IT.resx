@@ -779,8 +779,8 @@ la chiusura del programma durante la decompressione causerà la corruzione dei f
     <value>Usa un plugin di terze parti per avviare. Il tempo di gioco non può essere registrato quando abilitato.</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Specificare la lingua dei record gacha, esempio en-US.</value>
-    <comment>Replace en-US with the target language when translating</comment>
+    <value>Specificare la lingua dei record gacha, esempio it-it.</value>
+    <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
     <value>Lingua</value>
