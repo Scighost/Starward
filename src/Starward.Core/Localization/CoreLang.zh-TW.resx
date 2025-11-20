@@ -299,9 +299,9 @@
     <value>光錐聯動躍遷</value>
   </data>
   <data name="GachaType_StandardOde" xml:space="preserve">
-    <value>Standard Ode</value>
+    <value>常駐頌願</value>
   </data>
   <data name="GachaType_EventOde" xml:space="preserve">
-    <value>Event Ode</value>
+    <value>活動頌願</value>
   </data>
 </root>
