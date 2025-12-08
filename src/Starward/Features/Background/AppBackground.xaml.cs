@@ -7,7 +7,6 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Starward.Codec.VP9Decoder;
 using Starward.Core.HoYoPlay;
 using Starward.Features.ViewHost;
 using Starward.Helpers;
@@ -343,7 +342,6 @@ public sealed partial class AppBackground : UserControl
 
     private void StartMediaPlayer(string file)
     {
-        RegisterVP9Decoder();
         _mediaPlayer = new MediaPlayer
         {
             IsLoopingEnabled = true,
@@ -514,27 +512,6 @@ public sealed partial class AppBackground : UserControl
         _videoImageSource = null;
         _videoOverlayImage?.Dispose();
         _videoOverlayImage = null;
-        UnregisterVP9Decoder();
-    }
-
-
-    private static void RegisterVP9Decoder()
-    {
-        try
-        {
-            int hr = VP9Decoder.RegisterVP9DecoderLocal();
-        }
-        catch { }
-    }
-
-
-    private static void UnregisterVP9Decoder()
-    {
-        try
-        {
-            int hr = VP9Decoder.UnregisterVP9DecoderLocal();
-        }
-        catch { }
     }
 
 
