@@ -55,6 +55,7 @@ public sealed partial class CloudGameButton : UserControl
             if (CurrentGameId?.GameBiz == GameBiz.hk4e_cn)
             {
                 string? exe = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\GenshinImpactCloudGame", "DisplayIcon", null) as string;
+                exe = exe?.Trim('"');
                 if (File.Exists(exe))
                 {
                     ExePath = exe;
@@ -72,7 +73,7 @@ public sealed partial class CloudGameButton : UserControl
                 key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Genshin Impact Cloud";
                 string? folder = Registry.GetValue(key, "InstallPath", null) as string;
                 string? exeName = Registry.GetValue(key, "ExeName", null) as string;
-                string? path = Path.Join(folder, exeName);
+                string? path = Path.Join(folder?.Trim('"'), exeName?.Trim('"'));
                 if (File.Exists(path))
                 {
                     ExePath = path;
@@ -87,6 +88,7 @@ public sealed partial class CloudGameButton : UserControl
             else if (CurrentGameId?.GameBiz == GameBiz.nap_cn)
             {
                 string? exe = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall\ZenlessZoneZeroCloud", "DisplayIcon", null) as string;
+                exe = exe?.Trim('"');
                 if (File.Exists(exe))
                 {
                     ExePath = exe;
