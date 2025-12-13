@@ -1098,15 +1098,15 @@
     <value>ขั้นตอนการรับ URL:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Open menu in game.
-- Click Feedback (Genshin) or Bug Report (Star Rail).
-- Copy the URL of web and paste into the box below.</value>
+    <value>- เปิดเมนูในเกม
+- คลิก รายงานปัญหา​ (ในเกม Genshin) หรือ แจ้งปัญหา​ (ในเกม Honkai: Star Rail)
+- คัดลอก URL ของหน้าเว็บและวางลงในช่องด้านล่าง</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
-    <value>Note: Records language follows language setting in game and cannot be changed.</value>
+    <value>หมายเหตุ:​ ภาษาของบันทึกจะอิงตามภาษาที่ตั้งค่าไว้ในเกม และไม่สามารถเปลี่ยนแปลงแยกต่างหากได้</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
-    <value>Would you like to delete records of {0} in {1}? This operation cannot be canceled.</value>
+    <value>คุณต้องการลบบันทึกของ {0} ใน {1} ใช่หรือไม่? การดำเนินการนี้ไม่สามารถยกเลิกได้</value>
     <comment>Would you like to delete records of Stellar Jade in 2023-08? This operation cannot be canceled.</comment>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
