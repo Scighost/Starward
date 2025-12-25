@@ -1,0 +1,23 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="src/Starward.Core/Starward.Core.csproj" />
+  <Project Path="src/Starward.Language/Starward.Language.csproj" />
+  <Project Path="src/Starward.Launcher/Starward.Launcher.vcxproj" Id="bc2fb0e5-f79e-4ea0-8380-73f96ecb6f2e" />
+  <Project Path="src/Starward.RPC/Starward.RPC.csproj" />
+  <Project Path="src/Starward.Setup.Build/Starward.Setup.Build.csproj" />
+  <Project Path="src/Starward.Setup.Core/Starward.Setup.Core.csproj" />
+  <Project Path="src/Starward/Starward.csproj">
+    <Platform Solution="*|Any CPU" Project="x64" />
+    <Platform Solution="*|ARM64" Project="ARM64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+  </Project>
+</Solution>
