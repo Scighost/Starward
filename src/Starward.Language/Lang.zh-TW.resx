@@ -2579,4 +2579,7 @@
   <data name="UpdateWindow_FullPackage" xml:space="preserve">
     <value>完整資源包</value>
   </data>
+  <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
+    <value>Migrate to Setup</value>
+  </data>
 </root>
