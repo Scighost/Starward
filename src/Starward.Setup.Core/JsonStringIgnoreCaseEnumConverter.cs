@@ -2,20 +2,20 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Starward.RPC.Update;
+namespace Starward.Setup.Core;
 
 public class JsonStringIgnoreCaseEnumConverter<T> : JsonConverter<T> where T : struct, Enum
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         string? value = reader.GetString();
-        if (string.IsNullOrWhiteSpace(value))
+        if (Enum.TryParse(value, true, out T result))
         {
-            return default;
+            return result;
         }
         else
         {
-            return Enum.Parse<T>(value, true);
+            return default;
         }
     }
 

@@ -66,6 +66,7 @@
 		<ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
 		<ProjectReference Include="..\Starward.Language\Starward.Language.csproj" />
 		<ProjectReference Include="..\Starward.RPC\Starward.RPC.csproj" />
+		<ProjectReference Include="..\Starward.Setup.Core\Starward.Setup.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using NuGet.Versioning;
 using Starward.Features.RPC;
 using Starward.RPC.Update;
-using Starward.RPC.Update.Metadata;
+using Starward.Setup.Core;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -19,14 +19,14 @@ internal class UpdateService
 
     private readonly RpcService _rpcService;
 
-    private readonly MetadataClient _metadataClient;
+    private readonly ReleaseClient _releaseClient;
 
 
-    public UpdateService(ILogger<UpdateService> logger, RpcService rpcService, MetadataClient metadataClient)
+    public UpdateService(ILogger<UpdateService> logger, RpcService rpcService, ReleaseClient releaseClient)
     {
         _logger = logger;
         _rpcService = rpcService;
-        _metadataClient = metadataClient;
+        _releaseClient = releaseClient;
     }
 
 
@@ -36,9 +36,9 @@ internal class UpdateService
         _ = NuGetVersion.TryParse(AppConfig.AppVersion, out var currentVersion);
         _ = NuGetVersion.TryParse(AppConfig.IgnoreVersion, out var ignoreVersion);
 #if DEBUG
-        var release = await _metadataClient.GetReleaseInfoAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture, InstallType.Portable);
+        var release = await _releaseClient.GetLatestReleaseInfoDetailAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture, InstallType.Portable);
 #else
-        var release = await _metadataClient.GetReleaseInfoAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture, (InstallType)(AppConfig.IsPortable ? 1 : 0));
+        var release = await _releaseClient.GetLatestReleaseInfoDetailAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture, AppConfig.InstallType);
 #endif
         _logger.LogInformation("Current version: {currentVersion}, latest version: {latestVersion}, ignore version: {ignoreVersion}.", AppConfig.AppVersion, release?.Version, ignoreVersion);
         _ = NuGetVersion.TryParse(release?.Version, out var newVersion);
@@ -140,7 +140,7 @@ internal class UpdateService
                 Version = release.Version,
                 Architecture = (int)release.Architecture,
                 InstallType = (int)release.InstallType,
-                TargetPath = Path.GetDirectoryName(AppConfig.StarwardLauncherExecutePath),
+                TargetPath = Path.GetDirectoryName(AppConfig.StarwardPortableLauncherExecutePath),
                 CurrentVersion = AppConfig.AppVersion,
             };
             using var call = client.Update(request, cancellationToken: cancellationToken);

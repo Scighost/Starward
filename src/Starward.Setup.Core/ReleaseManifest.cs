@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
-namespace Starward.RPC.Update.Metadata;
+namespace Starward.Setup.Core;
 
 
 public class ReleaseManifest
@@ -39,6 +39,9 @@ public class ReleaseManifest
     [JsonPropertyName("url_prefix")]
     public string UrlPrefix { get; set; }
 
+    [JsonPropertyName("url_suffix")]
+    public string? UrlSuffix { get; set; }
+
     [JsonPropertyName("files")]
     public List<ReleaseFile> Files { get; set; }
 
@@ -67,6 +70,9 @@ public class ReleaseFile
 
     [JsonPropertyName("compressed_hash")]
     public string CompressedHash { get; set; }
+
+    [JsonPropertyName("url_suffix")]
+    public string? UrlSuffix { get; set; }
 
     [JsonPropertyName("patch")]
     public ReleaseFilePatch? Patch { get; set; }
@@ -98,4 +104,7 @@ public class ReleaseFilePatch
 
     [JsonPropertyName("length")]
     public long Length { get; set; }
+
+    [JsonPropertyName("url_suffix")]
+    public string? UrlSuffix { get; set; }
 }

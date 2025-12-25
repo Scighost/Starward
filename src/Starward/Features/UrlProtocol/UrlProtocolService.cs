@@ -23,7 +23,7 @@ internal class UrlProtocolService
         string exe;
         if (AppConfig.IsPortable)
         {
-            exe = AppConfig.StarwardLauncherExecutePath ?? Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\', '/')), "Starward.exe");
+            exe = AppConfig.StarwardPortableLauncherExecutePath ?? Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory.TrimEnd('\\', '/')), "Starward.exe");
         }
         else
         {

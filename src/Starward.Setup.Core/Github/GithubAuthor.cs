@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Starward.RPC.Update.Github;
+namespace Starward.Setup.Core.Github;
 
 public class GithubAuthor
 {

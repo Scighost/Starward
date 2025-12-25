@@ -36,6 +36,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
+	  <ProjectReference Include="..\Starward.Setup.Core\Starward.Setup.Core.csproj" />
 	</ItemGroup>
 
 	<!--<ItemGroup>

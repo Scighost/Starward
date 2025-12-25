@@ -11,9 +11,10 @@ using Starward.Features.RPC;
 using Starward.Features.Setting;
 using Starward.Frameworks;
 using Starward.RPC.Update;
-using Starward.RPC.Update.Github;
-using Starward.RPC.Update.Metadata;
+using Starward.Setup.Core;
+using Starward.Setup.Core.Github;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -21,6 +22,7 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics;
 using Windows.System;
@@ -35,11 +37,11 @@ public sealed partial class UpdateWindow : WindowEx
 
     private readonly ILogger<UpdateWindow> _logger = AppConfig.GetLogger<UpdateWindow>();
 
-
-    private readonly MetadataClient _metadataClient = AppConfig.GetService<MetadataClient>();
-
+    private readonly ReleaseClient _releaseClient = AppConfig.GetService<ReleaseClient>();
 
     private readonly UpdateService _updateService = AppConfig.GetService<UpdateService>();
+
+    private readonly SetupService _setupService = AppConfig.GetService<SetupService>();
 
 
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _timer;
@@ -126,6 +128,10 @@ public sealed partial class UpdateWindow : WindowEx
             IsUpdateNowEnabled = false;
             ErrorMessage = Lang.UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage;
         }
+        if (NewVersion?.Setup is not null && AppConfig.IsPortable && !AppConfig.IsAppInRemovableStorage)
+        {
+            Button_MigrateToSetup.Visibility = Visibility.Visible;
+        }
         if (UpdateService.UpdateFinished)
         {
             Finish(skipRestart: true);
@@ -140,6 +146,7 @@ public sealed partial class UpdateWindow : WindowEx
         _timer.Stop();
         _timer.Tick -= _timer_Tick;
         _updateService.StopUpdate();
+        _migrateCts?.Cancel();
         WeakReferenceMessenger.Default.UnregisterAll(this);
         this.Closed -= UpdateWindow_Closed;
     }
@@ -150,7 +157,7 @@ public sealed partial class UpdateWindow : WindowEx
     public ReleaseInfoDetail? NewVersion { get; set => SetProperty(ref field, value); }
 
 
-#if DEV
+#if DEBUG
     public string ChannelText => Lang.UpdatePage_DevChannel;
 #else
     public string ChannelText => AppConfig.EnablePreviewRelease ? Lang.UpdatePage_PreviewChannel : Lang.UpdatePage_StableChannel;
@@ -246,11 +253,43 @@ public sealed partial class UpdateWindow : WindowEx
             IsUpdateNowEnabled = false;
             IsUpdateRemindLatterEnabled = false;
 
+
             if (NewVersion != null)
             {
-                _timer.Start();
-                await _updateService.StartUpdateAsync(NewVersion);
+                if (AppConfig.InstallType is InstallType.Setup && NewVersion.Setup is not null)
+                {
+                    Button_Restart.IsEnabled = false;
+                    _migrateCts?.Cancel();
+                    _migrateCts = new CancellationTokenSource();
+                    CancellationToken cancellationToken = _migrateCts.Token;
+                    IsProgressTextVisible = true;
+                    IsProgressBarVisible = true;
+
+                    var task = _setupService.UpdateAsync(NewVersion, cancellationToken);
+
+                    const double MB = 1 << 20;
+                    while (!task.IsCompleted)
+                    {
+                        if (_setupService.SetupTotalBytes > 0)
+                        {
+                            TextBlock_Bytes.Text = $"{_setupService.SetupDownloadBytes / MB:F2}/{_setupService.SetupTotalBytes / MB:F2} MB";
+                            ProgressBar_Update.Value = _setupService.SetupDownloadBytes * 100.0 / _setupService.SetupTotalBytes;
+                        }
+                        await Task.Delay(100);
+                    }
+                    await task;
+                }
+                if (AppConfig.IsPortable)
+                {
+                    _timer.Start();
+                    await _updateService.StartUpdateAsync(NewVersion);
+                }
             }
+        }
+        catch (OperationCanceledException) { }
+        catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
+        {
+            ErrorMessage = Lang.GachaLogPage_OperationCanceled;
         }
         catch (Exception ex)
         {
@@ -377,7 +416,7 @@ public sealed partial class UpdateWindow : WindowEx
     {
         try
         {
-            string? launcher = AppConfig.StarwardLauncherExecutePath;
+            string? launcher = AppConfig.StarwardPortableLauncherExecutePath;
             if (File.Exists(launcher))
             {
                 Process.Start(new ProcessStartInfo
@@ -431,6 +470,64 @@ public sealed partial class UpdateWindow : WindowEx
     private void Button_UpdateRemindLatter_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
         Button_UpdateRemindLatter.Opacity = 0;
+    }
+
+
+
+
+    private CancellationTokenSource _migrateCts;
+
+
+    [RelayCommand]
+    private async Task MigrateToSetupAsync()
+    {
+        try
+        {
+            if (NewVersion?.Setup is null)
+            {
+                Button_MigrateToSetup.Visibility = Visibility.Collapsed;
+                return;
+            }
+            ErrorMessage = null;
+            Button_UpdateNow.IsEnabled = false;
+            Button_Restart.IsEnabled = false;
+            _migrateCts?.Cancel();
+            _migrateCts = new CancellationTokenSource();
+            CancellationToken cancellationToken = _migrateCts.Token;
+            IsProgressTextVisible = true;
+            IsProgressBarVisible = true;
+
+            var task = _setupService.MigrateToSetupAsync(NewVersion, cancellationToken);
+
+            const double MB = 1 << 20;
+            while (!task.IsCompleted)
+            {
+                if (_setupService.SetupTotalBytes > 0)
+                {
+                    TextBlock_Bytes.Text = $"{_setupService.SetupDownloadBytes / MB:F2}/{_setupService.SetupTotalBytes / MB:F2} MB";
+                    ProgressBar_Update.Value = _setupService.SetupDownloadBytes * 100.0 / _setupService.SetupTotalBytes;
+                }
+                await Task.Delay(100);
+            }
+            await task;
+        }
+        catch (OperationCanceledException) { }
+        catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
+        {
+            ErrorMessage = Lang.GachaLogPage_OperationCanceled;
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+            _logger.LogError(ex, "Migrate to Setup");
+        }
+        finally
+        {
+            Button_UpdateNow.IsEnabled = true;
+            Button_Restart.IsEnabled = true;
+            IsProgressTextVisible = false;
+            IsProgressBarVisible = false;
+        }
     }
 
 
@@ -531,7 +628,7 @@ public sealed partial class UpdateWindow : WindowEx
             }
         }
 
-        var releases = await _metadataClient.GetGithubReleaseAsync(1, 20);
+        var releases = await _releaseClient.GetGithubReleaseAsync(1, 20);
         var markdown = new StringBuilder();
         int count = 0;
         foreach (var release in releases)
@@ -566,7 +663,7 @@ public sealed partial class UpdateWindow : WindowEx
         {
             try
             {
-                var r = await _metadataClient.GetGithubReleaseAsync(NewVersion?.Version ?? AppConfig.AppVersion);
+                var r = await _releaseClient.GetGithubReleaseAsync(NewVersion?.Version ?? AppConfig.AppVersion);
                 if (r is not null)
                 {
                     AppendReleaseToStringBuilder(r, markdown);
@@ -599,7 +696,7 @@ public sealed partial class UpdateWindow : WindowEx
 
     private async Task<string> RenderMarkdownAsync(string markdown)
     {
-        string html = await _metadataClient.RenderGithubMarkdownAsync(markdown);
+        string html = await _releaseClient.RenderGithubMarkdownAsync(markdown);
         var cssFile = Path.Combine(AppContext.BaseDirectory, @"Assets\CSS\github-markdown.css");
         string? css = null;
         if (File.Exists(cssFile))

@@ -3,7 +3,7 @@ using Polly;
 using Polly.Retry;
 using Snap.HPatch;
 using Starward.RPC.GameInstall;
-using Starward.RPC.Update.Metadata;
+using Starward.Setup.Core;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -237,16 +237,16 @@ internal class UpdateService
             Progress_TotalFileCount = releaseManifest.DiffFileCount;
         }
 
-        List<(string Id, long Size, string Hash)> list = new();
+        List<(string Id, long Size, string Hash, string? Suffix)> list = new();
         foreach (var item in releaseManifest.Files)
         {
             if (item.Patch is null && !currentVersionFilesHash!.ContainsKey(item.Hash))
             {
-                list.Add((item.Id, item.CompressedSize, item.CompressedHash));
+                list.Add((item.Id, item.CompressedSize, item.CompressedHash, item.UrlSuffix));
             }
             else if (item.Patch?.Id is not null && item.Patch?.PatchHash is not null)
             {
-                list.Add((item.Patch.Id, item.Patch.PatchSize, item.Patch.PatchHash));
+                list.Add((item.Patch.Id, item.Patch.PatchSize, item.Patch.PatchHash, item.Patch.UrlSuffix));
             }
         }
         list = list.DistinctBy(x => x.Id).ToList();
@@ -280,9 +280,9 @@ internal class UpdateService
 
 
 
-    private async Task DownloadReleaseFileAsync((string Id, long Size, string Hash) item, CancellationToken cancellationToken = default)
+    private async Task DownloadReleaseFileAsync((string Id, long Size, string Hash, string? Suffix) item, CancellationToken cancellationToken = default)
     {
-        string url = releaseManifest.UrlPrefix + item.Id;
+        string url = releaseManifest.UrlPrefix + item.Id + (item.Suffix ?? releaseManifest.UrlSuffix);
         string path = Path.Combine(updateCacheFolder, item.Id);
 
         using var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
@@ -371,7 +371,7 @@ internal class UpdateService
         using var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
         if (fs.Length != releaseFile.Size)
         {
-            string url = releaseManifest.UrlPrefix + releaseFile.Id;
+            string url = releaseManifest.UrlPrefix + releaseFile.Id + releaseManifest.UrlSuffix;
             using var hs = await _httpClient.GetStreamAsync(url, cancellationToken);
             fs.SetLength(0);
             using var zstdStream = new ZstdSharp.DecompressionStream(hs);

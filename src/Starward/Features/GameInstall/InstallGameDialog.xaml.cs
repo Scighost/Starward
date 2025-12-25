@@ -84,9 +84,9 @@ public sealed partial class InstallGameDialog : ContentDialog
             string baseFolder = "";
             if (AppConfig.IsAppInRemovableStorage)
             {
-                if (File.Exists(AppConfig.StarwardLauncherExecutePath))
+                if (File.Exists(AppConfig.StarwardPortableLauncherExecutePath))
                 {
-                    baseFolder = Path.Combine(Path.GetDirectoryName(AppConfig.StarwardLauncherExecutePath)!, "Games");
+                    baseFolder = Path.Combine(Path.GetDirectoryName(AppConfig.StarwardPortableLauncherExecutePath)!, "Games");
                 }
                 else
                 {

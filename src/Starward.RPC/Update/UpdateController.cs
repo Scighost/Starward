@@ -1,6 +1,6 @@
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
-using Starward.RPC.Update.Metadata;
+using Starward.Setup.Core;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -15,16 +15,16 @@ internal class UpdateController : Updater.UpdaterBase
     private readonly ILogger<UpdateController> _logger;
 
 
-    private readonly MetadataClient _metadataClient;
+    private readonly ReleaseClient _releaseClient;
 
 
     private readonly UpdateService _updateService;
 
 
-    public UpdateController(ILogger<UpdateController> logger, MetadataClient metadataClient, UpdateService updateService)
+    public UpdateController(ILogger<UpdateController> logger, ReleaseClient releaseClient, UpdateService updateService)
     {
         _logger = logger;
-        _metadataClient = metadataClient;
+        _releaseClient = releaseClient;
         _updateService = updateService;
     }
 
@@ -36,22 +36,29 @@ internal class UpdateController : Updater.UpdaterBase
         try
         {
             _logger.LogInformation("Start to update ({Version}), target path: {path}.", request.Version, request.TargetPath);
-            var release = await _metadataClient.GetReleaseInfoAsync(request.Version, (Architecture)request.Architecture, (InstallType)request.InstallType, context.CancellationToken);
-            string manifestUrl = release.ManifestUrl;
-            if (release.Diffs?.TryGetValue(request.CurrentVersion, out var diff) ?? false)
+            var info = await _releaseClient.GetReleaseInfoAsync(request.Version, context.CancellationToken);
+            if (info.TryGetReleaseInfoDetail((Architecture)request.Architecture, (InstallType)request.InstallType, out var release))
             {
-                manifestUrl = diff.ManifestUrl;
-            }
-            var manifest = await _metadataClient.GetReleaseManifestAsync(manifestUrl, context.CancellationToken);
-            _ = _updateService.PrepareForUpdateAsync(manifest, request.TargetPath, context.CancellationToken);
-            using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(100));
-            while (await timer.WaitForNextTickAsync(context.CancellationToken))
-            {
-                await responseStream.WriteAsync(_updateService.GetUpdateProgress());
-                if (_updateService.State is UpdateState.Stop or UpdateState.NotSupport or UpdateState.Finish or UpdateState.Error)
+                string manifestUrl = release.ManifestUrl;
+                if (release.Diffs?.TryGetValue(request.CurrentVersion, out var diff) ?? false)
                 {
-                    break;
+                    manifestUrl = diff.ManifestUrl;
                 }
+                var manifest = await _releaseClient.GetReleaseManifestAsync(manifestUrl, context.CancellationToken);
+                _ = _updateService.PrepareForUpdateAsync(manifest, request.TargetPath, context.CancellationToken);
+                using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(100));
+                while (await timer.WaitForNextTickAsync(context.CancellationToken))
+                {
+                    await responseStream.WriteAsync(_updateService.GetUpdateProgress());
+                    if (_updateService.State is UpdateState.Stop or UpdateState.NotSupport or UpdateState.Finish or UpdateState.Error)
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                throw new PlatformNotSupportedException($"Platform ({(Architecture)request.Architecture}, {(InstallType)request.InstallType}) is not supported.");
             }
         }
         catch (OperationCanceledException ex)

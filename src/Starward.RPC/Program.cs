@@ -10,6 +10,7 @@ using Starward.Core.HoYoPlay;
 using Starward.RPC.Env;
 using Starward.RPC.GameInstall;
 using Starward.RPC.Update;
+using Starward.Setup.Core;
 using System;
 using System.IO;
 using System.IO.Pipes;
@@ -96,15 +97,10 @@ public static class RpcRunner
             config.RemoveAllLoggers();
             config.ConfigureHttpClient(client =>
             {
-                client.DefaultRequestHeaders.Add("User-Agent", $"Starward.RPC/{AppConfig.AppVersion}");
                 client.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
+                client.DefaultRequestHeaders.Add("User-Agent", $"Starward.RPC/{AppConfig.AppVersion}");
             });
-            config.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
-            {
-                AutomaticDecompression = DecompressionMethods.All,
-                EnableMultipleHttp2Connections = true,
-                EnableMultipleHttp3Connections = true,
-            });
+            config.ConfigurePrimaryHttpMessageHandler(GetDefaultSocketsHttpHandler);
         });
         builder.Services.AddHttpClient<HoYoPlayClient>().AddPolicyHandler(GetHttpRetryPolicy());
 
@@ -113,7 +109,7 @@ public static class RpcRunner
         builder.Logging.AddSerilog(Log.Logger, dispose: true);
 
 
-        builder.Services.AddScoped<MetadataClient>();
+        builder.Services.AddScoped<ReleaseClient>();
         builder.Services.AddScoped<UpdateService>();
         //builder.Services.AddScoped<HoYoPlayClient>();
         builder.Services.AddScoped<GamePackageService>();
@@ -137,6 +133,18 @@ public static class RpcRunner
     private static IAsyncPolicy<HttpResponseMessage> GetHttpRetryPolicy()
     {
         return HttpPolicyExtensions.HandleTransientHttpError().WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(i));
+    }
+
+
+    private static SocketsHttpHandler GetDefaultSocketsHttpHandler()
+    {
+        return new SocketsHttpHandler
+        {
+            AutomaticDecompression = DecompressionMethods.All,
+            PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+            EnableMultipleHttp2Connections = true,
+            EnableMultipleHttp3Connections = true,
+        };
     }
 
 

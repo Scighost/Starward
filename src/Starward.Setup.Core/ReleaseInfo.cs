@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
-namespace Starward.RPC.Update.Metadata;
+namespace Starward.Setup.Core;
 
 public class ReleaseInfo
 {
@@ -15,7 +15,23 @@ public class ReleaseInfo
     /// </summary>
     [JsonPropertyName("releases")]
     public Dictionary<string, ReleaseInfoDetail> Releases { get; set; }
+
+    public bool TryGetReleaseInfoDetail(Architecture architecture, InstallType installType,
+#if NET10_0_OR_GREATER
+[System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+    out ReleaseInfoDetail? detail)
+    {
+        detail = null;
+        if (Releases is null)
+        {
+            return false;
+        }
+        string key = $"{architecture}-{installType}".ToLower();
+        return Releases.TryGetValue(key, out detail);
+    }
 }
+
 
 public class ReleaseInfoDetail
 {
@@ -48,9 +64,27 @@ public class ReleaseInfoDetail
     [JsonPropertyName("manifest_url")]
     public string ManifestUrl { get; set; }
 
+    [JsonPropertyName("setup")]
+    public ReleaseSetup? Setup { get; set; }
+
     [JsonPropertyName("diffs")]
     public Dictionary<string, ReleaseInfoDiff> Diffs { get; set; }
+}
 
+
+public class ReleaseSetup
+{
+    [JsonPropertyName("url")]
+    public string Url { get; set; }
+
+    [JsonPropertyName("file_name")]
+    public string FileName { get; set; }
+
+    [JsonPropertyName("size")]
+    public long Size { get; set; }
+
+    [JsonPropertyName("hash")]
+    public string Hash { get; set; }
 }
 
 
@@ -61,4 +95,23 @@ public class ReleaseInfoDiff
 
     [JsonPropertyName("manifest_url")]
     public string ManifestUrl { get; set; }
+
+    [JsonPropertyName("setup_diff")]
+    public ReleaseSetupDiff? SetupDiff { get; set; }
+}
+
+
+public class ReleaseSetupDiff
+{
+    [JsonPropertyName("url")]
+    public string Url { get; set; }
+
+    [JsonPropertyName("size")]
+    public long Size { get; set; }
+
+    [JsonPropertyName("hash")]
+    public string Hash { get; set; }
+
+    [JsonPropertyName("old_file_hash")]
+    public string OldFileHash { get; set; }
 }
