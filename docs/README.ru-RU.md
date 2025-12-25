@@ -70,7 +70,7 @@ Starward использует [Crowdin](https://crowdin.com/project/starward) д
 
 <img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
-А также [сторонние библиотеки](./docs/ThirdParty.md), используемые в этом проекте.
+А также [сторонние библиотеки](./ThirdParty.md), используемые в этом проекте.
 
 
 ## Скриншот Лаунчера

@@ -38,7 +38,7 @@ Tiếp theo, tải xuống gói dành cho kiến ​​trúc CPU của bạn t�
 
 Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho việc dịch văn bản trong ứng dụng. Bạn có thể đóng góp bằng cách giúp chúng tôi dịch và hiệu chỉnh nội dung bằng ngôn ngữ địa phương của bạn. Chúng tôi mong muốn có thêm nhiều người tham gia cùng chúng tôi.
 
-[Hướng dẫn dịch thuật ở đây](./docs/Localization.md)
+[Hướng dẫn dịch thuật ở đây](./Localization.md)
 
 ## Phát triển
 
@@ -69,7 +69,7 @@ Ngoài ra, cảm ơn CloudFlare vì đã cung cấp dịch vụ CDN miễn phí,
 
 <img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
-Và các [thư viện bên thứ ba](./docs/ThirdParty.md) được sử dụng trong dự án này.
+Và các [thư viện bên thứ ba](./ThirdParty.md) được sử dụng trong dự án này.
 
 ## Ảnh chụp màn hình
 

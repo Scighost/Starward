@@ -1,4 +1,4 @@
-English | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/README.vi-VN.md) | [日本語](./docs/README.ja-JP.md) | [ภาษาไทย](./docs/README.th-TH.md) | [Русский](./docs/README.ru-RU.md)
+English | [简体中文](./README.zh-CN.md) | [Tiếng Việt](./README.vi-VN.md) | [日本語](./README.ja-JP.md) | [ภาษาไทย](./README.th-TH.md) | [Русский](./README.ru-RU.md)
 
 
 # Starward
@@ -44,7 +44,7 @@ Next, download the package for your CPU architecture from [GitHub Release](https
 
 Starward uses [Crowdin](https://crowdin.com/project/starward) for in-app text localization work. You can contribute by helping us translate and proofread content in your local language. We look forward to having more people join us.
 
-[Localization Guide](./docs/Localization.md)
+[Localization Guide](./Localization.md)
 
 
 ## Development
@@ -78,7 +78,7 @@ Additionally, thanks CloudFlare for providing free CDN services, contributing to
 
 <img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
-And the [third-party libraries](./docs/ThirdParty.md) used in this project.
+And the [third-party libraries](./ThirdParty.md) used in this project.
 
 
 ## Screenshot
