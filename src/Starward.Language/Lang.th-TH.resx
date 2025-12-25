@@ -2578,4 +2578,7 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="UpdateWindow_FullPackage" xml:space="preserve">
     <value>Full Package</value>
   </data>
+  <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
+    <value>Migrate to Setup</value>
+  </data>
 </root>
