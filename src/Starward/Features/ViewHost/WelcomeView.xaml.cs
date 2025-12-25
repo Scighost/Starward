@@ -88,10 +88,10 @@ public sealed partial class WelcomeView : UserControl
             }
             else
             {
-#if DEBUG || DEV
+#if DEBUG
                 UserDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
 #else
-                UserDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Starward");
+                UserDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Starward");
 #endif
             }
         }

@@ -6,8 +6,6 @@ using Microsoft.UI.Xaml;
 using Starward.Features.Setting;
 using Starward.Frameworks;
 using Starward.Helpers;
-using System;
-using System.IO;
 using Vanara.PInvoke;
 using Windows.Foundation;
 
@@ -68,11 +66,9 @@ public sealed partial class SystemTrayWindow : WindowEx
     {
         try
         {
-            string icon = Path.Combine(AppContext.BaseDirectory, "Assets", "logo.ico");
-            if (File.Exists(icon))
-            {
-                trayIcon.Icon = new(icon);
-            }
+            nint hInstance = Kernel32.GetModuleHandle(null).DangerousGetHandle();
+            nint hIcon = User32.LoadIcon(hInstance, "#32512").DangerousGetHandle();
+            trayIcon.Icon = System.Drawing.Icon.FromHandle(hIcon);
         }
         catch { }
     }
