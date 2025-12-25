@@ -1,5 +1,6 @@
 using Polly;
 using Polly.Retry;
+using Starward.Setup.Core;
 using System.CommandLine;
 using System.Diagnostics;
 using System.IO.Hashing;
@@ -8,8 +9,9 @@ using System.Net.Http.Json;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace BuildTool;
+namespace Starward.Setup.Build;
 
 public class DiffCommand
 {
@@ -157,13 +159,13 @@ public class DiffCommand
             {
                 string? newFilePath = Path.Join(newPath, newItem.Path);
                 string? oldFilePath = Path.Join(oldPath, oldItem2.Path);
-                if (!(File.Exists(newFilePath) && Convert.FromHexString(newItem.Hash).SequenceEqual(SHA256.HashData(await File.ReadAllBytesAsync(newFilePath)))))
+                if (!(File.Exists(newFilePath) && Convert.FromHexString(newItem.Hash).SequenceEqual(SHA256.HashData(File.ReadAllBytes(newFilePath)))))
                 {
-                    newFilePath = await DownloadFileAsync(newManifest.UrlPrefix + newItem.Id, newItem.Hash);
+                    newFilePath = await DownloadFileAsync(newManifest.UrlPrefix + newItem.Id + newManifest.UrlSuffix, newItem.Hash);
                 }
-                if (!(File.Exists(oldFilePath) && Convert.FromHexString(oldItem2.Hash).SequenceEqual(SHA256.HashData(await File.ReadAllBytesAsync(oldFilePath)))))
+                if (!(File.Exists(oldFilePath) && Convert.FromHexString(oldItem2.Hash).SequenceEqual(SHA256.HashData(File.ReadAllBytes(oldFilePath)))))
                 {
-                    oldFilePath = await DownloadFileAsync(oldManifest.UrlPrefix + oldItem2.Id, oldItem2.Hash);
+                    oldFilePath = await DownloadFileAsync(oldManifest.UrlPrefix + oldItem2.Id + oldManifest.UrlSuffix, oldItem2.Hash);
                 }
                 string diffTempPath = Path.Combine(tempFolder, $"diff_{newItem.Id}_{oldItem2.Id}");
                 var p = Process.Start(new ProcessStartInfo
@@ -197,7 +199,7 @@ public class DiffCommand
                         PatchSize = diffBytes.Length,
                         PatchHash = diffHash,
                         Offset = 0,
-                        Length = diffBytes.Length,
+                        Length = 0,
                     };
                     File.Move(diffTempPath, Path.Join(outputFileFolder, newItem.Patch.Id), true);
                 }
@@ -213,7 +215,7 @@ public class DiffCommand
             newManifest.DeleteFiles = oldManifest.Files.Select(x => x.Path).Except(newManifest.Files.Select(f => f.Path)).ToList();
         }
 
-        byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(newManifest, new JsonSerializerOptions { WriteIndented = true });
+        byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(newManifest, new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault });
         string manifestName = $"manifest_{newVersion}_{arch}_{type}_diff_{oldVersion}.json".ToLower();
         File.WriteAllBytes(Path.Join(outputManifestFolder, manifestName), jsonBytes);
 
@@ -227,7 +229,7 @@ public class DiffCommand
     private async Task<ReleaseManifest> GetManifestAsync(string version, Architecture arch, InstallType type)
     {
         string name = $"manifest_{version}_{arch}_{type}".ToLower();
-        string url = $"https://starward-static.scighost.com/release/manifest/{name}.json";
+        string url = $"https://starward-static-cf.scighost.com/release/manifest/{name}.json";
         var manifest = await _polly.ExecuteAsync(async _ => await _httpClient.GetFromJsonAsync<ReleaseManifest>(url));
         return manifest ?? throw new NullReferenceException($"Manifest {name} not exists.");
     }

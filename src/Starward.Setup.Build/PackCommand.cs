@@ -1,10 +1,11 @@
+using Starward.Setup.Core;
 using System.CommandLine;
 using System.IO.Hashing;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.Json;
 
-namespace BuildTool;
+namespace Starward.Setup.Build;
 
 public class PackCommand
 {
@@ -79,7 +80,8 @@ public class PackCommand
             Architecture = arch,
             InstallType = type,
             DiffVersion = null,
-            UrlPrefix = "https://starward-static.scighost.com/release/file/",
+            UrlPrefix = "https://starward-static-cf.scighost.com/release/file/",
+            UrlSuffix = null,
             Files = new(),
         };
 
