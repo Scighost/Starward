@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -1025,7 +1025,7 @@
     <value>系統工作列</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
-    <value>安裝器</value>
+    <value>安裝程式</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
     <value>您可以選擇離開，或是將視窗隱藏到系統工作列。</value>
@@ -1058,7 +1058,7 @@
     <value>合併中</value>
   </data>
   <data name="LauncherPage_Required" xml:space="preserve">
-    <value>必需</value>
+    <value>必要</value>
     <comment>Nickname is required.</comment>
   </data>
   <data name="DownloadGameDialog_TurnOnIfThereIsNotEnoughFreeSpaceForUnzip" xml:space="preserve">
@@ -1142,7 +1142,7 @@
     <value>請檢查相關日誌。</value>
   </data>
   <data name="SettingPage_Donate" xml:space="preserve">
-    <value>捐贈</value>
+    <value>贊助</value>
   </data>
   <data name="SettingPage_URLProtocolExperimental" xml:space="preserve">
     <value>URL 協議 (實驗中)</value>
@@ -1205,13 +1205,13 @@
     <value>關閉視窗選項</value>
   </data>
   <data name="ExperienceSettingPage_MinimizeToSystemTray" xml:space="preserve">
-    <value>最小化到系統工作列圖示</value>
+    <value>最小化到系統工作列</value>
   </data>
   <data name="ExperienceSettingPage_ExitCompletely" xml:space="preserve">
     <value>完全退出</value>
   </data>
   <data name="ExperienceSettingPage_CloseWindowButKeepSystemTray" xml:space="preserve">
-    <value>關閉視窗但保留在系統工作列圖示</value>
+    <value>關閉視窗但保留在系統工作列</value>
   </data>
   <data name="SettingPage_Experience" xml:space="preserve">
     <value>行為</value>
@@ -1378,7 +1378,7 @@
     <value>完整資源包</value>
   </data>
   <data name="GameResourcePage_DiffPackages" xml:space="preserve">
-    <value>差異資源包</value>
+    <value>差分資源包</value>
   </data>
   <data name="SwitchClientPage_TheTowFoldersExistAtTheSameTime" xml:space="preserve">
     <value>YuanShen_Data 與 GenshinImpact_Data 資料夾不能同時存在</value>
@@ -1580,7 +1580,7 @@
     <value>輝彩祝福</value>
   </data>
   <data name="GameLauncherPage_RemovableStorageDeviceNotConnected" xml:space="preserve">
-    <value>可卸除式裝置未連線。</value>
+    <value>卸除式裝置未連線。</value>
   </data>
   <data name="InterKnotMonthlyReportPage_PolychromeRevenueStreams" xml:space="preserve">
     <value>菲林收入組成</value>
@@ -1720,7 +1720,7 @@
     <value>保持 RPC 服務背景運作</value>
   </data>
   <data name="SettingPage_RPCServiceWarningIfAppInRemovableStorage" xml:space="preserve">
-    <value>偵測到應用程式處於可移動儲存裝置中，不建議保持 RPC 服務後台運作。</value>
+    <value>偵測到應用程式處於卸除式儲存裝置中，不建議保持 RPC 服務後台運作。</value>
   </data>
   <data name="ZZZGachaService_ImportSignalSearchRecordsSuccessfully" xml:space="preserve">
     <value>成功匯入調頻記錄 {0} 條。</value>
@@ -1870,7 +1870,7 @@
     <value>抽卡記錄導入&amp;導出</value>
   </data>
   <data name="UIGFGachaService_UidMismatchDetectedExpected0ButFound1" xml:space="preserve">
-    <value>檢測到 Uid 不符合，預期: {0}，但發現: {1}。</value>
+    <value>檢測到 Uid 不符合，預期: {0}，但得到: {1}。</value>
   </data>
   <data name="UIGFGachaService_ImportSuccessfulButNoRecordItemName" xml:space="preserve">
     <value>導入成功，但部分記錄缺少物品名稱。請前往抽卡記錄頁面的設定，修改語言並套用。</value>
@@ -2251,7 +2251,7 @@
     <value>使用預設程式打開</value>
   </data>
   <data name="ImageViewWindow2_NoImageToDisplay" xml:space="preserve">
-    <value>沒有要顯示的圖片</value>
+    <value>沒有可顯示的圖片</value>
   </data>
   <data name="Common_OpenFiles" xml:space="preserve">
     <value>打開檔案</value>
@@ -2371,7 +2371,7 @@
     <value>GameInput 元件初始化失敗，手把增強不可用。</value>
   </data>
   <data name="SimulateInputTipsWindow_ControllerSimulatedInputIsActive" xml:space="preserve">
-    <value>手把模擬輸入已激活</value>
+    <value>手把模擬輸入已啟用</value>
   </data>
   <data name="SimulateInputTipsWindow_ShowHideButtonHints" xml:space="preserve">
     <value>顯示 / 隱藏按鍵提示</value>
@@ -2511,7 +2511,7 @@
     <value>原文件所在資料夾</value>
   </data>
   <data name="ImageBatchConvertWindow_SameAsOriginalFileFormat" xml:space="preserve">
-    <value>原文件格式同輸出格式一樣</value>
+    <value>同原文件格式同輸出格式</value>
   </data>
   <data name="ImageBatchConvertWindow_SelectOutputFormat" xml:space="preserve">
     <value>選擇輸出格式</value>
@@ -2553,30 +2553,33 @@
     <value>清除失敗</value>
   </data>
   <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
-    <value>高質素嘅 AVIF 同 JPEG XL 圖像格式可以慳大約 85% 嘅存儲空間。</value>
+    <value>高畫質的 AVIF 和 JPEG XL 圖像格式可節省約 85% 的存儲空間。</value>
   </data>
   <data name="Common_CopiedToClipboard" xml:space="preserve">
-    <value>已復製到剪貼簿</value>
+    <value>已複製到剪貼簿</value>
   </data>
   <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
-    <value>月谕模式</value>
+    <value>月諭模式</value>
   </data>
   <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
-    <value>圣牌</value>
+    <value>月諭聖牌</value>
   </data>
   <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
     <value>圣牌挑战 {0}</value>
   </data>
   <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
-    <value>Miliastra Wonderland Ode</value>
+    <value>頌願</value>
   </data>
   <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
-    <value>Launch Game using CMD</value>
+    <value>使用CMD(命令提示字元)啟動遊戲</value>
   </data>
   <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
-    <value>Avoid showing alerts about detecting illegal tool in the game.</value>
+    <value>避免顯示遊戲中偵測到非法工具的警告。</value>
   </data>
   <data name="UpdateWindow_FullPackage" xml:space="preserve">
-    <value>Full Package</value>
+    <value>完整資源包</value>
+  </data>
+  <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
+    <value>Migrate to Setup</value>
   </data>
 </root>

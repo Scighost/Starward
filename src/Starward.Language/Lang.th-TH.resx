@@ -599,7 +599,7 @@
     <value>โฟลเดอร์นี้มีการดาวน์โหลดที่ยังโหลดไม่เสร็จ</value>
   </data>
   <data name="LauncherPage_SelectInstallFolderDesc" xml:space="preserve">
-    <value>Please select an empty folder for installing game, or locate the folder where executable file {0} is.</value>
+    <value>กรุณาเลือกโฟลเดอร์เปล่าสำหรับติดตั้งเกม หรือระบุตำแหน่งโฟลเดอร์ที่มีไฟล์ปฏิบัติการ {0}</value>
   </data>
   <data name="LauncherPage_AlreadyTheLatestVersionDesc" xml:space="preserve">
     <value>ถ้าไม่ใช่เวอร์ชันล่าสุด กรุณาแก้ไฟล์ config.ini ในโฟลเดอร์ติดตั้งเกม</value>
@@ -778,7 +778,7 @@
     <value>ใช้ปลั๊กอินของบุุคคลที่ 3 ในการเริ่มเกม - เวลาที่เล่นจะไม่สามารถนับได้</value>
   </data>
   <data name="GachaLogPage_GachaLanguageDesc" xml:space="preserve">
-    <value>Specify the language of gacha records, such as en-us.</value>
+    <value>ระบุภาษาของบันทึกกาชา เช่น th-th หรือ en-us</value>
     <comment>Replace en-us with the target language when translating</comment>
   </data>
   <data name="SettingPage_Language" xml:space="preserve">
@@ -1067,7 +1067,7 @@
     <value>ยืนยันการลบ</value>
   </data>
   <data name="LauncherPage_CurrentlyLoggedInAccount" xml:space="preserve">
-    <value>Currently logged in account</value>
+    <value>บัญชีที่เข้าสู่ระบบอยู่</value>
   </data>
   <data name="Common_Attention" xml:space="preserve">
     <value>คำเตือน</value>
@@ -1083,10 +1083,10 @@
     <value>บัญชีที่มีรหัสผู้ใช้ {0} มีอยู่แล้ว, ต้องการแทนที่หรือบันทึกใหม่?</value>
   </data>
   <data name="SettingPage_RepairSystemTray" xml:space="preserve">
-    <value>Repair System Tray</value>
+    <value>ซ่อมแซม System Tray</value>
   </data>
   <data name="SettingPage_RepairSystemTrayContent" xml:space="preserve">
-    <value>Fix the issue that cannot create system tray icon, this method will restart explorer.</value>
+    <value>แก้ไขปัญหาที่ไม่สามารถสร้างไอคอน System Tray ได้ วิธีนี้จะเริ่มทำงาน Windows Explorer​ ใหม่</value>
   </data>
   <data name="SelfQueryPage_AccountRecords" xml:space="preserve">
     <value>ประวัติบัญชี</value>
@@ -1095,18 +1095,18 @@
     <value>ลบข้อมูลของเดือนนี้</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Steps to get URL:</value>
+    <value>ขั้นตอนการรับ URL:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Open menu in game.
-- Click Feedback (Genshin) or Bug Report (Star Rail).
-- Copy the URL of web and paste into the box below.</value>
+    <value>- เปิดเมนูในเกม
+- คลิก รายงานปัญหา​ (ในเกม Genshin) หรือ แจ้งปัญหา​ (ในเกม Honkai: Star Rail)
+- คัดลอก URL ของหน้าเว็บและวางลงในช่องด้านล่าง</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
-    <value>Note: Records language follows language setting in game and cannot be changed.</value>
+    <value>หมายเหตุ:​ ภาษาของบันทึกจะอิงตามภาษาที่ตั้งค่าไว้ในเกม และไม่สามารถเปลี่ยนแปลงแยกต่างหากได้</value>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DialogContent" xml:space="preserve">
-    <value>Would you like to delete records of {0} in {1}? This operation cannot be canceled.</value>
+    <value>คุณต้องการลบบันทึกของ {0} ใน {1} ใช่หรือไม่? การดำเนินการนี้ไม่สามารถยกเลิกได้</value>
     <comment>Would you like to delete records of Stellar Jade in 2023-08? This operation cannot be canceled.</comment>
   </data>
   <data name="SelfQueryPage_DeleteThisMonthSData_DeleteSuccessful" xml:space="preserve">
@@ -2577,5 +2577,8 @@ You are welcome to submit the exported data to the following repository:</value>
   </data>
   <data name="UpdateWindow_FullPackage" xml:space="preserve">
     <value>Full Package</value>
+  </data>
+  <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
+    <value>Migrate to Setup</value>
   </data>
 </root>
