@@ -75,7 +75,7 @@ Starward 使用 [Crowdin](https://crowdin.com/project/starward) 进行应用内�
 
 <img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
 
-以及本项目中使用的[第三方库](./docs/ThirdParty.md)。
+以及本项目中使用的[第三方库](./ThirdParty.md)。
 
 
 ## 截图
