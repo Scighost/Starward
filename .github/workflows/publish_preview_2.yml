@@ -127,7 +127,7 @@ jobs:
     - name: Combine Release Info
       shell: pwsh
       run: |
-        dotnet run --project 'src/BuildTool' -c Release -- release combine "static/release/history/release_info_${{ env.Version }}.json" -i "build/release_info_${{ env.Version }}_x64.json" "build/release_info_${{ env.Version }}_arm64.json"
+        dotnet run --project 'src/Starward.Setup.Build' -c Release -- release combine "static/release/history/release_info_${{ env.Version }}.json" -i "build/release_info_${{ env.Version }}_x64.json" "build/release_info_${{ env.Version }}_arm64.json"
         Copy-Item "static/release/history/release_info_${{ env.Version }}.json" "static/release/release_info_preview.json" -Force
 
     - name: Create Static Pull Request

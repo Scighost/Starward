@@ -4,6 +4,7 @@ using System.IO.Hashing;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Starward.Setup.Build;
 
@@ -120,7 +121,7 @@ public class PackCommand
         manifest.Size = manifest.Files.Sum(f => f.Size);
         manifest.CompressedSize = manifest.Files.Sum(f => f.CompressedSize);
 
-        byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(manifest, new JsonSerializerOptions { WriteIndented = true });
+        byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(manifest, new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault });
         string manifestName = $"manifest_{version}_{arch}_{type}.json";
         await File.WriteAllBytesAsync(Path.Join(manifestFolder, manifestName.ToLower()), jsonBytes);
 

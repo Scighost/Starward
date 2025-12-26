@@ -6,6 +6,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Starward.Setup.Build;
 
@@ -202,7 +203,7 @@ public class ReleaseCommand
             }
         }
 
-        byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(combined, new JsonSerializerOptions { WriteIndented = true });
+        byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(combined, new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault });
         Directory.CreateDirectory(Path.GetDirectoryName(outputFile)!);
         await File.WriteAllBytesAsync(outputFile, jsonBytes);
 
