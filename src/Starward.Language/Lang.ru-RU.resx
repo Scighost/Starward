@@ -2600,6 +2600,6 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Полный пакет</value>
   </data>
   <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
-    <value>Migrate to Setup</value>
+    <value>Перенести в настройки</value>
   </data>
 </root>
