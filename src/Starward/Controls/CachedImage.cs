@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Scighost.WinUI.ImageEx;
 using Starward.Features.Codec;
-using Starward.Services.Cache;
+using Starward.Helpers;
 using System;
 using System.IO;
 using System.Threading;
@@ -49,9 +49,7 @@ public sealed partial class CachedImage : ImageEx
             }
             else
             {
-
-
-                var file = await FileCacheService.Instance.GetFromCacheAsync(imageUri, false, token);
+                var file = await FileCache.GetFromCacheAsync(imageUri, false, token);
                 if (token.IsCancellationRequested)
                 {
                     throw new TaskCanceledException("Image source has changed.");
@@ -60,7 +58,10 @@ public sealed partial class CachedImage : ImageEx
                 {
                     throw new FileNotFoundException(imageUri.ToString());
                 }
-                return new BitmapImage(new Uri(file.Path));
+                var bitmap = new BitmapImage(new Uri(file));
+                bitmap.ImageOpened += BitmapImage_ImageOpened;
+                bitmap.ImageFailed += BitmapImage_ImageFailed;
+                return bitmap;
             }
         }
         catch (TaskCanceledException)
@@ -71,10 +72,31 @@ public sealed partial class CachedImage : ImageEx
         {
             throw;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            await FileCacheService.Instance.RemoveAsync([imageUri]);
             throw;
+        }
+    }
+
+
+
+    private void BitmapImage_ImageOpened(object sender, RoutedEventArgs e)
+    {
+        if (sender is BitmapImage image)
+        {
+            image.ImageOpened -= BitmapImage_ImageOpened;
+            image.ImageFailed -= BitmapImage_ImageFailed;
+        }
+    }
+
+
+    private void BitmapImage_ImageFailed(object sender, ExceptionRoutedEventArgs e)
+    {
+        if (sender is BitmapImage image)
+        {
+            image.ImageOpened -= BitmapImage_ImageOpened;
+            image.ImageFailed -= BitmapImage_ImageFailed;
+            FileCache.DeleteCacheFile(image.UriSource);
         }
     }
 

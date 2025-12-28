@@ -81,6 +81,7 @@ public static partial class AppConfig
                 CacheFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
             }
             Directory.CreateDirectory(CacheFolder);
+            FileCache.Initialize(Path.Combine(CacheFolder, "cache"));
             var webviewFolder = Path.Combine(CacheFolder, "webview");
             Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", webviewFolder, EnvironmentVariableTarget.Process);
 
