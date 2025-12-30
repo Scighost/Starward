@@ -6,10 +6,10 @@
   "Install": null,
   "InstallSize": 0,
   "InstallHash": null,
-  "Portable": "https://starward.scighost.com/release/package/Starward_Portable_0.11.0_arm64.7z",
+  "Portable": "https://starward-static-cf.scighost.com/release/package/Starward_Portable_0.11.0_arm64.7z",
   "PortableSize": 52932318,
   "PortableHash": "38D8C29E0DD90035B0F42C72FB149DED35B04F2450857A3511D8FD3D20BEFC85",
-  "SeparatePrefix": "https://starward.scighost.com/release/separate_files/",
+  "SeparatePrefix": "https://starward-static-cf.scighost.com/release/separate_files/",
   "SeparateFiles": [
     {
       "Path": "Starward.exe",

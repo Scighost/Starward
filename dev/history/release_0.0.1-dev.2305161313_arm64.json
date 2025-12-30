@@ -6,7 +6,7 @@
   "Install": "",
   "InstallSize": 0,
   "InstallHash": "",
-  "Portable": "https://starward.scighost.com/release/package/dev/Starward_0.0.1-dev.2305161313_arm64.7z",
+  "Portable": "https://starward-static-cf.scighost.com/release/package/dev/Starward_0.0.1-dev.2305161313_arm64.7z",
   "PortableSize": 39677086,
   "PortableHash": "0096C41E9C4F3C0511B647AD68F86D50A365AD89B4A9BE1DBA63A6EFB605ECAD",
   "SeparatePrefix": null,
