@@ -2580,6 +2580,6 @@
     <value>完整資源包</value>
   </data>
   <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
-    <value>Migrate to Setup</value>
+    <value>遷移到安裝版</value>
   </data>
 </root>
