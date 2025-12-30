@@ -262,6 +262,14 @@
         "profession": 3
       },
       {
+        "id": 1341,
+        "name": "照",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1341.png",
+        "rarity": 4,
+        "element_type": 202,
+        "profession": 5
+      },
+      {
         "id": 1351,
         "name": "波可娜",
         "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1351.png",
@@ -326,6 +334,14 @@
         "profession": 5
       },
       {
+        "id": 1431,
+        "name": "叶瞬光",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1431.png",
+        "rarity": 4,
+        "element_type": 200,
+        "profession": 1
+      },
+      {
         "id": 1441,
         "name": "真斗",
         "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1441.png",
@@ -368,7 +384,7 @@
       {
         "id": 12001,
         "name": "「月相」-望",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/96f4d2c5346048ece7f08b5ef0fbd882.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/c7629bc7126eea3f7441120e81c885df.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 1
@@ -376,7 +392,7 @@
       {
         "id": 12002,
         "name": "「月相」-晦",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/4dadd8ecf1a8a6e5d33cb6404aa67b4c.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/411852825ce9997039655da1ab7ea8f4.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 1
@@ -384,7 +400,7 @@
       {
         "id": 12003,
         "name": "「月相」-朔",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/092543bcf8ff22689d02c009cbcd7436.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/ec7ac5fefd24090ca5ce175365a9eaa4.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 1
@@ -392,7 +408,7 @@
       {
         "id": 12004,
         "name": "「残响」-Ⅰ型",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/91843935be0d7afb96fb1d6d58767146.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/d81d671b6d00f7a643910b7463b6b6cc.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 4
@@ -400,7 +416,7 @@
       {
         "id": 12005,
         "name": "「残响」-Ⅱ型",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/b4aa114ec2622526a8f747f4cd079180.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/dbf306cb88ea7f3b1035bb3d1b3bb0f0.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 4
@@ -408,7 +424,7 @@
       {
         "id": 12006,
         "name": "「残响」-Ⅲ型",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/0b1271346591a8db6340f993cc6261f6.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/dd64c64c2a7cdedf92d8e4af2658e7e1.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 4
@@ -416,7 +432,7 @@
       {
         "id": 12007,
         "name": "「湍流」-铳型",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/9072f467b59d5ee17d3edbdf39bed6b3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/e623521a053a953daeb0cb9d922bad74.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 2
@@ -424,7 +440,7 @@
       {
         "id": 12008,
         "name": "「湍流」-矢型",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/a00e0a02168ddc9a32a6b1b3fdb47b8f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/9e74595e78d619ba5d8e44d39464c4e4.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 2
@@ -432,7 +448,7 @@
       {
         "id": 12009,
         "name": "「湍流」-斧型",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/89626e11672fe758c34a3ee5bad7d08d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/cadd7a953d42243b5f7795cf7cd6ce25.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 2
@@ -440,7 +456,7 @@
       {
         "id": 12010,
         "name": "「电磁暴」-壹式",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/ff29d5a334948e4fc64016fbf1878b46.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/51dad904eaff231be94ae651ba33d372.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 3
@@ -448,7 +464,7 @@
       {
         "id": 12011,
         "name": "「电磁暴」-贰式",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/1d5a61ab124bd50eeaeda77ebacf18d3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/3e7589419734ddf3db8403b6454cba66.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 3
@@ -456,7 +472,7 @@
       {
         "id": 12012,
         "name": "「电磁暴」-叁式",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/8d1d32c8aa5dc4afc4195c87ecb3fef9.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/c228894d6b43c6c4becf4adb2afef7e0.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 3
@@ -464,7 +480,7 @@
       {
         "id": 12013,
         "name": "「恒等式」-本格",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/ac8731d8cf862b6b33f6ea64e7d7e34f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/3cadb8730a6961b3dffad28ca7852c26.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 5
@@ -472,7 +488,7 @@
       {
         "id": 12014,
         "name": "「恒等式」-变格",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/ac7c517b98298b207f58a88441659ccd.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/4c6d5dd6a06ec06841efddc42ebce1e4.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 5
@@ -480,7 +496,7 @@
       {
         "id": 12015,
         "name": "「灰烬」-钴蓝",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/7a3c5c5098f6a83e4fe7f3edfb786943.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/df43a961a0a609039d722b1e28585872.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 6
@@ -488,7 +504,7 @@
       {
         "id": 13001,
         "name": "街头巨星",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/d0ccfe18f429d14b9d551d137840fbf4.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/926be049f441d7b7830766673e12666a.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -496,7 +512,7 @@
       {
         "id": 13002,
         "name": "时光切片",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/5c3c4d6f0aa3543cc787212d8bed9bbb.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/e6fe10cec03ce473477044d9947d6d6f.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -504,7 +520,7 @@
       {
         "id": 13003,
         "name": "雨林饕客",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/4481a8926ede2aed9465c482a77b9431.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/4062c0af5696811415b5fcfc8bddaaa8.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -512,7 +528,7 @@
       {
         "id": 13004,
         "name": "星徽引擎",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/84133ad2e70eb2fc743fd20dbfb21f65.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/f8530da830523d06165bba2dfd6e0b4a.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -520,7 +536,7 @@
       {
         "id": 13005,
         "name": "人为刀俎",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/016714cdae5697b6e816f9bae3d7319a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/5a7d14318cdc4541361617a45a100f7e.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -528,7 +544,7 @@
       {
         "id": 13006,
         "name": "贵重骨核",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/e9260a744206355652e8d36b80589d2f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/f4d197453b87afa9e2d8fb2220f95103.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -536,7 +552,7 @@
       {
         "id": 13007,
         "name": "正版变身器",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/17de7dd9c3dbcf8ced7cea9aa5b49e0e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/084e72244ed7029f7b351a7e33904e6b.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -544,7 +560,7 @@
       {
         "id": 13008,
         "name": "双生泣星",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/8bf9ed5989439127072397734b47b605.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/ca6c55a7cec9903e5a2a74a136ef173d.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -552,7 +568,7 @@
       {
         "id": 13009,
         "name": "触电唇彩",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/56737bfc601732ec2923a8d3cd5d5639.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/f04a539ae5b7147658a2fd89e16a0a74.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -560,7 +576,7 @@
       {
         "id": 13010,
         "name": "兔能环",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/93bba972cb21a6a3a9fa665b058103bb.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/3a3016caad2db8317cb1ddec5139edc2.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -568,7 +584,7 @@
       {
         "id": 13011,
         "name": "春日融融",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/e26a11232cc0fbf637df2788323eb6fb.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/0385f5022f07ec211076ff4cbd5a78f5.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -576,7 +592,7 @@
       {
         "id": 13012,
         "name": "幻变魔方",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/c0377f697a39cf6dabc267e5a7d72ff8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/83c3a4d275192ffa1259abeed18c2001.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 6
@@ -584,7 +600,7 @@
       {
         "id": 13013,
         "name": "鎏金花信",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/181da4b486246c380f0c776461e18fd3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/5f6755423e740303482b25bd8fb22fd9.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -592,7 +608,7 @@
       {
         "id": 13014,
         "name": "电波漫步",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/33e545457f958e8ce5271ebbb10d4db6.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/dc86158bc0f27d5e86ab188c7687522c.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 6
@@ -600,7 +616,7 @@
       {
         "id": 13015,
         "name": "强音热望",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/698402d84f468c4915ee360d8588b3ff.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/10a6ac5bc7e51ed52a584442124a3c48.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -608,7 +624,7 @@
       {
         "id": 13016,
         "name": "光影刻刀",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/225ccc73046d09567d6ed9728ac4222f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/107b365a96541d509844c59f460ee4d0.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -616,7 +632,7 @@
       {
         "id": 13101,
         "name": "德玛拉电池Ⅱ型",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/586b8a615e3c809aab0de5f43aa781a0.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/fd67b8664624dc6ad94193bee771b13c.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -624,7 +640,7 @@
       {
         "id": 13103,
         "name": "聚宝箱",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/52473ad99b0a808bdbae33350c7c08ca.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/72694fd34f052ff30dfecea3341629db.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -632,7 +648,7 @@
       {
         "id": 13106,
         "name": "家政员",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/63f4b9ebbb6e5d3a502701dbb042e542.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/0b5367477144b750888eed77d4e76b1d.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -640,7 +656,7 @@
       {
         "id": 13108,
         "name": "仿制星徽引擎",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/ed76807a547c33a6f764d7cbdb52e262.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/38c050e63fdd26ecf54179d7290e5cd5.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -648,7 +664,7 @@
       {
         "id": 13111,
         "name": "旋钻机-赤轴",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/b267aabad599aa6220ba0c1b5e2db986.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/7a4240e26d3de8d9f302824a543ac6db.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -656,7 +672,7 @@
       {
         "id": 13112,
         "name": "比格气缸",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/60ac756b6d510e2bcef72d549c65f0f8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/b8ef7eb82e33d7a38d44d7b700c0e97b.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -664,7 +680,7 @@
       {
         "id": 13113,
         "name": "含羞恶面",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/e0b8b3b4b4d8ddb9570adfa7fcb3e3d8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/b0e1257f9fdb70c51bc3d24ce51ecbf5.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -672,7 +688,7 @@
       {
         "id": 13115,
         "name": "好斗的阿炮",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/f5f831e4c60212fa25a6fa76590b5540.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/1f16b2ac9e66aadb19f199330bd42e48.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -680,7 +696,7 @@
       {
         "id": 13127,
         "name": "维序者-特化型",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/60296ddcb6e56d95c1dd99e59a5e59dd.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/7f8fe23dcf20723d655b80811a046d29.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -688,7 +704,7 @@
       {
         "id": 13128,
         "name": "轰鸣座驾",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/35d625cbb16c51348cbc85c4099585e6.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/5d067d15f077051ef12a7848fe55dc03.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -696,7 +712,7 @@
       {
         "id": 13135,
         "name": "裁纸刀",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/6abc4856f7534cc8ddb991e8bf3496a3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/53ab29bed0ff41451ff95b86d6797aa5.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -704,7 +720,7 @@
       {
         "id": 13142,
         "name": "震元奇枢",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/6be40b0618d0cf5c5fc525c829a893f2.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/14a43c89c7f6a044be62c5449980e39f.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -712,7 +728,7 @@
       {
         "id": 13144,
         "name": "燔火胧夜",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/beedfad165d5fbb35792560bb5513ea4.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/323119cc612e6df42ae19c03d019814e.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 6
@@ -720,7 +736,7 @@
       {
         "id": 14001,
         "name": "加农转子",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/264146962ff9f949e2998a7c0ce360f3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/9995d5344ce1b3c4b4e95457e5ae00d9.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -728,7 +744,7 @@
       {
         "id": 14002,
         "name": "逍遥游球",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/66359b4e28233b1b60e35fd1b43f4e11.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/b71dd3612517dcc5393631678dfb6ada.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -736,7 +752,7 @@
       {
         "id": 14003,
         "name": "左轮转子",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/9d2bd74bc347d69dee9d5e7842114143.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/2b7810f57b7cae51227aac44fb1eda81.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -744,7 +760,7 @@
       {
         "id": 14102,
         "name": "钢铁肉垫",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/87047e0d947718f727afb15dfd053569.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/911a46e56384a69dc40299571e0e17f5.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -752,7 +768,7 @@
       {
         "id": 14104,
         "name": "硫磺石",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/3b424662dd5a6515ea628338be8cfa29.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/255c87c054972331ba86ec7941ea5f3f.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -760,7 +776,7 @@
       {
         "id": 14105,
         "name": "海妖摇篮",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/fc268fd4cc16a5cf7dd911dd7a1b2453.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/6f21ab36f618c2e692397b95c5f2a6a8.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 6
@@ -768,7 +784,7 @@
       {
         "id": 14107,
         "name": "奔袭獠牙",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/18668f11f87f2a0a9fd194f8b063ecf3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/02e488b75526c8d4c7c30bd4bb2c279c.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 5
@@ -776,7 +792,7 @@
       {
         "id": 14109,
         "name": "霰落星殿",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/4006017a6e554d4e286cc018a6cc1909.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/ef41f43028df45a8d77d2072299f85fd.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -784,7 +800,7 @@
       {
         "id": 14110,
         "name": "燃狱齿轮",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/a623f5f35e76fea9a2ae1f81ca2bb398.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/04478bd4697f46aa67ff97d7e61a73c0.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -792,7 +808,7 @@
       {
         "id": 14114,
         "name": "拘缚者",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/a411c33ab95e09b94fa51a6eb529f76a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/7314272a1f8271f88ca92bf4cf6eb4bf.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -800,7 +816,7 @@
       {
         "id": 14116,
         "name": "焰心桂冠",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/031b1430a0eebc127a56fe2fd6147b1e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/ea0db8ac7885c889037a8b51636ce21c.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -808,7 +824,7 @@
       {
         "id": 14117,
         "name": "灼心摇壶",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/dea651807713dc484d1b927d95983097.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/82b509160433f3d8ef7cc2c1a06493e4.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -816,7 +832,7 @@
       {
         "id": 14118,
         "name": "嵌合编译器",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/bfc9ebf47fe5e5c5106590c0395da0be.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/4afc757953b22962610977b12ac2c9ab.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -824,7 +840,7 @@
       {
         "id": 14119,
         "name": "深海访客",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/0daf5535e4fb0e39ed739d12c330dbc3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/9422d223270a127d63e441c6351705f7.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -832,7 +848,7 @@
       {
         "id": 14120,
         "name": "残心青囊",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/7eac6bee3bb505b78c7a65cb1d522d0e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/c2c3edee7d94502976c25574c546754d.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -840,7 +856,7 @@
       {
         "id": 14121,
         "name": "啜泣摇篮",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/f88d1adf44e2bc67fc7c7dc93943adb0.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/498f0cf50cc189e5260c22e70476c6b0.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 4
@@ -848,7 +864,7 @@
       {
         "id": 14122,
         "name": "时流贤者",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/c090ca686125ef1d96d89c62eb8acec2.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/8dcfbc7bf7880cce618739e8bf3ceae5.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -856,7 +872,7 @@
       {
         "id": 14124,
         "name": "防暴者Ⅵ型",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/ad14c30423022a650764d253e1c52835.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/4d019cc8aa2dbf48f06681f3cc09a60c.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -864,7 +880,7 @@
       {
         "id": 14125,
         "name": "玉壶青冰",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/7790a3febaaa6dc223b300ea27fa4446.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/410f5f4f3302c14ab02be8386877a8df.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -872,7 +888,7 @@
       {
         "id": 14126,
         "name": "淬锋钳刺",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/320543f7737ddf726c348fd4b58a5e2f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/20f727df2536dc0f33c98da780771161.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -880,7 +896,7 @@
       {
         "id": 14129,
         "name": "千面日陨",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/1b4e88512160b30ab39f2a184c684939.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/b2c24bfda0a8624a3c6bad076963082c.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -888,7 +904,7 @@
       {
         "id": 14130,
         "name": "嚣枪喧焰",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/4b9af93ef20e7ed07b120785926ca91b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/207cf6abe5c2d6dbfab9986ff2bc6c09.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -896,7 +912,7 @@
       {
         "id": 14131,
         "name": "玲珑妆匣",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/357f11876e84a73909492bb536ce3677.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/20c6623c4bab0c0ac76de72a6f4a7808.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 4
@@ -904,7 +920,7 @@
       {
         "id": 14132,
         "name": "心弦夜响",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/30b0ef1a948db49b0981a81fe7a44efc.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/609be0fdbd408e3dc34e6ffcb1834bd0.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -912,15 +928,23 @@
       {
         "id": 14133,
         "name": "飞鸟星梦",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/e42417ec0ea495bdf45f1c72d8576e4b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/e3a98d630421aa66ef436f66cd53a377.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
       },
       {
+        "id": 14134,
+        "name": "半糖雪兔",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/eb9715eac97333ba1322d367872d5d8c.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 5
+      },
+      {
         "id": 14136,
         "name": "索魂影眸",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/01662f36e4a9e313c408b490d0da8beb.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/e7c56dbad64bc63edeb8b8a635cbca6f.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -928,7 +952,7 @@
       {
         "id": 14137,
         "name": "青溟笼舍",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/959347e66311ddd85dbf63bc9160f02a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/64738eb0820360ae3dd05f387c99b8bb.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 6
@@ -936,7 +960,7 @@
       {
         "id": 14138,
         "name": "牺牲洁纯",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/754f7cacbe524efd2e481ef54b70f32d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/224598116af0e2c01a2671a30a1ded9a.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -944,7 +968,7 @@
       {
         "id": 14139,
         "name": "福虓炉炉",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/2a823f83375192d637221387bd341cf5.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/87894bcee6294e4fd599dbb5a6dcbd63.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -952,7 +976,7 @@
       {
         "id": 14140,
         "name": "十方锻星",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/6e78d8a67f4158766d714c216097b40a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/19b60df4309da5bc577ff4b3d0f3b619.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -960,15 +984,23 @@
       {
         "id": 14141,
         "name": "狸法七变化",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/9c9fb13f25073445859ab8dd3883aef0.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/ca90d44ccd18488e3584ef50c0b63df5.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 4
       },
       {
+        "id": 14143,
+        "name": "云霓孤光",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/9bd209ac9306405babefbdfa6cb95f4e.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 1
+      },
+      {
         "id": 14145,
         "name": "铸梦炉歌",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/9854fb8a7838c92d6cafa6e6d11054d2.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/5830b101ad7c8cf1a00379b294928ae1.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 4
@@ -976,7 +1008,7 @@
       {
         "id": 14146,
         "name": "机巧心种",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/8aede3ead51fb30b9ac34b22b7a44b8f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/6e08b34ce3e6c6e99c889e7263d4aa68.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -984,7 +1016,7 @@
       {
         "id": 14147,
         "name": "怒目金刚",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/65c94489af6a195cc7b654acb8f70a3d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/9650a98ca29430162bb7c42dcad89561.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 6
@@ -992,7 +1024,7 @@
       {
         "id": 14148,
         "name": "昨夜来电",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/f48a078d43e8ba618b9772c7b992425b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/f057d797e1694b08455f313a7ae44908.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -1000,7 +1032,7 @@
       {
         "id": 53001,
         "name": "企鹅布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/86434889eea2f6e5106755e58d96ec70.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/0eb99969f21551aa2e0c706e868699fb.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1008,7 +1040,7 @@
       {
         "id": 53002,
         "name": "招财布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/905788512c48777dd74aabf826ec5d3e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/9381a3eae1a2b6f6690c9e23228901a0.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1016,7 +1048,7 @@
       {
         "id": 53003,
         "name": "寻宝布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/d76ea9ccfdc56340ff34d6dfcd0be537.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/d4e2f14d992b8cef6f65a31878a4c0c3.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1024,7 +1056,7 @@
       {
         "id": 53004,
         "name": "扑击布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/bb841b7930c98d1b493efbc751f80480.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/11c82fdcb3cdf9c0a73185a7c70dbf66.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1032,7 +1064,7 @@
       {
         "id": 53005,
         "name": "纸壳布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/28c52dc9b3b1bed74542b8e626291e49.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/4792c583f811e677f2bc66f143ce2ed0.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1040,7 +1072,7 @@
       {
         "id": 53006,
         "name": "纸袋布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/b9fe50c1205642e73844a3e572203515.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/177a114f3ad62f7a0363ae803d1db52a.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1048,7 +1080,7 @@
       {
         "id": 53007,
         "name": "泪眼布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/b1af5b8481ec12704060ef7c15458602.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/08383cb5f230410041adeafd3f760282.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1056,7 +1088,7 @@
       {
         "id": 53008,
         "name": "果核布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/f6a451bbaf51a09802917dd5bfb964c8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/18fc7a8dbe348406002c7eb803a8eb10.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1064,7 +1096,7 @@
       {
         "id": 53009,
         "name": "飞靶布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/c5cd68e4997d8cf98b61215788de321a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/0042763a72e7a28d8304fd595e450e67.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1072,7 +1104,7 @@
       {
         "id": 53010,
         "name": "电击布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/f80cbb494f279268bf2272c9cdc17350.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/299c4183adc5883dc5467f0edc4f7a01.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1080,7 +1112,7 @@
       {
         "id": 53011,
         "name": "磁力布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/a499230a3728a40725016b0222283417.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/2d880b7574ac422429007fb5f6984a7c.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1088,7 +1120,7 @@
       {
         "id": 53012,
         "name": "气压布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/c9e80b862db9b8d1029cc3cbb066ee28.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/888a3d32f3a2573e86a6fbf490fdac8d.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1096,7 +1128,7 @@
       {
         "id": 53013,
         "name": "不良布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/6f6552ec5b8d5dd8c3baaaf4ab0585ea.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/ab8a24dcb7e530ed9ad7b680fe7a3116.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1104,7 +1136,7 @@
       {
         "id": 53014,
         "name": "加班布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/efbf3abdfd5580aa0657fcdde3d52475.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/8fbc043886e1c293207c979e3606bbf0.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1112,7 +1144,7 @@
       {
         "id": 53015,
         "name": "格斗布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/b2d02344f423509affa877e63f4b05c8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/518efeede30c640c99081d3ece610754.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1120,7 +1152,7 @@
       {
         "id": 53016,
         "name": "圣剑布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/bc829315992839ee58cfe173097dd2dd.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/1c8efa8a6ca5b56dda662109c2cc3e99.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1128,7 +1160,7 @@
       {
         "id": 53017,
         "name": "骑士布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/498801265bc9786ac17e341d9b8c90a8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/0c1166635a28f5e52fd43d39b4d39362.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1136,7 +1168,7 @@
       {
         "id": 53019,
         "name": "乐玩布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/d9c0d4f49e7bc0769589e17918e466fa.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/8f73444b7db7b074397a6d017ef52e63.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1144,7 +1176,7 @@
       {
         "id": 54001,
         "name": "鲨牙布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/7bcdf2c8a35d29d47d10fc39a84bf469.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/83177aaa10b84610727bade0408dce2e.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1152,7 +1184,7 @@
       {
         "id": 54002,
         "name": "阿全",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/bd6b1226f06107440a448f7cefc67228.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/1104011151acdd65f688fd2cab5c7521.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1160,7 +1192,7 @@
       {
         "id": 54003,
         "name": "恶魔布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/e92c5620601c520aba445c8f9086055f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/65185c5aea82c3bc36c107662c2fc3ea.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1168,7 +1200,7 @@
       {
         "id": 54004,
         "name": "巴特勒",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/20ea3f43e21aaf0a153c6e1793256553.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/994d97514a0bacf6ed2a3c552c0c2113.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1176,7 +1208,7 @@
       {
         "id": 54005,
         "name": "艾米莉安",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/5800809201bbd005b249a01892a0ebdb.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/dc60992cf3667aff82d72da35bd357d5.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1184,7 +1216,7 @@
       {
         "id": 54006,
         "name": "飚速布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/1715344a57279587c52bf592db8bb8e8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/37339817c9cdbe6421cc31253cb58d44.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1192,7 +1224,7 @@
       {
         "id": 54008,
         "name": "插头布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/fa6b74a8b201694792c4191f3cf738dd.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/3ca3ad4df0ccf3dff2dfad30a82178fc.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1200,7 +1232,7 @@
       {
         "id": 54009,
         "name": "共鸣布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/991255df19337734a6e9db349d17f129.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/e6e2e88adeb592aecf6b7edb34f592ce.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1208,7 +1240,7 @@
       {
         "id": 54011,
         "name": "赤红莫库斯",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/942b5005f9f8fee4016c0f58d5ec1ebb.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/f75aedc2e6de82b55297f7f21c9b43e2.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1216,7 +1248,7 @@
       {
         "id": 54012,
         "name": "阿崔巡查",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/c5e9c77fc09d4a9aaa08145651b9272f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/0777aac95a5fcef6e7b8503e3cfdc341.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1224,7 +1256,7 @@
       {
         "id": 54013,
         "name": "左轮布",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/fc1a731ca37dba94f847bc2f2cd063ef.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/d64a730ff105bc9d2073209d23b1e72c.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1232,7 +1264,7 @@
       {
         "id": 54014,
         "name": "格列佛探员",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/3716518418c7633515b09105face551f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/8438bb92aef21d771b99ef38da50eacb.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1240,7 +1272,7 @@
       {
         "id": 54015,
         "name": "咔嚓仔",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/5852841d94d90aecf0d3fffe799665e2.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/0deff4c661b547d8385bb36b6042e349.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1248,7 +1280,7 @@
       {
         "id": 54016,
         "name": "罗宾",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/16eee1d0c90d4016e201948b65aab554.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/4799cdcc32d5c5f859f8a77588abed34.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1256,7 +1288,7 @@
       {
         "id": 54017,
         "name": "狮耶",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/03ef37377eabbf1ddbe9c48804bff65e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/451c7ff1d705fb7c0c052b27a14daa01.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1264,7 +1296,7 @@
       {
         "id": 54018,
         "name": "艾丝弥小姐",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/daa75bfb216ec04aac1ece3d35d097ab.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/59764183509089682501cc8418ecbe5b.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1272,7 +1304,7 @@
       {
         "id": 54019,
         "name": "「墨丘利」",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/ab15cabe6372a78feca161f49239e20b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/c0c17870e86641402e06b12755cc64aa.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1280,7 +1312,15 @@
       {
         "id": 54020,
         "name": "比克布利克",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ue2ezc/675bd4fbb8820ec956de5b55ebdeaa88.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/036e26cdbf082cf05f890c9895303a7d.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 0
+      },
+      {
+        "id": 54021,
+        "name": "芽芽",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_uf892c/cc849facd1c4a4054c4cd56fc6c6f961.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
