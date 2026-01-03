@@ -490,7 +490,7 @@ public abstract class GameRecordClient
     /// <param name="schedule">1当期，2上期</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public abstract Task<ShiyuDefenseInfo> GetShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default);
+    public abstract Task<ShiyuDefenseWrapper> GetShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default);
 
 
     /// <summary>

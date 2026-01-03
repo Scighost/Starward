@@ -934,31 +934,59 @@ internal class GameRecordService
 
 
 
-    public async Task<ShiyuDefenseInfo> RefreshShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    public async Task<ShiyuDefenseWrapper> RefreshShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
     {
-        var info = await _gameRecordClient.GetShiyuDefenseInfoAsync(role, schedule);
-        if (!info.HasData)
+        var wrapper = await _gameRecordClient.GetShiyuDefenseInfoAsync(role, schedule);
+        if (wrapper.HadalVer is "v1" && wrapper.InfoV1 is not null)
         {
-            return info;
+            var info = wrapper.InfoV1;
+            if (info.HasData)
+            {
+                var obj = new
+                {
+                    role.Uid,
+                    info.ScheduleId,
+                    info.BeginTime,
+                    info.EndTime,
+                    info.Version,
+                    info.HasData,
+                    info.MaxRating,
+                    info.MaxRatingTimes,
+                    info.MaxLayer,
+                    Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+                };
+                using var dapper = DatabaseService.CreateConnection();
+                dapper.Execute("""
+                    INSERT OR REPLACE INTO ZZZShiyuDefenseInfo (Uid, ScheduleId, BeginTime, EndTime, Version, HasData, MaxRating, MaxRatingTimes, MaxLayer, Value)
+                    VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @Version, @HasData, @MaxRating, @MaxRatingTimes, @MaxLayer, @Value);
+                    """, obj);
+            }
         }
-        var obj = new
+        else if (wrapper.HadalVer is "v2" && wrapper.InfoV2 is not null)
         {
-            role.Uid,
-            info.ScheduleId,
-            info.BeginTime,
-            info.EndTime,
-            info.HasData,
-            info.MaxRating,
-            info.MaxRatingTimes,
-            info.MaxLayer,
-            Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
-        };
-        using var dapper = DatabaseService.CreateConnection();
-        dapper.Execute("""
-            INSERT OR REPLACE INTO ZZZShiyuDefenseInfo (Uid, ScheduleId, BeginTime, EndTime, HasData, MaxRating, MaxRatingTimes, MaxLayer, Value)
-            VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @HasData, @MaxRating, @MaxRatingTimes, @MaxLayer, @Value);
-            """, obj);
-        return info;
+            var info = wrapper.InfoV2;
+            if (info.HasData)
+            {
+                var obj = new
+                {
+                    role.Uid,
+                    info.ScheduleId,
+                    info.BeginTime,
+                    info.EndTime,
+                    info.Version,
+                    info.HasData,
+                    info.MaxRating,
+                    info.V2Score,
+                    Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+                };
+                using var dapper = DatabaseService.CreateConnection();
+                dapper.Execute("""
+                    INSERT OR REPLACE INTO ZZZShiyuDefenseInfo (Uid, ScheduleId, BeginTime, EndTime, Version, HasData, MaxRating, V2Score, Value)
+                    VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @Version, @HasData, @MaxRating, @V2Score, @Value);
+                    """, obj);
+            }
+        }
+        return wrapper;
     }
 
 
@@ -971,24 +999,32 @@ internal class GameRecordService
         }
         using var dapper = DatabaseService.CreateConnection();
         var list = dapper.Query<ShiyuDefenseInfo>("""
-            SELECT Uid, ScheduleId, BeginTime, EndTime, HasData, MaxRating, MaxRatingTimes, MaxLayer FROM ZZZShiyuDefenseInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
+            SELECT Uid, ScheduleId, BeginTime, EndTime, Version, HasData, MaxRating, MaxRatingTimes, MaxLayer, V2Score FROM ZZZShiyuDefenseInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
             """, new { role.Uid });
         return list.ToList();
     }
 
 
 
-    public ShiyuDefenseInfo? GetShiyuDefenseInfo(GameRecordRole role, int scheduleId)
+    public ShiyuDefenseInfoBase? GetShiyuDefenseInfo(GameRecordRole role, int scheduleId)
     {
         using var dapper = DatabaseService.CreateConnection();
-        var value = dapper.QueryFirstOrDefault<string>("""
-            SELECT Value FROM ZZZShiyuDefenseInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
+        (string version, string value) = dapper.QueryFirstOrDefault<(string Version, string Value)>("""
+            SELECT Version, Value FROM ZZZShiyuDefenseInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
             """, new { role.Uid, scheduleId });
         if (string.IsNullOrWhiteSpace(value))
         {
             return null;
         }
-        return JsonSerializer.Deserialize<ShiyuDefenseInfo>(value);
+        if (version is "v1")
+        {
+            return JsonSerializer.Deserialize<ShiyuDefenseInfo>(value);
+        }
+        else if (version is "v2")
+        {
+            return JsonSerializer.Deserialize<ShiyuDefenseInfoV2>(value);
+        }
+        return null;
     }
 
 

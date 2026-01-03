@@ -955,6 +955,26 @@ internal static class DatabaseService
         CREATE INDEX IX_GenshinQueryItem_Reason ON GenshinQueryItem (Reason);
         CREATE INDEX IX_GenshinQueryItem_Type ON GenshinQueryItem (Type);
 
+        CREATE TABLE ZZZShiyuDefenseInfo_dg_tmp
+        (
+            Uid            INTEGER           NOT NULL,
+            ScheduleId     INTEGER           NOT NULL,
+            BeginTime      TEXT              NOT NULL,
+            EndTime        INTEGER           NOT NULL,
+            Version        TEXT,
+            HasData        INTEGER           NOT NULL,
+            MaxRating      TEXT,
+            MaxRatingTimes INTEGER DEFAULT 0 NOT NULL,
+            MaxLayer       INTEGER DEFAULT 0 NOT NULL,
+            V2Score        INTEGER DEFAULT 0 NOT NULL,
+            Value          TEXT,
+            PRIMARY KEY (Uid, ScheduleId)
+        );
+        INSERT INTO ZZZShiyuDefenseInfo_dg_tmp(Uid, ScheduleId, BeginTime, EndTime, Version, HasData, MaxRating, MaxRatingTimes, MaxLayer, Value)
+        SELECT Uid, ScheduleId, BeginTime, EndTime, 'v1', HasData, MaxRating, MaxRatingTimes, MaxLayer, Value FROM ZZZShiyuDefenseInfo;
+        DROP TABLE ZZZShiyuDefenseInfo;
+        ALTER TABLE ZZZShiyuDefenseInfo_dg_tmp RENAME TO ZZZShiyuDefenseInfo;
+
         PRAGMA USER_VERSION = 18;
         COMMIT TRANSACTION;
         """;

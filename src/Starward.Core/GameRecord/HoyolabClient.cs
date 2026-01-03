@@ -726,9 +726,9 @@ public class HoyolabClient : GameRecordClient
     /// <param name="schedule">1当期，2上期</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public override async Task<ShiyuDefenseInfo> GetShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    public override async Task<ShiyuDefenseWrapper> GetShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
     {
-        var url = $"https://sg-public-api.hoyolab.com/event/game_record_zzz/api/zzz/challenge?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}&need_all=true";
+        var url = $"https://sg-public-api.hoyolab.com/event/game_record_zzz/api/zzz/hadal_info_v2?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}&need_all=true";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(DS, CreateSecret2(url));
@@ -736,7 +736,7 @@ public class HoyolabClient : GameRecordClient
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_client_type, "5");
         request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
-        return await CommonSendAsync<ShiyuDefenseInfo>(request, cancellationToken);
+        return await CommonSendAsync<ShiyuDefenseWrapper>(request, cancellationToken);
     }
 
 

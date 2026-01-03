@@ -43,7 +43,7 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<UpgradeGuidIconInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<GenshinDailyNote>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<StarRailDailyNote>))]
-[JsonSerializable(typeof(miHoYoApiWrapper<ShiyuDefenseInfo>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<ShiyuDefenseWrapper>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<DeadlyAssaultInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ZZZDailyNote>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<BH3DailyNote>))]

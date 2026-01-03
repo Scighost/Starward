@@ -6217,6 +6217,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Critical Node: Fifth Frontier 的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_CriticalNodeFifthFrontier {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_CriticalNodeFifthFrontier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Critical Node: Fourth Frontier 的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_CriticalNodeFourthFrontier {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_CriticalNodeFourthFrontier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Enemy Details 的本地化字符串。
         /// </summary>
         public static string ShiyuDefensePage_EnemyDetails {

@@ -58,6 +58,7 @@ public sealed partial class ShiyuDefensePage : PageBase
     protected override void OnUnloaded()
     {
         CurrentShiyuDefense = null;
+        CurrentShiyuDefenseV2 = null;
         ShiyuDefenseList = null!;
     }
 
@@ -69,12 +70,16 @@ public sealed partial class ShiyuDefensePage : PageBase
     public ShiyuDefenseInfo? CurrentShiyuDefense { get; set => SetProperty(ref field, value); }
 
 
+    public ShiyuDefenseInfoV2? CurrentShiyuDefenseV2 { get; set => SetProperty(ref field, value); }
+
+
 
     private void InitializeShiyuDefenseInfoData()
     {
         try
         {
             CurrentShiyuDefense = null;
+            CurrentShiyuDefenseV2 = null;
             var list = _gameRecordService.GetShiyuDefenseInfoList(gameRole);
             if (list.Count != 0)
             {
@@ -133,8 +138,18 @@ public sealed partial class ShiyuDefensePage : PageBase
         {
             if (e.AddedItems.FirstOrDefault() is ShiyuDefenseInfo info)
             {
-                CurrentShiyuDefense = _gameRecordService.GetShiyuDefenseInfo(gameRole, info.ScheduleId);
-                Image_Emoji.Visibility = (CurrentShiyuDefense?.HasData ?? false) ? Visibility.Collapsed : Visibility.Visible;
+                CurrentShiyuDefense = null;
+                CurrentShiyuDefenseV2 = null;
+                var detail = _gameRecordService.GetShiyuDefenseInfo(gameRole, info.ScheduleId);
+                if (detail is ShiyuDefenseInfo infoV1)
+                {
+                    CurrentShiyuDefense = infoV1;
+                }
+                else if (detail is ShiyuDefenseInfoV2 infov2)
+                {
+                    CurrentShiyuDefenseV2 = infov2;
+                }
+                Image_Emoji.Visibility = (info?.HasData ?? false) ? Visibility.Collapsed : Visibility.Visible;
             }
         }
         catch (Exception ex)
@@ -154,6 +169,19 @@ public sealed partial class ShiyuDefensePage : PageBase
     public static Visibility ElementWeaknessVisibility(int value, int weakOrResist)
     {
         return value == weakOrResist ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+
+
+    public static Visibility V1VersionVisibility(string value)
+    {
+        return value is "v1" ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+
+    public static Visibility V2VersionVisibility(string value)
+    {
+        return value is "v2" ? Visibility.Visible : Visibility.Collapsed;
     }
 
 

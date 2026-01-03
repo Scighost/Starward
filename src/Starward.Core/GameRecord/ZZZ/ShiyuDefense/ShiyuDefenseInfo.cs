@@ -6,12 +6,8 @@ namespace Starward.Core.GameRecord.ZZZ.ShiyuDefense;
 /// <summary>
 /// 式舆防卫战
 /// </summary>
-public class ShiyuDefenseInfo : IJsonOnDeserialized
+public class ShiyuDefenseInfo : ShiyuDefenseInfoBase, IJsonOnDeserialized
 {
-
-    [JsonIgnore]
-    public int Uid { get; set; }
-
 
     [JsonPropertyName("schedule_id")]
     public int ScheduleId { get; set; }
@@ -39,18 +35,6 @@ public class ShiyuDefenseInfo : IJsonOnDeserialized
     /// </summary>
     [JsonPropertyName("rating_list")]
     public List<ShiyuDefenseRatingTimes> RatingList { get; set; }
-
-    /// <summary>
-    /// 最高评分
-    /// </summary>
-    [JsonIgnore]
-    public string MaxRating { get; set; }
-
-    /// <summary>
-    /// 最高评分次数
-    /// </summary>
-    [JsonIgnore]
-    public int MaxRatingTimes { get; set; }
 
     /// <summary>
     /// 式舆防卫战防线
@@ -91,10 +75,6 @@ public class ShiyuDefenseInfo : IJsonOnDeserialized
     public int BattleTime47 { get; set; }
 
 
-    [JsonExtensionData]
-    public Dictionary<string, object>? ExtensionData { get; set; }
-
-
     [JsonIgnore]
     public int RatingSTimes { get; set; }
 
@@ -107,6 +87,7 @@ public class ShiyuDefenseInfo : IJsonOnDeserialized
 
     public void OnDeserialized()
     {
+        Version = "v1";
         MaxRating = RatingList?.FirstOrDefault()?.Rating ?? "";
         MaxRatingTimes = RatingList?.FirstOrDefault()?.Times ?? 0;
         RatingSTimes = RatingList?.FirstOrDefault(x => x.Rating == "S")?.Times ?? 0;
