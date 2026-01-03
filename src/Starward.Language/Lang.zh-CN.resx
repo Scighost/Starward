@@ -2582,4 +2582,10 @@
   <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
     <value>迁移到安装版</value>
   </data>
+  <data name="ShiyuDefensePage_CriticalNodeFourthFrontier" xml:space="preserve">
+    <value>剧变节点第四防线</value>
+  </data>
+  <data name="ShiyuDefensePage_CriticalNodeFifthFrontier" xml:space="preserve">
+    <value>剧变节点第五防线</value>
+  </data>
 </root>
