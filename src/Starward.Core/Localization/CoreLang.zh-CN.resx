@@ -304,4 +304,10 @@
   <data name="GachaType_EventOde" xml:space="preserve">
     <value>活动颂愿</value>
   </data>
+  <data name="GenshinQueryType_ChronalNexus" xml:space="preserve">
+    <value>事象凝核</value>
+  </data>
+  <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
+    <value>绮刻之楔</value>
+  </data>
 </root>
