@@ -928,6 +928,37 @@ internal static class DatabaseService
         COMMIT TRANSACTION;
         """;
 
+    private const string Sql_v18 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE GenshinQueryItem_dg_tmp
+        (
+            Uid      INTEGER NOT NULL,
+            Id       INTEGER NOT NULL,
+            AddNum   INTEGER NOT NULL,
+            Reason   TEXT,
+            DateTime TEXT,
+            Type     INTEGER NOT NULL,
+            Icon     TEXT,
+            Level    INTEGER NOT NULL,
+            Quality  INTEGER NOT NULL,
+            Name     TEXT,
+            PRIMARY KEY (Uid, Id, Type)
+        );
+        INSERT INTO GenshinQueryItem_dg_tmp(Uid, Id, AddNum, Reason, DateTime, Type, Icon, Level, Quality, Name)
+        SELECT Uid, Id, AddNum, Reason, DateTime, Type, Icon, Level, Quality, Name FROM GenshinQueryItem;
+        DROP TABLE GenshinQueryItem;
+        ALTER TABLE GenshinQueryItem_dg_tmp RENAME TO GenshinQueryItem;
+        CREATE INDEX IX_GenshinQueryItem_AddNum ON GenshinQueryItem (AddNum);
+        CREATE INDEX IX_GenshinQueryItem_DateTime ON GenshinQueryItem (DateTime);
+        CREATE INDEX IX_GenshinQueryItem_Id ON GenshinQueryItem (Id);
+        CREATE INDEX IX_GenshinQueryItem_Reason ON GenshinQueryItem (Reason);
+        CREATE INDEX IX_GenshinQueryItem_Type ON GenshinQueryItem (Type);
+
+        PRAGMA USER_VERSION = 18;
+        COMMIT TRANSACTION;
+        """;
+
     #endregion
 
 
