@@ -4344,6 +4344,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 It is recommended to install the VP9 Video Extensions to reduce CPU usage. 的本地化字符串。
+        /// </summary>
+        public static string ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage {
+            get {
+                return ResourceManager.GetString("ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Chinese 的本地化字符串。
         /// </summary>
         public static string Language_Chinese {
