@@ -2608,4 +2608,7 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="ShiyuDefensePage_CriticalNodeFifthFrontier" xml:space="preserve">
     <value>Critical Node: Fifth Frontier</value>
   </data>
+  <data name="ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage" xml:space="preserve">
+    <value>It is recommended to install the VP9 Video Extensions to reduce CPU usage.</value>
+  </data>
 </root>
