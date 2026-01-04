@@ -2487,40 +2487,40 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Định dạng và Chất lượng</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ProcessingImage" xml:space="preserve">
-    <value>Processing Image</value>
+    <value>Đang xử lý ảnh</value>
   </data>
   <data name="ScreenshotPage_BatchConvert" xml:space="preserve">
-    <value>Batch Convert</value>
+    <value>Chuyển đổi theo lô</value>
   </data>
   <data name="ImageBatchConvertWindow_Quality" xml:space="preserve">
     <value>Chất lượng</value>
   </data>
   <data name="ImageBatchConvertWindow_StartConvert" xml:space="preserve">
-    <value>Start Convert</value>
+    <value>Bắt đầu chuyển đổi</value>
   </data>
   <data name="Common_Clear" xml:space="preserve">
     <value>Xoá</value>
   </data>
   <data name="ImageBatchConvertWindow_OutputFolder" xml:space="preserve">
-    <value>Output Folder</value>
+    <value>Thư mục xuất ra</value>
   </data>
   <data name="ImageBatchConvertWindow_OriginalFileFolder" xml:space="preserve">
-    <value>Original File Folder</value>
+    <value>Thư mục của tệp tin gốc</value>
   </data>
   <data name="ImageBatchConvertWindow_SameAsOriginalFileFormat" xml:space="preserve">
-    <value>Same as original file format</value>
+    <value>Giống định dạng tệp ban đầu</value>
   </data>
   <data name="ImageBatchConvertWindow_SelectOutputFormat" xml:space="preserve">
-    <value>Select Output Format</value>
+    <value>Chọn định dạng xuất</value>
   </data>
   <data name="ImageBatchConvertWindow_NoReadOrWritePermission" xml:space="preserve">
-    <value>No read or write permission</value>
+    <value>Không có quyền đọc hoặc ghi</value>
   </data>
   <data name="ImageBatchConvertWindow_ConvertFailed" xml:space="preserve">
-    <value>Convert failed</value>
+    <value>Chuyển đổi thất bại</value>
   </data>
   <data name="ImageBatchConvertWindow_IfOutputFileExists" xml:space="preserve">
-    <value>If Output File Exists</value>
+    <value>Nếu tếp tin xuất ra đã tồn tại</value>
   </data>
   <data name="ImageBatchConvertWindow_SkipDefault" xml:space="preserve">
     <value>Bỏ qua (Mặc định)</value>
@@ -2538,10 +2538,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thât bại</value>
   </data>
   <data name="ImageBatchConvertWindow_ImageBatchConvert" xml:space="preserve">
-    <value>Image Batch Convert</value>
+    <value>Chuyển đổi ảnh theo lô</value>
   </data>
   <data name="ScreenshotSetting_ClearThumbnailCache" xml:space="preserve">
-    <value>Clear Thumbnail Cache</value>
+    <value>Xóa bộ nhớ đệm Thumbnail</value>
   </data>
   <data name="ScreenshotSetting_ClearSuccessfully" xml:space="preserve">
     <value>Clear Successfully</value>
@@ -2556,10 +2556,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Đã sao chép vào bộ nhớ tạm.</value>
   </data>
   <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
-    <value>Lunar Mode</value>
+    <value>Chế Độ Ánh Trăng</value>
   </data>
   <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
-    <value>Arcana</value>
+    <value>Thánh Bài</value>
   </data>
   <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
     <value>Thử Thách Thánh Bài {0}</value>
@@ -2568,10 +2568,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Miliastra Wonderland Ode</value>
   </data>
   <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
-    <value>Launch Game using CMD</value>
+    <value>Khởi động game bằng CMD</value>
   </data>
   <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
-    <value>Avoid showing alerts about detecting illegal tool in the game.</value>
+    <value>Tránh hiển thị thông báo sử dụng công cụ không hợp lệ trong trò chơi.</value>
   </data>
   <data name="UpdateWindow_FullPackage" xml:space="preserve">
     <value>Gói đầy đủ</value>
@@ -2586,6 +2586,6 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Critical Node: Fifth Frontier</value>
   </data>
   <data name="ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage" xml:space="preserve">
-    <value>It is recommended to install the VP9 Video Extensions to reduce CPU usage.</value>
+    <value>Khuyến nghị cài đặt Phần Mở rộng Video VP9 để giảm tải cho CPU.</value>
   </data>
 </root>
