@@ -2152,10 +2152,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Ảnh chụp màn hình đã được lưu</value>
   </data>
   <data name="ScreenshotPage_ManageScreenshotFolders" xml:space="preserve">
-    <value>Manage Screenshot Folders</value>
+    <value>Quản lý thư mục ảnh chụp màn hình</value>
   </data>
   <data name="ScreenshotFolderManageDialog_AddFolder" xml:space="preserve">
-    <value>Add Folder</value>
+    <value>Thêm thư mục</value>
   </data>
   <data name="ScreenshotFolderManageDialog_BackingUp" xml:space="preserve">
     <value>Backing up...</value>
@@ -2185,7 +2185,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Open with</value>
   </data>
   <data name="ImageViewWindow2_Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>Trước</value>
     <comment>Previous Image</comment>
   </data>
   <data name="ImageViewWindow2_Next" xml:space="preserve">
