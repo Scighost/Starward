@@ -2588,4 +2588,7 @@
   <data name="ShiyuDefensePage_CriticalNodeFifthFrontier" xml:space="preserve">
     <value>剧变节点第五防线</value>
   </data>
+  <data name="ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage" xml:space="preserve">
+    <value>建议安装 VP9 视频扩展，降低 CPU 占用率。</value>
+  </data>
 </root>
