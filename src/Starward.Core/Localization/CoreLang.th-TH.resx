@@ -304,4 +304,10 @@
   <data name="GachaType_EventOde" xml:space="preserve">
     <value>Event Ode</value>
   </data>
+  <data name="GenshinQueryType_ChronalNexus" xml:space="preserve">
+    <value>Chronal Nexus</value>
+  </data>
+  <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
+    <value>Arcane Keystone</value>
+  </data>
 </root>
