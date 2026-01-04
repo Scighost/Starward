@@ -299,15 +299,15 @@
     <value>Bước Nhảy Nón Ánh Sáng Hợp Tác</value>
   </data>
   <data name="GachaType_StandardOde" xml:space="preserve">
-    <value>Standard Ode</value>
+    <value>Ca Tụng Thường</value>
   </data>
   <data name="GachaType_EventOde" xml:space="preserve">
-    <value>Event Ode</value>
+    <value>Ca Tụng Sự Kiện</value>
   </data>
   <data name="GenshinQueryType_ChronalNexus" xml:space="preserve">
-    <value>Chronal Nexus</value>
+    <value>Lõi Sử Ký</value>
   </data>
   <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
-    <value>Arcane Keystone</value>
+    <value>Ngọc Kỳ Bí</value>
   </data>
 </root>
