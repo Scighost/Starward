@@ -2065,7 +2065,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Bật HDR</value>
   </data>
   <data name="Common_RestoreDefaults" xml:space="preserve">
-    <value>Restore Defaults</value>
+    <value>Khôi phục mặc định</value>
   </data>
   <data name="GameSettingPage_HDRBrightnessSetting" xml:space="preserve">
     <value>Cài đặt Độ sáng HDR</value>
@@ -2158,7 +2158,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thêm thư mục</value>
   </data>
   <data name="ScreenshotFolderManageDialog_BackingUp" xml:space="preserve">
-    <value>Backing up...</value>
+    <value>Đang sao lưu...</value>
   </data>
   <data name="Common_Remove" xml:space="preserve">
     <value>Loại bỏ</value>
@@ -2167,7 +2167,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Không thể sao lưu ảnh chụp màn hình.</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotFailed" xml:space="preserve">
-    <value>Screenshot Failed</value>
+    <value>Chụp ảnh màn hình thất bại</value>
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
     <value>Kiểm tra nhật ký để biết thêm thông tin.</value>
@@ -2179,31 +2179,31 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Các hình ảnh trong các thư mục dưới đây sẽ được hiển thị trong thư viện.</value>
   </data>
   <data name="ImageViewWindow2_OpenInExplorer" xml:space="preserve">
-    <value>Open in Explorer</value>
+    <value>Mở trong Explorer</value>
   </data>
   <data name="ImageViewWindow2_OpenWith" xml:space="preserve">
-    <value>Open with</value>
+    <value>Mở bằng</value>
   </data>
   <data name="ImageViewWindow2_Previous" xml:space="preserve">
     <value>Trước</value>
     <comment>Previous Image</comment>
   </data>
   <data name="ImageViewWindow2_Next" xml:space="preserve">
-    <value>Next</value>
+    <value>Sau</value>
     <comment>Next Image</comment>
   </data>
   <data name="ImageViewWindow2_ShowGallery" xml:space="preserve">
-    <value>Show Gallery</value>
+    <value>Hiển thị Thư viện ảnh</value>
   </data>
   <data name="ImageViewWindow2_FitToWindow" xml:space="preserve">
-    <value>Fit to Window</value>
+    <value>Vừa khít với Cửa sổ</value>
     <comment>Zoom image fit to window</comment>
   </data>
   <data name="ImageViewWindow2_CopyFile" xml:space="preserve">
     <value>Sao chép Tập tin</value>
   </data>
   <data name="ImageViewWindow2_CopyPath" xml:space="preserve">
-    <value>Copy Path</value>
+    <value>Sao chép đường dẫn</value>
   </data>
   <data name="ImageViewWindow2_CopyImage" xml:space="preserve">
     <value>Sao chép Ảnh</value>
@@ -2215,10 +2215,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Lưu thành</value>
   </data>
   <data name="ImageViewWindow2_ImageInformation" xml:space="preserve">
-    <value>Image Information</value>
+    <value>Thông tin Ảnh</value>
   </data>
   <data name="ImageViewWindow2_EditImage" xml:space="preserve">
-    <value>Edit Image</value>
+    <value>Chỉnh sửa Ảnh</value>
   </data>
   <data name="ImageViewWindow2_DisplayMode" xml:space="preserve">
     <value>Chế độ hiển thị</value>
@@ -2230,7 +2230,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Tự động</value>
   </data>
   <data name="ImageViewWindow2_ExportImage" xml:space="preserve">
-    <value>Export Image</value>
+    <value>Xuất Ảnh</value>
   </data>
   <data name="ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature" xml:space="preserve">
     <value>Để chuyển đổi hình ảnh HDR sang SDR, vui lòng sử dụng tính năng Chỉnh sửa.</value>
@@ -2245,10 +2245,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Tập tin không tồn tại.</value>
   </data>
   <data name="ImageViewWindow2_OpenWithDefaultApp" xml:space="preserve">
-    <value>Open with Default App</value>
+    <value>Mở bằng Ứng dụng mặc định</value>
   </data>
   <data name="ImageViewWindow2_NoImageToDisplay" xml:space="preserve">
-    <value>No Image to Display</value>
+    <value>Không có ảnh để Hiển thị</value>
   </data>
   <data name="Common_OpenFiles" xml:space="preserve">
     <value>Mở tập tin</value>
@@ -2260,7 +2260,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Hiện hình ảnh thất bại</value>
   </data>
   <data name="ImageViewWindow2_FailedToSaveImage" xml:space="preserve">
-    <value>Failed to Save Image</value>
+    <value>Lưu ảnh thất bại</value>
   </data>
   <data name="ImageViewWindow2_FailedToDeleteImageFile" xml:space="preserve">
     <value>Xoá file thất bại</value>
@@ -2272,34 +2272,34 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thiếu quyền hạn hoặc file đang được sử dụng.</value>
   </data>
   <data name="HotkeyInput_ClickToSetShortcutKeys" xml:space="preserve">
-    <value>Nhấn để đặt Shortcut</value>
+    <value>Nhấn để đặt phím tắt</value>
   </data>
   <data name="HotkeyInput_PressTheShortcutKeys" xml:space="preserve">
-    <value>Press the Shortcut Keys</value>
+    <value>Nhấn phím tắt</value>
   </data>
   <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUse" xml:space="preserve">
-    <value>The shortcut keys ({0}) is already in use.</value>
+    <value>Phím tắt ({0}) đã được sử dụng.</value>
   </data>
   <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0" xml:space="preserve">
-    <value>Failed to register the shortcut keys ({0}).</value>
+    <value>Gán phím tắt ({0}) thất bại.</value>
   </data>
   <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUsePleaseModifyItInSettingsPage" xml:space="preserve">
-    <value>The shortcut keys ({0}) is already in use. Please modify it in Settings page.</value>
+    <value>Phím tắt ({0}) đã được sử dụng. Vui lòng chỉnh sửa trong trang Cài đặt.</value>
   </data>
   <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0PleaseRetryInSettingsPage" xml:space="preserve">
-    <value>Failed to register the shortcut keys ({0}). Please retry in Settings page.</value>
+    <value>Gán phím tắt ({0}) thất bại. Vui lòng thử lại trong trang Cài đặt.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotShortcut" xml:space="preserve">
-    <value>Screenshot Shortcut</value>
+    <value>Phím tắt Ảnh chụp màn hình</value>
   </data>
   <data name="HotkeySetting_OpenMainWindow" xml:space="preserve">
     <value>Mở cửa sổ chính</value>
   </data>
   <data name="HotkeySetting_FailedToRegisterTheShortcutKeys" xml:space="preserve">
-    <value>Failed to register the shortcut keys.</value>
+    <value>Gán phím tắt thất bại.</value>
   </data>
   <data name="ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder" xml:space="preserve">
-    <value>The built-in screenshot feature will save images to the following folder.</value>
+    <value>Tính năng chụp màn hình của ứng dụng sẽ lưu ảnh vào thư mục sau.</value>
   </data>
   <data name="Common_ChangeFolder" xml:space="preserve">
     <value>Thay đổi thư mục</value>
@@ -2311,34 +2311,34 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Phím tắt</value>
   </data>
   <data name="SettingPage_ControllerEnhancement" xml:space="preserve">
-    <value>Controller Enhancement</value>
+    <value>Cải thiện Tay cầm</value>
   </data>
   <data name="GamepadControlSetting_SimulateInput" xml:space="preserve">
-    <value>Simulate Input</value>
+    <value>Mô phỏng nhập liệu</value>
   </data>
   <data name="GamepadControlSetting_GuideButton" xml:space="preserve">
-    <value>Guide Button</value>
+    <value>Nút Guide</value>
   </data>
   <data name="GamepadControlSetting_NoAction" xml:space="preserve">
-    <value>No Action</value>
+    <value>Không có hành động</value>
   </data>
   <data name="GamepadControlSetting_GameScreenshot" xml:space="preserve">
-    <value>Game Screenshot</value>
+    <value>Chụp ảnh màn hình trò chơi</value>
   </data>
   <data name="GamepadControlSetting_KeyboardKeys" xml:space="preserve">
-    <value>Keyboard Keys</value>
+    <value>Phím bàn phím</value>
   </data>
   <data name="GamepadControlSetting_EnterKeyText" xml:space="preserve">
-    <value>Enter key text</value>
+    <value>Nhập tên phím</value>
   </data>
   <data name="GamepadControlSetting_ShareButton" xml:space="preserve">
-    <value>Share Button</value>
+    <value>Nút chia sẻ</value>
   </data>
   <data name="GamepadControlSetting_ButtonMapping" xml:space="preserve">
-    <value>Button Mapping</value>
+    <value>Gán nút</value>
   </data>
   <data name="GamepadControlSetting_UnrecognizedKey" xml:space="preserve">
-    <value>Unrecognized key</value>
+    <value>Phím chưa xác định</value>
   </data>
   <data name="GamepadControlSetting_OnlySupportXboxControllerProtocol" xml:space="preserve">
     <value>Chỉ hỗ trợ tay cầm theo giao thức Xbox. Không đảm bảo tương thích với các loại tay cầm khác.</value>
@@ -2562,7 +2562,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Arcana</value>
   </data>
   <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
-    <value>Arcana Challenge {0}</value>
+    <value>Thử Thách Thánh Bài {0}</value>
   </data>
   <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
     <value>Miliastra Wonderland Ode</value>
@@ -2574,7 +2574,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Avoid showing alerts about detecting illegal tool in the game.</value>
   </data>
   <data name="UpdateWindow_FullPackage" xml:space="preserve">
-    <value>Full Package</value>
+    <value>Gói đầy đủ</value>
   </data>
   <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
     <value>Migrate to Setup</value>
