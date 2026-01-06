@@ -2591,4 +2591,22 @@
   <data name="ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage" xml:space="preserve">
     <value>建议安装 VP9 视频扩展，降低 CPU 占用率。</value>
   </data>
+  <data name="ChallengePeakPage_ChallengeAttempts" xml:space="preserve">
+    <value>挑战次数</value>
+  </data>
+  <data name="ChallengePeakPage_KingInCheckStageRecords" xml:space="preserve">
+    <value>王棋通关战绩</value>
+  </data>
+  <data name="ChallengePeakPage_Cleared" xml:space="preserve">
+    <value>已通关</value>
+  </data>
+  <data name="ChallengePeakPage_NoClearanceRecords" xml:space="preserve">
+    <value>暂无通关记录</value>
+  </data>
+  <data name="ChallengePeakPage_KnightStageRecords" xml:space="preserve">
+    <value>骑士关卡战绩</value>
+  </data>
+  <data name="GameRecordPage_AnomalyArbitration" xml:space="preserve">
+    <value>异相仲裁</value>
+  </data>
 </root>
