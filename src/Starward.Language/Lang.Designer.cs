@@ -232,6 +232,51 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Challenge Attempts 的本地化字符串。
+        /// </summary>
+        public static string ChallengePeakPage_ChallengeAttempts {
+            get {
+                return ResourceManager.GetString("ChallengePeakPage_ChallengeAttempts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cleared 的本地化字符串。
+        /// </summary>
+        public static string ChallengePeakPage_Cleared {
+            get {
+                return ResourceManager.GetString("ChallengePeakPage_Cleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 King in Check Stage Records 的本地化字符串。
+        /// </summary>
+        public static string ChallengePeakPage_KingInCheckStageRecords {
+            get {
+                return ResourceManager.GetString("ChallengePeakPage_KingInCheckStageRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Knight Stage Records 的本地化字符串。
+        /// </summary>
+        public static string ChallengePeakPage_KnightStageRecords {
+            get {
+                return ResourceManager.GetString("ChallengePeakPage_KnightStageRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No Clearance Records 的本地化字符串。
+        /// </summary>
+        public static string ChallengePeakPage_NoClearanceRecords {
+            get {
+                return ResourceManager.GetString("ChallengePeakPage_NoClearanceRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Cleared at 的本地化字符串。
         /// </summary>
         public static string ClearedAt {
@@ -2599,6 +2644,15 @@ namespace Starward.Language {
         public static string GamepadControlSetting_UnrecognizedKey {
             get {
                 return ResourceManager.GetString("GamepadControlSetting_UnrecognizedKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Anomaly Arbitration 的本地化字符串。
+        /// </summary>
+        public static string GameRecordPage_AnomalyArbitration {
+            get {
+                return ResourceManager.GetString("GameRecordPage_AnomalyArbitration", resourceCulture);
             }
         }
         

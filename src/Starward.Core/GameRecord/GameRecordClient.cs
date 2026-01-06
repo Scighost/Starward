@@ -20,6 +20,8 @@ using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.GameRecord.BH3.DailyNote;
 using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 using Starward.Core.GameRecord.ZZZ.ThresholdSimulation;
+using Starward.Core.GameRecord.StarRail.ChallengePeak;
+
 
 
 
@@ -472,6 +474,16 @@ public abstract class GameRecordClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public abstract Task<StarRailDailyNote> GetStarRailDailyNoteAsync(GameRecordRole role, CancellationToken cancellationToken = default);
+
+
+    /// <summary>
+    /// 星穹铁道异相仲裁
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="scheduleType">1 当期，3 最近三期</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<ChallengePeakData> GetStarRailChallengePeakDataAsync(GameRecordRole role,int scheduleType, CancellationToken cancellationToken = default);
 
 
 

@@ -10,6 +10,7 @@ using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
+using Starward.Core.GameRecord.StarRail.ChallengePeak;
 using Starward.Core.GameRecord.StarRail.DailyNote;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
@@ -1221,6 +1222,139 @@ internal class GameRecordService
         }
         return JsonSerializer.Deserialize<StygianOnslaughtInfo>(value);
     }
+
+
+
+    #endregion
+
+
+
+
+    #region Star Rail Challenge Peak
+
+
+
+
+    public List<ChallengePeakData> GetStarRailChallengePeakDataList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<ChallengePeakData>();
+        }
+        using var dapper = DatabaseService.CreateConnection();
+        var list = dapper.Query<ChallengePeakData>("""
+            SELECT Uid, GroupId, GameVersion, BossStars, MobStars, BossIcon FROM StarRailChallengePeakData WHERE Uid = @Uid ORDER BY GroupId DESC;
+            """, new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public async Task RefreshStarRailChallengePeakDataAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+
+        var data = await _gameRecordClient.GetStarRailChallengePeakDataAsync(role, 1, cancellationToken);
+        if (data.ChallengePeakRecords?.Count == 1)
+        {
+            var record = data.ChallengePeakRecords[0];
+            var obj = new
+            {
+                role.Uid,
+                record.Group.GroupId,
+                record.Group.GameVersion,
+                record.BossStars,
+                record.MobStars,
+                BossIcon = record.BossInfo.Icon,
+                Value = JsonSerializer.Serialize(data),
+            };
+            dapper.Execute("""
+                INSERT OR REPLACE INTO StarRailChallengePeakData (Uid, GroupId, GameVersion, BossStars, MobStars, BossIcon, Value)
+                VALUES (@Uid, @GroupId, @GameVersion, @BossStars, @MobStars, @BossIcon, @Value);
+                """, obj);
+        }
+
+        data = await _gameRecordClient.GetStarRailChallengePeakDataAsync(role, 3, cancellationToken);
+        foreach (var record in data.ChallengePeakRecords.ToList())
+        {
+            data.ChallengePeakRecords.Clear();
+            var queryData = dapper.QueryFirstOrDefault<ChallengePeakData>("""
+                SELECT BossStars, MobStars FROM StarRailChallengePeakData WHERE Uid = @Uid AND GroupId = @GroupId LIMIT 1;
+                """, new { role.Uid, record.Group.GroupId });
+            if (queryData is null)
+            {
+                data.ChallengePeakRecords.Add(record);
+                data.ChallengePeakBestRecordBrief = new ChallengePeakBestRecordBrief
+                {
+                    BossStars = record.BossStars,
+                    MobStars = record.MobStars,
+                };
+                var obj = new
+                {
+                    role.Uid,
+                    record.Group.GroupId,
+                    record.Group.GameVersion,
+                    record.BossStars,
+                    record.MobStars,
+                    BossIcon = record.BossInfo.Icon,
+                    Value = JsonSerializer.Serialize(data),
+                };
+                dapper.Execute("""
+                    INSERT OR REPLACE INTO StarRailChallengePeakData (Uid, GroupId, GameVersion, BossStars, MobStars, BossIcon, Value)
+                    VALUES (@Uid, @GroupId, @GameVersion, @BossStars, @MobStars, @BossIcon, @Value);
+                    """, obj);
+            }
+            else if (record.BossStars > queryData.BossStars || record.MobStars > queryData.MobStars)
+            {
+                var queryText = dapper.QueryFirstOrDefault<string>("""
+                    SELECT Value FROM StarRailChallengePeakData WHERE Uid = @Uid AND GroupId = @GroupId LIMIT 1;
+                    """, new { role.Uid, record.Group.GroupId });
+                if (!string.IsNullOrWhiteSpace(queryText))
+                {
+                    var queryValue = JsonSerializer.Deserialize<ChallengePeakData>(queryText);
+                    if (queryValue is not null)
+                    {
+                        queryValue.ChallengePeakRecords.Clear();
+                        queryValue.ChallengePeakRecords.Add(record);
+                        queryValue.ChallengePeakBestRecordBrief ??= new();
+                        queryValue.ChallengePeakBestRecordBrief.BossStars = record.BossStars;
+                        queryValue.ChallengePeakBestRecordBrief.MobStars = record.MobStars;
+
+                        var obj = new
+                        {
+                            role.Uid,
+                            record.Group.GroupId,
+                            record.Group.GameVersion,
+                            record.BossStars,
+                            record.MobStars,
+                            BossIcon = record.BossInfo.Icon,
+                            Value = JsonSerializer.Serialize(queryValue),
+                        };
+                        dapper.Execute("""
+                            INSERT OR REPLACE INTO StarRailChallengePeakData (Uid, GroupId, GameVersion, BossStars, MobStars, BossIcon, Value)
+                            VALUES (@Uid, @GroupId, @GameVersion, @BossStars, @MobStars, @BossIcon, @Value);
+                            """, obj);
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    public ChallengePeakData? GetStarRailChallengePeakData(GameRecordRole role, int groupId)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        var queryText = dapper.QueryFirstOrDefault<string>("""
+                    SELECT Value FROM StarRailChallengePeakData WHERE Uid = @Uid AND GroupId = @groupId LIMIT 1;
+                    """, new { role.Uid, groupId });
+        if (!string.IsNullOrWhiteSpace(queryText))
+        {
+            return JsonSerializer.Deserialize<ChallengePeakData>(queryText);
+        }
+        return null;
+    }
+
 
 
 

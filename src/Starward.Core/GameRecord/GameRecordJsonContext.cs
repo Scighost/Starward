@@ -5,6 +5,7 @@ using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
+using Starward.Core.GameRecord.StarRail.ChallengePeak;
 using Starward.Core.GameRecord.StarRail.DailyNote;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
@@ -35,6 +36,7 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<PureFictionInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ApocalypticShadowInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<SimulatedUniverseInfo>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<ChallengePeakData>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<DeviceFpResult>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ImaginariumTheaterWarpper>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<InterKnotReportSummary>))]

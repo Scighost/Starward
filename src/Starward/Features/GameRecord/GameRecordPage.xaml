@@ -431,6 +431,23 @@
                         </Grid>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
+                <!--  异相仲裁  -->
+                <NavigationViewItem Name="NavigationViewItem_ChallengePeak"
+                                    Tag="ChallengePeakPage"
+                                    Visibility="Collapsed">
+                    <NavigationViewItem.Content>
+                        <Grid Margin="{x:Bind NavigationViewItemContentMargin}" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="20" Source="ms-appx:///Assets/Image/ChallengePeak.png" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{x:Bind lang:Lang.GameRecordPage_AnomalyArbitration}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
 
                 <!--  绳网月报  -->
                 <NavigationViewItem Name="NavigationViewItem_InterKnotMonthlyReport"

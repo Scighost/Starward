@@ -5,6 +5,7 @@ using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
+using Starward.Core.GameRecord.StarRail.ChallengePeak;
 using Starward.Core.GameRecord.StarRail.DailyNote;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
@@ -683,6 +684,29 @@ public class HoyolabClient : GameRecordClient
         request.Headers.Add(x_rpc_device_id, DeviceId);
         request.Headers.Add(x_rpc_device_fp, DeviceFp);
         return await CommonSendAsync<StarRailDailyNote>(request, cancellationToken);
+    }
+
+
+
+    /// <summary>
+    /// 星穹铁道异相仲裁
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="scheduleType">1 当期，3 最近三期</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<ChallengePeakData> GetStarRailChallengePeakDataAsync(GameRecordRole role, int scheduleType, CancellationToken cancellationToken = default)
+    {
+        string url = $"https://sg-public-api.hoyolab.com/event/game_record/hkrpg/api/challenge_peak?server={role.Region}&role_id={role.Uid}&schedule_type={scheduleType}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(Referer, "https://act.hoyolab.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        return await CommonSendAsync<ChallengePeakData>(request, cancellationToken);
     }
 
 

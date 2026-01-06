@@ -975,6 +975,18 @@ internal static class DatabaseService
         DROP TABLE ZZZShiyuDefenseInfo;
         ALTER TABLE ZZZShiyuDefenseInfo_dg_tmp RENAME TO ZZZShiyuDefenseInfo;
 
+        CREATE TABLE IF NOT EXISTS StarRailChallengePeakData
+        (
+            Uid         INTEGER NOT NULL,
+            GroupId     INTEGER NOT NULL,
+            GameVersion TEXT    NOT NULL,
+            BossStars   INTEGER NOT NULL DEFAULT 0,
+            MobStars    INTEGER NOT NULL DEFAULT 0,
+            BossIcon    TEXT,
+            Value       TEXT,
+            PRIMARY KEY (Uid, GroupId)
+        );
+
         PRAGMA USER_VERSION = 18;
         COMMIT TRANSACTION;
         """;
