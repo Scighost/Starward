@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using NuGet.Versioning;
 using Starward.Features.Update;
 using Starward.Frameworks;
 using System;
@@ -41,7 +42,7 @@ public sealed partial class AboutSetting : PageBase
     /// <summary>
     /// 是最新版
     /// </summary>
-    public bool IsUpdated { get; set => SetProperty(ref field, value); }
+    public string? LatestVersion { get; set => SetProperty(ref field, value); }
 
 
     /// <summary>
@@ -59,16 +60,18 @@ public sealed partial class AboutSetting : PageBase
     {
         try
         {
-            IsUpdated = false;
+            LatestVersion = null;
             UpdateErrorText = null;
-            var release = await AppConfig.GetService<UpdateService>().CheckUpdateAsync(true);
-            if (release != null)
+            var release = await AppConfig.GetService<UpdateService>().GetLatestVersionAsync();
+            _ = NuGetVersion.TryParse(AppConfig.AppVersion, out var currentVersion);
+            _ = NuGetVersion.TryParse(release.Version, out var newVersion);
+            if (newVersion! > currentVersion!)
             {
                 new UpdateWindow { NewVersion = release }.Activate();
             }
             else
             {
-                IsUpdated = true;
+                LatestVersion = release.Version;
             }
         }
         catch (Exception ex)

@@ -74,12 +74,15 @@
                         <TextBlock Text="{x:Bind lang:Lang.SettingPage_CheckForUpdate}" />
                     </StackPanel>
                 </Button>
-                <FontIcon Grid.Column="1"
-                          HorizontalAlignment="Left"
-                          FontSize="20"
-                          Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                          Glyph="&#xF78C;"
-                          Visibility="{x:Bind IsUpdated}" />
+                <!--  已是最新版本  -->
+                <TextBlock Grid.Column="1"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Visibility="{x:Bind LatestVersion, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.AboutSetting_UpdatedToTheLatestVersion}" />
+                    <Run Text="" />
+                    <Run Foreground="{ThemeResource SystemFillColorSuccessBrush}" Text="{x:Bind LatestVersion}" />
+                </TextBlock>
                 <ProgressRing Grid.Column="1"
                               Width="20"
                               Height="20"

@@ -49,24 +49,24 @@ public class ReleaseClient
     }
 
 
-    public async Task<ReleaseInfo> GetLatestReleaseInfoAsync(bool isPrerelease, CancellationToken cancellationToken = default)
+    public async Task<ReleaseInfo> GetLatestReleaseInfoAsync(bool isPrerelease, string appVersion, CancellationToken cancellationToken = default)
     {
         var url = isPrerelease switch
         {
-            false => "/release/latest",
-            true => "/release/latest-preview",
+            false => $"/release/latest?version={appVersion}",
+            true => $"/release/latest-preview?version={appVersion}",
         };
         var info = await _httpClient.GetFromJsonAsync(url, typeof(ReleaseInfo), ReleaseJsonContext.Default, cancellationToken);
         return info as ReleaseInfo ?? throw new NullReferenceException($"Cannot get json content from '{url}'.");
     }
 
 
-    public async Task<ReleaseInfoDetail> GetLatestReleaseInfoDetailAsync(bool isPrerelease, Architecture arch, InstallType type, CancellationToken cancellationToken = default)
+    public async Task<ReleaseInfoDetail> GetLatestReleaseInfoDetailAsync(bool isPrerelease, string appVersion, Architecture arch, InstallType type, CancellationToken cancellationToken = default)
     {
         var url = isPrerelease switch
         {
-            false => "/release/latest",
-            true => "/release/latest-preview",
+            false => $"/release/latest?version={appVersion}",
+            true => $"/release/latest-preview?version={appVersion}",
         };
         var info = await _httpClient.GetFromJsonAsync(url, typeof(ReleaseInfo), ReleaseJsonContext.Default, cancellationToken) as ReleaseInfo;
         if (info is null)

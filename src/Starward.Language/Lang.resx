@@ -2609,6 +2609,9 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="GameRecordPage_AnomalyArbitration" xml:space="preserve">
     <value>Anomaly Arbitration</value>
   </data>
+  <data name="AboutSetting_UpdatedToTheLatestVersion" xml:space="preserve">
+    <value>Updated to the latest version.</value>
+  </data>
   <data name="GameLauncherPage_PlayPause" xml:space="preserve">
     <value>Play / Pause</value>
   </data>
@@ -2644,5 +2647,11 @@ You are welcome to submit the exported data to the following repository:</value>
   </data>
   <data name="BackgroundViewPage_VP9VideoExtensionsTip" xml:space="preserve">
     <value>The VP9 Video Extensions does not support certain formats, which may prevent thumbnail generation or proper playback.</value>
+  </data>
+  <data name="AppBackground_ImageDecodingFailed" xml:space="preserve">
+    <value>Image decoding failed</value>
+  </data>
+  <data name="AppBackground_PleaseInstallTheWebPImageExtension" xml:space="preserve">
+    <value>Please install the WebP Image Extension.</value>
   </data>
 </root>

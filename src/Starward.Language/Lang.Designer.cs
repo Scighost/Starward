@@ -61,6 +61,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Updated to the latest version. 的本地化字符串。
+        /// </summary>
+        public static string AboutSetting_UpdatedToTheLatestVersion {
+            get {
+                return ResourceManager.GetString("AboutSetting_UpdatedToTheLatestVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Click button to repair files. 的本地化字符串。
         /// </summary>
         public static string AboutSettingPage_ClickButtonToRepairFiles {
@@ -147,6 +156,24 @@ namespace Starward.Language {
         public static string ApocalypticShadowPage_TotalScore {
             get {
                 return ResourceManager.GetString("ApocalypticShadowPage_TotalScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Image decoding failed 的本地化字符串。
+        /// </summary>
+        public static string AppBackground_ImageDecodingFailed {
+            get {
+                return ResourceManager.GetString("AppBackground_ImageDecodingFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please install the WebP Image Extension. 的本地化字符串。
+        /// </summary>
+        public static string AppBackground_PleaseInstallTheWebPImageExtension {
+            get {
+                return ResourceManager.GetString("AppBackground_PleaseInstallTheWebPImageExtension", resourceCulture);
             }
         }
         

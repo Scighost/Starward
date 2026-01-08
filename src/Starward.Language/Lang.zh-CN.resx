@@ -2609,6 +2609,9 @@
   <data name="GameRecordPage_AnomalyArbitration" xml:space="preserve">
     <value>异相仲裁</value>
   </data>
+  <data name="AboutSetting_UpdatedToTheLatestVersion" xml:space="preserve">
+    <value>已更新到最新版</value>
+  </data>
   <data name="GameLauncherPage_PlayPause" xml:space="preserve">
     <value>播放 / 暂停</value>
   </data>
@@ -2644,5 +2647,11 @@
   </data>
   <data name="BackgroundViewPage_VP9VideoExtensionsTip" xml:space="preserve">
     <value>VP9 视频扩展不支持部分格式，可能无法获取视频封面或正常播放。</value>
+  </data>
+  <data name="AppBackground_ImageDecodingFailed" xml:space="preserve">
+    <value>图像解码失败</value>
+  </data>
+  <data name="AppBackground_PleaseInstallTheWebPImageExtension" xml:space="preserve">
+    <value>请安装 WebP 图像扩展。</value>
   </data>
 </root>

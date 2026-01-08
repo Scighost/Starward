@@ -553,6 +553,11 @@ public sealed partial class UpdateWindow : WindowEx
             StackPanel_Error.Visibility = Visibility.Collapsed;
 
             await webview.EnsureCoreWebView2Async();
+            string ua = webview.CoreWebView2.Settings.UserAgent;
+            if (!ua.Contains("Starward"))
+            {
+                webview.CoreWebView2.Settings.UserAgent = $"{ua} Starward/{AppConfig.AppVersion}";
+            }
             webview.CoreWebView2.Profile.PreferredColorScheme = ShouldAppsUseDarkMode() ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
             webview.CoreWebView2.DOMContentLoaded -= CoreWebView2_DOMContentLoaded;
             webview.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;

@@ -99,7 +99,7 @@ internal class UpdateService
             State = UpdateState.Pending;
             this.targetPath = targetPath;
             releaseManifest = manifest;
-            updateCacheFolder = Path.Combine(AppConfig.CacheFolder, "Starward\\update");
+            updateCacheFolder = Path.Combine(AppConfig.CacheFolder, "update");
             Directory.CreateDirectory(updateCacheFolder);
             await GetCurrentVersionFilesHashAsync(cancellationToken);
             await UpdateAsync(cancellationToken);

@@ -14,6 +14,7 @@ using Starward.Helpers;
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -154,6 +155,7 @@ public sealed partial class AppBackground : UserControl
 
     public async Task UpdateBackgroundAsync(GameBackground? background = null)
     {
+        string? imageFilePath = null;
         try
         {
             IsUpdateBackgroundRunning = true;
@@ -236,6 +238,7 @@ public sealed partial class AppBackground : UserControl
                     }
                     else
                     {
+                        imageFilePath = filePath;
                         await ChangeBackgroundImageAsync(filePath, cancellationToken);
                     }
                     _lastBackgroundFile = filePath;
@@ -251,6 +254,23 @@ public sealed partial class AppBackground : UserControl
             }
         }
         catch (OperationCanceledException) { }
+        catch (COMException ex) when (ex.HResult == -2003292277)
+        {
+            // 0x88982F8B
+            if (Path.GetExtension(imageFilePath)?.Equals(".webp", StringComparison.OrdinalIgnoreCase) ?? false)
+            {
+                InAppToast.MainWindow?.ShowWithButton(InfoBarSeverity.Warning,
+                                                      Lang.AppBackground_ImageDecodingFailed,
+                                                      Lang.AppBackground_PleaseInstallTheWebPImageExtension,
+                                                      Lang.SettingPage_Download,
+                                                      async () => await Launcher.LaunchUriAsync(new("https://apps.microsoft.com/detail/9pg2dk419drg")));
+            }
+            else
+            {
+                InAppToast.MainWindow?.Warning(Lang.AppBackground_ImageDecodingFailed);
+            }
+            _logger.LogError(ex, "Cannot decode image: '{path}'", imageFilePath);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Update background image");

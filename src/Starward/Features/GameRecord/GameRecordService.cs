@@ -1266,7 +1266,7 @@ internal class GameRecordService
                 record.BossStars,
                 record.MobStars,
                 BossIcon = record.BossInfo.Icon,
-                Value = JsonSerializer.Serialize(data),
+                Value = JsonSerializer.Serialize(data, AppConfig.JsonSerializerOptions),
             };
             dapper.Execute("""
                 INSERT OR REPLACE INTO StarRailChallengePeakData (Uid, GroupId, GameVersion, BossStars, MobStars, BossIcon, Value)
@@ -1297,7 +1297,7 @@ internal class GameRecordService
                     record.BossStars,
                     record.MobStars,
                     BossIcon = record.BossInfo.Icon,
-                    Value = JsonSerializer.Serialize(data),
+                    Value = JsonSerializer.Serialize(data, AppConfig.JsonSerializerOptions),
                 };
                 dapper.Execute("""
                     INSERT OR REPLACE INTO StarRailChallengePeakData (Uid, GroupId, GameVersion, BossStars, MobStars, BossIcon, Value)
