@@ -5,6 +5,7 @@ using Starward.Codec.JpegXL.Decode;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Hashing;
 using System.Runtime.CompilerServices;
@@ -62,7 +63,7 @@ internal static class ImageThumbnail
 
 
 
-    public static async Task<BitmapSource> GetImageThumbnailAsync(string path, CancellationToken cancellationToken = default)
+    public static async Task<BitmapSource> GetImageThumbnailAsync(string path, bool png, CancellationToken cancellationToken = default)
     {
         string fileName = GetCachedThumbnailName(path);
         string cachePath = Path.Combine(CacheFolder, fileName);
@@ -77,15 +78,15 @@ internal static class ImageThumbnail
             string extension = Path.GetExtension(path).ToLowerInvariant();
             if (!AvifDecoderSupported && extension is ".avif")
             {
-                return await LoadAvifImageAsync(path, cachePath, cancellationToken);
+                return await LoadAvifImageAsync(path, cachePath, png, cancellationToken);
             }
             else if (!JxlDecoderSupported && extension is ".jxl")
             {
-                return await LoadJxlImageAsync(path, cachePath, cancellationToken);
+                return await LoadJxlImageAsync(path, cachePath, png, cancellationToken);
             }
             else
             {
-                return await LoadImageAsync(path, cachePath, cancellationToken);
+                return await LoadImageAsync(path, cachePath, png, cancellationToken);
             }
         }
         finally
@@ -113,7 +114,7 @@ internal static class ImageThumbnail
 
 
 
-    private static async Task<BitmapSource> LoadAvifImageAsync(string filePath, string cachePath, CancellationToken cancellationToken = default)
+    private static async Task<BitmapSource> LoadAvifImageAsync(string filePath, string cachePath, bool png, CancellationToken cancellationToken = default)
     {
         await Task.Run(async () =>
         {
@@ -148,7 +149,8 @@ internal static class ImageThumbnail
             Directory.CreateDirectory(CacheFolder);
             var tmp = cachePath + "_tmp";
             using var fs_tmp = File.Create(tmp);
-            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, fs_tmp.AsRandomAccessStream(), ImageQuality);
+            BitmapEncoder encoder = png ? await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fs.AsRandomAccessStream()).AsTask(cancellationToken).ConfigureAwait(false)
+                                        : await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, fs.AsRandomAccessStream(), ImageQuality).AsTask(cancellationToken).ConfigureAwait(false);
             encoder.SetSoftwareBitmap(softwareBitmap);
             (uint scaledWidth, uint scaledHeight) = GetThumbnailSize(rgb.Width, rgb.Height);
             encoder.BitmapTransform.ScaledWidth = scaledWidth;
@@ -163,7 +165,7 @@ internal static class ImageThumbnail
 
 
 
-    private static async Task<BitmapSource> LoadJxlImageAsync(string filePath, string cachePath, CancellationToken cancellationToken = default)
+    private static async Task<BitmapSource> LoadJxlImageAsync(string filePath, string cachePath, bool png, CancellationToken cancellationToken = default)
     {
         await Task.Run(async () =>
         {
@@ -188,7 +190,8 @@ internal static class ImageThumbnail
             Directory.CreateDirectory(CacheFolder);
             var tmp = cachePath + "_tmp";
             using var fs_tmp = File.Create(tmp);
-            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, fs_tmp.AsRandomAccessStream(), ImageQuality);
+            BitmapEncoder encoder = png ? await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fs.AsRandomAccessStream()).AsTask(cancellationToken).ConfigureAwait(false)
+                                        : await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, fs.AsRandomAccessStream(), ImageQuality).AsTask(cancellationToken).ConfigureAwait(false);
             encoder.SetSoftwareBitmap(softwareBitmap);
             (uint width, uint height) = GetThumbnailSize(decoder.Width, decoder.Height);
             encoder.BitmapTransform.ScaledWidth = width;
@@ -204,7 +207,7 @@ internal static class ImageThumbnail
 
 
 
-    private static async Task<BitmapSource> LoadImageAsync(string filePath, string cachePath, CancellationToken cancellationToken = default)
+    private static async Task<BitmapSource> LoadImageAsync(string filePath, string cachePath, bool png, CancellationToken cancellationToken = default)
     {
         using var fs = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream()).AsTask(cancellationToken);
@@ -217,28 +220,31 @@ internal static class ImageThumbnail
         }, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.ColorManageToSRgb);
         var writableBitmap = new WriteableBitmap(softwareBitmap.PixelWidth, softwareBitmap.PixelHeight);
         softwareBitmap.CopyToBuffer(writableBitmap.PixelBuffer);
-        SaveCachedImage(cachePath, softwareBitmap, cancellationToken);
+        SaveCachedImage(cachePath, softwareBitmap, png, cancellationToken);
         return writableBitmap;
     }
 
 
 
 
-    private static async void SaveCachedImage(string path, SoftwareBitmap bitmap, CancellationToken cancellationToken = default)
+    private static async void SaveCachedImage(string path, SoftwareBitmap bitmap, bool png, CancellationToken cancellationToken = default)
     {
         try
         {
             Directory.CreateDirectory(CacheFolder);
             var tmp = path + "_tmp";
             using var fs = File.Create(tmp);
-            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, fs.AsRandomAccessStream(), ImageQuality).AsTask(cancellationToken).ConfigureAwait(false);
+            BitmapEncoder encoder = png ? await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fs.AsRandomAccessStream()).AsTask(cancellationToken).ConfigureAwait(false)
+                                        : await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, fs.AsRandomAccessStream(), ImageQuality).AsTask(cancellationToken).ConfigureAwait(false);
             encoder.SetSoftwareBitmap(bitmap);
             await encoder.FlushAsync().AsTask(cancellationToken).ConfigureAwait(false);
             fs.Dispose();
             File.Move(tmp, path, true);
-
         }
-        catch { }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
         finally
         {
             bitmap.Dispose();

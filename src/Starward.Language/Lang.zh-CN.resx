@@ -2609,4 +2609,40 @@
   <data name="GameRecordPage_AnomalyArbitration" xml:space="preserve">
     <value>异相仲裁</value>
   </data>
+  <data name="GameLauncherPage_PlayPause" xml:space="preserve">
+    <value>播放 / 暂停</value>
+  </data>
+  <data name="GameLauncherPage_Gallery" xml:space="preserve">
+    <value>图库</value>
+  </data>
+  <data name="BackgroundViewPage_DeleteDuplicateFiles" xml:space="preserve">
+    <value>删除重复文件</value>
+  </data>
+  <data name="BackgroundViewPage_0DuplicateFileSHasBeenDeleted" xml:space="preserve">
+    <value>已删除 {0} 个重复文件</value>
+  </data>
+  <data name="Common_All" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="Common_Video" xml:space="preserve">
+    <value>视频</value>
+  </data>
+  <data name="Common_Time" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Common_FileSize" xml:space="preserve">
+    <value>文件大小</value>
+  </data>
+  <data name="Common_Filter" xml:space="preserve">
+    <value>筛选</value>
+  </data>
+  <data name="Common_Sort" xml:space="preserve">
+    <value>排序</value>
+  </data>
+  <data name="BackgroundViewPage_DeleteDuplicateFilesTip" xml:space="preserve">
+    <value>删除重复文件基于文件数据判断，部分相似图片不会被删除。</value>
+  </data>
+  <data name="BackgroundViewPage_VP9VideoExtensionsTip" xml:space="preserve">
+    <value>VP9 视频扩展不支持部分格式，可能无法获取视频封面或正常播放。</value>
+  </data>
 </root>
