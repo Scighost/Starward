@@ -2065,7 +2065,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Bật HDR</value>
   </data>
   <data name="Common_RestoreDefaults" xml:space="preserve">
-    <value>Restore Defaults</value>
+    <value>Khôi phục mặc định</value>
   </data>
   <data name="GameSettingPage_HDRBrightnessSetting" xml:space="preserve">
     <value>Cài đặt Độ sáng HDR</value>
@@ -2152,13 +2152,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Ảnh chụp màn hình đã được lưu</value>
   </data>
   <data name="ScreenshotPage_ManageScreenshotFolders" xml:space="preserve">
-    <value>Manage Screenshot Folders</value>
+    <value>Quản lý thư mục ảnh chụp màn hình</value>
   </data>
   <data name="ScreenshotFolderManageDialog_AddFolder" xml:space="preserve">
-    <value>Add Folder</value>
+    <value>Thêm thư mục</value>
   </data>
   <data name="ScreenshotFolderManageDialog_BackingUp" xml:space="preserve">
-    <value>Backing up...</value>
+    <value>Đang sao lưu...</value>
   </data>
   <data name="Common_Remove" xml:space="preserve">
     <value>Loại bỏ</value>
@@ -2167,7 +2167,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Không thể sao lưu ảnh chụp màn hình.</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotFailed" xml:space="preserve">
-    <value>Screenshot Failed</value>
+    <value>Chụp ảnh màn hình thất bại</value>
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
     <value>Kiểm tra nhật ký để biết thêm thông tin.</value>
@@ -2179,34 +2179,34 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Các hình ảnh trong các thư mục dưới đây sẽ được hiển thị trong thư viện.</value>
   </data>
   <data name="ImageViewWindow2_OpenInExplorer" xml:space="preserve">
-    <value>Open in Explorer</value>
+    <value>Mở trong Explorer</value>
   </data>
   <data name="ImageViewWindow2_OpenWith" xml:space="preserve">
-    <value>Open with</value>
+    <value>Mở bằng</value>
   </data>
   <data name="ImageViewWindow2_Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>Trước</value>
     <comment>Previous Image</comment>
   </data>
   <data name="ImageViewWindow2_Next" xml:space="preserve">
-    <value>Next</value>
+    <value>Sau</value>
     <comment>Next Image</comment>
   </data>
   <data name="ImageViewWindow2_ShowGallery" xml:space="preserve">
-    <value>Show Gallery</value>
+    <value>Hiển thị Thư viện ảnh</value>
   </data>
   <data name="ImageViewWindow2_FitToWindow" xml:space="preserve">
-    <value>Fit to Window</value>
+    <value>Vừa khít với Cửa sổ</value>
     <comment>Zoom image fit to window</comment>
   </data>
   <data name="ImageViewWindow2_CopyFile" xml:space="preserve">
     <value>Sao chép Tập tin</value>
   </data>
   <data name="ImageViewWindow2_CopyPath" xml:space="preserve">
-    <value>Copy Path</value>
+    <value>Sao chép đường dẫn</value>
   </data>
   <data name="ImageViewWindow2_CopyImage" xml:space="preserve">
-    <value>Copy Image</value>
+    <value>Sao chép Ảnh</value>
   </data>
   <data name="Common_Edit" xml:space="preserve">
     <value>Chỉnh sửa</value>
@@ -2215,10 +2215,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Lưu thành</value>
   </data>
   <data name="ImageViewWindow2_ImageInformation" xml:space="preserve">
-    <value>Image Information</value>
+    <value>Thông tin Ảnh</value>
   </data>
   <data name="ImageViewWindow2_EditImage" xml:space="preserve">
-    <value>Edit Image</value>
+    <value>Chỉnh sửa Ảnh</value>
   </data>
   <data name="ImageViewWindow2_DisplayMode" xml:space="preserve">
     <value>Chế độ hiển thị</value>
@@ -2230,7 +2230,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Tự động</value>
   </data>
   <data name="ImageViewWindow2_ExportImage" xml:space="preserve">
-    <value>Export Image</value>
+    <value>Xuất Ảnh</value>
   </data>
   <data name="ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature" xml:space="preserve">
     <value>Để chuyển đổi hình ảnh HDR sang SDR, vui lòng sử dụng tính năng Chỉnh sửa.</value>
@@ -2245,10 +2245,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Tập tin không tồn tại.</value>
   </data>
   <data name="ImageViewWindow2_OpenWithDefaultApp" xml:space="preserve">
-    <value>Open with Default App</value>
+    <value>Mở bằng Ứng dụng mặc định</value>
   </data>
   <data name="ImageViewWindow2_NoImageToDisplay" xml:space="preserve">
-    <value>No Image to Display</value>
+    <value>Không có ảnh để Hiển thị</value>
   </data>
   <data name="Common_OpenFiles" xml:space="preserve">
     <value>Mở tập tin</value>
@@ -2260,7 +2260,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Hiện hình ảnh thất bại</value>
   </data>
   <data name="ImageViewWindow2_FailedToSaveImage" xml:space="preserve">
-    <value>Failed to Save Image</value>
+    <value>Lưu ảnh thất bại</value>
   </data>
   <data name="ImageViewWindow2_FailedToDeleteImageFile" xml:space="preserve">
     <value>Xoá file thất bại</value>
@@ -2272,34 +2272,34 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thiếu quyền hạn hoặc file đang được sử dụng.</value>
   </data>
   <data name="HotkeyInput_ClickToSetShortcutKeys" xml:space="preserve">
-    <value>Nhấn để đặt Shortcut</value>
+    <value>Nhấn để đặt phím tắt</value>
   </data>
   <data name="HotkeyInput_PressTheShortcutKeys" xml:space="preserve">
-    <value>Press the Shortcut Keys</value>
+    <value>Nhấn phím tắt</value>
   </data>
   <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUse" xml:space="preserve">
-    <value>The shortcut keys ({0}) is already in use.</value>
+    <value>Phím tắt ({0}) đã được sử dụng.</value>
   </data>
   <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0" xml:space="preserve">
-    <value>Failed to register the shortcut keys ({0}).</value>
+    <value>Gán phím tắt ({0}) thất bại.</value>
   </data>
   <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUsePleaseModifyItInSettingsPage" xml:space="preserve">
-    <value>The shortcut keys ({0}) is already in use. Please modify it in Settings page.</value>
+    <value>Phím tắt ({0}) đã được sử dụng. Vui lòng chỉnh sửa trong trang Cài đặt.</value>
   </data>
   <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0PleaseRetryInSettingsPage" xml:space="preserve">
-    <value>Failed to register the shortcut keys ({0}). Please retry in Settings page.</value>
+    <value>Gán phím tắt ({0}) thất bại. Vui lòng thử lại trong trang Cài đặt.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotShortcut" xml:space="preserve">
-    <value>Screenshot Shortcut</value>
+    <value>Phím tắt Ảnh chụp màn hình</value>
   </data>
   <data name="HotkeySetting_OpenMainWindow" xml:space="preserve">
     <value>Mở cửa sổ chính</value>
   </data>
   <data name="HotkeySetting_FailedToRegisterTheShortcutKeys" xml:space="preserve">
-    <value>Failed to register the shortcut keys.</value>
+    <value>Gán phím tắt thất bại.</value>
   </data>
   <data name="ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder" xml:space="preserve">
-    <value>The built-in screenshot feature will save images to the following folder.</value>
+    <value>Tính năng chụp màn hình của ứng dụng sẽ lưu ảnh vào thư mục sau.</value>
   </data>
   <data name="Common_ChangeFolder" xml:space="preserve">
     <value>Thay đổi thư mục</value>
@@ -2311,34 +2311,34 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Phím tắt</value>
   </data>
   <data name="SettingPage_ControllerEnhancement" xml:space="preserve">
-    <value>Controller Enhancement</value>
+    <value>Cải thiện Tay cầm</value>
   </data>
   <data name="GamepadControlSetting_SimulateInput" xml:space="preserve">
-    <value>Simulate Input</value>
+    <value>Mô phỏng nhập liệu</value>
   </data>
   <data name="GamepadControlSetting_GuideButton" xml:space="preserve">
-    <value>Guide Button</value>
+    <value>Nút Guide</value>
   </data>
   <data name="GamepadControlSetting_NoAction" xml:space="preserve">
-    <value>No Action</value>
+    <value>Không có hành động</value>
   </data>
   <data name="GamepadControlSetting_GameScreenshot" xml:space="preserve">
-    <value>Game Screenshot</value>
+    <value>Chụp ảnh màn hình trò chơi</value>
   </data>
   <data name="GamepadControlSetting_KeyboardKeys" xml:space="preserve">
-    <value>Keyboard Keys</value>
+    <value>Phím bàn phím</value>
   </data>
   <data name="GamepadControlSetting_EnterKeyText" xml:space="preserve">
-    <value>Enter key text</value>
+    <value>Nhập tên phím</value>
   </data>
   <data name="GamepadControlSetting_ShareButton" xml:space="preserve">
-    <value>Share Button</value>
+    <value>Nút chia sẻ</value>
   </data>
   <data name="GamepadControlSetting_ButtonMapping" xml:space="preserve">
-    <value>Button Mapping</value>
+    <value>Gán nút</value>
   </data>
   <data name="GamepadControlSetting_UnrecognizedKey" xml:space="preserve">
-    <value>Unrecognized key</value>
+    <value>Phím chưa xác định</value>
   </data>
   <data name="GamepadControlSetting_OnlySupportXboxControllerProtocol" xml:space="preserve">
     <value>Chỉ hỗ trợ tay cầm theo giao thức Xbox. Không đảm bảo tương thích với các loại tay cầm khác.</value>
@@ -2487,40 +2487,40 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Định dạng và Chất lượng</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ProcessingImage" xml:space="preserve">
-    <value>Processing Image</value>
+    <value>Đang xử lý ảnh</value>
   </data>
   <data name="ScreenshotPage_BatchConvert" xml:space="preserve">
-    <value>Batch Convert</value>
+    <value>Chuyển đổi theo lô</value>
   </data>
   <data name="ImageBatchConvertWindow_Quality" xml:space="preserve">
     <value>Chất lượng</value>
   </data>
   <data name="ImageBatchConvertWindow_StartConvert" xml:space="preserve">
-    <value>Start Convert</value>
+    <value>Bắt đầu chuyển đổi</value>
   </data>
   <data name="Common_Clear" xml:space="preserve">
     <value>Xoá</value>
   </data>
   <data name="ImageBatchConvertWindow_OutputFolder" xml:space="preserve">
-    <value>Output Folder</value>
+    <value>Thư mục xuất ra</value>
   </data>
   <data name="ImageBatchConvertWindow_OriginalFileFolder" xml:space="preserve">
-    <value>Original File Folder</value>
+    <value>Thư mục của tệp tin gốc</value>
   </data>
   <data name="ImageBatchConvertWindow_SameAsOriginalFileFormat" xml:space="preserve">
-    <value>Same as original file format</value>
+    <value>Giống định dạng tệp ban đầu</value>
   </data>
   <data name="ImageBatchConvertWindow_SelectOutputFormat" xml:space="preserve">
-    <value>Select Output Format</value>
+    <value>Chọn định dạng xuất</value>
   </data>
   <data name="ImageBatchConvertWindow_NoReadOrWritePermission" xml:space="preserve">
-    <value>No read or write permission</value>
+    <value>Không có quyền đọc hoặc ghi</value>
   </data>
   <data name="ImageBatchConvertWindow_ConvertFailed" xml:space="preserve">
-    <value>Convert failed</value>
+    <value>Chuyển đổi thất bại</value>
   </data>
   <data name="ImageBatchConvertWindow_IfOutputFileExists" xml:space="preserve">
-    <value>If Output File Exists</value>
+    <value>Nếu tếp tin xuất ra đã tồn tại</value>
   </data>
   <data name="ImageBatchConvertWindow_SkipDefault" xml:space="preserve">
     <value>Bỏ qua (Mặc định)</value>
@@ -2538,10 +2538,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thât bại</value>
   </data>
   <data name="ImageBatchConvertWindow_ImageBatchConvert" xml:space="preserve">
-    <value>Image Batch Convert</value>
+    <value>Chuyển đổi ảnh theo lô</value>
   </data>
   <data name="ScreenshotSetting_ClearThumbnailCache" xml:space="preserve">
-    <value>Clear Thumbnail Cache</value>
+    <value>Xóa bộ nhớ đệm Thumbnail</value>
   </data>
   <data name="ScreenshotSetting_ClearSuccessfully" xml:space="preserve">
     <value>Clear Successfully</value>
@@ -2556,27 +2556,99 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Đã sao chép vào bộ nhớ tạm.</value>
   </data>
   <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
-    <value>Lunar Mode</value>
+    <value>Chế Độ Ánh Trăng</value>
   </data>
   <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
-    <value>Arcana</value>
+    <value>Thánh Bài</value>
   </data>
   <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
-    <value>Arcana Challenge {0}</value>
+    <value>Thử Thách Thánh Bài {0}</value>
   </data>
   <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
     <value>Miliastra Wonderland Ode</value>
   </data>
   <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
-    <value>Launch Game using CMD</value>
+    <value>Khởi động game bằng CMD</value>
   </data>
   <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
-    <value>Avoid showing alerts about detecting illegal tool in the game.</value>
+    <value>Tránh hiển thị thông báo sử dụng công cụ không hợp lệ trong trò chơi.</value>
   </data>
   <data name="UpdateWindow_FullPackage" xml:space="preserve">
-    <value>Full Package</value>
+    <value>Gói đầy đủ</value>
   </data>
   <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
     <value>Migrate to Setup</value>
+  </data>
+  <data name="ShiyuDefensePage_CriticalNodeFourthFrontier" xml:space="preserve">
+    <value>Critical Node: Fourth Frontier</value>
+  </data>
+  <data name="ShiyuDefensePage_CriticalNodeFifthFrontier" xml:space="preserve">
+    <value>Critical Node: Fifth Frontier</value>
+  </data>
+  <data name="ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage" xml:space="preserve">
+    <value>Khuyến nghị cài đặt Phần Mở rộng Video VP9 để giảm tải cho CPU.</value>
+  </data>
+  <data name="ChallengePeakPage_ChallengeAttempts" xml:space="preserve">
+    <value>Challenge Attempts</value>
+  </data>
+  <data name="ChallengePeakPage_KingInCheckStageRecords" xml:space="preserve">
+    <value>King in Check Stage Records</value>
+  </data>
+  <data name="ChallengePeakPage_Cleared" xml:space="preserve">
+    <value>Cleared</value>
+  </data>
+  <data name="ChallengePeakPage_NoClearanceRecords" xml:space="preserve">
+    <value>No Clearance Records</value>
+  </data>
+  <data name="ChallengePeakPage_KnightStageRecords" xml:space="preserve">
+    <value>Knight Stage Records</value>
+  </data>
+  <data name="GameRecordPage_AnomalyArbitration" xml:space="preserve">
+    <value>Anomaly Arbitration</value>
+  </data>
+  <data name="AboutSetting_UpdatedToTheLatestVersion" xml:space="preserve">
+    <value>Updated to the latest version.</value>
+  </data>
+  <data name="GameLauncherPage_PlayPause" xml:space="preserve">
+    <value>Play / Pause</value>
+  </data>
+  <data name="GameLauncherPage_Gallery" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
+  <data name="BackgroundViewPage_DeleteDuplicateFiles" xml:space="preserve">
+    <value>Delete Duplicate Files</value>
+  </data>
+  <data name="BackgroundViewPage_0DuplicateFileSHasBeenDeleted" xml:space="preserve">
+    <value>{0} duplicate file(s) has been deleted.</value>
+  </data>
+  <data name="Common_All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Common_Video" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Common_Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Common_FileSize" xml:space="preserve">
+    <value>File Size</value>
+  </data>
+  <data name="Common_Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Common_Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="BackgroundViewPage_DeleteDuplicateFilesTip" xml:space="preserve">
+    <value>Duplicate files are identified based on file data. Some visually similar images will not be removed.</value>
+  </data>
+  <data name="BackgroundViewPage_VP9VideoExtensionsTip" xml:space="preserve">
+    <value>The VP9 Video Extensions does not support certain formats, which may prevent thumbnail generation or proper playback.</value>
+  </data>
+  <data name="AppBackground_ImageDecodingFailed" xml:space="preserve">
+    <value>Image decoding failed</value>
+  </data>
+  <data name="AppBackground_PleaseInstallTheWebPImageExtension" xml:space="preserve">
+    <value>Please install the WebP Image Extension.</value>
   </data>
 </root>
