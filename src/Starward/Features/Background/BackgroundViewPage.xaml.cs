@@ -49,6 +49,7 @@ public sealed partial class BackgroundViewPage : PageBase
         {
             field = value;
             GridView_Images.SelectionMode = value ? ListViewSelectionMode.Multiple : ListViewSelectionMode.None;
+            UpdateSelectCountText();
         }
     }
 
@@ -232,7 +233,14 @@ public sealed partial class BackgroundViewPage : PageBase
     {
         try
         {
-            SelectCountText = $"{GridView_Images.SelectedItems.Count}/{BackgroundImages?.Count ?? 0}";
+            if (MutliSelect)
+            {
+                SelectCountText = $"{GridView_Images.SelectedItems.Count}/{BackgroundImages?.Count ?? 0}";
+            }
+            else
+            {
+                SelectCountText = $"{BackgroundImages?.Count ?? 0}";
+            }
         }
         catch { }
     }

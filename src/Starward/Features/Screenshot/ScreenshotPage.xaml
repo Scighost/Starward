@@ -21,32 +21,12 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBlock Margin="24,0,0,0"
+        <!--<TextBlock Margin="24,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    FontSize="20"
                    FontWeight="Bold"
-                   Text="{x:Bind lang:Lang.ScreenshotPage_GameScreenshot}" />
-
-
-        <StackPanel Margin="0,0,28,0"
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal"
-                    Spacing="12">
-            <TextBlock x:Name="TextBlock_SelectCount"
-                       VerticalAlignment="Center"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       Text="{x:Bind SelectCountText}"
-                       Visibility="Collapsed" />
-            <Button x:Name="Button_BatchConvert"
-                    Command="{x:Bind OpenImageBatchConvertWindowCommand}"
-                    Content="{x:Bind lang:Lang.ScreenshotPage_BatchConvert}"
-                    Visibility="Collapsed" />
-            <ToggleButton x:Name="ToggleButton_MultiSelect"
-                          Content="{x:Bind lang:Lang.ScreenshotPage_MultiSelect}"
-                          IsChecked="{x:Bind MutliSelect, Mode=TwoWay}" />
-            <Button Command="{x:Bind ManageScreenshotFolderCommand}" Content="{x:Bind lang:Lang.ScreenshotPage_ManageScreenshotFolders}" />
-        </StackPanel>
+                   Text="{x:Bind lang:Lang.ScreenshotPage_GameScreenshot}" />-->
 
 
         <StackPanel Name="StackPanel_Emoji"
@@ -67,7 +47,8 @@
 
 
         <GridView x:Name="GridView_Images"
-                  Grid.Row="1"
+                  Grid.Row="0"
+                  Grid.RowSpan="2"
                   Padding="24,0,12,12"
                   CanDragItems="{x:Bind s:AppConfig.IsAdmin, Converter={StaticResource BoolReversedConverter}}"
                   DragItemsStarting="GridView_Images_DragItemsStarting"
@@ -111,7 +92,7 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid AreStickyGroupHeadersEnabled="False"
+                    <ItemsWrapGrid AreStickyGroupHeadersEnabled="True"
                                    ItemHeight="128"
                                    ItemWidth="218"
                                    Orientation="Horizontal" />
@@ -269,6 +250,24 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+
+
+        <StackPanel Margin="0,0,28,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Spacing="12">
+            <TextBlock x:Name="TextBlock_SelectCount"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind SelectCountText}" />
+            <ToggleButton x:Name="ToggleButton_MultiSelect"
+                          Content="{x:Bind lang:Lang.ScreenshotPage_MultiSelect}"
+                          IsChecked="{x:Bind MutliSelect, Mode=TwoWay}" />
+            <Button x:Name="Button_BatchConvert"
+                    Command="{x:Bind OpenImageBatchConvertWindowCommand}"
+                    Content="{x:Bind lang:Lang.ScreenshotPage_BatchConvert}" />
+            <Button Command="{x:Bind ManageScreenshotFolderCommand}" Content="{x:Bind lang:Lang.ScreenshotPage_ManageScreenshotFolders}" />
+        </StackPanel>
 
 
     </Grid>

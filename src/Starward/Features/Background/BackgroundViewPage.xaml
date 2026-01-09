@@ -15,6 +15,10 @@
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
+    <Page.Resources>
+        <FontFamily x:Key="PhotoFluentIcons">ms-appx:///Assets/Font/PhotosIcons.ttf#Photos Fluent Icons</FontFamily>
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -172,15 +176,16 @@
                                 <ScaleTransform />
                             </sc:CachedImage.RenderTransform>
                         </sc:CachedImage>
-                        <Grid Padding="6,4,6,4"
+                        <Grid Padding="4,2,4,2"
                               HorizontalAlignment="Right"
                               VerticalAlignment="Top"
                               Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
                               CornerRadius="4,0,4,4"
                               Visibility="{x:Bind IsVideo}">
-                            <FontIcon FontSize="14"
+                            <FontIcon FontFamily="{StaticResource PhotoFluentIcons}"
+                                      FontSize="20"
                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                      Glyph="&#xE768;" />
+                                      Glyph="&#xF411;" />
                         </Grid>
                         <!--  右键菜单  -->
                         <Grid.ContextFlyout>

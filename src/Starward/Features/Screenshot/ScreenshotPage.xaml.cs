@@ -93,8 +93,6 @@ public sealed partial class ScreenshotPage : PageBase
         {
             field = value;
             GridView_Images.SelectionMode = value ? ListViewSelectionMode.Multiple : ListViewSelectionMode.None;
-            Button_BatchConvert.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-            TextBlock_SelectCount.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 
@@ -343,7 +341,7 @@ public sealed partial class ScreenshotPage : PageBase
     {
         try
         {
-            var list = GridView_Images.SelectedItems.Cast<ScreenshotItem>().ToList();
+            var list = MutliSelect ? GridView_Images.SelectedItems.Cast<ScreenshotItem>().ToList() : [];
             new ImageBatchConvertWindow().Activate(list);
         }
         catch (Exception ex)
@@ -432,7 +430,14 @@ public sealed partial class ScreenshotPage : PageBase
     {
         try
         {
-            SelectCountText = $"{GridView_Images.SelectedItems.Count}/{_screenshotItems?.Count ?? 0}";
+            if (MutliSelect)
+            {
+                SelectCountText = $"{GridView_Images.SelectedItems.Count}/{_screenshotItems?.Count ?? 0}";
+            }
+            else
+            {
+                SelectCountText = $"{_screenshotItems?.Count ?? 0}";
+            }
         }
         catch { }
     }
