@@ -951,6 +951,20 @@ public sealed partial class GameLauncherPage : PageBase
 
 
     [RelayCommand]
+    public void OpenBackgroundViewWindow()
+    {
+        try
+        {
+            new BackgroundViewWindow().Show();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Open background view window.");
+        }
+    }
+
+
+    [RelayCommand]
     private async Task CopyCurrentBackgroundImageAsync()
     {
         try

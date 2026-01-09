@@ -10,6 +10,7 @@ internal partial class ZZZRarityToIconConverter : IValueConverter
     {
         var img = value switch
         {
+            "S+" => "ms-appx:///Assets/Image/rating-s_plus.c6cbdc49.png",
             "S" => "ms-appx:///Assets/Image/S_Level_S.png",
             "A" => "ms-appx:///Assets/Image/A_Level_S.png",
             "B" => "ms-appx:///Assets/Image/B_Level_S.png",

@@ -14,12 +14,14 @@ using Starward.Helpers;
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Windows.System;
 using Windows.UI;
 using WinRT;
 
@@ -153,6 +155,7 @@ public sealed partial class AppBackground : UserControl
 
     public async Task UpdateBackgroundAsync(GameBackground? background = null)
     {
+        string? imageFilePath = null;
         try
         {
             IsUpdateBackgroundRunning = true;
@@ -235,6 +238,7 @@ public sealed partial class AppBackground : UserControl
                     }
                     else
                     {
+                        imageFilePath = filePath;
                         await ChangeBackgroundImageAsync(filePath, cancellationToken);
                     }
                     _lastBackgroundFile = filePath;
@@ -250,6 +254,23 @@ public sealed partial class AppBackground : UserControl
             }
         }
         catch (OperationCanceledException) { }
+        catch (COMException ex) when (ex.HResult == -2003292277)
+        {
+            // 0x88982F8B
+            if (Path.GetExtension(imageFilePath)?.Equals(".webp", StringComparison.OrdinalIgnoreCase) ?? false)
+            {
+                InAppToast.MainWindow?.ShowWithButton(InfoBarSeverity.Warning,
+                                                      Lang.AppBackground_ImageDecodingFailed,
+                                                      Lang.AppBackground_PleaseInstallTheWebPImageExtension,
+                                                      Lang.SettingPage_Download,
+                                                      async () => await Launcher.LaunchUriAsync(new("https://apps.microsoft.com/detail/9pg2dk419drg")));
+            }
+            else
+            {
+                InAppToast.MainWindow?.Warning(Lang.AppBackground_ImageDecodingFailed);
+            }
+            _logger.LogError(ex, "Cannot decode image: '{path}'", imageFilePath);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Update background image");
@@ -343,7 +364,19 @@ public sealed partial class AppBackground : UserControl
 
     private void StartMediaPlayer(string file)
     {
-        RegisterVP9Decoder();
+        if (Path.GetExtension(file).Equals(".webm", StringComparison.OrdinalIgnoreCase))
+        {
+            bool decoderInstalled = VP9Helper.IsVP9DecoderInstalled();
+            bool highProfile = VP9Helper.IsHighProfile(file);
+            if (!decoderInstalled || highProfile)
+            {
+                RegisterVP9Decoder();
+            }
+            if (!decoderInstalled && !highProfile)
+            {
+                SuggestToInstallVP9Decoder();
+            }
+        }
         _mediaPlayer = new MediaPlayer
         {
             IsLoopingEnabled = true,
@@ -518,21 +551,31 @@ public sealed partial class AppBackground : UserControl
     }
 
 
-    private static void RegisterVP9Decoder()
+
+    private bool _vp9MFTRegistered;
+
+    private void RegisterVP9Decoder()
     {
         try
         {
             int hr = VP9Decoder.RegisterVP9DecoderLocal();
+            if (hr >= 0)
+            {
+                _vp9MFTRegistered = true;
+            }
         }
         catch { }
     }
 
 
-    private static void UnregisterVP9Decoder()
+    private void UnregisterVP9Decoder()
     {
         try
         {
-            int hr = VP9Decoder.UnregisterVP9DecoderLocal();
+            if (_vp9MFTRegistered)
+            {
+                int hr = VP9Decoder.UnregisterVP9DecoderLocal();
+            }
         }
         catch { }
     }
@@ -577,6 +620,20 @@ public sealed partial class AppBackground : UserControl
             _mediaPlayer?.Volume = message.Volume / 100d;
         }
         catch { }
+    }
+
+
+
+    private bool _vp9DecoderSuggested;
+
+
+    private void SuggestToInstallVP9Decoder()
+    {
+        if (!_vp9DecoderSuggested)
+        {
+            InAppToast.MainWindow?.ShowWithButton(InfoBarSeverity.Warning, null, Lang.ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage, Lang.SettingPage_Download, async () => await Launcher.LaunchUriAsync(new("https://apps.microsoft.com/detail/9n4d0msmp0pt")));
+            _vp9DecoderSuggested = true;
+        }
     }
 
 

@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sf:PageBase x:Class="Starward.Features.GameRecord.StarRail.ChallengePeakPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cp="using:Starward.Core.GameRecord.StarRail.ChallengePeak"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fic="using:Starward.Core.GameRecord.StarRail.ApocalypticShadow"
+             xmlns:lang="using:Starward.Language"
+             xmlns:linq="using:System.Linq"
+             xmlns:local="using:Starward.Features.GameRecord.StarRail"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sc="using:Starward.Controls"
+             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sfg="using:Starward.Features.Gacha"
+             xmlns:sfgr="using:Starward.Features.GameRecord"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <Page.Resources>
+        <BitmapImage x:Key="StarIcon" UriSource="ms-appx:///Assets/Image/IconChallengeStarYellow.png" />
+        <sfg:RarityToSRBgConverter x:Key="RarityToSRBgConverter" />
+
+        <DataTemplate x:Key="StarRailTeamDataTemplate" x:DataType="cp:ChallengePeakAvatar">
+            <Grid Width="72" Height="84">
+                <sc:CachedImage Source="{x:Bind Rarity, Converter={StaticResource RarityToSRBgConverter}}" />
+                <sc:CachedImage VerticalAlignment="Top"
+                                CornerRadius="0,12,0,0"
+                                Source="{x:Bind Icon}"
+                                Stretch="UniformToFill" />
+                <Border HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Background="#A0000000"
+                        CornerRadius="0,12,0,8"
+                        Visibility="{x:Bind sfgr:AvatarRankHelper.RankToVisibility(Rank)}">
+                    <TextBlock Margin="4,2,4,2"
+                               FontSize="14"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               IsTextScaleFactorEnabled="False"
+                               Text="{x:Bind Rank}" />
+                </Border>
+                <Border Height="16"
+                        Margin="0,0,0,1.5"
+                        VerticalAlignment="Bottom"
+                        Background="#A0000000">
+                    <TextBlock Margin="0,0,0,1"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center">
+                        <Run Text="Lv." />
+                        <Run Text="{x:Bind Level}" />
+                    </TextBlock>
+                </Border>
+            </Grid>
+        </DataTemplate>
+
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel Name="Image_Emoji"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="16"
+                    Visibility="Collapsed">
+            <Image Width="160"
+                   Height="160"
+                   Source="{StaticResource EmojiPom}" />
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="16"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.HoyolabToolboxPage_NoData}" />
+        </StackPanel>
+
+        <StackPanel Margin="0,24,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Spacing="12">
+            <Button Height="36"
+                    BorderThickness="0"
+                    Command="{x:Bind RefreshDataCommand}"
+                    CornerRadius="0,18,18,0"
+                    Style="{ThemeResource AccentButtonStyle}">
+                <StackPanel Margin="4,0,4,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <FontIcon FontSize="16" Glyph="&#xE72C;" />
+                    <TextBlock Text="{x:Bind lang:Lang.Common_Refresh}" />
+                </StackPanel>
+            </Button>
+            <Button Height="36"
+                    BorderThickness="0"
+                    CornerRadius="0,18,18,0"
+                    Shadow="{ThemeResource ThemeShadow}"
+                    Style="{ThemeResource AccentButtonStyle}"
+                    Translation="0,0,16"
+                    Visibility="Collapsed">
+                <StackPanel Margin="4,0,4,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                    <FontIcon FontSize="16" Glyph="&#xE9D9;" />
+                    <TextBlock Text="{x:Bind lang:Lang.Common_Summary}" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+
+        <ListView Name="ListView_ForgottenHall"
+                  Grid.Row="1"
+                  Padding="12,0,12,0"
+                  ItemsSource="{x:Bind ChallengePeakDataList}"
+                  SelectionChanged="ListView_ForgottenHall_SelectionChanged"
+                  SelectionMode="Single"
+                  Visibility="{x:Bind ChallengePeakDataList, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="0,4,0,4" />
+                    <Setter Property="Padding" Value="4,0,4,0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="cp:ChallengePeakData">
+                    <Grid Width="112"
+                          Padding="8"
+                          Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                          CornerRadius="4"
+                          RowSpacing="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <sc:CachedImage Grid.RowSpan="2"
+                                        Height="60"
+                                        Margin="0,-8,-8,-8"
+                                        HorizontalAlignment="Right"
+                                        Source="{x:Bind BossIcon}"
+                                        Stretch="Uniform" />
+                        <TextBlock Margin="2,0,0,0"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Text="{x:Bind GameVersion}" />
+                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                            <Image Width="20"
+                                   Height="20"
+                                   Source="ms-appx:///Assets/Image/boss_star.ae0258cf.png" />
+                            <TextBlock Margin="0,0,0,2"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Bind BossStars}" />
+                            <Image Width="20"
+                                   Height="20"
+                                   Margin="4,0,0,0"
+                                   Source="ms-appx:///Assets/Image/normal_star.751a6e2d.png" />
+                            <TextBlock Margin="0,0,0,2"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Bind MobStars}" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+        <ScrollViewer Grid.RowSpan="2"
+                      Grid.Column="1"
+                      Visibility="{x:Bind CurrentChallengePeakData, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <StackPanel Margin="24" Spacing="8">
+
+                <!--  统计周期  -->
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                    <Run Text="{x:Bind lang:Lang.ForgottenHallPage_Period}" />
+                    <Run Text="" />
+                    <Run Text="{x:Bind CurrentChallengePeakRecord.Group.BeginTime.ToString('yyyy/MM/dd', x:Null)}" />
+                    <Run Text=" - " />
+                    <Run Text="{x:Bind CurrentChallengePeakRecord.Group.EndTime.ToString('yyyy/MM/dd', x:Null)}" />
+                </TextBlock>
+
+                <!--  统计  -->
+                <Grid Margin="0,-4,0,0"
+                      Padding="8"
+                      Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                      CornerRadius="8"
+                      Shadow="{ThemeResource ThemeShadow}"
+                      Translation="0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+
+                    <StackPanel HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Spacing="20">
+                        <sc:CachedImage Width="48"
+                                        Height="48"
+                                        Source="{x:Bind CurrentChallengePeakRecord.Group.ThemePicPath}" />
+                        <StackPanel VerticalAlignment="Center" Spacing="4">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20"
+                                       Height="20"
+                                       Source="ms-appx:///Assets/Image/boss_star.ae0258cf.png" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                    <Run Text="x" />
+                                    <Run Text="{x:Bind CurrentChallengePeakRecord.BossStars}" />
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20"
+                                       Height="20"
+                                       Source="ms-appx:///Assets/Image/normal_star.751a6e2d.png" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                    <Run Text="x" />
+                                    <Run Text="{x:Bind CurrentChallengePeakRecord.MobStars}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <AppBarSeparator Grid.Column="1" Padding="0" />
+
+                    <StackPanel Grid.Column="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Spacing="4">
+                        <TextBlock FontSize="16" Text="{x:Bind CurrentChallengePeakRecord.Group.NameMi18n}" />
+                        <TextBlock>
+                            <Run Text="{x:Bind lang:Lang.ChallengePeakPage_ChallengeAttempts}" />
+                            <Run Text="" />
+                            <Run Text="{x:Bind CurrentChallengePeakData.ChallengePeakBestRecordBrief.TotalBattleNum}" />
+                        </TextBlock>
+                    </StackPanel>
+
+                </Grid>
+
+
+                <!--  王棋通关战绩  -->
+                <TextBlock Margin="0,8,0,0" Text="{x:Bind lang:Lang.ChallengePeakPage_KingInCheckStageRecords}" />
+
+                <Grid Height="192"
+                      Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                      CornerRadius="8"
+                      Shadow="{ThemeResource ThemeShadow}"
+                      Translation="0,0,16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  BOSS 图  -->
+                    <sc:CachedImage Grid.RowSpan="2"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalAlignment="Right"
+                                    Source="{x:Bind CurrentChallengePeakRecord.BossInfo.Icon}"
+                                    Stretch="Uniform" />
+
+
+                    <StackPanel Grid.Row="0" Margin="20,12,0,0">
+                        <!--  BOSS 名称  -->
+                        <TextBlock FontSize="16"
+                                   FontWeight="Bold"
+                                   Text="{x:Bind CurrentChallengePeakRecord.BossInfo.NameMi18n}" />
+
+                        <!--  通关数据  -->
+                        <StackPanel Margin="0,8,0,0"
+                                    Orientation="Horizontal"
+                                    Visibility="{x:Bind CurrentChallengePeakRecord.BossRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <!--  使用轮次  -->
+                            <TextBlock>
+                                <Run Text="{x:Bind lang:Lang.ForgottenHallPage_CyclesUsed}" />
+                                <Run Text="{x:Bind CurrentChallengePeakRecord.BossRecord.RoundNum}" />
+                            </TextBlock>
+
+                            <!--  已通关  -->
+                            <FontIcon Margin="20,2,4,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="12"
+                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                      Glyph="&#xEC61;" />
+                            <TextBlock Margin="0,0,4,0"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind lang:Lang.ChallengePeakPage_Cleared}" />
+
+                            <!--  星星数  -->
+                            <ItemsControl ItemsSource="{x:Bind linq:Enumerable.Range(0, CurrentChallengePeakRecord.BossStars)}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Width="20"
+                                               Height="20"
+                                               VerticalAlignment="Center"
+                                               Source="{StaticResource StarIcon}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                        </StackPanel>
+
+                        <!--  暂无通关战绩  -->
+                        <TextBlock Margin="0,8,0,0"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind lang:Lang.ChallengePeakPage_NoClearanceRecords}"
+                                   Visibility="{x:Bind CurrentChallengePeakRecord.BossRecord, Converter={StaticResource ObjectToVisibilityReversedConverter}}" />
+
+                    </StackPanel>
+
+
+                    <StackPanel Grid.Row="1"
+                                Margin="20,4,0,0"
+                                VerticalAlignment="Top"
+                                Spacing="8"
+                                Visibility="{x:Bind CurrentChallengePeakRecord.BossRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <!--  通关时间  -->
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind CurrentChallengePeakRecord.BossRecord.ChallengeTime.ToString('yyyy.MM.dd HH:mm', x:Null)}" />
+                        <!--  队伍  -->
+                        <ItemsControl Grid.Row="3"
+                                      Grid.ColumnSpan="3"
+                                      HorizontalAlignment="Left"
+                                      ItemTemplate="{StaticResource StarRailTeamDataTemplate}"
+                                      ItemsSource="{x:Bind CurrentChallengePeakRecord.BossRecord.Avatars}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="12" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="12,0,12,0"
+                                Visibility="{x:Bind CurrentChallengePeakRecord.BossRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <!--  Buff  -->
+                        <StackPanel Orientation="Horizontal">
+                            <sc:CachedImage Width="28"
+                                            Height="28"
+                                            Source="{x:Bind CurrentChallengePeakRecord.BossRecord.Buff.Icon}" />
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind CurrentChallengePeakRecord.BossRecord.Buff.NameMi18n}" />
+                        </StackPanel>
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind CurrentChallengePeakRecord.BossRecord.Buff.DescMi18n}"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+
+
+                </Grid>
+
+
+                <!--  骑士关卡战绩  -->
+                <TextBlock Margin="0,8,0,0" Text="{x:Bind lang:Lang.ChallengePeakPage_KnightStageRecords}" />
+
+
+                <Grid Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                      CornerRadius="8"
+                      Shadow="{ThemeResource ThemeShadow}"
+                      Translation="0,0,16">
+
+                    <ItemsControl ItemsSource="{x:Bind CurrentChallengePeakRecord.Mobs}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="cp:ChallengePeakRecordMob">
+
+                                <Grid Height="200">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <!--  BOSS 图  -->
+                                    <Grid Grid.RowSpan="2"
+                                          Width="80"
+                                          Height="80"
+                                          Margin="0,12,20,0"
+                                          HorizontalAlignment="Right"
+                                          VerticalAlignment="Top">
+                                        <sc:CachedImage Source="{x:Bind MobInfo.MonsterIcon}" Stretch="Uniform" />
+                                    </Grid>
+
+                                    <StackPanel Grid.Row="0" Margin="20,12,0,0">
+                                        <!--  BOSS 名称  -->
+                                        <TextBlock FontSize="16"
+                                                   FontWeight="Bold"
+                                                   Text="{x:Bind MobInfo.MonsterName}" />
+
+                                        <!--  通关数据  -->
+                                        <StackPanel Margin="0,8,0,0"
+                                                    Orientation="Horizontal"
+                                                    Visibility="{x:Bind HasChallengeRecord, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <!--  使用轮次  -->
+                                            <TextBlock>
+                                                <Run Text="{x:Bind lang:Lang.ForgottenHallPage_CyclesUsed}" />
+                                                <Run Text="{x:Bind MobRecord.RoundNum}" />
+                                            </TextBlock>
+
+                                            <!--  已通关  -->
+                                            <FontIcon Margin="20,2,4,0"
+                                                      VerticalAlignment="Center"
+                                                      FontSize="12"
+                                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                      Glyph="&#xEC61;" />
+                                            <TextBlock Margin="0,0,4,0"
+                                                       VerticalAlignment="Center"
+                                                       Text="{x:Bind lang:Lang.ChallengePeakPage_Cleared}" />
+
+                                            <!--  星星数  -->
+                                            <ItemsControl HorizontalAlignment="Right" ItemsSource="{x:Bind linq:Enumerable.Range(0, MobRecord.StarNum)}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Image Width="20"
+                                                               Height="20"
+                                                               VerticalAlignment="Center"
+                                                               Source="{StaticResource StarIcon}" />
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+
+                                        </StackPanel>
+
+                                        <!--  暂无通关战绩  -->
+                                        <TextBlock Margin="0,8,0,0"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   Text="{x:Bind lang:Lang.ChallengePeakPage_NoClearanceRecords}"
+                                                   Visibility="{x:Bind HasChallengeRecord, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+
+                                    </StackPanel>
+
+
+                                    <StackPanel Grid.Row="1"
+                                                Margin="20,4,0,0"
+                                                VerticalAlignment="Top"
+                                                Spacing="8"
+                                                Visibility="{x:Bind MobRecord.HasChallengeRecord, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <!--  通关时间  -->
+                                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind MobRecord.ChallengeTime.ToString('yyyy.MM.dd HH:mm', x:Null)}" />
+                                        <!--  队伍  -->
+                                        <ItemsControl Grid.Row="3"
+                                                      Grid.ColumnSpan="3"
+                                                      HorizontalAlignment="Left"
+                                                      ItemTemplate="{StaticResource StarRailTeamDataTemplate}"
+                                                      ItemsSource="{x:Bind MobRecord.Avatars}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" Spacing="12" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+
+                                    </StackPanel>
+
+
+
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </Grid>
+
+
+
+            </StackPanel>
+        </ScrollViewer>
+
+
+    </Grid>
+
+
+
+
+</sf:PageBase>

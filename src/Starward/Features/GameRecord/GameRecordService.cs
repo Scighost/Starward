@@ -10,6 +10,7 @@ using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
+using Starward.Core.GameRecord.StarRail.ChallengePeak;
 using Starward.Core.GameRecord.StarRail.DailyNote;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
@@ -934,31 +935,59 @@ internal class GameRecordService
 
 
 
-    public async Task<ShiyuDefenseInfo> RefreshShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    public async Task<ShiyuDefenseWrapper> RefreshShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
     {
-        var info = await _gameRecordClient.GetShiyuDefenseInfoAsync(role, schedule);
-        if (!info.HasData)
+        var wrapper = await _gameRecordClient.GetShiyuDefenseInfoAsync(role, schedule);
+        if (wrapper.HadalVer is "v1" && wrapper.InfoV1 is not null)
         {
-            return info;
+            var info = wrapper.InfoV1;
+            if (info.HasData)
+            {
+                var obj = new
+                {
+                    role.Uid,
+                    info.ScheduleId,
+                    info.BeginTime,
+                    info.EndTime,
+                    info.Version,
+                    info.HasData,
+                    info.MaxRating,
+                    info.MaxRatingTimes,
+                    info.MaxLayer,
+                    Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+                };
+                using var dapper = DatabaseService.CreateConnection();
+                dapper.Execute("""
+                    INSERT OR REPLACE INTO ZZZShiyuDefenseInfo (Uid, ScheduleId, BeginTime, EndTime, Version, HasData, MaxRating, MaxRatingTimes, MaxLayer, Value)
+                    VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @Version, @HasData, @MaxRating, @MaxRatingTimes, @MaxLayer, @Value);
+                    """, obj);
+            }
         }
-        var obj = new
+        else if (wrapper.HadalVer is "v2" && wrapper.InfoV2 is not null)
         {
-            role.Uid,
-            info.ScheduleId,
-            info.BeginTime,
-            info.EndTime,
-            info.HasData,
-            info.MaxRating,
-            info.MaxRatingTimes,
-            info.MaxLayer,
-            Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
-        };
-        using var dapper = DatabaseService.CreateConnection();
-        dapper.Execute("""
-            INSERT OR REPLACE INTO ZZZShiyuDefenseInfo (Uid, ScheduleId, BeginTime, EndTime, HasData, MaxRating, MaxRatingTimes, MaxLayer, Value)
-            VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @HasData, @MaxRating, @MaxRatingTimes, @MaxLayer, @Value);
-            """, obj);
-        return info;
+            var info = wrapper.InfoV2;
+            if (info.HasData)
+            {
+                var obj = new
+                {
+                    role.Uid,
+                    info.ScheduleId,
+                    info.BeginTime,
+                    info.EndTime,
+                    info.Version,
+                    info.HasData,
+                    info.MaxRating,
+                    info.V2Score,
+                    Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+                };
+                using var dapper = DatabaseService.CreateConnection();
+                dapper.Execute("""
+                    INSERT OR REPLACE INTO ZZZShiyuDefenseInfo (Uid, ScheduleId, BeginTime, EndTime, Version, HasData, MaxRating, V2Score, Value)
+                    VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @Version, @HasData, @MaxRating, @V2Score, @Value);
+                    """, obj);
+            }
+        }
+        return wrapper;
     }
 
 
@@ -971,24 +1000,32 @@ internal class GameRecordService
         }
         using var dapper = DatabaseService.CreateConnection();
         var list = dapper.Query<ShiyuDefenseInfo>("""
-            SELECT Uid, ScheduleId, BeginTime, EndTime, HasData, MaxRating, MaxRatingTimes, MaxLayer FROM ZZZShiyuDefenseInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
+            SELECT Uid, ScheduleId, BeginTime, EndTime, Version, HasData, MaxRating, MaxRatingTimes, MaxLayer, V2Score FROM ZZZShiyuDefenseInfo WHERE Uid = @Uid ORDER BY ScheduleId DESC;
             """, new { role.Uid });
         return list.ToList();
     }
 
 
 
-    public ShiyuDefenseInfo? GetShiyuDefenseInfo(GameRecordRole role, int scheduleId)
+    public ShiyuDefenseInfoBase? GetShiyuDefenseInfo(GameRecordRole role, int scheduleId)
     {
         using var dapper = DatabaseService.CreateConnection();
-        var value = dapper.QueryFirstOrDefault<string>("""
-            SELECT Value FROM ZZZShiyuDefenseInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
+        (string version, string value) = dapper.QueryFirstOrDefault<(string Version, string Value)>("""
+            SELECT Version, Value FROM ZZZShiyuDefenseInfo WHERE Uid = @Uid And ScheduleId = @scheduleId LIMIT 1;
             """, new { role.Uid, scheduleId });
         if (string.IsNullOrWhiteSpace(value))
         {
             return null;
         }
-        return JsonSerializer.Deserialize<ShiyuDefenseInfo>(value);
+        if (version is "v1")
+        {
+            return JsonSerializer.Deserialize<ShiyuDefenseInfo>(value);
+        }
+        else if (version is "v2")
+        {
+            return JsonSerializer.Deserialize<ShiyuDefenseInfoV2>(value);
+        }
+        return null;
     }
 
 
@@ -1185,6 +1222,139 @@ internal class GameRecordService
         }
         return JsonSerializer.Deserialize<StygianOnslaughtInfo>(value);
     }
+
+
+
+    #endregion
+
+
+
+
+    #region Star Rail Challenge Peak
+
+
+
+
+    public List<ChallengePeakData> GetStarRailChallengePeakDataList(GameRecordRole role)
+    {
+        if (role is null)
+        {
+            return new List<ChallengePeakData>();
+        }
+        using var dapper = DatabaseService.CreateConnection();
+        var list = dapper.Query<ChallengePeakData>("""
+            SELECT Uid, GroupId, GameVersion, BossStars, MobStars, BossIcon FROM StarRailChallengePeakData WHERE Uid = @Uid ORDER BY GroupId DESC;
+            """, new { role.Uid });
+        return list.ToList();
+    }
+
+
+
+    public async Task RefreshStarRailChallengePeakDataAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+
+        var data = await _gameRecordClient.GetStarRailChallengePeakDataAsync(role, 1, cancellationToken);
+        if (data.ChallengePeakRecords?.Count == 1)
+        {
+            var record = data.ChallengePeakRecords[0];
+            var obj = new
+            {
+                role.Uid,
+                record.Group.GroupId,
+                record.Group.GameVersion,
+                record.BossStars,
+                record.MobStars,
+                BossIcon = record.BossInfo.Icon,
+                Value = JsonSerializer.Serialize(data, AppConfig.JsonSerializerOptions),
+            };
+            dapper.Execute("""
+                INSERT OR REPLACE INTO StarRailChallengePeakData (Uid, GroupId, GameVersion, BossStars, MobStars, BossIcon, Value)
+                VALUES (@Uid, @GroupId, @GameVersion, @BossStars, @MobStars, @BossIcon, @Value);
+                """, obj);
+        }
+
+        data = await _gameRecordClient.GetStarRailChallengePeakDataAsync(role, 3, cancellationToken);
+        foreach (var record in data.ChallengePeakRecords.ToList())
+        {
+            data.ChallengePeakRecords.Clear();
+            var queryData = dapper.QueryFirstOrDefault<ChallengePeakData>("""
+                SELECT BossStars, MobStars FROM StarRailChallengePeakData WHERE Uid = @Uid AND GroupId = @GroupId LIMIT 1;
+                """, new { role.Uid, record.Group.GroupId });
+            if (queryData is null)
+            {
+                data.ChallengePeakRecords.Add(record);
+                data.ChallengePeakBestRecordBrief = new ChallengePeakBestRecordBrief
+                {
+                    BossStars = record.BossStars,
+                    MobStars = record.MobStars,
+                };
+                var obj = new
+                {
+                    role.Uid,
+                    record.Group.GroupId,
+                    record.Group.GameVersion,
+                    record.BossStars,
+                    record.MobStars,
+                    BossIcon = record.BossInfo.Icon,
+                    Value = JsonSerializer.Serialize(data, AppConfig.JsonSerializerOptions),
+                };
+                dapper.Execute("""
+                    INSERT OR REPLACE INTO StarRailChallengePeakData (Uid, GroupId, GameVersion, BossStars, MobStars, BossIcon, Value)
+                    VALUES (@Uid, @GroupId, @GameVersion, @BossStars, @MobStars, @BossIcon, @Value);
+                    """, obj);
+            }
+            else if (record.BossStars > queryData.BossStars || record.MobStars > queryData.MobStars)
+            {
+                var queryText = dapper.QueryFirstOrDefault<string>("""
+                    SELECT Value FROM StarRailChallengePeakData WHERE Uid = @Uid AND GroupId = @GroupId LIMIT 1;
+                    """, new { role.Uid, record.Group.GroupId });
+                if (!string.IsNullOrWhiteSpace(queryText))
+                {
+                    var queryValue = JsonSerializer.Deserialize<ChallengePeakData>(queryText);
+                    if (queryValue is not null)
+                    {
+                        queryValue.ChallengePeakRecords.Clear();
+                        queryValue.ChallengePeakRecords.Add(record);
+                        queryValue.ChallengePeakBestRecordBrief ??= new();
+                        queryValue.ChallengePeakBestRecordBrief.BossStars = record.BossStars;
+                        queryValue.ChallengePeakBestRecordBrief.MobStars = record.MobStars;
+
+                        var obj = new
+                        {
+                            role.Uid,
+                            record.Group.GroupId,
+                            record.Group.GameVersion,
+                            record.BossStars,
+                            record.MobStars,
+                            BossIcon = record.BossInfo.Icon,
+                            Value = JsonSerializer.Serialize(queryValue),
+                        };
+                        dapper.Execute("""
+                            INSERT OR REPLACE INTO StarRailChallengePeakData (Uid, GroupId, GameVersion, BossStars, MobStars, BossIcon, Value)
+                            VALUES (@Uid, @GroupId, @GameVersion, @BossStars, @MobStars, @BossIcon, @Value);
+                            """, obj);
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    public ChallengePeakData? GetStarRailChallengePeakData(GameRecordRole role, int groupId)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        var queryText = dapper.QueryFirstOrDefault<string>("""
+                    SELECT Value FROM StarRailChallengePeakData WHERE Uid = @Uid AND GroupId = @groupId LIMIT 1;
+                    """, new { role.Uid, groupId });
+        if (!string.IsNullOrWhiteSpace(queryText))
+        {
+            return JsonSerializer.Deserialize<ChallengePeakData>(queryText);
+        }
+        return null;
+    }
+
 
 
 

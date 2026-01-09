@@ -14,12 +14,19 @@ internal class DateTimeStringJsonConverter : JsonConverter<DateTime>
         }
         else
         {
-            return DateTime.MinValue;
+            return default;
         }
     }
 
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString("yyyy-MM-dd HH:mm:ss"));
+        if (value == default)
+        {
+            writer.WriteStringValue("");
+        }
+        else
+        {
+            writer.WriteStringValue(value.ToString("yyyy-MM-dd HH:mm:ss"));
+        }
     }
 }

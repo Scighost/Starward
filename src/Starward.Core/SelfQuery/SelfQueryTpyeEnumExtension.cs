@@ -12,6 +12,8 @@ public static class SelfQueryTpyeEnumExtension
             GenshinQueryType.Resin => CoreLang.GenshinQueryType_OriginalResin,
             GenshinQueryType.Artifact => CoreLang.GenshinQueryType_Artifact,
             GenshinQueryType.Weapon => CoreLang.GenshinQueryType_Weapon,
+            GenshinQueryType.BeyondCrystal => CoreLang.GenshinQueryType_ChronalNexus,
+            GenshinQueryType.BeyondGachaCoin => CoreLang.GenshinQueryType_ArcaneKeystone,
             _ => "",
         };
     }

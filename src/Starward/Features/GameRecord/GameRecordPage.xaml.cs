@@ -233,6 +233,7 @@ public sealed partial class GameRecordPage : PageBase
             NavigationViewItem_ForgottenHall.Visibility = Visibility.Visible;
             NavigationViewItem_PureFiction.Visibility = Visibility.Visible;
             NavigationViewItem_ApocalypticShadow.Visibility = Visibility.Visible;
+            NavigationViewItem_ChallengePeak.Visibility = Visibility.Visible;
             // 铁道战绩图片
             Image_BattleChronicle.Source = new BitmapImage(new("ms-appx:///Assets/Image/ade9545750299456a3fcbc8c3b63521d_2941971308029698042.png"));
         }
@@ -511,6 +512,7 @@ public sealed partial class GameRecordPage : PageBase
                     nameof(ForgottenHallPage) => typeof(ForgottenHallPage),
                     nameof(PureFictionPage) => typeof(PureFictionPage),
                     nameof(ApocalypticShadowPage) => typeof(ApocalypticShadowPage),
+                    nameof(ChallengePeakPage) => typeof(ChallengePeakPage),
                     nameof(InterKnotMonthlyReportPage) => typeof(InterKnotMonthlyReportPage),
                     nameof(ShiyuDefensePage) => typeof(ShiyuDefensePage),
                     nameof(DeadlyAssaultPage) => typeof(DeadlyAssaultPage),

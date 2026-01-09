@@ -232,7 +232,7 @@ public sealed partial class SelfQueryPage : PageBase
             {
                 var list = new List<TypeStats>();
                 using var dapper = DatabaseService.CreateConnection();
-                foreach (var i in Enumerable.Range(1, 5))
+                foreach (int i in new int[] { 1, 2, 3, 6, 7, 4, 5 })
                 {
                     var type = (GenshinQueryType)i;
                     (long add, long sub) = _selfQueryService.GetGenshinQueryItemsNumSum(uid, type);
@@ -704,6 +704,8 @@ public sealed partial class SelfQueryPage : PageBase
             GenshinQueryType.Resin => "ms-appx:///Assets/Image/UI_ItemIcon_210.png",
             GenshinQueryType.Artifact => "ms-appx:///Assets/Image/SpriteUI_BagTabIcon_Equip.png",
             GenshinQueryType.Weapon => "ms-appx:///Assets/Image/SpriteUI_BagTabIcon_Weapon.png",
+            GenshinQueryType.BeyondCrystal => "ms-appx:///Assets/Image/UI_ItemIcon_231.png",
+            GenshinQueryType.BeyondGachaCoin => "ms-appx:///Assets/Image/UI_ItemIcon_232.png",
             _ => "",
         };
     }

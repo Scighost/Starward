@@ -5,6 +5,7 @@ using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
+using Starward.Core.GameRecord.StarRail.ChallengePeak;
 using Starward.Core.GameRecord.StarRail.DailyNote;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
@@ -746,6 +747,28 @@ public class HyperionClient : GameRecordClient
     }
 
 
+    /// <summary>
+    /// 星穹铁道异相仲裁
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="scheduleType">1 当期，3 最近三期</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<ChallengePeakData> GetStarRailChallengePeakDataAsync(GameRecordRole role, int scheduleType, CancellationToken cancellationToken = default)
+    {
+        string url = $"https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/challenge_peak?server={role.Region}&role_id={role.Uid}&schedule_type={scheduleType}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret2(url));
+        request.Headers.Add(Referer, "https://webstatic.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        return await CommonSendAsync<ChallengePeakData>(request, cancellationToken);
+    }
+
+
 
     #endregion
 
@@ -789,9 +812,9 @@ public class HyperionClient : GameRecordClient
     /// <param name="schedule">1当期，2上期</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public override async Task<ShiyuDefenseInfo> GetShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
+    public override async Task<ShiyuDefenseWrapper> GetShiyuDefenseInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
     {
-        var url = $"https://api-takumi-record.mihoyo.com/event/game_record_zzz/api/zzz/challenge?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}&need_all=true";
+        var url = $"https://api-takumi-record.mihoyo.com/event/game_record_zzz/api/zzz/hadal_info_v2?schedule_type={schedule}&server={role.Region}&role_id={role.Uid}&need_all=true";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(DS, CreateSecret2(url));
@@ -801,7 +824,7 @@ public class HyperionClient : GameRecordClient
         request.Headers.Add(x_rpc_device_fp, DeviceFp);
         request.Headers.Add(x_rpc_client_type, "5");
         request.Headers.Add(X_Request_With, com_mihoyo_hyperion);
-        return await CommonSendAsync<ShiyuDefenseInfo>(request, cancellationToken);
+        return await CommonSendAsync<ShiyuDefenseWrapper>(request, cancellationToken);
     }
 
 

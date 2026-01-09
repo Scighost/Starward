@@ -92,6 +92,8 @@ public static partial class AppConfig
 
             sc.AddSingleton<ScreenCaptureService>();
 
+            sc.AddHttpClient<LogUploadClient>().ConfigStarwardHttpClient();
+
 
             _serviceProvider = sc.BuildServiceProvider();
         }
@@ -150,6 +152,7 @@ public static partial class AppConfig
             client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppVersion}");
 #endif
             client.DefaultRequestHeaders.Add("X-Sw-Device-Id", DeviceId.ToString());
+            client.DefaultRequestHeaders.Add("X-Sw-Session-Id", SessionId.ToString());
             client.DefaultRequestHeaders.Add("X-Sw-App-Version", AppVersion);
             client.DefaultRequestHeaders.Add("X-Sw-App-Type", "Desktop");
             client.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;

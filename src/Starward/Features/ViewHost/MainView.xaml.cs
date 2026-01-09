@@ -80,6 +80,7 @@ public sealed partial class MainView : UserControl
         {
             GamepadController.Initialize();
         }
+        LogUploadService.Start();
     }
 
 

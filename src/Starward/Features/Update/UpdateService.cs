@@ -36,9 +36,9 @@ internal class UpdateService
         _ = NuGetVersion.TryParse(AppConfig.AppVersion, out var currentVersion);
         _ = NuGetVersion.TryParse(AppConfig.IgnoreVersion, out var ignoreVersion);
 #if DEBUG
-        var release = await _releaseClient.GetLatestReleaseInfoDetailAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture, InstallType.Portable);
+        var release = await _releaseClient.GetLatestReleaseInfoDetailAsync(AppConfig.EnablePreviewRelease, AppConfig.AppVersion, RuntimeInformation.ProcessArchitecture, InstallType.Portable);
 #else
-        var release = await _releaseClient.GetLatestReleaseInfoDetailAsync(AppConfig.EnablePreviewRelease, RuntimeInformation.ProcessArchitecture, AppConfig.InstallType);
+        var release = await _releaseClient.GetLatestReleaseInfoDetailAsync(AppConfig.EnablePreviewRelease, AppConfig.AppVersion, RuntimeInformation.ProcessArchitecture, AppConfig.InstallType);
 #endif
         _logger.LogInformation("Current version: {currentVersion}, latest version: {latestVersion}, ignore version: {ignoreVersion}.", AppConfig.AppVersion, release?.Version, ignoreVersion);
         _ = NuGetVersion.TryParse(release?.Version, out var newVersion);
@@ -50,6 +50,17 @@ internal class UpdateService
             }
         }
         return null;
+    }
+
+
+
+    public async Task<ReleaseInfoDetail> GetLatestVersionAsync(CancellationToken cancellation = default)
+    {
+#if DEBUG
+        return await _releaseClient.GetLatestReleaseInfoDetailAsync(AppConfig.EnablePreviewRelease, AppConfig.AppVersion, RuntimeInformation.ProcessArchitecture, InstallType.Portable);
+#else
+        return await _releaseClient.GetLatestReleaseInfoDetailAsync(AppConfig.EnablePreviewRelease, AppConfig.AppVersion, RuntimeInformation.ProcessArchitecture, AppConfig.InstallType);
+#endif
     }
 
 

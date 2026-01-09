@@ -437,11 +437,23 @@
                            SelectedPageIndex="{x:Bind CurrentBackgroundImageIndex, Mode=TwoWay}"
                            Style="{ThemeResource CustomPipsPagerStyle}" />
                 <AppBarSeparator Padding="0,4,0,4" />
+                <!--  图库  -->
+                <Button Padding="4"
+                        VerticalAlignment="Center"
+                        Command="{x:Bind OpenBackgroundViewWindowCommand}"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind lang:Lang.GameLauncherPage_Gallery}">
+                    <FontIcon FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="&#xE91B;"
+                              IsTextScaleFactorEnabled="False" />
+                </Button>
                 <!--  复制  -->
                 <Button Padding="4"
                         VerticalAlignment="Center"
                         Command="{x:Bind CopyCurrentBackgroundImageCommand}"
-                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind lang:Lang.Common_Copy}">
                     <FontIcon FontSize="16"
                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                               Glyph="&#xE8C8;"
@@ -450,7 +462,8 @@
                 <!--  另存为  -->
                 <Button Padding="4"
                         Command="{x:Bind SaveCurrentBackgroundImageCommand}"
-                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind lang:Lang.ImageViewWindow2_SaveAs}">
                     <FontIcon FontSize="16"
                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                               Glyph="&#xE74E;"
@@ -460,6 +473,7 @@
                 <Button Padding="4"
                         Command="{x:Bind StartOrStopVideoBackgroundCommand}"
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind lang:Lang.GameLauncherPage_PlayPause}"
                         Visibility="{x:Bind CanStopVideo}">
                     <FontIcon FontSize="16"
                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"

@@ -14,14 +14,17 @@ public static partial class AppConfig
     public static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
 
     public static string StarwardExecutePath => Environment.ProcessPath ?? Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+
     public static Guid DeviceId { get; private set; }
 
+    public static Guid SessionId { get; private set; }
 
 
     static AppConfig()
     {
         LoadConfiguration();
         GetDeviceId();
+        SessionId = Guid.CreateVersion7();
     }
 
 

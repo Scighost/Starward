@@ -198,6 +198,10 @@ public static partial class AppConfig
             {
                 key.SetValue("Language", Language);
             }
+            else
+            {
+                key.DeleteValue("Language", false);
+            }
             if (!string.IsNullOrWhiteSpace(UserDataFolder))
             {
                 string dataFolder = UserDataFolder;
@@ -207,6 +211,10 @@ public static partial class AppConfig
                     dataFolder = Path.GetRelativePath(parentFolder, UserDataFolder);
                 }
                 key.SetValue("UserDataFolder", dataFolder);
+            }
+            else
+            {
+                key.DeleteValue("UserDataFolder", false);
             }
             if (EnableLoginAuthTicket.HasValue)
             {

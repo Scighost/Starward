@@ -177,6 +177,8 @@ public class SelfQueryClient
             GenshinQueryType.Resin => $"{prefixUrl}/common/hk4e_self_help_query/User/GetResinLog{authQuery}&size=20&selfquery_type=4&end_id={endId}",
             GenshinQueryType.Artifact => $"{prefixUrl}/common/hk4e_self_help_query/User/GetArtifactLog{authQuery}&size=20&selfquery_type=2&end_id={endId}",
             GenshinQueryType.Weapon => $"{prefixUrl}/common/hk4e_self_help_query/User/GetWeaponLog{authQuery}&size=20&selfquery_type=4&end_id={endId}",
+            GenshinQueryType.BeyondCrystal => $"{prefixUrl}/common/hk4e_self_help_query/User/GetBeyondCrystalLog{authQuery}&size=20&selfquery_type=4&end_id={endId}",
+            GenshinQueryType.BeyondGachaCoin => $"{prefixUrl}/common/hk4e_self_help_query/User/GetBeyondGachaCoin{authQuery}&size=20&selfquery_type=4&end_id={endId}",
             _ => throw new ArgumentOutOfRangeException(nameof(type), $"Unknown query type ({type})"),
         };
         var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinQueryItem>>(url, cancellationToken);
@@ -188,6 +190,76 @@ public class SelfQueryClient
             item.Type = type;
         }
         return list;
+    }
+
+
+    /// <summary>
+    /// 千星奇域装扮部件
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="endId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<GenshinSelfQueryItem_BeyondCostume>> GetGenshinQueryBeyondCostumeAsync(GenshinQueryType type, long endId, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetBeyondCostume{authQuery}&size=20&selfquery_type=8&end_id={endId}";
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BeyondCostume>>(url, cancellationToken);
+        return wrapper.List ?? new List<GenshinSelfQueryItem_BeyondCostume>(0);
+    }
+
+
+    /// <summary>
+    /// 千星奇域装扮套装
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="endId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<GenshinSelfQueryItem_BeyondCostumeSuit>> GetGenshinQueryBeyondCostumeSuitAsync(GenshinQueryType type, long endId, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetBeyondCostumeSuit{authQuery}&size=20&selfquery_type=8&end_id={endId}";
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BeyondCostumeSuit>>(url, cancellationToken);
+        return wrapper.List ?? new List<GenshinSelfQueryItem_BeyondCostumeSuit>(0);
+    }
+
+
+    /// <summary>
+    /// 纪行
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="endId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<GenshinSelfQueryItem_BattlePath>> GetGenshinQueryBattlePathAsync(GenshinQueryType type, long endId, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetBattlePath{authQuery}&size=20&selfquery_type=8&end_id={endId}";
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BattlePath>>(url, cancellationToken);
+        var list = wrapper.List ?? new List<GenshinSelfQueryItem_BattlePath>(0);
+        long uid = UserInfo?.Uid ?? 0;
+        foreach (var item in list)
+        {
+            item.Uid = uid;
+        }
+        return list;
+    }
+
+
+    /// <summary>
+    /// 纪游
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="endId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<GenshinSelfQueryItem_BeyondBattlePath>> GetGenshinQueryBeyondBattlePathAsync(GenshinQueryType type, long endId, CancellationToken cancellationToken = default)
+    {
+        EnsureInitialized();
+        string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetBeyondBattlePath{authQuery}&size=20&selfquery_type=8&end_id={endId}";
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BeyondBattlePath>>(url, cancellationToken);
+        return wrapper.List ?? new List<GenshinSelfQueryItem_BeyondBattlePath>(0);
     }
 
 

@@ -928,6 +928,69 @@ internal static class DatabaseService
         COMMIT TRANSACTION;
         """;
 
+    private const string Sql_v18 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE GenshinQueryItem_dg_tmp
+        (
+            Uid      INTEGER NOT NULL,
+            Id       INTEGER NOT NULL,
+            AddNum   INTEGER NOT NULL,
+            Reason   TEXT,
+            DateTime TEXT,
+            Type     INTEGER NOT NULL,
+            Icon     TEXT,
+            Level    INTEGER NOT NULL,
+            Quality  INTEGER NOT NULL,
+            Name     TEXT,
+            PRIMARY KEY (Uid, Id, Type)
+        );
+        INSERT INTO GenshinQueryItem_dg_tmp(Uid, Id, AddNum, Reason, DateTime, Type, Icon, Level, Quality, Name)
+        SELECT Uid, Id, AddNum, Reason, DateTime, Type, Icon, Level, Quality, Name FROM GenshinQueryItem;
+        DROP TABLE GenshinQueryItem;
+        ALTER TABLE GenshinQueryItem_dg_tmp RENAME TO GenshinQueryItem;
+        CREATE INDEX IX_GenshinQueryItem_AddNum ON GenshinQueryItem (AddNum);
+        CREATE INDEX IX_GenshinQueryItem_DateTime ON GenshinQueryItem (DateTime);
+        CREATE INDEX IX_GenshinQueryItem_Id ON GenshinQueryItem (Id);
+        CREATE INDEX IX_GenshinQueryItem_Reason ON GenshinQueryItem (Reason);
+        CREATE INDEX IX_GenshinQueryItem_Type ON GenshinQueryItem (Type);
+
+        CREATE TABLE ZZZShiyuDefenseInfo_dg_tmp
+        (
+            Uid            INTEGER           NOT NULL,
+            ScheduleId     INTEGER           NOT NULL,
+            BeginTime      TEXT              NOT NULL,
+            EndTime        INTEGER           NOT NULL,
+            Version        TEXT,
+            HasData        INTEGER           NOT NULL,
+            MaxRating      TEXT,
+            MaxRatingTimes INTEGER DEFAULT 0 NOT NULL,
+            MaxLayer       INTEGER DEFAULT 0 NOT NULL,
+            V2Score        INTEGER DEFAULT 0 NOT NULL,
+            Value          TEXT,
+            PRIMARY KEY (Uid, ScheduleId)
+        );
+        INSERT INTO ZZZShiyuDefenseInfo_dg_tmp(Uid, ScheduleId, BeginTime, EndTime, Version, HasData, MaxRating, MaxRatingTimes, MaxLayer, Value)
+        SELECT Uid, ScheduleId, BeginTime, EndTime, 'v1', HasData, MaxRating, MaxRatingTimes, MaxLayer, Value FROM ZZZShiyuDefenseInfo;
+        DROP TABLE ZZZShiyuDefenseInfo;
+        ALTER TABLE ZZZShiyuDefenseInfo_dg_tmp RENAME TO ZZZShiyuDefenseInfo;
+
+        CREATE TABLE IF NOT EXISTS StarRailChallengePeakData
+        (
+            Uid         INTEGER NOT NULL,
+            GroupId     INTEGER NOT NULL,
+            GameVersion TEXT    NOT NULL,
+            BossStars   INTEGER NOT NULL DEFAULT 0,
+            MobStars    INTEGER NOT NULL DEFAULT 0,
+            BossIcon    TEXT,
+            Value       TEXT,
+            PRIMARY KEY (Uid, GroupId)
+        );
+
+        PRAGMA USER_VERSION = 18;
+        COMMIT TRANSACTION;
+        """;
+
     #endregion
 
 

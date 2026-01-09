@@ -61,6 +61,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Updated to the latest version. 的本地化字符串。
+        /// </summary>
+        public static string AboutSetting_UpdatedToTheLatestVersion {
+            get {
+                return ResourceManager.GetString("AboutSetting_UpdatedToTheLatestVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Click button to repair files. 的本地化字符串。
         /// </summary>
         public static string AboutSettingPage_ClickButtonToRepairFiles {
@@ -151,6 +160,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Image decoding failed 的本地化字符串。
+        /// </summary>
+        public static string AppBackground_ImageDecodingFailed {
+            get {
+                return ResourceManager.GetString("AppBackground_ImageDecodingFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please install the WebP Image Extension. 的本地化字符串。
+        /// </summary>
+        public static string AppBackground_PleaseInstallTheWebPImageExtension {
+            get {
+                return ResourceManager.GetString("AppBackground_PleaseInstallTheWebPImageExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Always display navigation sidebar icons 的本地化字符串。
         /// </summary>
         public static string AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons {
@@ -223,11 +250,92 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 {0} duplicate file(s) has been deleted. 的本地化字符串。
+        /// </summary>
+        public static string BackgroundViewPage_0DuplicateFileSHasBeenDeleted {
+            get {
+                return ResourceManager.GetString("BackgroundViewPage_0DuplicateFileSHasBeenDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete Duplicate Files 的本地化字符串。
+        /// </summary>
+        public static string BackgroundViewPage_DeleteDuplicateFiles {
+            get {
+                return ResourceManager.GetString("BackgroundViewPage_DeleteDuplicateFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Duplicate files are identified based on file data. Some visually similar images will not be removed. 的本地化字符串。
+        /// </summary>
+        public static string BackgroundViewPage_DeleteDuplicateFilesTip {
+            get {
+                return ResourceManager.GetString("BackgroundViewPage_DeleteDuplicateFilesTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The VP9 Video Extensions does not support certain formats, which may prevent thumbnail generation or proper playback. 的本地化字符串。
+        /// </summary>
+        public static string BackgroundViewPage_VP9VideoExtensionsTip {
+            get {
+                return ResourceManager.GetString("BackgroundViewPage_VP9VideoExtensionsTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Image copied to clipboard 的本地化字符串。
         /// </summary>
         public static string BBSWebBridge_ImageCopiedToClipboard {
             get {
                 return ResourceManager.GetString("BBSWebBridge_ImageCopiedToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Challenge Attempts 的本地化字符串。
+        /// </summary>
+        public static string ChallengePeakPage_ChallengeAttempts {
+            get {
+                return ResourceManager.GetString("ChallengePeakPage_ChallengeAttempts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cleared 的本地化字符串。
+        /// </summary>
+        public static string ChallengePeakPage_Cleared {
+            get {
+                return ResourceManager.GetString("ChallengePeakPage_Cleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 King in Check Stage Records 的本地化字符串。
+        /// </summary>
+        public static string ChallengePeakPage_KingInCheckStageRecords {
+            get {
+                return ResourceManager.GetString("ChallengePeakPage_KingInCheckStageRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Knight Stage Records 的本地化字符串。
+        /// </summary>
+        public static string ChallengePeakPage_KnightStageRecords {
+            get {
+                return ResourceManager.GetString("ChallengePeakPage_KnightStageRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No Clearance Records 的本地化字符串。
+        /// </summary>
+        public static string ChallengePeakPage_NoClearanceRecords {
+            get {
+                return ResourceManager.GetString("ChallengePeakPage_NoClearanceRecords", resourceCulture);
             }
         }
         
@@ -283,6 +391,15 @@ namespace Starward.Language {
         public static string Common_AccountError {
             get {
                 return ResourceManager.GetString("Common_AccountError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 All 的本地化字符串。
+        /// </summary>
+        public static string Common_All {
+            get {
+                return ResourceManager.GetString("Common_All", resourceCulture);
             }
         }
         
@@ -449,6 +566,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 File Size 的本地化字符串。
+        /// </summary>
+        public static string Common_FileSize {
+            get {
+                return ResourceManager.GetString("Common_FileSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Filter 的本地化字符串。
+        /// </summary>
+        public static string Common_Filter {
+            get {
+                return ResourceManager.GetString("Common_Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Hide 的本地化字符串。
         /// </summary>
         public static string Common_Hide {
@@ -557,6 +692,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Sort 的本地化字符串。
+        /// </summary>
+        public static string Common_Sort {
+            get {
+                return ResourceManager.GetString("Common_Sort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Start 的本地化字符串。
         /// </summary>
         public static string Common_Start {
@@ -580,6 +724,24 @@ namespace Starward.Language {
         public static string Common_Summary {
             get {
                 return ResourceManager.GetString("Common_Summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Time 的本地化字符串。
+        /// </summary>
+        public static string Common_Time {
+            get {
+                return ResourceManager.GetString("Common_Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Video 的本地化字符串。
+        /// </summary>
+        public static string Common_Video {
+            get {
+                return ResourceManager.GetString("Common_Video", resourceCulture);
             }
         }
         
@@ -2169,6 +2331,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Gallery 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_Gallery {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_Gallery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The current server does not support pre-download. Please complete pre-download in the target server of the hard link. 的本地化字符串。
         /// </summary>
         public static string GameLauncherPage_HardLinkNotSupportPredownload {
@@ -2192,6 +2363,15 @@ namespace Starward.Language {
         public static string GameLauncherPage_NoWritePermission {
             get {
                 return ResourceManager.GetString("GameLauncherPage_NoWritePermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Play / Pause 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_PlayPause {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_PlayPause", resourceCulture);
             }
         }
         
@@ -2599,6 +2779,15 @@ namespace Starward.Language {
         public static string GamepadControlSetting_UnrecognizedKey {
             get {
                 return ResourceManager.GetString("GamepadControlSetting_UnrecognizedKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Anomaly Arbitration 的本地化字符串。
+        /// </summary>
+        public static string GameRecordPage_AnomalyArbitration {
+            get {
+                return ResourceManager.GetString("GameRecordPage_AnomalyArbitration", resourceCulture);
             }
         }
         
@@ -4340,6 +4529,15 @@ namespace Starward.Language {
         public static string InterKnotMonthlyReportPage_ShiyuDefenseRewards {
             get {
                 return ResourceManager.GetString("InterKnotMonthlyReportPage_ShiyuDefenseRewards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 It is recommended to install the VP9 Video Extensions to reduce CPU usage. 的本地化字符串。
+        /// </summary>
+        public static string ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage {
+            get {
+                return ResourceManager.GetString("ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage", resourceCulture);
             }
         }
         
@@ -6213,6 +6411,24 @@ namespace Starward.Language {
         public static string ShiyuDefensePage_ClearTime {
             get {
                 return ResourceManager.GetString("ShiyuDefensePage_ClearTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Critical Node: Fifth Frontier 的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_CriticalNodeFifthFrontier {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_CriticalNodeFifthFrontier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Critical Node: Fourth Frontier 的本地化字符串。
+        /// </summary>
+        public static string ShiyuDefensePage_CriticalNodeFourthFrontier {
+            get {
+                return ResourceManager.GetString("ShiyuDefensePage_CriticalNodeFourthFrontier", resourceCulture);
             }
         }
         
