@@ -21,7 +21,7 @@
 		<PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
 		<PackageReference Include="Starward.NativeLib" Version="0.3.1" />
 		<PackageReference Include="Vanara.PInvoke.Kernel32" Version="4.2.1" />
-		<PackageReference Include="ZstdSharp.Port" Version="0.8.6" />
+		<PackageReference Include="ZstdSharp.Port" Version="0.8.7" />
 	</ItemGroup>
 
 	<ItemGroup>

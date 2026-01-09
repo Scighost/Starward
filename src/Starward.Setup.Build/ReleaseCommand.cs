@@ -136,7 +136,7 @@ public class ReleaseCommand
 
         releaseInfo.Releases.Add($"{arch}-{type}".ToLower(), detail);
 
-        byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(releaseInfo, new JsonSerializerOptions { WriteIndented = true });
+        byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(releaseInfo, new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault });
         Directory.CreateDirectory(Path.GetDirectoryName(outputFile)!);
         await File.WriteAllBytesAsync(outputFile, jsonBytes);
 
