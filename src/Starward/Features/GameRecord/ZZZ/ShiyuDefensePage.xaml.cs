@@ -185,5 +185,12 @@ public sealed partial class ShiyuDefensePage : PageBase
     }
 
 
+    public static string RankPercentText(int value)
+    {
+        int d = value / 100;
+        int p = value % 100;
+        return $"{d}.{p:D2}%";
+    }
+
 
 }

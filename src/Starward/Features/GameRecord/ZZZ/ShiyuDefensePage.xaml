@@ -897,9 +897,15 @@
 
                         <StackPanel>
                             <TextBlock FontWeight="Bold" Text="{x:Bind lang:Lang.ShiyuDefensePage_CriticalNodeFifthFrontier}" />
-                            <TextBlock FontSize="28"
-                                       FontWeight="Bold"
-                                       Text="{x:Bind CurrentShiyuDefenseV2.Brief.Score}" />
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <TextBlock FontSize="28"
+                                           FontWeight="Bold"
+                                           Text="{x:Bind CurrentShiyuDefenseV2.Brief.Score}" />
+                                <TextBlock Margin="0,0,0,6"
+                                           VerticalAlignment="Bottom"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="{x:Bind local:ShiyuDefensePage.RankPercentText(CurrentShiyuDefenseV2.Brief.RankPercent)}" />
+                            </StackPanel>
                             <TextBlock FontSize="12"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        Text="{x:Bind CurrentShiyuDefenseV2.Brief.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
@@ -1195,7 +1201,7 @@
                                Margin="0,4,8,0"
                                HorizontalAlignment="Right"
                                VerticalAlignment="Top"
-                               Source="{x:Bind CurrentShiyuDefenseV2.Brief.Rating, Converter={StaticResource ZZZRarityToIconConverter}}" />
+                               Source="{x:Bind CurrentShiyuDefenseV2.FourthLayerDetail.Rating, Converter={StaticResource ZZZRarityToIconConverter}}" />
                     </Grid>
 
                     <MenuFlyoutSeparator Grid.Row="1" Grid.ColumnSpan="3" />

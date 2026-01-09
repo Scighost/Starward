@@ -965,26 +965,29 @@ internal class GameRecordService
         }
         else if (wrapper.HadalVer is "v2" && wrapper.InfoV2 is not null)
         {
-            var info = wrapper.InfoV2;
-            if (info.HasData)
+            if (wrapper.InfoV2.Brief is not null)
             {
-                var obj = new
+                var info = wrapper.InfoV2;
+                if (info.PassFifthFloor)
                 {
-                    role.Uid,
-                    info.ScheduleId,
-                    info.BeginTime,
-                    info.EndTime,
-                    info.Version,
-                    info.HasData,
-                    info.MaxRating,
-                    info.V2Score,
-                    Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
-                };
-                using var dapper = DatabaseService.CreateConnection();
-                dapper.Execute("""
-                    INSERT OR REPLACE INTO ZZZShiyuDefenseInfo (Uid, ScheduleId, BeginTime, EndTime, Version, HasData, MaxRating, V2Score, Value)
-                    VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @Version, @HasData, @MaxRating, @V2Score, @Value);
-                    """, obj);
+                    var obj = new
+                    {
+                        role.Uid,
+                        info.ScheduleId,
+                        info.BeginTime,
+                        info.EndTime,
+                        info.Version,
+                        info.HasData,
+                        info.MaxRating,
+                        info.V2Score,
+                        Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
+                    };
+                    using var dapper = DatabaseService.CreateConnection();
+                    dapper.Execute("""
+                        INSERT OR REPLACE INTO ZZZShiyuDefenseInfo (Uid, ScheduleId, BeginTime, EndTime, Version, HasData, MaxRating, V2Score, Value)
+                        VALUES (@Uid, @ScheduleId, @BeginTime, @EndTime, @Version, @HasData, @MaxRating, @V2Score, @Value);
+                        """, obj);
+                }
             }
         }
         return wrapper;
