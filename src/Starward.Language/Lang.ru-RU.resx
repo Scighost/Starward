@@ -2642,7 +2642,7 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Удалить дубликаты файлов</value>
   </data>
   <data name="BackgroundViewPage_0DuplicateFileSHasBeenDeleted" xml:space="preserve">
-    <value>Удалено дубликатов: {0} </value>
+    <value>Удалено дубликатов: {0}</value>
   </data>
   <data name="Common_All" xml:space="preserve">
     <value>Все</value>
