@@ -152,11 +152,14 @@ public abstract class GachaLogClient
             foreach (var item in Directory.GetDirectories(webCache))
             {
                 string target = Path.Join(item, @"Cache\Cache_Data\data_2");
-                DateTime targetLastWriteTime = File.GetLastWriteTime(target);
-                if (File.Exists(target) && targetLastWriteTime > lastWriteTime)
+                if (File.Exists(target))
                 {
-                    file = target;
-                    lastWriteTime = targetLastWriteTime;
+                    DateTime targetLastWriteTime = File.GetLastWriteTime(target);
+                    if (targetLastWriteTime > lastWriteTime)
+                    {
+                        file = target;
+                        lastWriteTime = targetLastWriteTime;
+                    }
                 }
             }
         }
