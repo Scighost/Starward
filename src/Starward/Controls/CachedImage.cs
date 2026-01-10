@@ -9,7 +9,6 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 namespace Starward.Controls;
 
@@ -53,11 +52,7 @@ public sealed partial class CachedImage : ImageEx
                 {
                     if (BackgroundService.FileIsSupportedVideo(imageUri.OriginalString))
                     {
-                        StorageFile file = await StorageFile.GetFileFromPathAsync(imageUri.OriginalString);
-                        var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 412);
-                        BitmapImage bitmap = new BitmapImage();
-                        await bitmap.SetSourceAsync(thumbnail);
-                        return bitmap;
+                        return await ImageThumbnail.GetVideoThumbnailAsync(imageUri.LocalPath, token);
                     }
                     else
                     {

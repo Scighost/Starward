@@ -1,3 +1,4 @@
+using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Codec.AVIF;
 using Starward.Codec.JpegXL;
@@ -14,6 +15,10 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Windows.Media.Core;
+using Windows.Media.Playback;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
 using WinRT;
 
 namespace Starward.Features.Codec;
@@ -78,15 +83,15 @@ internal static class ImageThumbnail
             string extension = Path.GetExtension(path).ToLowerInvariant();
             if (!AvifDecoderSupported && extension is ".avif")
             {
-                return await LoadAvifImageAsync(path, cachePath, png, cancellationToken);
+                return await LoadAvifImageAsync(path, cachePath, cancellationToken);
             }
             else if (!JxlDecoderSupported && extension is ".jxl")
             {
-                return await LoadJxlImageAsync(path, cachePath, png, cancellationToken);
+                return await LoadJxlImageAsync(path, cachePath, cancellationToken);
             }
             else
             {
-                return await LoadImageAsync(path, cachePath, png, cancellationToken);
+                return await LoadImageAsync(path, cachePath, cancellationToken);
             }
         }
         finally
@@ -114,7 +119,7 @@ internal static class ImageThumbnail
 
 
 
-    private static async Task<BitmapSource> LoadAvifImageAsync(string filePath, string cachePath, bool png, CancellationToken cancellationToken = default)
+    private static async Task<BitmapSource> LoadAvifImageAsync(string filePath, string cachePath, CancellationToken cancellationToken = default)
     {
         await Task.Run(async () =>
         {
@@ -149,8 +154,7 @@ internal static class ImageThumbnail
             Directory.CreateDirectory(CacheFolder);
             var tmp = cachePath + "_tmp";
             using var fs_tmp = File.Create(tmp);
-            BitmapEncoder encoder = png ? await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fs.AsRandomAccessStream()).AsTask(cancellationToken).ConfigureAwait(false)
-                                        : await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, fs.AsRandomAccessStream(), ImageQuality).AsTask(cancellationToken).ConfigureAwait(false);
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, fs.AsRandomAccessStream(), ImageQuality).AsTask(cancellationToken).ConfigureAwait(false);
             encoder.SetSoftwareBitmap(softwareBitmap);
             (uint scaledWidth, uint scaledHeight) = GetThumbnailSize(rgb.Width, rgb.Height);
             encoder.BitmapTransform.ScaledWidth = scaledWidth;
@@ -165,7 +169,7 @@ internal static class ImageThumbnail
 
 
 
-    private static async Task<BitmapSource> LoadJxlImageAsync(string filePath, string cachePath, bool png, CancellationToken cancellationToken = default)
+    private static async Task<BitmapSource> LoadJxlImageAsync(string filePath, string cachePath, CancellationToken cancellationToken = default)
     {
         await Task.Run(async () =>
         {
@@ -190,8 +194,7 @@ internal static class ImageThumbnail
             Directory.CreateDirectory(CacheFolder);
             var tmp = cachePath + "_tmp";
             using var fs_tmp = File.Create(tmp);
-            BitmapEncoder encoder = png ? await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, fs.AsRandomAccessStream()).AsTask(cancellationToken).ConfigureAwait(false)
-                                        : await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, fs.AsRandomAccessStream(), ImageQuality).AsTask(cancellationToken).ConfigureAwait(false);
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, fs.AsRandomAccessStream(), ImageQuality).AsTask(cancellationToken).ConfigureAwait(false);
             encoder.SetSoftwareBitmap(softwareBitmap);
             (uint width, uint height) = GetThumbnailSize(decoder.Width, decoder.Height);
             encoder.BitmapTransform.ScaledWidth = width;
@@ -207,9 +210,13 @@ internal static class ImageThumbnail
 
 
 
-    private static async Task<BitmapSource> LoadImageAsync(string filePath, string cachePath, bool png, CancellationToken cancellationToken = default)
+    private static async Task<BitmapSource> LoadImageAsync(string filePath, string cachePath, CancellationToken cancellationToken = default)
     {
         using var fs = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+        Span<byte> buffer = stackalloc byte[21];
+        fs.ReadExactly(buffer);
+        fs.Position = 0;
+        bool png = buffer.Slice(12, 4).SequenceEqual("VP8X"u8) && ((buffer[20] & 0x10) == 0x10);
         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream()).AsTask(cancellationToken);
         (uint width, uint height) = GetThumbnailSize(decoder.PixelWidth, decoder.PixelHeight);
         var softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, decoder.BitmapAlphaMode, new BitmapTransform
@@ -290,6 +297,104 @@ internal static class ImageThumbnail
         }
     }
 
+
+
+
+
+    private static readonly SemaphoreSlim VideoSemaphore = new(1);
+
+
+    public static async Task<BitmapSource> GetVideoThumbnailAsync(string path, CancellationToken cancellation = default)
+    {
+        string fileName = GetCachedThumbnailName(path);
+        string cachePath = Path.Combine(CacheFolder, fileName);
+        if (File.Exists(cachePath))
+        {
+            return new BitmapImage(new Uri(cachePath));
+        }
+        await VideoSemaphore.WaitAsync(cancellation);
+        try
+        {
+            if (Path.GetExtension(path).Equals(".webm", StringComparison.OrdinalIgnoreCase))
+            {
+                bool decoderInstalled = VP9Helper.IsVP9DecoderInstalled();
+                bool highProfile = VP9Helper.IsWebmButNotProfile0(path);
+                if (!decoderInstalled || highProfile)
+                {
+                    return await GetVideoThumbnailFromMediaPlayerAsync(path, cachePath, cancellation);
+                }
+            }
+            StorageFile file = await StorageFile.GetFileFromPathAsync(path);
+            var thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 216);
+            await SaveStreamToFileAsync(cachePath, thumbnail.AsStream(), cancellation);
+            return new BitmapImage(new(cachePath));
+        }
+        finally
+        {
+            VideoSemaphore.Release();
+        }
+    }
+
+
+    private static async Task SaveStreamToFileAsync(string path, Stream stream, CancellationToken cancellation)
+    {
+        Directory.CreateDirectory(CacheFolder);
+        var tmp = path + "_tmp";
+        using var fs = File.Create(tmp);
+        await stream.CopyToAsync(fs, cancellation);
+        fs.Dispose();
+        File.Move(tmp, path, true);
+    }
+
+
+    private static async Task<BitmapSource> GetVideoThumbnailFromMediaPlayerAsync(string path, string cachePath, CancellationToken cancellation = default)
+    {
+        MediaPlayer? player = null;
+        try
+        {
+            Debug.WriteLine(path);
+            VP9Helper.RegisterVP9Decoder();
+            var completion = new TaskCompletionSource();
+            player = new MediaPlayer
+            {
+                IsMuted = true,
+                IsVideoFrameServerEnabled = true,
+                Source = MediaSource.CreateFromUri(new Uri(path))
+            };
+            player.CommandManager.IsEnabled = false;
+            player.SystemMediaTransportControls.IsEnabled = false;
+            player.VideoFrameAvailable += (s, e) => { s.Pause(); completion.TrySetResult(); };
+            player.MediaFailed += (s, e) => completion.TrySetException(e.ExtendedErrorCode);
+            player.Play();
+
+            var tokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
+            tokenSource.CancelAfter(TimeSpan.FromSeconds(3));
+            await completion.Task.WaitAsync(tokenSource.Token);
+
+            int width = (int)player.PlaybackSession.NaturalVideoWidth;
+            int height = (int)player.PlaybackSession.NaturalVideoHeight;
+            using var renderTarget = new CanvasRenderTarget(CanvasDevice.GetSharedDevice(), width, height, 96);
+            player.CopyFrameToVideoSurface(renderTarget);
+            player.Dispose();
+            player = null;
+
+            var ms = new MemoryStream();
+            await renderTarget.SaveAsync(ms.AsRandomAccessStream(), CanvasBitmapFileFormat.Jpeg, 0.6f);
+            ms.Position = 0;
+            await SaveStreamToFileAsync(cachePath, ms, cancellation);
+            return new BitmapImage(new Uri(cachePath));
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            throw;
+        }
+        finally
+        {
+            VP9Helper.UnregisterVP9Decoder();
+            player?.Dispose();
+        }
+    }
 
 
 }

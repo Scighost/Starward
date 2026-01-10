@@ -1,15 +1,63 @@
 ﻿using Microsoft.Win32;
+using Starward.Codec.VP9Decoder;
 using System;
 using System.IO;
 
-namespace Starward.Features.Background;
+namespace Starward.Features.Codec;
 
 public class VP9Helper
 {
+
+
+    public static bool VP9MFTRegistered { get; private set; }
+
+    private static bool _videoBackground;
+
+
+    public static void RegisterVP9Decoder(bool videoBackground = false)
+    {
+        try
+        {
+            if (!VP9MFTRegistered)
+            {
+                int hr = VP9Decoder.RegisterVP9DecoderLocal();
+                if (hr >= 0)
+                {
+                    VP9MFTRegistered = true;
+                }
+            }
+            if (videoBackground)
+            {
+                _videoBackground = true;
+            }
+        }
+        catch { }
+    }
+
+
+    public static void UnregisterVP9Decoder(bool videoBackground = false)
+    {
+        try
+        {
+            if (_videoBackground && !videoBackground)
+            {
+                return;
+            }
+            if (VP9MFTRegistered)
+            {
+                int hr = VP9Decoder.UnregisterVP9DecoderLocal();
+            }
+            VP9MFTRegistered = false;
+        }
+        catch { }
+    }
+
+
+
     /// <summary>
-    /// 判断给定的文件是否是 WebM VP9 Profile 1/2/3 的视频文件
+    /// 判断给定的文件是否是 WebM Profile 0 的视频文件
     /// </summary>
-    public static bool IsHighProfile(string filePath)
+    public static bool IsWebmButNotProfile0(string filePath)
     {
         try
         {
@@ -47,10 +95,7 @@ public class VP9Helper
                 if (buffer.Length > 1)
                 {
                     int profile = ParseVP9Profile(buffer);
-                    if (profile >= 0)
-                    {
-                        return profile > 0;
-                    }
+                    return profile != 0;
                 }
             }
             return false;

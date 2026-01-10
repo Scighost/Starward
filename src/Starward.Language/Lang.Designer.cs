@@ -178,6 +178,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Video decoding failed 的本地化字符串。
+        /// </summary>
+        public static string AppBackground_VideoDecodingFailed {
+            get {
+                return ResourceManager.GetString("AppBackground_VideoDecodingFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Always display navigation sidebar icons 的本地化字符串。
         /// </summary>
         public static string AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons {

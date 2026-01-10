@@ -7,8 +7,8 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Starward.Codec.VP9Decoder;
 using Starward.Core.HoYoPlay;
+using Starward.Features.Codec;
 using Starward.Features.ViewHost;
 using Starward.Helpers;
 using System;
@@ -367,10 +367,10 @@ public sealed partial class AppBackground : UserControl
         if (Path.GetExtension(file).Equals(".webm", StringComparison.OrdinalIgnoreCase))
         {
             bool decoderInstalled = VP9Helper.IsVP9DecoderInstalled();
-            bool highProfile = VP9Helper.IsHighProfile(file);
+            bool highProfile = VP9Helper.IsWebmButNotProfile0(file);
             if (!decoderInstalled || highProfile)
             {
-                RegisterVP9Decoder();
+                VP9Helper.RegisterVP9Decoder();
             }
             if (!decoderInstalled && !highProfile)
             {
@@ -441,11 +441,12 @@ public sealed partial class AppBackground : UserControl
 
 
 
-
     private void MediaPlayer_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args)
     {
-
+        _logger.LogError(args.ExtendedErrorCode, "Media player failed.");
+        InAppToast.MainWindow?.Warning(Lang.AppBackground_VideoDecodingFailed);
     }
+
 
     private void MediaPlayer_VideoFrameAvailable(MediaPlayer sender, object args)
     {
@@ -547,38 +548,12 @@ public sealed partial class AppBackground : UserControl
         _videoImageSource = null;
         _videoOverlayImage?.Dispose();
         _videoOverlayImage = null;
-        UnregisterVP9Decoder();
+        VP9Helper.UnregisterVP9Decoder(true);
     }
 
 
 
-    private bool _vp9MFTRegistered;
 
-    private void RegisterVP9Decoder()
-    {
-        try
-        {
-            int hr = VP9Decoder.RegisterVP9DecoderLocal();
-            if (hr >= 0)
-            {
-                _vp9MFTRegistered = true;
-            }
-        }
-        catch { }
-    }
-
-
-    private void UnregisterVP9Decoder()
-    {
-        try
-        {
-            if (_vp9MFTRegistered)
-            {
-                int hr = VP9Decoder.UnregisterVP9DecoderLocal();
-            }
-        }
-        catch { }
-    }
 
 
     #endregion
