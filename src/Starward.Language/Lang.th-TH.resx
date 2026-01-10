@@ -2653,4 +2653,7 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="AppBackground_PleaseInstallTheWebPImageExtension" xml:space="preserve">
     <value>Please install the WebP Image Extension.</value>
   </data>
+  <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
+    <value>Video decoding failed</value>
+  </data>
 </root>
