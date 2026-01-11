@@ -26,6 +26,9 @@ public class LogUploadRequestBase
     [JsonPropertyName("session_id")]
     public string SessionId { get; set; }
 
+    [JsonPropertyName("event_category")]
+    public string EventCategory { get; set; }
+
     [JsonPropertyName("event_name")]
     public string EventName { get; set; }
 
@@ -35,8 +38,9 @@ public class LogUploadRequestBase
 
     public LogUploadRequestBase() { }
 
-    public LogUploadRequestBase(string eventName, object? eventParam)
+    public LogUploadRequestBase(string eventCategory, string eventName, object? eventParam = null)
     {
+        EventCategory = eventCategory;
         EventName = eventName;
         EventParam = eventParam;
     }

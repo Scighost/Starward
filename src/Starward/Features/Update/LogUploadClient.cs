@@ -39,7 +39,7 @@ public class LogUploadClient
     public async Task UploadLogAsync(LogUploadRequestBase request, CancellationToken cancellationToken = default)
     {
         FillProperty(request);
-        using var response = await _httpClient.PostAsJsonAsync("/log/upload", request, cancellationToken);
+        using var response = await _httpClient.PostAsJsonAsync("/event/upload", request, cancellationToken);
         response.EnsureSuccessStatusCode();
     }
 
