@@ -2580,16 +2580,16 @@
     <value>전체 패키지</value>
   </data>
   <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
-    <value>Migrate to Setup</value>
+    <value>설치 버전으로 이전</value>
   </data>
   <data name="ShiyuDefensePage_CriticalNodeFourthFrontier" xml:space="preserve">
-    <value>Critical Node: Fourth Frontier</value>
+    <value>격변구간 제4방어선</value>
   </data>
   <data name="ShiyuDefensePage_CriticalNodeFifthFrontier" xml:space="preserve">
-    <value>Critical Node: Fifth Frontier</value>
+    <value>격변구간 제5방어선</value>
   </data>
   <data name="ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage" xml:space="preserve">
-    <value>It is recommended to install the VP9 Video Extensions to reduce CPU usage.</value>
+    <value>CPU 점유율을 낮추기이해 VP9 코덱을 설치하는것을 권장합니다.</value>
   </data>
   <data name="ChallengePeakPage_ChallengeAttempts" xml:space="preserve">
     <value>Challenge Attempts</value>
