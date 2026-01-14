@@ -305,9 +305,9 @@
     <value>이벤트 축원</value>
   </data>
   <data name="GenshinQueryType_ChronalNexus" xml:space="preserve">
-    <value>Chronal Nexus</value>
+    <value>시공의 결정</value>
   </data>
   <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
-    <value>Arcane Keystone</value>
+    <value>찬란한 쐐기석</value>
   </data>
 </root>
