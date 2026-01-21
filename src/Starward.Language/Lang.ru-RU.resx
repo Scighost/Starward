@@ -2675,6 +2675,6 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Пожалуйста, установите расширение для изображений WebP.</value>
   </data>
   <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
-    <value>Video decoding failed</value>
+    <value>Ошибка декодирования видео</value>
   </data>
 </root>

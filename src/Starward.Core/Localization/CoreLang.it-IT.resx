@@ -248,13 +248,13 @@
     <value>Bilibili</value>
   </data>
   <data name="GameServer_EuropeAmericas" xml:space="preserve">
-    <value>Europe &amp; Americas</value>
+    <value>Europa &amp; Americhe</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
-    <value>Japan</value>
+    <value>Giappone</value>
   </data>
   <data name="GameServer_Korea" xml:space="preserve">
-    <value>Korea</value>
+    <value>Corea</value>
   </data>
   <data name="GameServer_SoutheastAsia" xml:space="preserve">
     <value>Southeast Asia</value>
@@ -272,7 +272,7 @@
     <value>W-Engine Channel</value>
   </data>
   <data name="GachaType_BangbooChannel" xml:space="preserve">
-    <value>Bangboo Channel</value>
+    <value>Canale Bangboo</value>
   </data>
   <data name="ZZZQueryType_Monochrome" xml:space="preserve">
     <value>Monochrome</value>
@@ -309,5 +309,11 @@
   </data>
   <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
     <value>Arcane Keystone</value>
+  </data>
+  <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
+    <value>Exclusive Rescreening</value>
+  </data>
+  <data name="GachaType_WEngineReverberation" xml:space="preserve">
+    <value>W-Engine Reverberation</value>
   </data>
 </root>
