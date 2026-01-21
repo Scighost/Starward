@@ -697,7 +697,7 @@ public class HoyolabClient : GameRecordClient
     /// <returns></returns>
     public override async Task<ChallengePeakData> GetStarRailChallengePeakDataAsync(GameRecordRole role, int scheduleType, CancellationToken cancellationToken = default)
     {
-        string url = $"https://sg-public-api.hoyolab.com/event/game_record/hkrpg/api/challenge_peak?server={role.Region}&role_id={role.Uid}&schedule_type={scheduleType}";
+        string url = $"https://sg-public-api.hoyolab.com/event/game_record/app/hkrpg/api/challenge_peak?server={role.Region}&role_id={role.Uid}&schedule_type={scheduleType}";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(DS, CreateSecret2(url));
