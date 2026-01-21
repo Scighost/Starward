@@ -69,6 +69,19 @@ public sealed partial class DeadlyAssaultPage : PageBase
     public DeadlyAssaultInfo? CurrentDeadlyAssault { get; set => SetProperty(ref field, value); }
 
 
+    /// <summary>
+    /// 启动时自动刷新
+    /// </summary>
+    public bool AutoRefreshOnStartup
+    {
+        get => AppConfig.AutoRefreshDeadlyAssault;
+        set
+        {
+            AppConfig.AutoRefreshDeadlyAssault = value;
+            OnPropertyChanged();
+        }
+    }
+
 
     private void InitializeDeadlyAssaultInfoData()
     {

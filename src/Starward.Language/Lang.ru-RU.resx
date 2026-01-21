@@ -2677,4 +2677,10 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
     <value>Video decoding failed</value>
   </data>
+  <data name="Common_AutoRefreshOnStartup" xml:space="preserve">
+    <value>Автообновление при запуске</value>
+  </data>
+  <data name="Common_AutoRefreshCompleted" xml:space="preserve">
+    <value>{0} Автообновление завершено</value>
+  </data>
 </root>

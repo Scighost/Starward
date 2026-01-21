@@ -292,12 +292,16 @@ public sealed partial class GameRecordPage : PageBase
             var list = _gameRecordService.GetGameRoles(CurrentGameBiz);
             CurrentRole = role ?? list.FirstOrDefault();
             GameRoleList = list;
+
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Load game roles ({gameBiz}).", CurrentGameBiz);
         }
     }
+
+
+
 
 
 
@@ -351,6 +355,7 @@ public sealed partial class GameRecordPage : PageBase
         {
             CurrentRole = role;
             _gameRecordService.SetLastSelectGameRecordRole(CurrentGameBiz, role);
+
             if (frame.SourcePageType?.Name is not nameof(LoginPage))
             {
                 NavigateTo(frame.SourcePageType, force_navigate: true);

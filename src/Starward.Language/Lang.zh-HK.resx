@@ -2656,4 +2656,10 @@
   <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
     <value>Video decoding failed</value>
   </data>
+  <data name="Common_AutoRefreshOnStartup" xml:space="preserve">
+    <value>啟動時自動重新整理</value>
+  </data>
+  <data name="Common_AutoRefreshCompleted" xml:space="preserve">
+    <value>{0} 自動重新整理完成</value>
+  </data>
 </root>

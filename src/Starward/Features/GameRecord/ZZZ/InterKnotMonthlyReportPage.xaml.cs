@@ -94,6 +94,20 @@ public sealed partial class InterKnotMonthlyReportPage : PageBase
     private List<CalendarDayData> dayDataList;
 
 
+    /// <summary>
+    /// 启动时自动刷新
+    /// </summary>
+    public bool AutoRefreshOnStartup
+    {
+        get => AppConfig.AutoRefreshInterKnotMonthlyReport;
+        set
+        {
+            AppConfig.AutoRefreshInterKnotMonthlyReport = value;
+            OnPropertyChanged();
+        }
+    }
+
+
 
     private static readonly Dictionary<string, Color> actionColorMap = new Dictionary<string, Color>()
     {

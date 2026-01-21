@@ -384,6 +384,42 @@ public static partial class AppConfig
         set => SetValue(value);
     }
 
+    /// <summary>
+    /// 绳网月报自动刷新
+    /// </summary>
+    public static bool AutoRefreshInterKnotMonthlyReport
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+    /// <summary>
+    /// 式舆防卫战自动刷新
+    /// </summary>
+    public static bool AutoRefreshShiyuDefense
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+    /// <summary>
+    /// 危局强袭战自动刷新
+    /// </summary>
+    public static bool AutoRefreshDeadlyAssault
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
+    /// <summary>
+    /// 抽卡/调频记录自动刷新
+    /// </summary>
+    public static bool AutoRefreshGachaLog
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
 
     #endregion
 

@@ -92,6 +92,11 @@
                     <MenuFlyout x:Name="MenuFlyout_GetDetails" Placement="RightEdgeAlignedTop" />
                 </Button.Flyout>
             </Button>
+            <ToggleSwitch Margin="12,8,0,0"
+                          Header="{x:Bind lang:Lang.Common_AutoRefreshOnStartup}"
+                          IsOn="{x:Bind AutoRefreshOnStartup, Mode=TwoWay}"
+                          OffContent=""
+                          OnContent="" />
         </StackPanel>
 
 

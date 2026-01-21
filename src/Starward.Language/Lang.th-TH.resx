@@ -2656,4 +2656,10 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
     <value>Video decoding failed</value>
   </data>
+  <data name="Common_AutoRefreshOnStartup" xml:space="preserve">
+    <value>รีเฟรชอัตโนมัติเมื่อเริ่มต้น</value>
+  </data>
+  <data name="Common_AutoRefreshCompleted" xml:space="preserve">
+    <value>{0} รีเฟรชอัตโนมัติเสร็จสิ้น</value>
+  </data>
 </root>

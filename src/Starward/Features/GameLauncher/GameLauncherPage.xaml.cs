@@ -13,7 +13,9 @@ using Starward.Features.HoYoPlay;
 using Starward.Features.Overlay;
 using Starward.Features.ViewHost;
 using Starward.Frameworks;
+using Starward.Features.Gacha;
 using Starward.Helpers;
+using Starward.Features.GameRecord;
 using Starward.RPC.GameInstall;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using Windows.ApplicationModel.DataTransfer;
@@ -34,6 +37,9 @@ public sealed partial class GameLauncherPage : PageBase
 {
 
 
+    // 静态标志位，确保整个 App 生命周期内只触发一次自动刷新
+    private static int _isAutoRefreshed;
+
     private readonly ILogger<GameLauncherPage> _logger = AppConfig.GetLogger<GameLauncherPage>();
 
     private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
@@ -45,6 +51,11 @@ public sealed partial class GameLauncherPage : PageBase
     private readonly GameInstallService _gameInstallService = AppConfig.GetService<GameInstallService>();
 
     private readonly HoYoPlayService _hoYoPlayService = AppConfig.GetService<HoYoPlayService>();
+
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
+
+    private GachaLogService _gachaLogService;
+
 
 
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _dispatchTimer;
@@ -73,6 +84,121 @@ public sealed partial class GameLauncherPage : PageBase
         WeakReferenceMessenger.Default.Register<RemovableStorageDeviceChangedMessage>(this, OnRemovableStorageDeviceChanged);
         WeakReferenceMessenger.Default.Register<GameInstallTaskStartedMessage>(this, OnGameInstallTaskStarted);
         WeakReferenceMessenger.Default.Register<BackgroundChangedMessage>(this, OnBackgroundChanged);
+        CheckAndRefreshGameRecordAsync();
+    }
+
+
+
+    private async void CheckAndRefreshGameRecordAsync()
+    {
+        try
+        {
+            if (Interlocked.Exchange(ref _isAutoRefreshed, 1) == 1)
+            {
+                return;
+            }
+
+            var refreshedItems = new List<string>();
+
+            // 1. Game Record (ZZZ)
+            if (CurrentGameBiz.Game is GameBiz.nap)
+            {
+                var role = _gameRecordService.GetLastSelectGameRecordRoleOrTheFirstOne(CurrentGameBiz);
+                if (role is not null)
+                {
+                    if (AppConfig.AutoRefreshInterKnotMonthlyReport)
+                    {
+                        try
+                        {
+                            await _gameRecordService.GetInterKnotReportSummaryAsync(role);
+                            refreshedItems.Add(Lang.HoyolabToolboxPage_InterKnotMonthlyReport);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Auto refresh inter knot monthly report failed.");
+                        }
+                    }
+                    if (AppConfig.AutoRefreshShiyuDefense)
+                    {
+                        try
+                        {
+                            await _gameRecordService.RefreshShiyuDefenseInfoAsync(role, 1);
+                            await _gameRecordService.RefreshShiyuDefenseInfoAsync(role, 2);
+                            refreshedItems.Add(Lang.HoyolabToolboxPage_ShiyuDefense);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Auto refresh shiyu defense failed.");
+                        }
+                    }
+                    if (AppConfig.AutoRefreshDeadlyAssault)
+                    {
+                        try
+                        {
+                            await _gameRecordService.RefreshDeadlyAssaultInfoAsync(role, 1);
+                            await _gameRecordService.RefreshDeadlyAssaultInfoAsync(role, 2);
+                            refreshedItems.Add(Lang.HoyolabToolboxPage_DeadlyAssault);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Auto refresh deadly assault failed.");
+                        }
+                    }
+                }
+            }
+
+            // 2. Gacha Log (All Games)
+            if (AppConfig.AutoRefreshGachaLog)
+            {
+                if (_gachaLogService is null)
+                {
+                    if (CurrentGameBiz.Game is GameBiz.hk4e)
+                    {
+                        _gachaLogService = AppConfig.GetService<GenshinGachaService>();
+                    }
+                    else if (CurrentGameBiz.Game is GameBiz.hkrpg)
+                    {
+                        _gachaLogService = AppConfig.GetService<StarRailGachaService>();
+                    }
+                    else if (CurrentGameBiz.Game is GameBiz.nap)
+                    {
+                        _gachaLogService = AppConfig.GetService<ZZZGachaService>();
+                    }
+                }
+
+                if (_gachaLogService is not null)
+                {
+                    // Allow use GameBiz.Game to match the logic in GachaLogPage
+                    long uid = AppConfig.GetLastUidInGachaLogPage(CurrentGameBiz.Game);
+                    if (uid > 0)
+                    {
+                        try
+                        {
+                            var url = _gachaLogService.GetGachaLogUrlByUid(uid);
+                            if (!string.IsNullOrWhiteSpace(url))
+                            {
+                                await _gachaLogService.GetGachaLogAsync(url, false);
+                                var gachaName = Starward.Features.Gacha.GachaLogService.GetGachaLogText(CurrentGameBiz);
+                                refreshedItems.Add(gachaName);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Auto refresh gacha log failed.");
+                        }
+                    }
+                }
+            }
+
+            if (refreshedItems.Count > 0)
+            {
+                InAppToast.MainWindow?.Success(null, string.Format(Lang.Common_AutoRefreshCompleted, string.Join(", ", refreshedItems)));
+            }
+        }
+        catch (Exception ex)
+        {
+             _logger.LogWarning(ex, "Auto refresh game record failed");
+        }
     }
 
 
@@ -385,7 +511,7 @@ public sealed partial class GameLauncherPage : PageBase
 
 
 
-    private Timer processTimer;
+    private System.Timers.Timer processTimer;
 
 
     [ObservableProperty]

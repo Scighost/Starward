@@ -73,6 +73,20 @@ public sealed partial class ShiyuDefensePage : PageBase
     public ShiyuDefenseInfoV2? CurrentShiyuDefenseV2 { get; set => SetProperty(ref field, value); }
 
 
+    /// <summary>
+    /// 启动时自动刷新
+    /// </summary>
+    public bool AutoRefreshOnStartup
+    {
+        get => AppConfig.AutoRefreshShiyuDefense;
+        set
+        {
+            AppConfig.AutoRefreshShiyuDefense = value;
+            OnPropertyChanged();
+        }
+    }
+
+
 
     private void InitializeShiyuDefenseInfoData()
     {

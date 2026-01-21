@@ -614,6 +614,20 @@ public sealed partial class GachaLogPage : PageBase
     } = AppConfig.GachaLanguage;
 
 
+    /// <summary>
+    /// 启动时自动刷新
+    /// </summary>
+    public bool AutoRefreshOnStartup
+    {
+        get => AppConfig.AutoRefreshGachaLog;
+        set
+        {
+            AppConfig.AutoRefreshGachaLog = value;
+            OnPropertyChanged();
+        }
+    }
+
+
 
     [RelayCommand]
     private async Task CopyUrlAsync()

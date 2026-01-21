@@ -83,7 +83,11 @@
                             <!--  其他设置  -->
                             <TextBlock FontSize="16" Text="{x:Bind lang:Lang.GachaLogPage_OtherSettings}" />
 
-                            <!--  复制 URL  -->
+                            <!--  启动时自动刷新  -->
+                            <ToggleSwitch Header="{x:Bind lang:Lang.Common_AutoRefreshOnStartup}"
+                                          IsOn="{x:Bind AutoRefreshOnStartup, Mode=TwoWay}"
+                                          OffContent=""
+                                          OnContent="" />
                             <Button Margin="0,8,0,0" Command="{x:Bind CopyUrlCommand}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon Name="FontIcon_CopyUrl"

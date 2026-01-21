@@ -79,6 +79,11 @@
                     <TextBlock Text="{x:Bind lang:Lang.Common_Summary}" />
                 </StackPanel>
             </Button>
+            <ToggleSwitch Margin="12,8,0,0"
+                          Header="{x:Bind lang:Lang.Common_AutoRefreshOnStartup}"
+                          IsOn="{x:Bind AutoRefreshOnStartup, Mode=TwoWay}"
+                          OffContent=""
+                          OnContent="" />
         </StackPanel>
 
         <ListView Name="ListView_DeadlyAssault"

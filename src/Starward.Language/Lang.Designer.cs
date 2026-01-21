@@ -431,6 +431,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 {0} Auto Refresh Completed 的本地化字符串。
+        /// </summary>
+        public static string Common_AutoRefreshCompleted {
+            get {
+                return ResourceManager.GetString("Common_AutoRefreshCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Auto Refresh on Startup 的本地化字符串。
+        /// </summary>
+        public static string Common_AutoRefreshOnStartup {
+            get {
+                return ResourceManager.GetString("Common_AutoRefreshOnStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Cancel 的本地化字符串。
         /// </summary>
         public static string Common_Cancel {
