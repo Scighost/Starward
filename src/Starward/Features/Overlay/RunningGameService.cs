@@ -44,8 +44,7 @@ internal static class RunningGameService
                 if (_runningGames.FirstOrDefault(x => x.Pid == process.Id) is not RunningGame runningGame)
                 {
                     runningGame = new RunningGame(gameBiz, process);
-                    const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
-                    runningGame.WinEventHook = User32.SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, HINSTANCE.NULL, hookProc, (uint)process.Id, 0, User32.WINEVENT.WINEVENT_OUTOFCONTEXT);
+                    runningGame.WinEventHook = User32.SetWinEventHook(User32.EventConstant.EVENT_SYSTEM_FOREGROUND, User32.EventConstant.EVENT_SYSTEM_FOREGROUND, HINSTANCE.NULL, hookProc, (uint)process.Id, 0, User32.WINEVENT.WINEVENT_OUTOFCONTEXT);
                     _runningGames.Add(runningGame);
                     _latestActiveGame = runningGame;
                     Debug.WriteLine($"Added running game: {runningGame.Name} ({runningGame.Pid})");
@@ -126,7 +125,7 @@ internal static class RunningGameService
 
 
 
-    private static void WinEventProc(User32.HWINEVENTHOOK hWinEventHook, uint winEvent, HWND hwnd, int idObject, int idChild, uint idEventThread, uint dwmsEventTime)
+    private static void WinEventProc(User32.HWINEVENTHOOK hWinEventHook, User32.EventConstant winEvent, HWND hwnd, User32.ObjectIdentifier idObject, int idChild, uint idEventThread, uint dwmsEventTime)
     {
         if (_runningGames.FirstOrDefault(x => x.WinEventHook == hWinEventHook) is RunningGame runningGame)
         {
