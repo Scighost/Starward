@@ -253,6 +253,17 @@ public sealed partial class GachaLogPage : PageBase
                 ListView_GachaBanners.SelectedItems.Add(GachaBanners.FirstOrDefault(x => x.Value == 22));
             }
         }
+        if (CurrentGameBiz.Game is GameBiz.nap && !AppConfig.GetValue(false, "SavedZZZBannersSinceVersion2"))
+        {
+            if (ListView_GachaBanners.SelectedItems.Cast<GachaBanner>().FirstOrDefault(x => x.Value == 102) is null)
+            {
+                ListView_GachaBanners.SelectedItems.Add(GachaBanners.FirstOrDefault(x => x.Value == 102));
+            }
+            if (ListView_GachaBanners.SelectedItems.Cast<GachaBanner>().FirstOrDefault(x => x.Value == 103) is null)
+            {
+                ListView_GachaBanners.SelectedItems.Add(GachaBanners.FirstOrDefault(x => x.Value == 103));
+            }
+        }
         ListView_GachaBanners.SelectionChanged -= ListView_GachaBanners_SelectionChanged;
         ListView_GachaBanners.SelectionChanged += ListView_GachaBanners_SelectionChanged;
     }
@@ -267,6 +278,10 @@ public sealed partial class GachaLogPage : PageBase
             if (CurrentGameBiz.Game is GameBiz.hkrpg)
             {
                 AppConfig.SetValue(true, "SavedStarRailBannersAfterCollaborationStarting");
+            }
+            if (CurrentGameBiz.Game is GameBiz.nap)
+            {
+                AppConfig.SetValue(true, "SavedZZZBannersSinceVersion2.5");
             }
             UpdateDisplayGachaTypeStats();
         }

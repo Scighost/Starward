@@ -31,6 +31,19 @@ public readonly record struct ZZZGachaType(int Value) : IGachaType
     public const int BangbooChannel = 5;
 
 
+    /// <summary>
+    /// 独家重映
+    /// </summary>
+    [Description("独家重映")]
+    public const int ExclusiveRescreening = 102;
+
+
+    /// <summary>
+    /// 音擎回响
+    /// </summary>
+    [Description("音擎回响")]
+    public const int WEngineReverberation = 103;
+
 
     public string ToLocalization() => Value switch
     {
@@ -38,6 +51,8 @@ public readonly record struct ZZZGachaType(int Value) : IGachaType
         ExclusiveChannel => CoreLang.GachaType_ExclusiveChannel,
         WEngineChannel => CoreLang.GachaType_WEngineChannel,
         BangbooChannel => CoreLang.GachaType_BangbooChannel,
+        ExclusiveRescreening => CoreLang.GachaType_ExclusiveRescreening,
+        WEngineReverberation => CoreLang.GachaType_WEngineReverberation,
         _ => "",
     };
 

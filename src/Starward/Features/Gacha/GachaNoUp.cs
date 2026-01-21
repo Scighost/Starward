@@ -359,6 +359,7 @@ public class GachaNoUp
             NoUpTimes = [(new DateTime(2024, 7, 1), DateTime.MaxValue)],
         });
         Dictionary.Add("nap2", nap2);
+        Dictionary.Add("nap102", nap2);
 
         GachaNoUp nap3 = new GachaNoUp { Game = GameBiz.nap, GachaType = ZZZGachaType.WEngineChannel };
         nap3.Items.Add(14102, new GachaNoUpItem
@@ -398,6 +399,7 @@ public class GachaNoUp
             NoUpTimes = [(new DateTime(2024, 7, 1), DateTime.MaxValue)],
         });
         Dictionary.Add("nap3", nap3);
+        Dictionary.Add("nap103", nap3);
     }
 
 

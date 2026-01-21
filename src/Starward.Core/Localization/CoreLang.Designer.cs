@@ -160,6 +160,15 @@ namespace Starward.Core.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Exclusive Rescreening 的本地化字符串。
+        /// </summary>
+        public static string GachaType_ExclusiveRescreening {
+            get {
+                return ResourceManager.GetString("GachaType_ExclusiveRescreening", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Light Cone Collaboration Warp 的本地化字符串。
         /// </summary>
         public static string GachaType_LightConeCollaborationWarp {
@@ -237,6 +246,15 @@ namespace Starward.Core.Localization {
         public static string GachaType_WEngineChannel {
             get {
                 return ResourceManager.GetString("GachaType_WEngineChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 W-Engine Reverberation 的本地化字符串。
+        /// </summary>
+        public static string GachaType_WEngineReverberation {
+            get {
+                return ResourceManager.GetString("GachaType_WEngineReverberation", resourceCulture);
             }
         }
         

@@ -8,7 +8,7 @@ public class ZZZGachaClient : GachaLogClient
 
 
 
-    public override IReadOnlyCollection<IGachaType> QueryGachaTypes { get; init; } = new ZZZGachaType[] { 1, 2, 3, 5 }.Cast<IGachaType>().ToList().AsReadOnly();
+    public override IReadOnlyCollection<IGachaType> QueryGachaTypes { get; init; } = new ZZZGachaType[] { 1, 2, 3, 5, 102, 103 }.Cast<IGachaType>().ToList().AsReadOnly();
 
 
 
