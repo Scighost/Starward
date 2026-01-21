@@ -310,4 +310,10 @@
   <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
     <value>Arcane Keystone</value>
   </data>
+  <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
+    <value>Exclusive Rescreening</value>
+  </data>
+  <data name="GachaType_WEngineReverberation" xml:space="preserve">
+    <value>W-Engine Reverberation</value>
+  </data>
 </root>
