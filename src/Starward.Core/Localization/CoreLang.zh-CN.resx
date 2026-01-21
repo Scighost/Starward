@@ -310,4 +310,10 @@
   <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
     <value>绮刻之楔</value>
   </data>
+  <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
+    <value>独家重映</value>
+  </data>
+  <data name="GachaType_WEngineReverberation" xml:space="preserve">
+    <value>音擎回响</value>
+  </data>
 </root>
