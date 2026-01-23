@@ -158,11 +158,29 @@ internal class GenshinGachaService : GachaLogService
     {
         using var dapper = DatabaseService.CreateConnection();
         var list = GetGachaLogItemEx(uid);
+        var exportList = list.Select(item => new
+        {
+            item.Uid,
+            Id = item.IdText,
+            item.Time,
+            item.Name,
+            item.ItemType,
+            item.RankType,
+            GachaType = ((GenshinGachaType)item.GachaType).ToLocalization(),
+            item.Index,
+            item.Pity,
+        });
+        await MiniExcel.SaveAsAsync(output, exportList, overwriteFile: true);
+
+        // TODO: MiniExcel has a bug in SaveAsByTemplateAsync that corrupted the file.
+        // Wait for next version fix.
+        /*
         var template = Path.Combine(AppContext.BaseDirectory, @"Assets\Template\GachaLog.xlsx");
         if (File.Exists(template))
         {
             await MiniExcel.SaveAsByTemplateAsync(output, template, new { list });
         }
+        */
     }
 
 

@@ -149,11 +149,29 @@ internal class StarRailGachaService : GachaLogService
     {
         using var dapper = DatabaseService.CreateConnection();
         var list = GetGachaLogItemEx(uid);
+        var exportList = list.Select(item => new
+        {
+            item.Uid,
+            Id = item.IdText,
+            item.Time,
+            item.Name,
+            item.ItemType,
+            item.RankType,
+            GachaType = ((StarRailGachaType)item.GachaType).ToLocalization(),
+            item.Index,
+            item.Pity,
+        });
+        await MiniExcel.SaveAsAsync(output, exportList, overwriteFile: true);
+
+        // TODO: MiniExcel has a bug in SaveAsByTemplateAsync that corrupted the file.
+        // Wait for next version fix.
+        /*
         var template = Path.Combine(AppContext.BaseDirectory, @"Assets\Template\GachaLog.xlsx");
         if (File.Exists(template))
         {
             await MiniExcel.SaveAsByTemplateAsync(output, template, new { list });
         }
+        */
     }
 
 
@@ -209,7 +227,7 @@ internal class StarRailGachaService : GachaLogService
     {
         using var dapper = DatabaseService.CreateConnection();
         dapper.Execute("""
-            INSERT OR REPLACE INTO StarRailGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, GachaId, Count, Lang) 
+            INSERT OR REPLACE INTO StarRailGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, GachaId, Count, Lang)
             SELECT item.Uid, Id, Name, Time, info.ItemId, ItemType, RankType, GachaType, GachaId, Count, Lang
             FROM StarRailGachaItem item INNER JOIN StarRailGachaInfo info ON item.Name = info.ItemName WHERE item.ItemId = 0;
             """);
@@ -221,7 +239,7 @@ internal class StarRailGachaService : GachaLogService
         lang = await UpdateGachaInfoAsync(gameBiz, lang, cancellationToken);
         using var dapper = DatabaseService.CreateConnection();
         int count = dapper.Execute("""
-            INSERT OR REPLACE INTO StarRailGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, GachaId, Count, Lang) 
+            INSERT OR REPLACE INTO StarRailGachaItem (Uid, Id, Name, Time, ItemId, ItemType, RankType, GachaType, GachaId, Count, Lang)
             SELECT item.Uid, Id, info.ItemName, Time, item.ItemId, ItemType, RankType, GachaType, GachaId, Count, @Lang
             FROM StarRailGachaItem item INNER JOIN StarRailGachaInfo info ON item.ItemId = info.ItemId;
             """, new { Lang = lang });
