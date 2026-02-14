@@ -17,6 +17,8 @@ using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
 using Starward.Core.GameRecord.ZZZ.ThresholdSimulation;
 using Starward.Core.GameRecord.ZZZ.UpgradeGuide;
+using System.Text;
+using System.Text.Json;
 
 namespace Starward.Core.GameRecord;
 
@@ -1029,6 +1031,95 @@ public class HyperionClient : GameRecordClient
         return await CommonSendAsync<ThresholdSimulationDetailInfo>(request, cancellationToken);
     }
 
+
+
+    #endregion
+
+
+
+    #region Check-In
+
+
+    private static string? GetCheckInActId(string gameBiz) => gameBiz switch
+    {
+        GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => "e202311201442471",
+        GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => "e202304121516551",
+        _ => null,
+    };
+
+
+    private static string? GetCheckInSignGame(string gameBiz) => gameBiz switch
+    {
+        GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => "hk4e",
+        GameBiz.hkrpg_cn or GameBiz.hkrpg_bilibili => "hkrpg",
+        _ => null,
+    };
+
+
+    /// <summary>
+    /// 获取签到信息
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<CheckIn.CheckInInfo> GetCheckInInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        string? actId = GetCheckInActId(role.GameBiz);
+        if (actId is null)
+        {
+            throw new ArgumentException($"Check-in not supported for {role.GameBiz}");
+        }
+        string url = $"https://api-takumi.mihoyo.com/event/luna/info?act_id={actId}&region={role.Region}&uid={role.Uid}";
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret());
+        request.Headers.Add(Referer, "https://act.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        string? signGame = GetCheckInSignGame(role.GameBiz);
+        if (signGame is not null)
+        {
+            request.Headers.Add("x-rpc-signgame", signGame);
+        }
+        return await CommonSendAsync<CheckIn.CheckInInfo>(request, cancellationToken);
+    }
+
+
+    /// <summary>
+    /// 执行签到
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<CheckIn.CheckInResult> CheckInAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        string? actId = GetCheckInActId(role.GameBiz);
+        if (actId is null)
+        {
+            throw new ArgumentException($"Check-in not supported for {role.GameBiz}");
+        }
+        string url = "https://api-takumi.mihoyo.com/event/luna/sign";
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(DS, CreateSecret());
+        request.Headers.Add(Referer, "https://act.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        string? signGame = GetCheckInSignGame(role.GameBiz);
+        if (signGame is not null)
+        {
+            request.Headers.Add("x-rpc-signgame", signGame);
+        }
+        request.Content = new StringContent(
+            JsonSerializer.Serialize(new { act_id = actId, region = role.Region, uid = role.Uid.ToString() }),
+            Encoding.UTF8,
+            "application/json");
+        return await CommonSendAsync<CheckIn.CheckInResult>(request, cancellationToken);
+    }
 
 
     #endregion

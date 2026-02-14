@@ -384,6 +384,15 @@ public static partial class AppConfig
         set => SetValue(value);
     }
 
+    /// <summary>
+    /// 启动器打开时自动米游社签到
+    /// </summary>
+    public static bool EnableCheckInOnGameStart
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
 
     #endregion
 

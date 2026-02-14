@@ -965,4 +965,24 @@ public class HoyolabClient : GameRecordClient
 
 
 
+    #region Check-In
+
+
+    public override Task<CheckIn.CheckInInfo> GetCheckInInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        throw new NotSupportedException("Check-in is only supported for Chinese server.");
+    }
+
+
+    public override Task<CheckIn.CheckInResult> CheckInAsync(GameRecordRole role, CancellationToken cancellationToken = default)
+    {
+        throw new NotSupportedException("Check-in is only supported for Chinese server.");
+    }
+
+
+    #endregion
+
+
+
+
 }

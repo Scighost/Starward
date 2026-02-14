@@ -1364,4 +1364,104 @@ internal class GameRecordService
     #endregion
 
 
+
+
+    #region Check-In
+
+
+    private static readonly string[] CheckInSupportedBizList = [GameBiz.hk4e_cn, GameBiz.hk4e_bilibili, GameBiz.hkrpg_cn, GameBiz.hkrpg_bilibili];
+
+
+    /// <summary>
+    /// 获取所有支持签到的角色
+    /// </summary>
+    public List<GameRecordRole> GetAllCheckInRoles()
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        return dapper.Query<GameRecordRole>(
+            "SELECT * FROM GameRecordRole WHERE GameBiz IN @bizList;",
+            new { bizList = CheckInSupportedBizList }).ToList();
+    }
+
+
+    /// <summary>
+    /// 为所有绑定角色执行签到，跳过今日已签到的角色
+    /// </summary>
+    public async Task<(int Success, int Skipped, int Failed, List<string> Errors)> PerformAllCheckInAsync()
+    {
+        // 设置设备指纹
+        string? id = AppConfig.HyperionDeviceId;
+        string? fp = AppConfig.HyperionDeviceFp;
+        if (!string.IsNullOrWhiteSpace(id))
+        {
+            _hyperionClient.DeviceId = id;
+        }
+        if (!string.IsNullOrWhiteSpace(fp))
+        {
+            _hyperionClient.DeviceFp = fp;
+        }
+
+        var roles = GetAllCheckInRoles();
+        int success = 0, skipped = 0, failed = 0;
+        var errors = new List<string>();
+
+        foreach (var role in roles)
+        {
+            if (string.IsNullOrWhiteSpace(role.Cookie))
+            {
+                continue;
+            }
+
+            // 跳过未配置安装路径的游戏
+            if (string.IsNullOrWhiteSpace(AppConfig.GetGameInstallPath(role.GameBiz)))
+            {
+                continue;
+            }
+
+            string kvtKey = $"checkin_{role.GameBiz}_{role.Uid}";
+
+            // 检查本地记录，今日已签到则跳过
+            if (DatabaseService.TryGetValue<string>(kvtKey, out _, out DateTime time) && time.Date == DateTime.Today)
+            {
+                skipped++;
+                continue;
+            }
+
+            try
+            {
+                var info = await _hyperionClient.GetCheckInInfoAsync(role);
+                if (info.IsSign)
+                {
+                    DatabaseService.SetValue(kvtKey, "true");
+                    skipped++;
+                    continue;
+                }
+
+                var result = await _hyperionClient.CheckInAsync(role);
+                if (result.IsRisk)
+                {
+                    failed++;
+                    errors.Add($"{role.Nickname}({role.GameBiz}): 触发风控");
+                    continue;
+                }
+
+                DatabaseService.SetValue(kvtKey, "true");
+                success++;
+            }
+            catch (Exception ex)
+            {
+                failed++;
+                errors.Add($"{role.Nickname}({role.GameBiz}): {ex.Message}");
+                _logger.LogWarning(ex, "Check-in failed for {Nickname} {GameBiz} {Uid}", role.Nickname, (string)role.GameBiz, role.Uid);
+            }
+        }
+
+        return (success, skipped, failed, errors);
+    }
+
+
+
+    #endregion
+
+
 }
