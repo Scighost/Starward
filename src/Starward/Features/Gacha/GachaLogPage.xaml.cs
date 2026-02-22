@@ -658,18 +658,21 @@ public sealed partial class GachaLogPage : PageBase
     private async Task<GameRecordRole?> SelectMiyousheRoleAsync(List<GameRecordRole> roles)
     {
         var items = roles.Select(role => new MiyousheRoleItem(role)).ToList();
+        MiyousheRoleItem? selectedItem = null;
+        if (SelectUid is long currentUid && currentUid > 0)
+        {
+            selectedItem = items.FirstOrDefault(x => x.Role.Uid == currentUid);
+        }
         var selectedRole = _gameRecordService.GetLastSelectGachaSyncRoleOrTheFirstOne(CurrentGameBiz);
+        selectedItem ??= items.FirstOrDefault(x =>
+            selectedRole is not null
+            && x.Role.Uid == selectedRole.Uid);
         var comboBox = new ComboBox
         {
             MinWidth = 420,
             ItemsSource = items,
             DisplayMemberPath = nameof(MiyousheRoleItem.DisplayText),
-            SelectedItem = items.FirstOrDefault(x =>
-                selectedRole is not null
-                && x.Role.Uid == selectedRole.Uid
-                && x.Role.Region == selectedRole.Region
-                && x.Role.GameBiz == selectedRole.GameBiz)
-                ?? items.FirstOrDefault(),
+            SelectedItem = selectedItem ?? items.FirstOrDefault(),
         };
         var panel = new StackPanel
         {
