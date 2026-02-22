@@ -1427,8 +1427,10 @@ internal class GameRecordService
                 continue;
             }
 
+            bool calledApi = false;
             try
             {
+                calledApi = true;
                 var info = await _hyperionClient.GetCheckInInfoAsync(role);
                 if (info.IsSign)
                 {
@@ -1436,6 +1438,9 @@ internal class GameRecordService
                     skipped++;
                     continue;
                 }
+
+                // 查询与签到之间的短延迟
+                await Task.Delay(Random.Shared.Next(1000, 3000));
 
                 var result = await _hyperionClient.CheckInAsync(role);
                 if (result.IsRisk)
@@ -1453,6 +1458,14 @@ internal class GameRecordService
                 failed++;
                 errors.Add($"{role.Nickname}({role.GameBiz}): {ex.Message}");
                 _logger.LogWarning(ex, "Check-in failed for {Nickname} {GameBiz} {Uid}", role.Nickname, (string)role.GameBiz, role.Uid);
+            }
+            finally
+            {
+                // 调用了 API 后，等待一段时间再处理下一个角色，避免触发风控
+                if (calledApi)
+                {
+                    await Task.Delay(Random.Shared.Next(3000, 6000));
+                }
             }
         }
 
