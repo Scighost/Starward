@@ -13,6 +13,7 @@ using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
+using Starward.Core.GameRecord.ZZZ.GachaRecord;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
 using Starward.Core.GameRecord.ZZZ.ThresholdSimulation;
@@ -740,6 +741,21 @@ public class HoyolabClient : GameRecordClient
         var data = await CommonSendAsync<GameRecordRoleWrapper>(request, cancellationToken);
         data.List?.ForEach(x => x.Cookie = cookie);
         return data.List ?? new List<GameRecordRole>();
+    }
+
+
+    /// <summary>
+    /// 绝区零抽卡记录
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="gachaType"></param>
+    /// <param name="endId"></param>
+    /// <param name="language"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override Task<ZZZGachaRecordData> GetZZZGachaRecordAsync(GameRecordRole role, int gachaType, long? endId = null, string? language = null, CancellationToken cancellationToken = default)
+    {
+        throw new NotSupportedException("ZZZ gacha_record is not implemented for HoYoLAB server yet.");
     }
 
 

@@ -6,8 +6,12 @@ using Starward.Core.Gacha;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
+using Starward.Core.GameRecord;
+using Starward.Core.GameRecord.ZZZ;
+using Starward.Core.GameRecord.ZZZ.GachaRecord;
 using Starward.Features.Database;
 using Starward.Features.Gacha.UIGF;
+using Starward.Features.GameRecord;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -29,10 +33,13 @@ internal class ZZZGachaService : GachaLogService
     protected override string GachaTableName { get; } = "ZZZGachaItem";
 
 
+    private readonly GameRecordService _gameRecordService;
 
-    public ZZZGachaService(ILogger<ZZZGachaService> logger, ZZZGachaClient client) : base(logger, client)
+
+
+    public ZZZGachaService(ILogger<ZZZGachaService> logger, ZZZGachaClient client, GameRecordService gameRecordService) : base(logger, client)
     {
-
+        _gameRecordService = gameRecordService;
     }
 
 
@@ -122,6 +129,79 @@ internal class ZZZGachaService : GachaLogService
             // 获取 {list.Count} 条记录，新增 {newCount - oldCount} 条记录
             progress?.Report(string.Format(Lang.GachaLogService_GetGachaResult, list.Count, newCount - oldCount));
         }
+        return uid;
+    }
+
+
+    public async Task<long> GetGachaLogByGameRecordAsync(GameRecordRole role, bool all, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
+    {
+        if (role is null)
+        {
+            throw new ArgumentNullException(nameof(role));
+        }
+        using var dapper = DatabaseService.CreateConnection();
+        // 正在获取 uid
+        progress?.Report(Lang.GachaLogService_GettingUid);
+        long uid = role.Uid;
+        if (uid == 0)
+        {
+            // 该账号最近6个月没有抽卡记录
+            progress?.Report(Lang.GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months);
+            return 0;
+        }
+        long endId = 0;
+        if (!all)
+        {
+            endId = dapper.QueryFirstOrDefault<long>($"SELECT Id FROM {GachaTableName} WHERE Uid = @Uid ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
+            _logger.LogInformation("Last gacha log id of uid {Uid} is {EndId}", uid, endId);
+        }
+
+        var list = new List<GachaLogItem>();
+        foreach (IGachaType queryType in QueryGachaTypes)
+        {
+            ZZZGachaType gachaType = queryType.Value;
+            bool stop = false;
+            long? queryEndId = null;
+            int page = 1;
+            while (!stop)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                progress?.Report(string.Format(Lang.GachaLogService_GetGachaProgressText, queryType.ToLocalization(), page));
+                var data = await _gameRecordService.GetZZZGachaRecordAsync(role, gachaType, queryEndId, cancellationToken: cancellationToken);
+                var pageItems = data.GachaItemList ?? new List<ZZZGachaRecordItem>();
+                if (pageItems.Count == 0)
+                {
+                    break;
+                }
+                foreach (var item in pageItems)
+                {
+                    if (!all && endId > 0 && item.Id <= endId)
+                    {
+                        stop = true;
+                        break;
+                    }
+                    list.Add(ToGachaLogItem(uid, gachaType, item));
+                }
+                if (stop || !data.HasMore)
+                {
+                    break;
+                }
+                long nextEndId = pageItems.Last().Id;
+                if (nextEndId <= 0 || nextEndId == queryEndId.GetValueOrDefault())
+                {
+                    _logger.LogWarning("ZZZ gacha_record paging is not advancing (Uid: {Uid}, GachaType: {GachaType}, EndId: {EndId}). Stop paging to avoid infinite loop.", uid, gachaType, nextEndId);
+                    break;
+                }
+                queryEndId = nextEndId;
+                page++;
+            }
+        }
+
+        var oldCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
+        InsertGachaLogItems(list);
+        var newCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
+        // 获取 {list.Count} 条记录，新增 {newCount - oldCount} 条记录
+        progress?.Report(string.Format(Lang.GachaLogService_GetGachaResult, list.Count, newCount - oldCount));
         return uid;
     }
 
@@ -359,6 +439,37 @@ internal class ZZZGachaService : GachaLogService
              FROM ZZZGachaItem item INNER JOIN ZZZGachaInfo info ON item.ItemId = info.Id;
              """, new { Lang = lang });
         return (lang, count);
+    }
+
+
+
+    private static GachaLogItem ToGachaLogItem(long uid, ZZZGachaType gachaType, ZZZGachaRecordItem item)
+    {
+        return new ZZZGachaItem
+        {
+            Uid = uid,
+            Id = item.Id,
+            GachaType = gachaType,
+            Name = item.ItemName ?? "",
+            ItemType = (item.ItemType ?? "").ToUpperInvariant() switch
+            {
+                "ITEM_TYPE_AVATAR" => "代理人",
+                "ITEM_TYPE_WEAPON" => "音擎",
+                "ITEM_TYPE_BANGBOO" => "邦布",
+                _ => item.ItemType ?? "",
+            },
+            RankType = (item.Rarity ?? "").ToUpperInvariant() switch
+            {
+                "S" => 4,
+                "A" => 3,
+                "B" => 2,
+                _ => 0,
+            },
+            Time = item.Date,
+            ItemId = item.ItemId,
+            Count = 1,
+            Lang = "zh-cn",
+        };
     }
 
 

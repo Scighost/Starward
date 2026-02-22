@@ -13,6 +13,7 @@ using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
+using Starward.Core.GameRecord.ZZZ.GachaRecord;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
 using Starward.Core.GameRecord.ZZZ.ThresholdSimulation;
@@ -48,6 +49,7 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<ShiyuDefenseWrapper>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<DeadlyAssaultInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ZZZDailyNote>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<ZZZGachaRecordData>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<BH3DailyNote>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ThresholdSimulationAbstractInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ThresholdSimulationDetailInfo>))]
