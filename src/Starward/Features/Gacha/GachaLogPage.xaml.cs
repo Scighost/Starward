@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -108,6 +109,7 @@ public sealed partial class GachaLogPage : PageBase
                 _ = UpdateGachaLogInternalAsync(m.Url);
             }
         });
+        Grid_GachaStats.PointerWheelChanged += Grid_GachaStats_PointerWheelChanged;
         Initialize();
         await UpdateWikiDataAsync();
     }
@@ -117,6 +119,7 @@ public sealed partial class GachaLogPage : PageBase
     protected override void OnUnloaded()
     {
         WeakReferenceMessenger.Default.UnregisterAll(this);
+        Grid_GachaStats.PointerWheelChanged -= Grid_GachaStats_PointerWheelChanged;
         if (DisplayGachaTypeStatsCollection is not null)
         {
             DisplayGachaTypeStatsCollection.Clear();
@@ -165,6 +168,17 @@ public sealed partial class GachaLogPage : PageBase
     }
 
 
+
+    private void Grid_GachaStats_PointerWheelChanged(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        var properties = e.GetCurrentPoint(Grid_GachaStats).Properties;
+        if (properties.IsHorizontalMouseWheel || InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down))
+        {
+            var delta = properties.MouseWheelDelta;
+            ScrollViewer_GachaStats.ChangeView(ScrollViewer_GachaStats.HorizontalOffset - delta, null, null);
+            e.Handled = true;
+        }
+    }
 
 
 
