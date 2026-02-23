@@ -246,7 +246,7 @@ internal partial class GamePackageService
                 throw new ArgumentNullException($"GameBranch of ({gameId.GameBiz}) is null.");
             }
             context.LatestGameVersion = branch.Main.Tag;
-            if (branch.PreDownload is null)
+            if (context.Operation is GameInstallOperation.Update || branch.PreDownload is null)
             {
                 // 更新
                 // 本地游戏版本是否有补丁
@@ -291,7 +291,7 @@ internal partial class GamePackageService
                 throw new NotSupportedException($"Predownload package of ({gameId.GameBiz}) is null.");
             }
             context.LatestGameVersion = package.Main.Major?.Version;
-            if (package.PreDownload.Major is null)
+            if (context.Operation is GameInstallOperation.Update || package.PreDownload.Major is null)
             {
                 // 更新
                 context.GamePackage = package;
@@ -415,7 +415,7 @@ internal partial class GamePackageService
             else if (context.GamePackage is not null)
             {
                 context.DownloadMode = GameInstallDownloadMode.CompressedPackage;
-                if (context.GamePackage.PreDownload.Major is null)
+                if (context.Operation is GameInstallOperation.Update || context.GamePackage.PreDownload.Major is null)
                 {
                     if (context.GamePackage.Main.Patches.FirstOrDefault(x => x.Version == localVersion) is GamePackageResource patch)
                     {
