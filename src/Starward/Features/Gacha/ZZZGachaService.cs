@@ -445,26 +445,66 @@ internal class ZZZGachaService : GachaLogService
 
     private static GachaLogItem ToGachaLogItem(long uid, ZZZGachaType gachaType, ZZZGachaRecordItem item)
     {
+        ArgumentNullException.ThrowIfNull(item);
+        if (uid == 0)
+        {
+            throw new ArgumentException("Uid cannot be 0.", nameof(uid));
+        }
+        if (gachaType.Value == 0)
+        {
+            throw new ArgumentException("GachaType cannot be 0.", nameof(gachaType));
+        }
+        if (item.Id == 0)
+        {
+            throw new ArgumentException("Id cannot be 0.", nameof(item));
+        }
+        if (item.ItemId == 0)
+        {
+            throw new ArgumentException("ItemId cannot be 0.", nameof(item));
+        }
+        if (item.Date == default)
+        {
+            throw new ArgumentException("Date cannot be default value.", nameof(item));
+        }
+        if (string.IsNullOrWhiteSpace(item.ItemName))
+        {
+            throw new ArgumentException("ItemName cannot be null or empty.", nameof(item));
+        }
+        if (string.IsNullOrWhiteSpace(item.ItemType))
+        {
+            throw new ArgumentException("ItemType cannot be null or empty.", nameof(item));
+        }
+        if (string.IsNullOrWhiteSpace(item.Rarity))
+        {
+            throw new ArgumentException("Rarity cannot be null or empty.", nameof(item));
+        }
+
+        int rankType = item.Rarity.ToUpperInvariant() switch
+        {
+            "S" => 4,
+            "A" => 3,
+            "B" => 2,
+            _ => 0,
+        };
+        if (rankType == 0)
+        {
+            throw new ArgumentException($"Invalid rarity value: {item.Rarity}.", nameof(item));
+        }
+
         return new ZZZGachaItem
         {
             Uid = uid,
             Id = item.Id,
             GachaType = gachaType,
-            Name = item.ItemName ?? "",
-            ItemType = (item.ItemType ?? "").ToUpperInvariant() switch
+            Name = item.ItemName,
+            ItemType = item.ItemType.ToUpperInvariant() switch
             {
                 "ITEM_TYPE_AVATAR" => "代理人",
                 "ITEM_TYPE_WEAPON" => "音擎",
                 "ITEM_TYPE_BANGBOO" => "邦布",
-                _ => item.ItemType ?? "",
+                _ => item.ItemType,
             },
-            RankType = (item.Rarity ?? "").ToUpperInvariant() switch
-            {
-                "S" => 4,
-                "A" => 3,
-                "B" => 2,
-                _ => 0,
-            },
+            RankType = rankType,
             Time = item.Date,
             ItemId = item.ItemId,
             Count = 1,

@@ -55,8 +55,6 @@ public sealed partial class GachaLogPage : PageBase
     {
         base.OnNavigatedTo(e);
         GachaTypeText = GachaLogService.GetGachaLogText(CurrentGameBiz);
-        MenuFlyoutItem_SyncFromMiyoushe.Visibility = Visibility.Collapsed;
-        MenuFlyoutItem_SyncFromMiyousheAll.Visibility = Visibility.Collapsed;
         if (CurrentGameBiz.Game == GameBiz.hk4e)
         {
             EnableGenshinGachaItemStats = true;
