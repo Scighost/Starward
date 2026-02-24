@@ -133,7 +133,7 @@ internal class ZZZGachaService : GachaLogService
     }
 
 
-    public async Task<long> GetGachaLogByGameRecordAsync(GameRecordRole role, bool all, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
+    public async Task<long> GetGachaLogByGameRecordAsync(GameRecordRole role, bool all, string? lang = null, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
     {
         if (role is null)
         {
@@ -149,6 +149,23 @@ internal class ZZZGachaService : GachaLogService
             progress?.Report(Lang.GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months);
             return 0;
         }
+
+        // requestLanguage: global 场景下，用于更新 HoYoLAB 请求头语言。
+        // recordLanguage: 用于本地落库语言标记与 item_type 映射规则（国服固定 zh-cn）。
+        bool isGlobal = role.GameBiz?.EndsWith("_global", StringComparison.OrdinalIgnoreCase) ?? false;
+        string recordLanguage = "zh-cn";
+        string? requestLanguage = null;
+        if (isGlobal)
+        {
+            string sourceLanguage = string.IsNullOrWhiteSpace(lang)
+                ? System.Globalization.CultureInfo.CurrentUICulture.Name
+                : lang;
+            string normalizedLanguage = LanguageUtil.FilterLanguage(sourceLanguage);
+
+            requestLanguage = normalizedLanguage;
+            recordLanguage = normalizedLanguage;
+        }
+
         long endId = 0;
         if (!all)
         {
@@ -167,7 +184,7 @@ internal class ZZZGachaService : GachaLogService
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 progress?.Report(string.Format(Lang.GachaLogService_GetGachaProgressText, queryType.ToLocalization(), page));
-                var data = await _gameRecordService.GetZZZGachaRecordAsync(role, gachaType, queryEndId, cancellationToken: cancellationToken);
+                var data = await _gameRecordService.GetZZZGachaRecordAsync(role, gachaType, queryEndId, requestLanguage, cancellationToken);
                 var pageItems = data.GachaItemList ?? new List<ZZZGachaRecordItem>();
                 if (pageItems.Count == 0)
                 {
@@ -180,7 +197,7 @@ internal class ZZZGachaService : GachaLogService
                         stop = true;
                         break;
                     }
-                    list.Add(ToGachaLogItem(uid, gachaType, item));
+                    list.Add(ToGachaLogItem(uid, gachaType, item, recordLanguage));
                 }
                 if (stop || !data.HasMore)
                 {
@@ -443,7 +460,7 @@ internal class ZZZGachaService : GachaLogService
 
 
 
-    private static GachaLogItem ToGachaLogItem(long uid, ZZZGachaType gachaType, ZZZGachaRecordItem item)
+    private static GachaLogItem ToGachaLogItem(long uid, ZZZGachaType gachaType, ZZZGachaRecordItem item, string language)
     {
         ArgumentNullException.ThrowIfNull(item);
         if (uid == 0)
@@ -478,6 +495,10 @@ internal class ZZZGachaService : GachaLogService
         {
             throw new ArgumentException("Rarity cannot be null or empty.", nameof(item));
         }
+        if (string.IsNullOrWhiteSpace(language))
+        {
+            throw new ArgumentException("Language cannot be null or empty.", nameof(language));
+        }
 
         int rankType = item.Rarity.ToUpperInvariant() switch
         {
@@ -491,6 +512,8 @@ internal class ZZZGachaService : GachaLogService
             throw new ArgumentException($"Invalid rarity value: {item.Rarity}.", nameof(item));
         }
 
+        bool isChinese = language.StartsWith("zh", StringComparison.OrdinalIgnoreCase);
+
         return new ZZZGachaItem
         {
             Uid = uid,
@@ -499,16 +522,16 @@ internal class ZZZGachaService : GachaLogService
             Name = item.ItemName,
             ItemType = item.ItemType.ToUpperInvariant() switch
             {
-                "ITEM_TYPE_AVATAR" => "代理人",
-                "ITEM_TYPE_WEAPON" => "音擎",
-                "ITEM_TYPE_BANGBOO" => "邦布",
+                "ITEM_TYPE_AVATAR" => isChinese ? "代理人" : item.ItemType,
+                "ITEM_TYPE_WEAPON" => isChinese ? "音擎" : item.ItemType,
+                "ITEM_TYPE_BANGBOO" => isChinese ? "邦布" : item.ItemType,
                 _ => item.ItemType,
             },
             RankType = rankType,
             Time = item.Date,
             ItemId = item.ItemId,
             Count = 1,
-            Lang = "zh-cn",
+            Lang = language,
         };
     }
 

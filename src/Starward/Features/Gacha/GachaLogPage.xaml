@@ -60,6 +60,7 @@
                         <MenuFlyoutItem Command="{x:Bind UpdateGachaLogCommand}"
                                         CommandParameter="all"
                                         Text="{x:Bind lang:Lang.GachaLogPage_UpdateAll}" />
+                        <!--  从 米游社 同步  -->
                         <MenuFlyoutItem x:Name="MenuFlyoutItem_SyncFromMiyoushe"
                                         Command="{x:Bind SyncFromMiyousheCommand}"
                                         Text="{x:Bind lang:Lang.GachaLogPage_SyncFromMiyoushe}"

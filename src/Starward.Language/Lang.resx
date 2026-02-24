@@ -369,7 +369,7 @@ closing the program during decompression will cause game file corruption.</value
     <value>Operation canceled</value>
   </data>
   <data name="GachaLogPage_OnlySupportZZZCNServer" xml:space="preserve">
-    <value>This feature currently supports ZZZ China server only.</value>
+    <value>This feature currently supports ZZZ only.</value>
   </data>
   <data name="GachaLogPage_PleaseLoginMiyousheAndAddZZZRole" xml:space="preserve">
     <value>Please log in via Miyoushe toolbox and add your Miyoushe account first.</value>

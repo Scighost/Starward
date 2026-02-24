@@ -369,7 +369,7 @@
     <value>操作已取消</value>
   </data>
   <data name="GachaLogPage_OnlySupportZZZCNServer" xml:space="preserve">
-    <value>该功能暂仅支持绝区零国服。</value>
+    <value>该功能仅支持绝区零。</value>
   </data>
   <data name="GachaLogPage_PleaseLoginMiyousheAndAddZZZRole" xml:space="preserve">
     <value>请先在米游社工具箱中添加米游社账号。</value>

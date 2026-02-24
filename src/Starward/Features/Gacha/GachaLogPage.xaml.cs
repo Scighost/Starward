@@ -74,11 +74,8 @@ public sealed partial class GachaLogPage : PageBase
             _gachaLogService = AppConfig.GetService<ZZZGachaService>();
             Image_Emoji.Source = new BitmapImage(AppConfig.EmojiBangboo);
             MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
-            if (CurrentGameBiz == GameBiz.nap_cn)
-            {
-                MenuFlyoutItem_SyncFromMiyoushe.Visibility = Visibility.Visible;
-                MenuFlyoutItem_SyncFromMiyousheAll.Visibility = Visibility.Visible;
-            }
+            MenuFlyoutItem_SyncFromMiyoushe.Visibility = Visibility.Visible;
+            MenuFlyoutItem_SyncFromMiyousheAll.Visibility = Visibility.Visible;
         }
         if (CurrentGameBiz.IsGlobalServer())
         {
@@ -557,7 +554,7 @@ public sealed partial class GachaLogPage : PageBase
     {
         try
         {
-            if (CurrentGameBiz != GameBiz.nap_cn)
+            if (CurrentGameBiz.Game != GameBiz.nap)
             {
                 InAppToast.MainWindow?.Warning(null, Lang.GachaLogPage_OnlySupportZZZCNServer);
                 return;
@@ -566,7 +563,8 @@ public sealed partial class GachaLogPage : PageBase
             {
                 throw new InvalidOperationException($"Current gacha service type is {_gachaLogService.GetType().Name}.");
             }
-            var roles = _gameRecordService.GetGameRoles(CurrentGameBiz);
+            GameBiz roleGameBiz = CurrentGameBiz == GameBiz.nap_bilibili ? GameBiz.nap_cn : CurrentGameBiz;
+            var roles = _gameRecordService.GetGameRoles(roleGameBiz);
             if (roles.Count == 0)
             {
                 InAppToast.MainWindow?.Warning(null, Lang.GachaLogPage_PleaseLoginMiyousheAndAddZZZRole);
@@ -580,7 +578,7 @@ public sealed partial class GachaLogPage : PageBase
             }
             else
             {
-                role = await SelectMiyousheRoleAsync(roles);
+                role = await SelectMiyousheRoleAsync(roles, roleGameBiz);
                 if (role is null)
                 {
                     return;
@@ -591,7 +589,7 @@ public sealed partial class GachaLogPage : PageBase
                 InAppToast.MainWindow?.Warning(null, Lang.GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe);
                 return;
             }
-            _gameRecordService.SetLastSelectGachaSyncRole(CurrentGameBiz, role);
+            _gameRecordService.SetLastSelectGachaSyncRole(roleGameBiz, role);
             var cancelSource = new CancellationTokenSource();
             var button = new Button
             {
@@ -614,7 +612,7 @@ public sealed partial class GachaLogPage : PageBase
             };
             InAppToast.MainWindow?.Show(infoBar);
             var progress = new Progress<string>((str) => infoBar.Message = str);
-            var uid = await zzzGachaService.GetGachaLogByGameRecordAsync(role, param is "all", progress, cancelSource.Token);
+            var uid = await zzzGachaService.GetGachaLogByGameRecordAsync(role, param is "all", GachaLanguage, progress, cancelSource.Token);
             infoBar.Title = $"Uid {uid}";
             infoBar.Severity = InfoBarSeverity.Success;
             infoBar.ActionButton = null;
@@ -652,8 +650,7 @@ public sealed partial class GachaLogPage : PageBase
         }
     }
 
-
-    private async Task<GameRecordRole?> SelectMiyousheRoleAsync(List<GameRecordRole> roles)
+    private async Task<GameRecordRole?> SelectMiyousheRoleAsync(List<GameRecordRole> roles, GameBiz roleGameBiz)
     {
         var items = roles.Select(role => new MiyousheRoleItem(role)).ToList();
         MiyousheRoleItem? selectedItem = null;
@@ -661,7 +658,7 @@ public sealed partial class GachaLogPage : PageBase
         {
             selectedItem = items.FirstOrDefault(x => x.Role.Uid == currentUid);
         }
-        var selectedRole = _gameRecordService.GetLastSelectGachaSyncRoleOrTheFirstOne(CurrentGameBiz);
+        var selectedRole = _gameRecordService.GetLastSelectGachaSyncRoleOrTheFirstOne(roleGameBiz);
         selectedItem ??= items.FirstOrDefault(x =>
             selectedRole is not null
             && x.Role.Uid == selectedRole.Uid);

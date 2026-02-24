@@ -749,13 +749,26 @@ public class HoyolabClient : GameRecordClient
     /// </summary>
     /// <param name="role"></param>
     /// <param name="gachaType"></param>
-    /// <param name="endId"></param>
+    /// <param name="endId">首次请求不传</param>
     /// <param name="language"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public override Task<ZZZGachaRecordData> GetZZZGachaRecordAsync(GameRecordRole role, int gachaType, long? endId = null, string? language = null, CancellationToken cancellationToken = default)
+    public override async Task<ZZZGachaRecordData> GetZZZGachaRecordAsync(GameRecordRole role, int gachaType, long? endId = null, string? language = null, CancellationToken cancellationToken = default)
     {
-        throw new NotSupportedException("ZZZ gacha_record is not implemented for HoYoLAB server yet.");
+        var url = $"https://sg-public-api.hoyolab.com/event/game_record_zzz/api/zzz/gacha_record?uid={role.Uid}&region={role.Region}&gacha_type={gachaType}";
+        long validEndId = endId.GetValueOrDefault();
+        if (validEndId > 0)
+        {
+            url += $"&end_id={validEndId}";
+        }
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(Referer, "https://act.hoyolab.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        return await CommonSendAsync<ZZZGachaRecordData>(request, cancellationToken);
     }
 
 

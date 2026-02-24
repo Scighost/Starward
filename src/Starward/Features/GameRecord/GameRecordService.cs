@@ -962,6 +962,11 @@ internal class GameRecordService
         }
         bool isHoyolab = role.GameBiz?.EndsWith("_global", StringComparison.OrdinalIgnoreCase) ?? false;
         IsHoyolab = isHoyolab;
+        if (isHoyolab && !string.IsNullOrWhiteSpace(language))
+        {
+            // HoYoLAB 语言由请求头决定，统一通过 HoyolabClient.Language 生效。
+            Language = language;
+        }
         if (!isHoyolab)
         {
             await UpdateDeviceFpAsync(cancellationToken: cancellationToken);
