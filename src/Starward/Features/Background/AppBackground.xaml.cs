@@ -370,7 +370,7 @@ public sealed partial class AppBackground : UserControl
             bool highProfile = VP9Helper.IsWebmButNotProfile0(file);
             if (!decoderInstalled || highProfile)
             {
-                VP9Helper.RegisterVP9Decoder();
+                VP9Helper.RegisterVP9Decoder(videoBackground: true);
             }
             if (!decoderInstalled && !highProfile)
             {
@@ -443,8 +443,27 @@ public sealed partial class AppBackground : UserControl
 
     private void MediaPlayer_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args)
     {
-        _logger.LogError(args.ExtendedErrorCode, "Media player failed.");
-        InAppToast.MainWindow?.Warning(Lang.AppBackground_VideoDecodingFailed);
+        _logger.LogError(args.ExtendedErrorCode, "Media player failed: {error}, {message}", args.Error, args.ErrorMessage);
+        DispatcherQueue?.TryEnqueue(async () =>
+        {
+            try
+            {
+                DisposeVideoResource();
+                if (CurrentGameId is not null)
+                {
+                    string? fallback = BackgroundService.GetFallbackBackgroundImage(CurrentGameId);
+                    if (fallback != null && !BackgroundService.FileIsSupportedVideo(fallback))
+                    {
+                        await ChangeBackgroundImageAsync(fallback, CancellationToken.None);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fallback to static background failed");
+            }
+            InAppToast.MainWindow?.Warning(Lang.AppBackground_VideoDecodingFailed);
+        });
     }
 
 

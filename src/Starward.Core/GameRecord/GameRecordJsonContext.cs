@@ -53,6 +53,8 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<BH3DailyNote>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ThresholdSimulationAbstractInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ThresholdSimulationDetailInfo>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<CheckIn.CheckInInfo>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<CheckIn.CheckInResult>))]
 [JsonSerializable(typeof(DateTimeObjectJsonConverter.DateTimeObject))]
 internal partial class GameRecordJsonContext : JsonSerializerContext
 {

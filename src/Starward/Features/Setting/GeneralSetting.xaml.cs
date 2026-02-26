@@ -205,6 +205,27 @@ public sealed partial class GeneralSetting : PageBase
 
 
 
+    #region 米游社签到
+
+
+
+    public bool EnableCheckInOnGameStart
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.EnableCheckInOnGameStart = value;
+            }
+        }
+    } = AppConfig.EnableCheckInOnGameStart;
+
+
+
+    #endregion
+
+
+
     #region 系统视觉效果
 
 

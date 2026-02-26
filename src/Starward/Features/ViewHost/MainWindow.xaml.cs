@@ -4,9 +4,13 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
+using Starward.Core;
+using Starward.Core.GameRecord;
 using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.GameLauncher;
+using Starward.Features.GameRecord;
+using Starward.Helpers;
 using Starward.Features.Overlay;
 using Starward.Features.Screenshot;
 using Starward.Frameworks;
@@ -115,6 +119,10 @@ public sealed partial class MainWindow : WindowEx
             MainContentHost.Content = new MainView();
             App.Current.EnsureSystemTray();
             _mainViewLoaded = true;
+            if (AppConfig.EnableCheckInOnGameStart)
+            {
+                _ = PerformAllAccountsCheckInAsync();
+            }
         }
     }
 
@@ -142,6 +150,45 @@ public sealed partial class MainWindow : WindowEx
             {
                 this.Minimize();
             }
+        }
+    }
+
+
+    private async Task PerformAllAccountsCheckInAsync()
+    {
+        try
+        {
+            var service = AppConfig.GetService<GameRecordService>();
+            var (success, skipped, failed, errors) = await service.PerformAllCheckInAsync();
+
+            if (success == 0 && failed == 0 && skipped == 0)
+            {
+                return;
+            }
+
+            DispatcherQueue?.TryEnqueue(() =>
+            {
+                if (success == 0 && failed == 0)
+                {
+                    InAppToast.MainWindow?.Success("米游社签到", $"今日已签到（{skipped}个角色）", 3000);
+                }
+                else if (failed == 0)
+                {
+                    InAppToast.MainWindow?.Success("米游社签到", $"签到完成：成功 {success} 个，已签到 {skipped} 个", 3000);
+                }
+                else
+                {
+                    string errorDetail = string.Join("\n", errors);
+                    InAppToast.MainWindow?.Warning("米游社签到", $"成功 {success} 个，已签到 {skipped} 个，失败 {failed} 个\n{errorDetail}", 5000);
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            DispatcherQueue?.TryEnqueue(() =>
+            {
+                InAppToast.MainWindow?.Error("米游社签到失败", ex.Message, 5000);
+            });
         }
     }
 

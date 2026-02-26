@@ -671,6 +671,32 @@ public abstract class GameRecordClient
 
 
 
+    #region Check-In
+
+
+    /// <summary>
+    /// 获取签到信息
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<CheckIn.CheckInInfo> GetCheckInInfoAsync(GameRecordRole role, CancellationToken cancellationToken = default);
+
+
+    /// <summary>
+    /// 执行签到
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<CheckIn.CheckInResult> CheckInAsync(GameRecordRole role, CancellationToken cancellationToken = default);
+
+
+    #endregion
+
+
+
+
     // 寰宇蝗灾
     // https://api-takumi-record.mihoyo.com/game_record/app/hkrpg/api/rogue_locust?server=prod_gf_cn&role_id={uid}&need_detail=true
 
